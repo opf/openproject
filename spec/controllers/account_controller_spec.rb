@@ -157,7 +157,7 @@ describe AccountController do
 
     context 'with disabled password login' do
       before do
-        Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
         post :login
       end
@@ -224,7 +224,7 @@ describe AccountController do
   describe 'POST #change_password' do
     context 'with disabled password login' do
       before do
-        Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -264,7 +264,7 @@ describe AccountController do
 
       context 'and password login disabled' do
         before do
-          Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
           get :register
         end
@@ -319,7 +319,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -361,7 +361,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -411,7 +411,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -472,7 +472,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
         end
 
         describe 'login' do

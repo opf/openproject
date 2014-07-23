@@ -41,7 +41,7 @@ describe 'account/login' do
 
   context 'with password login disabled' do
     before do
-      Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
       render
     end
 
