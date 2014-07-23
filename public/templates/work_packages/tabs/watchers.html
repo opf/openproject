@@ -3,11 +3,13 @@
     <ul ng-if="watchers.length">
       <li ng-repeat="watcher in watchers">
         <user-field user="watcher"></user-field>
-        <icon-wrapper icon-name="close"
-                      icon-title="{{I18n.t('js.button_delete_watcher')}}"
-                      class="detail-panel-watchers-delete-watcher-icon"
-                      ng-if="watcher.links.removeWatcher"
-                      ng-click="deleteWatcher(watcher)"></icon-wrapper>
+        <a href>
+          <icon-wrapper icon-name="close"
+                        icon-title="{{I18n.t('js.button_delete_watcher')}}"
+                        class="detail-panel-watchers-delete-watcher-icon"
+                        ng-if="watcher.links.removeWatcher"
+                        ng-click="deleteWatcher(watcher)"></icon-wrapper>
+        </a>
       </li>
     </ul>
 
