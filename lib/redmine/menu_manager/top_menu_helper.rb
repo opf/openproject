@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'concerns/omniauth_login'
+
 module Redmine::MenuManager::TopMenuHelper
 
   def render_top_menu_left
@@ -97,9 +99,9 @@ module Redmine::MenuManager::TopMenuHelper
                    :class => 'login',
                    :title => l(:label_login)
 
-    render_drop_down_menu_node(link, :class => 'drop-down last-child') do
+    render_drop_down_menu_node(link, class: 'drop-down last-child') do
       content_tag :ul do
-        render :partial => 'account/login'
+        render_login_partial
       end
     end
   end
@@ -117,6 +119,17 @@ module Redmine::MenuManager::TopMenuHelper
     render_drop_down_menu_node link_to_user(User.current, :title => User.current.to_s),
                                items,
                                :class => 'drop-down last-child'
+  end
+
+  def render_login_partial
+    partial =
+      if OpenProject::Configuration.disable_password_login?
+        'account/omniauth_login'
+      else
+        'account/login'
+      end
+
+    render partial: partial
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)

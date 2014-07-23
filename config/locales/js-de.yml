@@ -128,6 +128,7 @@ de:
     label_total_progress: "Gesamtfortschritt"
     label_watch_work_package: "Arbeitspaket beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
+    label_uploaded_by: "Hochgeladen von"
 
     text_are_you_sure: "Sind Sie sicher?"
 
@@ -158,6 +159,17 @@ de:
       updated_at: "Aktualisiert"
       version: "Version"
       watcher: "Beobachter"
+
+    relation_labels:
+      parent: "Übergeordnete Aufgabe"
+      children: "Untergeordnete Aufgaben"
+      relatedTo: "Beziehung mit"
+      duplicates: "Dupliziert"
+      duplicated: "Dupliziert durch"
+      blocks: "Blockiert"
+      blocked: "Blockiert durch"
+      precedes: "Vorgänger von"
+      follows: "Folgt"
 
     select2:
       input_too_short:

@@ -66,4 +66,34 @@ describe "layouts/base" do
       end
     end
   end
+
+  describe 'login form' do
+    before do
+      User.stub(:current).and_return anonymous
+      view.stub(:current_user).and_return anonymous
+    end
+
+    context 'with password login enabled' do
+      before do
+        render
+      end
+
+      it 'shows a login form' do
+        expect(response).to include 'Login'
+        expect(response).to include 'Password'
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        render
+      end
+
+      it 'shows no password login form' do
+        expect(response).not_to include 'Login'
+        expect(response).not_to include 'Password'
+      end
+    end
+  end
 end

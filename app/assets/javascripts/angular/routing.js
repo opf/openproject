@@ -71,6 +71,7 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.overview', {
       url: "/overview",
+      controller: 'DetailsTabOverviewController',
       templateUrl: "/templates/work_packages/tabs/overview.html",
     })
     .state('work-packages.list.details.activity', {
@@ -83,7 +84,8 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.watchers', {
       url: "/watchers",
-      templateUrl: "/templates/work_packages/tabs/watchers.html",
+      controller: 'DetailsTabWatchersController',
+      templateUrl: "/templates/work_packages/tabs/watchers.html"
     })
     .state('work-packages.list.details.attachments', {
       url: "/attachments",

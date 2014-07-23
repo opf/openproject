@@ -38,13 +38,6 @@ angular.module('openproject.workPackages.directives')
     },
     link: function(scope, element, attributes) {
       scope.attachmentPath = PathHelper.staticAttachmentPath(scope.attachment.props.id, scope.attachment.props.fileName);
-      scope.displayTitle = scope.attachment.props.fileName + " (" + formattedFilesize(scope.attachment.props.fileSize) + ")";
-
-      function formattedFilesize(fileSize) {
-        var size = parseFloat(fileSize);
-        return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
-      };
-
     }
   };
 }]);

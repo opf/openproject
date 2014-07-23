@@ -27,17 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% disable_accessibility_css! %>
-
-<% breadcrumb_paths(l(:label_login)) %>
-<%= call_hook :view_account_login_top %>
-<div id="login-form" class="form">
-  <h1><%= I18n.t(:label_login) %></h1>
-
-  <hr class="form_separator">
-  <% unless OpenProject::Configuration.disable_password_login? %>
-    <%= render partial: 'password_login_form' %>
-  <% end %>
-  <%= render partial: 'auth_providers' %>
+<div id="nav-login-content">
+  <%= render :partial => 'account/auth_providers' %>
 </div>
-<%= call_hook :view_account_login_bottom %>

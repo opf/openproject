@@ -33,15 +33,12 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'EA',
     replace: true,
-    scope: { dateValue: '=' },
-    template: '<span>{{date}}</span>',
+    scope: { dateValue: '=', hideTitle: '@' },
+    template: '<span title="{{ dateTitle }}">{{date}}</span>',
     link: function(scope, element, attrs) {
-      if (ConfigurationService.dateFormatPresent()) {
-        scope.date = TimezoneService.parseDate(scope.dateValue).format(ConfigurationService.dateFormat());
-      } else {
-        moment.lang(I18n.locale);
-
-        scope.date = TimezoneService.parseDate(scope.dateValue).format('L');
+      scope.date = TimezoneService.formattedDate(scope.dateValue);
+      if (!scope.hideTitle) {
+        scope.dateTitle = scope.date;
       }
     }
   };
@@ -51,15 +48,12 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'EA',
     replace: true,
-    scope: { timeValue: '=' },
-    template: '<span>{{time}}</span>',
+    scope: { timeValue: '=', hideTitle: '@' },
+    template: '<span title="{{ timeTitle }}">{{time}}</span>',
     link: function(scope, element, attrs) {
-      if (ConfigurationService.timeFormatPresent()) {
-        scope.time = TimezoneService.parseDate(scope.timeValue).format(ConfigurationService.timeFormat());
-      } else {
-        moment.lang(I18n.locale);
-
-        scope.time = TimezoneService.parseDate(scope.timeValue).format('LT');
+      scope.time = TimezoneService.formattedTime(scope.timeValue);
+      if (!scope.hideTitle) {
+        scope.timeTitle = scope.time;
       }
     }
   };
@@ -70,8 +64,11 @@ angular.module('openproject.uiComponents')
     restrict: 'EA',
     replace: true,
     scope: { dateTimeValue: '=' },
-    template: '<span><date date-value="dateTimeValue"></date> <time time-value="dateTimeValue"></time></span>',
+    template: '<span title="{{ date }} {{ time }}"><date date-value="dateTimeValue" hide-title="true"></date> <time time-value="dateTimeValue" hide-title="true"></time></span>',
     link: function(scope, element, attrs) {
+      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
+      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
+
       $compile(element.contents())(scope);
     }
   };
