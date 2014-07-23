@@ -320,8 +320,7 @@ describe AccountController do
               expect(response).to redirect_to my_first_login_path
               # authorization is successful which results in the registration
               # of a new user in this case because we changed the provider
-              # and there already is a user with the same email having google
-              # as their provider ...
+              # and there isn't a user with that identity URL yet ...
             end
 
             # ... and to confirm that, here's what happens when the authorization fails
