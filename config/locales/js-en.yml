@@ -158,6 +158,17 @@ en:
       version: "Version"
       watcher: "Watcher"
 
+    relation_labels:
+      parent: "Parent"
+      children: "Children"
+      relatedTo: "Related To"
+      duplicates: "Duplicates"
+      duplicated: "Duplicated by"
+      blocks: "Blocks"
+      blocked: "Blocked by"
+      precedes: "Precedes"
+      follows: "Follows"
+
     select2:
       input_too_short:
         one: "Please enter one more character"

@@ -159,6 +159,17 @@ de:
       version: "Version"
       watcher: "Beobachter"
 
+    relation_labels:
+      parent: "Übergeordnete Aufgabe"
+      children: "Untergeordnete Aufgaben"
+      relatedTo: "Beziehung mit"
+      duplicates: "Dupliziert"
+      duplicated: "Dupliziert durch"
+      blocks: "Blockiert"
+      blocked: "Blockiert durch"
+      precedes: "Vorgänger von"
+      follows: "Folgt"
+
     select2:
       input_too_short:
         one: "Bitte geben Sie ein weiteres Zeichen ein"
