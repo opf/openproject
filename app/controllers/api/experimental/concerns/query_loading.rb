@@ -30,12 +30,16 @@
 # Differences being that it's not looking to the session and also existing
 # queries will be augmented with the params data passed with them.
 module Api::Experimental::Concerns::QueryLoading
+
+  private
+
   def init_query
     if !params[:query_id].blank?
       @query = Query.find(params[:query_id])
       @query.project = @project if @query.project.nil?
     else
-      @query = Query.new({ name: "_", :project => @project }, :initialize_with_default_filter => true)
+      @query = Query.new({ name: "_", :project => @project },
+                         :initialize_with_default_filter => no_query_params_provided?)
     end
     prepare_query
     @query
@@ -57,5 +61,9 @@ module Api::Experimental::Concerns::QueryLoading
     # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
     # For the sake of not breaking from convention we encoding/decoding the sortation.
     params[:sort].split(',').collect{|p| [p.split(':')[0], p.split(':')[1] || 'asc']}
+  end
+
+  def no_query_params_provided?
+    (params.keys & %w(group_by c fields f sort is_public name page per_page display_sums)).empty?
   end
 end
