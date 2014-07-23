@@ -39,13 +39,12 @@ module API
           namespace ':id' do
             before do
               @project = Project.find(params[:id])
-              model = ::API::V3::Projects::ProjectModel.new(@project)
-              @representer =  ::API::V3::Projects::ProjectRepresenter.new(model)
+              @model   = ProjectModel.new(@project)
             end
 
             get do
               authorize(:view_project, context: @project)
-              @representer
+              ProjectRepresenter.new(@model)
             end
 
             mount API::V3::Versions::VersionsAPI
