@@ -154,6 +154,18 @@ describe AccountController do
         expect(@controller.send(:current_user).anonymous?).to be_true
       end
     end
+
+    context 'with disabled password login' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+        post :login
+      end
+
+      it 'is not found' do
+        expect(response.status).to eq 404
+      end
+    end
   end
 
   describe '#login with omniauth_direct_login enabled' do
@@ -209,17 +221,55 @@ describe AccountController do
     end
   end
 
+  describe 'POST #change_password' do
+    context 'with disabled password login' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        post :change_password
+      end
+
+      it 'is not found' do
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
+  shared_examples 'registration disabled' do
+    it 'redirects to back the login page' do
+      expect(response).to redirect_to signin_path
+    end
+
+    it 'informs the user that registration is disabled' do
+      expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
+    end
+  end
+
   context 'GET #register' do
     context 'with self registration on' do
       before do
         allow(Setting).to receive(:self_registration).and_return('3')
-        get :register
       end
 
-      it 'is successful' do
-        should respond_with :success
-        expect(response).to render_template :register
-        expect(assigns[:user]).not_to be_nil
+      context 'and password login enabled' do
+        before do
+          get :register
+        end
+
+        it 'is successful' do
+          should respond_with :success
+          expect(response).to render_template :register
+          expect(assigns[:user]).not_to be_nil
+        end
+      end
+
+      context 'and password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          get :register
+        end
+
+        it_behaves_like 'registration disabled'
       end
     end
 
@@ -230,13 +280,7 @@ describe AccountController do
         get :register
       end
 
-      it 'redirects to signin_path' do
-        expect(response).to redirect_to signin_path
-      end
-
-      it 'shows the right flash message' do
-        expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
-      end
+      it_behaves_like 'registration disabled'
     end
   end
 
@@ -245,54 +289,84 @@ describe AccountController do
     context 'with self registration on automatic' do
       before do
         allow(Setting).to receive(:self_registration).and_return('3')
-        post :register, :user => {
-          :login => 'register',
-          :password => 'adminADMIN!',
-          :password_confirmation => 'adminADMIN!',
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :mail => 'register@example.com'
-        }
       end
 
-      it 'redirects to first_login page' do
-        should respond_with :redirect
-        expect(assigns[:user]).not_to be_nil
-        should redirect_to(my_first_login_path)
-        expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
+      context 'with password login enabled' do
+        before do
+          post :register, :user => {
+            :login => 'register',
+            :password => 'adminADMIN!',
+            :password_confirmation => 'adminADMIN!',
+            :firstname => 'John',
+            :lastname => 'Doe',
+            :mail => 'register@example.com'
+          }
+        end
+
+        it 'redirects to first_login page' do
+          should respond_with :redirect
+          expect(assigns[:user]).not_to be_nil
+          should redirect_to(my_first_login_path)
+          expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
+        end
+
+        it 'set the user status to active' do
+          user = User.last(:conditions => { :login => 'register' })
+          expect(user).not_to be_nil
+          expect(user.status).to eq(User::STATUSES[:active])
+        end
       end
 
-      it 'set the user status to active' do
-        user = User.last(:conditions => { :login => 'register' })
-        expect(user).not_to be_nil
-        expect(user.status).to eq(User::STATUSES[:active])
+      context 'with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          post :register
+        end
+
+        it_behaves_like 'registration disabled'
       end
     end
 
     context 'with self registration by email' do
       before do
         allow(Setting).to receive(:self_registration).and_return('1')
-        Token.delete_all
-        post :register, :user => {
-          :login => 'register',
-          :password => 'adminADMIN!',
-          :password_confirmation => 'adminADMIN!',
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :mail => 'register@example.com'
-        }
       end
 
-      it 'redirects to the login page' do
-        should redirect_to '/login'
+      context 'with password login enabled' do
+        before do
+          Token.delete_all
+          post :register, :user => {
+            :login => 'register',
+            :password => 'adminADMIN!',
+            :password_confirmation => 'adminADMIN!',
+            :firstname => 'John',
+            :lastname => 'Doe',
+            :mail => 'register@example.com'
+          }
+        end
+
+        it 'redirects to the login page' do
+          should redirect_to '/login'
+        end
+
+        it "doesn't activate the user but sends out a token instead" do
+          expect(User.find_by_login('register')).not_to be_active
+          token = Token.find(:first)
+          expect(token.action).to eq('register')
+          expect(token.user.mail).to eq('register@example.com')
+          expect(token).not_to be_expired
+        end
       end
 
-      it "doesn't activate the user but sends out a token instead" do
-        expect(User.find_by_login('register')).not_to be_active
-        token = Token.find(:first)
-        expect(token.action).to eq('register')
-        expect(token.user.mail).to eq('register@example.com')
-        expect(token).not_to be_expired
+      context 'with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          post :register
+        end
+
+        it_behaves_like 'registration disabled'
       end
     end
 
@@ -334,6 +408,16 @@ describe AccountController do
             '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
         end
       end
+
+      context 'with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          post :register
+        end
+
+        it_behaves_like 'registration disabled'
+      end
     end
 
     context 'with self registration off' do
@@ -350,13 +434,7 @@ describe AccountController do
         }
       end
 
-      it 'redirects to signin_path' do
-        expect(response).to redirect_to signin_path
-      end
-
-      it 'shows the right flash message' do
-        expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
-      end
+      it_behaves_like 'registration disabled'
     end
 
     context 'with on-the-fly registration' do
@@ -368,24 +446,54 @@ describe AccountController do
         allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                lastname: 'Smith',
                                                                auth_source_id: 66)
-
-        post :login, :username => 'foo', :password => 'bar'
       end
 
-      it 'registers the user on-the-fly' do
-        should respond_with :success
-        expect(response).to render_template :register
+      context 'with password login enabled' do
+        before do
+          post :login, :username => 'foo', :password => 'bar'
+        end
 
-        post :register, :user => { firstname: 'Foo',
-                                   lastname: 'Smith',
-                                   mail: 'foo@bar.com' }
-        expect(response).to redirect_to '/my/account'
+        it 'registers the user on-the-fly' do
+          should respond_with :success
+          expect(response).to render_template :register
 
-        user = User.find_by_login('foo')
+          post :register, :user => { firstname: 'Foo',
+                                     lastname: 'Smith',
+                                     mail: 'foo@bar.com' }
+          expect(response).to redirect_to '/my/account'
 
-        expect(user).to be_an_instance_of(User)
-        expect(user.auth_source_id).to eql 66
-        expect(user.current_password).to be_nil
+          user = User.find_by_login('foo')
+
+          expect(user).to be_an_instance_of(User)
+          expect(user.auth_source_id).to eql 66
+          expect(user.current_password).to be_nil
+        end
+      end
+
+      context 'with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        end
+
+        describe 'login' do
+          before do
+            post :login, :username => 'foo', :password => 'bar'
+          end
+
+          it 'is not found' do
+            expect(response.status).to eq 404
+          end
+        end
+
+        describe 'registration' do
+          before do
+            post :register, :user => { firstname: 'Foo',
+                                       lastname: 'Smith',
+                                       mail: 'foo@bar.com' }
+          end
+
+          it_behaves_like 'registration disabled'
+        end
       end
     end
   end

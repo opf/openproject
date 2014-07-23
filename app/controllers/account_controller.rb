@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'concerns/omniauth_login'
-
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include Concerns::OmniauthLogin
@@ -59,7 +57,8 @@ class AccountController < ApplicationController
 
   # Enable user to choose a new password
   def lost_password
-    redirect_to(home_url) && return unless Setting.lost_password?
+    return redirect_to(home_url) unless allow_lost_password_recovery?
+
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
@@ -104,9 +103,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    unless Setting.self_registration? || pending_auth_source_registration?
-      return self_registration_disabled
-    end
+    return self_registration_disabled unless allow_registration?
 
     if request.get?
       session[:auth_source_registration] = nil
@@ -117,7 +114,7 @@ class AccountController < ApplicationController
       @user.register
       if session[:auth_source_registration]
         # on-the-fly registration via omniauth or via auth source
-        if session[:auth_source_registration][:omniauth]
+        if pending_omniauth_registration?
           register_via_omniauth(@user, session, permitted_params)
         else
           register_and_login_via_authsource(@user, session, permitted_params)
@@ -125,16 +122,30 @@ class AccountController < ApplicationController
       else
         @user.attributes = permitted_params.user
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
 
-        register_user_according_to_setting(@user)
+        register_user_according_to_setting @user
       end
     end
   end
 
+  def allow_registration?
+    allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
+
+    get = request.get? && allow
+    post = request.post? && (session[:auth_source_registration] || allow)
+
+    get || post
+  end
+
+  def allow_lost_password_recovery?
+    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+  end
+
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    return redirect_to(home_url) unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
@@ -151,6 +162,8 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
+    return render_404 if OpenProject::Configuration.disable_password_login?
+
     @user = User.find_by_login(params[:username])
     @username = @user.login
 
@@ -187,7 +200,11 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    password_authentication(params[:username], params[:password])
+    if OpenProject::Configuration.disable_password_login?
+      render_404
+    else
+      password_authentication(params[:username], params[:password])
+    end
   end
 
   def password_authentication(username, password)
@@ -256,7 +273,11 @@ class AccountController < ApplicationController
   end
 
   def pending_auth_source_registration?
-    session[:auth_source_registration] && !session[:auth_source_registration][:omniauth]
+    session[:auth_source_registration] && !pending_omniauth_registration?
+  end
+
+  def pending_omniauth_registration?
+    Hash(session[:auth_source_registration])[:omniauth]
   end
 
   def register_and_login_via_authsource(user, session, permitted_params)

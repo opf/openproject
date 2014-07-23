@@ -63,6 +63,17 @@ In case you want to use environment variables, but you have no easy way to set t
 * `scm_subversion_command` (default: 'git')
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
+* [`disable_password_login`](#disable-password-login) (default: false)
+
+### disable password login
+
+*default: false*
+
+If you enable this option you have to configure at least one omniauth authentication
+provider to take care of authentication instead of the password login.
+
+All username/password forms will be removed and only a list of omniauth providers
+presented to the users.
 
 ### omniauth direct login provider
 
