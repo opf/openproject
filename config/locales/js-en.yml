@@ -127,6 +127,7 @@ en:
     label_total_progress: "Total progress"
     label_watch_work_package: "Watch work package"
     label_unwatch_work_package: "Unwatch work package"
+    label_uploaded_by: "Uploaded by"
 
     text_are_you_sure: "Are you sure?"
 
