@@ -10,7 +10,7 @@ module API
             optional :delay
           end
           post do
-            # authorize
+            authorize(:manage_work_package_relations, context: @work_package.project)
             declared_params = declared(params).reject{ |key, value| key.to_sym == :id || value.nil? }
 
             relation = @work_package.new_relation.tap do |r|
@@ -31,12 +31,10 @@ module API
 
           namespace ':id' do
             delete do
-              # authorize
+              authorize(:manage_work_package_relations, context: @work_package.project)
               relation = Relation.find(params[:id])
-              model = ::API::V3::WorkPackages::RelationModel.new(relation)
-              representer = ::API::V3::WorkPackages::RelationRepresenter.new(model)
               relation.delete
-              representer.to_json
+              status 204
             end
           end
         end
