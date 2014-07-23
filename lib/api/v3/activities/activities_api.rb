@@ -38,7 +38,8 @@ module API
             params do
               requires :comment, type: String
             end
-            put do
+
+            patch do
               authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
 
               @activity.notes = params[:comment]

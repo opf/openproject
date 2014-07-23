@@ -59,7 +59,7 @@ angular.module('openproject.services')
       var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
       var options = {
         ajax: {
-          method: "PUT",
+          method: "PATCH",
           data: { comment: comment }
         }
       };
