@@ -92,7 +92,7 @@ module OpenProject
           store = DecisionStore.new
           block.call store, auth_hash
           # failure to make a decision results in a rejection
-          store.decision || Rejection.new(I18n.t(:authorization_rejected))
+          store.decision || Rejection.new(I18n.t('user.authorization_rejected'))
         end
       end
 

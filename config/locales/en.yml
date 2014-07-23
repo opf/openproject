@@ -1589,7 +1589,7 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-    authorization_rejected: "The user has not been authorized."
+    authorization_rejected: "You are not allowed to sign in."
 
 
   version_status_closed: "closed"

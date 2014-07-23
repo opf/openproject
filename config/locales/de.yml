@@ -1599,7 +1599,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
-    authorization_rejected: "Der Nutzer wurde nicht authorisiert."
+    authorization_rejected: "Sie dürfen sich nicht einloggen."
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"
