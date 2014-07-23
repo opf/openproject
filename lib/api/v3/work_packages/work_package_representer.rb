@@ -50,7 +50,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: represented.subject }
         end
 
         link :author do
@@ -109,6 +109,19 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
+        link :parent do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
+              title:  represented.work_package.parent.subject
+          } unless represented.work_package.parent.nil?
+        end
+
+        links :children do
+          represented.work_package.children.map do |child|
+            { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
+          end unless represented.work_package.children.empty?
+        end
+
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
@@ -134,16 +147,16 @@ module API
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
-        property :watchers, embedded: true, exec_context: :decorator
-        # collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
         collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
+        property :relations, embedded: true, exec_context: :decorator
 
         def _type
           'WorkPackage'
         end
 
-        def watchers
-          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.work_package, current_user: @current_user) }
+        def relations
+          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package) }
         end
 
         def custom_properties

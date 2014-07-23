@@ -32,17 +32,45 @@ describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
   var I18n = { t: angular.identity },
+      WorkPackagesHelper = {
+        formatWorkPackageProperty: angular.identity
+      },
+      UserService = {
+        getUser: angular.identity
+      },
+      CustomFieldHelper = {
+        formatCustomFieldValue: angular.identity
+      },
       workPackage = {
         props: {
           status: 'open',
           versionName: null,
+          customProperties: [
+            { format: 'text', name: 'color', value: 'red' },
+          ]
         },
         embedded: {
           activities: [],
           watchers: [],
-          attachments: []
+          attachments: [],
+          relations: [
+            {
+              props: {
+                _type: "Relation::Relates"
+              },
+              links: {
+                relatedFrom: {
+                  fetch: sinon.spy()
+                },
+                relatedTo: {
+                  fetch: sinon.spy()
+                }
+              }
+            }
+          ]
         },
         links: {
+          self: "it's a me, it's... you know...",
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
           }
@@ -60,7 +88,7 @@ describe('WorkPackageDetailsController', function() {
   }
 
   beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
-  beforeEach(inject(function($rootScope, $controller) {
+  beforeEach(inject(function($rootScope, $controller, $timeout) {
     var workPackageId = 99;
 
     buildController = function() {
@@ -81,6 +109,8 @@ describe('WorkPackageDetailsController', function() {
         },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
+
+      $timeout.flush();
     };
 
   }));
@@ -90,5 +120,18 @@ describe('WorkPackageDetailsController', function() {
       buildController();
     });
   });
+
+  describe('work package properties', function() {
+    describe('relations', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('Relation::Relates', function() {
+        expect(scope.relatedTo.length).to.eq(1);
+      });
+    });
+  });
+
 
 });
