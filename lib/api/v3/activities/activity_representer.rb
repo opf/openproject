@@ -65,7 +65,7 @@ module API
               href: "#{root_url}api/v3/activities/#{represented.model.id}",
               method: :patch,
               title: "#{represented.model.id}"
-          } if current_user_allowed_to(:edit_work_package_notes, represented.model.journable) && represented.model.editable_by?(@current_user)
+          } if current_user_allowed_to_edit?
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true
@@ -93,6 +93,10 @@ module API
         end
 
         private
+
+        def current_user_allowed_to_edit?
+          (current_user_allowed_to(:edit_own_work_package_notes, represented.model.journable) && represented.model.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.model.journable)
+        end
 
         def current_user_allowed_to(permission, work_package)
           @current_user && @current_user.allowed_to?(permission, work_package.project)

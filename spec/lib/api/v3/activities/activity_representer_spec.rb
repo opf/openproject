@@ -33,7 +33,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package, user: current_user) }
   let(:project) { work_package.project }
-  let(:permissions) { %i(edit_work_package_notes) }
+  let(:permissions) { %i(edit_own_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
   let(:representer) { described_class.new(model, current_user: current_user) }

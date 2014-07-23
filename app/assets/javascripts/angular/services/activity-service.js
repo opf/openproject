@@ -55,16 +55,17 @@ angular.module('openproject.services')
       });
     },
 
-    updateComment: function(activityId, comment) {
-      var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
+    updateComment: function(activity, comment) {
       var options = {
         ajax: {
-          method: "PATCH",
-          data: { comment: comment }
+          method: 'PATCH',
+          data: {
+            comment: comment
+          }
         }
       };
 
-      return resource.fetch(options).then(function(activity){
+      return activity.links.update.fetch(options).then(function(activity){
         return activity;
       });
     }
