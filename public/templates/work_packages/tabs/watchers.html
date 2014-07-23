@@ -11,7 +11,7 @@
       </li>
     </ul>
 
-    <div id="detail-panel-watchers-add-watcher" ng-if="availableWatchers.length">
+    <div id="detail-panel-watchers-add-watcher" ng-if="workPackage.link('addWatcher') && availableWatchers.length">
       <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
       <fieldset>
         <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
