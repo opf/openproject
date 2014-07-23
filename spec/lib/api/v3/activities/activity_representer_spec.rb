@@ -29,10 +29,14 @@
 require 'spec_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
+  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package, user: current_user) }
+  let(:project) { work_package.project }
+  let(:permissions) { %i(edit_work_package_notes) }
+  let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(model, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -59,6 +63,10 @@ describe ::API::V3::Activities::ActivityRepresenter do
 
       it 'should link to user' do
         expect(subject).to have_json_path('_links/user/href')
+      end
+
+      it 'should link to update' do
+        expect(subject).to have_json_path('_links/update/href')
       end
     end
   end

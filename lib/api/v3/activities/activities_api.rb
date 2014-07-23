@@ -13,7 +13,7 @@ module API
             before do
               @activity = Journal.find(params[:id])
               model = ::API::V3::Activities::ActivityModel.new(@activity)
-              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model)
+              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user})
             end
 
             get do
@@ -33,6 +33,11 @@ module API
                   fail Errors::Validation.new(activity, description: errors)
                 end
               end
+
+              def authorize_edit_own(activity)
+                authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
+                raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
+              end
             end
 
             params do
@@ -40,7 +45,7 @@ module API
             end
 
             patch do
-              authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
+              authorize_edit_own(@activity)
 
               @activity.notes = params[:comment]
 

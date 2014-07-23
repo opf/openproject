@@ -27,7 +27,7 @@ module API
                 def save_work_package(work_package)
                   if work_package.save
                     model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(model)
+                    representer = ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user })
 
                     representer.to_json
                   else
