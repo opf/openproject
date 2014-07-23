@@ -7,19 +7,13 @@ module OpenProject
       # Checks whether the given user is authorized to login by calling
       # all registered callbacks. If all callbacks approve the user is authorized and may log in.
       def self.authorized?(auth_hash)
-        rejection = nil
-
-        callbacks.each do |callback|
+        rejection = callbacks.find_map do |callback|
           d = callback.authorize auth_hash
 
           if d.is_a? Decision
-            if d.reject?
-              rejection = d
-              break
-            end
+            d if d.reject?
           else
-            rejection = Rejection.new I18n.t(:authorization_rejected)
-            break
+            fail ArgumentError, 'Expecting Callback#authorize to return a Decision.'
           end
         end
 
@@ -37,7 +31,7 @@ module OpenProject
       # @option opts [Symbol] :provider Only call for given provider
       #
       # @yield [decision, user, auth_hash] Callback to be executed before the user is logged in.
-      # @yieldparam [Decision.class] object providing #approve and #reject
+      # @yieldparam [DecisionStore] object providing #approve and #reject
       # @yieldparam [User] user The OpenProject user to be logged in.
       # @yieldparam [AuthHash] OmniAuth authentication information including user info
       #                        and credentials.
@@ -55,7 +49,7 @@ module OpenProject
           if auth_hash.provider.to_sym == provider.to_sym
             block.call dec, auth_hash
           else
-            Decision.approve
+            dec.approve
           end
         end
 
@@ -95,7 +89,10 @@ module OpenProject
         end
 
         def authorize(auth_hash)
-          block.call Decision, auth_hash
+          store = DecisionStore.new
+          block.call store, auth_hash
+          # failure to make a decision results in a rejection
+          store.decision || Rejection.new(I18n.t(:authorization_rejected))
         end
       end
 
@@ -140,6 +137,35 @@ module OpenProject
       class Approval < Decision
         def approve?
           true
+        end
+      end
+
+      ##
+      # Stores a decision.
+      class DecisionStore
+        attr_accessor :decision
+
+        def approve
+          self.decision = Approval.new
+        end
+
+        def reject(error_message)
+          self.decision = Rejection.new error_message
+        end
+      end
+
+      Enumerable.class_eval do
+        ##
+        # Passes each element to the given block and returns the
+        # result of the block as soon as it's truthy.
+        def find_map(&block)
+          each do |e|
+            result = block.call e
+
+            return result if result
+          end
+
+          nil
         end
       end
     end
