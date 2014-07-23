@@ -28,12 +28,6 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
-  'status', 'assignee', 'responsible',
-  'date', 'percentageDone', 'priority',
-  'estimatedTime', 'versionName'
-])
-.constant('USER_TYPE', 'user')
 .constant('VISIBLE_LATEST')
 .constant('RELATION_TYPES', {
   relatedTo: "Relation::Relates",
@@ -50,18 +44,12 @@ angular.module('openproject.workPackages.controllers')
   'latestTab',
   'workPackage',
   'I18n',
-  'DEFAULT_WORK_PACKAGE_PROPERTIES',
-  'USER_TYPE',
   'VISIBLE_LATEST',
   'RELATION_TYPES',
-  'CustomFieldHelper',
-  'WorkPackagesHelper',
-  'PathHelper',
-  'UserService',
   '$q',
+  'WorkPackagesHelper',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, RELATION_TYPES, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
-
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, $q, WorkPackagesHelper, ConfigurationService) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -82,6 +70,7 @@ angular.module('openproject.workPackages.controllers')
         .fetch({force: true})
         .then(setWorkPackageScopeProperties);
     }
+    $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
     function outputError(error) {
       $scope.$emit('flashMessage', {
@@ -89,73 +78,7 @@ angular.module('openproject.workPackages.controllers')
         text: error.message
       });
     }
-
-    $scope.toggleWatch = function() {
-      $scope.toggleWatchLink
-        .fetch({ ajax: $scope.toggleWatchLink.props })
-        .then(refreshWorkPackage, outputError);
-    };
-
-    // available watchers
-
-    $scope.$watch('watchers.length', fetchAvailableWatchers)
-
-    /**
-     * @name getResourceIdentifier
-     * @function
-     *
-     * @description
-     * Returns the resource identifier of an API resource retrieved via hyperagent
-     *
-     * @param {Object} resource The resource object
-     *
-     * @returns {String} identifier
-     */
-    function getResourceIdentifier(resource) {
-      // TODO move to helper
-      return resource.links.self.href;
-    }
-
-    /**
-     * @name getFilteredCollection
-     * @function
-     *
-     * @description
-     * Filters collection of HAL resources by entries listed in resourcesToBeFilteredOut
-     *
-     * @param {Array} collection Array of resources retrieved via hyperagend
-     * @param {Array} resourcesToBeFilteredOut Entries to be filtered out
-     *
-     * @returns {Array} filtered collection
-     */
-    function getFilteredCollection(collection, resourcesToBeFilteredOut) {
-      return collection.filter(function(resource) {
-        return resourcesToBeFilteredOut.map(getResourceIdentifier).indexOf(getResourceIdentifier(resource)) === -1
-      });
-    }
-
-    function fetchAvailableWatchers() {
-      workPackage.links.availableWatchers
-        .fetch()
-        .then(function(data) {
-          // Temporarily filter out watchers already assigned to the work package on the client-side
-          $scope.availableWatchers = getFilteredCollection(data.embedded.availableWatchers, $scope.watchers);
-          // TODO do filtering on the API side and replace the update of the available watchers with the code provided in the following line
-          // $scope.availableWatchers = data.embedded.availableWatchers;
-        });
-    }
-
-    $scope.addWatcher = function(id) {
-      workPackage.link('addWatcher', {user_id: id})
-        .fetch({ajax: {method: 'POST'}})
-        .then(refreshWorkPackage, outputError)
-    };
-
-    $scope.presentWorkPackageProperties = [];
-    $scope.emptyWorkPackageProperties = [];
-    $scope.userPath = PathHelper.staticUserPath;
-
-    var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+    $scope.outputError = outputError; // expose to child controllers
 
     function setWorkPackageScopeProperties(workPackage){
       $scope.workPackage = workPackage;
@@ -198,9 +121,9 @@ angular.module('openproject.workPackages.controllers')
       $scope.author = workPackage.embedded.author;
     }
 
-    $scope.deleteWatcher = function(watcher) {
-      watcher.links.removeWatcher
-        .fetch({ ajax: watcher.links.removeWatcher.props })
+    $scope.toggleWatch = function() {
+      $scope.toggleWatchLink
+        .fetch({ ajax: $scope.toggleWatchLink.props })
         .then(refreshWorkPackage, outputError);
     };
 
@@ -212,96 +135,6 @@ angular.module('openproject.workPackages.controllers')
       }
       return activities;
     }
-
-    function getPropertyValue(property, format) {
-      if (format === USER_TYPE) {
-        return workPackage.embedded[property];
-      } else {
-        return getFormattedPropertyValue(property);
-      }
-    }
-
-    function getFormattedPropertyValue(property) {
-      if (property === 'date') {
-        return getDateProperty();
-      } else {
-        return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
-      }
-    }
-
-    function getDateProperty() {
-      if (workPackage.props.startDate || workPackage.props.dueDate) {
-        var displayedStartDate = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
-            displayedEndDate   = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
-
-        return  displayedStartDate + ' - ' + displayedEndDate;
-      }
-    }
-
-    function addFormattedValueToPresentProperties(property, label, value, format) {
-      var propertyData = {
-        property: property,
-        label: label,
-        format: format,
-        value: null
-      };
-      $q.when(value).then(function(value) {
-        propertyData.value = value;
-      });
-      $scope.presentWorkPackageProperties.push(propertyData);
-    }
-
-    function secondRowToBeDisplayed() {
-      return !!workPackageProperties
-        .slice(3, 6)
-        .map(function(property) {
-          return workPackage.props[property];
-        })
-        .reduce(function(a, b) {
-          return a || b;
-        });
-    }
-
-    var userFields = ['assignee', 'author', 'responsible'];
-
-    (function setupWorkPackageProperties() {
-      angular.forEach(workPackageProperties, function(property, index) {
-        var label  = I18n.t('js.work_packages.properties.' + property),
-            format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
-            value  = getPropertyValue(property, format);
-
-        if (!!value ||
-            index < 3 ||
-            index < 6 && secondRowToBeDisplayed()) {
-          addFormattedValueToPresentProperties(property, label, value, format);
-        } else {
-          $scope.emptyWorkPackageProperties.push(label);
-        }
-      });
-    })();
-
-    function getCustomPropertyValue(customProperty) {
-      if (!!customProperty.value && customProperty.format === USER_TYPE) {
-        return UserService.getUser(customProperty.value);
-      } else {
-        return CustomFieldHelper.formatCustomFieldValue(customProperty.value, customProperty.format);
-      }
-    }
-
-    (function setupCustomProperties() {
-      angular.forEach(workPackage.props.customProperties, function(customProperty) {
-        var property = customProperty.name,
-            label = customProperty.name,
-            value = getCustomPropertyValue(customProperty),
-            format = customProperty.format;
-
-        if (customProperty.value) {
-          addFormattedValueToPresentProperties(property, label, value, format);
-        } else {
-         $scope.emptyWorkPackageProperties.push(label);
-        }
-      });
-    })();
 
     // toggles
 
