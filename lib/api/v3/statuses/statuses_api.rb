@@ -35,12 +35,11 @@ module API
         resources :statuses do
           before do
             @statuses = Status.all
-            models = @statuses.map { |status| ::API::V3::Statuses::StatusModel.new(status) }
-            @represented = ::API::V3::Statuses::StatusCollectionRepresenter.new(models)
+            @statuses.map! { |status| StatusModel.new(status) }
           end
 
           get do
-            @represented
+            StatusCollectionRepresenter.new(@statuses)
           end
         end
 
