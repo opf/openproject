@@ -35,12 +35,11 @@ module API
         resources :priorities do
           before do
             @priorities = IssuePriority.all
-            models = @priorities.map { |priority| ::API::V3::Priorities::PriorityModel.new(priority) }
-            @represented = ::API::V3::Priorities::PriorityCollectionRepresenter.new(models)
+            @priorities.map! { |priority| PriorityModel.new(priority) }
           end
 
           get do
-            @represented
+            PriorityCollectionRepresenter.new(@priorities)
           end
         end
 
