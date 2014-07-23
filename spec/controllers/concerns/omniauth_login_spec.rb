@@ -96,6 +96,11 @@ describe AccountController do
         end
 
         it 'registers user via post' do
+          expect(OpenProject::OmniAuth::Authorization).to receive(:authorized!) do |user|
+            new_user = User.find_by_login('login@bar.com')
+            expect(user).to eq new_user
+          end
+
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
             timestamp: Time.new)
@@ -258,7 +263,10 @@ describe AccountController do
           end
 
           it 'works' do
-            expect(OpenProject::OmniAuth::Authorization).to receive(:authorized!).with(user)
+            expect(OpenProject::OmniAuth::Authorization).to receive(:authorized!) do |u, auth|
+              expect(u).to eq user
+              expect(auth).to eq omniauth_hash
+            end
 
             post :omniauth_login
 

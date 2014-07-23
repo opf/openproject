@@ -24,9 +24,9 @@ module OpenProject
       # Signals that the given user has been successfully authorized.
       #
       # Note: Only call if you know what you are doing.
-      def self.authorized!(user)
+      def self.authorized!(user, auth_hash)
         authorized_callbacks.each do |callback|
-          callback.authorized user
+          callback.authorized user, auth_hash
         end
       end
 
@@ -138,8 +138,9 @@ module OpenProject
         # Is called after a user has been authorized successfully.
         #
         # @param [User] User who has been authorized.
-        def authorized(user)
-          fail "subclass responsibility: authorized(#{user})"
+        # @param [Omniauth::AuthHash] Omniauth authentication info including credentials.
+        def authorized(user, auth_hash)
+          fail "subclass responsibility: authorized(#{user}, #{auth_hash})"
         end
       end
 
@@ -152,8 +153,8 @@ module OpenProject
           @block = block
         end
 
-        def authorized(user)
-          block.call user
+        def authorized(user, auth_hash)
+          block.call user, auth_hash
         end
       end
 
