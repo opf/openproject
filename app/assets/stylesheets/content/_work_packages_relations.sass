@@ -36,15 +36,17 @@
       .workpackages
         table
           width: 100%
+          table-layout: fixed
           thead
             font-weight: bold
             text-transform: uppercase
             line-height: 32px
-          tbody
-            tr
-              td:first-of-type
-                text-overflow: ellipsis
-                white-space: nowrap
-                overflow: hidden
-                width: 350px
-                display: block
+          tr
+            td
+              text-overflow: ellipsis
+              white-space: nowrap
+              overflow: hidden
+              &:first-of-type
+                width: 55% 
+              &:last-of-type
+                width: 30% 
