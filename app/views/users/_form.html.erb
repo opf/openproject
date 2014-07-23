@@ -65,34 +65,47 @@ See doc/COPYRIGHT.rdoc for more details.
       <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
     <% end %>
   <% end %>
-  <div id="password_fields" style="<%= 'display:none;' unless @user.change_password_allowed? %>">
-    <% assign_random_password_enabled = params[:user] &&
-                                        params[:user][:assign_random_password] %>
-    <p>
-      <label for="user_assign_random_password">
-        <%= I18n.t(:assign_random_password, :scope => :user) %>
-      </label>
-      <%= check_box_tag("user[assign_random_password]",
-                        "1",
-                        assign_random_password_enabled) %>
-    </p>
-    <p>
-      <%= f.password_field :password,
-                           :required => true,
-                           :size => 25,
-                           :disabled => assign_random_password_enabled %><br />
-      <%= password_complexity_requirements %>
-    </p>
-    <p>
-      <%= f.password_field :password_confirmation,
-                           :required => true,
-                           :size => 25,
-                           :disabled => assign_random_password_enabled %>
-    </p>
-    <p>
-      <%= f.check_box :force_password_change,
-                      :disabled => assign_random_password_enabled %>
-    </p>
+
+  <div id="password_fields">
+    <% if @user.change_password_allowed? %>
+      <% assign_random_password_enabled = params[:user] &&
+                                          params[:user][:assign_random_password] %>
+      <p>
+        <label for="user_assign_random_password">
+          <%= I18n.t(:assign_random_password, :scope => :user) %>
+        </label>
+        <%= check_box_tag("user[assign_random_password]",
+                          "1",
+                          assign_random_password_enabled) %>
+      </p>
+      <p>
+        <%= f.password_field :password,
+                             :required => true,
+                             :size => 25,
+                             :disabled => assign_random_password_enabled %><br />
+        <%= password_complexity_requirements %>
+      </p>
+      <p>
+        <%= f.password_field :password_confirmation,
+                             :required => true,
+                             :size => 25,
+                             :disabled => assign_random_password_enabled %>
+      </p>
+      <p>
+        <%= f.check_box :force_password_change,
+                        :disabled => assign_random_password_enabled %>
+      </p>
+    <% else %>
+      <p>
+        <% if OpenProject::Configuration.disable_password_login? %>
+          <label><%= I18n.t 'warning' %></label>
+          <%= I18n.t 'user.no_login' %>
+        <% else %>
+          <label><%= I18n.t 'note' %></label>
+          <%= I18n.t 'user.password_change_unsupported' %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
 </div>
 
