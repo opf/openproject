@@ -48,4 +48,27 @@ describe 'users/edit' do
       expect(response.body).to include('Test Provider')
     end
   end
+
+  context 'with password login disabled' do
+    before do
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+    end
+
+    context 'if the user has password-based login' do
+      let(:user) { FactoryGirl.build :user, id: 42 }
+
+      before do
+        assign :user, user
+        assign :auth_sources, []
+
+        allow(view).to receive(:current_user).and_return(current_user)
+
+        render
+      end
+
+      it 'warns that the user cannot login' do
+        expect(response.body).to include('Warning', 'they cannot log in')
+      end
+    end
+  end
 end
