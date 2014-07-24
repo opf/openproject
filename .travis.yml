@@ -33,6 +33,7 @@ sudo: false
 branches:
   only:
     - dev
+    - dev-angular
     - stable
     - release/3.0
 env:
