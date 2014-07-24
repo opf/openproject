@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
-  s.add_dependency "openproject-plugins", "~> 4.0.0"
+  
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
 end
