@@ -70,7 +70,7 @@ module API
       Rack::Response.new(error.to_json, error.code, error.headers).finish
     end
 
-    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated do |e|
+    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated, API::Errors::Validation do |e|
       Rack::Response.new(e.to_json, e.code, e.headers).finish
     end
 
