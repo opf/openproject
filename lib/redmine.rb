@@ -270,8 +270,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             :html => {:class => 'custom_fields icon2 icon-status' }
   menu.push :enumerations, {:controller => '/enumerations'}, :html => {:class => "icon2 icon-status"}
   menu.push :settings, {:controller => '/settings'}, :html => {:class => "icon2 icon-settings2"}
-  menu.push :ldap_authentication, {:controller => '/ldap_auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication icon2 icon-status'}
+  menu.push :ldap_authentication,
+            {:controller => '/ldap_auth_sources', :action => 'index'},
+            :html => {:class => 'server_authentication icon2 icon-status'},
+            :if => proc { !OpenProject::Configuration.disable_password_login? }
   menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:class => "icon2 icon-status"}
   menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:class => "icon2 icon-info"}
   menu.push :colors,
