@@ -128,7 +128,7 @@ describe 'API v3 Query resource' do
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
+            parsed_errors.should eq([{ 'key' => 'not_found_error', 'messages' => ['Couldn\'t find Query with id=999']}])
           end
         end
       end
@@ -148,7 +148,7 @@ describe 'API v3 Query resource' do
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end
@@ -191,7 +191,7 @@ describe 'API v3 Query resource' do
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+            parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
           end
         end
       end
@@ -212,7 +212,7 @@ describe 'API v3 Query resource' do
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
 
@@ -312,7 +312,7 @@ describe 'API v3 Query resource' do
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
+            parsed_errors.should eq([{ 'key' => 'not_found_error', 'messages' => ['Couldn\'t find Query with id=999']}])
           end
         end
       end
@@ -332,7 +332,7 @@ describe 'API v3 Query resource' do
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end
@@ -375,7 +375,7 @@ describe 'API v3 Query resource' do
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+            parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
           end
         end
       end
@@ -396,7 +396,7 @@ describe 'API v3 Query resource' do
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end

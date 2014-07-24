@@ -28,24 +28,16 @@
 #++
 
 module API
-  module Errors
-    class UnwritableProperty < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+  module Exceptions
+    class UnauthenticatedError < BaseError
 
-      def initialize(property, args = { })
-        @property = property
-        @code = args[:code] || 422
-        @title = args[:title] || 'unwriteable_property_error'
-        @description = args[:description] || 'You tried to write read-only property.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+    def initialize(title: 'not_authenticated_error', description: 'User needs to be authenticated to access this resource.', code: 401, headers: { })
+        headers = { 'Content-Type' => 'application/hal+json' }.merge(headers || { })
+        @title, @description, @code, @headers = title, description, code, headers
       end
 
       def errors
-        [{ key: @property, messages: ['is read-only'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+        [{ key: @title, messages: ['You need to be authenticated to access this resource'] }]
       end
     end
   end

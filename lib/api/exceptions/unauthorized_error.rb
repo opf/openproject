@@ -28,24 +28,16 @@
 #++
 
 module API
-  module Errors
-    class Unauthorized < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+  module Exceptions
+    class UnauthorizedError < BaseError
 
-      def initialize(user, args = { })
-        @user = user
-        @code = args[:code] || 403
-        @title = args[:title] || 'not_authorized'
-        @description = args[:description] || 'User does not have sufficent rights to access the resource.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+      def initialize(user, title: 'not_authorized_error', description: 'User does not have sufficent rights to access the resource.', code: 403, headers: { })
+        headers = { 'Content-Type' => 'application/hal+json' }.merge(headers || { })
+        @user, @title, @description, @code, @headers = user, title, description, code, headers
       end
 
       def errors
         [{ key: @title, messages: ['You are not authorize to access this resource'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
       end
     end
   end

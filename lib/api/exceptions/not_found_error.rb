@@ -28,24 +28,16 @@
 #++
 
 module API
-  module Errors
-    class Validation < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+  module Exceptions
+    class NotFoundError < BaseError
 
-      def initialize(obj, args = { })
-        @obj = obj
-        @code = args[:code] || 422
-        @title = args[:title] || 'validation_error'
-        @description = args[:description] || 'Validation failed.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+      def initialize(message, title: 'not_found_error', description: 'Resource couldn\'t be found.', code: 404, headers: { })
+        headers = { 'Content-Type' => 'application/hal+json' }.merge(headers || { })
+        @message, @title, @description, @code, @headers = message, title, description, code, headers
       end
 
       def errors
-        @obj.errors.messages.map{ |m| { key: m[0], messages: m[1] }}
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+        [{ key: @title, messages: [@message] }]
       end
     end
   end

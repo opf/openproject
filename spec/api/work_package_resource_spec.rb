@@ -160,7 +160,7 @@ h4. things we like
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
+          parsed_errors.should eq([{ 'key' => 'not_found_error', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
         end
       end
     end
@@ -177,7 +177,7 @@ h4. things we like
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
@@ -193,7 +193,7 @@ h4. things we like
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        parsed_errors.should eq([{ 'key' => 'not_authorized_error', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 

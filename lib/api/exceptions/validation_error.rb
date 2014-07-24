@@ -28,23 +28,16 @@
 #++
 
 module API
-  module Errors
-    class Unauthenticated < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+  module Exceptions
+    class ValidationError < BaseError
 
-      def initialize(args = { })
-        @code = args[:code] || 401
-        @title = args[:title] || 'not_authenticated'
-        @description = args[:description] || 'User needs to be authenticated to access this resource.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+      def initialize(obj, title: 'validation_error', description: 'Validation failed.', code: 422, headers: { })
+        headers = { 'Content-Type' => 'application/hal+json' }.merge(headers || { })
+        @obj, @title, @description, @code, @headers = obj, title, description, code, headers
       end
 
       def errors
-        [{ key: @title, messages: ['You need to be authenticated to access this resource'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+        @obj.errors.messages.map{ |m| { key: m[0], messages: m[1] }}
       end
     end
   end
