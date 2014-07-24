@@ -109,6 +109,14 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
+        link :addRelation do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/relations",
+              method: :post,
+              title: 'Add relation'
+          } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
+        end
+
         link :parent do
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
@@ -160,7 +168,7 @@ module API
         end
 
         def relations
-          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package) }
+          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package, current_user: @current_user) }
         end
 
         def custom_properties

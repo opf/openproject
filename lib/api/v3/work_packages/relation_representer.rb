@@ -62,6 +62,14 @@ module API
           { href: "#{root_url}api/v3/work_packages/#{represented.model.to_id}" }
         end
 
+        link :remove do
+          {
+            href: "#{root_url}api/v3/relationships/#{represented.model.id}",
+            method: :delete,
+            title: "Remove relation"
+          } if current_user_allowed_to(:manage_work_package_relations)
+        end
+
         property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
 
         def _type
@@ -69,6 +77,10 @@ module API
         end
 
         private
+
+        def current_user_allowed_to(permission)
+          @current_user && @current_user.allowed_to?(permission, represented.model.from.project)
+        end
 
         def relation_type
           relation = represented.model
