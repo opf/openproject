@@ -64,7 +64,7 @@ module API
 
         link :remove do
           {
-            href: "#{root_url}api/v3/relationships/#{represented.model.id}",
+            href: "#{root_url}api/v3/work_packages/#{represented.model.from.id}/relations/#{represented.model.id}",
             method: :delete,
             title: "Remove relation"
           } if current_user_allowed_to(:manage_work_package_relations)

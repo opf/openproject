@@ -130,6 +130,13 @@ angular.module('openproject.services')
         });
     },
 
+    removeWorkPackageRelation: function(relation) {
+      var options = { ajax: { method: "DELETE" } };
+      return relation.links.remove.fetch(options).then(function(response){
+        return response;
+      });
+    },
+
     doQuery: function(url, params) {
       return $http({
         method: 'GET',

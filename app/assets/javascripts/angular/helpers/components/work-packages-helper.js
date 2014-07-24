@@ -147,7 +147,6 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getRelationsOfType: function(workPackage, type) {
-      var self = workPackage.links.self.href;
       var relations = workPackage.embedded.relations;
       var result = [];
 
@@ -156,16 +155,21 @@ angular.module('openproject.workPackages.helpers')
           var relation = relations[x];
 
           if (relation.props._type == type) {
-            if (relation.links.relatedTo.href == self) {
-              result.push(relation.links.relatedFrom.fetch());
-            } else {
-              result.push(relation.links.relatedTo.fetch());
-            }
+            result.push(relation);
           }
         }
       }
 
       return result;
+    },
+
+    getRelatedWorkPackage: function(workPackage, relation) {
+      var self = workPackage.links.self.href;
+      if (relation.links.relatedTo.href == self) {
+        return relation.links.relatedFrom.fetch();
+      } else {
+        return relation.links.relatedTo.fetch();
+      }
     }
   };
 

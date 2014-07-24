@@ -29,38 +29,50 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageRelation', [
+.directive('workPackageRelations', [
     'I18n',
     'PathHelper',
-    'WorkPackagesHelper',
     '$timeout',
-    function(I18n, PathHelper, WorkPackagesHelper, $timeout) {
+    function(I18n, PathHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       title: '@',
       workPackage: '=',
-      relatedWorkPackages: '=',
+      relations: '=',
       relationIdentifier: '=',
       btnTitle: '@buttonTitle',
       btnIcon: '@buttonIcon',
       isSingletonRelation: '@singletonRelation'
     },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
+    templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.WorkPackagesHelper = WorkPackagesHelper;
-      scope.workPackagePath = PathHelper.staticWorkPackagePath;
-      scope.userPath = PathHelper.staticUserPath;
 
       var setExpandState = function() {
-        scope.expand = scope.relatedWorkPackages && scope.relatedWorkPackages.length > 0;
+        scope.expand = scope.relations && scope.relations.length > 0;
       };
 
-      scope.$watch('relatedWorkPackages', function() {
+      scope.$watch('relations', function() {
         setExpandState();
       });
+
+      scope.addRelation = function(toId, relationType) {
+
+      }
+
+      scope.collapseStateIcon = function(collapsed) {
+        var iconClass = 'icon-arrow-right5-';
+
+        if (collapsed) {
+          iconClass += '3';
+        } else {
+          iconClass += '2';
+        }
+
+        return iconClass;
+      }
 
       // Massive hack alert - Using old prototype autocomplete ///////////
       $timeout(function(){
@@ -78,30 +90,6 @@ angular.module('openproject.uiComponents')
                                  });
       });
       ////////////////////////////////////////////////////////////////////
-
-      scope.collapseStateIcon = function(collapsed) {
-        var iconClass = 'icon-arrow-right5-';
-
-        if (collapsed) {
-          iconClass += '3';
-        } else {
-          iconClass += '2';
-        }
-
-        return iconClass;
-      }
-
-      scope.getFullIdentifier = function(workPackage) {
-        var id = '#' + workPackage.props.id;
-
-        if (workPackage.props.type) {
-          id += ' ' + workPackage.props.type + ':';
-        }
-
-        id += ' ' + workPackage.props.subject;
-
-        return id;
-      };
     }
   };
 }]);
