@@ -35,8 +35,9 @@ module API
               end
 
               def authorize_edit_own(activity)
-                authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
-                raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
+                return authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
+                # raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
+                # return false
               end
             end
 
