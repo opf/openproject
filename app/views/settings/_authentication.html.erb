@@ -40,18 +40,20 @@ See doc/COPYRIGHT.rdoc for more details.
                                                 [l(:label_registration_automatic_activation), "3"]] %></p>
     </fieldset>
 
-    <fieldset>
-      <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
-      <p><%= setting_text_field :password_min_length, :size => 6 %></p>
-      <p><%= setting_multiselect :password_active_rules,
-                OpenProject::Passwords::Evaluator.known_rules.map do |r|
-                  [l("label_password_rule_#{r}"), r]
-                end %></p>
-      <p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
-      <p><%= setting_text_field :password_days_valid, :size => 6 %></p>
-      <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
-      <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
-    </fieldset>
+    <% unless OpenProject::Configuration.disable_password_login? %>
+      <fieldset>
+        <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
+        <p><%= setting_text_field :password_min_length, :size => 6 %></p>
+        <p><%= setting_multiselect :password_active_rules,
+                  OpenProject::Passwords::Evaluator.known_rules.map do |r|
+                    [l("label_password_rule_#{r}"), r]
+                  end %></p>
+        <p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
+        <p><%= setting_text_field :password_days_valid, :size => 6 %></p>
+        <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
+        <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+      </fieldset>
+    <% end %>
 
     <fieldset>
       <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
