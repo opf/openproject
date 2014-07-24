@@ -50,27 +50,30 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          {
+            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}",
+            title: "#{represented.subject}"
+          }
         end
 
         link :author do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
-              title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
+            href: "#{root_url}api/v3/users/#{represented.work_package.author.id}",
+            title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
           } unless represented.work_package.author.nil?
         end
 
         link :responsible do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.responsible.id}",
-              title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
+            href: "#{root_url}api/v3/users/#{represented.work_package.responsible.id}",
+            title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
           } unless represented.work_package.responsible.nil?
         end
 
         link :assignee do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
-              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
+            href: "#{root_url}api/v3/users/#{represented.work_package.assigned_to.id}",
+            title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
           } unless represented.work_package.assigned_to.nil?
         end
 
@@ -83,18 +86,18 @@ module API
         end
 
         link :availableWatchers do
-            {
-                href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
-                 title: "Available Watchers"
-            }
+          {
+            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
+            title: 'Available Watchers'
+          }
         end
 
         link :watch do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
-              method: :post,
-              data: { user_id: @current_user.id },
-              title: 'Watch work package'
+            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers",
+            method: :post,
+            data: { user_id: @current_user.id },
+            title: 'Watch work package'
           } if !@current_user.anonymous? &&
              current_user_allowed_to(:view_work_packages, represented.work_package) &&
             !represented.work_package.watcher_users.include?(@current_user)
@@ -102,18 +105,18 @@ module API
 
         link :unwatch do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
-              method: :delete,
-              title: 'Unwatch work package'
+            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
+            method: :delete,
+            title: 'Unwatch work package'
           } if current_user_allowed_to(:view_work_packages, represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
         end
 
         link :addWatcher do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
-              method: :post,
-              title: 'Add watcher',
-              templated: true
+            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
+            method: :post,
+            title: 'Add watcher',
+            templated: true
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
