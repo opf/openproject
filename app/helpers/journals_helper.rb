@@ -78,7 +78,6 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    # editable = model.journal_editable_by?(User.current) if User.current.logged?
     editable = journal.editable_by?(User.current) if User.current.logged?
 
     unless journal.notes.blank?
