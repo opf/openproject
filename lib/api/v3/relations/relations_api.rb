@@ -19,10 +19,9 @@ module API
               r.delay = declared_params[:delay_id]
             end
 
-            if relation.valid?
+            if relation.valid? && relation.save
               model = ::API::V3::WorkPackages::RelationModel.new(relation)
               representer = ::API::V3::WorkPackages::RelationRepresenter.new(model, work_package: relation.to)
-              relation.save!
               representer
             else
               fail Errors::Validation.new(relation)
