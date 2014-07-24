@@ -29,30 +29,30 @@
 require 'spec_helper'
 
 describe OpenProject::OmniAuth::Authorization do
-  describe '.authorized!' do
+  describe '.after_login!' do
     let(:auth_hash) { Struct.new(:uid).new 'bar' }
     let(:user)  { FactoryGirl.create :user, mail: 'foo@bar.de' }
     let(:state) { Struct.new(:number, :user_email, :uid).new 0, nil, nil }
 
     before do
-      OpenProject::OmniAuth::Authorization.authorized_callbacks.clear
+      OpenProject::OmniAuth::Authorization.after_login_callbacks.clear
 
-      OpenProject::OmniAuth::Authorization.on_success do |_, _|
+      OpenProject::OmniAuth::Authorization.after_login do |_, _|
         state.number = 42
       end
 
-      OpenProject::OmniAuth::Authorization.on_success do |user, auth|
+      OpenProject::OmniAuth::Authorization.after_login do |user, auth|
         state.user_email = user.mail
         state.uid = auth.uid
       end
     end
 
     after do
-      OpenProject::OmniAuth::Authorization.authorized_callbacks.clear
+      OpenProject::OmniAuth::Authorization.after_login_callbacks.clear
     end
 
     it 'triggers every callback setting uid to "bar", number to 42 and user_email to foo@bar.de' do
-      OpenProject::OmniAuth::Authorization.authorized! user, auth_hash
+      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash
 
       expect(state.number).to eq 42
       expect(state.user_email).to eq 'foo@bar.de'

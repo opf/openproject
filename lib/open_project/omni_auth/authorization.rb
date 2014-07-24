@@ -21,12 +21,12 @@ module OpenProject
       end
 
       ##
-      # Signals that the given user has been successfully authorized.
+      # Signals that the given user has been logged in.
       #
       # Note: Only call if you know what you are doing.
-      def self.authorized!(user, auth_hash)
-        authorized_callbacks.each do |callback|
-          callback.authorized user, auth_hash
+      def self.after_login!(user, auth_hash)
+        after_login_callbacks.each do |callback|
+          callback.after_login user, auth_hash
         end
       end
 
@@ -67,12 +67,16 @@ module OpenProject
       end
 
       ##
-      # Registers a callback on the event of a successful user authorization.
+      # Registers a callback on the event of a successful login.
       #
-      # @yield [user] Callback called with the successfully authorized user.
-      # @yieldparam user [User] User who has been authorized.
-      def self.on_success(&block)
-        add_authorized_callback AuthorizedBlockCallback.new(&block)
+      # Called directly after logging in.
+      # This usually happens when the user logged in normally or was logged in
+      # automatically after on-the-fly registration via automated account activation.
+      #
+      # @yield [user] Callback called with the successfully logged in user.
+      # @yieldparam user [User] User who has been logged in.
+      def self.after_login(&block)
+        add_after_login_callback AfterLoginBlockCallback.new(&block)
       end
 
       ##
@@ -88,15 +92,15 @@ module OpenProject
       end
 
       ##
-      # Registers a new callback to successful user authorization.
+      # Registers a new callback to successful user login.
       #
-      # @param [AuthorizedCallback] Callback to be called upon successful authorization.
-      def self.add_authorized_callback(callback)
-        authorized_callbacks << callback
+      # @param [AfterLoginCallback] Callback to be called upon successful authorization.
+      def self.add_after_login_callback(callback)
+        after_login_callbacks << callback
       end
 
-      def self.authorized_callbacks
-        @authorized_callbacks ||= []
+      def self.after_login_callbacks
+        @after_login_callbacks ||= []
       end
 
       ##
@@ -132,28 +136,28 @@ module OpenProject
       end
 
       ##
-      # A callback for reacting to a user being authorized.
-      class AuthorizedCallback
+      # A callback for reacting to a user being logged in.
+      class AfterLoginCallback
         ##
-        # Is called after a user has been authorized successfully.
+        # Is called after a user has been logged in successfully.
         #
-        # @param [User] User who has been authorized.
+        # @param [User] User who has been logged in.
         # @param [Omniauth::AuthHash] Omniauth authentication info including credentials.
-        def authorized(user, auth_hash)
-          fail "subclass responsibility: authorized(#{user}, #{auth_hash})"
+        def after_login(user, auth_hash)
+          fail "subclass responsibility: after_login(#{user}, #{auth_hash})"
         end
       end
 
       ##
-      # A authorized callback triggering a given block.
-      class AuthorizedBlockCallback < AuthorizedCallback
+      # A after_login callback triggering a given block.
+      class AfterLoginBlockCallback < AfterLoginCallback
         attr_reader :block
 
         def initialize(&block)
           @block = block
         end
 
-        def authorized(user, auth_hash)
+        def after_login(user, auth_hash)
           block.call user, auth_hash
         end
       end

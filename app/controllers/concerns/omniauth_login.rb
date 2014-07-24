@@ -53,7 +53,7 @@ module Concerns::OmniauthLogin
     else
       if user.active?
         user.log_successful_login
-        OpenProject::OmniAuth::Authorization.authorized! user, auth_hash
+        OpenProject::OmniAuth::Authorization.after_login! user, auth_hash
       end
       login_user_if_active(user)
     end
@@ -77,7 +77,7 @@ module Concerns::OmniauthLogin
 
     fill_user_fields_from_omniauth user, auth_hash
 
-    opts = { on_success: ->(u) { OpenProject::OmniAuth::Authorization.authorized! u, auth_hash } }
+    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash } }
 
     # Create on the fly
     register_user_according_to_setting(user, opts) do
@@ -99,7 +99,7 @@ module Concerns::OmniauthLogin
     fill_user_fields_from_omniauth(user, auth)
     user.update_attributes(permitted_params.user_register_via_omniauth)
 
-    opts = { on_success: ->(u) { OpenProject::OmniAuth::Authorization.authorized! u, auth } }
+    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth } }
     register_user_according_to_setting user, opts
   end
 

@@ -316,8 +316,6 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, opts = {})
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      opts[:on_success].call user if opts[:on_success]
-
       UserMailer.user_signed_up(token).deliver
       flash[:notice] = l(:notice_account_register_done)
       redirect_to :action => 'login'
@@ -335,9 +333,9 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
 
     if user.save
-      opts[:on_success].call user if opts[:on_success]
-
       self.logged_user = user
+      opts[:after_login].call user if opts[:after_login]
+
       flash[:notice] = l(:notice_account_registered_and_logged_in)
       redirect_after_login(user)
     else
@@ -350,8 +348,6 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_manually_by_administrator(user, opts = {})
     if user.save
-      opts[:on_success].call user if opts[:on_success]
-
       # Sends an email to the administrators
       admins = User.admin.active
       admins.each do |admin|
