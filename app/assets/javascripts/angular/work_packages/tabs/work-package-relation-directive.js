@@ -33,11 +33,20 @@ angular.module('openproject.uiComponents')
     'I18n',
     'PathHelper',
     'WorkPackagesHelper',
-    function(I18n, PathHelper, WorkPackagesHelper) {
+    '$timeout',
+    function(I18n, PathHelper, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { title: '@', relatedWorkPackages: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
+    scope: {
+      title: '@',
+      workPackage: '=',
+      relatedWorkPackages: '=',
+      relationIdentifier: '=',
+      btnTitle: '@buttonTitle',
+      btnIcon: '@buttonIcon',
+      isSingletonRelation: '@singletonRelation'
+    },
     templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
@@ -52,6 +61,23 @@ angular.module('openproject.uiComponents')
       scope.$watch('relatedWorkPackages', function() {
         setExpandState();
       });
+
+      // Massive hack alert - Using old prototype autocomplete ///////////
+      $timeout(function(){
+        var url = "/work_packages/auto_complete?escape=false&id=" + scope.workPackage.props.id + "&project_id=" + scope.workPackage.props.projectId;
+        new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
+                               'related_issue_candidates-' + scope.relationIdentifier,
+                               url,
+                               { minChars: 1,
+                                 frequency: 0.5,
+                                 paramName: 'q',
+                                 updateElement: function(value) {
+                                   document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
+                                 },
+                                 parameters: 'scope=all'
+                                 });
+      });
+      ////////////////////////////////////////////////////////////////////
 
       scope.collapseStateIcon = function(collapsed) {
         var iconClass = 'icon-arrow-right5-';

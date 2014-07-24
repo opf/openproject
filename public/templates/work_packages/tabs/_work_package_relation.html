@@ -35,7 +35,9 @@
         No relation exists
       </div>
     </div>
-    <!--button class="button" title="{{ btnTitle }}" ng-bind-html="btnIcon + ' ' + btnTitle">
-    </button-->
+    <button class="button" title="{{ btnTitle }}" ng-bind-html="btnIcon + ' ' + btnTitle">
+    </button>
+    <input id="relation_to_id-{{ relationIdentifier }}" name="relation[to_id][{{ relationIdentifier }}]" size="10" type="text" autocomplete="off">
+    <div id="related_issue_candidates-{{ relationIdentifier }}" class="autocomplete"></div>
   </div>
 </div>
