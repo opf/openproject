@@ -37,4 +37,63 @@ describe "layouts/base" do
       end
     end
   end
+
+  describe 'Sign in button' do
+    before do
+      User.stub(:current).and_return anonymous
+      view.stub(:current_user).and_return anonymous
+    end
+
+    context 'with omni_auth_direct_login disabled' do
+      before do
+        render
+      end
+
+      it 'shows the login drop down menu' do
+        expect(response).to have_selector "div[id='nav-login-content']"
+      end
+    end
+
+    context 'with omni_auth_direct_login enabled' do
+      before do
+        expect(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
+        render
+      end
+
+      it 'shows just a sign-in link, no menu' do
+        expect(response).to have_selector "a[href='/login']"
+        expect(response).not_to have_selector "div[id='nav-login-content']"
+      end
+    end
+  end
+
+  describe 'login form' do
+    before do
+      User.stub(:current).and_return anonymous
+      view.stub(:current_user).and_return anonymous
+    end
+
+    context 'with password login enabled' do
+      before do
+        render
+      end
+
+      it 'shows a login form' do
+        expect(response).to include 'Login'
+        expect(response).to include 'Password'
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        render
+      end
+
+      it 'shows no password login form' do
+        expect(response).not_to include 'Login'
+        expect(response).not_to include 'Password'
+      end
+    end
+  end
 end

@@ -1,13 +1,32 @@
-<div class="work-package-details-activities-activity-contents">
+<div class="work-package-details-activities-activity-contents"
+     ng-mouseover="showActions()"
+     ng-mouseout="hideActions()">
   <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
+    <div class="comments-icons"
+         ng-show="activity.props._type == 'Activity::Comment' && inFocus">
+      <i class="icon-quote action-icon" ng-click="quoteComment()"></i>
+      <i class="icon-edit action-icon" ng-click="editComment()"></i>
+    </div>
   </div>
   <img class="avatar" ng-src="{{ userAvatar }}" />
   <span class="user"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
-  <span class="date">{{ I18n.t('js.label_commented_on') }} <span ng-bind="activity.props.createdAt | date:'short'"/></span>
+  <span class="date">{{ I18n.t('js.label_commented_on') }} <date-time date-time-value="activity.props.createdAt"/></date-time>
   <span class="comment wiki">
-    <span class="message"
-      ng-show="activity.props._type == 'Activity::Comment'"
-      ng-bind-html="activity.props.comment"/>
+    <div ng-if="inEdit">
+      <div>
+        <textarea id="edit-comment-text"
+                  ng-bind-html="activity.props.rawComment"
+                  rows="5"></textarea>
+      </div>
+      <div>
+        <button class="button" ng-click="updateComment()">{{ I18n.t('js.button_update') }}</button>
+        <span><a href="" ng-click="cancelEdit()">cancel</a></span>
+      </div>
+    </div>
+    <span ng-if="!inEdit"
+          class="message"
+          ng-show="activity.props._type == 'Activity::Comment'"
+          ng-bind-html="activity.props.comment"/>
     <ul class="work-package-details-activities-messages">
       <li ng-repeat="detail in activity.props.htmlDetails track by $index">
         <span class="message" ng-bind-html="detail"/>

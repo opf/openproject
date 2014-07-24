@@ -80,10 +80,9 @@ module API
 
         private
 
-          def render_details(journal, no_html: false)
-            journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
-          end
-
+        def render_details(journal, no_html: false)
+          journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
+        end
       end
     end
   end

@@ -138,10 +138,19 @@ module API
           work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
         end
 
+        def attachments
+          work_package.attachments
+            .map{ |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
+        end
+
         def watchers
           work_package.watcher_users
             .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
             .map{ |u| ::API::V3::Users::UserModel.new(u) }
+        end
+
+        def relations
+          work_package.relations.map{ |relation| RelationModel.new(relation) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status

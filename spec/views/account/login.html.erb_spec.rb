@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,13 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'spec_helper'
 
-# modify to suit your repository base
-my $repos_base = '/var/svn';
+describe 'account/login' do
+  context 'with password login enabled' do
+    before do
+      render
+    end
 
-my $path = '/usr/bin/';
-my %kwown_commands = map { $_ => 1 } qw/svnserve/;
+    it 'should show a login field' do
+      expect(rendered).to include 'Password'
+    end
+  end
 
-umask 0002;
+  context 'with password login disabled' do
+    before do
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      render
+    end
 
-exec ('/usr/bin/svnserve', '-r', $repos_base, '-t');
+    it 'should not show a login field' do
+      expect(rendered).not_to include 'Password'
+    end
+  end
+
+end

@@ -68,7 +68,7 @@ module Migration::Utils
         journal_ids.each do |journal_id|
           insert <<-SQL
             INSERT INTO customizable_journals (journal_id, custom_field_id, value)
-            VALUES (#{journal_id}, #{m.custom_field_id}, '#{m.value}')
+            VALUES (#{journal_id}, #{m.custom_field_id}, #{quote_value(m.value)})
           SQL
         end
       end

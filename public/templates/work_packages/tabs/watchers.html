@@ -1,9 +1,30 @@
 <div class="detail-panel-content">
-  <div class="detail-panel-watchers">
-    <ul>
-      <li ng-repeat="user in watchers">
-        <user-field user="user"></user-field>
+  <div id="detail-panel-watchers">
+    <ul ng-if="watchers.length">
+      <li ng-repeat="watcher in watchers">
+        <user-field user="watcher"></user-field>
+        <a href>
+          <icon-wrapper icon-name="close"
+                        icon-title="{{I18n.t('js.button_delete_watcher')}}"
+                        class="detail-panel-watchers-delete-watcher-icon"
+                        ng-if="watcher.links.removeWatcher"
+                        ng-click="deleteWatcher(watcher)"></icon-wrapper>
+        </a>
       </li>
     </ul>
+
+    <div id="detail-panel-watchers-add-watcher" ng-if="workPackage.link('addWatcher') && availableWatchers.length">
+      <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
+      <fieldset>
+        <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
+        <select id="detail-panel-watchers-add-watcher-select"
+                ng-model="newWatcherId"
+                ng-options="watcher.props.id as watcher.props.name for watcher in availableWatchers"
+                ng-change="addWatcher(newWatcherId); newWatcherId=null">
+          <option value="" ng-bind="'-- ' + I18n.t('js.button_add_watcher') + ' --'"></option>
+        </select>
+      </fieldset>
+    </div>
+
   </div>
 </div>

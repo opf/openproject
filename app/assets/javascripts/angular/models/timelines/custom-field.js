@@ -51,7 +51,7 @@
 
 // environment and other global vars
 /*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
+/*global angular:false, Timeline:true*/
 
 angular.module('openproject.timelines.models')
 
