@@ -45,12 +45,12 @@ module API
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        raise API::Exceptions::UnauthenticatedError.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
       end
 
       def authorize(permission, context: nil, global: false, user: current_user, allow: true)
         is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized.new(current_user) unless is_authorized && allow
+        raise API::Exceptions::UnauthorizedError.new(current_user) unless is_authorized && allow
         is_authorized
       end
 
@@ -61,16 +61,16 @@ module API
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
-      error = API::Errors::Validation.new(e.record)
+      error = API::Exceptions::ValidationError.new(e.record)
       Rack::Response.new(error.to_json, error.code, error.headers).finish
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-      error = API::Errors::NotFound.new(e.message)
+      error = API::Exceptions::NotFoundError.new(e.message)
       Rack::Response.new(error.to_json, error.code, error.headers).finish
     end
 
-    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated do |e|
+    rescue_from API::Exceptions::UnauthorizedError, API::Exceptions::UnauthenticatedError do |e|
       Rack::Response.new(e.to_json, e.code, e.headers).finish
     end
 
