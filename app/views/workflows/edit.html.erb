@@ -58,21 +58,18 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="autoscroll">
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
 
-      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
-        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
+      <collapsible-fieldset caption="<%= l(:label_additional_workflow_transitions_for_author) %>"
+                            collapse="<%= !(@workflows['author'].present?) %>">
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
           <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
         </div>
-      </fieldset>
-      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
-
-      <fieldset class="collapsible" style="padding: 0;">
-        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
+      </collapsible-fieldset>
+      <collapsible-fieldset caption="<%= l(:label_additional_workflow_transitions_for_assignee) %>"
+                            collapse="<%= !(@workflows['assignee'].present?) %>">
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-      <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+          <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
         </div>
-      </fieldset>
-      <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
+      </collapsible-fieldset>
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
