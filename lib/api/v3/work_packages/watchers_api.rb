@@ -36,7 +36,7 @@ module API
           build_representer(
             available_watchers,
             ::API::V3::Users::UserModel,
-            ::API::V3::Watchers::WatchersRepresenter,
+            ::API::V3::Users::UserCollectionRepresenter,
             as: :available_watchers
           )
         end

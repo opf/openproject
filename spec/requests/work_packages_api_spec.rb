@@ -30,8 +30,9 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::WorkPackages::WorkPackagesAPI do
+  let(:admin) { FactoryGirl.create(:admin) }
+
   describe "activities" do
-    let(:admin) { FactoryGirl.create(:admin) }
     let(:work_package) { FactoryGirl.create(:work_package) }
     let(:comment) { "This is a test comment!" }
 
