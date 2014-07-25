@@ -32,8 +32,9 @@ angular.module('openproject.uiComponents')
 .directive('workPackageRelations', [
     'I18n',
     'PathHelper',
+    'WorkPackageService',
     '$timeout',
-    function(I18n, PathHelper, $timeout) {
+    function(I18n, PathHelper, WorkPackageService, $timeout) {
   return {
     restrict: 'E',
     replace: true,
@@ -49,6 +50,7 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.relationToId = '';
 
       var setExpandState = function() {
         scope.expand = scope.relations && scope.relations.length > 0;
@@ -58,8 +60,14 @@ angular.module('openproject.uiComponents')
         setExpandState();
       });
 
-      scope.addRelation = function(toId, relationType) {
-
+      scope.addRelation = function() {
+        // Note: Cannot use scope.relationToId because ng-model doesn't notice when the automcompleter changes the input
+        var inputElement = angular.element('#relation_to_id-' + scope.relationIdentifier);
+        var toId = inputElement.val();
+        WorkPackageService.addWorkPackageRelation(scope.workPackage, toId, scope.relationIdentifier).then(function(relation) {
+            inputElement.val('');
+            scope.$emit('workPackageRefreshRequired', '');
+        });
       }
 
       scope.collapseStateIcon = function(collapsed) {

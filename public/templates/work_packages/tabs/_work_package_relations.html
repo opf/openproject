@@ -1,7 +1,7 @@
 <div class="relation">
   <h3 ng-click="expand=!expand">
     <i class="icon-pull-content" ng-class="collapseStateIcon(!expand)"></i> {{ title }}
-    <span ng-if="!isSingletonRelation">({{ relatedWorkPackages.length || 0 }})</span>
+    <span ng-if="!isSingletonRelation">({{ relations.length || 0 }})</span>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">
@@ -38,9 +38,17 @@
         No relation exists
       </div>
     </div>
-    <button class="button" title="{{ btnTitle }}" ng-bind-html="btnIcon + ' ' + btnTitle">
+    <button class="button"
+            title="{{ btnTitle }}"
+            ng-bind-html="btnIcon + ' ' + btnTitle"
+            ng-click="addRelation()">
     </button>
-    <input id="relation_to_id-{{ relationIdentifier }}" name="relation[to_id][{{ relationIdentifier }}]" size="10" type="text" autocomplete="off">
+    <input id="relation_to_id-{{ relationIdentifier }}"
+           name="relation[to_id][{{ relationIdentifier }}]"
+           size="10"
+           type="text"
+           autocomplete="off"
+           ng-model="relationToId">
     <div id="related_issue_candidates-{{ relationIdentifier }}" class="autocomplete"></div>
   </div>
 </div>
