@@ -27,7 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
 .directive('workPackageParent', [
     'I18n',

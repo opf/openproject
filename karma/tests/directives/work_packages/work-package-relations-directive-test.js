@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('Work Package Relation Directive', function() {
+describe('Work Package Relations Directive', function() {
   var I18n, PathHelper, compile, element, scope;
 
-  beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.helpers', 'ngSanitize'));
+  beforeEach(angular.mock.module('openproject.workPackages.tabs', 'openproject.api', 'openproject.helpers', 'ngSanitize'));
   beforeEach(module('templates', function($provide) {
   }));
 
@@ -55,14 +55,14 @@ describe('Work Package Relation Directive', function() {
     I18n.t.restore();
   });
 
-  var multiElementHtml = "<work-package-relation title='MyRelation' related-work-packages='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
-  var singleElementHtml = "<work-package-relation title='MyRelation' related-work-packages='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
+  var multiElementHtml = "<work-package-relations title='MyRelation' work-package='workPackage' relations='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
+  var singleElementHtml = "<work-package-relations title='MyRelation' work-package='workPackage' relations='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
 
 
   var workPackage1;
   var workPackage2;
 
-  beforeEach(function() {
+  beforeEach(inject(function($q) {
     workPackage1 = {
       props: {
         id: "1",
@@ -75,6 +75,9 @@ describe('Work Package Relation Directive', function() {
             name: "Assignee 1",
           }
         }
+      },
+      links: {
+        self: { href: "/work_packages/1" }
       }
     };
     workPackage2 = {
@@ -89,11 +92,31 @@ describe('Work Package Relation Directive', function() {
             name: "Assignee 2",
           }
         }
+      },
+      links: {
+        self: { href: "/work_packages/1" }
       }
     };
-  });
+    relation1 = {
+      links: {
+        self: { href: "/work_packages/1" },
+        relatedTo: {
+          href: "/work_packages/1",
+          fetch: function() {
+            $q.when(function() { return { props: { id: 1 }}; } )
+          }
+        },
+        relatedFrom: {
+          href: "/work_packages/2",
+          fetch: function() {
+            $q.when(function() { return { props: { id: 2 }}; } )
+          }
+        }
+      }
+    };
+  }));
 
-  var shouldBehaveLikeRelationDirective = function() {
+  var shouldBehaveLikeRelationsDirective = function() {
     it('should have a title', function() {
       var title = angular.element(element.find('h3'));
 
@@ -137,7 +160,7 @@ describe('Work Package Relation Directive', function() {
 
   var shouldBehaveLikeCollapsedRelationsDirective = function() {
 
-    shouldBehaveLikeRelationDirective();
+    shouldBehaveLikeRelationsDirective();
 
     it('should be initially collapsed', function() {
       var content = angular.element(element.find('div.content'));
@@ -147,7 +170,7 @@ describe('Work Package Relation Directive', function() {
 
   var shouldBehaveLikeExpandedRelationsDirective = function() {
 
-    shouldBehaveLikeRelationDirective();
+    shouldBehaveLikeRelationsDirective();
 
     it('should be initially expanded', function() {
       var content = angular.element(element.find('div.content'));
@@ -198,12 +221,13 @@ describe('Work Package Relation Directive', function() {
 
   describe('single element markup', function() {
     beforeEach(function() {
-      scope.relations = [workPackage1];
+      scope.workPackage = workPackage2;
+      scope.relations = [relation1];
 
       compile(singleElementHtml);
     });
 
-    shouldBehaveLikeRelationDirective();
+    shouldBehaveLikeRelationsDirective();
 
     shouldBehaveLikeSingleRelationDirective();
 
@@ -214,21 +238,21 @@ describe('Work Package Relation Directive', function() {
     shouldBehaveLikeHasTableContent(1);
   });
 
-  describe('multi element markup', function() {
-    beforeEach(function() {
-      scope.relations = [workPackage1, workPackage2];
+  // describe('multi element markup', function() {
+  //   beforeEach(function() {
+  //     scope.relations = [workPackage1, workPackage2];
 
-      compile(multiElementHtml);
-    });
+  //     compile(multiElementHtml);
+  //   });
 
-    shouldBehaveLikeRelationDirective();
+  //   shouldBehaveLikeRelationsDirective();
 
-    shouldBehaveLikeMultiRelationDirective();
+  //   shouldBehaveLikeMultiRelationDirective();
 
-    shouldBehaveLikeExpandedRelationsDirective();
+  //   shouldBehaveLikeExpandedRelationsDirective();
 
-    shouldBehaveLikeHasTableHeader();
+  //   shouldBehaveLikeHasTableHeader();
 
-    shouldBehaveLikeHasTableContent(2);
-  });
+  //   shouldBehaveLikeHasTableContent(2);
+  // });
 });

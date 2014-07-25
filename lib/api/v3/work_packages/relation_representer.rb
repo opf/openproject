@@ -51,7 +51,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-         { href: "#{root_url}api/v3/relationships/#{represented.model.id}" }
+         { href: "#{root_url}api/v3/relations/#{represented.model.id}" }
         end
 
         link :relatedFrom do

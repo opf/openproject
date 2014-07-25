@@ -27,7 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
 .directive('workPackageRelations', [
     'I18n',
@@ -60,7 +60,9 @@ angular.module('openproject.uiComponents')
 
       scope.$watch('relations', function() {
         setExpandState();
-        scope.relationsCount = scope.relations.length || 0;
+        if(scope.relations) {
+          scope.relationsCount = scope.relations.length || 0;
+        }
       });
 
       scope.$watch('expand', function(newVal, oldVal) {
