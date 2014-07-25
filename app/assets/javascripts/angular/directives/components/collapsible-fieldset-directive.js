@@ -58,8 +58,7 @@ angular.module('openproject.uiComponents')
       };
 
       $scope.toggle = function () {
-        $scope.collapsed = !($scope.collapsed);
-        setTitle($scope.collapsed);
+        init(!($scope.collapsed))
       };
 
       $scope.$watch("collapse", function (state) {
