@@ -30,7 +30,7 @@ module API
                   representer.to_json
                 else
                   errors = activity.errors.full_messages.join(", ")
-                  fail Errors::Validation.new(activity, description: errors)
+                  fail Exceptions::Validation.new(activity, description: errors)
                 end
               end
             end
