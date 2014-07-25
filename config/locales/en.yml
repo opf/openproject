@@ -1591,6 +1591,7 @@ en:
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
     no_login: "This is user authenticates through login by password which is disabled, meaning that they cannot log in."
     password_change_unsupported: Change of password is not supported.
+    authorization_rejected: "You are not allowed to sign in."
 
   version_status_closed: "closed"
   version_status_locked: "locked"

@@ -121,6 +121,30 @@ describe('WorkPackageDetailsController', function() {
     });
   });
 
+  describe('#scope.canViewWorkPackageWatchers', function() {
+    describe('when the work package does not contain the embedded watchers property', function() {
+      beforeEach(function() {
+        workPackage.embedded.watchers = undefined;
+        buildController();
+      })
+
+      it('returns false', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.false;
+      });
+    });
+
+    describe('when the work package contains the embedded watchers property', function() {
+      beforeEach(function() {
+        workPackage.embedded.watchers = [];
+        buildController();
+      })
+
+      it('returns true', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.true;
+      });
+    });
+  });
+
   describe('work package properties', function() {
     describe('relations', function() {
       beforeEach(function() {

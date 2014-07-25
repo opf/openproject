@@ -127,6 +127,10 @@ angular.module('openproject.workPackages.controllers')
         .then(refreshWorkPackage, outputError);
     };
 
+    $scope.canViewWorkPackageWatchers = function() {
+      return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
+    };
+
     function displayedActivities(workPackage) {
       var activities = workPackage.embedded.activities;
       activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)

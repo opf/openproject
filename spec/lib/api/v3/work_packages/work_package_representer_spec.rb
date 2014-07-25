@@ -44,7 +44,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     )
   }
   let(:project) { work_package.project }
-  let(:permissions) { %i(view_work_packages add_work_package_watchers delete_work_package_watchers) }
+  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -163,6 +163,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'attachments' do
         it { should have_json_type(Array).at_path('_embedded/attachments') }
         it { should have_json_size(0).at_path('_embedded/attachments') }
+      end
+
+      describe 'watchers' do
+        context 'when the current user has the permission to view work packages' do
+          it { should have_json_path('_embedded/watchers') }
+        end
+
+        context 'when the current user does not have the permission to view work packages' do
+          before do
+            role.permissions.delete(:view_work_package_watchers) and role.save
+          end
+
+          it { should_not have_json_path('_embedded/watchers') }
+        end
       end
     end
   end
