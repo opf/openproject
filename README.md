@@ -21,10 +21,8 @@ version greater or equal to 3.0.0.
 Installation
 ------------
 
-OpenProject Meeting depends on the OpenProject Plugins plugin. Thus, if you haven't done
-it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
+Add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-plugins", :git => "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
 `gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable"`
 
 Afterwards, run:
