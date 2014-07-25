@@ -119,5 +119,105 @@ describe SettingsController do
         expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
       end
     end
+
+    describe 'password settings' do
+      let(:settings) do
+        {
+          password_min_length: 42,
+          password_active_rules: %w(uppercase lowercase),
+          password_min_adhered_rules: 7,
+          password_days_valid: 13,
+          password_count_former_banned: 80,
+          lost_password: '3'
+        }
+      end
+
+      let(:original_settings) { Hash.new }
+
+      before do
+        settings.keys.each do |key|
+          original_settings[key] = Setting[key]
+        end
+      end
+
+      after do
+        # restore settings
+        settings.keys.each do |key|
+          Setting[key] = original_settings[key]
+        end
+      end
+
+      describe 'POST #edit with password login enabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+
+          post 'edit', tab: 'authentication', settings: settings
+        end
+
+        it 'is successful' do
+          expect(response).to be_redirect # to auth tab
+        end
+
+        it 'sets the minimum password length to 42' do
+          expect(Setting[:password_min_length]).to eq '42'
+        end
+
+        it 'sets the active character classes to lowercase and uppercase' do
+          expect(Setting[:password_active_rules]).to eq ['uppercase', 'lowercase']
+        end
+
+        it 'sets the required number of classes to 7' do
+          expect(Setting[:password_min_adhered_rules]).to eq '7'
+        end
+
+        it 'sets passwords to expire after 13 days' do
+          expect(Setting[:password_days_valid]).to eq '13'
+        end
+
+        it 'bans the last 80 passwords' do
+          expect(Setting[:password_count_former_banned]).to eq '80'
+        end
+
+        it 'sets the lost password option to the nonsensical 3' do
+          expect(Setting[:lost_password]).to eq '3'
+        end
+      end
+
+      describe 'POST #edit with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          post 'edit', tab: 'authentication', settings: settings
+        end
+
+        it 'is successful' do
+          expect(response).to be_redirect # to auth tab
+        end
+
+        it 'sets the minimum password length to 42' do
+          expect(Setting[:password_min_length]).not_to eq '42'
+        end
+
+        it 'does not set the active character classes to lowercase and uppercase' do
+          expect(Setting[:password_active_rules]).not_to eq ['uppercase', 'lowercase']
+        end
+
+        it 'does not set the required number of classes to 7' do
+          expect(Setting[:password_min_adhered_rules]).not_to eq '7'
+        end
+
+        it 'does not set passwords to expire after 13 days' do
+          expect(Setting[:password_days_valid]).not_to eq '13'
+        end
+
+        it 'does not ban the last 80 passwords' do
+          expect(Setting[:password_count_former_banned]).not_to eq '80'
+        end
+
+        it 'does not set the lost password option to the nonsensical 3' do
+          expect(Setting[:lost_password]).not_to eq '3'
+        end
+      end
+    end
   end
 end

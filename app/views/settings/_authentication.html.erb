@@ -40,9 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
                                                 [l(:label_registration_automatic_activation), "3"]] %></p>
     </fieldset>
 
-    <% unless OpenProject::Configuration.disable_password_login? %>
-      <fieldset>
-        <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
+    <fieldset>
+      <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
+      <% if !OpenProject::Configuration.disable_password_login? %>
         <p><%= setting_text_field :password_min_length, :size => 6 %></p>
         <p><%= setting_multiselect :password_active_rules,
                   OpenProject::Passwords::Evaluator.known_rules.map do |r|
@@ -52,8 +52,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><%= setting_text_field :password_days_valid, :size => 6 %></p>
         <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
         <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
-      </fieldset>
-    <% end %>
+      <% else %>
+        <p><label><%= I18n.t :note %></label><%= I18n.t :note_password_login_disabled %></p>
+      <% end %>
+    </fieldset>
 
     <fieldset>
       <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>

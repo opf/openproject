@@ -1608,6 +1608,7 @@ de:
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
 
   note: Hinweis
+  note_password_login_disabled: "Der Passwort-Login wurde per Konfiguration deaktiviert. Die Einstellung kann in 'config/configuration.yml' geändert werden, was jedoch einen Neustart der Anwendung erforderlich macht."
   warning: Warnung
 
   menu_item: "Menüpunkt"
