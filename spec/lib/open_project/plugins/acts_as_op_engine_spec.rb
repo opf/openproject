@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'roar/decorator'
 
 describe OpenProject::Plugins::ActsAsOpEngine do
 
@@ -48,5 +49,41 @@ describe OpenProject::Plugins::ActsAsOpEngine do
     end
 
     its(:name) { should eq 'SuperCaliFragilisticExpialidocious' }
+  end
+
+  describe '#extend_api_response' do
+    it 'should raise a NameError if Decorator not found' do
+      expect {
+        engine.class_eval do
+          extend_api_response(:v_test, :not_existent, :really) do
+            property :foo
+          end
+        end
+      }.to raise_error(NameError)
+    end
+
+    it 'should lookup and extend an existing Decorator' do
+      module API
+        module VTest
+          module WorkPackages
+            class WorkPackageRepresenter < ::Roar::Decorator
+              property :bar
+            end
+          end
+        end
+      end
+
+      represented_clazz = Struct.new(:foo, :bar)
+      representer = API::VTest::WorkPackages::WorkPackageRepresenter.new(represented_clazz.new)
+
+      engine.class_eval do
+        extend_api_response(:v_test, :work_packages, :work_package) do
+          property :foo
+        end
+      end
+
+      expect(representer.to_json).to have_json_path('represented/foo')
+      expect(representer.to_json).to have_json_path('represented/bar')
+    end
   end
 end
