@@ -36,7 +36,6 @@ branches:
     - dev
     - stable
     - release/3.0
-    - dev-angular
 env:
   # Frontend
   - "TEST_SUITE=karma"
