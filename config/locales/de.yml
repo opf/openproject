@@ -93,7 +93,7 @@ de:
         from: "Arbeitspaket"
         to: "Zugehöriges Arbeitspaket"
       status:
-        is_closed: "Ticket geschlossen"
+        is_closed: "Arbeitspaket geschlossen"
       journal:
         notes: "Kommentare"
       member:
@@ -1025,6 +1025,9 @@ de:
   label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
   label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
 
+  macro_execution_error: "Das Makro %{macro_name} konnte nicht ausgeführt werden"
+  macro_unavailable: "Makro %{macro_name} kann nicht angezeigt werden"
+
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
@@ -1264,6 +1267,7 @@ de:
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
   setting_repositories_encodings: "Kodierungen der Projektarchive"
+  setting_repository_authentication_caching_enabled: "Aktiviere Cache für Authentifizierungsversuche von Versionskontrollsoftware"
   setting_repository_log_display_limit: "Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei"
   setting_rest_api_enabled: "REST-Schnittstelle aktivieren"
   setting_self_registration: "Anmeldung ermöglicht"
@@ -1595,6 +1599,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
+    authorization_rejected: "Sie dürfen sich nicht einloggen."
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"

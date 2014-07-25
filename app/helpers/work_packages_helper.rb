@@ -38,7 +38,7 @@ module WorkPackagesHelper
 
   def work_package_breadcrumb
     full_path = if !@project.nil?
-                  link_to(t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
+                  link_to(I18n.t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
                 else
                   ancestors_links.unshift(work_package_index_link)
                 end
@@ -54,7 +54,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_work_package_plural), {controller: :work_packages, action: :index})
+    link_to(I18n.t(:label_work_package_plural), {controller: :work_packages, action: :index})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -112,7 +112,7 @@ module WorkPackagesHelper
 
     if package.closed?
       parts[:hidden_link] << content_tag(:span,
-                                         t(:label_closed_work_packages),
+                                         I18n.t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
 
       parts[:css_class] << 'closed'
@@ -196,38 +196,13 @@ module WorkPackagesHelper
   end
 
   def work_package_quick_info_with_description(work_package, lines = 3)
-    description_lines = work_package.description.to_s.lines.to_a[0,lines]
-
-    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
-      description_lines[lines-1].strip!
-
-      while !description_lines[lines-1].end_with?("...") do
-        description_lines[lines-1] = description_lines[lines-1] + "."
-      end
-    end
-
-    description = if work_package.description.blank?
-                    empty_element_tag
-                  else
-                    textilizable(description_lines.join(""))
-                  end
+    description = truncated_work_package_description(work_package, lines)
 
     link = work_package_quick_info(work_package)
 
-    link += content_tag(:div, :class => 'indent quick_info attributes') do
+    attributes = info_user_attributes(work_package)
 
-      responsible = if work_package.responsible_id.present?
-                      "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
-                      "#{work_package.responsible.name}"
-                    end
-
-      assignee = if work_package.assigned_to_id.present?
-                   "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
-                   "#{work_package.assigned_to.name}"
-                 end
-
-      [responsible, assignee].compact.join("<br>").html_safe
-    end
+    link += content_tag(:div, attributes, :class => 'indent quick_info attributes')
 
     link += content_tag(:div, description, :class => 'indent quick_info description')
 
@@ -528,12 +503,12 @@ module WorkPackagesHelper
       field = form.select(:category_id,
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_work_package_category_new)),
-                                         t(:label_work_package_category_new),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_work_package_category_new)),
+                                         I18n.t(:label_work_package_category_new),
                                          'category[name]',
                                          project_categories_path(locals[:project]),
                                          :class => 'no-decoration-on-hover',
-                                         :title => t(:label_work_package_category_new)) if authorize_for('categories', 'new')
+                                         :title => I18n.t(:label_work_package_category_new)) if authorize_for('categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end
@@ -544,7 +519,7 @@ module WorkPackagesHelper
       field = form.select(:fixed_version_id,
                           version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
                           :include_blank => true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_version_new)),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
                              project_versions_path(locals[:project]),
@@ -649,5 +624,37 @@ module WorkPackagesHelper
        work_package_show_spent_time_attribute(work_package),
        work_package_show_fixed_version_attribute(work_package)
      ]
+  end
+
+  def truncated_work_package_description(work_package, lines = 3)
+    description_lines = work_package.description.to_s.lines.to_a[0,lines]
+
+    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
+      description_lines[lines-1].strip!
+
+      while !description_lines[lines-1].end_with?("...") do
+        description_lines[lines-1] = description_lines[lines-1] + "."
+      end
+    end
+
+    if work_package.description.blank?
+      empty_element_tag
+    else
+      format_text(description_lines.join(''))
+    end
+  end
+
+  def info_user_attributes(work_package)
+    responsible = if work_package.responsible_id.present?
+                    "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
+                    "#{h(work_package.responsible.name)}"
+                  end
+
+    assignee = if work_package.assigned_to_id.present?
+                 "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
+                 "#{h(work_package.assigned_to.name)}"
+               end
+
+    [responsible, assignee].compact.join("<br>").html_safe
   end
 end

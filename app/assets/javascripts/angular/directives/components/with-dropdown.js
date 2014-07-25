@@ -60,7 +60,8 @@ angular.module('openproject.uiComponents')
     return {
       restrict: 'EA',
       scope: {
-        dropdownId: '@'
+        dropdownId: '@',
+        focusElementId: '@'
       },
       link: function (scope, element, attributes) {
         var dropdown = jQuery("#" + attributes.dropdownId),
@@ -88,6 +89,10 @@ angular.module('openproject.uiComponents')
           if (showDropdown) dropdown.show();
 
           position(dropdown, trigger);
+
+          if(attributes.focusElementId) {
+            angular.element('#' + attributes.focusElementId).focus();
+          }
         });
       }
     };

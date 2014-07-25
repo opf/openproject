@@ -63,7 +63,7 @@ class WorkPackagesPage
   end
 
   def selected_filter(filter_name)
-    find(".filter-fields #h_#{filter_name}", visible: false)
+    find(".filter-fields #tr_#{filter_name}")
   end
 
   private

@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 describe 'Omniauth authentication' do
@@ -53,21 +81,7 @@ describe 'Omniauth authentication' do
     end
   end
 
-  context 'register on the fly' do
-    let(:user) do
-      User.new(force_password_change: false,
-               identity_url: 'developer:omnibob@example.com',
-               login: 'omnibob',
-               mail: 'omnibob@example.com',
-               firstname: 'omni',
-               lastname: 'bob')
-    end
-
-    before do
-      allow(Setting).to receive(:self_registration?).and_return(true)
-      allow(Setting).to receive(:self_registration).and_return('3')
-    end
-
+  shared_examples 'omniauth user registration' do
     it 'should register new user' do
       visit '/auth/developer'
 
@@ -84,6 +98,24 @@ describe 'Omniauth authentication' do
       expect(page).to have_content(I18n.t(:notice_account_registered_and_logged_in))
       expect(page).to have_link('Sign out')
     end
+  end
+
+  context 'register on the fly' do
+    let(:user) do
+      User.new(force_password_change: false,
+               identity_url: 'developer:omnibob@example.com',
+               login: 'omnibob',
+               mail: 'omnibob@example.com',
+               firstname: 'omni',
+               lastname: 'bob')
+    end
+
+    before do
+      allow(Setting).to receive(:self_registration?).and_return(true)
+      allow(Setting).to receive(:self_registration).and_return('3')
+    end
+
+    it_behaves_like 'omniauth user registration'
 
     it 'should redirect to back url' do
       visit account_lost_password_path
@@ -103,6 +135,14 @@ describe 'Omniauth authentication' do
       click_link_or_button 'Save'
 
       expect(current_url).to eql account_lost_password_url
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      end
+
+      it_behaves_like 'omniauth user registration'
     end
   end
 

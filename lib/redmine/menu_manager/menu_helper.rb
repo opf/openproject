@@ -102,7 +102,7 @@ module Redmine::MenuManager::MenuHelper
                     :class => 'icon2 icon-pin query',
                     "data-ui-route" => '',
                     'query-menu-item' => 'query-menu-item',
-                    'query-id' => query_menu_item.navigatable_id
+                    'object-id' => query_menu_item.navigatable_id
                   }
       end
     end

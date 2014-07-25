@@ -356,6 +356,11 @@ angular.module('openproject.services')
       });
     },
 
+    updateHighlightName: function() {
+      // TODO Implement an API endpoint for updating the names or add an appropriate endpoint that returns query names for all highlighted queries
+      return this.unstarQuery().then(this.starQuery);
+    },
+
     doGet: function(url, success, failure) {
       return QueryService.doQuery(url, null, 'GET', success, failure);
     },

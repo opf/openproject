@@ -31,7 +31,7 @@
 describe('WorkPackagesController', function() {
   var scope, win, testParams, buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.api'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
   }));
@@ -47,6 +47,7 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        $state: {},
         $stateParams: testParams,
         project: {},
         availableTypes: {}

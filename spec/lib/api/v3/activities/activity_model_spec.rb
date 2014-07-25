@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,13 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'spec_helper'
 
-# modify to suit your repository base
-my $repos_base = '/var/svn';
+describe ::API::V3::Activities::ActivityModel do
+  include Capybara::RSpecMatchers
 
-my $path = '/usr/bin/';
-my %kwown_commands = map { $_ => 1 } qw/svnserve/;
+  subject(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, attributes) }
 
-umask 0002;
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       notes: <<-DESC
+h3. Plan update
 
-exec ('/usr/bin/svnserve', '-r', $repos_base, '-t');
+# More done
+# More quickly
+       DESC
+      }
+    }
+
+    its(:notes)     { should have_selector 'h3' }
+    its(:notes)     { should have_selector 'ol > li' }
+    its(:raw_notes) { should eq attributes[:notes] }
+
+    it 'should allow raw_notes to be set' do
+      model.raw_notes = 'h4. Plan revision'
+      expect(model.notes).to have_selector 'h4'
+    end
+  end
+end

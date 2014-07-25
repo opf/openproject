@@ -28,5 +28,5 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% if @wiki && @wiki.sidebar -%>
-  <%= textilizable @wiki.sidebar.content, :text %>
+  <%= format_text @wiki.sidebar.content, :text %>
 <% end -%>

@@ -35,8 +35,17 @@ Feature: Timeline View Tests
           | Name      | Is Milestone | In aggregation |
           | Phase     | false        | true           |
           | Milestone | true         | true           |
+     # Hack to ensure that the project is persisted before opening the
+     # timeline. Otherwise we regularly have
+     # Couldn't find Project with identifier=ecookbook
+     # errors.
+     # As far as I could figure it out, the:
+     # I am already logged in as "manager"
+     # will raise the bug when the project is not already persisted and he
+     # tries to reopen the page he had visited last in the test before.
+     When I go to the home page
 
-      And there are the following project types:
+    Given there are the following project types:
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
@@ -53,6 +62,8 @@ Feature: Timeline View Tests
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
 
+      And there is a timeline "Testline" for project "ecookbook"
+
       And the following types are enabled for projects of type "Standard Project"
           | Phase     |
           | Milestone |
@@ -62,8 +73,6 @@ Feature: Timeline View Tests
 
       And the user "manager" is a "manager"
 
-      And I am already logged in as "manager"
-
       And there are the following work packages:
           | Start date | Due date   | description         | responsible | Subject  |
           | 2012-01-01 | 2012-01-31 | #2 http://google.de | manager     | January  |
@@ -72,10 +81,11 @@ Feature: Timeline View Tests
           | 2012-04-01 | 2012-04-30 | Avocado Choquette   | manager     | April    |
           | 2012-04-01 | 2012-04-30 | Relish              | manager     | Test2    |
 
+      And I am already logged in as "manager"
+
   @javascript
   Scenario: planning element click should show modal window
-     When there is a timeline "Testline" for project "ecookbook"
-      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+     When I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
      Then I should see a modal window
@@ -96,7 +106,6 @@ Feature: Timeline View Tests
       | edit_timelines     |
       | view_work_packages |
       | edit_work_packages |
-    And there is a timeline "Testline" for project "ecookbook"
     And I go to the page of the timeline "Testline" of the project called "ecookbook"
     And I wait for timeline to load table
     And I click on the Planning Element with name "January"
@@ -114,7 +123,6 @@ Feature: Timeline View Tests
       | view_work_packages |
       | edit_work_packages |
       | manage_work_package_relations |
-    And there is a timeline "Testline" for project "ecookbook"
     And I go to the page of the timeline "Testline" of the project called "ecookbook"
     And I wait for timeline to load table
     And I click on the Planning Element with name "January"
