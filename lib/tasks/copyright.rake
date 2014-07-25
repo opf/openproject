@@ -200,8 +200,6 @@ namespace :copyright do
                 "app/assets/javascripts/Bitstream_Vera_Sans_400.font.js",
                 "app/assets/javascripts/date-de-DE.js",
                 "app/assets/javascripts/date-en-US.js",
-                "app/assets/javascripts/raphael.js",
-                "app/assets/javascripts/raphael-min.js",
                 "app/assets/javascripts/jstoolbar/"]
 
     rewrite_copyright("js", excluded, :js, args[:arg1])

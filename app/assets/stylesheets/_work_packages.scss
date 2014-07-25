@@ -43,6 +43,10 @@ See doc/COPYRIGHT.rdoc for more details.
   cursor: pointer;
 }
 
+.action-icon {
+  cursor: pointer;
+}
+
 select.to-validate.ng-dirty.ng-valid, input.to-validate.ng-dirty.ng-valid { border:1px solid Green; }
 select.to-validate.ng-dirty.ng-invalid, input.to-validate.ng-dirty.ng-invalid { border:1px solid Red; }
 select.to-validate.ng-dirty.ng-valid ~ span.ok, input.to-validate.ng-dirty.ng-valid ~ span.ok { color:green; display:inline; }

@@ -42,7 +42,11 @@ angular.module('openproject.workPackages.controllers')
   'shareModal',
   'QueryService',
   'AuthorisationService',
-  function($scope, I18n, shareModal, QueryService, AuthorisationService) {
+  '$rootScope',
+  'QUERY_MENU_ITEM_TYPE',
+  'queryMenuItemFactory',
+  'PathHelper',
+  function($scope, I18n, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE, queryMenuItemFactory, PathHelper) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -55,6 +59,27 @@ angular.module('openproject.workPackages.controllers')
   function closeAndReport(message) {
     shareModal.deactivate();
     $scope.$emit('flashMessage', message);
+  }
+
+  function getQueryPath(query) {
+    if (query.project_id) {
+      return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+    } else {
+      return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+    }
+  }
+
+  function addOrRemoveMenuItem(query) {
+    if (!query) return;
+
+    if(query.starred) {
+      queryMenuItemFactory.generateMenuItem(query.name, getQueryPath(query), query.id);
+    } else {
+      $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+        itemType: QUERY_MENU_ITEM_TYPE,
+        objectId: query.id
+      });
+    }
   }
 
   $scope.cannot = AuthorisationService.cannot;
@@ -72,9 +97,11 @@ angular.module('openproject.workPackages.controllers')
         if($scope.query.starred != $scope.shareSettings.starred){
           QueryService.toggleQueryStarred()
             .then(function(data){
-              messageObject.text = messageObject.text + " " + I18n.t('js.work_packages.message_please_refresh');
               closeAndReport(messageObject);
-            });
+
+              return $scope.query;
+            })
+            .then(addOrRemoveMenuItem);
         } else {
           closeAndReport(messageObject);
         }

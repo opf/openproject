@@ -27,26 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%
-possible_project_types = @project ? @project.types : Project.all.map(&:types).reduce{|memo,t| memo & t} || []
-gon.project_types = possible_project_types.map{ |type| [type.id, type.name] }
-# TODO fetch data from API endpoint
-# TODO: move this out of the view
-
-if User.current.allowed_to? :export_work_packages, project, global: project.nil?
-  gon.export_formats = {
-    atom:     url_for(format: 'atom',project_id: project, query_id: (query.new_record? ? nil : query), key: User.current.rss_key),
-    csv:      url_for(format: 'csv', project_id: project),
-    pdf:      url_for(format: 'pdf', project_id: project),
-    pdf_desc: url_for(format: 'pdf', project_id: project, show_descriptions: true)
-  }
-  # I18n.t(:label_pdf_with_descriptions)
-  # call_hook(:view_work_packages_index_other_formats, link_formatter: f, project: project)
-end
-%>
-
-<%= include_gon %>
-
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>

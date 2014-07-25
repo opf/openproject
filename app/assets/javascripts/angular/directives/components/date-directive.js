@@ -29,18 +29,47 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('date', ['I18n', function(I18n) {
+.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
-    replace: false,
-    scope: { date: '=' },
-    template: '<span>{{date}}</span>',
+    replace: true,
+    scope: { dateValue: '=', hideTitle: '@' },
+    template: '<span title="{{ dateTitle }}">{{date}}</span>',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
-
-      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
-      // time to the local timezone or user setting.
-      scope.time = moment(scope.dateTime).utc().format('LL');
+      scope.date = TimezoneService.formattedDate(scope.dateValue);
+      if (!scope.hideTitle) {
+        scope.dateTitle = scope.date;
+      }
     }
   };
-}]);
+}])
+
+.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { timeValue: '=', hideTitle: '@' },
+    template: '<span title="{{ timeTitle }}">{{time}}</span>',
+    link: function(scope, element, attrs) {
+      scope.time = TimezoneService.formattedTime(scope.timeValue);
+      if (!scope.hideTitle) {
+        scope.timeTitle = scope.time;
+      }
+    }
+  };
+}])
+
+.directive('dateTime', function($compile) {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { dateTimeValue: '=' },
+    template: '<span title="{{ date }} {{ time }}"><date date-value="dateTimeValue" hide-title="true"></date> <time time-value="dateTimeValue" hide-title="true"></time></span>',
+    link: function(scope, element, attrs) {
+      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
+      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
+
+      $compile(element.contents())(scope);
+    }
+  };
+});

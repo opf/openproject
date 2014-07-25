@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'layouts/action_menu_specific' %>
 
 <div class="wiki">
-  <%= textilizable Setting.welcome_text %>
+  <%= format_text Setting.welcome_text %>
 </div>
 
 <% if User.current.logged? %>

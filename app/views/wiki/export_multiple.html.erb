@@ -56,7 +56,7 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display
 <% @pages.each do |page| %>
 <hr />
 <a name="<%= h(page.to_param) %>" />
-<%= textilizable page.content ,:text, :wiki_links => :anchor %>
+<%= format_text page.content ,:text, :wiki_links => :anchor %>
 <% end %>
 
 </body>

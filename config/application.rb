@@ -123,6 +123,7 @@ module OpenProject
       jquery-ui/themes/base/jquery-ui.css
       select2/select2.css
       angular-busy/dist/angular-busy.css
+      angular-busy/angular-busy.html
     )
 
     # Enable escaping HTML in JSON.

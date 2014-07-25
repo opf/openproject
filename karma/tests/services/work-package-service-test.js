@@ -31,9 +31,9 @@
 describe('WorkPackageService', function() {
 
   var WorkPackageService;
-  beforeEach(module('openproject.services', 'openproject.models'));
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
 
-  beforeEach(inject(function(_WorkPackageService_){
+  beforeEach(inject(function(_WorkPackageService_, _HALAPIResource_){
     WorkPackageService = _WorkPackageService_;
   }));
 
@@ -59,6 +59,41 @@ describe('WorkPackageService', function() {
 
     it('sends the work package ids to the bulk delete action', function() {
       expect(deleteFunction).to.have.been.calledWith('/work_packages/bulk', { params: { 'ids[]': [1, 2] } });
+    });
+  });
+
+  describe('getWorkPackage', function() {
+    var setupFunction;
+    var workPackageId = 5;
+    var apiResource;
+    var apiFetchResource;
+
+    beforeEach(inject(function($q) {
+      apiResource = {
+        fetch: function() {
+          deferred = $q.defer();
+          deferred.resolve({ id: workPackageId } );
+          return deferred.promise;
+        }
+      }
+    }));
+
+    beforeEach(inject(function(HALAPIResource) {
+      setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
+    }));
+
+    beforeEach(inject(function() {
+      apiFetchResource = WorkPackageService.getWorkPackage(workPackageId);
+    }));
+
+    it('makes an api setup call', function() {
+      expect(setupFunction).to.have.been.calledWith("work_packages/" + workPackageId);
+    });
+
+    it('returns work package', function() {
+      apiFetchResource.then(function(wp){
+        expect(wp.id).to.equal(workPackageId);
+      });
     });
   });
 });

@@ -30,7 +30,7 @@ describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates'));
+    beforeEach(module('templates', 'openproject.api'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;

@@ -28,20 +28,128 @@
 
 angular.module('openproject.workPackages.controllers')
 
+.constant('VISIBLE_LATEST')
+.constant('RELATION_TYPES', {
+  relatedTo: "Relation::Relates",
+  duplicates: "Relation::Duplicates",
+  duplicated: "Relation::Duplicated",
+  blocks: "Relation::Blocks",
+  blocked: "Relation::Blocked",
+  precedes: "Relation::Precedes",
+  follows: "Relation::Follows"
+})
+
 .controller('WorkPackageDetailsController', [
   '$scope',
-  '$stateParams',
-  function($scope, $stateParams) {
-
-    $scope.workPackageId = $stateParams.workPackageId;
-
-    $scope.$watch('rows', function(rows) {
-      if (rows && rows.length > 0) {
-        var row = $scope.rows.find(function(row) {
-          return row.object.id == $scope.workPackageId;
-        });
-        $scope.workPackage = row ? row.object : {};
-      }
+  'latestTab',
+  'workPackage',
+  'I18n',
+  'VISIBLE_LATEST',
+  'RELATION_TYPES',
+  '$q',
+  'WorkPackagesHelper',
+  'ConfigurationService',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, $q, WorkPackagesHelper, ConfigurationService) {
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+      latestTab.registerState(toState.name);
     });
+
+    $scope.$on('workPackageRefreshRequired', function(event, toState){
+      refreshWorkPackage();
+    });
+
+    // initialization
+    setWorkPackageScopeProperties(workPackage);
+
+    $scope.I18n = I18n;
+    $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+    $scope.maxDescriptionLength = 800;
+
+    function refreshWorkPackage() {
+      workPackage.links.self
+        .fetch({force: true})
+        .then(setWorkPackageScopeProperties);
+    }
+    $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
+
+    function outputError(error) {
+      $scope.$emit('flashMessage', {
+        isError: true,
+        text: error.message
+      });
+    }
+    $scope.outputError = outputError; // expose to child controllers
+
+    function setWorkPackageScopeProperties(workPackage){
+      $scope.workPackage = workPackage;
+
+      $scope.isWatched = !!workPackage.links.unwatch;
+      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+      $scope.watchers = workPackage.embedded.watchers;
+
+      // activities and latest activities
+      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      $scope.activities = displayedActivities($scope.workPackage);
+
+      // watchers
+
+      $scope.watchers = workPackage.embedded.watchers;
+      $scope.author = workPackage.embedded.author;
+
+      // Attachments
+      $scope.attachments = workPackage.embedded.attachments;
+
+      // relations
+      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
+        $scope.wpParent = parent;
+      });
+      $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
+        $scope.wpChildren = children;
+      });
+
+      for (var key in RELATION_TYPES) {
+        if (RELATION_TYPES.hasOwnProperty(key)) {
+          (function(key) {
+            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
+              $scope[key] = relations;
+            });
+          })(key);
+        }
+      }
+
+      // Author
+      $scope.author = workPackage.embedded.author;
+    }
+
+    $scope.toggleWatch = function() {
+      $scope.toggleWatchLink
+        .fetch({ ajax: $scope.toggleWatchLink.props })
+        .then(refreshWorkPackage, outputError);
+    };
+
+    $scope.canViewWorkPackageWatchers = function() {
+      return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
+    };
+
+    function displayedActivities(workPackage) {
+      var activities = workPackage.embedded.activities;
+      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+      if ($scope.activitiesSortedInDescendingOrder) {
+        activities.reverse();
+      }
+      return activities;
+    }
+
+    // toggles
+
+    $scope.toggleStates = {
+      hideFullDescription: true,
+      hideAllAttributes: true
+    };
+
+    $scope.editWorkPackage = function() {
+      // TODO: Temporarily going to the old edit dialog until we get in-place editing done
+      window.location = "/work_packages/" + $scope.workPackage.props.id;
+    };
   }
 ]);

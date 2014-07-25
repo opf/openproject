@@ -28,22 +28,45 @@
 
 angular.module('openproject.services')
 
-.service('TimezoneService', [function() {
-  var timezoneOptions = {
-    name: ''
-  };
+.service('TimezoneService', ['ConfigurationService', 'I18n', function(ConfigurationService, I18n) {
   TimezoneService = {
-    setTimezone: function(name) {
-      timezoneOptions.name = name;
-    },
     parseDate: function(date) {
-      var d = moment.utc(date, "MM/DD/YYYY/ HH:mm A");
+      var d = moment.utc(date);
 
-      if (timezoneOptions.name) {
-        d.tz(timezoneOptions.name);
+      if (ConfigurationService.isTimezoneSet()) {
+        d.local();
+        d.tz(ConfigurationService.timezone());
       }
 
       return d;
+    },
+
+    formattedDate: function(date) {
+      var date;
+
+      if (ConfigurationService.dateFormatPresent()) {
+        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
+      } else {
+        moment.lang(I18n.locale);
+
+        date = TimezoneService.parseDate(date).format('L');
+      }
+
+      return date;
+    },
+
+    formattedTime: function(date) {
+      var time;
+
+      if (ConfigurationService.timeFormatPresent()) {
+        time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
+      } else {
+        moment.lang(I18n.locale);
+
+        time = TimezoneService.parseDate(date).format('LT');
+      }
+
+      return time;
     },
   };
 

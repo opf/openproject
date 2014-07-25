@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
   <div class="wiki">
-    <%= textilizable @project.description %>
+    <%= format_text @project.description %>
   </div>
   <ul>
     <% if @project.homepage.present? %>

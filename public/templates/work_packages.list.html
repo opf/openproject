@@ -1,7 +1,8 @@
 <div class="toolbar-container">
   <div toolbar id="toolbar">
     <selectable-title selected-title="selectedTitle"
-                      groups="groups">
+                      groups="groups"
+                      transition-method="setQueryState">
     </selectable-title>
 
     <ul id="toolbar-items">
@@ -33,8 +34,8 @@
           </li>
           <li feature-flag="detailsView">
             <button class="button"
-                    ui-sref="work-packages.list.details({})"
-                    ui-sref-active="active">
+                    ng-class="{ active: $state.includes('work-packages.list.details') }"
+                    ng-click="openLatestTab()">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
           </li>
@@ -131,6 +132,6 @@
     <modal-loading>
     </modal-loading>
   </div>
-  <div class="work-packages--details" ui-view
+  <div class="work-packages--details" ui-view ng-show="workPackage"
     feature-flag="detailsView"></div>
 </div>
