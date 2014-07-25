@@ -9,5 +9,5 @@ Subscribem.configure do |c|
   c.api_user                = ENV['SUBSCRIBEM_API_USER']
   c.api_password            = ENV['SUBSCRIBEM_API_PASSWORD']
   # Allow using dots instead of newlines as newlines in environment variables make problems
-  c.access_token_public_key = ENV['SUBSCRIBEM_ACCESS_TOKEN_PUBLIC_KEY'].try(:gsub, '.', "\n")
+  c.access_token_public_key = OpenSSL::PKey::RSA.new(ENV['SUBSCRIBEM_ACCESS_TOKEN_PUBLIC_KEY'].try(:gsub, '.', "\n"))
 end if defined? Subscribem
