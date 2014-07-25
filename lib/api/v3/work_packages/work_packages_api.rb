@@ -50,6 +50,21 @@ module API
 
             end
 
+            resource :available_assignees do
+
+              get do
+                authorize(:add_work_packages, context: @work_package.project) \
+                  || authorize(:edit_work_packages, context: @work_package.project)
+
+                available_assignees = @work_package.assignable_assignees
+                build_representer(available_assignees,
+                                  ::API::V3::Users::UserModel,
+                                  ::API::V3::Watchers::WatchersRepresenter,
+                                  as: :available_assignees)
+              end
+
+            end
+
             mount ::API::V3::WorkPackages::WatchersAPI
           end
 
