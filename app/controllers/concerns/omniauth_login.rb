@@ -1,3 +1,5 @@
+require 'uri'
+
 ##
 # Intended to be used by the AccountController to handle omniauth logins
 module Concerns::OmniauthLogin
@@ -46,8 +48,8 @@ module Concerns::OmniauthLogin
     OpenProject::Configuration['omniauth_direct_login_provider']
   end
 
-  def self.direct_login_provider_url
-    "/auth/#{direct_login_provider}" if direct_login?
+  def self.direct_login_provider_url(params = {})
+    url_with_params "/auth/#{direct_login_provider}", params if direct_login?
   end
 
   private
@@ -136,5 +138,15 @@ module Concerns::OmniauthLogin
       flash[:error] = I18n.t(:error_omniauth_registration_timed_out)
       redirect_to(signin_url)
     end
+  end
+
+  def self.url_with_params(url, params = {})
+    URI.parse(url).tap do |uri|
+      query = URI.decode_www_form(uri.query || '')
+      params.each do |key, value|
+        query << [key, value]
+      end
+      uri.query = URI.encode_www_form(query) unless query.empty?
+    end.to_s
   end
 end

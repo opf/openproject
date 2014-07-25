@@ -43,7 +43,7 @@ class AccountController < ApplicationController
     if User.current.logged?
       redirect_to home_url
     elsif Concerns::OmniauthLogin.direct_login?
-      redirect_to Concerns::OmniauthLogin.direct_login_provider_url
+      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(origin: params[:back_url])
     elsif request.post?
       authenticate_user
     end
