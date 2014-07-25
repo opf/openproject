@@ -29,12 +29,12 @@
 
 module API
   module V3
-    module Watchers
-      class WatchersRepresenter < ::API::Decorators::Collection
+    module Users
+      class UsersRepresenter < ::API::Decorators::Collection
 
-        collection :watchers, as: -> (*) { as || :watchers }, exec_context: :decorator, embedded: true
+        collection :users, as: -> (*) { as || :users }, exec_context: :decorator, embedded: true
 
-        def watchers
+        def users
           represented.map { |model| ::API::V3::Users::UserRepresenter.new(model) }
         end
       end
