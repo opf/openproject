@@ -36,11 +36,18 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include ActionView::Helpers::UrlHelper
+        include OpenProject::TextFormatting
+        include OpenProject::StaticRouting::UrlHelpers
+        include WorkPackagesHelper
+        include GravatarImageTag
+
+        # N.B. required by ActionView::Helpers::UrlHelper
+        def controller; nil; end
 
         model :work_package
 
         property :subject, on: :work_package, type: String
-        property :description, on: :work_package, type: String
         property :start_date, on: :work_package, type: Date
         property :due_date, on: :work_package, type: Date
         property :created_at, on: :work_package, type: DateTime
@@ -50,6 +57,22 @@ module API
         property :responsible_id, on: :work_package, type: Integer
         property :assigned_to_id, on: :work_package, type: Integer
         property :fixed_version_id, on: :work_package, type: Integer
+
+        def work_package
+          model[:work_package]
+        end
+
+        def description
+          format_text(work_package, :description)
+        end
+
+        def raw_description
+          work_package.description
+        end
+
+        def raw_description=(value)
+          work_package.description = value
+        end
 
         def type
           work_package.type.try(:name)
@@ -97,6 +120,37 @@ module API
 
         def percentage_done=(value)
           work_package.done_ratio = value
+        end
+
+        def author
+          ::API::V3::Users::UserModel.new(work_package.author)  unless work_package.author.nil?
+        end
+
+        def responsible
+          ::API::V3::Users::UserModel.new(work_package.responsible) unless work_package.responsible.nil?
+        end
+
+        def assignee
+          ::API::V3::Users::UserModel.new(work_package.assigned_to) unless work_package.assigned_to.nil?
+        end
+
+        def activities
+          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
+        end
+
+        def attachments
+          work_package.attachments
+            .map{ |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
+        end
+
+        def watchers
+          work_package.watcher_users
+            .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+            .map{ |u| ::API::V3::Users::UserModel.new(u) }
+        end
+
+        def relations
+          work_package.relations.map{ |relation| RelationModel.new(relation) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status

@@ -31,18 +31,86 @@
 describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
+  var I18n = { t: angular.identity },
+      WorkPackagesHelper = {
+        formatWorkPackageProperty: angular.identity
+      },
+      UserService = {
+        getUser: angular.identity
+      },
+      CustomFieldHelper = {
+        formatCustomFieldValue: angular.identity
+      },
+      workPackage = {
+        props: {
+          status: 'open',
+          versionName: null,
+          customProperties: [
+            { format: 'text', name: 'color', value: 'red' },
+          ]
+        },
+        embedded: {
+          activities: [],
+          watchers: [],
+          attachments: [],
+          relations: [
+            {
+              props: {
+                _type: "Relation::Relates"
+              },
+              links: {
+                relatedFrom: {
+                  fetch: sinon.spy()
+                },
+                relatedTo: {
+                  fetch: sinon.spy()
+                }
+              }
+            }
+          ]
+        },
+        links: {
+          self: "it's a me, it's... you know...",
+          availableWatchers: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+        link: {
+          addWatcher: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+      };
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  function buildWorkPackageWithId(id) {
+    angular.extend(workPackage.props, {id: id});
+    return workPackage;
+  }
+
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
-    scope = $rootScope.$new();
+    var workPackageId = 99;
 
     buildController = function() {
+      scope = $rootScope.$new();
+
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
-        $stateParams: { workPackageId: 99 }
+        $stateParams: { workPackageId: workPackageId },
+        latestTab: {},
+        I18n: I18n,
+        ConfigurationService: {
+          commentsSortedInDescendingOrder: function() {
+            return false;
+          }
+        },
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
+        },
+        workPackage: buildWorkPackageWithId(workPackageId),
       });
 
-      // $timeout.flush();
+      $timeout.flush();
     };
 
   }));
@@ -52,5 +120,42 @@ describe('WorkPackageDetailsController', function() {
       buildController();
     });
   });
+
+  describe('#scope.canViewWorkPackageWatchers', function() {
+    describe('when the work package does not contain the embedded watchers property', function() {
+      beforeEach(function() {
+        workPackage.embedded.watchers = undefined;
+        buildController();
+      })
+
+      it('returns false', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.false;
+      });
+    });
+
+    describe('when the work package contains the embedded watchers property', function() {
+      beforeEach(function() {
+        workPackage.embedded.watchers = [];
+        buildController();
+      })
+
+      it('returns true', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.true;
+      });
+    });
+  });
+
+  describe('work package properties', function() {
+    describe('relations', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('Relation::Relates', function() {
+        expect(scope.relatedTo.length).to.eq(1);
+      });
+    });
+  });
+
 
 });

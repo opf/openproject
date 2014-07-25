@@ -28,9 +28,11 @@
 #++
 
 class UserMailer < ActionMailer::Base
-  helper :application,  # for textilizable
+  helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
+
+  include OpenProject::LocaleHelper
 
   # wrap in a lambda to allow changing at run-time
   default :from => Proc.new { Setting.mail_from }
@@ -390,11 +392,6 @@ private
 
   def references(object, user)
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
-  end
-
-  def with_locale_for(user, &block)
-    locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
-    I18n.with_locale(locale, &block)
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication

@@ -1022,6 +1022,9 @@ en:
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
 
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -1252,6 +1255,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
@@ -1585,6 +1589,7 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
+    authorization_rejected: "You are not allowed to sign in."
 
 
   version_status_closed: "closed"

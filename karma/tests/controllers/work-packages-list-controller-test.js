@@ -33,7 +33,7 @@ describe('WorkPackagesListController', function() {
      testProjectService, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
+  beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
@@ -125,6 +125,7 @@ describe('WorkPackagesListController', function() {
     };
 
     testParams = {};
+    testState = {};
 
     buildController = function() {
       scope.projectIdentifier = 'test';
@@ -135,7 +136,9 @@ describe('WorkPackagesListController', function() {
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService,
-        $stateParams:       testParams
+        $stateParams:       testParams,
+        $state:             testState,
+        latestTab: {}
       });
     };
 

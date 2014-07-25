@@ -38,7 +38,21 @@ angular.module('openproject')
       url: '{projectPath:.*}/work_packages?query_id',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
+      controller: 'WorkPackagesController',
+      resolve: {
+        latestTab: function($state) {
+          var stateName = 'work-packages.list.details.overview'; // the default tab
+
+          return {
+            getStateName: function() {
+              return stateName;
+            },
+            registerState: function() {
+              stateName = $state.current.name;
+            }
+          };
+        }
+      }
     })
     .state('work-packages.list', {
       url: "",
@@ -48,7 +62,34 @@ angular.module('openproject')
     .state('work-packages.list.details', {
       url: "/{workPackageId:[0-9]+}",
       templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
+      controller: 'WorkPackageDetailsController',
+      resolve: {
+        workPackage: function(WorkPackageService, $stateParams) {
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+        }
+      }
+    })
+    .state('work-packages.list.details.overview', {
+      url: "/overview",
+      controller: 'DetailsTabOverviewController',
+      templateUrl: "/templates/work_packages/tabs/overview.html",
+    })
+    .state('work-packages.list.details.activity', {
+      url: "/activity",
+      templateUrl: "/templates/work_packages/tabs/activity.html",
+    })
+    .state('work-packages.list.details.relations', {
+      url: "/relations",
+      templateUrl: "/templates/work_packages/tabs/relations.html",
+    })
+    .state('work-packages.list.details.watchers', {
+      url: "/watchers",
+      controller: 'DetailsTabWatchersController',
+      templateUrl: "/templates/work_packages/tabs/watchers.html"
+    })
+    .state('work-packages.list.details.attachments', {
+      url: "/attachments",
+      templateUrl: "/templates/work_packages/tabs/attachments.html",
     });
 }])
 

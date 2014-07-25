@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki">
-<%= textilizable(@news.description, :object => @news) %>
+<%= format_text(@news.description, :object => @news) %>
 </div>
 <br />
 
@@ -78,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               :alt     => l(:button_delete) %>
   </div>
   <h4 class="comment"><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
-  <%= textilizable(comment.comments, :object => comment) %>
+  <%= format_text(comment.comments, :object => comment) %>
 <% end %>
 </div>
 

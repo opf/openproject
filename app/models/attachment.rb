@@ -40,6 +40,7 @@ class Attachment < ActiveRecord::Base
 
   validates_presence_of :container, :filename, :author, :content_type
   validates_length_of :filename, :maximum => 255
+  validates_length_of :description, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
   validate :filesize_below_allowed_maximum

@@ -44,7 +44,7 @@ end
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.18"
+gem "rails", "~> 3.2.19"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -52,6 +52,7 @@ gem "rdoc", ">= 2.4.2"
 gem 'globalize'
 gem 'omniauth'
 gem 'request_store'
+gem 'gravatar_image_tag'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
@@ -106,7 +107,7 @@ group :production do
 end
 
 gem 'sprockets',        '2.2.2.backport2'
-gem 'sprockets-rails',  '2.0.0.backport1'
+gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.3.6'
@@ -181,22 +182,25 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.0.0'
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
-  gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
-  gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
 end
 
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
+  gem 'pry-rescue'
+  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
+  gem 'pry-doc'
+end
+
 # API gems
 gem 'grape', '~> 0.7.0'
 gem 'representable', git: 'https://github.com/finnlabs/representable'
 gem 'roar',   '~> 0.12.6'
-gem 'reform', require: false
+gem 'reform', '~> 1.0.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

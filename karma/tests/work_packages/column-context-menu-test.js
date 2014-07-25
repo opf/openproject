@@ -35,6 +35,7 @@ describe('columnContextMenu', function() {
                     'openproject.workPackages',
                     'openproject.workPackages.controllers',
                     'openproject.models',
+                    'openproject.api',
                     'templates'));
 
   beforeEach(function() {

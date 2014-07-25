@@ -29,13 +29,18 @@ module.exports = function(config) {
       "vendor/assets/components/angular-truncate/src/truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
+      "vendor/assets/components/moment-timezone/moment-timezone.js",
       "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
       'vendor/assets/components/select2/select2.js',
+      'vendor/assets/components/hyperagent/dist/hyperagent.js',
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
 
+      "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
+
       "app/assets/javascripts/angular/openproject-app.js",
       "app/assets/javascripts/angular/config/work-packages-config.js",
+      "app/assets/javascripts/angular/config/configuration-service.js",
 
       "app/assets/javascripts/angular/controllers/**/*.js",
       "app/assets/javascripts/angular/dialogs/**/*.js",
@@ -43,6 +48,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/filters/**/*.js',
       "app/assets/javascripts/angular/models/**/*.js",
       "app/assets/javascripts/angular/directives/**/*.js",
+      'app/assets/javascripts/angular/api/**/*.js',
       'app/assets/javascripts/angular/services/**/*.js',
 
       "app/assets/javascripts/angular/layout/**/*.js",

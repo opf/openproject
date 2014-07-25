@@ -26,19 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
-.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+.directive('exclusiveEdit', function() {
   return {
     restrict: 'EA',
-    replace: false,
-    scope: { formattedDate: '=' },
-    template: '<span>{{time}}</span>',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
-
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
+    replace: true,
+    transclude: true,
+    template: '<div class="exclusive-edit" ng-transclude></div>',
+    controller: function() {
+      var editors = [];
+      this.gotEditable = function(selectedEditor) {
+        angular.forEach(editors, function(editor) {
+          if (selectedEditor != editor) {
+            editor.inEdit = false; }
+          });
+      };
+      this.addEditable = function(editor) {
+        editors.push(editor);
+      };
     }
   };
-}]);
+})
