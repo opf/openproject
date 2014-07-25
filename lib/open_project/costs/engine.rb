@@ -17,8 +17,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-# Prevent load-order problems in case openproject-plugins is listed after a plugin in the Gemfile
-# or not at all
 require 'open_project/plugins'
 
 module OpenProject::Costs
