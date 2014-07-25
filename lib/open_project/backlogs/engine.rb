@@ -33,8 +33,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Prevent load-order problems in case openproject-plugins is listed after a plugin in the Gemfile
-# or not at all
 require 'open_project/plugins'
 
 require 'acts_as_silent_list'
