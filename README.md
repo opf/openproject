@@ -26,10 +26,6 @@ version 3.0.0 or newer.
 Installation
 ------------
 
-OpenProject Global Roles depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` in your OpenProject installation:
-
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
-
 For OpenProject Global Roles itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
 
 `gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable"`
