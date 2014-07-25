@@ -1,0 +1,10 @@
+<fieldset ng-class="{true: 'collapsed', false: ''}[collapsed]" class="collapsible">
+  <legend ng-click="toggle()">
+    <a>
+      {{caption}}
+      <span class="hidden-for-sighted">{{statusTitle}}</span>
+    </a>
+  </legend>
+  <div ng-transclude slide-toggle collapsed="collapsed">
+  </div>
+</fieldset>

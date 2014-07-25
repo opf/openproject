@@ -40,6 +40,13 @@ angular.module('openproject.models', [
   'openproject.services'
 ]);
 
+// uiComponents
+angular.module('openproject.uiComponents', [
+  'openproject.uiComponents.config'
+]);
+angular.module('openproject.uiComponents.config', []);
+
+
 // timelines
 angular.module('openproject.timelines', [
   'openproject.timelines.controllers',
