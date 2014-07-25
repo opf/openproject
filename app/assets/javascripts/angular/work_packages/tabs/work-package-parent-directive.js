@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageChildren', [
+.directive('workPackageParent', [
     'I18n',
     'PathHelper',
     'WorkPackageService',
@@ -42,36 +42,26 @@ angular.module('openproject.uiComponents')
     scope: {
       title: '@',
       workPackage: '=',
-      children: '=',
+      parent: '=',
       btnTitle: '@buttonTitle',
       btnIcon: '@buttonIcon'
     },
-    templateUrl: '/templates/work_packages/tabs/_work_package_children.html',
+    templateUrl: '/templates/work_packages/tabs/_work_package_parent.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.childrenCount = scope.children.length || 0;
       scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {
-        scope.expand = scope.children && scope.children.length > 0;
+        scope.expand = !!scope.parent;
       };
 
-      scope.$watch('children', function() {
+      scope.$watch('parent', function() {
         setExpandState();
       });
 
       scope.$watch('expand', function(newVal, oldVal) {
         scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
       });
-
-      scope.addChild = function() {
-        // Temporarily go to old create view with parent_id set to currently viewed work package
-        window.location = PathHelper.staticWorkPackageNewWithParentPath(scope.workPackage.props.projectId, scope.workPackage.props.id);
-      }
-
-      scope.deleteChild = function() {
-        //TODO: Requires API endpoint for update work package
-      }
     }
   };
 }]);

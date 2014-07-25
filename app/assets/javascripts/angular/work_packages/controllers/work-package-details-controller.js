@@ -100,8 +100,8 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
-        $scope.wpParent = []//parent; //TODO RS: This is broken since parent/children aren't relations
+      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
+        $scope.wpParent = parents.length ? parents[0] : null;
       });
 
       $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
