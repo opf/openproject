@@ -59,7 +59,7 @@ module API
                 available_assignees = @work_package.assignable_assignees
                 build_representer(available_assignees,
                                   ::API::V3::Users::UserModel,
-                                  ::API::V3::Users::UsersRepresenter,
+                                  ::API::V3::Users::UserCollectionRepresenter,
                                   as: :available_assignees)
               end
 
