@@ -2,18 +2,12 @@
 
 Adds support for easy integration of OmniAuth strategy providers as a means to authenticate users in OpenProject.
 
-## Dependencies
-
-This plugin depends on the OpenProject Plugins plugin, so insert it into your `Gemfile.plugins` before the auth_plugins plugin itself:
-
-    gem 'openproject-plugins', :git => 'git@github.com:opf/openproject-plugins.git', :branch => 'dev'
-
 ## Usage
 
     gem 'openproject-auth_plugins', :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'stable'
 
 You can use this plugin to make an authentication plugin out of an ordinary OpenProject plugin.
-The first step is to [generate a new plugin](https://github.com/opf/openproject-plugins#generator) using the Plugins plugin.
+The first step is to generate a new plugin.
 Once you have done that it only takes a few additions to make it an authentication plugin.
 Find your Engine class in `engine.rb`, let it extend `OpenProject::Plugin::AuthPlugin` and register the providers you want to use.
 
