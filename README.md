@@ -20,11 +20,6 @@ OpenProject's `Gemfile.plugin`:
 Installation
 ------------
 
-OpenProject PDF Export depends on OpenProject Plugins. Thus, if you haven't done
-it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
-
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
-
 For OpenProject PDF Export itself you need to add the following line to the
 `Gemfile.plugins` of the project which is using the plugin:
 
