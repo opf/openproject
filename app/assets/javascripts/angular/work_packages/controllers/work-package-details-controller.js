@@ -103,8 +103,9 @@ angular.module('openproject.workPackages.controllers')
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
         $scope.wpParent = []//parent; //TODO RS: This is broken since parent/children aren't relations
       });
+
       $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
-        $scope.wpChildren = []//children; //TODO RS: This is broken since parent/children aren't relations
+        $scope.wpChildren = children;
       });
 
       for (var key in RELATION_TYPES) {

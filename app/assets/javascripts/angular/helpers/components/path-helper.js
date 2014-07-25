@@ -126,9 +126,11 @@ angular.module('openproject.helpers')
     subProjectsPath: function() {
       return '/sub_projects';
     },
-
     workPackagesBulkDeletePath: function() {
       return PathHelper.workPackagesPath() + '/bulk';
+    },
+    workPackageAutoCompletePath: function(projectId, workPackageId) {
+      return "/work_packages/auto_complete?escape=false&id=" + workPackageId + "&project_id=" + projectId;
     },
 
     // Experimental API

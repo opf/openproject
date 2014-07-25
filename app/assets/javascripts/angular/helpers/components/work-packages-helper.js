@@ -170,6 +170,29 @@ angular.module('openproject.workPackages.helpers')
       } else {
         return relation.links.relatedTo.fetch();
       }
+    },
+
+    //Note: The following methods are display helpers and so don't really belong here but are shared between
+    // directives so it's probably the best place for them just now.
+    getFullIdentifier: function(workPackage) {
+      var id = '#' + workPackage.props.id;
+      if (workPackage.props.type) {
+        id += ' ' + workPackage.props.type + ':';
+      }
+      id += ' ' + workPackage.props.subject;
+
+      return id;
+    },
+
+    collapseStateIcon: function(collapsed) {
+      var iconClass = 'icon-arrow-right5-';
+      if (collapsed) {
+        iconClass += '3';
+      } else {
+        iconClass += '2';
+      }
+
+      return iconClass;
     }
   };
 

@@ -29,36 +29,35 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageRelations', [
+.directive('workPackageChildren', [
     'I18n',
     'PathHelper',
     'WorkPackageService',
     'WorkPackagesHelper',
-    'PathHelper',
     '$timeout',
-    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, PathHelper, $timeout) {
+    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       title: '@',
       workPackage: '=',
-      relations: '=',
+      children: '=',
       relationIdentifier: '=',
       btnTitle: '@buttonTitle',
-      btnIcon: '@buttonIcon',
-      isSingletonRelation: '@singletonRelation'
+      btnIcon: '@buttonIcon'
     },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
+    templateUrl: '/templates/work_packages/tabs/_work_package_children.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.relationsCount = scope.relations.length || 0;
+      scope.childrenCount = scope.children.length || 0;
+      scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {
-        scope.expand = scope.relations && scope.relations.length > 0;
+        scope.expand = scope.children && scope.children.length > 0;
       };
 
-      scope.$watch('relations', function() {
+      scope.$watch('children', function() {
         setExpandState();
       });
 
@@ -66,31 +65,29 @@ angular.module('openproject.uiComponents')
         scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
       });
 
-      scope.addRelation = function() {
-        // Note: Cannot use scope.relationToId because ng-model doesn't notice when the automcompleter changes the input
-        var inputElement = angular.element('#relation_to_id-' + scope.relationIdentifier);
-        var toId = inputElement.val();
-        WorkPackageService.addWorkPackageRelation(scope.workPackage, toId, scope.relationIdentifier).then(function(relation) {
-            inputElement.val('');
-            scope.$emit('workPackageRefreshRequired', '');
-        });
+      scope.addChild = function() {
+        // TODO
+      }
+
+      scope.deleteChild = function() {
+        //TODO
       }
 
       // Massive hack alert - Using old prototype autocomplete ///////////
-      $timeout(function(){
-        var url = PathHelper.workPackageAutoCompletePath(scope.workPackage.props.projectId, scope.workPackage.props.id);
-        new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
-                               'related_issue_candidates-' + scope.relationIdentifier,
-                               url,
-                               { minChars: 1,
-                                 frequency: 0.5,
-                                 paramName: 'q',
-                                 updateElement: function(value) {
-                                   document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
-                                 },
-                                 parameters: 'scope=all'
-                                 });
-      });
+      // $timeout(function(){
+      //   var url = "/work_packages/auto_complete?escape=false&id=" + scope.workPackage.props.id + "&project_id=" + scope.workPackage.props.projectId;
+      //   new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
+      //                          'related_issue_candidates-' + scope.relationIdentifier,
+      //                          url,
+      //                          { minChars: 1,
+      //                            frequency: 0.5,
+      //                            paramName: 'q',
+      //                            updateElement: function(value) {
+      //                              document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
+      //                            },
+      //                            parameters: 'scope=all'
+      //                            });
+      // });
       ////////////////////////////////////////////////////////////////////
     }
   };

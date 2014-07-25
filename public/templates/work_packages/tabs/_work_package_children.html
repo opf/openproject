@@ -1,11 +1,11 @@
 <div class="relation">
   <h3 ng-click="expand=!expand">
     <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
-    <span ng-if="!isSingletonRelation">({{ relationsCount }})</span>
+    <span ng-if="!isSingletonRelation">({{ childrenCount }})</span>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">
-      <div ng-if="relations">
+      <div ng-if="children">
         <table>
           <thead>
             <tr>
@@ -16,33 +16,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr related-work-package-table-row
-                ng-repeat="relation in relations">
+            <tr ng-repeat="workPackage in children">
               <td>
-                <a href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
-                  {{ fullIdentifier }}
+                <a href="{{ workPackagePath(workPackage.props.id) }}">
+                  {{ getFullIdentifier(workPackage) }}
                 </a>
               </td>
-              <td>{{ relatedWorkPackage.props.status }}</td>
+              <td>{{ workPackage.props.status }}</td>
               <td>
-                <a href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
-                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+                <a href="{{ userPath(workPackage.embedded.assignee.props.id) }}">
+                  {{ workPackage.embedded.assignee.props.name }}
                 </a>
               </td>
-              <td><i title="delete relation" class="delete-item icon-delete" ng-click="removeRelation()"></i></td>
+              <td><i title="delete relation" class="delete-item icon-delete" ng-click="removeChild()"></i></td>
             </tr>
-
           </tbody>
         </table>
       </div>
-      <div ng-if="!relations || relations.length === 0">
-        No relation exists
+      <div ng-if="!children || children.length === 0">
+        No child work packages
       </div>
     </div>
     <button class="button"
             title="{{ btnTitle }}"
             ng-bind-html="btnIcon + ' ' + btnTitle"
-            ng-click="addRelation()">
+            ng-click="addChild()">
     </button>
     <input id="relation_to_id-{{ relationIdentifier }}"
            name="relation[to_id][{{ relationIdentifier }}]"
