@@ -49,7 +49,8 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/work_packages/tabs/_work_package_children.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.childrenCount = scope.children.length || 0;
+      scope.userPath = PathHelper.staticUserPath;
+      scope.workPackagePath = PathHelper.staticWorkPackagePath;
       scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {
@@ -58,6 +59,7 @@ angular.module('openproject.uiComponents')
 
       scope.$watch('children', function() {
         setExpandState();
+        scope.childrenCount = scope.children.length || 0;
       });
 
       scope.$watch('expand', function(newVal, oldVal) {

@@ -35,8 +35,9 @@ angular.module('openproject.uiComponents')
     'WorkPackageService',
     'WorkPackagesHelper',
     'PathHelper',
+    'ApiHelper',
     '$timeout',
-    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, PathHelper, $timeout) {
+    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, PathHelper, ApiHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
@@ -52,7 +53,6 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.relationsCount = scope.relations.length || 0;
 
       var setExpandState = function() {
         scope.expand = scope.relations && scope.relations.length > 0;
@@ -60,6 +60,7 @@ angular.module('openproject.uiComponents')
 
       scope.$watch('relations', function() {
         setExpandState();
+        scope.relationsCount = scope.relations.length || 0;
       });
 
       scope.$watch('expand', function(newVal, oldVal) {
@@ -67,14 +68,15 @@ angular.module('openproject.uiComponents')
       });
 
       scope.addRelation = function() {
-        // Note: Cannot use scope.relationToId because ng-model doesn't notice when the automcompleter changes the input
         var inputElement = angular.element('#relation_to_id-' + scope.relationIdentifier);
         var toId = inputElement.val();
         WorkPackageService.addWorkPackageRelation(scope.workPackage, toId, scope.relationIdentifier).then(function(relation) {
             inputElement.val('');
             scope.$emit('workPackageRefreshRequired', '');
+        }, function(error) {
+          ApiHelper.handleError(scope, error);
         });
-      }
+      };
 
       // Massive hack alert - Using old prototype autocomplete ///////////
       $timeout(function(){

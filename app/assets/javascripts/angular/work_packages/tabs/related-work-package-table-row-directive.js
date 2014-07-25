@@ -52,8 +52,10 @@ angular.module('openproject.uiComponents')
           scope.removeRelation = function() {
             WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
               scope.$emit('workPackageRefreshRequired', '');
+            }, function(error) {
+              ApiHelper.handleError(scope, error);
             });
-          }
+          };
 
           function getFullIdentifier(workPackage) {
             var id = '#' + workPackage.props.id;
