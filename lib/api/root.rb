@@ -60,17 +60,18 @@ module API
       end
     end
 
-    rescue_from :all do |e|
-      case e.class.to_s
-      when 'API::Errors::Validation', 'API::Errors::UnwritableProperty', 'API::Errors::Unauthorized', 'API::Errors::Unauthenticated'
-        Rack::Response.new(e.to_json, e.code, e.headers).finish
-      when 'ActiveRecord::RecordNotFound'
-        not_found = API::Errors::NotFound.new(e.message)
-        Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
-      when 'ActiveRecord::RecordInvalid'
-        error = API::Errors::Validation.new(e.record)
-        Rack::Response.new(error.to_json, error.code, error.headers).finish
-      end
+    rescue_from ActiveRecord::RecordInvalid do |e|
+      error = API::Errors::Validation.new(e.record)
+      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      error = API::Errors::NotFound.new(e.message)
+      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    end
+
+    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated, API::Errors::Validation do |e|
+      Rack::Response.new(e.to_json, e.code, e.headers).finish
     end
 
     # run authentication before each request
