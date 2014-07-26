@@ -41,11 +41,12 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attrs) {
       scope.title = I18n.t('js.label_add_comment_title');
       scope.buttonTitle = I18n.t('js.label_add_comment');
+      scope.canAddComment = !!scope.workPackage.links.addComment;
 
       scope.createComment = function() {
         var comment = angular.element('#add-comment-text').val();
         var descending = ConfigurationService.commentsSortedInDescendingOrder();
-        ActivityService.createComment(scope.workPackage.props.id, scope.activities, descending, comment)
+        ActivityService.createComment(scope.workPackage, scope.activities, descending, comment)
           .then(function(response){
             angular.element('#add-comment-text').val('');
             return response;

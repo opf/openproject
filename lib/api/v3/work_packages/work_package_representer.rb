@@ -109,6 +109,14 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
+        link :addComment do
+          {
+              href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
+              method: :post,
+              title: 'Add comment'
+          } if current_user_allowed_to(:add_work_package_notes, represented.work_package)
+        end
+
         link :parent do
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
@@ -146,13 +154,17 @@ module API
         property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
-        collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
+        property :activities, embedded: true, exec_context: :decorator
         property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.work_package) }
         collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
 
         def _type
           'WorkPackage'
+        end
+
+        def activities
+          represented.activities.map{ |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
         end
 
         def watchers
