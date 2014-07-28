@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -e
+
+TARGET=${TARGET:=$ORIGINAL_PWD}
+TARGET=${TARGET:=$(pwd)}
+TARGET="/var/db/openproject/backup"
+
+mkdir -p "${TARGET}"
+
+timestamp=$(date +"%Y%m%d%H%M%S")
+
+echo -n "* Generating database backup..." >&2
+
+tmpfile=$(mktemp)
+
+database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
+
+ruby -ruri -e '
+  uri = URI(ENV["DATABASE_URL"])
+  config=<<CONFIG
+[client]
+password="#{uri.password}"
+user="#{uri.user}"
+host="#{uri.host}"
+port="#{uri.port}"
+CONFIG
+  puts config' > ${tmpfile}
+
+dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
+mysqldump --defaults-file=${tmpfile} --single-transaction "${database}" | gzip > "$dst"
+echo " done" >&2
+echo "$dst"
+rm -f ${tmpfile}
+
+if [ -d "$SVN_REPOSITORIES" ]; then
+  dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
+  echo -n "* Generating SVN repositories backup..." >&2 
+  if tar czf "$dst" -C "${SVN_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No SVN repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
+  dst="${TARGET}/attachments-${timestamp}.tar.gz"
+  echo -n "* Generating attachments backup..." >&2
+  if tar czf "$dst" -C "${ATTACHMENTS_STORAGE_PATH}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No attachments folder. Ignoring." >&2
+fi
+

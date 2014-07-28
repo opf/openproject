@@ -1,0 +1,69 @@
+#!/bin/sh
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+APP_NAME="openproject"
+CLI="${APP_NAME}"
+
+# source debconf library
+. /usr/share/debconf/confmodule
+
+case "$1" in
+
+  configure)
+    rake_commands="db:migrate"
+    if [ "$2" = "" ]; then
+      rake_commands="${rake_commands} db:seed"
+    fi
+
+    # create attachments folder
+    attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/openproject/files")
+    mkdir -p "${attachments_path}"
+    chown ${APP_NAME}.${APP_NAME} "${attachments_path}"
+    ${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
+
+    # set SECRET_TOKEN env variable
+    secret_token=$(${CLI} config:get SECRET_TOKEN || ( < /dev/urandom tr -dc a-z0-9 | head -c128; echo ))
+    ${CLI} config:set SECRET_TOKEN="$secret_token"
+
+    # migrate
+    ${CLI} run rake ${rake_commands} || true
+
+    sys_api_key=$(${CLI} config:get SYS_API_KEY)
+
+    # set various settings
+    db_get openproject/server/hostname
+    if [ -z "$RET" ]; then web_hostname=$(hostname -f); else web_hostname="$RET"; fi
+    db_get openproject/server/ssl
+    if [ "$RET" = "true" ]; then web_protocol="https"; else web_protocol="http"; fi
+
+    ${CLI} run rake setting:set[host_name=${web_hostname},protocol=${web_protocol},sys_api_enabled=1,sys_api_key=${sys_api_key}] 1>/dev/null
+
+    # scale
+    ${CLI} scale web=1 worker=1 || true
+
+    # let the admin reboot when he's ready
+  ;;
+
+  abort-upgrade|abort-remove|abort-deconfigure)
+    exit 0
+  ;;
+
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
