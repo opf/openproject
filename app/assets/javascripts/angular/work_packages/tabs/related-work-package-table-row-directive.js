@@ -37,40 +37,35 @@ angular.module('openproject.workPackages.tabs')
     function(I18n, PathHelper, WorkPackagesHelper, WorkPackageService) {
   return {
     restrict: 'A',
-    compile: function(tElement){
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          scope.I18n = I18n;
-          scope.workPackagePath = PathHelper.staticWorkPackagePath;
-          scope.userPath = PathHelper.staticUserPath;
+    link: function(scope) {
+      scope.I18n = I18n;
+      scope.workPackagePath = PathHelper.staticWorkPackagePath;
+      scope.userPath = PathHelper.staticUserPath;
 
-          WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
-            scope.relatedWorkPackage = relatedWorkPackage;
-            scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
-          });
+      WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
+        scope.relatedWorkPackage = relatedWorkPackage;
+        scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
+      });
 
-          scope.removeRelation = function() {
-            WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
-              scope.$emit('workPackageRefreshRequired', '');
-            }, function(error) {
-              ApiHelper.handleError(scope, error);
-            });
-          };
+      scope.removeRelation = function() {
+        WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
+          scope.$emit('workPackageRefreshRequired', '');
+        }, function(error) {
+          ApiHelper.handleError(scope, error);
+        });
+      };
 
-          function getFullIdentifier(workPackage) {
-            var id = '#' + workPackage.props.id;
+      function getFullIdentifier(workPackage) {
+        var id = '#' + workPackage.props.id;
 
-            if (workPackage.props.type) {
-              id += ' ' + workPackage.props.type + ':';
-            }
-
-            id += ' ' + workPackage.props.subject;
-
-            return id;
-          };
-
+        if (workPackage.props.type) {
+          id += ' ' + workPackage.props.type + ':';
         }
-      }
+
+        id += ' ' + workPackage.props.subject;
+
+        return id;
+      };
     }
   };
 }]);

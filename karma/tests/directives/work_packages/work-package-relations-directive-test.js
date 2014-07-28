@@ -33,7 +33,7 @@ describe('Work Package Relations Directive', function() {
   beforeEach(module('templates', function($provide) {
   }));
 
-  beforeEach(inject(function($rootScope, $compile, _I18n_, _PathHelper_) {
+  beforeEach(inject(function($rootScope, $compile, _I18n_, _PathHelper_, _WorkPackagesHelper_) {
     scope = $rootScope.$new();
 
     compile = function(html) {
@@ -43,6 +43,7 @@ describe('Work Package Relations Directive', function() {
 
     I18n = _I18n_;
     PathHelper = _PathHelper_;
+    WorkPackagesHelper = _WorkPackagesHelper_;
 
     var stub = sinon.stub(I18n, 't');
 
@@ -103,18 +104,54 @@ describe('Work Package Relations Directive', function() {
         relatedTo: {
           href: "/work_packages/1",
           fetch: function() {
-            $q.when(function() { return { props: { id: 1 }}; } )
+            return {
+              then: function() {
+                return $q.when( workPackage1 );
+              }
+            }
           }
         },
         relatedFrom: {
           href: "/work_packages/2",
           fetch: function() {
-            $q.when(function() { return { props: { id: 2 }}; } )
+            return {
+              then: function() {
+                return $q.when( workPackage2 );
+              }
+            }
           }
         }
       }
     };
+    // sinon.stub(WorkPackagesHelper, 'getRelatedWorkPackage')
+    //   .returns({
+    //     then: function() {
+    //       return $q.when({props: {
+    //         id: "2",
+    //         subject: "Subject 2",
+    //         status: "Status 2"
+    //       }})
+    //     }
+    //   });
+    // sinon.stub(relation1.links.relatedTo, 'fetch')
+    //   .returns({
+    //      then: function() {
+    //        return $q.when(workPackage1);
+    //      }
+    //    });
+    // sinon.stub(relation1.links.relatedFrom, 'fetch')
+    //   .returns({
+    //      then: function() {
+    //        return $q.when(workPackage2);
+    //      }
+    //    });
   }));
+
+  // afterEach(function() {
+    // WorkPackagesHelper.getRelatedWorkPackage.restore();
+    // relation1.links.relatedTo.fetch.restore();
+    // relation1.links.relatedFrom.fetch.restore();
+  // })
 
   var shouldBehaveLikeRelationsDirective = function() {
     it('should have a title', function() {
@@ -235,24 +272,25 @@ describe('Work Package Relations Directive', function() {
 
     shouldBehaveLikeHasTableHeader();
 
-    shouldBehaveLikeHasTableContent(1);
+    // shouldBehaveLikeHasTableContent(1);
   });
 
-  // describe('multi element markup', function() {
-  //   beforeEach(function() {
-  //     scope.relations = [workPackage1, workPackage2];
+  describe('multi element markup', function() {
+    beforeEach(function() {
+      scope.workPackage = workPackage2;
+      scope.relations = [relation1];
 
-  //     compile(multiElementHtml);
-  //   });
+      compile(multiElementHtml);
+    });
 
-  //   shouldBehaveLikeRelationsDirective();
+    shouldBehaveLikeRelationsDirective();
 
-  //   shouldBehaveLikeMultiRelationDirective();
+    shouldBehaveLikeMultiRelationDirective();
 
-  //   shouldBehaveLikeExpandedRelationsDirective();
+    shouldBehaveLikeExpandedRelationsDirective();
 
-  //   shouldBehaveLikeHasTableHeader();
+    shouldBehaveLikeHasTableHeader();
 
   //   shouldBehaveLikeHasTableContent(2);
-  // });
+  });
 });
