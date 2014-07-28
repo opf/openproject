@@ -1,0 +1,2 @@
+15 1 * * * root openproject run rake -s db:sessions:expire[7] >> /var/log/openproject/cron-clear-old-sessions.log 2>&1
+

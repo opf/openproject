@@ -1,0 +1,11 @@
+default:
+  rails_cache_store: :memcache
+  session_store: :cache_store
+  email_delivery_method: <%= ENV.fetch('EMAIL_DELIVERY_METHOD') { :sendmail } %>
+  smtp_address: <%= ENV['SMTP_HOST'] %>
+  smtp_port: <%= ENV.fetch('SMTP_PORT') { 25 }.to_i %>
+  smtp_domain: <%= ENV.fetch('SMTP_DOMAIN') { ENV['HOSTNAME'] } %>
+  smtp_authentication: :login
+  smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
+  smtp_password: <%= ENV['SMTP_PASSWORD'] %>
+  attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/openproject/files" } %>

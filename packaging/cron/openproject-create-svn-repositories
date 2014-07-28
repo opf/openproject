@@ -1,0 +1,1 @@
+*/10 * * * * root /opt/openproject/packaging/scripts/create-svn-repositories >> /var/log/openproject/cron-create-svn-repositories.log 2>&1

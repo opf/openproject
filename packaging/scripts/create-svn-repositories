@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SVN_REPOSITORIES=$(openproject config:get SVN_REPOSITORIES)
+PORT=$(openproject config:get PORT)
+SYS_API_KEY=$(openproject config:get SYS_API_KEY)
+
+/opt/openproject/bin/ruby /opt/openproject/extra/svn/reposman.rb \
+  --openproject-host "http://127.0.0.1:${PORT}" \
+  --owner "www-data" \
+  --group "openproject" \
+  --public-mode '2750' \
+  --private-mode '2750' \
+  --svn-dir "${SVN_REPOSITORIES}" \
+  --url "file://${SVN_REPOSITORIES}" \
+  --key "${SYS_API_KEY}" \
+  --scm Subversion \
+  --verbose
+
