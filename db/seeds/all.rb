@@ -75,7 +75,7 @@ if User.admin.empty?
   user.password = "admin"
   user.firstname = "OpenProject"
   user.lastname = "Admin"
-  user.mail = "admin@example.net"
+  user.mail = ENV.fetch('ADMIN_EMAIL') { "admin@example.net" }
   user.mail_notification = User::USER_MAIL_OPTION_NON.first
   user.language = "en"
   user.status = 1

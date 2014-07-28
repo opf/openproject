@@ -39,6 +39,7 @@ case "$1" in
     ${CLI} config:set SECRET_TOKEN="$secret_token"
 
     # migrate
+    ADMIN_EMAIL=$(${CLI} config:get ADMIN_EMAIL || echo "admin@example.com")
     ${CLI} run rake ${rake_commands} || true
 
     sys_api_key=$(${CLI} config:get SYS_API_KEY)
