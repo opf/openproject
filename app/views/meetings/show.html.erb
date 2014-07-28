@@ -28,9 +28,10 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_meeting)}: #{@meeting.title}" %>
 
-<h2><%= l(:label_meeting) %>: <%= link_to @meeting %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<div class="top-page">
+  <%= render :partial => 'layouts/action_menu_specific' %>
+  <h2 title="<%= h @meeting.title %>"><%= l(:label_meeting) %>: <%= link_to @meeting %></h2>
+</div>
 
 <div class="meeting details box">
   <%= avatar(@meeting.author, :size => "64") %>
