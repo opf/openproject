@@ -260,7 +260,7 @@ describe UsersController do
         end
 
         it 'is shown' do
-          expect(response.body).to have_selector('a', text: 'New user')
+          expect(response.body).to have_selector('a', text: I18n.t('label_user_new'))
         end
       end
 
@@ -276,7 +276,7 @@ describe UsersController do
         # you must not be able to create new users if password login is disabled
         # as users are managed externally
         it 'is hidden' do
-          expect(response.body).not_to have_selector('a', text: 'New user')
+          expect(response.body).not_to have_selector('a', text: I18n.t('label_user_new'))
         end
       end
     end

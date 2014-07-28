@@ -53,7 +53,7 @@ describe 'layouts/admin' do
       end
 
       it 'is shown' do
-        expect(rendered).to have_selector('a', text: 'LDAP authentication')
+        expect(rendered).to have_selector('a', text: I18n.t('label_ldap_authentication'))
       end
     end
 
@@ -64,7 +64,7 @@ describe 'layouts/admin' do
       end
 
       it 'is hidden' do
-        expect(rendered).not_to have_selector('a', text: 'LDAP authentication')
+        expect(rendered).not_to have_selector('a', text: I18n.t('label_ldap_authentication'))
       end
     end
   end
