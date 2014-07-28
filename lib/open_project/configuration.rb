@@ -144,7 +144,7 @@ module OpenProject
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::load_file(filename)
+          file_config = YAML::load(ERB.new(File.read(filename)).result)
           unless file_config.kind_of? Hash
             warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           else
