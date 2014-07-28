@@ -53,6 +53,7 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.canAddRelation = !!scope.workPackage.links.addRelation;
 
       var setExpandState = function() {
         scope.expand = scope.relations && scope.relations.length > 0;
@@ -81,20 +82,22 @@ angular.module('openproject.workPackages.tabs')
       };
 
       // Massive hack alert - Using old prototype autocomplete ///////////
-      $timeout(function(){
-        var url = PathHelper.workPackageAutoCompletePath(scope.workPackage.props.projectId, scope.workPackage.props.id);
-        new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
-                               'related_issue_candidates-' + scope.relationIdentifier,
-                               url,
-                               { minChars: 1,
-                                 frequency: 0.5,
-                                 paramName: 'q',
-                                 updateElement: function(value) {
-                                   document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
-                                 },
-                                 parameters: 'scope=all'
-                                 });
-      });
+      if(scope.canAddRelation) {
+        $timeout(function(){
+          var url = PathHelper.workPackageAutoCompletePath(scope.workPackage.props.projectId, scope.workPackage.props.id);
+          new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
+                                 'related_issue_candidates-' + scope.relationIdentifier,
+                                 url,
+                                 { minChars: 1,
+                                   frequency: 0.5,
+                                   paramName: 'q',
+                                   updateElement: function(value) {
+                                     document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
+                                   },
+                                   parameters: 'scope=all'
+                                   });
+        });
+      }
       ////////////////////////////////////////////////////////////////////
     }
   };

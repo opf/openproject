@@ -29,7 +29,11 @@
                   {{ relatedWorkPackage.embedded.assignee.props.name }}
                 </a>
               </td>
-              <td><i title="delete relation" class="delete-item icon-delete" ng-click="removeRelation()"></i></td>
+              <td><i title="Delete relation"
+                     class="delete-item icon-delete"
+                     ng-click="removeRelation()"
+                     ng-if="canDeleteRelation"></i>
+              </td>
             </tr>
 
           </tbody>
@@ -39,16 +43,18 @@
         No relation exists
       </div>
     </div>
-    <button class="button"
-            title="{{ btnTitle }}"
-            ng-bind-html="btnIcon + ' ' + btnTitle"
-            ng-click="addRelation()">
-    </button>
-    <input id="relation_to_id-{{ relationIdentifier }}"
-           name="relation[to_id][{{ relationIdentifier }}]"
-           size="10"
-           type="text"
-           autocomplete="off">
-    <div id="related_issue_candidates-{{ relationIdentifier }}" class="autocomplete"></div>
+    <div class="add-relation" ng-if="canAddRelation">
+      <button class="button"
+              title="{{ btnTitle }}"
+              ng-bind-html="btnIcon + ' ' + btnTitle"
+              ng-click="addRelation()">
+      </button>
+      <input id="relation_to_id-{{ relationIdentifier }}"
+             name="relation[to_id][{{ relationIdentifier }}]"
+             size="10"
+             type="text"
+             autocomplete="off">
+      <div id="related_issue_candidates-{{ relationIdentifier }}" class="autocomplete"></div>
+    </div>
   </div>
 </div>

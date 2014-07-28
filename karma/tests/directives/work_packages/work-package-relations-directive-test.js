@@ -81,7 +81,8 @@ describe('Work Package Relations Directive', function() {
         }
       },
       links: {
-        self: { href: "/work_packages/1" }
+        self: { href: "/work_packages/1" },
+        addRelation: { href: "/work_packages/1/relations" }
       }
     };
     workPackage2 = {
@@ -121,6 +122,7 @@ describe('Work Package Relations Directive', function() {
     relation1 = {
       links: {
         self: { href: "/relations/1" },
+        remove: { href: "/relations/1" },
         relatedTo: {
           href: "/work_packages/1"
         },
@@ -155,14 +157,6 @@ describe('Work Package Relations Directive', function() {
 
       expect(title.text()).to.include('MyRelation');
     });
-
-    //it('should have a button', function() {
-    //  var button = angular.element(element.find('button.button'));
-
-    //  expect(button.attr('title')).to.include('Add Relation');
-    //  expect(button.text()).to.include('Add Relation');
-    //  expect(button.text()).to.include('%MyIcon%');
-    //});
   };
 
   var shouldBehaveLikeHasTableHeader = function() {
@@ -177,7 +171,7 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
-  var shouldBehaveLikeHasTableContent = function(count) {
+  var shouldBehaveLikeHasTableContent = function(count, removable) {
     it('should have table content', function() {
       for (var x = 1; x <= count; x++) {
         var column0 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(1)'));
@@ -187,6 +181,13 @@ describe('Work Package Relations Directive', function() {
         expect(angular.element(column0).text()).to.include('Subject ' + x);
         expect(angular.element(column1).text()).to.include('Status ' + x);
         expect(angular.element(column2).text()).to.include('Assignee ' + x);
+
+        if(removable) {
+          var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
+          var deleteIcon = angular.element(column4.find('i'));
+          expect(deleteIcon.length).not.to.eq(0);
+          expect(deleteIcon.attr('title')).to.include('Delete relation');
+        }
       }
     });
   };
@@ -228,9 +229,29 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
+  var shouldBehaveLikeHasAddRelationDialog = function() {
+    it('should have add relation button and id input', function() {
+      var addRelationDiv = angular.element(element.find('.workpackages .add-relation'));
+      expect(addRelationDiv.length).not.to.eq(0);
+
+      var button = addRelationDiv.find('button');
+      expect(button.attr('title')).to.include('Add Relation');
+      expect(button.text()).to.include('Add Relation');
+    });
+  };
+
+  var shouldBehaveLikeReadOnlyRelationDialog = function() {
+    it('should have add relation button and id input', function() {
+      var addRelationDiv = angular.element(element.find('.workpackages .add-relation'));
+
+      expect(addRelationDiv.length).to.eq(0);
+    });
+  };
+
   describe('no element markup', function() {
     describe('single element behavior', function() {
       beforeEach(function() {
+        scope.workPackage = workPackage1;
         compile(singleElementHtml);
       });
 
@@ -241,6 +262,7 @@ describe('Work Package Relations Directive', function() {
 
     describe('multi element behavior', function() {
       beforeEach(function() {
+        scope.workPackage = workPackage1;
         scope.relations = [];
 
         compile(multiElementHtml);
@@ -253,24 +275,51 @@ describe('Work Package Relations Directive', function() {
   });
 
   describe('single element markup', function() {
-    beforeEach(inject(function($timeout) {
-      scope.workPackage = workPackage2;
-      scope.relations = [relation1];
+    describe('readonly', function(){
+      beforeEach(inject(function($timeout) {
+        scope.workPackage = workPackage2;
+        scope.relations = [relation1];
 
-      compile(singleElementHtml);
+        compile(singleElementHtml);
 
-      $timeout.flush();
-    }));
+        $timeout.flush();
+      }));
 
-    shouldBehaveLikeRelationsDirective();
+      shouldBehaveLikeRelationsDirective();
 
-    shouldBehaveLikeSingleRelationDirective();
+      shouldBehaveLikeSingleRelationDirective();
 
-    shouldBehaveLikeExpandedRelationsDirective();
+      shouldBehaveLikeExpandedRelationsDirective();
 
-    shouldBehaveLikeHasTableHeader();
+      shouldBehaveLikeHasTableHeader();
 
-    shouldBehaveLikeHasTableContent(1);
+      shouldBehaveLikeHasTableContent(1, true);
+
+      shouldBehaveLikeReadOnlyRelationDialog();
+    });
+
+    describe('can add and remove relations', function(){
+      beforeEach(inject(function($timeout) {
+        scope.workPackage = workPackage1;
+        scope.relations = [relation2];
+
+        compile(singleElementHtml);
+
+        $timeout.flush();
+
+        shouldBehaveLikeRelationsDirective();
+
+        shouldBehaveLikeSingleRelationDirective();
+
+        shouldBehaveLikeExpandedRelationsDirective();
+
+        shouldBehaveLikeHasTableHeader();
+
+        shouldBehaveLikeHasTableContent(1, false);
+
+        shouldBehaveLikeHasAddRelationDialog();
+      }));
+    });
   });
 
   // describe('multi element markup', function() {

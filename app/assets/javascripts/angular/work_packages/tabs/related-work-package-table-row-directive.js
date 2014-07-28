@@ -41,6 +41,7 @@ angular.module('openproject.workPackages.tabs')
       scope.I18n = I18n;
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
       scope.userPath = PathHelper.staticUserPath;
+      scope.canDeleteRelation = !!scope.relation.links.remove;
 
       WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
         scope.relatedWorkPackage = relatedWorkPackage;
