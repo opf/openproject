@@ -75,9 +75,9 @@ class CustomField < ActiveRecord::Base
 
   validate :validate_name
   
-  validates :min_length, numericality: { only_integer: true, :greater_than_or_equal => 0 }
-  validates :max_length, numericality: { only_integer: true, :greater_than_or_equal => 0 }
-  validates :min_length, numericality: { :less_than_or_equal_to => :max_length , :message => :greater_than_or_equal_to_max_length}, :unless => Proc.new { |cf| cf.max_length.blank?}
+  validates :min_length, numericality: { only_integer: true, greater_than_or_equal: 0 }
+  validates :max_length, numericality: { only_integer: true, greater_than_or_equal: 0 }
+  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :greater_than_or_equal_to_max_length}, unless: Proc.new { |cf| cf.max_length.blank?}
 
 
 
