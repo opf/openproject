@@ -50,9 +50,10 @@ See doc/COPYRIGHT.rdoc for more details.
               :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 <% end %>
 
-<h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<div class="top-page">
+  <%= render :partial => 'layouts/action_menu_specific' %>
+  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+</div>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>

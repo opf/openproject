@@ -41,9 +41,10 @@ See doc/COPYRIGHT.rdoc for more details.
         :class => 'icon icon-delete') if User.current.allowed_to?(:manage_news, @project) %>
 <% end %>
 
-<h2><%= avatar(@news.author, :size => "24") %><%=h @news.title %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<div class="top-page">
+  <%= render :partial => 'layouts/action_menu_specific' %>
+  <h2 title="<%= h @news.title %>"><%= avatar(@news.author, :size => "24") %><%=h @news.title %></h2>
+</div>
 
 <% if authorize_for('news', 'edit') %>
 <div id="edit-news" style="display:none;">
