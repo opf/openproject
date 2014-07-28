@@ -67,6 +67,10 @@ angular.module('openproject.workPackages.tabs')
         scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
       });
 
+      scope.toggleExpand = function() {
+        scope.expand = !scope.expand;
+      };
+
       scope.addChild = function() {
         // Temporarily go to old create view with parent_id set to currently viewed work package
         window.location = PathHelper.staticWorkPackageNewWithParentPath(scope.workPackage.props.projectId, scope.workPackage.props.id);
