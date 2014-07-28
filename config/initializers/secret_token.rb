@@ -41,7 +41,7 @@ begin
 rescue
 end
 
-OpenProject::Application.config.secret_token = if Rails.env.development? or Rails.env.test?
+OpenProject::Application.config.secret_token = if Rails.env.development? or Rails.env.test? or Rails.groups.include?('assets')
   ('x' * 30) # meets minimum requirement of 30 chars long
 else
   ENV['SECRET_TOKEN'] || secret_token
