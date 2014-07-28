@@ -61,8 +61,8 @@ module OpenProject
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
       'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
-      'sendmail_location' => nil,
-      'sendmail_arguments' => nil
+      'sendmail_location' => '/usr/sbin/sendmail',
+      'sendmail_arguments' => '-i'
     }
 
     @config = nil
