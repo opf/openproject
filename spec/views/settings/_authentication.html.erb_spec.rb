@@ -46,7 +46,7 @@ describe 'settings/_authentication' do
       render
     end
 
-    it 'shows password settings' do
+    it 'does not show password settings' do
       expect(rendered).not_to have_text I18n.t('label_password_lost')
     end
   end
