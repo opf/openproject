@@ -36,7 +36,7 @@ describe 'settings/_authentication' do
     end
 
     it 'shows password settings' do
-      expect(rendered).to have_selector('legend', text: 'Forgot your password?')
+      expect(rendered).to have_text('Forgot your password?')
     end
   end
 
@@ -47,7 +47,7 @@ describe 'settings/_authentication' do
     end
 
     it 'shows password settings' do
-      expect(rendered).not_to have_selector('legend', text: 'Forgot your password?')
+      expect(rendered).not_to have_text('Forgot your password?')
     end
   end
 end
