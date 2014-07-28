@@ -79,6 +79,26 @@ describe 'Omniauth authentication' do
       expect(page).to have_content('omni bob')
       expect(page).to have_link('Sign out')
     end
+
+    context 'with direct login' do
+      before do
+        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+      end
+
+      it 'should go directly to the developer sign in and then redirect to the back url' do
+        url = "http://www.example.com/my/account"
+
+        visit url
+        # requires login, redirects to developer login which is why we see the login form now
+
+        fill_in('first_name', with: user.firstname)
+        fill_in('last_name', with: user.lastname)
+        fill_in('email', with: user.mail)
+        click_link_or_button 'Sign In'
+
+        expect(current_url).to eql url
+      end
+    end
   end
 
   shared_examples 'omniauth user registration' do
