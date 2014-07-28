@@ -36,7 +36,7 @@ describe 'settings/_authentication' do
     end
 
     it 'shows password settings' do
-      expect(rendered).to have_text('Forgot your password?')
+      expect(rendered).to have_text I18n.t('label_password_lost')
     end
   end
 
@@ -47,7 +47,7 @@ describe 'settings/_authentication' do
     end
 
     it 'shows password settings' do
-      expect(rendered).not_to have_text('Forgot your password?')
+      expect(rendered).not_to have_text I18n.t('label_password_lost')
     end
   end
 end
