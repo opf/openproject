@@ -121,7 +121,18 @@ describe SettingsController do
     end
 
     describe 'password settings' do
-      let(:settings) do
+      let(:old_settings) do
+        {
+          password_min_length: 10,
+          password_active_rules: [],
+          password_min_adhered_rules: 0,
+          password_days_valid: 365,
+          password_count_former_banned: 2,
+          lost_password: '1'
+        }
+      end
+
+      let(:new_settings) do
         {
           password_min_length: 42,
           password_active_rules: %w(uppercase lowercase),
@@ -135,14 +146,18 @@ describe SettingsController do
       let(:original_settings) { Hash.new }
 
       before do
-        settings.keys.each do |key|
+        old_settings.keys.each do |key|
           original_settings[key] = Setting[key]
+        end
+
+        old_settings.keys.each do |key|
+          Setting[key] = old_settings[key]
         end
       end
 
       after do
         # restore settings
-        settings.keys.each do |key|
+        old_settings.keys.each do |key|
           Setting[key] = original_settings[key]
         end
       end
@@ -151,7 +166,7 @@ describe SettingsController do
         before do
           OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
 
-          post 'edit', tab: 'authentication', settings: settings
+          post 'edit', tab: 'authentication', settings: new_settings
         end
 
         it 'is successful' do
@@ -187,35 +202,35 @@ describe SettingsController do
         before do
           OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
 
-          post 'edit', tab: 'authentication', settings: settings
+          post 'edit', tab: 'authentication', settings: new_settings
         end
 
         it 'is successful' do
           expect(response).to be_redirect # to auth tab
         end
 
-        it 'sets the minimum password length to 42' do
-          expect(Setting[:password_min_length]).not_to eq '42'
+        it 'does not set the minimum password length to 42' do
+          expect(Setting[:password_min_length]).to eq '10'
         end
 
         it 'does not set the active character classes to lowercase and uppercase' do
-          expect(Setting[:password_active_rules]).not_to eq ['uppercase', 'lowercase']
+          expect(Setting[:password_active_rules]).to eq []
         end
 
         it 'does not set the required number of classes to 7' do
-          expect(Setting[:password_min_adhered_rules]).not_to eq '7'
+          expect(Setting[:password_min_adhered_rules]).to eq '0'
         end
 
         it 'does not set passwords to expire after 13 days' do
-          expect(Setting[:password_days_valid]).not_to eq '13'
+          expect(Setting[:password_days_valid]).to eq '365'
         end
 
         it 'does not ban the last 80 passwords' do
-          expect(Setting[:password_count_former_banned]).not_to eq '80'
+          expect(Setting[:password_count_former_banned]).to eq '2'
         end
 
         it 'does not set the lost password option to the nonsensical 3' do
-          expect(Setting[:lost_password]).not_to eq '3'
+          expect(Setting[:lost_password]).to eq '1'
         end
       end
     end
