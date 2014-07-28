@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -e
+
+log_ok() {
+  echo -e "\e[32m[ok]\e[0m $1"
+}
+
+log_ko() {
+  echo -e "\e[31m[ko]\e[0m $1"
+}
+
+tmpfile=$(mktemp)
+
+if [ -z "$DATABASE_URL" ]; then
+  log_ko "DATABASE_URL environment variable can't be found. Database connection failed."
+else
+
+  database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
+
+  ruby -ruri -e '
+    uri = URI(ENV["DATABASE_URL"])
+    config=<<CONFIG
+[client]
+password="#{uri.password}"
+user="#{uri.user}"
+host="#{uri.host}"
+port="#{uri.port}"
+CONFIG
+    puts config' > ${tmpfile}
+
+  if mysql --defaults-file=${tmpfile} -D "${database}" -e "select count(*) from users;" &>/dev/null ; then
+    log_ok "MySQL configuration is working"
+  else
+    log_ko "MySQL connection is NOT working"
+  fi
+
+  rm -f $tmpfile
+fi
+
+if /etc/init.d/apache2 status &>/dev/null; then
+  log_ok "Apache2 is running"
+else
+  log_ko "Apache2 is NOT running"
+fi
+
+if ps -u openproject -f | grep -q "unicorn worker" ; then
+  log_ok "openproject server is running"
+else
+  log_ko "openproject server is NOT running"
+fi
+
+if ps -u openproject -f | grep -q "rake jobs:work" ; then
+  log_ok "openproject background job worker is running"
+else
+  log_ko "openproject background job worker is NOT running"
+fi
+
+if [ -z "$ADMIN_EMAIL" ]; then
+  log_ko "no ADMIN_EMAIL set. Can't test email settings."
+else
+  if $(pwd)/packaging/scripts/send-test-email ; then
+    log_ok "test email sent to ${ADMIN_EMAIL}"
+  else
+    log_ko "unable to send test email to ${ADMIN_EMAIL}"
+  fi
+fi
