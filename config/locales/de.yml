@@ -639,6 +639,7 @@ de:
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
   label_collapse: "Zuklappen"
+  label_configuration: Konfiguration
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -1609,7 +1610,7 @@ de:
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
 
   note: Hinweis
-  note_password_login_disabled: "Der Passwort-Login wurde per Konfiguration deaktiviert. Die Einstellung kann in 'config/configuration.yml' geändert werden, was jedoch einen Neustart der Anwendung erforderlich macht."
+  note_password_login_disabled: "Der Passwort-Login wurde per %{configuration} deaktiviert."
   warning: Warnung
 
   menu_item: "Menüpunkt"

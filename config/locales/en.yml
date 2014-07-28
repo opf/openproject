@@ -636,6 +636,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -1598,7 +1599,7 @@ en:
   version_status_open: "open"
 
   note: Note
-  note_password_login_disabled: "The password login has been disabled through the configuration. You can change this in 'config/configuration.yml'. It will, however, require a restart of the application."
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 

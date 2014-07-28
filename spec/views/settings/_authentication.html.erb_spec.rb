@@ -38,6 +38,10 @@ describe 'settings/_authentication' do
     it 'shows password settings' do
       expect(rendered).to have_text I18n.t('label_password_lost')
     end
+
+    it 'shows automated user blocking options' do
+      expect(rendered).to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+    end
   end
 
   context 'with password login disabled' do
@@ -48,6 +52,10 @@ describe 'settings/_authentication' do
 
     it 'does not show password settings' do
       expect(rendered).not_to have_text I18n.t('label_password_lost')
+    end
+
+    it 'does not show automated user blocking options' do
+      expect(rendered).not_to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
     end
   end
 end

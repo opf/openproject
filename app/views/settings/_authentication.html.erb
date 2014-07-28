@@ -53,15 +53,27 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
         <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
       <% else %>
-        <p><label><%= I18n.t :note %></label><%= I18n.t :note_password_login_disabled %></p>
+        <p>
+          <label><%= I18n.t :note %></label>
+          <%=
+            url = 'https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md#disable-password-login'
+
+            explanation = I18n.t :note_password_login_disabled,
+                                 :configuration => "<a href=\"#{url}\">#{I18n.t('label_configuration')}</a>"
+
+            explanation.html_safe
+          %>
+        </p>
       <% end %>
     </fieldset>
 
-    <fieldset>
-      <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
-      <p><%= setting_text_field :brute_force_block_after_failed_logins %></p>
-      <p><%= setting_text_field :brute_force_block_minutes %></p>
-    </fieldset>
+    <% unless OpenProject::Configuration.disable_password_login? %>
+      <fieldset>
+        <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
+        <p><%= setting_text_field :brute_force_block_after_failed_logins %></p>
+        <p><%= setting_text_field :brute_force_block_minutes %></p>
+      </fieldset>
+    <% end %>
 
     <fieldset>
       <legend><%= I18n.t(:session, :scope => [:settings]) %></legend>
