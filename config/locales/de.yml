@@ -1600,7 +1600,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
-    no_login: "Dieser Nutzer wird per Passwort authentifiziert. Der Password-Login ist jedoch deaktiviert. D.h. dieser Nutzer kann sich nicht einloggen."
+    no_login: "Dieser Nutzer wird per Passwort authentifiziert. Er kann sich jedoch nicht einloggen, da Login per Passwort deaktiviert ist."
     password_change_unsupported: Passwortänderung wird nicht unterstützt
     authorization_rejected: "Sie dürfen sich nicht einloggen."
 

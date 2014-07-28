@@ -1590,7 +1590,7 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-    no_login: "This is user authenticates through login by password which is disabled, meaning that they cannot log in."
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
     password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
 
