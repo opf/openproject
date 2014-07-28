@@ -4,5 +4,5 @@
 # see: https://packager.io/documentation
 sudo service postgresql start
 
-cp -f packaging/debian/conf/configuration.yml config/configuration.yml
+cp -f packaging/conf/configuration.yml config/configuration.yml
 

@@ -252,13 +252,8 @@ GEM
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
-    rails_12factor (0.0.2)
-      rails_serve_static_assets
-      rails_stdout_logging
     rails_autolink (1.1.0)
       rails (> 3.1)
-    rails_serve_static_assets (0.0.2)
-    rails_stdout_logging (0.0.3)
     railties (3.2.19)
       actionpack (= 3.2.19)
       activesupport (= 3.2.19)
@@ -428,7 +423,6 @@ DEPENDENCIES
   rack_session_access
   rails (~> 3.2.19)
   rails-dev-tweaks (~> 0.6.1)
-  rails_12factor
   rails_autolink
   rb-fsevent
   rb-readline
