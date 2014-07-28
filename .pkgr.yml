@@ -8,7 +8,7 @@ targets:
     dependencies:
       - debconf
       - memcached
-before_precompile: "./packaging/debian/setup.sh"
+before_precompile: "packaging/setup"
 after_install: "packaging/debian/postinst"
 addons:
   - mysql
