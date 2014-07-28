@@ -491,7 +491,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
-    new_statuses = work_package.new_statuses_allowed_to(locals[:user], true)
+    new_statuses = work_package.new_statuses_allowed_to(locals[:user])
 
     field = if new_statuses.any?
               form.select(:status_id, (new_statuses.map {|p| [p.name, p.id]}), :required => true)
