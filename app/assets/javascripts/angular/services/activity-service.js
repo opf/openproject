@@ -41,17 +41,7 @@ angular.module('openproject.services')
         }
       };
 
-      return workPackage.links.addComment.fetch(options).then(function(activity){
-        // We are unable to add to the work package's embedded activities directly
-        if(activity) {
-          if(descending){
-            activities.unshift(activity);
-          } else {
-            activities.push(activity);
-          }
-          return activity;
-        }
-      });
+      return workPackage.links.addComment.fetch(options);
     },
 
     updateComment: function(activity, comment) {
