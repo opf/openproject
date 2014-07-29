@@ -79,8 +79,11 @@ class StatusesController < ApplicationController
     status = Status.find(params[:id])
     if status.is_default?
       flash[:error] = l(:error_unable_delete_default_status)
+    elsif WorkPackage.find(:first, :conditions => ["status_id=?", status.id])
+      flash[:error] = l(:error_can_not_delete_status)
     else
       status.destroy
+      flash[:notice] = l(:notice_successful_delete)
     end
     redirect_to :action => 'index'
   rescue

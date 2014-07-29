@@ -530,6 +530,7 @@ de:
   error_can_not_delete_custom_field: "Kann das benutzerdefinierte Feld nicht löschen."
   error_can_not_delete_type: "Dieser Typ enthält Tickets und kann nicht gelöscht werden."
   error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
+  error_can_not_delete_status: "Dieser Arbeitspaketstatus enthält Tickets und kann nicht gelöscht werden."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_work_package_on_closed_version: "Das Arbeitspaket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"

@@ -527,6 +527,7 @@ en:
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
+  error_can_not_delete_status: "This work package status contains work packages and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
