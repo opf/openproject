@@ -5,7 +5,8 @@ gem "mime-types", "< 2.0.0", :platforms => [:ruby_18]
 gem "nokogiri", "< 1.6.0", :platforms => [:ruby_18]
 gem "rubyzip", "< 1.0.0", :platforms => [:ruby_18]
 
-gem "rails", "2.3.18"
+gem "rails", :git => 'git://github.com/rails/rails.git',
+             :branch => "2-3-stable"
 
 gem "coderay", "~> 0.9.7"
 gem "i18n", "> 0.4"
