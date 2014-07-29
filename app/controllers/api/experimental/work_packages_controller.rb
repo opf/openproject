@@ -214,13 +214,13 @@ module Api
       end
 
       def export_formats
-        export_formats = [{ format: "atom", label_locale: "label_format_atom" },
-          { format: "pdf", label_locale: "label_format_pdf"},
-          { format: "pdf", label_locale: "label_format_pdf_with_descriptions", flags: ["show_descriptions"]},
-          { format: "csv", label_locale: "label_format_csv"}]
+        export_formats = [{ identifier: "atom", format: "atom", label_locale: "label_format_atom" },
+          { identifier: "pdf",  format: "pdf", label_locale: "label_format_pdf"},
+          { identifier: "pdf-descr",  format: "pdf", label_locale: "label_format_pdf_with_descriptions", flags: ["show_descriptions"]},
+          { identifier: "csv", format: "csv", label_locale: "label_format_csv"}]
         if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
-          export_formats.push({ format: "xls", label_locale: "label_format_xls"})
-          export_formats.push({ format: "xls", label_locale: "label_format_xls_with_descriptions", flags: ["show_descriptions"]})
+          export_formats.push({ identifier: "xls", format: "xls", label_locale: "label_format_xls"})
+          export_formats.push({ identifier: "xls-descr", format: "xls", label_locale: "label_format_xls_with_descriptions", flags: ["show_descriptions"]})
         end
         export_formats
       end

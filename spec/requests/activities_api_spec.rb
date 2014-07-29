@@ -30,17 +30,19 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::Activities::ActivitiesAPI do
+  include Rack::Test::Methods
+
   let(:admin) { FactoryGirl.create(:admin) }
   let(:comment) { "This is a test comment!" }
 
   shared_examples_for "safeguarded API" do
-    it { expect(response.response_code).to eq(403) }
+    it { expect(last_response.status).to eq(403) }
   end
 
   shared_examples_for "valid activity request" do
     before { allow(User).to receive(:current).and_return(admin) }
 
-    subject { JSON.parse(response.body) }
+    subject { JSON.parse(last_response.body) }
 
     it { expect(subject['_type']).to eq("Activity::Comment") }
 
@@ -50,10 +52,10 @@ describe API::V3::Activities::ActivitiesAPI do
   shared_examples_for "invalid activity request" do
     before { allow(User).to receive(:current).and_return(admin) }
 
-    it { expect(response.response_code).to eq(422) }
+    it { expect(last_response.status).to eq(422) }
   end
 
-  describe "PUT /api/v3/activities/:activityId" do
+  describe "PATCH /api/v3/activities/:activityId" do
     let(:work_package) { FactoryGirl.create(:work_package) }
     let(:wp_journal) { FactoryGirl.build(:journal_work_package_journal) }
     let(:journal) { FactoryGirl.create(:work_package_journal,
@@ -61,7 +63,7 @@ describe API::V3::Activities::ActivitiesAPI do
                                        journable_id: work_package.id) }
 
     shared_context "edit activity" do
-      before { put "/api/v3/activities/#{journal.id}",
+      before { patch "/api/v3/activities/#{journal.id}",
                    comment: comment }
     end
 

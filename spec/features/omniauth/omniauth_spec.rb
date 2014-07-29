@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 describe 'Omniauth authentication' do
@@ -50,6 +78,26 @@ describe 'Omniauth authentication' do
 
       expect(page).to have_content('omni bob')
       expect(page).to have_link('Sign out')
+    end
+
+    context 'with direct login' do
+      before do
+        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+      end
+
+      it 'should go directly to the developer sign in and then redirect to the back url' do
+        url = "http://www.example.com/my/account"
+
+        visit url
+        # requires login, redirects to developer login which is why we see the login form now
+
+        fill_in('first_name', with: user.firstname)
+        fill_in('last_name', with: user.lastname)
+        fill_in('email', with: user.mail)
+        click_link_or_button 'Sign In'
+
+        expect(current_url).to eql url
+      end
     end
   end
 

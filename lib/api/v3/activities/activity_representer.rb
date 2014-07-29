@@ -40,6 +40,12 @@ module API
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
+        def initialize(model, options = {})
+          @current_user = options[:current_user]
+
+          super(model)
+        end
+
         property :_type, exec_context: :decorator
 
         link :self do
@@ -52,6 +58,14 @@ module API
 
         link :user do
           { href: "#{root_url}api/v3/users/#{represented.model.user.id}", title: "#{represented.model.user.name} - #{represented.model.user.login}" }
+        end
+
+        link :update do
+          {
+              href: "#{root_url}api/v3/activities/#{represented.model.id}",
+              method: :patch,
+              title: "#{represented.model.id}"
+          } if current_user_allowed_to_edit?
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true
@@ -79,6 +93,14 @@ module API
         end
 
         private
+
+        def current_user_allowed_to_edit?
+          (current_user_allowed_to(:edit_own_work_package_notes, represented.model.journable) && represented.model.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.model.journable)
+        end
+
+        def current_user_allowed_to(permission, work_package)
+          @current_user && @current_user.allowed_to?(permission, work_package.project)
+        end
 
         def render_details(journal, no_html: false)
           journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }

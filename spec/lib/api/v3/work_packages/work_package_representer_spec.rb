@@ -44,7 +44,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     )
   }
   let(:project) { work_package.project }
-  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations) }
+  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations add_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -135,6 +135,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      context 'when the user has permission to add comments' do
+        it 'should have a link to add comment' do
+          expect(subject).to have_json_path('_links/addComment')
+        end
+      end
+
+      context 'when the user does not have the permission to add comments' do
+        before do
+          role.permissions.delete(:add_work_package_notes) and role.save
+        end
+
+        it 'should not have a link to add comment' do
+          expect(subject).to_not have_json_path('_links/addComment/href')
+        end
+      end
+
       context 'when the user has the permission to add and remove watchers' do
         it 'should have a link to add watcher' do
           expect(subject).to have_json_path('_links/addWatcher/href')
@@ -147,7 +163,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'should not have a link to add watcher' do
-          expect(subject).to_not have_json_path('_links/add_watcher/href')
+          expect(subject).to_not have_json_path('_links/addWatcher/href')
         end
       end
 
