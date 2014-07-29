@@ -52,16 +52,6 @@ describe OpenProject::Plugins::ActsAsOpEngine do
   end
 
   describe '#extend_api_response' do
-    it 'should raise a NameError if Decorator not found' do
-      expect {
-        engine.class_eval do
-          extend_api_response(:v_test, :not_existent, :really) do
-            property :foo
-          end
-        end
-      }.to raise_error(NameError)
-    end
-
     it 'should lookup and extend an existing Decorator' do
       module API
         module VTest
