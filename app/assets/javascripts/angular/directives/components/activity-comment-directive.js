@@ -44,6 +44,7 @@ angular.module('openproject.uiComponents')
 
       scope.title = I18n.t('js.label_add_comment_title');
       scope.buttonTitle = I18n.t('js.label_add_comment');
+      scope.buttonCancel = I18n.t('js.button_cancel');
       scope.canAddComment = !!scope.workPackage.links.addComment;
       scope.activity = { comment: '' };
 
