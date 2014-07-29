@@ -10,7 +10,8 @@
           <h3 class="activity-date"
               ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
               ng-bind="currentDate"/>
-          <user-activity activity="activity"
+          <user-activity work-package="workPackage"
+                         activity="activity"
                          activity-no="activityNo"
                          input-element-id="'add-comment-text'">
           </user-activity>

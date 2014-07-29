@@ -35,6 +35,7 @@ angular.module('openproject.workPackages.tabs')
     require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/tabs/_user_activity.html',
     scope: {
+      workPackage: '=',
       activity: '=',
       activityNo: '=',
       inputElementId: '='
@@ -47,6 +48,7 @@ angular.module('openproject.workPackages.tabs')
       scope.inEdit = false;
       scope.inFocus = false;
       scope.userCanEdit = !!scope.activity.links.update;
+      scope.userCanQuote = !!scope.workPackage.links.addComment;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;

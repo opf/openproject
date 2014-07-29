@@ -4,7 +4,9 @@
   <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
     <div class="comments-icons"
          ng-show="activity.props._type == 'Activity::Comment' && inFocus">
-      <i class="icon-quote action-icon" ng-click="quoteComment()"></i>
+      <i class="icon-quote action-icon"
+         ng-if="userCanQuote"
+         ng-click="quoteComment()"></i>
       <i class="icon-edit action-icon"
          ng-if="userCanEdit"
          ng-click="editComment()"></i>
