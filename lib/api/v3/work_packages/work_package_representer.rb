@@ -115,6 +115,7 @@ module API
               method: :post,
               title: 'Add relation'
           } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
+        end
 
         link :addComment do
           {
