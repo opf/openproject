@@ -117,7 +117,7 @@ module OpenProject::Backlogs
         :param => :project_id,
         :if => proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
         :html => {:class => 'icon2 icon-backlogs-icon'}
-      end
+    end
 
     assets %w(
       backlogs/backlogs.css
