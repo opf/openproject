@@ -64,8 +64,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
       <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
     <% end %>
-    <div id="password_fields">
-      <% if @user.change_password_allowed? %>
+    <% if !OpenProject::Configuration.disable_password_login? %>
+      <%
+        pw_style =
+          if @user.change_password_allowed?
+            ''
+          else
+            ' style="display: none;"'
+          end
+      %>
+      <div id="password_fields"<%= pw_style.html_safe %>>
         <% assign_random_password_enabled = params[:user] &&
                                             params[:user][:assign_random_password] %>
         <p>
@@ -93,18 +101,15 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= f.check_box :force_password_change,
                           :disabled => assign_random_password_enabled %>
         </p>
-      <% else %>
+      </div>
+    <% else %>
+      <div id="no_password_info">
         <p>
-          <% if OpenProject::Configuration.disable_password_login? %>
-            <label><%= I18n.t 'warning' %></label>
-            <%= I18n.t 'user.no_login' %>
-          <% else %>
-            <label><%= I18n.t 'note' %></label>
-            <%= I18n.t 'user.password_change_unsupported' %>
-          <% end %>
+          <label><%= I18n.t 'warning' %></label>
+          <%= I18n.t 'user.no_login' %>
         </p>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
 

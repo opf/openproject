@@ -80,7 +80,7 @@ describe 'edit users', js: true do
     it 'shows password settings when switching back to internal authentication' do
       auth_select.select I18n.t('label_internal')
 
-      expect(page).to have_selector('input#user_password')
+      expect(user_password).to be_visible
     end
   end
 end
