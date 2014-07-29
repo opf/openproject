@@ -1,6 +1,6 @@
 <div class="detail-panel-content" >
-  <div class="detail-activity">
-    <exclusive-edit>
+  <exclusive-edit>
+    <div class="detail-activity">
       <ul class="work-package-details-activities-list">
         <li ng-repeat="activity in activities"
             class="work-package-details-activities-activity"
@@ -16,9 +16,9 @@
           </user-activity>
         </li>
       </ul>
-    </exclusive-edit>
-  </div>
-  <activity-comment work-package="workPackage"
-                    activities="activities">
-  </activity-comment>
+    </div>
+    <activity-comment work-package="workPackage"
+                      activities="activities">
+    </activity-comment>
+  </exclusive-edit>
 </div>

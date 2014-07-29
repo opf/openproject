@@ -64,8 +64,8 @@ angular.module('openproject.workPackages.tabs')
       };
 
       scope.quoteComment = function() {
+        exclusiveEditController.setQuoted(quotedText(scope.activity.props.rawComment));
         var elem = angular.element('#' + scope.inputElementId);
-        elem.val(quotedText(scope.activity.props.rawComment));
         $uiViewScroll(elem);
       };
 

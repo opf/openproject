@@ -32,6 +32,7 @@ de:
       hide: "Verbergen"
       loading: "Lädt ..."
     button_add_watcher: "Beobachter hinzufügen"
+    button_cancel: "Abbrechen"
     button_check_all: "Alles auswählen"
     button_copy: "Kopieren"
     button_delete: "Löschen"

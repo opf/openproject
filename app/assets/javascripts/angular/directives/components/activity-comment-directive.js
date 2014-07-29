@@ -33,12 +33,15 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'E',
     replace: true,
+    require: '^?exclusiveEdit',
     scope: {
       workPackage: '=',
       activities: '='
     },
     templateUrl: '/templates/components/activity_comment.html',
-    link: function(scope, element, attrs) {
+    link: function(scope, element, attrs, exclusiveEditController) {
+      exclusiveEditController.setCreator(scope);
+
       scope.title = I18n.t('js.label_add_comment_title');
       scope.buttonTitle = I18n.t('js.label_add_comment');
       scope.canAddComment = !!scope.workPackage.links.addComment;

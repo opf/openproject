@@ -30,7 +30,7 @@
                   ng-click="updateComment()"
                   ng-disabled="editCommentForm.$invalid"><i class="icon-yes icon-left"></i>{{ I18n.t('js.button_update') }}
           </button>
-          <button class="button" ng-disabled="commentForm.$invalid" ng-click="cancelEdit()"><i class="icon-close icon-left"></i>Cancel</button>
+          <button class="button" ng-disabled="commentForm.$invalid" ng-click="cancelEdit()"><i class="icon-close icon-left"></i>{{ I18n.t('js.button_cancel') }}</button>
         </div>
       </form>
     </div>

@@ -36,14 +36,25 @@ angular.module('openproject.workPackages.tabs')
     template: '<div class="exclusive-edit" ng-transclude></div>',
     controller: function() {
       var editors = [];
+      var creator;
+
       this.gotEditable = function(selectedEditor) {
         angular.forEach(editors, function(editor) {
           if (selectedEditor != editor) {
             editor.inEdit = false; }
           });
       };
+
       this.addEditable = function(editor) {
         editors.push(editor);
+      };
+
+      this.setCreator = function(newCreator) {
+        creator = newCreator;
+      };
+
+      this.setQuoted = function(text) {
+        creator.activity.comment = text;
       };
     }
   };
