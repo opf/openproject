@@ -1,0 +1,10 @@
+stage:
+  before:
+    - bower install --allow-root
+    - cp config/configuration.yml.example config/configuration.yml
+    - cp config/database.teatro.yml config/database.yml
+    - export SECRET_TOKEN=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+  database:
+    - bundle exec rake db:create db:migrate
+    - bundle exec rake db:seed RAILS_ENV=development
