@@ -28,23 +28,18 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
-  'status', 'assignee', 'responsible',
-  'date', 'percentageDone', 'priority',
-  'estimatedTime', 'versionName'
-])
 .constant('USER_TYPE', 'user')
 
 .controller('DetailsTabOverviewController', [
   '$scope',
   'I18n',
-  'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  'ConfigurationService',
   'USER_TYPE',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'UserService',
   '$q',
-  function($scope, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, UserService, $q) {
+  function($scope, I18n, ConfigurationService, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, UserService, $q) {
 
   // work package properties
 
@@ -52,7 +47,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.emptyWorkPackageProperties = [];
   $scope.userPath = PathHelper.staticUserPath;
 
-  var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+  var workPackageProperties = ConfigurationService.workPackageAttributes();
 
   function getPropertyValue(property, format) {
     if (format === USER_TYPE) {
