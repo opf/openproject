@@ -15,15 +15,24 @@
   <span class="date">{{ I18n.t('js.label_commented_on') }} <date-time date-time-value="activity.props.createdAt"/></date-time>
   <span class="comment wiki">
     <div ng-if="inEdit">
-      <div>
-        <textarea id="edit-comment-text"
-                  ng-bind-html="activity.props.rawComment"
-                  rows="5"></textarea>
-      </div>
-      <div>
-        <button class="button" ng-click="updateComment()">{{ I18n.t('js.button_update') }}</button>
-        <span><a href="" ng-click="cancelEdit()">cancel</a></span>
-      </div>
+      <form name="editCommentForm">
+        <div>
+          <textarea id="edit-comment-text"
+                    name="edit_comment_text"
+                    class="add-comment-text"
+                    ng-model="activity.props.rawComment"
+                    ng-bind-html="activity.props.rawComment"
+                    rows="4"
+                    required></textarea>
+        </div>
+        <div>
+          <button class="button"
+                  ng-click="updateComment()"
+                  ng-disabled="editCommentForm.$invalid"><i class="icon-yes icon-left"></i>{{ I18n.t('js.button_update') }}
+          </button>
+          <button class="button" ng-disabled="commentForm.$invalid" ng-click="cancelEdit()"><i class="icon-close icon-left"></i>Cancel</button>
+        </div>
+      </form>
     </div>
     <span ng-if="!inEdit"
           class="message"

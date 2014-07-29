@@ -52,7 +52,11 @@ angular.module('openproject.uiComponents')
             scope.$emit('workPackageRefreshRequired', '');
             return response;
           });
-      }
+      };
+
+      scope.clearComment = function() {
+        scope.activity.comment = '';
+      };
     }
   };
 }]);
