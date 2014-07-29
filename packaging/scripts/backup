@@ -28,6 +28,7 @@ CONFIG
   puts config' > ${tmpfile}
 
 dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
+touch "$dst" && chmod 0640 "$dst"
 mysqldump --defaults-file=${tmpfile} --single-transaction "${database}" | gzip > "$dst"
 echo " done" >&2
 echo "$dst"
@@ -35,6 +36,7 @@ rm -f ${tmpfile}
 
 if [ -d "$SVN_REPOSITORIES" ]; then
   dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
   echo -n "* Generating SVN repositories backup..." >&2 
   if tar czf "$dst" -C "${SVN_REPOSITORIES}" . ; then
     echo " done" >&2
@@ -48,6 +50,7 @@ fi
 
 if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
   dst="${TARGET}/attachments-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
   echo -n "* Generating attachments backup..." >&2
   if tar czf "$dst" -C "${ATTACHMENTS_STORAGE_PATH}" . ; then
     echo " done" >&2
@@ -59,3 +62,16 @@ else
   echo "* No attachments folder. Ignoring." >&2
 fi
 
+if [ -d "/etc/openproject/conf.d" ]; then
+  dst="${TARGET}/conf-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Saving configuration..." >&2
+  if tar czf "$dst" -C /etc/openproject/conf.d . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* no configuration folder. Ignoring." >&2
+fi
