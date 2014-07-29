@@ -196,6 +196,7 @@ en:
         exclusion: "is reserved"
         greater_than: "must be greater than %{count}"
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        greater_than_or_equal_to_max_length: "must be greater than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
         inclusion: "is not included in the list"
         invalid: "is invalid"
