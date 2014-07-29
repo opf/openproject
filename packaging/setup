@@ -5,4 +5,5 @@
 sudo service postgresql start
 
 cp -f packaging/conf/configuration.yml config/configuration.yml
+sed -i "s|config.serve_static_assets = false|config.serve_static_assets = true|" config/environments/production.rb
 
