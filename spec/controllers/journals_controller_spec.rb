@@ -39,6 +39,9 @@ describe JournalsController do
                                                         :author => user,
                                                         :project => project,
                                                         :description => '') }
+  let(:journal) { FactoryGirl.create(:work_package_journal,
+                  journable: work_package,
+                  user: user) }
 
   describe "GET diff" do
     render_views
@@ -62,7 +65,7 @@ describe JournalsController do
         member.save and user.reload
         allow(User).to receive(:current).and_return user
 
-        get :edit, id: work_package.journals.last.id
+        get :edit, id: journal.id
       end
 
       context 'with permissions to edit work packages and edit own work package notes' do

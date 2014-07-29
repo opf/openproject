@@ -33,8 +33,7 @@ angular.module('openproject.services')
   'PathHelper', function(HALAPIResource, $http, PathHelper){
 
   var ActivityService = {
-    createComment: function(workPackageId, activities, descending, comment) {
-      var resource = HALAPIResource.setup(PathHelper.activitiesPath(workPackageId));
+    createComment: function(workPackage, activities, descending, comment) {
       var options = {
         ajax: {
           method: "POST",
@@ -42,29 +41,18 @@ angular.module('openproject.services')
         }
       };
 
-      return resource.fetch(options).then(function(activity){
-        // We are unable to add to the work package's embedded activities directly
-        if(activity) {
-          if(descending){
-            activities.unshift(activity);
-          } else {
-            activities.push(activity);
-          }
-          return activity;
-        }
-      });
+      return workPackage.links.addComment.fetch(options);
     },
 
-    updateComment: function(activityId, comment) {
-      var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
+    updateComment: function(activity, comment) {
       var options = {
         ajax: {
-          method: "PUT",
+          method: 'PATCH',
           data: { comment: comment }
         }
       };
 
-      return resource.fetch(options).then(function(activity){
+      return activity.links.update.fetch(options).then(function(activity){
         return activity;
       });
     }

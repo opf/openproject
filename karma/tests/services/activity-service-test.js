@@ -40,7 +40,12 @@ describe('ActivityService', function() {
 
   describe('createComment', function() {
     var setupFunction;
-    var workPackageId = 5;
+    var workPackage = {
+      id: 5,
+      links: {
+        addComment: { fetch: angular.noop }
+      }
+    };
     var actvityId = 10;
     var activities = [];
     var descending = false;
@@ -49,26 +54,18 @@ describe('ActivityService', function() {
     var apiFetchResource;
 
     beforeEach(inject(function($q) {
-      apiResource = {
-        fetch: function() {
-          deferred = $q.defer();
-          deferred.resolve({ id: actvityId, comment: comment } );
-          return deferred.promise;
-        }
-      }
+      sinon.stub(workPackage.links.addComment, 'fetch')
+           .returns({
+              then: function() {
+                return $q.when({ id: actvityId, comment: comment });
+              }
+            });
+      apiFetchResource = ActivityService.createComment(workPackage, activities, descending, comment);
     }));
 
-    beforeEach(inject(function(HALAPIResource) {
-      setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
-    }));
-
-    beforeEach(inject(function() {
-      apiFetchResource = ActivityService.createComment(workPackageId, activities, descending, comment);
-    }));
-
-    it('makes an api setup call', function() {
-      expect(setupFunction).to.have.been.calledWith("/work_packages/" + workPackageId + "/activities");
-    });
+    afterEach(function() {
+      workPackage.links.addComment.fetch.restore();
+    })
 
     it('returns an activity', function() {
       apiFetchResource.then(function(activity){

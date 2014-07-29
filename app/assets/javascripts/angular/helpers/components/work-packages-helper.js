@@ -123,8 +123,50 @@ angular.module('openproject.workPackages.helpers')
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    }
+    },
 
+    getParent: function(workPackage) {
+      var wpParent = workPackage.links.parent;
+
+      return (wpParent) ? [wpParent.fetch()] : [];
+    },
+
+    getChildren: function(workPackage) {
+      var children = workPackage.links.children;
+      var result = [];
+
+      if (children) {
+        for (var x = 0; x < children.length; x++) {
+          var child = children[x];
+
+          result.push(child.fetch());
+        }
+      }
+
+      return result;
+    },
+
+    getRelationsOfType: function(workPackage, type) {
+      var self = workPackage.links.self.href;
+      var relations = workPackage.embedded.relations;
+      var result = [];
+
+      if (relations) {
+        for (var x = 0; x < relations.length; x++) {
+          var relation = relations[x];
+
+          if (relation.props._type == type) {
+            if (relation.links.relatedTo.href == self) {
+              result.push(relation.links.relatedFrom.fetch());
+            } else {
+              result.push(relation.links.relatedTo.fetch());
+            }
+          }
+        }
+      }
+
+      return result;
+    }
   };
 
   return WorkPackagesHelper;

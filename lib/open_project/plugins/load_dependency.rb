@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,17 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Watchers
-      class WatchersRepresenter < ::API::Decorators::Collection
+module OpenProject::Plugins
+  module LoadDependency
+    def self.register(target, *dependencies)
 
-        collection :watchers, as: -> (*) { as || :watchers }, exec_context: :decorator, embedded: true
-
-        def watchers
-          represented.map { |model| ::API::V3::Users::UserRepresenter.new(model) }
+      ActiveSupport.on_load(target) do
+        dependencies.each do |dependency|
+          require_dependency dependency
         end
       end
+
     end
   end
 end

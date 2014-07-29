@@ -31,42 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
-<%= form_tag({:action=> "login"}, autocomplete: 'off', id: 'login-form', class: 'form') do %>
-  <%= back_url_hidden_field_tag %>
+<div id="login-form" class="form">
   <h1><%= I18n.t(:label_login) %></h1>
 
   <hr class="form_separator">
-
-  <div class="attribute_wrapper">
-    <label for="username"><%= User.human_attribute_name :login %></label>
-    <%= text_field_tag 'username', nil %>
-  </div>
-
-  <div class="attribute_wrapper">
-    <label for="password"><%= User.human_attribute_name :password %></label>
-    <%= password_field_tag 'password', nil %>
-  </div>
-
-  <div class="login-options-container">
-    <div class="login-links">
-      <% if Setting.lost_password? %>
-          <%= link_to l(:label_password_lost), :controller => '/account', :action => 'lost_password' %>
-          <br>
-      <% end %>
-      <% if Setting.self_registration? %>
-        <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
-      <% end %>
-    </div>
-    <% if Setting.autologin? %>
-      <div class="attribute_wrapper indented">
-        <label for="autologin">
-          <%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %>
-        </label>
-      </div>
-    <% end %>
-  </div>
-  <input type="submit" name="login" value="<%=l(:button_login)%>" class="button_highlight" />
-  <%= render :partial => 'auth_providers' %>
-  <%= javascript_tag "Form.Element.focus('username');" %>
-<% end %>
+  <% unless OpenProject::Configuration.disable_password_login? %>
+    <%= render partial: 'password_login_form' %>
+  <% end %>
+  <%= render partial: 'auth_providers' %>
+</div>
 <%= call_hook :view_account_login_bottom %>

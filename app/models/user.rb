@@ -251,7 +251,7 @@ class User < Principal
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
   def self.try_authentication_for_existing_user(user, password)
-    return nil if !user.active?
+    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
     if user.auth_source
       # user has an external authentication method
       return nil unless user.auth_source.authenticate(user.login, password)
@@ -266,6 +266,8 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
+    return nil if OpenProject::Configuration.disable_password_login?
+
     user = nil
     attrs = AuthSource.authenticate(login, password)
     if attrs
@@ -362,7 +364,8 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false if uses_external_authentication?
+    return false if uses_external_authentication? ||
+                    OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
     return auth_source.allow_password_changes?
   end

@@ -46,6 +46,7 @@ angular.module('openproject.workPackages.tabs')
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
       scope.inFocus = false;
+      scope.userCanEdit = !!scope.activity.links.update;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
@@ -70,7 +71,7 @@ angular.module('openproject.workPackages.tabs')
 
       scope.updateComment = function(comment) {
         var comment = angular.element('#edit-comment-text').val();
-        ActivityService.updateComment(scope.activity.props.id, comment).then(function(activity){
+        ActivityService.updateComment(scope.activity, comment).then(function(activity){
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });

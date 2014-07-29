@@ -336,5 +336,51 @@ describe CustomField do
 
       it { expect(field).to be_valid }
     end
+    
+    describe "WITH a text field
+              WITH minimum length blank" do
+      before do
+        field.field_format = 'text'
+        field.min_length = nil
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH maximum length blank" do
+      before do
+        field.field_format = 'text'
+        field.max_length = nil
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH minimum length not an integer" do
+      before do
+        field.field_format = 'text'
+        field.min_length = 'a'
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH maximum length not an integer" do
+      before do
+        field.field_format = 'text'
+        field.max_length = 'a'
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH minimum length greater than maximum length" do
+      before do
+        field.field_format = 'text'
+        field.min_length = 2
+        field.max_length = 1
+      end       
+      it { expect(field).not_to be_valid } 
+    end
   end
 end

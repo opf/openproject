@@ -50,7 +50,7 @@ module API
       property :total, as: :_total, exec_context: :decorator
 
       def total
-        represented.first.model.class.count
+        represented.empty? ? 0 : represented.first.model.class.count
       end
     end
   end
