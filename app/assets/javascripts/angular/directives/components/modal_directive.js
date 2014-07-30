@@ -38,7 +38,7 @@ angular.module('openproject.uiComponents')
       element.on('click', function(e) {
         e.preventDefault();
 
-        if (e.which == 1 && !e.ctrlKey) {
+        if (e.which == 1 && !e.ctrlKey && !e.metaKey) {
           modalHelperInstance.createModal(scope.target || attributes['href'], function (modalDiv) {});
         } else {
           window.open(scope.target || attributes['href'], '_blank');
