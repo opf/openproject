@@ -53,10 +53,10 @@ module OpenProject::Backlogs::Hooks
     end
 
     def work_packages_overview_attributes(context = {})
-      work_package = context[:work_package]
+      project = context[:project]
       attributes = context[:attributes]
 
-      return unless work_package.backlogs_enabled?
+      return unless project && project.module_enabled?(:backlogs)
 
       attributes << :storyPoints
       attributes << :remainingHours
