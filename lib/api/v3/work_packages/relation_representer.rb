@@ -84,7 +84,7 @@ module API
 
         def relation_type
           relation = represented.model
-          relation.relation_type_for(relation.to).camelize
+          relation.relation_type_for(@work_package).camelize
         end
       end
     end
