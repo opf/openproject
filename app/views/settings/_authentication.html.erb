@@ -98,9 +98,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
   </div>
 
-  <div style="float:right;">
-      <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
-  </div>
+  <% unless OpenProject::Configuration.disable_password_login? %>
+    <div style="float:right;">
+        <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
+    </div>
+  <% end %>
 
   <%= submit_tag l(:button_save) %>
 <% end %>
