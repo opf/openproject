@@ -981,7 +981,7 @@ angular.module('openproject.timelines.models')
       e.click(function(e) {
         if (Timeline.USE_MODALS) {
           var payload = node.getData();
-          if (e.which == 1 && !e.ctrlKey) {
+          if (e.which == 1 && !e.ctrlKey && !e.metaKey) {
             timeline.modalHelper.createModal(payload.getUrl());
             e.stopPropagation();
           } else {
