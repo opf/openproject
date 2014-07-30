@@ -93,7 +93,8 @@ module API
         end
 
         def estimated_time
-          { units: 'hours', value: model.estimated_hours }
+          { units: I18n.t(:'datetime.units.hour', count: model.estimated_hours.to_i),
+            value: model.estimated_hours }
         end
 
         def estimated_time=(value)
