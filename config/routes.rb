@@ -57,6 +57,7 @@ OpenProject::Application.routes.draw do
 
     match '/login', :action => 'login',  :as => 'signin', :via => [:get, :post]
     get '/logout', :action => 'logout', :as => 'signout'
+    get '/exit', :action => 'exit'
   end
 
   namespace :api do

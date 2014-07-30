@@ -101,6 +101,29 @@ describe 'Omniauth authentication' do
     end
   end
 
+  describe 'sign out a user with direct login' do
+    let!(:user) do
+      FactoryGirl.create(:user,
+                         force_password_change: false,
+                         identity_url: 'developer:omnibob@example.com',
+                         login: 'omnibob',
+                         mail: 'omnibob@example.com',
+                         firstname: 'omni',
+                         lastname: 'bob'
+                        )
+    end
+
+    before do
+      Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+    end
+
+    it 'shows a notice that the user has been logged out' do
+      visit signout_path
+
+      expect(page).to have_content(I18n.t(:notice_logged_out))
+    end
+  end
+
   shared_examples 'omniauth user registration' do
     it 'should register new user' do
       visit '/auth/developer'
@@ -166,15 +189,69 @@ describe 'Omniauth authentication' do
     end
   end
 
+  context 'registration by email' do
+    before do
+      allow(Setting).to receive(:self_registration?).and_return(true)
+      allow(Setting).to receive(:self_registration).and_return('1')
+    end
+
+    shared_examples 'registration with registration by email' do
+      it 'shows a note explaining that the account has to be activated' do
+        visit login_path
+
+        # login form developer strategy
+        fill_in 'first_name', with: 'Ifor'
+        fill_in 'last_name',  with: 'McAlistar'
+        fill_in 'email',      with: 'i.mcalistar@example.com'
+
+        click_link_or_button 'Sign In'
+
+        expect(page).to have_content(I18n.t(:notice_account_register_done))
+      end
+    end
+
+    it_behaves_like 'registration with registration by email' do
+      let(:login_path) { '/auth/developer' }
+    end
+
+    context 'with direct login enabled' do
+      before do
+        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+      end
+
+      it_behaves_like 'registration with registration by email' do
+        # i.e. it still shows a notice
+        # instead of redirecting straight back to the omniauth login provider
+        let(:login_path) { signin_path }
+      end
+    end
+  end
+
   context 'error occurs' do
-    it 'should fail with generic error message' do
-      # set omniauth to test mode will redirect all calls to omniauth
-      # directly to the callback and by setting the mock_auth provider
-      # to a symbol will force omniauth to fail /auth/failure
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:developer] = :invalid_credentials
-      visit '/auth/developer'
-      expect(page).to have_content(I18n.t(:error_external_authentication_failed))
+    shared_examples 'omniauth signin error' do
+      it 'should fail with generic error message' do
+        # set omniauth to test mode will redirect all calls to omniauth
+        # directly to the callback and by setting the mock_auth provider
+        # to a symbol will force omniauth to fail /auth/failure
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.mock_auth[:developer] = :invalid_credentials
+        visit login_path
+        expect(page).to have_content(I18n.t(:error_external_authentication_failed))
+      end
+    end
+
+    it_behaves_like 'omniauth signin error' do
+      let(:login_path) { '/auth/developer' }
+    end
+
+    context 'with direct login' do
+      before do
+        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+      end
+
+      it_behaves_like 'omniauth signin error' do
+        let(:login_path) { signin_path }
+      end
     end
   end
 end

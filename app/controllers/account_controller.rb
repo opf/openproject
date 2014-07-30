@@ -40,14 +40,27 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if User.current.logged?
+    user = User.current
+
+    if user.logged?
       redirect_to home_url
     elsif Concerns::OmniauthLogin.direct_login?
-      ps = {}.tap do |p|
-        p[:origin] = params[:back_url] if params[:back_url]
-      end
+      if flash.empty?
+        ps = {}.tap do |p|
+          p[:origin] = params[:back_url] if params[:back_url]
+        end
 
-      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+        redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+      else
+        instructions =
+          if user.active?
+            I18n.t :instructions_after_error, signin: translation_signin_link
+          else
+            I18n.t :instructions_after_registration, signin: translation_signin_link
+          end
+
+        render :exit, locals: { instructions: instructions }
+      end
     elsif request.post?
       authenticate_user
     end
@@ -56,7 +69,15 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     logout_user
-    redirect_to home_url
+    if Concerns::OmniauthLogin.direct_login?
+      flash.now[:notice] = I18n.t :notice_logged_out
+      render :exit,
+             locals: {
+               instructions: I18n.t(:instructions_after_logout, signin: translation_signin_link)
+             }
+    else
+      redirect_to home_url
+    end
   end
 
   # Enable user to choose a new password
@@ -442,5 +463,9 @@ class AccountController < ApplicationController
     else
       redirect_back_or_default :controller => '/my', :action => 'page'
     end
+  end
+
+  def translation_signin_link
+    view_context.link_to(I18n.t('label_here'), view_context.signin_path)
   end
 end
