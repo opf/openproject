@@ -179,7 +179,7 @@ de:
         progress: "% erledigt"
         responsible: "Verantwortlicher"
         spent_time: "Aufgewendete Zeit"
-        subproject: "Unterprojekt von"
+        subproject: "Unterprojekt"
         time_entries: "Logzeit"
         type: "Typ"
         watcher: "Beobachter"
