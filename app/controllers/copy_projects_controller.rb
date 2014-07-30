@@ -33,30 +33,33 @@ class CopyProjectsController < ApplicationController
   before_filter :disable_api
   before_filter :find_project
   before_filter :authorize, :only => [ :copy, :copy_project ]
+  before_filter :prepare_for_copy_project, :only => [ :copy, :copy_project ]
 
   def copy
     target_project_name = params[:project][:name]
+    @copy_project = Project.new(params[:project])
 
-    copy_project_job = CopyProjectJob.new(User.current,
-                                          @project,
-                                          params[:project],
-                                          params[:enabled_modules],
-                                          params[:only],
-                                          params[:notifications] == '1')
+    unless @copy_project.valid?
+      from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
+      render :action => "copy_from_#{from}"
+    else
+      copy_project_job = CopyProjectJob.new(User.current,
+                                            @project,
+                                            params[:project],
+                                            params[:enabled_modules],
+                                            params[:only],
+                                            params[:notifications] == '1')
 
-    Delayed::Job.enqueue copy_project_job
-
-    flash[:notice] = I18n.t('copy_project.started', source_project_name: @project.name, target_project_name: target_project_name)
-    redirect_to :back
+      Delayed::Job.enqueue copy_project_job
+      flash[:notice] = I18n.t('copy_project.started',
+                              source_project_name: @project.name,
+                              target_project_name: target_project_name)
+      redirect_to :back
+    end
   end
 
   def copy_project
     from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
-    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @types = Type.all
-    @root_projects = Project.find(:all,
-                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  :order => 'name')
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
@@ -66,5 +69,15 @@ class CopyProjectsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to :back
+  end
+
+  private
+
+  def prepare_for_copy_project
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @types = Type.all
+    @root_projects = Project.find(:all,
+                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
+                                  :order => 'name')
   end
 end
