@@ -11,7 +11,6 @@ class Services::CreateRelation
     if @relation.save
       success.(created: true)
     else
-      binding.pry
       error.(@relation)
     end
   end
