@@ -103,6 +103,24 @@ module OpenProject::Costs
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :Version, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
 
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      property :spent_hours,
+               exec_context: :decorator,
+               if: -> (*) { current_user_allowed_to_view_spent_hours }
+
+      send(:define_method, :spent_hours) do
+        attributes_helper = OpenProject::Costs::AttributesHelper.new(represented.work_package)
+
+        attributes_helper.time_entries_sum
+      end
+
+      send(:define_method, :current_user_allowed_to_view_spent_hours) do
+        current_user_allowed_to(:view_time_entries, represented.work_package) ||
+          current_user_allowed_to(:view_own_time_entries, represented.work_package)
+      end
+    end
+
     assets %w(costs/costs.css costs/costs.js)
 
     initializer "costs.register_hooks" do
