@@ -112,6 +112,7 @@ module OpenProject::Costs
       require 'open_project/costs/hooks/project_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'
+      require 'open_project/costs/hooks/work_packages_overview_attributes'
     end
 
     initializer 'costs.register_observers' do |app|
