@@ -105,9 +105,20 @@ module OpenProject::Costs
 
 
     extend_api_response(:v3, :work_packages, :work_package) do
+      property :cost_object,
+               exec_context: :decorator,
+               embedded: true,
+               class: ::API::V3::CostObjects::CostObjectModel,
+               decorator: ::API::V3::CostObjects::CostObjectRepresenter,
+               if: -> (*) { !represented.work_package.cost_object.nil? }
+
       property :spent_hours,
                exec_context: :decorator,
                if: -> (*) { current_user_allowed_to_view_spent_hours }
+
+      send(:define_method, :cost_object) do
+        ::API::V3::CostObjects::CostObjectModel.new(represented.work_package.cost_object)
+      end
 
       send(:define_method, :spent_hours) do
         attributes_helper = OpenProject::Costs::AttributesHelper.new(represented.work_package)
