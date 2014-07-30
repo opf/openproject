@@ -27,55 +27,53 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
-.directive('workPackageRelation', [
+.directive('workPackageChildren', [
     'I18n',
     'PathHelper',
+    'WorkPackageService',
     'WorkPackagesHelper',
-    function(I18n, PathHelper, WorkPackagesHelper) {
+    '$timeout',
+    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { title: '@', relatedWorkPackages: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
+    scope: {
+      title: '@',
+      workPackage: '=',
+      children: '=',
+      btnTitle: '@buttonTitle',
+      btnIcon: '@buttonIcon'
+    },
+    templateUrl: '/templates/work_packages/tabs/_work_package_children.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.WorkPackagesHelper = WorkPackagesHelper;
-      scope.workPackagePath = PathHelper.staticWorkPackagePath;
       scope.userPath = PathHelper.staticUserPath;
+      scope.workPackagePath = PathHelper.staticWorkPackagePath;
+      scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {
-        scope.expand = scope.relatedWorkPackages && scope.relatedWorkPackages.length > 0;
+        scope.expand = scope.children && scope.children.length > 0;
       };
 
-      scope.$watch('relatedWorkPackages', function() {
+      scope.$watch('children', function() {
         setExpandState();
+        scope.childrenCount = scope.children.length || 0;
       });
 
-      scope.collapseStateIcon = function(collapsed) {
-        var iconClass = 'icon-arrow-right5-';
+      scope.$watch('expand', function(newVal, oldVal) {
+        scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
+      });
 
-        if (collapsed) {
-          iconClass += '3';
-        } else {
-          iconClass += '2';
-        }
-
-        return iconClass;
+      scope.addChild = function() {
+        // Temporarily go to old create view with parent_id set to currently viewed work package
+        window.location = PathHelper.staticWorkPackageNewWithParentPath(scope.workPackage.props.projectId, scope.workPackage.props.id);
       }
 
-      scope.getFullIdentifier = function(workPackage) {
-        var id = '#' + workPackage.props.id;
-
-        if (workPackage.props.type) {
-          id += ' ' + workPackage.props.type + ':';
-        }
-
-        id += ' ' + workPackage.props.subject;
-
-        return id;
-      };
+      scope.deleteChild = function() {
+        //TODO: Requires API endpoint for update work package
+      }
     }
   };
 }]);

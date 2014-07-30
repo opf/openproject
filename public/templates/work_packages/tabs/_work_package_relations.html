@@ -1,0 +1,61 @@
+<div class="relation">
+  <h3 ng-click="expand=!expand">
+    <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
+    <span ng-if="!isSingletonRelation">({{ relationsCount }})</span>
+  </h3>
+  <div class="content" ng-show="expand">
+    <div class="workpackages">
+      <div ng-if="relations">
+        <table>
+          <thead>
+            <tr>
+              <td>{{ I18n.t('js.work_packages.properties.subject') }}</td>
+              <td>{{ I18n.t('js.work_packages.properties.status') }}</td>
+              <td>{{ I18n.t('js.work_packages.properties.assignee') }}</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr related-work-package-table-row
+                ng-repeat="relation in relations">
+              <td>
+                <a href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
+                  {{ fullIdentifier }}
+                </a>
+              </td>
+              <td>{{ relatedWorkPackage.props.status }}</td>
+              <td>
+                <a href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
+                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+                </a>
+              </td>
+              <td><i title="Delete relation"
+                     class="delete-item icon-delete"
+                     ng-click="removeRelation()"
+                     ng-if="canDeleteRelation"></i>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div ng-if="!relations || relations.length === 0">
+        No relation exists
+      </div>
+    </div>
+    <div class="add-relation" ng-if="canAddRelation">
+      <button class="button"
+              title="{{ btnTitle }}"
+              ng-bind-html="btnIcon + ' ' + btnTitle"
+              ng-click="addRelation()">
+      </button>
+      <input id="relation_to_id-{{ relationIdentifier }}"
+             name="relation[to_id][{{ relationIdentifier }}]"
+             size="10"
+             type="text"
+             autocomplete="off">
+      <div id="related_issue_candidates-{{ relationIdentifier }}"
+           class="autocomplete related-issue-candidates"></div>
+    </div>
+  </div>
+</div>

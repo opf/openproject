@@ -44,7 +44,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     )
   }
   let(:project) { work_package.project }
-  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers add_work_package_notes) }
+  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations add_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -164,6 +164,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add watcher' do
           expect(subject).to_not have_json_path('_links/addWatcher/href')
+        end
+      end
+
+      context 'when the user has the permission to manage relations' do
+        it 'should have a link to add relation' do
+          expect(subject).to have_json_path('_links/addRelation/href')
+        end
+      end
+
+      context 'when the user does not have the permission to manage relations' do
+        before do
+          role.permissions.delete(:manage_work_package_relations) and role.save
+        end
+
+        it 'should not have a link to add relation' do
+          expect(subject).to_not have_json_path('_links/addRelation/href')
         end
       end
     end

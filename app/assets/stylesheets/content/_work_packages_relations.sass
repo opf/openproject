@@ -26,7 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.detail-panel-description 
+.detail-panel-description
   width: 100%
 .detail-panel-description-content
   .relation
@@ -47,6 +47,19 @@
               white-space: nowrap
               overflow: hidden
               &:first-of-type
-                width: 55% 
+                width: 50%
+              &:nth-child(2)
+                width: 15%
+              &:nth-child(3)
+                width: 25%
               &:last-of-type
-                width: 30% 
+                width: 10%
+      .delete-item
+        cursor: pointer
+
+.add-relation
+  .related-issue-candidates ul li
+    width: 400px
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
