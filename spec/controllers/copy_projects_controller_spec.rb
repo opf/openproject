@@ -32,7 +32,17 @@ describe CopyProjectsController do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:redirect_path) { "source_project_settings" }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryGirl.create(:project, :is_public => false) }
+  let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
+  let(:copy_project_params){
+    {
+      "description" => "Some pretty description",
+      "responsible_id"=>current_user.id,
+      "project_type_id" => "",
+      "homepage" => "",
+      "is_public" => project.is_public,
+      "type_ids" => project.types.collect(&:id)
+    }
+  }
 
 
   before do
@@ -59,6 +69,19 @@ describe CopyProjectsController do
     it { expect(response.code).to eq('404') }
   end
 
+  describe "copy_from_settings without name and identifier" do
+    before {
+      post 'copy',
+           :id => project.id,
+           :project => copy_project_params
+    }
+
+    it { expect(response).to render_template('copy_from_settings') }
+    it "should display error validation messages" do
+      expect(assigns(:copy_project).errors).to_not be_empty
+    end
+  end
+
   describe 'copy_from_settings permissions' do
     def fetch
       get 'copy_project', :id => project.id, :coming_from => :settings
@@ -74,7 +97,7 @@ describe CopyProjectsController do
   def copy_project(project)
     post 'copy',
          :id => project.id,
-         :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
+         :project => copy_project_params.merge({ :identifier => "copy", :name => "copy" })
   end
 
   describe 'copy creates a new project' do
@@ -98,7 +121,7 @@ describe CopyProjectsController do
     def fetch
       post 'copy',
            :id => project.id,
-           :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
+           :project => copy_project_params.merge({ :identifier => "copy", :name => "copy" })
     end
 
     def expect_redirect_to
