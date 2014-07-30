@@ -459,7 +459,6 @@ class WorkPackagesController < ApplicationController
   def hook_overview_attributes
     attributes = []
     call_hook(:work_packages_overview_attributes,
-              work_package: work_package,
               project: @project,
               attributes: attributes)
     attributes
