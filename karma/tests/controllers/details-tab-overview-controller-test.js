@@ -61,7 +61,11 @@ describe('DetailsTabOverviewController', function() {
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
+  beforeEach(module('openproject.api',
+                    'openproject.services',
+                    'openproject.config',
+                    'openproject.workPackages.controllers'));
+
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     var workPackageId = 99;
 

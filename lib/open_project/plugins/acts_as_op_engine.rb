@@ -132,6 +132,14 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :extend_api_response) do |*args, &block|
+        config.to_prepare do
+          representer_namespace = args.map{ |arg| arg.to_s.camelize}.join('::')
+          representer_class     = "::API::#{representer_namespace}Representer".constantize
+          representer_class.instance_eval(&block)
+        end
+      end
+
       base.class_eval do
         config.autoload_paths += Dir["#{config.root}/lib/"]
 

@@ -28,9 +28,16 @@
 
 angular.module('openproject.config')
 
+.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
+  'status', 'assignee', 'responsible',
+  'date', 'percentageDone', 'priority',
+  'estimatedTime', 'versionName'
+])
+
 .service('ConfigurationService', [
   '$log',
-  function($log) {
+  'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  function($log, DEFAULT_WORK_PACKAGE_PROPERTIES) {
 
   return {
     settingsPresent: function() {
@@ -80,6 +87,14 @@ angular.module('openproject.config')
     },
     timeFormat: function() {
       return gon.settings.display.time_format;
+    },
+    workPackageAttributeSettingsPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('work_package_attributes');
+    },
+    workPackageAttributes: function() {
+      var attributes = (this.workPackageAttributeSettingsPresent()) ? gon.settings.work_package_attributes : [];
+
+      return DEFAULT_WORK_PACKAGE_PROPERTIES.concat(attributes);
     }
   };
 }]);
