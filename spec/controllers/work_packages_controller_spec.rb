@@ -129,6 +129,7 @@ describe WorkPackagesController do
     let(:work_packages) { double("work packages").as_null_object }
 
     before do
+      allow(User.current).to receive(:allowed_to?).and_return(false)
       expect(User.current).to receive(:allowed_to?)
                   .with({ :controller => "work_packages",
                           :action => "index" },
