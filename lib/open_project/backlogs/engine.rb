@@ -117,7 +117,7 @@ module OpenProject::Backlogs
         :param => :project_id,
         :if => proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
         :html => {:class => 'icon2 icon-backlogs-icon'}
-      end
+    end
 
     assets %w(
       backlogs/backlogs.css
@@ -130,6 +130,19 @@ module OpenProject::Backlogs
 
     patches [:PermittedParams, :WorkPackage, :Status, :MyController, :Project,
       :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      property :story_points, exec_context: :decorator, if: -> (*) { represented.work_package.backlogs_enabled? }
+      property :remaining_hours, exec_context: :decorator, if: -> (*) { represented.work_package.backlogs_enabled? }
+
+      send(:define_method, :story_points) do
+        represented.work_package.story_points
+      end
+
+      send(:define_method, :remaining_hours) do
+        represented.work_package.remaining_hours
+      end
+    end
 
     config.to_prepare do
       if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
