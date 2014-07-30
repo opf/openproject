@@ -29,10 +29,10 @@ module API
             end
           end
 
-          namespace ':id' do
+          namespace ':relation_id' do
             delete do
               authorize(:manage_work_package_relations, context: @work_package.project)
-              relation = Relation.find(params[:id])
+              relation = Relation.find(params[:relation_id])
               relation.delete
               status 204
             end
