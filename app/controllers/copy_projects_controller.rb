@@ -39,10 +39,7 @@ class CopyProjectsController < ApplicationController
     target_project_name = params[:project][:name]
     @copy_project = Project.new(params[:project])
 
-    unless @copy_project.valid?
-      from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
-      render :action => "copy_from_#{from}"
-    else
+    if @copy_project.valid?
       copy_project_job = CopyProjectJob.new(User.current,
                                             @project,
                                             params[:project],
@@ -55,6 +52,9 @@ class CopyProjectsController < ApplicationController
                               source_project_name: @project.name,
                               target_project_name: target_project_name)
       redirect_to :back
+    else
+      from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
+      render :action => "copy_from_#{from}"
     end
   end
 
