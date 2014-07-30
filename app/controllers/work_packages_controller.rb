@@ -460,7 +460,7 @@ class WorkPackagesController < ApplicationController
     attributes = []
     call_hook(:work_packages_overview_attributes,
               work_package: work_package,
-              project: project,
+              project: @project,
               attributes: attributes)
     attributes
   end
