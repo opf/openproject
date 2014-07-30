@@ -71,13 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <p>
     <%= submit_tag l(:button_save) %>
-    <%= link_to_remote l(:label_preview),
-                        { :url => wiki_preview_path(:project_id => @project),
-                          :method => :post,
-                          :update => 'preview',
-                          :with => "Form.serialize('wiki_form')",
-                          :complete => "Element.scrollTo('preview')"
-                        }, :accesskey => accesskey(:preview) %>
+    <%= preview_link preview_wiki_path(@project), 'wiki_form' %>
   </p>
 
   <%= wikitoolbar_for 'content_text' %>

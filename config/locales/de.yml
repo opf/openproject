@@ -1659,3 +1659,5 @@ de:
   work_package:
     updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_
+
+  nothing_to_preview: "Keine Inhalte für Vorschau vorhanden"

@@ -26,16 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
-require File.expand_path('../../support/permission_specs', __FILE__)
+require 'spec_helper'
+require 'support/permission_specs'
 
-describe WorkPackagesController, "edit_work_packages permission", :type => :controller do
+describe MessagesController, "add_messages permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('work_packages#edit', :edit_work_packages)
-  check_permission_required_for('work_packages#update', :edit_work_packages)
-  check_permission_required_for('work_packages#new_type', :edit_work_packages)
-  check_permission_required_for('work_packages#quoted', :edit_work_packages)
-
-  check_permission_required_for('work_packages#preview', :edit_work_packages)
+  check_permission_required_for('messages#preview', :add_messages)
 end

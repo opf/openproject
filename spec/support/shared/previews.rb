@@ -26,16 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
-require File.expand_path('../../support/permission_specs', __FILE__)
+shared_examples_for 'valid preview' do
+  render_views
 
-describe WorkPackagesController, "edit_work_packages permission", :type => :controller do
-  include PermissionSpecs
+  before do
+    put :preview, preview_params
+  end
 
-  check_permission_required_for('work_packages#edit', :edit_work_packages)
-  check_permission_required_for('work_packages#update', :edit_work_packages)
-  check_permission_required_for('work_packages#new_type', :edit_work_packages)
-  check_permission_required_for('work_packages#quoted', :edit_work_packages)
+  it { expect(response).to render_template('common/preview') }
 
-  check_permission_required_for('work_packages#preview', :edit_work_packages)
+  it 'renders all texts' do
+    preview_texts.each do |text|
+      expect(response.body).to have_selector('fieldset.preview', text: text)
+    end
+  end
+end
+
+shared_examples_for 'authorizes object access' do
+  let(:unauthorized_user) { FactoryGirl.create(:user) }
+
+  before do
+    User.stub(:current).and_return(unauthorized_user)
+
+    put :preview, preview_params
+  end
+
+  it { expect(response.status).to eq(403) }
 end

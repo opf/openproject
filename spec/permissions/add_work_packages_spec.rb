@@ -35,4 +35,5 @@ describe WorkPackagesController, "add_work_packages permission", :type => :contr
   check_permission_required_for('work_packages#new', :add_work_packages)
   check_permission_required_for('work_packages#new_type', :add_work_packages)
   check_permission_required_for('work_packages#create', :add_work_packages)
+  check_permission_required_for('work_packages#preview', :add_work_packages)
 end

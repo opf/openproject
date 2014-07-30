@@ -65,6 +65,7 @@ class WikiController < ApplicationController
 
   include AttachmentsHelper
   include PaginationHelper
+  include OpenProject::Concerns::Preview
 
   attr_reader :page, :related_page
 
@@ -315,18 +316,6 @@ class WikiController < ApplicationController
     end
   end
 
-  def preview
-    page = @wiki.find_page(params[:id])
-    # page is nil when previewing a new page
-    return render_403 unless page.nil? || editable?(page)
-    if page
-      @attachements = page.attachments
-      @previewed = page.content
-    end
-    @text = params[:content][:text]
-    render :partial => 'common/preview'
-  end
-
   def add_attachment
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
@@ -347,6 +336,21 @@ class WikiController < ApplicationController
     menu_item.present? ?
       :"#{menu_item.item_class}#{symbol_postfix}" :
       nil
+  end
+
+  protected
+
+  def parse_preview_data
+    page = @wiki.find_page(params[:id])
+    # page is nil when previewing a new page
+    return render_403 unless page.nil? || editable?(page)
+
+    attachments = page && page.attachments
+    previewed = page && page.content
+
+    text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
+
+    return text, attachments, previewed
   end
 
   private
