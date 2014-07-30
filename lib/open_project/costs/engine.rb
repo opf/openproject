@@ -102,8 +102,8 @@ module OpenProject::Costs
       end
     end
 
-    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :Version, :PermittedParams, :ApplicationController,
-      :ProjectsController, :ApplicationHelper, :UsersHelper]
+    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :Version, :PermittedParams,
+             :ProjectsController, :ApplicationHelper, :UsersHelper]
 
     assets %w(costs.css costs.js)
 
