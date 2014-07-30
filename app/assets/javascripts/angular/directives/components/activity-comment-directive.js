@@ -33,14 +33,18 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'E',
     replace: true,
+    require: '^?exclusiveEdit',
     scope: {
       workPackage: '=',
       activities: '='
     },
     templateUrl: '/templates/components/activity_comment.html',
-    link: function(scope, element, attrs) {
+    link: function(scope, element, attrs, exclusiveEditController) {
+      exclusiveEditController.setCreator(scope);
+
       scope.title = I18n.t('js.label_add_comment_title');
       scope.buttonTitle = I18n.t('js.label_add_comment');
+      scope.buttonCancel = I18n.t('js.button_cancel');
       scope.canAddComment = !!scope.workPackage.links.addComment;
       scope.activity = { comment: '' };
 
@@ -52,7 +56,11 @@ angular.module('openproject.uiComponents')
             scope.$emit('workPackageRefreshRequired', '');
             return response;
           });
-      }
+      };
+
+      scope.clearComment = function() {
+        scope.activity.comment = '';
+      };
     }
   };
 }]);

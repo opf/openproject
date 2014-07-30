@@ -35,18 +35,25 @@ angular.module('openproject.workPackages.tabs')
     require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/tabs/_user_activity.html',
     scope: {
+      workPackage: '=',
       activity: '=',
       activityNo: '=',
       inputElementId: '='
     },
     link: function(scope, element, attrs, exclusiveEditController) {
       exclusiveEditController.addEditable(scope);
+      scope.$watch('inEdit', function(newVal, oldVal) {
+        if(newVal) {
+          angular.element('#edit-comment-text').focus();
+        }
+      })
 
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
       scope.inFocus = false;
       scope.userCanEdit = !!scope.activity.links.update;
+      scope.userCanQuote = !!scope.workPackage.links.addComment;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
@@ -55,7 +62,6 @@ angular.module('openproject.workPackages.tabs')
       });
 
       scope.editComment = function() {
-        scope.inEdit = true;
         exclusiveEditController.gotEditable(scope);
       };
 
@@ -64,9 +70,10 @@ angular.module('openproject.workPackages.tabs')
       };
 
       scope.quoteComment = function() {
+        exclusiveEditController.setQuoted(quotedText(scope.activity.props.rawComment));
         var elem = angular.element('#' + scope.inputElementId);
-        elem.val(quotedText(scope.activity.props.rawComment));
         $uiViewScroll(elem);
+        elem.focus();
       };
 
       scope.updateComment = function(comment) {
