@@ -27,19 +27,23 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%#
-LOCALS
-
-  instructions: String
-#%>
+<% # LOCALS
+  fail ArgumentError, 'missing instructions' unless defined? instructions
+%>
 
 <% disable_accessibility_css! %>
 
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
+
+<%
+  signin_link = link_to I18n.t('label_here'), signin_path
+  instruction_text = I18n.t "instructions_#{instructions}", signin: signin_link
+%>
+
 <div id="login-form" class="form">
   <h1><%= I18n.t(:label_login) %></h1>
   <hr class="form_separator">
-  <p><%= instructions.html_safe %></p>
+  <p><%= instruction_text.html_safe %></p>
 </div>
 <%= call_hook :view_account_login_bottom %>

@@ -46,6 +46,12 @@ describe 'Omniauth authentication' do
     OmniAuth.config.logger = @omniauth_logger
   end
 
+  ##
+  # Returns a given translation up until the first occurrence of a parameter (exclusive).
+  def translation_substring(translation)
+    translation.split(" ").take_while { |word| !(word =~ /%\{.*\}/) }.join(" ")
+  end
+
   context 'sign in existing user' do
     let(:user) do
       FactoryGirl.create(:user,
@@ -121,6 +127,7 @@ describe 'Omniauth authentication' do
       visit signout_path
 
       expect(page).to have_content(I18n.t(:notice_logged_out))
+      expect(page).to have_content translation_substring(I18n.t(:instructions_after_logout))
     end
   end
 
@@ -207,6 +214,10 @@ describe 'Omniauth authentication' do
         click_link_or_button 'Sign In'
 
         expect(page).to have_content(I18n.t(:notice_account_register_done))
+
+        if defined? instructions
+          expect(page).to have_content instructions
+        end
       end
     end
 
@@ -223,6 +234,7 @@ describe 'Omniauth authentication' do
         # i.e. it still shows a notice
         # instead of redirecting straight back to the omniauth login provider
         let(:login_path) { signin_path }
+        let(:instructions) { translation_substring I18n.t(:instructions_after_registration) }
       end
     end
   end
@@ -237,6 +249,10 @@ describe 'Omniauth authentication' do
         OmniAuth.config.mock_auth[:developer] = :invalid_credentials
         visit login_path
         expect(page).to have_content(I18n.t(:error_external_authentication_failed))
+
+        if defined? instructions
+          expect(page).to have_content instructions
+        end
       end
     end
 
@@ -251,6 +267,7 @@ describe 'Omniauth authentication' do
 
       it_behaves_like 'omniauth signin error' do
         let(:login_path) { signin_path }
+        let(:instructions) { translation_substring I18n.t(:instructions_after_error) }
       end
     end
   end

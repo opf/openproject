@@ -45,22 +45,7 @@ class AccountController < ApplicationController
     if user.logged?
       redirect_to home_url
     elsif Concerns::OmniauthLogin.direct_login?
-      if flash.empty?
-        ps = {}.tap do |p|
-          p[:origin] = params[:back_url] if params[:back_url]
-        end
-
-        redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
-      else
-        instructions =
-          if user.active?
-            I18n.t :instructions_after_error, signin: translation_signin_link
-          else
-            I18n.t :instructions_after_registration, signin: translation_signin_link
-          end
-
-        render :exit, locals: { instructions: instructions }
-      end
+      direct_login(user)
     elsif request.post?
       authenticate_user
     end
@@ -71,10 +56,7 @@ class AccountController < ApplicationController
     logout_user
     if Concerns::OmniauthLogin.direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out
-      render :exit,
-             locals: {
-               instructions: I18n.t(:instructions_after_logout, signin: translation_signin_link)
-             }
+      render :exit, locals: { instructions: :after_logout }
     else
       redirect_to home_url
     end
@@ -215,6 +197,21 @@ class AccountController < ApplicationController
   end
 
   private
+
+  def direct_login(user)
+    if flash.empty?
+      ps = {}.tap do |p|
+        p[:origin] = params[:back_url] if params[:back_url]
+      end
+
+      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+    else
+      error = user.active? || flash[:error]
+      instructions = if error then :after_error else :after_registration end
+
+      render :exit, locals: { instructions: instructions }
+    end
+  end
 
   def logout_user
     if User.current.logged?
@@ -463,9 +460,5 @@ class AccountController < ApplicationController
     else
       redirect_back_or_default :controller => '/my', :action => 'page'
     end
-  end
-
-  def translation_signin_link
-    view_context.link_to(I18n.t('label_here'), view_context.signin_path)
   end
 end
