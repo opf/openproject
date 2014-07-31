@@ -19,7 +19,7 @@
             <tr related-work-package-table-row
                 ng-repeat="relation in relations">
               <td>
-                <a href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
+                <a class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
                   {{ fullIdentifier }}
                 </a>
               </td>

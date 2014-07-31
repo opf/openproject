@@ -47,6 +47,7 @@ angular.module('openproject.workPackages.tabs')
       WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
         scope.relatedWorkPackage = relatedWorkPackage;
         scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
+        scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
       });
 
       scope.removeRelation = function() {

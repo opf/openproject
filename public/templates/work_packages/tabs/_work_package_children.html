@@ -18,7 +18,7 @@
           <tbody>
             <tr ng-repeat="workPackage in children">
               <td>
-                <a href="{{ workPackagePath(workPackage.props.id) }}">
+                <a class="work_package" ng-class="getState(workPackage)" href="{{ workPackagePath(workPackage.props.id) }}">
                   {{ getFullIdentifier(workPackage) }}
                 </a>
               </td>

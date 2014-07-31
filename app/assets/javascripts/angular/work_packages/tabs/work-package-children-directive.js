@@ -51,6 +51,7 @@ angular.module('openproject.workPackages.tabs')
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
+      scope.getState = WorkPackagesHelper.getState;
       scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {
