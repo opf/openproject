@@ -45,6 +45,8 @@ describe('DetailsTabOverviewController', function() {
         props: {
           status: 'open',
           versionName: null,
+          percentageDone: 0,
+          estimatedTime: undefined,
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
           ]
@@ -98,15 +100,50 @@ describe('DetailsTabOverviewController', function() {
       });
     }
 
-    describe('when the property has a value', function() {
-      var propertyName = 'status';
+    function fetchEmptyPropertiesWithName(propertyName) {
+      return scope.emptyWorkPackageProperties.filter(function(propertyData) {
+        return propertyData.property === propertyName;
+      });
+    }
 
+    var shouldBehaveLikePropertyWithValue = function(propertyName) {
+      it('adds property to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    }
+
+    var shouldBehaveLikePropertyWithNoValue = function(propertyName) {
+      it('adds property to present properties', function() {
+        expect(fetchEmptyPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    }
+
+    describe('when the property has a value', function() {
       beforeEach(function() {
         buildController();
       });
 
-      it('adds properties to present properties', function() {
-        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      describe('status', function() {
+        var propertyName = 'status';
+
+        shouldBehaveLikePropertyWithValue(propertyName);
+      });
+
+      describe('percentage done', function() {
+        var propertyName = 'percentageDone';
+
+        shouldBehaveLikePropertyWithValue(propertyName);
+      });
+    });
+
+    describe('when the property has NO value', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      describe('estimated Time', function() {
+        var propertyName = 'estimatedTime';
+
       });
     });
 
