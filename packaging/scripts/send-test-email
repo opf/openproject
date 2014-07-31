@@ -25,7 +25,7 @@ if delivery_method == "sendmail"
   puts "sending test email using sendmail..."
   tmpfile = Tempfile.new("mail-test")
   File.open(tmpfile.path, "w+") {|f| f << msgstr}
-  system "cat #{tmpfile.path} | sendmail -i -t"
+  system("cat #{tmpfile.path} | sendmail -i -t") || exit(1)
 else
   puts "sending test email using SMTP..."
   Net::SMTP.start(
