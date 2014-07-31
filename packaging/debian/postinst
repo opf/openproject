@@ -34,6 +34,10 @@ case "$1" in
     chown ${APP_NAME}.${APP_NAME} "${attachments_path}"
     ${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
 
+    # set web concurrency
+    web_concurrency=$(${CLI} config:get WEB_CONCURRENCY || echo "2")
+    ${CLI} config:set WEB_CONCURRENCY=${web_concurrency}
+
     # set SECRET_TOKEN env variable
     secret_token=$(${CLI} config:get SECRET_TOKEN || ( < /dev/urandom tr -dc a-z0-9 | head -c128; echo ))
     ${CLI} config:set SECRET_TOKEN="$secret_token"
