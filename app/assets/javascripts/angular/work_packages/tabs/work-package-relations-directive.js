@@ -70,6 +70,10 @@ angular.module('openproject.workPackages.tabs')
         scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
       });
 
+      scope.toggleExpand = function() {
+        scope.expand = !scope.expand;
+      };
+
       scope.addRelation = function() {
         var inputElement = angular.element('#relation_to_id-' + scope.relationIdentifier);
         var toId = inputElement.val();

@@ -1,7 +1,9 @@
 <div class="relation">
-  <h3 ng-click="expand=!expand">
-    <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
-    <span ng-if="!isSingletonRelation">({{ childrenCount }})</span>
+  <h3>
+    <accessible-by-keyboard execute="toggleExpand()">
+      <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
+      <span ng-if="!isSingletonRelation">({{ childrenCount }})</span>
+    </accessible-by-keyboard>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">

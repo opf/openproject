@@ -9,7 +9,9 @@ angular.module('openproject.uiComponents')
       element.on('keydown', function(event) {
         if(event.which === ENTER_KEY) {
           event.preventDefault();
-          scope.executeOnEnter();
+          scope.$apply(function() {
+            scope.$eval(scope.executeOnEnter, { 'event': event });
+          });
         }
       });
     }
