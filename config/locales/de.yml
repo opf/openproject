@@ -580,6 +580,10 @@ de:
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
 
+  instructions_after_registration: "Sie können sich %{signin} einloggen sobald Ihr Konto aktiviert wurde."
+  instructions_after_logout: "Sie können sich %{signin} wieder einloggen."
+  instructions_after_error: "Sie können noch mal versuchen sich einzuloggen, indem Sie %{signin} klicken. Wenn der Fehler weiterhin auftritt, wenden Sie sich bitte an den Ihren Admin."
+
   label_account: "Konto"
   label_activity: "Aktivität"
   label_add_another_file: "Eine weitere Datei hinzufügen"
@@ -713,6 +717,7 @@ de:
   label_group_new: "Neue Gruppe"
   label_group_plural: "Gruppen"
   label_help: "Hilfe"
+  label_here: hier
   label_hide: "Verbergen"
   label_history: "Historie"
   label_home: "Hauptseite"
@@ -1091,6 +1096,7 @@ de:
   notice_unable_delete_time_entry: "Der Zeiterfassungseintrag konnte nicht gelöscht werden."
   notice_unable_delete_version: "Die Version konnte nicht gelöscht werden."
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
+  notice_logged_out: "Sie wurden ausgeloggt."
   error_types_in_use_by_work_packages: "Die folgenden Typen werden von Arbeitspaketen referenziert: %{types}"
 
  # Default format for numbers

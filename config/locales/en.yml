@@ -577,6 +577,10 @@ en:
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
 
+  instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
+  instructions_after_logout: "You can sign in again by clicking %{signin}."
+  instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
+
   label_account: "Account"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
@@ -710,6 +714,7 @@ en:
   label_group_new: "New group"
   label_group_plural: "Groups"
   label_help: "Help"
+  label_here: here
   label_hide: "Hide"
   label_history: "History"
   label_home: "Home"
@@ -1089,6 +1094,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
+  notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
 
   # Default format for numbers

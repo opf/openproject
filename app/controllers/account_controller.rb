@@ -40,14 +40,12 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if User.current.logged?
+    user = User.current
+
+    if user.logged?
       redirect_to home_url
     elsif Concerns::OmniauthLogin.direct_login?
-      ps = {}.tap do |p|
-        p[:origin] = params[:back_url] if params[:back_url]
-      end
-
-      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+      direct_login(user)
     elsif request.post?
       authenticate_user
     end
@@ -56,7 +54,12 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     logout_user
-    redirect_to home_url
+    if Concerns::OmniauthLogin.direct_login?
+      flash.now[:notice] = I18n.t :notice_logged_out
+      render :exit, locals: { instructions: :after_logout }
+    else
+      redirect_to home_url
+    end
   end
 
   # Enable user to choose a new password
@@ -194,6 +197,21 @@ class AccountController < ApplicationController
   end
 
   private
+
+  def direct_login(user)
+    if flash.empty?
+      ps = {}.tap do |p|
+        p[:origin] = params[:back_url] if params[:back_url]
+      end
+
+      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+    else
+      error = user.active? || flash[:error]
+      instructions = error ? :after_error : :after_registration
+
+      render :exit, locals: { instructions: instructions }
+    end
+  end
 
   def logout_user
     if User.current.logged?
