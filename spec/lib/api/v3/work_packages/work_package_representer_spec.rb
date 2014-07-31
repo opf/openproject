@@ -80,6 +80,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { should have_json_path('createdAt') }
       it { should have_json_path('updatedAt') }
+
+      it { should have_json_path('isClosed') }
     end
 
     describe 'estimatedTime' do

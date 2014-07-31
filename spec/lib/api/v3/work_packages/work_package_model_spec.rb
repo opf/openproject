@@ -57,5 +57,18 @@ h2. Plan for this month
       model.raw_description = 'h4. More details'
       expect(model.description).to have_selector 'h4'
     end
+
+    describe 'closed state' do
+      context 'is closed' do
+        let(:closed_status) { FactoryGirl.build(:closed_status) }
+        let(:work_package) { FactoryGirl.build(:work_package, status: closed_status) }
+
+        it { expect(model.is_closed).to be_true }
+      end
+
+      context 'is not closed' do
+        it { expect(model.is_closed).to be_false }
+      end
+    end
   end
 end

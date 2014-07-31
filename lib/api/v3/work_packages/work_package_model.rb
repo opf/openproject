@@ -153,6 +153,10 @@ module API
           work_package.relations.map{ |relation| RelationModel.new(relation) }
         end
 
+        def is_closed
+          work_package.closed?
+        end
+
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
       end
