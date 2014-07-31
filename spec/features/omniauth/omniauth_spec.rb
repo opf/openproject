@@ -107,8 +107,9 @@ describe 'Omniauth authentication' do
     end
   end
 
-  describe 'sign out a user with direct login' do
+  describe 'sign out a user with direct login and login required' do
     before do
+      Setting.stub(:login_required?).and_return(true)
       Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
     end
 
@@ -214,8 +215,9 @@ describe 'Omniauth authentication' do
       let(:login_path) { '/auth/developer' }
     end
 
-    context 'with direct login enabled' do
+    context 'with direct login enabled and login required' do
       before do
+        Setting.stub(:login_required?).and_return(true)
         Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
       end
 
@@ -249,8 +251,9 @@ describe 'Omniauth authentication' do
       let(:login_path) { '/auth/developer' }
     end
 
-    context 'with direct login' do
+    context 'with direct login and login required' do
       before do
+        Setting.stub(:login_required?).and_return(true)
         Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
       end
 
