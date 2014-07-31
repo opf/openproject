@@ -40,6 +40,11 @@ module OpenProject
 
         ['true', true].include? value # former to accommodate ENV
       end
+
+      def developer_login?
+        enabled = ['true', true].include? self['developer_login']
+        enabled || !Rails.env.production?
+      end
     end
   end
 end

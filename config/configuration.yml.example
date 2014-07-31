@@ -192,6 +192,8 @@ default:
 # specific configuration options for production environment
 # that overrides the default ones
 # production:
+  # Enable login via OmniAuth developer provider
+  # developer_login: true
 
 # specific configuration options for development environment
 # that overrides the default ones

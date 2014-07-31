@@ -64,6 +64,7 @@ In case you want to use environment variables, but you have no easy way to set t
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
+* [`developer_login`](#developer_login) (default: false)
 
 ### disable password login
 
@@ -89,6 +90,13 @@ If this option is active /login will lead directly to the configured omniauth pr
 
 Note that this does not stop a user from manually navigating to any other
 omniauth provider if additional ones are configured.
+
+### developer login
+
+*default: false (when in production mode)*
+
+If true the OmniAuth developer login is enabled in production mode which allows to create new users on-the-fly and log in with them. Log into existing developer users by providing the same `uid` in the given form.
+The developer login is enabled by default when not in production mode.
 
 ## Email configuration
 
