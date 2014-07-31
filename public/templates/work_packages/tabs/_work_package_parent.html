@@ -19,13 +19,13 @@
           <tbody>
             <tr>
               <td>
-                <a class="work_package" ng-class="getState(parent)" href="{{ workPackagePath(parent.props.id) }}">
+                <a title="{{ getFullIdentifier(parent) }}" class="work_package" ng-class="getState(parent)" href="{{ workPackagePath(parent.props.id) }}">
                   {{ getFullIdentifier(parent) }}
                 </a>
               </td>
-              <td>{{ parent.props.status }}</td>
+              <td title="{{ parent.props.status }}">{{ parent.props.status }}</td>
               <td>
-                <a href="{{ userPath(parent.embedded.assignee.props.id) }}">
+                <a title="{{ parent.embedded.assignee.props.name }}" href="{{ userPath(parent.embedded.assignee.props.id) }}">
                   {{ parent.embedded.assignee.props.name }}
                 </a>
               </td>
