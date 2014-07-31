@@ -49,6 +49,7 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_parent.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.getState = WorkPackagesHelper.getState;
       scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
 
       var setExpandState = function() {

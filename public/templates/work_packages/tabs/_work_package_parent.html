@@ -17,7 +17,7 @@
           <tbody>
             <tr>
               <td>
-                <a href="{{ workPackagePath(parent.props.id) }}">
+                <a class="work_package" ng-class="getState(parent)" href="{{ workPackagePath(parent.props.id) }}">
                   {{ getFullIdentifier(parent) }}
                 </a>
               </td>

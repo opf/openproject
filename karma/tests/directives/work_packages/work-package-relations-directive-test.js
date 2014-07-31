@@ -65,6 +65,7 @@ describe('Work Package Relations Directive', function() {
 
   var workPackage1;
   var workPackage2;
+  var workPackage3;
 
   beforeEach(inject(function($q, $timeout) {
     workPackage1 = {
@@ -106,7 +107,8 @@ describe('Work Package Relations Directive', function() {
       props: {
         id: "3",
         subject: "Subject 3",
-        status: "Status 3"
+        status: "Status 3",
+        isClosed: true
       },
       embedded: {
         assignee: {
@@ -181,6 +183,9 @@ describe('Work Package Relations Directive', function() {
         expect(angular.element(column0).text()).to.include('Subject ' + x);
         expect(angular.element(column1).text()).to.include('Status ' + x);
         expect(angular.element(column2).text()).to.include('Assignee ' + x);
+
+        expect(angular.element(column0).find('a').hasClass('work_package')).to.be.true;
+        expect(angular.element(column0).find('a').hasClass('closed')).to.be.false;
 
         if(removable) {
           var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
@@ -319,6 +324,29 @@ describe('Work Package Relations Directive', function() {
 
         shouldBehaveLikeHasAddRelationDialog();
       }));
+    });
+
+    describe('table row of closed work package', function(){
+      beforeEach(inject(function($timeout) {
+        scope.workPackage = workPackage1;
+        scope.relations = [relation2];
+
+        WorkPackagesHelper.getRelatedWorkPackage = function() {
+          return $timeout(function() {
+            return workPackage3;
+          }, 10);
+        };
+
+        compile(singleElementHtml);
+
+        $timeout.flush();
+      }));
+
+      it('should have css class closed', function() {
+        var closedWorkPackageRow = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1) td:nth-child(1) a'));
+
+        expect(closedWorkPackageRow.hasClass('closed')).to.be.true;
+      });
     });
   });
 

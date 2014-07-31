@@ -174,6 +174,10 @@ angular.module('openproject.workPackages.helpers')
 
     //Note: The following methods are display helpers and so don't really belong here but are shared between
     // directives so it's probably the best place for them just now.
+    getState: function(workPackage) {
+      return (workPackage.props.isClosed) ? 'closed' : '';
+    },
+
     getFullIdentifier: function(workPackage) {
       var id = '#' + workPackage.props.id;
       if (workPackage.props.type) {

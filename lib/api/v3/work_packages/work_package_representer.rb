@@ -144,6 +144,7 @@ module API
         property :description, render_nil: true
         property :raw_description, render_nil: true
         property :status, render_nil: true
+        property :is_closed
         property :priority, render_nil: true
         property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
         property :due_date, getter: -> (*) { work_package.due_date }, render_nil: true
