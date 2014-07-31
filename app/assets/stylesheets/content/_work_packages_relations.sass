@@ -30,19 +30,33 @@
   width: 100%
 .detail-panel-description-content
   .relation
+    input
+      border: 1px solid #cacaca
+      border-radius: 2px
+      box-sizing: border-box
+      font-size: 13px
+      padding: 7px
+      vertical-align: 0px
+      &:hover
+        border: 1px solid #aaaaaa
+      &:focus
+        box-shadow: 1px 1px 1px #dddddd inset
     h3
       cursor: pointer
     .content
-      .workpackages
+      padding: 10px 0
+      .workpackages  
         table
           width: 100%
           table-layout: fixed
           thead
             font-weight: bold
             text-transform: uppercase
-            line-height: 32px
+            border-bottom: 2px solid #eeeeee
+            
           tr
             td
+              padding: 3px 8px 3px 0
               text-overflow: ellipsis
               white-space: nowrap
               overflow: hidden
@@ -54,6 +68,7 @@
                 width: 25%
               &:last-of-type
                 width: 10%
+              
       .delete-item
         cursor: pointer
 
@@ -63,3 +78,7 @@
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
+
+.icon-pull-content
+  font-size: 11px
+  padding: 0 3px 0 0 
