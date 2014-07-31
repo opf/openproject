@@ -64,7 +64,7 @@ h4. things we like
   }}
 
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:watcher) do
     FactoryGirl
@@ -197,5 +197,47 @@ h4. things we like
       end
     end
 
+  end
+
+  describe '#patch' do
+    let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
+    before(:each) do
+      allow(User).to receive(:current).and_return current_user
+      patch patch_path, params
+    end
+    subject(:response) { last_response }
+
+    context 'user with needed permissions' do
+      context 'valid update' do
+        let(:params) do
+          {
+            subject: 'Updated subject',
+            type: FactoryGirl.create(:type).name,
+            raw_description: 'Updated description',
+            status: FactoryGirl.create(:status).name,
+            priority: FactoryGirl.create(:priority).name,
+            startDate: Time.now - 1.week,
+            dueDate: Time.now + 2.weeks,
+            percentageDone: 50,
+          }
+        end
+
+        it 'should respond with 200' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'should responde with updated work package' do
+          expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+        end
+      end
+
+      context 'invalid update' do
+
+      end
+    end
+
+    context 'user without permissions' do
+
+    end
   end
 end
