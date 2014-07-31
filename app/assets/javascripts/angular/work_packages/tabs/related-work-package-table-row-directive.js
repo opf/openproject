@@ -46,7 +46,7 @@ angular.module('openproject.workPackages.tabs')
 
       WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
         scope.relatedWorkPackage = relatedWorkPackage;
-        scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
+        scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
       });
 
       scope.removeRelation = function() {
@@ -55,18 +55,6 @@ angular.module('openproject.workPackages.tabs')
         }, function(error) {
           ApiHelper.handleError(scope, error);
         });
-      };
-
-      function getFullIdentifier(workPackage) {
-        var id = '#' + workPackage.props.id;
-
-        if (workPackage.props.type) {
-          id += ' ' + workPackage.props.type + ':';
-        }
-
-        id += ' ' + workPackage.props.subject;
-
-        return id;
       };
     }
   };
