@@ -177,11 +177,15 @@ module Redmine
 
             # Issue statuses
             new      = Status.create!(:name => l(:default_status_new), :is_closed => false, :is_default => true, :position => 1)
-            in_progress  = Status.create!(:name => l(:default_status_in_progress), :is_closed => false, :is_default => false, :position => 3)
-            resolved  = Status.create!(:name => l(:default_status_resolved), :is_closed => false, :is_default => false, :position => 3)
-            feedback  = Status.create!(:name => l(:default_status_feedback), :is_closed => false, :is_default => false, :position => 4)
-            closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 5)
-            rejected  = Status.create!(:name => l(:default_status_rejected), :is_closed => true, :is_default => false, :position => 6)
+            specified  = Status.create!(:name => l(:default_status_specified), :is_closed => false, :is_default => false, :position => 2)
+            confirmed  = Status.create!(:name => l(:default_status_confirmed), :is_closed => false, :is_default => false, :position => 3)
+            to_be_scheduled  = Status.create!(:name => l(:default_status_to_be_scheduled), :is_closed => false, :is_default => false, :position => 4)
+            scheduled  = Status.create!(:name => l(:default_status_scheduled), :is_closed => false, :is_default => false, :position => 5)
+            in_progress  = Status.create!(:name => l(:default_status_in_progress), :is_closed => false, :is_default => false, :position => 6)
+            tested  = Status.create!(:name => l(:default_status_tested), :is_closed => false, :is_default => false, :position => 7)
+            on_hold  = Status.create!(:name => l(:default_status_on_hold), :is_closed => false, :is_default => false, :position => 8)
+            rejected  = Status.create!(:name => l(:default_status_rejected), :is_closed => true, :is_default => false, :position => 9)
+            closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 10)
 
             # Workflow
             Type.find(:all).each { |t|
