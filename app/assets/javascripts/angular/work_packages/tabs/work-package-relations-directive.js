@@ -54,15 +54,22 @@ angular.module('openproject.workPackages.tabs')
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
       scope.canAddRelation = !!scope.workPackage.links.addRelation;
+      scope.$watch('relations', function(newVal, oldVal) {
+        if(newVal) {
+          scope.visibleRelations = newVal.filter(function(relation){
+            return !!WorkPackagesHelper.getRelatedWorkPackageLink(scope.workPackage, relation);
+          });
+        }
+      });
 
       var setExpandState = function() {
-        scope.expand = scope.relations && scope.relations.length > 0;
+        scope.expand = scope.visibleRelations && scope.visibleRelations.length > 0;
       };
 
-      scope.$watch('relations', function() {
+      scope.$watch('visibleRelations', function() {
         setExpandState();
-        if(scope.relations) {
-          scope.relationsCount = scope.relations.length || 0;
+        if(scope.visibleRelations) {
+          scope.relationsCount = scope.visibleRelations.length || 0;
         }
       });
 

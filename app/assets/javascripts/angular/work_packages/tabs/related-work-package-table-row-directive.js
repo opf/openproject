@@ -43,12 +43,15 @@ angular.module('openproject.workPackages.tabs')
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
       scope.userPath = PathHelper.staticUserPath;
       scope.canDeleteRelation = !!scope.relation.links.remove;
+      scope.isVisible = !!WorkPackagesHelper.getRelatedWorkPackageLink(scope.workPackage, scope.relation)
 
-      WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
-        scope.relatedWorkPackage = relatedWorkPackage;
-        scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
-        scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
-      });
+      if(scope.isVisible) {
+        WorkPackagesHelper.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
+          scope.relatedWorkPackage = relatedWorkPackage;
+          scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
+          scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
+        });
+      }
 
       scope.removeRelation = function() {
         WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
