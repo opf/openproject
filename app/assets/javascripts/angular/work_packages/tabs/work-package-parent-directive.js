@@ -63,6 +63,10 @@ angular.module('openproject.workPackages.tabs')
       scope.$watch('expand', function(newVal, oldVal) {
         scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
       });
+
+      scope.toggleExpand = function() {
+        scope.expand = !scope.expand;
+      };
     }
   };
 }]);
