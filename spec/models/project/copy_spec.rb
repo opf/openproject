@@ -338,16 +338,33 @@ describe Project::Copy do
     end
 
     describe :copy_boards do
-      before do
-        FactoryGirl.create(:board, project: project)
+      let(:board) { FactoryGirl.create(:board, project: project) }
 
-        copy.send(:copy_boards, project)
-        copy.save
+      context "boards are copied" do
+        before do
+          copy.send(:copy_boards, project)
+          copy.save
+        end
+
+        subject { copy.boards.count }
+
+        it { should == project.boards.count }
       end
 
-      subject { copy.boards.count }
+      context "board topics are copied" do
+        before do
+          topic = FactoryGirl.create(:message, board: board)
+          message = FactoryGirl.create(:message, board: board, parent_id: topic.id)
 
-      it { should == project.boards.count }
+          copy.send(:copy_boards, project)
+          copy.save
+        end
+
+        it "should copy topics without replies" do
+          expect(copy.boards.first.topics.count).to eq(project.boards.first.topics.count)
+          expect(copy.boards.first.messages.count).to_not eq(project.boards.first.messages.count)
+        end
+      end
     end
 
     describe :copy_versions do
