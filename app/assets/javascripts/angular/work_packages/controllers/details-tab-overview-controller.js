@@ -106,7 +106,7 @@ angular.module('openproject.workPackages.controllers')
           format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
           value  = getPropertyValue(property, format);
 
-      if (!!value ||
+      if (!(value === null || value === undefined) ||
           index < 3 ||
           index < 6 && secondRowToBeDisplayed()) {
         addFormattedValueToPresentProperties(property, label, value, format);
