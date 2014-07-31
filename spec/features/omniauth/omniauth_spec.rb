@@ -108,17 +108,6 @@ describe 'Omniauth authentication' do
   end
 
   describe 'sign out a user with direct login' do
-    let!(:user) do
-      FactoryGirl.create(:user,
-                         force_password_change: false,
-                         identity_url: 'developer:omnibob@example.com',
-                         login: 'omnibob',
-                         mail: 'omnibob@example.com',
-                         firstname: 'omni',
-                         lastname: 'bob'
-                        )
-    end
-
     before do
       Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
     end
