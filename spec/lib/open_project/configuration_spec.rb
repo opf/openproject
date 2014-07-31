@@ -184,4 +184,47 @@ describe OpenProject::Configuration do
     end
   end
 
+  describe 'option developer_login' do
+    def set_env(env)
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new(env))
+    end
+
+    context 'in production mode' do
+      before do
+        set_env 'production'
+      end
+
+      it 'is disabled by default' do
+        expect(OpenProject::Configuration.developer_login?).to be false
+      end
+
+      it 'is enabled when configured accordingly' do
+        allow(OpenProject::Configuration).to receive(:[]).with('developer_login').and_return(true)
+
+        expect(OpenProject::Configuration.developer_login?).to be true
+      end
+    end
+
+    shared_examples 'developer login is enabled' do
+      it 'is enabled' do
+        expect(OpenProject::Configuration.developer_login?).to be true
+      end
+    end
+
+    context 'development mode' do
+      before do
+        set_env 'development'
+      end
+
+      it_behaves_like 'developer login is enabled'
+    end
+
+    context 'test mode' do
+      before do
+        set_env 'test' # which it should be right now anyway
+      end
+
+      it_behaves_like 'developer login is enabled'
+    end
+  end
 end
