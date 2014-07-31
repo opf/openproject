@@ -49,7 +49,7 @@ describe 'Omniauth authentication' do
   ##
   # Returns a given translation up until the first occurrence of a parameter (exclusive).
   def translation_substring(translation)
-    translation.split(" ").take_while { |word| !(word =~ /%\{.*\}/) }.join(" ")
+    translation.scan(/(^.*) %\{/).first.first
   end
 
   context 'sign in existing user' do

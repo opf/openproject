@@ -207,7 +207,7 @@ class AccountController < ApplicationController
       redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
     else
       error = user.active? || flash[:error]
-      instructions = if error then :after_error else :after_registration end
+      instructions = error ? :after_error : :after_registration
 
       render :exit, locals: { instructions: instructions }
     end
