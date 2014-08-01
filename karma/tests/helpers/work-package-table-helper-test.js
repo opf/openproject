@@ -31,7 +31,14 @@
 describe('WorkPackagesTableHelper', function() {
   var WorkPackagesTableHelper;
 
-  beforeEach(module('openproject.workPackages.helpers'));
+  beforeEach(module('openproject.workPackages.helpers', 'openproject.services'));
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
   beforeEach(inject(function(_WorkPackagesTableHelper_) {
     WorkPackagesTableHelper = _WorkPackagesTableHelper_;
   }));

@@ -241,7 +241,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('renders the due date and a placeholder for the start date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - Jul 10, 2014');
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - 07/10/2014');
         });
       });
 
@@ -262,7 +262,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('renders the start date and a placeholder for the due date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - ' + placeholder);
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('07/09/2014 - ' + placeholder);
         });
       });
 
@@ -275,7 +275,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('combines them and renders them as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - Jul 10, 2014');
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('07/09/2014 - 07/10/2014');
         });
       });
     });

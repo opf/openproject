@@ -87,7 +87,14 @@ describe('WorkPackageDetailsController', function() {
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     var workPackageId = 99;
 
