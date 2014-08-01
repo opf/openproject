@@ -129,7 +129,7 @@ module API
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
               title:  represented.work_package.parent.subject
-          } unless represented.work_package.parent.nil?
+          } unless represented.work_package.parent.nil? || !represented.work_package.parent.visible?
         end
 
         links :children do
