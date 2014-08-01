@@ -32,13 +32,15 @@ describe MeetingMailer do
   end
 
   before(:each) do
-    @participants = [meeting.participants.build(user: watcher1, invited: true, attended: false),
-                     meeting.participants.build(user: watcher2, invited: true, attended: false)]
+    author.pref[:no_self_notified] = true
+    author.save!
+    meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
+                                meeting.participants.build(user: watcher1, invited: true, attended: false)])
     meeting.save!
   end
 
   describe "content_for_review" do
-    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda' }
+    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author.mail}
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
       class A
@@ -48,15 +50,11 @@ describe MeetingMailer do
       A.new
     end
 
-
     it "renders the headers" do
       mail.subject.should include(meeting.project.name)
       mail.subject.should include(meeting.title)
-      mail.to.should include(author.mail)
       mail.from.should eq([Setting.mail_from])
-      mail.cc.should_not include(author.mail)
-      mail.cc.should include(watcher1.mail)
-      mail.cc.should include(watcher2.mail)
+      mail.to.should eq([author.mail])
     end
 
     it "renders the text body" do
@@ -74,8 +72,8 @@ describe MeetingMailer do
     body.should include(i18n.format_date meeting.start_date)
     body.should include(i18n.format_time meeting.start_time, false)
     body.should include(i18n.format_time meeting.end_time, false)
-    body.should include(@participants[0].name)
-    body.should include(@participants[1].name)
+    body.should include(meeting.participants[0].name)
+    body.should include(meeting.participants[1].name)
   end
 
   def save_and_open_mail_html_body(mail)
@@ -101,6 +99,5 @@ describe MeetingMailer do
     end
 
     FileUtils.rm(page_path)
-
   end
 end

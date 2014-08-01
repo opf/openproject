@@ -20,20 +20,12 @@
 
 class MeetingMailer < UserMailer
 
-  def content_for_review(content, content_type)
+  def content_for_review(content, content_type, address)
     @meeting = content.meeting
-    @meeting_url = meeting_url @meeting
-    @project_url = project_url @meeting.project
-    @content_type = content_type
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
 
-    recipients = @meeting.participants.collect{|p| p.mail}.reject{|r| r == @meeting.author.mail}
-    recipients << @meeting.author.mail if @meeting.author.preference[:no_self_notified]
-
     subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
-    recipients.each do |address|
-      mail to: address, subject: subject
-    end
+    mail to: address, subject: subject
   end
 end
