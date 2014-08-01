@@ -41,6 +41,7 @@ env:
 script: "psql X"
 before_install:
 before_script:
+  - "psql X"
   - "if [[ $TEST_SUITE != 'karma' ]]; then DB=postgres RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
 notifications:
   email: false
