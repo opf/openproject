@@ -54,7 +54,7 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     logout_user
-    if Concerns::OmniauthLogin.direct_login?
+    if Setting.login_required? && Concerns::OmniauthLogin.direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out
       render :exit, locals: { instructions: :after_logout }
     else
@@ -206,10 +206,12 @@ class AccountController < ApplicationController
 
       redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
     else
-      error = user.active? || flash[:error]
-      instructions = error ? :after_error : :after_registration
+      if Setting.login_required?
+        error = user.active? || flash[:error]
+        instructions = error ? :after_error : :after_registration
 
-      render :exit, locals: { instructions: instructions }
+        render :exit, locals: { instructions: instructions }
+      end
     end
   end
 
