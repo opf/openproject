@@ -184,6 +184,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to_not have_json_path('_links/addRelation/href')
         end
       end
+
+      context 'parent' do
+        let(:project) { FactoryGirl.create(:project, is_public: false) }
+        let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
+        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+        let(:work_package) { FactoryGirl.create(:work_package,
+                                                project: project,
+                                                parent_id: forbidden_work_package.id) }
+        let(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+
+        before do
+          allow(User).to receive(:current).and_return(user)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        it { expect(subject).to_not have_json_path('_links/parent') }
+      end
     end
 
     describe '_embedded' do
