@@ -37,6 +37,8 @@ branches:
     - stable
     - release/3.0
     - dev-angular
+addons:
+  postgresql: "9.1"
 env:
 script: "psql X"
 before_install:
