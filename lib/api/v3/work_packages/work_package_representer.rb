@@ -133,9 +133,9 @@ module API
         end
 
         links :children do
-          represented.work_package.children.map do |child|
+          visible_children.map do |child|
             { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
-          end unless represented.work_package.children.empty?
+          end unless visible_children.empty?
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
@@ -191,6 +191,10 @@ module API
 
         def current_user_allowed_to(permission, work_package)
           @current_user && @current_user.allowed_to?(permission, work_package.project)
+        end
+
+        def visible_children
+          @visible_children ||= represented.work_package.children.find_all { |child| child.visible? }
         end
       end
     end
