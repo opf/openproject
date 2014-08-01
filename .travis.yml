@@ -43,7 +43,7 @@ branches:
     - dev-angular
 
 addons:
-  postgresql: 9.1
+  postgresql: 9.2
 
 env:
   # Frontend
