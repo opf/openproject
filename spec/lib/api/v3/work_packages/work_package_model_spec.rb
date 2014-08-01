@@ -71,7 +71,7 @@ h2. Plan for this month
       end
     end
 
-    describe 'relations' do
+    describe 'visibility to related work packages' do
       let(:project) { FactoryGirl.create(:project, is_public: false) }
       let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
       let(:user) { FactoryGirl.create(:user, member_in_project: project) }
@@ -80,25 +80,25 @@ h2. Plan for this month
       let(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
       let(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
 
-      let!(:relation) { FactoryGirl.create(:relation,
-                                           from: work_package,
-                                           to: work_package_2) }
-      let(:forbidden_relation) { FactoryGirl.create(:relation,
-                                                    from: work_package,
-                                                    to: forbidden_work_package) }
-
       before do
         allow(User).to receive(:current).and_return(user)
         allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
-
-        forbidden_relation
       end
 
-      it { expect(model.relations.count).to eq(1) }
+      describe 'relations' do
+        let!(:relation) { FactoryGirl.create(:relation,
+                                             from: work_package,
+                                             to: work_package_2) }
+        let!(:forbidden_relation) { FactoryGirl.create(:relation,
+                                                       from: work_package,
+                                                       to: forbidden_work_package) }
 
-      it { expect(model.relations[0].from_id).to eq(work_package.id) }
+        it { expect(model.relations.count).to eq(1) }
 
-      it { expect(model.relations[0].to_id).to eq(work_package_2.id) }
+        it { expect(model.relations[0].from_id).to eq(work_package.id) }
+
+        it { expect(model.relations[0].to_id).to eq(work_package_2.id) }
+      end
     end
   end
 end
