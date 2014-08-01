@@ -29,7 +29,7 @@
 language: ruby
 rvm:
   - 2.1
-sudo: false
+#sudo: false
 cache: bundler
 branches:
   only:
