@@ -70,5 +70,35 @@ h2. Plan for this month
         it { expect(model.is_closed).to be_false }
       end
     end
+
+    describe 'relations' do
+      let(:project) { FactoryGirl.create(:project, is_public: false) }
+      let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
+      let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
+      let(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+
+      let!(:relation) { FactoryGirl.create(:relation,
+                                           from: work_package,
+                                           to: work_package_2) }
+      let(:forbidden_relation) { FactoryGirl.create(:relation,
+                                                    from: work_package,
+                                                    to: forbidden_work_package) }
+
+      before do
+        allow(User).to receive(:current).and_return(user)
+        allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+
+        forbidden_relation
+      end
+
+      it { expect(model.relations.count).to eq(1) }
+
+      it { expect(model.relations[0].from_id).to eq(work_package.id) }
+
+      it { expect(model.relations[0].to_id).to eq(work_package_2.id) }
+    end
   end
 end
