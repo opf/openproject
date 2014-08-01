@@ -21,13 +21,13 @@
             <tr related-work-package-table-row
                 ng-repeat="relation in relations">
               <td>
-                <a class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
+                <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
                   {{ fullIdentifier }}
                 </a>
               </td>
-              <td>{{ relatedWorkPackage.props.status }}</td>
+              <td title="{{ relatedWorkPackage.props.status }}">{{ relatedWorkPackage.props.status }}</td>
               <td>
-                <a href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
+                <a title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
                   {{ relatedWorkPackage.embedded.assignee.props.name }}
                 </a>
               </td>
