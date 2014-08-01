@@ -150,7 +150,9 @@ module API
         end
 
         def relations
-          work_package.relations.map{ |relation| RelationModel.new(relation) }
+          relations = work_package.relations
+          visible_relations = relations.find_all { |relation| relation.other_work_package(work_package).visible? }
+          visible_relations.map{ |relation| RelationModel.new(relation) }
         end
 
         def is_closed
