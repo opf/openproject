@@ -164,19 +164,11 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getRelatedWorkPackage: function(workPackage, relation) {
-      var link = WorkPackagesHelper.getRelatedWorkPackageLink(workPackage, relation);
-      if(link) {
-        return link.fetch();
-      }
-    },
-
-    getRelatedWorkPackageLink: function(workPackage, relation) {
       var self = workPackage.links.self.href;
-      if(relation.links.relatedTo && relation.links.relatedTo.href == self) {
-        return relation.links.relatedFrom;
-      }
-      if(relation.links.relatedFrom && relation.links.relatedFrom.href == self) {
-        return relation.links.relatedTo;
+      if (relation.links.relatedTo.href == self) {
+        return relation.links.relatedFrom.fetch();
+      } else {
+        return relation.links.relatedTo.fetch();
       }
     },
 

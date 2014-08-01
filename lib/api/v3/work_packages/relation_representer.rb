@@ -55,15 +55,11 @@ module API
         end
 
         link :relatedFrom do
-          {
-            href: "#{root_url}api/v3/work_packages/#{represented.model.from_id}"
-          } if represented.model.from.visible?(@current_user)
+          { href: "#{root_url}api/v3/work_packages/#{represented.model.from_id}" }
         end
 
         link :relatedTo do
-          {
-            href: "#{root_url}api/v3/work_packages/#{represented.model.to_id}"
-          } if represented.model.to.visible?(@current_user)
+          { href: "#{root_url}api/v3/work_packages/#{represented.model.to_id}" }
         end
 
         link :remove do
