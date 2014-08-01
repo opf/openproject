@@ -76,6 +76,7 @@ module Redmine
                                                       :view_calendar,
                                                       :comment_news,
                                                       :log_time,
+                                                      :view_time_entries,
                                                       :edit_own_time_entries,
                                                       :view_project_associations,
                                                       :view_timelines,
