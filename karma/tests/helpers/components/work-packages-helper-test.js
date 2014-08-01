@@ -35,9 +35,9 @@ describe('Work packages helper', function() {
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-    configurationService.dateFormatPresent = sinon.stub().returns(false);
-    configurationService.timeFormatPresent = sinon.stub().returns(false);
+    configurationService.isTimezoneSet = sinon.stub();
+    configurationService.dateFormatPresent = sinon.stub();
+    configurationService.timeFormatPresent = sinon.stub();
 
     $provide.constant('ConfigurationService', configurationService);
   }));
@@ -137,9 +137,13 @@ describe('Work packages helper', function() {
       expect(formatValue(null, 'date')).to.equal("");
     });
 
+    var TIME = '2014-01-01T00:00:00';
+    var EXPECTED_DATE = '01/01/2014';
+    var EXPECTED_DATETIME = '01/01/2014 12:00 AM';
+
     it('should display parsed dates and datetimes', function(){
-      expect(formatValue("01/01/2014", 'date')).to.equal("12/31/2013");
-      expect(formatValue("01/01/2014 08:19 AM", 'datetime')).to.equal("01/01/2014 7:19 AM");
+      expect(formatValue(TIME, 'date')).to.equal(EXPECTED_DATE);
+      expect(formatValue(TIME, 'datetime')).to.equal(EXPECTED_DATETIME);
     })
   });
 
