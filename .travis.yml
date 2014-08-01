@@ -35,6 +35,9 @@ sudo: false
 
 cache: bundler
 
+addons:
+  postgresql: 9.1
+
 branches:
   only:
     - dev
