@@ -25,7 +25,7 @@ module API
               relation.save!
               representer.to_json
             else
-              raise ::API::Errors::Validation.new(relation)
+              fail Errors::Validation.new(relation)
             end
           end
 

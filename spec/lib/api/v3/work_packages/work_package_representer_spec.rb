@@ -184,6 +184,45 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to_not have_json_path('_links/addRelation/href')
         end
       end
+
+      describe 'linked relations' do
+        let(:project) { FactoryGirl.create(:project, is_public: false) }
+        let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
+        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+        before do
+          allow(User).to receive(:current).and_return(user)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        context 'parent' do
+          let(:work_package) { FactoryGirl.create(:work_package,
+                                                  project: project,
+                                                  parent_id: forbidden_work_package.id) }
+          let!(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+
+          it { expect(subject).to_not have_json_path('_links/parent') }
+        end
+
+        context 'children' do
+          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+          let!(:forbidden_work_package) { FactoryGirl.create(:work_package,
+                                                             project: forbidden_project,
+                                                             parent_id: work_package.id) }
+
+          it { expect(subject).to_not have_json_path('_links/children') }
+
+          describe 'visible and invisible children' do
+            let!(:child) { FactoryGirl.create(:work_package,
+                                              project: project,
+                                              parent_id: work_package.id) }
+
+            it { expect(subject).to have_json_size(1).at_path('_links/children') }
+
+            it { expect(parse_json(subject)["_links"]["children"][0]["title"]).to eq(child.subject) }
+          end
+        end
+      end
     end
 
     describe '_embedded' do

@@ -38,11 +38,12 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getErrorMessage: function(error) {
-      var response = JSON.parse(error.responseText);
       if(error.status == 422) {
-        return response.description + response.errors.map(function(error) {
-          return " \"" + error.key + "\"" + " " + error.messages[0];
-        }).join('. ');
+        var response = JSON.parse(error.responseText);
+        return response.errors.join('. ');
+      }
+      if(error.status == 500) {
+        return error.statusText;
       }
     },
 
