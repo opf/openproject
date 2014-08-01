@@ -42,9 +42,6 @@ branches:
     - release/3.0
     - dev-angular
 
-addons:
-  postgresql: 9.2
-
 env:
   # Frontend
   - "TEST_SUITE=karma"
