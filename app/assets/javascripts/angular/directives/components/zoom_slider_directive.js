@@ -28,15 +28,18 @@
 
 angular.module('openproject.uiComponents')
 
-.directive('zoomSlider', function() {
-  // TODO pass options to directive and do not refer to timelines
+.constant('DEFAULT_ZOOM_SCALES', ['yearly', 'quarterly', 'monthly', 'weekly', 'daily'])
+.directive('zoomSlider', ['DEFAULT_ZOOM_SCALES', function(DEFAULT_ZOOM_SCALES) {
+
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
-      scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
+      if (!scope.scaleOptions) scope.scaleOptions = DEFAULT_ZOOM_SCALES;
+
+      scope.currentScaleIndex = scope.scaleOptions.indexOf(scope.currentScaleName);
       scope.slider = element.slider({
         min: 1,
-        max: Timeline.ZOOM_SCALES.length,
+        max: scope.scaleOptions.length,
         range: 'min',
         value: scope.currentScaleIndex + 1,
         slide: function(event, ui) {
@@ -57,7 +60,7 @@ angular.module('openproject.uiComponents')
       scope.$watch('currentScaleIndex', function(newIndex){
         scope.currentScaleIndex = newIndex;
 
-        newScaleName = Timeline.ZOOM_SCALES[newIndex];
+        newScaleName = scope.scaleOptions[newIndex];
         if (scope.currentScaleName !== newScaleName) {
           scope.currentScaleName = newScaleName;
         }
@@ -65,4 +68,4 @@ angular.module('openproject.uiComponents')
 
     }
   };
-});
+}]);
