@@ -100,6 +100,8 @@ describe('Work Package Relations Directive', function() {
     relationsHandler.isEmpty.returns(count === 0);
     relationsHandler.getCount.returns(count);
 
+    relationsHandler.type = "relation";
+
     return relationsHandler;
   };
 
