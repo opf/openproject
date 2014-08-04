@@ -38,6 +38,15 @@ angular.module('openproject.workPackages.controllers')
   precedes: "Relation::Precedes",
   follows: "Relation::Follows"
 })
+.constant('RELATION_IDENTIFIERS', {
+  relatedTo: "relates",
+  duplicates: "duplicates",
+  duplicated: "duplicated",
+  blocks: "blocks",
+  blocked: "blocked",
+  precedes: "precedes",
+  follows: "follows"
+})
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -46,10 +55,12 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'VISIBLE_LATEST',
   'RELATION_TYPES',
+  'RELATION_IDENTIFIERS',
   '$q',
   'WorkPackagesHelper',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, $q, WorkPackagesHelper, ConfigurationService) {
+  'CommonRelationsHandler',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -112,7 +123,10 @@ angular.module('openproject.workPackages.controllers')
         if (RELATION_TYPES.hasOwnProperty(key)) {
           (function(key) {
             $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
-              $scope[key] = relations;
+              var relationsHandler = new CommonRelationsHandler(workPackage,
+                                                                relations,
+                                                                RELATION_IDENTIFIERS[key]);
+              $scope[key] = relationsHandler;
             });
           })(key);
         }
