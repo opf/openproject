@@ -150,7 +150,7 @@ module Redmine
             end).flatten]
 
             # Types
-            Type.create! :name           => l(:default_type_task),
+            task = Type.create! :name           => l(:default_type_task),
                          :color_id       => colors[:Mint],
                          :is_default     => false,
                          :is_in_roadmap  => true,
@@ -158,7 +158,7 @@ module Redmine
                          :is_milestone   => false,
                          :position       => 1
 
-            Type.create! :name           => l(:default_type_deliverable),
+            deliverable = Type.create! :name           => l(:default_type_deliverable),
                          :is_default     => false,
                          :color_id       => colors[:Orange],
                          :is_in_roadmap  => true,
@@ -166,7 +166,7 @@ module Redmine
                          :is_milestone   => false,
                          :position       => 2
 
-            Type.create! :name           => l(:default_type_milestone),
+            milestone = Type.create! :name           => l(:default_type_milestone),
                          :is_default     => true,
                          :color_id       => colors[:Purple],
                          :is_in_roadmap  => false,
@@ -174,7 +174,7 @@ module Redmine
                          :is_milestone   => true,
                          :position       => 3
 
-            Type.create! :name           => l(:default_type_phase),
+            phase = Type.create! :name           => l(:default_type_phase),
                          :is_default     => true,
                          :color_id       => colors[:Lime],
                          :is_in_roadmap  => false,
@@ -182,7 +182,7 @@ module Redmine
                          :is_milestone   => false,
                          :position       => 4
 
-            Type.create! :name           => l(:default_type_bug),
+            bug = Type.create! :name           => l(:default_type_bug),
                          :is_default     => false,
                          :color_id       => colors[:'Red-bright'],
                          :is_in_roadmap  => true,
@@ -190,13 +190,15 @@ module Redmine
                          :is_milestone   => false,
                          :position       => 5
                          
-            Type.create! :name           => l(:default_type_feature),
+            feature = Type.create! :name           => l(:default_type_feature),
                          :is_default     => false,
                          :color_id       => colors[:Blue],
                          :is_in_roadmap  => true,
                          :in_aggregation => true,
                          :is_milestone   => false,
                          :position       => 6
+                         
+            none = Type.standard_type
 
             # Issue statuses
             new      = Status.create!(:name => l(:default_status_new), :is_closed => false, :is_default => true, :position => 1)
@@ -211,11 +213,18 @@ module Redmine
             closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 10)
 
             # Workflow
-            Type.find(:all).each { |t|
-              Status.find(:all).each { |os|
-                Status.find(:all).each { |ns|
+            statuses_for_task = [new, in_progress, on_hold, rejected, closed]
+            statuses_for_deliverable = [new, specified, in_progress, on_hold, rejected, closed]
+            statuses_for_none = [new, in_progress, rejected, closed]
+            statuses_for_milestone = [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed]
+            statuses_for_phase = statuses_for_milestone
+            statuses_for_bug = [new, confirmed, in_progress, tested, on_hold, rejected, closed]
+            statuses_for_feature = [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed]
+            ["task", "deliverable", "none", "milestone", "phase", "bug", "feature"].each { |t|
+              (eval "statuses_for_".concat(t)).each { |os|
+                (eval "statuses_for_".concat(t)).each { |ns|
                   [manager.id, member.id].each { |role_id|
-                    Workflow.create!(:type_id => t.id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                    Workflow.create!(:type_id => (eval t).id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                   }
                 }
               }
@@ -228,7 +237,7 @@ module Redmine
             IssuePriority.create!(:name => l(:default_priority_high), :position => 3)
             IssuePriority.create!(:name => l(:default_priority_immediate), :position => 5)
 
-            TimeEntryActivity.create!(:name => l(:default_activity_management), :position => 1)
+            TimeEntryActivity.create!(:name => l(:default_activity_management), :position => 1, :is_default => true)
             TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 2)
             TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 3)
             TimeEntryActivity.create!(:name => l(:default_activity_testing), :position => 4)
@@ -243,6 +252,11 @@ module Redmine
             
             ProjectType.create!(:name => l(:default_project_type_customer))
             ProjectType.create!(:name => l(:default_project_type_internal))
+            
+            reported_status_ids = ReportedProjectStatus.find(:all).map { |rps| rps.id }
+            ProjectType.find(:all).each { |project|
+              project.update_attributes(reported_project_status_ids: reported_status_ids)
+            }
           end
           true
         end
