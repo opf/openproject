@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'subscribem/delayed_job/hooks'
+
 class CopyProjectJob < Struct.new(:user,
                                   :source_project,
                                   :target_project_params,
@@ -34,6 +36,7 @@ class CopyProjectJob < Struct.new(:user,
                                   :associations_to_copy,
                                   :send_mails)
   include OpenProject::LocaleHelper
+  include Subscribem::Delayed::Job::Hooks
 
   def perform
     target_project, errors = with_locale_for(user) do
@@ -45,11 +48,11 @@ class CopyProjectJob < Struct.new(:user,
     end
 
     if target_project
-      UserMailer.delay.copy_project_succeeded(user, source_project, target_project, errors)
+      UserMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver
     else
       target_project_name = target_project_params[:name]
 
-      UserMailer.delay.copy_project_failed(user, source_project, target_project_name)
+      UserMailer.copy_project_failed(user, source_project, target_project_name).deliver
     end
   end
 
