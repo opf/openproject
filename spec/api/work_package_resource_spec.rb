@@ -228,6 +228,8 @@ h4. things we like
 
         it 'should respond with updated work package' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+          expect(subject.body).to be_json_eql(params[:status].to_json).at_path('status')
+          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
 
         it 'should update the dates in iso8601 format' do
@@ -239,25 +241,30 @@ h4. things we like
           expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
         end
 
-        it 'should allow to change the status' do
-          expect(subject.body).to be_json_eql(params[:status].to_json).at_path('status')
-        end
-
-        it 'should allow to change the priority' do
-          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
-        end
-
-        it 'should allow to change the responsible' do
-
-        end
-
-        it 'should allow to change the assignee' do
-
-        end
       end
 
       context 'invalid update' do
+        let(:params) do
+          {
+            subject: ' ',
+            type: FactoryGirl.create(:type).name,
+            rawDescription: '<h1>Updated description</h1>',
+            status: FactoryGirl.create(:status).name,
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
 
+        it 'should respond with 422' do
+          expect(response.status).to eq 422
+        end
+
+         it 'should respond with explanatory error message' do
+          parsed_errors = JSON.parse(last_response.body)['errors']
+          parsed_errors.should eq([{ 'key' => 'subject', 'messages' => ['can\'t be blank']}])
+        end
       end
     end
 
