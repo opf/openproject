@@ -33,7 +33,17 @@ describe('queryMenuItemFactory', function() {
       queryMenuItemFactory, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.layout'));
-  beforeEach(module('templates', 'openproject.services', 'openproject.models', 'openproject.api'));
+  beforeEach(module('templates',
+                    'openproject.services',
+                    'openproject.models',
+                    'openproject.api',
+                    function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(module('templates', function($provide) {
     $provide.value('$stateParams', stateParams);

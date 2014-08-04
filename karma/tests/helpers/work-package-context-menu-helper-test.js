@@ -31,7 +31,15 @@
 describe('WorkPackageContextMenuHelper', function() {
   var WorkPackageContextMenuHelper;
 
-  beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api'));
+  beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api', 'openproject.services'));
+
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(inject(function(_WorkPackageContextMenuHelper_) {
     WorkPackageContextMenuHelper = _WorkPackageContextMenuHelper_;
