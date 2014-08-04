@@ -159,7 +159,7 @@ describe('WorkPackageDetailsController', function() {
       });
 
       it('Relation::Relates', function() {
-        expect(scope.relatedTo.length).to.eq(1);
+        expect(scope.relatedTo).to.be.ok;
       });
     });
   });
