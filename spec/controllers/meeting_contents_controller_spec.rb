@@ -42,31 +42,33 @@ describe MeetingContentsController do
     controller.instance_variable_set(:@content_type, 'meeting_agenda')
   end
 
+  shared_examples_for 'delivered by mail' do
+    before { put "notify", meeting_id: meeting.id }
+
+    it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
+  end
+
   describe "PUT" do
     describe "notify" do
       context "when author no_self_notified property is true" do
         before do
           author.pref[:no_self_notified] = true
           author.save!
-
-          put "notify", :meeting_id => meeting.id
         end
 
-        it 'should send mail to all meeting participants' do
-          expect(ActionMailer::Base.deliveries.count).to eql(3)
+        it_behaves_like 'delivered by mail' do
+          let(:mail_count) { 2 }
         end
       end
 
       context "when author no_self_notified property is false" do
         before do
           author.pref[:no_self_notified] = false
-          author.save
-
-          put "notify", :meeting_id => meeting.id
+          author.save!
         end
 
-        it 'should send mail to all meeting participants except author' do
-          expect(ActionMailer::Base.deliveries.count).to eql(2)
+        it_behaves_like 'delivered by mail' do
+          let(:mail_count) { 3 }
         end
       end
     end

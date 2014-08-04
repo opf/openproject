@@ -32,7 +32,7 @@ describe MeetingMailer do
   end
 
   before(:each) do
-    author.pref[:no_self_notified] = true
+    author.pref[:no_self_notified] = false
     author.save!
     meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
                                 meeting.participants.build(user: watcher1, invited: true, attended: false)])
