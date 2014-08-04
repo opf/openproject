@@ -151,7 +151,7 @@ class AdminControllerTest < ActionController::TestCase
 
   def delete_configuration_data
     Role.delete_all('builtin = 0')
-    Type.delete_all('is_standard = 0')
+    Type.delete_all('is_standard = false')
     Status.delete_all
     Enumeration.delete_all
   end
