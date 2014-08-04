@@ -257,6 +257,20 @@ module Redmine
             ProjectType.find(:all).each { |project|
               project.update_attributes(reported_project_status_ids: reported_status_ids)
             }
+            
+            Setting['notified_events'] = ['work_package_added', \
+                                           'work_package_updated',\
+                                           'work_package_note_added',\
+                                           'work_package_updated',\
+                                           'status_updated',\
+                                           'work_package_updated',\
+                                           'work_package_priority_updated',\
+                                           'work_package_updated',\
+                                           'news_added', 'news_comment_added',\
+                                           'file_added',\
+                                           'message_posted',\
+                                           'wiki_content_added',\
+                                           'wiki_content_updated']
           end
           true
         end
