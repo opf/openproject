@@ -29,50 +29,9 @@
 // TODO move to UI components
 angular.module('openproject.workPackages.tabs')
 
-.directive('workPackageRelations', [
-    'I18n',
-    'PathHelper',
-    'WorkPackageService',
-    'WorkPackagesHelper',
-    'PathHelper',
-    'ApiHelper',
-    '$timeout',
-    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, PathHelper, ApiHelper, $timeout) {
+.directive('addWorkPackageRelation', [function() {
   return {
     restrict: 'E',
-    replace: true,
-    scope: {
-      title: '@',
-      handler: '=',
-      btnTitle: '@buttonTitle',
-      btnIcon: '@buttonIcon',
-      isSingletonRelation: '@singletonRelation'
-    },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
-    link: function(scope, element, attrs) {
-      scope.I18n = I18n;
-      scope.workPackage = scope.handler.workPackage;
-
-      var setExpandState = function() {
-        scope.expand = !scope.handler.isEmpty();
-      };
-
-      scope.$watch('handler.relations', function() {
-        setExpandState();
-        scope.relationsCount = scope.handler.getCount();
-      });
-
-      scope.$watch('expand', function(newVal, oldVal) {
-        scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
-      });
-
-      scope.toggleExpand = function() {
-        scope.expand = !scope.expand;
-      };
-
-      $timeout(function() {
-        scope.handler.applyCustomExtensions();
-      });
-    }
+    templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
   };
 }]);

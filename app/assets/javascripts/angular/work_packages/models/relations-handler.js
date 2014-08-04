@@ -39,6 +39,8 @@ angular.module('openproject.models')
     this.workPackage = workPackage;
     this.relations = relations;
     this.relationsId = relationsId;
+
+    this.type = "relation";
   }
 
   CommonRelationsHandler.prototype = {
