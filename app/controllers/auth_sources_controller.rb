@@ -32,6 +32,7 @@ class AuthSourcesController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :block_if_password_login_disabled
 
   def index
     @auth_sources = AuthSource.page(params[:page])
@@ -98,5 +99,9 @@ class AuthSourcesController < ApplicationController
 
   def default_breadcrumb
     l(:label_auth_source_plural)
+  end
+
+  def block_if_password_login_disabled
+    render_404 if OpenProject::Configuration.disable_password_login?
   end
 end

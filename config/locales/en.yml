@@ -641,6 +641,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -1596,13 +1597,17 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
-
 
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
 
+  note: Note
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
+  warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   menu_item: "Menu item"

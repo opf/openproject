@@ -644,6 +644,7 @@ de:
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
   label_collapse: "Zuklappen"
+  label_configuration: Konfiguration
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -1606,12 +1607,18 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
+    no_login: "Dieser Nutzer wird per Passwort authentifiziert. Er kann sich jedoch nicht einloggen, da Login per Passwort deaktiviert ist."
+    password_change_unsupported: Passwortänderung wird nicht unterstützt
     authorization_rejected: "Sie dürfen sich nicht einloggen."
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"
   version_status_open: "offen"
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+
+  note: Hinweis
+  note_password_login_disabled: "Der Passwort-Login wurde per %{configuration} deaktiviert."
+  warning: Warnung
 
   menu_item: "Menüpunkt"
   menu_item_setting: "Sichtbarkeit"
