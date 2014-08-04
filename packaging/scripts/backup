@@ -2,8 +2,6 @@
 
 set -e
 
-TARGET=${TARGET:=$ORIGINAL_PWD}
-TARGET=${TARGET:=$(pwd)}
 TARGET="/var/db/openproject/backup"
 
 mkdir -p "${TARGET}"
