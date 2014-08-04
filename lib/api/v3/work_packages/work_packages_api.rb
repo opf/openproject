@@ -52,7 +52,7 @@ module API
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
               @representer.from_json(params.except(:route_info, :id).to_json)
-              @representer.represented.save!
+              @representer.represented.save
               @representer.to_json
             end
 

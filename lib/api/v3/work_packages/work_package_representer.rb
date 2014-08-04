@@ -146,8 +146,8 @@ module API
         property :status, render_nil: true
         property :is_closed
         property :priority, render_nil: true
-        property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
-        property :due_date, getter: -> (*) { work_package.due_date }, render_nil: true
+        property :start_date, getter: -> (*) { work_package.start_date.to_datetime.utc.iso8601 unless work_package.start_date.nil? }, render_nil: true
+        property :due_date, getter: -> (*) { work_package.due_date.to_datetime.utc.iso8601 unless work_package.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
         property :percentage_done, render_nil: true
         property :version_id, getter: -> (*) { work_package.fixed_version.try(:id) }, render_nil: true

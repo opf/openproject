@@ -213,12 +213,12 @@ h4. things we like
           {
             subject: 'Updated subject',
             type: FactoryGirl.create(:type).name,
-            raw_description: 'Updated description',
+            rawDescription: '<h1>Updated description</h1>',
             status: FactoryGirl.create(:status).name,
             priority: FactoryGirl.create(:priority).name,
-            startDate: Time.now - 1.week,
-            dueDate: Time.now + 2.weeks,
-            percentageDone: 50,
+            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
           }
         end
 
@@ -226,8 +226,33 @@ h4. things we like
           expect(response.status).to eq(200)
         end
 
-        it 'should responde with updated work package' do
+        it 'should respond with updated work package' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+        end
+
+        it 'should update the dates in iso8601 format' do
+          expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
+          expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
+        end
+
+        it 'should allow html in raw description' do
+          expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
+        end
+
+        it 'should allow to change the status' do
+          expect(subject.body).to be_json_eql(params[:status].to_json).at_path('status')
+        end
+
+        it 'should allow to change the priority' do
+          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
+        end
+
+        it 'should allow to change the responsible' do
+
+        end
+
+        it 'should allow to change the assignee' do
+
         end
       end
 
