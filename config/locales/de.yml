@@ -33,8 +33,8 @@ de:
     deleted: "Account erfolgreich gelöscht"
     deletion_info:
       data_consequences:
-        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
-        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die von Ihnen erstellten Daten auf Ihre Person zurückzuführen."
+        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspaketen, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
+        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspakete, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die von Ihnen erstellten Daten auf Ihre Person zurückzuführen."
       heading: "Lösche Account %{name}"
       info:
         other: "Das Löschen des Accounts kann nicht rückgängig gemacht werden."
@@ -115,11 +115,11 @@ de:
       repository:
         url: "URL"
       role:
-        assignable: "Tickets können dieser Rolle zugewiesen werden"
+        assignable: "Arbeitspakete können dieser Rolle zugewiesen werden"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
-        issue: "Ticket"
+        issue: "Arbeitspaket"
         spent_on: "Datum"
         type: "Typ"
       type_color:
@@ -262,7 +262,7 @@ de:
       comment: "Kommentar"
       custom_field: "Benutzerdefiniertes Feld"
       group: "Gruppe"
-      issue: "Ticket"
+      issue: "Arbeitspaket"
       category: "Kategorie"
       status: "Arbeitspaket-Status"
       member: "Mitglied"
@@ -348,7 +348,7 @@ de:
   button_collapse_all: "Alle zuklappen"
   button_configure: "Konfigurieren"
   button_copy: "Kopieren"
-  button_copy_and_follow: "Kopieren und Ticket anzeigen"
+  button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
@@ -363,7 +363,7 @@ de:
   button_log_time: "Aufwand buchen"
   button_login: "Anmelden"
   button_move: "Verschieben"
-  button_move_and_follow: "Verschieben und Ticket anzeigen"
+  button_move_and_follow: "Verschieben und Arbeitspaket anzeigen"
   button_quote: "Zitieren"
   button_remove_widget: "Infobox löschen"
   button_rename: "Umbenennen"
@@ -485,10 +485,10 @@ de:
   description_attachment_toggle: "Dateien aus/einblenden"
   description_autocomplete: >
     Für dieses Feld werden Sie mit einer Autovervollständigung
-    unterstützt. Sie können einen Teil des Tickettitels schreiben und
-    bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
+    unterstützt. Sie können einen Teil des Arbeitspakettitels schreiben und
+    bekommen eine Liste von möglichen Arbeitspaketen angezeigt. Wählen Sie mit
     den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
-    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen.
+    oder Enter. Sie können aber auch die Arbeitspaketnummer direkt eintragen.
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
