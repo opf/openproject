@@ -292,36 +292,20 @@ describe('Work Package Relations Directive', function() {
   };
 
   describe('no element markup', function() {
-    describe('single element behavior', function() {
-      beforeEach(function() {
-        scope.relations = relationsHandlerEmpty;
+    beforeEach(function() {
+      scope.relations = relationsHandlerMulti;
 
-        scope.relations.canAddRelation.returns(true);
+      scope.relations.canAddRelation.returns(true);
+      scope.relations.isEmpty.returns(true);
 
-        compile(html);
-      });
-
-      shouldBehaveLikeCollapsedRelationsDirective();
-
-      shouldBehaveLikeHasAddRelationDialog();
+      compile(html);
     });
 
-    describe('multi element behavior', function() {
-      beforeEach(function() {
-        scope.relations = relationsHandlerMulti;
+    shouldBehaveLikeMultiRelationDirective();
 
-        scope.relations.canAddRelation.returns(true);
-        scope.relations.isEmpty.returns(true);
+    shouldBehaveLikeCollapsedRelationsDirective();
 
-        compile(html);
-      });
-
-      shouldBehaveLikeMultiRelationDirective();
-
-      shouldBehaveLikeCollapsedRelationsDirective();
-
-      shouldBehaveLikeHasAddRelationDialog();
-    });
+    shouldBehaveLikeHasAddRelationDialog();
   });
 
   describe('single element markup', function() {
