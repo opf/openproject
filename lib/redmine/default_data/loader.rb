@@ -220,6 +220,8 @@ module Redmine
             statuses_for_phase = statuses_for_milestone
             statuses_for_bug = [new, confirmed, in_progress, tested, on_hold, rejected, closed]
             statuses_for_feature = [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed]
+            #Give each type its own workflow. Possible statuses are stored in one of the arrays above. 
+            #Every status from the array gets a workflow to every other status from the array. 
             ["task", "deliverable", "none", "milestone", "phase", "bug", "feature"].each { |t|
               (eval "statuses_for_".concat(t)).each { |os|
                 (eval "statuses_for_".concat(t)).each { |ns|
