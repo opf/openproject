@@ -66,7 +66,7 @@ child @work_packages => :work_packages do
   end
 
   node :created_at do |wp|
-    wp.updated_at.utc.iso8601
+    wp.created_at.utc.iso8601
   end
 
   node :_actions do |wp|
