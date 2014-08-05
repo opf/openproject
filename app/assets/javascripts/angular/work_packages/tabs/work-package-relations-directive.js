@@ -70,9 +70,11 @@ angular.module('openproject.workPackages.tabs')
         scope.expand = !scope.expand;
       };
 
-      $timeout(function() {
-        scope.handler.applyCustomExtensions();
-      });
+      if (scope.handler.applyCustomExtensions) {
+        $timeout(function() {
+          scope.handler.applyCustomExtensions();
+        });
+      }
     }
   };
 }]);
