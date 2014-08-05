@@ -117,6 +117,7 @@ de:
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_remove_columns: "Ausgewählte Spalten entfernen"
+    label_select_watcher: "Wählen Sie einen Beobachter..."
     label_show_attributes: "Alle Attribute anzeigen"
     label_sort_by: "Sortiere nach"
     label_sorted_by: "sortiert nach"

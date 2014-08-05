@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('DetailsTabWatchersController', ['$scope', 'workPackage', function($scope, workPackage) {
-  // available watchers
+.controller('DetailsTabWatchersController', ['$scope', 'workPackage', 'I18n', function($scope, workPackage, I18n) {
+  $scope.I18n = I18n;
 
   $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
 
@@ -78,11 +78,21 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  $scope.addWatcher = function(id) {
-    $scope.workPackage.link('addWatcher', {user_id: id})
-      .fetch({ajax: {method: 'POST'}})
-      .then($scope.refreshWorkPackage, $scope.outputError);
+  var addWatcher = function() {
+    var id = $scope.selectedWatcher.id;
+
+    $scope.selectedWatcher.id = null;
+
+    if (id) {
+      $scope.workPackage.link('addWatcher', {user_id: id})
+        .fetch({ajax: {method: 'POST'}})
+        .then($scope.refreshWorkPackage, $scope.outputError);
+    }
   };
+
+  $scope.selectedWatcher = { id: null };
+
+  $scope.$watch('selectedWatcher.id', addWatcher);
 
   $scope.deleteWatcher = function(watcher) {
     watcher.links.removeWatcher
