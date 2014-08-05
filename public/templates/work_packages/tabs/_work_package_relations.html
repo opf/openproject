@@ -2,7 +2,7 @@
   <h3>
     <accessible-by-keyboard execute="toggleExpand()">
       <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
-      <span ng-if="!isSingletonRelation">({{ handler.getCount() }})</span>
+      <span ng-if="!handler.isSingletonRelation">({{ handler.getCount() }})</span>
     </accessible-by-keyboard>
   </h3>
   <div class="content" ng-show="expand">

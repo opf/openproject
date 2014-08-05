@@ -61,7 +61,8 @@ angular.module('openproject.workPackages.controllers')
   'ConfigurationService',
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler) {
+  'ParentRelationsHandler',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -113,7 +114,8 @@ angular.module('openproject.workPackages.controllers')
 
       // relations
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-        $scope.wpParent = parents.length ? parents[0] : null;
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        $scope.wpParent = relationsHandler;
       });
 
       $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {

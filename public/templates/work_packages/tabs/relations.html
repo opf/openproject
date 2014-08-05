@@ -1,13 +1,10 @@
 <div class="detail-panel-description">
   <div class="detail-panel-description-content">
-    <work-package-parent title="{{ I18n.t('js.relation_labels.parent') }}"
-                         work-package="workPackage"
-                         parent="wpParent"
-                         relation-identifier="'parent'"
+    <work-package-relations title="{{ I18n.t('js.relation_labels.parent') }}"
+                         handler="wpParent"
                          button-title="Change Parent"
-                         button-icon="<i class='icon-hierarchy icon-edit'></i>"
-                         singleton-relation="true">
-    </work-package-parent>
+                         button-icon="<i class='icon-hierarchy icon-edit'></i>">
+    </work-package-relations>
 
     <work-package-relations title="{{ I18n.t('js.relation_labels.children') }}"
                             handler="wpChildren"

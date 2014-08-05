@@ -41,6 +41,7 @@ angular.module('openproject.models')
     this.relationsId = relationsId;
 
     this.type = "relation";
+    this.isSingletonRelation = false;
   }
 
   CommonRelationsHandler.prototype = {
@@ -113,4 +114,20 @@ angular.module('openproject.models')
   }
 
   return ChildrenRelationsHandler;
+}])
+
+.factory('ParentRelationsHandler', ['ChildrenRelationsHandler',
+                                    function(ChildrenRelationsHandler) {
+  function ParentRelationsHandler(workPackage, parents) {
+    var handler = new ChildrenRelationsHandler(workPackage, parents, undefined);
+
+    handler.type = "parent";
+    handler.canAddRelation = function() { return false };
+    handler.addRelation = undefined;
+    handler.isSingletonRelation = true;
+
+    return handler;
+  }
+
+  return ParentRelationsHandler;
 }]);
