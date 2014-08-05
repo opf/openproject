@@ -43,9 +43,7 @@ angular.module('openproject.workPackages.tabs')
     replace: true,
     scope: {
       title: '@',
-      workPackage: '=',
-      relations: '=',
-      relationIdentifier: '=',
+      handler: '=',
       btnTitle: '@buttonTitle',
       btnIcon: '@buttonIcon',
       isSingletonRelation: '@singletonRelation'
@@ -53,16 +51,23 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.canAddRelation = !!scope.workPackage.links.addRelation;
 
       var setExpandState = function() {
-        scope.expand = scope.relations && scope.relations.length > 0;
+        scope.expand = !scope.handler.isEmpty();
       };
 
-      scope.$watch('relations', function() {
-        setExpandState();
-        if(scope.relations) {
-          scope.relationsCount = scope.relations.length || 0;
+      scope.$watch('handler', function() {
+        if (scope.handler) {
+          scope.workPackage = scope.handler.workPackage;
+
+          setExpandState();
+          scope.relationsCount = scope.handler.getCount();
+
+          if (scope.handler.applyCustomExtensions) {
+            $timeout(function() {
+              scope.handler.applyCustomExtensions();
+            });
+          }
         }
       });
 
@@ -73,36 +78,6 @@ angular.module('openproject.workPackages.tabs')
       scope.toggleExpand = function() {
         scope.expand = !scope.expand;
       };
-
-      scope.addRelation = function() {
-        var inputElement = angular.element('#relation_to_id-' + scope.relationIdentifier);
-        var toId = inputElement.val();
-        WorkPackageService.addWorkPackageRelation(scope.workPackage, toId, scope.relationIdentifier).then(function(relation) {
-            inputElement.val('');
-            scope.$emit('workPackageRefreshRequired', '');
-        }, function(error) {
-          ApiHelper.handleError(scope, error);
-        });
-      };
-
-      // Massive hack alert - Using old prototype autocomplete ///////////
-      if(scope.canAddRelation) {
-        $timeout(function(){
-          var url = PathHelper.workPackageAutoCompletePath(scope.workPackage.props.projectId, scope.workPackage.props.id);
-          new Ajax.Autocompleter('relation_to_id-' + scope.relationIdentifier,
-                                 'related_issue_candidates-' + scope.relationIdentifier,
-                                 url,
-                                 { minChars: 1,
-                                   frequency: 0.5,
-                                   paramName: 'q',
-                                   updateElement: function(value) {
-                                     document.getElementById('relation_to_id-' + scope.relationIdentifier).value = value.id;
-                                   },
-                                   parameters: 'scope=all'
-                                   });
-        });
-      }
-      ////////////////////////////////////////////////////////////////////
     }
   };
 }]);

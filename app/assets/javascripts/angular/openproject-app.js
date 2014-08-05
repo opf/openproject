@@ -39,6 +39,7 @@ angular.module('openproject.models', [
   'openproject.workPackages.config',
   'openproject.services'
 ]);
+angular.module('openproject.viewModels', ['openproject.services']);
 
 // timelines
 angular.module('openproject.timelines', [
@@ -82,6 +83,7 @@ angular.module('openproject.workPackages.filters', [
 angular.module('openproject.workPackages.config', []);
 angular.module('openproject.workPackages.controllers', [
   'openproject.models',
+  'openproject.viewModels',
   'openproject.workPackages.helpers',
   'openproject.services',
   'openproject.workPackages.config',

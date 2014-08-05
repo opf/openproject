@@ -144,7 +144,7 @@ angular.module('openproject.workPackages.helpers')
         for (var x = 0; x < children.length; x++) {
           var child = children[x];
 
-          result.push(child.fetch());
+          result.push(child);
         }
       }
 
@@ -166,15 +166,6 @@ angular.module('openproject.workPackages.helpers')
       }
 
       return result;
-    },
-
-    getRelatedWorkPackage: function(workPackage, relation) {
-      var self = workPackage.links.self.href;
-      if (relation.links.relatedTo.href == self) {
-        return relation.links.relatedFrom.fetch();
-      } else {
-        return relation.links.relatedTo.fetch();
-      }
     },
 
     //Note: The following methods are display helpers and so don't really belong here but are shared between

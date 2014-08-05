@@ -2,12 +2,12 @@
   <h3>
     <accessible-by-keyboard execute="toggleExpand()">
       <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
-      <span ng-if="!isSingletonRelation">({{ relationsCount }})</span>
+      <span ng-if="!handler.isSingletonRelation">({{ handler.getCount() }})</span>
     </accessible-by-keyboard>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">
-      <div ng-if="relations">
+      <div ng-if="handler.relations">
         <table>
           <thead>
             <tr>
@@ -19,7 +19,7 @@
           </thead>
           <tbody>
             <tr related-work-package-table-row
-                ng-repeat="relation in relations">
+                ng-repeat="relation in handler.relations">
               <td>
                 <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
                   {{ fullIdentifier }}
@@ -41,23 +41,13 @@
           </tbody>
         </table>
       </div>
-      <div ng-if="!relations || relations.length === 0">
+      <div ng-if="handler.isEmpty()">
         No relation exists
       </div>
     </div>
-    <div class="add-relation" ng-if="canAddRelation">
-      <button class="button"
-              title="{{ btnTitle }}"
-              ng-bind-html="btnIcon + ' ' + btnTitle"
-              ng-click="addRelation()">
-      </button>
-      <input id="relation_to_id-{{ relationIdentifier }}"
-             name="relation[to_id][{{ relationIdentifier }}]"
-             size="10"
-             type="text"
-             autocomplete="off">
-      <div id="related_issue_candidates-{{ relationIdentifier }}"
-           class="autocomplete related-issue-candidates"></div>
+    <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type">
+      <add-work-package-child ng-switch_when="child"></add-work-package-child>
+      <add-work-package-relation ng-switch_when="relation"></add-work-package-relation>
     </div>
   </div>
 </div>

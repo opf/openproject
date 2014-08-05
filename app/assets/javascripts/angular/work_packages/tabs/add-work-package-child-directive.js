@@ -29,34 +29,9 @@
 // TODO move to UI components
 angular.module('openproject.workPackages.tabs')
 
-.directive('relatedWorkPackageTableRow', [
-    'I18n',
-    'PathHelper',
-    'WorkPackagesHelper',
-    'ApiHelper',
-    'WorkPackageService',
-    function(I18n, PathHelper, WorkPackagesHelper, ApiHelper, WorkPackageService) {
+.directive('addWorkPackageChild', [function() {
   return {
-    restrict: 'A',
-    link: function(scope) {
-      scope.I18n = I18n;
-      scope.workPackagePath = PathHelper.staticWorkPackagePath;
-      scope.userPath = PathHelper.staticUserPath;
-      scope.canDeleteRelation = !!scope.relation.links.remove;
-
-      scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
-        scope.relatedWorkPackage = relatedWorkPackage;
-        scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
-        scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
-      });
-
-      scope.removeRelation = function() {
-        WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
-          scope.$emit('workPackageRefreshRequired', '');
-        }, function(error) {
-          ApiHelper.handleError(scope, error);
-        });
-      };
-    }
+    restrict: 'E',
+    templateUrl: '/templates/work_packages/tabs/_add_work_package_child.html',
   };
 }]);
