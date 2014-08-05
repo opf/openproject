@@ -26,6 +26,11 @@ describe Redmine::DefaultData::Loader do
       stash_access_control_permissions
       create_non_member_role
       create_anonymous_role
+
+      # load all data that a user would when loading default data. That is:
+      # * seed
+      # * default data (e.g. by rake task or from UI)
+      load "#{Rails.root}/db/seeds/all.rb"
       Redmine::DefaultData::Loader.load
     end
 
@@ -33,16 +38,8 @@ describe Redmine::DefaultData::Loader do
       restore_access_control_permissions
     end
 
-    #describes only the results of load in the db
-    it {Role.find_by_name(I18n.t(:default_role_manager)).attributes["type"].should eql "Role"}
-
-    if Redmine::VERSION::MAJOR < 1
-      it {Role.find_by_name(I18n.t(:default_role_developper)).attributes["type"].should eql "Role"} #[sic]
-    else
-      it {Role.find_by_name(I18n.t(:default_role_developer)).attributes["type"].should eql "Role"} #[sic]
+    it 'expects all generated roles to have the type \'Role\'' do
+      expect(Role.select(:type).all.map(&:type).uniq).to match_array ['Role']
     end
-
-    it {Role.find_by_name(I18n.t(:default_role_reporter)).attributes["type"].should eql "Role"}
   end
-
 end
