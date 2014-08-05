@@ -168,19 +168,6 @@ angular.module('openproject.workPackages.helpers')
       return result;
     },
 
-    getRelatedWorkPackage: function(workPackage, relation) {
-      if (relation.links.relatedTo) {
-        var self = workPackage.links.self.href;
-        if (relation.links.relatedTo.href == self) {
-          return relation.links.relatedFrom.fetch();
-        } else {
-          return relation.links.relatedTo.fetch();
-        }
-      } else {
-        return relation.fetch();
-      }
-    },
-
     //Note: The following methods are display helpers and so don't really belong here but are shared between
     // directives so it's probably the best place for them just now.
     getState: function(workPackage) {

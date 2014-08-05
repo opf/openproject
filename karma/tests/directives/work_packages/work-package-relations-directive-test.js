@@ -84,7 +84,7 @@ describe('Work Package Relations Directive', function() {
   var relationsHandlerSingle;
   var relationsHandlerMulti;
 
-  var createRelationsHandlerStub = function(count) {
+  var createRelationsHandlerStub = function($timeout, count) {
     var relationsHandler = new Object();
 
     relationsHandler.workPackage = sinon.stub();
@@ -101,6 +101,12 @@ describe('Work Package Relations Directive', function() {
     relationsHandler.getCount.returns(count);
 
     relationsHandler.type = "relation";
+
+    relationsHandler.getRelatedWorkPackage = function() {
+      return $timeout(function() {
+        return workPackage1;
+      }, 10);
+    };
 
     return relationsHandler;
   };
@@ -183,21 +189,14 @@ describe('Work Package Relations Directive', function() {
       }
     };
 
-    relationsHandlerEmpty = createRelationsHandlerStub(0);
+    relationsHandlerEmpty = createRelationsHandlerStub($timeout, 0);
     relationsHandlerEmpty.relations = [];
 
-    relationsHandlerSingle = createRelationsHandlerStub(1);
+    relationsHandlerSingle = createRelationsHandlerStub($timeout, 1);
     relationsHandlerSingle.relations = [relation1];
 
-    relationsHandlerMulti = createRelationsHandlerStub(2);
+    relationsHandlerMulti = createRelationsHandlerStub($timeout, 2);
     relationsHandlerMulti.relations = [relation1, relation2];
-
-    WorkPackagesHelper.getRelatedWorkPackage = function() {
-      return $timeout(function() {
-        return workPackage1;
-      }, 10);
-    };
-
   }));
 
   var shouldBehaveLikeRelationsDirective = function() {
@@ -375,9 +374,9 @@ describe('Work Package Relations Directive', function() {
     describe('table row of closed work package', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
-        relationsHandlerSingle.relations = [relation2];
+        scope.relations.relations = [relation2];
 
-        WorkPackagesHelper.getRelatedWorkPackage = function() {
+        scope.relations.getRelatedWorkPackage = function() {
           return $timeout(function() {
             return workPackage3;
           }, 10);

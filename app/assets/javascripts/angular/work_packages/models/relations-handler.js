@@ -90,6 +90,16 @@ angular.module('openproject.models')
         });
       }
       ////////////////////////////////////////////////////////////////////
+    },
+
+    getRelatedWorkPackage: function(workPackage, relation) {
+      var self = workPackage.links.self.href;
+
+      if (relation.links.relatedTo.href == self) {
+        return relation.links.relatedFrom.fetch();
+      } else {
+        return relation.links.relatedTo.fetch();
+      }
     }
   };
 
@@ -109,6 +119,7 @@ angular.module('openproject.models')
       window.location = PathHelper.staticWorkPackageNewWithParentPath(this.workPackage.props.projectId, this.workPackage.props.id);
     };
     handler.applyCustomExtensions = undefined;
+    handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
 
     return handler;
   }
