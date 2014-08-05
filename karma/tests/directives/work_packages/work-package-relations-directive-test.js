@@ -350,7 +350,7 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeReadOnlyRelationDialog();
     });
 
-    describe('can add and remove relations', function(){
+    describe('can add and remove relations', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
         scope.relations.relations = [relation2];
@@ -372,7 +372,7 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeHasAddRelationDialog();
     });
 
-    describe('table row of closed work package', function(){
+    describe('table row of closed work package', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
         relationsHandlerSingle.relations = [relation2];
