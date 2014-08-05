@@ -158,10 +158,6 @@ module API
           work_package.closed?
         end
 
-        def custom_properties=(values)
-          binding.pry
-        end
-
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :validate_parent_constraint
