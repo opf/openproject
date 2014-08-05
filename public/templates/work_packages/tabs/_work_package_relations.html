@@ -46,6 +46,7 @@
       </div>
     </div>
     <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type">
+      <add-work-package-child ng-switch_when="child"></add-work-package-child>
       <add-work-package-relation ng-switch_when="relation"></add-work-package-relation>
     </div>
   </div>

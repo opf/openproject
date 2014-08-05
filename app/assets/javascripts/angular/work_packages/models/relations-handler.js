@@ -93,4 +93,24 @@ angular.module('openproject.models')
   };
 
   return CommonRelationsHandler;
+}])
+
+.factory('ChildrenRelationsHandler', ['PathHelper',
+                                      'CommonRelationsHandler',
+                                      function(PathHelper,
+                                               CommonRelationsHandler) {
+  function ChildrenRelationsHandler(workPackage, children) {
+    var handler = new CommonRelationsHandler(workPackage, children, undefined);
+
+    handler.type = "child";
+    handler.canAddRelation = function() { return true };
+    handler.addRelation = function() {
+      window.location = PathHelper.staticWorkPackageNewWithParentPath(this.workPackage.props.projectId, this.workPackage.props.id);
+    };
+    handler.applyCustomExtensions = undefined;
+
+    return handler;
+  }
+
+  return ChildrenRelationsHandler;
 }]);

@@ -9,12 +9,11 @@
                          singleton-relation="true">
     </work-package-parent>
 
-    <work-package-children title="{{ I18n.t('js.relation_labels.children') }}"
-                           work-package="workPackage"
-                           children="wpChildren"
-                           button-title="Add Child"
-                           button-icon="<i class='icon-hierarchy icon-add'></i>">
-    </work-package-children>
+    <work-package-relations title="{{ I18n.t('js.relation_labels.children') }}"
+                            handler="wpChildren"
+                            button-title="Add Child"
+                            button-icon="<i class='icon-hierarchy icon-add'></i>">
+    </work-package-relations>
 
     <work-package-relations title="{{ I18n.t('js.relation_labels.relatedTo') }}"
                             handler="relatedTo"
