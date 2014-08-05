@@ -51,15 +51,24 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.workPackage = scope.handler.workPackage;
 
       var setExpandState = function() {
         scope.expand = !scope.handler.isEmpty();
       };
 
-      scope.$watch('handler.relations', function() {
-        setExpandState();
-        scope.relationsCount = scope.handler.getCount();
+      scope.$watch('handler', function() {
+        if (scope.handler) {
+          scope.workPackage = scope.handler.workPackage;
+
+          setExpandState();
+          scope.relationsCount = scope.handler.getCount();
+
+          if (scope.handler.applyCustomExtensions) {
+            $timeout(function() {
+              scope.handler.applyCustomExtensions();
+            });
+          }
+        }
       });
 
       scope.$watch('expand', function(newVal, oldVal) {
@@ -69,12 +78,6 @@ angular.module('openproject.workPackages.tabs')
       scope.toggleExpand = function() {
         scope.expand = !scope.expand;
       };
-
-      if (scope.handler.applyCustomExtensions) {
-        $timeout(function() {
-          scope.handler.applyCustomExtensions();
-        });
-      }
     }
   };
 }]);
