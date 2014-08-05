@@ -54,6 +54,7 @@ module API
         property :updated_at, on: :work_package, type: DateTime
         property :author, on: :work_package, type: String
         property :project_id, on: :work_package, type: Integer
+        property :parent_id, on: :work_package, type: Integer
         property :responsible_id, on: :work_package, type: Integer
         property :assigned_to_id, on: :work_package, type: Integer
         property :fixed_version_id, on: :work_package, type: Integer
@@ -163,6 +164,15 @@ module API
 
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
+        validate :validate_parent_constraint
+
+        private
+
+          def validate_parent_constraint
+            if work_package.parent
+              errors.add :parent_id, :cannot_be_milestone if work_package.parent.is_milestone?
+            end
+          end
       end
     end
   end

@@ -52,10 +52,11 @@ module API
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
               @representer.from_json(params.except(:route_info, :id).to_json)
-              if @representer.represented.valid? && @representer.represented.save
+              @representer.represented.sync
+              if @representer.represented.work_package.valid? && @representer.represented.save
                 @representer.to_json
               else
-                fail Errors::Validation.new(@representer.represented)
+                fail Errors::Validation.new(@representer.represented.work_package)
               end
             end
 

@@ -154,6 +154,7 @@ module API
         property :version_name,  getter: -> (*) { work_package.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { work_package.project.id }
         property :project_name, getter: -> (*) { work_package.project.try(:name) }
+        property :parent_id, render_nil: true
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
