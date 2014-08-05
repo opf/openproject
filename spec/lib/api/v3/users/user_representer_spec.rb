@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user)             { FactoryGirl.create(:user) }
+  let(:user)             { FactoryGirl.build_stubbed(:user,
+                                                     created_on: Time.now,
+                                                     updated_on: Time.now) }
   let(:model)          { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { described_class.new(model) }
 
@@ -49,11 +51,42 @@ describe ::API::V3::Users::UserRepresenter do
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
       it { is_expected.to have_json_path('status') }
+      it { is_expected.to have_json_path('avatar') }
     end
 
     describe '_links' do
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
+      end
+    end
+
+    describe 'avatar' do
+      before do
+        user.mail = 'foo@bar.com'
+        Setting.stub(:gravatar_enabled?).and_return(true)
+      end
+
+      it 'should have an url to gravatar if settings permit and mail is set' do
+        expect(parse_json(subject, 'avatar')).to start_with('http://gravatar.com/avatar')
+      end
+
+      it 'should be blank if gravatar is disabled' do
+        Setting.stub(:gravatar_enabled?).and_return(false)
+
+        expect(parse_json(subject, 'avatar')).to be_blank
+      end
+
+      it 'should be blank if email is missing (e.g. anonymous)' do
+        user.mail = nil
+
+        expect(parse_json(subject, 'avatar')).to be_blank
+      end
+
+      it 'should be https if setting set to https' do
+        # have to actually set the setting for the lib to pick up the change
+        with_settings protocol: 'https' do
+          expect(parse_json(subject, 'avatar')).to start_with('https://secure.gravatar.com/avatar')
+        end
       end
     end
   end

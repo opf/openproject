@@ -469,7 +469,7 @@ DEPENDENCIES
   globalize
   gon (~> 4.0)
   grape (~> 0.7.0)
-  gravatar_image_tag
+  gravatar_image_tag (~> 1.2.0)
   htmldiff
   i18n (>= 0.6.8)
   i18n-js!
