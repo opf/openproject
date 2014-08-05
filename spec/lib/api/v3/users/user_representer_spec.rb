@@ -48,6 +48,7 @@ describe ::API::V3::Users::UserRepresenter do
       it { should have_json_path('avatar') }
       it { should have_json_path('createdAt') }
       it { should have_json_path('updatedAt') }
+      it { should have_json_path('status') }
     end
 
     describe '_links' do

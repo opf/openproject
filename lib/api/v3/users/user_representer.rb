@@ -71,6 +71,7 @@ module API
         property :avatar, getter: ->(*) { gravatar_image_url(mail) }, render_nil: true
         property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
+        property :status, getter: -> (*) { model.status }, render_nil: true
 
         def _type
           'User'
