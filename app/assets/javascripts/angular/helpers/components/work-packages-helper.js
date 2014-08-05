@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
+.factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter', 'CustomFieldHelper', function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
@@ -97,15 +97,20 @@ angular.module('openproject.workPackages.helpers')
     formatValue: function(value, dataType) {
       switch(dataType) {
         case 'datetime':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
+          var dateTime;
+          if (value) {
+            dateTime = TimezoneService.formattedDate(value) + " " + TimezoneService.formattedTime(value);
+          }
+          return dateTime || '';
         case 'date':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'mediumDate') : '';
+          return value ? TimezoneService.formattedDate(value) : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
         default:
           return value;
       }
     },
+
     formatWorkPackageProperty: function(value, propertyName) {
       var mappings = {
         dueDate: 'date',

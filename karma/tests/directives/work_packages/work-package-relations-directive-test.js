@@ -29,8 +29,18 @@
 describe('Work Package Relations Directive', function() {
   var I18n, PathHelper, compile, element, scope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.tabs', 'openproject.api', 'openproject.helpers', 'ngSanitize'));
+  beforeEach(angular.mock.module('openproject.workPackages.tabs',
+                                 'openproject.api',
+                                 'openproject.helpers',
+                                 'openproject.services',
+                                 'ngSanitize'));
+
   beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
   }));
 
   beforeEach(inject(function($rootScope, $compile, _I18n_, _PathHelper_, _WorkPackagesHelper_) {

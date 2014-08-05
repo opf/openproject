@@ -78,9 +78,15 @@ describe 'api/experimental/work_packages/index.api.rabl' do
 
   describe 'with 3 work packages but no columns' do
     let(:work_packages) { [
-      FactoryGirl.build(:work_package),
-      FactoryGirl.build(:work_package),
-      FactoryGirl.build(:work_package)
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now),
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now),
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now)
     ] }
     let(:column_names)       { [] }
     let(:custom_field_column_names) { [] }
@@ -93,8 +99,12 @@ describe 'api/experimental/work_packages/index.api.rabl' do
 
   describe 'with 2 work packages and columns' do
     let(:work_packages) { [
-      FactoryGirl.build(:work_package),
-      FactoryGirl.build(:work_package)
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now),
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now)
     ] }
     let(:column_names)       { %w(subject description due_date) }
     let(:custom_field_column_names) { [] }
@@ -109,7 +119,11 @@ describe 'api/experimental/work_packages/index.api.rabl' do
   end
 
   describe 'with project column' do
-    let(:work_packages) { [FactoryGirl.build(:work_package)] }
+    let(:work_packages) { [
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: DateTime.now)
+    ] }
     let(:column_names) { %w(subject project) }
     let(:custom_field_column_names) { [] }
 

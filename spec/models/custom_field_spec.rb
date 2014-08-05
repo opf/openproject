@@ -382,5 +382,23 @@ describe CustomField do
       end       
       it { expect(field).not_to be_valid } 
     end
+    
+    describe "WITH a text field
+              WITH negative minimum length" do
+      before do
+        field.field_format = 'text'
+        field.min_length = -2
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH negative maximum length" do
+      before do
+        field.field_format = 'text'
+        field.max_length = -2
+      end       
+      it { expect(field).not_to be_valid } 
+    end
   end
 end

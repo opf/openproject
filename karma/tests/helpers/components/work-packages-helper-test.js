@@ -31,7 +31,16 @@
 describe('Work packages helper', function() {
   var WorkPackagesHelper;
 
-  beforeEach(module('openproject.helpers'));
+  beforeEach(module('openproject.helpers', 'openproject.services'));
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub();
+    configurationService.dateFormatPresent = sinon.stub();
+    configurationService.timeFormatPresent = sinon.stub();
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
   beforeEach(inject(function(_WorkPackagesHelper_) {
     WorkPackagesHelper = _WorkPackagesHelper_;
   }));
@@ -128,9 +137,13 @@ describe('Work packages helper', function() {
       expect(formatValue(null, 'date')).to.equal("");
     });
 
+    var TIME = '2014-01-01T00:00:00';
+    var EXPECTED_DATE = '01/01/2014';
+    var EXPECTED_DATETIME = '01/01/2014 12:00 AM';
+
     it('should display parsed dates and datetimes', function(){
-      expect(formatValue("01/01/2014", 'date')).to.equal("Jan 1, 2014");
-      expect(formatValue("01/01/2014 08:19 AM", 'datetime')).to.equal("Jan 1, 2014 12:00:00 AM");
+      expect(formatValue(TIME, 'date')).to.equal(EXPECTED_DATE);
+      expect(formatValue(TIME, 'datetime')).to.equal(EXPECTED_DATETIME);
     })
   });
 
