@@ -264,6 +264,14 @@ describe('Work Package Relations Directive', function() {
     });
   };
 
+  var shouldBehaveLikeSingleRelationDirective = function() {
+    it('should NOT have an elements count', function() {
+      var title = angular.element(element.find('h3'));
+
+      expect(title.text()).to.not.include('(' + scope.relations.getCount() + ')');
+    });
+  };
+
   var shouldBehaveLikeMultiRelationDirective = function() {
     it('should have an elements count', function() {
       var title = angular.element(element.find('h3'));
@@ -309,7 +317,20 @@ describe('Work Package Relations Directive', function() {
   });
 
   describe('single element markup', function() {
-    describe('readonly', function(){
+    describe('header', function() {
+      beforeEach(inject(function($timeout) {
+        scope.relations = relationsHandlerSingle;
+        scope.relations.isSingletonRelation = true;
+
+        compile(html);
+
+        $timeout.flush();
+      }));
+
+      shouldBehaveLikeSingleRelationDirective();
+    });
+
+    describe('readonly', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
 
