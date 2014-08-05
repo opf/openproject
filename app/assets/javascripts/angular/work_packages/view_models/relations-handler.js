@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
+angular.module('openproject.viewModels')
 
 .factory('CommonRelationsHandler', [
     '$timeout',
