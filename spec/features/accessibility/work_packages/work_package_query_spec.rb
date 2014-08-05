@@ -66,6 +66,18 @@ describe 'Work package index accessibility' do
     describe 'Change state', js: true do
       # TODO
     end
+
+    after do
+      # Ensure that all requests have fired and are answered.  Otherwise one
+      # spec can interfere with the next when a request of the former is still
+      # running in the one process but the other process has already removed
+      # the data in the db to prepare for the next spec.
+      #
+      # Taking an element, that get's activated late in the page setup.
+      page.should_not have_selector('ul.dropdown-menu a.inactive',
+                                    :text => Regexp.new("^#{I18n.t(:button_save)}$"),
+                                    :visible => false)
+    end
   end
 
   describe 'Sort link', js: true do
