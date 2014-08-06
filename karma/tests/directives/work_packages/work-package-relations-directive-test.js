@@ -29,11 +29,25 @@
 describe('Work Package Relations Directive', function() {
   var I18n, PathHelper, compile, element, scope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.tabs', 'openproject.api', 'openproject.helpers', 'ngSanitize'));
+  beforeEach(angular.mock.module('openproject.workPackages.tabs',
+                                 'openproject.api',
+                                 'openproject.helpers',
+                                 'openproject.services',
+                                 'ngSanitize'));
+
   beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope, $compile, _I18n_, _PathHelper_, _WorkPackagesHelper_) {
+  beforeEach(inject(function($rootScope,
+                             $compile,
+                             _I18n_,
+                             _PathHelper_,
+                             _WorkPackagesHelper_) {
     scope = $rootScope.$new();
 
     compile = function(html) {
@@ -44,6 +58,7 @@ describe('Work Package Relations Directive', function() {
     I18n = _I18n_;
     PathHelper = _PathHelper_;
     WorkPackagesHelper = _WorkPackagesHelper_;
+
     Ajax = {
       Autocompleter: angular.noop
     }
@@ -59,13 +74,42 @@ describe('Work Package Relations Directive', function() {
     I18n.t.restore();
   });
 
-  var multiElementHtml = "<work-package-relations title='MyRelation' work-package='workPackage' relations='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
-  var singleElementHtml = "<work-package-relations title='MyRelation' work-package='workPackage' relations='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
-
+  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>"
 
   var workPackage1;
   var workPackage2;
   var workPackage3;
+
+  var relationsHandlerEmpty;
+  var relationsHandlerSingle;
+  var relationsHandlerMulti;
+
+  var createRelationsHandlerStub = function($timeout, count) {
+    var relationsHandler = new Object();
+
+    relationsHandler.workPackage = sinon.stub();
+    relationsHandler.relationsId = sinon.stub();
+    relationsHandler.isEmpty = sinon.stub();
+    relationsHandler.getCount = sinon.stub();
+    relationsHandler.canAddRelation = sinon.stub();
+    relationsHandler.addRelation = sinon.stub();
+    relationsHandler.applyCustomExtensions = sinon.stub();
+
+    relationsHandler.workPackage.returns(workPackage1);
+    relationsHandler.relationsId.returns('related');
+    relationsHandler.isEmpty.returns(count === 0);
+    relationsHandler.getCount.returns(count);
+
+    relationsHandler.type = "relation";
+
+    relationsHandler.getRelatedWorkPackage = function() {
+      return $timeout(function() {
+        return workPackage1;
+      }, 10);
+    };
+
+    return relationsHandler;
+  };
 
   beforeEach(inject(function($q, $timeout) {
     workPackage1 = {
@@ -145,12 +189,14 @@ describe('Work Package Relations Directive', function() {
       }
     };
 
-    WorkPackagesHelper.getRelatedWorkPackage = function() {
-      return $timeout(function() {
-        return workPackage1;
-      }, 10);
-    };
+    relationsHandlerEmpty = createRelationsHandlerStub($timeout, 0);
+    relationsHandlerEmpty.relations = [];
 
+    relationsHandlerSingle = createRelationsHandlerStub($timeout, 1);
+    relationsHandlerSingle.relations = [relation1];
+
+    relationsHandlerMulti = createRelationsHandlerStub($timeout, 2);
+    relationsHandlerMulti.relations = [relation1, relation2];
   }));
 
   var shouldBehaveLikeRelationsDirective = function() {
@@ -218,11 +264,10 @@ describe('Work Package Relations Directive', function() {
   };
 
   var shouldBehaveLikeSingleRelationDirective = function() {
-    it('should not have an elements count', function() {
+    it('should NOT have an elements count', function() {
       var title = angular.element(element.find('h3'));
 
-      expect(title.text()).not.to.include('(');
-      expect(title.text()).not.to.include(')');
+      expect(title.text()).to.not.include('(' + scope.relations.getCount() + ')');
     });
   };
 
@@ -230,13 +275,13 @@ describe('Work Package Relations Directive', function() {
     it('should have an elements count', function() {
       var title = angular.element(element.find('h3'));
 
-      expect(title.text()).to.include('(' + scope.relations.length + ')');
+      expect(title.text()).to.include('(' + scope.relations.getCount() + ')');
     });
   };
 
   var shouldBehaveLikeHasAddRelationDialog = function() {
     it('should have add relation button and id input', function() {
-      var addRelationDiv = angular.element(element.find('.workpackages .add-relation'));
+      var addRelationDiv = angular.element(element.find('.content .add-relation'));
       expect(addRelationDiv.length).not.to.eq(0);
 
       var button = addRelationDiv.find('button');
@@ -254,45 +299,46 @@ describe('Work Package Relations Directive', function() {
   };
 
   describe('no element markup', function() {
-    describe('single element behavior', function() {
-      beforeEach(function() {
-        scope.workPackage = workPackage1;
-        compile(singleElementHtml);
-      });
+    beforeEach(function() {
+      scope.relations = relationsHandlerMulti;
 
-      shouldBehaveLikeSingleRelationDirective();
+      scope.relations.canAddRelation.returns(true);
+      scope.relations.isEmpty.returns(true);
 
-      shouldBehaveLikeCollapsedRelationsDirective();
+      compile(html);
     });
 
-    describe('multi element behavior', function() {
-      beforeEach(function() {
-        scope.workPackage = workPackage1;
-        scope.relations = [];
+    shouldBehaveLikeMultiRelationDirective();
 
-        compile(multiElementHtml);
-      });
+    shouldBehaveLikeCollapsedRelationsDirective();
 
-      shouldBehaveLikeMultiRelationDirective();
-
-      shouldBehaveLikeCollapsedRelationsDirective();
-    });
+    shouldBehaveLikeHasAddRelationDialog();
   });
 
   describe('single element markup', function() {
-    describe('readonly', function(){
+    describe('header', function() {
       beforeEach(inject(function($timeout) {
-        scope.workPackage = workPackage2;
-        scope.relations = [relation1];
+        scope.relations = relationsHandlerSingle;
+        scope.relations.isSingletonRelation = true;
 
-        compile(singleElementHtml);
+        compile(html);
+
+        $timeout.flush();
+      }));
+
+      shouldBehaveLikeSingleRelationDirective();
+    });
+
+    describe('readonly', function() {
+      beforeEach(inject(function($timeout) {
+        scope.relations = relationsHandlerSingle;
+
+        compile(html);
 
         $timeout.flush();
       }));
 
       shouldBehaveLikeRelationsDirective();
-
-      shouldBehaveLikeSingleRelationDirective();
 
       shouldBehaveLikeExpandedRelationsDirective();
 
@@ -303,41 +349,40 @@ describe('Work Package Relations Directive', function() {
       shouldBehaveLikeReadOnlyRelationDialog();
     });
 
-    describe('can add and remove relations', function(){
+    describe('can add and remove relations', function() {
       beforeEach(inject(function($timeout) {
-        scope.workPackage = workPackage1;
-        scope.relations = [relation2];
+        scope.relations = relationsHandlerSingle;
+        scope.relations.relations = [relation2];
+        scope.relations.canAddRelation.returns(true);
 
-        compile(singleElementHtml);
+        compile(html);
 
         $timeout.flush();
-
-        shouldBehaveLikeRelationsDirective();
-
-        shouldBehaveLikeSingleRelationDirective();
-
-        shouldBehaveLikeExpandedRelationsDirective();
-
-        shouldBehaveLikeHasTableHeader();
-
-        shouldBehaveLikeHasTableContent(1, false);
-
-        shouldBehaveLikeHasAddRelationDialog();
       }));
+
+      shouldBehaveLikeRelationsDirective();
+
+      shouldBehaveLikeExpandedRelationsDirective();
+
+      shouldBehaveLikeHasTableHeader();
+
+      shouldBehaveLikeHasTableContent(1, false);
+
+      shouldBehaveLikeHasAddRelationDialog();
     });
 
-    describe('table row of closed work package', function(){
+    describe('table row of closed work package', function() {
       beforeEach(inject(function($timeout) {
-        scope.workPackage = workPackage1;
-        scope.relations = [relation2];
+        scope.relations = relationsHandlerSingle;
+        scope.relations.relations = [relation2];
 
-        WorkPackagesHelper.getRelatedWorkPackage = function() {
+        scope.relations.getRelatedWorkPackage = function() {
           return $timeout(function() {
             return workPackage3;
           }, 10);
         };
 
-        compile(singleElementHtml);
+        compile(html);
 
         $timeout.flush();
       }));

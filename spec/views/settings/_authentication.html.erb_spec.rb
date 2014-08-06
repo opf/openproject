@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,26 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Validation < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+require 'spec_helper'
 
-      def initialize(obj, args = { })
-        @obj = obj
-        @code = args[:code] || 422
-        @title = args[:title] || 'validation_error'
-        @description = args[:description] || 'Validation failed.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
+describe 'settings/_authentication' do
+  context 'with password login enabled' do
+    before do
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+      render
+    end
 
-      def errors
-        @obj.errors.full_messages
-      end
+    it 'shows password settings' do
+      expect(rendered).to have_text I18n.t('label_password_lost')
+    end
 
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
-      end
+    it 'shows automated user blocking options' do
+      expect(rendered).to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+    end
+  end
+
+  context 'with password login disabled' do
+    before do
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      render
+    end
+
+    it 'does not show password settings' do
+      expect(rendered).not_to have_text I18n.t('label_password_lost')
+    end
+
+    it 'does not show automated user blocking options' do
+      expect(rendered).not_to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
     end
   end
 end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,25 +26,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Validation < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+require 'spec_helper'
 
-      def initialize(obj, args = { })
-        @obj = obj
-        @code = args[:code] || 422
-        @title = args[:title] || 'validation_error'
-        @description = args[:description] || 'Validation failed.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+describe 'layouts/admin' do
+  include Redmine::MenuManager::MenuHelper
+  helper Redmine::MenuManager::MenuHelper
+
+  let(:admin) { FactoryGirl.create :admin }
+
+  before do
+    view.stub(:current_menu_item).and_return('overview')
+    view.stub(:default_breadcrumb)
+    controller.stub(:default_search_scope)
+
+    User.stub(:current).and_return admin
+    view.stub(:current_user).and_return admin
+  end
+
+  # All password-based authentication is to be hidden and disabled if
+  # `disable_password_login` is true. This includes LDAP.
+  describe 'LDAP authentication menu entry' do
+    context 'with password login enabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        render
       end
 
-      def errors
-        @obj.errors.full_messages
+      it 'is shown' do
+        expect(rendered).to have_selector('a', text: I18n.t('label_ldap_authentication'))
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        render
       end
 
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+      it 'is hidden' do
+        expect(rendered).not_to have_selector('a', text: I18n.t('label_ldap_authentication'))
       end
     end
   end

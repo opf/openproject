@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
+.factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter', 'CustomFieldHelper', function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
@@ -97,15 +97,20 @@ angular.module('openproject.workPackages.helpers')
     formatValue: function(value, dataType) {
       switch(dataType) {
         case 'datetime':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
+          var dateTime;
+          if (value) {
+            dateTime = TimezoneService.formattedDate(value) + " " + TimezoneService.formattedTime(value);
+          }
+          return dateTime || '';
         case 'date':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'mediumDate') : '';
+          return value ? TimezoneService.formattedDate(value) : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
         default:
           return value;
       }
     },
+
     formatWorkPackageProperty: function(value, propertyName) {
       var mappings = {
         dueDate: 'date',
@@ -139,7 +144,7 @@ angular.module('openproject.workPackages.helpers')
         for (var x = 0; x < children.length; x++) {
           var child = children[x];
 
-          result.push(child.fetch());
+          result.push(child);
         }
       }
 
@@ -161,15 +166,6 @@ angular.module('openproject.workPackages.helpers')
       }
 
       return result;
-    },
-
-    getRelatedWorkPackage: function(workPackage, relation) {
-      var self = workPackage.links.self.href;
-      if (relation.links.relatedTo.href == self) {
-        return relation.links.relatedFrom.fetch();
-      } else {
-        return relation.links.relatedTo.fetch();
-      }
     },
 
     //Note: The following methods are display helpers and so don't really belong here but are shared between

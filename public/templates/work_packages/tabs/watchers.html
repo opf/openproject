@@ -3,13 +3,11 @@
     <ul ng-if="watchers.length">
       <li ng-repeat="watcher in watchers">
         <user-field user="watcher"></user-field>
-        <a href>
+        <accessible-by-keyboard execute="deleteWatcher(watcher)" ng-if="watcher.links.removeWatcher">
           <icon-wrapper icon-name="close"
                         icon-title="{{I18n.t('js.button_delete_watcher')}}"
-                        class="detail-panel-watchers-delete-watcher-icon"
-                        ng-if="watcher.links.removeWatcher"
-                        ng-click="deleteWatcher(watcher)"></icon-wrapper>
-        </a>
+                        class="detail-panel-watchers-delete-watcher-icon"></icon-wrapper>
+        </accessible-by-keyboard>
       </li>
     </ul>
 

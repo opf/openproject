@@ -29,44 +29,9 @@
 // TODO move to UI components
 angular.module('openproject.workPackages.tabs')
 
-.directive('workPackageParent', [
-    'I18n',
-    'PathHelper',
-    'WorkPackageService',
-    'WorkPackagesHelper',
-    '$timeout',
-    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, $timeout) {
+.directive('addWorkPackageRelation', [function() {
   return {
     restrict: 'E',
-    replace: true,
-    scope: {
-      title: '@',
-      workPackage: '=',
-      parent: '=',
-      btnTitle: '@buttonTitle',
-      btnIcon: '@buttonIcon'
-    },
-    templateUrl: '/templates/work_packages/tabs/_work_package_parent.html',
-    link: function(scope, element, attrs) {
-      scope.I18n = I18n;
-      scope.getState = WorkPackagesHelper.getState;
-      scope.getFullIdentifier = WorkPackagesHelper.getFullIdentifier;
-
-      var setExpandState = function() {
-        scope.expand = !!scope.parent;
-      };
-
-      scope.$watch('parent', function() {
-        setExpandState();
-      });
-
-      scope.$watch('expand', function(newVal, oldVal) {
-        scope.stateClass = WorkPackagesHelper.collapseStateIcon(!newVal);
-      });
-
-      scope.toggleExpand = function() {
-        scope.expand = !scope.expand;
-      };
-    }
+    templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
   };
 }]);

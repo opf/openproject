@@ -27,8 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<% unless OpenProject::Configuration.disable_password_login? %>
+  <% content_for :action_menu_specific do %>
+    <%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
+  <% end %>
 <% end %>
 
 <h2><%=l(:label_user_plural)%></h2>

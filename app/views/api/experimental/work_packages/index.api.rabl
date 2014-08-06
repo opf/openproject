@@ -61,6 +61,14 @@ child @work_packages => :work_packages do
     wp.parent_id
   end
 
+  node :updated_at do |wp|
+    wp.updated_at.utc.iso8601
+  end
+
+  node :created_at do |wp|
+    wp.created_at.utc.iso8601
+  end
+
   node :_actions do |wp|
     @can.actions(wp)
   end
