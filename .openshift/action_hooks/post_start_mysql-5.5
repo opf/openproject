@@ -1,0 +1,22 @@
+echo "Installing Bundler"
+cd $OPENSHIFT_REPO_DIR
+gem install bundler
+
+echo "Installing OpenProject Prerequisites"
+bundle install --without postgres sqlite development
+
+echo "Generating Token"
+bundle exec rake generate_secret_token
+
+echo "Migrating DB"
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+rake db:migrate RAILS_ENV=production
+popd > /dev/null
+
+echo "Seeding DB "
+bundle exec rake  db:seed RAILS_ENV=production
+
+echo "Precompiling Assets"
+bundle exec rake assets:precompile --trace
+
+echo "Completed Install."
