@@ -15,11 +15,11 @@
       <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
       <fieldset>
         <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
-        <select id="detail-panel-watchers-add-watcher-select"
-                ng-model="newWatcherId"
-                ng-options="watcher.props.id as watcher.props.name for watcher in availableWatchers"
-                ng-change="addWatcher(newWatcherId); newWatcherId=null">
-          <option value="" ng-bind="'-- ' + I18n.t('js.button_add_watcher') + ' --'"></option>
+        <select ng-model="selectedWatcher.id" data-placeholder="{{ I18n.t('js.label_select_watcher') }}" ui-select2>
+          <option value=""></option>
+          <option ng-repeat="watcher in availableWatchers" value="{{watcher.props.id}}">
+            {{watcher.props.name}}
+          </option>
         </select>
       </fieldset>
     </div>

@@ -117,6 +117,7 @@ de:
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_remove_columns: "Ausgewählte Spalten entfernen"
+    label_select_watcher: "Wählen Sie einen Beobachter..."
     label_show_attributes: "Alle Attribute anzeigen"
     label_sort_by: "Sortiere nach"
     label_sorted_by: "sortiert nach"
@@ -129,6 +130,8 @@ de:
     label_work_package: "Arbeitspaket"
     label_total_progress: "Gesamtfortschritt"
     label_watch_work_package: "Arbeitspaket beobachten"
+    label_watcher_added_successfully: "Beobachter wurde erfolgreich hinzugefügt!"
+    label_watcher_deleted_successfully: "Beobachter wurde erfolgreich entfernt!"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
 

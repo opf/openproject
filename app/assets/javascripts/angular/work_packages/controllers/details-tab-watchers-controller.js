@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('DetailsTabWatchersController', ['$scope', 'workPackage', function($scope, workPackage) {
-  // available watchers
+.controller('DetailsTabWatchersController', ['$scope', 'workPackage', 'I18n', function($scope, workPackage, I18n) {
+  $scope.I18n = I18n;
 
   $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
 
@@ -56,7 +56,7 @@ angular.module('openproject.workPackages.controllers')
    * @description
    * Filters collection of HAL resources by entries listed in resourcesToBeFilteredOut
    *
-   * @param {Array} collection Array of resources retrieved via hyperagend
+   * @param {Array} collection Array of resources retrieved via hyperagent
    * @param {Array} resourcesToBeFilteredOut Entries to be filtered out
    *
    * @returns {Array} filtered collection
@@ -78,15 +78,43 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  $scope.addWatcher = function(id) {
-    $scope.workPackage.link('addWatcher', {user_id: id})
-      .fetch({ajax: {method: 'POST'}})
-      .then($scope.refreshWorkPackage, $scope.outputError);
-  };
+  function addWatcher() {
+    var id = $scope.selectedWatcher.id;
+
+    $scope.selectedWatcher.id = null;
+
+    if (id) {
+      $scope.workPackage.link('addWatcher', {user_id: id})
+        .fetch({ajax: {method: 'POST'}})
+        .then(addWatcherSuccess, $scope.outputError);
+    }
+  }
+
+  function addWatcherSuccess() {
+    $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
+    $scope.refreshWorkPackage();
+  }
 
   $scope.deleteWatcher = function(watcher) {
     watcher.links.removeWatcher
       .fetch({ ajax: watcher.links.removeWatcher.props })
-      .then($scope.refreshWorkPackage, $scope.outputError);
+      .then(deleteWatcherSuccess(watcher), $scope.outputError);
   };
+
+  function deleteWatcherSuccess(watcher) {
+    $scope.outputMessage(I18n.t("js.label_watcher_deleted_successfully"));
+    removeWatcherFromList(watcher);
+  }
+
+  function removeWatcherFromList(watcher) {
+    var index = $scope.watchers.indexOf(watcher);
+
+    if (index >= 0) {
+      $scope.watchers.splice(index, 1);
+    }
+  }
+
+  $scope.selectedWatcher = { id: null };
+
+  $scope.$watch('selectedWatcher.id', addWatcher);
 }]);
