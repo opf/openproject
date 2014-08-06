@@ -1,5 +1,5 @@
 echo "Installing Bundler"
 cd $OPENSHIFT_REPO_DIR
 gem install bundler
-
+bundle update debugger
 
