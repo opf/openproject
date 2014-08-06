@@ -56,6 +56,7 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
+    // TODO RS: Remove this - not using location anymore
     getWorkPackagesFromUrlQueryParams: function(projectIdentifier, location) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = {};
