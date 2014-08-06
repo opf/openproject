@@ -1,20 +1,22 @@
 
-<table ng-if="attachments.length">
-  <tbody>
+<table ng-if="attachments.length" class="detail-pane-table attachments-table">
+  <thead>
     <tr>
-      <th>{{ I18n.t('js.label_filename')}}</th>
-      <th>{{ I18n.t('js.label_filesize')}}</th>
-      <th>{{ I18n.t('js.label_uploaded_by')}}</th>
-      <th>{{ I18n.t('js.label_description')}}</th>
-      <th>{{ I18n.t('js.label_date')}}</th>
+      <td>{{ I18n.t('js.label_filename')}}</td>
+      <td>{{ I18n.t('js.label_filesize')}}</td>
+      <td>{{ I18n.t('js.label_uploaded_by')}}</td>
+      <td>{{ I18n.t('js.label_description')}}</td>
+      <td>{{ I18n.t('js.label_date')}}</td>
     </tr>
+  </thead>
+  <tbody>
     <tr ng-repeat="attachment in attachments"
         attachment="attachment">
       <td attachment-title-cell attachment="attachment"></td>
       <td attachment-file-size attachment="attachment"></td>
       <td attachment-user-cell attachment="attachment"></td>
       <td>{{ attachment.props.description }}</td>
-      <td><date-time date-time-value="attachment.props.createdAt"></date></td>
+      <td><date-time date-time-value="attachment.props.createdAt"></date-time></td>
     </tr>
   </tbody>
 </table>
