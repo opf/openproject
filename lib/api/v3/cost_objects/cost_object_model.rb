@@ -34,9 +34,6 @@ module API
   module V3
     module CostObjects
       class CostObjectModel < Reform::Form
-        include Coercion
-        include GravatarImageTag
-
         property :project_id, type: Integer
         property :author, type: String
         property :subject, type: String
