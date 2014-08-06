@@ -121,14 +121,16 @@ module OpenProject::Costs
       end
 
       send(:define_method, :spent_hours) do
-        attributes_helper = OpenProject::Costs::AttributesHelper.new(represented.work_package)
-
-        attributes_helper.time_entries_sum
+        self.attributes_helper.time_entries_sum
       end
 
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
         current_user_allowed_to(:view_time_entries, represented.work_package) ||
           current_user_allowed_to(:view_own_time_entries, represented.work_package)
+      end
+
+      send(:define_method, :attributes_helper) do
+        @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented.work_package)
       end
     end
 
