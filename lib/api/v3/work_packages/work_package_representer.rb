@@ -28,7 +28,7 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+#require 'roar/representer/json/hal'
 
 module API
   module V3
