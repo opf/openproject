@@ -35,7 +35,7 @@ angular.module('openproject')
 
   $stateProvider
     .state('work-packages', {
-      url: '{projectPath:.*}/work_packages?query_id',
+      url: '{projectPath:.*}/work_packages?query_id&query',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController',

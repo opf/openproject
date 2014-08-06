@@ -39,7 +39,8 @@ angular.module('openproject.models')
     this.filters = [];
     this.groupBy = this.groupBy || '';
 
-    if(queryData) this.setFilters(queryData.filters);
+    if(queryData.filters) this.setFilters(queryData.filters);
+    if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
   };
 
   Query.prototype = {
@@ -56,7 +57,7 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode(),
+          'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic
@@ -74,7 +75,7 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode(),
+          'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic
@@ -106,8 +107,8 @@ angular.module('openproject.models')
       return this.sortation;
     },
 
-    setSortation: function(sortation){
-      this.sortation = sortation;
+    setSortation: function(sortCriteria){
+      this.sortation = new Sortation(sortCriteria);
     },
 
     setGroupBy: function(groupBy) {
@@ -222,6 +223,10 @@ angular.module('openproject.models')
       });
 
       return selectedColumns;
+    },
+
+    getEncodedSortation: function() {
+      return !!this.sortation ? this.sortation.encode() : null;
     },
 
     getColumnNames: function() {

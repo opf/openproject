@@ -74,7 +74,7 @@ angular.module('openproject.services')
         starred: queryData.starred,
         links: queryData._links
       });
-      query.setSortation(new Sortation(queryData.sort_criteria));
+      query.setSortation(queryData.sort_criteria);
 
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {

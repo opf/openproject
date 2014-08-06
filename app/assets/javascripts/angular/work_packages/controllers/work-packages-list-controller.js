@@ -63,6 +63,10 @@ angular.module('openproject.workPackages.controllers')
     var fetchWorkPackages;
     if($scope.query_id){
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
+    } else if($state.params.query) {
+      var query = buildQueryFromParams($state.params.query);
+      var pagination = { page: 1, per_page: 10 };
+      fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query, pagination);
     } else {
       fetchWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
     }
@@ -74,6 +78,48 @@ angular.module('openproject.workPackages.controllers')
         fetchProjectTypesAndQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
+  }
+
+  // Builds a Query object from the params so that we can use the existing toParams method.
+  // Note: This is an almost pointless in between stage only done so that we can have minimum length param names.
+  // TODO: Move this into a helper
+  function buildQueryFromParams(queryJson) {
+    var urlQuery = JSON.parse(queryJson);
+    var queryData = {
+      columns: urlQuery.c.map(function(column) { return { name: column }; })
+    };
+    if(!!urlQuery.s) {
+      queryData.displaySums = urlQuery.s;
+    }
+    if(!!urlQuery.g) {
+      queryData.groupBy = urlQuery.g;
+    }
+    if(!!urlQuery.u) {
+      queryData.groupSums = urlQuery.u;
+    }
+    if(!!urlQuery.f) {
+      // angular.forEach(urlQuery.f, function(urlFilter) {
+      //   query.addFilter(urlFilter.n, {
+      //     modelName: urlFilter.m,
+      //     operator: urlFilter.o,
+      //     type: urlFilter.t,
+      //     values: urlFilter.v
+      //   })
+      // })
+      queryData.filters = {
+        name: urlFilter.n,
+        modelName: urlFilter.m,
+        operator: urlFilter.o,
+        type: urlFilter.t,
+        values: urlFilter.v
+      }
+    }
+    if(!!urlQuery.t) {
+      queryData.sortCriteria = urlQuery.t;
+    }
+
+    var query = new Query(queryData);
+    return query;
   }
 
   function fetchProjectTypesAndQueries() {
