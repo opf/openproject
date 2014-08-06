@@ -39,11 +39,11 @@ module SimpleBenchmark
   # (user cpu time + system cpu time + user and system cpu time of children)
   # This is not wallclock time.
   def self.bench(title)
-    print "#{title}... "
+    $stderr.print "#{title}... "
     result = Benchmark.measure do
       yield
     end
-    print "%.03fs\n" % result.total
+    $stderr.printf "%.03fs\n", result.total
   end
 end
 
