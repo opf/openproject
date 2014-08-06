@@ -2,11 +2,11 @@
 <table ng-if="attachments.length" class="detail-pane-table attachments-table">
   <thead>
     <tr>
-      <td>{{ I18n.t('js.label_filename')}}</td>
-      <td>{{ I18n.t('js.label_filesize')}}</td>
-      <td>{{ I18n.t('js.label_uploaded_by')}}</td>
-      <td>{{ I18n.t('js.label_description')}}</td>
-      <td>{{ I18n.t('js.label_date')}}</td>
+      <td title="{{ I18n.t('js.label_filename')}}">{{ I18n.t('js.label_filename')}}</td>
+      <td title="{{ I18n.t('js.label_filesize')}}">{{ I18n.t('js.label_filesize')}}</td>
+      <td title="{{ I18n.t('js.label_uploaded_by')}}">{{ I18n.t('js.label_uploaded_by')}}</td>
+      <td title="{{ I18n.t('js.label_description')}}">{{ I18n.t('js.label_description')}}</td>
+      <td title="{{ I18n.t('js.label_date')}}">{{ I18n.t('js.label_date')}}</td>
     </tr>
   </thead>
   <tbody>
