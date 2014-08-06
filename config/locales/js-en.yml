@@ -129,6 +129,8 @@ en:
     label_work_package: "Work package"
     label_total_progress: "Total progress"
     label_watch_work_package: "Watch work package"
+    label_watcher_added_successfully: "Watcher successfully added!"
+    label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
 

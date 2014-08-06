@@ -56,7 +56,7 @@ angular.module('openproject.workPackages.controllers')
    * @description
    * Filters collection of HAL resources by entries listed in resourcesToBeFilteredOut
    *
-   * @param {Array} collection Array of resources retrieved via hyperagend
+   * @param {Array} collection Array of resources retrieved via hyperagent
    * @param {Array} resourcesToBeFilteredOut Entries to be filtered out
    *
    * @returns {Array} filtered collection
@@ -78,7 +78,7 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  var addWatcher = function() {
+  function addWatcher() {
     var id = $scope.selectedWatcher.id;
 
     $scope.selectedWatcher.id = null;
@@ -86,17 +86,27 @@ angular.module('openproject.workPackages.controllers')
     if (id) {
       $scope.workPackage.link('addWatcher', {user_id: id})
         .fetch({ajax: {method: 'POST'}})
-        .then($scope.refreshWorkPackage, $scope.outputError);
+        .then(addWatcherSuccess, $scope.outputError);
     }
-  };
+  }
 
-  $scope.selectedWatcher = { id: null };
-
-  $scope.$watch('selectedWatcher.id', addWatcher);
+  function addWatcherSuccess() {
+    $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
+    $scope.refreshWorkPackage();
+  }
 
   $scope.deleteWatcher = function(watcher) {
     watcher.links.removeWatcher
       .fetch({ ajax: watcher.links.removeWatcher.props })
-      .then($scope.refreshWorkPackage, $scope.outputError);
+      .then(deleteWatcherSuccess(watcher), $scope.outputError);
   };
+
+  function deleteWatcherSuccess(watcher) {
+    $scope.outputMessage(I18n.t("js.label_watcher_deleted_successfully"));
+    $scope.refreshWorkPackage();
+  }
+
+  $scope.selectedWatcher = { id: null };
+
+  $scope.$watch('selectedWatcher.id', addWatcher);
 }]);
