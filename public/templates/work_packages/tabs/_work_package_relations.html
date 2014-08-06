@@ -8,12 +8,12 @@
   <div class="content" ng-show="expand">
     <div class="workpackages">
       <div ng-if="handler.relations">
-        <table>
+        <table class="detail-pane-table relations-table">
           <thead>
             <tr>
-              <td>{{ I18n.t('js.work_packages.properties.subject') }}</td>
-              <td>{{ I18n.t('js.work_packages.properties.status') }}</td>
-              <td>{{ I18n.t('js.work_packages.properties.assignee') }}</td>
+              <td title="{{ I18n.t('js.work_packages.properties.subject')}}">{{ I18n.t('js.work_packages.properties.subject') }}</td>
+              <td title="{{ I18n.t('js.work_packages.properties.status')}}">{{ I18n.t('js.work_packages.properties.status') }}</td>
+              <td title="{{ I18n.t('js.work_packages.properties.assignee')}}">{{ I18n.t('js.work_packages.properties.assignee') }}</td>
               <td></td>
             </tr>
           </thead>
