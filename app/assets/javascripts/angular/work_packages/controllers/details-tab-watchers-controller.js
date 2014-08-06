@@ -103,7 +103,15 @@ angular.module('openproject.workPackages.controllers')
 
   function deleteWatcherSuccess(watcher) {
     $scope.outputMessage(I18n.t("js.label_watcher_deleted_successfully"));
-    $scope.refreshWorkPackage();
+    removeWatcherFromList(watcher);
+  }
+
+  function removeWatcherFromList(watcher) {
+    var index = $scope.watchers.indexOf(watcher);
+
+    if (index >= 0) {
+      $scope.watchers.splice(index, 1);
+    }
   }
 
   $scope.selectedWatcher = { id: null };
