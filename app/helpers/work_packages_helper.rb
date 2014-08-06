@@ -491,7 +491,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
-    new_statuses = work_package.new_statuses_allowed_to(locals[:user], true)
+    new_statuses = work_package.new_statuses_allowed_to(locals[:user])
 
     field = if new_statuses.any?
               form.select(:status_id, (new_statuses.map {|p| [p.name, p.id]}), :required => true)
@@ -543,7 +543,7 @@ module WorkPackagesHelper
       field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
-                             new_project_version_path(locals[:project]),
+                             project_versions_path(locals[:project]),
                              :class => 'no-decoration-on-hover',
                              :title => l(:label_version_new)) if authorize_for('versions', 'new')
 

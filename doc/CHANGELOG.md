@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1030` Fix: New target version cannot be created from work package view
+
 ## 3.0.8
 
 * new version scheme

@@ -424,11 +424,22 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default)
     back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
-    if !back_url.blank?
+    # if we have a back_url it must not contain two consecutive dots
+    if back_url.present? && !back_url.match(%r{\.\.})
       begin
         uri = URI.parse(back_url)
-        # do not redirect user to another host or to the login or register page
-        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
+
+        # do not redirect user to another host (even protocol relative urls have the host set)
+        # whenever a host is set it must match the request's host
+        uri_local_to_host = uri.host.nil? || uri.host == request.host
+
+        # do not redirect user to the login or register page
+        uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
+
+        # do not redirect to another subdirectory
+        uri_subdir_allowed = relative_url_root.blank? || uri.path.match(%r{\A#{relative_url_root}})
+
+        if uri_local_to_host && uri_path_allowed && uri_subdir_allowed
           redirect_to(back_url)
           return
         end

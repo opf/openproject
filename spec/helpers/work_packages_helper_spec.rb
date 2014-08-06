@@ -419,7 +419,7 @@ describe WorkPackagesHelper do
 
     it "should return a select with every available status as an option" do
       stub_work_package.stub(:new_statuses_allowed_to)
-                       .with(stub_user, true)
+                       .with(stub_user)
                        .and_return([status1, status2])
 
       stub_work_package.status = status1
@@ -437,7 +437,7 @@ describe WorkPackagesHelper do
 
     it "should return a label and the name of the current status if no new status is available" do
       stub_work_package.stub(:new_statuses_allowed_to)
-                       .with(stub_user, true)
+                       .with(stub_user)
                        .and_return([])
 
       stub_work_package.status = status1

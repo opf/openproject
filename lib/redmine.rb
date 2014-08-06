@@ -153,7 +153,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |map|
-    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :'news/comments' => [:destroy]}, :require => :member
+    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy, :preview], :'news/comments' => [:destroy]}, :require => :member
     map.permission :view_news, {:news => [:index, :show]}, :public => true
     map.permission :comment_news, {:'news/comments' => :create}
   end
@@ -185,9 +185,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :move, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
-    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote]}
-    map.permission :edit_messages, {:messages => [:edit, :update]}, :require => :member
-    map.permission :edit_own_messages, {:messages => [:edit, :update]}, :require => :loggedin
+    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote, :preview]}
+    map.permission :edit_messages, {:messages => [:edit, :update, :preview]}, :require => :member
+    map.permission :edit_own_messages, {:messages => [:edit, :update, :preview]}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end

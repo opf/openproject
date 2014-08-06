@@ -27,18 +27,10 @@
 #++
 
 require 'spec_helper'
+require 'support/permission_specs'
 
-describe WorkPackagesController do
+describe MessagesController, "edit_own_messages permission", type: :controller do
+  include PermissionSpecs
 
-  it "should connect PUT /work_packages/1/preview to work_packages#preview" do
-    put("/work_packages/1/preview").should route_to( :controller => 'work_packages',
-                                                     :action => 'preview',
-                                                     :id => '1' )
-  end
-
-  it "should connect PUT /project/1/work_packages/preview to work_packages#preview" do
-    put("/projects/1/work_packages/preview").should route_to( :controller => 'work_packages',
-                                                              :action => 'preview',
-                                                              :project_id => '1' )
-  end
+  check_permission_required_for('messages#preview', :edit_own_messages)
 end

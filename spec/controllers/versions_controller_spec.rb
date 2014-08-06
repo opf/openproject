@@ -160,16 +160,12 @@ describe VersionsController do
       it "returns updated select box with new version" do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
-        pattern = "Element.replace\(\"issue_fixed_version_id\","
-        # select tag with valid html
-        pattern << " \"<select id=\\\"issue_fixed_version_id\\\" name=\\\"issue[fixed_version_id]\\\">"
-        # empty option tag with valid html
-        pattern << "<option></option>"
-        # selected option tag for the new version with valid html
-        pattern << "<option value=\\\"#{version.id}\\\" selected=\\\"selected\\\">#{version.name}</option>"
-        pattern << "</select>\"\);"
+        select_substring = "select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\""
+        # selected option tag for the new version
+        option_substring = "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
 
-        response.body.should == pattern
+        response.body.include?(select_substring).should be_true
+        response.body.include?(option_substring).should be_true
       end
 
       it "escapes potentially harmful html" do
@@ -177,7 +173,7 @@ describe VersionsController do
         post :create, :project_id => project.id, :version => {:name => harmful}, :format => :js
         version = Version.last
 
-        response.body.include?("lt;script&gt;alert(&#x27;pwned&#x27;);&lt;/script&gt;").should be_true
+        response.body.include?("<script>alert('pwned');</script>").should be_false
       end
     end
   end
