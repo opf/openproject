@@ -73,11 +73,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     subject(:generated) { representer.to_json }
 
     describe 'work_package' do
+      it { should_not have_json_path('spentTime') }
+
       it { should have_json_path('spentHours') }
+
       it { should have_json_path('overallCosts') }
 
       describe 'embedded' do
         it { should have_json_path('_embedded/costObject') }
+
+        it { should have_json_path('_embedded/summarizedCostEntries') }
       end
     end
   end
