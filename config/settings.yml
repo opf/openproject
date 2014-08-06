@@ -106,7 +106,7 @@ available_languages:
 default_language:
   default: en
 host_name:
-  default: <%=ENV['OPENSHIFT_RUBY_IP']%>:<%=['OPENSHIFT_RUBY_PORT']%>
+  default: <%=ENV['OPENSHIFT_RUBY_IP']%>:<%=ENV['OPENSHIFT_RUBY_PORT']%>
 protocol:
   default: http
 feeds_enabled:
