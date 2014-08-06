@@ -121,6 +121,7 @@ module OpenProject::Costs
 
       property :overall_costs, exec_context: :decorator
 
+      property :summarized_cost_entries, embedded: true, exec_context: :decorator
 
       send(:define_method, :cost_object) do
         ::API::V3::CostObjects::CostObjectModel.new(represented.work_package.cost_object)
@@ -137,6 +138,13 @@ module OpenProject::Costs
 
       send(:define_method, :overall_costs) do
         number_to_currency(self.attributes_helper.overall_costs)
+      end
+
+      send(:define_method, :summarized_cost_entries) do
+        cost_object_models = self.attributes_helper.summarized_cost_entries.each_with_object([]) do |s, l|
+          l << ::API::V3::CostTypes::CostTypeModel.new(s[0], units: s[1][:units])
+        end
+        cost_object_models.map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.work_package) }
       end
 
       send(:define_method, :attributes_helper) do
