@@ -105,6 +105,9 @@ module OpenProject::Costs
 
 
     extend_api_response(:v3, :work_packages, :work_package) do
+      include Redmine::I18n
+      include ActionView::Helpers::NumberHelper
+
       property :cost_object,
                exec_context: :decorator,
                embedded: true,
@@ -115,6 +118,9 @@ module OpenProject::Costs
       property :spent_hours,
                exec_context: :decorator,
                if: -> (*) { current_user_allowed_to_view_spent_hours }
+
+      property :overall_costs, exec_context: :decorator
+
 
       send(:define_method, :cost_object) do
         ::API::V3::CostObjects::CostObjectModel.new(represented.work_package.cost_object)
@@ -127,6 +133,10 @@ module OpenProject::Costs
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
         current_user_allowed_to(:view_time_entries, represented.work_package) ||
           current_user_allowed_to(:view_own_time_entries, represented.work_package)
+      end
+
+      send(:define_method, :overall_costs) do
+        number_to_currency(self.attributes_helper.overall_costs)
       end
 
       send(:define_method, :attributes_helper) do
