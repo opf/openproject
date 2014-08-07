@@ -76,7 +76,7 @@ angular.module('openproject.workPackages.directives')
             var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
 
             WorkPackageService.augmentWorkPackagesWithColumnsData(workPackages, newColumns, groupBy)
-              .then(scope.updateBackUrl);
+              .then(scope.maintainUrlQueryState);
           }
         }
       };

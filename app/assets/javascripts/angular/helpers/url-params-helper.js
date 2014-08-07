@@ -66,21 +66,22 @@ angular.module('openproject.helpers')
       }
       if(query.filters && query.filters.length) {
         paramsData.f = query.filters.map(function(filter) {
-          return {
+          var filterData = {
             n: filter.name,
             m: filter.modelName,
             o: encodeURIComponent(filter.operator),
-            t: filter.type,
-            v: filter.values
+            t: filter.type
+          };
+          if(filter.values) {
+            angular.extend(filterData, { v: filter.values })
           }
+          return filterData
         });
       }
       // TODO: Pagination
       return JSON.stringify(paramsData);
     },
 
-    // Builds a Query object from the params so that we can use the existing query toParams method.
-    // Note: This is an almost pointless in-between stage only done so that we can have minimum length param names.
     decodeQueryFromJsonParams: function(queryJson) {
       var urlQuery = JSON.parse(queryJson);
       // TODO: Catch parse error
@@ -98,20 +99,24 @@ angular.module('openproject.helpers')
       }
       if(!!urlQuery.f) {
         queryData.filters = urlQuery.f.map(function(urlFilter) {
-          return {
+          var filterData = {
             name: urlFilter.n,
             modelName: urlFilter.m,
-            operator: urlFilter.o,
-            type: urlFilter.t,
-            values: urlFilter.v
+            operator: decodeURIComponent(urlFilter.o),
+            type: urlFilter.t
+          };
+          if(urlFilter.v) {
+            var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
+            angular.extend(filterData, { values: vs });
           }
+          return filterData;
         });
       }
       if(!!urlQuery.t) {
         queryData.sortCriteria = urlQuery.t;
       }
 
-      return new Query(queryData);
+      return new Query(queryData, { rawFilters: true });
     },
 
     buildQueryExportOptions: function(query){

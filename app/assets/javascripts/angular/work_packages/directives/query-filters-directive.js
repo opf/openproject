@@ -43,7 +43,6 @@ angular.module('openproject.workPackages.directives')
             if (filterName) {
               scope.query.addFilter(filterName);
               scope.filterToBeAdded = undefined;
-              scope.updateBackUrl();
             }
           });
 

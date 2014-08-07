@@ -117,7 +117,7 @@ angular.module('openproject.workPackages.controllers')
 
   function afterQuerySetupCallback(query) {
     $scope.showFiltersOptions = query.filters.length > 0;
-    $scope.updateBackUrl();
+    $scope.maintainUrlQueryState();
   }
 
   function setupWorkPackagesTable(json) {
@@ -164,14 +164,16 @@ angular.module('openproject.workPackages.controllers')
 
   // Updates
 
-  $scope.updateBackUrl = function(){
+  $scope.maintainUrlQueryState = function(){
     var relativeUrl = "/work_packages";
     if ($scope.projectIdentifier){
       relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
     }
 
     if($scope.query){
-      relativeUrl = relativeUrl + "?query=" + UrlParamsHelper.encodeQueryForJsonParams($scope.query);
+      var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
+      $location.search('query', queryString);
+      relativeUrl = relativeUrl + "?query=" + queryString;
     }
 
     $scope.backUrl = relativeUrl;

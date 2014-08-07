@@ -57,7 +57,8 @@ angular.module('openproject')
     .state('work-packages.list', {
       url: "",
       controller: 'WorkPackagesListController',
-      templateUrl: "/templates/work_packages.list.html"
+      templateUrl: "/templates/work_packages.list.html",
+      reloadOnSearch: false,
     })
     .state('work-packages.list.details', {
       url: "/{workPackageId:[0-9]+}",

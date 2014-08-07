@@ -51,7 +51,7 @@ angular.module('openproject.workPackages.directives')
       totalSums: '=',
       groupSums: '=',
       updateResults: '&',
-      updateBackUrl: '='
+      maintainUrlQueryState: '='
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
