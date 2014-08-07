@@ -64,7 +64,19 @@ angular.module('openproject.workPackages.directives')
               return {
                 id: query.id,
                 groupBy: query.groupBy,
-                sortElements: query.sortation.sortElements
+                sortElements: query.sortation.sortElements,
+                displaySums: query.displaySums
+              };
+            }
+          }
+
+          function nonUpdatingProperties() {
+            var query = scope.query;
+
+            if (query !== undefined) {
+              return {
+                columns: query.columns,
+                displaySums: query.displaySums
               };
             }
           }
@@ -73,10 +85,18 @@ angular.module('openproject.workPackages.directives')
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
                 scope.updateResults();
-                scope.maintainUrlQueryState();
+                scope.$emit('queryStateChange');
               }
             }
           }, true);
+
+          scope.$watch(nonUpdatingProperties, function(newProperties, oldProperties) {
+            /* Observing columns and displaySums separately because no work packages update is required */
+            if(JSON.stringify(newProperties.columns) !== JSON.stringify(oldProperties.columns) ||
+               newProperties.displaySums != oldProperties.displaySums) {
+              scope.$emit('queryStateChange');
+            }
+          }, true)
         }
       };
     }
