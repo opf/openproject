@@ -1,8 +1,6 @@
 # Subversion and Git Integration
 
-OpenProject can (by default) browse subversion and git repositories.
-But it does not serves them to git/svn clients.
-
+OpenProject can (by default) browse subversion and git repositories, but it does not serve them to git/svn clients.
 However, with the help of the apache webserver it is possible to serve repositories.
 
 ## Set-up
@@ -20,8 +18,10 @@ It requires some apache modules to be enabled and installed:
 
 <pre>
   aptitude install libapache2-mod-perl2 libapache2-svn
-  a2enmod proxy proxy_http
+  a2enmod proxy proxy_http cgi
 </pre>
+
+Note that mod_cgi is required by git. If you use SVN only, you do not need that. The same thing applies vice versa with libapache2-svn - you do not need that if you use git only.
 
 Also, the extra/svn/OpenProjectAuthentication.pm script needs to be in your apache perl path
 (for example it might be sym-linked into /etc/apache2/Apache).
@@ -33,66 +33,86 @@ On that page, enable the "Enable WS for repository management" setting and gener
 for get to save the settings). We need that API key later in our apache config.
 
 Find a place to store the repositories. For this guide we assume that you put your svn repositories in
-/srv/openproject/svn . All things in that repository should be accessible by the apache system user and
-by the user running your openproject server. 
+/srv/openproject/svn and your git repositories in /srv/openproject/git .
+All things in that repository should be accessible by the apache system user and by the user running your openproject server. 
 
 ## An example apache configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
-<pre>
-# Load OpenProject per module used to authenticate requests against the user database.
-# Be sure that the OpenProjectAuthentication.pm script in located in your perl path.
-PerlSwitches -I/srv/www/perl-lib -T
-PerlLoadModule Apache::OpenProjectAuthentication
-
-&lt;VirtualHost *:80&gt;
-  ErrorLog /var/log/apache2/error
-
-  # The /sys endpoint is an internal API used to authenticate repository
-  # access requests. It shall not be reachable from remote.
-  &lt;LocationMatch "/sys"&gt;
-    Order Deny,Allow
-    Deny from all
-    Allow from 127.0.0.1
-  &lt;/LocationMatch&gt;
-
-  # This fixes COPY for webdav over https
-  RequestHeader edit Destination ^https: http: early
-
-  # Serves svn repositories locates in /srv/openproject/svn via WebDAV
-  # It is secure with basic auth against the OpenProject user database.
-  &lt;Location /svn&gt;
-    DAV svn
-    SVNParentPath "/srv/openproject/svn"
-    DirectorySlash Off
-
-    AuthType Basic
-    AuthName "Secured Area"
-    Require valid-user
-
-    PerlAccessHandler Apache::Authn::OpenProject::access_handler
-    PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
-
-    OpenProjectUrl 'http://127.0.0.1:3000'
-    OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
-
-    &lt;Limit OPTIONS PROPFIND GET REPORT MKACTIVITY PROPPATCH PUT CHECKOUT MKCOL MOVE COPY DELETE LOCK UNLOCK MERGE&gt;
-      Allow from all
-    &lt;/Limit&gt;
-  &lt;/Location&gt;
-
-  # Requires the apache module mod_proxy. Enable it with
-  # a2enmod proxy proxy_http
-  # See: http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#ProxyPass
-  # Note that the ProxyPass with the longest path should be listed first, otherwise
-  # a shorter path may match and will do an early redirect (without looking for other
-  # more specific matching paths).
-  ProxyPass /svn !
-  ProxyPass / http://127.0.0.1:3000/
-  ProxyPassReverse / http://127.0.0.1:3000/
-&lt;/VirtualHost&gt;
-</pre>
+    # Load OpenProject per module used to authenticate requests against the user database.
+    # Be sure that the OpenProjectAuthentication.pm script in located in your perl path.
+    PerlSwitches -I/srv/www/perl-lib -T
+    PerlLoadModule Apache::OpenProjectAuthentication
+    
+    <VirtualHost *:80>
+      ErrorLog /var/log/apache2/error
+    
+      # The /sys endpoint is an internal API used to authenticate repository
+      # access requests. It shall not be reachable from remote.
+      <LocationMatch "/sys">
+        Order Deny,Allow
+        Deny from all
+        Allow from 127.0.0.1
+      </LocationMatch>
+    
+      # This fixes COPY for webdav over https
+      RequestHeader edit Destination ^https: http: early
+    
+      # Serves svn repositories locates in /srv/openproject/svn via WebDAV
+      # It is secure with basic auth against the OpenProject user database.
+      <Location /svn>
+        DAV svn
+        SVNParentPath "/srv/openproject/svn"
+        DirectorySlash Off
+    
+        AuthType Basic
+        AuthName "Secured Area"
+        Require valid-user
+    
+        PerlAccessHandler Apache::Authn::OpenProject::access_handler
+        PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
+    
+        OpenProjectUrl 'http://127.0.0.1:3000'
+        OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
+    
+        <Limit OPTIONS PROPFIND GET REPORT MKACTIVITY PROPPATCH PUT CHECKOUT MKCOL MOVE COPY DELETE LOCK UNLOCK MERGE>
+          Allow from all
+        </Limit>
+      </Location>
+    
+      # see https://www.kernel.org/pub/software/scm/git/docs/git-http-backend.html for details
+      # needs mod_cgi to work -> a2enmod cgi
+      SetEnv GIT_PROJECT_ROOT /srv/openproject/git
+      SetEnv GIT_HTTP_EXPORT_ALL
+      ScriptAlias /git/ /usr/lib/git-core/git-http-backend/
+      <Location /git>
+        Order allow,deny
+        Allow from all
+    
+        AuthType Basic
+        AuthName "OpenProject GIT"
+        Require valid-user
+    
+        PerlAccessHandler Apache::Authn::OpenProject::access_handler
+        PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
+    
+        OpenProjectGitSmartHttp yes
+        OpenProjectUrl 'http://127.0.0.1:3000'
+        OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
+      </Location>
+    
+      # Requires the apache module mod_proxy. Enable it with
+      # a2enmod proxy proxy_http
+      # See: http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#ProxyPass
+      # Note that the ProxyPass with the longest path should be listed first, otherwise
+      # a shorter path may match and will do an early redirect (without looking for other
+      # more specific matching paths).
+      ProxyPass /svn !
+      ProxyPass /git !
+      ProxyPass / http://127.0.0.1:3000/
+      ProxyPassReverse / http://127.0.0.1:3000/
+    </VirtualHost>
 
 ## Automatically create repositories with reposman.rb
 
@@ -113,4 +133,6 @@ ruby extra/svn/reposman.rb \
   --scm Subversion \
   --verbose
 </pre>
+
+the downside (if you want to call it a downside) is that you have to choose which kind (svn or git) of repository you want to create.
 
