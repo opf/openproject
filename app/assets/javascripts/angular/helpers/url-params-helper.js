@@ -51,9 +51,37 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
+    encodeQueryForJsonParams: function(query) {
+      var paramsData = {
+        c: query.columns.map(function(column) { return column.name; })
+      };
+      if(!!query.displaySums) {
+        paramsData.displaySums = urlQuery.s;
+      }
+      if(!!query.groupBy) {
+        paramsData.g = query.groupBy;
+      }
+      if(!!query.groupSums) {
+        paramsData.u = query.groupSums;
+      }
+      if(query.filters && query.filters.length) {
+        paramsData.f = query.filters.map(function(filter) {
+          return {
+            n: filter.name,
+            m: filter.modelName,
+            o: encodeURIComponent(filter.operator),
+            t: filter.type,
+            v: filter.values
+          }
+        });
+      }
+      // TODO: Pagination
+      return JSON.stringify(paramsData);
+    },
+
     // Builds a Query object from the params so that we can use the existing query toParams method.
     // Note: This is an almost pointless in-between stage only done so that we can have minimum length param names.
-    buildQueryFromParams: function(queryJson) {
+    decodeQueryFromJsonParams: function(queryJson) {
       var urlQuery = JSON.parse(queryJson);
       // TODO: Catch parse error
       var queryData = {
