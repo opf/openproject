@@ -1,0 +1,11 @@
+<span ng-if="costTypes">
+  <span ng-repeat="costType in costTypes">
+    <a  href="{{ costType.links.self.href }}" title="{{ costType.props.name }}">
+      {{ costType.props.units }}
+      <span ng-switch="costType.props.units">
+        <span ng-switch-when="1">{{ costType.props.unit }}</span>
+        <span ng-switch-default>{{ costType.props.unitPlural }}</span>
+      </span></a>
+      <span ng-if="!$last">, </span>
+  </span>
+</span>

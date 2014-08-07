@@ -152,7 +152,9 @@ module OpenProject::Costs
       end
     end
 
-    assets %w(costs/costs.css costs/costs.js)
+    assets %w(angular/work_packages/directives/summarized-cost-entries-directive.js
+              costs/costs.css
+              costs/costs.js)
 
     initializer "costs.register_hooks" do
       require 'open_project/costs/hooks'
