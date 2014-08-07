@@ -81,7 +81,8 @@ angular.module('openproject.services')
           query.setAvailableWorkPackageFilters(availableFilters);
           if (query.isDefault()) {
             query.setDefaultFilter();
-          } else {
+          }
+          if(queryData.filters && queryData.filters.length) {
             query.setFilters(queryData.filters);
           }
 
