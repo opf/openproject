@@ -51,6 +51,41 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
+    // Builds a Query object from the params so that we can use the existing query toParams method.
+    // Note: This is an almost pointless in-between stage only done so that we can have minimum length param names.
+    buildQueryFromParams: function(queryJson) {
+      var urlQuery = JSON.parse(queryJson);
+      // TODO: Catch parse error
+      var queryData = {
+        columns: urlQuery.c.map(function(column) { return { name: column }; })
+      };
+      if(!!urlQuery.s) {
+        queryData.displaySums = urlQuery.s;
+      }
+      if(!!urlQuery.g) {
+        queryData.groupBy = urlQuery.g;
+      }
+      if(!!urlQuery.u) {
+        queryData.groupSums = urlQuery.u;
+      }
+      if(!!urlQuery.f) {
+        queryData.filters = urlQuery.f.map(function(urlFilter) {
+          return {
+            name: urlFilter.n,
+            modelName: urlFilter.m,
+            operator: urlFilter.o,
+            type: urlFilter.t,
+            values: urlFilter.v
+          }
+        });
+      }
+      if(!!urlQuery.t) {
+        queryData.sortCriteria = urlQuery.t;
+      }
+
+      return new Query(queryData);
+    },
+
     buildQueryExportOptions: function(query){
       var relativeUrl = "/work_packages";
       if (query.project_id){

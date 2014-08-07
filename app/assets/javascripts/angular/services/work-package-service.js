@@ -36,7 +36,8 @@ angular.module('openproject.services')
   'WorkPackagesHelper',
   'HALAPIResource',
   'DEFAULT_FILTER_PARAMS',
-  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS) {
+  'DEFAULT_PAGINATION_OPTIONS',
+  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS) {
   var workPackage;
 
   var WorkPackageService = {
@@ -56,21 +57,22 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    // TODO RS: Remove this - not using location anymore
-    getWorkPackagesFromUrlQueryParams: function(projectIdentifier, location) {
-      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = {};
-      angular.extend(params, location.search());
-
-      return WorkPackageService.doQuery(url, params);
-    },
-
     getWorkPackages: function(projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = angular.extend(query.toUpdateParams(), {
-        page: paginationOptions.page,
-        per_page: paginationOptions.perPage
-      });
+      var params = {};
+
+      if(query) {
+        angular.extend(params, query.toParams());
+      }
+
+      if(paginationOptions) {
+        angular.extend(params, {
+          page: paginationOptions.page,
+          per_page: paginationOptions.perPage
+        });
+      } else {
+        angular.extend(params, DEFAULT_PAGINATION_OPTIONS);
+      }
 
       return WorkPackageService.doQuery(url, params);
     },
