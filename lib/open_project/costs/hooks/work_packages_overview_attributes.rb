@@ -26,7 +26,7 @@ module OpenProject::Costs::Hooks
 
       return unless project && project.module_enabled?(:costs_module)
 
-      attributes.reject!{ |a| a.attribute == :spentTime }
+      attributes.reject!{ |attribute| attribute == :spentTime }
 
       attributes << :costObject
       attributes << :spentHours if user_allowed_to?(project, :view_time_entries, :view_own_time_entries)
