@@ -48,7 +48,7 @@ angular.module('openproject.workPackages.directives')
           scope.$watch('groupSums.length', function() {
             // map columns to sums if the column data is a number
             setSums();
-            scope.maintainUrlQueryState();
+            scope.$emit('queryStateChange');
           });
 
         }

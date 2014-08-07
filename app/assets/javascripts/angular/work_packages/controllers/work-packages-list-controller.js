@@ -211,6 +211,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
 
+  $rootScope.$on('queryStateChange', function(event, message) {
+    $scope.maintainUrlQueryState();
+  })
+
   $scope.openLatestTab = function() {
     $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
   };

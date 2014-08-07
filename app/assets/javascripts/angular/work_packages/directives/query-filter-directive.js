@@ -66,7 +66,7 @@ angular.module('openproject.workPackages.directives')
             PaginationService.resetPage();
 
             applyFilters();
-            scope.maintainUrlQueryState();
+            scope.$emit('queryStateChange');
           }
         }
       }, true);

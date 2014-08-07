@@ -56,7 +56,7 @@ angular.module('openproject.helpers')
         c: query.columns.map(function(column) { return column.name; })
       };
       if(!!query.displaySums) {
-        paramsData.displaySums = urlQuery.s;
+        paramsData.s = query.displaySums;
       }
       if(!!query.groupBy) {
         paramsData.g = query.groupBy;
