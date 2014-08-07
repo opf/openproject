@@ -59,15 +59,3 @@ select.to-validate.ng-dirty.ng-invalid ~ span.ko, input.to-validate.ng-dirty.ng-
 .controller-work_packages.action-show .avatar-mini {
   float: left;
 }
-
-.controller-work_packages.action-show .avatar-mini + a {
-  padding-left: 3px;
-  line-height: 20px;
-  vertical-align: sub;
-}
-
-.controller-work_packages.action-show #watchers .delete {
-  padding-left: 3px;
-  line-height: 20px;
-  vertical-align: sub;
-}
