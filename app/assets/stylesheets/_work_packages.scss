@@ -51,3 +51,23 @@ select.to-validate.ng-dirty.ng-valid, input.to-validate.ng-dirty.ng-valid { bord
 select.to-validate.ng-dirty.ng-invalid, input.to-validate.ng-dirty.ng-invalid { border:1px solid Red; }
 select.to-validate.ng-dirty.ng-valid ~ span.ok, input.to-validate.ng-dirty.ng-valid ~ span.ok { color:green; display:inline; }
 select.to-validate.ng-dirty.ng-invalid ~ span.ko, input.to-validate.ng-dirty.ng-invalid ~ span.ko { color:red; display:inline; }
+
+.controller-work_packages.action-show .work_package tr {
+  line-height: 20px;
+}
+
+.controller-work_packages.action-show .avatar-mini {
+  float: left;
+}
+
+.controller-work_packages.action-show .avatar-mini + a {
+  padding-left: 3px;
+  line-height: 20px;
+  vertical-align: sub;
+}
+
+.controller-work_packages.action-show #watchers .delete {
+  padding-left: 3px;
+  line-height: 20px;
+  vertical-align: sub;
+}

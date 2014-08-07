@@ -373,7 +373,7 @@ module WorkPackagesHelper
 
   def work_package_show_assigned_to_attribute(work_package)
     work_package_show_table_row(:assigned_to) do
-      content = avatar(work_package.assigned_to, :size => "14").html_safe
+      content = avatar(work_package.assigned_to, class: 'avatar-mini').html_safe
       content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : empty_element_tag)
       content
     end
@@ -381,7 +381,7 @@ module WorkPackagesHelper
 
   def work_package_show_responsible_attribute(work_package)
     work_package_show_table_row(:responsible) do
-      content = avatar(work_package.responsible, :size => "14").html_safe
+      content = avatar(work_package.responsible, class: 'avatar-mini').html_safe
       content << (work_package.responsible ? link_to_user(work_package.responsible) : empty_element_tag)
       content
     end
