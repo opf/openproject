@@ -39,7 +39,13 @@ angular.module('openproject.models')
     this.filters = [];
     this.groupBy = this.groupBy || '';
 
-    if(queryData.filters) this.setFilters(queryData.filters);
+    if(queryData.filters){
+      if(options.rawFilters) {
+        this.setRawFilters(queryData.filters);
+      } else {
+        this.setFilters(queryData.filters);
+      }
+    }
     if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
   };
 
@@ -161,6 +167,16 @@ angular.module('openproject.models')
 
         this.filters = filters.map(function(filterData){
           return new Filter(self.getExtendedFilterData(filterData));
+        });
+      }
+    },
+
+    setRawFilters: function(filters) {
+      if (filters){
+        var self = this;
+
+        this.filters = filters.map(function(filterData){
+          return new Filter(filterData);
         });
       }
     },

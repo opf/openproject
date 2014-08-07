@@ -64,7 +64,7 @@ angular.module('openproject.workPackages.directives')
       scope.$watch(columnNames, function(columnNames, formerNames) {
         if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
           fetchTotalSums();
-          scope.updateBackUrl();
+          scope.maintainUrlQueryState();
         }
       }, true);
     }

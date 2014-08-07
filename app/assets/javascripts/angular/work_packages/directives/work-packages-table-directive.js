@@ -52,7 +52,7 @@ angular.module('openproject.workPackages.directives')
       totalSums: '=',
       groupSums: '=',
       updateResults: '&',
-      updateBackUrl: '='
+      maintainUrlQueryState: '='
     },
     link: function(scope, element, attributes) {
       var activeSelectionBorderIndex;

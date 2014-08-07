@@ -73,7 +73,7 @@ angular.module('openproject.workPackages.directives')
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
                 scope.updateResults();
-                scope.updateBackUrl();
+                scope.maintainUrlQueryState();
               }
             }
           }, true);
