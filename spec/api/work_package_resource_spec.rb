@@ -135,8 +135,15 @@ h4. things we like
           expect(parsed_response['id']).to eq(work_package.id)
         end
 
-        its(['description']) { should have_selector('h1') }
-        its(['description']) { should have_selector('h2') }
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h1') }
+        end
+
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h2') }
+        end
 
         it 'should resolve links' do
           expect(parsed_response['description']).to have_selector("a[href='/work_packages/#{other_wp.id}']")

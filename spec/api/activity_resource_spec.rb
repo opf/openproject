@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Activity resource' do
+describe 'API v3 Activity resource', :type => :request do
   include Rack::Test::Methods
 
   let(:current_user) { FactoryGirl.create(:user) }

@@ -36,19 +36,19 @@ describe ::API::V3::Users::UserRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('User'.to_json).at_path('_type') }
+    it { is_expected.to include_json('User'.to_json).at_path('_type') }
 
     describe 'user' do
-      it { should have_json_path('id')   }
-      it { should have_json_path('login') }
-      it { should have_json_path('firstName') }
-      it { should have_json_path('lastName') }
-      it { should have_json_path('name') }
-      it { should have_json_path('mail') }
-      it { should have_json_path('avatar') }
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
-      it { should have_json_path('status') }
+      it { is_expected.to have_json_path('id')   }
+      it { is_expected.to have_json_path('login') }
+      it { is_expected.to have_json_path('firstName') }
+      it { is_expected.to have_json_path('lastName') }
+      it { is_expected.to have_json_path('name') }
+      it { is_expected.to have_json_path('mail') }
+      it { is_expected.to have_json_path('avatar') }
+      it { is_expected.to have_json_path('createdAt') }
+      it { is_expected.to have_json_path('updatedAt') }
+      it { is_expected.to have_json_path('status') }
     end
 
     describe '_links' do

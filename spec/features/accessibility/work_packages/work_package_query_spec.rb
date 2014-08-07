@@ -74,7 +74,7 @@ describe 'Work package index accessibility', :type => :feature do
       # the data in the db to prepare for the next spec.
       #
       # Taking an element, that get's activated late in the page setup.
-      page.should_not have_selector('ul.dropdown-menu a.inactive',
+      expect(page).not_to have_selector('ul.dropdown-menu a.inactive',
                                     :text => Regexp.new("^#{I18n.t(:button_save)}$"),
                                     :visible => false)
     end

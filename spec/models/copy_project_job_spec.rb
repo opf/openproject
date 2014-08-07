@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CopyProjectJob do
+describe CopyProjectJob, :type => :model do
 
   let(:user) { FactoryGirl.create(:admin, language: :de) }
   let(:source_project) { FactoryGirl.create(:project) }

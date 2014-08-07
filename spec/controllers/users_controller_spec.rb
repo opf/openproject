@@ -252,7 +252,7 @@ describe UsersController, :type => :controller do
 
       context 'with password login enabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
           as_logged_in_user admin do
             get :index
@@ -266,7 +266,7 @@ describe UsersController, :type => :controller do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           as_logged_in_user admin do
             get :index
@@ -384,7 +384,7 @@ describe UsersController, :type => :controller do
   describe '#new' do
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
         as_logged_in_user admin do
           get :new
@@ -398,7 +398,7 @@ describe UsersController, :type => :controller do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
         as_logged_in_user admin do
           get :new
@@ -415,7 +415,7 @@ describe UsersController, :type => :controller do
   describe '#create' do
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
         as_logged_in_user admin do
           post :create
@@ -429,7 +429,7 @@ describe UsersController, :type => :controller do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
         as_logged_in_user admin do
           post :create

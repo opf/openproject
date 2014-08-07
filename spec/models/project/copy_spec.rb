@@ -349,7 +349,7 @@ describe Project::Copy, :type => :model do
 
         subject { copy.boards.count }
 
-        it { should == project.boards.count }
+        it { is_expected.to eq(project.boards.count) }
       end
 
       context "board topics are copied" do

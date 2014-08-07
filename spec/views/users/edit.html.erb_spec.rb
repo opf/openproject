@@ -49,7 +49,7 @@ describe 'users/edit', :type => :view do
     end
 
     it 'does not show a no-login warning when password login is disabled' do
-      OpenProject::Configuration.stub(:disable_password_login).and_return(true)
+      allow(OpenProject::Configuration).to receive(:disable_password_login).and_return(true)
       render
 
       expect(response.body).not_to include I18n.t('user.no_login')
@@ -68,7 +68,7 @@ describe 'users/edit', :type => :view do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       end
 
       it 'warns that the user cannot login' do
@@ -94,7 +94,7 @@ describe 'users/edit', :type => :view do
 
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
       end
 
       it 'shows password options' do

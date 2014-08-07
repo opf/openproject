@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-describe 'edit users', js: true do
+describe 'edit users', type: :feature, js: true do
   let(:current_user) { FactoryGirl.create :admin }
   let(:user) { FactoryGirl.create :user }
 

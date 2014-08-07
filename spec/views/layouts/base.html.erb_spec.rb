@@ -68,8 +68,8 @@ describe "layouts/base", :type => :view do
 
   describe 'Sign in button' do
     before do
-      User.stub(:current).and_return anonymous
-      view.stub(:current_user).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
     end
 
     context 'with omni_auth_direct_login disabled' do
@@ -97,8 +97,8 @@ describe "layouts/base", :type => :view do
 
   describe 'login form' do
     before do
-      User.stub(:current).and_return anonymous
-      view.stub(:current_user).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
     end
 
     context 'with password login enabled' do
@@ -114,7 +114,7 @@ describe "layouts/base", :type => :view do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         render
       end
 

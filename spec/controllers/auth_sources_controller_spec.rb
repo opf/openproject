@@ -32,7 +32,7 @@ describe AuthSourcesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+    allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
     allow(User).to receive(:current).and_return current_user
   end
@@ -124,7 +124,7 @@ describe AuthSourcesController, :type => :controller do
 
   context 'with password login disabled' do
     before do
-      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
     end
 
     it 'cannot find index' do

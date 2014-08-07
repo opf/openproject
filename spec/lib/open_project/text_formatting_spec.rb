@@ -473,7 +473,7 @@ EXPECTED
   context 'deprecated methods' do
     subject { self }
 
-    it { should respond_to :textilizable }
-    it { should respond_to :textilize    }
+    it { is_expected.to respond_to :textilizable }
+    it { is_expected.to respond_to :textilize    }
   end
 end
