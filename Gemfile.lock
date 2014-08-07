@@ -21,7 +21,7 @@ GIT
     prototype_legacy_helper (0.0.0)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://mirror1.ops.rhcloud.com/mirror/ruby/
   specs:
     actionmailer (3.2.18)
       actionpack (= 3.2.18)
