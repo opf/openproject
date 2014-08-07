@@ -6,8 +6,8 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2014 Jean-Philippe Lang
-# Copyright (C) 2010-2014 the ChiliProject Team
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -96,6 +96,12 @@ describe AccountController, :type => :controller do
         end
 
         it 'registers user via post' do
+          expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |user, auth_hash|
+            new_user = User.find_by_login('login@bar.com')
+            expect(user).to eq new_user
+            expect(auth_hash).to include(omniauth_hash)
+          end
+
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
             timestamp: Time.new)
@@ -181,6 +187,7 @@ describe AccountController, :type => :controller do
           provider: 'google',
           uid: '123545',
           info: { name: 'foo',
+                  last_name: 'bar',
                   email: 'foo@bar.com'
           }
         )
@@ -212,6 +219,132 @@ describe AccountController, :type => :controller do
 
           user.reload
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
+        end
+
+        describe 'authorization' do
+          let(:config) do
+            Struct.new(:google_name, :global_email).new 'foo', 'foo@bar.com'
+          end
+
+          before do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+
+            # Let's set up a couple of authorization callbacks to see if the mechanism
+            # works as intended.
+
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :google do |dec, auth|
+              if auth.info.name == config.google_name
+                dec.approve
+              else
+                dec.reject "#{auth.info.name} can fuck right off"
+              end
+            end
+
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, auth|
+              if auth.info.email == config.global_email
+                dec.approve
+              else
+                dec.reject "I only want to see #{config[:global_email]} here."
+              end
+            end
+
+            # ineffective callback
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _|
+              dec.reject 'Though shalt not pass!'
+            end
+
+            # free for all callback
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, _|
+              dec.approve
+            end
+          end
+
+          after do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+          end
+
+          it 'works' do
+            expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u, auth|
+              expect(u).to eq user
+              expect(auth).to eq omniauth_hash
+            end
+
+            post :omniauth_login
+
+            expect(response).to redirect_to my_page_path
+          end
+
+          context 'with wrong email address' do
+            before do
+              config.global_email = 'other@mail.com'
+            end
+
+            it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+
+            it 'is rejected against any other provider too' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              omniauth_hash.provider = 'any other'
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+          end
+
+          context 'with the wrong name' do
+            render_views
+
+            before do
+              config.google_name = 'hans'
+            end
+
+            it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'foo can fuck right off'
+            end
+
+            it 'is approved against any other provider' do
+              expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
+                new_user = User.find_by_identity_url 'some other:123545'
+
+                expect(u).to eq new_user
+              end
+
+              omniauth_hash.provider = 'some other'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to my_first_login_path
+              # authorization is successful which results in the registration
+              # of a new user in this case because we changed the provider
+              # and there isn't a user with that identity URL yet ...
+            end
+
+            # ... and to confirm that, here's what happens when the authorization fails
+            it 'is rejected against any other provider with the wrong email' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              omniauth_hash.provider = 'yet another'
+              config.global_email = 'yarrrr@joro.es'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see yarrrr@joro.es here.'
+            end
+          end
         end
       end
 

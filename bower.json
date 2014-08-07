@@ -6,8 +6,7 @@
     "jquery-ujs": "1.0.0",
     "jquery-ui": "~1.10.4",
     "select2": "3.3.2",
-    "jquery.atwho": "finnlabs/At.js#0025862f7600c8dddec98caab13a76b11cfaba18",
-    "Caret.js": "ichord/Caret.js#72495fcb194a0beec14de25956a7c615ede630b2",
+    "jquery.atwho": "0.5.0",
     "openproject-ui_components": "opf/openproject-ui_components#with-bower",
     "angular": "~1.2.14",
     "angular-animate": "~1.2.14",
@@ -21,11 +20,11 @@
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-feature-flags": "mjt01/angular-feature-flags#ca40201e2279777dc3820c783f60f845cefff731",
     "jquery-migrate": "~1.2.1",
-    "momentjs": "~2.6.0",
-    "moment-timezone": "~0.0.6",
+    "momentjs": "~2.7.0",
+    "moment-timezone": "~0.2.0",
     "angular-context-menu": "0.1.2",
     "angular-busy": "~4.0.4",
-    "hyperagent": "manwithtwowatches/hyperagent#v0.4.1"
+    "hyperagent": "manwithtwowatches/hyperagent#v0.4.2"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

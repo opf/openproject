@@ -31,26 +31,7 @@ Feature: Timeline View Tests
 	I want edit planning elements via a modal window
 
   Background:
-    Given there are the following types:
-          | Name      | Is Milestone | In aggregation |
-          | Phase     | false        | true           |
-          | Milestone | true         | true           |
-     # Hack to ensure that the project is persisted before opening the
-     # timeline. Otherwise we regularly have
-     # Couldn't find Project with identifier=ecookbook
-     # errors.
-     # As far as I could figure it out, the:
-     # I am already logged in as "manager"
-     # will raise the bug when the project is not already persisted and he
-     # tries to reopen the page he had visited last in the test before.
-     When I go to the home page
-
-    Given there are the following project types:
-          | Name                  |
-          | Standard Project      |
-          | Extraordinary Project |
-
-      And there is 1 user with:
+     Given there is 1 user with:
           | login | manager |
 
       And there is a role "manager"
@@ -59,14 +40,10 @@ Feature: Timeline View Tests
           | edit_timelines     |
           | view_work_packages |
 
-      And there is a project named "ecookbook" of type "Standard Project"
+      And there is a project named "ecookbook"
       And I am working in project "ecookbook"
 
       And there is a timeline "Testline" for project "ecookbook"
-
-      And the following types are enabled for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
 
       And the project uses the following modules:
           | timelines |
@@ -77,9 +54,6 @@ Feature: Timeline View Tests
           | Start date | Due date   | description         | responsible | Subject  |
           | 2012-01-01 | 2012-01-31 | #2 http://google.de | manager     | January  |
           | 2012-02-01 | 2012-02-24 | Avocado Rincon      | manager     | February |
-          | 2012-03-01 | 2012-03-30 | Hass                | manager     | March    |
-          | 2012-04-01 | 2012-04-30 | Avocado Choquette   | manager     | April    |
-          | 2012-04-01 | 2012-04-30 | Relish              | manager     | Test2    |
 
       And I am already logged in as "manager"
 
@@ -112,8 +86,14 @@ Feature: Timeline View Tests
     And I click on the first anchor matching "Update" in the modal
     And I fill in "work_package_notes" with "A new comment" in the modal
     And I click on the div "ui-dialog-closer"
-    Then I confirm the JS confirm dialog
-    And I should not see a modal window
+    And I confirm the JS confirm dialog
+   Then I should not see a modal window
+  # Hack to ensure that this scenario does not interfere with the next one.  As
+  # closing the modal will trigger the timeline to be reloaded we have to
+  # ensure, that this request is finished before starting the next scenario.
+  # Otherwise the data required to successfully finish the request (esp. the
+  # project) might already be removed for the next senario.
+  Given I wait for the AJAX requests to finish
 
   @javascript
   Scenario: closing the modal window after adding a related work package should not display a warning message
@@ -131,4 +111,10 @@ Feature: Timeline View Tests
     And I press "Add" in the modal
     And I wait for the AJAX requests to finish
     And I click on the div "ui-dialog-closer"
-    Then I should not see a modal window
+   Then I should not see a modal window
+  # Hack to ensure that this scenario does not interfere with the next one.  As
+  # closing the modal will trigger the timeline to be reloaded we have to
+  # ensure, that this request is finished before starting the next scenario.
+  # Otherwise the data required to successfully finish the request (esp. the
+  # project) might already be removed for the next senario.
+  Given I wait for the AJAX requests to finish

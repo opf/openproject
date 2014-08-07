@@ -196,6 +196,7 @@ en:
         exclusion: "is reserved"
         greater_than: "must be greater than %{count}"
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
         inclusion: "is not included in the list"
         invalid: "is invalid"
@@ -576,6 +577,10 @@ en:
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
 
+  instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
+  instructions_after_logout: "You can sign in again by clicking %{signin}."
+  instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
+
   label_account: "Account"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
@@ -636,6 +641,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -709,6 +715,7 @@ en:
   label_group_new: "New group"
   label_group_plural: "Groups"
   label_help: "Help"
+  label_here: here
   label_hide: "Hide"
   label_history: "History"
   label_home: "Home"
@@ -1088,6 +1095,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
+  notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
 
   # Default format for numbers
@@ -1255,6 +1263,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
@@ -1588,12 +1597,17 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
+    authorization_rejected: "You are not allowed to sign in."
 
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
 
+  note: Note
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
+  warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   menu_item: "Menu item"

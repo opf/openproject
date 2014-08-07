@@ -28,9 +28,16 @@
 
 angular.module('openproject.config')
 
+.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
+  'status', 'assignee', 'responsible',
+  'date', 'percentageDone', 'priority',
+  'estimatedTime', 'versionName'
+])
+
 .service('ConfigurationService', [
   '$log',
-  function($log) {
+  'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  function($log, DEFAULT_WORK_PACKAGE_PROPERTIES) {
 
   return {
     settingsPresent: function() {
@@ -38,6 +45,14 @@ angular.module('openproject.config')
     },
     userPreferencesPresent: function() {
       return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
+    },
+    displaySettingsPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('display');
+    },
+    displaySettingPresent: function(setting) {
+      return this.displaySettingsPresent()
+        && gon.settings.display.hasOwnProperty(setting)
+        && gon.settings.display[setting] != false;
     },
     accessibilityModeEnabled: function() {
       if (!this.userPreferencesPresent()) {
@@ -54,6 +69,32 @@ angular.module('openproject.config')
       } else {
         return gon.settings.user_preferences.others.comments_sorting === 'desc';
       }
+    },
+    isTimezoneSet: function() {
+      return this.userPreferencesPresent() && gon.settings.user_preferences.time_zone != '';
+    },
+    timezone: function() {
+      return (this.isTimezoneSet()) ? gon.settings.user_preferences.time_zone : '';
+    },
+    dateFormatPresent: function() {
+      return this.displaySettingPresent('date_format');
+    },
+    dateFormat: function() {
+      return gon.settings.display.date_format;
+    },
+    timeFormatPresent: function() {
+      return this.displaySettingPresent('time_format');
+    },
+    timeFormat: function() {
+      return gon.settings.display.time_format;
+    },
+    workPackageAttributeSettingsPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('work_package_attributes');
+    },
+    workPackageAttributes: function() {
+      var attributes = (this.workPackageAttributeSettingsPresent()) ? gon.settings.work_package_attributes : [];
+
+      return DEFAULT_WORK_PACKAGE_PROPERTIES.concat(attributes);
     }
   };
 }]);

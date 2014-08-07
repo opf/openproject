@@ -15,7 +15,7 @@ angular.module('openproject.api')
         url: PathHelper.apiV3 + '/' + uri,
       });
     }
-  }
+  };
 
   return HALAPIResource;
 }]);

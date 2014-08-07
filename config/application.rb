@@ -39,11 +39,11 @@ module SimpleBenchmark
   # (user cpu time + system cpu time + user and system cpu time of children)
   # This is not wallclock time.
   def self.bench(title)
-    print "#{title}... "
+    $stderr.print "#{title}... "
     result = Benchmark.measure do
       yield
     end
-    print "%.03fs\n" % result.total
+    $stderr.printf "%.03fs\n", result.total
   end
 end
 
@@ -52,6 +52,18 @@ SimpleBenchmark.bench "require 'rails/all'" do
 end
 
 if defined?(Bundler)
+  # lib directory has to be added to the load path so that
+  # the open_project/plugins files can be found (places under lib).
+  # Now it would be possible to remove that and use require with
+  # lib included but some plugins already use
+  #
+  # require 'open_project/plugins'
+  #
+  # to ensure the code to be loaded. So we provide a compaibility
+  # layer here. One might remove this later.
+  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+  require 'open_project/plugins'
+
   SimpleBenchmark.bench 'Bundler.require' do
     Bundler.require(:default, :assets, :opf_plugins, Rails.env)
   end

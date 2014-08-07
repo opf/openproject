@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
+.factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter', 'CustomFieldHelper', function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
@@ -97,15 +97,20 @@ angular.module('openproject.workPackages.helpers')
     formatValue: function(value, dataType) {
       switch(dataType) {
         case 'datetime':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
+          var dateTime;
+          if (value) {
+            dateTime = TimezoneService.formattedDate(value) + " " + TimezoneService.formattedTime(value);
+          }
+          return dateTime || '';
         case 'date':
-          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'mediumDate') : '';
+          return value ? TimezoneService.formattedDate(value) : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
         default:
           return value;
       }
     },
+
     formatWorkPackageProperty: function(value, propertyName) {
       var mappings = {
         dueDate: 'date',
@@ -123,8 +128,72 @@ angular.module('openproject.workPackages.helpers')
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    }
+    },
 
+    getParent: function(workPackage) {
+      var wpParent = workPackage.links.parent;
+
+      return (wpParent) ? [wpParent.fetch()] : [];
+    },
+
+    getChildren: function(workPackage) {
+      var children = workPackage.links.children;
+      var result = [];
+
+      if (children) {
+        for (var x = 0; x < children.length; x++) {
+          var child = children[x];
+
+          result.push(child);
+        }
+      }
+
+      return result;
+    },
+
+    getRelationsOfType: function(workPackage, type) {
+      var relations = workPackage.embedded.relations;
+      var result = [];
+
+      if (relations) {
+        for (var x = 0; x < relations.length; x++) {
+          var relation = relations[x];
+
+          if (relation.props._type == type) {
+            result.push(relation);
+          }
+        }
+      }
+
+      return result;
+    },
+
+    //Note: The following methods are display helpers and so don't really belong here but are shared between
+    // directives so it's probably the best place for them just now.
+    getState: function(workPackage) {
+      return (workPackage.props.isClosed) ? 'closed' : '';
+    },
+
+    getFullIdentifier: function(workPackage) {
+      var id = '#' + workPackage.props.id;
+      if (workPackage.props.type) {
+        id += ' ' + workPackage.props.type + ':';
+      }
+      id += ' ' + workPackage.props.subject;
+
+      return id;
+    },
+
+    collapseStateIcon: function(collapsed) {
+      var iconClass = 'icon-arrow-right5-';
+      if (collapsed) {
+        iconClass += '3';
+      } else {
+        iconClass += '2';
+      }
+
+      return iconClass;
+    }
   };
 
   return WorkPackagesHelper;

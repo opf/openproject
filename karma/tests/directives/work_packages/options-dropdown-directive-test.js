@@ -30,7 +30,17 @@ describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('openproject.models', 'openproject.workPackages.controllers', 'openproject.api'));
+    beforeEach(module('openproject.models',
+                      'openproject.workPackages.controllers',
+                      'openproject.api',
+                      'openproject.services'));
+    beforeEach(module('templates', function($provide) {
+      configurationService = new Object();
+
+      configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+      $provide.constant('ConfigurationService', configurationService);
+    }));
 
     beforeEach(module('templates', function($provide) {
       var state = { go: function() { return false; } };

@@ -35,6 +35,7 @@ angular.module('openproject.workPackages.controllers')
     '$location',
     '$stateParams',
     '$state',
+    'latestTab',
     'I18n',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -46,7 +47,7 @@ angular.module('openproject.workPackages.controllers')
     'HALAPIResource',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $location, $stateParams, $state,
+    function($scope, $rootScope, $q, $location, $stateParams, $state, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, WorkPackageLoadingHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
@@ -59,19 +60,23 @@ angular.module('openproject.workPackages.controllers')
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
 
-    var getWorkPackages, params;
+    var fetchWorkPackages;
     if($scope.query_id){
-      getWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
+      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
     } else {
-      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
+      fetchWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
     }
 
-    $scope.settingUpPage = getWorkPackages.then(setupPage);
-
-    loadProjectTypesAndQueries();
+    $scope.settingUpPage = fetchWorkPackages // put promise in scope for cg-busy
+      .then(setupPage)
+      .then(function() {
+        fetchAvailableColumns();
+        fetchProjectTypesAndQueries();
+        QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+      });
   }
 
-  function loadProjectTypesAndQueries() {
+  function fetchProjectTypesAndQueries() {
     if ($scope.projectIdentifier) {
       ProjectService.getProject($scope.projectIdentifier)
         .then(function(project) {
@@ -81,15 +86,11 @@ angular.module('openproject.workPackages.controllers')
         });
 
     }
-
-    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
   }
 
   function setupPage(json) {
     initQuery(json.meta);
     setupWorkPackagesTable(json);
-
-    initAvailableColumns();
 
     if (json.work_packages.length) {
       $scope.preselectedWorkPackageId = json.work_packages[0].id;
@@ -152,7 +153,7 @@ angular.module('openproject.workPackages.controllers')
     AuthorisationService.initModelAuth("query", meta.query._links);
   }
 
-  function initAvailableColumns() {
+  function fetchAvailableColumns() {
     return QueryService.loadAvailableUnusedColumns($scope.projectIdentifier)
       .then(function(data){
         $scope.availableUnusedColumns = data;
@@ -186,7 +187,7 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.setQueryState = function(query_id) {
     $state.go('work-packages.list', { query_id: query_id });
-  }
+  };
 
   // More
 
@@ -206,4 +207,9 @@ angular.module('openproject.workPackages.controllers')
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
+
+  $scope.openLatestTab = function() {
+    $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
+  };
+
 }]);

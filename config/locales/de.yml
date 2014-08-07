@@ -179,7 +179,7 @@ de:
         progress: "% erledigt"
         responsible: "Verantwortlicher"
         spent_time: "Aufgewendete Zeit"
-        subproject: "Unterprojekt von"
+        subproject: "Unterprojekt"
         time_entries: "Logzeit"
         type: "Typ"
         watcher: "Beobachter"
@@ -196,6 +196,7 @@ de:
         exclusion: "ist nicht verfügbar"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
+        smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein"
         greater_than_start_date: "muss größer als Anfangsdatum sein"
         inclusion: "ist kein gültiger Wert"
         invalid: "ist nicht gültig"
@@ -230,7 +231,7 @@ de:
               not_a_valid_parent: "ist ungültig"
               does_not_exist: "existiert nicht"
             status_id:
-              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nuter-Rollen"
+              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nutzer-Rollen"
             priority_id:
               only_active_priorities_allowed: "muss aktiv sein"
         project_association:
@@ -579,6 +580,10 @@ de:
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
 
+  instructions_after_registration: "Sie können sich %{signin} einloggen sobald Ihr Konto aktiviert wurde."
+  instructions_after_logout: "Sie können sich %{signin} wieder einloggen."
+  instructions_after_error: "Sie können noch mal versuchen sich einzuloggen, indem Sie %{signin} klicken. Wenn der Fehler weiterhin auftritt, wenden Sie sich bitte an den Ihren Admin."
+
   label_account: "Konto"
   label_activity: "Aktivität"
   label_add_another_file: "Eine weitere Datei hinzufügen"
@@ -639,6 +644,7 @@ de:
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
   label_collapse: "Zuklappen"
+  label_configuration: Konfiguration
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -712,6 +718,7 @@ de:
   label_group_new: "Neue Gruppe"
   label_group_plural: "Gruppen"
   label_help: "Hilfe"
+  label_here: hier
   label_hide: "Verbergen"
   label_history: "Historie"
   label_home: "Hauptseite"
@@ -1090,6 +1097,7 @@ de:
   notice_unable_delete_time_entry: "Der Zeiterfassungseintrag konnte nicht gelöscht werden."
   notice_unable_delete_version: "Die Version konnte nicht gelöscht werden."
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
+  notice_logged_out: "Sie wurden ausgeloggt."
   error_types_in_use_by_work_packages: "Die folgenden Typen werden von Arbeitspaketen referenziert: %{types}"
 
  # Default format for numbers
@@ -1234,7 +1242,7 @@ de:
   setting_diff_max_lines_displayed: "Maximale Anzahl anzuzeigender Diff-Zeilen"
   setting_display_subprojects_work_packages: "Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen"
   setting_emails_footer: "E-Mail-Fußzeile"
-  setting_emails_header: "Emailkopf"
+  setting_emails_header: "E-Mail-Kopfzeile"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
@@ -1267,6 +1275,7 @@ de:
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
   setting_repositories_encodings: "Kodierungen der Projektarchive"
+  setting_repository_authentication_caching_enabled: "Aktiviere Cache für Authentifizierungsversuche von Versionskontrollsoftware"
   setting_repository_log_display_limit: "Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei"
   setting_rest_api_enabled: "REST-Schnittstelle aktivieren"
   setting_self_registration: "Anmeldung ermöglicht"
@@ -1598,11 +1607,18 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
+    no_login: "Dieser Nutzer wird per Passwort authentifiziert. Er kann sich jedoch nicht einloggen, da Login per Passwort deaktiviert ist."
+    password_change_unsupported: Passwortänderung wird nicht unterstützt
+    authorization_rejected: "Sie dürfen sich nicht einloggen."
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"
   version_status_open: "offen"
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+
+  note: Hinweis
+  note_password_login_disabled: "Der Passwort-Login wurde per %{configuration} deaktiviert."
+  warning: Warnung
 
   menu_item: "Menüpunkt"
   menu_item_setting: "Sichtbarkeit"

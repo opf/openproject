@@ -40,15 +40,17 @@ module API
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-        def initialize(options = {}, *expand)
+        def initialize(model, options = {}, *expand)
+          @current_user = options[:current_user]
           @expand = expand
-          super(options)
+
+          super(model)
         end
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: represented.subject }
         end
 
         link :author do
@@ -72,12 +74,77 @@ module API
           } unless represented.work_package.assigned_to.nil?
         end
 
+        link :availableWatchers do
+            {
+                href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
+                 title: "Available Watchers"
+            }
+        end
+
+        link :watch do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
+              method: :post,
+              data: { user_id: @current_user.id },
+              title: 'Watch work package'
+          } if !@current_user.anonymous? &&
+             current_user_allowed_to(:view_work_packages, represented.work_package) &&
+            !represented.work_package.watcher_users.include?(@current_user)
+        end
+
+        link :unwatch do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
+              method: :delete,
+              title: 'Unwatch work package'
+          } if current_user_allowed_to(:view_work_packages, represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
+        end
+
+        link :addWatcher do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
+              method: :post,
+              title: 'Add watcher',
+              templated: true
+          } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
+        end
+
+        link :addRelation do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/relations",
+              method: :post,
+              title: 'Add relation'
+          } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
+        end
+
+        link :addComment do
+          {
+              href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
+              method: :post,
+              title: 'Add comment'
+          } if current_user_allowed_to(:add_work_package_notes, represented.work_package)
+        end
+
+        link :parent do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
+              title:  represented.work_package.parent.subject
+          } unless represented.work_package.parent.nil? || !represented.work_package.parent.visible?
+        end
+
+        links :children do
+          visible_children.map do |child|
+            { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
+          end unless visible_children.empty?
+        end
+
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
         property :description, render_nil: true
         property :raw_description, render_nil: true
         property :status, render_nil: true
+        property :is_closed
         property :priority, render_nil: true
         property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
         property :due_date, getter: -> (*) { work_package.due_date }, render_nil: true
@@ -96,11 +163,25 @@ module API
         property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
-        collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
-        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        property :activities, embedded: true, exec_context: :decorator
+        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.work_package) }
+        collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
+        property :relations, embedded: true, exec_context: :decorator
 
         def _type
           'WorkPackage'
+        end
+
+        def activities
+          represented.activities.map{ |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
+        end
+
+        def watchers
+          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.work_package, current_user: @current_user) }
+        end
+
+        def relations
+          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package, current_user: @current_user) }
         end
 
         def custom_properties
@@ -108,6 +189,13 @@ module API
             values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
         end
 
+        def current_user_allowed_to(permission, work_package)
+          @current_user && @current_user.allowed_to?(permission, work_package.project)
+        end
+
+        def visible_children
+          @visible_children ||= represented.work_package.children.find_all { |child| child.visible? }
+        end
       end
     end
   end

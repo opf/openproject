@@ -41,7 +41,7 @@ module API
       end
 
       def errors
-        @obj.errors.messages.map{ |m| { key: m[0], messages: m[1] }}
+        @obj.errors.full_messages
       end
 
       def to_json

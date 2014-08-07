@@ -1,8 +1,8 @@
 <div class="detail-panel-description">
 
-  <h3>Description</h3>
+  <h3>{{ I18n.t('js.label_description') }}</h3>
 
-  <div class="detail-panel-description-content">
+  <div class="detail-panel-description-content wiki">
     <span ng-bind-html="workPackage.props.description"/>
   </div>
 </div>
@@ -15,7 +15,7 @@
       <label ng-bind="propertyData.label"/>
       <span ng-switch="propertyData.format">
         <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-        <span ng-switch-default ng-bind="propertyData.value || '-'"/>
+        <span ng-switch-default ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"/>
       </span>
     </li>
   </ul>
@@ -29,22 +29,28 @@
   </ul>
   <panel-expander ng-if="emptyWorkPackageProperties.length"
                   collapsed="toggleStates.hideAllAttributes"
-                  expand-text="Show all attributes"
-                  collapse-text="Hide empty attributes">
+                  expand-text="{{ I18n.t('js.label_show_attributes') }}"
+                  collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
   </panel-expander>
 </div>
 
 
 <div class="detail-panel-latest-activity">
-  <h3>Latest activity</h3>
-  <ul>
-    <li ng-repeat="activity in latestActitivies"
-        class="work-package-details-activities-activity"
-        ng-init="currentAnchor = 'note-' + ($index+1);
-                 activityNo = activities.length - $index;">
-      <user-activity activity="activity"
-                     activity-no="activityNo"
-                     currentAnchor="currentAnchor">
-    </li>
-  </ul>
+  <h3>{{ I18n.t('js.label_latest_activity') }}</h3>
+  <exclusive-edit>
+    <ul>
+      <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
+          class="work-package-details-activities-activity"
+          ng-init="currentAnchor = 'note-' + ($index+1);
+                   activityNo = activities.length - $index;">
+        <user-activity work-package="workPackage"
+                       activity="activity"
+                       activity-no="activityNo"
+                       input-element-id="'add-comment-text'">
+      </li>
+    </ul>
+    <activity-comment work-package="workPackage"
+                      activities="activities">
+    </activity-comment>
+  </exclusive-edit>
 </div>

@@ -247,6 +247,40 @@ describe UsersController, :type => :controller do
   end
 
   describe "index" do
+    describe 'new user button' do
+      render_views
+
+      context 'with password login enabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+
+          as_logged_in_user admin do
+            get :index
+          end
+        end
+
+        it 'is shown' do
+          expect(response.body).to have_selector('a', text: I18n.t('label_user_new'))
+        end
+      end
+
+      context 'with password login disabled' do
+        before do
+          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+          as_logged_in_user admin do
+            get :index
+          end
+        end
+
+        # you must not be able to create new users if password login is disabled
+        # as users are managed externally
+        it 'is hidden' do
+          expect(response.body).not_to have_selector('a', text: I18n.t('label_user_new'))
+        end
+      end
+    end
+
     describe "with session lifetime" do
       # TODO move this section to a proper place because we test a
       # before_filter from the application controller
@@ -343,6 +377,68 @@ describe UsersController, :type => :controller do
 
           it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
         end
+      end
+    end
+  end
+
+  describe '#new' do
+    context 'with password login enabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+
+        as_logged_in_user admin do
+          get :new
+        end
+      end
+
+      it 'should return HTTP 200' do
+        expect(response.status).to eq 200
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+        as_logged_in_user admin do
+          get :new
+        end
+      end
+
+      # you must not be able to create new users if password login is disabled
+      it 'should return HTTP 404' do
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
+  describe '#create' do
+    context 'with password login enabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+
+        as_logged_in_user admin do
+          post :create
+        end
+      end
+
+      it 'should return HTTP 400 due to missing parameters' do
+        expect(response.status).to eq 400
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+
+        as_logged_in_user admin do
+          post :create
+        end
+      end
+
+      # you must not be able to create new users if password login is disabled
+      it 'should return HTTP 404' do
+        expect(response.status).to eq 404
       end
     end
   end

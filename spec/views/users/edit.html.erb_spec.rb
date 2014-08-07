@@ -40,12 +40,82 @@ describe 'users/edit', :type => :view do
       assign(:auth_sources, [])
 
       allow(view).to receive(:current_user).and_return(current_user)
-
-      render
     end
 
     it 'shows the authentication provider' do
+      render
+
       expect(response.body).to include('Test Provider')
+    end
+
+    it 'does not show a no-login warning when password login is disabled' do
+      OpenProject::Configuration.stub(:disable_password_login).and_return(true)
+      render
+
+      expect(response.body).not_to include I18n.t('user.no_login')
+    end
+  end
+
+  context 'with password-based login' do
+    let(:user) { FactoryGirl.build :user, id: 42 }
+
+    before do
+      assign :user, user
+      assign :auth_sources, []
+
+      allow(view).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'with password login disabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      end
+
+      it 'warns that the user cannot login' do
+        render
+
+        expect(response.body).to include I18n.t('user.no_login')
+      end
+
+      context 'with auth sources' do
+        let(:auth_sources) { [FactoryGirl.create(:auth_source)]}
+
+        before do
+          assign :auth_sources, auth_sources
+        end
+
+        it 'does not show the auth source selection' do
+          render
+
+          expect(rendered).not_to have_selector('#user_auth_source_id')
+        end
+      end
+    end
+
+    context 'with password login enabled' do
+      before do
+        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+      end
+
+      it 'shows password options' do
+        render
+
+        expect(rendered).to have_text I18n.t('user.assign_random_password')
+      end
+
+      context 'with auth sources' do
+        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
+
+        before do
+          assign :auth_sources, auth_sources
+        end
+
+        it 'shows the auth source selection' do
+          render
+
+          expect(rendered).to have_selector('#user_auth_source_id')
+        end
+      end
     end
   end
 end

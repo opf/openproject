@@ -28,150 +28,142 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
-  'status', 'assignee', 'responsible',
-  'date', 'percentageDone', 'priority',
-  'estimatedTime', 'versionName'
-])
-.constant('USER_TYPE', 'user')
+.constant('VISIBLE_LATEST')
+.constant('RELATION_TYPES', {
+  relatedTo: "Relation::Relates",
+  duplicates: "Relation::Duplicates",
+  duplicated: "Relation::Duplicated",
+  blocks: "Relation::Blocks",
+  blocked: "Relation::Blocked",
+  precedes: "Relation::Precedes",
+  follows: "Relation::Follows"
+})
+.constant('RELATION_IDENTIFIERS', {
+  relatedTo: "relates",
+  duplicates: "duplicates",
+  duplicated: "duplicated",
+  blocks: "blocks",
+  blocked: "blocked",
+  precedes: "precedes",
+  follows: "follows"
+})
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  'latestTab',
   'workPackage',
   'I18n',
-  'DEFAULT_WORK_PACKAGE_PROPERTIES',
-  'USER_TYPE',
-  'WorkPackagesHelper',
-  'PathHelper',
-  'UserService',
+  'VISIBLE_LATEST',
+  'RELATION_TYPES',
+  'RELATION_IDENTIFIERS',
   '$q',
+  'WorkPackagesHelper',
   'ConfigurationService',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  'CommonRelationsHandler',
+  'ChildrenRelationsHandler',
+  'ParentRelationsHandler',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+      latestTab.registerState(toState.name);
+    });
+
+    $scope.$on('workPackageRefreshRequired', function(event, toState){
+      refreshWorkPackage();
+    });
 
     // initialization
+    setWorkPackageScopeProperties(workPackage);
+
     $scope.I18n = I18n;
-    $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
-
-    // resources for tabs
-
-    // activities and latest activities
-
-    $scope.activities = workPackage.embedded.activities;
-    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
-
-    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
-
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-
-    // restore former order of actvities unless comments are to be sorted in descending order
-    if (!$scope.activitiesSortedInDescendingOrder) {
-      $scope.activities.reverse();
+    function refreshWorkPackage() {
+      workPackage.links.self
+        .fetch({force: true})
+        .then(setWorkPackageScopeProperties);
     }
+    $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
-    // watchers
-
-    $scope.watchers = workPackage.embedded.watchers;
-
-    // work package properties
-
-    $scope.presentWorkPackageProperties = [];
-    $scope.emptyWorkPackageProperties = [];
-    $scope.userPath = PathHelper.staticUserPath;
-
-    var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
-
-    function getPropertyValue(property, format) {
-      if (format === USER_TYPE) {
-        return workPackage.embedded[property];
-      } else {
-        return getFormattedPropertyValue(property);
-      }
-    }
-
-    function getFormattedPropertyValue(property) {
-      if (property === 'date') {
-        return getDateProperty();
-      } else {
-        return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
-      }
-    }
-
-    function getDateProperty() {
-      if (workPackage.props.startDate || workPackage.props.dueDate) {
-        var displayedStartDate = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
-            displayedEndDate   = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
-
-        return  displayedStartDate + ' - ' + displayedEndDate;
-      }
-    }
-
-    function addFormattedValueToPresentProperties(property, label, value, format) {
-      var propertyData = {
-        property: property,
-        label: label,
-        format: format,
-        value: null
-      };
-      $q.when(value).then(function(value) {
-        propertyData.value = value;
+    function outputMessage(message, isError) {
+      $scope.$emit('flashMessage', {
+        isError: !!isError,
+        text: message
       });
-      $scope.presentWorkPackageProperties.push(propertyData);
     }
 
-    function secondRowToBeDisplayed() {
-      return !!workPackageProperties
-        .slice(3, 6)
-        .map(function(property) {
-          return workPackage.props[property];
-        })
-        .reduce(function(a, b) {
-          return a || b;
-        });
+    function outputError(error) {
+      outputMessage(error.message, true);
     }
 
-    var userFields = ['assignee', 'author', 'responsible'];
+    $scope.outputMessage = outputMessage; // expose to child controllers
+    $scope.outputError = outputError; // expose to child controllers
 
-    (function setupWorkPackageProperties() {
-      angular.forEach(workPackageProperties, function(property, index) {
-        var label  = I18n.t('js.work_packages.properties.' + property),
-            format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
-            value  = getPropertyValue(property, format);
+    function setWorkPackageScopeProperties(workPackage){
+      $scope.workPackage = workPackage;
 
-        if (!!value ||
-            index < 3 ||
-            index < 6 && secondRowToBeDisplayed()) {
-          addFormattedValueToPresentProperties(property, label, value, format);
-        } else {
-          $scope.emptyWorkPackageProperties.push(label);
+      $scope.isWatched = !!workPackage.links.unwatch;
+      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+      $scope.watchers = workPackage.embedded.watchers;
+
+      // activities and latest activities
+      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      $scope.activities = displayedActivities($scope.workPackage);
+
+      // watchers
+
+      $scope.watchers = workPackage.embedded.watchers;
+      $scope.author = workPackage.embedded.author;
+
+      // Attachments
+      $scope.attachments = workPackage.embedded.attachments;
+
+      // relations
+      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        $scope.wpParent = relationsHandler;
+      });
+
+      $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
+        var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
+        $scope.wpChildren = relationsHandler;
+      });
+
+      for (var key in RELATION_TYPES) {
+        if (RELATION_TYPES.hasOwnProperty(key)) {
+          (function(key) {
+            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
+              var relationsHandler = new CommonRelationsHandler(workPackage,
+                                                                relations,
+                                                                RELATION_IDENTIFIERS[key]);
+              $scope[key] = relationsHandler;
+            });
+          })(key);
         }
-      });
-    })();
-
-    function getCustomPropertyValue(customProperty) {
-      if (!!customProperty.value && customProperty.format === USER_TYPE) {
-        return UserService.getUser(customProperty.value);
-      } else {
-        return customProperty.value;
       }
+
+      // Author
+      $scope.author = workPackage.embedded.author;
     }
 
-    (function setupCustomProperties() {
-      angular.forEach(workPackage.props.customProperties, function(customProperty) {
-        var property = customProperty.name,
-            label = customProperty.name,
-            value = getCustomPropertyValue(customProperty),
-            format = customProperty.format;
+    $scope.toggleWatch = function() {
+      $scope.toggleWatchLink
+        .fetch({ ajax: $scope.toggleWatchLink.props })
+        .then(refreshWorkPackage, outputError);
+    };
 
-        if (customProperty.value) {
-          addFormattedValueToPresentProperties(property, label, value, format);
-        } else {
-         $scope.emptyWorkPackageProperties.push(label);
-        }
-      });
-    })();
+    $scope.canViewWorkPackageWatchers = function() {
+      return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
+    };
+
+    function displayedActivities(workPackage) {
+      var activities = workPackage.embedded.activities;
+      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+      if ($scope.activitiesSortedInDescendingOrder) {
+        activities.reverse();
+      }
+      return activities;
+    }
 
     // toggles
 

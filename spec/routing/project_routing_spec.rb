@@ -76,4 +76,12 @@ describe ProjectsController, :type => :routing do
     it { expect(get("projects/123/copy_project_from_settings")).to route_to(:controller => 'copy_projects', :action =>"copy_project", :id =>"123", :coming_from => "settings")}
     it { expect(post("projects/123/copy")).to                      route_to(:controller => 'copy_projects', :action =>"copy",         :id =>"123")}
   end
+
+  describe 'types' do
+    it do
+      expect(post('/projects/types/123')).to route_to(controller: 'projects',
+                                                      action: 'types',
+                                                      id: '123')
+    end
+  end
 end

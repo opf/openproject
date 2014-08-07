@@ -40,25 +40,45 @@ module API
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
+        def initialize(model, options = {}, *expand)
+          @current_user = options[:current_user]
+          @work_package = options[:work_package]
+          @expand = expand
+
+          super(model)
+        end
+
         property :_type, exec_context: :decorator
 
         link :self do
           { href: "#{root_url}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
         end
 
-        # will need array of links for work packages the user is watching
+        link :removeWatcher do
+          {
+            href: "#{root_url}/api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
+            method: :delete,
+            title: 'Remove watcher'
+          } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)
+        end
 
         property :id, getter: -> (*) { model.id }, render_nil: true
         property :login, render_nil: true
         property :firstname, as: :firstName, render_nil: true
         property :lastname, as: :lastName, render_nil: true
+        property :name, getter: -> (*) { model.try(:name) }, render_nil: true
         property :mail, render_nil: true
         property :avatar, getter: ->(*) { gravatar_image_url(mail) }, render_nil: true
         property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
+        property :status, getter: -> (*) { model.status }, render_nil: true
 
         def _type
           'User'
+        end
+
+        def current_user_allowed_to(permission, work_package)
+          @current_user && @current_user.allowed_to?(permission, work_package.project)
         end
       end
     end

@@ -95,17 +95,27 @@ div
       background: #ffffff
       padding: 0 10px 0 0px
 
-  &.detail-panel-watchers
+  &#detail-panel-watchers
     float: left
-    margin: 15px 0 0 0
     width: 100%
     ul
-      margin: 10px 0 0 0
-      padding: 0
+      margin: 15px 0
+      padding: 0 0 15px 0
       list-style-type: none
       li
-        margin: 0 0 30px 0
-        padding: 0
+        clear: both
+        height: 36px
+        margin-bottom: 10px
+        
+    .user-field-user-link
+      float: left
+    .detail-panel-watchers-delete-watcher-icon
+      padding: 0 8px
+      color: $button_font_color
+    fieldset
+      border: 0
+    #detail-panel-watchers-add-watcher
+      clear: left
 
   &.detail-panel-attributes
     float: left
@@ -121,6 +131,7 @@ div
         padding: 0
         display: inline-table
         min-width: 31%
+        clear: left
 
     label
       font-weight: bold
@@ -244,8 +255,10 @@ i
     color: #ccc
     margin: 0 0 0 -2px
     cursor: pointer
-    &:hover
+    &:hover, &.active
       color: #f8d033
+    &.active:hover
+      color: #ccc
 
 #tabs
   position: relative
@@ -285,9 +298,18 @@ i
 
 .work-package-details-activities-activity-contents
   padding: 10px 0
-  
-@media only screen and (max-width: 1200px)
+  textarea
+    width: 100%
+    resize: none
+
+@media only screen and (max-width: 1280px)
   .split-view .work-packages--details, .work-packages--split-view .work-packages--details
     display: none
   li[feature-flag=detailsView]
     display: none
+@media only screen and (min-width: 1281px)
+  .split-view .work-packages--details, .work-packages--split-view .work-packages--details
+    width: 480px
+@media only screen and (min-width: 1440px)
+  .split-view .work-packages--details, .work-packages--split-view .work-packages--details
+    width: 580px

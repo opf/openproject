@@ -48,24 +48,30 @@ module API
         raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
       end
 
-      def authorize(api, endpoint, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(api, endpoint, context: context, global: global, user: user).call
+      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
+        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
         raise API::Errors::Unauthorized.new(current_user) unless is_authorized && allow
         is_authorized
       end
+
+      def build_representer(obj, model_klass, representer_klass, options = {})
+        model = (obj.kind_of?(Array)) ? obj.map{ |o| model_klass.new(o) } : model_klass.new(obj)
+        representer_klass.new(model, options).to_json
+      end
     end
 
-    rescue_from :all do |e|
-      case e.class.to_s
-      when 'API::Errors::Validation', 'API::Errors::UnwritableProperty', 'API::Errors::Unauthorized', 'API::Errors::Unauthenticated'
-        Rack::Response.new(e.to_json, e.code, e.headers).finish
-      when 'ActiveRecord::RecordNotFound'
-        not_found = API::Errors::NotFound.new(e.message)
-        Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
-      when 'ActiveRecord::RecordInvalid'
-        error = API::Errors::Validation.new(e.record)
-        Rack::Response.new(error.to_json, error.code, error.headers).finish
-      end
+    rescue_from ActiveRecord::RecordInvalid do |e|
+      error = API::Errors::Validation.new(e.record)
+      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      error = API::Errors::NotFound.new(e.message)
+      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    end
+
+    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated, API::Errors::Validation do |e|
+      Rack::Response.new(e.to_json, e.code, e.headers).finish
     end
 
     # run authentication before each request

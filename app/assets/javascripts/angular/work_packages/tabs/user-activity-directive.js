@@ -28,24 +28,77 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['PathHelper', function(PathHelper) {
+.directive('userActivity', ['$uiViewScroll', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, I18n, PathHelper, ActivityService, UsersHelper) {
   return {
     restrict: 'E',
     replace: true,
+    require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/tabs/_user_activity.html',
     scope: {
+      workPackage: '=',
       activity: '=',
-      currentAnchor: '=',
-      activityNo: '='
+      activityNo: '=',
+      inputElementId: '='
     },
-    link: function(scope) {
+    link: function(scope, element, attrs, exclusiveEditController) {
+      exclusiveEditController.addEditable(scope);
+      scope.$watch('inEdit', function(newVal, oldVal) {
+        if(newVal) {
+          angular.element('#edit-comment-text').focus();
+        }
+      })
+
+      scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
+      scope.inEdit = false;
+      scope.inFocus = false;
+      scope.userCanEdit = !!scope.activity.links.update;
+      scope.userCanQuote = !!scope.workPackage.links.addComment;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
-        scope.userName = user.props.firstName + ' ' + user.props.lastName;
+        scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;
+        scope.userActive = UsersHelper.isActive(user);
       });
+
+      scope.editComment = function() {
+        exclusiveEditController.gotEditable(scope);
+      };
+
+      scope.cancelEdit = function() {
+        scope.inEdit = false;
+      };
+
+      scope.quoteComment = function() {
+        exclusiveEditController.setQuoted(quotedText(scope.activity.props.rawComment));
+        var elem = angular.element('#' + scope.inputElementId);
+        $uiViewScroll(elem);
+        elem.focus();
+      };
+
+      scope.updateComment = function(comment) {
+        var comment = angular.element('#edit-comment-text').val();
+        ActivityService.updateComment(scope.activity, comment).then(function(activity){
+          scope.$emit('workPackageRefreshRequired', '');
+          scope.inEdit = false;
+        });
+      };
+
+      scope.showActions = function() {
+        scope.inFocus = true;
+      };
+
+      scope.hideActions = function() {
+        scope.inFocus = false;
+      };
+
+      function quotedText(rawComment) {
+        quoted = rawComment.split("\n")
+          .map(function(line){ return "\n> " + line; })
+          .join('');
+        return scope.userName + " wrote:" + quoted;
+      }
     }
   };
 }]);

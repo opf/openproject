@@ -32,6 +32,8 @@ describe AuthSourcesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -117,6 +119,48 @@ describe AuthSourcesController, :type => :controller do
       it "doesn not destroy the AuthSource" do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end
+    end
+  end
+
+  context 'with password login disabled' do
+    before do
+      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+    end
+
+    it 'cannot find index' do
+      get :index
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find new' do
+      get :new
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find create' do
+      post :create, auth_source: { name: 'Test' }
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find edit' do
+      get :edit, id: 42
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find update' do
+      post :update, id: 42, auth_source: { name: 'TestUpdate' }
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find destroy' do
+      post :destroy, id: 42
+
+      expect(response.status).to eq 404
     end
   end
 end

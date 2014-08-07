@@ -49,6 +49,7 @@ class WorkPackagesController < ApplicationController
   include PaginationHelper
   include SortHelper
   include OpenProject::Concerns::Preview
+  include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show, :create, :update
 
@@ -204,9 +205,8 @@ class WorkPackagesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        gon.settings = {
-          user_preferences: current_user.pref
-        }
+        gon.settings = client_preferences
+        gon.settings[:work_package_attributes] = hook_overview_attributes
 
         render :index, :locals => { :query => @query,
                                     :project => @project },
@@ -454,5 +454,13 @@ class WorkPackagesController < ApplicationController
 
   def parse_preview_data
     parse_preview_data_helper :work_package, [:notes, :description]
+  end
+
+  def hook_overview_attributes
+    attributes = []
+    call_hook(:work_packages_overview_attributes,
+              project: @project,
+              attributes: attributes)
+    attributes
   end
 end

@@ -35,13 +35,50 @@ describe('WorkPackageDetailsController', function() {
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
       },
+      UserService = {
+        getUser: angular.identity
+      },
+      CustomFieldHelper = {
+        formatCustomFieldValue: angular.identity
+      },
       workPackage = {
         props: {
           status: 'open',
-          versionName: null
+          versionName: null,
+          customProperties: [
+            { format: 'text', name: 'color', value: 'red' },
+          ]
         },
         embedded: {
-          activities: []
+          activities: [],
+          watchers: [],
+          attachments: [],
+          relations: [
+            {
+              props: {
+                _type: "Relation::Relates"
+              },
+              links: {
+                relatedFrom: {
+                  fetch: sinon.spy()
+                },
+                relatedTo: {
+                  fetch: sinon.spy()
+                }
+              }
+            }
+          ]
+        },
+        links: {
+          self: "it's a me, it's... you know...",
+          availableWatchers: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+        link: {
+          addWatcher: {
+            fetch: function() { return {then: angular.noop}; }
+          }
         },
       };
 
@@ -50,7 +87,14 @@ describe('WorkPackageDetailsController', function() {
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     var workPackageId = 99;
 
@@ -60,11 +104,15 @@ describe('WorkPackageDetailsController', function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
+        latestTab: {},
         I18n: I18n,
         ConfigurationService: {
           commentsSortedInDescendingOrder: function() {
             return false;
           }
+        },
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
         },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
@@ -80,157 +128,41 @@ describe('WorkPackageDetailsController', function() {
     });
   });
 
-  describe('work package properties', function() {
-    function fetchPresentPropertiesWithName(propertyName) {
-      return scope.presentWorkPackageProperties.filter(function(propertyData) {
-        return propertyData.property === propertyName;
-      });
-    }
-
-    describe('when the property has a value', function() {
-      var propertyName = 'status';
-
+  describe('#scope.canViewWorkPackageWatchers', function() {
+    describe('when the work package does not contain the embedded watchers property', function() {
       beforeEach(function() {
+        workPackage.embedded.watchers = undefined;
         buildController();
-      });
+      })
 
-      it('adds properties to present properties', function() {
-        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      it('returns false', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.false;
       });
     });
 
-    describe('when the property is among the first 3 properties', function() {
-      var propertyName = 'responsible';
-
+    describe('when the work package contains the embedded watchers property', function() {
       beforeEach(function() {
+        workPackage.embedded.watchers = [];
         buildController();
-      });
+      })
 
-      it('is added to present properties even if it is empty', function() {
-        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
-      });
-    });
-
-    describe('when the property is among the second group of 3 properties', function() {
-      var propertyName = 'priority',
-          label        = 'Priority';
-
-      beforeEach(function() {
-        sinon.stub(I18n, 't')
-             .withArgs('js.work_packages.properties.' + propertyName)
-             .returns(label);
-
-        buildController();
-      });
-
-      afterEach(function() {
-        I18n.t.restore();
-      });
-
-      describe('and none of these 3 properties is present', function() {
-        beforeEach(function() {
-          buildController();
-        });
-
-        it('is added to the empty properties', function() {
-          expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
-        });
-      });
-
-      describe('and at least one of these 3 properties is present', function() {
-        beforeEach(function() {
-          workPackage.props.percentageDone = '20';
-          buildController();
-        });
-
-        it('is added to the present properties', function() {
-          expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
-        });
-      });
-    });
-
-    describe('when the property is not among the first 6 properties', function() {
-      var propertyName = 'versionName',
-          label        = 'Version';
-
-      beforeEach(function() {
-        sinon.stub(I18n, 't')
-             .withArgs('js.work_packages.properties.' + propertyName)
-             .returns(label);
-
-        buildController();
-      });
-
-      afterEach(function() {
-        I18n.t.restore();
-      });
-
-      it('adds properties that without values to empty properties', function() {
-        expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
-      });
-    });
-
-    describe('date property', function() {
-      var startDate = '2014-07-09',
-          dueDate   = '2014-07-10',
-          placeholder = 'placeholder';
-
-
-      describe('when only the due date is present', function() {
-        beforeEach(function() {
-          sinon.stub(I18n, 't')
-               .withArgs('js.label_no_start_date')
-               .returns(placeholder);
-
-          workPackage.props.startDate = null;
-          workPackage.props.dueDate = dueDate;
-
-          buildController();
-        });
-
-        afterEach(function() {
-          I18n.t.restore();
-        });
-
-        it('renders the due date and a placeholder for the start date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - Jul 10, 2014');
-        });
-      });
-
-      describe('when only the start date is present', function() {
-        beforeEach(function() {
-          sinon.stub(I18n, 't')
-               .withArgs('js.label_no_due_date')
-               .returns(placeholder);
-
-          workPackage.props.startDate = startDate;
-          workPackage.props.dueDate = null;
-
-          buildController();
-        });
-
-        afterEach(function() {
-          I18n.t.restore();
-        });
-
-        it('renders the start date and a placeholder for the due date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - ' + placeholder);
-        });
-      });
-
-      describe('when both - start and due date are present', function() {
-        beforeEach(function() {
-          workPackage.props.startDate = startDate;
-          workPackage.props.dueDate = dueDate;
-
-          buildController();
-        });
-
-        it('combines them and renders them as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - Jul 10, 2014');
-        });
+      it('returns true', function() {
+        expect(scope.canViewWorkPackageWatchers()).to.be.true;
       });
     });
   });
+
+  describe('work package properties', function() {
+    describe('relations', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('Relation::Relates', function() {
+        expect(scope.relatedTo).to.be.ok;
+      });
+    });
+  });
+
 
 });

@@ -249,6 +249,7 @@ end
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:class => "icon2 icon-user1"}
   menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:class => "icon2 icon-locked"}
+
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
@@ -269,8 +270,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             :html => {:class => 'custom_fields icon2 icon-status' }
   menu.push :enumerations, {:controller => '/enumerations'}, :html => {:class => "icon2 icon-status"}
   menu.push :settings, {:controller => '/settings'}, :html => {:class => "icon2 icon-settings2"}
-  menu.push :ldap_authentication, {:controller => '/ldap_auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication icon2 icon-status'}
+  menu.push :ldap_authentication,
+            {:controller => '/ldap_auth_sources', :action => 'index'},
+            :html => {:class => 'server_authentication icon2 icon-status'},
+            :if => proc { !OpenProject::Configuration.disable_password_login? }
   menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:class => "icon2 icon-status"}
   menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:class => "icon2 icon-info"}
   menu.push :colors,

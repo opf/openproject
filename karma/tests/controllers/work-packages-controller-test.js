@@ -31,7 +31,14 @@
 describe('WorkPackagesController', function() {
   var scope, win, testParams, buildController;
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.api'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.services'));
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
   }));
@@ -47,6 +54,7 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        $state: {},
         $stateParams: testParams,
         project: {},
         availableTypes: {}

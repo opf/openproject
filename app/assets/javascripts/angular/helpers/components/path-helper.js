@@ -36,7 +36,7 @@ angular.module('openproject.helpers')
     apiV3: '/api/v3',
     staticBase: window.appBasePath ? window.appBasePath : '',
 
-    activityPath: function(projectIdentifier, from) {
+    activityFromPath: function(projectIdentifier, from) {
       var link = '/activity';
 
       if (projectIdentifier) {
@@ -51,6 +51,9 @@ angular.module('openproject.helpers')
     },
     assetPath: function(assetIdentifier) {
       return '/assets/' + assetIdentifier;
+    },
+    attachmentPath: function(attachmentId, fileName) {
+      return '/attachments/' + attachmentId + '/' + fileName;
     },
     boardsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/boards';
@@ -111,9 +114,14 @@ angular.module('openproject.helpers')
     subProjectsPath: function() {
       return '/sub_projects';
     },
-
     workPackagesBulkDeletePath: function() {
       return PathHelper.workPackagesPath() + '/bulk';
+    },
+    workPackageAutoCompletePath: function(projectId, workPackageId) {
+      return "/work_packages/auto_complete?escape=false&id=" + workPackageId + "&project_id=" + projectId;
+    },
+    workPackageNewWithParentPath: function(projectId, parentId) {
+      return "/projects/" + projectId + "/work_packages/new?work_package[parent_id]=" + parentId;
     },
 
     // Experimental API
@@ -220,6 +228,9 @@ angular.module('openproject.helpers')
     },
 
     // Static
+    staticAttachmentPath: function(attachmentId, fileName) {
+      return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
+    },
     staticUserPath: function(userId) {
       return PathHelper.staticBase + PathHelper.userPath(userId);
     },
@@ -231,6 +242,9 @@ angular.module('openproject.helpers')
     },
     staticVersionPath: function(versionId) {
       return PathHelper.staticBase + PathHelper.versionPath(versionId);
+    },
+    staticWorkPackageNewWithParentPath: function(projectId, parentId) {
+      return PathHelper.staticBase + PathHelper.workPackageNewWithParentPath(projectId, parentId);
     }
   };
 
