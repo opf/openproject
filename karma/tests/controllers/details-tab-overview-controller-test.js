@@ -29,9 +29,14 @@
 /*jshint expr: true*/
 
 describe('DetailsTabOverviewController', function() {
+  var DEFAULT_WORK_PACKAGE_PROPERTIES = ['status', 'assignee', 'responsible',
+                                         'date', 'percentageDone', 'priority',
+                                         'estimatedTime', 'versionName', 'spentTime'] 
+
   var scope;
   var buildController;
   var HookService;
+  var ConfigurationService;
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
@@ -58,6 +63,7 @@ describe('DetailsTabOverviewController', function() {
           attachments: []
         },
       };
+  var workPackageAttributesStub;
 
   function buildWorkPackageWithId(id) {
     angular.extend(workPackage.props, {id: id});
@@ -69,7 +75,7 @@ describe('DetailsTabOverviewController', function() {
                     'openproject.config',
                     'openproject.workPackages.controllers'));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_) {
+  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _ConfigurationService_) {
     var workPackageId = 99;
 
     buildController = function() {
@@ -87,6 +93,10 @@ describe('DetailsTabOverviewController', function() {
     };
 
     HookService = _HookService_;
+    ConfigurationService = _ConfigurationService_;
+
+    workPackageAttributesStub = sinon.stub(ConfigurationService, "workPackageAttributes");
+    workPackageAttributesStub.returns(DEFAULT_WORK_PACKAGE_PROPERTIES);
   }));
 
   describe('initialisation', function() {
@@ -341,7 +351,12 @@ describe('DetailsTabOverviewController', function() {
         gon.settings = { };
         gon.settings.work_package_attributes = [propertyName];
 
-        workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
+        var attributes = DEFAULT_WORK_PACKAGE_PROPERTIES.slice(0);
+        attributes.push(propertyName);
+
+        workPackageAttributesStub.returns(attributes);
+
+        var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
         workPackageOverviewAttributesStub.withArgs('workPackageOverviewAttributes',
                                                    { type: propertyName,
                                                      workPackage: workPackage })
