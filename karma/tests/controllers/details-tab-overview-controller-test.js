@@ -31,6 +31,7 @@
 describe('DetailsTabOverviewController', function() {
   var scope;
   var buildController;
+  var HookService;
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
@@ -68,7 +69,7 @@ describe('DetailsTabOverviewController', function() {
                     'openproject.config',
                     'openproject.workPackages.controllers'));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_) {
     var workPackageId = 99;
 
     buildController = function() {
@@ -85,6 +86,7 @@ describe('DetailsTabOverviewController', function() {
       $timeout.flush();
     };
 
+    HookService = _HookService_;
   }));
 
   describe('initialisation', function() {
@@ -330,7 +332,36 @@ describe('DetailsTabOverviewController', function() {
         });
       });
     });
+
+    describe('Plug-in properties', function() {
+      var propertyName = 'myPluginProperty';
+      var directiveName = 'my-plugin-property-directive';
+
+      beforeEach(function() {
+        gon.settings = { };
+        gon.settings.work_package_attributes = [propertyName];
+
+        workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
+        workPackageOverviewAttributesStub.withArgs('workPackageOverviewAttributes',
+                                                   { type: propertyName,
+                                                     workPackage: workPackage })
+                                         .returns([directiveName]);
+        workPackageOverviewAttributesStub.returns([]);
+
+        buildController();
+      });
+
+      it('adds plug-in property to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+
+      it('adds plug-in property to present properties', function() {
+        var propertyData = fetchPresentPropertiesWithName(propertyName)[0];
+
+        expect(propertyData.property).to.eq(propertyName);
+        expect(propertyData.format).to.eq('dynamic');
+        expect(propertyData.value).to.eq(directiveName);
+      });
+    });
   });
-
-
 });
