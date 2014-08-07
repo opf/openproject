@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="top-page">
   <%= render :partial => 'layouts/action_menu_specific' %>
-  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
 </div>
 
 <div class="message">
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <h4>
-      <%= avatar(message.author, :size => "24") %>
+      <%= avatar(message.author) %>
       <%= link_to h(message.subject), topic_path(@topic,
                                                  :r => message,
                                                  :anchor => "message-#{message.id}") %>
