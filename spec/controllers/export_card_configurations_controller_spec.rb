@@ -27,9 +27,9 @@
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../shared_examples'
 
-describe ExportCardConfigurationsController do
+describe ExportCardConfigurationsController, :type => :controller do
   before do
-    @controller.stub(:require_admin) { true }
+    allow(@controller).to receive(:require_admin) { true }
 
     @default_config = FactoryGirl.create(:default_export_card_configuration)
     @custom_config = FactoryGirl.create(:export_card_configuration)
@@ -86,8 +86,8 @@ describe ExportCardConfigurationsController do
       @params[:export_card_configuration] = { per_page: 4 }
       put 'update', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:notice_successful_update))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
     end
 
     it 'should not let you update a configuration with invalid per_page' do
@@ -95,7 +95,7 @@ describe ExportCardConfigurationsController do
       @params[:export_card_configuration] = { per_page: 0}
       put 'update', @params
 
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
 
     it 'should not let you update a configuration with invalid page_size' do
@@ -103,7 +103,7 @@ describe ExportCardConfigurationsController do
       @params[:export_card_configuration] = { page_size: "invalid"}
       put 'update', @params
 
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
 
     it 'should not let you update a configuration with invalid orientation' do
@@ -111,7 +111,7 @@ describe ExportCardConfigurationsController do
       @params[:export_card_configuration] = { orientation: "invalid"}
       put 'update', @params
 
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
 
     it 'should not let you update a configuration with invalid rows yaml' do
@@ -119,7 +119,7 @@ describe ExportCardConfigurationsController do
       @params[:export_card_configuration] = { rows: "asdf ',#\""}
       put 'update', @params
 
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
   end
 
@@ -128,16 +128,16 @@ describe ExportCardConfigurationsController do
       @params[:id] = @custom_config.id
       delete 'destroy', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:notice_successful_delete))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:notice_successful_delete))
     end
 
     it 'should not let you delete the default configuration' do
       @params[:id] = @default_config.id
       delete 'destroy', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:error_can_not_delete_export_card_configuration))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:error_can_not_delete_export_card_configuration))
     end
   end
 
@@ -146,8 +146,8 @@ describe ExportCardConfigurationsController do
       @params[:id] = @inactive_config.id
       post 'activate', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:notice_export_card_configuration_activated))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:notice_export_card_configuration_activated))
     end
   end
 
@@ -156,16 +156,16 @@ describe ExportCardConfigurationsController do
       @params[:id] = @active_config.id
       post 'deactivate', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:notice_export_card_configuration_deactivated))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:notice_export_card_configuration_deactivated))
     end
 
     it 'should not let you de-activate the default configuration' do
       @params[:id] = @default_config.id
       post 'deactivate', @params
 
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:error_can_not_deactivate_export_card_configuration))
+      expect(response).to redirect_to :action => 'index'
+      expect(flash[:notice]).to eql(I18n.t(:error_can_not_deactivate_export_card_configuration))
     end
   end
 end
