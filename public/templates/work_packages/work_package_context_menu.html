@@ -3,7 +3,7 @@
     <li ng-repeat="(action, link) in permittedActions"
         ng-click="triggerContextMenuAction(action, link)"
         class="{{action}}">
-      <a href
+        <a focus="{{ $first }}" href
          ng-class="['icon-context', 'icon-' + action]"
          ng-click="deleteWorkPackages()"
          ng-bind="I18n.t('js.button_' + action)">

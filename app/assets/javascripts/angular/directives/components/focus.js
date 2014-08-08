@@ -29,10 +29,16 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('focus', function() {
+.directive('focus', ['$parse', '$timeout', function($parse, $timeout) {
   return {
     link: function(scope, element, attrs) {
-      element[0].focus();
+      var condition = $parse(attrs.focus)();
+
+      if (condition) {
+        $timeout(function() {
+          element[0].focus();
+        });
+      }
     }
   };
-});
+}]);
