@@ -45,7 +45,7 @@ def project_boundaries_spanning_work_package_hierarchy_allowed?
   work_package.errors[:parent_id].blank?
 end
 
-describe WorkPackage, :type => :model, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
+describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries', type: :model do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }

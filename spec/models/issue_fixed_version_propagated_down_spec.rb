@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
+describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)", type: :model do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
