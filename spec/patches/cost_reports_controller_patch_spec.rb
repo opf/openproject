@@ -1,22 +1,22 @@
 require 'spec_helper'
 
 describe 'CostReportsController', "rendering to xls" do
-  pending 'XlsExport: CostReports support not yet migrated to Rails 3'
+  skip 'XlsExport: CostReports support not yet migrated to Rails 3'
 
   it "should respond with the xls if requested in the index" do
-    pending
+    skip
     render :action => :index
-    response.should be_redirect
+    expect(response).to be_redirect
   end
 
   it "should not respond with the xls if requested in a detail view" do
-    pending
+    skip
     render :action => :show
-    response.should be_redirect
+    expect(response).to be_redirect
   end
 
   it "should generate xls from issues" do
-    pending
+    skip
   end
 
 end
