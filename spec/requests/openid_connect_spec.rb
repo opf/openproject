@@ -27,7 +27,11 @@
 #++
 
 require 'spec_helper'
-require 'rspec-steps'
+require_relative 'openid_connect_spec_helpers'
+
+RSpec.configure do |c|
+  c.include OpenIDConnectSpecHelpers
+end
 
 describe "OpenID Connect" do
   let(:provider) { OmniAuth::OpenIDConnect::Heroku.new }
@@ -55,19 +59,7 @@ describe "OpenID Connect" do
       OpenIDConnect::ResponseObject::UserInfo.new(user_info))
   end
 
-  def redirect_from_provider
-    # Emulate the provider's redirect with a nonsense code.
-    get "/auth/#{provider.class.provider_name}/callback",
-      :code => "foobar",
-      :redirect_uri => "http://localhost:3000/auth/#{provider.class.provider_name}/callack"
-  end
-
-  def click_on_signin(pro_name = provider.class.provider_name)
-    # Emulate click on sign-in for that particular provider
-    get "/auth/#{pro_name}"
-  end
-
-  steps "sign-up and login" do
+  describe "sign-up and login" do
     before do
       Setting.stub(:plugin_openproject_openid_connect).and_return(
         {
@@ -89,7 +81,9 @@ describe "OpenID Connect" do
       User.current = nil
     end
 
-    it "should redirect to the provider's openid connect authentication endpoint" do
+    it 'works' do
+      ##
+      # it should redirect to the provider's openid connect authentication endpoint
       click_on_signin
 
       expect(response.status).to be 302
@@ -100,25 +94,25 @@ describe "OpenID Connect" do
       expect(params).to include "client_id"
       expect(params["redirect_uri"]).to match /^.*\/auth\/#{provider.class.provider_name}\/callback$/
       expect(params["scope"]).to include "openid"
-    end
 
-    it "should redirect back from the provider to the login page" do
+      ##
+      # it should redirect back from the provider to the login page
       redirect_from_provider
 
       expect(response.status).to be 302
       expect(response.location).to match /\/login$/
-    end
 
-    it "should have created an account waiting to be activated" do
+      ##
+      # it should have created an account waiting to be activated
       expect(flash[:notice]).to match /account.*created/
 
       user = User.find_by_mail(user_info[:email])
 
       expect(user).not_to be nil
       expect(user.active?).to be false
-    end
 
-    it "should redirect to the provider again upon clicking on sign-in when the user has been activated" do
+      ##
+      # it should redirect to the provider again upon clicking on sign-in when the user has been activated
       user = User.find_by_mail(user_info[:email])
       user.activate
       user.save!
@@ -127,9 +121,9 @@ describe "OpenID Connect" do
 
       expect(response.status).to be 302
       expect(response.location).to match /https:\/\/#{provider.host}.*$/
-    end
 
-    it "should then login the user upon the redirect back from the provider" do
+      ##
+      # it should then login the user upon the redirect back from the provider
       redirect_from_provider
 
       expect(response.status).to be 302
