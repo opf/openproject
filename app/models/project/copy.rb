@@ -224,7 +224,7 @@ module Project::Copy
         next if role_ids.empty?
         new_member.role_ids = role_ids
         new_member.project = self
-        Redmine::Hook.call_hook(:copy_project_add_member, new_member)
+        Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
         self.memberships << new_member
       end
     end
