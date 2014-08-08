@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :reporting_query_helper => true do
+describe CostQuery, :type => :model, :reporting_query_helper => true do
   before do
     FactoryGirl.create(:admin)
     project = FactoryGirl.create(:project_with_types)
@@ -47,7 +47,7 @@ describe CostQuery, :reporting_query_helper => true do
       previous_depth = -1
       w.recursive_each_with_level do |level, result|
         #depth first, so we should get deeper into the hole, until we find a direct_result
-        previous_depth.should == level - 1
+        expect(previous_depth).to eq(level - 1)
         previous_depth=level
         break if result.is_a? CostQuery::Result::DirectResult
       end
@@ -62,7 +62,7 @@ describe CostQuery, :reporting_query_helper => true do
       previous_depth = -1
       w.recursive_each_with_level 0, false do |level, result|
         #width first, so we should get only deeper into the hole without ever coming up again
-        previous_depth.should <= level
+        expect(previous_depth).to be <= level
         previous_depth=level
       end
     end
@@ -78,7 +78,7 @@ describe CostQuery, :reporting_query_helper => true do
         #width first
         count = count + 1 if result.is_a? CostQuery::Result::DirectResult
       end
-      w.count.should ==  count
+      expect(w.count).to eq(count)
     end
 
     it "should travel to all results width-first" do
@@ -92,31 +92,31 @@ describe CostQuery, :reporting_query_helper => true do
         #depth first
           count = count + 1 if result.is_a? CostQuery::Result::DirectResult
         end
-      w.count.should ==  count
+      expect(w.count).to eq(count)
     end
 
     it "should compute count correctly" do
-      @query.result.count.should == Entry.count
+      expect(@query.result.count).to eq(Entry.count)
     end
 
     it "should compute units correctly" do
-      @query.result.units.should == Entry.all.map { |e| e.units}.sum
+      expect(@query.result.units).to eq(Entry.all.map { |e| e.units}.sum)
     end
 
     it "should compute real_costs correctly" do
-      @query.result.real_costs.should == Entry.all.map { |e| e.overridden_costs || e.costs}.sum
+      expect(@query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs}.sum)
     end
 
     it "should compute count for DirectResults" do
-      @query.result.values[0].count.should == 1
+      expect(@query.result.values[0].count).to eq(1)
     end
 
     it "should compute units for DirectResults" do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
       te_result = id_sorted.select { |r| r[:type]==TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type]==CostEntry.to_s }.first
-      te_result.units.to_s.should == "1.0"
-      ce_result.units.to_s.should == "1.0"
+      expect(te_result.units.to_s).to eq("1.0")
+      expect(ce_result.units.to_s).to eq("1.0")
     end
 
     it "should compute real_costs for DirectResults" do
@@ -124,23 +124,23 @@ describe CostQuery, :reporting_query_helper => true do
       [CostEntry].each do |type|
         result = id_sorted.select { |r| r[:type]==type.to_s }.first
         first = type.all.first
-        result.real_costs.should == (first.overridden_costs || first.costs)
+        expect(result.real_costs).to eq(first.overridden_costs || first.costs)
       end
     end
 
     it "should be a column if created with CostQuery.column" do
       @query.column :project_id
-      @query.result.type.should == :column
+      expect(@query.result.type).to eq(:column)
     end
 
     it "should be a row if created with CostQuery.row" do
       @query.row :project_id
-      @query.result.type.should == :row
+      expect(@query.result.type).to eq(:row)
     end
 
     it "should show the type :direct for its direct results" do
       @query.column :project_id
-      @query.result.first.first.type.should == :direct
+      expect(@query.result.first.first.type).to eq(:direct)
     end
 
   end

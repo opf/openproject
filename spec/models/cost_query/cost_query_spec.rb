@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe User, "#destroy" do
+describe User, :type => :model, "#destroy" do
   let(:substitute_user) { DeletedUser.first }
   let(:private_query) { FactoryGirl.create(:private_cost_query) }
   let(:public_query) { FactoryGirl.create(:public_cost_query) }
@@ -32,7 +32,7 @@ describe User, "#destroy" do
       private_query.user.destroy
     end
 
-    it { CostQuery.find_by_id(private_query.id).should == nil }
+    it { expect(CostQuery.find_by_id(private_query.id)).to eq(nil) }
   end
 
   describe "WHEN the user has saved public cost queries" do
@@ -40,8 +40,8 @@ describe User, "#destroy" do
       public_query.user.destroy
     end
 
-    it { CostQuery.find_by_id(public_query.id).should == public_query }
-    it { public_query.reload.user_id.should == substitute_user.id }
+    it { expect(CostQuery.find_by_id(public_query.id)).to eq(public_query) }
+    it { expect(public_query.reload.user_id).to eq(substitute_user.id) }
   end
 
   shared_examples_for "public query" do
@@ -55,7 +55,7 @@ describe User, "#destroy" do
         user.destroy
       end
 
-      it { CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }.should be_false }
+      it { expect(CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }).to be_falsey }
     end
 
     describe "WHEN the filter has another user as it's value" do
@@ -66,8 +66,8 @@ describe User, "#destroy" do
         user.destroy
       end
 
-      it { CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }.should be_true }
-      it { CostQuery.find_by_id(public_query.id).deserialize.filters.detect{ |f| f.is_a?(filter) }.values.should == [user2.id.to_s] }
+      it { expect(CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }).to be_truthy }
+      it { expect(CostQuery.find_by_id(public_query.id).deserialize.filters.detect{ |f| f.is_a?(filter) }.values).to eq([user2.id.to_s]) }
     end
 
     describe "WHEN the filter has the deleted user and another user as it's value" do
@@ -78,8 +78,8 @@ describe User, "#destroy" do
         user.destroy
       end
 
-      it { CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }.should be_true }
-      it { CostQuery.find_by_id(public_query.id).deserialize.filters.detect{ |f| f.is_a?(filter) }.values.should == [user2.id.to_s] }
+      it { expect(CostQuery.find_by_id(public_query.id).deserialize.filters.any?{ |f| f.is_a?(filter) }).to be_truthy }
+      it { expect(CostQuery.find_by_id(public_query.id).deserialize.filters.detect{ |f| f.is_a?(filter) }.values).to eq([user2.id.to_s]) }
     end
   end
 

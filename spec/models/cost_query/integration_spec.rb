@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :reporting_query_helper => true do
+describe CostQuery, :type => :model, :reporting_query_helper => true do
   minimal_query
 
   let!(:project1){ FactoryGirl.create(:project_with_types) }
@@ -42,15 +42,15 @@ describe CostQuery, :reporting_query_helper => true do
       @query.filter :status_id, :operator => 'o'
       sql_result = @query.result
 
-      sql_result.size.should == 2
+      expect(sql_result.size).to eq(2)
       #for each project the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
         #project should be the outmost group_by
-        sub_result.fields.should include(:project_id)
+        expect(sub_result.fields).to include(:project_id)
         sql_count.push sub_result.count
       end
-      sql_count.sort.should == [2, 2]
+      expect(sql_count.sort).to eq([2, 2])
     end
 
     it "should apply two filter and a group_by correctly" do
@@ -59,15 +59,15 @@ describe CostQuery, :reporting_query_helper => true do
       @query.filter :overridden_costs, :operator => 'n'
 
       sql_result = @query.result
-      sql_result.size.should == 2
+      expect(sql_result.size).to eq(2)
       #for each user the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
         #project should be the outmost group_by
-        sub_result.fields.should include(:user_id)
+        expect(sub_result.fields).to include(:user_id)
         sql_count.push sub_result.count
       end
-      sql_count.sort.should == [1, 1]
+      expect(sql_count.sort).to eq([1, 1])
     end
 
     it "should apply two different filters on the same field" do
@@ -75,7 +75,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.filter :project_id, :operator => '!', :value => [project2.id]
 
       sql_result = @query.result
-      sql_result.count.should == 2
+      expect(sql_result.count).to eq(2)
     end
 
     it "should process only _one_ SQL query for any operations on a valid CostQuery" do
@@ -108,7 +108,7 @@ describe CostQuery, :reporting_query_helper => true do
       walker.column_first
       # TODO - to do something
       CostQuery::SqlStatement.on_generate # do nothing
-      number_of_sql_queries.should == 1
+      expect(number_of_sql_queries).to eq(1)
     end
   end
 end

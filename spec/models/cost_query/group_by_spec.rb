@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :reporting_query_helper => true do
+describe CostQuery, :type => :model, :reporting_query_helper => true do
   let!(:type) { FactoryGirl.create(:type) }
   let!(:project1){ FactoryGirl.create(:project_with_types, types: [type]) }
   let!(:work_package1) { FactoryGirl.create(:work_package, project: project1, type: type)}
@@ -58,68 +58,68 @@ describe CostQuery, :reporting_query_helper => true do
   describe CostQuery::GroupBy do
     it "should compute group_by on projects" do
       @query.group_by :project_id
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should keep own and all parents' group fields in all_group_fields" do
       @query.group_by :project_id
       @query.group_by :work_package_id
       @query.group_by :cost_type_id
-      @query.all_group_fields.should == %w[entries.cost_type_id]
-      @query.child.all_group_fields.should == %w[entries.cost_type_id entries.work_package_id]
-      @query.child.child.all_group_fields.should == %w[entries.cost_type_id entries.work_package_id entries.project_id]
+      expect(@query.all_group_fields).to eq(%w[entries.cost_type_id])
+      expect(@query.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id])
+      expect(@query.child.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id entries.project_id])
     end
 
     it "should compute group_by WorkPackage" do
       @query.group_by :work_package_id
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should compute group_by CostType" do
       @query.group_by :cost_type_id
       # type 'Labor' for time entries, 2 different cost types
-      @query.result.size.should == 3
+      expect(@query.result.size).to eq(3)
     end
 
     it "should compute group_by Activity" do
       @query.group_by :activity_id
       # "-1" for time entries, 2 different cost activities
-      @query.result.size.should == 3
+      expect(@query.result.size).to eq(3)
     end
 
     it "should compute group_by Date (day)" do
       @query.group_by :spent_on
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should compute group_by Date (week)" do
       @query.group_by :tweek
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should compute group_by Date (month)" do
       @query.group_by :tmonth
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should compute group_by Date (year)" do
       @query.group_by :tyear
-      @query.result.size.should == 2
+      expect(@query.result.size).to eq(2)
     end
 
     it "should compute group_by User" do
       @query.group_by :user_id
-      @query.result.size.should == 4
+      expect(@query.result.size).to eq(4)
     end
 
     it "should compute group_by Type" do
       @query.group_by :type_id
-      @query.result.size.should == 1
+      expect(@query.result.size).to eq(1)
     end
 
     it "should compute group_by CostObject" do
       @query.group_by :cost_object_id
-      @query.result.size.should == 1
+      expect(@query.result.size).to eq(1)
     end
 
     it "should compute multiple group_by" do
@@ -127,16 +127,16 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :user_id
       sql_result = @query.result
 
-      sql_result.size.should == 4
+      expect(sql_result.size).to eq(4)
       # for each user the number of projects should be correct
       sql_sizes = []
       sql_result.each do |sub_result|
         # user should be the outmost group_by
-        sub_result.fields.should include(:user_id)
+        expect(sub_result.fields).to include(:user_id)
         sql_sizes.push sub_result.size
-        sub_result.each { |sub_sub_result| sub_sub_result.fields.should include(:project_id) }
+        sub_result.each { |sub_sub_result| expect(sub_sub_result.fields).to include(:project_id) }
       end
-      sql_sizes.sort.should == [1, 1, 1, 1]
+      expect(sql_sizes.sort).to eq([1, 1, 1, 1])
     end
 
     # TODO: ?
@@ -144,16 +144,16 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :project_id
       @query.group_by :type_id
       sql_result = @query.result
-      sql_result.size.should == 1
+      expect(sql_result.size).to eq(1)
       # for each type the number of projects should be correct
       sql_sizes = []
       sql_result.each do |sub_result|
         # type should be the outmost group_by
-        sub_result.fields.should include(:type_id)
+        expect(sub_result.fields).to include(:type_id)
         sql_sizes.push sub_result.size
-        sub_result.each { |sub_sub_result| sub_sub_result.fields.should include(:project_id) }
+        sub_result.each { |sub_sub_result| expect(sub_sub_result.fields).to include(:project_id) }
       end
-      sql_sizes.sort.should == [2]
+      expect(sql_sizes.sort).to eq([2])
     end
 
     it "compute count correct with lots of group_by" do
@@ -167,22 +167,22 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :tmonth
       @query.group_by :tyear
 
-      @query.result.count.should == 8
+      expect(@query.result.count).to eq(8)
     end
 
     it "should accept row as a specialised group_by" do
       @query.row :project_id
-      @query.chain.type.should == :row
+      expect(@query.chain.type).to eq(:row)
     end
 
     it "should accept column as a specialised group_by" do
       @query.column :project_id
-      @query.chain.type.should == :column
+      expect(@query.chain.type).to eq(:column)
     end
 
     it "should have type :column as a default" do
       @query.group_by :project_id
-      @query.chain.type.should == :column
+      expect(@query.chain.type).to eq(:column)
     end
 
     it "should aggregate a third group_by which owns at least 2 sub results" do
@@ -192,26 +192,26 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :user_id
       sql_result = @query.result
 
-      sql_result.size.should == 4
+      expect(sql_result.size).to eq(4)
       # for each user the number of projects should be correct
       sql_sizes = []
       sub_sql_sizes = []
       sql_result.each do |sub_result|
         # user should be the outmost group_by
-        sub_result.fields.should include(:user_id)
+        expect(sub_result.fields).to include(:user_id)
         sql_sizes.push sub_result.size
 
         sub_result.each do |sub_sub_result|
-          sub_sub_result.fields.should include(:project_id)
+          expect(sub_sub_result.fields).to include(:project_id)
           sub_sql_sizes.push sub_sub_result.size
 
           sub_sub_result.each do |sub_sub_sub_result|
-            sub_sub_sub_result.fields.should include(:tweek)
+            expect(sub_sub_sub_result.fields).to include(:tweek)
           end
         end
       end
-      sql_sizes.sort.should == [1, 1, 1, 1]
-      sub_sql_sizes.sort.should == [1, 1, 1, 1]
+      expect(sql_sizes.sort).to eq([1, 1, 1, 1])
+      expect(sub_sql_sizes.sort).to eq([1, 1, 1, 1])
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
@@ -267,17 +267,17 @@ describe CostQuery, :reporting_query_helper => true do
         create_work_package_custom_field("AFreshCustomField")
         name = class_name_for('AFreshCustomField')
         delete_work_package_custom_field("AFreshCustomField")
-        CostQuery::GroupBy.all.should_not include name.constantize
+        expect(CostQuery::GroupBy.all).not_to include name.constantize
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
-        CostQuery::GroupBy::CustomFieldEntries.all.
-          should include(class_name_for('Searchable Field').constantize)
+        expect(CostQuery::GroupBy::CustomFieldEntries.all).
+          to include(class_name_for('Searchable Field').constantize)
       end
 
       it "includes custom fields classes in GroupBy.all" do
-        CostQuery::GroupBy.all.
-          should include(class_name_for('Searchable Field').constantize)
+        expect(CostQuery::GroupBy.all).
+          to include(class_name_for('Searchable Field').constantize)
       end
 
       it "is usable as filter" do
@@ -285,7 +285,7 @@ describe CostQuery, :reporting_query_helper => true do
         id = WorkPackageCustomField.find_by_name('Database').id
         @query.group_by "custom_field_#{id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
-        footprint.should == [[8, 8]]
+        expect(footprint).to eq([[8, 8]])
       end
     end
   end
