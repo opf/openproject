@@ -45,7 +45,7 @@ def project_boundaries_spanning_work_package_hierarchy_allowed?
   work_package.errors[:parent_id].blank?
 end
 
-describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
+describe WorkPackage, :type => :model, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
@@ -125,14 +125,14 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
                                   :priority => issue_priority) }
 
   before do
-    Setting.stub(:cross_project_work_package_relations).and_return("1")
+    allow(Setting).to receive(:cross_project_work_package_relations).and_return("1")
   end
 
   before(:each) do
     parent_project.save!
     child_project.save!
 
-    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                            "wiki_template"         => "",
                                                            "card_spec"             => "Sattleford VM-5040",
                                                            "story_types"           => [type_feature.id],
@@ -156,7 +156,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child.project = child_project
         end
 
-        it { child.should_not be_valid }
+        it { expect(child).not_to be_valid }
       end
 
       describe "WITH the child in the same project" do
@@ -164,7 +164,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child.project = parent_project
         end
 
-        it { child.should be_valid }
+        it { expect(child).to be_valid }
       end
     end
 
@@ -181,7 +181,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child.project = child_project
         end
 
-        it { child.should be_valid }
+        it { expect(child).to be_valid }
       end
 
       describe "WITH the child in the same project" do
@@ -189,7 +189,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child.project = parent_project
         end
 
-        it { child.should be_valid }
+        it { expect(child).to be_valid }
       end
     end
 
@@ -283,8 +283,8 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child_project.save!
         end
 
-        it { child.reload.should_not be_valid }
-        it { parent.reload.should_not be_valid }
+        it { expect(child.reload).not_to be_valid }
+        it { expect(parent.reload).not_to be_valid }
       end
 
       describe "WITH the child in the same project" do
@@ -298,8 +298,8 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           parent_project.save!
         end
 
-        it { child.reload.should be_valid }
-        it { parent.reload.should be_valid }
+        it { expect(child.reload).to be_valid }
+        it { expect(parent.reload).to be_valid }
       end
     end
 
@@ -321,8 +321,8 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           child_project.save!
         end
 
-        it { child.reload.should be_valid }
-        it { parent.reload.should be_valid }
+        it { expect(child.reload).to be_valid }
+        it { expect(parent.reload).to be_valid }
       end
 
       describe "WITH the child in the same project" do
@@ -335,8 +335,8 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
           parent_project.save!
         end
 
-        it { child.reload.should be_valid }
-        it { parent.reload.should be_valid }
+        it { expect(child.reload).to be_valid }
+        it { expect(parent.reload).to be_valid }
       end
     end
 

@@ -35,9 +35,9 @@
 
 require 'spec_helper'
 
-describe VersionsController do
+describe VersionsController, :type => :controller do
   before do
-    @controller.stub(:authorize)
+    allow(@controller).to receive(:authorize)
 
     # Create a version assigned to a project
     @version = FactoryGirl.create(:version)
@@ -57,8 +57,8 @@ describe VersionsController do
       put 'update', @params
       @version.reload
 
-      response.should redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
-      @version.name.should == @oldVersionName
+      expect(response).to redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+      expect(@version.name).to eq(@oldVersionName)
     end
 
     it 'allows to update versions from the version project' do
@@ -66,8 +66,8 @@ describe VersionsController do
       put 'update', @params
       @version.reload
 
-      response.should redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @version.project
-      @version.name.should == @newVersionName
+      expect(response).to redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @version.project
+      expect(@version.name).to eq(@newVersionName)
     end
   end
 end

@@ -35,8 +35,8 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Version do
-  it { should have_many :version_settings }
+describe Version, :type => :model do
+  it { is_expected.to have_many :version_settings }
 
   describe 'rebuild positions' do
     def build_work_package(options = {})
@@ -75,7 +75,7 @@ describe Version do
 
       # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [epic_type.id, story_type.id], "task_type" => task_type.id})
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [epic_type.id, story_type.id], "task_type" => task_type.id})
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -114,13 +114,13 @@ describe Version do
       work_package2.reload
       work_package3.reload
 
-      work_package3.project.should == project2
-      work_package2.project.should == project2
-      work_package1.project.should == project
+      expect(work_package3.project).to eq(project2)
+      expect(work_package2.project).to eq(project2)
+      expect(work_package1.project).to eq(project)
 
-      work_package3.fixed_version_id.should be_nil
-      work_package2.fixed_version_id.should be_nil
-      work_package1.fixed_version_id.should == version.id
+      expect(work_package3.fixed_version_id).to be_nil
+      expect(work_package2.fixed_version_id).to be_nil
+      expect(work_package1.fixed_version_id).to eq(version.id)
     end
 
     it 'rebuilds postions' do
@@ -145,12 +145,12 @@ describe Version do
 
       work_packages = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'COALESCE(position, 0) ASC, id ASC')
 
-      work_packages.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
-      work_packages.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
+      expect(work_packages.map(&:position)).to eq([nil, nil, 1, 2, 3, 4, 5])
+      expect(work_packages.map(&:subject)).to eq([t3, o9, e1, s2, s5, s3, s4].map(&:subject))
 
       # Makes sure, that all work_package subjects are uniq, so that the above
       # assertion works as expected
-      work_packages.map(&:subject).uniq.size.should == 7
+      expect(work_packages.map(&:subject).uniq.size).to eq(7)
     end
   end
 end

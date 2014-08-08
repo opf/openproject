@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Story do
+describe Story, :type => :model do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:status1) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
@@ -75,7 +75,7 @@ describe Story do
   before(:each) do
     ActionController::Base.perform_caching = false
 
-    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                             "wiki_template"         => "",
                                                             "card_spec"             => "Sattleford VM-5040",
                                                             "story_types"           => [type_feature.id.to_s],
@@ -92,7 +92,7 @@ describe Story do
           story1
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
       end
 
       describe "WITH two sprints
@@ -107,8 +107,8 @@ describe Story do
           story2.save!
         end
 
-        it { Story.backlogs(project, [version.id, version2.id])[version.id].should =~ [story1] }
-        it { Story.backlogs(project, [version.id, version2.id])[version2.id].should =~ [story2] }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to match_array([story2]) }
       end
 
       describe "WITH two sprints
@@ -124,8 +124,8 @@ describe Story do
           story2.save!
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
-        it { Story.backlogs(project, [version.id])[version2.id].should be_empty }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id])[version2.id]).to be_empty }
       end
 
       describe "WITH two sprints
@@ -144,8 +144,8 @@ describe Story do
           story2.save!
         end
 
-        it { Story.backlogs(project, [version.id, version2.id])[version.id].should =~ [story1] }
-        it { Story.backlogs(project, [version.id, version2.id])[version2.id].should be_empty }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version.id]).to match_array([story1]) }
+        it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to be_empty }
       end
 
       describe "WITH one sprint
@@ -161,7 +161,7 @@ describe Story do
           story2.save!
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
       end
 
       describe "WITH one sprint
@@ -174,7 +174,7 @@ describe Story do
           story1.save
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1, story2] }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1, story2]) }
       end
 
       describe "WITH one sprint
@@ -187,7 +187,7 @@ describe Story do
           task.save
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
       end
 
       describe "WITH one sprint
@@ -199,7 +199,7 @@ describe Story do
           story1
         end
 
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+        it { expect(Story.backlogs(project, [version.id])[version.id]).to match_array([story1]) }
       end
     end
   end
@@ -207,7 +207,7 @@ describe Story do
   describe "journals created after adding a subtask to a story" do
     before(:each) do
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-      User.stub(:current).and_return(@current)
+      allow(User).to receive(:current).and_return(@current)
 
       @story = FactoryGirl.create(:story, :fixed_version => version,
                                        :project => project,
@@ -224,14 +224,14 @@ describe Story do
       @work_package.parent_id = @story.id
       @work_package.save!
 
-      @story.journals.last.changed_data[:remaining_hours].should == [nil, 15]
+      expect(@story.journals.last.changed_data[:remaining_hours]).to eq([nil, 15])
     end
 
     it "should not create an empty journal when adding a subtask without remaining hours set" do
       @work_package.parent_id  = @story.id
       @work_package.save!
 
-      @story.journals.last.changed_data[:remaining_hours].should be_nil
+      expect(@story.journals.last.changed_data[:remaining_hours]).to be_nil
     end
   end
 end

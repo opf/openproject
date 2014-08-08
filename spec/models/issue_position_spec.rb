@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'Story positions' do
     def build_work_package(options)
       FactoryGirl.build(:work_package, options.reverse_merge(:fixed_version_id => sprint_1.id,
@@ -91,7 +91,7 @@ describe WorkPackage do
 
       # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [story_type.id, epic_type.id], "task_type"   => task_type.id})
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [story_type.id, epic_type.id], "task_type"   => task_type.id})
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -116,14 +116,14 @@ describe WorkPackage do
       it 'adds it to the bottom of the list' do
         new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
 
-        new_work_package.should_not be_new_record
-        new_work_package.should be_last
+        expect(new_work_package).not_to be_new_record
+        expect(new_work_package).to be_last
       end
 
       it 'does not reorder the existing work_packages' do
         new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
 
-        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
+        expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
       end
     end
 
@@ -132,8 +132,8 @@ describe WorkPackage do
         work_package_2.fixed_version = sprint_2
         work_package_2.save!
 
-        sprint_1.fixed_issues.all(:order => 'id').should == [work_package_1, work_package_3, work_package_4, work_package_5]
-        sprint_1.fixed_issues.all(:order => 'id').each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        expect(sprint_1.fixed_issues.all(:order => 'id')).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
+        expect(sprint_1.fixed_issues.all(:order => 'id').each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
 
@@ -142,14 +142,14 @@ describe WorkPackage do
         work_package_a.fixed_version = sprint_1
         work_package_a.save!
 
-        work_package_a.should be_last
+        expect(work_package_a).to be_last
       end
 
       it 'does not reorder the existing work_packages' do
         work_package_a.fixed_version = sprint_1
         work_package_a.save!
 
-        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
+        expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
       end
     end
 
@@ -157,7 +157,7 @@ describe WorkPackage do
       it 'reorders the existing work_packages' do
         work_package_3.destroy
 
-        [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
 
@@ -167,7 +167,7 @@ describe WorkPackage do
           work_package_3.type = epic_type
           work_package_3.save!
 
-          [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
+          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
         end
       end
 
@@ -176,14 +176,14 @@ describe WorkPackage do
           work_package_3.type = other_type
           work_package_3.save!
 
-          work_package_3.should_not be_in_list
+          expect(work_package_3).not_to be_in_list
         end
 
         it 'reorders the remaining stories' do
           work_package_3.type = other_type
           work_package_3.save!
 
-          [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+          expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
         end
       end
 
@@ -192,14 +192,14 @@ describe WorkPackage do
           work_package_3.type = task_type
           work_package_3.save!
 
-          work_package_3.should_not be_in_list
+          expect(work_package_3).not_to be_in_list
         end
 
         it 'reorders the remaining stories' do
           work_package_3.type = task_type
           work_package_3.save!
 
-          [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+          expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
         end
       end
 
@@ -208,14 +208,14 @@ describe WorkPackage do
           task_1.type = story_type
           task_1.save!
 
-          task_1.should be_last
+          expect(task_1).to be_last
         end
 
         it 'does not reorder the existing stories' do
           task_1.type = story_type
           task_1.save!
 
-          [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, task_1].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, task_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
         end
       end
 
@@ -224,14 +224,14 @@ describe WorkPackage do
           feedback_1.type = story_type
           feedback_1.save!
 
-          feedback_1.should be_last
+          expect(feedback_1).to be_last
         end
 
         it 'does not reorder the existing stories' do
           feedback_1.type = story_type
           feedback_1.save!
 
-          [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, feedback_1].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, feedback_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
         end
       end
     end
@@ -279,17 +279,17 @@ describe WorkPackage do
           it 'sets the fixed_version_id to nil' do
             result = work_package_i.move_to_project(project)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_i.fixed_version.should be_nil
+            expect(work_package_i.fixed_version).to be_nil
           end
 
           it 'removes it from any list' do
             result = work_package_i.move_to_project(project)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_i.should_not be_in_list
+            expect(work_package_i).not_to be_in_list
           end
         end
 
@@ -305,17 +305,17 @@ describe WorkPackage do
           it 'keeps the fixed_version_id' do
             result = work_package_i.move_to_project(project)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_i.fixed_version.should == shared_sprint
+            expect(work_package_i.fixed_version).to eq(shared_sprint)
           end
 
           it 'adds it to the bottom of the list' do
             result = work_package_i.move_to_project(project)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_i.should be_first
+            expect(work_package_i).to be_first
           end
         end
       end
@@ -325,25 +325,25 @@ describe WorkPackage do
           it 'sets the fixed_version_id to nil' do
             result = work_package_3.move_to_project(project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_3.fixed_version.should be_nil
+            expect(work_package_3.fixed_version).to be_nil
           end
 
           it 'removes it from any list' do
             result = work_package_3.move_to_project(sub_project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_3.should_not be_in_list
+            expect(work_package_3).not_to be_in_list
           end
 
           it 'reorders the remaining work_packages' do
             result = work_package_3.move_to_project(sub_project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+            expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
           end
         end
 
@@ -360,31 +360,31 @@ describe WorkPackage do
             work_package_ii.move_to_bottom
             work_package_iii.move_to_bottom
 
-            [work_package_i, work_package_ii, work_package_iii].map(&:position).should == [1, 2, 3]
+            expect([work_package_i, work_package_ii, work_package_iii].map(&:position)).to eq([1, 2, 3])
           end
 
           it 'keeps the fixed_version_id' do
             result = work_package_ii.move_to_project(sub_project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_ii.fixed_version.should == shared_sprint
+            expect(work_package_ii.fixed_version).to eq(shared_sprint)
           end
 
           it 'removes it from any list' do
             result = work_package_ii.move_to_project(sub_project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            work_package_ii.should_not be_in_list
+            expect(work_package_ii).not_to be_in_list
           end
 
           it 'reorders the remaining work_packages' do
             result = work_package_ii.move_to_project(sub_project_wo_backlogs)
 
-            result.should be_true
+            expect(result).to be_truthy
 
-            [work_package_i, work_package_iii].each(&:reload).map(&:position).should == [1, 2]
+            expect([work_package_i, work_package_iii].each(&:reload).map(&:position)).to eq([1, 2])
           end
         end
       end

@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Sprint do
+describe Sprint, :type => :model do
   let(:sprint) { FactoryGirl.build(:sprint) }
   let(:project) { FactoryGirl.build(:project) }
 
@@ -50,7 +50,7 @@ describe Sprint do
         end
 
         it {
-          Sprint.displayed_left(project).should match_array [sprint] }
+          expect(Sprint.displayed_left(project)).to match_array [sprint] }
       end
 
       describe "WITH a version setting defined for another project" do
@@ -64,7 +64,7 @@ describe Sprint do
           sprint.save
         end
 
-        it { Sprint.displayed_left(project).should match_array [sprint] }
+        it { expect(Sprint.displayed_left(project)).to match_array [sprint] }
       end
 
       describe "WITH no version setting defined" do
@@ -73,7 +73,7 @@ describe Sprint do
           sprint.save!
         end
 
-        it { Sprint.displayed_left(project).should match_array [sprint] }
+        it { expect(Sprint.displayed_left(project)).to match_array [sprint] }
       end
     end
 
@@ -84,7 +84,7 @@ describe Sprint do
         sprint.save!
       end
 
-      it { Sprint.displayed_right(project).should match_array [sprint] }
+      it { expect(Sprint.displayed_right(project)).to match_array [sprint] }
     end
 
     describe :order_by_date do
@@ -94,9 +94,9 @@ describe Sprint do
         @sprint3 = FactoryGirl.create(:sprint, :name => "sprint3", :project => project, :start_date => Date.today + 1.day, :effective_date => Date.today + 2.days)
       end
 
-      it { Sprint.order_by_date[0].should eql @sprint3 }
-      it { Sprint.order_by_date[1].should eql @sprint2 }
-      it { Sprint.order_by_date[2].should eql @sprint1 }
+      it { expect(Sprint.order_by_date[0]).to eql @sprint3 }
+      it { expect(Sprint.order_by_date[1]).to eql @sprint2 }
+      it { expect(Sprint.order_by_date[2]).to eql @sprint1 }
     end
 
     describe :apply_to do
@@ -110,8 +110,8 @@ describe Sprint do
           @version = FactoryGirl.create(:sprint, :name => "systemwide", :project => @other_project, :sharing => 'system')
         end
 
-        it { Sprint.apply_to(project).should have(1).entry }
-        it { Sprint.apply_to(project)[0].should eql(@version) }
+        it { expect(Sprint.apply_to(project).size).to eq(1) }
+        it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
       describe "WITH the version beeing shared from a parent project" do
@@ -120,8 +120,8 @@ describe Sprint do
           @version = FactoryGirl.create(:sprint, :name => "descended", :project => @other_project, :sharing => 'descendants')
         end
 
-        it { Sprint.apply_to(project).should have(1).entry }
-        it { Sprint.apply_to(project)[0].should eql(@version) }
+        it { expect(Sprint.apply_to(project).size).to eq(1) }
+        it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
       describe "WITH the version beeing shared within the tree" do
@@ -133,8 +133,8 @@ describe Sprint do
           @version = FactoryGirl.create(:sprint, :name => "treed", :project => @other_project, :sharing => 'tree')
         end
 
-        it { Sprint.apply_to(project).should have(1).entry }
-        it { Sprint.apply_to(project)[0].should eql(@version) }
+        it { expect(Sprint.apply_to(project).size).to eq(1) }
+        it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
       describe "WITH the version beeing shared within the tree" do
@@ -144,8 +144,8 @@ describe Sprint do
           @version = FactoryGirl.create(:sprint, :name => "hierar", :project => @descendant_project, :sharing => 'hierarchy')
         end
 
-        it { Sprint.apply_to(project).should have(1).entry }
-        it { Sprint.apply_to(project)[0].should eql(@version) }
+        it { expect(Sprint.apply_to(project).size).to eq(1) }
+        it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
     end
   end

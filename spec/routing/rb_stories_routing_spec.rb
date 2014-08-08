@@ -35,13 +35,13 @@
 
 require 'spec_helper'
 
-describe RbStoriesController do
+describe RbStoriesController, :type => :routing do
   describe "routing" do
-    it { post('/projects/project_42/sprints/21/stories').should route_to(:controller => 'rb_stories',
+    it { expect(post('/projects/project_42/sprints/21/stories')).to route_to(:controller => 'rb_stories',
                                                                          :action => 'create',
                                                                          :project_id => 'project_42',
                                                                          :sprint_id => '21') }
-    it { put('/projects/project_42/sprints/21/stories/85').should route_to(:controller => 'rb_stories',
+    it { expect(put('/projects/project_42/sprints/21/stories/85')).to route_to(:controller => 'rb_stories',
                                                                            :action => 'update',
                                                                            :project_id => 'project_42',
                                                                            :sprint_id => '21',

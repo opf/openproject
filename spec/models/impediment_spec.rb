@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Impediment do
+describe Impediment, :type => :model do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
@@ -80,13 +80,13 @@ describe Impediment do
   before(:each) do
     ActionController::Base.perform_caching = false
 
-    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                            "wiki_template"         => "",
                                                            "card_spec"             => "Sattleford VM-5040",
                                                            "story_types"           => [type_feature.id.to_s],
                                                            "task_type"             => type_task.id.to_s })
 
-    User.stub(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
     issue_priority.save
     status1.save
     project.save
@@ -102,26 +102,26 @@ describe Impediment do
       end
 
       shared_examples_for "impediment creation" do
-        it { @impediment.subject.should eql @impediment_subject }
-        it { @impediment.author.should eql User.current }
-        it { @impediment.project.should eql project }
-        it { @impediment.fixed_version.should eql version }
-        it { @impediment.priority.should eql issue_priority}
-        it { @impediment.status.should eql status1 }
-        it { @impediment.type.should eql type_task }
-        it { @impediment.assigned_to.should eql user }
+        it { expect(@impediment.subject).to eql @impediment_subject }
+        it { expect(@impediment.author).to eql User.current }
+        it { expect(@impediment.project).to eql project }
+        it { expect(@impediment.fixed_version).to eql version }
+        it { expect(@impediment.priority).to eql issue_priority}
+        it { expect(@impediment.status).to eql status1 }
+        it { expect(@impediment.type).to eql type_task }
+        it { expect(@impediment.assigned_to).to eql user }
       end
 
       shared_examples_for "impediment creation with 1 blocking relationship" do
         it_should_behave_like "impediment creation"
-        it { @impediment.should have(1).relations_from }
-        it { @impediment.relations_from[0].to.should eql feature }
-        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.size).to eq(1) }
+        it { expect(@impediment.relations_from[0].to).to eql feature }
+        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for "impediment creation with no blocking relationship" do
         it_should_behave_like "impediment creation"
-        it { @impediment.should have(0).relations_from }
+        it { expect(@impediment.size).to eq(0) }
       end
 
       describe "WITH a blocking relationship to a story" do
@@ -139,8 +139,8 @@ describe Impediment do
           end
 
           it_should_behave_like "impediment creation with 1 blocking relationship"
-          it { @impediment.should_not be_new_record }
-          it { @impediment.relations_from[0].should_not be_new_record }
+          it { expect(@impediment).not_to be_new_record }
+          it { expect(@impediment.relations_from[0]).not_to be_new_record }
         end
 
         describe "WITH the story having another version" do
@@ -156,8 +156,8 @@ describe Impediment do
           end
 
           it_should_behave_like "impediment creation with no blocking relationship"
-          it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment).to be_new_record }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story being non existent" do
@@ -171,8 +171,8 @@ describe Impediment do
           end
 
           it_should_behave_like "impediment creation with no blocking relationship"
-          it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment).to be_new_record }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
@@ -187,8 +187,8 @@ describe Impediment do
         end
 
         it_should_behave_like "impediment creation with no blocking relationship"
-        it { @impediment.should be_new_record }
-        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+        it { expect(@impediment).to be_new_record }
+        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
   end
@@ -208,29 +208,29 @@ describe Impediment do
       end
 
       shared_examples_for "impediment update" do
-        it { @impediment.author.should eql user }
-        it { @impediment.project.should eql project }
-        it { @impediment.fixed_version.should eql version }
-        it { @impediment.priority.should eql issue_priority}
-        it { @impediment.status.should eql status1 }
-        it { @impediment.type.should eql type_task }
-        it { @impediment.blocks_ids.should eql @blocks.split(/\D+/).map{|id| id.to_i} }
+        it { expect(@impediment.author).to eql user }
+        it { expect(@impediment.project).to eql project }
+        it { expect(@impediment.fixed_version).to eql version }
+        it { expect(@impediment.priority).to eql issue_priority}
+        it { expect(@impediment.status).to eql status1 }
+        it { expect(@impediment.type).to eql type_task }
+        it { expect(@impediment.blocks_ids).to eql @blocks.split(/\D+/).map{|id| id.to_i} }
       end
 
       shared_examples_for "impediment update with changed blocking relationship" do
         it_should_behave_like "impediment update"
-        it { @impediment.should have(1).relations_from }
-        it { @impediment.relations_from[0].should_not be_new_record }
-        it { @impediment.relations_from[0].to.should eql @story }
-        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.size).to eq(1) }
+        it { expect(@impediment.relations_from[0]).not_to be_new_record }
+        it { expect(@impediment.relations_from[0].to).to eql @story }
+        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for "impediment update with unchanged blocking relationship" do
         it_should_behave_like "impediment update"
-        it { @impediment.should have(1).relations_from }
-        it { @impediment.relations_from[0].should_not be_changed }
-        it { @impediment.relations_from[0].to.should eql feature }
-        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.size).to eq(1) }
+        it { expect(@impediment.relations_from[0]).not_to be_changed }
+        it { expect(@impediment.relations_from[0].to).to eql feature }
+        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       describe "WHEN changing the blocking relationship to another story" do
@@ -253,7 +253,7 @@ describe Impediment do
           end
 
           it_should_behave_like "impediment update with changed blocking relationship"
-          it { @impediment.should_not be_changed }
+          it { expect(@impediment).not_to be_changed }
         end
 
         describe "WITH the story having another version" do
@@ -267,9 +267,9 @@ describe Impediment do
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it "should not be saved successfully" do
-            @saved.should be_false
+            expect(@saved).to be_falsey
           end
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
@@ -281,9 +281,9 @@ describe Impediment do
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it "should not be saved successfully" do
-            @saved.should be_false
+            expect(@saved).to be_falsey
           end
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
@@ -296,10 +296,10 @@ describe Impediment do
 
         it_should_behave_like "impediment update with unchanged blocking relationship"
         it "should not be saved successfully" do
-          @saved.should be_false
+          expect(@saved).to be_falsey
         end
 
-        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
 
@@ -307,21 +307,21 @@ describe Impediment do
       describe "WITH an integer" do
         it do
           impediment.blocks_ids = 2
-          impediment.blocks_ids.should eql [2]
+          expect(impediment.blocks_ids).to eql [2]
         end
       end
 
       describe "WITH a string" do
         it do
           impediment.blocks_ids = "1, 2, 3"
-          impediment.blocks_ids.should eql [1,2,3]
+          expect(impediment.blocks_ids).to eql [1,2,3]
         end
       end
 
       describe "WITH an array" do
         it do
           impediment.blocks_ids = [1,2,3]
-          impediment.blocks_ids.should eql [1,2,3]
+          expect(impediment.blocks_ids).to eql [1,2,3]
         end
       end
 
@@ -337,7 +337,7 @@ describe Impediment do
           true
         end
 
-        it { impediment.blocks_ids.should eql [feature.id, task.id] }
+        it { expect(impediment.blocks_ids).to eql [feature.id, task.id] }
       end
     end
   end

@@ -35,12 +35,12 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe VersionSetting do
+describe VersionSetting, :type => :model do
   let(:version_setting) { FactoryGirl.build(:version_setting) }
 
-  it { should belong_to(:project) }
-  it { should belong_to(:version) }
-  it { VersionSetting.column_names.should include("display") }
+  it { is_expected.to belong_to(:project) }
+  it { is_expected.to belong_to(:version) }
+  it { expect(VersionSetting.column_names).to include("display") }
 
   describe "Instance Methods" do
     describe "WITH display set to left" do
@@ -48,7 +48,7 @@ describe VersionSetting do
         version_setting.display_left!
       end
 
-      it { version_setting.display_left?.should be_true }
+      it { expect(version_setting.display_left?).to be_truthy }
     end
 
     describe "WITH display set to right" do
@@ -56,7 +56,7 @@ describe VersionSetting do
         version_setting.display_right!
       end
 
-      it { version_setting.display_right?.should be_true }
+      it { expect(version_setting.display_right?).to be_truthy }
     end
 
     describe "WITH display set to none" do
@@ -64,7 +64,7 @@ describe VersionSetting do
         version_setting.display_none!
       end
 
-      it { version_setting.display_none?.should be_true }
+      it { expect(version_setting.display_none?).to be_truthy }
     end
   end
 end

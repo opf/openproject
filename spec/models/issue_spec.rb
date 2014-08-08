@@ -35,16 +35,16 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'behavior for #3200' do
     let(:empty_work_package) { WorkPackage.new }
 
     it do
-      empty_work_package.move_to_project_without_transaction(nil).should be_false
+      expect(empty_work_package.move_to_project_without_transaction(nil)).to be_falsey
     end
 
     it do
-      lambda { empty_work_package.move_to_project_without_transaction(nil) }.should_not raise_error(NoMethodError)
+      expect { empty_work_package.move_to_project_without_transaction(nil) }.not_to raise_error
     end
   end
 
@@ -59,75 +59,75 @@ describe WorkPackage do
       end
 
       it 'allows empty values' do
-        work_package.story_points.should be_nil
-        work_package.should be_valid
+        expect(work_package.story_points).to be_nil
+        expect(work_package).to be_valid
       end
 
       it 'allows values greater than or equal to 0' do
         work_package.story_points = '0'
-        work_package.should be_valid
+        expect(work_package).to be_valid
 
         work_package.story_points = '1'
-        work_package.should be_valid
+        expect(work_package).to be_valid
       end
 
       it 'allows values less than 10.000' do
         work_package.story_points = '9999'
-        work_package.should be_valid
+        expect(work_package).to be_valid
       end
 
       it 'disallows negative values' do
         work_package.story_points = '-1'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
 
       it 'disallows greater or equal than 10.000' do
         work_package.story_points = '10000'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
 
         work_package.story_points = '10001'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
 
       it 'disallows string values, that are not numbers' do
         work_package.story_points = 'abc'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
 
       it 'disallows non-integers' do
         work_package.story_points = '1.3'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
     end
 
 
     describe 'remaining hours' do
       it 'allows empty values' do
-        work_package.remaining_hours.should be_nil
-        work_package.should be_valid
+        expect(work_package.remaining_hours).to be_nil
+        expect(work_package).to be_valid
       end
 
       it 'allows values greater than or equal to 0' do
         work_package.remaining_hours = '0'
-        work_package.should be_valid
+        expect(work_package).to be_valid
 
         work_package.remaining_hours = '1'
-        work_package.should be_valid
+        expect(work_package).to be_valid
       end
 
       it 'disallows negative values' do
         work_package.remaining_hours = '-1'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
 
       it 'disallows string values, that are not numbers' do
         work_package.remaining_hours = 'abc'
-        work_package.should_not be_valid
+        expect(work_package).not_to be_valid
       end
 
       it 'allows non-integers' do
         work_package.remaining_hours = '1.3'
-        work_package.should be_valid
+        expect(work_package).to be_valid
       end
     end
   end
@@ -145,18 +145,18 @@ describe WorkPackage do
     end
 
     it 'should not be done when having the initial status "open"' do
-      @work_package.done?.should be_false
+      expect(@work_package.done?).to be_falsey
     end
 
     it 'should be done when having the status "resolved"' do
       @work_package.status = @status_resolved
-      @work_package.done?.should be_true
+      expect(@work_package.done?).to be_truthy
     end
 
    it 'should not be done when removing done status from "resolved"' do
      @work_package.status = @status_resolved
      @project.done_statuses = Array.new
-     @work_package.done?.should be_false
+     expect(@work_package.done?).to be_falsey
     end
   end
 
@@ -166,21 +166,21 @@ describe WorkPackage do
 
     it "should be false without a project" do
       work_package.project = nil
-      work_package.should_not be_backlogs_enabled
+      expect(work_package).not_to be_backlogs_enabled
     end
 
     it "should be true with a project having the backlogs module" do
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
       work_package.project = project
 
-      work_package.should be_backlogs_enabled
+      expect(work_package).to be_backlogs_enabled
     end
 
     it "should be false with a project not having the backlogs module" do
       work_package.project = project
       work_package.project.enabled_module_names = nil
 
-      work_package.should_not be_backlogs_enabled
+      expect(work_package).not_to be_backlogs_enabled
     end
   end
 end

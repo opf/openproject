@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
+describe WorkPackage, :type => :model, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
@@ -179,7 +179,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
   before(:each) do
     project.save!
 
-    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                             "wiki_template"         => "",
                                                             "card_spec"             => "Sattleford VM-5040",
                                                             "story_types"           => [type_feature.id],
@@ -230,13 +230,13 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         subject.save!
 
         # Because of performance, these assertions are all in one it statement
-        child.reload.fixed_version.should eql version2
-        task3.reload.fixed_version.should eql version2
-        task4.reload.fixed_version.should eql version2
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
-        task5.reload.fixed_version.should eql version1
-        task6.reload.fixed_version.should eql version1
+        expect(child.reload.fixed_version).to eql version2
+        expect(task3.reload.fixed_version).to eql version2
+        expect(task4.reload.fixed_version).to eql version2
+        expect(bug3.reload.fixed_version).to eql version1
+        expect(story3.reload.fixed_version).to eql version1
+        expect(task5.reload.fixed_version).to eql version1
+        expect(task6.reload.fixed_version).to eql version1
       end
     end
 
@@ -255,13 +255,13 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         subject.save!
 
         # Because of performance, these assertions are all in one it statement
-        child.reload.fixed_version.should eql version1
-        task3.reload.fixed_version.should eql version1
-        task4.reload.fixed_version.should eql version1
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
-        task5.reload.fixed_version.should eql version1
-        task6.reload.fixed_version.should eql version1
+        expect(child.reload.fixed_version).to eql version1
+        expect(task3.reload.fixed_version).to eql version1
+        expect(task4.reload.fixed_version).to eql version1
+        expect(bug3.reload.fixed_version).to eql version1
+        expect(story3.reload.fixed_version).to eql version1
+        expect(task5.reload.fixed_version).to eql version1
+        expect(task6.reload.fixed_version).to eql version1
       end
     end
 
@@ -433,13 +433,13 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         child.save!
 
         # Because of performance, these assertions are all in one it statement
-        child.reload.fixed_version.should eql version2
-        task3.reload.fixed_version.should eql version2
-        task4.reload.fixed_version.should eql version2
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
-        task5.reload.fixed_version.should eql version1
-        task6.reload.fixed_version.should eql version1
+        expect(child.reload.fixed_version).to eql version2
+        expect(task3.reload.fixed_version).to eql version2
+        expect(task4.reload.fixed_version).to eql version2
+        expect(bug3.reload.fixed_version).to eql version1
+        expect(story3.reload.fixed_version).to eql version1
+        expect(task5.reload.fixed_version).to eql version1
+        expect(task6.reload.fixed_version).to eql version1
       end
     end
 
@@ -455,13 +455,13 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         child.save!
 
         # Because of performance, these assertions are all in one it statement
-        child.reload.fixed_version.should eql version1
-        task3.reload.fixed_version.should eql version1
-        task4.reload.fixed_version.should eql version1
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
-        task5.reload.fixed_version.should eql version1
-        task6.reload.fixed_version.should eql version1
+        expect(child.reload.fixed_version).to eql version1
+        expect(task3.reload.fixed_version).to eql version1
+        expect(task4.reload.fixed_version).to eql version1
+        expect(bug3.reload.fixed_version).to eql version1
+        expect(story3.reload.fixed_version).to eql version1
+        expect(task5.reload.fixed_version).to eql version1
+        expect(task6.reload.fixed_version).to eql version1
       end
     end
 

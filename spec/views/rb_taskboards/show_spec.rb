@@ -35,7 +35,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_taskboards/show' do
+describe 'rb_taskboards/show', :type => :view do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:role_allowed) { FactoryGirl.create(:role,
@@ -88,7 +88,7 @@ describe 'rb_taskboards/show' do
   let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :type => type_task) }
 
   before :each do
-    Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 
@@ -106,7 +106,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        rendered.should have_selector "#story_#{story.id}" do
+        expect(rendered).to have_selector "#story_#{story.id}" do
           with_selector ".id", Regexp.new(story.id.to_s)
         end
       end
@@ -116,7 +116,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        rendered.should have_selector "#story_#{story.id}" do
+        expect(rendered).to have_selector "#story_#{story.id}" do
           with_selector ".subject", story.subject
         end
       end
@@ -126,7 +126,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        rendered.should have_selector "#story_#{story.id}" do
+        expect(rendered).to have_selector "#story_#{story.id}" do
           with_selector ".status", story.status.name
         end
       end
@@ -136,7 +136,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        rendered.should have_selector "#story_#{story.id}" do
+        expect(rendered).to have_selector "#story_#{story.id}" do
           with_selector ".assigned_to_id", assignee.name
         end
       end
@@ -146,57 +146,57 @@ describe 'rb_taskboards/show' do
   describe 'create buttons' do
 
     it 'renders clickable + buttons for all stories with the right permissions' do
-      User.stub(:current).and_return(user1)
+      allow(User).to receive(:current).and_return(user1)
 
       render
 
       stories.each do |story|
         assert_select "tr.story_#{story.id} td.add_new" do |td|
-          td.count.should eq 1
-          td.first.should have_content '+'
-          td.first.should have_css '.clickable'
+          expect(td.count).to eq 1
+          expect(td.first).to have_content '+'
+          expect(td.first).to have_css '.clickable'
         end
       end
     end
 
     it 'does not render a clickable + buttons for all stories without the right permissions' do
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
 
       render
 
       stories.each do |story|
         assert_select "tr.story_#{story.id} td.add_new" do |td|
-          td.count.should eq 1
-          td.first.should_not have_content '+'
-          td.first.should_not have_css '.clickable'
+          expect(td.count).to eq 1
+          expect(td.first).not_to have_content '+'
+          expect(td.first).not_to have_css '.clickable'
         end
       end
     end
 
     it 'renders clickable + buttons for impediments with the right permissions' do
-      User.stub(:current).and_return(user1)
+      allow(User).to receive(:current).and_return(user1)
 
       render
 
       stories.each do |story|
         assert_select '#impediments td.add_new' do |td|
-          td.count.should eq 1
-          td.first.should have_content '+'
-          td.first.should have_css '.clickable'
+          expect(td.count).to eq 1
+          expect(td.first).to have_content '+'
+          expect(td.first).to have_css '.clickable'
         end
       end
     end
 
     it 'does not render a clickable + buttons for impediments without the right permissions' do
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
 
       render
 
       stories.each do |story|
         assert_select '#impediments td.add_new' do |td|
-          td.count.should eq 1
-          td.first.should_not have_content '+'
-          td.first.should_not have_css '.clickable'
+          expect(td.count).to eq 1
+          expect(td.first).not_to have_content '+'
+          expect(td.first).not_to have_css '.clickable'
         end
       end
     end
@@ -206,53 +206,53 @@ describe 'rb_taskboards/show' do
   describe 'update tasks or impediments' do
 
     it 'allows edit and drag for all tasks with the right permissions' do
-      User.stub(:current).and_return(user1)
+      allow(User).to receive(:current).and_return(user1)
       task
       impediment
       render
 
       assert_select ".model.work_package.task" do |task|
-        task.count.should eq 1
-        task.first.should_not have_css '.task.prevent_edit'
+        expect(task.count).to eq 1
+        expect(task.first).not_to have_css '.task.prevent_edit'
       end
     end
 
     it 'does not allow to edit and drag for all tasks without the right permissions' do
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
       task
       impediment
 
       render
 
       assert_select ".model.work_package.task" do |task|
-        task.count.should eq 1
-        task.first.should have_css '.task.prevent_edit'
+        expect(task.count).to eq 1
+        expect(task.first).to have_css '.task.prevent_edit'
       end
     end
 
     it 'allows edit and drag for all impediments with the right permissions' do
-      User.stub(:current).and_return(user1)
+      allow(User).to receive(:current).and_return(user1)
       task
       impediment
 
       render
 
       assert_select ".model.work_package.impediment" do |impediment|
-        impediment.count.should eq 3 # 2 additional for the task and the invisible form
-        impediment.first.should_not have_css '.impediment.prevent_edit'
+        expect(impediment.count).to eq 3 # 2 additional for the task and the invisible form
+        expect(impediment.first).not_to have_css '.impediment.prevent_edit'
       end
     end
 
     it 'does not allow to edit and drag for all impediments without the right permissions' do
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
       task
       impediment
 
       render
 
       assert_select ".model.work_package.impediment" do |impediment|
-        impediment.count.should eq 3 # 2 additional for the task and the invisible form
-        impediment.first.should have_css '.impediment.prevent_edit'
+        expect(impediment.count).to eq 3 # 2 additional for the task and the invisible form
+        expect(impediment.first).to have_css '.impediment.prevent_edit'
       end
     end
   end

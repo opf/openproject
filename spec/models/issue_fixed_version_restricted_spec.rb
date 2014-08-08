@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, "fixed version restricted by an work_package parents (if it's a task)" do
+describe WorkPackage, :type => :model, "fixed version restricted by an work_package parents (if it's a task)" do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
@@ -140,7 +140,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should be_nil }
+      it { expect(subject.reload.fixed_version).to be_nil }
     end
 
     describe "WITHOUT a fixed version and the parent having a fixed version" do
@@ -151,7 +151,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
 
     describe "WITH a fixed version and the parent having a different fixed version" do
@@ -162,7 +162,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
 
     describe "WITH a fixed version and the parent having the same fixed version" do
@@ -173,7 +173,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
 
     describe "WITH a fixed version and the parent having no fixed version" do
@@ -185,7 +185,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should be_nil }
+      it { expect(subject.reload.fixed_version).to be_nil }
     end
   end
 
@@ -207,7 +207,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should be_nil }
+      it { expect(subject.reload.fixed_version).to be_nil }
     end
 
     describe "WITHOUT a fixed version and the parent having a fixed version" do
@@ -218,7 +218,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should be_nil }
+      it { expect(subject.reload.fixed_version).to be_nil }
     end
 
     describe "WITH a fixed version and the parent having a different fixed version" do
@@ -229,7 +229,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version2 }
+      it { expect(subject.reload.fixed_version).to eql version2 }
     end
 
     describe "WITH a fixed version and the parent having the same fixed version" do
@@ -240,7 +240,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
 
     describe "WITH a fixed version and the parent having no fixed version" do
@@ -252,7 +252,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
   end
 
@@ -263,7 +263,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should be_nil }
+      it { expect(subject.reload.fixed_version).to be_nil }
     end
 
     describe "WITH a fixed version" do
@@ -272,14 +272,14 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         subject.save!
       end
 
-      it { subject.reload.fixed_version.should eql version1 }
+      it { expect(subject.reload.fixed_version).to eql version1 }
     end
   end
 
   before(:each) do
     project.save!
 
-    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                            "wiki_template"         => "",
                                                            "card_spec"             => "Sattleford VM-5040",
                                                            "story_types"           => [type_feature.id],

@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Burndown do
+describe Burndown, :type => :model do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)
@@ -69,7 +69,7 @@ describe Burndown do
   before(:each) do
     Rails.cache.clear
 
-    User.stub(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
                                                                         "wiki_template"         => "",
@@ -92,8 +92,8 @@ describe Burndown do
   describe "Sprint Burndown" do
     describe "WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint" do
       before(:each) do
-        Time.stub(:now).and_return(Time.utc(2011,"apr",4,20,15,1))
-        Date.stub(:today).and_return(Date.civil(2011,04,04))
+        allow(Time).to receive(:now).and_return(Time.utc(2011,"apr",4,20,15,1))
+        allow(Date).to receive(:today).and_return(Date.civil(2011,04,04))
       end
 
       describe "WITH having a version in the future" do
@@ -104,7 +104,7 @@ describe Burndown do
         end
 
         it "should generate a burndown" do
-          sprint.burndown(project).series[:story_points].should be_empty
+          expect(sprint.burndown(project).series[:story_points]).to be_empty
         end
       end
 
@@ -142,12 +142,12 @@ describe Burndown do
                 @burndown = Burndown.new(sprint, project)
               end
 
-              it { @burndown.story_points.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-              it { @burndown.story_points.unit.should eql :points }
-              it { @burndown.days.should eql(sprint.days()) }
-              it { @burndown.max[:hours].should eql 0.0 }
-              it { @burndown.max[:points].should eql 9.0 }
-              it { @burndown.story_points_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+              it { expect(@burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { expect(@burndown.story_points.unit).to eql :points }
+              it { expect(@burndown.days).to eql(sprint.days()) }
+              it { expect(@burndown.max[:hours]).to eql 0.0 }
+              it { expect(@burndown.max[:points]).to eql 9.0 }
+              it { expect(@burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
             describe "WITH the story marked as resolved and consequently 'done'" do
@@ -158,8 +158,8 @@ describe Burndown do
                 @burndown = Burndown.new(sprint, project)
               end
 
-              it { @story.done?.should eql false }
-              it { @burndown.story_points.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { expect(@story.done?).to eql false }
+              it { expect(@burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
             end
           end
         end
@@ -201,12 +201,12 @@ describe Burndown do
                   @burndown = Burndown.new(sprint, project)
                 end
 
-                it { @burndown.story_points.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
-                it { @burndown.story_points.unit.should eql :points }
-                it { @burndown.days.should eql(sprint.days()) }
-                it { @burndown.max[:hours].should eql 0.0 }
-                it { @burndown.max[:points].should eql 90.0 }
-                it { @burndown.story_points_ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+                it { expect(@burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
+                it { expect(@burndown.story_points.unit).to eql :points }
+                it { expect(@burndown.days).to eql(sprint.days()) }
+                it { expect(@burndown.max[:hours]).to eql 0.0 }
+                it { expect(@burndown.max[:points]).to eql 90.0 }
+                it { expect(@burndown.story_points_ideal).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
               end
             end
           end
