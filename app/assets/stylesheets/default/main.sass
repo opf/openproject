@@ -1,0 +1,2011 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+.clear:after
+  content: "."
+  display: block
+  height: 0
+  clear: both
+  visibility: hidden
+
+/***** Tables ****
+
+table
+  &.list
+    border: 1px solid #e4e4e4
+    border-collapse: collapse
+    width: 100%
+    margin-bottom: 4px
+    th
+      background-color: #E6E6E6
+      padding: 4px
+      white-space: nowrap
+    td
+      vertical-align: top
+      &.id
+        width: 2%
+        text-align: center
+      &.checkbox
+        width: 15px
+        padding: 2px 0 0 0
+        input
+          padding: 0px
+      &.buttons
+        width: 15%
+        white-space: nowrap
+        text-align: right
+        a
+          padding-right: 0.6em
+    caption
+      text-align: left
+      padding: 0.5em 0.5em 0.5em 0
+  &.work-package-data-table
+    margin-top: 5px
+    &.hidden
+      display: none
+    td
+      text-align: left
+      padding: 3px 6px
+
+tr
+  &.project
+    td.name a
+      white-space: nowrap
+    &.idnt td.name span
+      background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+      padding-left: 16px
+    &.idnt-1 td.name
+      padding-left: 0.5em
+    &.idnt-2 td.name
+      padding-left: 2em
+    &.idnt-3 td.name
+      padding-left: 3.5em
+    &.idnt-4 td.name
+      padding-left: 5em
+    &.idnt-5 td.name
+      padding-left: 6.5em
+    &.idnt-6 td.name
+      padding-left: 8em
+    &.idnt-7 td.name
+      padding-left: 9.5em
+    &.idnt-8 td.name
+      padding-left: 11em
+    &.idnt-9 td.name
+      padding-left: 12.5em
+  &.issue
+    text-align: center
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+      background-color: #f6f7f8
+    td
+      &.subject, &.category
+        white-space: normal
+
+td.assigned_to
+  white-space: normal
+
+tr.issue
+  td
+    &.subject
+      text-align: left
+    &.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.issue
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+/* Work Package hierarchy layout
+
+tr
+  &.work-package
+    text-align: center
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+    td.subject
+      white-space: normal
+  &.issue td.category
+    white-space: normal
+
+td.assigned_to
+  white-space: normal
+
+tr.work-package
+  td
+    &.subject
+      text-align: left
+    &.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.work-package
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+tr
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+  span.expander
+    cursor: pointer
+  &.open span .expand, &.closed span .collapse
+    display: none
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+table
+  &.files tr.file td
+    text-align: center
+    &.filename
+      text-align: left
+      padding-left: 24px
+    &.digest
+      font-size: 80%
+  &.members td.roles, &.memberships td.roles
+    width: 45%
+
+tr
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+    &.shared td.name
+      background: image-url("link.png") no-repeat 0% 70%
+    td
+      &.date, &.status, &.sharing
+        text-align: left
+        white-space: nowrap
+  &.user
+    td
+      width: 13%
+      &.email
+        width: 18%
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+  &.wiki-page-version td
+    &.updated_on, &.author
+      text-align: center
+  &.time-entry
+    text-align: center
+    white-space: nowrap
+    td
+      &.subject, &.comments
+        text-align: left
+        white-space: normal
+
+td.hours
+  text-align: right
+  font-weight: bold
+  padding-right: 0.5em
+  .hours-dec
+    font-size: 0.9em
+
+table
+  &.plugins
+    td
+      vertical-align: middle
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+        display: block
+        margin-bottom: 6px
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+  &.list tbody tr.group
+    td
+      padding: 0.8em 0 0.5em 0.3em
+      font-weight: bold
+      border-bottom: 1px solid #ccc
+    span.count
+      color: #aaa
+      font-size: 80%
+
+tr.group
+  a.toggle-all
+    color: #aaa
+    font-size: 80%
+    font-weight: normal
+    display: none
+  &:hover a.toggle-all
+    display: inline
+
+a.toggle-all:hover
+  text-decoration: none
+
+table
+  &.list
+    tbody tr:hover, tr.keyboard_hover
+      background-color: #ffff99 !important
+    tbody tr.group:hover, tr.group.keyboard_hover
+      background-color: inherit !important
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+  &.attributes
+    width: 100%
+    th
+      vertical-align: top
+      text-align: left
+    td
+      vertical-align: top
+
+td.center, th.center
+  text-align: center
+
+#watchers
+  ul
+    margin: 0
+    padding: 0
+  li
+    list-style-type: none
+    margin: 0px 10px 0px 0px
+    padding: 0px 0px 0px 0px
+    float: left
+  select
+    width: 200px
+    display: block
+    float: left
+    margin-right: 10px
+  a.delete
+    opacity: 0.4
+    &:hover
+      opacity: 1
+  img.gravatar
+    vertical-align: middle
+    margin: 0 10px 0px 0
+
+.highlight
+  background-color: #FCFD8D
+  &.token-1
+    background-color: #faa
+  &.token-2
+    background-color: #afa
+  &.token-3
+    background-color: #aaf
+
+.box
+  padding: 6px
+  margin-bottom: 10px
+  line-height: 1.5em
+  border: 1px solid #e4e4e4
+
+div.square
+  border: 1px solid #999
+  float: left
+  margin: .3em .4em 0 .4em
+  overflow: hidden
+  width: .6em
+  height: .6em
+
+.contextual
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: 8px
+  padding-left: 10px
+  input, select
+    font-size: 0.9em
+
+.message .contextual
+  margin-top: 0
+
+.splitcontentleft
+  float: left
+  width: 49%
+
+.splitcontentright
+  float: right
+  width: 49%
+
+form
+  display: inline
+
+input, select
+  vertical-align: middle
+  margin-top: 1px
+  margin-bottom: 1px
+
+fieldset
+  border: 1px solid #e4e4e4
+  margin: 0
+
+hr
+  width: 100%
+  height: 1px
+  background: #ccc
+  border: 0
+
+blockquote
+  font-style: italic
+  border-left: 3px solid #e0e0e0
+  padding-left: 0.6em
+  margin-left: 2.4em
+  blockquote
+    margin-left: 0
+
+.news label.timestamp
+  border-bottom: 1px dotted
+  cursor: help
+
+textarea.wiki-edit
+  width: 99%
+
+li p
+  margin-top: 0
+
+p
+  &.breadcrumb
+    font-size: 0.9em
+    margin: 4px 0 4px 0
+  &.subtitle
+    font-size: 0.9em
+    margin: -6px 0 12px 0
+    font-style: italic
+  &.footnote
+    font-size: 0.9em
+    margin-top: 0px
+    margin-bottom: 0px
+
+div.issue div.subject
+  div div
+    padding-left: 16px
+  p
+    margin: 0
+    margin-bottom: 0.1em
+    font-size: 90%
+    color: #999
+  > div > p
+    margin-top: 0.5em
+
+#issue_tree
+  table.issues
+    border: 0
+  td.checkbox
+    display: none
+
+th.hidden
+  display: none
+
+.buttons
+  margin-bottom: 1.4em
+  margin-top: 1em
+
+div
+  &#work_package-changesets
+    float: right
+    width: 45%
+    margin: 1em 0 1em 1em
+    background: #fff
+    padding-left: 1em
+    h3
+      margin-top: 0
+    div.changeset
+      padding: 4px
+      border-bottom: 1px solid #ddd
+    p
+      margin-top: 0
+      margin-bottom: 1em
+  &#activity dl
+    margin-left: 2em
+
+#search-results
+  margin-left: 2em
+
+div#activity dd, #search-results dd
+  margin-bottom: 1em
+  padding-left: 18px
+  font-size: 0.9em
+
+div#activity
+  dt
+    &.me .time
+      border-bottom: 1px solid #999
+    .time
+      color: #777
+      font-size: 80%
+  dd .description
+    font-style: italic
+
+#search-results dd .description
+  font-style: italic
+
+div#activity span.project:after, #search-results span.project:after
+  content: " -"
+
+div#activity dd span.description
+  display: block
+  color: #808080
+
+#search-results dd
+  span.description
+    display: block
+    color: #808080
+  margin-bottom: 1em
+  padding-left: 20px
+  margin-left: 0px
+
+div#search-results-counts
+  float: right
+  ul
+    margin-top: 0.5em
+  li
+    list-style-type: none
+    float: left
+    margin-left: 1em
+
+.search-pagination
+  text-align: center
+  a
+    padding: 0 5px
+
+#project-search-container .select2-container
+  display: block
+
+div
+  &#roadmap
+    .related-issues
+      border: 0
+      margin-bottom: 1em
+      td.checkbox
+        display: none
+    .wiki
+      h1
+        &:first-child
+          display: none
+        font-size: 120%
+      h2
+        font-size: 110%
+  &#version-summary
+    float: right
+    width: 380px
+    margin-left: 16px
+    margin-bottom: 16px
+    background-color: #fff
+    fieldset
+      margin-bottom: 1em
+    .total-hours
+      text-align: right
+
+.top-page
+  width: 100%
+  border-bottom: 1px solid #bbbbbb
+  margin: 0 0 10px
+  h2
+    padding-right: 0px !important
+    border: none
+    margin: 0
+    text-align: left
+    display: block
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
+  ul
+    margin: 0
+    text-align: right
+    white-space: nowrap
+
+table#time-report
+  td.hours
+    text-align: right
+    padding-right: 0.5em
+  th
+    &.period, &.total
+      text-align: right
+      padding-right: 0.5em
+  tbody tr
+    font-style: italic
+    color: #333
+    &.last-level
+      font-style: normal
+      color: #555
+    &.total
+      font-style: normal
+      font-weight: bold
+      color: #555
+      background-color: #EEEEEE
+  .hours-dec
+    font-size: 0.9em
+
+form .attributes
+  margin-bottom: 8px
+  overflow: auto
+  p
+    padding-top: 1px
+    padding-bottom: 2px
+  select
+    min-width: 50%
+
+ul.projects
+  margin: 0
+  padding-left: 1em
+  &.root
+    margin: 0
+    padding: 0
+  ul
+    border: none
+    &.projects
+      border-left: 3px solid #e0e0e0
+  li
+    &.root
+      list-style-type: none
+      margin-bottom: 1em
+    &.child
+      list-style-type: none
+      margin-top: 1em
+  div.root a.project
+    font-weight: bold
+    font-size: 16px
+    margin: 0 0 10px 0
+
+#type_project_ids
+  ul
+    margin: 0
+    padding-left: 1em
+  li
+    list-style-type: none
+
+ul.properties
+  padding: 0
+  font-size: 0.9em
+  color: #333
+  li
+    list-style-type: none
+    span
+      font-style: italic
+
+.total-hours
+  font-size: 110%
+  font-weight: bold
+  span.hours-int
+    font-size: 120%
+
+.autoscroll
+  overflow-x: auto
+  padding: 1px
+  margin-bottom: 1.2em
+
+#user_firstname, #user_lastname, #user_mail, #my_account_form select
+  width: 90%
+
+#workflow_copy_form select
+  width: 200px
+
+textarea#custom_field_possible_values
+  width: 99%
+
+.pagination
+  font-size: 90%
+
+p.pagination
+  margin-top: 8px
+
+/***** Tabular forms *****
+
+.tabular p
+  margin: 0
+  padding: 5px 0 8px 0
+  padding-left: 180px
+  /*width of left column containing the label elements
+  height: auto
+  clear: left
+
+html > body .tabular p
+  overflow: hidden
+
+.tabular
+  label
+    font-weight: bold
+    float: left
+    text-align: right
+    margin-left: -180px
+    /*width of left column
+    width: 175px
+    /*                 width of labels. Should be smaller than left column to create some right
+     * margin
+  td label
+    font-weight: normal
+    float: none
+    text-align: left
+    margin-left: 0
+    /*width of left column
+    width: auto
+    /*                width of labels. Should be smaller than left column to create some right
+     * margin
+
+p.email_notification
+  margin: 18px 10px 6px
+  padding: 87px
+
+.tabular label
+  &.floating
+    font-weight: normal
+    margin-left: 0px
+    text-align: left
+    width: 270px
+  &.block
+    font-weight: normal
+    margin-left: 0px !important
+    text-align: left
+    float: none
+    display: block
+    width: auto
+  &.inline
+    float: none
+    margin-left: 5px !important
+    width: auto
+
+label.no-css
+  font-weight: inherit
+  float: none
+  text-align: left
+  margin-left: 0px
+  width: auto
+
+input#time_entry_comments
+  width: 90%
+
+#preview fieldset
+  margin-top: 1em
+  background: image-url("draft.png")
+
+.tabular.settings
+  p
+    padding-left: 300px
+  label
+    margin-left: -300px
+    width: 295px
+  textarea
+    width: 99%
+
+fieldset
+  &.settings label
+    display: block
+  &#notified_events .parent
+    padding-left: 20px
+
+.required
+  color: #bb0000
+
+.summary
+  font-style: italic
+
+input.attachment_choose_file
+  float: left
+  margin-right: 10px
+
+div.attachment_field
+  height: 30px
+
+#attachments
+  font-size: 1em
+
+#attachments_fields input[type=text]
+  margin-left: 8px
+
+div.attachments
+  margin-top: 12px
+  p
+    margin: 4px 0 2px 0
+  img
+    vertical-align: middle
+  span.author
+    font-size: 0.9em
+    color: #888
+
+p.other-formats
+  font-size: 0.9em
+  color: #666
+
+.other-formats span + span:before
+  content: "| "
+
+/* Project members tab
+
+div
+  &#tab-content-members .splitcontentleft, &#tab-content-memberships .splitcontentleft, &#tab-content-users .splitcontentleft
+    margin-right: 1em
+  &#tab-content-members .splitcontentleft, &#tab-content-memberships .splitcontentleft, &#tab-content-users .splitcontentleft, &#tab-content-members .splitcontentright, &#tab-content-memberships .splitcontentright, &#tab-content-users .splitcontentright
+    margin-bottom: 1em
+  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset
+    padding: 1em
+  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset, &#tab-content-members fieldset p
+    margin-bottom: 1em
+  &#tab-content-info fieldset legend, &#tab-content-members fieldset legend, &#tab-content-memberships fieldset legend, &#tab-content-users fieldset legend
+    font-weight: bold
+  &#tab-content-members
+    .user.status_registered, label.status_registered
+      filter: alpha(opacity = 80)
+      -khtml-opacity: 0.8
+      opacity: 0.8
+      -moz-opacity: 0.8
+
+input#user_search
+  width: 100%
+
+* html div#tab-content-members fieldset div
+  height: 450px
+
+div#tab-content-members fieldset div
+  &.select-boxes label
+    display: inline-block
+    width: 350px
+    /* max-width of select2boxes
+  &#principal_results div
+    &.roles, &.principals
+      display: inline-block
+      width: 350px
+      /* max-width of select2boxes
+  &.select-boxes .select2-container
+    float: left
+    font-weight: normal
+
+/***** Form error messages ***
+
+span.errorSpan
+  font-weight: bold
+  textarea, select, input
+    border: 2px solid red
+
+/***** Ajax indicator *****
+
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #eee
+  border: 1px solid #bbb
+  top: 35%
+  left: 40%
+  width: 20%
+  font-weight: bold
+  text-align: center
+  padding: 0.6em
+  z-index: 100
+  filter: alpha(opacity = 50)
+  opacity: 0.5
+
+html > body #ajax-indicator
+  position: fixed
+
+#ajax-indicator span, .ajax-indicator
+  background-position: 0% 40%
+  background-repeat: no-repeat
+  background-image: image-url("loading.gif")
+  padding-left: 26px
+  vertical-align: bottom
+
+.ajax_appended_information.loading .ajax-indicator
+  padding-left: 22px
+  display: block
+  width: 0em
+  margin-left: auto
+  margin-right: auto
+  white-space: nowrap
+
+/***** Tooltips *****
+
+.tooltip
+  position: relative
+  z-index: 24
+  &.hover, &:hover
+    z-index: 25
+    color: #000
+  span.tip
+    display: none
+    text-align: left
+
+div.tooltip
+  &:hover span.tip, &.hover span.tip
+    display: block
+    position: absolute
+    top: 12px
+    left: 24px
+    width: 270px
+    border: 1px solid #555
+    background-color: #fff
+    padding: 4px
+    font-size: 0.8em
+    color: #505050
+
+/***** Progress bar ****
+
+#content table.progress
+  border-spacing: 0pt
+  empty-cells: show
+  text-align: center
+  float: left
+  margin: 1px 6px 1px 0px
+  border: 1px solid #BBBBBB
+  border-collapse: separate
+  -moz-border-radius: 3px
+  -webkit-border-radius: 3px
+  border-radius: 3px
+  td
+    height: 0.9em
+    &.closed
+      background: #BAE0BA none repeat scroll 0%
+    &.done
+      background: #DEF0DE none repeat scroll 0%
+    &.open
+      background: #FFF none repeat scroll 0%
+
+p
+  &.pourcent
+    font-size: 80%
+  &.progress-bar-legend
+    font-size: 80%
+    float: left
+  &.progress-info
+    clear: left
+    font-style: italic
+    font-size: 80%
+
+/***** Tabs ****
+
+#content .tabs
+  position: relative
+  height: 2.6em
+  margin-bottom: 1.2em
+  z-index: 1
+  overflow: hidden
+  ul
+    position: absolute
+    left: 0px
+    right: 60px
+    margin: 0
+    bottom: 0
+    padding-left: 1em
+    width: 2000px
+    border-bottom: 1px solid #bbbbbb
+    overflow: hidden
+    li
+      float: left
+      list-style-type: none
+      white-space: nowrap
+      margin-right: 8px
+      background: #fff
+      margin-bottom: -1px
+      a
+        display: block
+        font-size: 0.9em
+        text-decoration: none
+        line-height: 1.3em
+        padding: 4px 6px 4px 6px
+        border: 1px solid #ccc
+        border-bottom: 1px solid #bbbbbb
+        background-color: #eeeeee
+        color: #333
+        font-weight: bold
+        &:hover
+          background-color: #ffffdd
+          text-decoration: none
+        &.selected
+          background-color: #fff
+          border: 1px solid #bbbbbb
+          border-bottom: 1px solid #fff
+          &:hover
+            background-color: #fff
+
+div.tabs-buttons
+  position: absolute
+  right: 0
+  width: 48px
+  height: 24px
+  background: white
+  bottom: 0
+  border-bottom: 1px solid #bbbbbb
+
+button
+  &.tab-left, &.tab-right
+    font-size: 0.9em
+    cursor: pointer
+    height: 24px
+    border: 1px solid #ccc
+    border-bottom: 1px solid #bbbbbb
+    position: absolute
+    padding: 4px
+    width: 20px
+    bottom: -1px
+  &.tab-left
+    right: 20px
+    background: #eeeeee image-url("bullet_arrow_left.png") no-repeat 50% 50%
+  &.tab-right
+    right: 0
+    background: #eeeeee image-url("bullet_arrow_right.png") no-repeat 50% 50%
+
+/***** Auto-complete ****
+
+div.autocomplete
+  position: absolute
+  width: 400px
+  margin: 0
+  padding: 0
+  z-index: 500
+  ul
+    list-style-type: none
+    margin: 0
+    padding: 0
+    li
+      list-style-type: none
+      display: block
+      margin: -1px 0 0 0
+      padding: 2px
+      cursor: pointer
+      font-size: 90%
+      border: 1px solid #ccc
+      border-left: 1px solid #ccc
+      border-right: 1px solid #ccc
+      background-color: white
+      &.selected
+        background-color: #ffb
+      span.informal
+        font-size: 80%
+        color: #aaa
+
+#parent_issue_candidates ul li, #related_issue_candidates ul li
+  width: 500px
+
+/***** Diff ****
+
+img.diff, div.diff, table.diff, blockquote.diff, address.diff, h1.diff, h2.diff, h3.diff, h4.diff, h5.diff, h6.diff, hr.diff, p.diff, pre.diff, table.diff, ul.diff, ol.diff
+  padding: 3px
+  margin: 3px
+
+del
+  &.diffmod, &.diffdel
+    background: #fcc
+
+ins
+  &.diffmod, &.diffins
+    background: #cfc
+
+.text-diff
+  padding: 1em
+  background-color: #f6f6f6
+  color: #505050
+  border: 1px solid #e4e4e4
+
+/***** Work Package quick info ****
+
+.quick_info
+  padding-bottom: 0.5em
+  &.attributes .label
+    font-weight: bold
+
+/***** My page layout ****
+
+img.gravatar
+  background: #fff
+
+div.issue
+  img.gravatar
+    float: right
+    margin: 0 0 0 1em
+    padding: 5px
+  table img.gravatar
+    height: 14px
+    width: 14px
+    padding: 2px
+    float: left
+    margin: 0 0.5em 0 0
+
+h2 img.gravatar
+  margin: -2px 4px -4px 0
+  vertical-align: top
+
+h4 img.gravatar
+  margin: -6px 0 -4px 0
+  vertical-align: top
+
+td.username img.gravatar
+  margin: 0 0.5em 0 0
+  vertical-align: top
+
+#activity dt img.gravatar
+  float: left
+  margin: 0 1em 1em 0
+
+/* Used on 12px Gravatar img tags without the icon background
+
+.icon-gravatar
+  float: left
+  margin-right: 4px
+
+#activity dt
+  clear: left
+
+.journal-link
+  float: right
+
+h2 img
+  vertical-align: middle
+
+/* Merged from the new layout #263
+/**
+ * ToC
+ * 00 - Base Typography
+ * 01 - Header
+ * 02 - Main Menu
+ * 03 - Main Content
+ * 04 - Issue Tables
+ * 05 - Single Issue Page
+ * 06 - Projects Page
+ * 07 - Behavior Styles
+ * 08 - Reusable classes
+ * 09 - New Issue Form
+ * 10 - Plugins and misc
+ * 11 - Appended from staging
+
+/*-------------------------------------------------------------------------------
+ *  =00 - Base Typography
+ *
+ *  This section includes the typography base for the body and heading elements.
+ *------------------------------------------------------------------------------
+
+h1, h2, h3, h4, h5, h6
+  font-weight: bold
+
+h1
+  font-size: 21px
+
+h2, .wiki h1
+  font-size: 18px
+  padding: 2px 10px 1px 0px
+  margin: 0 0 10px 0
+  border-bottom: 1px solid #bbbbbb
+
+h3
+  font-size: 16px
+  margin-bottom: 16px
+
+h4
+  font-size: 14px
+  margin-bottom: 16px
+
+h5
+  font-size: 12px
+  text-transform: uppercase
+  margin-bottom: 18px
+
+a:hover
+  text-decoration: underline
+
+/*-------------------------------------------------------------------------------
+ *  =03 - Main Content
+ *
+ *  This section includes the layout and styles for the main content area.
+ *------------------------------------------------------------------------------
+
+h1.title
+  margin: 12px 24px 9px
+
+#content .title-bar
+  position: relative
+
+.title-bar
+  h2 span
+    font-weight: bold
+  .button-large
+    position: absolute
+    top: 8px
+
+/* .button-large was too generic and targeted other pages with it's positioning
+
+.button-large a
+  padding: 3px 9px
+  display: block
+  color: #6a0406
+
+.title-bar .add-filter
+  right: 155px
+
+.title-bar-extras
+  color: #333333
+  ul
+    padding: 10px
+    overflow: auto
+  li
+    padding-bottom: 5px
+  select
+    margin-right: 10px
+
+.extras-actions
+  padding: 5px 10px
+  position: relative
+  a
+    border: 0
+    color: #000
+    padding-left: 18px
+    margin-right: 10px
+    cursor: pointer
+    font-family: inherit
+    font-size: 11px
+
+/*-------------------------------------------------------------------------------
+ *  =04 - Issue Table
+ *
+ *  This section includes the layout and styles for the main issues table.
+ *------------------------------------------------------------------------------
+
+form#issue-list
+  position: relative
+
+#content table
+  &.issues
+    width: 100%
+  th
+    font-weight: normal
+  &.issues td
+    border: 0 none
+    padding: 3px 6px
+    text-align: left
+    position: relative
+    vertical-align: top
+  th
+    a:hover
+    &.current-sort
+      background: white image-url("gradient-up.png") repeat-x
+      a
+        background: image-url("sort_desc.png") no-repeat right center
+        padding-right: 16px
+        display: block
+  tr
+    &.odd
+      background-color: white
+    &.even
+      background-color: #f6f7f8
+      &:hover
+        background-color: #FFD
+    &.odd:hover
+      background-color: #FFD
+    &.context-menu-selection
+      background-color: #FFFFB2
+      &:hover
+        background-color: #FFFFB2
+  td
+    &.issue
+      background: image-url("arrow-bottom-right.png") no-repeat right bottom
+      width: 42px
+      cursor: context-menu
+    &.updated
+      width: 80px
+
+#multiple-action-buttons
+  float: left
+  margin: 10px 0
+  li
+    float: left
+    margin-right: 10px
+
+.pagination, .other-formats
+  margin: 10px 0
+
+.pagination a
+  padding: 1px 2px
+
+/*-------------------------------------------------------------------------------
+ *  =05 - Single Issue Page
+ *
+ *  This section includes the layout and styles for the single issues page.
+ *------------------------------------------------------------------------------
+
+div.issue hr
+  margin-top: 10px
+  margin-bottom: 10px
+  clear: both
+
+#content div.issue h3, div.issue h3
+  border: 0px
+  margin-top: -6px
+  margin-bottom: 0px
+
+#content div.issue table
+  td
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0px
+  th
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0px
+    font-weight: bold
+
+.issue p
+  margin-bottom: 5px
+
+.attachments h4
+  margin-bottom: 6px
+  background: image-url("files-showhide.png") no-repeat right bottom
+  cursor: pointer
+  &.closed
+    background-position: right 5px
+
+table.files
+  display: table
+
+#content table.files
+  td
+    border: 0
+    background: none
+  th
+    border: 0
+    background: none
+    font-weight: bold
+    padding: 1px
+  border: 0
+  background: none
+  td
+    color: #555
+    padding: 1px
+  .opt-desc
+    width: 60%
+  td a
+    position: relative
+
+.question-line
+  display: block
+
+#content blockquote
+  padding-left: 22px
+
+.wiki
+  ol, ul
+    padding-left: 22px
+
+blockquote
+  font-style: italic
+  background: image-url("blockquote-bg.png") no-repeat 5px 3px
+
+.file-thumbs
+  margin: 20px 0 0
+  overflow: hidden
+  float: left
+  a
+    display: block
+    float: left
+    margin-right: 10px
+    text-align: center
+    img
+      display: block
+      margin: 0 auto 5px
+      border: 1px solid #226D81
+      &.pdf
+        border: 0
+
+/*-------------------------------------------------------------------------------
+ *  =06 - Projects Page
+ *
+ *  This section defines the styles for the projects "home" page.
+ *------------------------------------------------------------------------------
+
+#project-links
+  right: 30px
+  color: #ccc
+  font-weight: bold
+
+.nosidebar
+  blockquote
+    margin: 1em 0
+  p
+    margin-bottom: 1em
+
+li
+  &.root
+    font-size: 18px
+    margin-bottom: 24px
+  &.child
+    font-size: 14px
+
+.nosidebar ul.projects
+  margin: 24px 0 0
+  ul
+    margin: 0
+
+ul.projects .description
+  font-size: 12px
+
+.nosidebar ul.projects li
+  list-style: none outside none
+  background: none
+
+ul.projects
+  a
+    font-weight: bold
+  li div.root
+    margin-bottom: 12px
+
+.nosidebar
+  ol
+    li
+      list-style: decimal outside none
+      margin-left: 24px
+    margin: 0 0 12px 18px
+  ul
+    margin: 0 0 12px 18px
+
+/*-------------------------------------------------------------------------------
+ *  =07 - Behavior Styles
+ *
+ *  This section defines the styles for handling behaviors - popups, flyouts, etc.
+ *------------------------------------------------------------------------------
+
+.profile-wrap
+  float: right
+  position: relative
+  width: 42px
+  height: 42px
+  top: 7px
+  right: 14px
+
+.profile-box
+  position: absolute
+  right: 0
+  top: 45px
+  width: 205px
+  display: none
+  z-index: 10
+
+.issue .profile-box ul
+  background: image-url("profile-arrow-up.png") no-repeat 175px top
+  position: relative
+  z-index: 11
+  top: -8px
+  padding-top: 8px
+  margin-bottom: -8px
+
+.profile-box
+  ul li
+    border-top: 1px solid #fff
+    border-bottom: 1px solid #ddd
+    padding: 5px 10px
+    &:first-child
+      border-top: 0
+    &:last-child
+      border-bottom: 0
+  .gravatar
+    border: 0
+    float: left
+    margin-right: 6px
+
+/* file table hovers
+
+a.has-thumb
+  img
+    position: absolute
+    display: none
+    border: 1px solid #a6c6cf
+    padding: 4px
+    background: #fff
+    -moz-border-radius: 3px
+    -webkit-border-radius: 3px
+    border-radius: 3px
+  &.active
+    left: -10px
+    background: image-url("thumb-arrow-right.png") no-repeat left center
+    padding-left: 10px
+    margin-right: -10px
+
+td.issue div.issue-wrap-outer
+  position: relative
+
+.button-large ul
+  position: absolute
+  right: -1px
+  top: 20px
+  z-index: 5
+  display: none
+  li
+    padding: 0
+    white-space: nowrap
+
+.title-bar .button-large ul li a
+  background-image: none
+  padding: 6px 12px
+  &:hover
+    background-color: #fff
+
+/*-------------------------------------------------------------------------------
+ *  =08 - Reusable Classes
+ *
+ *  This section defines reusable classes for menus, etc.
+ *------------------------------------------------------------------------------
+
+.menu li
+  position: relative
+  padding: 6px
+  &:first-child
+    border-top: 0
+  &:last-child
+    border-bottom: 0
+
+.inline
+  display: inline
+
+/*-------------------------------------------------------------------------------
+ *  =11 - Appended from staging
+ *------------------------------------------------------------------------------
+/* tooltip fix
+
+form#issue-list
+  display: block
+
+.js-tooltip
+  width: 100%
+
+.js-tooltip-inner
+  width: 100%
+  max-height: none
+
+.js-tooltip .issue-tooltip-description
+  max-height: 200px
+  overflow: hidden
+
+/* roadmap breathing
+
+#roadmap h3
+  margin: 21px 0 12px
+
+div#roadmap fieldset.related-issues
+  margin: 12px 0
+  padding: 6px 12px
+  -moz-border-radius: 5px
+  -webkit-border-radius: 5px
+  border-radius: 5px
+
+#roadmap fieldset legend
+  font-style: italic
+
+tr.context-menu-selection td.priority
+  background: none !important
+
+.nomenus
+  #content
+    margin: 0px
+    padding: 0px
+  #main
+    padding-bottom: 0px
+
+/* Blue dots killed
+
+.nosidebar ul
+  li
+    background: none
+    list-style: disc outside none
+  margin: 12px 0 12px 18px
+
+ul.projects div.root a.project
+  font-family: inherit
+
+/* tables don't all need border you know
+
+#relations table
+  td, th
+    border: 0 none
+
+div.issue div#relations
+  margin-top: 25px
+
+/* custom query page
+
+#content .box fieldset
+  border: 1px solid #ddd
+  margin: 18px 10px 6px
+  padding: 10px
+  legend
+    font-weight: bold
+
+.box
+  fieldset
+    li.filter
+      padding-top: 6px
+      overflow: hidden
+    select
+      margin-right: 6px
+    #add_filter_select
+      margin-bottom: 6px
+  li
+    &.filter label
+      clear: left
+      float: left
+      width: 170px
+    &.decorated
+      margin-left: 20px
+      list-style: disc outside none
+
+fieldset#columns
+  table
+    width: auto
+  td
+    border: 0
+    vertical-align: middle
+
+/* all kinds of wonderful tweaks
+
+.question pre
+  color: #111
+
+.box p
+  padding-top: 5px
+  padding-bottom: 8px
+
+#content .box h3
+  margin-top: 3px
+
+div.issue hr
+  width: auto
+
+.question .wiki
+  margin: 0
+
+.wiki
+  ol, ul
+    margin-bottom: 6px
+
+#content
+  h3
+    margin: 12px 0 6px
+  h2 + h3
+    margin-top: 12px
+
+div.issue img.gravatar
+  float: none
+  margin: 0
+  padding: 0
+
+p.author
+  margin-bottom: 15px
+  font-style: italic
+
+/* add filter select box on non-issue pages
+
+fieldset#filters div.add-filter
+  text-align: left
+  margin: 0 0 6px 0
+
+.nosidebar
+  #add_filter_select
+    margin-bottom: 6px
+  .box fieldset
+    line-height: 1.5
+    margin: 0 0 12px 180px
+    legend
+      margin-bottom: 6px
+  fieldset ul li
+    background: none
+
+.title-bar
+  .add-filter.button-large
+    background: none
+    border: none
+  .contextual
+    padding: 0 0 0 12px
+    position: absolute
+    right: 10px
+    top: 0
+    margin: 0
+    a.icon
+      line-height: 3.5
+      margin-right: 16px
+  .grouping
+    padding: 0 10px 10px
+
+.title-bar-extras ul
+  border-bottom: none
+
+.extras-actions
+  border-top: none
+
+.nosidebar
+  fieldset ul
+    margin-left: 0
+  ol.ui-sortable li
+    list-style: none outside none
+
+tr.time-entry
+  white-space: normal
+
+/* comments
+
+.wiki ol li
+  list-style: decimal inside
+
+/* scm
+
+#content table .changeset td.id a:hover
+  text-decoration: underline
+
+/* issue updates
+
+#update
+  fieldset .box
+    padding: 0
+    border: 0 none
+  .tabular
+    label
+      width: 140px
+      margin-left: -147px
+    p
+      padding-left: 140px
+
+/* clearfix
+
+#content table.files .opt-desc
+  width: 45%
+
+/* member settings [pc]
+
+select#member_role_id
+  width: 75px
+
+/* fix for thumbnail jankiness
+
+a.has-thumb
+  &.active
+    left: auto
+    margin-left: -10px
+    margin-right: 0
+    *left: -10px
+    /* IE6 & 7 hacks
+    *margin-left: 0
+  img
+    z-index: 1001
+
+#more-menu.drop-down ul li a.projects
+  border-top: 1px solid #555
+
+.reorder-icons img
+  padding-right: 3px
+  padding-left: 3px
+
+/* Accessibility specific styles
+
+.hidden-for-sighted
+  position: absolute
+  left: -10000px
+  top: auto
+  width: 1px
+  height: 1px
+  overflow: hidden
+
+/* Cut of text with '...' - working on all major browsers and IE6+
+ * not working for Firefox < 7
+
+.ellipsis
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+
+label.label-with-input
+  display: block
+  white-space: nowrap
+  zoom: 1
+  margin-left: 0px
+  float: none
+
+fieldset#attachments
+  input, span.add_another_file
+    zoom: 1
+    margin-left: 10px
+    margin-right: 10px
+
+#query_form_content
+  padding-top: 10px
+
+#lower-title-bar
+  div.contextual
+    margin-top: -8px
+  margin-top: 30px
+  margin-left: 10px
+
+#watchers .contextual
+  margin-top: 0px
+
+div.work_package_part
+  margin-top: 15px
+  strong
+    text-decoration: underline
+
+h4.overview
+  margin-bottom: 0px
+  border: 0
+
+#content .additional-information
+  font-size: 11px
+
+div
+  &.issues.box > p, &.mypage-box p
+    margin-top: 15px
+  &.news
+    &.box > p
+      margin-top: -15px
+    margin-bottom: 30px
+  &.overview
+    padding: 6px
+    margin-bottom: 10px
+    line-height: 1.5em
+
+td.table-buttons
+  vertical-align: middle
+
+select#available_columns
+  margin-right: 0px
+
+.pages-hierarchy
+  padding-left: 10px
+  list-style-type: disc
+  list-style-position: inside
+
+.pagination
+  .previous_page
+    width: 100%
+    height: 15px
+    padding-left: 18px
+  .next_page
+    width: 100%
+    height: 15px
+    padding-right: 18px
+    &.disabled
+      display: none
+  .previous_page.disabled
+    display: none
+  .range
+    padding-left: 0.5em
+  .per_page_options
+    padding-left: 0.5em
+    border-left: 1px solid #4B4B4B
+    margin-left: 0.5em
+
+#menu-sidebar.hidden
+  display: none
+
+div#watchers
+  margin-top: 25px
+  > form > p
+    margin-top: 5px
+
+a > img.imgtag-icon
+  float: left
+  margin-right: 3px
+
+th.checkbox img
+  margin-left: 3px
+  margin-top: 3px
+
+p.buttons
+  margin-left: 10px
+
+div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li
+  padding-right: 10px
+
+strong.related-issues-heading
+  display: block
+  margin-top: 10px
+
+div.indent
+  padding-left: 10px
+
+/* Menu item configuration
+
+.menu-item-form
+  p
+    padding-left: 0px
+  label
+    display: inline-block
+    margin-bottom: 10px
+    margin-left: 0px
+    width: auto
+    font-weight: bold
+  select#parent_wiki_menu_item
+    margin-left: 7px
+    margin-top: -1px
+  #item-name
+    float: left
+    padding-left: 3px
+    margin-right: 4px
+    line-height: 21px
+  label#with-select
+    margin-left: 0px
+  select#parent_wiki_menu_item_wiki_page
+    margin-bottom: 10px
+  p input
+  fieldset#wiki_menu_item_setting
+    margin-top: 10px
+  p
+    &.item-name
+      padding-top: 10px
+    &.main_item
+      padding-bottom: 0px
+    &.wiki_menu_item_optional_links
+      margin-left: 10px
+      padding-top: 0px
+
+/* Open Project Design generated by theme-generator
+
+content
+  font-size: 12px
+
+/***** Links ****
+
+/* TODO
+
+#content
+  #history
+    background: image-url("dotted-separator.gif") repeat-x scroll 0 bottom transparent
+  .wiki-content
+    p, li
+      width: 700px
+
+.required
+  color: #008BD0
+
+/***** Ajax indicator *****
+
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #d9d9d9
+  border: 1px solid #8f8f8f
+  top: 35%
+  left: 40%
+  width: 20%
+  font-weight: bold
+  text-align: center
+  padding: 0.6em
+  z-index: 100
+  filter: alpha(opacity = 70)
+  opacity: 0.7
+
+/*Gannt chart fix IE 6
+
+.task
+  line-height: 1em
+
+/*Cost-Plugin specific styles
+
+.icon-pieces
+  background-image: image-url("webalys/units.png") !important
+
+.icon-pieces-time
+  background-image: image-url("webalys/time.png") !important
+
+body
+  &.theme-Bsp .buttons .apply, &.theme-Dtag .buttons .apply
+    background-color: #24b3e7
+
+input::-webkit-input-placeholder, :-moz-placeholder
+  color: #000000
+
+.ui-dialog
+  overflow: visible
+
+#ui-dialog-closer
+  background-image: image-url("modal_close.png")
+  cursor: pointer
+  height: 33px
+  position: absolute
+  right: -15px
+  top: -15px
+  width: 33px
+  z-index: 5000
+
+.ui-datepicker .ui-priority-secondary
+  opacity: 1
+  filter: Alpha(Opacity = 100)
+  font-weight: bold
+
+h4.comment
+  margin-bottom: 8px
+  margin-top: 18px
+  img
+    margin-right: 3px
+
+.bold
+  font-weight: bold
+
+.action-report table.list
+  display: block
+  overflow: auto
+
+.atwho-view
+  z-index: 25
+  .cur
+    background: #FFFFBB
+    color: #4B4B4B
+    strong
+      color: black
