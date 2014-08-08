@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-describe Role do
+describe Role, :type => :model do
   describe "class methods" do
     describe :givable do
       before (:each) do
@@ -32,8 +32,8 @@ describe Role do
         @global_role1 = GlobalRole.create :name => "global_role1", :permissions => []
       end
 
-      it {Role.find_all_givable.should have(1).items}
-      it {Role.find_all_givable[0].should eql @mem_role1}
+      it {expect(Role.find_all_givable.size).to eq(1)}
+      it {expect(Role.find_all_givable[0]).to eql @mem_role1}
     end
   end
 
@@ -45,7 +45,7 @@ describe Role do
     describe :setable_permissions do
       before {mock_permissions_for_setable_permissions}
 
-      it {@role.setable_permissions.should eql([@perm1, @perm2])}
+      it {expect(@role.setable_permissions).to eql([@perm1, @perm2])}
     end
   end
 end

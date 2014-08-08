@@ -24,7 +24,7 @@ describe Redmine::AccessControl::Permission do
     describe "creating with", :new do
       before {@permission = Redmine::AccessControl::Permission.new(:perm, {:cont => [:action]}, {:global => true})}
       describe :global? do
-        it {@permission.global?.should be_true}
+        it {expect(@permission.global?).to be_truthy}
       end
     end
   end
@@ -34,7 +34,7 @@ describe Redmine::AccessControl::Permission do
       before {@permission = Redmine::AccessControl::Permission.new :perm, {:cont => [:action]}, {:global => false}}
 
       describe :global? do
-        it {@permission.global?.should be_false}
+        it {expect(@permission.global?).to be_falsey}
       end
     end
 
@@ -42,7 +42,7 @@ describe Redmine::AccessControl::Permission do
       before {@permission = Redmine::AccessControl::Permission.new :perm, {:cont => [:action]}, {}}
 
       describe :global? do
-        it {@permission.global?.should be_false}
+        it {expect(@permission.global?).to be_falsey}
       end
     end
   end

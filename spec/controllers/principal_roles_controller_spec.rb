@@ -19,22 +19,22 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe PrincipalRolesController do
+describe PrincipalRolesController, :type => :controller do
   before(:each) do
-    @controller.stub!(:require_admin).and_return(true)
-    @controller.stub!(:check_if_login_required).and_return(true)
-    @controller.stub!(:set_localization).and_return(true)
+    allow(@controller).to receive(:require_admin).and_return(true)
+    allow(@controller).to receive(:check_if_login_required).and_return(true)
+    allow(@controller).to receive(:set_localization).and_return(true)
 
     @principal_role = mock_model PrincipalRole
 
     if privacy_plugin_loaded?
-      @principal_role.stub!(:privacy_unnecessary=)
-      @principal_role.stub!(:valid?).and_return(true)
-      @principal_role.stub!(:privacy_statement_necessary?).and_return(false)
+      allow(@principal_role).to receive(:privacy_unnecessary=)
+      allow(@principal_role).to receive(:valid?).and_return(true)
+      allow(@principal_role).to receive(:privacy_statement_necessary?).and_return(false)
     end
 
-    @principal_role.stub!(:id).and_return(23)
-    PrincipalRole.stub!(:find).and_return @principal_role
+    allow(@principal_role).to receive(:id).and_return(23)
+    allow(PrincipalRole).to receive(:find).and_return @principal_role
     disable_flash_sweep
     disable_log_requesting_user
   end
@@ -54,7 +54,7 @@ describe PrincipalRolesController do
         describe "SUCCESS" do
           before :each do
             @global_role = mock_model(GlobalRole)
-            @global_role.stub!(:id).and_return(42)
+            allow(@global_role).to receive(:id).and_return(42)
             ##
             # Note this test uses doubles which may break depending on the loaded plugins.
             # Specifically extra stubs have been added for these tests to work with the
@@ -68,20 +68,21 @@ describe PrincipalRolesController do
             # as opposed to missing ones.
             #
             # And yet: @TODO Don't use doubles but FactoryGirl.
-            @global_role.stub!(:permanent?).and_return(false) # only necessary with impermanent-memberships
-            Role.stub!(:find).and_return([@global_role])
-            PrincipalRole.stub!(:new).and_return(@principal_role)
+            allow(@global_role).to receive(:id).and_return(42)
+            allow(@global_role).to receive(:permanent?).and_return(false) # only necessary with impermanent-memberships
+            allow(Role).to receive(:find).and_return([@global_role])
+            allow(PrincipalRole).to receive(:new).and_return(@principal_role)
             @user = mock_model User
-            @user.stub!(:valid?).and_return(true)
-            @user.stub!(:logged?).and_return(true)
-            @user.stub!(:global_roles).and_return([]) # only necessary with impermanent-memberships
-            Principal.stub!(:find).and_return(@user)
-            @principal_role.stub!(:role=)
-            @principal_role.stub!(:role).and_return(@global_role)
-            @principal_role.stub!(:principal_id=)
-            @principal_role.stub!(:save)
-            @principal_role.stub!(:role_id).and_return(@global_role.id)
-            @principal_role.stub!(:valid?).and_return(true)
+            allow(@user).to receive(:valid?).and_return(true)
+            allow(@user).to receive(:logged?).and_return(true)
+            allow(@user).to receive(:global_roles).and_return([]) # only necessary with impermanent-memberships
+            allow(Principal).to receive(:find).and_return(@user)
+            allow(@principal_role).to receive(:role=)
+            allow(@principal_role).to receive(:role).and_return(@global_role)
+            allow(@principal_role).to receive(:principal_id=)
+            allow(@principal_role).to receive(:save)
+            allow(@principal_role).to receive(:role_id).and_return(@global_role.id)
+            allow(@principal_role).to receive(:valid?).and_return(true)
           end
 
           describe "js" do
@@ -100,7 +101,7 @@ describe PrincipalRolesController do
               xhr :post, :create, @params
             end
 
-            it { response.should be_success }
+            it { expect(response).to be_success }
           end
         end
       end
@@ -114,13 +115,13 @@ describe PrincipalRolesController do
 
     describe :update do
       before(:each) do
-        @principal_role.stub!(:update_attributes)
+        allow(@principal_role).to receive(:update_attributes)
       end
 
       describe "SUCCESS" do
         describe "js" do
           before :each do
-            @principal_role.stub!(:valid?).and_return(true)
+            allow(@principal_role).to receive(:valid?).and_return(true)
 
             response_should_render :replace,
                                   "principal_role-#{@principal_role.id}",
@@ -130,14 +131,14 @@ describe PrincipalRolesController do
             xhr :put, :update, @params
           end
 
-          it {response.should be_success}
+          it {expect(response).to be_success}
         end
       end
 
       describe "FAILURE" do
         describe "js" do
           before :each do
-            @principal_role.stub!(:valid?).and_return(false)
+            allow(@principal_role).to receive(:valid?).and_return(false)
             response_should_render :insert_html,
                                    :top,
                                    "tab-content-global_roles",
@@ -146,7 +147,7 @@ describe PrincipalRolesController do
             xhr :put, :update, @params
           end
 
-          it {response.should be_success}
+          it {expect(response).to be_success}
         end
       end
     end
@@ -154,13 +155,13 @@ describe PrincipalRolesController do
 
   describe :delete do
     before :each do
-      @principal_role.stub!(:principal_id).and_return(1)
+      allow(@principal_role).to receive(:principal_id).and_return(1)
       @user = mock_model User
-      @user.stub!(:logged?).and_return(true)
-      @user.stub!(:global_roles).and_return([]) # only necessary with impermanent-memberships
-      Principal.stub(:find).and_return(@user)
-      @principal_role.stub!(:destroy)
-      @principal_role.stub!(:role).and_return(Struct.new(:id, :permanent?).new(42, false)) # only necessary with impermanent-memberships
+      allow(@user).to receive(:logged?).and_return(true)
+      allow(@user).to receive(:global_roles).and_return([]) # only necessary with impermanent-memberships
+      allow(Principal).to receive(:find).and_return(@user)
+      allow(@principal_role).to receive(:destroy)
+      allow(@principal_role).to receive(:role).and_return(Struct.new(:id, :permanent?).new(42, false)) # only necessary with impermanent-memberships
       @params = {"id" => "1"}
     end
 
@@ -180,7 +181,7 @@ describe PrincipalRolesController do
             xhr :delete, :destroy, @params
           end
 
-          it { response.should be_success }
+          it { expect(response).to be_success }
         end
       end
     end
