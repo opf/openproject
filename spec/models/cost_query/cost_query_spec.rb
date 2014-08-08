@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe User, :type => :model, "#destroy" do
+describe User, "#destroy", :type => :model do
   let(:substitute_user) { DeletedUser.first }
   let(:private_query) { FactoryGirl.create(:private_cost_query) }
   let(:public_query) { FactoryGirl.create(:public_cost_query) }
@@ -104,4 +104,3 @@ describe User, :type => :model, "#destroy" do
     it_should_behave_like "public query"
   end
 end
-
