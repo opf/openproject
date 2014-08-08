@@ -41,6 +41,7 @@ en:
     button_edit: "Edit"
     button_log_time: "Log time"
     button_move: "Move"
+    button_open_details: "Open details view"
     button_quote: "Quote"
     button_save: "Save"
     button_uncheck_all: "Uncheck all"
