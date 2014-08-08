@@ -49,7 +49,7 @@ describe CostlogController, :type => :controller do
   end
 
   def disable_flash_sweep
-    @controller.instance_eval{allow(flash).to receive(:sweep)}
+    allow(@controller.flash).to receive(:sweep)
   end
 
   shared_examples_for "assigns" do

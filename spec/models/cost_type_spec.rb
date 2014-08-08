@@ -40,7 +40,7 @@ describe CostType, :type => :model do
           cost_type.save!
         end
 
-        it { expect(klass.size).to eq(0) }
+        it { expect(klass.active.size).to eq(0) }
       end
 
       describe "WHEN a CostType instance is not deleted" do
@@ -48,7 +48,7 @@ describe CostType, :type => :model do
           cost_type.save!
         end
 
-        it { expect(klass.size).to eq(1) }
+        it { expect(klass.active.size).to eq(1) }
         it { expect(klass.active[0]).to eq(cost_type) }
       end
     end

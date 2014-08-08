@@ -50,6 +50,7 @@ describe WorkPackage, :type => :model do
     work_package.save!
     expect(work_package.cost_object).to eql cost_object
 
+    work_package.reload
     work_package.cost_object = nil
     expect { work_package.save! }.not_to raise_error
   end
