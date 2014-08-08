@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "MeetingAgenda" do
+describe "MeetingAgenda", :type => :model do
   before(:each) do
     @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
@@ -32,7 +32,7 @@ describe "MeetingAgenda" do
       @a.reload
       @a.lock!
       @a.reload
-      @a.locked.should be_true
+      expect(@a.locked).to be_truthy
     end
   end
 
@@ -43,7 +43,7 @@ describe "MeetingAgenda" do
       @a.reload
       @a.unlock!
       @a.reload
-      @a.locked.should be_false
+      expect(@a.locked).to be_falsey
     end
   end
 
@@ -51,11 +51,11 @@ describe "MeetingAgenda" do
   describe "#editable?" do
     it "is editable when not locked" do
       @a.locked = false
-      @a.editable?.should be_true
+      expect(@a.editable?).to be_truthy
     end
     it "is not editable when locked" do
       @a.locked = true
-      @a.editable?.should be_false
+      expect(@a.editable?).to be_falsey
     end
   end
 end

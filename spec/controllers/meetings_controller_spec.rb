@@ -20,79 +20,79 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingsController do
+describe MeetingsController, :type => :controller do
   before(:each) do
     @p = mock_model(Project)
-    @controller.stub!(:authorize)
-    @controller.stub!(:check_if_login_required)
+    allow(@controller).to receive(:authorize)
+    allow(@controller).to receive(:check_if_login_required)
   end
 
   describe "GET" do
     describe "index" do
       before(:each) do
-        Project.stub!(:find).and_return(@p)
+        allow(Project).to receive(:find).and_return(@p)
         @ms = [mock_model(Meeting), mock_model(Meeting), mock_model(Meeting)]
-        @ms.stub!(:from_tomorrow).and_return(@ms)
-        @p.stub!(:meetings).and_return(@ms)
+        allow(@ms).to receive(:from_tomorrow).and_return(@ms)
+        allow(@p).to receive(:meetings).and_return(@ms)
         [:with_users_by_date, :page, :per_page].each do |meth|
-          @ms.should_receive(meth).and_return(@ms)
+          expect(@ms).to receive(meth).and_return(@ms)
         end
         @grouped = double('grouped')
-        Meeting.should_receive(:group_by_time).with(@ms).and_return(@grouped)
+        expect(Meeting).to receive(:group_by_time).with(@ms).and_return(@grouped)
       end
       describe "html" do
         before(:each) do
           get "index", :project_id => @p.id
         end
-        it {response.should be_success}
-        it {assigns(:meetings_by_start_year_month_date).should eql @grouped }
+        it {expect(response).to be_success}
+        it {expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
       end
     end
 
     describe "show" do
       before(:each) do
         @m = mock_model(Meeting)
-        Meeting.stub!(:find).and_return(@m)
-        @m.stub!(:project).and_return(@p)
-        @m.stub!(:agenda).stub!(:present?).and_return(false)
+        allow(Meeting).to receive(:find).and_return(@m)
+        allow(@m).to receive(:project).and_return(@p)
+        allow(allow(@m).to receive(:agenda)).to receive(:present?).and_return(false)
       end
       describe "html" do
         before(:each) do
           get "show", :id => @m.id
         end
-        it {response.should be_success}
+        it {expect(response).to be_success}
       end
     end
 
     describe "new" do
       before(:each) do
-        Project.stub!(:find).and_return(@p)
+        allow(Project).to receive(:find).and_return(@p)
         @m = mock_model(Meeting)
-        @m.stub!(:project=)
-        @m.stub!(:author=)
-        Meeting.stub!(:new).and_return(@m)
+        allow(@m).to receive(:project=)
+        allow(@m).to receive(:author=)
+        allow(Meeting).to receive(:new).and_return(@m)
       end
       describe "html" do
         before(:each) do
           get "new", :project_id => @p.id
         end
-        it {response.should be_success}
-        it {assigns(:meeting).should eql @m}
+        it {expect(response).to be_success}
+        it {expect(assigns(:meeting)).to eql @m}
       end
     end
 
     describe "edit" do
       before(:each) do
         @m = mock_model(Meeting)
-        Meeting.stub!(:find).and_return(@m)
-        @m.stub(:project).and_return(@p)
+        allow(Meeting).to receive(:find).and_return(@m)
+        allow(@m).to receive(:project).and_return(@p)
       end
       describe "html" do
         before(:each) do
           get "edit", :id => @m.id
         end
-        it {response.should be_success}
-        it {assigns(:meeting).should eql @m}
+        it {expect(response).to be_success}
+        it {expect(assigns(:meeting)).to eql @m}
       end
     end
   end

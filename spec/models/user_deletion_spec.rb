@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy" do
+describe User, :type => :model, "#destroy" do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -43,13 +43,13 @@ describe User, "#destroy" do
 
   shared_examples_for "updated journalized associated object" do
     before do
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
       end
       associated_instance.save!
 
-      User.stub(:current).and_return(user) # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
@@ -60,35 +60,35 @@ describe User, "#destroy" do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == substitute_user
+        expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
-    it { associated_instance.journals.first.user.should == user2 }
+    it { expect(associated_instance.journals.first.user).to eq(user2) }
     it "should update first journal changes" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last.should == user2.id
+        expect(associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last).to eq(user2.id)
       end
     end
-    it { associated_instance.journals.last.user.should == substitute_user }
+    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it "should update second journal changes" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last.should == substitute_user.id
+        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last).to eq(substitute_user.id)
       end
     end
   end
 
   shared_examples_for "created journalized associated object" do
     before do
-      User.stub(:current).and_return(user) # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return(user) # in order to have the content journal created by the user
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
       end
       associated_instance.save!
 
-      User.stub(:current).and_return(user2)
+      allow(User).to receive(:current).and_return(user2)
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
@@ -99,23 +99,23 @@ describe User, "#destroy" do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should keep the current user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == user2
+        expect(associated_instance.send(association)).to eq(user2)
       end
     end
-    it { associated_instance.journals.first.user.should == substitute_user }
+    it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last.should == substitute_user.id
+        expect(associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last).to eq(substitute_user.id)
       end
     end
-    it { associated_instance.journals.last.user.should == user2 }
+    it { expect(associated_instance.journals.last.user).to eq(user2) }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last.should == user2.id
+        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].first).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last).to eq(user2.id)
       end
     end
   end
@@ -182,8 +182,8 @@ describe User, "#destroy" do
       participant.reload
     end
 
-    it { meeting.participants.map(&:user).should =~ [DeletedUser.first, user2] }
-    it { participant.invited.should be_true }
-    it { participant.attended.should be_true }
+    it { expect(meeting.participants.map(&:user)).to match_array([DeletedUser.first, user2]) }
+    it { expect(participant.invited).to be_truthy }
+    it { expect(participant.attended).to be_truthy }
   end
 end

@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingMailer do
+describe MeetingMailer, :type => :mailer do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
   let(:project) { FactoryGirl.create(:project) }
   let(:author) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
@@ -50,13 +50,13 @@ describe MeetingMailer do
 
 
     it "renders the headers" do
-      mail.subject.should include(meeting.project.name)
-      mail.subject.should include(meeting.title)
-      mail.to.should include(author.mail)
-      mail.from.should eq([Setting.mail_from])
-      mail.cc.should_not include(author.mail)
-      mail.cc.should include(watcher1.mail)
-      mail.cc.should include(watcher2.mail)
+      expect(mail.subject).to include(meeting.project.name)
+      expect(mail.subject).to include(meeting.title)
+      expect(mail.to).to include(author.mail)
+      expect(mail.from).to eq([Setting.mail_from])
+      expect(mail.cc).not_to include(author.mail)
+      expect(mail.cc).to include(watcher1.mail)
+      expect(mail.cc).to include(watcher2.mail)
     end
 
     it "renders the text body" do
@@ -69,13 +69,13 @@ describe MeetingMailer do
   end
 
   def check_meeting_mail_content(body)
-    body.should include(meeting.project.name)
-    body.should include(meeting.title)
-    body.should include(i18n.format_date meeting.start_date)
-    body.should include(i18n.format_time meeting.start_time, false)
-    body.should include(i18n.format_time meeting.end_time, false)
-    body.should include(@participants[0].name)
-    body.should include(@participants[1].name)
+    expect(body).to include(meeting.project.name)
+    expect(body).to include(meeting.title)
+    expect(body).to include(i18n.format_date meeting.start_date)
+    expect(body).to include(i18n.format_time meeting.start_time, false)
+    expect(body).to include(i18n.format_time meeting.end_time, false)
+    expect(body).to include(@participants[0].name)
+    expect(body).to include(@participants[1].name)
   end
 
   def save_and_open_mail_html_body(mail)

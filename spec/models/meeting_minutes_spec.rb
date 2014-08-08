@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "MeetingMinutes" do
+describe "MeetingMinutes", :type => :model do
   before do
     @min = FactoryGirl.build :meeting_minutes
   end
@@ -33,7 +33,7 @@ describe "MeetingMinutes" do
     end
     describe "with no agenda present" do
       it "is not editable" do
-        @min.editable?.should be_false
+        expect(@min.editable?).to be_falsey
       end
     end
     describe "with an agenda present" do
@@ -42,11 +42,11 @@ describe "MeetingMinutes" do
         @mee.agenda = @a
       end
       it "is not editable when the agenda is open" do
-        @min.editable?.should be_false
+        expect(@min.editable?).to be_falsey
       end
       it "is editable when the agenda is closed" do
         @a.lock!
-        @min.editable?.should be_true
+        expect(@min.editable?).to be_truthy
       end
     end
   end

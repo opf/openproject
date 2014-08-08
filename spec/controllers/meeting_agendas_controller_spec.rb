@@ -20,11 +20,11 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingAgendasController do
+describe MeetingAgendasController, :type => :controller do
   let(:meeting) { FactoryGirl.create(:meeting) }
   let(:user) { FactoryGirl.create(:admin) }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe 'preview' do
     let(:text) { "Meeting agenda content" }
