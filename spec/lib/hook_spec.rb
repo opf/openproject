@@ -29,7 +29,7 @@ describe OpenProject::Webhooks::Hook do
     let(:hook) { OpenProject::Webhooks::Hook.new('myhook', &probe) }
 
     before do
-      probe.should_receive(:call).with(hook, 1, 2, 3)
+      expect(probe).to receive(:call).with(hook, 1, 2, 3)
     end
 
     it 'should execute the callback with the correct parameters' do
