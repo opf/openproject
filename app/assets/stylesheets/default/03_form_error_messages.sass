@@ -26,31 +26,10 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.clear:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+/***** Form error messages ***
 
-@import "default/01_tables.sass"
-@import "default/02_tabular_forms.sass"
-@import "default/03_form_error_messages.sass"
-@import "default/04_ajax_indicator.sass"
-@import "default/05_tooltips.sass"
-@import "default/06_progress_bar.sass"
-@import "default/07_tabs.sass"
-@import "default/08_autocomplete.sass"
-@import "default/09_diff.sass"
-@import "default/10_work_package_quick_info.sass"
-@import "default/11_my_page_layout.sass"
-@import "default/12_.sass"
-@import "default/13_.sass"
-@import "default/14_.sass"
-@import "default/15_.sass"
-@import "default/16_.sass"
-@import "default/17_.sass"
-@import "default/18_.sass"
-@import "default/19_.sass"
-@import "default/20_links.sass"
-@import "default/21_ajax_indicator.sass"
+span.errorSpan
+  font-weight: bold
+  textarea, select, input
+    border: 2px solid red
+

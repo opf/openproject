@@ -26,31 +26,38 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.clear:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+/***** Ajax indicator *****
 
-@import "default/01_tables.sass"
-@import "default/02_tabular_forms.sass"
-@import "default/03_form_error_messages.sass"
-@import "default/04_ajax_indicator.sass"
-@import "default/05_tooltips.sass"
-@import "default/06_progress_bar.sass"
-@import "default/07_tabs.sass"
-@import "default/08_autocomplete.sass"
-@import "default/09_diff.sass"
-@import "default/10_work_package_quick_info.sass"
-@import "default/11_my_page_layout.sass"
-@import "default/12_.sass"
-@import "default/13_.sass"
-@import "default/14_.sass"
-@import "default/15_.sass"
-@import "default/16_.sass"
-@import "default/17_.sass"
-@import "default/18_.sass"
-@import "default/19_.sass"
-@import "default/20_links.sass"
-@import "default/21_ajax_indicator.sass"
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #eee
+  border: 1px solid #bbb
+  top: 35%
+  left: 40%
+  width: 20%
+  font-weight: bold
+  text-align: center
+  padding: 0.6em
+  z-index: 100
+  filter: alpha(opacity = 50)
+  opacity: 0.5
+
+html > body #ajax-indicator
+  position: fixed
+
+#ajax-indicator span, .ajax-indicator
+  background-position: 0% 40%
+  background-repeat: no-repeat
+  background-image: image-url("loading.gif")
+  padding-left: 26px
+  vertical-align: bottom
+
+.ajax_appended_information.loading .ajax-indicator
+  padding-left: 22px
+  display: block
+  width: 0em
+  margin-left: auto
+  margin-right: auto
+  white-space: nowrap
+

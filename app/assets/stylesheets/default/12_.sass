@@ -26,31 +26,53 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.clear:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+/* Merged from the new layout #263
+/**
+ * ToC
+ * 00 - Base Typography
+ * 01 - Header
+ * 02 - Main Menu
+ * 03 - Main Content
+ * 04 - Issue Tables
+ * 05 - Single Issue Page
+ * 06 - Projects Page
+ * 07 - Behavior Styles
+ * 08 - Reusable classes
+ * 09 - New Issue Form
+ * 10 - Plugins and misc
+ * 11 - Appended from staging
 
-@import "default/01_tables.sass"
-@import "default/02_tabular_forms.sass"
-@import "default/03_form_error_messages.sass"
-@import "default/04_ajax_indicator.sass"
-@import "default/05_tooltips.sass"
-@import "default/06_progress_bar.sass"
-@import "default/07_tabs.sass"
-@import "default/08_autocomplete.sass"
-@import "default/09_diff.sass"
-@import "default/10_work_package_quick_info.sass"
-@import "default/11_my_page_layout.sass"
-@import "default/12_.sass"
-@import "default/13_.sass"
-@import "default/14_.sass"
-@import "default/15_.sass"
-@import "default/16_.sass"
-@import "default/17_.sass"
-@import "default/18_.sass"
-@import "default/19_.sass"
-@import "default/20_links.sass"
-@import "default/21_ajax_indicator.sass"
+/*-------------------------------------------------------------------------------
+ *  =00 - Base Typography
+ *
+ *  This section includes the typography base for the body and heading elements.
+ *------------------------------------------------------------------------------
+
+h1, h2, h3, h4, h5, h6
+  font-weight: bold
+
+h1
+  font-size: 21px
+
+h2, .wiki h1
+  font-size: 18px
+  padding: 2px 10px 1px 0px
+  margin: 0 0 10px 0
+  border-bottom: 1px solid #bbbbbb
+
+h3
+  font-size: 16px
+  margin-bottom: 16px
+
+h4
+  font-size: 14px
+  margin-bottom: 16px
+
+h5
+  font-size: 12px
+  text-transform: uppercase
+  margin-bottom: 18px
+
+a:hover
+  text-decoration: underline
+

@@ -26,31 +26,54 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.clear:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+/*-------------------------------------------------------------------------------
+ *  =06 - Projects Page
+ *
+ *  This section defines the styles for the projects "home" page.
+ *------------------------------------------------------------------------------
 
-@import "default/01_tables.sass"
-@import "default/02_tabular_forms.sass"
-@import "default/03_form_error_messages.sass"
-@import "default/04_ajax_indicator.sass"
-@import "default/05_tooltips.sass"
-@import "default/06_progress_bar.sass"
-@import "default/07_tabs.sass"
-@import "default/08_autocomplete.sass"
-@import "default/09_diff.sass"
-@import "default/10_work_package_quick_info.sass"
-@import "default/11_my_page_layout.sass"
-@import "default/12_.sass"
-@import "default/13_.sass"
-@import "default/14_.sass"
-@import "default/15_.sass"
-@import "default/16_.sass"
-@import "default/17_.sass"
-@import "default/18_.sass"
-@import "default/19_.sass"
-@import "default/20_links.sass"
-@import "default/21_ajax_indicator.sass"
+#project-links
+  right: 30px
+  color: #ccc
+  font-weight: bold
+
+.nosidebar
+  blockquote
+    margin: 1em 0
+  p
+    margin-bottom: 1em
+
+li
+  &.root
+    font-size: 18px
+    margin-bottom: 24px
+  &.child
+    font-size: 14px
+
+.nosidebar ul.projects
+  margin: 24px 0 0
+  ul
+    margin: 0
+
+ul.projects .description
+  font-size: 12px
+
+.nosidebar ul.projects li
+  list-style: none outside none
+  background: none
+
+ul.projects
+  a
+    font-weight: bold
+  li div.root
+    margin-bottom: 12px
+
+.nosidebar
+  ol
+    li
+      list-style: decimal outside none
+      margin-left: 24px
+    margin: 0 0 12px 18px
+  ul
+    margin: 0 0 12px 18px
+

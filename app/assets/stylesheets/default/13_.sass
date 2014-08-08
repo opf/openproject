@@ -26,31 +26,54 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.clear:after
-  content: "."
-  display: block
-  height: 0
-  clear: both
-  visibility: hidden
+/*-------------------------------------------------------------------------------
+ *  =03 - Main Content
+ *
+ *  This section includes the layout and styles for the main content area.
+ *------------------------------------------------------------------------------
 
-@import "default/01_tables.sass"
-@import "default/02_tabular_forms.sass"
-@import "default/03_form_error_messages.sass"
-@import "default/04_ajax_indicator.sass"
-@import "default/05_tooltips.sass"
-@import "default/06_progress_bar.sass"
-@import "default/07_tabs.sass"
-@import "default/08_autocomplete.sass"
-@import "default/09_diff.sass"
-@import "default/10_work_package_quick_info.sass"
-@import "default/11_my_page_layout.sass"
-@import "default/12_.sass"
-@import "default/13_.sass"
-@import "default/14_.sass"
-@import "default/15_.sass"
-@import "default/16_.sass"
-@import "default/17_.sass"
-@import "default/18_.sass"
-@import "default/19_.sass"
-@import "default/20_links.sass"
-@import "default/21_ajax_indicator.sass"
+h1.title
+  margin: 12px 24px 9px
+
+#content .title-bar
+  position: relative
+
+.title-bar
+  h2 span
+    font-weight: bold
+  .button-large
+    position: absolute
+    top: 8px
+
+/* .button-large was too generic and targeted other pages with it's positioning
+
+.button-large a
+  padding: 3px 9px
+  display: block
+  color: #6a0406
+
+.title-bar .add-filter
+  right: 155px
+
+.title-bar-extras
+  color: #333333
+  ul
+    padding: 10px
+    overflow: auto
+  li
+    padding-bottom: 5px
+  select
+    margin-right: 10px
+
+.extras-actions
+  padding: 5px 10px
+  position: relative
+  a
+    border: 0
+    color: #000
+    padding-left: 18px
+    margin-right: 10px
+    cursor: pointer
+    font-family: inherit
+    font-size: 11px
+
