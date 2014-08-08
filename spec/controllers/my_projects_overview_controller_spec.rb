@@ -20,15 +20,15 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MyProjectsOverviewsController do
+describe MyProjectsOverviewsController, :type => :controller do
   before :each do
-    @controller.stub(:set_localization)
-    @controller.should_receive(:authorize)
+    allow(@controller).to receive(:set_localization)
+    expect(@controller).to receive(:authorize)
 
     @role = FactoryGirl.create(:non_member)
     @user = FactoryGirl.create(:admin)
 
-    User.stub(:current).and_return @user
+    allow(User).to receive(:current).and_return @user
 
     @params = {}
   end
@@ -46,8 +46,8 @@ describe MyProjectsOverviewsController do
       end
 
       it 'renders the overview page' do
-        response.should be_success
-        response.should render_template 'index'
+        expect(response).to be_success
+        expect(response).to render_template 'index'
       end
     end
 
@@ -59,7 +59,7 @@ describe MyProjectsOverviewsController do
         get 'index', params
       end
 
-      it { response.should redirect_to project_work_packages_path(project) }
+      it { expect(response).to redirect_to project_work_packages_path(project) }
     end
   end
 end

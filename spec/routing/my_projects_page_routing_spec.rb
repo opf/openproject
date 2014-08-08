@@ -20,18 +20,18 @@
 
 require 'spec_helper'
 
-describe MyProjectsOverviewsController do
+describe MyProjectsOverviewsController, :type => :routing do
   describe "routing" do
     describe "overview-page" do
-      it { get('/projects/test-project').should route_to(:controller => 'my_projects_overviews',
+      it { expect(get('/projects/test-project')).to route_to(:controller => 'my_projects_overviews',
                                                          :action => 'index',
                                                          :id => 'test-project') }
 
       # make sure that the mappings are not greedy
-      it { get('/projects/new').should route_to(:controller => 'projects',
+      it { expect(get('/projects/new')).to route_to(:controller => 'projects',
                                                 :action => 'new') }
 
-      it { get('/projects/test-project/settings').should route_to(:controller => 'projects',
+      it { expect(get('/projects/test-project/settings')).to route_to(:controller => 'projects',
                                                                   :action => 'settings',
                                                                   :id => 'test-project') }
 
