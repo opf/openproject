@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe LaborBudgetItem do
+describe LaborBudgetItem, :type => :model do
   include Cost::PluginSpecHelper
   let(:item) { FactoryGirl.build(:labor_budget_item, :cost_object => cost_object) }
   let(:cost_object) { FactoryGirl.build(:variable_cost_object, :project => project) }
@@ -40,7 +40,7 @@ describe LaborBudgetItem do
         item.user = nil
       end
 
-      it { item.calculated_costs.should == default_costs }
+      it { expect(item.calculated_costs).to eq(default_costs) }
     end
 
     describe "WHEN no hours are defined" do
@@ -48,7 +48,7 @@ describe LaborBudgetItem do
         item.hours = nil
       end
 
-      it { item.calculated_costs.should == default_costs }
+      it { expect(item.calculated_costs).to eq(default_costs) }
     end
 
     describe "WHEN user, hours and rate are defined" do
@@ -60,7 +60,7 @@ describe LaborBudgetItem do
         rate.save!
       end
 
-      it { item.calculated_costs.should == (rate.rate * item.hours) }
+      it { expect(item.calculated_costs).to eq(rate.rate * item.hours) }
     end
 
     describe "WHEN user, hours and rate are defined
@@ -75,7 +75,7 @@ describe LaborBudgetItem do
         user.destroy
       end
 
-      it { item.calculated_costs.should == (rate.rate * item.hours) }
+      it { expect(item.calculated_costs).to eq(rate.rate * item.hours) }
     end
   end
 
@@ -88,7 +88,7 @@ describe LaborBudgetItem do
         item.reload
       end
 
-      it { item.user.should == user }
+      it { expect(item.user).to eq(user) }
     end
 
     describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
@@ -100,15 +100,15 @@ describe LaborBudgetItem do
         item.reload
       end
 
-      it { item.user.should == DeletedUser.first }
-      it { item.user_id.should == user.id }
+      it { expect(item.user).to eq(DeletedUser.first) }
+      it { expect(item.user_id).to eq(user.id) }
     end
   end
 
   describe :valid? do
     describe "WHEN hours, cost_object and user are provided" do
       it "should be valid" do
-        item.should be_valid
+        expect(item).to be_valid
       end
     end
 
@@ -118,8 +118,8 @@ describe LaborBudgetItem do
       end
 
       it "should not be valid" do
-        item.should_not be_valid
-        item.errors[:hours].should == [I18n.t('activerecord.errors.messages.not_a_number')]
+        expect(item).not_to be_valid
+        expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
     end
 
@@ -129,8 +129,8 @@ describe LaborBudgetItem do
       end
 
       it "should not be valid" do
-        item.should_not be_valid
-        item.errors[:hours].should == [I18n.t('activerecord.errors.messages.not_a_number')]
+        expect(item).not_to be_valid
+        expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
     end
 
@@ -140,8 +140,8 @@ describe LaborBudgetItem do
       end
 
       it "should not be valid" do
-        item.should_not be_valid
-        item.errors[:cost_object].should == [I18n.t('activerecord.errors.messages.blank')]
+        expect(item).not_to be_valid
+        expect(item.errors[:cost_object]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
     end
 
@@ -151,8 +151,8 @@ describe LaborBudgetItem do
       end
 
       it "should not be valid" do
-        item.should_not be_valid
-        item.errors[:user].should == [I18n.t('activerecord.errors.messages.blank')]
+        expect(item).not_to be_valid
+        expect(item.errors[:user]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
     end
   end
@@ -171,7 +171,7 @@ describe LaborBudgetItem do
         item.user = user
       end
 
-      it { item.costs_visible_by?(user).should be_true }
+      it { expect(item.costs_visible_by?(user)).to be_truthy }
     end
 
     describe "WHEN the item is assigned to the user
@@ -183,7 +183,7 @@ describe LaborBudgetItem do
         item.user = user
       end
 
-      it { item.costs_visible_by?(user).should be_false }
+      it { expect(item.costs_visible_by?(user)).to be_falsey }
     end
 
     describe "WHEN the item is assigned to another user
@@ -195,7 +195,7 @@ describe LaborBudgetItem do
         item.user = user
       end
 
-      it { item.costs_visible_by?(user2).should be_true }
+      it { expect(item.costs_visible_by?(user2)).to be_truthy }
     end
 
     describe "WHEN the item is assigned to another user
@@ -207,7 +207,7 @@ describe LaborBudgetItem do
         item.user = user
       end
 
-      it { item.costs_visible_by?(user2).should be_false }
+      it { expect(item.costs_visible_by?(user2)).to be_falsey }
     end
   end
 end

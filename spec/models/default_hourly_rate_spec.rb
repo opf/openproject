@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe DefaultHourlyRate do
+describe DefaultHourlyRate, :type => :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
   let(:rate) { FactoryGirl.build(:default_hourly_rate, :project => project,
@@ -32,7 +32,7 @@ describe DefaultHourlyRate do
         rate.save!
       end
 
-      it { rate.user.should == user }
+      it { expect(rate.user).to eq(user) }
     end
 
     describe "WHEN a non existing user is provided (i.e. the user is deleted)" do
@@ -43,7 +43,7 @@ describe DefaultHourlyRate do
         rate.reload
       end
 
-      it { rate.user.should == DeletedUser.first }
+      it { expect(rate.user).to eq(DeletedUser.first) }
     end
   end
 end

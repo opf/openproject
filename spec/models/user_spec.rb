@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User do
+describe User, :type => :model do
   include Cost::PluginSpecHelper
   let(:klass) { User }
   let(:user) { FactoryGirl.build(:user) }
@@ -31,7 +31,7 @@ describe User do
 
   describe :allowed_to do
     describe "WITH querying for a non existent permission" do
-      it { user.allowed_to?(:bogus_permission, project).should be_false }
+      it { expect(user.allowed_to?(:bogus_permission, project)).to be_falsey }
     end
   end
 
@@ -51,7 +51,7 @@ describe User do
       end
 
       it "should return a sql condition where the project id the user has the permission in is enforced" do
-        user.allowed_to_condition_with_project_id(permission).should == "(projects.id in (#{project.id}))"
+        expect(user.allowed_to_condition_with_project_id(permission)).to eq("(projects.id in (#{project.id}))")
       end
     end
 
@@ -68,7 +68,7 @@ describe User do
         valid_conditions = ["(projects.id in (#{project.id}, #{project2.id}))",
                             "(projects.id in (#{project2.id}, #{project.id}))"]
 
-        valid_conditions.should include(user.allowed_to_condition_with_project_id(permission))
+        expect(valid_conditions).to include(user.allowed_to_condition_with_project_id(permission))
       end
     end
 
@@ -79,7 +79,7 @@ describe User do
       end
 
       it "should return a neutral (for an or operation) sql condition" do
-        user.allowed_to_condition_with_project_id(permission).should == "1=0"
+        expect(user.allowed_to_condition_with_project_id(permission)).to eq("1=0")
       end
     end
 
@@ -91,7 +91,7 @@ describe User do
       end
 
       it "should return a sql condition where all the project ids the user has the permission in is enforced" do
-        user.allowed_to_condition_with_project_id(permission, project).should == "(projects.id in (#{project.id}))"
+        expect(user.allowed_to_condition_with_project_id(permission, project)).to eq("(projects.id in (#{project.id}))")
       end
     end
   end
@@ -116,15 +116,15 @@ describe User do
       end
 
       it "should update the rate" do
-        user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate.should == new_attributes[project_hourly_rate.id.to_s][:rate].to_i
+        expect(user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate).to eq(new_attributes[project_hourly_rate.id.to_s][:rate].to_i)
       end
 
       it "should update valid_from" do
-        user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from.should == new_attributes[project_hourly_rate.id.to_s][:valid_from].to_date
+        expect(user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from).to eq(new_attributes[project_hourly_rate.id.to_s][:valid_from].to_date)
       end
 
       it "should not create a rate" do
-        user.rates.size.should == 1
+        expect(user.rates.size).to eq(1)
       end
     end
 
@@ -144,15 +144,15 @@ describe User do
       end
 
       it "should not update the rate" do
-        user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate.should == @original_rate
+        expect(user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate).to eq(@original_rate)
       end
 
       it "should not update valid_from" do
-        user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from.should == @original_valid_from
+        expect(user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from).to eq(@original_valid_from)
       end
 
       it "should not create a rate" do
-        user.rates.size.should == 1
+        expect(user.rates.size).to eq(1)
       end
     end
 
@@ -167,7 +167,7 @@ describe User do
       end
 
       it "should delete the hourly rate" do
-        user.rates(true).should be_empty
+        expect(user.rates(true)).to be_empty
       end
     end
 
@@ -182,7 +182,7 @@ describe User do
       end
 
       it "should delete the default hourly rate" do
-        user.default_rates(true).should be_empty
+        expect(user.default_rates(true)).to be_empty
       end
     end
   end

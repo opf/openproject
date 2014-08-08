@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostEntry do
+describe CostEntry, :type => :model do
   include Cost::PluginSpecHelper
 
   let(:project) { FactoryGirl.create(:project_with_types) }
@@ -87,7 +87,7 @@ describe CostEntry do
           cost_entry.save!
         end
 
-        it { CostEntry.visible(user2, project).all.should =~ [cost_entry] }
+        it { expect(CostEntry.visible(user2, project).all).to match_array([cost_entry]) }
       end
 
       describe "WHEN not having the view_cost_entries permission
@@ -99,7 +99,7 @@ describe CostEntry do
           cost_entry.save!
         end
 
-        it { CostEntry.visible(user2, project).all.should =~ [] }
+        it { expect(CostEntry.visible(user2, project).all).to match_array([]) }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -111,7 +111,7 @@ describe CostEntry do
           cost_entry.save!
         end
 
-        it { CostEntry.visible(user2, project).all.should =~ [] }
+        it { expect(CostEntry.visible(user2, project).all).to match_array([]) }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -123,7 +123,7 @@ describe CostEntry do
           cost_entry2.save!
         end
 
-        it { CostEntry.visible(cost_entry2.user, project).all.should =~ [cost_entry2] }
+        it { expect(CostEntry.visible(cost_entry2.user, project).all).to match_array([cost_entry2]) }
       end
     end
   end
@@ -143,7 +143,7 @@ describe CostEntry do
           (0..5).each do |units|
             cost_entry.units = units
             cost_entry.save!
-            cost_entry.costs.should == first_rate.rate * units
+            expect(cost_entry.costs).to eq(first_rate.rate * units)
           end
         end
       end
@@ -155,7 +155,7 @@ describe CostEntry do
           cost_entry.reload
         end
 
-        it { cost_entry.costs.should == fourth_rate.rate * cost_entry.units }
+        it { expect(cost_entry.costs).to eq(fourth_rate.rate * cost_entry.units) }
       end
 
       describe "WHEN a new rate is added for the future" do
@@ -166,7 +166,7 @@ describe CostEntry do
           cost_entry.reload
         end
 
-        it { cost_entry.costs.should == third_rate.rate * cost_entry.units }
+        it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
       describe "WHEN a new rate is added in between" do
@@ -177,7 +177,7 @@ describe CostEntry do
           cost_entry.reload
         end
 
-        it { cost_entry.costs.should == third_rate.rate * cost_entry.units }
+        it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
       describe "WHEN a rate is destroyed" do
@@ -187,7 +187,7 @@ describe CostEntry do
           cost_entry.reload
         end
 
-        it { cost_entry.costs.should == cost_entry.units * second_rate.rate }
+        it { expect(cost_entry.costs).to eq(cost_entry.units * second_rate.rate) }
       end
 
       describe "WHEN a rate's valid from is updated" do
@@ -197,7 +197,7 @@ describe CostEntry do
           cost_entry.reload
         end
 
-        it { cost_entry.costs.should == cost_entry.units * first_rate.rate }
+        it { expect(cost_entry.costs).to eq(cost_entry.units * first_rate.rate) }
       end
 
       describe "WHEN spent on is changed" do
@@ -210,7 +210,7 @@ describe CostEntry do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
-            cost_entry.costs.should == cost_entry.units * CostRate.first(:conditions => ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], :order => "valid_from DESC").rate
+            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(:conditions => ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], :order => "valid_from DESC").rate)
           end
         end
       end
@@ -224,7 +224,7 @@ describe CostEntry do
           cost_entry.overridden_costs = value
         end
 
-        it { cost_entry.overridden_costs.should == value }
+        it { expect(cost_entry.overridden_costs).to eq(value) }
       end
     end
 
@@ -236,7 +236,7 @@ describe CostEntry do
           cost_entry.overridden_costs = value
         end
 
-        it { cost_entry.real_costs.should == value }
+        it { expect(cost_entry.real_costs).to eq(value) }
       end
     end
 
@@ -245,12 +245,12 @@ describe CostEntry do
         cost_entry.save!
       end
 
-      it{ cost_entry.should be_valid }
+      it{ expect(cost_entry).to be_valid }
 
       describe "WHEN no cost_type is provided" do
         before { cost_entry.cost_type = nil }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN no project is provided" do
@@ -261,44 +261,44 @@ describe CostEntry do
           cost_entry.work_package = nil
         end
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN no work_package is provided" do
         before { cost_entry.work_package = nil }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN the work_package is not in the project" do
         before { cost_entry.work_package = work_package2 }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN no units are provided" do
         before { cost_entry.units = nil }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN no spent_on is provided" do
         before { cost_entry.spent_on = nil }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN no user is provided" do
         before { cost_entry.user = nil }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN the provided user is no member of the project
                 WHEN the user is unchanged" do
         before { member.destroy }
 
-        it { cost_entry.should be_valid }
+        it { expect(cost_entry).to be_valid }
       end
 
       describe "WHEN the provided user is no member of the project
@@ -308,13 +308,13 @@ describe CostEntry do
           member.destroy
         end
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
 
       describe "WHEN the cost_type is deleted" do
         before { cost_type.deleted_at = Date.new }
 
-        it { cost_entry.should_not be_valid }
+        it { expect(cost_entry).not_to be_valid }
       end
     end
 
@@ -325,11 +325,11 @@ describe CostEntry do
           user.destroy
         end
 
-        it { cost_entry.reload.user.should == DeletedUser.first }
+        it { expect(cost_entry.reload.user).to eq(DeletedUser.first) }
       end
 
       describe "WHEN an existing user is provided" do
-        it { cost_entry.user.should == user }
+        it { expect(cost_entry.user).to eq(user) }
       end
     end
 
@@ -342,7 +342,7 @@ describe CostEntry do
           cost_entry
         end
 
-        it { cost_entry.editable_by?(user2).should be_true }
+        it { expect(cost_entry.editable_by?(user2)).to be_truthy }
       end
 
       describe "WHEN the user has the edit_cost_entries permission
@@ -351,7 +351,7 @@ describe CostEntry do
           is_member(project, cost_entry2.user, [:edit_cost_entries])
         end
 
-        it { cost_entry2.editable_by?(cost_entry2.user).should be_true }
+        it { expect(cost_entry2.editable_by?(cost_entry2.user)).to be_truthy }
       end
 
       describe "WHEN the user has the edit_own_cost_entries permission
@@ -362,7 +362,7 @@ describe CostEntry do
           cost_entry2
         end
 
-        it { cost_entry2.editable_by?(cost_entry2.user).should be_true }
+        it { expect(cost_entry2.editable_by?(cost_entry2.user)).to be_truthy }
       end
 
       describe "WHEN the user has the edit_own_cost_entries permission
@@ -373,7 +373,7 @@ describe CostEntry do
           cost_entry
         end
 
-        it { cost_entry.editable_by?(user2).should be_false }
+        it { expect(cost_entry.editable_by?(user2)).to be_falsey }
       end
 
       describe "WHEN the user has no cost permission
@@ -384,7 +384,7 @@ describe CostEntry do
           cost_entry2
         end
 
-        it { cost_entry2.editable_by?(cost_entry2.user).should be_false }
+        it { expect(cost_entry2.editable_by?(cost_entry2.user)).to be_falsey }
       end
     end
 
@@ -395,7 +395,7 @@ describe CostEntry do
           is_member(project, user2, [:log_costs])
         end
 
-        it { cost_entry.creatable_by?(user2).should be_true }
+        it { expect(cost_entry.creatable_by?(user2)).to be_truthy }
       end
 
       describe "WHEN the user has the log_costs permission
@@ -404,7 +404,7 @@ describe CostEntry do
           is_member(project, cost_entry2.user, [:log_costs])
         end
 
-        it { cost_entry2.creatable_by?(cost_entry2.user).should be_true }
+        it { expect(cost_entry2.creatable_by?(cost_entry2.user)).to be_truthy }
       end
 
       describe "WHEN the user has the log own costs permission
@@ -413,7 +413,7 @@ describe CostEntry do
           is_member(project, cost_entry2.user, [:log_own_costs])
         end
 
-        it { cost_entry2.creatable_by?(cost_entry2.user).should be_true }
+        it { expect(cost_entry2.creatable_by?(cost_entry2.user)).to be_truthy }
       end
 
       describe "WHEN the user has the log_own_costs permission
@@ -422,7 +422,7 @@ describe CostEntry do
           is_member(project, user2, [:log_own_costs])
         end
 
-        it { cost_entry.creatable_by?(user2).should be_false }
+        it { expect(cost_entry.creatable_by?(user2)).to be_falsey }
       end
 
       describe "WHEN the user has no cost permission
@@ -431,7 +431,7 @@ describe CostEntry do
           is_member(project, cost_entry2.user, [])
         end
 
-        it { cost_entry2.creatable_by?(cost_entry2.user).should be_false }
+        it { expect(cost_entry2.creatable_by?(cost_entry2.user)).to be_falsey }
       end
     end
 
@@ -442,7 +442,7 @@ describe CostEntry do
           is_member(project, user2, [:view_cost_rates])
         end
 
-        it { cost_entry.costs_visible_by?(user2).should be_true }
+        it { expect(cost_entry.costs_visible_by?(user2)).to be_truthy }
       end
 
       describe "WHEN the user has the view_cost_rates permission in another project
@@ -451,7 +451,7 @@ describe CostEntry do
           is_member(project2, user2, [:view_cost_rates])
         end
 
-        it { cost_entry.costs_visible_by?(user2).should be_false }
+        it { expect(cost_entry.costs_visible_by?(user2)).to be_falsey }
       end
 
       describe "WHEN the user lacks the view_cost_rates permission
@@ -462,7 +462,7 @@ describe CostEntry do
           cost_entry2.update_attribute(:overridden_costs, 1.0)
         end
 
-        it { cost_entry2.costs_visible_by?(cost_entry2.user).should be_true }
+        it { expect(cost_entry2.costs_visible_by?(cost_entry2.user)).to be_truthy }
       end
 
       describe "WHEN the user lacks the view_cost_rates permission
@@ -472,7 +472,7 @@ describe CostEntry do
           is_member(project, cost_entry2.user, [])
         end
 
-        it { cost_entry2.costs_visible_by?(cost_entry2.user).should be_false }
+        it { expect(cost_entry2.costs_visible_by?(cost_entry2.user)).to be_falsey }
       end
     end
   end

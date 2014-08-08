@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:user) { FactoryGirl.create(:admin) }
   let(:role) { FactoryGirl.create(:role) }
   let(:project) do
@@ -36,21 +36,21 @@ describe WorkPackage do
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
   before(:each) do
-    User.stub!(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
   end
 
   it "should update cost entries on move" do
-    work_package.project_id.should eql project.id
-    work_package.move_to_project(project2).should_not be_false
-    cost_entry.reload.project_id.should eql project2.id
+    expect(work_package.project_id).to eql project.id
+    expect(work_package.move_to_project(project2)).not_to be_falsey
+    expect(cost_entry.reload.project_id).to eql project2.id
   end
 
   it "should allow to set cost_object to nil" do
     work_package.cost_object = cost_object
     work_package.save!
-    work_package.cost_object.should eql cost_object
+    expect(work_package.cost_object).to eql cost_object
 
     work_package.cost_object = nil
-    lambda { work_package.save! }.should_not raise_error(ActiveRecord::RecordInvalid)
+    expect { work_package.save! }.not_to raise_error
   end
 end

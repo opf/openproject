@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe CostObjectsHelper do
+describe CostObjectsHelper, :type => :helper do
   let(:project) { FactoryGirl.build(:project) }
   let(:cost_object) { FactoryGirl.build(:cost_object, :project => project) }
 
@@ -40,7 +40,7 @@ describe CostObjectsHelper do
                     cost_object.description
                   ].join(I18n.t(:general_csv_separator))
 
-        cost_objects_to_csv([cost_object]).include?(expected).should be_true
+        expect(cost_objects_to_csv([cost_object]).include?(expected)).to be_truthy
       end
 
       it "should start with a header explaining the fields" do
@@ -57,7 +57,7 @@ describe CostObjectsHelper do
                     CostObject.human_attribute_name(:description)
                     ].join(I18n.t(:general_csv_separator))
 
-        cost_objects_to_csv([cost_object]).start_with?(expected).should be_true
+        expect(cost_objects_to_csv([cost_object]).start_with?(expected)).to be_truthy
       end
     end
   end

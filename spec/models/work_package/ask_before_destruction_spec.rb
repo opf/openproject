@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
                                                          :status => status) }
   let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
@@ -54,7 +54,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
 
@@ -66,7 +66,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2]).should be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
 
@@ -76,7 +76,7 @@ describe WorkPackage do
       end
 
       it "should be false" do
-        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_false
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
   end
@@ -89,7 +89,7 @@ describe WorkPackage do
       end
 
       it "should be have 'CostEntry' as class to address" do
-        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should == [CostEntry]
+        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to eq([CostEntry])
       end
     end
 
@@ -99,7 +99,7 @@ describe WorkPackage do
       end
 
       it "should be empty" do
-        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should be_empty
+        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
   end
@@ -119,7 +119,7 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
     end
 
@@ -127,14 +127,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'destroy') }
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the cost_entry' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -142,14 +142,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the cost_entry' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -157,20 +157,20 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'nullify') }
 
       it 'should return false' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
 
       it 'should set an error on work packages' do
         action
 
-        work_package.errors.get(:base).should == [I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')]
+        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')])
       end
     end
 
@@ -186,21 +186,21 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should set the work_package_id of all cost entries to the new work package' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package2.id
+        expect(cost_entry.work_package_id).to eq(work_package2.id)
       end
 
       it "should set the project_id of all cost entries to the new work package's project" do
         action
 
         cost_entry.reload
-        cost_entry.project_id.should == work_package2.project_id
+        expect(cost_entry.project_id).to eq(work_package2.project_id)
       end
     end
 
@@ -213,14 +213,14 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -229,14 +229,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => 0) }
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -245,14 +245,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign') }
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
-        cost_entry.work_package_id.should == work_package.id
+        expect(cost_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -260,7 +260,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'bogus') }
 
       it 'should return false' do
-        action.should be_false
+        expect(action).to be_falsey
       end
     end
 
@@ -268,7 +268,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
       it 'should return false' do
-        action.should be_false
+        expect(action).to be_falsey
       end
     end
   end

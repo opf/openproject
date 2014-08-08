@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe CostlogController do
+describe CostlogController, :type => :controller do
   include Cost::PluginSpecHelper
   let (:project) { FactoryGirl.create(:project_with_types) }
   let (:work_package) { FactoryGirl.create(:work_package, :project => project,
@@ -45,26 +45,26 @@ describe CostlogController do
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations
-    User.stub!(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
   end
 
   def disable_flash_sweep
-    @controller.instance_eval{flash.stub!(:sweep)}
+    @controller.instance_eval{allow(flash).to receive(:sweep)}
   end
 
   shared_examples_for "assigns" do
-    it { assigns(:cost_entry).project.should == expected_project }
-    it { assigns(:cost_entry).work_package.should == expected_work_package }
-    it { assigns(:cost_entry).user.should == expected_user }
-    it { assigns(:cost_entry).spent_on.should == expected_spent_on }
-    it { assigns(:cost_entry).cost_type.should == expected_cost_type }
-    it { assigns(:cost_entry).units.should == expected_units }
-    it { assigns(:cost_entry).overridden_costs.should == expected_overridden_costs }
+    it { expect(assigns(:cost_entry).project).to eq(expected_project) }
+    it { expect(assigns(:cost_entry).work_package).to eq(expected_work_package) }
+    it { expect(assigns(:cost_entry).user).to eq(expected_user) }
+    it { expect(assigns(:cost_entry).spent_on).to eq(expected_spent_on) }
+    it { expect(assigns(:cost_entry).cost_type).to eq(expected_cost_type) }
+    it { expect(assigns(:cost_entry).units).to eq(expected_units) }
+    it { expect(assigns(:cost_entry).overridden_costs).to eq(expected_overridden_costs) }
   end
 
   before do
     disable_flash_sweep
-    @controller.stub!(:check_if_login_required)
+    allow(@controller).to receive(:check_if_login_required)
   end
 
   after do
@@ -87,9 +87,9 @@ describe CostlogController do
         get :new, params
       end
 
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it_should_behave_like "assigns"
-      it { response.should render_template('edit') }
+      it { expect(response).to render_template('edit') }
     end
 
     shared_examples_for "forbidden new" do
@@ -97,7 +97,7 @@ describe CostlogController do
         get :new, params
       end
 
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN user allowed to create new cost_entry" do
@@ -151,10 +151,10 @@ describe CostlogController do
         get :edit, params
       end
 
-      it { response.should be_success }
-      it { assigns(:cost_entry).should == cost_entry }
-      it { assigns(:cost_entry).should_not be_changed }
-      it { response.should render_template('edit') }
+      it { expect(response).to be_success }
+      it { expect(assigns(:cost_entry)).to eq(cost_entry) }
+      it { expect(assigns(:cost_entry)).not_to be_changed }
+      it { expect(response).to render_template('edit') }
     end
 
     shared_examples_for "forbidden edit" do
@@ -162,7 +162,7 @@ describe CostlogController do
         get :edit, params
       end
 
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN the user is allowed to edit cost_entries" do
@@ -238,7 +238,7 @@ describe CostlogController do
         get :edit, params
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
   end
 
@@ -274,10 +274,10 @@ describe CostlogController do
       end
 
       # is this really usefull, shouldn't it redirect to the creating work_package by default?
-      it { response.should redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
-      it { assigns(:cost_entry).should_not be_new_record }
+      it { expect(response).to redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
+      it { expect(assigns(:cost_entry)).not_to be_new_record }
       it_should_behave_like "assigns"
-      it { flash[:notice].should eql I18n.t(:notice_successful_create) }
+      it { expect(flash[:notice]).to eql I18n.t(:notice_successful_create) }
     end
 
 
@@ -286,9 +286,9 @@ describe CostlogController do
         post :create, params
       end
 
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it_should_behave_like "assigns"
-      it { flash[:notice].should be_nil }
+      it { expect(flash[:notice]).to be_nil }
     end
 
     shared_examples_for "forbidden create" do
@@ -296,7 +296,7 @@ describe CostlogController do
         post :create, params
       end
 
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN the user is allowed to create cost_entries" do
@@ -508,19 +508,19 @@ describe CostlogController do
         put :update, params
       end
 
-      it { response.should redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
-      it { assigns(:cost_entry).should == cost_entry }
+      it { expect(response).to redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
+      it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it_should_behave_like "assigns"
-      it { assigns(:cost_entry).should_not be_changed }
-      it { flash[:notice].should eql I18n.t(:notice_successful_update) }
+      it { expect(assigns(:cost_entry)).not_to be_changed }
+      it { expect(flash[:notice]).to eql I18n.t(:notice_successful_update) }
     end
 
     shared_examples_for "invalid update" do
       before { put :update, params }
 
       it_should_behave_like "assigns"
-      it { response.should be_success }
-      it { flash[:notice].should be_nil }
+      it { expect(response).to be_success }
+      it { expect(flash[:notice]).to be_nil }
     end
 
     shared_examples_for "forbidden update" do
@@ -528,7 +528,7 @@ describe CostlogController do
         put :update, params
       end
 
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN the user is allowed to update cost_entries

@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe TimeEntry do
+describe TimeEntry, :type => :model do
   include Cost::PluginSpecHelper
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }
@@ -62,18 +62,18 @@ describe TimeEntry do
 
 
   it "should always prefer overridden_costs" do
-    User.stub!(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
 
     value = rand(500)
     time_entry.overridden_costs = value
-    time_entry.overridden_costs.should == value
-    time_entry.real_costs.should == value
+    expect(time_entry.overridden_costs).to eq(value)
+    expect(time_entry.real_costs).to eq(value)
     time_entry.save!
   end
 
   describe "given rate" do
     before(:each) do
-      User.stub!(:current).and_return(user)
+      allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
@@ -81,7 +81,7 @@ describe TimeEntry do
       (0..100).each do |hours|
         time_entry.hours = hours
         time_entry.save!
-        time_entry.costs.should == time_entry.rate.rate * hours
+        expect(time_entry.costs).to eq(time_entry.rate.rate * hours)
       end
     end
 
@@ -90,7 +90,7 @@ describe TimeEntry do
       time_entry.spent_on = Time.now
       time_entry.hours = 1
       time_entry.save!
-      time_entry.costs.should == hourly_one.rate
+      expect(time_entry.costs).to eq(hourly_one.rate)
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 1.day.ago
         hr.rate       = 1.0
@@ -98,8 +98,8 @@ describe TimeEntry do
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
-      time_entry.rate.should_not == hourly_one
-      time_entry.costs.should == hourly.rate
+      expect(time_entry.rate).not_to eq(hourly_one)
+      expect(time_entry.costs).to eq(hourly.rate)
     end
 
     it "should update cost if a new rate is added in between" do
@@ -107,7 +107,7 @@ describe TimeEntry do
       time_entry.spent_on = 3.days.ago.to_date
       time_entry.hours = 1
       time_entry.save!
-      time_entry.costs.should == hourly_three.rate
+      expect(time_entry.costs).to eq(hourly_three.rate)
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 3.days.ago.to_date
         hr.rate       = 1.0
@@ -115,8 +115,8 @@ describe TimeEntry do
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
-      time_entry.rate.should_not == hourly_three
-      time_entry.costs.should == hourly.rate
+      expect(time_entry.rate).not_to eq(hourly_three)
+      expect(time_entry.costs).to eq(hourly.rate)
     end
 
     it "should update cost if a spent_on changes" do
@@ -124,7 +124,7 @@ describe TimeEntry do
       (5.days.ago.to_date..Date.today).each do |time|
         time_entry.spent_on = time.to_date
         time_entry.save!
-        time_entry.costs.should == time_entry.user.rate_at(time, project.id).rate
+        expect(time_entry.costs).to eq(time_entry.user.rate_at(time, project.id).rate)
       end
     end
 
@@ -132,30 +132,30 @@ describe TimeEntry do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.hours = 1
       time_entry.save!
-      time_entry.costs.should == hourly_one.rate
+      expect(time_entry.costs).to eq(hourly_one.rate)
       hourly_one.destroy
       time_entry.reload
-      time_entry.costs.should == hourly_three.rate
+      expect(time_entry.costs).to eq(hourly_three.rate)
       hourly_three.destroy
       time_entry.reload
-      time_entry.costs.should == hourly_five.rate
+      expect(time_entry.costs).to eq(hourly_five.rate)
     end
 
     it "should be able to change order of rates (sorted by valid_from)" do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.save!
-      time_entry.rate.should == hourly_one
+      expect(time_entry.rate).to eq(hourly_one)
       hourly_one.valid_from = hourly_three.valid_from - 1.day
       hourly_one.save!
       time_entry.reload
-      time_entry.rate.should == hourly_three
+      expect(time_entry.rate).to eq(hourly_three)
     end
 
   end
 
   describe "default rate" do
     before(:each) do
-      User.stub!(:current).and_return(user)
+      allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
@@ -163,7 +163,7 @@ describe TimeEntry do
       (0..100).each do |hours|
         @default_example.hours = hours
         @default_example.save!
-        @default_example.costs.should == @default_example.rate.rate * hours
+        expect(@default_example.costs).to eq(@default_example.rate.rate * hours)
       end
     end
 
@@ -172,15 +172,15 @@ describe TimeEntry do
       @default_example.spent_on = Time.now.to_date
       @default_example.hours = 1
       @default_example.save!
-      @default_example.costs.should == default_hourly_one.rate
+      expect(@default_example.costs).to eq(default_hourly_one.rate)
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 1.day.ago.to_date
         dhr.rate       = 1.0
         dhr.user       = user2
       end).save!
       @default_example.reload
-      @default_example.rate.should_not == default_hourly_one
-      @default_example.costs.should == hourly.rate
+      expect(@default_example.rate).not_to eq(default_hourly_one)
+      expect(@default_example.costs).to eq(hourly.rate)
     end
 
     it "should update cost if a new rate is added in between" do
@@ -188,15 +188,15 @@ describe TimeEntry do
       @default_example.spent_on = 3.days.ago.to_date
       @default_example.hours = 1
       @default_example.save!
-      @default_example.costs.should == default_hourly_three.rate
+      expect(@default_example.costs).to eq(default_hourly_three.rate)
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 3.days.ago.to_date
         dhr.rate       = 1.0
         dhr.user       = user2
       end).save!
       @default_example.reload
-      @default_example.rate.should_not == default_hourly_three
-      @default_example.costs.should == hourly.rate
+      expect(@default_example.rate).not_to eq(default_hourly_three)
+      expect(@default_example.costs).to eq(hourly.rate)
     end
 
     it "should update cost if a spent_on changes" do
@@ -204,7 +204,7 @@ describe TimeEntry do
       (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
         @default_example.save!
-        @default_example.costs.should == @default_example.user.rate_at(time, project.id).rate
+        expect(@default_example.costs).to eq(@default_example.user.rate_at(time, project.id).rate)
       end
     end
 
@@ -212,13 +212,13 @@ describe TimeEntry do
       @default_example.spent_on = default_hourly_one.valid_from
       @default_example.hours = 1
       @default_example.save!
-      @default_example.costs.should == default_hourly_one.rate
+      expect(@default_example.costs).to eq(default_hourly_one.rate)
       default_hourly_one.destroy
       @default_example.reload
-      @default_example.costs.should == default_hourly_three.rate
+      expect(@default_example.costs).to eq(default_hourly_three.rate)
       default_hourly_three.destroy
       @default_example.reload
-      @default_example.costs.should == default_hourly_five.rate
+      expect(@default_example.costs).to eq(default_hourly_five.rate)
     end
 
     it "shoud be able to switch between default hourly rate and hourly rate" do
@@ -226,7 +226,7 @@ describe TimeEntry do
       @default_example.rate = default_hourly_one
       @default_example.save!
       @default_example.reload
-      @default_example.rate.should == default_hourly_one
+      expect(@default_example.rate).to eq(default_hourly_one)
 
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
@@ -236,10 +236,10 @@ describe TimeEntry do
       end).save!
 
       @default_example.reload
-      @default_example.rate.should == rate
+      expect(@default_example.rate).to eq(rate)
       rate.destroy
       @default_example.reload
-      @default_example.rate.should == default_hourly_one
+      expect(@default_example.rate).to eq(default_hourly_one)
     end
 
     describe :costs_visible_by? do
@@ -256,7 +256,7 @@ describe TimeEntry do
           time_entry.user = user
         end
 
-        it { time_entry.costs_visible_by?(user).should be_true }
+        it { expect(time_entry.costs_visible_by?(user)).to be_truthy }
       end
 
       describe "WHEN the time_entry is assigned to the user
@@ -268,7 +268,7 @@ describe TimeEntry do
           time_entry.user = user
         end
 
-        it { time_entry.costs_visible_by?(user).should be_false }
+        it { expect(time_entry.costs_visible_by?(user)).to be_falsey }
       end
 
       describe "WHEN the time_entry is assigned to another user
@@ -280,7 +280,7 @@ describe TimeEntry do
           time_entry.user = user
         end
 
-        it { time_entry.costs_visible_by?(user2).should be_true }
+        it { expect(time_entry.costs_visible_by?(user2)).to be_truthy }
       end
 
       describe "WHEN the time_entry is assigned to another user
@@ -292,7 +292,7 @@ describe TimeEntry do
           time_entry.user = user
         end
 
-        it { time_entry.costs_visible_by?(user2).should be_false }
+        it { expect(time_entry.costs_visible_by?(user2)).to be_falsey }
       end
     end
   end
@@ -308,7 +308,7 @@ describe TimeEntry do
           time_entry.save!
         end
 
-        it { TimeEntry.visible(user2, project).all.should =~ [time_entry] }
+        it { expect(TimeEntry.visible(user2, project).all).to match_array([time_entry]) }
       end
 
       describe "WHEN not having the view_time_entries permission
@@ -320,7 +320,7 @@ describe TimeEntry do
           time_entry.save!
         end
 
-        it { TimeEntry.visible(user2, project).all.should =~ [] }
+        it { expect(TimeEntry.visible(user2, project).all).to match_array([]) }
       end
 
       describe "WHEN having the view_own_time_entries permission
@@ -334,7 +334,7 @@ describe TimeEntry do
           time_entry.save!
         end
 
-        it { TimeEntry.visible(user2, project).all.should =~ [] }
+        it { expect(TimeEntry.visible(user2, project).all).to match_array([]) }
       end
 
       describe "WHEN having the view_own_time_entries permission
@@ -348,7 +348,7 @@ describe TimeEntry do
           time_entry2.save!
         end
 
-        it { TimeEntry.visible(time_entry2.user, project).all.should =~ [time_entry2] }
+        it { expect(TimeEntry.visible(time_entry2.user, project).all).to match_array([time_entry2]) }
       end
     end
   end

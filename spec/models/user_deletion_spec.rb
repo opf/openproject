@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy" do
+describe User, :type => :model, "#destroy" do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -53,22 +53,22 @@ describe User, "#destroy" do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == substitute_user
+        expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
-    it { associated_instance.journals.first.user.should == user2 }
+    it { expect(associated_instance.journals.first.user).to eq(user2) }
     it "should update first journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == user2.id
+        expect(associated_instance.journals.first.changed_data["#{association}_id".to_sym].last).to eq(user2.id)
       end
     end
-    it { associated_instance.journals.last.user.should == substitute_user }
+    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it "should update second journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
+        expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].last).to eq(substitute_user.id)
       end
     end
   end
@@ -92,23 +92,23 @@ describe User, "#destroy" do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should keep the current user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == user2
+        expect(associated_instance.send(association)).to eq(user2)
       end
     end
-    it { associated_instance.journals.first.user.should == substitute_user }
+    it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
+        expect(associated_instance.journals.first.changed_data["#{association}_id".to_sym].last).to eq(substitute_user.id)
       end
     end
-    it { associated_instance.journals.last.user.should == user2 }
+    it { expect(associated_instance.journals.last.user).to eq(user2) }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data["#{association}_id".to_sym].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == user2.id
+        expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].first).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].last).to eq(user2.id)
       end
     end
   end
@@ -138,8 +138,8 @@ describe User, "#destroy" do
       user.destroy
     end
 
-    it { LaborBudgetItem.find_by_id(item.id).should == item }
-    it { item.user_id.should == user.id }
+    it { expect(LaborBudgetItem.find_by_id(item.id)).to eq(item) }
+    it { expect(item.user_id).to eq(user.id) }
   end
 
   describe "WHEN the user has a cost entry" do
@@ -162,7 +162,7 @@ describe User, "#destroy" do
       entry.reload
     end
 
-    it { entry.user_id.should == user.id }
+    it { expect(entry.user_id).to eq(user.id) }
   end
 
   describe "WHEN the user is assigned an hourly rate" do
@@ -174,8 +174,8 @@ describe User, "#destroy" do
       user.destroy
     end
 
-    it { HourlyRate.find_by_id(hourly_rate.id).should == hourly_rate }
-    it { hourly_rate.reload.user_id.should == user.id }
+    it { expect(HourlyRate.find_by_id(hourly_rate.id)).to eq(hourly_rate) }
+    it { expect(hourly_rate.reload.user_id).to eq(user.id) }
   end
 
   describe "WHEN the user is assigned a default hourly rate" do
@@ -187,7 +187,7 @@ describe User, "#destroy" do
       user.destroy
     end
 
-    it { DefaultHourlyRate.find_by_id(default_hourly_rate.id).should == default_hourly_rate }
-    it { default_hourly_rate.reload.user_id.should == user.id }
+    it { expect(DefaultHourlyRate.find_by_id(default_hourly_rate.id)).to eq(default_hourly_rate) }
+    it { expect(default_hourly_rate.reload.user_id).to eq(user.id) }
   end
 end
