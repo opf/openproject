@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AccountController do
+describe AccountController, :type => :controller do
   render_views
 
   after do
@@ -151,13 +151,13 @@ describe AccountController do
       end
 
       it 'should not login the user' do
-        expect(@controller.send(:current_user).anonymous?).to be_true
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
       end
     end
 
     context 'with disabled password login' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
         post :login
       end
@@ -170,7 +170,7 @@ describe AccountController do
 
   describe '#login with omniauth_direct_login enabled' do
     before do
-      Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('some_provider')
+      allow(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
     end
 
     describe 'GET' do
@@ -224,7 +224,7 @@ describe AccountController do
   describe 'POST #change_password' do
     context 'with disabled password login' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -256,7 +256,7 @@ describe AccountController do
         end
 
         it 'is successful' do
-          should respond_with :success
+          is_expected.to respond_with :success
           expect(response).to render_template :register
           expect(assigns[:user]).not_to be_nil
         end
@@ -264,7 +264,7 @@ describe AccountController do
 
       context 'and password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           get :register
         end
@@ -304,9 +304,9 @@ describe AccountController do
         end
 
         it 'redirects to first_login page' do
-          should respond_with :redirect
+          is_expected.to respond_with :redirect
           expect(assigns[:user]).not_to be_nil
-          should redirect_to(my_first_login_path)
+          is_expected.to redirect_to(my_first_login_path)
           expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
         end
 
@@ -319,7 +319,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -347,7 +347,7 @@ describe AccountController do
         end
 
         it 'redirects to the login page' do
-          should redirect_to '/login'
+          is_expected.to redirect_to '/login'
         end
 
         it "doesn't activate the user but sends out a token instead" do
@@ -361,7 +361,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -411,7 +411,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           post :register
         end
@@ -454,7 +454,7 @@ describe AccountController do
         end
 
         it 'registers the user on-the-fly' do
-          should respond_with :success
+          is_expected.to respond_with :success
           expect(response).to render_template :register
 
           post :register, :user => { firstname: 'Foo',
@@ -472,7 +472,7 @@ describe AccountController do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         end
 
         describe 'login' do

@@ -28,22 +28,22 @@
 
 require 'spec_helper'
 
-describe Version do
+describe Version, :type => :model do
 
   subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
   it "rejects a due date that is smaller than the start date" do
     version.start_date = '2013-05-01'
     version.effective_date = '2012-01-01'
 
     expect(version).not_to be_valid
-    expect(version.errors).to have(1).error_on(:effective_date)
+    expect(version.errors_on(:effective_date).size).to eq(1)
   end
 
   context 'deprecated methods' do
-    it { should respond_to :completed_pourcent }
-    it { should respond_to :closed_pourcent    }
+    it { is_expected.to respond_to :completed_pourcent }
+    it { is_expected.to respond_to :closed_pourcent    }
   end
 end

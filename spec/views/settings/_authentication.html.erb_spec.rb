@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe 'settings/_authentication' do
+describe 'settings/_authentication', :type => :view do
   context 'with password login enabled' do
     before do
-      OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
       render
     end
 
@@ -46,7 +46,7 @@ describe 'settings/_authentication' do
 
   context 'with password login disabled' do
     before do
-      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       render
     end
 

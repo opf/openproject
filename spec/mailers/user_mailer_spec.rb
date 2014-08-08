@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe UserMailer do
+describe UserMailer, :type => :mailer do
   let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
@@ -152,7 +152,7 @@ describe UserMailer do
           end
 
           it 'displays changed done ratio' do
-            should match("% done changed from 40 to 100")
+            is_expected.to match("% done changed from 40 to 100")
           end
         end
 
@@ -162,7 +162,7 @@ describe UserMailer do
           end
 
           it 'displays new done ratio' do
-            should match("% done changed from 0 to 100")
+            is_expected.to match("% done changed from 0 to 100")
           end
         end
 
@@ -172,7 +172,7 @@ describe UserMailer do
           end
 
           it 'displays deleted done ratio' do
-            should match("% done changed from 50 to 0")
+            is_expected.to match("% done changed from 50 to 0")
           end
         end
       end
@@ -184,11 +184,11 @@ describe UserMailer do
           end
 
           it 'old date should be formatted' do
-            should match("01/01/2010")
+            is_expected.to match("01/01/2010")
           end
 
           it 'new date should be formatted' do
-            should match("01/31/2010")
+            is_expected.to match("01/31/2010")
           end
         end
       end
@@ -200,11 +200,11 @@ describe UserMailer do
           end
 
           it 'old date should be formatted' do
-            should match("01/01/2010")
+            is_expected.to match("01/01/2010")
           end
 
           it 'new date should be formatted' do
-            should match("01/31/2010")
+            is_expected.to match("01/31/2010")
           end
         end
       end
@@ -218,11 +218,11 @@ describe UserMailer do
         end
 
         it "shows the old project's name" do
-          should match(project_1.name)
+          is_expected.to match(project_1.name)
         end
 
         it "shows the new project's name" do
-          should match(project_2.name)
+          is_expected.to match(project_2.name)
         end
       end
 
@@ -235,11 +235,11 @@ describe UserMailer do
         end
 
         it "shows the old status' name" do
-          should match(status_1.name)
+          is_expected.to match(status_1.name)
         end
 
         it "shows the new status' name" do
-          should match(status_2.name)
+          is_expected.to match(status_2.name)
         end
       end
 
@@ -252,11 +252,11 @@ describe UserMailer do
         end
 
         it "shows the old type's name" do
-          should match(type_1.name)
+          is_expected.to match(type_1.name)
         end
 
         it "shows the new type's name" do
-          should match(type_2.name)
+          is_expected.to match(type_2.name)
         end
       end
 
@@ -269,11 +269,11 @@ describe UserMailer do
         end
 
         it "shows the old assignee's name" do
-          should match(assignee_1.name)
+          is_expected.to match(assignee_1.name)
         end
 
         it "shows the new assignee's name" do
-          should match(assignee_2.name)
+          is_expected.to match(assignee_2.name)
         end
       end
 
@@ -286,11 +286,11 @@ describe UserMailer do
         end
 
         it "shows the old priority's name" do
-          should match(priority_1.name)
+          is_expected.to match(priority_1.name)
         end
 
         it "shows the new priority's name" do
-          should match(priority_2.name)
+          is_expected.to match(priority_2.name)
         end
       end
 
@@ -303,11 +303,11 @@ describe UserMailer do
         end
 
         it "shows the old category's name" do
-          should match(category_1.name)
+          is_expected.to match(category_1.name)
         end
 
         it "shows the new category's name" do
-          should match(category_2.name)
+          is_expected.to match(category_2.name)
         end
       end
 
@@ -320,11 +320,11 @@ describe UserMailer do
         end
 
         it "shows the old version's name" do
-          should match(version_1.name)
+          is_expected.to match(version_1.name)
         end
 
         it "shows the new version's name" do
-          should match(version_2.name)
+          is_expected.to match(version_2.name)
         end
       end
 
@@ -337,11 +337,11 @@ describe UserMailer do
         end
 
         it "shows the old estimated hours" do
-          should match('%.2f' % estimated_hours_1)
+          is_expected.to match('%.2f' % estimated_hours_1)
         end
 
         it "shows the new estimated hours" do
-          should match('%.2f' % estimated_hours_2)
+          is_expected.to match('%.2f' % estimated_hours_2)
         end
       end
 
@@ -356,11 +356,11 @@ describe UserMailer do
         end
 
         it "shows the old custom field value" do
-          should match(expected_text_1)
+          is_expected.to match(expected_text_1)
         end
 
         it "shows the new custom field value" do
-          should match(expected_text_2)
+          is_expected.to match(expected_text_2)
         end
       end
 
@@ -373,15 +373,15 @@ describe UserMailer do
           end
 
           it "shows the attachment's filename" do
-            should match(attachment.filename)
+            is_expected.to match(attachment.filename)
           end
 
           it "shows status 'added'" do
-            should match('added')
+            is_expected.to match('added')
           end
 
           it "shows no status 'deleted'" do
-            should_not match('deleted')
+            is_expected.not_to match('deleted')
           end
         end
 
@@ -391,15 +391,15 @@ describe UserMailer do
           end
 
           it "shows the attachment's filename" do
-            should match(attachment.filename)
+            is_expected.to match(attachment.filename)
           end
 
           it "shows no status 'added'" do
-            should_not match('added')
+            is_expected.not_to match('added')
           end
 
           it "shows status 'deleted'" do
-            should match('deleted')
+            is_expected.to match('deleted')
           end
         end
       end
@@ -423,7 +423,7 @@ describe UserMailer do
         end
 
         it 'displays changed done ratio' do
-          should match(expected)
+          is_expected.to match(expected)
         end
       end
 
@@ -435,7 +435,7 @@ describe UserMailer do
         end
 
         it 'displays new done ratio' do
-          should match(expected)
+          is_expected.to match(expected)
         end
       end
 
@@ -447,7 +447,7 @@ describe UserMailer do
         end
 
         it 'displays deleted done ratio' do
-          should match(expected)
+          is_expected.to match(expected)
         end
       end
     end

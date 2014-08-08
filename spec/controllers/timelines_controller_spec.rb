@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesController do
+describe TimelinesController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin

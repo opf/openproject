@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/work_packages/column_sums.api.rabl' do
+describe 'api/experimental/work_packages/column_sums.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,17 +41,17 @@ describe 'api/experimental/work_packages/column_sums.api.rabl' do
   describe 'with no summed columns' do
     let(:column_sums) { [] }
 
-    it { should have_json_path('column_sums') }
-    it { should have_json_size(0).at_path('column_sums') }
+    it { is_expected.to have_json_path('column_sums') }
+    it { is_expected.to have_json_size(0).at_path('column_sums') }
   end
 
   describe 'with 4 summed columns' do
     let(:column_sums) { [45, 67, 12.99, 44444444444] }
 
-    it { should have_json_path('column_sums') }
-    it { should have_json_size(4).at_path('column_sums') }
+    it { is_expected.to have_json_path('column_sums') }
+    it { is_expected.to have_json_size(4).at_path('column_sums') }
 
-    it { should have_json_type(Float).at_path('column_sums/2')   }
-    it { should have_json_type(Integer).at_path('column_sums/3') }
+    it { is_expected.to have_json_type(Float).at_path('column_sums/2')   }
+    it { is_expected.to have_json_type(Integer).at_path('column_sums/3') }
   end
 end

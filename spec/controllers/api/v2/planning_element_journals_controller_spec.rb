@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementJournalsController do
+describe Api::V2::PlanningElementJournalsController, :type => :controller do
   let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
   describe 'index.xml' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField do
+describe CustomField, :type => :model do
   before { CustomField.destroy_all }
 
   let(:field)  { FactoryGirl.build :custom_field }
@@ -119,7 +119,7 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { expect(field).to have(1).translations }
+      it { expect(field.translations.size).to eq(1) }
       it { expect(field.name(:de)).to eq("Feld") }
       it { expect(field.default_value(:de)).to eq("zwei") }
       it { expect(field.possible_values(:locale => :de)).to eq(["eins", "zwei", "drei"]) }
@@ -130,7 +130,7 @@ describe CustomField do
         field.translations_attributes = [ { "locale" => "de" } ]
       end
 
-      it { expect(field).to have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN providing a hash with a locale and blank values" do
@@ -141,7 +141,7 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { expect(field).to have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN providing a hash with a locale and only one values" do
@@ -150,7 +150,7 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { expect(field).to have(1).translations }
+      it { expect(field.translations.size).to eq(1) }
       it { expect(field.name(:de)).to eq("Feld") }
     end
 
@@ -162,7 +162,7 @@ describe CustomField do
                                             "locale" => "" } ]
       end
 
-      it { expect(field).to have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN already having a translation and wishing to delete it" do
@@ -182,7 +182,7 @@ describe CustomField do
         field.save!
       end
 
-      it { expect(field).to have(1).translations }
+      it { expect(field.translations.size).to eq(1) }
     end
   end
 

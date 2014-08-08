@@ -28,19 +28,19 @@
 
 require 'spec_helper'
 
-describe 'layouts/admin' do
+describe 'layouts/admin', :type => :view do
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
 
   let(:admin) { FactoryGirl.create :admin }
 
   before do
-    view.stub(:current_menu_item).and_return('overview')
-    view.stub(:default_breadcrumb)
-    controller.stub(:default_search_scope)
+    allow(view).to receive(:current_menu_item).and_return('overview')
+    allow(view).to receive(:default_breadcrumb)
+    allow(controller).to receive(:default_search_scope)
 
-    User.stub(:current).and_return admin
-    view.stub(:current_user).and_return admin
+    allow(User).to receive(:current).and_return admin
+    allow(view).to receive(:current_user).and_return admin
   end
 
   # All password-based authentication is to be hidden and disabled if
@@ -48,7 +48,7 @@ describe 'layouts/admin' do
   describe 'LDAP authentication menu entry' do
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
         render
       end
 
@@ -59,7 +59,7 @@ describe 'layouts/admin' do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         render
       end
 

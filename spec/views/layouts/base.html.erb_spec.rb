@@ -28,23 +28,23 @@
 
 require 'spec_helper'
 
-describe "layouts/base" do
+describe "layouts/base", :type => :view do
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
   let!(:user) { FactoryGirl.create :user }
   let!(:anonymous) { FactoryGirl.create(:anonymous) }
 
   before do
-    view.stub(:current_menu_item).and_return("overview")
-    view.stub(:default_breadcrumb)
-    controller.stub(:default_search_scope)
+    allow(view).to receive(:current_menu_item).and_return("overview")
+    allow(view).to receive(:default_breadcrumb)
+    allow(controller).to receive(:default_search_scope)
   end
 
   describe "projects menu visibility" do
     context "when the user is not logged in" do
       before do
-        User.stub(:current).and_return anonymous
-        view.stub(:current_user).and_return anonymous
+        allow(User).to receive(:current).and_return anonymous
+        allow(view).to receive(:current_user).and_return anonymous
         render
       end
 
@@ -55,8 +55,8 @@ describe "layouts/base" do
 
     context "when the user is logged in" do
       before do
-        User.stub(:current).and_return user
-        view.stub(:current_user).and_return user
+        allow(User).to receive(:current).and_return user
+        allow(view).to receive(:current_user).and_return user
         render
       end
 
@@ -68,8 +68,8 @@ describe "layouts/base" do
 
   describe 'Sign in button' do
     before do
-      User.stub(:current).and_return anonymous
-      view.stub(:current_user).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
     end
 
     context 'with omni_auth_direct_login disabled' do
@@ -97,8 +97,8 @@ describe "layouts/base" do
 
   describe 'login form' do
     before do
-      User.stub(:current).and_return anonymous
-      view.stub(:current_user).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
     end
 
     context 'with password login enabled' do
@@ -114,7 +114,7 @@ describe "layouts/base" do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         render
       end
 

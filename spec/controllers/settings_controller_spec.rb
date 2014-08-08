@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SettingsController do
+describe SettingsController, :type => :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
     @params = {}
@@ -164,7 +164,7 @@ describe SettingsController do
 
       describe 'POST #edit with password login enabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
           post 'edit', tab: 'authentication', settings: new_settings
         end
@@ -200,7 +200,7 @@ describe SettingsController do
 
       describe 'POST #edit with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           post 'edit', tab: 'authentication', settings: new_settings
         end

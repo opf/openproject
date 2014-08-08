@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController do
+describe UsersController, :type => :controller do
   before do
     User.delete_all
   end
@@ -252,7 +252,7 @@ describe UsersController do
 
       context 'with password login enabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
           as_logged_in_user admin do
             get :index
@@ -266,7 +266,7 @@ describe UsersController do
 
       context 'with password login disabled' do
         before do
-          OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
           as_logged_in_user admin do
             get :index
@@ -384,7 +384,7 @@ describe UsersController do
   describe '#new' do
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
         as_logged_in_user admin do
           get :new
@@ -398,7 +398,7 @@ describe UsersController do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
         as_logged_in_user admin do
           get :new
@@ -415,7 +415,7 @@ describe UsersController do
   describe '#create' do
     context 'with password login enabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(false)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
         as_logged_in_user admin do
           post :create
@@ -429,7 +429,7 @@ describe UsersController do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
         as_logged_in_user admin do
           post :create
@@ -470,17 +470,17 @@ describe UsersController do
 
       it 'should be assigned their new values' do
         user_from_db = User.find(user.id)
-        expect(user_from_db.admin).to be_false
+        expect(user_from_db.admin).to be_falsey
         expect(user_from_db.firstname).to eql('Changed')
         expect(user_from_db.login).to eql('changedlogin')
         expect(user_from_db.mail_notification).to eql('only_assigned')
         expect(user_from_db.force_password_change).to eql(true)
-        expect(user_from_db.pref[:hide_mail]).to be_true
+        expect(user_from_db.pref[:hide_mail]).to be_truthy
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
       end
 
       it 'should not send an email' do
-        expect(ActionMailer::Base.deliveries.empty?).to be_true
+        expect(ActionMailer::Base.deliveries.empty?).to be_truthy
       end
     end
 
@@ -509,7 +509,7 @@ describe UsersController do
         end
 
         expect(user.reload.auth_source).to be_nil
-        expect(user.check_password?('newpassPASS!')).to be_true
+        expect(user.check_password?('newpassPASS!')).to be_truthy
       end
     end
   end

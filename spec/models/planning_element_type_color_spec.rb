@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PlanningElementTypeColor do
+describe PlanningElementTypeColor, :type => :model do
   describe '- Relations ' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do

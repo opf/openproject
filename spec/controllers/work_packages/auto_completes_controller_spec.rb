@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::AutoCompletesController do
+describe WorkPackages::AutoCompletesController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -59,13 +59,13 @@ describe WorkPackages::AutoCompletesController do
   shared_examples_for "successful response" do
     subject { response }
 
-    it { should be_success }
+    it { is_expected.to be_success }
   end
 
   shared_examples_for "contains expected values" do
     subject { assigns(:work_packages) }
 
-    it { should include(*expected_values) }
+    it { is_expected.to include(*expected_values) }
   end
 
   describe :work_packages do
@@ -139,7 +139,7 @@ describe WorkPackages::AutoCompletesController do
 
         subject { assigned.size }
 
-        it { should eq(assigned.uniq.size) }
+        it { is_expected.to eq(assigned.uniq.size) }
       end
     end
 
@@ -210,7 +210,7 @@ describe WorkPackages::AutoCompletesController do
 
         subject { assigns(:work_packages) }
 
-        it { should eq([]) }
+        it { is_expected.to eq([]) }
       end
     end
   end

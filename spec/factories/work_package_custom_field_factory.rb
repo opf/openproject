@@ -45,7 +45,7 @@ FactoryGirl.define do
     field_format "bool"
     type "WorkPackageCustomField"
 
-    after(:build) do |custom_field, evaluator|
+    callback(:after_build) do |custom_field, evaluator|
       name_locales = evaluator.name_locales || {}
       default_locales = evaluator.default_locales || {}
 

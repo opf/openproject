@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/show.api.rabl' do
+describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
 
   before do
     allow(view).to receive(:include_journals?).and_return(false)
@@ -78,47 +78,47 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     subject {response.body}
 
     it 'renders a planning_element document' do
-      should have_json_path('planning_element')
+      is_expected.to have_json_path('planning_element')
     end
 
     it 'contains an id element containing the planning element id' do
-      should be_json_eql(1.to_json).at_path('planning_element/id')
+      is_expected.to be_json_eql(1.to_json).at_path('planning_element/id')
     end
 
     it 'contains a project element containing the planning element\'s project id, identifier and name' do
       expected_json = {id: 4712, identifier: "test_project", name: "Test Project"}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/project')
+      is_expected.to be_json_eql(expected_json).at_path('planning_element/project')
     end
 
     it 'contains an name element containing the planning subject' do
-      should be_json_eql("WorkPackage #1".to_json).at_path('planning_element/subject')
+      is_expected.to be_json_eql("WorkPackage #1".to_json).at_path('planning_element/subject')
     end
 
     it 'contains an description element containing the planning element description' do
-      should be_json_eql("Description of this planning element".to_json).at_path('planning_element/description')
+      is_expected.to be_json_eql("Description of this planning element".to_json).at_path('planning_element/description')
     end
 
     it 'contains an start_date element containing the planning element start_date in YYYY-MM-DD' do
-      should be_json_eql('2011-12-06'.to_json).at_path('planning_element/start_date')
+      is_expected.to be_json_eql('2011-12-06'.to_json).at_path('planning_element/start_date')
     end
 
     it 'contains an due_date element containing the planning element due_date in YYYY-MM-DD' do
-      should be_json_eql('2011-12-13'.to_json).at_path('planning_element/due_date')
+      is_expected.to be_json_eql('2011-12-13'.to_json).at_path('planning_element/due_date')
     end
 
     it 'contains a created_at element containing the planning element created_at in UTC in ISO 8601' do
-      should be_json_eql('2011-01-06T11:35:00Z'.to_json).at_path('planning_element/created_at')
+      is_expected.to be_json_eql('2011-01-06T11:35:00Z'.to_json).at_path('planning_element/created_at')
     end
 
     it 'contains an updated_at element containing the planning element updated_at in UTC in ISO 8601' do
-      should be_json_eql('2011-01-07T11:35:00Z'.to_json).at_path('planning_element/updated_at')
+      is_expected.to be_json_eql('2011-01-07T11:35:00Z'.to_json).at_path('planning_element/updated_at')
     end
 
     it 'renders the custom field values' do
-      should have_json_path('planning_element/custom_fields')
+      is_expected.to have_json_path('planning_element/custom_fields')
 
       expected_json = {name: custom_field.name, value: "Wurst"}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/custom_fields/0')
+      is_expected.to be_json_eql(expected_json).at_path('planning_element/custom_fields/0')
     end
   end
 
@@ -170,12 +170,12 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     end
 
     it 'renders a children node containing child nodes for each child planning element' do
-      should have_json_size(2).at_path('planning_element/children')
+      is_expected.to have_json_size(2).at_path('planning_element/children')
     end
 
     it 'each child node has an id and subject attribute' do
-      should be_json_eql({id: 1339, subject: "Child #1"}.to_json).at_path('planning_element/children/0')
-      should be_json_eql({id: 1340, subject: "Child #2"}.to_json).at_path('planning_element/children/1')
+      is_expected.to be_json_eql({id: 1339, subject: "Child #1"}.to_json).at_path('planning_element/children/0')
+      is_expected.to be_json_eql({id: 1340, subject: "Child #2"}.to_json).at_path('planning_element/children/1')
     end
   end
 
@@ -264,15 +264,15 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     subject {response.body}
 
     it 'contains an array of journals' do
-      should have_json_size(2).at_path('planning_element/journals')
+      is_expected.to have_json_size(2).at_path('planning_element/journals')
     end
 
     it 'reports the changes' do
       expected_json = {name: "subject", old: "old_subject", new: "new_subject"}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/journals/0/changes/0/technical')
+      is_expected.to be_json_eql(expected_json).at_path('planning_element/journals/0/changes/0/technical')
 
       expected_json = {name: "project_id", old: 1, new: 2}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/technical')
+      is_expected.to be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/technical')
 
     end
   end

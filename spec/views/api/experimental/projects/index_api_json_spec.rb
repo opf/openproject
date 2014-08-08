@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/projects/index.api.rabl' do
+describe 'api/experimental/projects/index.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,8 +41,8 @@ describe 'api/experimental/projects/index.api.rabl' do
   describe 'with no projects available' do
     let(:projects) { [] }
 
-    it { should have_json_path('projects') }
-    it { should have_json_size(0).at_path('projects') }
+    it { is_expected.to have_json_path('projects') }
+    it { is_expected.to have_json_size(0).at_path('projects') }
   end
 
   describe 'with 2 projects available' do
@@ -50,13 +50,13 @@ describe 'api/experimental/projects/index.api.rabl' do
       FactoryGirl.build(:project), FactoryGirl.build(:project)
     ] }
 
-    it { should have_json_path('projects') }
-    it { should have_json_size(2).at_path('projects') }
+    it { is_expected.to have_json_path('projects') }
+    it { is_expected.to have_json_size(2).at_path('projects') }
 
-    it { should have_json_type(Object).at_path('projects/1')  }
-    it { should have_json_path('projects/1/name')             }
-    it { should have_json_path('projects/1/embedded/possible_responsibles') }
-    it { should have_json_path('projects/1/embedded/possible_assignees')    }
-    it { should have_json_path('projects/1/embedded/types')   }
+    it { is_expected.to have_json_type(Object).at_path('projects/1')  }
+    it { is_expected.to have_json_path('projects/1/name')             }
+    it { is_expected.to have_json_path('projects/1/embedded/possible_responsibles') }
+    it { is_expected.to have_json_path('projects/1/embedded/possible_assignees')    }
+    it { is_expected.to have_json_path('projects/1/embedded/types')   }
   end
 end

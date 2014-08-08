@@ -101,7 +101,7 @@ module OpenProject
         end
 
         it 'is false' do
-          expect(theme.image_overridden?('theme_spec.rb')).to be_false
+          expect(theme.image_overridden?('theme_spec.rb')).to be_falsey
         end
       end
     end

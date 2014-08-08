@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CalendarsController do
+describe WorkPackages::CalendarsController, :type => :routing do
 
   it "should connect GET /work_packages/calendar to work_package/calendar#index" do
     expect(get("/work_packages/calendar")).to route_to( controller: 'work_packages/calendars',

@@ -202,11 +202,11 @@ module OpenProject
         end
 
         it 'is overritten if the theme redefines it' do
-          expect(theme.image_overridden?('theme_spec.rb')).to be_true
+          expect(theme.image_overridden?('theme_spec.rb')).to be_truthy
         end
 
         it "is not overritten if the theme doesn't redefine it" do
-          expect(theme.image_overridden?('missing.rb')).to be_false
+          expect(theme.image_overridden?('missing.rb')).to be_falsey
         end
       end
 

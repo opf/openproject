@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementTypesController do
+describe Api::V2::PlanningElementTypesController, :type => :controller do
   let (:current_user) { FactoryGirl.create(:admin) }
 
   before do

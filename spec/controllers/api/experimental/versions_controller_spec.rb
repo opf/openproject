@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::VersionsController do
+describe Api::Experimental::VersionsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:project)      { FactoryGirl.create(:project) }
 

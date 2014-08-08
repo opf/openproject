@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user)    { FactoryGirl.create(:user) }
 

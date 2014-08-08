@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController do
+describe MessagesController, :type => :controller do
 
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
@@ -65,7 +65,7 @@ describe MessagesController do
 
           subject { Message.last.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
 
           it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
@@ -114,13 +114,13 @@ describe MessagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('messages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('messages/edit', formats: ["html"]) }
         end
 
         describe :error do
           subject { assigns(:message).errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end
@@ -136,13 +136,13 @@ describe MessagesController do
         describe :key do
           subject { message.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
         end
 
         describe :value do
           subject { message.journals.last.changed_data[attachment_id].last }
 
-          it { should eq(filename) }
+          it { is_expected.to eq(filename) }
         end
       end
     end
@@ -169,13 +169,13 @@ describe MessagesController do
         describe :key do
           subject { message.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
         end
 
         describe :value do
           subject { message.journals.last.changed_data[attachment_id].first }
 
-          it { should eq(filename) }
+          it { is_expected.to eq(filename) }
         end
       end
     end

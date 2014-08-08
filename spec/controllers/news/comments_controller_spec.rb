@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe News::CommentsController do
+describe News::CommentsController, :type => :controller do
   render_views
 
   let(:user) { FactoryGirl.create(:admin)   }

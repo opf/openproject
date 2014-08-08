@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource' do
+describe 'API v3 Work package resource', :type => :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -125,7 +125,7 @@ h4. things we like
       end
 
       it 'should respond with 200' do
-        last_response.status.should eq(200)
+        expect(last_response.status).to eq(200)
       end
 
       describe 'response body' do
@@ -135,8 +135,15 @@ h4. things we like
           expect(parsed_response['id']).to eq(work_package.id)
         end
 
-        its(['description']) { should have_selector('h1') }
-        its(['description']) { should have_selector('h2') }
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h1') }
+        end
+
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h2') }
+        end
 
         it 'should resolve links' do
           expect(parsed_response['description']).to have_selector("a[href='/work_packages/#{other_wp.id}']")
@@ -155,12 +162,12 @@ h4. things we like
         let(:get_path) { "/api/v3/work_packages/909090" }
 
         it 'should respond with 404' do
-          last_response.status.should eq(404)
+          expect(last_response.status).to eq(404)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
         end
       end
     end
@@ -172,12 +179,12 @@ h4. things we like
       end
 
       it 'should respond with 403' do
-        last_response.status.should eq(403)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
@@ -188,12 +195,12 @@ h4. things we like
       end
 
       it 'should respond with 401' do
-        last_response.status.should eq(403)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 

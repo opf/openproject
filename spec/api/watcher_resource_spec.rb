@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Watcher resource' do
+describe 'API v3 Watcher resource', :type => :request do
   include Rack::Test::Methods
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
