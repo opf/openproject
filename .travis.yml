@@ -30,11 +30,6 @@ language: ruby
 rvm:
   - 2.1
 sudo: false
-branches:
-  only:
-    - dev
-    - stable
-    - release/3.0
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
