@@ -62,12 +62,12 @@ angular.module('openproject.workPackages.controllers')
     $scope.disableNewWorkPackage = true;
 
     var fetchWorkPackages;
-    if($scope.query_id){
-      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
-    } else if($state.params.query) {
+    if($state.params.query) {
       var query = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query);
       //TODO: Pagination in url?
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query);
+    } else if($scope.query_id){
+      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
     } else {
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
@@ -117,7 +117,6 @@ angular.module('openproject.workPackages.controllers')
 
   function afterQuerySetupCallback(query) {
     $scope.showFiltersOptions = query.filters.length > 0;
-    $scope.maintainUrlQueryState();
   }
 
   function setupWorkPackagesTable(json) {
