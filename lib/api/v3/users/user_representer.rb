@@ -37,6 +37,7 @@ module API
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
+        include AvatarHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -68,7 +69,9 @@ module API
         property :lastname, as: :lastName, render_nil: true
         property :name, getter: -> (*) { model.try(:name) }, render_nil: true
         property :mail, render_nil: true
-        property :avatar, getter: ->(*) { gravatar_image_url(mail) }, render_nil: true
+        property :avatar, getter: -> (*) { avatar_url(represented) },
+                          render_nil: true,
+                          exec_context: :decorator
         property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
         property :status, getter: -> (*) { model.status }, render_nil: true

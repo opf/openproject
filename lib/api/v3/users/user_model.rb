@@ -35,7 +35,6 @@ module API
     module Users
       class UserModel < Reform::Form
         include Coercion
-        include GravatarImageTag
 
         property :login, type: String
         property :firstname, type: String

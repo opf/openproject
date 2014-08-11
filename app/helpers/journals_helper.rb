@@ -51,7 +51,7 @@ module JournalsHelper
   def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
     header = <<-HTML
       <div class="profile-wrap">
-        #{avatar(journal.user, :size => "40")}
+        #{avatar(journal.user)}
       </div>
       <h4>
         <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
