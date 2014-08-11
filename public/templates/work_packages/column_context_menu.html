@@ -2,8 +2,8 @@
      class="action-menu dropdown-relative"
      ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
   <ul class="menu">
-      <a href>
     <li ng-if="canSort()" ng-click="sortAscending(column.name)">
+      <a focus href>
         <i class="icon-action-menu icon-sort-ascending"></i>
         <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
       </a>
@@ -19,7 +19,7 @@
     <li ng-click="groupBy(column.name)"
         ng-if="isGroupable">
       <i class="icon-action-menu icon-group-by2"></i>
-      <a href>
+      <a focus="focusFeature('group')" href>
         <span ng-bind="I18n.t('js.work_packages.query.group')"/>
       </a>
     </li>
@@ -27,7 +27,7 @@
     <li ng-click="moveLeft(column.name)"
         ng-if="canMoveLeft()">
       <i class="icon-action-menu icon-column-left"></i>
-      <a href>
+      <a focus="focusFeature('moveLeft')" href>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
       </a>
     </li>
@@ -35,7 +35,7 @@
     <li ng-click="moveRight(column.name)"
         ng-if="canMoveRight()">
       <i class="icon-action-menu icon-column-right"></i>
-      <a href>
+      <a focus="focusFeature('moveRight')" href>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>
       </a>
     </li>
@@ -43,14 +43,14 @@
     <li ng-if="canBeHidden()"
         ng-click="hideColumn(column.name)">
     <i class="icon-action-menu icon-delete2"></i>
-      <a href>
+      <a focus="focusFeature('hide')" href>
         <span ng-bind="I18n.t('js.work_packages.query.hide_column')"/>
       </a>
     </li>
 
     <li ng-click="insertColumns()">
     <i class="icon-action-menu icon-columns"></i>
-      <a href>
+      <a focus="focusFeature('insert')" href>
         <span ng-bind="I18n.t('js.work_packages.query.insert_columns')"/>
       </a>
     </li>

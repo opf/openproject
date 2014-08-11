@@ -105,4 +105,22 @@ angular.module('openproject.workPackages')
     $scope.canBeHidden = function() {
       return $scope.column && $scope.column.name !== 'id';
     };
+
+    $scope.focusFeature = function(feature) {
+      var focus;
+      var mergeOrReturn = function(currentState, state) {
+        return ((currentState === undefined) ? state : currentState && !state);
+      };
+
+      switch (feature) {
+        case 'insert': focus = mergeOrReturn(focus, true);
+        case 'hide': focus = mergeOrReturn(focus, $scope.canBeHidden());
+        case 'moveRight': focus = mergeOrReturn(focus, $scope.canMoveRight());
+        case 'moveLeft': focus = mergeOrReturn(focus, $scope.canMoveLeft());
+        case 'group': focus = mergeOrReturn(focus, !!$scope.isGroupable);
+        default: focus = mergeOrReturn(focus, $scope.canSort());
+      }
+
+      return focus;
+    }
 }]);
