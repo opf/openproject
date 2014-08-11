@@ -80,7 +80,7 @@ module API
         end
 
         def type=(value)
-          type = Type.find(:first, conditions: ['name ilike ?', value])
+          type = Type.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
           work_package.type = type
         end
 
@@ -89,7 +89,7 @@ module API
         end
 
         def status=(value)
-          status = Status.find(:first, conditions: ['name ilike ?', value])
+          status = Status.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
           work_package.status = status
         end
 
@@ -98,7 +98,7 @@ module API
         end
 
         def priority=(value)
-          priority = IssuePriority.find(:first, conditions: ['name ilike ?', value])
+          priority = IssuePriority.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
           work_package.priority = priority
         end
 
