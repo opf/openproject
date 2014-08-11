@@ -89,4 +89,20 @@ angular.module('openproject.workPackages')
     $scope.insertColumns = function() {
       columnsModal.activate();
     };
+
+    $scope.canSort = function() {
+      return $scope.column && !!$scope.column.sortable;
+    };
+
+    $scope.canMoveLeft = function() {
+      return $scope.column && $scope.column.name !== 'id' && $scope.columns.indexOf($scope.column) !== 0;
+    };
+
+    $scope.canMoveRight = function() {
+      return $scope.column && $scope.column.name !== 'id' && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1
+    };
+
+    $scope.canBeHidden = function() {
+      return $scope.column && $scope.column.name !== 'id';
+    };
 }]);

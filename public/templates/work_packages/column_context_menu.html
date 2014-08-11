@@ -2,14 +2,14 @@
      class="action-menu dropdown-relative"
      ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
   <ul class="menu">
-    <li ng-if="!!column.sortable" ng-click="sortAscending(column.name)">
       <a href>
+    <li ng-if="canSort()" ng-click="sortAscending(column.name)">
         <i class="icon-action-menu icon-sort-ascending"></i>
         <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
       </a>
     </li>
 
-    <li ng-if="!!column.sortable" ng-click="sortDescending(column.name)">
+    <li ng-if="canSort()" ng-click="sortDescending(column.name)">
       <i class="icon-action-menu icon-sort-descending"></i>
       <a href>
         <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
@@ -25,7 +25,7 @@
     </li>
 
     <li ng-click="moveLeft(column.name)"
-        ng-if="column.name !== 'id' && columns.indexOf(column) !== 0">
+        ng-if="canMoveLeft()">
       <i class="icon-action-menu icon-column-left"></i>
       <a href>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
@@ -33,14 +33,14 @@
     </li>
 
     <li ng-click="moveRight(column.name)"
-        ng-if="column.name !== 'id' && columns.indexOf(column) !== columns.length - 1">
+        ng-if="canMoveRight()">
       <i class="icon-action-menu icon-column-right"></i>
       <a href>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>
       </a>
     </li>
 
-    <li ng-if="column.name !== 'id'"
+    <li ng-if="canBeHidden()"
         ng-click="hideColumn(column.name)">
     <i class="icon-action-menu icon-delete2"></i>
       <a href>
