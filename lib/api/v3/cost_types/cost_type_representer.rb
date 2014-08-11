@@ -49,17 +49,6 @@ module API
 
         property :_type, exec_context: :decorator
 
-        link :self do
-          { 
-            href: root_url + url_for({ controller: '/costlog',
-                                       action: 'index',
-                                       project_id: @work_package.project,
-                                       work_package_id: @work_package,
-                                       cost_type_id: represented,
-                                       only_path: true })
-          }
-        end
-
         property :id, render_nil: true
         property :name, render_nil: true
         property :units, render_nil: true
