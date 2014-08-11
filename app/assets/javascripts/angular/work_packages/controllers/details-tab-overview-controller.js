@@ -38,8 +38,17 @@ angular.module('openproject.workPackages.controllers')
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'UserService',
+  'HookService',
   '$q',
-  function($scope, I18n, ConfigurationService, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, UserService, $q) {
+  function($scope,
+           I18n,
+           ConfigurationService,
+           USER_TYPE,
+           CustomFieldHelper,
+           WorkPackagesHelper,
+           UserService,
+           HookService,
+           $q) {
 
   // work package properties
 
@@ -111,7 +120,17 @@ angular.module('openproject.workPackages.controllers')
           index < 6 && secondRowToBeDisplayed()) {
         addFormattedValueToPresentProperties(property, label, value, format);
       } else {
-        $scope.emptyWorkPackageProperties.push(label);
+        var plugInValues = HookService.call('workPackageOverviewAttributes',
+                                            { type: property,
+                                              workPackage: $scope.workPackage });
+
+        if (plugInValues.length == 0) {
+          $scope.emptyWorkPackageProperties.push(label);
+        } else {
+          for (var x = 0; x < plugInValues.length; x++) {
+            addFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
+          }
+        }
       }
     });
   })();
