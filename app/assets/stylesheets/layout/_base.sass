@@ -75,14 +75,21 @@ h4, .wiki h3
   border-bottom: 1px dotted #bbbbbb
 
 #main
-  position: relative
   z-index: 20
   overflow: auto
   padding-bottom: $footer_height
 
 .controller-work_packages
   #main
-    padding-bottom: 23px
+    position: absolute
+    top:      55px
+    bottom:   $footer_height
+    width:    100%
+    overflow: hidden
+
+  #content
+    position: absolute
+    height:   100%
 
 #content
   @include default-transition
