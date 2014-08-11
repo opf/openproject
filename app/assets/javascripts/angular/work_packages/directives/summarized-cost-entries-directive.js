@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('summarizedCostEntries', [function() {
+.directive('summarizedCostEntries', ['PathHelper', function(PathHelper) {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/summarized_cost_entries.html',
@@ -36,6 +36,15 @@ angular.module('openproject.workPackages.directives')
       if (scope.workPackage.embedded.summarizedCostEntries) {
         scope.costTypes = scope.workPackage.embedded.summarizedCostEntries;
       }
+
+      scope.linkToSummary = function(costType) {
+        var link = PathHelper.staticWorkPackagePath(scope.workPackage.props.id);
+
+        link += '/cost_entries?cost_type_id=' + costType.props.id;
+        link += '&project_id=' + scope.workPackage.props.projectId;
+
+        return link;
+      };
     }
   };
 }]);
