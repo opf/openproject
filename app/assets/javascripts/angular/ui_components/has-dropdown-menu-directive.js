@@ -64,18 +64,18 @@ angular.module('openproject.uiComponents')
         locals[key] = scope[key];
       });
 
-      function toggle() {
-        active() ? close() : open();
+      function toggle(event) {
+        active() ? close() : open(event);
       }
 
       function active() {
         return contextMenu.active() && ctrl.opened();
       }
 
-      function open() {
+      function open(event) {
         ctrl.open();
 
-        contextMenu.open(locals)
+        contextMenu.open(event.target, locals)
           .then(function(element) {
             menuElement = element;
           });
@@ -96,7 +96,7 @@ angular.module('openproject.uiComponents')
         event.stopPropagation();
 
         scope.$apply(function() {
-          toggle();
+          toggle(event);
         });
 
         // set css position parameters after the digest has been completed
