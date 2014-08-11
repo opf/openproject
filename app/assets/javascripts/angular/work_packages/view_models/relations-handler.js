@@ -57,6 +57,21 @@ angular.module('openproject.viewModels')
       return !!this.workPackage.links.addRelation;
     },
 
+    canChangeParent: function() {
+      return true;
+    },
+
+    changeParent: function(scope) {
+      var inputElement = angular.element('#relation_to_id-relates');
+      var parentId = inputElement.val();
+      WorkPackageService.updateWorkPackage(this.workPackage, {parentId: parentId}).then(function(workPackage) {
+          inputElement.val('');
+          scope.$emit('workPackageRefreshRequired', '');
+      }, function(error) {
+        ApiHelper.handleError(scope, error);
+      });
+    },
+
     addRelation: function(scope) {
       var inputElement = angular.element('#relation_to_id-' + this.relationsId);
       var toId = inputElement.val();
@@ -136,6 +151,8 @@ angular.module('openproject.viewModels')
     handler.canAddRelation = function() { return false };
     handler.addRelation = undefined;
     handler.isSingletonRelation = true;
+
+
 
     return handler;
   }

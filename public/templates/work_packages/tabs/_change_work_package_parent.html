@@ -1,0 +1,12 @@
+<button class="button"
+    title="{{ btnTitle }}"
+    ng-bind-html="btnIcon + ' ' + btnTitle"
+    ng-click="handler.changeParent(this)">
+</button>
+<input id="relation_to_id-relates"
+   name="relation[to_id][relates]"
+   size="10"
+   type="text"
+   autocomplete="off">
+<div id="related_issue_candidates-relates"
+ class="autocomplete related-issue-candidates"></div>
