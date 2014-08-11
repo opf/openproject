@@ -743,9 +743,6 @@ jQuery(document).ready(function($) {
     $(this).toggleClass("closed").next().slideToggle(animationRate);
   });
 
-  // deal with potentially problematic super-long titles
-  $(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
-
 $(window).resize(function() {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb

@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-  <div class="title-bar-extras"<%= " style=\"display: none;\"" if !@query.new_record? %>>
+  <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
