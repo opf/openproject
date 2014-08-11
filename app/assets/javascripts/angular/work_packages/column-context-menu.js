@@ -58,7 +58,6 @@ angular.module('openproject.workPackages')
       $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
     });
 
-
     // context menu actions
 
     $scope.groupBy = function(columnName) {
