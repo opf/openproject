@@ -47,7 +47,7 @@ class CopyProjectsController < ApplicationController
                                             params[:only],
                                             params[:notifications] == '1')
 
-      Delayed::Job.enqueue copy_project_job
+      copy_project_job.perform
       flash[:notice] = I18n.t('copy_project.started',
                               source_project_name: @project.name,
                               target_project_name: target_project_name)
