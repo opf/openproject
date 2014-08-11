@@ -32,7 +32,7 @@ angular.module('openproject.uiComponents')
 .directive('focus', ['$parse', '$timeout', function($parse, $timeout) {
   return {
     link: function(scope, element, attrs) {
-      var condition = (attrs.focus) ?  $parse(attrs.focus)() : true;
+      var condition = (attrs.focus) ?  scope.$eval(attrs.focus) : true;
 
       if (condition) {
         $timeout(function() {
