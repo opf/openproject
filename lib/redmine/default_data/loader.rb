@@ -212,21 +212,19 @@ module Redmine
             rejected  = Status.create!(:name => l(:default_status_rejected), :is_closed => true, :is_default => false, :position => 9)
             closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 10)
 
-            # Workflow
-            statuses_for_task = [new, in_progress, on_hold, rejected, closed]
-            statuses_for_deliverable = [new, specified, in_progress, on_hold, rejected, closed]
-            statuses_for_none = [new, in_progress, rejected, closed]
-            statuses_for_milestone = [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed]
-            statuses_for_phase = statuses_for_milestone
-            statuses_for_bug = [new, confirmed, in_progress, tested, on_hold, rejected, closed]
-            statuses_for_feature = [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed]
-            #Give each type its own workflow. Possible statuses are stored in one of the arrays above. 
-            #Every status from the array gets a workflow to every other status from the array. 
-            ["task", "deliverable", "none", "milestone", "phase", "bug", "feature"].each { |t|
-              (eval "statuses_for_".concat(t)).each { |os|
-                (eval "statuses_for_".concat(t)).each { |ns|
-                  [manager.id, member.id].each { |role_id|
-                    Workflow.create!(:type_id => (eval t).id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+            # Workflow - Each type has its own workflow
+            statuses = { task.name =>        [new, in_progress, on_hold, rejected, closed], 
+                         deliverable.name => [new, specified, in_progress, on_hold, rejected, closed], 
+                         none.name =>        [new, in_progress, rejected, closed], 
+                         milestone.name =>   [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed], 
+                         phase.name =>       [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed], 
+                         bug.name =>         [new, confirmed, in_progress, tested, on_hold, rejected, closed], 
+                         feature.name =>     [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed] }
+            statuses.each { |t, statuses_for_t| 
+              statuses_for_t.each { |os| 
+                statuses_for_t.each { |ns|
+                  [manager.id, member.id].each { |role_id| 
+                    Workflow.create!(:type_id => Type.where(:name => t).first.id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                   }
                 }
               }
