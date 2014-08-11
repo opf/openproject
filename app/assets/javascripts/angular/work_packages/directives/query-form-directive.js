@@ -55,6 +55,15 @@ angular.module('openproject.workPackages.directives')
             return groupByChanged || sortElementsChanged;
           }
 
+          function nonUpdatingPropertiesChanged(currentProperties, formerProperties) {
+            if (formerProperties === undefined) return false;
+
+            var columnsChanged = JSON.stringify(currentProperties.columns) !== JSON.stringify(formerProperties.columns);
+            var displaySumsChanged = currentProperties.displaySums !== formerProperties.displaySums;
+
+            return columnsChanged || displaySumsChanged;
+          }
+
           function observedQueryProperties() {
             var query = scope.query;
 
@@ -92,8 +101,7 @@ angular.module('openproject.workPackages.directives')
 
           scope.$watch(nonUpdatingProperties, function(newProperties, oldProperties) {
             /* Observing columns and displaySums separately because no work packages update is required */
-            if(JSON.stringify(newProperties.columns) !== JSON.stringify(oldProperties.columns) ||
-               newProperties.displaySums != oldProperties.displaySums) {
+            if(nonUpdatingPropertiesChanged(newProperties, oldProperties)) {
               scope.$emit('queryStateChange');
             }
           }, true)
