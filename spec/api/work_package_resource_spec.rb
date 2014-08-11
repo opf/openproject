@@ -260,14 +260,9 @@ h4. things we like
 
          it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'subject', 'messages' => ['can\'t be blank']},
-            {"key"=>"type_id", "messages"=>["is not included in the list"]}])
+          parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
         end
       end
-    end
-
-    context 'user without permissions' do
-
     end
   end
 end
