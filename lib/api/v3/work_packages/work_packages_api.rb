@@ -49,6 +49,17 @@ module API
               @representer.to_json
             end
 
+            patch do
+              authorize(:edit_work_packages, context: @work_package.project)
+              @representer.from_json(request.POST.to_json)
+              @representer.represented.sync
+              if @representer.represented.work_package.valid? && @representer.represented.save
+                @representer.to_json
+              else
+                fail Errors::Validation.new(@representer.represented.work_package)
+              end
+            end
+
             resource :activities do
 
               helpers do
