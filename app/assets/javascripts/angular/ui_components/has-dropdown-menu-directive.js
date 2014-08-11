@@ -78,6 +78,7 @@ angular.module('openproject.uiComponents')
         contextMenu.open(event.target, locals)
           .then(function(element) {
             menuElement = element;
+            angular.element(element).trap();
           });
       }
 
