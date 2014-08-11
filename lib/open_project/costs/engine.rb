@@ -141,10 +141,9 @@ module OpenProject::Costs
       end
 
       send(:define_method, :summarized_cost_entries) do
-        cost_object_models = self.attributes_helper.summarized_cost_entries.each_with_object([]) do |s, l|
-          l << ::API::V3::CostTypes::CostTypeModel.new(s[0], units: s[1][:units])
-        end
-        cost_object_models.map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.work_package) }
+        self.attributes_helper.summarized_cost_entries
+            .map { |s| ::API::V3::CostTypes::CostTypeModel.new(s[0], units: s[1][:units]) }
+            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.work_package) }
       end
 
       send(:define_method, :attributes_helper) do
