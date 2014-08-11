@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, "rebuilding nested set" do
+describe WorkPackage, "rebuilding nested set", :type => :model do
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }

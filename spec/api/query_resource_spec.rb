@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Query resource' do
+describe 'API v3 Query resource', :type => :request do
   include Rack::Test::Methods
 
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
@@ -86,17 +86,17 @@ describe 'API v3 Query resource' do
           before(:each) { patch star_path }
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response)
+            expect(parsed_response).to eq(expected_response)
           end
 
           it 'should return the query with "isStarred" property set to true' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('true')
+            expect(parsed_response['isStarred']).to eq('true')
           end
         end
 
@@ -104,17 +104,17 @@ describe 'API v3 Query resource' do
           before(:each) { patch star_path }
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response)
+            expect(parsed_response).to eq(expected_response)
           end
 
           it 'should return the query with "isStarred" property set to true' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('true')
+            expect(parsed_response['isStarred']).to eq('true')
           end
         end
 
@@ -123,12 +123,12 @@ describe 'API v3 Query resource' do
           before(:each) { patch star_path }
 
           it 'should respond with 404' do
-            last_response.status.should eq(404)
+            expect(last_response.status).to eq(404)
           end
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
+            expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
           end
         end
       end
@@ -143,12 +143,12 @@ describe 'API v3 Query resource' do
         end
 
         it 'should respond with 403' do
-          last_response.status.should eq(403)
+          expect(last_response.status).to eq(403)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end
@@ -167,17 +167,17 @@ describe 'API v3 Query resource' do
         context 'starring his own query' do
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response)
+            expect(parsed_response).to eq(expected_response)
           end
 
           it 'should return the query with "isStarred" property set to true' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('true')
+            expect(parsed_response['isStarred']).to eq('true')
           end
         end
 
@@ -186,12 +186,12 @@ describe 'API v3 Query resource' do
           let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
 
           it 'should respond with 403' do
-            last_response.status.should eq(403)
+            expect(last_response.status).to eq(403)
           end
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+            expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
           end
         end
       end
@@ -207,12 +207,12 @@ describe 'API v3 Query resource' do
         end
 
         it 'should respond with 403' do
-          last_response.status.should eq(403)
+          expect(last_response.status).to eq(403)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
 
@@ -269,17 +269,17 @@ describe 'API v3 Query resource' do
           end
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response.tap{ |r| r["isStarred"] = "false" })
+            expect(parsed_response).to eq(expected_response.tap{ |r| r["isStarred"] = "false" })
           end
 
           it 'should return the query with "isStarred" property set to false' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('false')
+            expect(parsed_response['isStarred']).to eq('false')
           end
         end
 
@@ -287,17 +287,17 @@ describe 'API v3 Query resource' do
           before(:each) { patch unstar_path }
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response.tap{ |r| r["isStarred"] = "false" })
+            expect(parsed_response).to eq(expected_response.tap{ |r| r["isStarred"] = "false" })
           end
 
           it 'should return the query with "isStarred" property set to true' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('false')
+            expect(parsed_response['isStarred']).to eq('false')
           end
 
         end
@@ -307,12 +307,12 @@ describe 'API v3 Query resource' do
           before(:each) { patch unstar_path }
 
           it 'should respond with 404' do
-            last_response.status.should eq(404)
+            expect(last_response.status).to eq(404)
           end
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
+            expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
           end
         end
       end
@@ -327,12 +327,12 @@ describe 'API v3 Query resource' do
         end
 
         it 'should respond with 403' do
-          last_response.status.should eq(403)
+          expect(last_response.status).to eq(403)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end
@@ -351,17 +351,17 @@ describe 'API v3 Query resource' do
         context 'unstarring his own query' do
 
           it 'should respond with 200' do
-            last_response.status.should eq(200)
+            expect(last_response.status).to eq(200)
           end
 
           it 'should return the query in HAL+JSON format' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response.should eq(expected_response.tap{ |r| r["isStarred"] = "false" })
+            expect(parsed_response).to eq(expected_response.tap{ |r| r["isStarred"] = "false" })
           end
 
           it 'should return the query with "isStarred" property set to true' do
             parsed_response = JSON.parse(last_response.body)
-            parsed_response['isStarred'].should eq('false')
+            expect(parsed_response['isStarred']).to eq('false')
           end
         end
 
@@ -370,12 +370,12 @@ describe 'API v3 Query resource' do
           let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
 
           it 'should respond with 403' do
-            last_response.status.should eq(403)
+            expect(last_response.status).to eq(403)
           end
 
           it 'should respond with explanatory error message' do
             parsed_errors = JSON.parse(last_response.body)['errors']
-            parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+            expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
           end
         end
       end
@@ -391,12 +391,12 @@ describe 'API v3 Query resource' do
         end
 
         it 'should respond with 403' do
-          last_response.status.should eq(403)
+          expect(last_response.status).to eq(403)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
         end
       end
     end

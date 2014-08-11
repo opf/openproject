@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Setting do
+describe Setting, :type => :model do
 
   # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
@@ -38,11 +38,11 @@ describe Setting do
     end
 
     it "allows users to register themselves" do
-      expect(Setting.self_registration?).to be_true
+      expect(Setting.self_registration?).to be_truthy
     end
 
     it "allows anonymous users to access public information" do
-      expect(Setting.login_required?).to be_false
+      expect(Setting.login_required?).to be_falsey
     end
   end
 

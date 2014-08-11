@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper do
+describe ApplicationHelper, :type => :helper do
   include ApplicationHelper
   include WorkPackagesHelper
 
@@ -42,12 +42,12 @@ describe ApplicationHelper do
       text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
       text_html = "Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt"
       expect(format_activity_description(text)).to eq(text_html)
-      expect(format_activity_description(text).html_safe?).to be_true
+      expect(format_activity_description(text).html_safe?).to be_truthy
     end
 
     it "escapes potentially harmful code" do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_true
+      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_truthy
     end
   end
 
@@ -66,8 +66,8 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject","footer")
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_true  }
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_true  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
     end
 
     context "proc as additional footer content" do
@@ -76,7 +76,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{Date.parse(Time.now.to_s)})
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_true  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
     end
 
     context "proc which returns nothing" do
@@ -85,7 +85,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{"footer" if false})
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_false }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_falsey }
     end
   end
 
@@ -114,9 +114,9 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should match /href/ }
+      it { is_expected.to match /href/ }
 
-      it { should match /fancy_css_class/ }
+      it { is_expected.to match /fancy_css_class/ }
     end
 
     context "if user is unauthorized" do
@@ -131,7 +131,7 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "allow using the :controller and :action for the target link" do
@@ -145,7 +145,7 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should match /href/ }
+      it { is_expected.to match /href/ }
     end
   end
 

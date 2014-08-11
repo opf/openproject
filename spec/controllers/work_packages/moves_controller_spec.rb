@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController do
+describe WorkPackages::MovesController, :type => :controller do
 
   let(:user) { FactoryGirl.create(:user)}
   let(:role) { FactoryGirl.create :role,
@@ -133,8 +133,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the project's work packages page" do
-          should be_redirect
-          should redirect_to(project_work_packages_path(project))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -153,8 +153,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the work package page" do
-          should be_redirect
-          should redirect_to(work_package_path(work_package))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(work_package_path(work_package))
         end
       end
     end
@@ -267,7 +267,7 @@ describe WorkPackages::MovesController do
 
           it "redirects to the work package copy" do
             copy = WorkPackage.first(:order => 'id desc')
-            should redirect_to(work_package_path(copy))
+            is_expected.to redirect_to(work_package_path(copy))
           end
         end
 

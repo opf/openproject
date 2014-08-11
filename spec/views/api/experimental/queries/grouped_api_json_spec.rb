@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/queries/grouped.api.rabl' do
+describe 'api/experimental/queries/grouped.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -47,12 +47,12 @@ describe 'api/experimental/queries/grouped.api.rabl' do
       []
     }
 
-    it { should have_json_path('user_queries') }
-    it { should have_json_type(Array).at_path('user_queries') }
-    it { should have_json_size(0).at_path('user_queries') }
-    it { should have_json_path('queries') }
-    it { should have_json_type(Array).at_path('queries') }
-    it { should have_json_size(0).at_path('queries') }
+    it { is_expected.to have_json_path('user_queries') }
+    it { is_expected.to have_json_type(Array).at_path('user_queries') }
+    it { is_expected.to have_json_size(0).at_path('user_queries') }
+    it { is_expected.to have_json_path('queries') }
+    it { is_expected.to have_json_type(Array).at_path('queries') }
+    it { is_expected.to have_json_size(0).at_path('queries') }
   end
 
   describe 'with 2 queries and no user queries' do
@@ -63,9 +63,9 @@ describe 'api/experimental/queries/grouped.api.rabl' do
       []
     }
 
-    it { should have_json_path('user_queries') }
-    it { should have_json_type(Array).at_path('user_queries') }
-    it { should have_json_size(2).at_path('user_queries') }
+    it { is_expected.to have_json_path('user_queries') }
+    it { is_expected.to have_json_type(Array).at_path('user_queries') }
+    it { is_expected.to have_json_size(2).at_path('user_queries') }
   end
 
   describe 'with 2 user queries and no queries' do
@@ -76,9 +76,9 @@ describe 'api/experimental/queries/grouped.api.rabl' do
       [["query1", 1], ["query2", 2]]
     }
 
-    it { should have_json_path('queries') }
-    it { should have_json_type(Array).at_path('queries') }
-    it { should have_json_size(2).at_path('queries') }
+    it { is_expected.to have_json_path('queries') }
+    it { is_expected.to have_json_type(Array).at_path('queries') }
+    it { is_expected.to have_json_size(2).at_path('queries') }
   end
 
 end

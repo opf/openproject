@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/groups/index.api.rabl' do
+describe 'api/experimental/groups/index.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,8 +41,8 @@ describe 'api/experimental/groups/index.api.rabl' do
   describe 'with no groups available' do
     let(:groups) { [] }
 
-    it { should have_json_path('groups') }
-    it { should have_json_size(0).at_path('groups') }
+    it { is_expected.to have_json_path('groups') }
+    it { is_expected.to have_json_size(0).at_path('groups') }
   end
 
   describe 'with 2 groups available' do
@@ -50,10 +50,10 @@ describe 'api/experimental/groups/index.api.rabl' do
       FactoryGirl.build(:group), FactoryGirl.build(:group)
     ] }
 
-    it { should have_json_path('groups') }
-    it { should have_json_size(2).at_path('groups') }
+    it { is_expected.to have_json_path('groups') }
+    it { is_expected.to have_json_size(2).at_path('groups') }
 
-    it { should have_json_type(Object).at_path('groups/1')  }
-    it { should have_json_path('groups/1/name')             }
+    it { is_expected.to have_json_type(Object).at_path('groups/1')  }
+    it { is_expected.to have_json_path('groups/1/name')             }
   end
 end

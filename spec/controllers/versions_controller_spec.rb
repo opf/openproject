@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe VersionsController do
+describe VersionsController, :type => :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:public_project) }
   let(:version1) {FactoryGirl.create(:version, :project => project, :effective_date => nil)}
@@ -55,13 +55,13 @@ describe VersionsController do
 
       subject { assigns(:versions) }
       it "shows Version with no date set" do
-        expect(subject.include?(version1)).to be_true
+        expect(subject.include?(version1)).to be_truthy
       end
       it "shows Version with date set" do
-        expect(subject.include?(version2)).to be_true
+        expect(subject.include?(version2)).to be_truthy
       end
       it "not shows Completed version" do
-        expect(subject.include?(version3)).to be_false
+        expect(subject.include?(version3)).to be_falsey
       end
     end
 
@@ -76,13 +76,13 @@ describe VersionsController do
 
       subject { assigns(:versions) }
       it "shows Version with no date set" do
-        expect(subject.include?(version1)).to be_true
+        expect(subject.include?(version1)).to be_truthy
       end
       it "shows Version with date set" do
-        expect(subject.include?(version2)).to be_true
+        expect(subject.include?(version2)).to be_truthy
       end
       it "not shows Completed version" do
-        expect(subject.include?(version3)).to be_true
+        expect(subject.include?(version3)).to be_truthy
       end
     end
 
@@ -101,13 +101,13 @@ describe VersionsController do
 
       subject { assigns(:versions) }
       it "shows Version with no date set" do
-        expect(subject.include?(version1)).to be_true
+        expect(subject.include?(version1)).to be_truthy
       end
       it "shows Version with date set" do
-        expect(subject.include?(version2)).to be_true
+        expect(subject.include?(version2)).to be_truthy
       end
       it "shows Version from sub project" do
-        expect(subject.include?(version4)).to be_true
+        expect(subject.include?(version4)).to be_truthy
       end
     end
   end
@@ -126,7 +126,7 @@ describe VersionsController do
     it { assert_tag :tag => 'h2', :content => version2.name }
 
     subject { assigns(:version) }
-    it { should == version2 }
+    it { is_expected.to eq(version2) }
   end
 
   describe "#create" do
@@ -163,8 +163,8 @@ describe VersionsController do
         # selected option tag for the new version
         option_substring = "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
 
-        response.body.include?(select_substring).should be_true
-        response.body.include?(option_substring).should be_true
+        expect(response.body.include?(select_substring)).to be_truthy
+        expect(response.body.include?(option_substring)).to be_truthy
       end
 
       it "escapes potentially harmful html" do

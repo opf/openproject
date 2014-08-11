@@ -37,18 +37,21 @@ describe OpenProject::Plugins::ActsAsOpEngine do
     end
   end
 
-  it { should respond_to(:name) }
-  it { should respond_to(:patches) }
-  it { should respond_to(:assets) }
-  it { should respond_to(:additional_permitted_attributes) }
-  it { should respond_to(:register) }
+  it { is_expected.to respond_to(:name) }
+  it { is_expected.to respond_to(:patches) }
+  it { is_expected.to respond_to(:assets) }
+  it { is_expected.to respond_to(:additional_permitted_attributes) }
+  it { is_expected.to respond_to(:register) }
 
   describe '#name' do
     before do
       Object.const_set('SuperCaliFragilisticExpialidocious', engine)
     end
 
-    its(:name) { should eq 'SuperCaliFragilisticExpialidocious' }
+    describe '#name' do
+      subject { super().name }
+      it { is_expected.to eq 'SuperCaliFragilisticExpialidocious' }
+    end
   end
 
   describe '#extend_api_response' do

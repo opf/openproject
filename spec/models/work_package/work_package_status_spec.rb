@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'status' do
     let(:status) { FactoryGirl.create(:status) }
     let!(:work_package) { FactoryGirl.create(:work_package,
@@ -76,7 +76,7 @@ describe WorkPackage do
             work_package.status = status_2
           end
 
-          it { expect(work_package.save).to be_true }
+          it { expect(work_package.save).to be_truthy }
         end
 
         describe 'invalid' do
@@ -92,7 +92,7 @@ describe WorkPackage do
         describe 'non-existing' do
           before { work_package.status = status_2 }
 
-          it { expect(work_package.save).to be_false }
+          it { expect(work_package.save).to be_falsey }
         end
       end
 

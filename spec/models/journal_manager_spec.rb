@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalManager do
+describe JournalManager, :type => :model do
   describe '#self.changed?' do
     let(:journable) do
       FactoryGirl.create(:work_package, description: old).tap do |journable|
@@ -43,7 +43,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
 
     context 'when old value is nil and changed value is an empty string' do
@@ -52,7 +52,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
 
     context 'when changed value is nil and old value is an empty string' do
@@ -61,7 +61,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
 
     context 'when changed value has a value and old value is an empty string' do
@@ -70,7 +70,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context 'when changed value has a value and old value is nil' do
@@ -79,7 +79,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context 'when changed value is nil and old value was some text' do
@@ -88,7 +88,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context 'when changed value is an empty string and old value was some text' do
@@ -97,7 +97,7 @@ describe JournalManager do
 
       subject { JournalManager.changed? journable }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
   end
 end

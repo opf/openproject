@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsController do
+describe ProjectsController, :type => :routing do
 
   describe "index" do
     it { expect(get("/projects")).to      route_to( :controller => 'projects', :action => 'index')}

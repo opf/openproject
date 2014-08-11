@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/queries/available_columns.api.rabl' do
+describe 'api/experimental/queries/available_columns.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,8 +41,8 @@ describe 'api/experimental/queries/available_columns.api.rabl' do
   describe 'with no available columns' do
     let(:available_columns) { [] }
 
-    it { should have_json_path('available_columns') }
-    it { should have_json_size(0).at_path('available_columns') }
+    it { is_expected.to have_json_path('available_columns') }
+    it { is_expected.to have_json_size(0).at_path('available_columns') }
   end
 
   describe 'with 2 available columns' do
@@ -78,12 +78,12 @@ describe 'api/experimental/queries/available_columns.api.rabl' do
       ]
     }
 
-    it { should have_json_path('available_columns') }
-    it { should have_json_size(2).at_path('available_columns') }
+    it { is_expected.to have_json_path('available_columns') }
+    it { is_expected.to have_json_size(2).at_path('available_columns') }
 
-    it { should have_json_type(FalseClass).at_path('available_columns/1/custom_field') }
-    it { should have_json_type(Object).at_path('available_columns/1/meta_data') }
-    it { should have_json_type(String).at_path('available_columns/1/meta_data/link/model_type') }
+    it { is_expected.to have_json_type(FalseClass).at_path('available_columns/1/custom_field') }
+    it { is_expected.to have_json_type(Object).at_path('available_columns/1/meta_data') }
+    it { is_expected.to have_json_type(String).at_path('available_columns/1/meta_data/link/model_type') }
   end
 
 end

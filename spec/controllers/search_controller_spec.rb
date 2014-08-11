@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SearchController do
+describe SearchController, :type => :controller do
   let!(:project) { FactoryGirl.create(:project,
                                       name: 'eCookbook') }
   let(:user) { FactoryGirl.create(:user,
@@ -57,7 +57,7 @@ describe SearchController do
 
         subject { get :index, q: "##{work_package.id}" }
 
-        it { should redirect_to work_package }
+        it { is_expected.to redirect_to work_package }
       end
     end
   end
@@ -119,7 +119,7 @@ describe SearchController do
         describe 'second note predecessor' do
           subject { note_2.send :predecessor }
 
-          it { should eq note_1 }
+          it { is_expected.to eq note_1 }
           it { expect(note_1.data).to_not be nil }
           it { expect(subject.data).to_not be nil }
         end
@@ -161,24 +161,24 @@ describe SearchController do
       context 'with one token' do
         let(:query) { 'word' }
 
-        it { should eq %w(word) }
+        it { is_expected.to eq %w(word) }
 
         context 'with double quotes' do
           let(:query) { '"hello world"' }
 
-          it { should eq ['hello world'] }
+          it { is_expected.to eq ['hello world'] }
         end
       end
 
       context 'with multiple tokens' do
         let(:query) { 'hello world something-hyphenated' }
 
-        it { should eq %w(hello world something-hyphenated) }
+        it { is_expected.to eq %w(hello world something-hyphenated) }
 
         context 'with double quotes' do
           let(:query) { 'hello "fallen world" something-hyphenated' }
 
-          it { should eq ['hello', 'fallen world', 'something-hyphenated'] }
+          it { is_expected.to eq ['hello', 'fallen world', 'something-hyphenated'] }
         end
       end
     end
@@ -189,13 +189,13 @@ describe SearchController do
       context 'with normal query' do
         let(:query) { 'lorem' }
 
-        it { should be nil }
+        it { is_expected.to be nil }
       end
 
       context 'with work package reference' do
         let(:query) { '#4123' }
 
-        it { should_not be nil }
+        it { is_expected.not_to be nil }
 
         describe 'captures' do
           let!(:check_block) { Proc.new { |id| @work_package_id = id } }
@@ -218,7 +218,7 @@ describe SearchController do
         context 'and with additional text' do
           let(:query) { '#4123 and some text' }
 
-          it { should be nil }
+          it { is_expected.to be nil }
         end
       end
     end

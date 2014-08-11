@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Attachment do
+describe Attachment, :type => :model do
   let(:author) { FactoryGirl.create(:user) }
   let(:long_description){'a' * 300}
   let(:work_package) { FactoryGirl.create( :work_package, :description => '') }
@@ -43,7 +43,7 @@ describe Attachment do
       end
 
       it "should validate description length" do
-        attachment.errors[:description].should_not be_empty
+        expect(attachment.errors[:description]).not_to be_empty
       end
 
       it "should raise an error regarding description length" do
@@ -64,7 +64,7 @@ describe Attachment do
       end
 
       it "should validate description length" do
-        attachment.errors[:description].should_not be_empty
+        expect(attachment.errors[:description]).not_to be_empty
       end
 
       it "should raise an error regarding description length" do

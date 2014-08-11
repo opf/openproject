@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/versions/index.api.rabl' do
+describe 'api/experimental/versions/index.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,8 +41,8 @@ describe 'api/experimental/versions/index.api.rabl' do
   describe 'with no versions available' do
     let(:versions) { [] }
 
-    it { should have_json_path('versions') }
-    it { should have_json_size(0).at_path('versions') }
+    it { is_expected.to have_json_path('versions') }
+    it { is_expected.to have_json_size(0).at_path('versions') }
   end
 
   describe 'with 2 versions available' do
@@ -50,10 +50,10 @@ describe 'api/experimental/versions/index.api.rabl' do
       FactoryGirl.build(:version), FactoryGirl.build(:version)
     ] }
 
-    it { should have_json_path('versions') }
-    it { should have_json_size(2).at_path('versions') }
+    it { is_expected.to have_json_path('versions') }
+    it { is_expected.to have_json_size(2).at_path('versions') }
 
-    it { should have_json_type(Object).at_path('versions/1') }
-    it { should have_json_path('versions/1/name')            }
+    it { is_expected.to have_json_type(Object).at_path('versions/1') }
+    it { is_expected.to have_json_path('versions/1/name')            }
   end
 end

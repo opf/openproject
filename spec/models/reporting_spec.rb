@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Reporting do
+describe Reporting, :type => :model do
   describe '- Relations ' do
     describe '#project' do
       it 'can read the project w/ the help of the belongs_to association' do
