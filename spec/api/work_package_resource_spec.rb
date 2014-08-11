@@ -212,12 +212,10 @@ h4. things we like
         let(:params) do
           {
             subject: 'Updated subject',
-            type: FactoryGirl.create(:type).name,
             rawDescription: '<h1>Updated description</h1>',
-            status: FactoryGirl.create(:status).name,
             priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
+            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
             percentageDone: 90,
           }
         end
@@ -228,7 +226,6 @@ h4. things we like
 
         it 'should respond with updated work package' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
-          expect(subject.body).to be_json_eql(params[:status].to_json).at_path('status')
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
 
@@ -263,7 +260,8 @@ h4. things we like
 
          it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'subject', 'messages' => ['can\'t be blank']}])
+          parsed_errors.should eq([{ 'key' => 'subject', 'messages' => ['can\'t be blank']},
+            {"key"=>"type_id", "messages"=>["is not included in the list"]}])
         end
       end
     end
