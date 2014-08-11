@@ -32,7 +32,7 @@ describe('focus Directive', function() {
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(module('templates'));
 
-  beforeEach(inject(function($compile, $rootScope, $document) {
+  beforeEach(inject(function($compile, $rootScope, $document, $timeout) {
     var html = '<input type="text" name="testInput" focus></input>';
 
     doc = $document[0];
@@ -46,6 +46,8 @@ describe('focus Directive', function() {
 
       $compile(element)(scope);
       scope.$digest();
+
+      $timeout.flush();
     };
   }));
 
