@@ -79,8 +79,7 @@ module API
         end
 
         def type=(value)
-          type = Type.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
-          work_package.type = type
+          work_package.type = Type.find_by_name(value)
         end
 
         def status
@@ -88,8 +87,7 @@ module API
         end
 
         def status=(value)
-          status = Status.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
-          work_package.status = status
+          work_package.status = Status.find_by_name(value)
         end
 
         def priority
@@ -97,8 +95,7 @@ module API
         end
 
         def priority=(value)
-          priority = IssuePriority.find(:first, conditions: ['UPPER(name) = UPPER(?)', value])
-          work_package.priority = priority
+          work_package.priority = IssuePriority.find_by_name(value)
         end
 
         def estimated_time
