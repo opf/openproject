@@ -52,12 +52,8 @@ angular.module('openproject.helpers')
     },
 
     encodeQueryForJsonParams: function(query) {
-      var paramsData = {
-        c: query.columns.map(function(column) { return column.name; })
-      };
-      if(!!query.displaySums) {
-        paramsData.s = query.displaySums;
-      }
+      var paramsData = {};
+
       if(!!query.groupBy) {
         paramsData.g = query.groupBy;
       }
@@ -65,7 +61,10 @@ angular.module('openproject.helpers')
         paramsData.u = query.groupSums;
       }
       if(query.filters && query.filters.length) {
-        paramsData.f = query.filters.map(function(filter) {
+        paramsData.f = query.filters.select(function(filter) {
+          return !filter.deactivated;
+        })
+        .map(function(filter) {
           var filterData = {
             n: filter.name,
             m: filter.modelName,
@@ -82,13 +81,26 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
-    decodeQueryFromJsonParams: function(queryJson) {
-      var urlQuery = JSON.parse(queryJson);
-      // TODO: Catch parse error
-      var queryData = {
-        columns: urlQuery.c.map(function(column) { return { name: column }; })
+    encodeQueryForNonUpdateJsonParams: function(query) {
+      var paramsData = {
+        c: query.columns.map(function(column) { return column.name; })
       };
-      if(!!urlQuery.s) {
+      if(!!query.displaySums) {
+        paramsData.s = query.displaySums;
+      }
+
+      return JSON.stringify(paramsData);
+    },
+
+    decodeQueryFromJsonParams: function(queryJson, nonUpdateQueryJson) {
+      var urlQuery = JSON.parse(queryJson);
+      var nonUpdateUrlQuery = JSON.parse(nonUpdateQueryJson);
+      // TODO: Catch parse errors
+
+      var queryData = {
+        columns: nonUpdateUrlQuery.c.map(function(column) { return { name: column }; })
+      };
+      if(!!nonUpdateUrlQuery.s) {
         queryData.displaySums = urlQuery.s;
       }
       if(!!urlQuery.g) {

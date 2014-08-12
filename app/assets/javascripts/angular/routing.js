@@ -58,7 +58,7 @@ angular.module('openproject')
       url: "",
       controller: 'WorkPackagesListController',
       templateUrl: "/templates/work_packages.list.html",
-      reloadOnSearch: false, // TODO RS: This breaks query selection
+      // reloadOnSearch: false, // TODO RS: This breaks query selection
     })
     .state('work-packages.list.details', {
       url: "/{workPackageId:[0-9]+}",

@@ -51,17 +51,10 @@ angular.module('openproject.workPackages.directives')
 
             var groupByChanged = currentProperties.groupBy !== formerProperties.groupBy;
             var sortElementsChanged = JSON.stringify(currentProperties.sortElements) !== JSON.stringify(formerProperties.sortElements);
-
-            return groupByChanged || sortElementsChanged;
-          }
-
-          function nonUpdatingPropertiesChanged(currentProperties, formerProperties) {
-            if (formerProperties === undefined) return false;
-
             var columnsChanged = JSON.stringify(currentProperties.columns) !== JSON.stringify(formerProperties.columns);
             var displaySumsChanged = currentProperties.displaySums !== formerProperties.displaySums;
 
-            return columnsChanged || displaySumsChanged;
+            return groupByChanged || sortElementsChanged || columnsChanged || displaySumsChanged;
           }
 
           function observedQueryProperties() {
@@ -79,32 +72,13 @@ angular.module('openproject.workPackages.directives')
             }
           }
 
-          function nonUpdatingProperties() {
-            var query = scope.query;
-
-            if (query !== undefined) {
-              return {
-                columns: query.columns,
-                displaySums: query.displaySums
-              };
-            }
-          }
-
           scope.$watch(observedQueryProperties, function(newProperties, oldProperties) {
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
-                scope.updateResults();
                 scope.$emit('queryStateChange');
               }
             }
           }, true);
-
-          scope.$watch(nonUpdatingProperties, function(newProperties, oldProperties) {
-            /* Observing columns and displaySums separately because no work packages update is required */
-            if(nonUpdatingPropertiesChanged(newProperties, oldProperties)) {
-              scope.$emit('queryStateChange');
-            }
-          }, true)
         }
       };
     }
