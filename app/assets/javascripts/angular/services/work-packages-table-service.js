@@ -129,6 +129,35 @@ angular.module('openproject.workPackages.services')
         field: columnName,
         direction: direction
       });
+    },
+
+    setRowSelection: function(row, state) {
+      row.checked = state;
+    },
+    selectRowRange: function(rows, row) {
+      if (WorkPackagesTableHelper.getSelectedRows(rows).length == 0) {
+        this.setRowSelection(row, true);
+      } else {
+        var select = false;
+        var isSelectedRowFirst;
+
+        for (var x = 0; x < rows.length; x++) {
+          var r = rows[x];
+
+          if (!select && (r == row || r.checked)) {
+            select = true;
+            isSelectedRowFirst = r == row;
+          } else if (select
+                     && (r == row || r.checked)
+                     && (isSelectedRowFirst && r != row
+                         || !isSelectedRowFirst && r == row)) {
+            this.setRowSelection(r, true);
+            break;
+          }
+
+          this.setRowSelection(r, select);
+        }
+      }
     }
   };
 

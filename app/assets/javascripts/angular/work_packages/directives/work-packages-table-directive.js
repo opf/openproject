@@ -97,6 +97,31 @@ angular.module('openproject.workPackages.directives')
       }, function(detailsEnabled) {
         scope.hideWorkPackageDetails = !detailsEnabled;
       });
+
+      // Thanks to http://stackoverflow.com/a/880518
+      function clearSelection() {
+        if(document.selection && document.selection.empty) {
+            document.selection.empty();
+        } else if(window.getSelection) {
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+        }
+      }
+
+      scope.selectWorkPackage = function(row, $event) {
+        if ($event.target.type != 'checkbox') {
+          var currentRowCheckState = row.checked;
+
+          if (!($event.ctrlKey || $event.shiftKey)) {
+            scope.setCheckedStateForAllRows(false);
+          } else if ($event.shiftKey) {
+            clearSelection();
+            WorkPackagesTableService.selectRowRange(scope.rows, row);
+          }
+
+          WorkPackagesTableService.setRowSelection(row, !currentRowCheckState);
+        }
+      };
     }
   };
 }]);
