@@ -93,16 +93,20 @@ angular.module('openproject.workPackages')
       return $scope.column && !!$scope.column.sortable;
     };
 
+    function isValidColumn(column) {
+      return column && column.name !== 'id';
+    }
+
     $scope.canMoveLeft = function() {
-      return $scope.column && $scope.column.name !== 'id' && $scope.columns.indexOf($scope.column) !== 0;
+      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== 0;
     };
 
     $scope.canMoveRight = function() {
-      return $scope.column && $scope.column.name !== 'id' && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1
+      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1
     };
 
     $scope.canBeHidden = function() {
-      return $scope.column && $scope.column.name !== 'id';
+      return isValidColumn($scope.column);
     };
 
     $scope.focusFeature = function(feature) {
