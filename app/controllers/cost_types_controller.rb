@@ -36,7 +36,7 @@ class CostTypesController < ApplicationController
                      "unit_plural" => "#{CostType.table_name}.unit_plural" }
     sort_update sort_columns
 
-    @cost_types = CostType.find :all, :order => @sort_clause
+    @cost_types = CostType.find :all, :order => sort_clause
 
     unless params[:clear_filter]
       @fixed_date = Date.parse(params[:fixed_date]) rescue Date.today
