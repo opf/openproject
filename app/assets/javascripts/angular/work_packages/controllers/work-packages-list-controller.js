@@ -60,12 +60,21 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
+    var updatableParams = $state.params.query;
+    var nonUpdatableParams = $location.search().nonUpdateQuery;
 
     var fetchWorkPackages;
-    if($state.params.query) {
-      var query = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query, $location.search().nonUpdateQuery);
-      //TODO: Pagination in url?
-      fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query);
+    if(updatableParams || nonUpdatableParams) {
+      try {
+        var query = UrlParamsHelper.decodeQueryFromJsonParams(updatableParams, nonUpdatableParams);
+        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query);
+      } catch(e) {
+        $scope.$emit('flashMessage', {
+          isError: true,
+          text: 'Unable to retrieve query from URL'
+        });
+        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
+      }
     } else if($scope.query_id){
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
     } else {
@@ -103,16 +112,16 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initQuery(metaData) {
-    var storedQuery = QueryService.getQuery();
+    // var storedQuery = QueryService.getQuery();
 
-    if (storedQuery && $stateParams.query_id !== null && storedQuery.id === $scope.query_id) {
-      $scope.query = storedQuery;
-    } else {
-      var queryData = metaData.query,
-          columnData = metaData.columns;
+    // if (storedQuery && $stateParams.query_id !== null && storedQuery.id === $scope.query_id) {
+    //   $scope.query = storedQuery;
+    // } else {
+    var queryData = metaData.query,
+        columnData = metaData.columns;
 
-      $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
-    }
+    $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
+    // }
   }
 
   function afterQuerySetupCallback(query) {
@@ -192,7 +201,7 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.setQueryState = function(query_id) {
-    $state.go('work-packages.list', { query_id: query_id }, { reload: true });
+    $state.go('work-packages.list', { query_id: query_id });
   };
 
   // More
