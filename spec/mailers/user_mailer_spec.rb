@@ -416,7 +416,7 @@ describe UserMailer do
       end
 
       context 'changed done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i>40</i> to <i>100</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> to <i title=\"100\">100</i>" }
 
         before do
           allow(journal).to receive(:details).and_return({"done_ratio" => [40, 100]})
@@ -428,7 +428,7 @@ describe UserMailer do
       end
 
       context 'new done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i>0</i> to <i>100</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> to <i title=\"100\">100</i>" }
 
         before do
           allow(journal).to receive(:details).and_return({"done_ratio" => [nil, 100]})
@@ -440,7 +440,7 @@ describe UserMailer do
       end
 
       context 'deleted done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i>50</i> to <i>0</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"50\">50</i> to <i title=\"0\">0</i>" }
 
         before do
           allow(journal).to receive(:details).and_return({"done_ratio" => [50, nil]})
