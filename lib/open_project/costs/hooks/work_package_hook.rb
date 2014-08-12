@@ -30,6 +30,8 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
 
   render_on :view_work_packages_move_bottom, :partial => 'hooks/costs/view_work_packages_move_bottom'
 
+  render_on :view_work_package_overview_attributes, partial: 'hooks/costs/view_work_package_overview_attributes'
+
   # Updates the cost object after a move
   #
   # Context:
