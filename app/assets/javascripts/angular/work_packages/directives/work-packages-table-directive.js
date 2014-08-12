@@ -33,7 +33,8 @@ angular.module('openproject.workPackages.directives')
   'WorkPackagesTableService',
   'flags',
   'PathHelper',
-  function(I18n, WorkPackagesTableService, flags, PathHelper){
+  '$state',
+  function(I18n, WorkPackagesTableService, flags, PathHelper, $state){
 
   return {
     restrict: 'E',
@@ -121,6 +122,14 @@ angular.module('openproject.workPackages.directives')
 
           WorkPackagesTableService.setRowSelection(row, !currentRowCheckState);
         }
+      };
+
+      scope.showWorkPackageDetails = function(workPackage) {
+        var workPackageState = $state.get('work-packages');
+
+        clearSelection();
+
+        $state.go(workPackageState.resolve.latestTab().getStateName(), { workPackageId: workPackage.id });
       };
     }
   };
