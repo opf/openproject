@@ -57,21 +57,6 @@ angular.module('openproject.viewModels')
       return !!this.workPackage.links.addRelation;
     },
 
-    canChangeParent: function() {
-      return true;
-    },
-
-    changeParent: function(scope) {
-      var inputElement = angular.element('#relation_to_id-relates');
-      var parentId = inputElement.val();
-      WorkPackageService.updateWorkPackage(this.workPackage, {parentId: parentId}).then(function(workPackage) {
-          inputElement.val('');
-          scope.$emit('workPackageRefreshRequired', '');
-      }, function(error) {
-        ApiHelper.handleError(scope, error);
-      });
-    },
-
     addRelation: function(scope) {
       var inputElement = angular.element('#relation_to_id-' + this.relationsId);
       var toId = inputElement.val();
@@ -142,20 +127,30 @@ angular.module('openproject.viewModels')
   return ChildrenRelationsHandler;
 }])
 
-.factory('ParentRelationsHandler', ['ChildrenRelationsHandler',
-                                    function(ChildrenRelationsHandler) {
-  function ParentRelationsHandler(workPackage, parents) {
-    var handler = new ChildrenRelationsHandler(workPackage, parents, undefined);
+.factory('ParentRelationsHandler', ['CommonRelationsHandler', 'WorkPackageService', function(CommonRelationsHandler, WorkPackageService) {
+    function ParentRelationsHandler(workPackage, parents, relationsId) {
+        var handler = new CommonRelationsHandler(workPackage, parents, relationsId);
 
-    handler.type = "parent";
-    handler.canAddRelation = function() { return false };
-    handler.addRelation = undefined;
-    handler.isSingletonRelation = true;
+        handler.type = "parent";
+        handler.addRelation = undefined;
+        handler.isSingletonRelation = true;
+        handler.relationsId = relationsId;
 
+        handler.canAddRelation = function() { return false };
+        handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
+        handler.canChangeParent = function() { return true };
+        handler.changeParent = function(scope) {
+            var inputElement = angular.element('#relation_to_id-' + this.relationsId);
+            var parentId = inputElement.val();
+            WorkPackageService.updateWorkPackage(this.workPackage, {parentId: parentId}).then(function(workPackage) {
+                inputElement.val('');
+                scope.$emit('workPackageRefreshRequired', '');
+            }, function(error) {
+                ApiHelper.handleError(scope, error);
+            });
+        };
 
-
-    return handler;
-  }
-
-  return ParentRelationsHandler;
-}]);
+        return handler;
+    }
+    return ParentRelationsHandler;
+}])

@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.controllers')
   follows: "Relation::Follows"
 })
 .constant('RELATION_IDENTIFIERS', {
+  parent: "parent",
   relatedTo: "relates",
   duplicates: "duplicates",
   duplicated: "duplicated",
@@ -120,7 +121,7 @@ angular.module('openproject.workPackages.controllers')
 
       // relations
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents, "parent");
         $scope.wpParent = relationsHandler;
       });
 
