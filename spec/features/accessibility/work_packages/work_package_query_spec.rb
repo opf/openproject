@@ -148,7 +148,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'id column' do
       let(:link_caption) { '#' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -156,7 +156,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -164,7 +164,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -172,7 +172,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(5)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -180,7 +180,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(6)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -188,7 +188,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(7)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
