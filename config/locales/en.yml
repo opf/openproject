@@ -39,7 +39,7 @@ en:
   error_can_not_activate_export_card_configuration: "This config cannot be activated"
   error_can_not_deactivate_export_card_configuration: "This config cannot be de-activated"
   validation_error_required_keys_not_present: "Required key(s) not present:"
-  validation_error_yaml_is_badly_formed: "YAML is badly formed."
+  validation_error_yaml_is_badly_formed: "has no valid YAML format."
   validation_error_uknown_key: "Unknown key:"
   yaml_error: "YAML error:"
   help_link_rows_format: "Rows Formatting"
@@ -47,3 +47,10 @@ en:
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
   export_config_rows: "Rows"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Rows"
+        per_page: "Per page"
+        page_size: "Page size"
+        orientation: "Orientation"
