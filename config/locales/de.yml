@@ -42,7 +42,7 @@ de:
   validation_error_yaml_is_badly_formed: "Ungültiges YAML Format."
   validation_error_uknown_key: "Unbekannter Schlüssel:"
   yaml_error: "YAML Fehler:"
-  help_link_rows_format: "Rows formatieren"
+  help_link_rows_format: "Reihen formatieren"
   export_config_per_page: "Pro Seite"
   export_config_page_size: "Seitengröße"
   export_config_orientation: "Ausrichtung"
