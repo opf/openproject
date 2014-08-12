@@ -63,7 +63,7 @@ angular.module('openproject.workPackages.controllers')
 
     var fetchWorkPackages;
     if($state.params.query) {
-      var query = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query);
+      var query = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query, $location.search().nonUpdateQuery);
       //TODO: Pagination in url?
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query);
     } else if($scope.query_id){
@@ -169,7 +169,11 @@ angular.module('openproject.workPackages.controllers')
       relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
     }
 
-    if($scope.query){
+    if($scope.query) {
+      var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
+      $location.search('nonUpdateQuery', queryString);
+      relativeUrl = relativeUrl + "?nonUpdateQuery=" + queryString;
+
       var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
       $location.search('query', queryString);
       relativeUrl = relativeUrl + "?query=" + queryString;
@@ -188,7 +192,7 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.setQueryState = function(query_id) {
-    $state.go('work-packages.list', { query_id: query_id });
+    $state.go('work-packages.list', { query_id: query_id }, { reload: true });
   };
 
   // More
