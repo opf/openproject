@@ -177,12 +177,6 @@ module OpenProject::Costs
       ActionView::Helpers::NumberHelper.send(:include, OpenProject::Costs::Patches::NumberHelperPatch)
     end
 
-    # Initializer to combine this engines static assets with the static assets of the hosting site.
-    #  Thanks to http://jbavari.github.io/blog/2013/10/26/rev-up-your-rails-engine-for-static-assets/
-    initializer "static assets" do |app|
-      app.middleware.insert_before(::ActionDispatch::Static, ::ActionDispatch::Static, "#{root}/public")
-    end
-
     config.to_prepare do
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
