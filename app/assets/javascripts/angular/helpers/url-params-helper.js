@@ -60,6 +60,9 @@ angular.module('openproject.helpers')
       if(!!query.groupSums) {
         paramsData.u = query.groupSums;
       }
+      if(!!query.getSortation()) {
+        paramsData.t = query.getSortation().encode()
+      }
       if(query.filters && query.filters.length) {
         paramsData.f = query.filters.select(function(filter) {
           return !filter.deactivated;
@@ -77,7 +80,7 @@ angular.module('openproject.helpers')
           return filterData
         });
       }
-      // TODO: Pagination
+
       return JSON.stringify(paramsData);
     },
 
@@ -92,40 +95,47 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
-    decodeQueryFromJsonParams: function(queryJson, nonUpdateQueryJson) {
-      var urlQuery = JSON.parse(queryJson);
-      var nonUpdateUrlQuery = JSON.parse(nonUpdateQueryJson);
-      // TODO: Catch parse errors
+    decodeQueryFromJsonParams: function(updatequeryJson, nonUpdateQueryJson) {
+      var queryData = {};
 
-      var queryData = {
-        columns: nonUpdateUrlQuery.c.map(function(column) { return { name: column }; })
-      };
-      if(!!nonUpdateUrlQuery.s) {
-        queryData.displaySums = urlQuery.s;
+      if(updatequeryJson) {
+        var urlQuery = JSON.parse(updatequeryJson);
+
+        if(!!urlQuery.g) {
+          queryData.groupBy = urlQuery.g;
+        }
+        if(!!urlQuery.u) {
+          queryData.groupSums = urlQuery.u;
+        }
+        if(!!urlQuery.f) {
+          queryData.filters = urlQuery.f.map(function(urlFilter) {
+            var filterData = {
+              name: urlFilter.n,
+              modelName: urlFilter.m,
+              operator: decodeURIComponent(urlFilter.o),
+              type: urlFilter.t
+            };
+            if(urlFilter.v) {
+              var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
+              angular.extend(filterData, { values: vs });
+            }
+            return filterData;
+          });
+        }
+        if(!!urlQuery.t) {
+          queryData.sortCriteria = urlQuery.t;
+        }
       }
-      if(!!urlQuery.g) {
-        queryData.groupBy = urlQuery.g;
-      }
-      if(!!urlQuery.u) {
-        queryData.groupSums = urlQuery.u;
-      }
-      if(!!urlQuery.f) {
-        queryData.filters = urlQuery.f.map(function(urlFilter) {
-          var filterData = {
-            name: urlFilter.n,
-            modelName: urlFilter.m,
-            operator: decodeURIComponent(urlFilter.o),
-            type: urlFilter.t
-          };
-          if(urlFilter.v) {
-            var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
-            angular.extend(filterData, { values: vs });
-          }
-          return filterData;
-        });
-      }
-      if(!!urlQuery.t) {
-        queryData.sortCriteria = urlQuery.t;
+
+      if(nonUpdateQueryJson) {
+        var nonUpdateUrlQuery = JSON.parse(nonUpdateQueryJson);
+
+        if(!!nonUpdateUrlQuery.c) {
+          queryData.columns = nonUpdateUrlQuery.c.map(function(column) { return { name: column }; });
+        }
+        if(!!nonUpdateUrlQuery.s) {
+          queryData.displaySums = nonUpdateUrlQuery.s;
+        }
       }
 
       return new Query(queryData, { rawFilters: true });
