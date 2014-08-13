@@ -31,8 +31,16 @@ var openprojectCostsApp = angular.module('openproject');
 
 openprojectCostsApp.run(['HookService', function(HookService) {
   HookService.register('workPackageOverviewAttributes', function(params) {
-    var isEmpty = params.workPackage.embedded.summarizedCostEntries.length == 0;
+    var directive;
 
-    return ((params.type == "spentUnits" && !isEmpty) ? "summarized-cost-entries" : undefined);
+    switch (params.type) {
+      case "spentUnits":
+        if (params.workPackage.embedded.summarizedCostEntries.length > 0) {
+          directive = "summarized-cost-entries";
+        }
+        break;
+    }
+
+    return directive;
   });
 }]);
