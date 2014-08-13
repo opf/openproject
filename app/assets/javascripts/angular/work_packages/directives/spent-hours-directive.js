@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.directives')
 .directive('spentHours', ['I18n', 'PathHelper', function(I18n, PathHelper) {
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/spent_hours.html',
+    templateUrl: '/assets/work_packages/spent_hours.html',
     link: function(scope, element, attributes) {
       scope.spentHours = scope.workPackage.props.spentHours;
       scope.spentHoursUnit = I18n.t('js.label_hours');
