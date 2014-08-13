@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :journal do
     let(:type) { FactoryGirl.create :type }
     let(:project) { FactoryGirl.create :project,
@@ -94,14 +94,14 @@ describe WorkPackage do
         describe "does not track the changed newline characters" do
           subject { work_package_1.journals.last.data.description }
 
-          it { should == description }
+          it { is_expected.to eq(description) }
         end
 
         describe 'tracks only the other change' do
           subject { work_package_1.journals.last.details }
 
-          it { should have_key :subject }
-          it { should_not have_key :description }
+          it { is_expected.to have_key :subject }
+          it { is_expected.not_to have_key :description }
         end
       end
 
@@ -119,7 +119,7 @@ describe WorkPackage do
 
         subject { work_package_1.journals.last.details }
 
-        it { should_not have_key :description }
+        it { is_expected.not_to have_key :description }
       end
     end
 
@@ -165,13 +165,13 @@ describe WorkPackage do
       shared_examples_for "old value" do
         subject { work_package.last_journal.old_value_for(property) }
 
-        it { should eq(expected_value) }
+        it { is_expected.to eq(expected_value) }
       end
 
       shared_examples_for "new value" do
         subject { work_package.last_journal.new_value_for(property) }
 
-        it { should eq(expected_value) }
+        it { is_expected.to eq(expected_value) }
       end
 
       describe "journaled value for" do
@@ -223,7 +223,7 @@ describe WorkPackage do
       context "new attachment" do
         subject { work_package.journals.last.changed_data }
 
-        it { should have_key attachment_id }
+        it { is_expected.to have_key attachment_id }
 
         it { expect(subject[attachment_id]).to eq([nil, attachment.filename]) }
       end
@@ -237,7 +237,7 @@ describe WorkPackage do
 
         subject { work_package.journals.count }
 
-        it { should eq(@original_journal_count) }
+        it { is_expected.to eq(@original_journal_count) }
       end
 
       context "attachment removed" do
@@ -245,7 +245,7 @@ describe WorkPackage do
 
         subject { work_package.journals.last.changed_data }
 
-        it { should have_key attachment_id }
+        it { is_expected.to have_key attachment_id }
 
         it { expect(subject[attachment_id]).to eq([attachment.filename, nil]) }
       end
@@ -274,7 +274,7 @@ describe WorkPackage do
 
         subject { work_package.journals.last.changed_data }
 
-        it { should have_key custom_field_id }
+        it { is_expected.to have_key custom_field_id }
 
         it { expect(subject[custom_field_id]).to eq([nil, custom_value.value]) }
       end
@@ -292,7 +292,7 @@ describe WorkPackage do
 
         subject { work_package.journals.last.changed_data }
 
-        it { should have_key custom_field_id }
+        it { is_expected.to have_key custom_field_id }
 
         it { expect(subject[custom_field_id]).to eq([custom_value.value.to_s, modified_custom_value.value.to_s]) }
       end
@@ -312,7 +312,7 @@ describe WorkPackage do
 
         subject { work_package.journals.count }
 
-        it { should eq(@original_journal_count) }
+        it { is_expected.to eq(@original_journal_count) }
       end
 
       context "custom value removed" do
@@ -325,7 +325,7 @@ describe WorkPackage do
 
         subject { work_package.journals.last.changed_data }
 
-        it { should have_key custom_field_id }
+        it { is_expected.to have_key custom_field_id }
 
         it { expect(subject[custom_field_id]).to eq([custom_value.value, nil]) }
       end
@@ -345,7 +345,7 @@ describe WorkPackage do
 
           it { expect(work_package.journals.last.customizable_journals).to be_empty }
 
-          it { expect(JournalManager.changed? work_package).to be_false }
+          it { expect(JournalManager.changed? work_package).to be_falsey }
         end
 
         describe "empty values handled as non existing" do

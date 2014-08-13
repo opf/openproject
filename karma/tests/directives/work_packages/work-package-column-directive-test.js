@@ -30,8 +30,14 @@ describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates', 'openproject.api'));
+    beforeEach(module('templates', 'openproject.api', 'openproject.services'));
+    beforeEach(module('templates', function($provide) {
+      configurationService = new Object();
 
+      configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+      $provide.constant('ConfigurationService', configurationService);
+    }));
     beforeEach(inject(function($rootScope, $compile) {
       var html;
       html = '<span work-package-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';

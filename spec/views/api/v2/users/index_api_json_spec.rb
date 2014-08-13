@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe '/api/v2/users/index.api.rabl' do
+describe '/api/v2/users/index.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -42,7 +42,7 @@ describe '/api/v2/users/index.api.rabl' do
 
       render
 
-      should have_json_size(0).at_path('users')
+      is_expected.to have_json_size(0).at_path('users')
     end
   end
 
@@ -64,13 +64,13 @@ describe '/api/v2/users/index.api.rabl' do
     subject { response.body }
 
     it 'renders a projects document with the size of 3 of type array' do
-      should have_json_size(2).at_path('users')
+      is_expected.to have_json_size(2).at_path('users')
     end
 
     it 'renders both users' do
 
-      should be_json_eql({firstname:'Peter', lastname:'Test', name: "Peter Test"}.to_json).at_path("users/0")
-      should be_json_eql({firstname:'Mary', lastname:'Test', name: "Mary Test"}.to_json).at_path("users/1")
+      is_expected.to be_json_eql({firstname:'Peter', lastname:'Test', name: "Peter Test"}.to_json).at_path("users/0")
+      is_expected.to be_json_eql({firstname:'Mary', lastname:'Test', name: "Mary Test"}.to_json).at_path("users/1")
 
 
     end

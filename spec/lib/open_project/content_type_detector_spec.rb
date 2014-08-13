@@ -69,8 +69,8 @@ describe OpenProject::ContentTypeDetector do
   end
 
   it 'returns content type of file if it is an acceptable type' do
-    MIME::Types.stub(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
-    Cocaine::CommandLine.any_instance.stub(:run).and_return("video/mp4")
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
+    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return("video/mp4")
     @filename = "my_file.mp4"
     assert_equal "video/mp4", OpenProject::ContentTypeDetector.new(@filename).detect
   end
@@ -91,7 +91,7 @@ describe OpenProject::ContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    Cocaine::CommandLine.any_instance.stub(:run).and_raise(Cocaine::CommandLineError.new)
+    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
     @filename = "/path/to/something"
     assert_equal "application/binary", OpenProject::ContentTypeDetector.new(@filename).detect
   end

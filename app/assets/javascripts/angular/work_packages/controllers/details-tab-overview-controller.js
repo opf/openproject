@@ -28,23 +28,27 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
-  'status', 'assignee', 'responsible',
-  'date', 'percentageDone', 'priority',
-  'estimatedTime', 'versionName'
-])
 .constant('USER_TYPE', 'user')
 
 .controller('DetailsTabOverviewController', [
   '$scope',
   'I18n',
-  'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  'ConfigurationService',
   'USER_TYPE',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'UserService',
+  'HookService',
   '$q',
-  function($scope, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, UserService, $q) {
+  function($scope,
+           I18n,
+           ConfigurationService,
+           USER_TYPE,
+           CustomFieldHelper,
+           WorkPackagesHelper,
+           UserService,
+           HookService,
+           $q) {
 
   // work package properties
 
@@ -52,7 +56,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.emptyWorkPackageProperties = [];
   $scope.userPath = PathHelper.staticUserPath;
 
-  var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+  var workPackageProperties = ConfigurationService.workPackageAttributes();
 
   function getPropertyValue(property, format) {
     if (format === USER_TYPE) {
@@ -111,12 +115,22 @@ angular.module('openproject.workPackages.controllers')
           format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
           value  = getPropertyValue(property, format);
 
-      if (!!value ||
+      if (!(value === null || value === undefined) ||
           index < 3 ||
           index < 6 && secondRowToBeDisplayed()) {
         addFormattedValueToPresentProperties(property, label, value, format);
       } else {
-        $scope.emptyWorkPackageProperties.push(label);
+        var plugInValues = HookService.call('workPackageOverviewAttributes',
+                                            { type: property,
+                                              workPackage: $scope.workPackage });
+
+        if (plugInValues.length == 0) {
+          $scope.emptyWorkPackageProperties.push(label);
+        } else {
+          for (var x = 0; x < plugInValues.length; x++) {
+            addFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
+          }
+        }
       }
     });
   })();

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'search/index' do
+describe 'search/index', :type => :helper do
   let(:project) { FactoryGirl.create(:project) }
   let(:scope) { "foobar" }
 
@@ -61,7 +61,7 @@ describe 'search/index' do
       let(:title) { 'This is a token.' }
       let(:expected_title) { 'This is a <span class="highlight token-0">token</span>.' }
 
-      it { should eq expected_title }
+      it { is_expected.to eq expected_title }
     end
 
     context 'with multiple tokens' do
@@ -69,7 +69,7 @@ describe 'search/index' do
       let(:title) { 'This is a token and another token.' }
       let(:expected_title) { 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.' }
 
-      it { should eq expected_title }
+      it { is_expected.to eq expected_title }
     end
 
     context 'with huge content' do
@@ -89,7 +89,7 @@ describe 'search/index' do
       let(:title) { ('й' * 200) + ' token ' + ('й' * 200) }
       let(:expected_title) { ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45) }
 
-      it { should eq expected_title }
+      it { is_expected.to eq expected_title }
     end
   end
 
@@ -104,7 +104,7 @@ describe 'search/index' do
       let(:titles) { [first, second] }
       let(:first_highlighted) { 'This is a <span class="highlight token-0">token</span>' }
 
-      it { should eq first_highlighted }
+      it { is_expected.to eq first_highlighted }
     end
 
     context 'when first is not matched' do
@@ -113,7 +113,7 @@ describe 'search/index' do
       let(:titles) { [first, second] }
       let(:second_highlighted) { 'I have some <span class="highlight token-0">token</span> for you' }
 
-      it { should eq second_highlighted }
+      it { is_expected.to eq second_highlighted }
     end
 
     context 'when both first and second is not matched' do
@@ -121,7 +121,7 @@ describe 'search/index' do
       let(:second) { 'I have some book for you' }
       let(:titles) { [first, second] }
 
-      it { should eq second }
+      it { is_expected.to eq second }
     end
   end
 end

@@ -32,7 +32,18 @@ describe('QueryService', function() {
 
   var QueryService, query, queryData;
 
-  beforeEach(module('openproject.services', 'openproject.models', 'openproject.api'));
+  beforeEach(module('openproject.services',
+                    'openproject.models',
+                    'openproject.api',
+                    'openproject.services'));
+
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(inject(function(_QueryService_){
     QueryService = _QueryService_;

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController do
+describe WorkPackages::BulkController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user)}
   let(:custom_field_value) { '125' }
@@ -97,9 +97,9 @@ describe WorkPackages::BulkController do
     shared_examples_for :response do
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('edit') }
+      it { is_expected.to render_template('edit') }
     end
 
     context "same project" do
@@ -174,9 +174,9 @@ describe WorkPackages::BulkController do
 
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
 
-        it { should redirect_to(url) }
+        it { is_expected.to redirect_to(url) }
       end
 
       context "of host" do
@@ -186,9 +186,9 @@ describe WorkPackages::BulkController do
 
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
 
-        it { should redirect_to(project_work_packages_path(project_1)) }
+        it { is_expected.to redirect_to(project_work_packages_path(project_1)) }
       end
     end
 
@@ -261,7 +261,7 @@ describe WorkPackages::BulkController do
         describe :priority do
           subject { WorkPackage.find_all_by_priority_id(priority.id).collect(&:id) }
 
-          it { should match_array(work_package_ids) }
+          it { is_expected.to match_array(work_package_ids) }
         end
 
         describe :custom_fields do
@@ -271,7 +271,7 @@ describe WorkPackages::BulkController do
                                .collect {|w| w.custom_value_for(custom_field_1.id).value }
                                .uniq }
 
-          it { should match_array(result) }
+          it { is_expected.to match_array(result) }
         end
 
         describe :journal do
@@ -282,7 +282,7 @@ describe WorkPackages::BulkController do
                                  .collect {|w| w.last_journal.notes }
                                  .uniq }
 
-            it { should match_array(result) }
+            it { is_expected.to match_array(result) }
           end
 
           describe :details do
@@ -292,7 +292,7 @@ describe WorkPackages::BulkController do
                                  .collect {|w| w.last_journal.details.size }
                                  .uniq }
 
-            it { should match_array(result) }
+            it { is_expected.to match_array(result) }
           end
         end
       end
@@ -330,7 +330,7 @@ describe WorkPackages::BulkController do
           describe :journal do
             subject { Journal.count }
 
-            it { should eq(work_package_ids.count) }
+            it { is_expected.to eq(work_package_ids.count) }
           end
         end
       end
@@ -344,7 +344,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
 
-          it { should match_array [group_id] }
+          it { is_expected.to match_array [group_id] }
         end
 
         describe :responsible do
@@ -354,7 +354,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect {|w| w.responsible_id }.uniq }
 
-          it { should match_array [responsible_id] }
+          it { is_expected.to match_array [responsible_id] }
         end
 
         describe :status do
@@ -375,7 +375,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:status_id).uniq }
 
-          it { should match_array [closed_status.id] }
+          it { is_expected.to match_array [closed_status.id] }
         end
 
         describe :parent do
@@ -391,7 +391,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:parent_id).uniq }
 
-          it { should match_array [parent.id] }
+          it { is_expected.to match_array [parent.id] }
         end
 
         describe :custom_fields do
@@ -406,7 +406,7 @@ describe WorkPackages::BulkController do
           subject { work_packages.collect {|w| w.custom_value_for(custom_field_1.id).value }
                                  .uniq }
 
-          it { should match_array [result] }
+          it { is_expected.to match_array [result] }
         end
 
         describe :unassign do
@@ -418,7 +418,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:assigned_to_id).uniq }
 
-          it { should match_array [nil] }
+          it { is_expected.to match_array [nil] }
         end
 
         describe :delete_responsible do
@@ -430,7 +430,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:responsible_id).uniq }
 
-          it { should match_array [nil] }
+          it { is_expected.to match_array [nil] }
         end
 
         describe :version do
@@ -451,19 +451,19 @@ describe WorkPackages::BulkController do
 
             subject { response }
 
-            it { should be_redirect }
+            it { is_expected.to be_redirect }
 
             describe :work_package do
               describe :fixed_version do
                 subject { work_packages.collect(&:fixed_version_id).uniq }
 
-                it { should match_array [version.id] }
+                it { is_expected.to match_array [version.id] }
               end
 
               describe :project do
                 subject { work_packages.collect(&:project_id).uniq }
 
-                it { should_not match_array [subproject.id] }
+                it { is_expected.not_to match_array [subproject.id] }
               end
             end
           end
@@ -479,7 +479,7 @@ describe WorkPackages::BulkController do
               describe :fixed_version do
                 subject { work_packages.collect(&:fixed_version_id).uniq }
 
-                it { should == [nil] }
+                it { is_expected.to eq([nil]) }
               end
             end
           end

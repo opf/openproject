@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User do
+describe User, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
@@ -51,7 +51,7 @@ describe User do
 
     it 'may be stored in the database' do
       user.login = 'a' * 256
-      expect(user.save).to be_true
+      expect(user.save).to be_truthy
     end
 
     it 'may be loaded from the database' do
@@ -70,7 +70,7 @@ describe User do
 
     it 'may not be stored in the database' do
       user.login = 'a' * 257
-      expect(user.save).to be_false
+      expect(user.save).to be_falsey
     end
 
   end
@@ -156,7 +156,7 @@ describe User do
         end
 
         it 'should allow password changes' do
-          expect(user.change_password_allowed?).to be_true
+          expect(user.change_password_allowed?).to be_truthy
         end
       end
 
@@ -169,7 +169,7 @@ describe User do
         end
 
         it 'should not allow password changes' do
-          expect(user.change_password_allowed?).to be_false
+          expect(user.change_password_allowed?).to be_falsey
         end
       end
     end
@@ -181,7 +181,7 @@ describe User do
       end
 
       it 'should not allow a password change' do
-        expect(user.change_password_allowed?).to be_false
+        expect(user.change_password_allowed?).to be_falsey
       end
     end
   end
@@ -219,7 +219,7 @@ describe User do
       let(:user) { FactoryGirl.build(:user, :identity_url => 'test_provider:veryuniqueid') }
 
       it 'should return true' do
-        expect(user.uses_external_authentication?).to be_true
+        expect(user.uses_external_authentication?).to be_truthy
       end
     end
 
@@ -227,7 +227,7 @@ describe User do
       let(:user) { FactoryGirl.build(:user, :identity_url => nil) }
 
       it 'should return false' do
-        expect(user.uses_external_authentication?).to be_false
+        expect(user.uses_external_authentication?).to be_falsey
       end
     end
   end
@@ -240,7 +240,7 @@ describe User do
       @u.save
     end
 
-    it { expect(@u.valid?).to be_false }
+    it { expect(@u.valid?).to be_falsey }
     it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
   end
 
@@ -254,7 +254,7 @@ describe User do
 
     it { expect(@u.password).not_to be_blank }
     it { expect(@u.password_confirmation).not_to be_blank }
-    it { expect(@u.force_password_change).to be_true}
+    it { expect(@u.force_password_change).to be_truthy}
   end
 
   describe :try_authentication_for_existing_user do
@@ -327,8 +327,8 @@ describe User do
       it 'creates a SystemUser' do
         expect {
           system_user = User.system
-          expect(system_user.new_record?).to be_false
-          expect(system_user.is_a?(SystemUser)).to be_true
+          expect(system_user.new_record?).to be_falsey
+          expect(system_user.is_a?(SystemUser)).to be_truthy
         }.to change(User, :count).by(1)
       end
     end
@@ -359,7 +359,7 @@ describe User do
       before do
         default_admin.save
       end
-      it { expect(User.default_admin_account_changed?).to be_false }
+      it { expect(User.default_admin_account_changed?).to be_falsey }
     end
 
     context "default admin account exists with changed password" do
@@ -369,7 +369,7 @@ describe User do
         default_admin.save
       end
 
-      it { expect(User.default_admin_account_changed?).to be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
     context "default admin account was deleted" do
@@ -378,7 +378,7 @@ describe User do
         default_admin.delete
       end
 
-      it { expect(User.default_admin_account_changed?).to be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
     context "default admin account was disabled" do
@@ -387,7 +387,7 @@ describe User do
         default_admin.save
       end
 
-      it { expect(User.default_admin_account_changed?).to be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
   end
 
@@ -422,7 +422,7 @@ describe User do
         allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(false)
       end
 
-      it { expect(anonymous.impaired?).to be_false }
+      it { expect(anonymous.impaired?).to be_falsey }
     end
 
     context 'anonymous user with accessibility mode enabled for anonymous users' do
@@ -430,11 +430,11 @@ describe User do
         allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(true)
       end
 
-      it { expect(anonymous.impaired?).to be_true }
+      it { expect(anonymous.impaired?).to be_truthy }
     end
 
     context 'not impaired user' do
-      it { expect(user.impaired?).to be_false }
+      it { expect(user.impaired?).to be_falsey }
     end
 
     context 'impaired user' do
@@ -442,7 +442,7 @@ describe User do
         user.pref[:impaired] = true
       end
 
-      it { expect(user.impaired?).to be_true }
+      it { expect(user.impaired?).to be_truthy }
     end
   end
 end

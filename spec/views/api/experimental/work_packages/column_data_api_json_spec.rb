@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/work_packages/column_data.api.rabl' do
+describe 'api/experimental/work_packages/column_data.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
 
@@ -41,16 +41,16 @@ describe 'api/experimental/work_packages/column_data.api.rabl' do
   describe 'with no column data' do
     let(:columns_data) { [] }
 
-    it { should have_json_path('columns_data') }
-    it { should have_json_size(0).at_path('columns_data') }
+    it { is_expected.to have_json_path('columns_data') }
+    it { is_expected.to have_json_size(0).at_path('columns_data') }
   end
 
   describe 'with column data' do
     let(:columns_data) { [[{ id: 1, name: 'Dairy Queen' }, { id: 2, name: 'Baskin Robbins' }]] }
 
-    it { should have_json_path('columns_data') }
-    it { should have_json_type(Array).at_path('columns_data')       }
-    it { should have_json_type(Array).at_path('columns_data/0')     }
-    it { should have_json_type(Object).at_path('columns_data/0/0')  }
+    it { is_expected.to have_json_path('columns_data') }
+    it { is_expected.to have_json_type(Array).at_path('columns_data')       }
+    it { is_expected.to have_json_type(Array).at_path('columns_data/0')     }
+    it { is_expected.to have_json_type(Object).at_path('columns_data/0/0')  }
   end
 end

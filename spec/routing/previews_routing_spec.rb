@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'preview' do
+describe 'preview', :type => :routing do
   it "should connect POST /projects/:project_id/wiki/preview to wiki#preview" do
     expect(post("/projects/1/wiki/preview")).to route_to(controller: 'wiki',
                                                      action: 'preview',

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UsersController do
+describe UsersController, :type => :routing do
   describe "routing" do
     describe "users" do
       it { expect(get('/users/1/deletion_info')).to route_to(:controller => 'users',

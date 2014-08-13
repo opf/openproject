@@ -40,7 +40,6 @@ module API
         include OpenProject::TextFormatting
         include OpenProject::StaticRouting::UrlHelpers
         include WorkPackagesHelper
-        include GravatarImageTag
 
         # N.B. required by ActionView::Helpers::UrlHelper
         def controller; nil; end
@@ -54,6 +53,7 @@ module API
         property :updated_at, on: :work_package, type: DateTime
         property :author, on: :work_package, type: String
         property :project_id, on: :work_package, type: Integer
+        property :parent_id, on: :work_package, type: Integer
         property :responsible_id, on: :work_package, type: Integer
         property :assigned_to_id, on: :work_package, type: Integer
         property :fixed_version_id, on: :work_package, type: Integer
@@ -79,8 +79,7 @@ module API
         end
 
         def type=(value)
-          type = Type.find(:first, conditions: ['name ilike ?', value])
-          work_package.type = type
+          work_package.type = Type.find_by_name(value)
         end
 
         def status
@@ -88,8 +87,7 @@ module API
         end
 
         def status=(value)
-          status = Status.find(:first, conditions: ['name ilike ?', value])
-          work_package.status = status
+          work_package.status = Status.find_by_name(value)
         end
 
         def priority
@@ -97,8 +95,7 @@ module API
         end
 
         def priority=(value)
-          priority = IssuePriority.find(:first, conditions: ['name ilike ?', value])
-          work_package.priority = priority
+          work_package.priority = IssuePriority.find_by_name(value)
         end
 
         def estimated_time
@@ -150,11 +147,26 @@ module API
         end
 
         def relations
-          work_package.relations.map{ |relation| RelationModel.new(relation) }
+          relations = work_package.relations
+          visible_relations = relations.find_all { |relation| relation.other_work_package(work_package).visible? }
+          visible_relations.map{ |relation| RelationModel.new(relation) }
+        end
+
+        def is_closed
+          work_package.closed?
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
+        validate :validate_parent_constraint
+
+        private
+
+          def validate_parent_constraint
+            if work_package.parent
+              errors.add :parent_id, :cannot_be_milestone if work_package.parent.is_milestone?
+            end
+          end
       end
     end
   end

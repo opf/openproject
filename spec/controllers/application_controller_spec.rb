@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationController do
+describe ApplicationController, :type => :controller do
   let(:user) { FactoryGirl.create(:user, :lastname => "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
@@ -98,7 +98,7 @@ describe ApplicationController do
 
         @controller.send :handle_unverified_request
 
-        expect(@controller.send(:current_user).anonymous?).to be_true
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
       end
     end
 

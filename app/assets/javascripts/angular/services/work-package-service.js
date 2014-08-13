@@ -130,6 +130,26 @@ angular.module('openproject.services')
         });
     },
 
+    addWorkPackageRelation: function(workPackage, toId, relationType) {
+      var options = { ajax: {
+        method: "POST",
+        data: {
+          to_id: toId,
+          relation_type: relationType
+        }
+      } };
+      return workPackage.links.addRelation.fetch(options).then(function(relation){
+        return relation;
+      });
+    },
+
+    removeWorkPackageRelation: function(relation) {
+      var options = { ajax: { method: "DELETE" } };
+      return relation.links.remove.fetch(options).then(function(response){
+        return response;
+      });
+    },
+
     doQuery: function(url, params) {
       return $http({
         method: 'GET',

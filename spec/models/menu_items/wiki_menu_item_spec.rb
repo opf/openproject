@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MenuItems::WikiMenuItem do
+describe MenuItems::WikiMenuItem, :type => :model do
   before(:each) do
     @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity])
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")

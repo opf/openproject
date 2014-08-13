@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
           <td class="timelines-pa-responsible">
             <% if other.responsible.present? %>
-              <%= avatar(other.responsible, :size => "14") %>
+              <%= avatar(other.responsible, class: 'avatar-mini') %>
               <%= link_to_user(other.responsible) %>
             <% else %>
               -

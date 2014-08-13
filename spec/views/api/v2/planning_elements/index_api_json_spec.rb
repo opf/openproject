@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.api.rabl' do
+describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
   end
@@ -64,7 +64,7 @@ describe 'api/v2/planning_elements/index.api.rabl' do
     end
 
     it "should render 3 planning-elements" do
-      should have_json_size(3).at_path("planning_elements")
+      is_expected.to have_json_size(3).at_path("planning_elements")
     end
 
     it 'should render the subject' do
@@ -75,7 +75,7 @@ describe 'api/v2/planning_elements/index.api.rabl' do
       type = project.types.first
       expected_json = {name: type.name}.to_json
 
-      should be_json_eql(type.id.to_json).at_path("planning_elements/0/type_id")
+      is_expected.to be_json_eql(type.id.to_json).at_path("planning_elements/0/type_id")
 
     end
 
@@ -84,7 +84,7 @@ describe 'api/v2/planning_elements/index.api.rabl' do
     end
 
     it 'should render a project-id' do
-      should be_json_eql(project.id.to_json).at_path(("planning_elements/0/project_id"))
+      is_expected.to be_json_eql(project.id.to_json).at_path(("planning_elements/0/project_id"))
     end
 
 

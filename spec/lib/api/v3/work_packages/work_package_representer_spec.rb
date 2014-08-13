@@ -44,7 +44,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     )
   }
   let(:project) { work_package.project }
-  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers add_work_package_notes) }
+  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations add_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -54,43 +54,45 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('WorkPackage'.to_json).at_path('_type') }
+    it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
 
     describe 'work_package' do
-      it { should have_json_path('id') }
+      it { is_expected.to have_json_path('id') }
 
-      it { should have_json_path('description') }
-      it { should have_json_path('rawDescription') }
+      it { is_expected.to have_json_path('description') }
+      it { is_expected.to have_json_path('rawDescription') }
 
-      it { should have_json_path('dueDate') }
+      it { is_expected.to have_json_path('dueDate') }
 
-      it { should have_json_path('percentageDone') }
-      it { should have_json_path('priority') }
+      it { is_expected.to have_json_path('percentageDone') }
+      it { is_expected.to have_json_path('priority') }
 
-      it { should have_json_path('projectId') }
-      it { should have_json_path('projectName') }
+      it { is_expected.to have_json_path('projectId') }
+      it { is_expected.to have_json_path('projectName') }
 
-      it { should have_json_path('startDate') }
-      it { should have_json_path('status') }
-      it { should have_json_path('subject') }
-      it { should have_json_path('type') }
+      it { is_expected.to have_json_path('startDate') }
+      it { is_expected.to have_json_path('status') }
+      it { is_expected.to have_json_path('subject') }
+      it { is_expected.to have_json_path('type') }
 
-      it { should have_json_path('versionId') }
-      it { should have_json_path('versionName') }
+      it { is_expected.to have_json_path('versionId') }
+      it { is_expected.to have_json_path('versionName') }
 
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
+      it { is_expected.to have_json_path('createdAt') }
+      it { is_expected.to have_json_path('updatedAt') }
+
+      it { is_expected.to have_json_path('isClosed') }
     end
 
     describe 'estimatedTime' do
-      it { should have_json_type(Object).at_path('estimatedTime') }
+      it { is_expected.to have_json_type(Object).at_path('estimatedTime') }
 
-      it { should have_json_path('estimatedTime/units') }
-      it { should have_json_path('estimatedTime/value') }
+      it { is_expected.to have_json_path('estimatedTime/units') }
+      it { is_expected.to have_json_path('estimatedTime/value') }
     end
 
     describe '_links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
 
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
@@ -166,24 +168,79 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to_not have_json_path('_links/addWatcher/href')
         end
       end
+
+      context 'when the user has the permission to manage relations' do
+        it 'should have a link to add relation' do
+          expect(subject).to have_json_path('_links/addRelation/href')
+        end
+      end
+
+      context 'when the user does not have the permission to manage relations' do
+        before do
+          role.permissions.delete(:manage_work_package_relations) and role.save
+        end
+
+        it 'should not have a link to add relation' do
+          expect(subject).to_not have_json_path('_links/addRelation/href')
+        end
+      end
+
+      describe 'linked relations' do
+        let(:project) { FactoryGirl.create(:project, is_public: false) }
+        let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
+        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+        before do
+          allow(User).to receive(:current).and_return(user)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        context 'parent' do
+          let(:work_package) { FactoryGirl.create(:work_package,
+                                                  project: project,
+                                                  parent_id: forbidden_work_package.id) }
+          let!(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+
+          it { expect(subject).to_not have_json_path('_links/parent') }
+        end
+
+        context 'children' do
+          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+          let!(:forbidden_work_package) { FactoryGirl.create(:work_package,
+                                                             project: forbidden_project,
+                                                             parent_id: work_package.id) }
+
+          it { expect(subject).to_not have_json_path('_links/children') }
+
+          describe 'visible and invisible children' do
+            let!(:child) { FactoryGirl.create(:work_package,
+                                              project: project,
+                                              parent_id: work_package.id) }
+
+            it { expect(subject).to have_json_size(1).at_path('_links/children') }
+
+            it { expect(parse_json(subject)["_links"]["children"][0]["title"]).to eq(child.subject) }
+          end
+        end
+      end
     end
 
     describe '_embedded' do
-      it { should have_json_type(Object).at_path('_embedded') }
+      it { is_expected.to have_json_type(Object).at_path('_embedded') }
 
       describe 'activities' do
-        it { should have_json_type(Array).at_path('_embedded/activities') }
-        it { should have_json_size(0).at_path('_embedded/activities') }
+        it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
+        it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
       end
 
       describe 'attachments' do
-        it { should have_json_type(Array).at_path('_embedded/attachments') }
-        it { should have_json_size(0).at_path('_embedded/attachments') }
+        it { is_expected.to have_json_type(Array).at_path('_embedded/attachments') }
+        it { is_expected.to have_json_size(0).at_path('_embedded/attachments') }
       end
 
       describe 'watchers' do
         context 'when the current user has the permission to view work packages' do
-          it { should have_json_path('_embedded/watchers') }
+          it { is_expected.to have_json_path('_embedded/watchers') }
         end
 
         context 'when the current user does not have the permission to view work packages' do
@@ -191,7 +248,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             role.permissions.delete(:view_work_package_watchers) and role.save
           end
 
-          it { should_not have_json_path('_embedded/watchers') }
+          it { is_expected.not_to have_json_path('_embedded/watchers') }
         end
       end
     end

@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe SystemUser do
+describe SystemUser, :type => :model do
   let(:system_user) { User.system }
 
   describe '#grant_privileges' do
     before do
-      expect(system_user.admin).to be_false
+      expect(system_user.admin).to be_falsey
       expect(system_user.status).to eq(User::STATUSES[:locked])
       system_user.grant_privileges
     end
 
     it 'grant admin rights' do
-      expect(system_user.admin).to be_true
+      expect(system_user.admin).to be_truthy
     end
 
     it 'unlocks the user' do
@@ -56,7 +56,7 @@ describe SystemUser do
     end
 
     it 'removes admin rights' do
-      expect(system_user.admin).to be_false
+      expect(system_user.admin).to be_falsey
     end
 
     it 'locks the user' do
@@ -83,7 +83,7 @@ describe SystemUser do
     end
 
     it 'runs block with SystemUser' do
-      expect(@u.admin?).to be_false
+      expect(@u.admin?).to be_falsey
       before_user = User.current
 
       @u.run_given do
@@ -93,7 +93,7 @@ describe SystemUser do
       expect(issue.done_ratio).to eq(50)
       expect(issue.journals.last.user).to eq(@u)
 
-      expect(@u.admin?).to be_false
+      expect(@u.admin?).to be_falsey
       expect(User.current).to eq(before_user)
     end
   end

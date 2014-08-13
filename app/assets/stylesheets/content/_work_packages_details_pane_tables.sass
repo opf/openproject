@@ -1,0 +1,46 @@
+/* Please use these styles for tables inside the details-pane */
+
+table.detail-pane-table
+  width: 100%
+  table-layout: fixed
+  border-collapse: collapse
+  thead
+    border-bottom: 1px solid #dddddd
+    font-weight: bold
+    text-transform: uppercase
+  tr
+    td
+      padding: 3px 8px 3px 0
+      text-overflow: ellipsis
+      white-space: nowrap
+      overflow: hidden
+
+.delete-item
+  cursor: pointer
+  float: right
+
+table.relations-table
+  tr
+    td
+      &:first-of-type
+        width: 50%
+      &:nth-child(2)
+        width: 15%
+      &:nth-child(3)
+        width: 25%
+      &:last-of-type
+        width: 10%
+
+table.attachments-table
+  tr
+    td
+      &:first-of-type
+        width: 20%
+      &:nth-child(2)
+        width: 10%
+      &:nth-child(3)
+        width: 20%
+      &:nth-child(4)
+        width: 15%
+      &:last-of-type
+        width: 25%

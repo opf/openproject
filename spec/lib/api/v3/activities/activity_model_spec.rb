@@ -46,9 +46,20 @@ h3. Plan update
       }
     }
 
-    its(:notes)     { should have_selector 'h3' }
-    its(:notes)     { should have_selector 'ol > li' }
-    its(:raw_notes) { should eq attributes[:notes] }
+    describe '#notes' do
+      subject { super().notes }
+      it { is_expected.to have_selector 'h3' }
+    end
+
+    describe '#notes' do
+      subject { super().notes }
+      it { is_expected.to have_selector 'ol > li' }
+    end
+
+    describe '#raw_notes' do
+      subject { super().raw_notes }
+      it { is_expected.to eq attributes[:notes] }
+    end
 
     it 'should allow raw_notes to be set' do
       model.raw_notes = 'h4. Plan revision'

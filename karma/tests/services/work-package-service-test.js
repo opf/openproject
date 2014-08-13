@@ -31,7 +31,15 @@
 describe('WorkPackageService', function() {
 
   var WorkPackageService;
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
+  beforeEach(module('openproject.api','openproject.services', 'openproject.models'));
+
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(inject(function(_WorkPackageService_, _HALAPIResource_){
     WorkPackageService = _WorkPackageService_;

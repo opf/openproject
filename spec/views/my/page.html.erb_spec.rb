@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my/page' do
+describe 'my/page', :type => :view do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
   let(:issue)      { FactoryGirl.create :work_package, :project => project, :author => user }

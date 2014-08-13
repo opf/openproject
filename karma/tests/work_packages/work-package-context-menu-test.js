@@ -36,7 +36,16 @@ describe('workPackageContextMenu', function() {
                     'openproject.api',
                     'openproject.workPackages',
                     'openproject.models',
+                    'openproject.services',
                     'templates'));
+
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(function() {
     var html = '<div></div>';
@@ -91,11 +100,11 @@ describe('workPackageContextMenu', function() {
     });
 
     it('lists link tags for any permitted action', function(){
-      expect(directListElements.length).to.equal(2);
+      expect(directListElements.length).to.equal(3);
     });
 
     it('assigns a css class named by the action', function(){
-      expect(directListElements[0].className).to.equal(actions[0]);
+      expect(directListElements[1].className).to.equal(actions[0]);
     });
 
     it('adds an icon from the icon fonts to each list container', function() {
@@ -130,7 +139,7 @@ describe('workPackageContextMenu', function() {
       });
 
       it('displays a link triggering deleteWorkPackages within the scope', function() {
-        expect(directListElements.find('a').attr('ng-click')).to.equal('deleteWorkPackages()');
+        expect(directListElements.find('a.icon-delete').attr('ng-click')).to.equal('deleteWorkPackages()');
       });
     });
   });

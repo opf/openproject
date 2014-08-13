@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
               accesskey: accesskey(:edit)) if User.current.admin? %>
 <% end %>
 
-<h2><%= avatar @user, :size => "50" %> <%=h @user.name %></h2>
+<h2><%= avatar @user %> <%=h @user.name %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 

@@ -470,7 +470,7 @@ module ApplicationHelper
     end
 
     number = content_tag 'p', :class => 'pourcent' do
-      legend + " " + l(:total_progress)
+      legend + '% ' + l(:total_progress)
     end
 
     bar + number

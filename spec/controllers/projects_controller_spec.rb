@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsController do
+describe ProjectsController, :type => :controller do
   before do
     Role.delete_all
     User.delete_all
@@ -280,7 +280,7 @@ describe ProjectsController do
       shared_examples_for :redirect do
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
       end
 
       before { allow(User).to receive(:current).and_return user }
@@ -298,7 +298,7 @@ describe ProjectsController do
 
         subject { flash[:notice].last }
 
-        it { should match(regex) }
+        it { is_expected.to match(regex) }
       end
 
       context "no type missing" do
@@ -331,13 +331,13 @@ describe ProjectsController do
 
           subject { flash[:error] }
 
-          it { should =~ regex }
+          it { is_expected.to match(regex) }
 
-          it { should =~ Regexp.new(type_standard.name) }
+          it { is_expected.to match(Regexp.new(type_standard.name)) }
 
-          it { should =~ Regexp.new(type_bug.name) }
+          it { is_expected.to match(Regexp.new(type_bug.name)) }
 
-          it { should =~ Regexp.new(type_feature.name) }
+          it { is_expected.to match(Regexp.new(type_feature.name)) }
         end
       end
 
@@ -351,7 +351,7 @@ describe ProjectsController do
 
           subject { flash[:notice].all? {|n| regex.match(n).nil? } }
 
-          it { should be_false }
+          it { is_expected.to be_falsey }
         end
       end
     end

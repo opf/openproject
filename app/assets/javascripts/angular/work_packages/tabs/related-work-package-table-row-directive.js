@@ -27,54 +27,35 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
-.directive('workPackageRelation', [
+.directive('relatedWorkPackageTableRow', [
     'I18n',
     'PathHelper',
     'WorkPackagesHelper',
-    function(I18n, PathHelper, WorkPackagesHelper) {
+    'ApiHelper',
+    'WorkPackageService',
+    function(I18n, PathHelper, WorkPackagesHelper, ApiHelper, WorkPackageService) {
   return {
-    restrict: 'E',
-    replace: true,
-    scope: { title: '@', relatedWorkPackages: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
-    templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
-    link: function(scope, element, attrs) {
+    restrict: 'A',
+    link: function(scope) {
       scope.I18n = I18n;
-      scope.WorkPackagesHelper = WorkPackagesHelper;
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
       scope.userPath = PathHelper.staticUserPath;
+      scope.canDeleteRelation = !!scope.relation.links.remove;
 
-      var setExpandState = function() {
-        scope.expand = scope.relatedWorkPackages && scope.relatedWorkPackages.length > 0;
-      };
-
-      scope.$watch('relatedWorkPackages', function() {
-        setExpandState();
+      scope.handler.getRelatedWorkPackage(scope.workPackage, scope.relation).then(function(relatedWorkPackage){
+        scope.relatedWorkPackage = relatedWorkPackage;
+        scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
+        scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
       });
 
-      scope.collapseStateIcon = function(collapsed) {
-        var iconClass = 'icon-arrow-right5-';
-
-        if (collapsed) {
-          iconClass += '3';
-        } else {
-          iconClass += '2';
-        }
-
-        return iconClass;
-      }
-
-      scope.getFullIdentifier = function(workPackage) {
-        var id = '#' + workPackage.props.id;
-
-        if (workPackage.props.type) {
-          id += ' ' + workPackage.props.type + ':';
-        }
-
-        id += ' ' + workPackage.props.subject;
-
-        return id;
+      scope.removeRelation = function() {
+        WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
+          scope.$emit('workPackageRefreshRequired', '');
+        }, function(error) {
+          ApiHelper.handleError(scope, error);
+        });
       };
     }
   };

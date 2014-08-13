@@ -49,13 +49,67 @@ h2. Plan for this month
       }
     }
 
-    its(:description)     { should have_selector 'h2' }
-    its(:description)     { should have_selector 'ol > li' }
-    its(:raw_description) { should eq attributes[:description] }
+    describe '#description' do
+      subject { super().description }
+      it { is_expected.to have_selector 'h2' }
+    end
+
+    describe '#description' do
+      subject { super().description }
+      it { is_expected.to have_selector 'ol > li' }
+    end
+
+    describe '#raw_description' do
+      subject { super().raw_description }
+      it { is_expected.to eq attributes[:description] }
+    end
 
     it 'should allow a raw_description to be set' do
       model.raw_description = 'h4. More details'
       expect(model.description).to have_selector 'h4'
+    end
+
+    describe 'closed state' do
+      context 'is closed' do
+        let(:closed_status) { FactoryGirl.build(:closed_status) }
+        let(:work_package) { FactoryGirl.build(:work_package, status: closed_status) }
+
+        it { expect(model.is_closed).to be_truthy }
+      end
+
+      context 'is not closed' do
+        it { expect(model.is_closed).to be_falsey }
+      end
+    end
+
+    describe 'visibility to related work packages' do
+      let(:project) { FactoryGirl.create(:project, is_public: false) }
+      let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
+      let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
+      let(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+
+      before do
+        allow(User).to receive(:current).and_return(user)
+        allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+      end
+
+      describe 'relations' do
+        let!(:relation) { FactoryGirl.create(:relation,
+                                             from: work_package,
+                                             to: work_package_2) }
+        let!(:forbidden_relation) { FactoryGirl.create(:relation,
+                                                       from: work_package,
+                                                       to: forbidden_work_package) }
+
+        it { expect(model.relations.count).to eq(1) }
+
+        it { expect(model.relations[0].from_id).to eq(work_package.id) }
+
+        it { expect(model.relations[0].to_id).to eq(work_package_2.id) }
+      end
     end
   end
 end

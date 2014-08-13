@@ -15,7 +15,11 @@
       <label ng-bind="propertyData.label"/>
       <span ng-switch="propertyData.format">
         <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-        <span ng-switch-default ng-bind="propertyData.value || '-'"/>
+        <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                       html-element="propertyData.value"
+                                       work-package="workPackage">
+        </span>
+        <span ng-switch-default ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"/>
       </span>
     </li>
   </ul>
@@ -43,13 +47,14 @@
           class="work-package-details-activities-activity"
           ng-init="currentAnchor = 'note-' + ($index+1);
                    activityNo = activities.length - $index;">
-        <user-activity activity="activity"
+        <user-activity work-package="workPackage"
+                       activity="activity"
                        activity-no="activityNo"
                        input-element-id="'add-comment-text'">
       </li>
     </ul>
+    <activity-comment work-package="workPackage"
+                      activities="activities">
+    </activity-comment>
   </exclusive-edit>
-  <activity-comment work-package="workPackage"
-                    activities="activities">
-  </activity-comment>
 </div>

@@ -61,6 +61,10 @@ class WorkPackagesController < ApplicationController
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
+  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
+                                     :date, :percentageDone, :priority,
+                                     :estimatedTime, :versionName, :spentTime]
+
   def show
     respond_to do |format|
       format.html do
@@ -206,6 +210,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         gon.settings = client_preferences
+        gon.settings[:work_package_attributes] = hook_overview_attributes
 
         render :index, :locals => { :query => @query,
                                     :project => @project },
@@ -453,5 +458,13 @@ class WorkPackagesController < ApplicationController
 
   def parse_preview_data
     parse_preview_data_helper :work_package, [:notes, :description]
+  end
+
+  def hook_overview_attributes(initial_attributes = DEFAULT_WORK_PACKAGE_PROPERTIES) 
+    attributes = initial_attributes
+    call_hook(:work_packages_overview_attributes,
+              project: @project,
+              attributes: attributes)
+    attributes.uniq
   end
 end

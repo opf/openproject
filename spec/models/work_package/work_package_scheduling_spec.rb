@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :overdue do
     let(:work_package) { FactoryGirl.create(:work_package,
                                             due_date: due_date) }
@@ -36,13 +36,13 @@ describe WorkPackage do
     shared_examples_for "overdue" do
       subject { work_package.overdue? }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     shared_examples_for "on time" do
       subject { work_package.overdue? }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
 
     context "one day ago" do
@@ -89,13 +89,13 @@ describe WorkPackage do
     shared_examples_for "behind schedule" do
       subject { work_package.behind_schedule? }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     shared_examples_for "in schedule" do
       subject { work_package.behind_schedule? }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
 
     context "no start date" do

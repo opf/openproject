@@ -27,8 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<% unless OpenProject::Configuration.disable_password_login? %>
+  <% content_for :action_menu_specific do %>
+    <%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
+  <% end %>
 <% end %>
 
 <h2><%=l(:label_user_plural)%></h2>
@@ -79,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <tbody>
     <% for user in @users -%>
       <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %> <%= 'blocked' if user.failed_too_many_recent_login_attempts? %>">
-        <td class="username"><%= avatar(user, :size => "14") %><%= link_to h(user.login), edit_user_path(user) %></td>
+        <td class="username"><%= avatar(user, class: 'avatar-mini') %><%= link_to h(user.login), edit_user_path(user) %></td>
         <td class="firstname"><%= h(user.firstname) %></td>
         <td class="lastname"><%= h(user.lastname) %></td>
         <td class="email"><%= mail_to(h(user.mail)) %></td>

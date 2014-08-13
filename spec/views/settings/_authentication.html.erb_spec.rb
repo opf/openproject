@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-author: Scott Woods, West Arete Computing
-summary: View helpers for displaying gravatars.
-homepage: http://github.com/woods/gravatar-plugin/
-plugin: git://github.com/woods/gravatar-plugin.git
-license: MIT
-version: 0.1
-rails_version: 1.0+
+require 'spec_helper'
+
+describe 'settings/_authentication', :type => :view do
+  context 'with password login enabled' do
+    before do
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+      render
+    end
+
+    it 'shows password settings' do
+      expect(rendered).to have_text I18n.t('label_password_lost')
+    end
+
+    it 'shows automated user blocking options' do
+      expect(rendered).to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+    end
+  end
+
+  context 'with password login disabled' do
+    before do
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      render
+    end
+
+    it 'does not show password settings' do
+      expect(rendered).not_to have_text I18n.t('label_password_lost')
+    end
+
+    it 'does not show automated user blocking options' do
+      expect(rendered).not_to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+    end
+  end
+end

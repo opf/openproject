@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesHelper do
+describe WorkPackagesHelper, :type => :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
@@ -419,8 +419,8 @@ describe WorkPackagesHelper do
 
     it "should return a select with every available status as an option" do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                       .with(stub_user, true)
-                       .and_return([status1, status2])
+                              .with(stub_user)
+                              .and_return([status1, status2])
 
       stub_work_package.status = status1
 
@@ -437,8 +437,8 @@ describe WorkPackagesHelper do
 
     it "should return a label and the name of the current status if no new status is available" do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                       .with(stub_user, true)
-                       .and_return([])
+                              .with(stub_user)
+                              .and_return([])
 
       stub_work_package.status = status1
 

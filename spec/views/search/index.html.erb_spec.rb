@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'search/index' do
+describe 'search/index', :type => :view do
   let(:project)      { FactoryGirl.create :project }
   let(:user)         { FactoryGirl.create :admin, :member_in_project => project }
   let(:work_package) { FactoryGirl.create :work_package, :project => project }

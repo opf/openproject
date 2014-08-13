@@ -36,7 +36,16 @@ describe('columnContextMenu', function() {
                     'openproject.workPackages.controllers',
                     'openproject.models',
                     'openproject.api',
+                    'openproject.services',
                     'templates'));
+
+  beforeEach(module('templates', function($provide) {
+    configurationService = new Object();
+
+    configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
   beforeEach(function() {
     var html = '<div></div>';

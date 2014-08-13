@@ -80,6 +80,14 @@ angular.module('openproject.config')
     },
     timeFormat: function() {
       return gon.settings.display.time_format;
+    },
+    workPackageAttributeSettingsPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('work_package_attributes');
+    },
+    workPackageAttributes: function() {
+      var attributes = (this.workPackageAttributeSettingsPresent()) ? gon.settings.work_package_attributes : [];
+
+      return attributes;
     }
   };
 }]);

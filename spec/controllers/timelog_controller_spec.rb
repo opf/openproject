@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimelogController do
+describe TimelogController, :type => :controller do
   let!(:activity) { FactoryGirl.create(:default_activity) }
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:admin,

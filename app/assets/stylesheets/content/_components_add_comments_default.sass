@@ -35,10 +35,11 @@
     font-size: $global_font_size
     width: 100%
     box-sizing: border-box
+    &:required
+      box-shadow: none
     &:hover
       border: 1px solid #aaaaaa
     &:focus
-      border: 1px solid #aaaaaa
-      box-shadow: 1px 1px 1px #dddddd inset
+      box-shadow: 1px 1px 1px #dddddd inset  
   .add-comment-text
     resize: none

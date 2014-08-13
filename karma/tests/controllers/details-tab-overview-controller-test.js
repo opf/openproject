@@ -29,8 +29,14 @@
 /*jshint expr: true*/
 
 describe('DetailsTabOverviewController', function() {
+  var DEFAULT_WORK_PACKAGE_PROPERTIES = ['status', 'assignee', 'responsible',
+                                         'date', 'percentageDone', 'priority',
+                                         'estimatedTime', 'versionName', 'spentTime'] 
+
   var scope;
   var buildController;
+  var HookService;
+  var ConfigurationService;
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
@@ -45,6 +51,8 @@ describe('DetailsTabOverviewController', function() {
         props: {
           status: 'open',
           versionName: null,
+          percentageDone: 0,
+          estimatedTime: undefined,
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
           ]
@@ -55,14 +63,19 @@ describe('DetailsTabOverviewController', function() {
           attachments: []
         },
       };
+  var workPackageAttributesStub;
 
   function buildWorkPackageWithId(id) {
     angular.extend(workPackage.props, {id: id});
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
-  beforeEach(inject(function($rootScope, $controller, $timeout) {
+  beforeEach(module('openproject.api',
+                    'openproject.services',
+                    'openproject.config',
+                    'openproject.workPackages.controllers'));
+
+  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _ConfigurationService_) {
     var workPackageId = 99;
 
     buildController = function() {
@@ -79,6 +92,11 @@ describe('DetailsTabOverviewController', function() {
       $timeout.flush();
     };
 
+    HookService = _HookService_;
+    ConfigurationService = _ConfigurationService_;
+
+    workPackageAttributesStub = sinon.stub(ConfigurationService, "workPackageAttributes");
+    workPackageAttributesStub.returns(DEFAULT_WORK_PACKAGE_PROPERTIES);
   }));
 
   describe('initialisation', function() {
@@ -94,15 +112,50 @@ describe('DetailsTabOverviewController', function() {
       });
     }
 
-    describe('when the property has a value', function() {
-      var propertyName = 'status';
+    function fetchEmptyPropertiesWithName(propertyName) {
+      return scope.emptyWorkPackageProperties.filter(function(propertyData) {
+        return propertyData.property === propertyName;
+      });
+    }
 
+    var shouldBehaveLikePropertyWithValue = function(propertyName) {
+      it('adds property to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    }
+
+    var shouldBehaveLikePropertyWithNoValue = function(propertyName) {
+      it('adds property to present properties', function() {
+        expect(fetchEmptyPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    }
+
+    describe('when the property has a value', function() {
       beforeEach(function() {
         buildController();
       });
 
-      it('adds properties to present properties', function() {
-        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      describe('status', function() {
+        var propertyName = 'status';
+
+        shouldBehaveLikePropertyWithValue(propertyName);
+      });
+
+      describe('percentage done', function() {
+        var propertyName = 'percentageDone';
+
+        shouldBehaveLikePropertyWithValue(propertyName);
+      });
+    });
+
+    describe('when the property has NO value', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      describe('estimated Time', function() {
+        var propertyName = 'estimatedTime';
+
       });
     });
 
@@ -200,7 +253,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('renders the due date and a placeholder for the start date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - Jul 10, 2014');
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - 07/10/2014');
         });
       });
 
@@ -221,7 +274,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('renders the start date and a placeholder for the due date as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - ' + placeholder);
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('07/09/2014 - ' + placeholder);
         });
       });
 
@@ -234,7 +287,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('combines them and renders them as date property', function() {
-          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - Jul 10, 2014');
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('07/09/2014 - 07/10/2014');
         });
       });
     });
@@ -289,7 +342,41 @@ describe('DetailsTabOverviewController', function() {
         });
       });
     });
+
+    describe('Plug-in properties', function() {
+      var propertyName = 'myPluginProperty';
+      var directiveName = 'my-plugin-property-directive';
+
+      beforeEach(function() {
+        gon.settings = { };
+        gon.settings.work_package_attributes = [propertyName];
+
+        var attributes = DEFAULT_WORK_PACKAGE_PROPERTIES.slice(0);
+        attributes.push(propertyName);
+
+        workPackageAttributesStub.returns(attributes);
+
+        var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
+        workPackageOverviewAttributesStub.withArgs('workPackageOverviewAttributes',
+                                                   { type: propertyName,
+                                                     workPackage: workPackage })
+                                         .returns([directiveName]);
+        workPackageOverviewAttributesStub.returns([]);
+
+        buildController();
+      });
+
+      it('adds plug-in property to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+
+      it('adds plug-in property to present properties', function() {
+        var propertyData = fetchPresentPropertiesWithName(propertyName)[0];
+
+        expect(propertyData.property).to.eq(propertyName);
+        expect(propertyData.format).to.eq('dynamic');
+        expect(propertyData.value).to.eq(directiveName);
+      });
+    });
   });
-
-
 });

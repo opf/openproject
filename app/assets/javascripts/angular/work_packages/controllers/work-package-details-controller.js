@@ -38,6 +38,15 @@ angular.module('openproject.workPackages.controllers')
   precedes: "Relation::Precedes",
   follows: "Relation::Follows"
 })
+.constant('RELATION_IDENTIFIERS', {
+  relatedTo: "relates",
+  duplicates: "duplicates",
+  duplicated: "duplicated",
+  blocks: "blocks",
+  blocked: "blocked",
+  precedes: "precedes",
+  follows: "follows"
+})
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -46,10 +55,14 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'VISIBLE_LATEST',
   'RELATION_TYPES',
+  'RELATION_IDENTIFIERS',
   '$q',
   'WorkPackagesHelper',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, $q, WorkPackagesHelper, ConfigurationService) {
+  'CommonRelationsHandler',
+  'ChildrenRelationsHandler',
+  'ParentRelationsHandler',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -72,12 +85,18 @@ angular.module('openproject.workPackages.controllers')
     }
     $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
-    function outputError(error) {
+    function outputMessage(message, isError) {
       $scope.$emit('flashMessage', {
-        isError: true,
-        text: error.message
+        isError: !!isError,
+        text: message
       });
     }
+
+    function outputError(error) {
+      outputMessage(error.message, true);
+    }
+
+    $scope.outputMessage = outputMessage; // expose to child controllers
     $scope.outputError = outputError; // expose to child controllers
 
     function setWorkPackageScopeProperties(workPackage){
@@ -100,18 +119,24 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
-        $scope.wpParent = parent;
+      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        $scope.wpParent = relationsHandler;
       });
+
       $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
-        $scope.wpChildren = children;
+        var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
+        $scope.wpChildren = relationsHandler;
       });
 
       for (var key in RELATION_TYPES) {
         if (RELATION_TYPES.hasOwnProperty(key)) {
           (function(key) {
             $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
-              $scope[key] = relations;
+              var relationsHandler = new CommonRelationsHandler(workPackage,
+                                                                relations,
+                                                                RELATION_IDENTIFIERS[key]);
+              $scope[key] = relationsHandler;
             });
           })(key);
         }

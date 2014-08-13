@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Member do
+describe Member, :type => :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role) }
   let(:second_role) { FactoryGirl.create(:role) }

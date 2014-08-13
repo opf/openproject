@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my routes' do
+describe 'my routes', :type => :routing do
   it '/my/add_block POST routes to my#add_block' do
     expect(post('/my/add_block')).to route_to('my#add_block')
   end

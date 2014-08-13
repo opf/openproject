@@ -245,6 +245,15 @@ module Project::Copy
       project.boards.each do |board|
         new_board = Board.new
         new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
+        topics = board.topics.where("parent_id is NULL")
+        topics.each do |topic|
+          new_topic = Message.new
+          new_topic.attributes = topic.attributes.dup.except("id", "board_id", "author_id", "replies_count", "last_reply_id", "created_on", "updated_on")
+          new_topic.board = new_board
+          new_topic.author_id = topic.author_id
+          new_board.topics << new_topic
+        end
+
         new_board.project = self
         self.boards << new_board
       end

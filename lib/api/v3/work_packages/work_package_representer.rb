@@ -120,6 +120,14 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
+        link :addRelation do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/relations",
+              method: :post,
+              title: 'Add relation'
+          } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
+        end
+
         link :addComment do
           {
               href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
@@ -132,13 +140,13 @@ module API
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
               title:  represented.work_package.parent.subject
-          } unless represented.work_package.parent.nil?
+          } unless represented.work_package.parent.nil? || !represented.work_package.parent.visible?
         end
 
         links :children do
-          represented.work_package.children.map do |child|
+          visible_children.map do |child|
             { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
-          end unless represented.work_package.children.empty?
+          end unless visible_children.empty?
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
@@ -147,15 +155,17 @@ module API
         property :description, render_nil: true
         property :raw_description, render_nil: true
         property :status, render_nil: true
+        property :is_closed
         property :priority, render_nil: true
-        property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
-        property :due_date, getter: -> (*) { work_package.due_date }, render_nil: true
+        property :start_date, getter: -> (*) { work_package.start_date.to_datetime.utc.iso8601 unless work_package.start_date.nil? }, render_nil: true
+        property :due_date, getter: -> (*) { work_package.due_date.to_datetime.utc.iso8601 unless work_package.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
         property :percentage_done, render_nil: true
         property :version_id, getter: -> (*) { work_package.fixed_version.try(:id) }, render_nil: true
         property :version_name,  getter: -> (*) { work_package.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { work_package.project.id }
         property :project_name, getter: -> (*) { work_package.project.try(:name) }
+        property :parent_id, render_nil: true
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
@@ -183,7 +193,7 @@ module API
         end
 
         def relations
-          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package) }
+          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package, current_user: @current_user) }
         end
 
         def custom_properties
@@ -193,6 +203,10 @@ module API
 
         def current_user_allowed_to(permission, work_package)
           @current_user && @current_user.allowed_to?(permission, work_package.project)
+        end
+
+        def visible_children
+          @visible_children ||= represented.work_package.children.find_all { |child| child.visible? }
         end
       end
     end

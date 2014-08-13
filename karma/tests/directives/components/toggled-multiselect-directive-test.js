@@ -29,8 +29,16 @@
 describe('toggledMultiselect Directive', function() {
     var compile, element, rootScope, scope;
 
-    beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.workPackages.helpers'));
-    beforeEach(module('templates'));
+    beforeEach(angular.mock.module('openproject.uiComponents',
+                                   'openproject.workPackages.helpers',
+                                   'openproject.services'));
+    beforeEach(module('templates', function($provide) {
+      configurationService = new Object();
+
+      configurationService.isTimezoneSet = sinon.stub().returns(false);
+
+      $provide.constant('ConfigurationService', configurationService);
+    }));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;

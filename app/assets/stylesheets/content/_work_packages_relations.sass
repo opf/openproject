@@ -26,27 +26,19 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-.detail-panel-description 
+.detail-panel-description
   width: 100%
 .detail-panel-description-content
   .relation
     h3
       cursor: pointer
-    .content
-      .workpackages
-        table
-          width: 100%
-          table-layout: fixed
-          thead
-            font-weight: bold
-            text-transform: uppercase
-            line-height: 32px
-          tr
-            td
-              text-overflow: ellipsis
-              white-space: nowrap
-              overflow: hidden
-              &:first-of-type
-                width: 55% 
-              &:last-of-type
-                width: 30% 
+      a
+        text-decoration: none
+        color: inherit
+
+.add-relation
+  .related-issue-candidates ul li
+    width: 400px
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
