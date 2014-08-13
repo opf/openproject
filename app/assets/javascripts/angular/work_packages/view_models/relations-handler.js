@@ -127,7 +127,8 @@ angular.module('openproject.viewModels')
   return ChildrenRelationsHandler;
 }])
 
-.factory('ParentRelationsHandler', ['CommonRelationsHandler', 'WorkPackageService', function(CommonRelationsHandler, WorkPackageService) {
+.factory('ParentRelationsHandler', ['CommonRelationsHandler', 'WorkPackageService', 'ApiHelper',
+    function(CommonRelationsHandler, WorkPackageService, ApiHelper) {
     function ParentRelationsHandler(workPackage, parents, relationsId) {
         var handler = new CommonRelationsHandler(workPackage, parents, relationsId);
 
