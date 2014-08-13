@@ -200,7 +200,12 @@ angular.module('openproject.workPackages.controllers')
     return $scope.refreshWorkPackages;
   };
 
-  $scope.setQueryState = function(query_id) {
+  $scope.loadQuery = function(query_id) {
+    // Clear unsaved changes to current query
+    $location.search('nonUpdateQuery', null);
+    $location.search('query', null);
+
+    // Load new query
     $state.go('work-packages.list', { query_id: query_id });
   };
 
