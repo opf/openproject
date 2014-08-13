@@ -58,7 +58,7 @@ module API
               @representer.from_json(request.POST.to_json)
               @representer.represented.sync
               if @representer.represented.work_package.valid? && @representer.represented.save
-                @representer.to_json
+                @representer
               else
                 fail Errors::Validation.new(@representer.represented.work_package)
               end
