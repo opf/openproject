@@ -138,7 +138,7 @@ angular.module('openproject.viewModels')
 
         handler.canAddRelation = function() { return !!this.workPackage.links.update; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
-        handler.changeParent = function(scope) {
+        handler.addRelation = function(scope) {
             var inputElement = angular.element('#relation_to_id-' + this.relationsId);
             var parentId = inputElement.val();
             WorkPackageService.updateWorkPackage(this.workPackage, {parentId: parentId}).then(function(workPackage) {
