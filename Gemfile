@@ -126,7 +126,7 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: 'rewrite'
+gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: '12fe8ec2133dc162087eef2b1639309a01cbb414'
 
 # small wrapper around the command line
 gem 'cocaine'
