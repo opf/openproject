@@ -66,7 +66,7 @@ angular.module('openproject.workPackages.controllers')
     var fetchWorkPackages;
     if(updatableParams || nonUpdatableParams) {
       try { // TODO: Move this out
-        var queryData = UrlParamsHelper.decodeQueryFromJsonParams(updatableParams, nonUpdatableParams);
+        var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, updatableParams, nonUpdatableParams);
         var queryFromParams = new Query(queryData, { rawFilters: true });
         fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
       } catch(e) {
@@ -76,7 +76,7 @@ angular.module('openproject.workPackages.controllers')
         });
         fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
       }
-    } else if($state.params.query_id){
+    } else if($state.params.query_id) {
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
     } else {
       QueryService.clearQuery();
