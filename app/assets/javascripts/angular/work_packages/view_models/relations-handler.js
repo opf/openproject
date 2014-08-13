@@ -136,9 +136,8 @@ angular.module('openproject.viewModels')
         handler.isSingletonRelation = true;
         handler.relationsId = relationsId;
 
-        handler.canAddRelation = function() { return false };
+        handler.canAddRelation = function() { return !!this.workPackage.links.update; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
-        handler.canChangeParent = function() { return true };
         handler.changeParent = function(scope) {
             var inputElement = angular.element('#relation_to_id-' + this.relationsId);
             var parentId = inputElement.val();
