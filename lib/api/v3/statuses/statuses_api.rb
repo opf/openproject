@@ -27,26 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Statuses
+      class StatusesAPI < Grape::API
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        resources :statuses do
+          before do
+            @statuses = Status.all
+            @statuses.map! { |status| StatusModel.new(status) }
+          end
 
-      get '/' do
-        RootRepresenter.new({})
+          get do
+            StatusCollectionRepresenter.new(@statuses)
+          end
+        end
+
       end
     end
   end

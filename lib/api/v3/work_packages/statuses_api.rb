@@ -27,27 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module WorkPackages
+      class StatusesAPI < Grape::API
+        class AvailableStatusesFormatter
+          # this is an ugly hack to get the work package id for the path to self
+          def work_package_id(env)
+            env['rack.routing_args'][:id]
+          end
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+          def call(object, env)
+            if object.respond_to?(:to_json)
+              object.to_json(work_package_id: work_package_id(env))
+            else
+              MultiJson.dump(object)
+            end
+          end
+        end
 
-      get '/' do
-        RootRepresenter.new({})
+        formatter 'hal+json', AvailableStatusesFormatter.new
+
+        get '/available_statuses' do
+          authorize({ controller: :work_packages, action: :update }, context: work_package.project)
+
+          work_package.type = work_package.project.types.find_by_name(params[:type]) if params[:type]
+
+          statuses = work_package.new_statuses_allowed_to(current_user)
+
+          models = statuses.map { |status| ::API::V3::Statuses::StatusModel.new(status) }
+          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(models)
+
+          represented
+        end
       end
     end
   end
 end
+

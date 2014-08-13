@@ -32,59 +32,21 @@ require 'roar/representer/json/hal'
 
 module API
   module V3
-    module WorkPackages
-      class RelationRepresenter < Roar::Decorator
+    module Statuses
+      class StatusRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @work_package = options[:work_package]
-          @expand = expand
-
-          super(model)
-        end
-
         property :_type, exec_context: :decorator
 
-        link :self do
-         { href: "#{root_path}api/v3/relations/#{represented.model.id}" }
-        end
-
-        link :relatedFrom do
-          { href: "#{root_path}api/v3/work_packages/#{represented.model.from_id}" }
-        end
-
-        link :relatedTo do
-          { href: "#{root_path}api/v3/work_packages/#{represented.model.to_id}" }
-        end
-
-        link :remove do
-          {
-            href: "#{root_path}api/v3/work_packages/#{represented.model.from.id}/relations/#{represented.model.id}",
-            method: :delete,
-            title: "Remove relation"
-          } if current_user_allowed_to(:manage_work_package_relations)
-        end
-
-        property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
+        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :name
 
         def _type
-          "Relation::#{relation_type}"
-        end
-
-        private
-
-        def current_user_allowed_to(permission)
-          @current_user && @current_user.allowed_to?(permission, represented.model.from.project)
-        end
-
-        def relation_type
-          relation = represented.model
-          relation.relation_type_for(@work_package).camelize
+          'Status'
         end
       end
     end

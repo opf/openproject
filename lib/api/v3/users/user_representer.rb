@@ -52,12 +52,12 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
+          { href: "#{root_path}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
         end
 
         link :removeWatcher do
           {
-            href: "#{root_url}/api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
+            href: "#{root_path}/api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
             method: :delete,
             title: 'Remove watcher'
           } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)

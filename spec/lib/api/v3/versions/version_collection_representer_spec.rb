@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,27 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'spec_helper'
 
-module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+describe ::API::V3::Versions::VersionCollectionRepresenter do
+  let(:project)  { FactoryGirl.build(:project, id: 666) }
+  let(:versions) { FactoryGirl.build_list(:version, 3) }
+  let(:models)   { versions.map { |version|
+    ::API::V3::Versions::VersionModel.new(version)
+  } }
+  let(:representer) { described_class.new(models, project: project) }
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
-
-      get '/' do
-        RootRepresenter.new({})
+  describe '#initialize' do
+    context 'with incorrect parameters' do
+      it 'should raise without a project' do
+        expect { described_class.new(models) }.to raise_error(ArgumentError)
       end
+    end
+  end
+
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { should include_json('Versions'.to_json).at_path('_type') }
+
+    it { should have_json_type(Object).at_path('_links') }
+    it 'should link to self' do
+      expect(generated).to have_json_path('_links/self/href')
+      expect(parse_json(generated, '_links/self/href')).to match %r{/api/v3/projects/666/versions$}
+    end
+
+    describe 'versions' do
+      it { should have_json_path('_embedded/versions') }
+      it { should have_json_size(3).at_path('_embedded/versions') }
+      it { should have_json_path('_embedded/versions/2/name') }
     end
   end
 end

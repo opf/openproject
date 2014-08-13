@@ -4,7 +4,7 @@
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
+# modify it under the terms of the GNU General Public License status 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
@@ -12,8 +12,8 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# as published by the Free Software Foundation; either status 2
+# of the License, or (at your option) any later status.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,26 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module WorkPackages
+      class AvailableStatusCollectionRepresenter < ::API::V3::Statuses::StatusCollectionRepresenter
+        link :self do |opts|
+          "#{work_package_url(opts[:work_package_id])}/available_statuses"
+        end
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        link :work_package do |opts|
+          work_package_url(opts[:work_package_id])
+        end
 
-      get '/' do
-        RootRepresenter.new({})
+        private
+
+        def work_package_url(work_package_id)
+          "#{root_path}api/v3/work_packages/#{work_package_id}"
+        end
       end
     end
   end

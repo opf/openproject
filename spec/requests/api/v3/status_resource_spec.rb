@@ -27,26 +27,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'spec_helper'
+require 'rack/test'
 
-module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+describe 'API v3 Status resource' do
+  include Rack::Test::Methods
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+  let(:current_user) { FactoryGirl.create(:user) }
+  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:statuses) { FactoryGirl.create_list(:status, 4) }
 
-      get '/' do
-        RootRepresenter.new({})
+  describe '#get' do
+    subject(:response) { last_response }
+
+    context 'logged in user' do
+      let(:get_path) { "/api/v3/statuses" }
+      before do
+        allow(User).to receive(:current).and_return current_user
+        member = FactoryGirl.build(:member, user: current_user, project: project)
+        member.role_ids = [role.id]
+        member.save!
+
+        statuses
+
+        get get_path
+      end
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'should respond with statuses, scoped to project' do
+        expect(subject.body).to include_json('Statuses'.to_json).at_path('_type')
+        expect(subject.body).to have_json_size(4).at_path('_embedded/statuses')
       end
     end
   end

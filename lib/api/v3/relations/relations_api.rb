@@ -23,7 +23,7 @@ module API
               model = ::API::V3::WorkPackages::RelationModel.new(relation)
               representer = ::API::V3::WorkPackages::RelationRepresenter.new(model, work_package: relation.to)
               relation.save!
-              representer.to_json
+              representer
             else
               fail Errors::Validation.new(relation)
             end

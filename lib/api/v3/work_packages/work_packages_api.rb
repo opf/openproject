@@ -38,6 +38,10 @@ module API
           end
           namespace ':id' do
 
+            helpers do
+              attr_reader :work_package
+            end
+
             before do
               @work_package = WorkPackage.find(params[:id])
               model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package: @work_package)
@@ -46,7 +50,7 @@ module API
 
             get do
               authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
-              @representer.to_json
+              @representer
             end
 
             patch do
@@ -54,7 +58,7 @@ module API
               @representer.from_json(request.POST.to_json)
               @representer.represented.sync
               if @representer.represented.work_package.valid? && @representer.represented.save
-                @representer.to_json
+                @representer
               else
                 fail Errors::Validation.new(@representer.represented.work_package)
               end
@@ -68,7 +72,7 @@ module API
                     model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
                     representer = ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user })
 
-                    representer.to_json
+                    representer
                   else
                     errors = work_package.errors.full_messages.join(", ")
                     fail Errors::Validation.new(work_package, description: errors)
@@ -105,7 +109,9 @@ module API
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
+            mount ::API::V3::WorkPackages::StatusesAPI
             mount ::API::V3::Relations::RelationsAPI
+
           end
 
         end
