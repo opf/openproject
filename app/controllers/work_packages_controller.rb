@@ -465,6 +465,6 @@ class WorkPackagesController < ApplicationController
     call_hook(:work_packages_overview_attributes,
               project: @project,
               attributes: attributes)
-    attributes
+    attributes.uniq
   end
 end
