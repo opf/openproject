@@ -32,14 +32,16 @@ require 'features/work_packages/work_packages_page'
 describe 'Work package index accessibility', :type => :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
-  let!(:work_package) { FactoryGirl.create(:work_package,
-                                           project: project) }
+  let(:work_package) { FactoryGirl.create(:work_package,
+                                          project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
 
   before do
     allow(User).to receive(:current).and_return(user)
+
+    work_package
 
     work_packages_page.visit_index
   end
@@ -148,7 +150,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'id column' do
       let(:link_caption) { '#' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -156,7 +158,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -164,7 +166,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -172,7 +174,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(5)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -180,7 +182,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(6)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -188,10 +190,48 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(7)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
+    end
+  end
+
+  describe 'context menus' do
+    shared_examples_for 'context menu' do
+      describe 'focus' do
+        before do
+          element = find(source_link)
+          element.native.send_keys(keys)
+        end
+
+        it { expect(find(target_link + ':focus')).not_to be_nil }
+
+        describe 'reset' do
+          before do
+            element = find(target_link)
+            element.native.send_keys(:enter)
+          end
+
+          it { expect(find(source_link + ':focus')).not_to be_nil }
+        end
+      end
+    end
+
+    describe 'work package context menu', js: true do
+      it_behaves_like 'context menu' do
+        let(:target_link) { '#work-package-context-menu li.open a' }
+        let(:source_link) { ".workpackages-table tr.issue td.id a" }
+        let(:keys) { [:shift, :alt, :f10] }
+      end
+    end
+
+    describe 'column header drop down menu', js: true do
+      it_behaves_like 'context menu' do
+        let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
+        let(:target_link) { '#column-context-menu .menu li:first-of-type a' }
+        let(:keys) { :enter }
+      end
     end
   end
 end

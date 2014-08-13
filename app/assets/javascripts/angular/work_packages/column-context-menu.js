@@ -58,7 +58,6 @@ angular.module('openproject.workPackages')
       $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
     });
 
-
     // context menu actions
 
     $scope.groupBy = function(columnName) {
@@ -89,4 +88,42 @@ angular.module('openproject.workPackages')
     $scope.insertColumns = function() {
       columnsModal.activate();
     };
+
+    $scope.canSort = function() {
+      return $scope.column && !!$scope.column.sortable;
+    };
+
+    function isValidColumn(column) {
+      return column && column.name !== 'id';
+    }
+
+    $scope.canMoveLeft = function() {
+      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== 0;
+    };
+
+    $scope.canMoveRight = function() {
+      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1
+    };
+
+    $scope.canBeHidden = function() {
+      return isValidColumn($scope.column);
+    };
+
+    $scope.focusFeature = function(feature) {
+      var focus;
+      var mergeOrReturn = function(currentState, state) {
+        return ((currentState === undefined) ? state : currentState && !state);
+      };
+
+      switch (feature) {
+        case 'insert': focus = mergeOrReturn(focus, true);
+        case 'hide': focus = mergeOrReturn(focus, $scope.canBeHidden());
+        case 'moveRight': focus = mergeOrReturn(focus, $scope.canMoveRight());
+        case 'moveLeft': focus = mergeOrReturn(focus, $scope.canMoveLeft());
+        case 'group': focus = mergeOrReturn(focus, !!$scope.isGroupable);
+        default: focus = mergeOrReturn(focus, $scope.canSort());
+      }
+
+      return focus;
+    }
 }]);
