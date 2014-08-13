@@ -130,6 +130,19 @@ angular.module('openproject.services')
         });
     },
 
+    updateWorkPackage: function(workPackage, data) {
+      var options = { ajax: {
+        method: "PATCH",
+        headers: {
+          Accept: "application/hal+json"
+        },
+        data: data
+      }};
+      return workPackage.links.update.fetch(options).then(function(workPackage) {
+        return workPackage;
+      })
+    },
+
     addWorkPackageRelation: function(workPackage, toId, relationType) {
       var options = { ajax: {
         method: "POST",

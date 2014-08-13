@@ -53,6 +53,14 @@ module API
           { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: represented.subject }
         end
 
+        link :update do
+          {
+            href: "/api/v3/work_packages/#{represented.work_package.id}",
+            method: :patch,
+            title: "Update #{represented.subject}"
+          } if current_user_allowed_to(:edit_work_packages, represented.work_package)
+        end
+
         link :author do
           {
               href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
