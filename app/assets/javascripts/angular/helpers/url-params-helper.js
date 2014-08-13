@@ -138,7 +138,7 @@ angular.module('openproject.helpers')
         }
       }
 
-      return new Query(queryData, { rawFilters: true });
+      return queryData;
     },
 
     buildQueryExportOptions: function(query){

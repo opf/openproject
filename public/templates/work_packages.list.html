@@ -65,7 +65,7 @@
     <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
     <li class="dropdown-divider"></li>
     <li><a href ng-click="saveQuery($event)"
-           ng-class="{'inactive': (!query.isNew() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
+           ng-class="{'inactive': (!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
         <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
     </li>
     <li><a href ng-click="showSaveAsModal($event)" ng-class="{'inactive': query.isNew() || cannot('query', 'create')}">
