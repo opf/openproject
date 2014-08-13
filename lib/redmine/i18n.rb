@@ -101,7 +101,12 @@ module Redmine
     end
 
     def all_languages
-      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
+      @@all_languages ||= begin
+        Dir.glob(Rails.root.join('config/locales/*.yml'))
+          .map { |f| File.basename(f).split('.').first }
+          .reject! { |l| /\Ajs-/.match(l.to_s) }
+          .map(&:to_sym)
+      end
     end
 
     def find_language(lang)
