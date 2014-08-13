@@ -44,7 +44,7 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package: @work_package)
+              model = ::API::V3::WorkPackages::WorkPackageModel.new(@work_package)
               @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
             end
 
@@ -57,10 +57,10 @@ module API
               authorize(:edit_work_packages, context: @work_package.project)
               @representer.from_json(request.POST.to_json)
               @representer.represented.sync
-              if @representer.represented.work_package.valid? && @representer.represented.save
+              if @representer.represented.model.valid? && @representer.represented.save
                 @representer
               else
-                fail Errors::Validation.new(@representer.represented.work_package)
+                fail Errors::Validation.new(@representer.represented.model)
               end
             end
 
