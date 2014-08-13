@@ -29,7 +29,7 @@ module OpenProject::Costs::Hooks
       attributes.reject!{ |attribute| attribute == :spentTime }
 
       attributes << :costObject
-      attributes << :spentHours if user_allowed_to?(project, :view_time_entries, :view_own_time_entries)
+      attributes << :spentHoursLinked if user_allowed_to?(project, :view_time_entries, :view_own_time_entries)
       attributes << :overallCosts
       attributes << :spentUnits if user_allowed_to?(project, :view_cost_entries, :view_own_cost_entries)
 

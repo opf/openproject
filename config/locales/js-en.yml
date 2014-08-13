@@ -38,6 +38,8 @@ en:
     work_packages:
       properties:
         costObject: "Budget"
-        spentHours: "Spent time"
+        spentHoursLinked: "Spent time"
         overallCosts: "Overall costs"
         spentUnits: "Spent units"
+    label_hour: "Hour"
+    label_hours: "Hours"
