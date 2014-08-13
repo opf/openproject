@@ -502,8 +502,8 @@ describe WorkPackagesController, :type => :controller do
       # default activity counts as blank as long as everything else is blank too
       put 'update', params.call(work_package.id, default_activity.id)
 
-      expect(response.status).to eq(200)
-      expect(response.body).to have_content("Successful update")
+      expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+      expect(response).to redirect_to(work_package_path(work_package))
     end
 
     it 'should still give an error for a non-blank time entry' do
@@ -535,10 +535,10 @@ describe WorkPackagesController, :type => :controller do
                            .and_return(true)
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -575,10 +575,10 @@ describe WorkPackagesController, :type => :controller do
                            .and_return([double('unsaved_attachment')])
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
