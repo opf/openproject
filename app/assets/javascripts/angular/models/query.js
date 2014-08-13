@@ -94,6 +94,7 @@ angular.module('openproject.models')
     save: function(data){
       // Note: query has already been updated, only the id needs to be set
       this.id = data.id;
+      this.dirty = false;
       return this;
     },
 
@@ -103,6 +104,19 @@ angular.module('openproject.models')
 
     unstar: function() {
       this.starred = false;
+    },
+
+    update: function(queryData) {
+      angular.extend(this, queryData);
+
+      if(queryData.filters){
+        this.filters = [];
+        this.setRawFilters(queryData.filters);
+      }
+      if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+      this.dirty = true;
+
+      return this;
     },
 
     getQueryString: function(){
@@ -315,8 +329,12 @@ angular.module('openproject.models')
       });
     },
 
-    isNew: function(){
+    isNew: function() {
       return !this.id;
+    },
+
+    isDirty: function() {
+      return this.isNew() || this.dirty;
     },
 
     hasName: function() {

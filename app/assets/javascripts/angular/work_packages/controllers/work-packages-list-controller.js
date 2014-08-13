@@ -65,9 +65,10 @@ angular.module('openproject.workPackages.controllers')
 
     var fetchWorkPackages;
     if(updatableParams || nonUpdatableParams) {
-      try {
-        var query = UrlParamsHelper.decodeQueryFromJsonParams(updatableParams, nonUpdatableParams);
-        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, query);
+      try { // TODO: Move this out
+        var queryData = UrlParamsHelper.decodeQueryFromJsonParams(updatableParams, nonUpdatableParams);
+        var queryFromParams = new Query(queryData, { rawFilters: true });
+        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
       } catch(e) {
         $scope.$emit('flashMessage', {
           isError: true,
@@ -75,9 +76,10 @@ angular.module('openproject.workPackages.controllers')
         });
         fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
       }
-    } else if($scope.query_id){
-      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
+    } else if($state.params.query_id){
+      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
     } else {
+      QueryService.clearQuery();
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
@@ -112,16 +114,20 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initQuery(metaData) {
-    // var storedQuery = QueryService.getQuery();
-
-    // if (storedQuery && $stateParams.query_id !== null && storedQuery.id === $scope.query_id) {
-    //   $scope.query = storedQuery;
-    // } else {
     var queryData = metaData.query,
         columnData = metaData.columns;
 
-    $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
-    // }
+    var cachedQuery = QueryService.getQuery();
+    var urlQueryId = $state.params.query_id;
+
+    if (cachedQuery && urlQueryId && cachedQuery.id == urlQueryId) {
+      // Augment current unsaved query with url param data
+      var updateData = angular.extend(queryData, { columns: columnData })
+      $scope.query = QueryService.updateQuery(updateData, afterQuerySetupCallback);
+    } else {
+      // Set up fresh query from retrieved query meta data
+      $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
+    }
   }
 
   function afterQuerySetupCallback(query) {
@@ -200,13 +206,13 @@ angular.module('openproject.workPackages.controllers')
     return $scope.refreshWorkPackages;
   };
 
-  $scope.loadQuery = function(query_id) {
+  $scope.loadQuery = function(queryId) {
     // Clear unsaved changes to current query
     $location.search('nonUpdateQuery', null);
     $location.search('query', null);
 
     // Load new query
-    $state.go('work-packages.list', { query_id: query_id });
+    $state.go('work-packages.list', { query_id: queryId });
   };
 
   // More

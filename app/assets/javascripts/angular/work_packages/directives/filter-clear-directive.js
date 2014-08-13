@@ -40,7 +40,7 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
       scope.clearQuery = function(){
-        $state.go('work-packages.list', { query_id: null }, { reload: true });
+        $state.go('work-packages.list', { query_id: null, query: null });
       };
     }
   };
