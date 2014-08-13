@@ -26,26 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// main app
-var openprojectCostsApp = angular.module('openproject');
+angular.module('openproject.workPackages.directives')
 
-openprojectCostsApp.run(['HookService', function(HookService) {
-  HookService.register('workPackageOverviewAttributes', function(params) {
-    var directive;
-
-    switch (params.type) {
-      case "spentUnits":
-        if (params.workPackage.embedded.summarizedCostEntries.length > 0) {
-          directive = "summarized-cost-entries";
-        }
-        break;
-      case "costObject":
-        if (params.workPackage.embedded.costObject) {
-          directive = "cost-object";
-        }
-        break;
+.directive('costObject', [function() {
+  return {
+    restrict: 'E',
+    templateUrl: '/templates/work_packages/cost_object.html',
+    link: function(scope, element, attributes) {
+      scope.costObject = scope.workPackage.embedded.costObject;
+      scope.linkToCostObject = '/cost_objects/' + scope.costObject.props.id;
     }
-
-    return directive;
-  });
+  };
 }]);
