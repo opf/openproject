@@ -49,7 +49,7 @@ describe 'API v3 Query resource', :type => :request do
         "_type" => 'Query',
         "_links" => {
           "self" => {
-            "href" => "http://localhost:3000/api/v3/queries/#{query.id}",
+            "href" => "/api/v3/queries/#{query.id}",
             "title" => query.name
           }
         },
@@ -229,7 +229,7 @@ describe 'API v3 Query resource', :type => :request do
         "_type" => 'Query',
         "_links" => {
           "self" => {
-            "href" => "http://localhost:3000/api/v3/queries/#{query.id}",
+            "href" => "/api/v3/queries/#{query.id}",
             "title" => query.name
           }
         },

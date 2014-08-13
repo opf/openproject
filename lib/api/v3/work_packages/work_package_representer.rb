@@ -51,35 +51,35 @@ module API
 
         link :self do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}",
             title: "#{represented.subject}"
           }
         end
 
         link :author do
           {
-            href: "#{root_url}api/v3/users/#{represented.work_package.author.id}",
+            href: "#{root_path}api/v3/users/#{represented.work_package.author.id}",
             title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
           } unless represented.work_package.author.nil?
         end
 
         link :responsible do
           {
-            href: "#{root_url}api/v3/users/#{represented.work_package.responsible.id}",
+            href: "#{root_path}api/v3/users/#{represented.work_package.responsible.id}",
             title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
           } unless represented.work_package.responsible.nil?
         end
 
         link :assignee do
           {
-            href: "#{root_url}api/v3/users/#{represented.work_package.assigned_to.id}",
+            href: "#{root_path}api/v3/users/#{represented.work_package.assigned_to.id}",
             title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
           } unless represented.work_package.assigned_to.nil?
         end
 
         link :availableStatuses do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_statuses",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/available_statuses",
             title: 'Available Statuses'
           } if @current_user.allowed_to?({ controller: :work_packages, action: :update },
                                          represented.work_package.project)
@@ -87,14 +87,14 @@ module API
 
         link :availableWatchers do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
             title: 'Available Watchers'
           }
         end
 
         link :watch do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/watchers",
             method: :post,
             data: { user_id: @current_user.id },
             title: 'Watch work package'
@@ -105,7 +105,7 @@ module API
 
         link :unwatch do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
           } if current_user_allowed_to(:view_work_packages, represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
@@ -113,7 +113,7 @@ module API
 
         link :addWatcher do
           {
-            href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
+            href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
             method: :post,
             title: 'Add watcher',
             templated: true
@@ -122,7 +122,7 @@ module API
 
         link :addRelation do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/relations",
+              href: "#{root_path}/api/v3/work_packages/#{represented.work_package.id}/relations",
               method: :post,
               title: 'Add relation'
           } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
@@ -130,7 +130,7 @@ module API
 
         link :addComment do
           {
-              href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
+              href: "#{root_path}api/v3/work_packages/#{represented.work_package.id}/activities",
               method: :post,
               title: 'Add comment'
           } if current_user_allowed_to(:add_work_package_notes, represented.work_package)
@@ -138,14 +138,14 @@ module API
 
         link :parent do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
+              href: "#{root_path}/api/v3/work_packages/#{represented.work_package.parent.id}",
               title:  represented.work_package.parent.subject
           } unless represented.work_package.parent.nil? || !represented.work_package.parent.visible?
         end
 
         links :children do
           visible_children.map do |child|
-            { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
+            { href: "#{root_path}/api/v3/work_packages/#{child.id}", title: child.subject }
           end unless visible_children.empty?
         end
 

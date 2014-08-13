@@ -44,13 +44,13 @@ module API
 
         link :self do
           {
-            href: "#{root_url}api/v3/projects/#{represented.model.id}",
+            href: "#{root_path}api/v3/projects/#{represented.model.id}",
             title: "#{represented.name}"
           }
         end
 
         link 'versions' do
-          "#{root_url}api/v3/projects/#{represented.model.id}/versions"
+          "#{root_path}api/v3/projects/#{represented.model.id}/versions"
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true

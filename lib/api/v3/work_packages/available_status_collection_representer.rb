@@ -42,7 +42,7 @@ module API
         private
 
         def work_package_url(work_package_id)
-          "#{root_url}api/v3/work_packages/#{work_package_id}"
+          "#{root_path}api/v3/work_packages/#{work_package_id}"
         end
       end
     end

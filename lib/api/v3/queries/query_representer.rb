@@ -43,7 +43,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
+          { href: "#{root_path}api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
         end
 
         property :id, getter: -> (*) { query.id }, render_nil: true

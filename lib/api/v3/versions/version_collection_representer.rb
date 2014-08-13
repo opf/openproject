@@ -48,7 +48,7 @@ module API
         end
 
         link :self do
-          "#{root_url}api/v3/projects/#{project.id}/versions"
+          "#{root_path}api/v3/projects/#{project.id}/versions"
         end
 
         property :_type, exec_context: :decorator

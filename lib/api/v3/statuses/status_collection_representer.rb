@@ -41,7 +41,7 @@ module API
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         link :self do
-          "#{root_url}api/v3/statuses"
+          "#{root_path}api/v3/statuses"
         end
 
         property :_type, exec_context: :decorator
