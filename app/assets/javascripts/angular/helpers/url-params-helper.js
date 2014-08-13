@@ -95,8 +95,11 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
-    decodeQueryFromJsonParams: function(updatequeryJson, nonUpdateQueryJson) {
+    decodeQueryFromJsonParams: function(queryId, updatequeryJson, nonUpdateQueryJson) {
       var queryData = {};
+      if(queryId) {
+        queryData.id = queryId;
+      }
 
       if(updatequeryJson) {
         var urlQuery = JSON.parse(updatequeryJson);

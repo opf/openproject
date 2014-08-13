@@ -52,7 +52,7 @@ angular.module('openproject.workPackages.controllers')
       .then(function(data){
         // push query id to URL without reinitializing work-packages-list-controller
         if (data.query) {
-          $state.go('work-packages.list', { query_id: data.query.id }, { notify: false });
+          $state.go('work-packages.list', { query_id: data.query.id, query: null }, { notify: false });
           AuthorisationService.initModelAuth("query", data.query._links);
         }
 

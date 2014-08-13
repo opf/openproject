@@ -62,7 +62,7 @@ angular.module('openproject.services')
       var params = {};
 
       if(query) {
-        angular.extend(params, query.toParams());
+        angular.extend(params, query.toUpdateParams());
       }
 
       if(paginationOptions) {
