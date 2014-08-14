@@ -113,7 +113,7 @@ module OpenProject::Costs
                embedded: true,
                class: ::API::V3::CostObjects::CostObjectModel,
                decorator: ::API::V3::CostObjects::CostObjectRepresenter,
-               if: -> (*) { !represented.work_package.cost_object.nil? }
+               if: -> (*) { !represented.model.cost_object.nil? }
 
       property :spent_hours,
                exec_context: :decorator,
@@ -124,7 +124,7 @@ module OpenProject::Costs
       property :summarized_cost_entries, embedded: true, exec_context: :decorator
 
       send(:define_method, :cost_object) do
-        ::API::V3::CostObjects::CostObjectModel.new(represented.work_package.cost_object)
+        ::API::V3::CostObjects::CostObjectModel.new(represented.model.cost_object)
       end
 
       send(:define_method, :spent_hours) do
@@ -132,8 +132,8 @@ module OpenProject::Costs
       end
 
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
-        current_user_allowed_to(:view_time_entries, represented.work_package) ||
-          current_user_allowed_to(:view_own_time_entries, represented.work_package)
+        current_user_allowed_to(:view_time_entries, represented.model) ||
+          current_user_allowed_to(:view_own_time_entries, represented.model)
       end
 
       send(:define_method, :overall_costs) do
@@ -143,11 +143,11 @@ module OpenProject::Costs
       send(:define_method, :summarized_cost_entries) do
         self.attributes_helper.summarized_cost_entries
             .map { |s| ::API::V3::CostTypes::CostTypeModel.new(s[0], units: s[1][:units]) }
-            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.work_package) }
+            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.model) }
       end
 
       send(:define_method, :attributes_helper) do
-        @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented.work_package)
+        @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented.model)
       end
     end
 
