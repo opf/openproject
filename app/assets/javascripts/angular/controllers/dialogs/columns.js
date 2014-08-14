@@ -101,6 +101,5 @@ angular.module('openproject.workPackages.controllers')
     }
 
     columnsModal.deactivate();
-    // $scope.$emit('queryStateChange');
   };
 }]);
