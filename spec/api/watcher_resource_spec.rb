@@ -53,7 +53,7 @@ describe 'API v3 Watcher resource', :type => :request do
     let(:new_watcher) { available_watcher }
 
     before do
-      post post_path, user_id: new_watcher.id
+      post post_path, %{{"user_id": #{new_watcher.id}}},  { 'CONTENT_TYPE' => 'application/json' }
     end
 
     context 'authorized user' do
