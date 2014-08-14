@@ -109,18 +109,24 @@ angular.module('openproject.workPackages.directives')
         }
       }
 
+      var activeSelectionBorderIndex;
+
       scope.selectWorkPackage = function(row, $event) {
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
+          var index = WorkPackagesTableService.getRowIndex(scope.rows, row);
 
           if (!($event.ctrlKey || $event.shiftKey)) {
             scope.setCheckedStateForAllRows(false);
-          } else if ($event.shiftKey) {
-            clearSelection();
-            WorkPackagesTableService.selectRowRange(scope.rows, row);
           }
 
-          WorkPackagesTableService.setRowSelection(row, !currentRowCheckState);
+          if ($event.shiftKey) {
+            clearSelection();
+            activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
+          } else {
+            activeSelectionBorderIndex = WorkPackagesTableService.getRowIndex(scope.rows, row);
+            WorkPackagesTableService.setRowSelection(row, !currentRowCheckState);
+          }
         }
       };
 

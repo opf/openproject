@@ -131,33 +131,34 @@ angular.module('openproject.workPackages.services')
       });
     },
 
+    getRowIndex: function(rows, row) {
+      for (var x = 0; x < rows.length; x++) {
+        if (rows[x] == row) {
+          return x;
+        }
+      }
+
+      return -1;
+    },
     setRowSelection: function(row, state) {
       row.checked = state;
     },
-    selectRowRange: function(rows, row) {
+    selectRowRange: function(rows, row, activeSelectionBorderIndex) {
       if (WorkPackagesTableHelper.getSelectedRows(rows).length == 0) {
         this.setRowSelection(row, true);
+
+        activeSelectionBorderIndex = this.getRowIndex(rows, row);
       } else {
-        var select = false;
-        var isSelectedRowFirst;
+        var index = this.getRowIndex(rows, row);
+        var start = Math.min(index, activeSelectionBorderIndex);
+        var end = Math.max(index, activeSelectionBorderIndex);
 
         for (var x = 0; x < rows.length; x++) {
-          var r = rows[x];
-
-          if (!select && (r == row || r.checked)) {
-            select = true;
-            isSelectedRowFirst = r == row;
-          } else if (select
-                     && (r == row || r.checked)
-                     && (isSelectedRowFirst && r != row
-                         || !isSelectedRowFirst && r == row)) {
-            this.setRowSelection(r, true);
-            break;
-          }
-
-          this.setRowSelection(r, select);
+          rows[x].checked = x >= start && x <= end;
         }
       }
+
+      return activeSelectionBorderIndex;
     }
   };
 
