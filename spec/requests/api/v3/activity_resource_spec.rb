@@ -33,6 +33,7 @@ describe 'API v3 Activity resource', :type => :request do
   include Rack::Test::Methods
 
   let(:current_user) { FactoryGirl.create(:user) }
+  let(:anonymous) { FactoryGirl.create(:anonymous) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
@@ -77,6 +78,10 @@ describe 'API v3 Activity resource', :type => :request do
     end
 
     it_behaves_like 'handling anonymous user', 'Activity', '/api/v3/activities/%s' do
+      before do
+        allow(User).to receive(:current).and_return anonymous
+      end
+
       let(:id) { activity.id }
     end
   end
