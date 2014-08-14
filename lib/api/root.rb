@@ -42,6 +42,7 @@ module API
     end
 
     content_type 'hal+json', 'application/hal+json'
+    content_type :json,      'application/json'
     format 'hal+json'
     formatter 'hal+json', Formatter.new
 
