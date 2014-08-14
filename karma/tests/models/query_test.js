@@ -42,8 +42,9 @@ describe('Query', function() {
   });
 
   it('should be a constructor function', function() {
-    expect(new Query()).to.exist;
-    expect(new Query()).to.be.an('object');
+    var queryData = { id: 1 };
+    expect(new Query(queryData)).to.exist;
+    expect(new Query(queryData)).to.be.an('object');
   });
 
   describe('adding filters', function(){

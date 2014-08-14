@@ -47,9 +47,14 @@ describe('WorkPackagesListController', function() {
      location: { pathname: "" }
     };
 
-    var workPackageData = {
+    var workPackagesData = {
       meta: {
-      }
+        query: {
+          _links: []
+        },
+        sums: [null]
+      },
+      work_packages: []
     };
     var columnData = {
     };
@@ -58,6 +63,10 @@ describe('WorkPackagesListController', function() {
 
     var projectData  = { embedded: { types: [] } };
     var projectsData = [ projectData ];
+    var testQuery = {
+      id: 1,
+      columns: ['id'],
+    }
 
     testProjectService = {
       getProject: function(identifier) {
@@ -74,15 +83,18 @@ describe('WorkPackagesListController', function() {
 
     testWorkPackageService = {
       getWorkPackages: function () {
+        return $timeout(function () {
+          return workPackagesData;
+        }, 10);
       },
       getWorkPackagesByQueryId: function (params) {
         return $timeout(function () {
-          return workPackageData;
+          return workPackagesData;
         }, 10);
       },
       getWorkPackagesFromUrlQueryParams: function () {
         return $timeout(function () {
-          return workPackageData;
+          return workPackagesData;
         }, 10);
       }
     };
@@ -94,7 +106,9 @@ describe('WorkPackagesListController', function() {
         };
       },
       initQuery: function () {
+        return testQuery;
       },
+      clearQuery: function() {},
       getAvailableOptions: function() {
         return {};
       },
@@ -130,9 +144,13 @@ describe('WorkPackagesListController', function() {
       setPage: function () {
       }
     };
+    testAuthorisationService = {
+      initModelAuth: function(model, links) {
+      }
+    }
 
     testParams = {};
-    testState = {};
+    testState = { params: {} };
 
     buildController = function() {
       scope.projectIdentifier = 'test';
@@ -142,11 +160,14 @@ describe('WorkPackagesListController', function() {
         $window: win,
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
+        ProjectService:     testProjectService,
         WorkPackageService: testWorkPackageService,
         $stateParams:       testParams,
         $state:             testState,
         latestTab: {}
       });
+
+      $timeout.flush();
     };
 
   }));

@@ -40,7 +40,7 @@ angular.module('openproject.models')
     this.groupBy = this.groupBy || '';
 
     if(queryData.filters){
-      if(options.rawFilters) {
+      if(options && options.rawFilters) {
         this.setRawFilters(queryData.filters);
       } else {
         this.setFilters(queryData.filters);
