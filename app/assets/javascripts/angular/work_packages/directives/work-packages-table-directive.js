@@ -112,14 +112,14 @@ angular.module('openproject.workPackages.directives')
       }
 
       function setRowSelectionState(row, selected) {
-        activeSelectionBorderIndex = WorkPackagesTableService.getRowIndex(scope.rows, row);
+        activeSelectionBorderIndex = scope.rows.indexOf(row);
         WorkPackagesTableService.setRowSelection(row, selected);
       }
 
       scope.selectWorkPackage = function(row, $event) {
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
-          var index = WorkPackagesTableService.getRowIndex(scope.rows, row);
+          var index = scope.rows.indexOf(row);
 
           if (!($event.ctrlKey || $event.shiftKey)) {
             scope.setCheckedStateForAllRows(false);

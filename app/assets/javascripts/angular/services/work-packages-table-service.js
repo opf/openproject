@@ -131,15 +131,6 @@ angular.module('openproject.workPackages.services')
       });
     },
 
-    getRowIndex: function(rows, row) {
-      for (var x = 0; x < rows.length; x++) {
-        if (rows[x] == row) {
-          return x;
-        }
-      }
-
-      return -1;
-    },
     setRowSelection: function(row, state) {
       row.checked = state;
     },
@@ -147,9 +138,9 @@ angular.module('openproject.workPackages.services')
       if (WorkPackagesTableHelper.getSelectedRows(rows).length == 0) {
         this.setRowSelection(row, true);
 
-        activeSelectionBorderIndex = this.getRowIndex(rows, row);
+        activeSelectionBorderIndex = rows.indexOf(row);
       } else {
-        var index = this.getRowIndex(rows, row);
+        var index = rows.indexOf(row);
         var start = Math.min(index, activeSelectionBorderIndex);
         var end = Math.max(index, activeSelectionBorderIndex);
 
