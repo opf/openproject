@@ -60,11 +60,12 @@ angular.module('openproject.workPackages.controllers')
   '$q',
   'WorkPackagesHelper',
   'PathHelper',
+  'UsersHelper',
   'ConfigurationService',
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -118,6 +119,7 @@ angular.module('openproject.workPackages.controllers')
       // Author
       $scope.author = workPackage.embedded.author;
       $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
+      $scope.authorActive = UsersHelper.isActive($scope.author);
 
       // Attachments
       $scope.attachments = workPackage.embedded.attachments;
