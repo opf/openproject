@@ -64,7 +64,7 @@ describe API::V3::Activities::ActivitiesAPI, :type => :request do
 
     shared_context "edit activity" do
       before { patch "/api/v3/activities/#{journal.id}",
-                   comment: comment }
+                   { comment: comment }.to_json, { 'CONTENT_TYPE' => 'application/json' } }
     end
 
     it_behaves_like "safeguarded API" do

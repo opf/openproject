@@ -39,7 +39,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
     describe "POST /api/v3/work_packages/:id/activities" do
       shared_context "create activity" do
         before { post "/api/v3/work_packages/#{work_package.id}/activities",
-                      comment: comment }
+                      { comment: comment }.to_json, { 'CONTENT_TYPE' => 'application/json' } }
       end
 
       it_behaves_like "safeguarded API" do
