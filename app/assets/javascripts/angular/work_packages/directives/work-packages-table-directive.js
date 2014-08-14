@@ -134,12 +134,16 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.showWorkPackageDetails = function(workPackage) {
+      scope.showWorkPackageDetails = function(row) {
         var workPackageState = $state.get('work-packages');
 
         clearSelection();
 
-        $state.go(workPackageState.resolve.latestTab().getStateName(), { workPackageId: workPackage.id });
+        scope.setCheckedStateForAllRows(false);
+
+        setRowSelectionState(row, true);
+
+        $state.go(workPackageState.resolve.latestTab().getStateName(), { workPackageId: row.object.id });
       };
     }
   };
