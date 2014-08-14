@@ -67,6 +67,7 @@ angular.module('openproject.workPackages.directives')
                 id: query.id,
                 groupBy: query.groupBy,
                 sortElements: query.sortation.sortElements,
+                columns: query.columns,
                 displaySums: query.displaySums
               };
             }
