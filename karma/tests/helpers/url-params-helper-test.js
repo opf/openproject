@@ -55,4 +55,98 @@ describe('UrlParamsHelper', function() {
       expect(queryString).not.to.include('@');
     });
   });
+
+  describe('encodeQueryForJsonParams', function(){
+    var query;
+
+    beforeEach(function() {
+      var filter = {
+        modelName: 'sosse',
+        name: 'sosse_id',
+        type: 'list model',
+        operator: '=',
+        values: ['knoblauch']
+      };
+      query = new Query({
+        id: 1,
+        name: 'knoblauch sosse',
+        projectId: 2,
+        displaySums: true,
+        columns: ['type', 'status', 'sosse'],
+        groupBy: 'status',
+        sortCriteria: 'type:desc',
+        filters: [filter]
+      }, { rawFilters: true });
+    });
+
+    it('should encode query to params JSON', function() {
+      var encodedJSON = UrlParamsHelper.encodeQueryForJsonParams(query);
+      var expectedJSON = "{\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"sosse_id\",\"m\":\"sosse\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      expect(encodedJSON).to.eq(expectedJSON);
+    })
+  });
+
+  describe('encodeQueryForNonUpdateJsonParams', function(){
+    var query;
+
+    beforeEach(function() {
+      var filter = {
+        modelName: 'sosse',
+        name: 'sosse_id',
+        type: 'list model',
+        operator: '=',
+        values: ['knoblauch']
+      };
+      query = new Query({
+        id: 1,
+        name: 'knoblauch sosse',
+        projectId: 2,
+        displaySums: true,
+        columns: [{ name: 'type' }, { name: 'status' }, { name: 'sosse' }],
+        groupBy: 'status',
+        sortCriteria: 'type:desc',
+        filters: [filter]
+      }, { rawFilters: true });
+    });
+
+    it('should encode query to params JSON', function() {
+      var encodedJSON = UrlParamsHelper.encodeQueryForNonUpdateJsonParams(query);
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"sosse\"],\"s\":true}";
+      expect(encodedJSON).to.eq(expectedJSON);
+    });
+  });
+
+  describe('decodeQueryFromJsonParams', function() {
+    var updateRequiringParams;
+    var nonUpdateRequiringParams;
+    var queryId;
+
+    beforeEach(function() {
+      updateRequiringParams = "{\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"sosse_id\",\"m\":\"sosse\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      nonUpdateRequiringParams = "{\"c\":[\"type\",\"status\",\"sosse\"],\"s\":true}";
+      queryId = 2;
+    });
+
+    it('should decode query params to object', function() {
+      var decodedQueryParams = UrlParamsHelper.decodeQueryFromJsonParams(queryId, updateRequiringParams, nonUpdateRequiringParams);
+
+      var expected = {
+        id: queryId,
+        projectId: 2,
+        displaySums: true,
+        columns: [{ name: 'type' }, { name: 'status' }, { name: 'sosse' }],
+        groupBy: 'status',
+        sortCriteria: 'type:desc',
+        filters: [{
+          modelName: 'sosse',
+          name: 'sosse_id',
+          type: 'list model',
+          operator: '=',
+          values: ['knoblauch']
+        }]
+      }
+
+      expect(angular.equals(decodedQueryParams, expected)).to.be.true;
+    });
+  })
 });
