@@ -51,9 +51,14 @@ describe 'Select work package row', :type => :feature do
   end
 
   describe 'Work package row selection', js: true do
-    def select_work_package_row(number, double_click=false)
+    def select_work_package_row(number, mouse_button_behavior=:left)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
-      (double_click) ? page.driver.browser.action.double_click(element.native).perform : element.click
+      case mouse_button_behavior
+      when :double
+        element.double_click
+      else
+        element.click
+      end
     end
 
     def select_work_package_row_with_shift(number)
@@ -258,7 +263,7 @@ describe 'Select work package row', :type => :feature do
 
     describe 'opening work package details' do
       before do
-        select_work_package_row(1, true)
+        select_work_package_row(1, :double)
       end
 
       it_behaves_like 'work package row selected' do
