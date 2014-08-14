@@ -57,7 +57,7 @@ module API
 
         link :removeWatcher do
           {
-            href: "#{root_path}/api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
+            href: "#{root_path}api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
             method: :delete,
             title: 'Remove watcher'
           } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)
