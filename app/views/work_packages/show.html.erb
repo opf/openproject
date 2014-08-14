@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
       </div>
       <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
-      <div class="wiki wikicontent" data-user="<%= work_package.author %>">
+      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
         <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
