@@ -151,6 +151,22 @@ module API
           model.closed?
         end
 
+        def custom_properties=(value)
+          value.each do |property|
+            custom_field = model.available_custom_fields.select { |f| f.name == property[0] }.first
+            if custom_field
+              custom_value = model.custom_values.find_by_custom_field_id(custom_field.id)
+
+              if custom_value
+                custom_value.value = property[1]
+                custom_value.save!
+              else
+                CustomValue.create!(customized_type: 'WorkPackage', customized_id: model.id, custom_field_id: custom_field.id, value: property[1])
+              end
+            end
+          end
+        end
+
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :validate_parent_constraint

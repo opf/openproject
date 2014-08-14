@@ -241,6 +241,10 @@ module API
             values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
         end
 
+        def custom_properties=(value)
+          represented.custom_properties = value
+        end
+
         def current_user_allowed_to(permission, work_package)
           @current_user && @current_user.allowed_to?(permission, represented.model.project)
         end
