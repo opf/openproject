@@ -47,21 +47,23 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'Select all link' do
-    def select_all_link
-      find('table.workpackages-table th.checkbox a')
-    end
+    let(:link_selector) { 'table.workpackages-table th.checkbox a' }
 
     describe 'Initial state', js: true do
-      it { expect(select_all_link).not_to be_nil }
+      it { expect(page).to have_selector(link_selector) }
 
-      it { expect(select_all_link[:title]).to eq(I18n.t(:button_check_all)) }
+      context 'attributes' do
+        before { expect(page).to have_selector(link_selector) }
 
-      it { expect(select_all_link[:alt]).to eq(I18n.t(:button_check_all)) }
+        it { expect(find(link_selector)[:title]).to eq(I18n.t(:button_check_all)) }
 
-      it do
-        expect(select_all_link).to have_selector('.hidden-for-sighted',
-                                                 :visible => false,
-                                                 :text => I18n.t(:button_check_all))
+        it { expect(find(link_selector)[:alt]).to eq(I18n.t(:button_check_all)) }
+
+        it do
+          expect(find(link_selector)).to have_selector('.hidden-for-sighted',
+                                                       visible: false,
+                                                       text: I18n.t(:button_check_all))
+        end
       end
     end
 
@@ -83,26 +85,22 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'Sort link', js: true do
-    def column_header_link
-      find(column_header_link_selector)
-    end
-
     def click_sort_ascending_link
-      execute_script "jQuery('#{sort_ascending_selector}').click()"
+      expect(page).to have_selector(sort_ascending_selector)
+      element = find(sort_ascending_selector)
+      element.click
     end
 
     def click_sort_descending_link
-      execute_script "jQuery('#{sort_descending_selector}').click()"
+      expect(page).to have_selector(sort_descending_selector)
+      element = find(sort_descending_selector)
+      element.click
     end
 
     shared_examples_for 'sort column' do
-      def column_header
-        find(column_header_selector)
-      end
-
       it do
-        expect(column_header).not_to be_nil
-        expect(column_header.find("span.sort-header")[:title]).to eq(sort_text)
+        expect(page).to have_selector(column_header_selector)
+        expect(find(column_header_selector + " span.sort-header")[:title]).to eq(sort_text)
       end
     end
 
@@ -125,13 +123,15 @@ describe 'Work package index accessibility', :type => :feature do
     end
 
     shared_examples_for 'sortable column' do
+      before { expect(page).to have_selector(column_header_selector) }
+
       describe 'Initial sort' do
         it_behaves_like 'unsorted column'
       end
 
       describe 'descending' do
         before do
-          column_header_link.click
+          find(column_header_link_selector).click
           click_sort_descending_link
         end
 
@@ -140,7 +140,7 @@ describe 'Work package index accessibility', :type => :feature do
 
       describe 'ascending' do
         before do
-          column_header_link.click
+          find(column_header_link_selector).click
           click_sort_ascending_link
         end
 
@@ -201,19 +201,21 @@ describe 'Work package index accessibility', :type => :feature do
     shared_examples_for 'context menu' do
       describe 'focus' do
         before do
+          expect(page).to have_selector(source_link)
           element = find(source_link)
           element.native.send_keys(keys)
         end
 
-        it { expect(find(target_link + ':focus')).not_to be_nil }
+        it { expect(page).to have_selector(target_link + ':focus') }
 
         describe 'reset' do
           before do
+            expect(page).to have_selector(target_link)
             element = find(target_link)
             element.native.send_keys(:enter)
           end
 
-          it { expect(find(source_link + ':focus')).not_to be_nil }
+          it { expect(page).to have_selector(source_link + ':focus') }
         end
       end
     end
