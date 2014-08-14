@@ -54,17 +54,17 @@ angular.module('openproject.helpers')
     encodeQueryForJsonParams: function(query) {
       var paramsData = {};
 
+      if(!!query.projectId) {
+        paramsData.p = query.projectId;
+      }
       if(!!query.groupBy) {
         paramsData.g = query.groupBy;
-      }
-      if(!!query.groupSums) {
-        paramsData.u = query.groupSums;
       }
       if(!!query.getSortation()) {
         paramsData.t = query.getSortation().encode()
       }
       if(query.filters && query.filters.length) {
-        paramsData.f = query.filters.select(function(filter) {
+        paramsData.f = query.filters.filter(function(filter) {
           return !filter.deactivated;
         })
         .map(function(filter) {
@@ -95,23 +95,23 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
-    decodeQueryFromJsonParams: function(queryId, updatequeryJson, nonUpdateQueryJson) {
+    decodeQueryFromJsonParams: function(queryId, requiringUpdateJson, nonRequiringUpdateJson) {
       var queryData = {};
       if(queryId) {
         queryData.id = queryId;
       }
 
-      if(updatequeryJson) {
-        var urlQuery = JSON.parse(updatequeryJson);
+      if(requiringUpdateJson) {
+        var updateRequiringProperties = JSON.parse(requiringUpdateJson);
 
-        if(!!urlQuery.g) {
-          queryData.groupBy = urlQuery.g;
+        if(!!updateRequiringProperties.p) {
+          queryData.projectId = updateRequiringProperties.p;
         }
-        if(!!urlQuery.u) {
-          queryData.groupSums = urlQuery.u;
+        if(!!updateRequiringProperties.g) {
+          queryData.groupBy = updateRequiringProperties.g;
         }
-        if(!!urlQuery.f) {
-          queryData.filters = urlQuery.f.map(function(urlFilter) {
+        if(!!updateRequiringProperties.f) {
+          queryData.filters = updateRequiringProperties.f.map(function(urlFilter) {
             var filterData = {
               name: urlFilter.n,
               modelName: urlFilter.m,
@@ -125,19 +125,19 @@ angular.module('openproject.helpers')
             return filterData;
           });
         }
-        if(!!urlQuery.t) {
-          queryData.sortCriteria = urlQuery.t;
+        if(!!updateRequiringProperties.t) {
+          queryData.sortCriteria = updateRequiringProperties.t;
         }
       }
 
-      if(nonUpdateQueryJson) {
-        var nonUpdateUrlQuery = JSON.parse(nonUpdateQueryJson);
+      if(nonRequiringUpdateJson) {
+        var nonUpdateRequiringProperties = JSON.parse(nonRequiringUpdateJson);
 
-        if(!!nonUpdateUrlQuery.c) {
-          queryData.columns = nonUpdateUrlQuery.c.map(function(column) { return { name: column }; });
+        if(!!nonUpdateRequiringProperties.c) {
+          queryData.columns = nonUpdateRequiringProperties.c.map(function(column) { return { name: column }; });
         }
-        if(!!nonUpdateUrlQuery.s) {
-          queryData.displaySums = nonUpdateUrlQuery.s;
+        if(!!nonUpdateRequiringProperties.s) {
+          queryData.displaySums = nonUpdateRequiringProperties.s;
         }
       }
 
