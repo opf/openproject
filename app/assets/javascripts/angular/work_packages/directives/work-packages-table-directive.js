@@ -79,9 +79,7 @@ angular.module('openproject.workPackages.directives')
       });
 
       scope.setCheckedStateForAllRows = function(state) {
-        angular.forEach(scope.rows, function(row) {
-          row.checked = state;
-        });
+        WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
       };
 
       var groupableColumns = WorkPackagesTableService.getGroupableColumns();

@@ -55,6 +55,7 @@ angular.module('openproject.workPackages')
   $scope.hideResourceActions = true;
 
   $scope.$watch('row', function() {
+    WorkPackagesTableService.setCheckedStateForAllRows($scope.rows, false);
     $scope.row.checked = true;
     $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages());
   });

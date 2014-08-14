@@ -131,6 +131,11 @@ angular.module('openproject.workPackages.services')
       });
     },
 
+    setCheckedStateForAllRows: function(rows, state) {
+      angular.forEach(rows, function(row) {
+        row.checked = state;
+      });
+    },
     setRowSelection: function(row, state) {
       row.checked = state;
     },
