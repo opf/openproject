@@ -31,8 +31,6 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackagesListController', [
     '$scope',
     '$rootScope',
-    '$q',
-    '$stateParams',
     '$state',
     '$location',
     'latestTab',
@@ -43,15 +41,12 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'PaginationService',
     'AuthorisationService',
-    'WorkPackageLoadingHelper',
     'UrlParamsHelper',
-    'HALAPIResource',
-    'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $stateParams, $state, $location, latestTab,
+    function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, WorkPackageLoadingHelper, UrlParamsHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
+      AuthorisationService, UrlParamsHelper,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
@@ -60,25 +55,18 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    var updatableParams = $state.params.query;
-    var nonUpdatableParams = $location.search().nonUpdateQuery;
+    var updateCausingParams = $state.params.query;
+    var nonUpdeCausingParams = $location.search().nonUpdateQuery;
 
     var fetchWorkPackages;
-    if(updatableParams || nonUpdatableParams) {
-      try { // TODO: Move this out
-        var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, updatableParams, nonUpdatableParams);
-        var queryFromParams = new Query(queryData, { rawFilters: true });
-        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
-      } catch(e) {
-        $scope.$emit('flashMessage', {
-          isError: true,
-          text: 'Unable to retrieve query from URL'
-        });
-        fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
-      }
+    if(updateCausingParams || nonUpdeCausingParams) {
+      // Attempt to build up query from URL params
+      fetchWorkPackages = fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams);
     } else if($state.params.query_id) {
+      // Load the query by id if present
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
     } else {
+      // Clear the cached query and load the default
       QueryService.clearQuery();
       fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
@@ -90,6 +78,29 @@ angular.module('openproject.workPackages.controllers')
         fetchProjectTypesAndQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
+  }
+
+  function fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams) {
+    try {
+      var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, updateCausingParams, nonUpdeCausingParams);
+      var queryFromParams = new Query(queryData, { rawFilters: true });
+
+      return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
+    } catch(e) {
+      $scope.$emit('flashMessage', {
+        isError: true,
+        text: I18n.t('js.work_packages.query.errors.unretrievable_query')
+      });
+      clearUrlQueryParams();
+
+      return WorkPackageService.getWorkPackages($scope.projectIdentifier);
+    }
+  }
+
+  function clearUrlQueryParams() {
+    $location.search('nonUpdateQuery', null);
+    $location.search('query', null);
+    $location.search('query_id', null);
   }
 
   function fetchProjectTypesAndQueries() {
@@ -208,8 +219,7 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.loadQuery = function(queryId) {
     // Clear unsaved changes to current query
-    $location.search('nonUpdateQuery', null);
-    $location.search('query', null);
+    clearUrlQueryParams();
 
     // Load new query
     $state.go('work-packages.list', { query_id: queryId });
