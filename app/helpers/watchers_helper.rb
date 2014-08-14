@@ -63,7 +63,7 @@ module WatchersHelper
     lis = object.watcher_users.sort.collect do |user|
       watcher = object.watchers(true).find{|u| u.user_id == user.id }
       content_tag :li do
-        avatar(user, :size => "16") +
+        avatar(user, :class => 'avatar-mini') +
           link_to_user(user, :class => 'user') +
           if remove_allowed
             ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
@@ -71,7 +71,6 @@ module WatchersHelper
                              watcher_path(watcher),
                              :method => :delete,
                              :remote => true,
-                             :style => "vertical-align: middle",
                              :title => l(:button_delete_watcher, name: user.name),
                              :class => "delete no-decoration-on-hover")
           else

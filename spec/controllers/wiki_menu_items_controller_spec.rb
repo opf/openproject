@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController do
+describe WikiMenuItemsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   # create project with wiki
@@ -107,10 +107,10 @@ describe WikiMenuItemsController do
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do
-      it { should include wiki_page }
-      it { should include child_page }
-      it { should include another_wiki_page }
-      it { should include another_child_page }
+      it { is_expected.to include wiki_page }
+      it { is_expected.to include child_page }
+      it { is_expected.to include another_wiki_page }
+      it { is_expected.to include another_child_page }
     end
   end
 

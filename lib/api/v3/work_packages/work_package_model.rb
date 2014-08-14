@@ -34,133 +34,133 @@ module API
   module V3
     module WorkPackages
       class WorkPackageModel < Reform::Form
-        include Composition
         include Coercion
         include ActionView::Helpers::UrlHelper
         include OpenProject::TextFormatting
         include OpenProject::StaticRouting::UrlHelpers
         include WorkPackagesHelper
-        include GravatarImageTag
 
         # N.B. required by ActionView::Helpers::UrlHelper
         def controller; nil; end
 
-        model :work_package
+        property :subject,          type: String
+        property :start_date,       type: Date
+        property :due_date,         type: Date
+        property :created_at,       type: DateTime
+        property :updated_at,       type: DateTime
+        property :author,           type: String
+        property :project_id,       type: Integer
+        property :parent_id,        type: Integer
+        property :responsible_id,   type: Integer
+        property :assigned_to_id,   type: Integer
+        property :fixed_version_id, type: Integer
 
-        property :subject, on: :work_package, type: String
-        property :start_date, on: :work_package, type: Date
-        property :due_date, on: :work_package, type: Date
-        property :created_at, on: :work_package, type: DateTime
-        property :updated_at, on: :work_package, type: DateTime
-        property :author, on: :work_package, type: String
-        property :project_id, on: :work_package, type: Integer
-        property :responsible_id, on: :work_package, type: Integer
-        property :assigned_to_id, on: :work_package, type: Integer
-        property :fixed_version_id, on: :work_package, type: Integer
-
-        def work_package
-          model[:work_package]
-        end
 
         def description
-          format_text(work_package, :description)
+          format_text(model, :description)
         end
 
         def raw_description
-          work_package.description
+          model.description
         end
 
         def raw_description=(value)
-          work_package.description = value
+          model.description = value
         end
 
         def type
-          work_package.type.try(:name)
+          model.type.try(:name)
         end
 
         def type=(value)
-          type = Type.find(:first, conditions: ['name ilike ?', value])
-          work_package.type = type
+          model.type = Type.find_by_name(value)
         end
 
         def status
-          work_package.status.try(:name)
+          model.status.try(:name)
         end
 
         def status=(value)
-          status = Status.find(:first, conditions: ['name ilike ?', value])
-          work_package.status = status
+          model.status = Status.find_by_name(value)
         end
 
         def priority
-          work_package.priority.try(:name)
+          model.priority.try(:name)
         end
 
         def priority=(value)
-          priority = IssuePriority.find(:first, conditions: ['name ilike ?', value])
-          work_package.priority = priority
+          model.priority = IssuePriority.find_by_name(value)
         end
 
         def estimated_time
-          { units: 'hours', value: work_package.estimated_hours }
+          { units: 'hours', value: model.estimated_hours }
         end
 
         def estimated_time=(value)
           hours = ActiveSupport::JSON.decode(value)['value']
-          work_package.estimated_hours = hours
+          model.estimated_hours = hours
         end
 
         def version_id=(value)
-          work_package.fixed_version_id = value
+          model.fixed_version_id = value
         end
 
         def percentage_done
-          work_package.done_ratio
+          model.done_ratio
         end
 
         def percentage_done=(value)
-          work_package.done_ratio = value
+          model.done_ratio = value
         end
 
         def author
-          ::API::V3::Users::UserModel.new(work_package.author)  unless work_package.author.nil?
+          ::API::V3::Users::UserModel.new(model.author)  unless model.author.nil?
         end
 
         def responsible
-          ::API::V3::Users::UserModel.new(work_package.responsible) unless work_package.responsible.nil?
+          ::API::V3::Users::UserModel.new(model.responsible) unless model.responsible.nil?
         end
 
         def assignee
-          ::API::V3::Users::UserModel.new(work_package.assigned_to) unless work_package.assigned_to.nil?
+          ::API::V3::Users::UserModel.new(model.assigned_to) unless model.assigned_to.nil?
         end
 
         def activities
-          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
+          model.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
         end
 
         def attachments
-          work_package.attachments
+          model.attachments
             .map{ |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
         end
 
         def watchers
-          work_package.watcher_users
+          model.watcher_users
             .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
             .map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         def relations
-          relations = work_package.relations
-          visible_relations = relations.find_all { |relation| relation.other_work_package(work_package).visible? }
+          relations = model.relations
+          visible_relations = relations.find_all { |relation| relation.other_work_package(model).visible? }
           visible_relations.map{ |relation| RelationModel.new(relation) }
         end
 
         def is_closed
-          work_package.closed?
+          model.closed?
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
+        validate :validate_parent_constraint
+
+        private
+
+          def validate_parent_constraint
+            if model.parent
+              errors.add :parent_id, :cannot_be_milestone if model.parent.is_milestone?
+            end
+          end
       end
     end
   end

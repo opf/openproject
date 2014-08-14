@@ -43,17 +43,17 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/attachments/#{represented.model.id}", title: "#{represented.model.filename}" }
+          { href: "#{root_path}api/v3/attachments/#{represented.model.id}", title: "#{represented.model.filename}" }
         end
 
         link :work_package do
           work_package = represented.model.container
-          { href: "#{root_url}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
+          { href: "#{root_path}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
         end
 
         link :author do
           author = represented.model.author
-          { href: "#{root_url}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
+          { href: "#{root_path}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true

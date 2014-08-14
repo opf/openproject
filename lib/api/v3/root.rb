@@ -38,9 +38,16 @@ module API
 
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
+      mount ::API::V3::Priorities::PrioritiesAPI
+      mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
+      mount ::API::V3::Statuses::StatusesAPI
       mount ::API::V3::Users::UsersAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
+
+      get '/' do
+        RootRepresenter.new({})
+      end
     end
   end
 end

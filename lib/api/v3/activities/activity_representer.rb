@@ -49,20 +49,20 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/activities/#{represented.model.id}", title: "#{represented.model.id}" }
+          { href: "#{root_path}api/v3/activities/#{represented.model.id}", title: "#{represented.model.id}" }
         end
 
         link :workPackage do
-          { href: "#{root_url}api/v3/work_packages/#{represented.model.journable.id}", title: "#{represented.model.journable.subject}" }
+          { href: "#{root_path}api/v3/work_packages/#{represented.model.journable.id}", title: "#{represented.model.journable.subject}" }
         end
 
         link :user do
-          { href: "#{root_url}api/v3/users/#{represented.model.user.id}", title: "#{represented.model.user.name} - #{represented.model.user.login}" }
+          { href: "#{root_path}api/v3/users/#{represented.model.user.id}", title: "#{represented.model.user.name} - #{represented.model.user.login}" }
         end
 
         link :update do
           {
-              href: "#{root_url}api/v3/activities/#{represented.model.id}",
+              href: "#{root_path}api/v3/activities/#{represented.model.id}",
               method: :patch,
               title: "#{represented.model.id}"
           } if current_user_allowed_to_edit?

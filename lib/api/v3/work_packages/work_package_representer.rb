@@ -50,95 +50,114 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: represented.subject }
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}",
+            title: "#{represented.subject}"
+          }
+        end
+
+        link :update do
+          {
+            href: "/api/v3/work_packages/#{represented.model.id}",
+            method: :patch,
+            title: "Update #{represented.subject}"
+          } if current_user_allowed_to(:edit_work_packages, represented.model)
         end
 
         link :author do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
-              title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
-          } unless represented.work_package.author.nil?
+            href: "#{root_path}api/v3/users/#{represented.model.author.id}",
+            title: "#{represented.model.author.name} - #{represented.model.author.login}"
+          } unless represented.model.author.nil?
         end
 
         link :responsible do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.responsible.id}",
-              title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
-          } unless represented.work_package.responsible.nil?
+            href: "#{root_path}api/v3/users/#{represented.model.responsible.id}",
+            title: "#{represented.model.responsible.name} - #{represented.model.responsible.login}"
+          } unless represented.model.responsible.nil?
         end
 
         link :assignee do
           {
-              href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
-              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
-          } unless represented.work_package.assigned_to.nil?
+            href: "#{root_path}api/v3/users/#{represented.model.assigned_to.id}",
+            title: "#{represented.model.assigned_to.name} - #{represented.model.assigned_to.login}"
+          } unless represented.model.assigned_to.nil?
+        end
+
+        link :availableStatuses do
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/available_statuses",
+            title: 'Available Statuses'
+          } if @current_user.allowed_to?({ controller: :work_packages, action: :update },
+                                         represented.model.project)
         end
 
         link :availableWatchers do
-            {
-                href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
-                 title: "Available Watchers"
-            }
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/available_watchers",
+            title: 'Available Watchers'
+          }
         end
 
         link :watch do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
-              method: :post,
-              data: { user_id: @current_user.id },
-              title: 'Watch work package'
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers",
+            method: :post,
+            data: { user_id: @current_user.id },
+            title: 'Watch work package'
           } if !@current_user.anonymous? &&
-             current_user_allowed_to(:view_work_packages, represented.work_package) &&
-            !represented.work_package.watcher_users.include?(@current_user)
+             current_user_allowed_to(:view_work_packages, represented.model) &&
+            !represented.model.watcher_users.include?(@current_user)
         end
 
         link :unwatch do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
-              method: :delete,
-              title: 'Unwatch work package'
-          } if current_user_allowed_to(:view_work_packages, represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers/#{@current_user.id}",
+            method: :delete,
+            title: 'Unwatch work package'
+          } if current_user_allowed_to(:view_work_packages, represented.model) && represented.model.watcher_users.include?(@current_user)
         end
 
         link :addWatcher do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
-              method: :post,
-              title: 'Add watcher',
-              templated: true
-          } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers{?user_id}",
+            method: :post,
+            title: 'Add watcher',
+            templated: true
+          } if current_user_allowed_to(:add_work_package_watchers, represented.model)
         end
 
         link :addRelation do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/relations",
+              href: "#{root_path}/api/v3/work_packages/#{represented.model.id}/relations",
               method: :post,
               title: 'Add relation'
-          } if current_user_allowed_to(:manage_work_package_relations, represented.work_package)
+          } if current_user_allowed_to(:manage_work_package_relations, represented.model)
         end
 
         link :addComment do
           {
-              href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
+              href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",
               method: :post,
               title: 'Add comment'
-          } if current_user_allowed_to(:add_work_package_notes, represented.work_package)
+          } if current_user_allowed_to(:add_work_package_notes, represented.model)
         end
 
         link :parent do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.parent.id}",
-              title:  represented.work_package.parent.subject
-          } unless represented.work_package.parent.nil? || !represented.work_package.parent.visible?
+              href: "#{root_path}/api/v3/work_packages/#{represented.model.parent.id}",
+              title:  represented.model.parent.subject
+          } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
         links :children do
           visible_children.map do |child|
-            { href: "#{root_url}/api/v3/work_packages/#{child.id}", title: child.subject }
+            { href: "#{root_path}/api/v3/work_packages/#{child.id}", title: child.subject }
           end unless visible_children.empty?
         end
 
-        property :id, getter: -> (*) { work_package.id }, render_nil: true
+        property :id, getter: -> (*) { model.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
         property :description, render_nil: true
@@ -146,16 +165,16 @@ module API
         property :status, render_nil: true
         property :is_closed
         property :priority, render_nil: true
-        property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
-        property :due_date, getter: -> (*) { work_package.due_date }, render_nil: true
+        property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
+        property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
         property :percentage_done, render_nil: true
-        property :version_id, getter: -> (*) { work_package.fixed_version.try(:id) }, render_nil: true
-        property :version_name,  getter: -> (*) { work_package.fixed_version.try(:name) }, render_nil: true
-        property :project_id, getter: -> (*) { work_package.project.id }
-        property :project_name, getter: -> (*) { work_package.project.try(:name) }
-        property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
-        property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
+        property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
+        property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
+        property :project_id, getter: -> (*) { model.project.id }
+        property :project_name, getter: -> (*) { model.project.try(:name) }
+        property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
+        property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
@@ -164,7 +183,7 @@ module API
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
         property :activities, embedded: true, exec_context: :decorator
-        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.work_package) }
+        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.model) }
         collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
 
@@ -177,24 +196,24 @@ module API
         end
 
         def watchers
-          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.work_package, current_user: @current_user) }
+          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.model, current_user: @current_user) }
         end
 
         def relations
-          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package, current_user: @current_user) }
+          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.model, current_user: @current_user) }
         end
 
         def custom_properties
-            values = represented.work_package.custom_field_values
+            values = represented.model.custom_field_values
             values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
         end
 
         def current_user_allowed_to(permission, work_package)
-          @current_user && @current_user.allowed_to?(permission, work_package.project)
+          @current_user && @current_user.allowed_to?(permission, represented.model.project)
         end
 
         def visible_children
-          @visible_children ||= represented.work_package.children.find_all { |child| child.visible? }
+          @visible_children ||= represented.model.children.find_all { |child| child.visible? }
         end
       end
     end

@@ -31,10 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageModel do
   include Capybara::RSpecMatchers
 
-  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(
-      work_package: work_package
-    )
-  }
+  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
   let(:work_package) { FactoryGirl.build(:work_package, attributes) }
 
   context 'with a formatted description' do
@@ -49,9 +46,20 @@ h2. Plan for this month
       }
     }
 
-    its(:description)     { should have_selector 'h2' }
-    its(:description)     { should have_selector 'ol > li' }
-    its(:raw_description) { should eq attributes[:description] }
+    describe '#description' do
+      subject { super().description }
+      it { is_expected.to have_selector 'h2' }
+    end
+
+    describe '#description' do
+      subject { super().description }
+      it { is_expected.to have_selector 'ol > li' }
+    end
+
+    describe '#raw_description' do
+      subject { super().raw_description }
+      it { is_expected.to eq attributes[:description] }
+    end
 
     it 'should allow a raw_description to be set' do
       model.raw_description = 'h4. More details'
@@ -63,11 +71,11 @@ h2. Plan for this month
         let(:closed_status) { FactoryGirl.build(:closed_status) }
         let(:work_package) { FactoryGirl.build(:work_package, status: closed_status) }
 
-        it { expect(model.is_closed).to be_true }
+        it { expect(model.is_closed).to be_truthy }
       end
 
       context 'is not closed' do
-        it { expect(model.is_closed).to be_false }
+        it { expect(model.is_closed).to be_falsey }
       end
     end
 

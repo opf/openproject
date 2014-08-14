@@ -27,7 +27,7 @@
 <div class="detail-panel-content">
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2 ng-bind="workPackage.props.subject"></h2>
+  <h2 title="{{ workPackage.props.subject }}" ng-bind="workPackage.props.subject"></h2>
 
   <span class="subtitle">
     <i class="star icon-star1" ng-class="{active: isWatched}" ng-click="toggleWatch()"

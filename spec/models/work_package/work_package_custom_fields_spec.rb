@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :custom_fields do
     let(:type) { FactoryGirl.create(:type_standard) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }
@@ -60,7 +60,7 @@ describe WorkPackage do
     shared_examples_for "work package with required custom field" do
       subject { work_package.available_custom_fields }
 
-      it { should include(custom_field) }
+      it { is_expected.to include(custom_field) }
     end
 
     context "required custom field exists" do
@@ -84,13 +84,13 @@ describe WorkPackage do
 
               subject { work_package.errors[:custom_values] }
 
-              it { should include(I18n.translate('activerecord.errors.messages.invalid')) }
+              it { is_expected.to include(I18n.translate('activerecord.errors.messages.invalid')) }
             end
 
             describe "work package attribute update" do
               subject { work_package.save }
 
-              it { should be_false }
+              it { is_expected.to be_falsey }
             end
           end
 
@@ -118,7 +118,7 @@ describe WorkPackage do
 
           subject { work_package.errors.full_messages.first }
 
-          it { should eq("Database is not included in the list") }
+          it { is_expected.to eq("Database is not included in the list") }
         end
       end
 
@@ -128,7 +128,7 @@ describe WorkPackage do
         context :errors do
           subject { work_package.errors[:custom_values] }
 
-          it { should be_empty }
+          it { is_expected.to be_empty }
         end
 
         context :save do
@@ -139,7 +139,7 @@ describe WorkPackage do
 
           subject { work_package.custom_value_for(custom_field.id).value }
 
-          it { should eq('PostgreSQL') }
+          it { is_expected.to eq('PostgreSQL') }
         end
 
         describe "value change" do
@@ -153,7 +153,7 @@ describe WorkPackage do
 
           subject { work_package.custom_value_for(custom_field).id }
 
-          it { should eq(@initial_custom_value) }
+          it { is_expected.to eq(@initial_custom_value) }
         end
       end
     end
@@ -185,7 +185,7 @@ describe WorkPackage do
 
           subject { WorkPackage.find(work_package.id).custom_value_for(custom_field).value }
 
-          it { should eq('PostgreSQL') }
+          it { is_expected.to eq('PostgreSQL') }
         end
       end
 
@@ -197,7 +197,7 @@ describe WorkPackage do
         describe "pre-condition" do
           subject { work_package_without_type.custom_field_values }
 
-          it { should be_empty }
+          it { is_expected.to be_empty }
         end
 
         context "with assigning type" do
@@ -205,7 +205,7 @@ describe WorkPackage do
 
           subject { work_package_without_type.custom_field_values }
 
-          it { should_not be_empty }
+          it { is_expected.not_to be_empty }
         end
       end
 
@@ -226,7 +226,7 @@ describe WorkPackage do
           wp.custom_value_for(custom_field_2.id).value
         end
 
-        it { should eq('true') }
+        it { is_expected.to eq('true') }
       end
     end
 

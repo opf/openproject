@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Omniauth authentication' do
+describe 'Omniauth authentication', :type => :feature do
 
   before do
     @omniauth_test_mode = OmniAuth.config.test_mode
@@ -88,7 +88,7 @@ describe 'Omniauth authentication' do
 
     context 'with direct login' do
       before do
-        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+        allow(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('developer')
       end
 
       it 'should go directly to the developer sign in and then redirect to the back url' do
@@ -109,8 +109,8 @@ describe 'Omniauth authentication' do
 
   describe 'sign out a user with direct login and login required' do
     before do
-      Setting.stub(:login_required?).and_return(true)
-      Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+      allow(Setting).to receive(:login_required?).and_return(true)
+      allow(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('developer')
     end
 
     it 'shows a notice that the user has been logged out' do
@@ -179,7 +179,7 @@ describe 'Omniauth authentication' do
 
     context 'with password login disabled' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       end
 
       it_behaves_like 'omniauth user registration'
@@ -217,8 +217,8 @@ describe 'Omniauth authentication' do
 
     context 'with direct login enabled and login required' do
       before do
-        Setting.stub(:login_required?).and_return(true)
-        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+        allow(Setting).to receive(:login_required?).and_return(true)
+        allow(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('developer')
       end
 
       it_behaves_like 'registration with registration by email' do
@@ -253,8 +253,8 @@ describe 'Omniauth authentication' do
 
     context 'with direct login and login required' do
       before do
-        Setting.stub(:login_required?).and_return(true)
-        Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('developer')
+        allow(Setting).to receive(:login_required?).and_return(true)
+        allow(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('developer')
       end
 
       it_behaves_like 'omniauth signin error' do

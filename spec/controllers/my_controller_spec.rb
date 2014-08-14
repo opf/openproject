@@ -49,7 +49,7 @@ describe MyController, :type => :controller do
 
     describe 'with disabled password login' do
       before do
-        OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -144,7 +144,7 @@ describe MyController, :type => :controller do
 
   describe 'account with disabled password login' do
     before do
-      OpenProject::Configuration.stub(:disable_password_login?).and_return(true)
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
         get :account
       end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'wiki/new' do
+describe 'wiki/new', :type => :view do
   let(:project) { stub_model(Project) }
   let(:wiki)    { stub_model(Wiki) }
   let(:page)    { stub_model(WikiPage) }

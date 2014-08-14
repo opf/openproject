@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Setting do
+describe Setting, :type => :model do
 
   # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
@@ -38,11 +38,11 @@ describe Setting do
     end
 
     it "allows users to register themselves" do
-      expect(Setting.self_registration?).to be_true
+      expect(Setting.self_registration?).to be_truthy
     end
 
     it "allows anonymous users to access public information" do
-      expect(Setting.login_required?).to be_false
+      expect(Setting.login_required?).to be_falsey
     end
   end
 
@@ -50,7 +50,6 @@ describe Setting do
   describe "changing a setting" do
     context "setting doesn't exist in the database" do
       before do
-        Setting.destroy_all
         Setting.host_name = "some name"
       end
 
@@ -60,6 +59,10 @@ describe Setting do
 
       it "stores the setting" do
         expect(Setting.find_by_name('host_name').value).to eq "some name"
+      end
+
+      after do
+        Setting.find_by_name('host_name').destroy
       end
     end
 
@@ -76,16 +79,27 @@ describe Setting do
       it "stores the setting" do
         expect(Setting.find_by_name('host_name').value).to eq "some other name"
       end
+
+      after do
+        Setting.find_by_name('host_name').destroy
+      end
     end
   end
 
   # tests the serialization feature to store complex data types like arrays in settings
   describe "serialized settings" do
-    it "serializes arrays" do
+    before do
       # note: notified_events is marked as serialized in settings.yml (no type-based automagic here)
       Setting.notified_events = ['some_event']
+    end
+
+    it "serializes arrays" do
       expect(Setting.notified_events).to eq ['some_event']
       expect(Setting.find_by_name('notified_events').value).to eq ['some_event']
+    end
+
+    after do
+      Setting.find_by_name('notified_events').destroy
     end
   end
 
@@ -148,6 +162,10 @@ describe Setting do
       Setting.register_callback(:host_name, &cb)
       Setting.host_name = 'some other name'
       expect(collector).to include 'some name'
+    end
+
+    after do
+      Setting.destroy_all
     end
   end
 

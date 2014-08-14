@@ -15,6 +15,10 @@
       <label ng-bind="propertyData.label"/>
       <span ng-switch="propertyData.format">
         <user-field ng-switch-when="user" user="propertyData.value"></user-field>
+        <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                       html-element="propertyData.value"
+                                       work-package="workPackage">
+        </span>
         <span ng-switch-default ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"/>
       </span>
     </li>

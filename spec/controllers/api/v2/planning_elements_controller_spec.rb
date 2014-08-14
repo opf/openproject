@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementsController do
+describe Api::V2::PlanningElementsController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -240,7 +240,7 @@ describe Api::V2::PlanningElementsController do
 
       describe 'w/ cross-project relations' do
         before do
-          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
         end
 
         let!(:project1) { FactoryGirl.create(:project, :identifier => 'project-1') }

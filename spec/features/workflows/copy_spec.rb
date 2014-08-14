@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Workflow copy' do
+describe 'Workflow copy', :type => :feature do
   let(:role) { FactoryGirl.create(:role) }
   let(:type) { FactoryGirl.create(:type) }
   let(:admin)  {FactoryGirl.create(:admin)}

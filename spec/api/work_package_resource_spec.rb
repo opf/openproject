@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource' do
+describe 'API v3 Work package resource', :type => :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -64,7 +64,7 @@ h4. things we like
   }}
 
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:watcher) do
     FactoryGirl
@@ -125,7 +125,7 @@ h4. things we like
       end
 
       it 'should respond with 200' do
-        last_response.status.should eq(200)
+        expect(last_response.status).to eq(200)
       end
 
       describe 'response body' do
@@ -135,8 +135,15 @@ h4. things we like
           expect(parsed_response['id']).to eq(work_package.id)
         end
 
-        its(['description']) { should have_selector('h1') }
-        its(['description']) { should have_selector('h2') }
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h1') }
+        end
+
+        describe "['description']" do
+          subject { super()['description'] }
+          it { is_expected.to have_selector('h2') }
+        end
 
         it 'should resolve links' do
           expect(parsed_response['description']).to have_selector("a[href='/work_packages/#{other_wp.id}']")
@@ -155,12 +162,12 @@ h4. things we like
         let(:get_path) { "/api/v3/work_packages/909090" }
 
         it 'should respond with 404' do
-          last_response.status.should eq(404)
+          expect(last_response.status).to eq(404)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
         end
       end
     end
@@ -172,12 +179,12 @@ h4. things we like
       end
 
       it 'should respond with 403' do
-        last_response.status.should eq(403)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
@@ -188,14 +195,81 @@ h4. things we like
       end
 
       it 'should respond with 401' do
-        last_response.status.should eq(403)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
+  end
+
+  describe '#patch' do
+    let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
+    before(:each) do
+      allow(User).to receive(:current).and_return current_user
+      patch patch_path, params
+    end
+    subject(:response) { last_response }
+
+    context 'user with needed permissions' do
+      context 'valid update' do
+        let(:params) do
+          {
+            subject: 'Updated subject',
+            rawDescription: '<h1>Updated description</h1>',
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
+
+        it 'should respond with 200' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'should respond with updated work package' do
+          expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
+        end
+
+        it 'should update the dates in iso8601 format' do
+          expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
+          expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
+        end
+
+        it 'should allow html in raw description' do
+          expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
+        end
+
+      end
+
+      context 'invalid update' do
+        let(:params) do
+          {
+            subject: ' ',
+            type: FactoryGirl.create(:type).name,
+            rawDescription: '<h1>Updated description</h1>',
+            status: FactoryGirl.create(:status).name,
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
+
+        it 'should respond with 422' do
+          expect(response.status).to eq 422
+        end
+
+         it 'should respond with explanatory error message' do
+          parsed_errors = JSON.parse(last_response.body)['errors']
+          parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
+        end
+      end
+    end
   end
 end

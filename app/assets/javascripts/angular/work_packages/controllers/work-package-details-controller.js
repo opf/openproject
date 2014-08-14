@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.controllers')
   follows: "Relation::Follows"
 })
 .constant('RELATION_IDENTIFIERS', {
+  parent: "parent",
   relatedTo: "relates",
   duplicates: "duplicates",
   duplicated: "duplicated",
@@ -86,12 +87,18 @@ angular.module('openproject.workPackages.controllers')
     }
     $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
-    function outputError(error) {
+    function outputMessage(message, isError) {
       $scope.$emit('flashMessage', {
-        isError: true,
-        text: error.message
+        isError: !!isError,
+        text: message
       });
     }
+
+    function outputError(error) {
+      outputMessage(error.message, true);
+    }
+
+    $scope.outputMessage = outputMessage; // expose to child controllers
     $scope.outputError = outputError; // expose to child controllers
 
     function setWorkPackageScopeProperties(workPackage){
@@ -117,7 +124,7 @@ angular.module('openproject.workPackages.controllers')
 
       // relations
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents, "parent");
         $scope.wpParent = relationsHandler;
       });
 

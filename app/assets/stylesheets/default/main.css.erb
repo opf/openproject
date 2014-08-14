@@ -122,9 +122,8 @@ tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(<%= asset_path 'link.png' %>) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: left; white-space: nowrap; }
 
-tr.user td { width: 13%; }
+tr.user td { width: 13%; white-space: nowrap; }
 tr.user td.email { width: 18%; }
-tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
@@ -159,11 +158,9 @@ table.attributes td { vertical-align: top; }
 td.center, th.center {text-align: center;}
 
 #watchers ul {margin: 0;  padding: 0;}
-#watchers li {list-style-type: none;margin: 0px 10px 0px 0px; padding: 0px 0px 0px 0px;float: left;}
 #watchers select {width: 200px; display: block;float: left;margin-right: 10px;}
 #watchers a.delete {opacity: 0.4;}
 #watchers a.delete:hover {opacity: 1;}
-#watchers img.gravatar {vertical-align: middle;margin: 0 10px 0px 0;}
 
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
@@ -534,7 +531,7 @@ div.tooltip:hover span.tip, div.tooltip.hover span.tip {
   empty-cells: show;
   text-align: center;
   float: left;
-  margin: 1px 6px 1px 0px;
+  margin: 3px 6px 1px 0px;
   border: 1px solid #BBBBBB;
   border-collapse: separate;
   -moz-border-radius: 3px;
@@ -691,50 +688,6 @@ ins.diffmod, ins.diffins { background: #cfc; }
 }
 
 /***** My page layout *****/
-img.gravatar {
-  background: #fff;
-}
-
-div.issue img.gravatar {
-  float: right;
-  margin: 0 0 0 1em;
-  padding: 5px;
-}
-
-div.issue table img.gravatar {
-  height: 14px;
-  width: 14px;
-  padding: 2px;
-  float: left;
-  margin: 0 0.5em 0 0;
-}
-
-h2 img.gravatar {
-  margin: -2px 4px -4px 0;
-  vertical-align: top;
-}
-
-h4 img.gravatar {
-  margin: -6px 0 -4px 0;
-  vertical-align: top;
-}
-
-td.username img.gravatar {
-  margin: 0 0.5em 0 0;
-  vertical-align: top;
-}
-
-#activity dt img.gravatar {
-  float: left;
-  margin: 0 1em 1em 0;
-}
-
-/* Used on 12px Gravatar img tags without the icon background */
-.icon-gravatar {
-  float: left;
-  margin-right: 4px;
-}
-
 #activity dt {
   clear: left;
 }
@@ -953,9 +906,6 @@ div.issue hr {
 #content div.issue table th {
   font-weight: bold;
 }
-.issue p {
-  margin-bottom: 5px;
-}
 .attachments h4 {
   margin-bottom: 6px;
   background: url(<%= asset_path 'files-showhide.png' %>) no-repeat right bottom;
@@ -1108,11 +1058,6 @@ ul.projects li div.root {
 }
 .profile-box ul li:last-child {
   border-bottom: 0;
-}
-.profile-box .gravatar {
-  border: 0;
-  float: left;
-  margin-right: 6px;
 }
 
 /* file table hovers */
@@ -1306,14 +1251,10 @@ div.issue hr {
 #content h2 + h3 {
   margin-top: 12px;
 }
-div.issue img.gravatar {
-  float: none;
-  margin: 0;
-  padding: 0;
-}
 p.author {
-  margin-bottom: 15px;
   font-style: italic;
+  /* to accomodate the .profile-wrap class */
+  height: 42px;
 }
 /* add filter select box on non-issue pages */
 fieldset#filters div.add-filter {

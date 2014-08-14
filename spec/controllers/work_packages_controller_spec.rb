@@ -30,7 +30,7 @@
 require 'spec_helper'
 require 'support/shared/previews'
 
-describe WorkPackagesController do
+describe WorkPackagesController, :type => :controller do
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -148,7 +148,7 @@ describe WorkPackagesController do
         query.stub_chain(:results, :work_package_count_by_group).and_return([])
         query.stub_chain(:results, :column_total_sums).and_return([])
         query.stub_chain(:results, :column_group_sums).and_return([])
-        query.stub(:as_json).and_return("")
+        allow(query).to receive(:as_json).and_return("")
       end
 
       describe 'html' do
@@ -309,7 +309,7 @@ describe WorkPackagesController do
   describe 'index with a broken project reference' do
     before { get('index', :project_id => 'project_that_doesnt_exist') }
 
-    it { should respond_with :not_found }
+    it { is_expected.to respond_with :not_found }
   end
 
 
@@ -502,8 +502,8 @@ describe WorkPackagesController do
       # default activity counts as blank as long as everything else is blank too
       put 'update', params.call(work_package.id, default_activity.id)
 
-      expect(response.status).to eq(200)
-      expect(response.body).to have_content("Successful update")
+      expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+      expect(response).to redirect_to(work_package_path(work_package))
     end
 
     it 'should still give an error for a non-blank time entry' do
@@ -535,10 +535,10 @@ describe WorkPackagesController do
                            .and_return(true)
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -575,10 +575,10 @@ describe WorkPackagesController do
                            .and_return([double('unsaved_attachment')])
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -866,8 +866,8 @@ describe WorkPackagesController do
       context "description" do
         subject { get :quoted, id: planning_element.id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
 
       context "journal" do
@@ -875,8 +875,8 @@ describe WorkPackagesController do
 
         subject { get :quoted, id: planning_element.id, journal_id: journal_id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
     end
   end
@@ -939,7 +939,7 @@ describe WorkPackagesController do
 
           subject { new_work_package.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
 
           it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
@@ -957,13 +957,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/new', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/new', formats: ["html"]) }
         end
 
         describe :error do
           subject { new_work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end
@@ -1008,13 +1008,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/edit', formats: ["html"]) }
         end
 
         describe :error do
           subject { work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end

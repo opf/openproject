@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeletedUser do
+describe DeletedUser, :type => :model do
   before do
     User.delete_all
   end
@@ -36,7 +36,7 @@ describe DeletedUser do
   let(:user) { DeletedUser.new }
 
   describe :admin do
-    it { expect(user.admin).to be_false }
+    it { expect(user.admin).to be_falsey }
   end
 
   describe :logged? do
@@ -60,7 +60,7 @@ describe DeletedUser do
   end
 
   describe :destroy do
-    it { expect(user.destroy).to be_false }
+    it { expect(user.destroy).to be_falsey }
   end
 
   describe :available_custom_fields do
@@ -107,7 +107,7 @@ describe DeletedUser do
     end
 
     describe "WHEN no deleted user exists" do
-      it { expect(DeletedUser.first.is_a?(DeletedUser)).to be_true }
+      it { expect(DeletedUser.first.is_a?(DeletedUser)).to be_truthy }
       it { expect(DeletedUser.first).not_to be_new_record }
     end
   end

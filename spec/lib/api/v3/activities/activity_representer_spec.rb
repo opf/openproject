@@ -41,21 +41,21 @@ describe ::API::V3::Activities::ActivityRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Activity'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Activity'.to_json).at_path('_type') }
 
-    it { should have_json_type(Object).at_path('_links') }
+    it { is_expected.to have_json_type(Object).at_path('_links') }
     it 'should link to self' do
       expect(subject).to have_json_path('_links/self/href')
     end
 
     describe 'activity' do
-      it { should have_json_path('id') }
-      it { should have_json_path('version') }
-      it { should have_json_path('comment') }
-      it { should have_json_path('rawComment') }
-      it { should have_json_path('details') }
-      it { should have_json_path('htmlDetails') }
-      it { should have_json_path('createdAt') }
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('version') }
+      it { is_expected.to have_json_path('comment') }
+      it { is_expected.to have_json_path('rawComment') }
+      it { is_expected.to have_json_path('details') }
+      it { is_expected.to have_json_path('htmlDetails') }
+      it { is_expected.to have_json_path('createdAt') }
 
       it 'should link to work package' do
         expect(subject).to have_json_path('_links/workPackage/href')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Activity::WorkPackageActivityProvider do
+describe Activity::WorkPackageActivityProvider, :type => :model do
   let(:event_scope)               { 'work_packages' }
   let(:work_package_edit_event)   { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
@@ -50,7 +50,7 @@ describe Activity::WorkPackageActivityProvider do
         let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
         before { work_package.save! }
 
-        it { should == work_package_edit_event }
+        it { is_expected.to eq(work_package_edit_event) }
       end
 
       context 'when a work package has been created and then closed' do
@@ -70,7 +70,7 @@ describe Activity::WorkPackageActivityProvider do
           work_package.save!
         end
 
-        it { should == work_package_closed_event }
+        it { is_expected.to eq(work_package_closed_event) }
       end
     end
   end

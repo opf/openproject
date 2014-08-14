@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe Query do
+describe Query, :type => :model do
   let(:query) { FactoryGirl.build(:query) }
 
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
-        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_true
+        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_truthy
       end
     end
 
@@ -53,7 +53,7 @@ describe Query do
   describe '#valid?' do
     it "should not be valid without a name" do
       query.name = ''
-      expect(query.save).to be_false
+      expect(query.save).to be_falsey
       expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
     end
 
@@ -63,7 +63,7 @@ describe Query do
       end
 
       it 'is not valid and creates an error' do
-        expect(query.valid?).to be_false
+        expect(query.valid?).to be_falsey
         expect(query.errors[:base].first).to include(I18n.t('activerecord.errors.messages.blank'))
       end
     end
@@ -73,7 +73,7 @@ describe Query do
       let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
 
       it 'is valid' do
-        expect(query.valid?).to be_true
+        expect(query.valid?).to be_truthy
       end
     end
 
@@ -86,7 +86,7 @@ describe Query do
       end
 
       it 'should have the name of the custom field in the error message' do
-        expect(query.valid?).to be_false
+        expect(query.valid?).to be_falsey
         expect(query.errors.messages[:base].to_s).to include(custom_field.name)
       end
     end

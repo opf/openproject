@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/auto_completes/index.html.erb' do
+describe 'work_packages/auto_completes/index.html.erb', :type => :view do
   let(:work_package) { FactoryGirl.build( :work_package,
                                           :subject => '<script>alert("do not alert this");</script>') }
 

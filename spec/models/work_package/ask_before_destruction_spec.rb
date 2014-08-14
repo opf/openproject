@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
                                                          :status => status) }
   let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
@@ -60,7 +60,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
 
@@ -72,7 +72,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
 
@@ -82,7 +82,7 @@ describe WorkPackage do
       end
 
       it "should be false" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_false
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
   end
@@ -126,7 +126,7 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        expect(action).to be_true
+        expect(action).to be_truthy
       end
     end
 
@@ -134,7 +134,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'destroy') }
 
       it 'should return true' do
-        expect(action).to be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the time_entry' do
@@ -149,7 +149,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
       it 'should return true' do
-        expect(action).to be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the time_entry' do
@@ -164,7 +164,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'nullify') }
 
       it 'should return true' do
-        expect(action).to be_true
+        expect(action).to be_truthy
       end
 
       it 'should set the work_package_id of all time entries to nil' do
@@ -187,7 +187,7 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        expect(action).to be_true
+        expect(action).to be_truthy
       end
 
       it 'should set the work_package_id of all time entries to the new work package' do
@@ -214,7 +214,7 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        expect(action).to be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
@@ -230,7 +230,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => 0) }
 
       it 'should return true' do
-        expect(action).to be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
@@ -252,7 +252,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign') }
 
       it 'should return true' do
-        expect(action).to be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
@@ -274,7 +274,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'bogus') }
 
       it 'should return false' do
-        expect(action).to be_false
+        expect(action).to be_falsey
       end
     end
 
@@ -282,7 +282,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
       it 'should return false' do
-        expect(action).to be_false
+        expect(action).to be_falsey
       end
     end
   end

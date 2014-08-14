@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-author: Scott Woods, West Arete Computing
-summary: View helpers for displaying gravatars.
-homepage: http://github.com/woods/gravatar-plugin/
-plugin: git://github.com/woods/gravatar-plugin.git
-license: MIT
-version: 0.1
-rails_version: 1.0+
+require 'spec_helper'
+
+describe ::API::V3::RootRepresenter do
+  let(:representer)  { described_class.new({}) }
+
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    describe '_links' do
+      it { should have_json_type(Object).at_path('_links') }
+
+      describe 'priorities' do
+        it { should have_json_path('_links/priorities') }
+        it { should have_json_path('_links/priorities/href') }
+      end
+
+      describe 'project' do
+        it { should have_json_path('_links/project') }
+        it { should have_json_path('_links/project/href') }
+        it { should have_json_path('_links/project/templated') }
+      end
+
+      describe 'statuses' do
+        it { should have_json_path('_links/statuses') }
+        it { should have_json_path('_links/statuses/href') }
+      end
+    end
+  end
+end

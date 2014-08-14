@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results do
+describe ::Query::Results, :type => :model do
   let(:query) { FactoryGirl.build :query }
   let(:query_results) do
     ::Query::Results.new query, include: [:assigned_to, :type, :priority, :category, :fixed_version],
@@ -81,16 +81,16 @@ describe ::Query::Results do
                                        assigned_to_id: user_1.id) }
 
     before do
-      User.stub(:current).and_return(user_2)
-      project_2.descendants.stub(:active).and_return([])
+      allow(User).to receive(:current).and_return(user_2)
+      allow(project_2.descendants).to receive(:active).and_return([])
 
       query.add_filter("assigned_to_role", "=", ["#{role_dev.id}"])
     end
 
     context 'when a project is set' do
       before do
-        query.stub(:project).and_return(project_2)
-        query.stub(:project_id).and_return(project_2.id)
+        allow(query).to receive(:project).and_return(project_2)
+        allow(query).to receive(:project_id).and_return(project_2.id)
       end
 
       it 'should display only wp for selected project and selected role' do
@@ -100,8 +100,8 @@ describe ::Query::Results do
 
     context 'when no project is set' do
       before do
-        query.stub(:project_id).and_return(false)
-        query.stub(:project).and_return(false)
+        allow(query).to receive(:project_id).and_return(false)
+        allow(query).to receive(:project).and_return(false)
       end
 
       it 'should display all wp from projects where User.current has access' do

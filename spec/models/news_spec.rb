@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
-describe News do
+describe News, :type => :model do
   include BecomeMember
 
   let(:project) {
@@ -66,22 +66,22 @@ describe News do
 
       10.times { FactoryGirl.create(:news, project: project) }
 
-      expect(News.latest(User.current,  2)).to have(2).elements
-      expect(News.latest(User.current,  6)).to have(6).elements
-      expect(News.latest(User.current, 15)).to have(10).elements
+      expect(News.latest(User.current,  2).size).to eq(2)
+      expect(News.latest(User.current,  6).size).to eq(6)
+      expect(News.latest(User.current, 15).size).to eq(10)
     end
 
     it "returns five news elements by default" do
       News.delete_all
 
       2.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(2).elements
+      expect(News.latest.size).to eq(2)
 
       3.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(5).elements
+      expect(News.latest.size).to eq(5)
 
       2.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(5).elements
+      expect(News.latest.size).to eq(5)
     end
   end
 
@@ -94,7 +94,7 @@ describe News do
 
       with_settings notified_events: ['news_added'] do
         FactoryGirl.create(:news, project: project)
-        expect(ActionMailer::Base.deliveries).to have(1).element
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
     end
   end

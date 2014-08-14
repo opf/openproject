@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "routes for old issue uris" do
+describe "routes for old issue uris", :type => :request do
   describe "for index action" do
     before do
       get("/wp")

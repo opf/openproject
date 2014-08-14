@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe CopyProjectsController do
+describe CopyProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:redirect_path) { "source_project_settings" }
   let(:permission) { :copy_projects }
@@ -114,7 +114,7 @@ describe CopyProjectsController do
   describe 'copy sends eMail' do
     context 'on success' do
       it 'user receives success mail' do
-        UserMailer.should_receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
@@ -122,11 +122,11 @@ describe CopyProjectsController do
 
     context 'on error' do
       before do
-        UserMailer.stub(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
+        allow(UserMailer).to receive(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
       end
 
       it 'user receives success mail' do
-        UserMailer.should_receive(:copy_project_failed).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
