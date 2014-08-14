@@ -44,7 +44,10 @@ class ApplicationControllerTest < ActionController::TestCase
 
   # check that all language files are valid
   def test_localization
-    lang_files_count = Dir[Rails.root.join('config/locales/*.yml')].size
+    lang_files_count = Dir.glob(Rails.root.join('config/locales/*.yml'))
+                          .map { |f| File.basename(f) }
+                          .reject { |b| b.starts_with? 'js' }
+                          .size
     Setting.available_languages = Setting.all_languages
     assert_equal lang_files_count, valid_languages.size
     valid_languages.each do |lang|
