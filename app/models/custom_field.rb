@@ -75,8 +75,8 @@ class CustomField < ActiveRecord::Base
 
   validate :validate_name
   
-  validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: :allowed_size_of_integer }
+  validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: :allowed_size_of_integer }
   validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length}, unless: Proc.new { |cf| cf.max_length.blank?}
 
 
@@ -270,6 +270,17 @@ class CustomField < ActiveRecord::Base
     value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)
 
     !value_keys.include?(:locale) || (value_keys & translated_attribute_names).size == 0
+  end
+  
+  def allowed_size_of_integer
+    size_in_byte = CustomField.columns.find { |c| c.name == 'min_length' }.limit
+    if size_in_byte.present?
+      max_size = 2**(8*size_in_byte)/2 - 1
+    else 
+      #Postgres does not set the limit but has a limit of 4 bytes
+      max_size = 2147483647
+    end
+    max_size
   end
 end
 

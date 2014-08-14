@@ -24,7 +24,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+#
 
 require 'spec_helper'
 
@@ -399,6 +399,34 @@ describe CustomField, :type => :model do
         field.max_length = -2
       end       
       it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH too high minimum length" do
+      before do
+        field.field_format = 'text'
+        field.min_length = 99999999999999999999
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH too high maximum length" do
+      before do
+        field.field_format = 'text'
+        field.max_length = 99999999999999999999
+      end       
+      it { expect(field).not_to be_valid } 
+    end
+    
+    describe "WITH a text field
+              WITH valid minimum and maximum length" do
+      before do
+        field.field_format = 'text'
+        field.max_length = 0
+        field.max_length = 3000
+      end       
+      it { expect(field).to be_valid } 
     end
   end
 end
