@@ -210,7 +210,7 @@ h4. things we like
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
     before(:each) do
       allow(User).to receive(:current).and_return current_user
-      patch patch_path, params
+      patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
     end
     subject(:response) { last_response }
 
