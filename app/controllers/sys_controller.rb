@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'open_project/repository_authentication'
+
 class SysController < ActionController::Base
   before_filter :check_enabled
   before_filter :require_basic_auth, :only => [ :repo_auth ]
