@@ -56,6 +56,8 @@ describe 'Select work package row', :type => :feature do
       case mouse_button_behavior
       when :double
         element.double_click
+      when :right
+        element.right_click
       else
         element.click
       end
@@ -108,36 +110,53 @@ describe 'Select work package row', :type => :feature do
     end
 
     describe 'single selection' do
-      before { select_work_package_row(1) }
-
-      it_behaves_like 'work package row selected' do
-        let(:index) { 1 }
-      end
-
-      context 'clicking selected row again' do
-        before do
-          check_row_selection_state(1);
-          select_work_package_row(1)
-        end
-
-        it_behaves_like 'work package row not selected' do
-          let(:index) { 1 }
-        end
-      end
-
-      context 'select a different row' do
-        before do
-          check_row_selection_state(1);
-          select_work_package_row(2)
-        end
+      shared_examples_for 'single select' do
+        before { select_work_package_row(1, mouse_button) }
 
         it_behaves_like 'work package row selected' do
-          let(:index) { 2 }
-        end
-
-        it_behaves_like 'work package row not selected' do
           let(:index) { 1 }
         end
+
+        context 'select a different row' do
+          before do
+            check_row_selection_state(1);
+            select_work_package_row(2, mouse_button)
+          end
+
+          it_behaves_like 'work package row selected' do
+            let(:index) { 2 }
+          end
+
+          it_behaves_like 'work package row not selected' do
+            let(:index) { 1 }
+          end
+        end
+      end
+
+      shared_examples_for 'double select unselects' do
+        context 'clicking selected row again' do
+          before do
+            select_work_package_row(1, mouse_button)
+            check_row_selection_state(1);
+            select_work_package_row(1, mouse_button)
+          end
+
+          it_behaves_like 'work package row not selected' do
+            let(:index) { 1 }
+          end
+        end
+      end
+
+      it_behaves_like 'single select' do
+        let(:mouse_button) { :left }
+      end
+
+      it_behaves_like 'double select unselects' do
+        let(:mouse_button) { :left }
+      end
+
+      it_behaves_like 'single select' do
+        let(:mouse_button) { :right }
       end
     end
 
