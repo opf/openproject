@@ -50,6 +50,12 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         embedded: {
+          author: {
+            props: {
+              id: 1,
+              status: 1
+            }
+          },
           activities: [],
           watchers: [],
           attachments: [],
