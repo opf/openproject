@@ -88,8 +88,13 @@ h4, .wiki h3
     overflow: hidden
 
   #content
-    position: absolute
-    height:   100%
+    position:   absolute
+    box-sizing: border-box
+    width:      calc(100% - #{$main_menu_width})
+    height:     calc(100% - 40px)
+
+    &.hidden-navigation
+      width:    calc(100% - #{$main_menu_folded_width})
 
 #content
   @include default-transition

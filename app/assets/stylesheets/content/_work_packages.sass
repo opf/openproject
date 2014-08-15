@@ -29,21 +29,48 @@
 @import content/forms
 @import layout/split_view
 
+// HACK: workaround to ensure correct height applied to child elements
+#content > div[ui-view],
+#work-packages-index
+  height: 100%
+
+.work-packages--page-container
+  +display(flex)
+  +flex-direction(column)
+  height: 100%
+
+  > .toolbar-container
+    // not flex-item
+
+  > .work-packages--filters-optional-container
+    // not flex-item
+    height: auto
+
+  > .work-packages--split-view
+    +flex-shrink(2)
+    +flex-basis(100%)
+
 .work-packages--split-view
-  @extend .split-view
+  +display(flex)
+  width: 100%
 
 .work-packages--list
-  @extend %panel
-
-.work-packages--list-scroll-area
+  +flex-basis(100%)
   overflow: auto
-  position: relative
-  height: 1000px
 
 .work-packages--details
-  @extend %panel
   padding: 0 1em 1em
   border-left: 4px solid #eee
+  overflow: auto
+
+  @media only screen and (max-width: 1280px)
+    display: none
+  // li[feature-flag=detailsView]
+  //   display: none
+  @media only screen and (min-width: 1281px)
+    width: 480px
+  @media only screen and (min-width: 1440px)
+    width: 580px
 
 div
   .report-category-actions
