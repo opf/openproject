@@ -109,31 +109,82 @@ angular.module('openproject.workPackages.controllers')
 
   var userFields = ['assignee', 'author', 'responsible'];
 
+  function getWorkPackagePropertiesInSpecifiedOrder(workPackageProperties) {
+    // The work package property oder is specified as follows:
+    // 1. The first 6 properties are:
+    //    'Status', 'Assigned To', 'Responsible'
+    //    'Date' '% Done', 'Priority'
+    // 2. All remaining properties are sorted in their alphabetical order
+    var propertiesForFirstTwoRows = workPackageProperties.slice(0, 6);
+    var remainingProperties = workPackageProperties.slice(6);
+    var remainingPropertiesByLabels = { };
+    var propertyLabels;
+    var workPackagePropertiesInSpecificOrder = propertiesForFirstTwoRows;
+
+    for (var x = 0; x < remainingProperties.length; x++) {
+      var property = remainingProperties[x];
+      var label = (typeof property == 'string') ? I18n.t('js.work_packages.properties.' + property) : property.name;
+
+      remainingPropertiesByLabels[label] = property;
+    }
+
+    propertyLabels = Object.keys(remainingPropertiesByLabels).sort();
+
+    for (var x = 0; x < propertyLabels.length; x++) {
+      workPackagePropertiesInSpecificOrder.push(remainingPropertiesByLabels[propertyLabels[x]]);
+    }
+
+    return workPackagePropertiesInSpecificOrder;
+  }
+
   (function setupWorkPackageProperties() {
-    angular.forEach(workPackageProperties, function(property, index) {
-      var label  = I18n.t('js.work_packages.properties.' + property),
-          format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
-          value  = getPropertyValue(property, format);
+    var properties = workPackageProperties.concat($scope.workPackage.props.customProperties);
+    var sortedProperties = getWorkPackagePropertiesInSpecifiedOrder(properties);
 
-      if (!(value === null || value === undefined) ||
-          index < 3 ||
-          index < 6 && secondRowToBeDisplayed()) {
-        addFormattedValueToPresentProperties(property, label, value, format);
+    angular.forEach(sortedProperties, function(property, index) {
+      if (typeof property == 'string') {
+        addWorkPackageProperty(property, index);
       } else {
-        var plugInValues = HookService.call('workPackageOverviewAttributes',
-                                            { type: property,
-                                              workPackage: $scope.workPackage });
-
-        if (plugInValues.length == 0) {
-          $scope.emptyWorkPackageProperties.push(label);
-        } else {
-          for (var x = 0; x < plugInValues.length; x++) {
-            addFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
-          }
-        }
+        addWorkPackageCustomProperty(property);
       }
     });
   })();
+
+  function addWorkPackageProperty(property, index) {
+    var label  = I18n.t('js.work_packages.properties.' + property),
+        format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
+        value  = getPropertyValue(property, format);
+
+    if (!(value === null || value === undefined) ||
+        index < 3 ||
+        index < 6 && secondRowToBeDisplayed()) {
+      addFormattedValueToPresentProperties(property, label, value, format);
+    } else {
+      var plugInValues = HookService.call('workPackageOverviewAttributes',
+                                          { type: property,
+                                            workPackage: $scope.workPackage });
+
+      if (plugInValues.length == 0) {
+        $scope.emptyWorkPackageProperties.push(label);
+      } else {
+        for (var x = 0; x < plugInValues.length; x++) {
+          addFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
+        }
+      }
+    }
+  }
+
+  function addWorkPackageCustomProperty(property) {
+    var label = property.name,
+        value = getCustomPropertyValue(property),
+        format = property.format;
+
+    if (property.value) {
+      addFormattedValueToPresentProperties(property.name, label, value, format);
+    } else {
+      $scope.emptyWorkPackageProperties.push(label);
+    }
+  }
 
   function getCustomPropertyValue(customProperty) {
     if (!!customProperty.value && customProperty.format === USER_TYPE) {
@@ -142,21 +193,6 @@ angular.module('openproject.workPackages.controllers')
       return CustomFieldHelper.formatCustomFieldValue(customProperty.value, customProperty.format);
     }
   }
-
-  (function setupCustomProperties() {
-    angular.forEach($scope.workPackage.props.customProperties, function(customProperty) {
-      var property = customProperty.name,
-          label = customProperty.name,
-          value = getCustomPropertyValue(customProperty),
-          format = customProperty.format;
-
-      if (customProperty.value) {
-        addFormattedValueToPresentProperties(property, label, value, format);
-      } else {
-       $scope.emptyWorkPackageProperties.push(label);
-      }
-    });
-  })();
 
   // toggles
 
