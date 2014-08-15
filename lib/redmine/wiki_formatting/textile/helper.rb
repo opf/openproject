@@ -38,7 +38,13 @@ module Redmine
                               :class => 'icon icon-help',
                               :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
 
-          javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
+          javascript_tag(<<-EOF)
+            var wikiToolbar = new jsToolBar($('#{field_id}'));
+            wikiToolbar.setHelpLink('#{escape_javascript help_link}');
+            // initialize the toolbar later, so that i18n-js has a chance to set the translations
+            // for the wiki-buttons first.
+            jQuery(function(){ wikiToolbar.draw(); });
+          EOF
         end
 
         def initial_page_content(page)
@@ -46,12 +52,6 @@ module Redmine
         end
 
         def heads_for_wiki_formatter
-          unless @heads_for_wiki_formatter_included
-            content_for :header_tags do
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}")
-            end
-            @heads_for_wiki_formatter_included = true
-          end
         end
       end
     end
