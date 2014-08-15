@@ -55,6 +55,8 @@ describe('DetailsTabOverviewController', function() {
           estimatedTime: undefined,
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
+            { format: 'text', name: 'width', value: '' },
+            { format: 'text', name: 'height', value: '' },
           ]
         },
         embedded: {
@@ -376,6 +378,24 @@ describe('DetailsTabOverviewController', function() {
         expect(propertyData.property).to.eq(propertyName);
         expect(propertyData.format).to.eq('dynamic');
         expect(propertyData.value).to.eq(directiveName);
+      });
+    });
+
+    describe('Properties are sorted', function() {
+      it('sorts list of non-empty properties', function() {
+        var isSorted = function(element, index, array) {
+          return index === 0 || String(array[index - 1].label) <= String(element.label);
+        };
+        // Don't consider the first 6 properties because those are predefined
+        // and will not be sorted.
+        expect(scope.presentWorkPackageProperties.slice(6).every(isSorted)).to.be.true;
+      });
+
+      it('sorts list of empty properties', function() {
+        var isSorted = function(element, index, array) {
+          return index === 0 || String(array[index - 1]) <= String(element);
+        };
+        expect(scope.emptyWorkPackageProperties.every(isSorted)).to.be.true;
       });
     });
   });
