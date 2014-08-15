@@ -55,8 +55,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    var updateCausingParams = $state.params.query;
-    var nonUpdeCausingParams = $location.search().nonUpdateQuery;
+    var updateCausingParams = $state.params.live_query;
+    var nonUpdeCausingParams = $location.search().passive_query;
 
     var fetchWorkPackages;
     if(updateCausingParams || nonUpdeCausingParams) {
@@ -98,7 +98,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function clearUrlQueryParams() {
-    $location.search('nonUpdateQuery', null);
+    $location.search('passive_query', null);
     $location.search('query', null);
     $location.search('query_id', null);
   }
@@ -197,12 +197,12 @@ angular.module('openproject.workPackages.controllers')
 
     if($scope.query) {
       var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
-      $location.search('nonUpdateQuery', queryString);
-      relativeUrl = relativeUrl + "?nonUpdateQuery=" + queryString;
+      $location.search('passive_query', queryString);
+      relativeUrl = relativeUrl + "?passive_query=" + queryString;
 
       var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
-      $location.search('query', queryString);
-      relativeUrl = relativeUrl + "?query=" + queryString;
+      $location.search('live_query', queryString);
+      relativeUrl = relativeUrl + "?live_query=" + queryString;
     }
 
     $scope.backUrl = relativeUrl;
