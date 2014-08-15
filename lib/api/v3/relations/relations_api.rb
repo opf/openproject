@@ -31,7 +31,7 @@ module API
           namespace ':relation_id' do
             delete do
               authorize(:manage_work_package_relations, context: @work_package.project)
-              Relation.destroy(params[:id])
+              Relation.destroy(params[:relation_id])
               status 204
             end
           end
