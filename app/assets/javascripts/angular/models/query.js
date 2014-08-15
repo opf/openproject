@@ -31,7 +31,8 @@ angular.module('openproject.models')
 .factory('Query', ['Filter',
                    'Sortation',
                    'UrlParamsHelper',
-                   function(Filter, Sortation, UrlParamsHelper) {
+                   'INITIALLY_SELECTED_COLUMNS',
+                   function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
 
   Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -46,7 +47,12 @@ angular.module('openproject.models')
         this.setFilters(queryData.filters);
       }
     }
+
     if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+
+    if(!this.columns) {
+      this.setColumns(INITIALLY_SELECTED_COLUMNS);
+    }
   };
 
   Query.prototype = {
@@ -193,6 +199,10 @@ angular.module('openproject.models')
           return new Filter(filterData);
         });
       }
+    },
+
+    setColumns: function(columns) {
+      this.columns = columns;
     },
 
     /**
