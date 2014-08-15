@@ -35,8 +35,8 @@
 # not fixing stuff!
 Project
 
-PlanningElementTypeColor.ms_project_colors.map(&:save)
-default_color = PlanningElementTypeColor.find_by_name('pjSilver')
+PlanningElementTypeColor.colors.map(&:save)
+default_color = PlanningElementTypeColor.find_by_name('Grey-light')
 
 Type.find_or_create_by_is_standard(true, name: 'none',
                                          position: 0,
