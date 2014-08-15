@@ -39,8 +39,9 @@ Feature: Issue edit
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_work_packages |
-      | edit_work_packages |
+      | view_work_packages     |
+      | edit_work_packages     |
+      | add_work_package_notes |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "omicronpersei8"
