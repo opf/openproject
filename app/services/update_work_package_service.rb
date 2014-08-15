@@ -40,12 +40,26 @@ class UpdateWorkPackageService
   def update
     configure_update_notification
 
-    work_package.update_by!(user, permitted_params)
+    work_package.update_by!(user, effective_params)
   end
 
   private
 
   def configure_update_notification
     JournalObserver.instance.send_notification = send_notifications
+  end
+
+  def effective_params
+    p = {}
+
+    if permitted_params[:notes]
+      notes = { notes: permitted_params.delete(:notes) }
+
+      p.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
+    end
+
+    p.merge!(permitted_params) if user.allowed_to?(:edit_work_packages, work_package.project)
+
+    p
   end
 end
