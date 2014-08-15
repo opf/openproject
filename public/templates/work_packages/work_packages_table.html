@@ -101,6 +101,8 @@
         has-context-menu
         target="WorkPackageContextMenu"
         locals="rows, row"
+        single-click="selectWorkPackage(row, $event)"
+        ng-dblclick="showWorkPackageDetails(row)"
         ng-class="[
           'issue',
           'hascontextmenu',
