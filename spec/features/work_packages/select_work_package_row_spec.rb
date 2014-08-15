@@ -109,6 +109,18 @@ describe 'Select work package row', :type => :feature do
       end
     end
 
+    shared_examples_for 'right click preserves selection' do
+      before { select_work_package_row(selected_rows.first, :right) }
+
+      it_behaves_like 'work package row selected' do
+        let(:index) { selected_rows }
+      end
+
+      it_behaves_like 'work package row not selected' do
+        let(:index) { unselected_rows }
+      end
+    end
+
     describe 'single selection' do
       shared_examples_for 'single select' do
         before { select_work_package_row(1, mouse_button) }
@@ -183,6 +195,11 @@ describe 'Select work package row', :type => :feature do
 
             it_behaves_like 'work package row not selected' do
               let(:index) { 3 }
+            end
+
+            it_behaves_like 'right click preserves selection' do
+              let(:selected_rows) { [1, 2] }
+              let(:unselected_rows) { 3 }
             end
           end
         end
@@ -275,6 +292,11 @@ describe 'Select work package row', :type => :feature do
 
           it_behaves_like 'work package row not selected' do
             let(:index) { 2 }
+          end
+
+          it_behaves_like 'right click preserves selection' do
+            let(:selected_rows) { [1, 3] }
+            let(:unselected_rows) { 2 }
           end
         end
       end
