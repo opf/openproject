@@ -50,7 +50,7 @@ class UpdateWorkPackageService
   end
 
   def effective_params
-    p = {}
+    p = HashWithIndifferentAccess.new
 
     if permitted_params[:notes]
       notes = { notes: permitted_params.delete(:notes) }

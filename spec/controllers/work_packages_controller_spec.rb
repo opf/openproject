@@ -515,7 +515,7 @@ describe WorkPackagesController, :type => :controller do
   end
 
   describe 'update.html' do
-    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+    let(:wp_params) { { 'wp_attribute' => double('wp_attribute') } }
     let(:params) { { :id => stub_work_package.id, :work_package => wp_params } }
     let(:call_action) { put 'update', params }
 
@@ -526,6 +526,7 @@ describe WorkPackagesController, :type => :controller do
                                           .at_most(:twice)
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project).and_return(true);
       end
 
       describe 'w/ having a successful save' do
@@ -991,6 +992,8 @@ describe WorkPackagesController, :type => :controller do
       before do
         allow(controller).to receive(:work_package).and_return(work_package)
         expect(controller).to receive(:authorize).and_return(true)
+
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, project).and_return(true);
 
         allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
         allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
