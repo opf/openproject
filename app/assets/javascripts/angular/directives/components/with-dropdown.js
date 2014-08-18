@@ -33,7 +33,7 @@ angular.module('openproject.uiComponents')
 
     function position(dropdown, trigger) {
       var hOffset = 0,
-        vOffset = 0;
+          vOffset = 0;
 
       if( dropdown.length === 0 || !trigger ) return;
 
