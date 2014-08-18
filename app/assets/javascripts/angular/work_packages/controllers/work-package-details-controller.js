@@ -65,7 +65,8 @@ angular.module('openproject.workPackages.controllers')
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+  'WorkPackageService',
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler, WorkPackageService) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -182,6 +183,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.editWorkPackage = function() {
       // TODO: Temporarily going to the old edit dialog until we get in-place editing done
       window.location = "/work_packages/" + $scope.workPackage.props.id;
+    };
+
+    $scope.deleteSelectedWorkPackage = function() {
+      WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
     };
   }
 ]);
