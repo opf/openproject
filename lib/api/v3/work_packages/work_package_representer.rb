@@ -58,7 +58,7 @@ module API
 
         link :update do
           {
-            href: "/api/v3/work_packages/#{represented.model.id}",
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}",
             method: :patch,
             title: "Update #{represented.subject}"
           } if current_user_allowed_to(:edit_work_packages, represented.model)
@@ -130,7 +130,7 @@ module API
 
         link :addRelation do
           {
-              href: "#{root_path}/api/v3/work_packages/#{represented.model.id}/relations",
+              href: "#{root_path}api/v3/work_packages/#{represented.model.id}/relations",
               method: :post,
               title: 'Add relation'
           } if current_user_allowed_to(:manage_work_package_relations, represented.model)
@@ -146,14 +146,14 @@ module API
 
         link :parent do
           {
-              href: "#{root_path}/api/v3/work_packages/#{represented.model.parent.id}",
+              href: "#{root_path}api/v3/work_packages/#{represented.model.parent.id}",
               title:  represented.model.parent.subject
           } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
         links :children do
           visible_children.map do |child|
-            { href: "#{root_path}/api/v3/work_packages/#{child.id}", title: child.subject }
+            { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
           end unless visible_children.empty?
         end
 
@@ -173,6 +173,7 @@ module API
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
         property :project_name, getter: -> (*) { model.project.try(:name) }
+        property :parent_id, render_nil: true
         property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
 

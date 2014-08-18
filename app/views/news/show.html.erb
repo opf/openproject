@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
-<div class="wiki">
+<div class="wiki" ng-non-bindable>
 <%= format_text(@news.description, :object => @news) %>
 </div>
 <br />

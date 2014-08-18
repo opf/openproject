@@ -51,9 +51,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <p>
-<%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
+  <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
+  <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                  :'ng-non-bindable' => '' %>
+</p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->
 

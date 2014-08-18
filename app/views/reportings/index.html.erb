@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="timelines-rep-short">
             <%=h reporting.reported_project_status.try(:name) || "-" %>
           </td>
-          <td class="timelines-rep-comment">
+          <td class="timelines-rep-comment" ng-non-bindable>
             <%= format_text reporting, :reported_project_status_comment %>
           </td>
           <td class="timelines-rep-last_change">

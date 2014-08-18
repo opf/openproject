@@ -456,6 +456,10 @@ de:
       x_seconds:
         one: "1 Sekunde"
         other: "%{count} Sekunden"
+    units:
+      hour:
+        one: "Stunde"
+        other: "Stunden"
 
   default_activity_design: "Design"
   default_activity_development: "Entwicklung"
