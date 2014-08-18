@@ -1626,6 +1626,7 @@ de:
 
   menu_item: "Menüpunkt"
   menu_item_setting: "Sichtbarkeit"
+
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
   wiki_menu_item_new_main_item_explanation: >
