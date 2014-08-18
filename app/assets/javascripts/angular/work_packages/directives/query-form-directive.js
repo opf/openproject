@@ -51,10 +51,17 @@ angular.module('openproject.workPackages.directives')
 
             var groupByChanged = currentProperties.groupBy !== formerProperties.groupBy;
             var sortElementsChanged = JSON.stringify(currentProperties.sortElements) !== JSON.stringify(formerProperties.sortElements);
+
+            return groupByChanged || sortElementsChanged;
+          }
+
+          function passiveQueryPropertiesChanged(currentProperties, formerProperties) {
+            if (formerProperties === undefined) return false;
+
             var columnsChanged = JSON.stringify(currentProperties.columns) !== JSON.stringify(formerProperties.columns);
             var displaySumsChanged = currentProperties.displaySums !== formerProperties.displaySums;
 
-            return groupByChanged || sortElementsChanged || columnsChanged || displaySumsChanged;
+            return columnsChanged || displaySumsChanged;
           }
 
           function observedQueryProperties() {
@@ -66,7 +73,16 @@ angular.module('openproject.workPackages.directives')
               return {
                 id: query.id,
                 groupBy: query.groupBy,
-                sortElements: query.sortation.sortElements,
+                sortElements: query.sortation.sortElements
+              };
+            }
+          }
+
+          function passiveQueryProperties() {
+            var query = scope.query;
+
+            if (query !== undefined) {
+              return {
                 columns: query.columns,
                 displaySums: query.displaySums
               };
@@ -77,7 +93,14 @@ angular.module('openproject.workPackages.directives')
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
                 scope.$emit('queryStateChange');
+                scope.$emit('workPackagesRefreshRequired');
               }
+            }
+          }, true);
+
+          scope.$watch(passiveQueryProperties, function(newProperties, oldProperties) {
+            if (passiveQueryPropertiesChanged(newProperties, oldProperties)) {
+              scope.$emit('queryStateChange');
             }
           }, true);
         }

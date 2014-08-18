@@ -55,13 +55,12 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    var updateCausingParams = $state.params.live_query;
-    var nonUpdeCausingParams = $location.search().passive_query;
+    var queryParams = $location.search().query_props;
 
     var fetchWorkPackages;
-    if(updateCausingParams || nonUpdeCausingParams) {
+    if(queryParams) {
       // Attempt to build up query from URL params
-      fetchWorkPackages = fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams);
+      fetchWorkPackages = fetchWorkPackagesFromUrlParams(queryParams);
     } else if($state.params.query_id) {
       // Load the query by id if present
       fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
@@ -80,9 +79,9 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  function fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams) {
+  function fetchWorkPackagesFromUrlParams(queryParams) {
     try {
-      var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, updateCausingParams, nonUpdeCausingParams);
+      var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, queryParams);
       var queryFromParams = new Query(queryData, { rawFilters: true });
 
       return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
@@ -196,25 +195,20 @@ angular.module('openproject.workPackages.controllers')
     }
 
     if($scope.query) {
-      var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
-      $location.search('passive_query', queryString);
-      relativeUrl = relativeUrl + "?passive_query=" + queryString;
+      var queryString = UrlParamsHelper.encodeQueryAllJsonParams($scope.query);
+      $location.search('query_props', queryString);
+      relativeUrl = relativeUrl + "?query_props=" + queryString;
 
-      var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
-      $location.search('live_query', queryString);
-      relativeUrl = relativeUrl + "?live_query=" + queryString;
+      // var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
+      // $location.search('passive_query', queryString);
+      // relativeUrl = relativeUrl + "?passive_query=" + queryString;
+
+      // var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
+      // $location.search('live_query', queryString);
+      // relativeUrl = relativeUrl + "?live_query=" + queryString;
     }
 
     $scope.backUrl = relativeUrl;
-  };
-
-  $scope.updateResults = function() {
-    $scope.$broadcast('openproject.workPackages.updateResults');
-
-    $scope.refreshWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions())
-      .then(setupWorkPackagesTable);
-
-    return $scope.refreshWorkPackages;
   };
 
   $scope.loadQuery = function(queryId) {
@@ -223,6 +217,15 @@ angular.module('openproject.workPackages.controllers')
 
     // Load new query
     $state.go('work-packages.list', { query_id: queryId });
+  };
+
+  function updateResults() {
+    $scope.$broadcast('openproject.workPackages.updateResults');
+
+    $scope.refreshWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions())
+      .then(setupWorkPackagesTable);
+
+    return $scope.refreshWorkPackages;
   };
 
   // More
@@ -246,6 +249,10 @@ angular.module('openproject.workPackages.controllers')
 
   $rootScope.$on('queryStateChange', function(event, message) {
     $scope.maintainUrlQueryState();
+  });
+
+  $rootScope.$on('workPackagesRefreshRequired', function(event, message) {
+    updateResults();
   })
 
   $scope.openLatestTab = function() {

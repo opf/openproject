@@ -51,6 +51,7 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
+    // TODO: Remove
     encodeQueryForJsonParams: function(query) {
       var paramsData = {};
 
@@ -84,6 +85,7 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
+    // TODO: Remove
     encodeQueryForNonUpdateJsonParams: function(query) {
       var paramsData = {
         c: query.columns.map(function(column) { return column.name; })
@@ -95,23 +97,67 @@ angular.module('openproject.helpers')
       return JSON.stringify(paramsData);
     },
 
-    decodeQueryFromJsonParams: function(queryId, requiringUpdateJson, nonRequiringUpdateJson) {
+    encodeQueryAllJsonParams: function(query) {
+      var paramsData = {
+        c: query.columns.map(function(column) { return column.name; })
+      };
+      if(!!query.displaySums) {
+        paramsData.s = query.displaySums;
+      }
+
+      if(!!query.projectId) {
+        paramsData.p = query.projectId;
+      }
+      if(!!query.groupBy) {
+        paramsData.g = query.groupBy;
+      }
+      if(!!query.getSortation()) {
+        paramsData.t = query.getSortation().encode()
+      }
+      if(query.filters && query.filters.length) {
+        paramsData.f = query.filters.filter(function(filter) {
+          return !filter.deactivated;
+        })
+        .map(function(filter) {
+          var filterData = {
+            n: filter.name,
+            m: filter.modelName,
+            o: encodeURIComponent(filter.operator),
+            t: filter.type
+          };
+          if(filter.values) {
+            angular.extend(filterData, { v: filter.values })
+          }
+          return filterData
+        });
+      }
+
+      return JSON.stringify(paramsData);
+    },
+
+    decodeQueryFromJsonParams: function(queryId, updateJson) {
       var queryData = {};
       if(queryId) {
         queryData.id = queryId;
       }
 
-      if(requiringUpdateJson) {
-        var updateRequiringProperties = JSON.parse(requiringUpdateJson);
+      if(updateJson) {
+        var properties = JSON.parse(updateJson);
 
-        if(!!updateRequiringProperties.p) {
-          queryData.projectId = updateRequiringProperties.p;
+        if(!!properties.c) {
+          queryData.columns = properties.c.map(function(column) { return { name: column }; });
         }
-        if(!!updateRequiringProperties.g) {
-          queryData.groupBy = updateRequiringProperties.g;
+        if(!!properties.s) {
+          queryData.displaySums = properties.s;
         }
-        if(!!updateRequiringProperties.f) {
-          queryData.filters = updateRequiringProperties.f.map(function(urlFilter) {
+        if(!!properties.p) {
+          queryData.projectId = properties.p;
+        }
+        if(!!properties.g) {
+          queryData.groupBy = properties.g;
+        }
+        if(!!properties.f) {
+          queryData.filters = properties.f.map(function(urlFilter) {
             var filterData = {
               name: urlFilter.n,
               modelName: urlFilter.m,
@@ -125,19 +171,8 @@ angular.module('openproject.helpers')
             return filterData;
           });
         }
-        if(!!updateRequiringProperties.t) {
-          queryData.sortCriteria = updateRequiringProperties.t;
-        }
-      }
-
-      if(nonRequiringUpdateJson) {
-        var nonUpdateRequiringProperties = JSON.parse(nonRequiringUpdateJson);
-
-        if(!!nonUpdateRequiringProperties.c) {
-          queryData.columns = nonUpdateRequiringProperties.c.map(function(column) { return { name: column }; });
-        }
-        if(!!nonUpdateRequiringProperties.s) {
-          queryData.displaySums = nonUpdateRequiringProperties.s;
+        if(!!properties.t) {
+          queryData.sortCriteria = properties.t;
         }
       }
 
