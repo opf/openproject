@@ -73,31 +73,9 @@ angular.module('openproject.workPackages')
   };
 
   function deleteSelectedWorkPackages() {
-    if (!deleteConfirmed()) return;
-
     var rows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
-    WorkPackageService.performBulkDelete(getSelectedWorkPackages())
-      .success(function(data, status) {
-        // TODO wire up to API and processs API response
-        $rootScope.$emit('flashMessage', {
-          isError: false,
-          text: I18n.t('js.work_packages.message_successful_bulk_delete')
-        });
-
-        WorkPackagesTableService.removeRows(rows);
-      })
-      .error(function(data, status) {
-        // TODO wire up to API and processs API response
-        $rootScope.$emit('flashMessage', {
-          isError: true,
-          text: I18n.t('js.work_packages.message_error_during_bulk_delete')
-        });
-      });
-  }
-
-  function deleteConfirmed() {
-    return $window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'));
+    WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id }), true);
   }
 
   function getWorkPackagesFromSelectedRows() {
