@@ -51,8 +51,10 @@ angular.module('openproject.workPackages.directives')
 
             var groupByChanged = currentProperties.groupBy !== formerProperties.groupBy;
             var sortElementsChanged = JSON.stringify(currentProperties.sortElements) !== JSON.stringify(formerProperties.sortElements);
+            var columnsChanged = JSON.stringify(currentProperties.columns) !== JSON.stringify(formerProperties.columns);
+            var displaySumsChanged = currentProperties.displaySums !== formerProperties.displaySums;
 
-            return groupByChanged || sortElementsChanged;
+            return groupByChanged || sortElementsChanged || columnsChanged || displaySumsChanged;
           }
 
           function observedQueryProperties() {
@@ -64,7 +66,9 @@ angular.module('openproject.workPackages.directives')
               return {
                 id: query.id,
                 groupBy: query.groupBy,
-                sortElements: query.sortation.sortElements
+                sortElements: query.sortation.sortElements,
+                columns: query.columns,
+                displaySums: query.displaySums
               };
             }
           }
@@ -72,8 +76,7 @@ angular.module('openproject.workPackages.directives')
           scope.$watch(observedQueryProperties, function(newProperties, oldProperties) {
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
-                scope.updateResults();
-                scope.updateBackUrl();
+                scope.$emit('queryStateChange');
               }
             }
           }, true);

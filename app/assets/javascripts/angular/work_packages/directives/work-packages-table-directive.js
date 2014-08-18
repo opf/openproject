@@ -51,8 +51,7 @@ angular.module('openproject.workPackages.directives')
       displaySums: '=',
       totalSums: '=',
       groupSums: '=',
-      updateResults: '&',
-      updateBackUrl: '='
+      updateResults: '&'
     },
     link: function(scope, element, attributes) {
       var activeSelectionBorderIndex;

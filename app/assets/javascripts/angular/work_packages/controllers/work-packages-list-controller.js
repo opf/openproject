@@ -31,10 +31,8 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackagesListController', [
     '$scope',
     '$rootScope',
-    '$q',
-    '$location',
-    '$stateParams',
     '$state',
+    '$location',
     'latestTab',
     'I18n',
     'WorkPackagesTableService',
@@ -43,14 +41,12 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'PaginationService',
     'AuthorisationService',
-    'WorkPackageLoadingHelper',
-    'HALAPIResource',
-    'INITIALLY_SELECTED_COLUMNS',
+    'UrlParamsHelper',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $location, $stateParams, $state, latestTab,
+    function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, WorkPackageLoadingHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
+      AuthorisationService, UrlParamsHelper,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
@@ -59,12 +55,20 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
+    var updateCausingParams = $state.params.live_query;
+    var nonUpdeCausingParams = $location.search().passive_query;
 
     var fetchWorkPackages;
-    if($scope.query_id){
-      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
+    if(updateCausingParams || nonUpdeCausingParams) {
+      // Attempt to build up query from URL params
+      fetchWorkPackages = fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams);
+    } else if($state.params.query_id) {
+      // Load the query by id if present
+      fetchWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $state.params.query_id);
     } else {
-      fetchWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
+      // Clear the cached query and load the default
+      QueryService.clearQuery();
+      fetchWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier);
     }
 
     $scope.settingUpPage = fetchWorkPackages // put promise in scope for cg-busy
@@ -74,6 +78,29 @@ angular.module('openproject.workPackages.controllers')
         fetchProjectTypesAndQueries();
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
       });
+  }
+
+  function fetchWorkPackagesFromUrlParams(updateCausingParams, nonUpdeCausingParams) {
+    try {
+      var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, updateCausingParams, nonUpdeCausingParams);
+      var queryFromParams = new Query(queryData, { rawFilters: true });
+
+      return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
+    } catch(e) {
+      $scope.$emit('flashMessage', {
+        isError: true,
+        text: I18n.t('js.work_packages.query.errors.unretrievable_query')
+      });
+      clearUrlQueryParams();
+
+      return WorkPackageService.getWorkPackages($scope.projectIdentifier);
+    }
+  }
+
+  function clearUrlQueryParams() {
+    $location.search('passive_query', null);
+    $location.search('query', null);
+    $location.search('query_id', null);
   }
 
   function fetchProjectTypesAndQueries() {
@@ -98,21 +125,24 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initQuery(metaData) {
-    var storedQuery = QueryService.getQuery();
+    var queryData = metaData.query,
+        columnData = metaData.columns;
 
-    if (storedQuery && $stateParams.query_id !== null && storedQuery.id === $scope.query_id) {
-      $scope.query = storedQuery;
+    var cachedQuery = QueryService.getQuery();
+    var urlQueryId = $state.params.query_id;
+
+    if (cachedQuery && urlQueryId && cachedQuery.id == urlQueryId) {
+      // Augment current unsaved query with url param data
+      var updateData = angular.extend(queryData, { columns: columnData })
+      $scope.query = QueryService.updateQuery(updateData, afterQuerySetupCallback);
     } else {
-      var queryData = metaData.query,
-          columnData = metaData.columns;
-
-      $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
+      // Set up fresh query from retrieved query meta data
+      $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
     }
   }
 
   function afterQuerySetupCallback(query) {
     $scope.showFiltersOptions = query.filters.length > 0;
-    $scope.updateBackUrl();
   }
 
   function setupWorkPackagesTable(json) {
@@ -145,9 +175,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalEntries = QueryService.getTotalEntries();
 
-    // back url
-    $scope.updateBackUrl();
-
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
     AuthorisationService.initModelAuth("query", meta.query._links);
@@ -162,15 +189,20 @@ angular.module('openproject.workPackages.controllers')
 
   // Updates
 
-  $scope.updateBackUrl = function(){
-    // Easier than trying to extract it from $location
+  $scope.maintainUrlQueryState = function(){
     var relativeUrl = "/work_packages";
     if ($scope.projectIdentifier){
       relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
     }
 
-    if($scope.query){
-      relativeUrl = relativeUrl + "#?" + $scope.query.getQueryString();
+    if($scope.query) {
+      var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
+      $location.search('passive_query', queryString);
+      relativeUrl = relativeUrl + "?passive_query=" + queryString;
+
+      var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
+      $location.search('live_query', queryString);
+      relativeUrl = relativeUrl + "?live_query=" + queryString;
     }
 
     $scope.backUrl = relativeUrl;
@@ -185,8 +217,12 @@ angular.module('openproject.workPackages.controllers')
     return $scope.refreshWorkPackages;
   };
 
-  $scope.setQueryState = function(query_id) {
-    $state.go('work-packages.list', { query_id: query_id });
+  $scope.loadQuery = function(queryId) {
+    // Clear unsaved changes to current query
+    clearUrlQueryParams();
+
+    // Load new query
+    $state.go('work-packages.list', { query_id: queryId });
   };
 
   // More
@@ -207,6 +243,10 @@ angular.module('openproject.workPackages.controllers')
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
+
+  $rootScope.$on('queryStateChange', function(event, message) {
+    $scope.maintainUrlQueryState();
+  })
 
   $scope.openLatestTab = function() {
     $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });

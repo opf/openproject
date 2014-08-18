@@ -31,7 +31,8 @@ angular.module('openproject.models')
 .factory('Query', ['Filter',
                    'Sortation',
                    'UrlParamsHelper',
-                   function(Filter, Sortation, UrlParamsHelper) {
+                   'INITIALLY_SELECTED_COLUMNS',
+                   function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
 
   Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -39,7 +40,19 @@ angular.module('openproject.models')
     this.filters = [];
     this.groupBy = this.groupBy || '';
 
-    if(queryData) this.setFilters(queryData.filters);
+    if(queryData.filters){
+      if(options && options.rawFilters) {
+        this.setRawFilters(queryData.filters);
+      } else {
+        this.setFilters(queryData.filters);
+      }
+    }
+
+    if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+
+    if(!this.columns) {
+      this.setColumns(INITIALLY_SELECTED_COLUMNS);
+    }
   };
 
   Query.prototype = {
@@ -56,7 +69,7 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode(),
+          'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic
@@ -74,7 +87,7 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode(),
+          'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic
@@ -87,6 +100,7 @@ angular.module('openproject.models')
     save: function(data){
       // Note: query has already been updated, only the id needs to be set
       this.id = data.id;
+      this.dirty = false;
       return this;
     },
 
@@ -98,6 +112,19 @@ angular.module('openproject.models')
       this.starred = false;
     },
 
+    update: function(queryData) {
+      angular.extend(this, queryData);
+
+      if(queryData.filters){
+        this.filters = [];
+        this.setRawFilters(queryData.filters);
+      }
+      if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+      this.dirty = true;
+
+      return this;
+    },
+
     getQueryString: function(){
       return UrlParamsHelper.buildQueryString(this.toParams());
     },
@@ -106,8 +133,8 @@ angular.module('openproject.models')
       return this.sortation;
     },
 
-    setSortation: function(sortation){
-      this.sortation = sortation;
+    setSortation: function(sortCriteria){
+      this.sortation = new Sortation(sortCriteria);
     },
 
     setGroupBy: function(groupBy) {
@@ -162,6 +189,20 @@ angular.module('openproject.models')
           return new Filter(self.getExtendedFilterData(filterData));
         });
       }
+    },
+
+    setRawFilters: function(filters) {
+      if (filters){
+        var self = this;
+
+        this.filters = filters.map(function(filterData){
+          return new Filter(filterData);
+        });
+      }
+    },
+
+    setColumns: function(columns) {
+      this.columns = columns;
     },
 
     /**
@@ -222,6 +263,10 @@ angular.module('openproject.models')
       });
 
       return selectedColumns;
+    },
+
+    getEncodedSortation: function() {
+      return !!this.sortation ? this.sortation.encode() : null;
     },
 
     getColumnNames: function() {
@@ -294,8 +339,12 @@ angular.module('openproject.models')
       });
     },
 
-    isNew: function(){
+    isNew: function() {
       return !this.id;
+    },
+
+    isDirty: function() {
+      return this.isNew() || this.dirty;
     },
 
     hasName: function() {
