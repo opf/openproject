@@ -77,7 +77,7 @@ angular.module('openproject.helpers')
       return '/queries/' + queryIdentifier;
     },
     timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
-      var path = '/time_entries/';
+      var path = '/time_entries';
 
       if (workPackageIdentifier) {
         return PathHelper.workPackagePath(workPackageIdentifier) + path;
@@ -90,6 +90,9 @@ angular.module('openproject.helpers')
     timeEntryPath: function(timeEntryIdentifier) {
       return '/time_entries/' + timeEntryIdentifier;
     },
+    timeEntryNewPath: function(workPackageId) {
+      return PathHelper.timeEntriesPath(null, workPackageId) + '/new';
+    },
     timeEntryEditPath: function(timeEntryIdentifier) {
       return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
     },
@@ -98,6 +101,15 @@ angular.module('openproject.helpers')
     },
     workPackagePath: function(id) {
       return '/work_packages/' + id;
+    },
+    workPackageDuplicatePath: function(projectId, workPackageId) {
+      return "/projects/" + projectId + "/work_packages/new?copy_from=" + workPackageId;
+    },
+    workPackageMovePath: function(id) {
+      return PathHelper.workPackagePath(id) + '/move/new';
+    },
+    workPackageDeletePath: function(ids) {
+      return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
     },
     usersPath: function() {
       return '/users';
