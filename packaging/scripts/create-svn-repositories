@@ -3,11 +3,12 @@
 SVN_REPOSITORIES=$(openproject config:get SVN_REPOSITORIES)
 PORT=$(openproject config:get PORT)
 SYS_API_KEY=$(openproject config:get SYS_API_KEY)
+APP_GROUP=$(openproject config:get APP_GROUP)
 
 /opt/openproject/bin/ruby /opt/openproject/extra/svn/reposman.rb \
   --openproject-host "http://127.0.0.1:${PORT}" \
   --owner "www-data" \
-  --group "openproject" \
+  --group "${APP_GROUP}" \
   --public-mode '2750' \
   --private-mode '2750' \
   --svn-dir "${SVN_REPOSITORIES}" \
