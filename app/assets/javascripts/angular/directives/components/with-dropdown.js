@@ -68,6 +68,16 @@ angular.module('openproject.uiComponents')
       }
     }
 
+    function accessDropdown(dropdown) {
+      var links = dropdown.find('a');
+
+      if (links.length > 0) {
+        angular.element(links[0]).focus();
+      }
+
+      angular.element(dropdown).trap();
+    }
+
     return {
       restrict: 'EA',
       scope: {
@@ -100,9 +110,17 @@ angular.module('openproject.uiComponents')
           if (showDropdown) dropdown.show();
 
           position(dropdown, trigger);
+          accessDropdown(dropdown);
 
           if(attributes.focusElementId) {
             angular.element('#' + attributes.focusElementId).focus();
+          }
+        });
+
+        angular.element(dropdown).on('keyup', function(even) {
+          if (event.keyCode === 27) {
+            scope.$emit('hideAllDropdowns');
+            angular.element(element).focus();
           }
         });
       }
