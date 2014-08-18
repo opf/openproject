@@ -42,12 +42,23 @@ angular.module('openproject.uiComponents')
 
       // Position the dropdown relative-to-parent or relative-to-document
       if (dropdown.hasClass('dropdown-relative')) {
-        dropdown.css({
-          left: dropdown.hasClass('dropdown-anchor-right') ?
+        leftPosition = dropdown.hasClass('dropdown-anchor-right') ?
             trigger.position().left - (dropdown.outerWidth(true) - trigger.outerWidth(true)) - parseInt(trigger.css('margin-right')) + hOffset :
-            trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset,
-          top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
-        });
+            trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset;
+
+        if (dropdown.hasClass('dropdown-up')) {
+          var dropdownHeight = dropdown.outerHeight(true);
+
+          dropdown.css({
+            left: leftPosition,
+            top: trigger.position().top - dropdownHeight + parseInt(trigger.css('margin-top')) - vOffset
+          });
+        } else {
+          dropdown.css({
+            left: leftPosition,
+            top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
+          });
+        }
       } else {
         dropdown.css({
           left: dropdown.hasClass('dropdown-anchor-right') ?
