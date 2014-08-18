@@ -244,7 +244,16 @@ angular.module('openproject.workPackages.controllers')
 
   $rootScope.$on('workPackagesRefreshRequired', function(event, message) {
     updateResults();
-  })
+  });
+
+  $rootScope.$on('queryClearRequired', function(event, message) {
+    $location.search('query_props', null);
+    if($location.search().query_id) {
+      $location.search('query_id', null);
+    } else {
+      initialSetup();
+    }
+  });
 
   $scope.openLatestTab = function() {
     $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
