@@ -136,7 +136,8 @@ angular.module('openproject.services')
         headers: {
           Accept: "application/hal+json"
         },
-        data: data
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8"
       }};
       return workPackage.links.update.fetch(options).then(function(workPackage) {
         return workPackage;
@@ -146,10 +147,11 @@ angular.module('openproject.services')
     addWorkPackageRelation: function(workPackage, toId, relationType) {
       var options = { ajax: {
         method: "POST",
-        data: {
+        data: JSON.stringify({
           to_id: toId,
           relation_type: relationType
-        }
+        }),
+        contentType: "application/json; charset=utf-8"
       } };
       return workPackage.links.addRelation.fetch(options).then(function(relation){
         return relation;

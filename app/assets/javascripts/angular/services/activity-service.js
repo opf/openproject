@@ -37,7 +37,8 @@ angular.module('openproject.services')
       var options = {
         ajax: {
           method: "POST",
-          data: { comment: comment }
+          data: JSON.stringify({ comment: comment }),
+          contentType: "application/json; charset=utf-8"
         }
       };
 
@@ -48,7 +49,8 @@ angular.module('openproject.services')
       var options = {
         ajax: {
           method: 'PATCH',
-          data: { comment: comment }
+          data: JSON.stringify({ comment: comment }),
+          contentType: "application/json; charset=utf-8"
         }
       };
 
