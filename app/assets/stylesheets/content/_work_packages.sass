@@ -56,6 +56,7 @@
 
 .work-packages--list
   +flex-basis(100%)
+  position: relative
 
 .work-packages--list-scroll-area
   position: absolute
@@ -70,9 +71,9 @@
   height:   35px
 
 .work-packages--details
+  position: relative
   padding: 0 1em 1em
   border-left: 4px solid #eee
-  overflow: auto
 
   @media only screen and (max-width: 1280px)
     display: none
@@ -82,6 +83,19 @@
     width: 480px
   @media only screen and (min-width: 1440px)
     width: 580px
+
+.work-packages--details-content
+  position:   absolute
+  top:        55px
+  bottom:     55px
+  width:      100%
+  overflow-x: hidden
+  overflow-y: auto
+
+.work-packages--details-toolbar
+  position:   absolute
+  bottom:     0
+  height:     55px
 
 div
   .report-category-actions
