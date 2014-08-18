@@ -78,6 +78,7 @@ angular.module('openproject.workPackages.controllers')
     setWorkPackageScopeProperties(workPackage);
 
     $scope.I18n = I18n;
+    $scope.PathHelper = PathHelper;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
