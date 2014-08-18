@@ -454,6 +454,10 @@ en:
       x_seconds:
         one: "1 second"
         other: "%{count} seconds"
+    units:
+      hour:
+        one: "hour"
+        other: "hours"
 
   default_activity_design: "Design"
   default_activity_development: "Development"
@@ -1612,6 +1616,7 @@ en:
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
+
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >

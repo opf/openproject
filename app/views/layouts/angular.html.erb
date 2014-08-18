@@ -46,6 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= include_gon %>
 <%= javascript_include_tag 'application' %>
 <%= javascript_include_tag 'angular-i18n/angular-locale_de-de' if I18n.locale == :de %>
+<!-- plug-in specific tags -->
+<%= call_hook :view_work_package_overview_attributes %>
 <!-- user specific tags -->
 <%= user_specific_javascript_includes %>
 <!-- project specific tags -->

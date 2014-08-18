@@ -31,10 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageModel do
   include Capybara::RSpecMatchers
 
-  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(
-      work_package: work_package
-    )
-  }
+  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
   let(:work_package) { FactoryGirl.build(:work_package, attributes) }
 
   context 'with a formatted description' do
@@ -109,6 +106,40 @@ h2. Plan for this month
         it { expect(model.relations[0].from_id).to eq(work_package.id) }
 
         it { expect(model.relations[0].to_id).to eq(work_package_2.id) }
+      end
+    end
+  end
+
+  describe :estimated_time do
+    let(:value) { 6.0 }
+    let(:attributes) do
+      { estimated_hours: value }
+    end
+
+    it 'should have the estimated_hours as the value' do
+      expect(model.estimated_time[:value]).to eql(value)
+    end
+
+    it 'should have units in de if the language is de' do
+      I18n.with_locale(:de) do
+        expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
+                                                           :count => value.to_i))
+      end
+    end
+
+    it 'should have units in en if the language is en' do
+      I18n.with_locale(:en) do
+        expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
+                                                           :count => value.to_i))
+      end
+    end
+
+    it 'should make sense if the hours are 0' do
+      work_package.estimated_hours = 0.0
+
+      I18n.with_locale(:en) do
+        expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
+                                                           :count => 2)) # we want plural on 0
       end
     end
   end

@@ -17,7 +17,6 @@
                         icon-name="yes"></icon-wrapper>
         </a>
       </th>
-      <th class="icon-table" ng-hide="hideWorkPackageDetails"><i class="icon-info"></i></th>
       <th sort-header
           header-name="'id'"
           header-title="'#'"
@@ -102,6 +101,8 @@
         has-context-menu
         target="WorkPackageContextMenu"
         locals="rows, row"
+        single-click="selectWorkPackage(row, $event)"
+        ng-dblclick="showWorkPackageDetails(row)"
         ng-class="[
           'issue',
           'hascontextmenu',
@@ -118,10 +119,6 @@
                              checkbox-value="row.object.id"
                              checkbox-title="{{checkboxTitle}}"
                              model="row.checked"/>
-      </td>
-
-      <td class="icon-table info" ng-hide="hideWorkPackageDetails">
-        <p><a href ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})"><i class="icon-info"></i></a></p>
       </td>
 
       <td class="id">

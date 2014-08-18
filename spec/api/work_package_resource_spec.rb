@@ -64,7 +64,7 @@ h4. things we like
   }}
 
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:watcher) do
     FactoryGirl
@@ -204,5 +204,72 @@ h4. things we like
       end
     end
 
+  end
+
+  describe '#patch' do
+    let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
+    before(:each) do
+      allow(User).to receive(:current).and_return current_user
+      patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+    end
+    subject(:response) { last_response }
+
+    context 'user with needed permissions' do
+      context 'valid update' do
+        let(:params) do
+          {
+            subject: 'Updated subject',
+            rawDescription: '<h1>Updated description</h1>',
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
+
+        it 'should respond with 200' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'should respond with updated work package' do
+          expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
+        end
+
+        it 'should update the dates in iso8601 format' do
+          expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
+          expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
+        end
+
+        it 'should allow html in raw description' do
+          expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
+        end
+
+      end
+
+      context 'invalid update' do
+        let(:params) do
+          {
+            subject: ' ',
+            type: FactoryGirl.create(:type).name,
+            rawDescription: '<h1>Updated description</h1>',
+            status: FactoryGirl.create(:status).name,
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
+
+        it 'should respond with 422' do
+          expect(response.status).to eq 422
+        end
+
+         it 'should respond with explanatory error message' do
+          parsed_errors = JSON.parse(last_response.body)['errors']
+          parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
+        end
+      end
+    end
   end
 end

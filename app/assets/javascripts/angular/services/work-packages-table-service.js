@@ -129,6 +129,32 @@ angular.module('openproject.workPackages.services')
         field: columnName,
         direction: direction
       });
+    },
+
+    setCheckedStateForAllRows: function(rows, state) {
+      angular.forEach(rows, function(row) {
+        row.checked = state;
+      });
+    },
+    setRowSelection: function(row, state) {
+      row.checked = state;
+    },
+    selectRowRange: function(rows, row, activeSelectionBorderIndex) {
+      if (WorkPackagesTableHelper.getSelectedRows(rows).length == 0) {
+        this.setRowSelection(row, true);
+
+        activeSelectionBorderIndex = rows.indexOf(row);
+      } else {
+        var index = rows.indexOf(row);
+        var start = Math.min(index, activeSelectionBorderIndex);
+        var end = Math.max(index, activeSelectionBorderIndex);
+
+        for (var x = 0; x < rows.length; x++) {
+          rows[x].checked = x >= start && x <= end;
+        }
+      }
+
+      return activeSelectionBorderIndex;
     }
   };
 

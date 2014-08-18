@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.controllers')
   follows: "Relation::Follows"
 })
 .constant('RELATION_IDENTIFIERS', {
+  parent: "parent",
   relatedTo: "relates",
   duplicates: "duplicates",
   duplicated: "duplicated",
@@ -58,11 +59,13 @@ angular.module('openproject.workPackages.controllers')
   'RELATION_IDENTIFIERS',
   '$q',
   'WorkPackagesHelper',
+  'PathHelper',
+  'UsersHelper',
   'ConfigurationService',
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -111,16 +114,19 @@ angular.module('openproject.workPackages.controllers')
       $scope.activities = displayedActivities($scope.workPackage);
 
       // watchers
-
       $scope.watchers = workPackage.embedded.watchers;
+
+      // Author
       $scope.author = workPackage.embedded.author;
+      $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
+      $scope.authorActive = UsersHelper.isActive($scope.author);
 
       // Attachments
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-        var relationsHandler = new ParentRelationsHandler(workPackage, parents);
+        var relationsHandler = new ParentRelationsHandler(workPackage, parents, "parent");
         $scope.wpParent = relationsHandler;
       });
 

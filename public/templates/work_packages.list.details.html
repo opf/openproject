@@ -27,7 +27,7 @@
 <div class="work-packages--details-content">
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2 ng-bind="workPackage.props.subject"></h2>
+  <h2 title="{{ workPackage.props.subject }}" ng-bind="workPackage.props.subject"></h2>
 
   <span class="subtitle">
     <i class="star icon-star1" ng-class="{active: isWatched}" ng-click="toggleWatch()"
@@ -35,7 +35,9 @@
       ng-if="toggleWatchLink" />
     <a href="#">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
-      <a ng-href="{{ userPath(author.props.id) }}" ng-bind="author.props.name"/> <span ng-bind="I18n.t('js.label_on')"/> <date date-value="workPackage.props.createdAt"></date>.
+      <a ng-if="authorActive" ng-href="{{ authorPath }}" ng-bind="author.props.name"/>
+      <span ng-if="!authorActive">{{ author.props.name }} </span>
+      <span ng-bind="I18n.t('js.label_on')"/> <date date-value="workPackage.props.createdAt"></date>.
     <span ng-bind="I18n.t('js.label_last_updated_on')"/>
       <date date-value="workPackage.props.updatedAt"></date>.
   </span>

@@ -46,7 +46,7 @@ module API
 
             get do
               authorize(:view_project, context: @activity.journable.project)
-              @representer.to_json
+              @representer
             end
 
             helpers do
@@ -55,7 +55,7 @@ module API
                   model = ::API::V3::Activities::ActivityModel.new(activity)
                   representer = ::API::V3::Activities::ActivityRepresenter.new(model)
 
-                  representer.to_json
+                  representer
                 else
                   errors = activity.errors.full_messages.join(", ")
                   fail Errors::Validation.new(activity, description: errors)

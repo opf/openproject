@@ -46,7 +46,7 @@ module API
 
             get do
               authorize(:view_project, context: @attachment.container.project)
-              @representer.to_json
+              @representer
             end
 
           end

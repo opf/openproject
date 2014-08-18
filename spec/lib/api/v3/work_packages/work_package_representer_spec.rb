@@ -34,10 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:representer)  { described_class.new(model, current_user: current_user) }
 
-  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(
-      work_package: work_package
-    )
-  }
+  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
   let(:work_package) { FactoryGirl.build(:work_package,
       created_at: DateTime.now,
       updated_at: DateTime.now

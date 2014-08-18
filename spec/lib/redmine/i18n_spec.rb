@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 module OpenProject
-  describe I18n do
+  describe I18n, type: :helper do
     include Redmine::I18n
 
     let(:format) { '%d/%m/%Y' }
@@ -67,6 +67,17 @@ module OpenProject
         Time.zone = 'Berlin'
         time = Time.zone.local(2013, 06, 30, 23, 59)
         expect(format_time_as_date(time,format)).to eq '30/06/2013'
+      end
+    end
+
+    describe :all_languages do
+      it 'should at least return en' do
+        # using this to ensure that the files are evaluated
+        expect(all_languages).to include(:en)
+      end
+
+      it 'should return no js language as they are duplicates of the rest of the other language' do
+        expect(all_languages.any?{ |l| /\Ajs-/.match(l.to_s) }).to be_false
       end
     end
   end

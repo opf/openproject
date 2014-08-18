@@ -112,6 +112,7 @@ module JournalsHelper
     content << content_tag('div',
                            format_text(journal, :notes, :attachments => attachments),
                            :class => 'wikicontent',
+                           :'ng-non-bindable' => '',
                            "data-user" => journal.journable.author)
 
     css_classes = "wiki journal-notes"

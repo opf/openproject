@@ -75,7 +75,7 @@ describe OpenProject::JournalFormatter::Attachment do
     describe "WITH the first value beeing an id as string, and the second nil" do
       let(:expected) { I18n.t(:text_journal_deleted,
                               :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
-                              :old => "<strike><i>#{attachment.id}</i></strike>") }
+                              :old => "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>") }
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end

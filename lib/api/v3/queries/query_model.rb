@@ -34,24 +34,17 @@ module API
   module V3
     module Queries
       class QueryModel < Reform::Form
-        include Composition
         include Coercion
 
-        model :query
-
-        property :name, on: :query, type: String
-        property :project_id, on: :query, type: Integer
-        property :user_id, on: :query, type: Integer
-        property :filters, on: :query, type: String
-        property :is_public, on: :query, type: String
-        property :column_names, on: :query, type: String
-        property :sort_criteria, on: :query, type: String
-        property :group_by, on: :query, type: String
-        property :display_sums, on: :query, type: String
-
-        def query
-          model[:query]
-        end
+        property :name,           type: String
+        property :project_id,     type: Integer
+        property :user_id,        type: Integer
+        property :filters,        type: String
+        property :is_public,      type: String
+        property :column_names,   type: String
+        property :sort_criteria,  type: String
+        property :group_by,       type: String
+        property :display_sums,   type: String
       end
     end
   end

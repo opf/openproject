@@ -33,8 +33,8 @@ de:
     deleted: "Account erfolgreich gelöscht"
     deletion_info:
       data_consequences:
-        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
-        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die von Ihnen erstellten Daten auf Ihre Person zurückzuführen."
+        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspaketen, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
+        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspakete, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die von Ihnen erstellten Daten auf Ihre Person zurückzuführen."
       heading: "Lösche Account %{name}"
       info:
         other: "Das Löschen des Accounts kann nicht rückgängig gemacht werden."
@@ -115,11 +115,11 @@ de:
       repository:
         url: "URL"
       role:
-        assignable: "Tickets können dieser Rolle zugewiesen werden"
+        assignable: "Arbeitspakete können dieser Rolle zugewiesen werden"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
-        issue: "Ticket"
+        issue: "Arbeitspaket"
         spent_on: "Datum"
         type: "Typ"
       type_color:
@@ -263,7 +263,7 @@ de:
       comment: "Kommentar"
       custom_field: "Benutzerdefiniertes Feld"
       group: "Gruppe"
-      issue: "Ticket"
+      issue: "Arbeitspaket"
       category: "Kategorie"
       status: "Arbeitspaket-Status"
       member: "Mitglied"
@@ -349,7 +349,7 @@ de:
   button_collapse_all: "Alle zuklappen"
   button_configure: "Konfigurieren"
   button_copy: "Kopieren"
-  button_copy_and_follow: "Kopieren und Ticket anzeigen"
+  button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
@@ -364,7 +364,7 @@ de:
   button_log_time: "Aufwand buchen"
   button_login: "Anmelden"
   button_move: "Verschieben"
-  button_move_and_follow: "Verschieben und Ticket anzeigen"
+  button_move_and_follow: "Verschieben und Arbeitspaket anzeigen"
   button_quote: "Zitieren"
   button_remove_widget: "Infobox löschen"
   button_rename: "Umbenennen"
@@ -456,6 +456,10 @@ de:
       x_seconds:
         one: "1 Sekunde"
         other: "%{count} Sekunden"
+    units:
+      hour:
+        one: "Stunde"
+        other: "Stunden"
 
   default_activity_design: "Design"
   default_activity_development: "Entwicklung"
@@ -486,10 +490,10 @@ de:
   description_attachment_toggle: "Dateien aus/einblenden"
   description_autocomplete: >
     Für dieses Feld werden Sie mit einer Autovervollständigung
-    unterstützt. Sie können einen Teil des Tickettitels schreiben und
-    bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
+    unterstützt. Sie können einen Teil des Arbeitspakettitels schreiben und
+    bekommen eine Liste von möglichen Arbeitspaketen angezeigt. Wählen Sie mit
     den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
-    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen.
+    oder Enter. Sie können aber auch die Arbeitspaketnummer direkt eintragen.
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
@@ -529,7 +533,7 @@ de:
 
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden."
   error_can_not_delete_custom_field: "Kann das benutzerdefinierte Feld nicht löschen."
-  error_can_not_delete_type: "Dieser Typ enthält Tickets und kann nicht gelöscht werden."
+  error_can_not_delete_type: "Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden."
   error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_work_package_on_closed_version: "Das Arbeitspaket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
@@ -538,13 +542,13 @@ de:
   error_work_package_done_ratios_not_updated: "Der Arbeitspaket-Fortschritt wurde nicht aktualisiert."
   error_work_package_not_found_in_project: "Das Arbeitspaket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
-  error_no_default_work_package_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
+  error_no_default_work_package_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Arbeitspaket-Status\")."
   error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_omniauth_registration_timed_out: "Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
-  error_unable_delete_status: "Der Ticket-Status konnte nicht gelöscht werden."
+  error_unable_delete_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden."
   error_unable_delete_default_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden, da dieser als Standard-Status markiert ist. Wählen Sie bitte zunächst einen anderen Arbeitspaket-Status als Standard-Status."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
@@ -589,7 +593,7 @@ de:
   label_add_another_file: "Eine weitere Datei hinzufügen"
   label_add_columns: "Ausgewählte Spalten hinzufügen"
   label_add_note: "Kommentar hinzufügen"
-  label_add_related_issues: "Zugehöriges Ticket hinzufügen"
+  label_add_related_issues: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
@@ -745,7 +749,7 @@ de:
   label_work_package_status_plural: "Arbeitspaket-Status"
   label_work_package_tracking: "Arbeitspakete"
   label_work_package_updated: "Arbeitspaket aktualisiert"
-  label_work_package_view_all: "Alle Tickets anzeigen"
+  label_work_package_view_all: "Alle Arbeitspakete anzeigen"
   label_work_package_view_all_assigned_to_me: "Alle mir zugewiesenen Arbeitspakete anzeigen"
   label_work_package_view_all_reported_by_me: "Alle von mir erstellten Arbeitspakete anzeigen"
   label_work_package_view_all_responsible_for: "Alle von mir verantworteten Arbeitspakete anzeigen"
@@ -1040,13 +1044,13 @@ de:
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_body_register: "Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:"
-  mail_body_reminder: "%{count} Tickets, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
+  mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_wiki_content_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
   mail_body_wiki_content_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "%{value} Kontoaktivierung"
-  mail_subject_reminder: "%{count} Tickets müssen in den nächsten %{days} Tagen abgegeben werden"
+  mail_subject_reminder: "%{count} Arbeitspakete müssen in den nächsten %{days} Tagen abgegeben werden"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
 
@@ -1168,7 +1172,7 @@ de:
   permission_list_attachments: "Anhänge auflisten"
   permission_log_time: "Aufwände buchen"
   permission_manage_boards: "Foren verwalten"
-  permission_manage_categories: "Ticket-Kategorien verwalten"
+  permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
   permission_manage_news: "News verwalten"
@@ -1227,7 +1231,7 @@ de:
   setting_brute_force_block_after_failed_logins: "Sperre Benutzer nach dieser Anzahl fehlgeschlagener Loginversuche (deaktivieren mit 0)"
   setting_brute_force_block_minutes: "Sperre Benutzer für Dauer (Minuten)"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
-  setting_column_options: "Anpassen der Darstellung der Ticketlisten"
+  setting_column_options: "Anpassen der Darstellung der Arbeitspaketlisten"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
   setting_commit_logs_encoding: "Kodierung der Commit-Log-Meldungen"
   setting_commit_logtime_activity_id: "Aktivität für die Zeiterfassung"
@@ -1353,7 +1357,7 @@ de:
   text_load_default_configuration: "Standard-Konfiguration laden"
   text_min_max_length_info: "0 heißt keine Beschränkung"
   text_no_configuration_data: >
-    Rollen, Typ, Ticket-Status und Workflows wurden noch nicht
+    Rollen, Typ, Arbeitspaket-Status und Workflows wurden noch nicht
     konfiguriert. Es ist sehr zu empfehlen, die Standard-Konfiguration
     zu laden. Sobald sie geladen ist, können Sie sie abändern.
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
@@ -1375,7 +1379,7 @@ de:
   text_tip_work_package_end_day: "Arbeitspaket, das an diesem Tag endet"
   text_type_no_workflow: "Kein Workflow für diesen Typ definiert."
   text_unallowed_characters: "Nicht erlaubte Zeichen"
-  text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
+  text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Arbeitspakete, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
   text_warn_on_leaving_unsaved: "Der eingegebene Text wird nicht gespeichert, wenn Sie die Seite jetzt verlassen."
   text_wiki_destroy_confirmation: "Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?"
@@ -1622,6 +1626,7 @@ de:
 
   menu_item: "Menüpunkt"
   menu_item_setting: "Sichtbarkeit"
+
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
   wiki_menu_item_new_main_item_explanation: >

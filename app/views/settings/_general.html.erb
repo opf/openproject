@@ -32,8 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="box tabular settings">
 <p><%= setting_text_field :app_title, :size => 30 %></p>
 
-<p><%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
-<%= wikitoolbar_for 'settings_welcome_text' %>
+<p>
+  <%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit', :'ng-non-bindable' => '' %>
+  <%= wikitoolbar_for 'settings_welcome_text' %>
+</p>
 
 <p><%= setting_text_field :attachment_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 

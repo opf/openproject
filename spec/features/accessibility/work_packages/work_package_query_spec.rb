@@ -32,8 +32,8 @@ require 'features/work_packages/work_packages_page'
 describe 'Work package index accessibility', :type => :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
-  let!(:work_package) { FactoryGirl.create(:work_package,
-                                           project: project) }
+  let(:work_package) { FactoryGirl.create(:work_package,
+                                          project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
@@ -41,25 +41,29 @@ describe 'Work package index accessibility', :type => :feature do
   before do
     allow(User).to receive(:current).and_return(user)
 
+    work_package
+
     work_packages_page.visit_index
   end
 
   describe 'Select all link' do
-    def select_all_link
-      find('table.workpackages-table th.checkbox a')
-    end
+    let(:link_selector) { 'table.workpackages-table th.checkbox a' }
 
     describe 'Initial state', js: true do
-      it { expect(select_all_link).not_to be_nil }
+      it { expect(page).to have_selector(link_selector) }
 
-      it { expect(select_all_link[:title]).to eq(I18n.t(:button_check_all)) }
+      context 'attributes' do
+        before { expect(page).to have_selector(link_selector) }
 
-      it { expect(select_all_link[:alt]).to eq(I18n.t(:button_check_all)) }
+        it { expect(find(link_selector)[:title]).to eq(I18n.t(:button_check_all)) }
 
-      it do
-        expect(select_all_link).to have_selector('.hidden-for-sighted',
-                                                 :visible => false,
-                                                 :text => I18n.t(:button_check_all))
+        it { expect(find(link_selector)[:alt]).to eq(I18n.t(:button_check_all)) }
+
+        it do
+          expect(find(link_selector)).to have_selector('.hidden-for-sighted',
+                                                       visible: false,
+                                                       text: I18n.t(:button_check_all))
+        end
       end
     end
 
@@ -81,26 +85,22 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'Sort link', js: true do
-    def column_header_link
-      find(column_header_link_selector)
-    end
-
     def click_sort_ascending_link
-      execute_script "jQuery('#{sort_ascending_selector}').click()"
+      expect(page).to have_selector(sort_ascending_selector)
+      element = find(sort_ascending_selector)
+      element.click
     end
 
     def click_sort_descending_link
-      execute_script "jQuery('#{sort_descending_selector}').click()"
+      expect(page).to have_selector(sort_descending_selector)
+      element = find(sort_descending_selector)
+      element.click
     end
 
     shared_examples_for 'sort column' do
-      def column_header
-        find(column_header_selector)
-      end
-
       it do
-        expect(column_header).not_to be_nil
-        expect(column_header.find("span.sort-header")[:title]).to eq(sort_text)
+        expect(page).to have_selector(column_header_selector)
+        expect(find(column_header_selector + " span.sort-header")[:title]).to eq(sort_text)
       end
     end
 
@@ -123,13 +123,15 @@ describe 'Work package index accessibility', :type => :feature do
     end
 
     shared_examples_for 'sortable column' do
+      before { expect(page).to have_selector(column_header_selector) }
+
       describe 'Initial sort' do
         it_behaves_like 'unsorted column'
       end
 
       describe 'descending' do
         before do
-          column_header_link.click
+          find(column_header_link_selector).click
           click_sort_descending_link
         end
 
@@ -138,7 +140,7 @@ describe 'Work package index accessibility', :type => :feature do
 
       describe 'ascending' do
         before do
-          column_header_link.click
+          find(column_header_link_selector).click
           click_sort_ascending_link
         end
 
@@ -148,7 +150,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'id column' do
       let(:link_caption) { '#' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -156,7 +158,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -164,7 +166,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -172,7 +174,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(5)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -180,7 +182,7 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(6)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -188,10 +190,50 @@ describe 'Work package index accessibility', :type => :feature do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th + th' }
+      let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(7)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
+    end
+  end
+
+  describe 'context menus' do
+    shared_examples_for 'context menu' do
+      describe 'focus' do
+        before do
+          expect(page).to have_selector(source_link)
+          element = find(source_link)
+          element.native.send_keys(keys)
+        end
+
+        it { expect(page).to have_selector(target_link + ':focus') }
+
+        describe 'reset' do
+          before do
+            expect(page).to have_selector(target_link)
+            element = find(target_link)
+            element.native.send_keys(:enter)
+          end
+
+          it { expect(page).to have_selector(source_link + ':focus') }
+        end
+      end
+    end
+
+    describe 'work package context menu', js: true do
+      it_behaves_like 'context menu' do
+        let(:target_link) { '#work-package-context-menu li.open a' }
+        let(:source_link) { ".workpackages-table tr.issue td.id a" }
+        let(:keys) { [:shift, :alt, :f10] }
+      end
+    end
+
+    describe 'column header drop down menu', js: true do
+      it_behaves_like 'context menu' do
+        let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
+        let(:target_link) { '#column-context-menu .menu li:first-of-type a' }
+        let(:keys) { :enter }
+      end
     end
   end
 end

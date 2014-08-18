@@ -32,5 +32,6 @@ See doc/COPYRIGHT.rdoc for more details.
 </label>
 
 <%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
+                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                :'ng-non-bindable' => '') %>
 <%= wikitoolbar_for 'project_association_description' %>
