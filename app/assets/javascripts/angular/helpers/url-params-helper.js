@@ -51,53 +51,7 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
-    // TODO: Remove
-    encodeQueryForJsonParams: function(query) {
-      var paramsData = {};
-
-      if(!!query.projectId) {
-        paramsData.p = query.projectId;
-      }
-      if(!!query.groupBy) {
-        paramsData.g = query.groupBy;
-      }
-      if(!!query.getSortation()) {
-        paramsData.t = query.getSortation().encode()
-      }
-      if(query.filters && query.filters.length) {
-        paramsData.f = query.filters.filter(function(filter) {
-          return !filter.deactivated;
-        })
-        .map(function(filter) {
-          var filterData = {
-            n: filter.name,
-            m: filter.modelName,
-            o: encodeURIComponent(filter.operator),
-            t: filter.type
-          };
-          if(filter.values) {
-            angular.extend(filterData, { v: filter.values })
-          }
-          return filterData
-        });
-      }
-
-      return JSON.stringify(paramsData);
-    },
-
-    // TODO: Remove
-    encodeQueryForNonUpdateJsonParams: function(query) {
-      var paramsData = {
-        c: query.columns.map(function(column) { return column.name; })
-      };
-      if(!!query.displaySums) {
-        paramsData.s = query.displaySums;
-      }
-
-      return JSON.stringify(paramsData);
-    },
-
-    encodeQueryAllJsonParams: function(query) {
+    encodeQueryJsonParams: function(query) {
       var paramsData = {
         c: query.columns.map(function(column) { return column.name; })
       };

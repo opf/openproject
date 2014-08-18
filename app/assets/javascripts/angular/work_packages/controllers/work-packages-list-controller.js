@@ -97,8 +97,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function clearUrlQueryParams() {
-    $location.search('passive_query', null);
-    $location.search('query', null);
+    $location.search('query_props', null);
     $location.search('query_id', null);
   }
 
@@ -195,17 +194,9 @@ angular.module('openproject.workPackages.controllers')
     }
 
     if($scope.query) {
-      var queryString = UrlParamsHelper.encodeQueryAllJsonParams($scope.query);
+      var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
       $location.search('query_props', queryString);
       relativeUrl = relativeUrl + "?query_props=" + queryString;
-
-      // var queryString = UrlParamsHelper.encodeQueryForNonUpdateJsonParams($scope.query);
-      // $location.search('passive_query', queryString);
-      // relativeUrl = relativeUrl + "?passive_query=" + queryString;
-
-      // var queryString = UrlParamsHelper.encodeQueryForJsonParams($scope.query);
-      // $location.search('live_query', queryString);
-      // relativeUrl = relativeUrl + "?live_query=" + queryString;
     }
 
     $scope.backUrl = relativeUrl;
