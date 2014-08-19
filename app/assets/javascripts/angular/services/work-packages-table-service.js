@@ -104,6 +104,18 @@ angular.module('openproject.workPackages.services')
       });
     },
 
+    getRowsByWorkPackageIds: function(ids) {
+      var rows = [];
+
+      angular.forEach(WorkPackagesTableService.getRows(), function(row) {
+        if (ids.indexOf(row.object.id) >= 0) {
+          rows.push(row);
+        }
+      })
+
+      return rows;
+    },
+
     getGroupBy: function() {
       return workPackagesTableData.groupBy;
     },

@@ -48,7 +48,7 @@
 
 <div class="work-packages--details-toolbar">
   <button class="button" ng-click="editWorkPackage()"><i class="icon-left icon-edit"></i>{{ I18n.t('js.button_edit') }}</button>
-  <button class="button"
+  <button class="button dropdown-relative"
           with-dropdown
           dropdown-id="moreDropdown">
     {{ I18n.t('js.button_more') }}
@@ -58,28 +58,13 @@
 
 <div class="dropdown dropdown-relative dropdown-anchor-right dropdown-up" id="moreDropdown">
   <ul class="dropdown-menu">
-    <li>
-      <a href="{{ PathHelper.timeEntryNewPath(workPackage.props.id) }}">
-        <i class="icon-time"></i>
-        Log time
-      </a>
-    </li>
-    <li>
-      <a href="{{ PathHelper.workPackageDuplicatePath(workPackage.props.projectId, workPackage.props.id) }}">
-        <i class="icon-duplicate"></i>
-        Duplicate
-      </a>
-    </li>
-    <li>
-      <a href="{{ PathHelper.workPackageMovePath(workPackage.props.id) }}">
-        <i class="icon-move"></i>
-        Move
-      </a>
-    </li>
-    <li>
-      <a href ng-click="deleteSelectedWorkPackage()">
-        <i class="icon-delete"></i>
-        Delete
+    <li ng-repeat="(action, link) in permittedActions"
+        ng-click="triggerMoreMenuAction(action, link)"
+        class="{{action}}">
+      <a href
+         ng-class="['icon-context', 'icon-' + action]"
+         ng-click="deleteWorkPackages()"
+         ng-bind="I18n.t('js.button_' + action)">
       </a>
     </li>
   </ul>
