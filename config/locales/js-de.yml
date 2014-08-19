@@ -301,6 +301,8 @@ de:
         insert_columns: "Spalten hinzufügen ..."
         filters: "Filter"
         display_sums: "Summen anzeigen"
+        errors:
+          unretrievable_query: "Die URL enthält keine benutzerdefinierte Abfrage"
       tabs:
         overview: "Übersicht"
         activity: "Aktivität"

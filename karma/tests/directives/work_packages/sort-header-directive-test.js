@@ -72,7 +72,7 @@ describe('sortHeader Directive', function() {
         beforeEach(function(){
           query = new Query({
           });
-          query.setSortation(new Sortation([]));
+          query.setSortation('parent:desc');
           scope.query = query;
 
           compile();
