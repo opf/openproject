@@ -41,5 +41,5 @@ en:
         spentHoursLinked: "Spent time"
         overallCosts: "Overall costs"
         spentUnits: "Spent units"
-    label_hour: "Hour"
-    label_hours: "Hours"
+    label_hour: "hour"
+    label_hours: "hours"
