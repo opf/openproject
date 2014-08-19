@@ -114,20 +114,30 @@ angular.module('openproject.viewModels')
   return CommonRelationsHandler;
 }])
 
-.factory('ChildrenRelationsHandler', ['PathHelper',
-                                      'CommonRelationsHandler',
-                                      function(PathHelper,
-                                               CommonRelationsHandler) {
-  function ChildrenRelationsHandler(workPackage, children) {
-    var handler = new CommonRelationsHandler(workPackage, children, undefined);
+.factory('ChildrenRelationsHandler', ['PathHelper', 'CommonRelationsHandler', 'WorkPackageService',
+    function(PathHelper, CommonRelationsHandler, WorkPackageService) {
 
-    handler.type = "child";
-    handler.canAddRelation = function() { return true };
-    handler.addRelation = function() {
-      window.location = PathHelper.staticWorkPackageNewWithParentPath(this.workPackage.props.projectId, this.workPackage.props.id);
+    function ChildrenRelationsHandler(workPackage, children) {
+        var handler = new CommonRelationsHandler(workPackage, children, undefined);
+
+        handler.type = "child";
+        handler.applyCustomExtensions = undefined;
+
+        handler.canAddRelation = function() { return true };
+        handler.addRelation = function() {
+            window.location = PathHelper.staticWorkPackageNewWithParentPath(
+                this.workPackage.props.projectId, this.workPackage.props.id
+            );
+        };
+        handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
+        handler.removeRelation = function(scope) {
+            WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
+                scope.$emit('workPackageRefreshRequired', '');
+            }, function(error) {
+                ApiHelper.handleError(scope, error);
+            }
+        );
     };
-    handler.applyCustomExtensions = undefined;
-    handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
 
     return handler;
   }
