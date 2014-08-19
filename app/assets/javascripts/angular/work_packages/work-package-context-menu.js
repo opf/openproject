@@ -28,6 +28,8 @@
 
 angular.module('openproject.workPackages')
 
+.constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
+
 .factory('WorkPackageContextMenu', [
   'ngContextMenu',
   function(ngContextMenu) {
@@ -48,7 +50,8 @@ angular.module('openproject.workPackages')
   'WorkPackagesTableService',
   'I18n',
   '$window',
-  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window) {
+  'PERMITTED_CONTEXT_MENU_ACTIONS',
+  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 
@@ -60,7 +63,7 @@ angular.module('openproject.workPackages')
     }
 
     $scope.row.checked = true;
-    $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages());
+    $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
   });
 
 
