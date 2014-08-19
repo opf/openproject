@@ -39,7 +39,7 @@ angular.module('openproject.workPackages.directives')
   'PathHelper',
   'WorkPackagesTableService',
   'WorkPackageService',
-  'WorkPackageContextMenuHelper',
+  'WorkPackageAuthorization',
   function(PERMITTED_MORE_MENU_ACTIONS,
            $state,
            $window,
@@ -48,7 +48,7 @@ angular.module('openproject.workPackages.directives')
            PathHelper,
            WorkPackagesTableService,
            WorkPackageService,
-           WorkPackageContextMenuHelper){
+           WorkPackageAuthorization) {
 
   return {
     restrict: 'E',
@@ -56,24 +56,12 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
     scope: {
       workPackage: '=',
-      rows: '='
     },
     link: function(scope, element, attributes) {
+      var authorization = new WorkPackageAuthorization(scope.workPackage, PERMITTED_MORE_MENU_ACTIONS);
+
       scope.I18n = I18n;
-
-      scope.$watch('rows', function(newVal, oldVal) {
-        if (!scope.workPackage) { return; }
-
-        // More Menu
-        var workPackageRows = WorkPackagesTableService.getRowsByWorkPackageIds([scope.workPackage.props.id]);
-
-        if (workPackageRows && workPackageRows.length == 1) {
-          var rowObject = workPackageRows[0].object;
-
-          scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions([rowObject], PERMITTED_MORE_MENU_ACTIONS);
-        }
-      });
-
+      scope.permittedActions = authorization.permittedActions;
 
       scope.editWorkPackage = function() {
         // TODO: Temporarily going to the old edit dialog until we get in-place editing done
@@ -81,25 +69,13 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.triggerMoreMenuAction = function(action, link) {
-        var actionLink;
-
         switch (action) {
           case 'delete':
             deleteSelectedWorkPackage();
             break;
-          case 'log_time':
-            actionLink = PathHelper.timeEntryNewPath(scope.workPackage.props.id);
+          default:
+            $window.location.href = link;
             break;
-          case 'duplicate':
-            actionLink = PathHelper.workPackageDuplicatePath(scope.workPackage.props.projectId, scope.workPackage.props.id);
-            break;
-          case 'move':
-            actionLink = PathHelper.workPackageMovePath(scope.workPackage.props.id)
-            break;
-        }
-
-        if (actionLink) {
-          $window.location.href = actionLink;
         }
       };
 
