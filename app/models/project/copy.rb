@@ -215,7 +215,6 @@ module Project::Copy
       members_to_copy = []
       members_to_copy += project.memberships.select {|m| m.principal.is_a?(User)}
       members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
-
       members_to_copy.each do |member|
         new_member = Member.new
         new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), :without_protection => true)
@@ -225,6 +224,7 @@ module Project::Copy
         next if role_ids.empty?
         new_member.role_ids = role_ids
         new_member.project = self
+        Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
         self.memberships << new_member
       end
     end
