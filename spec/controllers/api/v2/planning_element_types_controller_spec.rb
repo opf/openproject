@@ -32,6 +32,7 @@ describe Api::V2::PlanningElementTypesController do
   let (:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    @controller.stub(:require_login)
     User.stub(:current).and_return current_user
   end
 
