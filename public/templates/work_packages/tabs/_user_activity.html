@@ -1,7 +1,9 @@
 <div class="work-package-details-activities-activity-contents"
      ng-mouseover="showActions()"
      ng-mouseout="hideActions()">
-  <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
+  <div class="comments-number">
+    <a name="{{ activityNo }}" ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })"
+                               ng-bind="'#' + activityNo"></a>
     <div class="comments-icons"
          ng-show="activity.props._type == 'Activity::Comment' && inFocus">
       <i class="icon-quote action-icon"
