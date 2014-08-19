@@ -49,14 +49,6 @@ angular.module('openproject.workPackages.tabs')
         scope.fullIdentifier = WorkPackagesHelper.getFullIdentifier(relatedWorkPackage);
         scope.state = WorkPackagesHelper.getState(relatedWorkPackage);
       });
-
-      scope.removeRelation = function() {
-        WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
-          scope.$emit('workPackageRefreshRequired', '');
-        }, function(error) {
-          ApiHelper.handleError(scope, error);
-        });
-      };
     }
   };
 }]);

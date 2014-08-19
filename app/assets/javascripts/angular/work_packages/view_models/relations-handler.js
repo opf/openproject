@@ -68,6 +68,14 @@ angular.module('openproject.viewModels')
       });
     },
 
+    removeRelation: function(scope) {
+      WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
+          scope.$emit('workPackageRefreshRequired', '');
+        }, function(error) {
+          ApiHelper.handleError(scope, error);
+        });
+    },
+
     applyCustomExtensions: function() {
       // Massive hack alert - Using old prototype autocomplete ///////////
       if(this.canAddRelation) {
