@@ -79,22 +79,12 @@ h4, .wiki h3
   overflow: auto
   padding-bottom: $footer_height
 
-%absolute-layout-mode
-  #main
+  %absolute-layout-mode &
     position: absolute
     top:      55px
     bottom:   $footer_height
     width:    100%
     overflow: hidden
-
-  #content
-    position:   absolute
-    box-sizing: border-box
-    width:      calc(100% - #{$main_menu_width})
-    height:     calc(100% - 40px)
-
-    &.hidden-navigation
-      width:    calc(100% - #{$main_menu_folded_width})
 
 #content
   @include default-transition
@@ -106,11 +96,23 @@ h4, .wiki h3
   background-color: #fff
   border-style: none solid solid solid
   z-index: 10
+
+  %absolute-layout-mode &
+    position:   absolute
+    box-sizing: border-box
+    width:      calc(100% - #{$main_menu_width})
+    height:     calc(100% - 40px)
+
   &.hidden-navigation
     margin-left: $main_menu_folded_width
+
+    %absolute-layout-mode &
+      width:    calc(100% - #{$main_menu_folded_width})
+
   &.nosidebar
     margin-left: 0
     padding: 45px 60px 50px 25px
+
   &:after
     content: "."
     display: block

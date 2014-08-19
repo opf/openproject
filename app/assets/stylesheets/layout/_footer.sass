@@ -27,11 +27,6 @@
 
 @import global/all
 
-%absolute-layout-mode
-  #footer
-    position: absolute
-    bottom: 0
-
 #footer
   z-index: 20
   text-align: right
@@ -43,6 +38,10 @@
   clear: both
   background-color: $footer_bg_color
   @include default-font-normal($footer_font_color)
+
+  %absolute-layout-mode &
+    position: absolute
+    bottom: 0
 
   .footer-content
     margin: 0px 15px 0px 0

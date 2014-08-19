@@ -54,13 +54,6 @@ $toggler-width: 40px
     &:hover, &.selected, &.selected + a
       color: $color
 
-
-%absolute-layout-mode
-  #main-menu
-    position: absolute
-    height:   100%
-    +allow-vertical-scrolling
-
 #main-menu
   bottom: auto
   width: $main_menu_width
@@ -68,6 +61,11 @@ $toggler-width: 40px
   left: 0
   background-color: $main_menu_bg_color
   @include default-transition
+
+  %absolute-layout-mode &
+    position: absolute
+    height:   100%
+    +allow-vertical-scrolling
 
   ul
     margin: 0
