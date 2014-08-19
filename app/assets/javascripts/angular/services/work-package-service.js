@@ -209,9 +209,9 @@ angular.module('openproject.services')
                   text: I18n.t('js.work_packages.message_error_during_bulk_delete')
                 });
               });
-      } else {
-        return promis;
       }
+
+      return promis;
     }
   };
 

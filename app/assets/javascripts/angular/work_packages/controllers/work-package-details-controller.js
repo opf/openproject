@@ -51,6 +51,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  '$state',
   'latestTab',
   'workPackage',
   'I18n',
@@ -66,7 +67,7 @@ angular.module('openproject.workPackages.controllers')
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
   'WorkPackageService',
-  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler, WorkPackageService) {
+  function($scope, $state, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler, WorkPackageService) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -186,7 +187,11 @@ angular.module('openproject.workPackages.controllers')
     };
 
     $scope.deleteSelectedWorkPackage = function() {
-      WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
+      var promis = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
+
+      promis.success(function(data, status) {
+        $state.go('work-packages.list');
+      });
     };
   }
 ]);
