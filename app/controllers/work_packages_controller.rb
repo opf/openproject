@@ -167,10 +167,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    configure_update_notification(send_notifications?)
-
     safe_params = permitted_params.update_work_package(:project => project)
-    updated = work_package.update_by!(current_user, safe_params)
+
+    update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
+
+    updated = update_service.update
 
     render_attachment_warning_if_needed(work_package)
 
@@ -424,10 +425,6 @@ class WorkPackagesController < ApplicationController
       deny_access
       false
     end
-  end
-
-  def configure_update_notification(state = true)
-    JournalObserver.instance.send_notification = state
   end
 
   def send_notifications?
