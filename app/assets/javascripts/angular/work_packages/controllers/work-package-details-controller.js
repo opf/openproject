@@ -48,7 +48,6 @@ angular.module('openproject.workPackages.controllers')
   precedes: "precedes",
   follows: "follows"
 })
-.constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move', 'delete'])
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -59,7 +58,6 @@ angular.module('openproject.workPackages.controllers')
   'VISIBLE_LATEST',
   'RELATION_TYPES',
   'RELATION_IDENTIFIERS',
-  'PERMITTED_MORE_MENU_ACTIONS',
   '$q',
   'WorkPackagesHelper',
   'PathHelper',
@@ -68,11 +66,7 @@ angular.module('openproject.workPackages.controllers')
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  'WorkPackageService',
-  'WorkPackageContextMenuHelper',
-  'WorkPackagesTableService',
-  '$window',
-  function($scope, $state, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, PERMITTED_MORE_MENU_ACTIONS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler, WorkPackageService, WorkPackageContextMenuHelper, WorkPackagesTableService, $window) {
+  function($scope, $state, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -85,7 +79,6 @@ angular.module('openproject.workPackages.controllers')
     setWorkPackageScopeProperties(workPackage);
 
     $scope.I18n = I18n;
-    $scope.PathHelper = PathHelper;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
@@ -160,19 +153,6 @@ angular.module('openproject.workPackages.controllers')
       $scope.author = workPackage.embedded.author;
     }
 
-    $scope.$watch('rows', function(newVal, oldVal) {
-      if (!$scope.workPackage) { return; }
-
-      // More Menu
-      var workPackageRows = WorkPackagesTableService.getRowsByWorkPackageIds([$scope.workPackage.props.id]);
-
-      if (workPackageRows && workPackageRows.length == 1) {
-        var rowObject = workPackageRows[0].object;
-
-        $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions([rowObject], PERMITTED_MORE_MENU_ACTIONS);
-      }
-    });
-
     $scope.toggleWatch = function() {
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
@@ -198,41 +178,5 @@ angular.module('openproject.workPackages.controllers')
       hideFullDescription: true,
       hideAllAttributes: true
     };
-
-    $scope.editWorkPackage = function() {
-      // TODO: Temporarily going to the old edit dialog until we get in-place editing done
-      window.location = "/work_packages/" + $scope.workPackage.props.id;
-    };
-
-    $scope.triggerMoreMenuAction = function(action, link) {
-      var actionLink;
-
-      switch (action) {
-        case 'delete':
-          deleteSelectedWorkPackage();
-          break;
-        case 'log_time':
-          actionLink = PathHelper.timeEntryNewPath($scope.workPackage.props.id);
-          break;
-        case 'duplicate':
-          actionLink = PathHelper.workPackageDuplicatePath($scope.workPackage.props.projectId, $scope.workPackage.props.id);
-          break;
-        case 'move':
-          actionLink = PathHelper.workPackageMovePath($scope.workPackage.props.id)
-          break;
-      }
-
-      if (actionLink) {
-        $window.location.href = actionLink;
-      }
-    };
-
-    function deleteSelectedWorkPackage() {
-      var promis = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
-
-      promis.success(function(data, status) {
-        $state.go('work-packages.list');
-      });
-    }
   }
 ]);
