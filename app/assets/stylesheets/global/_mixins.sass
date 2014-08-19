@@ -248,6 +248,10 @@ $button_gray_font_color: #222222
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
 
+@mixin allow-vertical-scrolling
+  overflow-x: hidden
+  overflow-y: auto
+
 // Based on Bourbon mixin: http://bourbon.io/docs/#font-face
 @mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $svg-font-id: $font-family)
   @font-face
