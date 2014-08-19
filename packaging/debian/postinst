@@ -14,8 +14,8 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-CLI="${APP_NAME}"
 APP_NAME="openproject"
+CLI="${APP_NAME}"
 APP_USER=$(${CLI} config:get APP_USER)
 APP_GROUP=$(${CLI} config:get APP_GROUP)
 
