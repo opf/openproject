@@ -38,6 +38,8 @@ de:
     work_packages:
       properties:
         costObject: "Budget"
-        spentHours: "Aufgewendete Zeit"
+        spentHoursLinked: "Aufgewendete Zeit"
         overallCosts: "Gesamtkosten"
         spentUnits: "Gebuchte Einheiten"
+    label_hour: "Stunde"
+    label_hours: "Stunden"

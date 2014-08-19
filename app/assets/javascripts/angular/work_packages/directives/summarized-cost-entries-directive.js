@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.directives')
 .directive('summarizedCostEntries', ['PathHelper', function(PathHelper) {
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/summarized_cost_entries.html',
+    templateUrl: '/assets/work_packages/summarized_cost_entries.html',
     link: function(scope, element, attributes) {
       if (scope.workPackage.embedded.summarizedCostEntries) {
         scope.costTypes = scope.workPackage.embedded.summarizedCostEntries;

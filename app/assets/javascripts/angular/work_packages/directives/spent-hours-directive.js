@@ -26,31 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// main app
-var openprojectCostsApp = angular.module('openproject');
+angular.module('openproject.workPackages.directives')
 
-openprojectCostsApp.run(['HookService', function(HookService) {
-  HookService.register('workPackageOverviewAttributes', function(params) {
-    var directive;
+.directive('spentHours', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+  return {
+    restrict: 'E',
+    templateUrl: '/assets/work_packages/spent_hours.html',
+    link: function(scope, element, attributes) {
+      scope.spentHours = scope.workPackage.props.spentHours;
+      scope.spentHoursUnit = I18n.t('js.label_hours');
+      scope.linkToSpentHours = PathHelper.timeEntriesPath(null, scope.workPackage.props.id);
 
-    switch (params.type) {
-      case "spentUnits":
-        if (params.workPackage.embedded.summarizedCostEntries.length > 0) {
-          directive = "summarized-cost-entries";
-        }
-        break;
-      case "costObject":
-        if (params.workPackage.embedded.costObject) {
-          directive = "cost-object";
-        }
-        break;
-      case "spentHoursLinked":
-        if (params.workPackage.props.spentHours) {
-          directive = "spent-hours";
-        }
-        break;
+      if (scope.spentHours == 1) {
+        scope.spentHoursUnit = I18n.t('js.label_hour');
+      }
     }
-
-    return directive;
-  });
+  };
 }]);
