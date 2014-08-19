@@ -28,72 +28,7 @@
 
 @import content/forms
 
-// TODO: apply this throughout the application
-#work-packages-index div
-  box-sizing: border-box
-
-// HACK: workaround to ensure correct height applied to child elements
-#content > div[ui-view],
-#work-packages-index
-  height: 100%
-
-.work-packages--page-container
-  +display(flex)
-  +flex-direction(column)
-  height: 100%
-
-  > .toolbar-container
-    // not flex-item
-
-  > .work-packages--filters-optional-container
-    // not flex-item
-    height: auto
-
-  > .work-packages--split-view
-    +flex-grow(1)
-
-.work-packages--split-view
-  +display(flex)
-  width: 100%
-
-.work-packages--list
-  +flex-grow(1)
-  position: relative
-
-.work-packages--list-scroll-area
-  position: absolute
-  top:      0
-  bottom:   35px
-  width:    100%
-  overflow: auto
-
-.work-packages--list-pagination-area
-  position: absolute
-  bottom:   0px
-  height:   35px
-
-.work-packages--details
-  position: relative
-  padding: 0 1em 1em
-  border-left: 4px solid #eee
-
-  @media only screen and (max-width: 1280px)
-    display: none
-  // li[feature-flag=detailsView]
-  //   display: none
-  @media only screen and (min-width: 1281px)
-    width: 480px
-  @media only screen and (min-width: 1440px)
-    width: 580px
-
 .work-packages--details-content
-  position:   absolute
-  top:        55px
-  bottom:     55px
-  width:      100%
-  +allow-vertical-scrolling
-
-  padding:    0px 5px 15px 10px
   font-size:  13px
   font-size:  0.8125rem
 
@@ -115,11 +50,6 @@
     font-size:    0.875rem
     font-weight:  bold
     border:       none
-
-.work-packages--details-toolbar
-  position:   absolute
-  bottom:     0
-  height:     55px
 
 div
   .report-category-actions
