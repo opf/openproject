@@ -34,8 +34,17 @@
 #work-packages-index div
   box-sizing: border-box
 
+#content
+  $flash-margins-padding: 10px + (2 * 4px)
+
+  // HACK: workaround to ensure correct height applied to child elements
+  > div[ui-view]
+    height: 100%
+
+  .flash + div[ui-view]
+    height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
+
 // HACK: workaround to ensure correct height applied to child elements
-#content > div[ui-view],
 #work-packages-index
   height: 100%
 
