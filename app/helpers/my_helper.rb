@@ -99,6 +99,6 @@ module MyHelper
   private
 
   def work_packages_with_query_path(query)
-    work_packages_path(live_query: query.to_json)
+    work_packages_path(query_props: query.to_json)
   end
 end

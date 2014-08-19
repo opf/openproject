@@ -33,7 +33,8 @@ angular.module('openproject.workPackages.directives')
   'WorkPackagesTableService',
   'flags',
   'PathHelper',
-  function(I18n, WorkPackagesTableService, flags, PathHelper){
+  '$state',
+  function(I18n, WorkPackagesTableService, flags, PathHelper, $state){
 
   return {
     restrict: 'E',
@@ -49,10 +50,11 @@ angular.module('openproject.workPackages.directives')
       groupByColumn: '=',
       displaySums: '=',
       totalSums: '=',
-      groupSums: '=',
-      updateResults: '&'
+      groupSums: '='
     },
     link: function(scope, element, attributes) {
+      var activeSelectionBorderIndex;
+
       scope.I18n = I18n;
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.staticWorkPackagePath;
@@ -75,9 +77,7 @@ angular.module('openproject.workPackages.directives')
       });
 
       scope.setCheckedStateForAllRows = function(state) {
-        angular.forEach(scope.rows, function(row) {
-          row.checked = state;
-        });
+        WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
       };
 
       var groupableColumns = WorkPackagesTableService.getGroupableColumns();
@@ -96,6 +96,51 @@ angular.module('openproject.workPackages.directives')
       }, function(detailsEnabled) {
         scope.hideWorkPackageDetails = !detailsEnabled;
       });
+
+      // Thanks to http://stackoverflow.com/a/880518
+      function clearSelection() {
+        if(document.selection && document.selection.empty) {
+            document.selection.empty();
+        } else if(window.getSelection) {
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+        }
+      }
+
+      function setRowSelectionState(row, selected) {
+        activeSelectionBorderIndex = scope.rows.indexOf(row);
+        WorkPackagesTableService.setRowSelection(row, selected);
+      }
+
+      scope.selectWorkPackage = function(row, $event) {
+        if ($event.target.type != 'checkbox') {
+          var currentRowCheckState = row.checked;
+          var index = scope.rows.indexOf(row);
+
+          if (!($event.ctrlKey || $event.shiftKey)) {
+            scope.setCheckedStateForAllRows(false);
+          }
+
+          if ($event.shiftKey) {
+            clearSelection();
+            activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
+          } else {
+            setRowSelectionState(row, !currentRowCheckState);
+          }
+        }
+      };
+
+      scope.showWorkPackageDetails = function(row) {
+        var workPackageState = $state.get('work-packages');
+
+        clearSelection();
+
+        scope.setCheckedStateForAllRows(false);
+
+        setRowSelectionState(row, true);
+
+        $state.go(workPackageState.resolve.latestTab().getStateName(), { workPackageId: row.object.id });
+      };
     }
   };
 }]);

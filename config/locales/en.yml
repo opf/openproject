@@ -1616,6 +1616,7 @@ en:
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
+
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >

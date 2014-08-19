@@ -26,34 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.directive('workPackageGroupSums', ['WorkPackagesHelper', 'WorkPackageService', function(WorkPackagesHelper, WorkPackageService) {
+.constant('DOUBLE_CLICK_DELAY', 300)
+
+// Thanks to http://stackoverflow.com/a/20445344
+.directive('singleClick', [
+  'DOUBLE_CLICK_DELAY',
+  '$parse',
+  '$timeout',
+  function(DOUBLE_CLICK_DELAY, $parse, $timeout) {
 
   return {
     restrict: 'A',
-    scope: true,
-    compile: function(tElement) {
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = scope.row.groupName;
+    link: function(scope, element, attrs) {
+      var fn = $parse(attrs.singleClick);
+      var clicks = 0, timer = null;
 
-          function setSums() {
-            if(scope.groupSums == null) return;
-            scope.sums = scope.groupSums.map(function(groupSum){
-              return groupSum[scope.currentGroup];
-            });
+      if (fn) {
+        element.on('click', function (event) {
+          clicks++;  //count clicks
+          if(clicks === 1) {
+            timer = $timeout(function() {
+              fn(scope, { $event: event });
+              clicks = 0;             //after action performed, reset counter
+            }, DOUBLE_CLICK_DELAY);
+          } else {
+            $timeout.cancel(timer);   //prevent single-click action
+            clicks = 0;               //after action performed, reset counter
           }
-
-          scope.$watch('groupSums.length', function() {
-            // map columns to sums if the column data is a number
-            setSums();
-            scope.$emit('queryStateChange');
-            scope.$emit('workPackagesRefreshRequired');
-          });
-
-        }
-      };
+        });
+      }
     }
   };
 }]);

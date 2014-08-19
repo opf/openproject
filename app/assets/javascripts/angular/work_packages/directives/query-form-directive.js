@@ -57,6 +57,15 @@ angular.module('openproject.workPackages.directives')
             return groupByChanged || sortElementsChanged || columnsChanged || displaySumsChanged;
           }
 
+          function passiveQueryPropertiesChanged(currentProperties, formerProperties) {
+            if (formerProperties === undefined) return false;
+
+            var columnsChanged = JSON.stringify(currentProperties.columns) !== JSON.stringify(formerProperties.columns);
+            var displaySumsChanged = currentProperties.displaySums !== formerProperties.displaySums;
+
+            return columnsChanged || displaySumsChanged;
+          }
+
           function observedQueryProperties() {
             var query = scope.query;
 
@@ -73,11 +82,29 @@ angular.module('openproject.workPackages.directives')
             }
           }
 
+          function passiveQueryProperties() {
+            var query = scope.query;
+
+            if (query !== undefined) {
+              return {
+                columns: query.columns,
+                displaySums: query.displaySums
+              };
+            }
+          }
+
           scope.$watch(observedQueryProperties, function(newProperties, oldProperties) {
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
                 scope.$emit('queryStateChange');
+                scope.$emit('workPackagesRefreshRequired');
               }
+            }
+          }, true);
+
+          scope.$watch(passiveQueryProperties, function(newProperties, oldProperties) {
+            if (passiveQueryPropertiesChanged(newProperties, oldProperties)) {
+              scope.$emit('queryStateChange');
             }
           }, true);
         }

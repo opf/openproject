@@ -24,8 +24,7 @@
           target="ColumnContextMenu"
           locals="columns, column"
           sortable="true"
-          query="query"
-          update-results="updateResults()"/>
+          query="query"/>
 
       <th sort-header ng-repeat="column in columns"
                       has-dropdown-menu
@@ -101,6 +100,8 @@
         has-context-menu
         target="WorkPackageContextMenu"
         locals="rows, row"
+        single-click="selectWorkPackage(row, $event)"
+        ng-dblclick="showWorkPackageDetails(row)"
         ng-class="[
           'issue',
           'hascontextmenu',

@@ -33,8 +33,7 @@ angular.module('openproject.uiComponents')
     restrict: 'EA',
     templateUrl: '/templates/components/table_pagination.html',
     scope: {
-      totalEntries: '=',
-      updateResults: '&'
+      totalEntries: '='
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
@@ -53,7 +52,7 @@ angular.module('openproject.uiComponents')
         updateCurrentRangeLabel();
         updatePageNumbers();
 
-        scope.updateResults(); // update table
+        scope.$emit('workPackagesRefreshRequired');
       };
 
       /**
