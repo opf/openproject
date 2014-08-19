@@ -64,9 +64,8 @@ angular.module('openproject.workPackages.directives')
         if (filter !== oldFilter) {
           if (filter.isConfigured() && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
             PaginationService.resetPage();
-
-            applyFilters();
-            scope.updateBackUrl();
+            scope.$emit('queryStateChange');
+            scope.$emit('workPackagesRefreshRequired');
           }
         }
       }, true);

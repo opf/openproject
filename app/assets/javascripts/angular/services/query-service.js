@@ -74,14 +74,15 @@ angular.module('openproject.services')
         starred: queryData.starred,
         links: queryData._links
       });
-      query.setSortation(new Sortation(queryData.sort_criteria));
+      query.setSortation(queryData.sort_criteria);
 
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
           if (query.isDefault()) {
             query.setDefaultFilter();
-          } else {
+          }
+          if(queryData.filters && queryData.filters.length) {
             query.setFilters(queryData.filters);
           }
 
@@ -92,8 +93,43 @@ angular.module('openproject.services')
       return query;
     },
 
+    updateQuery: function(values, afterUpdate) {
+      var queryData = {
+      };
+      if(!!values.display_sums) {
+        queryData.displaySums = values.display_sums;
+      }
+      if(!!values.columns) {
+        queryData.columns = values.columns;
+      }
+      if(!!values.group_by) {
+        queryData.groupBy = values.group_by;
+      }
+      if(!!values.sort_criteria) {
+        queryData.sortCriteria = values.sort_criteria;
+      }
+      query.update(queryData);
+
+      QueryService.getAvailableFilters(query.project_id)
+        .then(function(availableFilters) {
+          query.setAvailableWorkPackageFilters(availableFilters);
+          if(queryData.filters && queryData.filters.length) {
+            query.setFilters(queryData.filters);
+          }
+
+          return query;
+        })
+        .then(afterUpdate);
+
+      return query;
+    },
+
     getQuery: function() {
       return query;
+    },
+
+    clearQuery: function() {
+      query = null;
     },
 
     getQueryName: function() {

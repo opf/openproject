@@ -31,6 +31,7 @@
 describe('WorkPackagesListController', function() {
   var scope, ctrl, win, testParams,
      testProjectService, testWorkPackageService, testQueryService, testPaginationService;
+  var testQueries;
   var buildController;
 
   beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.services'));
@@ -47,9 +48,24 @@ describe('WorkPackagesListController', function() {
      location: { pathname: "" }
     };
 
-    var workPackageData = {
+    var defaultWorkPackagesData = {
       meta: {
-      }
+        query: {
+          _links: []
+        },
+        sums: [null]
+      },
+      work_packages: []
+    };
+    var workPackagesDataByQueryId = {
+      meta: {
+        query: {
+          props: { id: 1 },
+          _links: []
+        },
+        sums: [null]
+      },
+      work_packages: []
     };
     var columnData = {
     };
@@ -58,6 +74,16 @@ describe('WorkPackagesListController', function() {
 
     var projectData  = { embedded: { types: [] } };
     var projectsData = [ projectData ];
+    testQueries = {
+      '1': {
+        id: 1,
+        columns: ['type']
+      },
+      '2': {
+        id: 2,
+        columns: ['type']
+      },
+    };
 
     testProjectService = {
       getProject: function(identifier) {
@@ -74,15 +100,18 @@ describe('WorkPackagesListController', function() {
 
     testWorkPackageService = {
       getWorkPackages: function () {
+        return $timeout(function () {
+          return defaultWorkPackagesData;
+        }, 10);
       },
       getWorkPackagesByQueryId: function (params) {
         return $timeout(function () {
-          return workPackageData;
+          return workPackagesDataByQueryId;
         }, 10);
       },
       getWorkPackagesFromUrlQueryParams: function () {
         return $timeout(function () {
-          return workPackageData;
+          return defaultWorkPackagesData;
         }, 10);
       }
     };
@@ -93,8 +122,11 @@ describe('WorkPackagesListController', function() {
           }
         };
       },
-      initQuery: function () {
+      initQuery: function (id) {
+        var queryId = id || 1;
+        return testQueries[queryId];
       },
+      clearQuery: function() {},
       getAvailableOptions: function() {
         return {};
       },
@@ -130,11 +162,12 @@ describe('WorkPackagesListController', function() {
       setPage: function () {
       }
     };
+    testAuthorisationService = {
+      initModelAuth: function(model, links) {
+      }
+    }
 
-    testParams = {};
-    testState = {};
-
-    buildController = function() {
+    buildController = function(params, state, location) {
       scope.projectIdentifier = 'test';
 
       ctrl = $controller("WorkPackagesListController", {
@@ -142,19 +175,58 @@ describe('WorkPackagesListController', function() {
         $window: win,
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
+        ProjectService:     testProjectService,
         WorkPackageService: testWorkPackageService,
-        $stateParams:       testParams,
-        $state:             testState,
+        $stateParams:       params,
+        $state:             state,
+        $location:          location,
         latestTab: {}
       });
+
+      $timeout.flush();
     };
 
   }));
 
-  describe('initialisation', function() {
+  describe('initialisation of default query', function() {
+    beforeEach(function(){
+      testParams = {};
+      testState = { params: {} };
+      testLocation = {
+        search: function() {
+          return {};
+        }
+      }
+
+      buildController(testParams, testState, testLocation);
+    });
+
     it('should initialise', function() {
-      buildController();
       expect(scope.settingUpPage).to.be.defined;
+      expect(scope.operatorsAndLabelsByFilterType).to.be.defined;
+      expect(scope.disableFilters).to.eq(false);
+      expect(scope.disableNewWorkPackage).to.eq(true);
+      expect(scope.query.id).to.eq(testQueries['1'].id);
+    });
+  });
+
+  describe('initialisation of query by id', function() {
+    beforeEach(function(){
+      testParams = { };
+      testState = { params: {
+        query_id: testQueries['2'].id
+      } };
+      testLocation = {
+        search: function() {
+          return {};
+        }
+      }
+
+      buildController(testParams, testState, testLocation);
+    });
+
+    it('should initialise', function() {
+      expect(scope.query.id).to.eq(testQueries['2'].id);
     });
   });
 });

@@ -34,7 +34,7 @@ describe('tablePagination Directive', function () {
 
   beforeEach(inject(function ($rootScope, $compile, _I18n_) {
     var html, I18n, t;;
-    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="showUserSomething()"></table-pagination>';
+    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults"></table-pagination>';
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -48,7 +48,7 @@ describe('tablePagination Directive', function () {
   }));
 
   describe('page ranges and links', function () {
-    beforeEach(function() {    
+    beforeEach(function() {
       compile();
     });
 
@@ -88,7 +88,7 @@ describe('tablePagination Directive', function () {
   });
 
   describe('perPage options', function () {
-    beforeEach(function() {    
+    beforeEach(function() {
       t = sinon.stub(I18n, 't');
       t.withArgs('js.label_per_page').returns('Per page:');
       compile();
@@ -102,26 +102,6 @@ describe('tablePagination Directive', function () {
       var perPageOptions = element.find('span.per_page_options');
 
       expect(perPageOptions.text()).to.include('Per page:');
-    });
-  });
-
-  describe('callback function', function() {
-    var updateResultsFn;
-
-    beforeEach(function () {
-      updateResultsFn = sinon.spy();
-
-      scope.showUserSomething = updateResultsFn;
-      compile();
-    });
-
-    it('should call the updateResults function on navigating page', function () {
-      var nextPage = element.find('.next_page');
-      var previousPage = element.find('.previous_page');
-      nextPage.click();
-      previousPage.click();
-
-      expect(updateResultsFn).to.have.been.calledTwice;
     });
   });
 });

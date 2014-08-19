@@ -51,6 +51,88 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
+    encodeQueryJsonParams: function(query) {
+      var paramsData = {
+        c: query.columns.map(function(column) { return column.name; })
+      };
+      if(!!query.displaySums) {
+        paramsData.s = query.displaySums;
+      }
+
+      if(!!query.projectId) {
+        paramsData.p = query.projectId;
+      }
+      if(!!query.groupBy) {
+        paramsData.g = query.groupBy;
+      }
+      if(!!query.getSortation()) {
+        paramsData.t = query.getSortation().encode()
+      }
+      if(query.filters && query.filters.length) {
+        paramsData.f = query.filters.filter(function(filter) {
+          return !filter.deactivated;
+        })
+        .map(function(filter) {
+          var filterData = {
+            n: filter.name,
+            m: filter.modelName,
+            o: encodeURIComponent(filter.operator),
+            t: filter.type
+          };
+          if(filter.values) {
+            angular.extend(filterData, { v: filter.values })
+          }
+          return filterData
+        });
+      }
+
+      return JSON.stringify(paramsData);
+    },
+
+    decodeQueryFromJsonParams: function(queryId, updateJson) {
+      var queryData = {};
+      if(queryId) {
+        queryData.id = queryId;
+      }
+
+      if(updateJson) {
+        var properties = JSON.parse(updateJson);
+
+        if(!!properties.c) {
+          queryData.columns = properties.c.map(function(column) { return { name: column }; });
+        }
+        if(!!properties.s) {
+          queryData.displaySums = properties.s;
+        }
+        if(!!properties.p) {
+          queryData.projectId = properties.p;
+        }
+        if(!!properties.g) {
+          queryData.groupBy = properties.g;
+        }
+        if(!!properties.f) {
+          queryData.filters = properties.f.map(function(urlFilter) {
+            var filterData = {
+              name: urlFilter.n,
+              modelName: urlFilter.m,
+              operator: decodeURIComponent(urlFilter.o),
+              type: urlFilter.t
+            };
+            if(urlFilter.v) {
+              var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
+              angular.extend(filterData, { values: vs });
+            }
+            return filterData;
+          });
+        }
+        if(!!properties.t) {
+          queryData.sortCriteria = properties.t;
+        }
+      }
+
+      return queryData;
+    },
+
     buildQueryExportOptions: function(query){
       var relativeUrl = "/work_packages";
       if (query.project_id){

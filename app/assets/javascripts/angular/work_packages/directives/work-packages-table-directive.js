@@ -50,9 +50,7 @@ angular.module('openproject.workPackages.directives')
       groupByColumn: '=',
       displaySums: '=',
       totalSums: '=',
-      groupSums: '=',
-      updateResults: '&',
-      updateBackUrl: '='
+      groupSums: '='
     },
     link: function(scope, element, attributes) {
       var activeSelectionBorderIndex;

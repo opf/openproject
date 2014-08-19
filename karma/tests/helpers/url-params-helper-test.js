@@ -55,4 +55,66 @@ describe('UrlParamsHelper', function() {
       expect(queryString).not.to.include('@');
     });
   });
+
+  describe('encodeQueryJsonParams', function(){
+    var query;
+
+    beforeEach(function() {
+      var filter = {
+        modelName: 'soße',
+        name: 'soße_id',
+        type: 'list model',
+        operator: '=',
+        values: ['knoblauch']
+      };
+      query = new Query({
+        id: 1,
+        name: 'knoblauch soße',
+        projectId: 2,
+        displaySums: true,
+        columns: [{ name: 'type' }, { name: 'status' }, { name: 'soße' }],
+        groupBy: 'status',
+        sortCriteria: 'type:desc',
+        filters: [filter]
+      }, { rawFilters: true });
+    });
+
+    it('should encode query to params JSON', function() {
+      var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query);
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"m\":\"soße\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      expect(encodedJSON).to.eq(expectedJSON);
+    })
+  });
+
+  describe('decodeQueryFromJsonParams', function() {
+    var params;
+    var queryId;
+
+    beforeEach(function() {
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"m\":\"soße\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      queryId = 2;
+    });
+
+    it('should decode query params to object', function() {
+      var decodedQueryParams = UrlParamsHelper.decodeQueryFromJsonParams(queryId, params);
+
+      var expected = {
+        id: queryId,
+        projectId: 2,
+        displaySums: true,
+        columns: [{ name: 'type' }, { name: 'status' }, { name: 'soße' }],
+        groupBy: 'status',
+        sortCriteria: 'type:desc',
+        filters: [{
+          modelName: 'soße',
+          name: 'soße_id',
+          type: 'list model',
+          operator: '=',
+          values: ['knoblauch']
+        }]
+      };
+
+      expect(angular.equals(decodedQueryParams, expected)).to.be.true;
+    });
+  })
 });

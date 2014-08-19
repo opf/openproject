@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.config')
 
-.constant('INITIALLY_SELECTED_COLUMNS', ['id', 'project', 'type', 'status', 'priority', 'subject', 'assigned_to_id', 'updated_at'])
+.constant('INITIALLY_SELECTED_COLUMNS', [{ name: 'id' }, { name: 'project' }, { name: 'type' }, { name: 'status' }, { name: 'priority' }, { name: 'subject' }, { name: 'assigned_to_id' }, { name: 'updated_at' }])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
   list: [['=', 'label_equals'], ['!', 'label_not_equals']],
