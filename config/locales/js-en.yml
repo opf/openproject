@@ -281,6 +281,7 @@ en:
         date: "Datum"
         dueDate: "Due date"
         estimatedTime: "Estimated time"
+        spentTime: "Spent time"
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"
