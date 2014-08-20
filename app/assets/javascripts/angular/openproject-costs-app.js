@@ -53,4 +53,8 @@ openprojectCostsApp.run(['HookService', function(HookService) {
 
     return directive;
   });
+
+  HookService.register('workPackageDetailsMoreMenu', function(params) {
+    return { "log_costs": ["icon-unit"] };
+  });
 }]);
