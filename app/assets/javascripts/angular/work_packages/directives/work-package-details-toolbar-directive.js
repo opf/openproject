@@ -58,10 +58,10 @@ angular.module('openproject.workPackages.directives')
       workPackage: '=',
     },
     link: function(scope, element, attributes) {
-      var authorization = new WorkPackageAuthorization(scope.workPackage, PERMITTED_MORE_MENU_ACTIONS);
+      var authorization = new WorkPackageAuthorization(scope.workPackage);
 
       scope.I18n = I18n;
-      scope.permittedActions = authorization.permittedActions;
+      scope.permittedActions = authorization.permittedActions(PERMITTED_MORE_MENU_ACTIONS);
 
       scope.editWorkPackage = function() {
         // TODO: Temporarily going to the old edit dialog until we get in-place editing done

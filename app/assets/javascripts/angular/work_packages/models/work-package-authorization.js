@@ -30,29 +30,24 @@ angular.module('openproject.workPackages.models')
 
 .factory('WorkPackageAuthorization', [function() {
 
-  WorkPackageAuthorization = function (workPackage, permittedActions) {
-    var workPackageActions = Object.keys(workPackage.links);
-    var validActions = permittedActions.filter(function(action) {
-      return workPackageActions.indexOf(action) >= 0;
-    });
-
-    this.permittedActions = {};
-
-    angular.forEach(validActions, function(action) {
-      this.links[action] = this.workPackage.links[action].href;
-    }, { links: this.permittedActions, workPackage: workPackage });
-
-    angular.extend(this, workPackage);
+  WorkPackageAuthorization = function (workPackage) {
+    this.workPackage = workPackage;
   };
 
   WorkPackageAuthorization.prototype = {
-    can: function(verb) {
-      return this.permittedActions.indexOf(verb) >= 0;
-    },
+    permittedActions: function(allowedActions) {
+      var permittedActions = {};
+      var workPackageActions = Object.keys(this.workPackage.links);
+      var validActions = allowedActions.filter(function(action) {
+        return workPackageActions.indexOf(action) >= 0;
+      });
 
-    cannot: function(verb) {
-      return !this.can(verb);
-    },
+      angular.forEach(validActions, function(action) {
+        this.links[action] = this.workPackage.links[action].href;
+      }, { links: permittedActions, workPackage: this.workPackage });
+
+      return permittedActions;
+    }
   };
 
   return WorkPackageAuthorization;
