@@ -28,6 +28,8 @@
 #++
 
 module MyHelper
+  include WorkPackagesFilterHelper
+
   def calendar_items(startdt, enddt)
     WorkPackage.visible.
       where(:project_id => User.current.projects.map(&:id)).
@@ -40,65 +42,4 @@ module MyHelper
     url_for(:delete_my_account_info)
   end
 
-  def work_packages_assigned_to_me_path
-    query = {
-      f: [{
-        n: "assigned_to_id",
-        m: "user",
-        o: "=",
-        t: "list_optional",
-        v: "me"
-      }],
-      t: 'priority:desc,updated_at:desc'
-    }
-    work_packages_with_query_path(query)
-  end
-
-  def work_packages_reported_by_me_path
-    query = {
-      f: [{
-        n: "author_id",
-        m: "user",
-        o: "=",
-        t: "list_model",
-        v: "me"
-      }],
-      t: 'updated_at:desc'
-    }
-    work_packages_with_query_path(query)
-  end
-
-  def work_packages_responsible_for_path
-    query = {
-      f: [{
-        n: "responsible_id",
-        m: "user",
-        o: "=",
-        t: "list_optional",
-        v: "me"
-      }],
-      t: 'priority:desc,updated_at:desc'
-    }
-    work_packages_with_query_path(query)
-  end
-
-  def work_packages_watched_path
-    query = {
-      f: [{
-        n: "watcher_id",
-        m: "user",
-        o: "=",
-        t: "list_model",
-        v: "me"
-      }],
-      t: 'updated_at:desc'
-    }
-    work_packages_with_query_path(query)
-  end
-
-  private
-
-  def work_packages_with_query_path(query)
-    work_packages_path(query_props: query.to_json)
-  end
 end

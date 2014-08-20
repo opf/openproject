@@ -46,48 +46,40 @@ See doc/COPYRIGHT.rdoc for more details.
 <tr class="<%= cycle("odd", "even") %>">
   <td>
     <%= link_to h(row.name),
-                project_work_packages_path((row.is_a?(Project) ? row : @project),
-                                           :set_filter => 1,
-                                           :subproject_id => '!*',
-                                           "#{report.field}" => row.id) %>
+                project_report_property_path((row.is_a?(Project) ? row : @project),
+                                             "#{report.field}",
+                                             row.id) %>
   </td>
 <% for status in report.statuses %>
   <td align="center">
     <%= aggregate_link report.data,
                        { report.field => row.id, "status_id" => status.id },
-                       project_work_packages_path((row.is_a?(Project) ? row : @project),
-                                                  :set_filter => 1,
-                                                  :subproject_id => '!*',
-                                                  "status_id" => status.id,
-                                                  report.field => row.id ) %>
+                       project_report_property_status_path((row.is_a?(Project) ? row : @project),
+                                                           status.id,
+                                                           "#{report.field}",
+                                                           row.id) %>
   </td>
 <% end %>
   <td align="center">
     <%= aggregate_link report.data,
                        { report.field => row.id, "closed" => 0 },
-                       project_work_packages_path((row.is_a?(Project) ? row : @project),
-                                                  :set_filter => 1,
-                                                  :subproject_id => '!*',
-                                                  report.field => row.id,
-                                                  "status_id" => "o") %>
+                         project_report_property_open_path((row.is_a?(Project) ? row : @project),
+                                                           "#{report.field}",
+                                                           row.id) %>
   </td>
   <td align="center">
     <%= aggregate_link report.data,
                        { report.field => row.id, "closed" => 1 },
-                       project_work_packages_path((row.is_a?(Project) ? row : @project),
-                                                  :set_filter => 1,
-                                                  :subproject_id => '!*',
-                                                  report.field => row.id,
-                                                  "status_id" => "c") %>
+                         project_report_property_closed_path((row.is_a?(Project) ? row : @project),
+                                                             "#{report.field}",
+                                                             row.id) %>
   </td>
   <td align="center">
     <%= aggregate_link report.data,
                        { report.field => row.id },
-                       project_work_packages_path((row.is_a?(Project) ? row : @project),
-                                                  :set_filter => 1,
-                                                  :subproject_id => '!*',
-                                                  report.field => row.id,
-                                                  "status_id" => "*") %>
+                       project_report_property_any_status_path((row.is_a?(Project) ? row : @project),
+                                                               "#{report.field}",
+                                                               row.id) %>
   </td>
 </tr>
 <% end %>
