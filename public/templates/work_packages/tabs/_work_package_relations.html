@@ -31,7 +31,7 @@
                   {{ relatedWorkPackage.embedded.assignee.props.name }}
                 </a>
               </td>
-              <td><i title="Delete relation"
+              <td><i title="{{ I18n.t('js.relations.delete') }}"
                      class="delete-item icon-delete"
                      ng-click="removeRelation()"
                      ng-if="canDeleteRelation"></i>
@@ -42,7 +42,7 @@
         </table>
       </div>
       <div ng-if="handler.isEmpty()">
-        No relation exists
+        {{ I18n.t('js.relations.empty') }}
       </div>
     </div>
     <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type">

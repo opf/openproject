@@ -68,6 +68,7 @@ describe('Work Package Relations Directive', function() {
     stub.withArgs('js.work_packages.properties.subject').returns('Column0');
     stub.withArgs('js.work_packages.properties.status').returns('Column1');
     stub.withArgs('js.work_packages.properties.assignee').returns('Column2');
+    stub.withArgs('js.relations.delete').returns('Delete relation');
   }));
 
   afterEach(function() {
