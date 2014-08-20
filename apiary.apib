@@ -301,15 +301,13 @@ A user must have the permission to **edit journals** to update an activity. A
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
-| fileName | | String | | dolor_sit_amet | READ / WRITE |
-| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
-| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
-| contentType | | String | | application/binary | READ / WRITE |
-| digest | | String | | | READ / WRITE |
-| downloads | | Integer | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
+| id | Projects's id | Integer | Must be a positive integer | 12 | READ |
+| identifier | | String | | project_identifier | READ / WRITE |
+| name | | String | | Project example | READ / WRITE |
+| description | | String | | Lorem ipsum dolor sit amet | READ / WRITE |
+| homepage | | String | | http://openproject.com | READ / WRITE |
+| createdOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
+| updatedOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
 
 ## Project [/projects/{id}]
 
@@ -329,19 +327,12 @@ A user must have the permission to **edit journals** to update an activity. A
                     }]
                 },
                 "id": 1,
-                "name": "Lorem",
+                "identifier": "project_identifier",
+                "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
-                "homepage": "http://web.com",
-                "identifier": "lorem",
-                "type": "",
-                "summary": "Lorem ipsum dolor sit amet",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z",
-                "customProperties": [{
-                    "name": "My custom field 1",
-                    "format": "text",
-                    "value": "Lorem ipsum"
-                }]
+                "homepage": "http://openproject.com",
+                "createdOn": "2014-05-21T08:51:20Z",
+                "updatedOn": "2014-05-21T08:51:20Z"
             }
 
 ## View project [GET]
