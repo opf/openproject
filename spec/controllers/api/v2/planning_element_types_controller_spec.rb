@@ -32,6 +32,7 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
   let (:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    @controller.stub(:require_login)
     allow(User).to receive(:current).and_return current_user
   end
 

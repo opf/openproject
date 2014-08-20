@@ -69,7 +69,7 @@ namespace :timelines do
                   :available_project_status]
 
     task :colors => :environment do
-      Color.ms_project_colors.map(&:save!)
+      Color.colors.map(&:save!)
     end
 
     task :project_types => :environment do

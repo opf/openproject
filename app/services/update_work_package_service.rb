@@ -26,44 +26,40 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class DefaultDataTest < ActiveSupport::TestCase
-  include Redmine::I18n
+class UpdateWorkPackageService
+  attr_accessor :user, :work_package, :permitted_params, :send_notifications
 
-  def setup
-    super
-    delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+  def initialize(user, work_package, permitted_params, send_notifications=true)
+    self.user = user
+    self.work_package = work_package
+    self.permitted_params = permitted_params
+    self.send_notifications = send_notifications
   end
 
-  def test_no_data
-    Redmine::DefaultData::Loader::load
-    assert !Redmine::DefaultData::Loader::no_data?
+  def update
+    configure_update_notification
 
-    delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+    work_package.update_by!(user, effective_params)
   end
 
-  def test_load
-    valid_languages.each do |lang|
-      begin
-        delete_loaded_data!
-        assert Redmine::DefaultData::Loader::load(lang)
-        assert_not_nil IssuePriority.first
-        assert_not_nil TimeEntryActivity.first
-      rescue ActiveRecord::RecordInvalid => e
-        assert false, ":#{lang} default data is invalid (#{e.message})."
-      end
+  private
+
+  def configure_update_notification
+    JournalObserver.instance.send_notification = send_notifications
+  end
+
+  def effective_params
+    effective_params = HashWithIndifferentAccess.new
+
+    if permitted_params[:notes]
+      notes = { notes: permitted_params.delete(:notes) }
+
+      effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
     end
-  end
 
-private
+    effective_params.merge!(permitted_params) if user.allowed_to?(:edit_work_packages, work_package.project)
 
-  def delete_loaded_data!
-    Role.delete_all("builtin = 0")
-    Type.delete_all("is_standard = false")
-    Status.delete_all
-    Enumeration.delete_all
+    effective_params
   end
 end
