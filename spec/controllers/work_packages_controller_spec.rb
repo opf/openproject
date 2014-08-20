@@ -994,7 +994,7 @@ describe WorkPackagesController, :type => :controller do
         allow(controller).to receive(:work_package).and_return(work_package)
         expect(controller).to receive(:authorize).and_return(true)
 
-        current_user.should_receive(:allowed_to?).with(:edit_work_packages, project).and_return(true);
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, project).and_return(true)
 
         allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
         allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
