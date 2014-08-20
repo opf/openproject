@@ -190,5 +190,9 @@ module OpenProject::Costs
       # however, it might not be desirable to allow assigning of cost_object regardless of the permissions
       PermittedParams.permit(:new_work_package, :cost_object_id)
     end
+
+    config.to_prepare do |app|
+      NonStupidDigestAssets.whitelist << /work_packages\/.*\.html/
+    end
   end
 end
