@@ -87,7 +87,6 @@ describe('Work Package Relations Directive', function() {
   var createRelationsHandlerStub = function($timeout, count) {
     var relationsHandler = new Object();
 
-    relationsHandler.workPackage = sinon.stub();
     relationsHandler.relationsId = sinon.stub();
     relationsHandler.isEmpty = sinon.stub();
     relationsHandler.getCount = sinon.stub();
@@ -95,7 +94,7 @@ describe('Work Package Relations Directive', function() {
     relationsHandler.addRelation = sinon.stub();
     relationsHandler.applyCustomExtensions = sinon.stub();
 
-    relationsHandler.workPackage.returns(workPackage1);
+    relationsHandler.workPackage = workPackage1;
     relationsHandler.relationsId.returns('related');
     relationsHandler.isEmpty.returns(count === 0);
     relationsHandler.getCount.returns(count);
