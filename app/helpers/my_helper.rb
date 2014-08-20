@@ -28,6 +28,8 @@
 #++
 
 module MyHelper
+  include WorkPackagesFilterHelper
+
   def calendar_items(startdt, enddt)
     WorkPackage.visible.
       where(:project_id => User.current.projects.map(&:id)).
