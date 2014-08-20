@@ -57,7 +57,7 @@ module Api::Experimental::Concerns::ColumnData
       type: { display: false },
       status: { display: false },
       priority: { display: false },
-      parent: { display: true, model_type: "user" },
+      parent: { display: true, model_type: "work_package" },
       assigned_to: { display: true, model_type: "user" },
       responsible: { display: true, model_type: "user" },
       author: { display: true, model_type: "user" },
