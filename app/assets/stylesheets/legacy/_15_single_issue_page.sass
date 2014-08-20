@@ -1,0 +1,115 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.  ++
+//++
+
+/*-------------------------------------------------------------------------------
+ *  =05 - Single Issue Page
+ *
+ *  This section includes the layout and styles for the single issues page.
+ *------------------------------------------------------------------------------
+
+div.issue hr
+  margin-top: 10px
+  margin-bottom: 10px
+  clear: both
+
+#content div.issue h3, div.issue h3
+  border: 0px
+  margin-top: -6px
+  margin-bottom: 0px
+
+#content div.issue table
+  td
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0px
+  th
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0px
+    font-weight: bold
+
+.attachments h4
+  margin-bottom: 6px
+  background: image-url("files-showhide.png") no-repeat right bottom
+  cursor: pointer
+  &.closed
+    background-position: right 5px
+
+table.files
+  display: table
+
+#content table.files
+  td
+    border: 0
+    background: none
+  th
+    border: 0
+    background: none
+    font-weight: bold
+    padding: 1px
+  border: 0
+  background: none
+  td
+    color: #555
+    padding: 1px
+  .opt-desc
+    width: 60%
+  td a
+    position: relative
+
+.question-line
+  display: block
+
+#content blockquote
+  padding-left: 22px
+
+.wiki
+  ol, ul
+    padding-left: 22px
+
+blockquote
+  font-style: italic
+  background: image-url("blockquote-bg.png") no-repeat 5px 3px
+
+.file-thumbs
+  margin: 20px 0 0
+  overflow: hidden
+  float: left
+  a
+    display: block
+    float: left
+    margin-right: 10px
+    text-align: center
+    img
+      display: block
+      margin: 0 auto 5px
+      border: 1px solid #226D81
+      &.pdf
+        border: 0

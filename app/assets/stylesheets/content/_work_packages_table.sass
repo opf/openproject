@@ -47,11 +47,11 @@ table.workpackages-table
   width: 100%
   margin: 0
 
-  col    
+  col
     &:hover,
     &.hover
       background:   #f8f8f8
-      
+
   thead th
     text-transform: uppercase
     font-size: 14px
@@ -89,6 +89,12 @@ table.workpackages-table
       a
         text-decoration: none
         color: $global_font_color
+
+  td
+    max-width: 300px
+    overflow:  hidden
+    text-overflow: ellipsis
+
   p
     padding: 0 8px
     margin: 0

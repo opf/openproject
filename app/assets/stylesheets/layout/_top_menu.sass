@@ -44,10 +44,14 @@
 #top-menu
   background-color: $header_bg_color
   height: $header_height
+  width: 100%
   padding: 0px
   z-index: 21
   position: relative
   border-bottom: $header_border_bottom_width solid $header_border_bottom_color
+
+  %absolute-layout-mode &
+    position: absolute
 
   #search
     margin: 7px 25px 0 0

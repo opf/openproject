@@ -52,6 +52,7 @@ body
 
   background-size: $main_menu_width 100%
   min-height: 100%
+  height: auto
   position: relative
   &.nosidebar, &.nomenus
     background: none
@@ -74,14 +75,16 @@ h4, .wiki h3
   border-bottom: 1px dotted #bbbbbb
 
 #main
-  position: relative
   z-index: 20
-  padding-bottom: 155px
   overflow: auto
-  
-.controller-work_packages
-  #main
-    padding-bottom: 23px
+  padding-bottom: $footer_height
+
+  %absolute-layout-mode &
+    position: absolute
+    top:      55px
+    bottom:   $footer_height
+    width:    100%
+    overflow: hidden
 
 #content
   @include default-transition
@@ -93,11 +96,24 @@ h4, .wiki h3
   background-color: #fff
   border-style: none solid solid solid
   z-index: 10
+
+  %absolute-layout-mode &
+    box-sizing: border-box
+    height:     100%
+
   &.hidden-navigation
     margin-left: $main_menu_folded_width
+
+    %absolute-layout-mode &
+      width:    calc(100% - #{$main_menu_folded_width})
+
   &.nosidebar
     margin-left: 0
-    padding: 45px 60px 50px 25px
+    padding: 20px 40px
+
+    %absolute-layout-mode &
+      width:    100%
+
   &:after
     content: "."
     display: block

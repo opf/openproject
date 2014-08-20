@@ -86,21 +86,18 @@
   </ul>
 </div>
 
-<div class="title-bar" ng-show="showFiltersOptions">
-  <div class="title-bar-extras">
+<div class="work-packages--filters-optional-container" ng-show="showFiltersOptions">
+  <div query-form id="query_form_content" class="hide-when-print">
+    <query-filters></query-filters>
+  </div>
 
-    <div query-form id="query_form_content" class="hide-when-print">
-      <query-filters></query-filters>
-    </div>
-
-    <p class="buttons hide-when-print">
-      <filter-clear query="query">
+  <p class="buttons hide-when-print">
+    <filter-clear query="query">
     </filter-clear>
 
     <!-- TODO: serialize permission checks -->
     <!-- User.current.allowed_to?(:save_queries, project, :global => true) -->
   </p>
-  </div>
 </div>
 
 <back-url></back-url>
@@ -122,7 +119,8 @@
                            total-sums="totalSums"
                            group-sums="groupSums">
       </work-packages-table>
-
+    </div>
+    <div class="work-packages--list-pagination-area">
       <table-pagination total-entries="totalEntries">
       </table-pagination>
     </div>
