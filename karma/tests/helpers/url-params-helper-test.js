@@ -60,12 +60,18 @@ describe('UrlParamsHelper', function() {
     var query;
 
     beforeEach(function() {
-      var filter = {
+      var filter1 = {
         modelName: 'soße',
         name: 'soße_id',
-        type: 'list model',
+        type: 'list_model',
         operator: '=',
         values: ['knoblauch']
+      };
+      var filter2 = {
+        name: 'created_at',
+        type: 'date_past',
+        operator: '<t-',
+        textValue: '5'
       };
       query = new Query({
         id: 1,
@@ -75,13 +81,13 @@ describe('UrlParamsHelper', function() {
         columns: [{ name: 'type' }, { name: 'status' }, { name: 'soße' }],
         groupBy: 'status',
         sortCriteria: 'type:desc',
-        filters: [filter]
+        filters: [filter1, filter2]
       }, { rawFilters: true });
     });
 
     it('should encode query to params JSON', function() {
       var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"m\":\"soße\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}]}";
       expect(encodedJSON).to.eq(expectedJSON);
     })
   });
@@ -91,7 +97,7 @@ describe('UrlParamsHelper', function() {
     var queryId;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"m\":\"soße\",\"o\":\"%3D\",\"t\":\"list model\",\"v\":[\"knoblauch\"]}]}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}]}";
       queryId = 2;
     });
 
@@ -106,11 +112,15 @@ describe('UrlParamsHelper', function() {
         groupBy: 'status',
         sortCriteria: 'type:desc',
         filters: [{
-          modelName: 'soße',
           name: 'soße_id',
-          type: 'list model',
+          type: 'list_model',
           operator: '=',
           values: ['knoblauch']
+        },{
+          name: 'created_at',
+          type: 'date_past',
+          operator: '<t-',
+          values: ['5']
         }]
       };
 
