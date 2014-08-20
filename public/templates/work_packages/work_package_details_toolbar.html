@@ -1,7 +1,7 @@
 <div class="work-packages--details-toolbar">
   <button class="button" ng-click="editWorkPackage()"><i class="icon-left icon-edit"></i>{{ I18n.t('js.button_edit') }}</button>
   <button class="button dropdown-relative"
-          ng-disabled="!actionsAvailable"
+          ng-disabled="!(actionsAvailable || pluginActionsAvailable)"
           with-dropdown
           dropdown-id="moreDropdown">
     {{ I18n.t('js.button_more') }}
@@ -16,6 +16,18 @@
         class="{{action}}">
       <a href
          ng-class="['icon-context', 'icon-' + action]"
+         ng-click="deleteWorkPackages()"
+         ng-bind="I18n.t('js.button_' + action)">
+      </a>
+    </li>
+  </ul>
+  <hr ng-if="actionsAvailable && pluginActionsAvailable"/>
+  <ul class="dropdown-menu" ng-if="pluginActionsAvailable">
+    <li ng-repeat="(action, properties) in permittedPluginActions"
+        ng-click="triggerMoreMenuAction(action, properties.link)"
+        class="{{action}}">
+      <a href
+         ng-class="['icon-context'].concat(properties.css)"
          ng-click="deleteWorkPackages()"
          ng-bind="I18n.t('js.button_' + action)">
       </a>

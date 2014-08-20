@@ -37,6 +37,7 @@ angular.module('openproject.workPackages.directives')
   'I18n',
   'flags',
   'PathHelper',
+  'HookService',
   'WorkPackagesTableService',
   'WorkPackageService',
   'WorkPackageAuthorization',
@@ -46,9 +47,31 @@ angular.module('openproject.workPackages.directives')
            I18n,
            flags,
            PathHelper,
+           HookService,
            WorkPackagesTableService,
            WorkPackageService,
            WorkPackageAuthorization) {
+
+  function getPermittedPluginActions(authorization) {
+    var pluginActions = HookService.call('workPackageDetailsMoreMenu').reduce(function(previousValue, currentValue) {
+                          return angular.extend(previousValue, currentValue);
+                        }, { });
+
+    var permittedPluginActions = authorization.permittedActions(Object.keys(pluginActions));
+    var augmentedPluginActions = { };
+
+    angular.forEach(permittedPluginActions, function(value, key) {
+      var css = [].concat(pluginActions[key]);
+
+      if (css.length == 0) {
+        css = ["icon-" + key];
+      }
+
+      this[key] = { link: value, css: css };
+    }, augmentedPluginActions);
+
+    return augmentedPluginActions;
+  }
 
   return {
     restrict: 'E',
@@ -62,7 +85,9 @@ angular.module('openproject.workPackages.directives')
 
       scope.I18n = I18n;
       scope.permittedActions = authorization.permittedActions(PERMITTED_MORE_MENU_ACTIONS);
+      scope.permittedPluginActions = getPermittedPluginActions(authorization);
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
+      scope.pluginActionsAvailable = Object.keys(scope.permittedPluginActions).length > 0;
 
       scope.editWorkPackage = function() {
         // TODO: Temporarily going to the old edit dialog until we get in-place editing done
