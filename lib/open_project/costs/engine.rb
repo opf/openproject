@@ -108,6 +108,13 @@ module OpenProject::Costs
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
 
+      link :log_costs do
+        {
+          href: new_work_packages_cost_entry_path(represented.model),
+          title: "Log costs on #{represented.subject}"
+        } if current_user_allowed_to(:log_costs, represented.model)
+      end
+
       property :cost_object,
                exec_context: :decorator,
                embedded: true,
