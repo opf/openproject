@@ -153,6 +153,7 @@ module OpenProject::Costs
 
     assets %w(angular/work_packages/directives/summarized-cost-entries-directive.js
               angular/work_packages/directives/cost-object-directive.js
+              angular/work_packages/directives/spent-hours-directive.js
               angular/openproject-costs-app.js
               costs/costs.css
               costs/costs.js
