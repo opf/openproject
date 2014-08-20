@@ -32,6 +32,7 @@ describe('Work Package Relations Directive', function() {
   beforeEach(angular.mock.module('openproject.workPackages.tabs',
                                  'openproject.api',
                                  'openproject.helpers',
+                                 'openproject.models',
                                  'openproject.services',
                                  'ngSanitize'));
 

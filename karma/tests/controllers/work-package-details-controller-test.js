@@ -94,6 +94,7 @@ describe('WorkPackageDetailsController', function() {
   }
 
   beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
+
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
@@ -101,6 +102,12 @@ describe('WorkPackageDetailsController', function() {
 
     $provide.constant('ConfigurationService', configurationService);
   }));
+
+  beforeEach(module('templates', function($provide) {
+    var state = { go: function() { return false; } };
+    $provide.value('$state', state);
+  }));
+
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     var workPackageId = 99;
 

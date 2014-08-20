@@ -54,6 +54,8 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/layout/**/*.js",
       "app/assets/javascripts/angular/work_packages/**/*.js",
 
+      "app/assets/javascripts/lib/jquery.trap.js",
+
       'app/assets/javascripts/autocompleter.js',
       'app/assets/javascripts/members_select_boxes.js',
       'app/assets/javascripts/openproject.js',

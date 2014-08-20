@@ -58,7 +58,10 @@ describe('WorkPackageService', function() {
     }));
 
     beforeEach(inject(function($http) {
-      WorkPackageService.performBulkDelete(workPackages);
+      var ids = workPackages.map(function(wp) {
+        return wp.id;
+      });
+      WorkPackageService.performBulkDelete(ids);
     }));
 
     it('sends a delete request', function() {

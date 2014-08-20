@@ -29,7 +29,9 @@
 describe('workPackageGroupSums Directive', function() {
     var compile, element, rootScope, scope;
 
-    beforeEach(angular.mock.module('openproject.workPackages.directives', 'openproject.services'));
+    beforeEach(angular.mock.module('openproject.workPackages.directives',
+                                   'openproject.models',
+                                   'openproject.services'));
     beforeEach(module('openproject.api', 'templates', function($provide) {
       configurationService = new Object();
 
