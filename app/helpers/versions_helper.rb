@@ -28,6 +28,7 @@
 #++
 
 module VersionsHelper
+  include WorkPackagesFilterHelper
 
   STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 
@@ -55,4 +56,5 @@ module VersionsHelper
   def status_by_options_for_select(value)
     options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [WorkPackage.human_attribute_name(criteria.to_sym), criteria]}, value)
   end
+
 end

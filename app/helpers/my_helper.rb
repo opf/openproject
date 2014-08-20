@@ -28,6 +28,8 @@
 #++
 
 module MyHelper
+  include WorkPackagesFilterHelper
+
   def calendar_items(startdt, enddt)
     WorkPackage.visible.
       where(:project_id => User.current.projects.map(&:id)).
@@ -39,4 +41,5 @@ module MyHelper
   def deletion_info_path
     url_for(:delete_my_account_info)
   end
+
 end

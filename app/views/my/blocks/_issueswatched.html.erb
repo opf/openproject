@@ -40,8 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched } %>
 <% if watched.length > 0 %>
   <p class="small">
-    <%= link_to(I18n.t(:label_work_package_view_all_watched),
-      {controller: :work_packages, action: :index, set_filter: 1, watcher_id: 'me', sort: 'updated_at:desc'},
-      :class => 'button_highlight') %>
+    <%= link_to l(:label_work_package_view_all_watched), work_packages_watched_path, :class => 'button_highlight' %>
   </p>
 <% end %>

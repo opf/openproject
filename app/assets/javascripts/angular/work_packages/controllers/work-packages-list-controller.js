@@ -55,8 +55,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    var queryParams = $location.search().query_props;
 
+    var queryParams = $location.search().query_props;
     var fetchWorkPackages;
     if(queryParams) {
       // Attempt to build up query from URL params

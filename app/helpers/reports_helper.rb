@@ -28,6 +28,7 @@
 #++
 
 module ReportsHelper
+  include WorkPackagesFilterHelper
 
   def aggregate(data, criteria)
     a = 0
@@ -45,4 +46,5 @@ module ReportsHelper
     a = aggregate data, criteria
     a > 0 ? link_to(h(a), *args) : '-'
   end
+
 end
