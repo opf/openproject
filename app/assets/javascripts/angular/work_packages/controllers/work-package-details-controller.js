@@ -28,7 +28,6 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.constant('VISIBLE_LATEST')
 .constant('RELATION_TYPES', {
   relatedTo: "Relation::Relates",
   duplicates: "Relation::Duplicates",
@@ -51,11 +50,9 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
-  '$state',
   'latestTab',
   'workPackage',
   'I18n',
-  'VISIBLE_LATEST',
   'RELATION_TYPES',
   'RELATION_IDENTIFIERS',
   '$q',
@@ -66,7 +63,7 @@ angular.module('openproject.workPackages.controllers')
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  function($scope, $state, latestTab, workPackage, I18n, VISIBLE_LATEST, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+  function($scope, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });

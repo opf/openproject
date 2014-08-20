@@ -35,8 +35,6 @@ angular.module('openproject.workPackages.directives')
   '$state',
   '$window',
   'I18n',
-  'flags',
-  'PathHelper',
   'HookService',
   'WorkPackagesTableService',
   'WorkPackageService',
@@ -45,8 +43,6 @@ angular.module('openproject.workPackages.directives')
            $state,
            $window,
            I18n,
-           flags,
-           PathHelper,
            HookService,
            WorkPackagesTableService,
            WorkPackageService,
@@ -75,7 +71,6 @@ angular.module('openproject.workPackages.directives')
 
   return {
     restrict: 'E',
-    replace: true,
     templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
     scope: {
       workPackage: '=',
