@@ -91,6 +91,7 @@ describe('Work Package Relations Directive', function() {
     relationsHandler.isEmpty = sinon.stub();
     relationsHandler.getCount = sinon.stub();
     relationsHandler.canAddRelation = sinon.stub();
+    relationsHandler.canDeleteRelation = sinon.stub();
     relationsHandler.addRelation = sinon.stub();
     relationsHandler.applyCustomExtensions = sinon.stub();
 
@@ -331,6 +332,7 @@ describe('Work Package Relations Directive', function() {
     describe('readonly', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
+        scope.relations.canDeleteRelation.returns(true);
 
         compile(html);
 
@@ -353,6 +355,7 @@ describe('Work Package Relations Directive', function() {
         scope.relations = relationsHandlerSingle;
         scope.relations.relations = [relation2];
         scope.relations.canAddRelation.returns(true);
+        scope.relations.canDeleteRelation.returns(false);
 
         compile(html);
 

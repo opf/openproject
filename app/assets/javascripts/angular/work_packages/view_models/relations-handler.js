@@ -57,6 +57,10 @@ angular.module('openproject.viewModels')
       return !!this.workPackage.links.addRelation;
     },
 
+    canDeleteRelation: function(relation) {
+      return !!relation.links.remove;
+    },
+
     addRelation: function(scope) {
       var inputElement = angular.element('#relation_to_id-' + this.relationsId);
       var toId = inputElement.val();
@@ -124,6 +128,9 @@ angular.module('openproject.viewModels')
         handler.applyCustomExtensions = undefined;
 
         handler.canAddRelation = function() { return true };
+        handler.canDeleteRelation = function() {
+          return !!this.workPackage.links.update;
+        };
         handler.addRelation = function() {
             window.location = PathHelper.staticWorkPackageNewWithParentPath(
                 this.workPackage.props.projectId, this.workPackage.props.id
@@ -156,6 +163,7 @@ angular.module('openproject.viewModels')
         handler.relationsId = relationsId;
 
         handler.canAddRelation = function() { return !!this.workPackage.links.update; };
+        handler.canDeleteRelation = function() { return false; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.addRelation = function(scope) {
             var inputElement = angular.element('#relation_to_id-' + this.relationsId);

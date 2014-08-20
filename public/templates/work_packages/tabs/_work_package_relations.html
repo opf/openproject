@@ -34,7 +34,7 @@
               <td><i title="Delete relation"
                      class="delete-item icon-delete"
                      ng-click="handler.removeRelation(this)"
-                     ng-if="canDeleteRelation"></i>
+                     ng-if="handler.canDeleteRelation(relation)"></i>
               </td>
             </tr>
 
