@@ -2,7 +2,7 @@
 
 set -e
 
-TARGET="/var/db/openproject/backup"
+TARGET="/var/db/${APP_NAME}/backup"
 
 mkdir -p "${TARGET}"
 
@@ -14,8 +14,9 @@ tmpfile=$(mktemp)
 
 database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
 
-ruby -ruri -e '
+ruby -ruri -rcgi -e '
   uri = URI(ENV["DATABASE_URL"])
+  params = CGI.parse(uri.query || "")
   config=<<CONFIG
 [client]
 password="#{uri.password}"
@@ -23,6 +24,9 @@ user="#{uri.user}"
 host="#{uri.host}"
 port="#{uri.port}"
 CONFIG
+  config += %{ssl-key="#{params["sslkey"].first}"\n} if params.has_key?("sslkey")
+  config += %{ssl-cert="#{params["sslcert"].first}"\n} if params.has_key?("sslcert")
+  config += %{ssl-ca="#{params["sslca"].first}"\n} if params.has_key?("sslca")
   puts config' > ${tmpfile}
 
 dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
@@ -60,11 +64,11 @@ else
   echo "* No attachments folder. Ignoring." >&2
 fi
 
-if [ -d "/etc/openproject/conf.d" ]; then
+if [ -d "/etc/${APP_NAME}/conf.d" ]; then
   dst="${TARGET}/conf-${timestamp}.tar.gz"
   touch "$dst" && chmod 0640 "$dst"
   echo -n "* Saving configuration..." >&2
-  if tar czf "$dst" -C /etc/openproject/conf.d . ; then
+  if tar czf "$dst" -C /etc/${APP_NAME}/conf.d . ; then
     echo " done" >&2
     echo "$dst"
   else
