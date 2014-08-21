@@ -190,10 +190,10 @@ angular.module('openproject.services')
       var params = {
         'ids[]': ids
       };
-      var promis = $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
+      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
 
       if (defaultHandling) {
-        promis.success(function(data, status) {
+        promise.success(function(data, status) {
                 // TODO wire up to API and processs API response
                 $rootScope.$emit('flashMessage', {
                   isError: false,
@@ -211,7 +211,7 @@ angular.module('openproject.services')
               });
       }
 
-      return promis;
+      return promise;
     }
   };
 

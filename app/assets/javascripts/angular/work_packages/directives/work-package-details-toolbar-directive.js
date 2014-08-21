@@ -101,9 +101,9 @@ angular.module('openproject.workPackages.directives')
       };
 
       function deleteSelectedWorkPackage() {
-        var promis = WorkPackageService.performBulkDelete([scope.workPackage.props.id], true);
+        var promise = WorkPackageService.performBulkDelete([scope.workPackage.props.id], true);
 
-        promis.success(function(data, status) {
+        promise.success(function(data, status) {
           $state.go('work-packages.list');
         });
       }
