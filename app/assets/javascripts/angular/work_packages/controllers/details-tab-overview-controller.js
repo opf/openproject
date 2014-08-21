@@ -128,7 +128,9 @@ angular.module('openproject.workPackages.controllers')
       remainingPropertiesByLabels[label] = property;
     }
 
-    propertyLabels = Object.keys(remainingPropertiesByLabels).sort();
+    propertyLabels = Object.keys(remainingPropertiesByLabels).sort(function(a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
 
     for (var x = 0; x < propertyLabels.length; x++) {
       workPackagePropertiesInSpecificOrder.push(remainingPropertiesByLabels[propertyLabels[x]]);
