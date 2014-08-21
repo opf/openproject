@@ -40,6 +40,9 @@ body
   line-height: $global_line_height
   background: white
 
+  &%absolute-layout-mode
+    overflow: hidden
+
 #wrapper
   @include default-transition
   background-image: -webkit-gradient(linear, left 0%, left 100%, from($main_menu_bg_color), to($main_menu_bg_color))
