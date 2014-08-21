@@ -10,32 +10,11 @@ log_ko() {
   echo -e "\e[31m[ko]\e[0m $1"
 }
 
-tmpfile=$(mktemp)
-
-if [ -z "$DATABASE_URL" ]; then
-  log_ko "DATABASE_URL environment variable can't be found. Database connection failed."
+# try to get a setting to make sure database connection works
+if rake setting:get[protocol] &>/dev/null; then
+  log_ok "MySQL configuration is working"
 else
-
-  database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
-
-  ruby -ruri -e '
-    uri = URI(ENV["DATABASE_URL"])
-    config=<<CONFIG
-[client]
-password="#{uri.password}"
-user="#{uri.user}"
-host="#{uri.host}"
-port="#{uri.port}"
-CONFIG
-    puts config' > ${tmpfile}
-
-  if mysql --defaults-file=${tmpfile} -D "${database}" -e "select count(*) from users;" &>/dev/null ; then
-    log_ok "MySQL configuration is working"
-  else
-    log_ko "MySQL connection is NOT working"
-  fi
-
-  rm -f $tmpfile
+  log_ko "MySQL connection is NOT working"
 fi
 
 if /etc/init.d/apache2 status &>/dev/null; then
