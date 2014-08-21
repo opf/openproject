@@ -111,6 +111,7 @@ module OpenProject::Costs
       link :log_costs do
         {
           href: new_work_packages_cost_entry_path(represented.model),
+          type: 'text/html',
           title: "Log costs on #{represented.subject}"
         } if current_user_allowed_to(:log_costs, represented.model)
       end
