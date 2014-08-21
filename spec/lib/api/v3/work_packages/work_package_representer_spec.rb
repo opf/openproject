@@ -36,6 +36,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
   let(:work_package) { FactoryGirl.build(:work_package,
+      id: 42,
       created_at: DateTime.now,
       updated_at: DateTime.now
     )
@@ -218,6 +219,34 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             it { expect(parse_json(subject)["_links"]["children"][0]["title"]).to eq(child.subject) }
           end
+        end
+      end
+
+      describe 'delete' do
+        it_behaves_like 'action link' do
+          let(:action) { 'delete' }
+          let(:permission) { :delete_work_packages }
+        end
+      end
+
+      describe 'delete' do
+        it_behaves_like 'action link' do
+          let(:action) { 'log_time' }
+          let(:permission) { :log_time }
+        end
+      end
+
+      describe 'duplicate' do
+        it_behaves_like 'action link' do
+          let(:action) { 'duplicate' }
+          let(:permission) { :add_work_packages }
+        end
+      end
+
+      describe 'move' do
+        it_behaves_like 'action link' do
+          let(:action) { 'move' }
+          let(:permission) { :move_work_packages }
         end
       end
     end
