@@ -11,4 +11,12 @@ namespace :setting do
       end
     end
   end
+
+  desc "Allow to get a Setting: rake setting:get[key]"
+  task :get, [:key] => :environment do |t,args|
+    setting = Setting.find_by_name(args[:key])
+    unless setting.nil?
+      puts(setting.value)
+    end
+  end
 end
