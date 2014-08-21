@@ -37,7 +37,10 @@ angular.module('openproject.services')
   'HALAPIResource',
   'DEFAULT_FILTER_PARAMS',
   'DEFAULT_PAGINATION_OPTIONS',
-  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS) {
+  '$rootScope',
+  '$window',
+  'WorkPackagesTableService',
+  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
   var workPackage;
 
   var WorkPackageService = {
@@ -179,13 +182,36 @@ angular.module('openproject.services')
       });
     },
 
-    performBulkDelete: function(workPackages) {
+    performBulkDelete: function(ids, defaultHandling) {
+      if (defaultHandling && !$window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'))) {
+        return;
+      }
+
       var params = {
-        'ids[]': workPackages.map(function(wp) {
-          return wp.id;
-        })
+        'ids[]': ids
       };
-      return $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
+      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
+
+      if (defaultHandling) {
+        promise.success(function(data, status) {
+                // TODO wire up to API and processs API response
+                $rootScope.$emit('flashMessage', {
+                  isError: false,
+                  text: I18n.t('js.work_packages.message_successful_bulk_delete')
+                });
+
+                WorkPackagesTableService.removeRowsById(ids);
+              })
+              .error(function(data, status) {
+                // TODO wire up to API and processs API response
+                $rootScope.$emit('flashMessage', {
+                  isError: true,
+                  text: I18n.t('js.work_packages.message_error_during_bulk_delete')
+                });
+              });
+      }
+
+      return promise;
     }
   };
 

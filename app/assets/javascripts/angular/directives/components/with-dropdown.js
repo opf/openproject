@@ -33,7 +33,7 @@ angular.module('openproject.uiComponents')
 
     function position(dropdown, trigger) {
       var hOffset = 0,
-        vOffset = 0;
+          vOffset = 0;
 
       if( dropdown.length === 0 || !trigger ) return;
 
@@ -42,12 +42,23 @@ angular.module('openproject.uiComponents')
 
       // Position the dropdown relative-to-parent or relative-to-document
       if (dropdown.hasClass('dropdown-relative')) {
-        dropdown.css({
-          left: dropdown.hasClass('dropdown-anchor-right') ?
+        leftPosition = dropdown.hasClass('dropdown-anchor-right') ?
             trigger.position().left - (dropdown.outerWidth(true) - trigger.outerWidth(true)) - parseInt(trigger.css('margin-right')) + hOffset :
-            trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset,
-          top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
-        });
+            trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset;
+
+        if (dropdown.hasClass('dropdown-up')) {
+          var dropdownHeight = dropdown.outerHeight(true);
+
+          dropdown.css({
+            left: leftPosition,
+            top: trigger.position().top - dropdownHeight + parseInt(trigger.css('margin-top')) - vOffset
+          });
+        } else {
+          dropdown.css({
+            left: leftPosition,
+            top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
+          });
+        }
       } else {
         dropdown.css({
           left: dropdown.hasClass('dropdown-anchor-right') ?
@@ -55,6 +66,16 @@ angular.module('openproject.uiComponents')
           top: trigger.offset().top + trigger.outerHeight() + vOffset
         });
       }
+    }
+
+    function accessDropdown(dropdown) {
+      var links = dropdown.find('a');
+
+      if (links.length > 0) {
+        angular.element(links[0]).focus();
+      }
+
+      angular.element(dropdown).trap();
     }
 
     return {
@@ -89,9 +110,17 @@ angular.module('openproject.uiComponents')
           if (showDropdown) dropdown.show();
 
           position(dropdown, trigger);
+          accessDropdown(dropdown);
 
           if(attributes.focusElementId) {
             angular.element('#' + attributes.focusElementId).focus();
+          }
+        });
+
+        angular.element(dropdown).on('keyup', function(even) {
+          if (event.keyCode === 27) {
+            scope.$emit('hideAllDropdowns');
+            angular.element(element).focus();
           }
         });
       }

@@ -29,6 +29,7 @@
 /*jshint expr: true*/
 
 describe('WorkPackageContextMenuHelper', function() {
+  var PERMITTED_CONTEXT_MENU_ACTIONS = ['edit', 'log_time', 'update', 'move'];
   var WorkPackageContextMenuHelper;
 
   beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api', 'openproject.services'));
@@ -67,12 +68,14 @@ describe('WorkPackageContextMenuHelper', function() {
       var workPackages = new Array(workPackage);
 
       it('returns the link of a listed action', function() {
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).to.have.property(permittedAction);
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)[permittedAction]).to.equal('/work_packages/123/edit');
+        var permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages, PERMITTED_CONTEXT_MENU_ACTIONS);
+        expect(permittedActions).to.have.property(permittedAction);
+        expect(permittedActions[permittedAction]).to.equal('/work_packages/123/edit');
       });
 
       it('does not return the link of an action which is not listed', function() {
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).not.to.have.property(notPermittedAction);
+        var permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages, PERMITTED_CONTEXT_MENU_ACTIONS);
+        expect(permittedActions).not.to.have.property(notPermittedAction);
       });
     });
 

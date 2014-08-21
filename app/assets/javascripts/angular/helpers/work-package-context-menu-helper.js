@@ -28,13 +28,12 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
-.constant('PERMITTED_BULK_ACTIONS',         ['edit', 'watch', 'move', 'copy', 'delete'])
+.constant('PERMITTED_BULK_ACTIONS', ['edit', 'watch', 'move', 'copy', 'delete'])
 
-.service('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'WorkPackagesTableService', 'UrlParamsHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
-  function getPermittedActionLinks(workPackage) {
+.service('WorkPackageContextMenuHelper', ['PERMITTED_BULK_ACTIONS', 'WorkPackagesTableService', 'UrlParamsHelper', function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
+  function getPermittedActionLinks(workPackage, permittedActionConstansts) {
     var linksToPermittedActions = {};
-    var permittedActions = getIntersection([workPackage._actions, PERMITTED_CONTEXT_MENU_ACTIONS]);
+    var permittedActions = getIntersection([workPackage._actions, permittedActionConstansts]);
 
     angular.forEach(permittedActions, function(permittedAction) {
       linksToPermittedActions[permittedAction] = workPackage._links[permittedAction];
@@ -89,9 +88,9 @@ angular.module('openproject.workPackages.helpers')
   }
 
   var WorkPackageContextMenuHelper = {
-    getPermittedActions: function(workPackages) {
+    getPermittedActions: function(workPackages, permittedActionConstansts) {
       if (workPackages.length === 1) {
-        return getPermittedActionLinks(workPackages[0]);
+        return getPermittedActionLinks(workPackages[0], permittedActionConstansts);
       } else if (workPackages.length > 1) {
         return getIntersectOfPermittedActions(workPackages);
       }

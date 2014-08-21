@@ -23,6 +23,7 @@ module.exports = function(config) {
       "vendor/assets/components/jquery/dist/jquery.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
+      "vendor/assets/components/angular-ui-router/release/angular-ui-router.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
       "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
       "vendor/assets/components/angular-modal/modal.js",
@@ -53,6 +54,8 @@ module.exports = function(config) {
 
       "app/assets/javascripts/angular/layout/**/*.js",
       "app/assets/javascripts/angular/work_packages/**/*.js",
+
+      "app/assets/javascripts/lib/jquery.trap.js",
 
       'app/assets/javascripts/autocompleter.js',
       'app/assets/javascripts/members_select_boxes.js',

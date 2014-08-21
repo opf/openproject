@@ -28,6 +28,8 @@
 
 angular.module('openproject.workPackages')
 
+.constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
+
 .factory('WorkPackageContextMenu', [
   'ngContextMenu',
   function(ngContextMenu) {
@@ -48,7 +50,8 @@ angular.module('openproject.workPackages')
   'WorkPackagesTableService',
   'I18n',
   '$window',
-  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window) {
+  'PERMITTED_CONTEXT_MENU_ACTIONS',
+  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 
@@ -60,7 +63,7 @@ angular.module('openproject.workPackages')
     }
 
     $scope.row.checked = true;
-    $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages());
+    $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
   });
 
 
@@ -73,31 +76,9 @@ angular.module('openproject.workPackages')
   };
 
   function deleteSelectedWorkPackages() {
-    if (!deleteConfirmed()) return;
-
     var rows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
-    WorkPackageService.performBulkDelete(getSelectedWorkPackages())
-      .success(function(data, status) {
-        // TODO wire up to API and processs API response
-        $rootScope.$emit('flashMessage', {
-          isError: false,
-          text: I18n.t('js.work_packages.message_successful_bulk_delete')
-        });
-
-        WorkPackagesTableService.removeRows(rows);
-      })
-      .error(function(data, status) {
-        // TODO wire up to API and processs API response
-        $rootScope.$emit('flashMessage', {
-          isError: true,
-          text: I18n.t('js.work_packages.message_error_during_bulk_delete')
-        });
-      });
-  }
-
-  function deleteConfirmed() {
-    return $window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'));
+    WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id }), true);
   }
 
   function getWorkPackagesFromSelectedRows() {

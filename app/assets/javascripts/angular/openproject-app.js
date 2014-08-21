@@ -90,10 +90,12 @@ angular.module('openproject.workPackages.controllers', [
   'openproject.layout',
   'btford.modal'
 ]);
+angular.module('openproject.workPackages.models', []);
 angular.module('openproject.workPackages.directives', [
   'openproject.uiComponents',
   'openproject.services',
-  'openproject.workPackages.services'
+  'openproject.workPackages.services',
+  'openproject.workPackages.models'
 ]);
 angular.module('openproject.workPackages.tabs', []);
 
