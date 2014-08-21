@@ -75,6 +75,7 @@ module API
         link :log_time do
           {
             href: new_work_package_time_entry_path(represented.model),
+            type: 'text/html',
             title: "Log time on #{represented.subject}"
           } if current_user_allowed_to(:log_time, represented.model)
         end
@@ -82,6 +83,7 @@ module API
         link :duplicate do
           {
             href: new_project_work_package_path(represented.model.project, copy_from: represented.model),
+            type: 'text/html',
             title: "Duplicate #{represented.subject}"
           } if current_user_allowed_to(:add_work_packages, represented.model)
         end
@@ -89,6 +91,7 @@ module API
         link :move do
           {
             href: new_work_package_move_path(represented.model),
+            type: 'text/html',
             title: "Move #{represented.subject}"
           } if current_user_allowed_to(:move_work_packages, represented.model)
         end
