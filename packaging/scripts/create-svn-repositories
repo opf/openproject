@@ -1,11 +1,13 @@
 #!/bin/bash
 
-SVN_REPOSITORIES=$(openproject config:get SVN_REPOSITORIES)
-PORT=$(openproject config:get PORT)
-SYS_API_KEY=$(openproject config:get SYS_API_KEY)
-APP_GROUP=$(openproject config:get APP_GROUP)
+APP_NAME="openproject"
+CLI="${APP_NAME}"
+SVN_REPOSITORIES=$(${CLI} config:get SVN_REPOSITORIES)
+PORT=$(${CLI} config:get PORT)
+SYS_API_KEY=$(${CLI} config:get SYS_API_KEY)
+APP_GROUP=$(${CLI} config:get APP_GROUP)
 
-/opt/openproject/bin/ruby /opt/openproject/extra/svn/reposman.rb \
+/opt/${APP_NAME}/bin/ruby /opt/${APP_NAME}/extra/svn/reposman.rb \
   --openproject-host "http://127.0.0.1:${PORT}" \
   --owner "www-data" \
   --group "${APP_GROUP}" \
