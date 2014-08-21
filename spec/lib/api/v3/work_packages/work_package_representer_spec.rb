@@ -55,13 +55,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     allow(User).to receive(:current).and_return user
   end
 
+  subject(:generated) { representer.to_json }
+
   describe 'generation' do
     before do
       cost_entry_1
       cost_entry_2
     end
-
-    subject(:generated) { representer.to_json }
 
     describe 'work_package' do
       it { should_not have_json_path('spentTime') }
@@ -74,6 +74,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { should have_json_path('_embedded/costObject') }
 
         it { should have_json_path('_embedded/summarizedCostEntries') }
+      end
+    end
+  end
+
+  describe '_links' do
+    describe 'move' do
+      it_behaves_like 'action link' do
+        let(:action) { 'log_costs' }
+        let(:permission) { :log_costs }
       end
     end
   end
