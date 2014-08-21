@@ -51,9 +51,9 @@ case "$1" in
     sys_api_key=$(${CLI} config:get SYS_API_KEY)
 
     # set various settings
-    db_get openproject/server/hostname
+    db_get ${APP_NAME}/server/hostname
     if [ -z "$RET" ]; then web_hostname=$(hostname -f); else web_hostname="$RET"; fi
-    db_get openproject/server/ssl
+    db_get ${APP_NAME}/server/ssl
     if [ "$RET" = "true" ]; then web_protocol="https"; else web_protocol="http"; fi
 
     ${CLI} run rake setting:set[host_name=${web_hostname},protocol=${web_protocol},sys_api_enabled=1,sys_api_key=${sys_api_key}] 1>/dev/null
