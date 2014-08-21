@@ -98,8 +98,10 @@ h4, .wiki h3
   z-index: 10
 
   %absolute-layout-mode &
+    position:   absolute
     box-sizing: border-box
-    height:     100%
+    width:      calc(100% - #{$main_menu_width})
+    height:     calc(100% - 40px)
 
   &.hidden-navigation
     margin-left: $main_menu_folded_width
