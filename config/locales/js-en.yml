@@ -176,6 +176,17 @@ en:
       precedes: "Precedes"
       follows: "Follows"
 
+    relation_buttons:
+      change_parent: "Change parent"
+      add_child: "Add child"
+      add_related_to: "Add related to"
+      add_duplicates: "Add duplicates"
+      add_duplicated_by: "Add duplicated by"
+      add_blocks: "Add blocks"
+      add_blocked_by: "Add blocked by"
+      add_precedes: "Add precedes"
+      add_follows: "Add follows"
+
     select2:
       input_too_short:
         one: "Please enter one more character"
@@ -281,6 +292,7 @@ en:
         date: "Datum"
         dueDate: "Due date"
         estimatedTime: "Estimated time"
+        spentTime: "Spent time"
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"
