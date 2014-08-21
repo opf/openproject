@@ -54,9 +54,9 @@ describe TypesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      @controller.stub(:require_login)
-      @controller.stub(:check_if_login_required)
-      @controller.stub(:require_admin)
+      allow(@controller).to receive(:require_login)
+      allow(@controller).to receive(:check_if_login_required)
+      allow(@controller).to receive(:require_admin)
     end
 
     describe "GET index" do

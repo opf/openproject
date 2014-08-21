@@ -527,7 +527,8 @@ describe WorkPackagesController, :type => :controller do
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
 
-        current_user.should_receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project).and_return(true);
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project)
+                                                     .and_return(true);
       end
 
       describe 'w/ having a successful save' do
