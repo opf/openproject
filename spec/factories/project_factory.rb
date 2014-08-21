@@ -126,7 +126,7 @@ FactoryGirl.define do
 
     @project_types = Array.new
     @planning_element_types = Array.new
-    @colors = PlanningElementTypeColor.ms_project_colors
+    @colors = PlanningElementTypeColor.colors
 
     # create some project types
 

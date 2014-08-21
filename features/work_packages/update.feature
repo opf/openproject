@@ -48,9 +48,10 @@ Feature: Updating work packages
       | Phase2 |
     And there is a role "manager"
     And the role "manager" may have the following rights:
-      | edit_work_packages |
-      | view_work_packages |
-      | manage_subtasks    |
+      | edit_work_packages     |
+      | view_work_packages     |
+      | manage_subtasks        |
+      | add_work_package_notes |
     And I am working in project "ecookbook"
     And the user "manager" is a "manager"
     And there are the following priorities:
