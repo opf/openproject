@@ -53,9 +53,10 @@ describe('DetailsTabOverviewController', function() {
           versionName: null,
           percentageDone: 0,
           estimatedTime: undefined,
+          spentTime: 'A lot!',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
-            { format: 'text', name: 'width', value: '' },
+            { format: 'text', name: 'Width', value: '' },
             { format: 'text', name: 'height', value: '' },
           ]
         },
@@ -382,9 +383,22 @@ describe('DetailsTabOverviewController', function() {
     });
 
     describe('Properties are sorted', function() {
+      beforeEach(function() {
+        var stub = sinon.stub(I18n, 't');
+
+        stub.withArgs('js.work_packages.properties.spentTime').returns('SpentTime');
+        stub.returnsArg(0);
+
+        buildController();
+      });
+
+      afterEach(function() {
+        I18n.t.restore();
+      });
+
       it('sorts list of non-empty properties', function() {
         var isSorted = function(element, index, array) {
-          return index === 0 || String(array[index - 1].label) <= String(element.label);
+          return index === 0 || String(array[index - 1].label.toLowerCase()) <= String(element.label.toLowerCase());
         };
         // Don't consider the first 6 properties because those are predefined
         // and will not be sorted.
@@ -393,7 +407,7 @@ describe('DetailsTabOverviewController', function() {
 
       it('sorts list of empty properties', function() {
         var isSorted = function(element, index, array) {
-          return index === 0 || String(array[index - 1]) <= String(element);
+          return index === 0 || String(array[index - 1].toLowerCase()) <= String(element.toLowerCase());
         };
         expect(scope.emptyWorkPackageProperties.every(isSorted)).to.be.true;
       });
