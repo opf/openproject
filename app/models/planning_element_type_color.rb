@@ -48,26 +48,22 @@ class PlanningElementTypeColor < ActiveRecord::Base
   validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
   validates_format_of :hexcode, :with => /\A#[0-9A-F]{6}\z/, :unless => lambda { |e| e.hexcode.blank? }
 
-  def self.ms_project_colors
-    # Colors should be limited to the ones in MS Project.
-    # http://msdn.microsoft.com/en-us/library/ff862872.aspx
+  def self.colors
     [
-      self.find_or_initialize_by_name_and_hexcode('pjBlack',   '#000000'),
-      self.find_or_initialize_by_name_and_hexcode('pjRed',     '#FF0013'),
-      self.find_or_initialize_by_name_and_hexcode('pjYellow',  '#FEFE56'),
-      self.find_or_initialize_by_name_and_hexcode('pjLime',    '#82FFA1'),
-      self.find_or_initialize_by_name_and_hexcode('pjAqua',    '#C0DDFC'),
-      self.find_or_initialize_by_name_and_hexcode('pjBlue',    '#1E16F4'),
-      self.find_or_initialize_by_name_and_hexcode('pjFuchsia', '#FF7FF7'),
-      self.find_or_initialize_by_name_and_hexcode('pjWhite',   '#FFFFFF'),
-      self.find_or_initialize_by_name_and_hexcode('pjMaroon',  '#850005'),
-      self.find_or_initialize_by_name_and_hexcode('pjGreen',   '#008025'),
-      self.find_or_initialize_by_name_and_hexcode('pjOlive',   '#7F8027'),
-      self.find_or_initialize_by_name_and_hexcode('pjNavy',    '#09067A'),
-      self.find_or_initialize_by_name_and_hexcode('pjPurple',  '#86007B'),
-      self.find_or_initialize_by_name_and_hexcode('pjTeal',    '#008180'),
-      self.find_or_initialize_by_name_and_hexcode('pjGray',    '#808080'),
-      self.find_or_initialize_by_name_and_hexcode('pjSilver',  '#BFBFBF')
+      self.find_or_initialize_by_name_and_hexcode('Black',      '#000000'),
+      self.find_or_initialize_by_name_and_hexcode('White',      '#FFFFFF'),
+      self.find_or_initialize_by_name_and_hexcode('Blue',       '#3399CC'),
+      self.find_or_initialize_by_name_and_hexcode('Mint',       '#66CCCC'),
+      self.find_or_initialize_by_name_and_hexcode('Lime',       '#66CC99'),
+      self.find_or_initialize_by_name_and_hexcode('Green-neon', '#00CC33'),
+      self.find_or_initialize_by_name_and_hexcode('Green',      '#339933'),
+      self.find_or_initialize_by_name_and_hexcode('Orange',     '#FFCC00'),
+      self.find_or_initialize_by_name_and_hexcode('Red',        '#CC3333'),
+      self.find_or_initialize_by_name_and_hexcode('Red-bright', '#FF3300'),
+      self.find_or_initialize_by_name_and_hexcode('Yellow',     '#FFFF00'),
+      self.find_or_initialize_by_name_and_hexcode('Purple',     '#CC0066'),
+      self.find_or_initialize_by_name_and_hexcode('Grey-dark',  '#666666'),
+      self.find_or_initialize_by_name_and_hexcode('Grey-light', '#DDDDDD')
     ]
   end
 
