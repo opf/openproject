@@ -62,6 +62,11 @@ $toggler-width: 40px
   background-color: $main_menu_bg_color
   @include default-transition
 
+  %absolute-layout-mode &
+    position: absolute
+    height:   100%
+    +allow-vertical-scrolling
+
   ul
     margin: 0
     padding: 0

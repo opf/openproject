@@ -75,12 +75,14 @@ angular.module('openproject.helpers')
         .map(function(filter) {
           var filterData = {
             n: filter.name,
-            m: filter.modelName,
             o: encodeURIComponent(filter.operator),
             t: filter.type
           };
+          if(filter.textValue) {
+            angular.extend(filterData, { v: filter.textValue });
+          }
           if(filter.values) {
-            angular.extend(filterData, { v: filter.values })
+            angular.extend(filterData, { v: filter.values });
           }
           return filterData
         });
@@ -114,7 +116,6 @@ angular.module('openproject.helpers')
           queryData.filters = properties.f.map(function(urlFilter) {
             var filterData = {
               name: urlFilter.n,
-              modelName: urlFilter.m,
               operator: decodeURIComponent(urlFilter.o),
               type: urlFilter.t
             };

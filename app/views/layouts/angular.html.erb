@@ -131,6 +131,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 
+
+  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+
+</div>
   <% if (show_decoration) %>
     <div id="footer">
       <div class="footer-content">
@@ -138,10 +142,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% end %>
-
-  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-
-</div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

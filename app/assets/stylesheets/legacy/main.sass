@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -23,42 +23,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * See doc/COPYRIGHT.rdoc for more details.  ++*/
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
 
-@import global/all
+.clear:after
+  content: "."
+  display: block
+  height: 0
+  clear: both
+  visibility: hidden
 
-#errorExplanation, div.flash, .nodata, .warning
-  padding: 4px
-  margin: 0 0 10px 0
-  color: $content_flash_msg_font_color
-  height: $content-flash-height
-
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
-  @include default-font-normal($content_flash_msg_font_color)
-  text-decoration: none
-  cursor: default
-
-div.flash
-  display: none
-
-  &.ng-leave
-    @include animation(0.5s fade-out)
-
-
-#errorExplanation
-  display: none
-  ul
-    font-size: 0.9em
-    margin-left: 30px
-  h2, p
-    @include hidden_for_sighted
-
-div.flash.error, #errorExplanation
-  background-color: $content_flash_error_msg_bg_color
-
-div.flash.notice
-  background-color: $content_flash_notice_msg_bg_color
-
-div.flash.warning, .nodata, .warning
-  background-color: $content_flash_warning_msg_bg_color
+@import "legacy/01_tables.sass"
+@import "legacy/02_tabular_forms.sass"
+@import "legacy/03_form_error_messages.sass"
+@import "legacy/04_ajax_indicator.sass"
+@import "legacy/05_tooltips.sass"
+@import "legacy/06_progress_bar.sass"
+@import "legacy/07_tabs.sass"
+@import "legacy/08_autocomplete.sass"
+@import "legacy/09_diff.sass"
+@import "legacy/10_work_package_quick_info.sass"
+@import "legacy/11_my_page_layout.sass"
+@import "legacy/12_base_typography.sass"
+@import "legacy/13_main_content.sass"
+@import "legacy/14_issue_table.sass"
+@import "legacy/15_single_issue_page.sass"
+@import "legacy/16_projects_page.sass"
+@import "legacy/17_behavior_styles.sass"
+@import "legacy/18_reusable_classes.sass"
+@import "legacy/19_misc.sass"
+@import "legacy/20_links.sass"
+@import "legacy/21_ajax_indicator.sass"
