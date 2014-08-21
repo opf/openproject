@@ -31,7 +31,7 @@ case "$1" in
     fi
 
     # create attachments folder
-    attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/openproject/files")
+    attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
     mkdir -p "${attachments_path}"
     chown ${APP_USER}.${APP_GROUP} "${attachments_path}"
     ${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
