@@ -340,3 +340,6 @@ en:
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
     notice_bad_request: "Bad Request."
+    relations:
+      empty: No relation exists
+      delete: Delete relation
