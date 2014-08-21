@@ -60,6 +60,17 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :api do
+    # Handles all routes of the now removed api v1.
+    # Always returns a 410.
+    # This does not care if the route actually existed to
+    # avoid maintaining knowledge of the now removed api.
+    match '/v1/*rest', via: [:get, :post, :put, :delete],
+                       to: proc {
+                         [410,
+                          { 'Content-Type' => 'text/plain' },
+                          ["OpenProject API v1 has been removed.\n" \
+                           'See https://www.openproject.org/news/65']]
+                       }
 
     namespace :v2 do
 
