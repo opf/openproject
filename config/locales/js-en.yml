@@ -176,6 +176,17 @@ en:
       precedes: "Precedes"
       follows: "Follows"
 
+    relation_buttons:
+      changeParent: "Change parent"
+      addChild: "Add child"
+      addRelatedTo: "Add related to"
+      addDuplicates: "Add duplicates"
+      addDuplicatedBy: "Add duplicated by"
+      addBlocks: "Add blocks"
+      addBlockedBy: "Add blocked by"
+      addPrecedes: "Add precedes"
+      addFollows: "Add follows"
+
     select2:
       input_too_short:
         one: "Please enter one more character"

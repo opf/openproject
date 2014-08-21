@@ -177,6 +177,17 @@ de:
       precedes: "Vorgänger von"
       follows: "Folgt"
 
+    relation_buttons:
+      changeParent: "Übergeordnete Aufgabe ändern"
+      addChild: "Unteraufgabe hinzufügen"
+      addRelatedTo: "Beziehung mit hinzufügen"
+      addDuplicates: "Duplikat von hinzufügen"
+      addDuplicatedBy: "Dupliziert durch hinzufügen"
+      addBlocks: "Blockiert hinzufügen"
+      addBlockedBy: "Blockiert durch hinzufügen"
+      addPrecedes: "Vorgänger von hinzufügen"
+      addFollows: "Folgt hinzufügen"
+
     select2:
       input_too_short:
         one: "Bitte geben Sie ein weiteres Zeichen ein"
