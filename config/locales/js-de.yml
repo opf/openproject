@@ -178,15 +178,15 @@ de:
       follows: "Folgt"
 
     relation_buttons:
-      changeParent: "Übergeordnete Aufgabe ändern"
-      addChild: "Unteraufgabe hinzufügen"
-      addRelatedTo: "Beziehung mit hinzufügen"
-      addDuplicates: "Duplikat von hinzufügen"
-      addDuplicatedBy: "Dupliziert durch hinzufügen"
-      addBlocks: "Blockiert hinzufügen"
-      addBlockedBy: "Blockiert durch hinzufügen"
-      addPrecedes: "Vorgänger von hinzufügen"
-      addFollows: "Folgt hinzufügen"
+      change_parent: "Übergeordnete Aufgabe ändern"
+      add_child: "Unteraufgabe hinzufügen"
+      add_related_to: "Beziehung mit hinzufügen"
+      add_duplicates: "Duplikat von hinzufügen"
+      add_duplicated_by: "Dupliziert durch hinzufügen"
+      add_blocks: "Blockiert hinzufügen"
+      add_blocked_by: "Blockiert durch hinzufügen"
+      add_precedes: "Vorgänger von hinzufügen"
+      add_follows: "Folgt hinzufügen"
 
     select2:
       input_too_short:

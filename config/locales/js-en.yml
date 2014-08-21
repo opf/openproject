@@ -177,15 +177,15 @@ en:
       follows: "Follows"
 
     relation_buttons:
-      changeParent: "Change parent"
-      addChild: "Add child"
-      addRelatedTo: "Add related to"
-      addDuplicates: "Add duplicates"
-      addDuplicatedBy: "Add duplicated by"
-      addBlocks: "Add blocks"
-      addBlockedBy: "Add blocked by"
-      addPrecedes: "Add precedes"
-      addFollows: "Add follows"
+      change_parent: "Change parent"
+      add_child: "Add child"
+      add_related_to: "Add related to"
+      add_duplicates: "Add duplicates"
+      add_duplicated_by: "Add duplicated by"
+      add_blocks: "Add blocks"
+      add_blocked_by: "Add blocked by"
+      add_precedes: "Add precedes"
+      add_follows: "Add follows"
 
     select2:
       input_too_short:
