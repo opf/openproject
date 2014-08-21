@@ -27,12 +27,12 @@
 //++
 
 describe('attachmentsTitle Directive', function() {
-    var compile, element, rootScope, scope;
+    var I18n, compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('templates'));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope, $compile, _I18n_) {
       var html;
       html = '<attachments-title attachments="attachments"></attachments-title>';
 
@@ -44,7 +44,17 @@ describe('attachmentsTitle Directive', function() {
         $compile(element)(scope);
         scope.$digest();
       };
+
+      I18n = _I18n_;
+
+      var stub = sinon.stub(I18n, 't');
+
+      stub.withArgs('js.work_packages.tabs.attachments').returns('Attachments');
     }));
+
+    afterEach(function() {
+      I18n.t.restore();
+    });
 
     describe('element', function() {
       beforeEach(function() {
