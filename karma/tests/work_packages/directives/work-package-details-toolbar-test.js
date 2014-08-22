@@ -155,7 +155,7 @@ describe('workPackageDetailsToolbar', function() {
   };
 
   describe('Core actions', function() {
-    var listRootSelector = 'ul:first-of-type.dropdown-menu';
+    var listRootSelector = 'ul.dropdown-menu';
     var actions = {
       log_time: 'icon-log_time',
       duplicate: 'icon-duplicate',
@@ -167,7 +167,7 @@ describe('workPackageDetailsToolbar', function() {
   });
 
   describe('Plugin actions', function() {
-    var listRootSelector = 'ul:last-of-type.dropdown-menu';
+    var listRootSelector = 'ul.dropdown-menu';
     var actions = {
       plugin_action_1: 'plugin_action_1_css_1',
       plugin_action_2: 'plugin_action_2_css_1'
