@@ -160,7 +160,7 @@ angular.module('openproject.timelines.models')
         this.start_date = this.due_date;
       }
       if (this.start_date_object === undefined && this.start_date !== undefined) {
-        this.start_date_object = Date.parse(this.start_date);
+        this.start_date_object = moment(this.start_date).toDate();
       }
       return this.start_date_object;
     },
@@ -171,7 +171,7 @@ angular.module('openproject.timelines.models')
         this.due_date = this.start_date;
       }
       if (this.due_date_object=== undefined && this.due_date !== undefined) {
-        this.due_date_object = Date.parse(this.due_date);
+        this.due_date_object = moment(this.due_date).toDate();
       }
       return this.due_date_object;
     },

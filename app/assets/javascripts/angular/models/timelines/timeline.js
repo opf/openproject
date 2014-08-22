@@ -379,14 +379,25 @@ angular.module('openproject.timelines.models')
     lastDateSeen: null,
 
     getBeginning: function() {
-      return (Date.parse(this.options.timeframe_start) ||
-                (this.firstDateSeen && this.firstDateSeen.clone() ||
-                 new Date()).last().monday());
+      if (this.options.timeframe_start) {
+        return moment(this.options.timeframe_start).toDate();
+      }
+      var startDate = new Date();
+      if (this.firstDateSeen) {
+        startDate = this.firstDateSeen.clone();
+      }
+      return startDate.last().monday();
     },
     getEnd: function() {
-      return (Date.parse(this.options.timeframe_end) ||
-                (this.lastDateSeen && this.lastDateSeen.clone() ||
-                 new Date()).addWeeks(1).next().sunday());
+      if (this.options.timeframe_end) {
+        return moment(this.options.timeframe_end).toDate();
+      }
+      var endDate = new Date();
+      if (this.lastDateSeen) {
+        endDate = this.lastDateSeen.clone();
+      }
+      return endDate.addWeeks(1).next().sunday();
+
     },
     getDaysBetween: function(a, b) {
       // some meat around date calculations that will be floored out again
