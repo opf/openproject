@@ -84,7 +84,11 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      MeetingMailer.content_for_review(@content, @content_type).deliver
+      recipients = @content.meeting.participants.collect{|p| p.mail}.reject{|r| r == @content.meeting.author.mail}
+      recipients << @content.meeting.author.mail unless @content.meeting.author.preference[:no_self_notified]
+      recipients.each do |recipient|
+        MeetingMailer.content_for_review(@content, @content_type, recipient).deliver
+      end
       flash[:notice] = l(:notice_successful_notification)
     end
     redirect_back_or_default :controller => '/meetings', :action => 'show', :id => @meeting

@@ -32,13 +32,15 @@ describe MeetingMailer, :type => :mailer do
   end
 
   before(:each) do
-    @participants = [meeting.participants.build(user: watcher1, invited: true, attended: false),
-                     meeting.participants.build(user: watcher2, invited: true, attended: false)]
+    author.pref[:no_self_notified] = false
+    author.save!
+    meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
+                                meeting.participants.build(user: watcher2, invited: true, attended: false)])
     meeting.save!
   end
 
   describe "content_for_review" do
-    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda' }
+    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author.mail}
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
       class A
@@ -48,15 +50,11 @@ describe MeetingMailer, :type => :mailer do
       A.new
     end
 
-
     it "renders the headers" do
       expect(mail.subject).to include(meeting.project.name)
       expect(mail.subject).to include(meeting.title)
-      expect(mail.to).to include(author.mail)
+      expect(mail.to).to match_array([author.mail])
       expect(mail.from).to eq([Setting.mail_from])
-      expect(mail.cc).not_to include(author.mail)
-      expect(mail.cc).to include(watcher1.mail)
-      expect(mail.cc).to include(watcher2.mail)
     end
 
     it "renders the text body" do
@@ -74,8 +72,8 @@ describe MeetingMailer, :type => :mailer do
     expect(body).to include(i18n.format_date meeting.start_date)
     expect(body).to include(i18n.format_time meeting.start_time, false)
     expect(body).to include(i18n.format_time meeting.end_time, false)
-    expect(body).to include(@participants[0].name)
-    expect(body).to include(@participants[1].name)
+    expect(body).to include(meeting.participants[0].name)
+    expect(body).to include(meeting.participants[1].name)
   end
 
   def save_and_open_mail_html_body(mail)
@@ -101,6 +99,5 @@ describe MeetingMailer, :type => :mailer do
     end
 
     FileUtils.rm(page_path)
-
   end
 end
