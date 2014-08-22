@@ -89,15 +89,15 @@ describe('Work Package Relations Directive', function() {
   var createRelationsHandlerStub = function($timeout, count) {
     var relationsHandler = new Object();
 
-    relationsHandler.workPackage = sinon.stub();
     relationsHandler.relationsId = sinon.stub();
     relationsHandler.isEmpty = sinon.stub();
     relationsHandler.getCount = sinon.stub();
     relationsHandler.canAddRelation = sinon.stub();
+    relationsHandler.canDeleteRelation = sinon.stub();
     relationsHandler.addRelation = sinon.stub();
     relationsHandler.applyCustomExtensions = sinon.stub();
 
-    relationsHandler.workPackage.returns(workPackage1);
+    relationsHandler.workPackage = workPackage1;
     relationsHandler.relationsId.returns('related');
     relationsHandler.isEmpty.returns(count === 0);
     relationsHandler.getCount.returns(count);
@@ -334,6 +334,7 @@ describe('Work Package Relations Directive', function() {
     describe('readonly', function() {
       beforeEach(inject(function($timeout) {
         scope.relations = relationsHandlerSingle;
+        scope.relations.canDeleteRelation.returns(true);
 
         compile(html);
 
@@ -356,6 +357,7 @@ describe('Work Package Relations Directive', function() {
         scope.relations = relationsHandlerSingle;
         scope.relations.relations = [relation2];
         scope.relations.canAddRelation.returns(true);
+        scope.relations.canDeleteRelation.returns(false);
 
         compile(html);
 

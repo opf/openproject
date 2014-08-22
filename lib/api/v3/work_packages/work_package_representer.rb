@@ -205,7 +205,7 @@ module API
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
         property :project_name, getter: -> (*) { model.project.try(:name) }
-        property :parent_id, render_nil: true
+        property :parent_id
         property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
 

@@ -50,7 +50,7 @@ module API
         property :updated_at,       type: DateTime
         property :author,           type: String
         property :project_id,       type: Integer
-        property :parent_id,        type: Integer
+        property :parent_id,        type: Integer, render_nil: true
         property :responsible_id,   type: Integer
         property :assigned_to_id,   type: Integer
         property :fixed_version_id, type: Integer
