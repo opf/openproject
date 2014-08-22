@@ -40,7 +40,6 @@ module Api
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
       before_filter :parse_changed_since, only: [:index]
-      before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
