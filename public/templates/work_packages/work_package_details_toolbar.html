@@ -5,24 +5,13 @@
           with-dropdown
           dropdown-id="moreDropdown">
     {{ I18n.t('js.button_more') }}
-    <i class="icon-pulldown-arrow3 icon-edit"></i>
+    <i class="icon-pulldown-arrow1 icon-edit"></i>
   </button>
 <div>
 
 <div class="dropdown dropdown-relative dropdown-anchor-right dropdown-up" id="moreDropdown">
   <ul class="dropdown-menu" ng-if="actionsAvailable">
-    <li ng-repeat="(action, link) in permittedActions"
-        ng-click="triggerMoreMenuAction(action, link)"
-        class="{{action}}">
-      <a href
-         ng-class="['icon-context', 'icon-' + action]"
-         ng-bind="I18n.t('js.button_' + action)">
-      </a>
-    </li>
-  </ul>
-  <hr ng-if="actionsAvailable && pluginActionsAvailable"/>
-  <ul class="dropdown-menu" ng-if="pluginActionsAvailable">
-    <li ng-repeat="(action, properties) in permittedPluginActions"
+    <li ng-repeat="(action, properties) in permittedActions"
         ng-click="triggerMoreMenuAction(action, properties.link)"
         class="{{action}}">
       <a href

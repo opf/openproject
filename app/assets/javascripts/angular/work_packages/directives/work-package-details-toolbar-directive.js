@@ -48,6 +48,19 @@ angular.module('openproject.workPackages.directives')
            WorkPackageService,
            WorkPackageAuthorization) {
 
+  function getPermittedActions(authorization, permittedMoreMenuActions) {
+    var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
+    var augmentedActions = { };
+
+    angular.forEach(permittedActions, function(value, key) {
+      var css = ["icon-" + key];
+
+      this[key] = { link: value, css: css };
+    }, augmentedActions);
+
+    return augmentedActions;
+  }
+
   function getPermittedPluginActions(authorization) {
     var pluginActions = HookService.call('workPackageDetailsMoreMenu').reduce(function(previousValue, currentValue) {
                           return angular.extend(previousValue, currentValue);
@@ -79,10 +92,9 @@ angular.module('openproject.workPackages.directives')
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
       scope.I18n = I18n;
-      scope.permittedActions = authorization.permittedActions(PERMITTED_MORE_MENU_ACTIONS);
-      scope.permittedPluginActions = getPermittedPluginActions(authorization);
+      scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
+                                              getPermittedPluginActions(authorization));
       scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
-      scope.pluginActionsAvailable = Object.keys(scope.permittedPluginActions).length > 0;
 
       scope.editWorkPackage = function() {
         // TODO: Temporarily going to the old edit dialog until we get in-place editing done
