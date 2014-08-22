@@ -49,6 +49,7 @@ env:
   - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
 script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
 before_install:
+  - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x768x16"
   - "nvm use 0.10"
