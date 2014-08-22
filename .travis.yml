@@ -51,7 +51,7 @@ script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
-  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x768x16"
+  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
   - "nvm use 0.10"
   - "travis_retry npm -g install bower@~1.3.8"
   - "travis_retry bower install -F"
