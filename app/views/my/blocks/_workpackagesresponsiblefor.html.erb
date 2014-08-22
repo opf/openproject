@@ -48,11 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if responsible.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_responsible_for),
-                {controller: :work_packages,
-                action: :index,
-                set_filter: 1,
-                responsible_id: 'me',
-                sort: 'priority:desc,updated_at:desc'},
+                work_packages_responsible_for_path,
                 :class => 'button_highlight' %>
   </p>
 <% end %>
