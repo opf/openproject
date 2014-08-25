@@ -59,7 +59,7 @@ module CopyModel
     #   model.copy_associations(1, :only => ['members', 'versions'])  # => copies members and versions
     def copy_associations(from_model, options={})
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
-      to_be_copied = options[:only].to_a unless options[:only].nil?
+      to_be_copied = Array(options[:only]) unless options[:only].nil?
 
       to_be_copied = to_be_copied.map(&:to_s).sort do |a,b|
         (self.copy_precedence.map(&:to_s).index(a) || -1) <=> (self.copy_precedence.map(&:to_s).index(b) || -1)
