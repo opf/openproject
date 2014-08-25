@@ -75,6 +75,14 @@ describe WorkPackagesController, :type => :controller do
     it { is_expected.to be_success }
 
     it { is_expected.to render_template('work_packages/show', formats: ['html']) }
+
+    context 'view' do
+      render_views
+
+      subject { response.body }
+
+      it { is_expected.to have_selector('table.attributes td.work_package_attribute_header + td.story-points', text: story_points.to_s) }
+    end
   end
 
   describe 'create with copy_from' do
