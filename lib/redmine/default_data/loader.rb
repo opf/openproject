@@ -104,7 +104,7 @@ module Redmine
                                                       :view_changesets,
                                                       :commit_access,
                                                       :view_commit_author_statistics]
-                                                      
+
             reader = Role.create!  :name => l(:default_role_reader),
                                       :position => 5,
                                       :permissions => [:view_work_packages,
@@ -189,7 +189,7 @@ module Redmine
                          :in_aggregation => true,
                          :is_milestone   => false,
                          :position       => 5
-                         
+
             feature = Type.create! :name           => l(:default_type_feature),
                          :is_default     => false,
                          :color_id       => colors[:Blue],
@@ -197,7 +197,7 @@ module Redmine
                          :in_aggregation => true,
                          :is_milestone   => false,
                          :position       => 6
-                         
+
             none = Type.standard_type
 
             # Issue statuses
@@ -220,8 +220,8 @@ module Redmine
             statuses_for_phase = statuses_for_milestone
             statuses_for_bug = [new, confirmed, in_progress, tested, on_hold, rejected, closed]
             statuses_for_feature = [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed]
-            #Give each type its own workflow. Possible statuses are stored in one of the arrays above. 
-            #Every status from the array gets a workflow to every other status from the array. 
+            #Give each type its own workflow. Possible statuses are stored in one of the arrays above.
+            #Every status from the array gets a workflow to every other status from the array.
             ["task", "deliverable", "none", "milestone", "phase", "bug", "feature"].each { |t|
               (eval "statuses_for_".concat(t)).each { |os|
                 (eval "statuses_for_".concat(t)).each { |ns|
@@ -245,21 +245,21 @@ module Redmine
             TimeEntryActivity.create!(:name => l(:default_activity_testing), :position => 4)
             TimeEntryActivity.create!(:name => l(:default_activity_Support), :position => 5)
             TimeEntryActivity.create!(:name => l(:default_activity_Other), :position => 6)
-            
+
             ReportedProjectStatus.create!(:name => l(:default_reported_project_status_green), :is_default => true)
             ReportedProjectStatus.create!(:name => l(:default_reported_project_status_amber), :is_default => false)
             ReportedProjectStatus.create!(:name => l(:default_reported_project_status_red), :is_default => false)
-            
+
             # Project types
-            
+
             ProjectType.create!(:name => l(:default_project_type_customer))
             ProjectType.create!(:name => l(:default_project_type_internal))
-            
+
             reported_status_ids = ReportedProjectStatus.find(:all).map { |rps| rps.id }
             ProjectType.find(:all).each { |project|
               project.update_attributes(reported_project_status_ids: reported_status_ids)
             }
-            
+
             Setting['notified_events'] = ['work_package_added', \
                                            'work_package_updated',\
                                            'work_package_note_added',\
