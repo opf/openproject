@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['$uiViewScroll', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, I18n, PathHelper, ActivityService, UsersHelper) {
+.directive('userActivity', ['$uiViewScroll', '$timeout', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, $timeout, I18n, PathHelper, ActivityService, UsersHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -44,9 +44,11 @@ angular.module('openproject.workPackages.tabs')
       exclusiveEditController.addEditable(scope);
       scope.$watch('inEdit', function(newVal, oldVal) {
         if(newVal) {
-          angular.element('#edit-comment-text').focus();
+          $timeout(function() {
+            angular.element('#edit-comment-text').focus();
+          })
         }
-      })
+      });
 
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
@@ -64,10 +66,6 @@ angular.module('openproject.workPackages.tabs')
 
       scope.editComment = function() {
         exclusiveEditController.gotEditable(scope);
-      };
-
-      scope.cancelEdit = function() {
-        scope.inEdit = false;
       };
 
       scope.quoteComment = function() {
