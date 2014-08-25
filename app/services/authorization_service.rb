@@ -48,4 +48,3 @@ class AuthorizationService
     @user.allowed_to?(@permission, @context, :global => @global)
   end
 end
-

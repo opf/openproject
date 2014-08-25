@@ -250,4 +250,3 @@ describe TypesController, :type => :controller do
     end
   end
 end
-

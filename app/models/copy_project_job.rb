@@ -71,7 +71,7 @@ class CopyProjectJob < Struct.new(:user,
       end
 
       if target_project.save && validate_parent_id(target_project, parent_id)
-        target_project.set_allowed_parent!(parent_id) if parent_id 
+        target_project.set_allowed_parent!(parent_id) if parent_id
 
         target_project.copy_associations(source_project, only: associations_to_copy)
 
