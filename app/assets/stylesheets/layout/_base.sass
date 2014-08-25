@@ -84,9 +84,11 @@ h4, .wiki h3
   %absolute-layout-mode &
     position: absolute
     top:      55px
-    bottom:   $footer_height
+    bottom:   0
     width:    100%
     overflow: hidden
+    border:
+      bottom: 5px solid $footer_bg_color
 
 #content
   @include default-transition
