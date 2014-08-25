@@ -149,9 +149,9 @@ de:
       estimated_hours: "Geschätzter Aufwand"
       fixed_version: "Zielversion"
       member_of_group: "Zuständigkeitsgruppe"
-      parent: "Übergeordnete Aufgabe"
-      parent_issue: "Übergeordnete Aufgabe"
-      parent_work_package: "Übergeordnete Aufgabe"
+      parent: "Übergeordnetes Arbeitspaket"
+      parent_issue: "Übergeordnetes Arbeitspaket"
+      parent_work_package: "Übergeordnetes Arbeitpaket"
       priority: "Priorität"
       progress: "% erledigt"
       project: "Projekt"
@@ -168,8 +168,8 @@ de:
       watcher: "Beobachter"
 
     relation_labels:
-      parent: "Übergeordnete Aufgabe"
-      children: "Untergeordnete Aufgaben"
+      parent: "Übergeordnetes Arbeitspaket"
+      children: "Untergeordnetes Arbeitspaket"
       relatedTo: "Beziehung mit"
       duplicates: "Dupliziert"
       duplicated: "Dupliziert durch"
@@ -179,8 +179,8 @@ de:
       follows: "Folgt"
 
     relation_buttons:
-      change_parent: "Übergeordnete Aufgabe ändern"
-      add_child: "Unteraufgabe hinzufügen"
+      change_parent: "Übergeordnetes Arbeitspaket ändern"
+      add_child: "Untergeordnetes Arbeitspaket hinzufügen"
       add_related_to: "Beziehung mit hinzufügen"
       add_duplicates: "Duplikat von hinzufügen"
       add_duplicated_by: "Dupliziert durch hinzufügen"
