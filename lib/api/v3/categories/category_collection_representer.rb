@@ -42,8 +42,8 @@ module API
 
         attr_reader :project
 
-        def initialize(model, options = {})
-          @project = options.fetch(:project)
+        def initialize(model, project:)
+          @project = project
           super(model)
         end
 

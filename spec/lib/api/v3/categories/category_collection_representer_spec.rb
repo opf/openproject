@@ -39,7 +39,7 @@ describe ::API::V3::Categories::CategoryCollectionRepresenter do
   describe '#initialize' do
     context 'with incorrect parameters' do
       it 'should raise without a project' do
-        expect { described_class.new(models) }.to raise_error
+        expect { described_class.new(models) }.to raise_error(ArgumentError)
       end
     end
   end
