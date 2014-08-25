@@ -32,10 +32,13 @@
                 </a>
                 <empty-element ng-if="!relatedWorkPackage.embedded.assignee"></empty-element>
               </td>
-              <td><i title="{{ I18n.t('js.relations.delete') }}"
-                     class="delete-item icon-delete"
-                     ng-click="handler.removeRelation(this)"
-                     ng-if="handler.canDeleteRelation(relation)"></i>
+              <td>
+                <accessible-by-keyboard ng-if="handler.canDeleteRelation(relation)"
+                                        execute="handler.removeRelation(this)">
+                  <icon-wrapper icon-name="delete"
+                                icon-title="{{ I18n.t('js.relations.delete') }}">
+                  </icon-wrapper>
+                </accessible-by-keyboard>
               </td>
             </tr>
 
