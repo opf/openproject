@@ -47,7 +47,7 @@ class Activity::DocumentActivityProvider < Activity::BaseActivityProvider
   def event_type(event, activity)
     'document'
   end
-  
+
   def event_path(event, activity)
     url_helpers.project_document_path(url_helper_parameter(event))
   end
