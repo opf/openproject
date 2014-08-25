@@ -81,10 +81,12 @@ describe('Work Package Relations Directive', function() {
   var workPackage1;
   var workPackage2;
   var workPackage3;
+  var workPackage4;
 
   var relationsHandlerEmpty;
   var relationsHandlerSingle;
   var relationsHandlerMulti;
+  var relationsHandlerWithNotAssignedRelatedWorkPackage;
 
   var createRelationsHandlerStub = function($timeout, count) {
     var relationsHandler = new Object();
@@ -167,6 +169,16 @@ describe('Work Package Relations Directive', function() {
         self: { href: "/work_packages/1" }
       }
     };
+    workPackage4 = {
+      props: {
+        id: "4",
+        subject: "Subject 4",
+        status: "Status 4",
+      },
+      links: {
+        self: { href: "/work_packages/1" }
+      }
+    };
     relation1 = {
       links: {
         self: { href: "/relations/1" },
@@ -190,6 +202,17 @@ describe('Work Package Relations Directive', function() {
         }
       }
     };
+    relation3 = {
+      links: {
+        self: { href: "/relations/3" },
+        relatedTo: {
+          href: "/work_packages/4"
+        },
+        relatedFrom: {
+          href: "/work_packages/1"
+        }
+      }
+    };
 
     relationsHandlerEmpty = createRelationsHandlerStub($timeout, 0);
     relationsHandlerEmpty.relations = [];
@@ -199,6 +222,9 @@ describe('Work Package Relations Directive', function() {
 
     relationsHandlerMulti = createRelationsHandlerStub($timeout, 2);
     relationsHandlerMulti.relations = [relation1, relation2];
+
+    relationsHandlerWithNotAssignedRelatedWorkPackage = createRelationsHandlerStub($timeout, 1);
+    relationsHandlerWithNotAssignedRelatedWorkPackage.relations = [relation3];
   }));
 
   var shouldBehaveLikeRelationsDirective = function() {
@@ -395,6 +421,34 @@ describe('Work Package Relations Directive', function() {
         var closedWorkPackageRow = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1) td:nth-child(1) a'));
 
         expect(closedWorkPackageRow.hasClass('closed')).to.be.true;
+      });
+    });
+
+    describe('table row of work package that is not assigned', function() {
+      var row;
+
+      beforeEach(inject(function($timeout) {
+        scope.relations = relationsHandlerWithNotAssignedRelatedWorkPackage;
+
+        scope.relations.getRelatedWorkPackage = function() {
+          return $timeout(function() {
+            return workPackage4;
+          }, 10);
+        };
+
+        compile(html);
+
+        $timeout.flush();
+
+        row = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1)'));
+      }));
+
+      it('should NOT have link', function() {
+        expect(row.find('td:nth-of-type(2) a').length).to.eql(0);
+      });
+
+      it('should have empty element tag', function() {
+        expect(row.find('empty-element').text()).to.include('-');
       });
     });
   });
