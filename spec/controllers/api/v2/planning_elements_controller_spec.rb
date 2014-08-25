@@ -315,6 +315,54 @@ describe Api::V2::PlanningElementsController do
       end
     end
 
+    describe 'ids' do
+      let(:project_a) { FactoryGirl.create(:project) }
+      let(:project_b) { FactoryGirl.create(:project) }
+      let(:project_c) { FactoryGirl.create(:project) }
+      let!(:work_package_a) { FactoryGirl.create(:work_package,
+                                                 project: project_a) }
+      let!(:work_package_b) { FactoryGirl.create(:work_package,
+                                                 project: project_b) }
+      let!(:work_package_c) { FactoryGirl.create(:work_package,
+                                                 project: project_c) }
+      let(:project_ids) { [project_a, project_b, project_c].collect(&:id).join(',') }
+      let(:wp_ids) { [work_package_a, work_package_b].collect(&:id) }
+
+      become_admin { [project_a, project_b, work_package_c.project] }
+
+      describe 'empty ids' do
+        before { get 'index', project_id: project_ids, ids: '', format: 'xml' }
+
+        it { expect(assigns(:planning_elements)).to be_empty }
+      end
+
+      shared_examples_for "valid ids request" do
+        before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
+
+        subject { assigns(:planning_elements).collect(&:id) }
+
+        it { expect(subject).to include(*wp_ids) }
+
+        it { expect(subject).not_to include(*invalid_wp_ids) }
+      end
+
+      describe 'known ids' do
+        context 'single id' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id] }
+            let(:invalid_wp_ids) { [work_package_b.id, work_package_c.id] }
+          end
+        end
+
+        context 'multiple ids' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id, work_package_b.id] }
+            let(:invalid_wp_ids) { [work_package_c.id] }
+          end
+        end
+      end
+    end
+
     describe 'w/ list of projects' do
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do

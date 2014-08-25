@@ -27,48 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
+class UpdateWorkPackageService
+  attr_accessor :user, :work_package, :permitted_params, :send_notifications
 
-module OpenProject
-  module VERSION #:nodoc:
+  def initialize(user, work_package, permitted_params, send_notifications=true)
+    self.user = user
+    self.work_package = work_package
+    self.permitted_params = permitted_params
+    self.send_notifications = send_notifications
+  end
 
-    MAJOR = 3
-    MINOR = 0
-    PATCH = 12
-    TINY  = PATCH # Redmine compat
+  def update
+    configure_update_notification
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
+    work_package.update_by!(user, effective_params)
+  end
+
+  private
+
+  def configure_update_notification
+    JournalObserver.instance.send_notification = send_notifications
+  end
+
+  def effective_params
+    effective_params = HashWithIndifferentAccess.new
+
+    if permitted_params[:notes]
+      notes = { notes: permitted_params.delete(:notes) }
+
+      effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
     end
 
-    def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
-      end
-    end
+    effective_params.merge!(permitted_params) if user.allowed_to?(:edit_work_packages, work_package.project)
 
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
+    effective_params
   end
 end

@@ -507,7 +507,7 @@ describe WorkPackagesController do
   end
 
   describe 'update.html' do
-    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+    let(:wp_params) { { 'wp_attribute' => double('wp_attribute') } }
     let(:params) { { :id => stub_work_package.id, :work_package => wp_params } }
     let(:call_action) { put 'update', params }
 
@@ -518,6 +518,8 @@ describe WorkPackagesController do
                                           .at_most(:twice)
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
+
+        current_user.should_receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project).and_return(true);
       end
 
       describe 'w/ having a successful save' do
@@ -984,6 +986,8 @@ describe WorkPackagesController do
         controller.stub(:work_package).and_return(work_package)
         controller.should_receive(:authorize).and_return(true)
 
+        current_user.should_receive(:allowed_to?).with(:edit_work_packages, project).and_return(true);
+
         Attachment.any_instance.stub(:filename).and_return(filename)
         Attachment.any_instance.stub(:copy_file_to_destination)
       end
@@ -1044,6 +1048,56 @@ describe WorkPackagesController do
       it { expect(response).to render_template('common/preview',
                                                format: ["html"],
                                                layout: false ) }
+    end
+  end
+
+  describe 'Update permissions' do
+    let(:project) { FactoryGirl.create(:project) }
+
+    let(:description) { "Muh hahahah!!!" }
+    let(:notes) { "Work package note" }
+    let(:wp_params) { { id: work_package.id, work_package: { description: description, notes: notes } } }
+
+    shared_context 'update work package' do
+      let(:user) { FactoryGirl.create(:user,
+                                      member_in_project: project,
+                                      member_through_role: role) }
+      let!(:work_package) { FactoryGirl.create(:work_package,
+                                               project_id: project.id,
+                                               author: user) }
+      let!(:original_description) { work_package.description }
+
+      before do
+        User.stub(:current).and_return user
+
+        put 'update', wp_params
+
+        work_package.reload
+      end
+    end
+
+    describe '#14964 User w/o permission able to update work package attributes' do
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:view_work_packages,
+                                                    :add_work_package_notes]) }
+
+      include_context 'update work package'
+
+      it { expect(work_package.description).to eq(original_description) }
+
+      it { expect(work_package.journals.last.notes).to eq(notes) }
+    end
+
+    describe 'notes update w/o privileges' do
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:view_work_packages,
+                                                    :edit_work_packages]) }
+
+      include_context 'update work package'
+
+      it { expect(work_package.description).to eq(description) }
+
+      it { expect(work_package.journals.last.notes).to be_empty }
     end
   end
 end
