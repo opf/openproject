@@ -1,4 +1,3 @@
-
 RSpec.shared_examples "status collection representer" do
   let(:statuses)  { FactoryGirl.build_list(:status, 3) }
   let(:models)    { statuses.map { |status|

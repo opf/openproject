@@ -32,7 +32,7 @@ shared_examples_for 'action link' do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project,
                                          member_through_role: role) }
-  
+
   before { allow(User).to receive(:current).and_return(user) }
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
