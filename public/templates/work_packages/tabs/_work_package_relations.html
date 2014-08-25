@@ -27,7 +27,9 @@
               </td>
               <td title="{{ relatedWorkPackage.props.status }}">{{ relatedWorkPackage.props.status }}</td>
               <td>
-                <a title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
+                <a ng-if="relatedWorkPackage.embedded.assignee"
+                   title="{{ relatedWorkPackage.embedded.assignee.props.name }}"
+                   href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
                   {{ relatedWorkPackage.embedded.assignee.props.name }}
                 </a>
               </td>
