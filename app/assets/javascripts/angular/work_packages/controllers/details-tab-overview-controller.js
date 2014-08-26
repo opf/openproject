@@ -28,13 +28,19 @@
 
 angular.module('openproject.workPackages.controllers')
 
+.constant('TEXT_TYPE', 'text')
+.constant('VERSION_TYPE', 'version')
 .constant('USER_TYPE', 'user')
+.constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
 
 .controller('DetailsTabOverviewController', [
   '$scope',
   'I18n',
   'ConfigurationService',
+  'TEXT_TYPE',
+  'VERSION_TYPE',
   'USER_TYPE',
+  'USER_FIELDS',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'UserService',
@@ -43,7 +49,10 @@ angular.module('openproject.workPackages.controllers')
   function($scope,
            I18n,
            ConfigurationService,
+           TEXT_TYPE,
+           VERSION_TYPE,
            USER_TYPE,
+           USER_FIELDS,
            CustomFieldHelper,
            WorkPackagesHelper,
            UserService,
@@ -58,13 +67,22 @@ angular.module('openproject.workPackages.controllers')
 
   var workPackageProperties = ConfigurationService.workPackageAttributes();
 
-  function getPropertyValue(property, format) {
-    if (format === USER_TYPE) {
-      return $scope.workPackage.embedded[property];
-    } else {
-      return getFormattedPropertyValue(property);
+    function getPropertyValue(property, format) {
+        switch(format) {
+            case VERSION_TYPE:
+                if ($scope.workPackage.props.versionId == undefined) {
+                    return;
+                }
+                var versionId = $scope.workPackage.props.versionId;
+                return {href: PathHelper.versionPath(versionId), title: $scope.workPackage.props.versionName};
+                break;
+            case USER_TYPE:
+                return $scope.workPackage.embedded[property];
+                break;
+            default:
+                return getFormattedPropertyValue(property);
+        }
     }
-  }
 
   function getFormattedPropertyValue(property) {
     if (property === 'date') {
@@ -106,8 +124,6 @@ angular.module('openproject.workPackages.controllers')
         return a || b;
       });
   }
-
-  var userFields = ['assignee', 'author', 'responsible'];
 
   function getWorkPackagePropertiesInSpecifiedOrder(workPackageProperties) {
     // The work package property oder is specified as follows:
@@ -152,9 +168,15 @@ angular.module('openproject.workPackages.controllers')
     });
   })();
 
+  function getPropertyFormat(property) {
+    var format = USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
+
+    return ((property === 'versionName') ? VERSION_TYPE : format);
+  }
+
   function addWorkPackageProperty(property, index) {
     var label  = I18n.t('js.work_packages.properties.' + property),
-        format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
+        format = getPropertyFormat(property);
         value  = getPropertyValue(property, format);
 
     if (!(value === null || value === undefined) ||

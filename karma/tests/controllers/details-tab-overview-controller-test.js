@@ -295,6 +295,39 @@ describe('DetailsTabOverviewController', function() {
       });
     });
 
+    describe('property format', function() {
+      describe('is "version"', function() {
+        beforeEach(function() {
+          workPackage.props.versionName = 'Test version';
+          workPackage.props.versionId = 1
+          buildController();
+        });
+
+        it('should return the version as a link with correct href', function() {
+          expect(fetchPresentPropertiesWithName('versionName')[0].value.href).to.equal('/versions/1');
+        });
+
+        it('should return the version as a link with correct title', function() {
+          expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
+        });
+      });
+
+      describe('is "user"', function() {
+        beforeEach(function() {
+          workPackage.embedded['assignee'] = { id: 1, name: 'Waya Namamo' }
+          buildController();
+        });
+
+        it('should return object with correct id', function() {
+          expect(fetchPresentPropertiesWithName('assignee')[0].value.id).to.equal(1);
+        });
+
+        it('should return object with correct name', function() {
+          expect(fetchPresentPropertiesWithName('assignee')[0].value.name).to.equal('Waya Namamo');
+        });
+      });
+    });
+
     describe('custom field properties', function() {
       var customPropertyName = 'color';
 
