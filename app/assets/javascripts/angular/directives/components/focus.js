@@ -57,11 +57,9 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attrs) {
       updateFocus(scope, element, attrs);
 
-      if (condition) {
-        $timeout(function() {
-          element[0].focus();
-        });
-      }
+      scope.$on('updateFocus', function() {
+        updateFocus(scope, element, attrs);
+      });
     }
   };
 }]);
