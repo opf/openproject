@@ -44,7 +44,9 @@ angular.module('openproject.workPackages.tabs')
       exclusiveEditController.addEditable(scope);
       scope.$watch('inEdit', function(newVal, oldVal) {
         if(newVal) {
-          angular.element('#edit-comment-text').focus();
+          $timeout(function() {
+            angular.element('#edit-comment-text').focus();
+          });
         }
       })
 

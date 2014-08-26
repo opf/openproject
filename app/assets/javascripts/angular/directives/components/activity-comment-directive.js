@@ -57,10 +57,6 @@ angular.module('openproject.uiComponents')
             return response;
           });
       };
-
-      scope.clearComment = function() {
-        scope.activity.comment = '';
-      };
     }
   };
 }]);
