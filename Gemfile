@@ -113,9 +113,7 @@ gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git',
 gem 'sass',             '~> 3.3.6'
 gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'compass',          '1.0.0.alpha.19', require: 'compass/core'
-gem 'compass-rails',    git: 'https://github.com/Compass/compass-rails'
-gem 'livingstyleguide'
+gem 'livingstyleguide', '~> 1.2.0.pre.1'
 
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
