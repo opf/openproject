@@ -140,6 +140,8 @@ en:
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
+    label_global_queries: "Global queries"
+    label_custom_queries: "Custom queries"
 
     text_are_you_sure: "Are you sure?"
 

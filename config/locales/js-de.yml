@@ -141,6 +141,8 @@ de:
     label_watcher_deleted_successfully: "Beobachter wurde erfolgreich entfernt!"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
+    label_global_queries: "Benutzerdefinierte Filter"
+    label_custom_queries: "Öffentliche Filter"
 
     text_are_you_sure: "Sind Sie sicher?"
 
