@@ -19,4 +19,5 @@
 #++
 
 module MyProjectsOverviewsHelper
+  include WorkPackagesFilterHelper
 end

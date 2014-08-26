@@ -33,19 +33,14 @@ See doc/COPYRIGHT.md for more details.
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => responsible_work_packages } %>
 <% if responsible_work_packages.length > 0 %>
   <p class="small">
-    <%= link_to l(:label_work_packages_responsible_for),
-                {:controller => '/work_packages',
-                 :action => 'index',
-                 :set_filter => 1,
-                 :responsible_id => 'me',
-                 :sort => 'priority:desc,updated_at:desc'},
-                 :class => 'button_highlight' %>
+    <%= link_to l(:label_work_package_view_all_responsible_for),
+                  work_packages_responsible_for_path,
+                  :class => 'button_highlight' %>
   </p>
 <% end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom,
-                                {:controller => '/work_packages', :action => 'index', :set_filter => 1,
-                                 :responsible_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                                work_packages_responsible_for_path({:format => 'atom', :key => User.current.rss_key}),
                                 {:title => l(:label_work_packages_responsible_for)}) %>
 <% end %>
