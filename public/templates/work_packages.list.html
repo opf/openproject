@@ -31,6 +31,7 @@
             </label>
             <button id="work-packages-list-view-button"
                     class="button"
+                    title="{{ I18n.t('js.button_list_view') }}"
                     ui-sref="work-packages.list"
                     ui-sref-active="active">
               <i class="icon-table-view icon-buttons"></i>
@@ -42,6 +43,7 @@
             </label>
             <button id="work-packages-details-view-button"
                     class="button"
+                    title="{{ I18n.t('js.button_details_view') }}"
                     ng-class="{ active: $state.includes('work-packages.list.details') }"
                     ng-click="openLatestTab()">
               <i class="icon-table-detail-view icon-buttons"></i>
@@ -53,7 +55,10 @@
         <label for="work-packages-settings-button" class="hidden-for-sighted">
           {{ I18n.t('js.button_settings') }}
         </label>
-        <button id="work-packages-settings-button" class="button last" with-dropdown dropdown-id="settingsDropdown">
+        <button id="work-packages-settings-button"
+                title="{{ I18n.t('js.button_settings') }}"
+                class="button last"
+                with-dropdown dropdown-id="settingsDropdown">
           <i class="icon-settings"></i>
           <i class="icon-pulldown-arrow1 icon-dropdown"></i>
         </button>
