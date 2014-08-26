@@ -28,8 +28,17 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('DetailsTabWatchersController', ['$scope', 'workPackage', 'I18n', function($scope, workPackage, I18n) {
+.constant('ADD_WATCHER_SELECT_INDEX', -1)
+
+.controller('DetailsTabWatchersController',
+            ['$scope',
+             '$timeout',
+             'workPackage',
+             'I18n',
+             'ADD_WATCHER_SELECT_INDEX',
+             function($scope, $timeout, workPackage, I18n, ADD_WATCHER_SELECT_INDEX) {
   $scope.I18n = I18n;
+  $scope.focusElementIndex = ($scope.watchers.length > 0) ? 0 : ADD_WATCHER_SELECT_INDEX;
 
   $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
 
@@ -93,6 +102,8 @@ angular.module('openproject.workPackages.controllers')
   function addWatcherSuccess() {
     $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
     $scope.refreshWorkPackage();
+
+    $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
   }
 
   $scope.deleteWatcher = function(watcher) {
@@ -111,7 +122,21 @@ angular.module('openproject.workPackages.controllers')
 
     if (index >= 0) {
       $scope.watchers.splice(index, 1);
+
+      updateWatcherFocus(index);
     }
+  }
+
+  function updateWatcherFocus(index) {
+    if ($scope.watchers.length == 0) {
+      $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
+    } else {
+      $scope.focusElementIndex = (index < $scope.watchers.length) ? index : $scope.watchers.length - 1;
+    }
+
+    $timeout(function() {
+      $scope.$broadcast('updateFocus');
+    });
   }
 
   $scope.selectedWatcher = { id: null };
