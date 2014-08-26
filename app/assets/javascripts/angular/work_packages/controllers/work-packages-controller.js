@@ -56,4 +56,8 @@ angular.module('openproject.workPackages.controllers')
   $scope.isDetailsViewActive = function() {
     return $state.includes('work-packages.list.details');
   };
+
+  $scope.getActivationActionLabel = function(activate) {
+    return (activate) ? I18n.t('js.label_activate') : '';
+  };
 }]);

@@ -60,6 +60,7 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
+    label_activate: "Aktiviere"
     label_add_columns: "Ausgewählte Spalten hinzufügen"
     label_add_comment: "Kommentar hinzufügen"
     label_add_comment_title: "Fügen Sie Ihre Kommentare hier zu"
