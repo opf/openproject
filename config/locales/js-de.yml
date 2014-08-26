@@ -143,6 +143,7 @@ de:
     label_uploaded_by: "Hochgeladen von"
     label_global_queries: "Benutzerdefinierte Filter"
     label_custom_queries: "Öffentliche Filter"
+    label_columns: "Spalten"
 
     text_are_you_sure: "Sind Sie sicher?"
 
@@ -351,6 +352,7 @@ de:
       label_settings: "Konfiguration"
       label_name: "Name"
       label_delete_page: "Aktuelle Seite löschen"
+      button_apply: "Anwenden"
       button_submit: "OK"
       button_cancel: "Abbrechen"
     notice_successful_create: "Erfolgreich angelegt"

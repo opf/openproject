@@ -142,6 +142,7 @@ en:
     label_uploaded_by: "Uploaded by"
     label_global_queries: "Global queries"
     label_custom_queries: "Custom queries"
+    label_columns: "Columns"
 
     text_are_you_sure: "Are you sure?"
 
@@ -354,6 +355,7 @@ en:
       label_settings: "Settings"
       label_name: "Name"
       label_delete_page: "Delete current page"
+      button_apply: "Apply"
       button_submit: "Submit"
       button_cancel: "Cancel"
     notice_successful_create: "Successful creation."
