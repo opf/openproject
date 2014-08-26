@@ -36,7 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
                                         :multipart => true
                                        } do |f| %>
 
-  <%= hidden_field_tag 'back_url', back_url %>
+  <% if defined? back_url %>
+    <%= hidden_field_tag 'back_url', back_url %>
+  <% end %>
   <%= error_messages_for work_package %>
 
   <% if edit_allowed || !allowed_statuses.empty? %>
