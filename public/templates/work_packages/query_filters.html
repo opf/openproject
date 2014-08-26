@@ -137,9 +137,10 @@
 
                   <!-- Delete filter -->
                   <td>
-                    <icon-wrapper icon-name="delete2"
-                                  icon-title="{{I18n.t('js.button_delete')}}"
-                                  ng-click="query.deactivateFilter(filter)"/>
+                    <accessible-by-keyboard execute="query.deactivateFilter(filter)">
+                      <icon-wrapper icon-name="delete2"
+                                    icon-title="{{I18n.t('js.button_delete')}}"/>
+                    </accessible-by-keyboard>
                     <!-- TODO I18n -->
                   </td>
                 </tr>
