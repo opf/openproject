@@ -188,10 +188,7 @@ angular.module('openproject.workPackages.controllers')
   // Updates
 
   $scope.maintainUrlQueryState = function(){
-    var relativeUrl = "/work_packages";
-    if ($scope.projectIdentifier){
-      relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
-    }
+    var relativeUrl = decodeURIComponent($state.href($state.$current)); // ui-router escapes some of this string for whatever reason
 
     if($scope.query) {
       var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
