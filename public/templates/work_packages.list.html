@@ -44,7 +44,7 @@
             <button id="work-packages-details-view-button"
                     class="button"
                     title="{{ I18n.t('js.button_details_view') }}"
-                    ng-class="{ active: $state.includes('work-packages.list.details') }"
+                    ng-class="{ active: isDetailsViewActive() }"
                     ng-click="openLatestTab()">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
