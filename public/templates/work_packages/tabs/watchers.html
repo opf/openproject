@@ -2,7 +2,7 @@
   <div id="detail-panel-watchers">
     <ul ng-if="watchers.length">
       <li ng-repeat="watcher in watchers">
-        <user-field user="watcher"></user-field>
+        <user-field focus="$index == focusElementIndex" user="watcher"></user-field>
         <accessible-by-keyboard execute="deleteWatcher(watcher)" ng-if="watcher.links.removeWatcher">
           <icon-wrapper icon-name="close"
                         icon-title="{{I18n.t('js.button_delete_watcher')}}"
@@ -15,7 +15,7 @@
       <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
       <fieldset>
         <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
-        <select ng-model="selectedWatcher.id" data-placeholder="{{ I18n.t('js.label_select_watcher') }}" ui-select2>
+        <select focus="focusElementIndex < 0" ng-model="selectedWatcher.id" data-placeholder="{{ I18n.t('js.label_select_watcher') }}" ui-select2>
           <option value=""></option>
           <option ng-repeat="watcher in availableWatchers" value="{{watcher.props.id}}">
             {{watcher.props.name}}
