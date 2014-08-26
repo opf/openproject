@@ -2,7 +2,9 @@
   <div class="text">
     <h2 title="{{ selectedTitle }}">
       <span with-dropdown dropdown-id="querySelectDropdown" focus-element-id="title-filter">
-        {{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i>
+        <accessible-by-keyboard>
+          {{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i>
+        </accessible-by-keyboard>
       </span>
     </h2>
   </div>
