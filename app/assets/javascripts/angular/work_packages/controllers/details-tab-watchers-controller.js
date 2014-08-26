@@ -102,6 +102,8 @@ angular.module('openproject.workPackages.controllers')
   function addWatcherSuccess() {
     $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
     $scope.refreshWorkPackage();
+
+    $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
   }
 
   $scope.deleteWatcher = function(watcher) {
