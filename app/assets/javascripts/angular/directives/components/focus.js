@@ -29,10 +29,33 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('focus', ['$timeout', function($timeout) {
+.constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex]')
+
+.directive('focus', ['$timeout', 'FOCUSABLE_SELECTOR', function($timeout, FOCUSABLE_SELECTOR) {
+
+  function focusElement(element) {
+    $timeout(function() {
+      var focusable = element;
+
+      if (!focusable.is(FOCUSABLE_SELECTOR)) {
+        focusable = element.find(FOCUSABLE_SELECTOR);
+      }
+
+      focusable[0].focus();
+    });
+  }
+
+  function updateFocus(scope, element, attrs) {
+    var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
+
+    if (condition) {
+      focusElement(element);
+    }
+  }
+
   return {
     link: function(scope, element, attrs) {
-      var condition = (attrs.focus) ?  scope.$eval(attrs.focus) : true;
+      updateFocus(scope, element, attrs);
 
       if (condition) {
         $timeout(function() {
