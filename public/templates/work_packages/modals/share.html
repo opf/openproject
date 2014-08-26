@@ -26,8 +26,12 @@
       </label>
     </div>
     <div>
-      <button class="button_highlight" ng-click="saveQuery()">Save</button>
-      <button class="button" ng-click="modal.closeMe()">Cancel</button>
+      <button class="button_highlight" ng-click="saveQuery()">
+        {{ I18n.t('js.modals.button_save') }}
+      </button>
+      <button class="button" ng-click="modal.closeMe()">
+        {{ I18n.t('js.modals.button_cancel') }}
+      </button>
     </div>
 
   </div>

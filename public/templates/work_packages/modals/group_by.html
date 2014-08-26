@@ -12,8 +12,12 @@
              ng-model="selectedGroupByData"></input>
     </div>
     <div>
-      <button class="button_highlight" ng-click="updateGroupBy()">Apply</button>
-      <button class="button" ng-click="modal.closeMe()">Cancel</button>
+      <button class="button_highlight" ng-click="updateGroupBy()">
+        {{ I18n.t('js.modals.button_apply') }}
+      </button>
+      <button class="button" ng-click="modal.closeMe()">
+        {{ I18n.t('js.modals.button_cancel') }}
+      </button>
     </div>
 
   </div>
