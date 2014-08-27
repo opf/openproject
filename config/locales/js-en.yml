@@ -124,6 +124,7 @@ en:
     label_per_page: "Per page:"
     label_remove_columns: "Remove selected columns"
     label_select_watcher: "Select a watcher..."
+    label_selected_filter_list: "Selected filters"
     label_show_attributes: "Show all attributes"
     label_sort_by: "Sort by"
     label_sorted_by: "sorted by"
