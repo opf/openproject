@@ -142,16 +142,28 @@ module WorkPackagesFilterHelper
     project_work_packages_with_query_path(project, query, options)
   end
 
-  def project_report_property_any_status_path(project, property, property_id, options = {})
+  def project_report_property_path(project, property_name, property_id, options = {})
     query = {
       f: [
         filter_object("status_id", "*"),
         filter_object("subproject_id", "!*"),
-        filter_object(property, "=", property_id),
+        filter_object(property_name, "=", property_id),
       ],
       t: default_sort
     }
     project_work_packages_with_query_path(project, query, options)
+  end
+
+  def project_version_property_path(version, property_name, property_id, options = {})
+    query = {
+      f: [
+        filter_object("status_id", "*"),
+        filter_object("fixed_version_id", "=", version.id),
+        filter_object(property_name, "=", property_id),
+      ],
+      t: default_sort
+    }
+    project_work_packages_with_query_path(version.project, query, options)
   end
 
   private

@@ -49,7 +49,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            {controller: :work_packages, action: :index, set_filter: 1,
-                             author_id: 'me', format: 'atom', key: User.current.rss_key},
+                            work_packages_reported_by_me_path({:format => 'atom', :key => User.current.rss_key}),
                             {title: l(:label_reported_work_packages)}) %>
 <% end %>
