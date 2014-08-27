@@ -57,6 +57,10 @@ angular.module('openproject.workPackages.controllers')
     return $state.includes('work-packages.list.details');
   };
 
+  $scope.getToggleActionLabel = function(active) {
+    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
+  };
+
   $scope.getActivationActionLabel = function(activate) {
     return (activate) ? I18n.t('js.label_activate') : '';
   };
