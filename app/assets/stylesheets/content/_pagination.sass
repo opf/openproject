@@ -1,0 +1,50 @@
+.pagination-container
+  float: left
+.items-per-page-container
+  float: right
+
+ul.pagination
+  list-style-type: none
+  margin: 0
+  padding: 0
+  font-size: 90%
+  li
+    float: left
+    margin: 0 5px 0 0
+    &.current
+      background: #ffffff
+      border: 1px solid #ffffff    
+      padding: 3px 8px
+      display: block
+      font-style: italic
+    &.dots
+      background: #ffffff 
+      border: 1px solid #ffffff    
+      padding: 0px 0px
+      font-style: italic
+      padding: 3px 0px
+      display: block
+       
+  a
+    margin: 0
+    display: block
+    min-width: 17px
+    text-align: center
+    padding: 3px 3px
+    background: #f8f8f8
+    border-radius: 2px
+    border: 1px solid #cccccc
+    color: $global_font_color
+    font-weight: normal
+    cursor: pointer
+    text-decoration: none
+    &:hover
+      background: #eaeaea
+  .range
+    margin: 0 0 0 5px
+    padding: 3px 0px
+    display: block
+  .pagination-label
+    margin: 0 10px 0 0
+    padding: 3px 0px
+    display: block
