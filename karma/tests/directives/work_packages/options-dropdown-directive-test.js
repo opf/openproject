@@ -27,7 +27,7 @@
 //++
 
 describe('optionsDropdown Directive', function() {
-    var compile, element, rootScope, scope;
+    var compile, element, rootScope, scope, I18n;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('openproject.models',
@@ -61,9 +61,19 @@ describe('optionsDropdown Directive', function() {
       };
     }));
 
-    beforeEach(inject(function(_AuthorisationService_){
+    beforeEach(inject(function(_AuthorisationService_, _I18n_){
       AuthorisationService = _AuthorisationService_;
+
+      I18n = _I18n_;
+
+      var stub = sinon.stub(I18n, 't');
+
+      stub.withArgs('js.label_save_as').returns('Save as');
     }));
+
+    afterEach(function() {
+      I18n.t.restore();
+    });
 
     describe('element', function() {
 
