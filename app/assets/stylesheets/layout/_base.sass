@@ -28,7 +28,6 @@
 @import global/all
 
 html
-  overflow-y: scroll
   @include html_body_spacing
   min-width: 1100px
   &.in_modal
@@ -40,6 +39,9 @@ body
   font: normal normal normal $global_font_size $font_family_normal
   line-height: $global_line_height
   background: white
+
+  &%absolute-layout-mode
+    overflow: hidden
 
 #wrapper
   @include default-transition
