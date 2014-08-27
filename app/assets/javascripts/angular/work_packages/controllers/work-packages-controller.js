@@ -48,8 +48,8 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
     if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries').toUpperCase(), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries').toUpperCase(), models: availableQueries['user_queries']}];
+      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
+                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
     }
   });
 
