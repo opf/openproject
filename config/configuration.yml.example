@@ -121,6 +121,9 @@ default:
   #
   # rails_relative_url_root: ""
 
+  # whether to force ssl in production
+  # rails_force_ssl: true
+
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
   # Your OpenProject instance needs to have write permission on this
