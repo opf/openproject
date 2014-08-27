@@ -26,33 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+require 'spec_helper'
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::V3::Categories::CategoryModel do
+  subject(:model) { ::API::V3::Categories::CategoryModel.new(category) }
+  let(:category) { FactoryGirl.build(:category, attributes) }
+  let(:attributes) { { name: 'Specific Category' } }
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
-            end
-
-            get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
-            end
-
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
-          end
-
-        end
-      end
-    end
-  end
+  its(:name) { should eq 'Specific Category' }
 end

@@ -54,6 +54,11 @@ describe ::API::V3::Projects::ProjectRepresenter do
         expect(subject).to have_json_path('_links/self/href')
       end
 
+      describe 'categories' do
+        it { should have_json_path('_links/categories')      }
+        it { should have_json_path('_links/categories/href') }
+      end
+
       describe 'versions' do
         it { should have_json_path('_links/versions')      }
         it { should have_json_path('_links/versions/href') }
