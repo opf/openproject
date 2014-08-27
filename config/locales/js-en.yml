@@ -313,6 +313,7 @@ en:
         dueDate: "Due date"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
+        category: "Category"
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"

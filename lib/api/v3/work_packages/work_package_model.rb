@@ -48,6 +48,7 @@ module API
         property :due_date,         type: Date
         property :created_at,       type: DateTime
         property :updated_at,       type: DateTime
+        property :category_id, type: Integer
         property :author,           type: String
         property :project_id,       type: Integer
         property :parent_id,        type: Integer, render_nil: true

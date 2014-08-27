@@ -61,7 +61,7 @@ class WorkPackagesController < ApplicationController
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
-  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
+  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible, :category,
                                      :date, :percentageDone, :priority,
                                      :estimatedTime, :versionName, :spentTime]
 

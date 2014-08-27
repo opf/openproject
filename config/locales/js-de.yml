@@ -310,6 +310,7 @@ de:
         dueDate: "Abgabedatum"
         estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
+        category: "Kategorie"
         percentageDone: "% erledigt"
         priority: "Priorität"
         projectName: "Projekt"

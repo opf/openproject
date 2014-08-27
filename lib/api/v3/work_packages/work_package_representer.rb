@@ -196,6 +196,7 @@ module API
         property :raw_description, render_nil: true
         property :status, render_nil: true
         property :is_closed
+        property :category, getter: -> (*) { model.category.try(:name) }, render_nil: true
         property :priority, render_nil: true
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
