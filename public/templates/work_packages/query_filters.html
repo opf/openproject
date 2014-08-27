@@ -1,9 +1,5 @@
 <fieldset id="filters" class="work-packages-filters--container">
-  <legend>
-    <a href>
-      <span ng-bind="I18n.t('js.work_packages.label_filter_add')"/>
-    </a>
-  </legend>
+  <legend ng-bind="I18n.t('js.label_selected_filter_list')"></legend>
 
   <div class="filter-fields">
     <table width="100%" class="work-packages-filters--filter-table">
@@ -29,7 +25,7 @@
 
                   <!-- Operator -->
                   <td style="width:150px;">
-                    <label class="hidden-for-sighted" for="operators_{{filter.name}}">{{ I18n.t('js.work_packages.description_filter') }}</label>
+                    <label class="hidden-for-sighted" for="operators-{{filter.name}}">{{ I18n.t('js.work_packages.description_filter') }}</label>
                     <select require
                             class="select-small"
                             id="operators-{{filter.name}}"
@@ -153,7 +149,7 @@
 
           <td class="add-filter">
 
-            <label for="add_filter_select">{{ I18n.t('js.work_packages.label_filter_add') }}</label>:
+            <label for="add_filter_select">{{ I18n.t('js.work_packages.label_filter_add') }}:</label>
             <select class="select-small"
                     id="add_filter_select"
                     ng-model="filterToBeAdded"
