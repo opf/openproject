@@ -45,13 +45,12 @@ angular.module('openproject.workPackages.directives')
             });
           }
 
-          scope.$watch('groupSums.length', function() {
-            // map columns to sums if the column data is a number
-            setSums();
-            scope.$emit('queryStateChange');
-            scope.$emit('workPackagesRefreshRequired');
+          scope.$watch('groupSums.length', function(newVal, oldVal) {
+            if(newVal != oldVal) {
+              // map columns to sums if the column data is a number
+              setSums();
+            }
           });
-
         }
       };
     }
