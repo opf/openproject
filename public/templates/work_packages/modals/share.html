@@ -2,7 +2,7 @@
   <div class="ng-modal-inner">
     <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
 
-    <h3>Share</h3>
+    <h3>{{ I18n.t('js.label_share') }}</h3>
 
     <div>
       <label class="checkbox-label">
@@ -12,7 +12,7 @@
                ng-disabled="cannot('query', 'publicize')"
                focus></input>
         <div class="styled-checkbox"></div>
-        Page visible for others
+        {{ I18n.t('js.label_visible_for_others') }}
       </label>
     </div>
     <div>
@@ -22,7 +22,7 @@
                ng-model="shareSettings.starred"
                ng-disabled="cannot('query', 'star')"></input>
         <div class="styled-checkbox"></div>
-        Show page in menu
+        {{ I18n.t('js.label_show_in_menu') }}
       </label>
     </div>
     <div>
