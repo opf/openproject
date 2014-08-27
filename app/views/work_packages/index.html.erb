@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
+<% html_title(l('activerecord.attributes.project.work_packages')) -%>
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
