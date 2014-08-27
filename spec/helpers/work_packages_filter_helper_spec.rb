@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe WorkPackagesFilterHelper, :type => :helper do
   let(:project) { FactoryGirl.create(:project) }
+  let(:version) { FactoryGirl.create(:version, :project => project) }
 
   describe :general_path_helpers do
 
@@ -65,7 +66,6 @@ describe WorkPackagesFilterHelper, :type => :helper do
   end
 
   describe :project_overview_path_helpers do
-    let(:version) { FactoryGirl.create(:version, :project => project) }
 
     it "should give the path to closed work packages for a project version" do
       expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"c\"},{\"v\":" + version.id.to_s + ",\"n\":\"fixed_version_id\",\"o\":\"=\"}]}"
@@ -80,12 +80,33 @@ describe WorkPackagesFilterHelper, :type => :helper do
   end
 
   describe :project_reports_path_helpers do
+    let(:property_name) { "priority_id" }
+    let(:property_id) { 5 }
 
     it "should give the path to work packages for a report property" do
-      property_name = "priority_id"
-      property_id = 5
       expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"*\"},{\"n\":\"subproject_id\",\"o\":\"!*\"},{\"v\":" + property_id.to_s + ",\"n\":\"" + property_name + "\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
       expect(CGI::unescape(helper.project_report_property_path(project, property_name, property_id))).to eq expectedDecoded
+    end
+
+    it "should give the path to work packages for a report property with status" do
+      status_id = 2
+      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"v\":" + status_id.to_s + ",\"n\":\"status_id\",\"o\":\"=\"},{\"n\":\"subproject_id\",\"o\":\"!*\"},{\"v\":" + property_id.to_s + ",\"n\":\"" + property_name + "\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expect(CGI::unescape(helper.project_report_property_status_path(project, status_id, property_name, property_id))).to eq expectedDecoded
+    end
+
+    it "should give the path to open work packages for a report property" do
+      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"o\"},{\"n\":\"subproject_id\",\"o\":\"!*\"},{\"v\":" + property_id.to_s + ",\"n\":\"" + property_name + "\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expect(CGI::unescape(helper.project_report_property_open_path(project, property_name, property_id))).to eq expectedDecoded
+    end
+
+    it "should give the path to closed work packages for a report property" do
+      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"c\"},{\"n\":\"subproject_id\",\"o\":\"!*\"},{\"v\":" + property_id.to_s + ",\"n\":\"" + property_name + "\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expect(CGI::unescape(helper.project_report_property_closed_path(project, property_name, property_id))).to eq expectedDecoded
+    end
+
+    it "should give the path to work packages for a report property belonging to a project version" do
+      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"*\"},{\"v\":" + version.id.to_s + ",\"n\":\"fixed_version_id\",\"o\":\"=\"},{\"v\":" + property_id.to_s + ",\"n\":\"" + property_name + "\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expect(CGI::unescape(helper.project_version_property_path(version, property_name, property_id))).to eq expectedDecoded
     end
 
   end
