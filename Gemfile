@@ -124,7 +124,7 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: '12fe8ec2133dc162087eef2b1639309a01cbb414'
+gem 'i18n-js', '~> 3.0.0.rc6'
 
 # small wrapper around the command line
 gem 'cocaine'
@@ -242,4 +242,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
-
