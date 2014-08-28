@@ -1,3 +1,5 @@
+<div class="work-packages-table--container">
+<div class="work-packages-table--container-inner">
 <table class="workpackages-table keyboard-accessible-list">
   <colgroup>
     <col />
@@ -8,14 +10,16 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a href
-           alt="{{toggleRowsLabel}}"
-           class="no-decoration-on-hover"
-           ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
-           title="{{toggleRowsLabel}}">
-          <icon-wrapper icon-title="{{toggleRowsLabel}}"
-                        icon-name="yes"></icon-wrapper>
-        </a>
+        <div class="work-packages-table--header-outer">
+          <a href
+             alt="{{toggleRowsLabel}}"
+             class="no-decoration-on-hover"
+             ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
+             title="{{toggleRowsLabel}}">
+            <icon-wrapper icon-title="{{toggleRowsLabel}}"
+                          icon-name="yes"></icon-wrapper>
+          </a>
+        </div>
       </th>
       <th sort-header
           header-name="'id'"
@@ -177,3 +181,5 @@
 
   </tbody>
 </table>
+</div>
+</div>

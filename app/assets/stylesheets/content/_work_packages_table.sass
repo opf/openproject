@@ -32,6 +32,17 @@
   to
     opacity: 0
 
+$work-packages-table--header-height: 34px
+
+.work-packages-table--container
+  position:     relative
+  height:       100%
+  padding-top:  $work-packages-table--header-height
+
+.work-packages-table--container-inner
+  height:       100%
+  overflow:     auto
+
 #work-packages-table
   tr.issue
     &.ng-enter, &.ng-move
@@ -44,7 +55,7 @@
 
 table.workpackages-table
   border-collapse: collapse
-  width: 100%
+  width:  100%
   margin: 0
 
   col
@@ -100,6 +111,14 @@ table.workpackages-table
     margin: 0
   p:hover
     background: #fff598
+
+  .work-packages-table--header-outer,
+  .sort-header-outer
+    position:     absolute
+    top:          0
+    line-height:  $work-packages-table--header-height
+    // hack to deal with overlaps
+    background:   white
 
   .sort-header
     white-space: nowrap
