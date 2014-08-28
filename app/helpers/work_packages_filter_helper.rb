@@ -73,6 +73,40 @@ module WorkPackagesFilterHelper
     work_packages_with_query_path(query, options)
   end
 
+  # Links for My Project Page plugin
+
+  def project_work_packages_assigned_to_me_path(project, options = {})
+    query = {
+      f: [ filter_object("assigned_to_id", "=", "me") ],
+      t: 'priority:desc,updated_at:desc'
+    }
+    project_work_packages_with_query_path(project, query, options)
+  end
+
+  def project_work_packages_reported_by_me_path(project, options = {})
+    query = {
+      f: [ filter_object("author_id", "=", "me") ],
+      t: 'updated_at:desc'
+    }
+    project_work_packages_with_query_path(project, query, options)
+  end
+
+  def project_work_packages_responsible_for_path(project, options = {})
+    query = {
+      f: [ filter_object("responsible_id", "=", "me") ],
+      t: 'priority:desc,updated_at:desc'
+    }
+    project_work_packages_with_query_path(project, query, options)
+  end
+
+  def project_work_packages_watched_path(project, options = {})
+    query = {
+      f: [ filter_object("watcher_id", "=", "me") ],
+      t: 'updated_at:desc'
+    }
+    project_work_packages_with_query_path(project, query, options)
+  end
+
   # Links for project overview
   def project_work_packages_closed_version_path(version, options = {})
     query = {
