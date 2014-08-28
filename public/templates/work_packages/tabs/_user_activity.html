@@ -2,8 +2,11 @@
      ng-mouseover="showActions()"
      ng-mouseout="hideActions()">
   <div class="comments-number">
-    <a name="{{ activityNo }}" ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })"
-                               ng-bind="'#' + activityNo"></a>
+    <span ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })">
+      <a name="{{ activityNo }}"
+         ng-bind="'#' + activityNo"
+         href="#{{ activityNo }}"></a>
+    </span>
     <div class="comments-icons"
          ng-show="activity.props._type == 'Activity::Comment' && inFocus">
       <i class="icon-quote action-icon"
