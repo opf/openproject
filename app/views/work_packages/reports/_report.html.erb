@@ -77,7 +77,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <td align="center">
     <%= aggregate_link report.data,
                        { report.field => row.id },
-                       project_report_property_any_status_path((row.is_a?(Project) ? row : @project),
+                       project_report_property_path((row.is_a?(Project) ? row : @project),
                                                                "#{report.field}",
                                                                row.id) %>
   </td>
