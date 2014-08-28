@@ -5,8 +5,11 @@ angular.module('openproject.uiComponents')
     restrict: 'E',
     transclude: true,
     scope: { execute: '&' },
-    template: "<a execute-on-enter='execute()' ng-click='execute()' href=''>" +
+    template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling' ng-click='execute()' href=''>" +
                 "<span ng-transclude></span>" +
-              "</a>"
+              "</a>",
+    link: function(scope, element, attrs) {
+      scope.defaultEventHandling = !attrs.execute;
+    }
   };
 }]);

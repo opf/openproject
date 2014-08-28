@@ -29,7 +29,12 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-  .directive('withDropdown', ['$rootScope', '$window', function ($rootScope, $window) {
+  .constant('ESC_KEY', 27)
+
+  .directive('withDropdown', ['$rootScope',
+                              '$window',
+                              'ESC_KEY',
+                              'FocusHelper', function ($rootScope, $window, ESC_KEY, FocusHelper) {
 
     function position(dropdown, trigger) {
       var hOffset = 0,
@@ -117,10 +122,10 @@ angular.module('openproject.uiComponents')
           }
         });
 
-        angular.element(dropdown).on('keyup', function(even) {
-          if (event.keyCode === 27) {
+        angular.element(dropdown).on('keyup', function(event) {
+          if (event.keyCode === ESC_KEY) {
             scope.$emit('hideAllDropdowns');
-            angular.element(element).focus();
+            FocusHelper.focusElement(element);
           }
         });
       }

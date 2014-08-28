@@ -27,6 +27,7 @@
 //++
 
 describe('selectableTitle Directive', function() {
+  var MODEL_SELECTOR = 'div.dropdown-scrollable a';
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
@@ -92,8 +93,7 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should show text for models', function() {
-      var models = element.find('a');
-      expect(models.length).to.equal(6);
+      var models = element.find(MODEL_SELECTOR);
       expect(jQuery(models[0]).text()).to.equal('pinky1');
       expect(jQuery(models[1]).text()).to.equal('pinky2');
       expect(jQuery(models[2]).text()).to.equal('perky1');
@@ -101,13 +101,13 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should truncate long text for models', function() {
-      var models = element.find('a');
+      var models = element.find(MODEL_SELECTOR);
       expect(jQuery(models[4]).text()).to.equal('Misunderstood anthropomorphic puppet pig');
       expect(jQuery(models[5]).text()).to.equal('Badly misunderstood anthropomorphic pupp...');
     });
 
     it('should show a title (tooltip) for models', function() {
-      var models = element.find('a');
+      var models = element.find(MODEL_SELECTOR);
       expect(models.length).to.equal(6);
       expect(jQuery(models[0]).attr('title')).to.equal('pinky1');
       expect(jQuery(models[1]).attr('title')).to.equal('pinky2');
@@ -116,7 +116,7 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should not truncate long titles (tooltips) for models', function() {
-      var models = element.find('a');
+      var models = element.find(MODEL_SELECTOR);
       expect(jQuery(models[4]).attr('title')).to.equal('Misunderstood anthropomorphic puppet pig');
       expect(jQuery(models[5]).attr('title')).to.equal('Badly misunderstood anthropomorphic puppet pig');
     });
