@@ -122,7 +122,7 @@ angular.module('openproject.uiComponents')
           }
         });
 
-        angular.element(dropdown).on('keyup', function(even) {
+        angular.element(dropdown).on('keyup', function(event) {
           if (event.keyCode === ESC_KEY) {
             scope.$emit('hideAllDropdowns');
             FocusHelper.focusElement(element);
