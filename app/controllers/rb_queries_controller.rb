@@ -35,25 +35,26 @@
 
 class RbQueriesController < RbApplicationController
   unloadable
+  include WorkPackagesFilterHelper
 
   def show
-    @query = Query.new(:name => "_")
-    @query.project = @project
-
+    filters = []
     if params[:sprint_id]
-        @query.add_filter("status_id", '*', ['']) # All statuses
-        @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
-        @query.add_filter("backlogs_work_package_type", '=', ['any'])
+        filters.push(filter_object("status_id", "*"))
+        filters.push(filter_object("fixed_version_id", "=", [params[:sprint_id]]))
+        # Note: We need a filter for backlogs_work_package_type but currently it's not possible for plugins to introduce new filter types
     else
-        @query.add_filter("status_id", 'o', ['']) # only open
-        @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
-        @query.add_filter("backlogs_work_package_type", '=', ['story'])
+        filters.push(filter_object("status_id", "o"))
+        filters.push(filter_object("fixed_version_id", "!*", [params[:sprint_id]]))
+        # Same as above
     end
 
-    column_names = @query.columns.collect{|col| col.name}
-    column_names = column_names + ['position'] unless column_names.include?('position')
+    query = {
+      f: filters,
+      c: ['type', 'status', 'priority', 'subject', 'assigned_to', 'updated_at', 'position'],
+      t: 'position:desc'
+    }
 
-    session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :column_names => column_names}
-    redirect_to :controller => '/work_packages', :action => 'index', :project_id => @project.id, :sort => 'position'
+    redirect_to project_work_packages_with_query_path(@project, query)
   end
 end
