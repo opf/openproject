@@ -336,6 +336,7 @@ GEM
     raindrops (0.13.0)
     rake (10.3.2)
     rb-readline (0.5.1)
+    rbpdf (1.18.2)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
@@ -504,6 +505,7 @@ DEPENDENCIES
   rails-dev-tweaks (~> 0.6.1)
   rails_autolink
   rb-readline (~> 0.5.1)
+  rbpdf (~> 1.18.0)
   rdoc (>= 2.4.2)
   reform (~> 1.2.4)
   request_store

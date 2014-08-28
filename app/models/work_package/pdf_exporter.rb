@@ -27,8 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rfpdf/fpdf'
-require 'tcpdf'
+require 'rbpdf'
 
 module WorkPackage::PdfExporter
   include ActionView::Helpers::TextHelper
@@ -329,7 +328,7 @@ module WorkPackage::PdfExporter
     pdf.Line(top_x, lower_y, col_x, lower_y)  # bottom border
   end
 
-  class ITCPDF < TCPDF
+  class ITCPDF < RBPDF
     include Redmine::I18n
     attr_accessor :footer_date
 
@@ -381,7 +380,7 @@ module WorkPackage::PdfExporter
     end
   end
 
-  class IFPDF < FPDF
+  class IFPDF < RBPDF
     include Redmine::I18n
     attr_accessor :footer_date
 
