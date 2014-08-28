@@ -62,11 +62,9 @@ angular.module('openproject.viewModels')
     },
 
     addRelation: function(scope) {
-      var inputElement = angular.element('#relation_to_id-' + this.relationsId);
-      var toId = inputElement.val();
-      WorkPackageService.addWorkPackageRelation(this.workPackage, toId, this.relationsId).then(function(relation) {
+      WorkPackageService.addWorkPackageRelation(this.workPackage, scope.relationToAddId, this.relationsId).then(function(relation) {
+          scope.relationToAddId = '';
           scope.updateFocus(-1);
-          inputElement.val('');
           scope.$emit('workPackageRefreshRequired', '');
       }, function(error) {
         ApiHelper.handleError(scope, error);
