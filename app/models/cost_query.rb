@@ -47,4 +47,3 @@ class CostQuery < Report
     end
   end
 end
-

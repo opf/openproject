@@ -433,4 +433,3 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
     end
   end
 end
-
