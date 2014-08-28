@@ -1,9 +1,9 @@
 <div id="work-package-context-menu" class="action-menu">
   <ul class="menu">
     <li class="open">
+    <i ng-class="['icon-context', 'icon-table-detail-view']"></i>
       <a focus href
          ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})"
-         ng-class="['icon-context', 'icon-table-detail-view']"
          ng-bind="I18n.t('js.button_open_details')">
       </a>
     </li>

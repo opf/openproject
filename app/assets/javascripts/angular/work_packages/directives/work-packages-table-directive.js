@@ -33,8 +33,7 @@ angular.module('openproject.workPackages.directives')
   'WorkPackagesTableService',
   'flags',
   'PathHelper',
-  '$state',
-  function(I18n, WorkPackagesTableService, flags, PathHelper, $state){
+  function(I18n, WorkPackagesTableService, flags, PathHelper){
 
   return {
     restrict: 'E',
@@ -50,7 +49,8 @@ angular.module('openproject.workPackages.directives')
       groupByColumn: '=',
       displaySums: '=',
       totalSums: '=',
-      groupSums: '='
+      groupSums: '=',
+      activationCallback: '&'
     },
     link: function(scope, element, attributes) {
       var activeSelectionBorderIndex;
@@ -131,15 +131,13 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.showWorkPackageDetails = function(row) {
-        var workPackageState = $state.get('work-packages');
-
         clearSelection();
 
         scope.setCheckedStateForAllRows(false);
 
         setRowSelectionState(row, true);
 
-        $state.go(workPackageState.resolve.latestTab().getStateName(), { workPackageId: row.object.id });
+        scope.activationCallback({ id: row.object.id });
       };
     }
   };
