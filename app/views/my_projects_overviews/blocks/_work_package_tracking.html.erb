@@ -29,16 +29,14 @@ See doc/COPYRIGHT.md for more details.
   <div class="issues overview">
     <ul>
       <% for type in types %>
-        <li><%= link_to h(type.name), :controller => '/work_packages', :action => 'index', :project_id => project,
-                :set_filter => 1,
-                "type_id" => type.id %>:
+        <li><%= link_to h(type.name), project_property_path(project, "type_id", type.id) %>:
           <%= l(:label_x_open_work_packages_abbr_on_total, :count => open_work_packages_by_type[type].to_i,
                 :total => total_work_packages_by_type[type].to_i) %>
         </li>
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project, :set_filter => 1}, :class => 'button_highlight' %>
+      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button_highlight' %>
       <% if User.current.allowed_to?(:view_calendar, project, :global => true) %>
         <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => project}, :class => 'button_highlight') %>
       <% end %>
