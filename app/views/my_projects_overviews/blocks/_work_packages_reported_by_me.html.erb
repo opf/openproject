@@ -34,13 +34,13 @@ See doc/COPYRIGHT.md for more details.
 <% if reported_work_packages.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_reported_by_me),
-                  work_packages_reported_by_me_path,
+                  project_work_packages_reported_by_me_path(@project),
                   :class => 'button_highlight' %>
   </p>
 <% end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom,
-                                work_packages_reported_by_me_path({:format => 'atom', :key => User.current.rss_key}),
+                                project_work_packages_reported_by_me_path(@project, {:format => 'atom', :key => User.current.rss_key}),
                                 {:title => l(:label_work_packages_reported_by_me)}) %>
 <% end %>

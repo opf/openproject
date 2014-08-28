@@ -31,7 +31,7 @@ See doc/COPYRIGHT.md for more details.
 <% if watched_work_packages.length > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_watched),
-                  work_packages_watched_path,
+                  project_work_packages_watched_path(@project),
                   :class => 'button_highlight' %>
   </p>
 <% end %>
