@@ -18,7 +18,12 @@
         </button>
       </li>
       <li class="toolbar-item">
-        <button class="button"
+        <label for="work-packages-filter-toggle-button" class="hidden-for-sighted">
+          {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
+        </label>
+        <button id="work-packages-filter-toggle-button"
+                class="button"
+                title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="showFiltersOptions = !showFiltersOptions"
                 ng-class="{active: showFiltersOptions}">
           <i class="icon-filter-big icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
