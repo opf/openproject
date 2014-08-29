@@ -65,6 +65,7 @@ angular.module('openproject.viewModels')
       var inputElement = angular.element('#relation_to_id-' + this.relationsId);
       var toId = inputElement.val();
       WorkPackageService.addWorkPackageRelation(this.workPackage, toId, this.relationsId).then(function(relation) {
+          scope.updateFocus(-1);
           inputElement.val('');
           scope.$emit('workPackageRefreshRequired', '');
       }, function(error) {
@@ -78,6 +79,7 @@ angular.module('openproject.viewModels')
 
       WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
           handler.relations.splice(index, 1);
+          scope.updateFocus(index);
         }, function(error) {
           ApiHelper.handleError(scope, error);
         });
@@ -146,6 +148,7 @@ angular.module('openproject.viewModels')
 
             WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
                 handler.relations.splice(index, 1);
+                scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
             }
