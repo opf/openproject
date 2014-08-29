@@ -108,6 +108,21 @@ module API
 
             end
 
+            resource :available_responsibles do
+
+              get do
+                authorize(:add_work_packages, context: @work_package.project) \
+                  || authorize(:edit_work_packages, context: @work_package.project)
+
+                available_responsibles = @work_package.assignable_responsibles
+                build_representer(available_responsibles,
+                                  ::API::V3::Users::UserModel,
+                                  ::API::V3::Users::UserCollectionRepresenter,
+                                  as: :available_responsibles)
+              end
+
+            end
+
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::WorkPackages::StatusesAPI
             mount ::API::V3::Relations::RelationsAPI
