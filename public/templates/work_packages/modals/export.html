@@ -6,7 +6,7 @@
 
     <ul class="export-options">
       <li ng-repeat="option in modal.exportOptions">
-        <a ng-href="{{ option.url }}">
+        <a ng-href="{{ option.url }}" focus="$first">
           <i class="icon-page-{{ option.identifier }} icon-big"></i>
           <span class="export-label">{{ option.label }}</span>
         </a>
