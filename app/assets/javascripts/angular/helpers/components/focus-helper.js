@@ -57,7 +57,6 @@ angular.module('openproject.uiComponents')
 
     focusSelect2Element: function(element) {
       $timeout(function() {
-        dump(element);
         element.select2('focus');
       });
     }
