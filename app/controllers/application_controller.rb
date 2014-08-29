@@ -451,17 +451,17 @@ class ApplicationController < ActionController::Base
     params[:back_url] || request.env['HTTP_REFERER']
   end
 
-  def redirect_back_or_default(default, escape = true)
-    back_url = if escape
+  def redirect_back_or_default(default, escape = true, use_escaped = true)
+    escaped_back_url = if escape
                  URI.escape(CGI.unescape(params[:back_url].to_s))
                else
                  params[:back_url]
                end
 
     # if we have a back_url it must not contain two consecutive dots
-    if back_url.present? && !back_url.match(/\.\./)
+    if escaped_back_url.present? && !escaped_back_url.match(/\.\./)
       begin
-        uri = URI.parse(back_url)
+        uri = URI.parse(escaped_back_url)
 
         # do not redirect user to another host (even protocol relative urls have the host set)
         # whenever a host is set it must match the request's host
@@ -474,7 +474,11 @@ class ApplicationController < ActionController::Base
         uri_subdir_allowed = relative_url_root.blank? || uri.path.match(/\A#{relative_url_root}/)
 
         if uri_local_to_host && uri_path_allowed && uri_subdir_allowed
-          redirect_to(back_url)
+          if use_escaped
+            redirect_to(escaped_back_url)
+          else
+            redirect_to(back_url)
+          end
           return
         end
       rescue URI::InvalidURIError

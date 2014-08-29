@@ -77,11 +77,15 @@ describe('WorkPackagesListController', function() {
     testQueries = {
       '1': {
         id: 1,
-        columns: ['type']
+        columns: ['type'],
+        getSortation: function() { return null; },
+        isNew: function() { return false; }
       },
       '2': {
         id: 2,
-        columns: ['type']
+        columns: ['type'],
+        getSortation: function() { return null; },
+        isNew: function() { return false; }
       },
     };
 
@@ -191,7 +195,10 @@ describe('WorkPackagesListController', function() {
   describe('initialisation of default query', function() {
     beforeEach(function(){
       testParams = {};
-      testState = { params: {} };
+      testState = {
+        params: {},
+        href: function() { return '' }
+      };
       testLocation = {
         search: function() {
           return {};
@@ -213,9 +220,12 @@ describe('WorkPackagesListController', function() {
   describe('initialisation of query by id', function() {
     beforeEach(function(){
       testParams = { };
-      testState = { params: {
-        query_id: testQueries['2'].id
-      } };
+      testState = {
+        params: {
+          query_id: testQueries['2'].id
+        },
+        href: function() { return '' }
+      };
       testLocation = {
         search: function() {
           return {};
