@@ -186,7 +186,6 @@ class WorkPackagesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
 
       redirect_back_or_default(work_package_path(work_package), true, false)
-      # redirect_to_back_url_or_work_package(work_package)
     else
       edit
     end

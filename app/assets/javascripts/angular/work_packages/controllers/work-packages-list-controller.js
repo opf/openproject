@@ -192,11 +192,7 @@ angular.module('openproject.workPackages.controllers')
 
     if($scope.query) {
       var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
-      if($scope.query.isNew()) {
-        relativeUri = relativeUri + "?query_props=" + queryString;
-      } else {
-        relativeUri = relativeUri + "&query_props=" + queryString;
-      }
+      relativeUri += (($scope.query.isNew()) ? '?' : '&') + 'query_props=' + queryString;
     }
 
     return relativeUri;
