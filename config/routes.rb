@@ -34,13 +34,13 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
-  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
   match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
-  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
