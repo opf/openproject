@@ -51,6 +51,7 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.focusElementIndex = -2;
 
       var setExpandState = function() {
         scope.expand = !scope.handler.isEmpty();
