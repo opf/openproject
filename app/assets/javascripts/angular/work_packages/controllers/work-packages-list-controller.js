@@ -264,6 +264,10 @@ angular.module('openproject.workPackages.controllers')
     }
   });
 
+  $rootScope.$on('workPackgeLoaded', function(event, message) {
+    $scope.maintainBackUrl();
+  });
+
   $scope.openLatestTab = function() {
     $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
   };
