@@ -137,6 +137,8 @@ angular.module('openproject.workPackages.controllers')
       // Set up fresh query from retrieved query meta data
       $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
     }
+
+    $scope.maintainBackUrl();
   }
 
   function afterQuerySetupCallback(query) {
@@ -185,18 +187,31 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  // Updates
-
-  $scope.maintainUrlQueryState = function(){
-    var relativeUrl = decodeURIComponent($state.href($state.$current)); // ui-router escapes some of this string for whatever reason
+  function getCurrentStateUrl(){
+    var relativeUri = decodeURIComponent($state.href($state.$current)); // ui-router escapes some of this string for whatever reason
 
     if($scope.query) {
       var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
-      $location.search('query_props', queryString);
-      relativeUrl = relativeUrl + "?query_props=" + queryString;
+      if($scope.query.isNew()) {
+        relativeUri = relativeUri + "?query_props=" + queryString;
+      } else {
+        relativeUri = relativeUri + "&query_props=" + queryString;
+      }
     }
 
-    $scope.backUrl = relativeUrl;
+    return relativeUri;
+  }
+
+  $scope.maintainBackUrl = function() {
+    $scope.backUrl = getCurrentStateUrl();
+  }
+
+  // Updates
+
+  $scope.maintainUrlQueryState = function(){
+    if($scope.query) {
+      $location.search('query_props', UrlParamsHelper.encodeQueryJsonParams($scope.query));
+    }
   };
 
   $scope.loadQuery = function(queryId) {
@@ -237,6 +252,7 @@ angular.module('openproject.workPackages.controllers')
 
   $rootScope.$on('queryStateChange', function(event, message) {
     $scope.maintainUrlQueryState();
+    $scope.maintainBackUrl();
   });
 
   $rootScope.$on('workPackagesRefreshRequired', function(event, message) {
