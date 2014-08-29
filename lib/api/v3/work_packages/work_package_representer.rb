@@ -209,6 +209,9 @@ module API
         property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
 
+        property :responsible_id, getter: -> (*) { nil }
+        property :assignee_id, getter: -> (*) { nil }
+
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
         property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }

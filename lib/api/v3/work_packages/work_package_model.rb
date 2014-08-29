@@ -51,8 +51,6 @@ module API
         property :author,           type: String
         property :project_id,       type: Integer
         property :parent_id,        type: Integer, render_nil: true
-        property :responsible_id,   type: Integer
-        property :assigned_to_id,   type: Integer
         property :fixed_version_id, type: Integer
 
 
@@ -112,6 +110,14 @@ module API
 
         def percentage_done=(value)
           model.done_ratio = value
+        end
+
+        def responsible_id=(value)
+          model.responsible_id = value
+        end
+
+        def assignee_id=(value)
+          model.assigned_to_id = value
         end
 
         def author
