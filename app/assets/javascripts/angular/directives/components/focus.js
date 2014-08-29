@@ -31,11 +31,23 @@ angular.module('openproject.uiComponents')
 
 .directive('focus', ['$timeout', 'FocusHelper', function($timeout, FocusHelper) {
 
+  function isSelect2Element(attrs) {
+    var select2attributes = Object.keys(attrs).filter(function(attribute) {
+      return attribute.search(/select2/i) >= 0;
+    });
+
+    return select2attributes.length > 0;
+  }
+
   function updateFocus(scope, element, attrs) {
     var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
 
     if (condition) {
-      FocusHelper.focusElement(element);
+      if (isSelect2Element(attrs)) {
+        FocusHelper.focusSelect2Element(element);
+      } else {
+        FocusHelper.focusElement(element);
+      }
     }
   }
 
