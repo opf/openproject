@@ -8,3 +8,6 @@ cp -f packaging/conf/configuration.yml config/configuration.yml
 sed -i "s|config.serve_static_assets = false|config.serve_static_assets = true|" config/environments/production.rb
 
 cp -f packaging/conf/000-establish-connection.rb config/initializers/
+
+# replace every occurrence of _APP_NAME_ with the corresponding application name we're packaging
+find packaging/ -type f -print0 | xargs -0 sed -i "s|_APP_NAME_|${APP_NAME}|"
