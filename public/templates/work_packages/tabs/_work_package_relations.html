@@ -20,7 +20,7 @@
           <tbody>
             <tr related-work-package-table-row
                 ng-repeat="relation in handler.relations">
-              <td>
+              <td focus="isFocused($index)">
                 <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
                   {{ fullIdentifier }}
                 </a>
@@ -32,10 +32,13 @@
                 </a>
                 <empty-element ng-if="!relatedWorkPackage.embedded.assignee"></empty-element>
               </td>
-              <td><i title="{{ I18n.t('js.relations.delete') }}"
-                     class="delete-item icon-delete"
-                     ng-click="handler.removeRelation(this)"
-                     ng-if="handler.canDeleteRelation(relation)"></i>
+              <td>
+                <accessible-by-keyboard ng-if="handler.canDeleteRelation(relation)"
+                                        execute="handler.removeRelation(this)">
+                  <icon-wrapper icon-name="delete"
+                                icon-title="{{ I18n.t('js.relations.delete') }}">
+                  </icon-wrapper>
+                </accessible-by-keyboard>
               </td>
             </tr>
 
@@ -46,7 +49,7 @@
         {{ I18n.t('js.relations.empty') }}
       </div>
     </div>
-    <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type">
+    <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type" focus="isFocused(-1)">
       <add-work-package-child ng-switch-when="child"></add-work-package-child>
       <add-work-package-relation ng-switch-default></add-work-package-relation>
     </div>

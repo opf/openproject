@@ -65,6 +65,7 @@ angular.module('openproject.viewModels')
       var inputElement = angular.element('#relation_to_id-' + this.relationsId);
       var toId = inputElement.val();
       WorkPackageService.addWorkPackageRelation(this.workPackage, toId, this.relationsId).then(function(relation) {
+          scope.updateFocus(-1);
           inputElement.val('');
           scope.$emit('workPackageRefreshRequired', '');
       }, function(error) {
@@ -73,8 +74,12 @@ angular.module('openproject.viewModels')
     },
 
     removeRelation: function(scope) {
+      var index = this.relations.indexOf(scope.relation);
+      var handler = this;
+
       WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
-          scope.$emit('workPackageRefreshRequired', '');
+          handler.relations.splice(index, 1);
+          scope.updateFocus(index);
         }, function(error) {
           ApiHelper.handleError(scope, error);
         });
@@ -138,8 +143,12 @@ angular.module('openproject.viewModels')
         };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.removeRelation = function(scope) {
+            var index = this.relations.indexOf(scope.relation);
+            var handler = this;
+
             WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
-                scope.$emit('workPackageRefreshRequired', '');
+                handler.relations.splice(index, 1);
+                scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
             }

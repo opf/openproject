@@ -51,6 +51,7 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_work_package_relations.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.focusElementIndex = -2;
 
       var setExpandState = function() {
         scope.expand = !scope.handler.isEmpty();
@@ -77,6 +78,24 @@ angular.module('openproject.workPackages.tabs')
 
       scope.toggleExpand = function() {
         scope.expand = !scope.expand;
+      };
+
+      scope.isFocused = function(index) {
+        return index == scope.focusElementIndex;
+      };
+
+      scope.updateFocus = function(index) {
+        var length = scope.handler.relations.length;
+
+        if (length == 0) {
+          scope.focusElementIndex = -1;
+        } else {
+          scope.focusElementIndex = (index < length) ? index : length - 1;
+        }
+
+        $timeout(function() {
+          scope.$broadcast('updateFocus');
+        });
       };
     }
   };

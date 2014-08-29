@@ -263,7 +263,7 @@ describe('Work Package Relations Directive', function() {
 
         if(removable) {
           var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
-          var deleteIcon = angular.element(column4.find('i'));
+          var deleteIcon = angular.element(column4.find('span.icon-delete'));
           expect(deleteIcon.length).not.to.eq(0);
           expect(deleteIcon.attr('title')).to.include('Delete relation');
         }
