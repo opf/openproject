@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ Feature: Editing a bool custom field
     And I fill in "custom_field_translations_attributes_0_name" with "Long name which forces an error"
     And I press "Save"
     Then the "custom_field_translations_attributes_0_name" field should contain "Long name which forces an error"
-    And I should see "Name is too long" within "#errorExplanation"
+    And I should see "Name is the wrong length" within "#errorExplanation"
 
   Scenario: Entering an already taken name displays an error
     Given the following issue custom fields are defined:

@@ -1,0 +1,142 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.
+ *
+ */
+
+.controller-work_packages.action-index
+  @extend %absolute-layout-mode
+
+// TODO: apply this throughout the application
+#work-packages-index div
+  box-sizing: border-box
+
+#content
+  $flash-margins-padding: 10px + (2 * 4px)
+
+  // HACK: workaround to ensure correct height applied to child elements
+  > div[ui-view]
+    height: 100%
+
+  .flash + div[ui-view]
+    height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
+
+// HACK: workaround to ensure correct height applied to child elements
+#work-packages-index
+  height: 100%
+
+.work-packages--page-container
+  +display(flex)
+  +flex-direction(column)
+  height: 100%
+
+  > .toolbar-container
+    // not flex-item
+
+  > .work-packages--filters-optional-container
+    // not flex-item
+    height: auto
+
+  > .work-packages--split-view
+    +flex-grow(1)
+    min-height: 100px
+
+.work-packages--split-view
+  +display(flex)
+  width: 100%
+
+.work-packages--list
+  +flex-grow(1)
+  position: relative
+
+.work-packages--list-scroll-area
+  position: absolute
+  top:      0
+  bottom:   35px
+  width:    100%
+  overflow: auto
+
+.work-packages--list-pagination-area
+  position: absolute
+  bottom:   0px
+  height:   35px
+
+.work-packages--details
+  position: relative
+  padding: 0 1em 1em
+  border-left: 4px solid #eee
+
+  @media only screen and (max-width: 1280px)
+    display: none
+  // li[feature-flag=detailsView]
+  //   display: none
+  @media only screen and (min-width: 1281px)
+    width: 480px
+  @media only screen and (min-width: 1440px)
+    width: 580px
+
+.work-packages--details-content
+  position:   absolute
+  top:        55px
+  bottom:     55px
+  width:      100%
+  +allow-vertical-scrolling
+  padding:    0px 5px 15px 10px
+
+.work-packages--details-toolbar
+  position:   absolute
+  bottom:     0
+  height:     55px
+
+.controller-work_packages
+  #work-packages-query-selection
+    .select2-container
+      margin-left: 5px
+
+  .issue
+    .attributes
+      td.work_package_attribute_header
+        font-weight: bold
+  .icon-button, .sort-header, .action-icon
+    cursor: pointer
+
+  select, input
+    &.to-validate.ng-dirty.ng-valid
+      border: 1px solid Green
+    &.to-validate.ng-dirty.ng-valid ~ span.ok
+      color: green
+      display: inline
+    &.to-validate.ng-dirty.ng-invalid
+      border: 1px solid Red
+    &.to-validate.ng-dirty.ng-invalid ~ span.ok
+      color: red
+      display: inline
+
+  .work_package
+    tr
+      line-height: $user_avatar_mini_width
+  .avatar-mini
+    float: left

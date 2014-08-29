@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,44 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
-<div id="login-form">
-<%= form_tag({:action=> "login"}, :autocomplete => 'off') do %>
-<%= back_url_hidden_field_tag %>
-<table>
-<tr>
-    <td align="right"><label for="username"><%= User.human_attribute_name :login %>:</label></td>
-    <td align="left"><%= text_field_tag 'username', nil %></td>
-</tr>
-<tr>
-    <td align="right"><label for="password"><%= User.human_attribute_name :password %>:</label></td>
-    <td align="left"><%= password_field_tag 'password', nil %></td>
-</tr>
-<% if Setting.openid? %>
-<tr>
-  <td align="right"><label for="openid_url"><%= User.human_attribute_name :identity_url %></label></td>
-  <td align="left"><%= text_field_tag "openid_url", nil %></td>
-</tr>
-<% end %>
-<tr>
-    <td></td>
-    <td align="left">
-        <% if Setting.autologin? %>
-        <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
-        <% end %>
-    </td>
-</tr>
-<tr>
-    <td align="left">
-        <% if Setting.lost_password? %>
-            <%= link_to l(:label_password_lost), :controller => '/account', :action => 'lost_password' %>
-        <% end %>
-    </td>
-    <td align="right">
-        <input type="submit" name="login" value="<%=l(:button_login)%> &#187;"/>
-    </td>
-</tr>
-</table>
-<%= javascript_tag "Form.Element.focus('username');" %>
-<% end %>
+<div id="login-form" class="form">
+  <h1><%= I18n.t(:label_login) %></h1>
+
+  <hr class="form_separator">
+  <% unless OpenProject::Configuration.disable_password_login? %>
+    <%= render partial: 'password_login_form' %>
+  <% end %>
+  <%= render partial: 'auth_providers' %>
 </div>
 <%= call_hook :view_account_login_bottom %>

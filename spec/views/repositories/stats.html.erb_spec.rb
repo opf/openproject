@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 
-describe 'repositories/stats' do
+describe 'repositories/stats', :type => :view do
   let(:project) { FactoryGirl.create(:project) }
 
   before do
@@ -43,7 +43,7 @@ describe 'repositories/stats' do
     end
 
     it 'should embed the commits per author graph' do
-      response.body.should include('commits_per_author')
+      expect(response.body).to include('commits_per_author')
     end
   end
 
@@ -54,7 +54,7 @@ describe 'repositories/stats' do
     end
 
     it 'should NOT embed the commits per author graph' do
-      response.body.should_not include('commits_per_author')
+      expect(response.body).not_to include('commits_per_author')
     end
   end
 end

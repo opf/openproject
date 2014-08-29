@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,16 @@ en:
       login_consequences:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
+    error_inactive_activation_by_mail: >
+      Your account has not yet been activated.
+      To activate your account, click on the link that was emailed to you.
+    error_inactive_manual_activation: >
+      Your account has not yet been activated.
+      Please wait for an administrator to activate your account.
+    error_self_registration_disabled: >
+      User registration is disabled on this system. Please ask an administrator to create an
+      account for you.
+    login_with_auth_provider: "or sign in with your existing account"
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -77,8 +87,6 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
-      enumeration:
-        active: "Active"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -98,9 +106,11 @@ en:
         project_type: "Project type"
         responsible: "Responsible"
         types: "Types"
+        queries: "Queries"
       query:
         column_names: "Columns"
         group_by: "Group results by"
+        filters: "Filters"
       repository:
         url: "URL"
       role:
@@ -119,7 +129,6 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
-        identity_url: "OpenID URL"
         language: "Language"
         last_login_on: "Last connection"
         mail_notification: "Email notifications"
@@ -163,7 +172,9 @@ en:
       work_package:
         done_ratio: "% done"
         fixed_version: "Target version"
-        parent: Parent
+        parent: "Parent"
+        parent_issue: "Parent"
+        parent_work_package: "Parent"
         priority: "Priority"
         progress: "% done"
         responsible: "Responsible"
@@ -185,6 +196,7 @@ en:
         exclusion: "is reserved"
         greater_than: "must be greater than %{count}"
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
         inclusion: "is not included in the list"
         invalid: "is invalid"
@@ -192,6 +204,7 @@ en:
         less_than_or_equal_to: "must be less than or equal to %{count}"
         not_a_date: "is not a valid date"
         not_a_number: "is not a number"
+        not_an_integer: "is not an integer"
         not_same_project: "doesn't belong to the same project"
         odd: "must be odd"
         taken: "has already been taken"
@@ -204,6 +217,7 @@ en:
         after_or_equal_to: "must be after or equal to %{date}"
         before: "must be before %{date}"
         before_or_equal_to: "must be before or equal to %{date}"
+        could_not_be_copied: "could not be (fully) copied"
       models:
         project_association:
           identical_projects: "can not be created from one project to itself"
@@ -213,9 +227,15 @@ en:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
-            parent:
+            parent_id:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
+              not_a_valid_parent: "is invalid"
+              does_not_exist: "does not exist"
+            status_id:
+              status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
+            priority_id:
+              only_active_priorities_allowed: "needs to be active"
         user:
           attributes:
             password:
@@ -227,6 +247,9 @@ en:
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
+        member:
+          principal_blank: "Please choose at least one user or group."
+          role_blank: "Please choose at least one role."
       template:
         body: "Please check the following fields:"
         header:
@@ -241,7 +264,7 @@ en:
       group: "Group"
       issue: "Issue"
       category: "Category"
-      status: "Issue status"
+      status: "Work package status"
       member: "Member"
       news: "News"
       project: "Project"
@@ -258,14 +281,18 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  errors:
+    header_invalid_fields: "There were problems with the following fields:"
+
   activity:
     created: "Created: %{title}"
     updated: "Updated: %{title}"
 
   # common attributes of all models
   attributes:
-    assigned_to: "Assignee"
     active: "Active"
+    assigned_to: "Assignee"
+    attachments: "Attachments"
     author: "Author"
     base: "General Error:"
     blocks_ids: "Blocks"
@@ -275,11 +302,14 @@ en:
     created_at: "Created on"
     created_on: "Created on"
     custom_values: "Custom fields"
+    default_columns: "Default columns"
     description: "Description"
+    display_sums: "Display Sums"
     due_date: "Due date"
     estimated_hours: "Estimated time"
     firstname: "First name"
     group: "Group"
+    groupname: "Group name"
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
@@ -321,6 +351,7 @@ en:
   button_create: "Create"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
+  button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
   button_edit: "Edit"
@@ -329,7 +360,7 @@ en:
   button_list: "List"
   button_lock: "Lock"
   button_log_time: "Log time"
-  button_login: "Login"
+  button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
   button_quote: "Quote"
@@ -354,6 +385,15 @@ en:
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
+
+  copy_project:
+    started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by Mail as soon as \"%{target_project_name}\" is available."
+    failed: "Cannot copy project %{source_project_name}"
+    succeeded: "Created project %{target_project_name}"
+    errors: "Error"
+    text:
+      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
+      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
 
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
@@ -414,31 +454,49 @@ en:
       x_seconds:
         one: "1 second"
         other: "%{count} seconds"
+    units:
+      hour:
+        one: "hour"
+        other: "hours"
 
+  default_activity_management: "Management"
   default_activity_design: "Design"
   default_activity_development: "Development"
-  default_status_closed: "Closed"
-  default_status_feedback: "Feedback"
-  default_status_in_progress: "In Progress"
-  default_status_new: "New"
-  default_status_rejected: "Rejected"
-  default_status_resolved: "Resolved"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
+  default_activity_testing: "Testing"
+  default_activity_Support: "Support"
+  default_activity_Other: "Other"
+  default_status_new: "new"
+  default_status_specified: "specified"
+  default_status_confirmed: "confirmed"
+  default_status_to_be_scheduled: "to be scheduled"
+  default_status_scheduled: "scheduled"
+  default_status_in_progress: "in progress"
+  default_status_tested: "tested"
+  default_status_on_hold: "on hold"
+  default_status_rejected: "rejected"
+  default_status_closed: "closed"
   default_priority_low: "Low"
   default_priority_normal: "Normal"
-  default_priority_urgent: "Urgent"
+  default_priority_high: "High"
+  default_priority_immediate: "Immediate"
+  default_project_type_customer: "Customer Project"
+  default_project_type_internal: "Internal Project"
+  default_reported_project_status_green: "Green"
+  default_reported_project_status_amber: "Amber"
+  default_reported_project_status_red: "Red"
   default_role_anonymous: "Anonymous"
   default_role_developer: "Developer"
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
-  default_role_reporter: "Reporter"
+  default_role_reader: "Reader"
+  default_role_member: "Member"
   default_type: "Work Package"
+  default_type_task: "Task"
+  default_type_deliverable: "Deliverable"
+  default_type_milestone: "Milestone"
+  default_type_phase: "Phase"
   default_type_bug: "Bug"
   default_type_feature: "Feature"
-  default_type_support: "Support"
-  default_type_phase: "Phase"
-  default_type_milestone: "Milestone"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -464,7 +522,6 @@ en:
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_notes: "Notes"
-  description_option_toggle: "Show/Hide options"
   description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
@@ -473,7 +530,6 @@ en:
   description_select_work_package: "Select work package"
   description_selected_columns: "Selected Columns"
   description_sub_work_package: "Sub work package of current"
-  description_subwork_package: "Sub work package of"
   description_toc_toggle: "Show/Hide table of contents"
   description_user_mail_notification: "Mail notification settings"
   description_wiki_subpages_reassign: "Choose new parent page"
@@ -489,6 +545,7 @@ en:
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
+  error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -498,68 +555,49 @@ en:
   error_must_be_project_member: "must be project member"
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
+  error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "Unable to delete work package status"
+  error_unable_delete_default_status: "Unable to delete default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
 
+  error_external_authentication_failed: "An error occured during external authentication. Please try again."
+
+  events:
+    project: 'Project edited'
+    changeset: 'Changeset edited'
+    message: Message edited
+    news: News
+    reply: Replied
+    time_entry: 'Timelog edited'
+    wiki_page: 'Wiki page edited'
+    work_package_closed: 'Work Package closed'
+    work_package_edit: 'Work Package edited'
+    work_package_note: 'Work Package note added'
+
   general_csv_decimal_separator: "."
-  general_csv_encoding: "ISO-8859-1"
+  general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
   general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_No: "No"
-  general_text_Yes: "Yes"
   general_text_no: "no"
   general_text_yes: "yes"
+  general_text_No: "No"
+  general_text_Yes: "Yes"
 
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
 
-  js:
-    unsupported_browser:
-      title: "Your browser is not supported"
-      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
-      learn_more: "Learn more"
-    logoff: You have been logged off
-    redirect_login: Do you want to be redirected to the login page?
-    ajax:
-      hide: "Hide"
-      loading: "Loading ..."
-    select2:
-      input_too_short:
-        one: "Please enter one more character"
-        other: "Please enter {{count}} more characters"
-        zero: "Please enter more characters"
-      load_more: "Loading more results ..."
-      no_matches: "No matches found"
-      searching: "Searching ..."
-      selection_too_big:
-        one: "You can only select one item"
-        other: "You can only select {{limit}} items"
-        zero: "You cannot select any items"
-    timelines:
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
-      cancel: Cancel
-      save: Save
-      due_date: "Due date"
-      name: "Name"
-      project_status: "Project status"
-      project_type: "Project type"
-      responsible: "Responsible"
-      start_date: "Start date"
-      error: "An error has occured."
-      create_planning_select_project: "Project:"
-      really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
-      filter:
-        noneElement: "(none)"
-        noneSelection: "(none)"
+  instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
+  instructions_after_logout: "You can sign in again by clicking %{signin}."
+  instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
   label_account: "Account"
   label_activity: "Activity"
@@ -577,7 +615,6 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_work_packages: "all work packages"
   label_all_time: "all time"
   label_all_words: "All words"
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -621,6 +658,8 @@ en:
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
+  label_collapse: "Collapse"
+  label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -649,7 +688,6 @@ en:
   label_date_to: "To"
   label_day_plural: "days"
   label_default: "Default"
-  label_default_columns: "Default columns"
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_descending: "Descending"
@@ -660,7 +698,6 @@ en:
   label_disabled: "disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
-  label_display_sums: "Display Sums"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
@@ -670,7 +707,7 @@ en:
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
-  label_enumeration_new: "New value"
+  label_enumeration_new: "New enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
@@ -696,6 +733,7 @@ en:
   label_group_new: "New group"
   label_group_plural: "Groups"
   label_help: "Help"
+  label_here: here
   label_hide: "Hide"
   label_history: "History"
   label_home: "Home"
@@ -714,7 +752,10 @@ en:
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
+  label_work_package_note_added: "Work package note added"
+  label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
+  label_work_package_priority_updated: "Work package priority updated"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
   label_work_package_tracking: "Work package tracking"
@@ -722,6 +763,7 @@ en:
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
+  label_work_package_view_all_responsible_for: "View all work packages I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
   label_work_packages_by: "Work packages by %{value}"
@@ -742,7 +784,6 @@ en:
   label_loading: "Loading..."
   label_logged_as: "Logged in as"
   label_login: "Sign in"
-  label_login_with_open_id_option: "or login with OpenID"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
   label_max_size: "Maximum size"
@@ -779,6 +820,7 @@ en:
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "Add news"
+  label_news_edit: "Edit news"
   label_news_plural: "News"
   label_news_view_all: "View all news"
   label_next: "Next"
@@ -790,6 +832,7 @@ en:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
+  label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
   label_optional_description: "Description"
@@ -797,7 +840,7 @@ en:
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
-  label_password_lost: "Lost password"
+  label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
   label_password_rule_special: "Special Characters"
@@ -831,7 +874,8 @@ en:
   label_query_plural: "Custom queries"
   label_query_menu_item: "Query menu item"
   label_read: "Read..."
-  label_register: "Register"
+  label_register: "Create a new account"
+  label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
   label_registration_activation_by_email: "account activation by email"
   label_registration_automatic_activation: "automatic account activation"
@@ -850,12 +894,14 @@ en:
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
   label_repository_plural: "Repositories"
+  label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
   label_roadmap: "Roadmap"
+  label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
@@ -872,6 +918,7 @@ en:
   label_show_completed_versions: "Show completed versions"
   label_sort: "Sort"
   label_sort_by: "Sort by %{value}"
+  label_sorted_by: "sorted by %{value}"
   label_sort_higher: "Move up"
   label_sort_highest: "Move to top"
   label_sort_lower: "Move down"
@@ -881,12 +928,12 @@ en:
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
   label_status: "Status"
+  label_status_updated: "Work package status updated"
   label_stay_logged_in: "Stay logged in"
   label_string: "Text"
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "Subtasks"
-  label_sum_for: "Sum for %{value}"
   label_summary: "Summary"
   label_system: "System"
   label_table_of_contents: "Table of Contents"
@@ -936,6 +983,7 @@ en:
   label_week: "Week"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
+  label_wiki_toc: "Table of Contents"
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
@@ -950,6 +998,7 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
@@ -973,6 +1022,9 @@ en:
     zero: "no projects"
   label_year: "Year"
   label_yesterday: "yesterday"
+  label_keyboard_function: "Function"
+  label_keyboard_shortcut: "Shortcut"
+  label_keyboard_accesskey: "Accesskey"
   label_keyboard_shortcut_help_heading: "Available Keyboard Shortcuts"
   label_keyboard_shortcut_within_project: "Project related shortcuts:"
   label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
@@ -994,6 +1046,9 @@ en:
   label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
+
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -1017,7 +1072,6 @@ en:
   noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
-  notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
@@ -1030,6 +1084,7 @@ en:
   notice_account_update_failed: "Account setting could not be safed. Please have a look at your account page."
   notice_account_updated: "Account was successfully updated."
   notice_account_wrong_password: "Wrong password"
+  notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
   notice_api_access_key_reseted: "Your API access key was reset."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_default_data_loaded: "Default configuration successfully loaded."
@@ -1046,8 +1101,10 @@ en:
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
   notice_no_principals_found: "No results found."
+  notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
+  notice_project_not_deleted: "The project wasn't deleted."
   notice_successful_connection: "Successful connection."
   notice_successful_create: "Successful creation."
   notice_successful_delete: "Successful deletion."
@@ -1056,6 +1113,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
+  notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
 
   # Default format for numbers
@@ -1089,6 +1147,7 @@ en:
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
+  permission_copy_projects: "Copy projects"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -1112,6 +1171,7 @@ en:
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export Work Packages"
   permission_export_wiki_pages: "Export wiki pages"
+  permission_list_attachments: "List attachments"
   permission_log_time: "Log spent time"
   permission_manage_boards: "Manage forums"
   permission_manage_categories: "Manage work package categories"
@@ -1124,6 +1184,7 @@ en:
   permission_manage_subtasks: "Manage subtasks"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
+  permission_manage_wiki_menu: "Manage wiki menu"
   permission_move_work_packages: "Move work packages"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
@@ -1194,7 +1255,7 @@ en:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
-  setting_host_name: "Host name and path"
+  setting_host_name: "Host name"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -1211,7 +1272,6 @@ en:
   setting_mail_handler_api_key: "API key"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
-  setting_openid: "Allow OpenID login and registration"
   setting_password_active_rules: "Active character classes"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
   setting_password_days_valid: "Number of days, after which to enforce a password change (disable with 0)"
@@ -1221,6 +1281,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
@@ -1233,6 +1294,8 @@ en:
   setting_text_formatting: "Text formatting"
   setting_time_format: "Time format"
   setting_ui_theme: "Theme"
+  setting_user_may_override_theme: "Users may choose their own themes"
+  setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -1300,12 +1363,11 @@ en:
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Are you sure you want to delete this project and related data?"
-  text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed."
+  text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
   text_reassign: "Reassign to"
   text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_rmagick_available: "RMagick available (optional)"
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_select_project_modules: "Select modules to enable for this project:"
   text_status_changed_by_changeset: "Applied in changeset %{value}."
@@ -1339,7 +1401,9 @@ en:
 
   timelines:
     admin_menu:
+      color: "Color"
       colors: "Colors"
+      project_type: "Project type"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"
@@ -1366,7 +1430,8 @@ en:
     edit_color: "Edit color"
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
-    edit_timeline: "Edit timeline report"
+    edit_timeline: "Edit timeline report %{timeline}"
+    delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
@@ -1425,16 +1490,21 @@ en:
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"
-      outline: "Intitial outline expansion"
+      outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
+      work_package_assignee: "Show work packages with assignee"
       types: "Show types"
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_historical: "from %{startdate} to %{enddate}"
-      project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
+      project_time_filter_absolute_timeframe: "Absolute timeframe"
+      project_time_filter_relative_timeframe: "Relative timeframe"
+      project_time_filter_historical_from: "from"
+      project_time_filter_historical_to: "to"
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
       project_responsible: "Show projects with responsible"
       project_status: "Show project status"
@@ -1466,8 +1536,7 @@ en:
       all:         "Show all"
     reporting_for_project:
       show: "Status reported to project: %{title}"
-      delete: "Delete status reported to project: %{title}"
-      edit: "Edit status for project: %{title}"
+      edit_delete: "status report for project: %{title}"
       history: "History for status for project: %{title}"
     reporting:
       delete: "Delete status: %{comment}"
@@ -1528,6 +1597,10 @@ en:
     active: "active"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
+    authentication_provider: "Authentication Provider"
+    authentication_settings_disabled_due_to_external_authentication: >
+      This user authenticates via an external authentication provider, so there is no password
+      in OpenProject to be changed.
     assign_random_password: "Assign random password (sent to user via e-mail)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
@@ -1542,16 +1615,22 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
+    authorization_rejected: "You are not allowed to sign in."
 
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
 
+  note: Note
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
+  warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
+
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
@@ -1564,3 +1643,5 @@ en:
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_
+
+  nothing_to_preview: "Nothing to preview"

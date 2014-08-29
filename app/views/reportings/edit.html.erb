@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.
   %>
-  <%= javascript_include_tag "timelines_autocompleter.js" %>
+  <%= javascript_include_tag "autocompleter.js" %>
   <%= javascript_include_tag "timelines_select_boxes.js" %>
 <% end %>
 
@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
             :url  => project_reporting_path(@project, @reporting),
             :html => {:method => 'put'} do |f| %>
 
-  <%= f.error_messages %>
+  <%= error_messages_for 'project' %>
 
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>
@@ -67,7 +67,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <label for="reporting_reported_project_status_comment">
         <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
       </label><br/>
-      <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10) %>
+      <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
+                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                      :'ng-non-bindable' => '') %>
       <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
     </p>
   </fieldset>
@@ -81,5 +83,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
 <% end %>

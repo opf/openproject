@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module OpenProject
 
             available_macros.keys.collect(&:to_s).sort.each do |macro|
               out << content_tag('dt', content_tag('code', macro))
-              out << content_tag('dd', textilizable(available_macros[macro.to_sym]))
+              out << content_tag('dd', format_text(available_macros[macro.to_sym]))
             end
             content_tag('dl', out.html_safe)
           end
@@ -85,7 +85,7 @@ module OpenProject
             @included_wiki_pages ||= []
             raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
             @included_wiki_pages << page.title
-            out = textilizable(page.content, :text, :attachments => page.attachments, :headings => false)
+            out = format_text(page.content, :text, :attachments => page.attachments, :headings => false)
             @included_wiki_pages.pop
             out
           end

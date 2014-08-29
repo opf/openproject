@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -41,15 +41,16 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% if project.new_record? %>
-  <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
+  <div class="form-space">
+    <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
+  </div>
 <% end %>
 
-<% if (project.new_record? || project.module_enabled?('issue_tracking')) %>
+<% if (project.new_record? || project.module_enabled?('work_package_tracking')) %>
   <% if renderTypes %>
-    <fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
-      <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
-      <%= hidden_field_tag 'project[type_ids][]', '' %>
-    </fieldset>
+      <div class="form-space">
+        <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
+      </div>
   <% end %>
 <% end %>
 

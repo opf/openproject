@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,9 @@
   };
 
   var show_help_modal = function(){
-    modalHelperInstance.createModal('/help/keyboard_shortcuts');
+    var relative_url_root = jQuery('body').data('relative_url_root');
+    var template_path = relative_url_root + 'help/keyboard_shortcuts';
+    modalHelperInstance.createModal(template_path);
   };
 
   var go_overview = function(){
@@ -131,7 +133,7 @@
     dom_lists = $('table.list');
     dom_lists.find('tbody tr').each(function(index, tr){
       var first_link = $(tr).find('a:visible')[0];
-      if ( first_link !== undefined ) { focus_elements.push(first_link); };
+      if ( first_link !== undefined ) { focus_elements.push(first_link); }
     });
     return focus_elements;
   };
@@ -171,8 +173,8 @@
   Mousetrap.bind('k',     function(){ focus_previous_item(); return false; });
   Mousetrap.bind('m',     function(){ open_more_menu();      return false; });
 
-  Mousetrap.bind('s p',   function(){ search_project();      return false; });
-  Mousetrap.bind('s g',   function(){ search_global();       return false; });
+  Mousetrap.bind('p',     function(){ search_project();      return false; });
+  Mousetrap.bind('s',     function(){ search_global();       return false; });
 })(jQuery);
 
 jQuery(function(){

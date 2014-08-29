@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -36,19 +36,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
 
 <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-    <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
-    <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
+    <%= f.label :sticky do %>
+      <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
+    <% end %>
+    <%= f.label :locked do %>
+      <%= f.check_box :locked %><%= l(:label_board_locked) %>
+    <% end %>
 <% end %>
 </p>
 
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
-	<p><label><%= Board.name.humanize %></label><br />
+  <p><label><%= Board.name.humanize %></label><br />
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>
 
 <p>
-<%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content' %></p>
+  <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
+  <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                  :'ng-non-bindable' => '' %>
+</p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,9 +64,9 @@ class JournalFormatter::Base
 
   def format_html_details(label, old_value, value)
     label = content_tag('strong', label)
-    old_value = content_tag("i", h(old_value)) if old_value && !old_value.blank?
+    old_value = content_tag("i", h(old_value), title: h(old_value)) if old_value && !old_value.blank?
     old_value = content_tag("strike", old_value) if old_value and value.blank?
-    value = content_tag("i", h(value)) if value.present?
+    value = content_tag("i", h(value), title: h(value)) if value.present?
     value ||= ""
 
     [label, old_value, value]

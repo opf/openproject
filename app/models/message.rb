@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,18 +38,20 @@ class Message < ActiveRecord::Base
                      after_remove: :attachments_changed
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{o.journal.journable.board.name}: #{o.journal.journable.subject}"},
-                :event_description => :content,
-                :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :event_url => (Proc.new do |o|
-                  msg = o.journal.journable
-                  if msg.parent_id.nil?
-                    {:id => msg.id}
-                  else
-                    {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
-                  end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
-                end),
-                :activity_find_options => { :include => { :board => :project } }
+  acts_as_journalized
+
+  acts_as_event title: Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+                description: :content,
+                datetime: :created_on,
+                type: Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+                url: (Proc.new do |o|
+                        msg = o
+                        if msg.parent_id.nil?
+                          {:id => msg.id}
+                        else
+                          {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
+                        end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
+                      end)
 
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},
@@ -83,9 +85,19 @@ class Message < ActiveRecord::Base
 
   validate :validate_unlocked_root, :on => :create
 
+  before_save :set_sticked_on_date
+
   # Can not reply to a locked topic
   def validate_unlocked_root
     errors.add :base, 'Topic is locked' if root.locked? && self != root
+  end
+
+  def set_sticked_on_date
+    if sticky?
+      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
+    else
+      self.sticked_on = nil
+    end
   end
 
   def update_last_reply_in_parent

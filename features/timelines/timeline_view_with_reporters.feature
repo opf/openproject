@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,11 @@ Feature: Timeline View Tests with reporters
       And there is 1 user with:
           | login | manager |
 
+      And there is 1 user with:
+          | Login     |martymcfly |
+          | Firstname | Marty     |
+          | Lastname  | McFly     |
+
       And there is a role "manager"
       And the role "manager" may have the following rights:
           | view_timelines            |
@@ -69,6 +74,7 @@ Feature: Timeline View Tests with reporters
       And I am working in project "ecookbook"
 
       And the user "manager" is a "manager"
+      And the user "martymcfly" is responsible
 
       And the project uses the following modules:
           | timelines |
@@ -122,6 +128,7 @@ Feature: Timeline View Tests with reporters
       And the project "ecookbook_q3" has the parent "ecookbook13"
       And I am working in project "ecookbook_q3"
       And the user "manager" is a "manager"
+      And the user "martymcfly" is responsible
 
       And the project uses the following modules:
           | timelines |
@@ -201,6 +208,21 @@ Feature: Timeline View Tests with reporters
       And I should see the work package "March" in the timeline
       And I should not see the work package "August" in the timeline
       And I should not see the work package "March13" in the timeline
+
+  @javascript
+  Scenario: Filter projects by responsible
+     Given I am working in the timeline "Testline" of the project called "ecookbook"
+
+     When there is a timeline "Testline" for project "ecookbook"
+      And I show only projects which have responsible set to "martymcfly"
+      And I wait for timeline to load table
+
+     Then I should see the project "ecookbook"
+      And I should see the project "ecookbook_q3"
+      And I should not see the project "ecookbook_empty"
+      And I should not see the project "ecookbook13"
+      And I should see the work package "July" in the timeline
+      And I should see the work package "August" in the timeline
 
   @javascript
   Scenario: First level grouping and sortation

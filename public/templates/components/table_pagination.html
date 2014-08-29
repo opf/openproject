@@ -1,0 +1,53 @@
+<p class="pagination">
+  <a ng-show="paginationOptions.page != 1"
+     ng-click="showPage(paginationOptions.page - 1)"
+     class="previous_page"
+     rel="prev start"
+     href="">{{ I18n.t('js.label_previous') }}
+  </a>
+
+  <span ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers">
+    <a ng-click="showPage(pageNumber)"
+       class="page-no"
+       rel="next"
+       href="">{{ pageNumber }}</a>
+  </span>
+  <span ng-if="prePageNumbers" class="gap">...</span>
+
+  <span ng-if="pageNumbers.length > 1" ng-repeat="pageNumber in pageNumbers">
+    <em ng-if="pageNumber == paginationOptions.page" class="current">{{ pageNumber }}</em>
+    <a ng-if="pageNumber != paginationOptions.page"
+       ng-click="showPage(pageNumber)"
+       class="page-no"
+       rel="next"
+       href="">{{ pageNumber }}</a>
+  </span>
+
+  <span ng-if="postPageNumbers" class="gap">...</span>
+  <span ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers">
+    <a ng-click="showPage(pageNumber)"
+       class="page-no"
+       rel="next"
+       href="">{{ pageNumber }}</a>
+  </span>
+
+  <a ng-show="paginationOptions.page != pageNumbers.length"
+     ng-click="showPage(paginationOptions.page + 1)"
+     class="next_page"
+     rel="next"
+     href="">{{ I18n.t('js.label_next') }}
+  </a>
+
+  <span class="range">{{ currentRange }}</span>
+
+  <span class="per_page_options">
+    {{ I18n.t('js.label_per_page') }}
+    <span ng-repeat="perPageOption in paginationOptions.perPageOptions">
+      <span ng-if="perPageOption != paginationOptions.perPage">
+        <a href="" ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</a>
+      </span>
+      <span ng-if="perPageOption == paginationOptions.perPage"
+            ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</span>
+    </span>
+  </span>
+</p>

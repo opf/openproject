@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,23 +34,22 @@ class StatusesController < ApplicationController
 
   before_filter :require_admin
 
-  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_work_package_done_ratio ],
-         :redirect_to => { :action => :index }
-
+  verify :method => :get, :only => :index, :render => {:nothing => true, :status => :method_not_allowed }
   def index
-    @statuses = Status.order('position')
-                                 .page(params[:page])
-                                 .per_page(per_page_param)
+    @statuses = Status.page(params[:page])
+                      .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end
 
+  verify :method => :get, :only => :new, :render => {:nothing => true, :status => :method_not_allowed }
   def new
     @status = Status.new
   end
 
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
-    @status = Status.new(params[:status])
+    @status = Status.new(permitted_params.status)
     if @status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
@@ -59,13 +58,15 @@ class StatusesController < ApplicationController
     end
   end
 
+  verify :method => :get, :only => :edit, :render => {:nothing => true, :status => :method_not_allowed }
   def edit
     @status = Status.find(params[:id])
   end
 
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @status = Status.find(params[:id])
-    if @status.update_attributes(params[:status])
+    if @status.update_attributes(permitted_params.status)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -73,14 +74,22 @@ class StatusesController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    Status.find(params[:id]).destroy
+    status = Status.find(params[:id])
+    if status.is_default?
+      flash[:error] = l(:error_unable_delete_default_status)
+    else
+      status.destroy
+    end
     redirect_to :action => 'index'
   rescue
     flash[:error] = l(:error_unable_delete_status)
     redirect_to :action => 'index'
   end
 
+  verify :method => :post, :only => :update_work_package_done_ratio,
+         :render => { :nothing => true, :status => 405 }
   def update_work_package_done_ratio
     if Status.update_work_package_done_ratios
       flash[:notice] = l(:notice_work_package_done_ratios_updated)

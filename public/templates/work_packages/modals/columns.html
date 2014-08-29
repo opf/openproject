@@ -1,0 +1,28 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
+
+    <h3>{{ I18n.t('js.label_columns') }}</h3>
+
+    <div>
+      <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
+      <input id="selected_columns_new"
+             type="hidden"
+             ui-select2-sortable="select2Options"
+             simple-query="getObjectsData"
+             ng-model="selectedColumnsData"
+             multiple
+             sortable></input>
+    </div>
+
+    <div>
+      <button class="button_highlight" ng-click="updateSelectedColumns()">
+        {{ I18n.t('js.modals.button_apply') }}
+      </button>
+      <button class="button" ng-click="modal.closeMe()">
+        {{ I18n.t('js.modals.button_cancel') }}
+      </button>
+    </div>
+
+  </div>
+</div>

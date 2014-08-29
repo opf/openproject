@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ module Redmine
       return nil unless time
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
-      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.to_time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") +
         (Setting.time_format.blank? ? ::I18n.l(local, :format => :time) : local.strftime(Setting.time_format))
     end
@@ -101,7 +101,12 @@ module Redmine
     end
 
     def all_languages
-      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
+      @@all_languages ||= begin
+        Dir.glob(Rails.root.join('config/locales/*.yml'))
+          .map { |f| File.basename(f).split('.').first }
+          .reject! { |l| /\Ajs-/.match(l.to_s) }
+          .map(&:to_sym)
+      end
     end
 
     def find_language(lang)

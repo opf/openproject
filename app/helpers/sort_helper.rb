@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,7 +110,7 @@ module SortHelper
     def to_sql
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
-          (o ? s.to_a : s.to_a.collect {|c| append_desc(c)}).join(', ')
+          (o ? Array(s) : Array(s).collect {|c| append_desc(c)}).join(', ')
         end
       end.compact.join(', ')
       sql.blank? ? nil : sql
@@ -214,7 +214,7 @@ module SortHelper
   # - the optional caption explicitly specifies the displayed link text.
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
-  def sort_link(column, caption, default_order)
+  def sort_link(column, caption, default_order, html_options = {})
     css, order = nil, default_order
 
     if column.to_s == @sort_criteria.first_key
@@ -234,7 +234,7 @@ module SortHelper
      # Add project_id to url_options
     url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
 
-    link_to_content_update(h(caption), url_options, :class => css)
+    link_to_content_update(h(caption), url_options, html_options.merge({ :class => css }))
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -253,8 +253,15 @@ module SortHelper
   def sort_header_tag(column, options = {})
     caption = options.delete(:caption) || column.to_s.humanize
     default_order = options.delete(:default_order) || 'asc'
-    options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
-    content_tag('th', sort_link(column, caption, default_order), options)
+    lang = options.delete(:lang) || nil
+
+    if column.to_s == @sort_criteria.first_key
+      options[:title] = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
+      options[:title] += " #{l(:label_sorted_by, "\"#{caption}\"")}"
+    else
+      options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+    end
+
+    content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
   end
 end
-

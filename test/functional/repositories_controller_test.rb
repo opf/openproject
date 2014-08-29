@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,13 +61,13 @@ class RepositoriesControllerTest < ActionController::TestCase
     get :revision, {:project_id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
-    assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
+    assert_no_tag :tag => "ul", :attributes => { :class => /action_menu_specific/ },
       :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
                                                                              :controller => 'repositories',
                                                                              :action => 'revision',
                                                                              :project_id => 'ecookbook',
                                                                              :rev => '0') } }
-    assert_tag :tag => "div", :attributes => { :class => "contextual" },
+    assert_tag :tag => "ul", :attributes => { :class => /action_menu_specific/ },
       :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
                                                                              :controller => 'repositories',
                                                                              :action => 'revision',

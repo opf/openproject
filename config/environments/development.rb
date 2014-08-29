@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,13 +64,10 @@ OpenProject::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Mute asset pipeline logging (using Quiet Assets)
+  config.quiet_assets = true
+
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
-
-  # default to per process memory for caching in development
-  if OpenProject::Configuration['rails_cache_store'] == :memcache
-    config.cache_store = :dalli_store
-  else
-    config.cache_store = :memory_store
-  end
+  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
 end

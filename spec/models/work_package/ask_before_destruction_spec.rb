@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
                                                          :status => status) }
   let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
@@ -60,7 +60,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
 
@@ -72,7 +72,7 @@ describe WorkPackage do
       end
 
       it "should be true" do
-        WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2]).should be_true
+        expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
 
@@ -82,7 +82,7 @@ describe WorkPackage do
       end
 
       it "should be false" do
-        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_false
+        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
   end
@@ -95,7 +95,7 @@ describe WorkPackage do
       end
 
       it "should be have 'TimeEntry' as class to address" do
-        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should == [TimeEntry]
+        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to eq([TimeEntry])
       end
     end
 
@@ -105,7 +105,7 @@ describe WorkPackage do
       end
 
       it "should be empty" do
-        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should be_empty
+        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
   end
@@ -126,7 +126,7 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
     end
 
@@ -134,14 +134,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'destroy') }
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the time_entry' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package.id
+        expect(time_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -149,14 +149,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should not touch the time_entry' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package.id
+        expect(time_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -164,14 +164,14 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'nullify') }
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should set the work_package_id of all time entries to nil' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should be_nil
+        expect(time_entry.work_package_id).to be_nil
       end
     end
 
@@ -187,21 +187,21 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_true
+        expect(action).to be_truthy
       end
 
       it 'should set the work_package_id of all time entries to the new work package' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package2.id
+        expect(time_entry.work_package_id).to eq(work_package2.id)
       end
 
       it "should set the project_id of all time entries to the new work package's project" do
         action
 
         time_entry.reload
-        time_entry.project_id.should == work_package2.project_id
+        expect(time_entry.project_id).to eq(work_package2.project_id)
       end
     end
 
@@ -214,14 +214,14 @@ describe WorkPackage do
       end
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package.id
+        expect(time_entry.work_package_id).to eq(work_package.id)
       end
     end
 
@@ -230,20 +230,20 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => 0) }
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package.id
+        expect(time_entry.work_package_id).to eq(work_package.id)
       end
 
       it 'should set an error on work packages' do
         action
 
-        work_package.errors.get(:base).should == [I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: 0)]
+        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: 0)])
       end
     end
 
@@ -252,20 +252,20 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign') }
 
       it 'should return true' do
-        action.should be_false
+        expect(action).to be_falsey
       end
 
       it 'should not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
-        time_entry.work_package_id.should == work_package.id
+        expect(time_entry.work_package_id).to eq(work_package.id)
       end
 
       it 'should set an error on work packages' do
         action
 
-        work_package.errors.get(:base).should == [I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)]
+        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)])
       end
 
     end
@@ -274,7 +274,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'bogus') }
 
       it 'should return false' do
-        action.should be_false
+        expect(action).to be_falsey
       end
     end
 
@@ -282,7 +282,7 @@ describe WorkPackage do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
       it 'should return false' do
-        action.should be_false
+        expect(action).to be_falsey
       end
     end
   end

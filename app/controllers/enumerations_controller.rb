@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,26 +31,27 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :find_enumeration, :only => [:edit, :update, :destroy]
 
   include CustomFieldsHelper
 
-  def index
-  end
+  def index; end
+  def edit; end
 
   def new
-    begin
-      klass = params[:type].constantize
-      raise NameError unless klass.ancestors.include? Enumeration
-      @enumeration = klass.new
-    rescue NameError
-      @enumeration = Enumeration.new
+    enum_class = enumeration_class(permitted_params.enumeration_type)
+    if enum_class
+      @enumeration = enum_class.new
+    else
+      render_400 # bad request
     end
   end
 
   def create
-    @enumeration = Enumeration.new do |e|
-      e.type = params[:enumeration].delete(:type)
-      e.attributes = params[:enumeration]
+    enum_params = permitted_params.enumeration
+    type = params[:enumeration][:type]
+    @enumeration = (enumeration_class(type) || Enumeration).new do |e|
+      e.attributes = enum_params
     end
 
     if @enumeration.save
@@ -61,14 +62,11 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  def edit
-    @enumeration = Enumeration.find(params[:id])
-  end
-
   def update
-    @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration].delete(:type) if params[:enumeration][:type]
-    if @enumeration.update_attributes(params[:enumeration])
+    enum_params = permitted_params.enumeration
+    type = params[:enumeration][:type]
+    @enumeration.type = enumeration_class(type).try(:name) || @enumeration.type
+    if @enumeration.update_attributes enum_params
       flash[:notice] = l(:notice_successful_update)
       redirect_to enumerations_path(:type => @enumeration.type)
     else
@@ -77,7 +75,6 @@ class EnumerationsController < ApplicationController
   end
 
   def destroy
-    @enumeration = Enumeration.find(params[:id])
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
@@ -93,7 +90,28 @@ class EnumerationsController < ApplicationController
     @enumerations = @enumeration.class.find(:all) - [@enumeration]
   end
 
+protected
+
   def default_breadcrumb
     l(:label_enumerations)
+  end
+
+  def find_enumeration
+    @enumeration = Enumeration.find(params[:id])
+  end
+
+  ##
+  # Find an enumeration class with the given Name
+  # this should be fail save for nonsense names or names
+  # which are no enumerations to prevent remote code execution attacks.
+  # params: type (string)
+  def enumeration_class(type)
+    begin
+      klass = type.to_s.constantize
+      raise NameError unless klass.ancestors.include? Enumeration
+      klass
+    rescue NameError
+      nil
+    end
   end
 end

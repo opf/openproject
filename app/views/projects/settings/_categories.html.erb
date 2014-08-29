@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @project.categories.any? %>
 <table class="list">
-	<thead><tr>
-	<th><%= Category.model_name.human %></th>
-	<th><%= Category.human_attribute_name(:assigned_to) %></th>
-	<th></th>
-	</tr></thead>
-	<tbody>
+  <thead><tr>
+  <th><%= Category.model_name.human %></th>
+  <th><%= Category.human_attribute_name(:assigned_to) %></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
 <% for category in @project.categories %>
-	<% unless category.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
+  <% unless category.new_record? %>
+  <tr class="<%= cycle 'odd', 'even' %>">
     <td><%=h(category.name) %></td>
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
@@ -48,10 +48,10 @@ See doc/COPYRIGHT.rdoc for more details.
                                   :id => category },
                                 :method => :delete,
                                 :confirm => l(:text_are_you_sure),
-                                :class => 'icon icon-del' %>
+                                :class => 'icon icon-delete' %>
     </td>
-	</tr>
-	<% end %>
+  </tr>
+  <% end %>
 <% end %>
     </tbody>
 </table>

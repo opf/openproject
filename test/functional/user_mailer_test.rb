@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,8 @@ class UserMailerTest < ActionMailer::TestCase
     Project.delete_all
     Type.delete_all
     ActionMailer::Base.deliveries.clear
+
+    User.current = User.anonymous
   end
 
   def test_test_mail_sends_a_simple_greeting
@@ -67,7 +69,7 @@ class UserMailerTest < ActionMailer::TestCase
     # creating an issue actually sends an email, ohoh
     ActionMailer::Base.deliveries.clear
 
-    mail = UserMailer.issue_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue)
     assert mail.deliver
 
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -86,7 +88,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.issue_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver
     assert last_email
 
     assert_select_email do
@@ -127,7 +129,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.issue_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver
     assert last_email
 
     assert_select_email do
@@ -162,16 +164,16 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_generated_links_with_prefix_and_no_relative_url_root
     Setting.default_language = 'en'
-    relative_url_root = Redmine::Utils.relative_url_root
+    relative_url_root = OpenProject::Configuration['rails_relative_url_root']
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    Redmine::Utils.relative_url_root = nil
+    OpenProject::Configuration['rails_relative_url_root'] = nil
 
     User.current = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.issue_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver
     assert last_email
 
     assert_select_email do
@@ -204,13 +206,13 @@ class UserMailerTest < ActionMailer::TestCase
     end
   ensure
     # restore it
-    Redmine::Utils.relative_url_root = relative_url_root
+    OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
   end
 
   def test_email_headers
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.issue_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue)
     assert mail.deliver
     assert_not_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
@@ -221,7 +223,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.issue_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
     assert_equal 0, mail.parts.size
@@ -232,7 +234,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.issue_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -273,18 +275,18 @@ class UserMailerTest < ActionMailer::TestCase
   def test_issue_add_message_id
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.issue_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue)
     mail.deliver
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
     assert_nil mail.references
   end
 
-  def test_issue_updated_message_id
+  def test_work_package_updated_message_id
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     journal = issue.journals.first
-    UserMailer.issue_updated(user, journal).deliver
+    UserMailer.work_package_updated(user, journal).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
@@ -325,7 +327,7 @@ class UserMailerTest < ActionMailer::TestCase
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
       issue = FactoryGirl.create(:work_package)
       ActionMailer::Base.deliveries.clear
-      assert UserMailer.issue_added(user, issue).deliver
+      assert UserMailer.work_package_added(user, issue).deliver
       assert_equal 1, ActionMailer::Base.deliveries.size
       assert_equal ['foo@bar.de'], last_email.to
     end
@@ -336,7 +338,7 @@ class UserMailerTest < ActionMailer::TestCase
       ActionMailer::Base.deliveries.clear
       with_settings :available_languages => ['en', 'de'] do
         I18n.locale = 'en'
-        assert UserMailer.issue_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -356,7 +358,7 @@ class UserMailerTest < ActionMailer::TestCase
       with_settings :available_languages => ['en', 'de'],
                     :default_language => 'de' do
         I18n.locale = 'de'
-        assert UserMailer.issue_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -370,14 +372,14 @@ class UserMailerTest < ActionMailer::TestCase
   def test_issue_add
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    assert UserMailer.issue_added(user, issue).deliver
+    assert UserMailer.work_package_added(user, issue).deliver
   end
 
-  def test_issue_updated
+  def test_work_package_updated
     user    = FactoryGirl.create(:user)
     issue   = FactoryGirl.create(:work_package)
     journal = issue.journals.first
-    assert UserMailer.issue_updated(user, journal).deliver
+    assert UserMailer.work_package_updated(user, journal).deliver
   end
 
   def test_news_added

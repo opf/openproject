@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/project_associations/available_projects.api.rabl' do
+describe 'api/v2/project_associations/available_projects.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -61,7 +61,6 @@ describe 'api/v2/project_associations/available_projects.api.rabl' do
     subject {response.body}
 
     it 'renders a list of projects available for association' do
-      puts subject
       expected_json = { name: 'Test Project A',
                         identifier: 'test_project_a',
                         level: 1,
@@ -69,11 +68,11 @@ describe 'api/v2/project_associations/available_projects.api.rabl' do
                         created_on: '2011-01-06T11:35:00Z',
                         updated_on: '2011-01-07T11:35:00Z'
                        }.to_json
-      should be_json_eql(expected_json).at_path('projects/0')
+      is_expected.to be_json_eql(expected_json).at_path('projects/0')
     end
 
     it ' should check for disabled projects' do
-      pending
+      skip
     end
 
 

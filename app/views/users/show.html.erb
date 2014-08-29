@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,11 +27,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to(l(:button_edit), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? %>
-</div>
+<% content_for :header_tags do %>
+  <%= call_hook :users_show_head %>
+<% end %>
 
-<h2><%= avatar @user, :size => "50" %> <%=h @user.name %></h2>
+<% content_for :action_menu_specific do %>
+  <%= link_to(l(:button_edit),
+              edit_user_path(@user),
+              :class => 'icon icon-edit',
+              accesskey: accesskey(:edit)) if User.current.admin? %>
+<% end %>
+
+<h2><%= avatar @user %> <%=h @user.name %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div class="splitcontentleft">
   <%= call_hook :view_account_left_top, :user => @user %>
@@ -71,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to l(:label_activity), :controller => '/activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %>
     </h3>
     <p>
-      <%=l(:label_reported_work_packages)%>: <%= WorkPackage.count(:conditions => ["author_id=?", @user.id]) %>
+      <%=l(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
     </p>
     <div id="activity">
       <% @events_by_day.keys.sort.reverse.each do |day| %>
@@ -79,8 +88,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <dl>
           <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
             <dt class="<%= e.event_type %>">
+              <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
               <span class="time"><%= format_time(e.event_datetime, false) %></span>
-              <%= content_tag('span', h(e.journal.journable.project), :class => 'project') %>
+              <%= content_tag('span', h(e.project), :class => 'project') %>
               <%= link_to format_activity_title(e.event_title), e.event_url %>
             </dt>
             <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>

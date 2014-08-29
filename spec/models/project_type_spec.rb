@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectType do
+describe ProjectType, :type => :model do
   describe '- Relations ' do
     describe '#projects' do
       it 'can read projects w/ the help of the has_many association' do
@@ -37,8 +37,8 @@ describe ProjectType do
 
         project_type.reload
 
-        project_type.projects.size.should == 1
-        project_type.projects.first.should == project
+        expect(project_type.projects.size).to eq(1)
+        expect(project_type.projects.first).to eq(project)
       end
     end
 
@@ -53,8 +53,8 @@ describe ProjectType do
 
         project_type.reload
 
-        project_type.available_project_statuses.size.should == 1
-        project_type.available_project_statuses.first.should == available_project_status
+        expect(project_type.available_project_statuses.size).to eq(1)
+        expect(project_type.available_project_statuses.first).to eq(available_project_status)
       end
     end
 
@@ -69,17 +69,13 @@ describe ProjectType do
 
         project_type.reload
 
-        project_type.reported_project_statuses.size.should == 1
-        project_type.reported_project_statuses.first.should == reported_project_status
+        expect(project_type.reported_project_statuses.size).to eq(1)
+        expect(project_type.reported_project_statuses.first).to eq(reported_project_status)
       end
     end
   end
 
   describe '- Validations ' do
-    before do
-      ApplicationHelper.set_language_if_valid 'en'
-    end
-
     let(:attributes) {
       {:name               => 'Project Type No. 1',
        :allows_association => true}
@@ -90,20 +86,20 @@ describe ProjectType do
         attributes[:name] = nil
         project_type = ProjectType.new(attributes)
 
-        project_type.should_not be_valid
+        expect(project_type).not_to be_valid
 
-        project_type.errors[:name].should be_present
-        project_type.errors[:name].should == ["can't be blank"]
+        expect(project_type.errors[:name]).to be_present
+        expect(project_type.errors[:name]).to eq(["can't be blank"])
       end
 
       it 'is invalid w/ a name longer than 255 characters' do
         attributes[:name] = "A" * 500
         project_type = ProjectType.new(attributes)
 
-        project_type.should_not be_valid
+        expect(project_type).not_to be_valid
 
-        project_type.errors[:name].should be_present
-        project_type.errors[:name].should == ["is too long (maximum is 255 characters)"]
+        expect(project_type.errors[:name]).to be_present
+        expect(project_type.errors[:name]).to eq(["is too long (maximum is 255 characters)"])
       end
     end
 
@@ -112,23 +108,23 @@ describe ProjectType do
         attributes[:allows_association] = nil
         project_type = ProjectType.new(attributes)
 
-        project_type.should_not be_valid
+        expect(project_type).not_to be_valid
 
-        project_type.errors[:allows_association].should be_present
+        expect(project_type.errors[:allows_association]).to be_present
       end
 
       it 'is valid w/ allows_association set to true' do
         attributes[:allows_association] = true
         project_type = ProjectType.new(attributes)
 
-        project_type.should be_valid
+        expect(project_type).to be_valid
       end
 
       it 'is valid w/ allows_association set to false' do
         attributes[:allows_association] = false
         project_type = ProjectType.new(attributes)
 
-        project_type.should be_valid
+        expect(project_type).to be_valid
       end
     end
   end

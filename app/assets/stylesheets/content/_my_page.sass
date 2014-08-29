@@ -1,0 +1,59 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import global/all
+
+#content
+  .mypage-box
+    @include content-box
+
+.handle
+  cursor: move
+
+div.box-actions
+  float: right
+  margin-right: 16px
+  z-index: 500
+
+.block-receiver
+  border: 1px dashed $my_page_edit_box_border_color
+  margin-bottom: 20px
+  padding: 15px 0 15px 0
+
+  div.mypage-box
+    margin-top: 8px
+    padding-bottom: 8px
+
+  div.mypage-box div.box-actions
+    margin-top: -60px
+
+div.mypage-box p.summary
+  font-style: normal
+
+div.mypage-box div.overview p.author
+  margin-bottom: 7px

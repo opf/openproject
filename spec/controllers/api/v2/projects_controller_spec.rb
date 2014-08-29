@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe Api::V2::ProjectsController do
+describe Api::V2::ProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'w/o project_type scope' do
@@ -40,12 +40,12 @@ describe Api::V2::ProjectsController do
       describe 'with no project available' do
         it 'assigns an empty projects array' do
           get 'index', :format => 'xml'
-          assigns(:projects).should == []
+          expect(assigns(:projects)).to eq([])
         end
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('api/v2/projects/index', :formats => ["api"])
+          expect(response).to render_template('api/v2/projects/index', :formats => ["api"])
         end
       end
 
@@ -73,12 +73,12 @@ describe Api::V2::ProjectsController do
 
         it 'assigns an array with all of projects' do
           get 'index', :format => 'xml'
-          assigns(:projects).map(&:identifier).should == @visible_projects.map(&:identifier)
+          expect(assigns(:projects).map(&:identifier)).to eq(@visible_projects.map(&:identifier))
         end
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('api/v2/projects/index', :formats => ["api"])
+          expect(response).to render_template('api/v2/projects/index', :formats => ["api"])
         end
       end
     end
@@ -106,9 +106,9 @@ describe Api::V2::ProjectsController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect {
             get 'show', :id => 'unknown_project', :format => 'xml'
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -117,12 +117,12 @@ describe Api::V2::ProjectsController do
 
         it 'assigns the available project' do
           get 'show', :id => project.identifier, :format => 'xml'
-          assigns(:project).should == project
+          expect(assigns(:project)).to eq(project)
         end
 
         it 'renders the show template' do
           get 'show', :id => project.identifier, :format => 'xml'
-          response.should render_template('api/v2/projects/show', :formats => ["api"])
+          expect(response).to render_template('api/v2/projects/show', :formats => ["api"])
         end
       end
     end

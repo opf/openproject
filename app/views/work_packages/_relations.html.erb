@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,23 @@ See doc/COPYRIGHT.rdoc for more details.
 <p>
   <strong><%=l(:label_related_work_packages)%></strong>
   <% if authorize_for('work_package_relations', 'create') %>
-    (<%= toggle_link l(:label_add_related_work_packages), 'new-relation-form', {:focus => 'relation_to_id'} %>)
+    <%= toggle_link icon_wrapper('icon icon-add', l(:label_add_related_work_packages)),
+                    'new-relation-form',
+                    { focus: 'relation_to_id' },
+                    { :class => 'no-decoration-on-hover', :title => l(:label_add_related_work_packages) } %>
   <% end %>
 </p>
 
-<table style="width:100%">
+<table id="work-package-relations-table" class="list work-package-data-table <%= 'hidden' if relations.empty? %>">
+  <thead>
+    <tr>
+      <th><%= Relation.human_attribute_name(:to)%></th>
+      <th><%= WorkPackage.human_attribute_name(:type)%></th>
+      <th><%= WorkPackage.human_attribute_name(:start_date)%></th>
+      <th><%= WorkPackage.human_attribute_name(:due_date)%></th>
+      <th><span class="hidden-for-sighted"><%= t('button_delete') %></span></th>
+    </tr>
+  </thead>
   <tbody>
     <%= render :partial => 'relation', :collection => relations,
                                        :as => :relation,
@@ -49,7 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
              :remote => true,
              :complete => "Form.Element.focus('relation_to_id');",
              :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
-
   <%= render :partial => 'work_package_relations/form', :locals => {:f => f}%>
 
 <% end %>

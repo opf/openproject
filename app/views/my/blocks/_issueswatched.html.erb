@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched } %>
 <% if watched.length > 0 %>
-<p class="small"><%= link_to l(:label_work_package_view_all_watched), controller: :work_packages,
-																											 action: :index,
-																											 set_filter: 1,
-																											 watcher_id: 'me',
-																											 sort: 'updated_at:desc' %></p>
+  <p class="small">
+    <%= link_to l(:label_work_package_view_all_watched),
+                work_packages_watched_path,
+                :class => 'button_highlight' %>
+  </p>
 <% end %>

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +38,7 @@ end
 Then /^the project member "(.+?)" should not be in edit mode$/ do |user_login|
   member = member_for_login user_login
 
-  page.find("#member-#{member.id}-roles-form").should_not be_visible
+  page.find("#member-#{member.id}-roles-form", :visible => false).should_not be_visible
 end
 
 Then /^the project member "(.+?)" should have the role "(.+?)"$/ do |user_login, role_name|
@@ -92,9 +93,7 @@ end
 def select_within_select2(to_select, scope)
   tries = 3
   begin
-    with_scope(scope) do
-      find(".select2-choices .select2-input").set(to_select)
-    end
+    enter_name_with_select2(to_select, scope)
     steps %Q{And I wait 10 seconds for the AJAX requests to finish}
     find(".select2-results .select2-result").click
   rescue Capybara::ElementNotFound
@@ -103,8 +102,19 @@ def select_within_select2(to_select, scope)
   end
 end
 
+
 def select_without_select2(name, scope)
   steps %Q{And I check "#{name}" within "#{scope}"}
+end
+
+def enter_name_with_select2(name, scope = "")
+  with_scope(scope) do
+    find(".select2-choices .select2-input").set(name)
+  end
+end
+
+def enter_name_without_select2(name)
+  step %Q{I fill in "principal_search" with "#{name}"}
 end
 
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
@@ -129,11 +139,12 @@ Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   steps %Q{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
 end
 
-When /^I enter the principal name "(.+)"$/ do |principal_name|
+When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
+  model = (model == "role" ? "role" : "user")
   if !User.current.impaired?
-    step %Q{I fill in "s2id_autogen4" with "#{principal_name}" within "#s2id_member_user_ids"}
+    enter_name_with_select2(principal_name, "#s2id_member_#{model}_ids")
   else
-    step %Q{I fill in "principal_search" with "#{principal_name}"}
+    enter_name_without_select2(principal_name)
   end
 end
 
@@ -150,4 +161,3 @@ def member_for_login(principal_name)
   #the assumption here is, that there is only one project
   principal.members.first
 end
-

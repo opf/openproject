@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/custom_fields/index.api.rabl' do
+describe 'api/v2/custom_fields/index.api.rabl', :type => :view do
   before do
     params[:format] = 'xml'
   end
@@ -59,8 +59,8 @@ describe 'api/v2/custom_fields/index.api.rabl' do
       names = subject.xpath("//custom_fields/custom_field/name/text()")
       formats = subject.xpath("//custom_fields/custom_field/field_format/text()")
 
-      names.map(&:to_s).should == ["Brot", "Belag"]
-      formats.map(&:to_s).should == ["text", "text"]
+      expect(names.map(&:to_s)).to eq(["Brot", "Belag"])
+      expect(formats.map(&:to_s)).to eq(["text", "text"])
     end
   end
 end

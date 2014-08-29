@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -213,7 +213,7 @@ class UserTest < ActiveSupport::TestCase
       context "with failed connection to the LDAP server" do
         should "return nil" do
           @auth_source = LdapAuthSource.find(1)
-          AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
+          AuthSource.any_instance.stub(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
 
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
@@ -400,50 +400,24 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'jsmith@somenet.foo', u.mail
   end
 
-  context "#change_password_allowed?" do
-    should "be allowed if no auth source is set" do
-      user = User.generate_with_protected!
-      assert user.change_password_allowed?
-    end
-
-    should "delegate to the auth source" do
-      user = User.generate_with_protected!
-
-      allowed_auth_source = AuthSource.generate!
-      def allowed_auth_source.allow_password_changes?; true; end
-
-      denied_auth_source = AuthSource.generate!
-      def denied_auth_source.allow_password_changes?; false; end
-
-      assert user.change_password_allowed?
-
-      user.auth_source = allowed_auth_source
-      assert user.change_password_allowed?, "User not allowed to change password, though auth source does"
-
-      user.auth_source = denied_auth_source
-      assert !user.change_password_allowed?, "User allowed to change password, though auth source does not"
-    end
-
-  end
-
   context "#allowed_to?" do
     context "with a unique project" do
       should "return false if project is archived" do
         project = Project.find(1)
-        Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
+        Project.any_instance.stub(:status).and_return(Project::STATUS_ARCHIVED)
         assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 
       should "return false if related module is disabled" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking"]
+        project.enabled_module_names = ["work_package_tracking"]
         assert @admin.allowed_to?(:add_work_packages, project)
         assert ! @admin.allowed_to?(:view_wiki_pages, project)
       end
 
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
+        project.enabled_module_names = ["work_package_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
         %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
@@ -459,7 +433,7 @@ class UserTest < ActiveSupport::TestCase
 
       should "only managers are allowed to export tickets" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking"]
+        project.enabled_module_names = ["work_package_tracking"]
         assert @jsmith.allowed_to?(:export_work_packages, project)    #Manager
         assert ! @dlopper.allowed_to?(:export_work_packages, project) #Developper
       end
@@ -472,7 +446,7 @@ class UserTest < ActiveSupport::TestCase
 
       should "return true only if user has permission on all these projects" do
         Project.all.each do |project|
-          project.enabled_module_names = ["issue_tracking"]
+          project.enabled_module_names = ["work_package_tracking"]
           project.save!
         end
 
@@ -579,41 +553,6 @@ class UserTest < ActiveSupport::TestCase
     context "other events" do
       should 'be added and tested'
     end
-  end
-
-  if Object.const_defined?(:OpenID)
-
-  def test_setting_identity_url
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'http://example.com/' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
-
-  def test_setting_identity_url_without_trailing_slash
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'http://example.com' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
-
-  def test_setting_identity_url_without_protocol
-    normalized_open_id_url = 'http://example.com/'
-    u = User.new( :identity_url => 'example.com' )
-    assert_equal normalized_open_id_url, u.identity_url
-  end
-
-  def test_setting_blank_identity_url
-    u = User.new( :identity_url => 'example.com' )
-    u.identity_url = ''
-    assert u.identity_url.blank?
-  end
-
-  def test_setting_invalid_identity_url
-    u = User.new( :identity_url => 'this is not an openid url' )
-    assert u.identity_url.blank?
-  end
-
-  else
-    puts "Skipping openid tests."
   end
 
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,9 @@ module OpenProject
         end
 
         it "allows passing in the identifier" do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.identifier).to eq :new_theme
         end
       end
@@ -112,7 +114,9 @@ module OpenProject
 
       describe '#stylesheet_manifest' do
         it 'stringifies the identier and appends the css extension' do
-          theme = Theme.new_theme(:goofy)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :goofy
+          end
           expect(theme.stylesheet_manifest).to eq 'goofy.css'
         end
       end
@@ -123,7 +127,7 @@ module OpenProject
         context 'with correct path' do
           before do
             # set the dir of this file as the images folder
-            theme.stub(:overridden_images_path).and_return(File.dirname(__FILE__))
+            allow(theme).to receive(:overridden_images_path).and_return(File.dirname(__FILE__))
           end
 
           it 'stores images that are overridden by the theme' do
@@ -138,11 +142,11 @@ module OpenProject
         context 'with incorrect path' do
           before do
             # the theme has a non-existing images path
-            theme.stub(:overridden_images_path).and_return('some/wrong/path')
+            allow(theme).to receive(:overridden_images_path).and_return('some/wrong/path')
           end
 
           it 'wont fail' do
-            expect { theme.overridden_images }.to_not raise_error Errno::ENOENT
+            expect { theme.overridden_images }.to_not raise_error
           end
 
           it 'has an empty list' do
@@ -152,11 +156,11 @@ module OpenProject
       end
 
       describe '#path_to_image' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set a list of overridden images
-          theme.stub(:overridden_images).and_return(['add.png'])
+          allow(theme).to receive(:overridden_images).and_return(['add.png'])
         end
 
         it "prepends the theme path if file is present" do
@@ -177,11 +181,11 @@ module OpenProject
       end
 
       describe '#overridden_images_path' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set an arbitrary base path for assets
-          theme.stub(:assets_path).and_return('some/assets/path')
+          allow(theme).to receive(:assets_path).and_return('some/assets/path')
         end
 
         it 'appends the path to images overridden by the theme' do
@@ -194,28 +198,32 @@ module OpenProject
 
         before do
           # set the dir of this file as the images folder
-          theme.stub(:overridden_images_path).and_return(File.dirname(__FILE__))
+          allow(theme).to receive(:overridden_images_path).and_return(File.dirname(__FILE__))
         end
 
         it 'is overritten if the theme redefines it' do
-          expect(theme.image_overridden?('theme_spec.rb')).to be_true
+          expect(theme.image_overridden?('theme_spec.rb')).to be_truthy
         end
 
         it "is not overritten if the theme doesn't redefine it" do
-          expect(theme.image_overridden?('missing.rb')).to be_false
+          expect(theme.image_overridden?('missing.rb')).to be_falsey
         end
       end
 
       describe '#stylesheet_manifest' do
         it 'equals the name of the theme with a css extension' do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.stylesheet_manifest).to eq 'new_theme.css'
         end
       end
 
       describe '#assets_prefix' do
         it 'equals the name of the theme' do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.assets_prefix).to eq 'new_theme'
         end
       end
@@ -233,15 +241,15 @@ module OpenProject
     end
 
     describe ViewHelpers do
-      let(:theme)   { Theme.new_theme(:new_theme) }
+      let(:theme)   { Theme.new_theme {|t| t.identifier = :new_theme} }
       let(:helpers) { ApplicationController.helpers }
 
       before do
         # set a list of overridden images
-        theme.stub(:overridden_images).and_return(['add.png'])
+        allow(theme).to receive(:overridden_images).and_return(['add.png'])
 
         # set the theme as current
-        helpers.stub(:current_theme).and_return(theme)
+        allow(helpers).to receive(:current_theme).and_return(theme)
       end
 
       it 'overridden images are nested' do

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,13 +60,13 @@ class SettingsControllerTest < ActionController::TestCase
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',
-                              :notified_events => %w(issue_added issue_updated news_added),
+                              :notified_events => %w(work_package_added work_package_updated news_added),
                               :emails_footer => 'Test footer'
                               }
     assert_redirected_to '/settings/edit'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?
-    assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
+    assert_equal %w(work_package_added work_package_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
   end
 end

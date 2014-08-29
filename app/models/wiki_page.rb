@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +31,18 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :wiki
   has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
   acts_as_attachable :delete_permission => :delete_wiki_pages_attachments
   acts_as_tree :dependent => :nullify, :order => 'title'
 
   acts_as_watchable
-  acts_as_event :title => Proc.new {|o| "#{Wiki.model_name.human}: #{o.title}"},
-                :description => :text,
-                :datetime => :created_on,
-                :url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
+  acts_as_event title: Proc.new {|o| "#{Wiki.model_name.human}: #{o.title}"},
+                description: :text,
+                datetime: :created_on,
+                url: Proc.new {|o| {:controller => '/wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
 
   acts_as_searchable :columns => ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
                      :include => [{:wiki => :project}, :content],

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +28,7 @@
 #++
 
 When /^I toggle the "([^"]+)" submenu$/ do |menu_name|
-  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"] .toggler")
+  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"] + .toggler")
 
   # w/o javascript, all menu elements are expanded by default. So the toggler
   # might not be present.
@@ -40,6 +41,17 @@ end
 
 Then /^there should not be a main menu$/ do
   page.should_not have_css("#main-menu")
+end
+
+# opens a menu item in the main menu
+When /^I open the "([^"]+)" (?:sub)?menu$/ do |menu_name|
+
+  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"]")
+
+  # w/o javascript, all menu elements are expanded by default. So the toggler
+  # might not be present.
+  nodes.first.click if nodes.present?
+
 end
 
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
@@ -65,6 +77,8 @@ def action_menu_selector
 
   if has_css?(".action_menu_main")
     all(".action_menu_main").first
+  elsif has_css?(".action_menu_specific")
+    all(".action_menu_specific").first
   elsif has_css?(".contextual")
     all(".contextual").first
   else

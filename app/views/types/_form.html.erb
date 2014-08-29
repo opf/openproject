@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <div class="box tabular">
 <!--[form:type]-->
-<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.text_field :name, :required => true, :disabled => @type.is_standard? %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 <p><%= f.select :color_id, options_for_colors(controller.type) %></p>
 <p><%= f.check_box :in_aggregation %></p>
@@ -41,13 +41,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if WorkPackageCustomField.all.any? %>
 <p>
-	<label><%= l(:label_custom_field_plural) %></label>
-	<% WorkPackageCustomField.all.each do |field| %>
-		<label class="block">
-			<%= check_box_tag 'type[custom_field_ids][]',field.id, @type.custom_fields.include?(field) %>
-			<%= field.name %>
-		</label>
-	<% end %>
+  <label><%= l(:label_custom_field_plural) %></label>
+  <% WorkPackageCustomField.all.each do |field| %>
+    <label class="block">
+      <%= check_box_tag 'type[custom_field_ids][]',field.id, @type.custom_fields.include?(field) %>
+      <%= field.name %>
+    </label>
+  <% end %>
 </p>
 <%= hidden_field_tag 'type[custom_field_ids][]', '' %>
 <% end %>

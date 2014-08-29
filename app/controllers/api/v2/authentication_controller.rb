@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,12 +36,23 @@ module Api
 
       unloadable
 
+      AuthorizationData = Struct.new(:authorized, :authenticated_user_id)
+      skip_before_filter :require_login
+      before_filter :api_allows_login, :require_login
+
       def index
+        @authorization = AuthorizationData.new(true, User.current.id)
+
         respond_to do |format|
           format.api
         end
       end
-    end
 
+      private
+
+      def api_allows_login
+        render_403 unless Setting.rest_api_enabled?
+      end
+    end
   end
 end

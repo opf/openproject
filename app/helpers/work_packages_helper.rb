@@ -1,8 +1,7 @@
 #-- encoding: UTF-8
-#
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +28,8 @@
 #++
 
 module WorkPackagesHelper
+  include AccessibilityHelper
+
   def work_package_api_done_ratio_if_enabled(api, issue)
     if Setting.work_package_done_ratio != 'disabled'
       api.done_ratio  issue.done_ratio
@@ -36,7 +37,11 @@ module WorkPackagesHelper
   end
 
   def work_package_breadcrumb
-    full_path = ancestors_links.unshift(work_package_index_link)
+    full_path = if !@project.nil?
+                  link_to(I18n.t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
+                else
+                  ancestors_links.unshift(work_package_index_link)
+                end
 
     breadcrumb_paths(*full_path)
   end
@@ -49,7 +54,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_work_package_plural), {controller: :work_packages, action: :index})
+    link_to(I18n.t(:label_work_package_plural), {controller: :work_packages, action: :index})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -63,6 +68,7 @@ module WorkPackagesHelper
   #   link_to_work_package(package, :project => true)           # => Foo - Defect #6
   #   link_to_work_package(package, :id_only => true)           # => #6
   #   link_to_work_package(package, :subject_only => true)      # => This is the subject (as link)
+  #   link_to_work_package(package, :status => true)            # => #6 New (if #id => true)
   def link_to_work_package(package, options = {})
 
     if options[:subject_only]
@@ -100,11 +106,13 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
+    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
+
     # Hidden link part
 
     if package.closed?
       parts[:hidden_link] << content_tag(:span,
-                                         t(:label_closed_work_packages),
+                                         I18n.t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
 
       parts[:css_class] << 'closed'
@@ -178,7 +186,7 @@ module WorkPackagesHelper
       end
     end
 
-    link = link_to_work_package(work_package)
+    link = link_to_work_package(work_package, :status => true)
     link += " #{work_package.start_date.nil? ? "[?]" : work_package.start_date.to_s}"
     link += changed_dates["start_date"]
     link += " – #{work_package.due_date.nil? ? "[?]" : work_package.due_date.to_s}"
@@ -188,38 +196,13 @@ module WorkPackagesHelper
   end
 
   def work_package_quick_info_with_description(work_package, lines = 3)
-    description_lines = work_package.description.to_s.lines.to_a[0,lines]
-
-    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
-      description_lines[lines-1].strip!
-
-      while !description_lines[lines-1].end_with?("...") do
-        description_lines[lines-1] = description_lines[lines-1] + "."
-      end
-    end
-
-    description = if work_package.description.blank?
-                    "-"
-                  else
-                    textilizable(description_lines.join(""))
-                  end
+    description = truncated_work_package_description(work_package, lines)
 
     link = work_package_quick_info(work_package)
 
-    link += content_tag(:div, :class => 'indent quick_info attributes') do
+    attributes = info_user_attributes(work_package)
 
-      responsible = if work_package.responsible_id.present?
-                      "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
-                      "#{work_package.responsible.name}"
-                    end
-
-      assignee = if work_package.assigned_to_id.present?
-                   "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
-                   "#{work_package.assigned_to.name}"
-                 end
-
-      [responsible, assignee].compact.join("<br>").html_safe
-    end
+    link += content_tag(:div, attributes, :class => 'indent quick_info attributes')
 
     link += content_tag(:div, description, :class => 'indent quick_info description')
 
@@ -328,27 +311,30 @@ module WorkPackagesHelper
     ].compact
   end
 
-  def work_package_show_attributes(work_package)
-    [
-      work_package_show_status_attribute(work_package),
-      work_package_show_start_date_attribute(work_package),
-      work_package_show_priority_attribute(work_package),
-      work_package_show_due_date_attribute(work_package),
-      work_package_show_assigned_to_attribute(work_package),
-      work_package_show_progress_attribute(work_package),
-      work_package_show_responsible_attribute(work_package),
-      work_package_show_category_attribute(work_package),
-      work_package_show_spent_time_attribute(work_package),
-      work_package_show_fixed_version_attribute(work_package),
-      work_package_show_estimated_hours_attribute(work_package)
-    ].compact
+  def work_package_show_attribute_list(work_package)
+    main_attributes = work_package_show_main_attributes(work_package)
+    custom_field_attributes = work_package_show_custom_fields(work_package)
+    core_attributes = (main_attributes | custom_field_attributes).compact
+
+    hook_attributes(work_package, core_attributes).compact
   end
 
-  def work_package_show_table_row(attribute, klass = nil, &block)
+  def group_work_package_attributes(attribute_list)
+    attributes = {}
+    attributes[:left], attributes[:right] = attribute_list.each_slice((attribute_list.count+1) / 2).to_a
+
+    attributes
+  end
+
+  def work_package_show_attributes(work_package)
+    group_work_package_attributes work_package_show_attribute_list(work_package)
+  end
+
+  def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:th, :class => klass) { "#{WorkPackage.human_attribute_name(attribute)}:" }
-    content << content_tag(:td, :class => klass, &block)
+    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => attribute_lang) { "#{WorkPackage.human_attribute_name(attribute)}:" }
+    content << content_tag(:td, :class => klass, :lang => value_lang, &block)
 
     WorkPackageAttribute.new(attribute, content)
   end
@@ -357,7 +343,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:status) do
       work_package.status ?
         work_package.status.name :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -365,7 +351,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:start_date, 'start-date') do
       work_package.start_date ?
         format_date(work_package.start_date) :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -373,7 +359,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:priority) do
       work_package.priority ?
         work_package.priority.name :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -381,22 +367,22 @@ module WorkPackagesHelper
     work_package_show_table_row(:due_date) do
       work_package.due_date ?
         format_date(work_package.due_date) :
-        "-"
+        empty_element_tag
     end
   end
 
   def work_package_show_assigned_to_attribute(work_package)
     work_package_show_table_row(:assigned_to) do
-      content = avatar(work_package.assigned_to, :size => "14").html_safe
-      content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : "-")
+      content = avatar(work_package.assigned_to, class: 'avatar-mini').html_safe
+      content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : empty_element_tag)
       content
     end
   end
 
   def work_package_show_responsible_attribute(work_package)
     work_package_show_table_row(:responsible) do
-      content = avatar(work_package.responsible, :size => "14").html_safe
-      content << (work_package.responsible ? link_to_user(work_package.responsible) : "-")
+      content = avatar(work_package.responsible, class: 'avatar-mini').html_safe
+      content << (work_package.responsible ? link_to_user(work_package.responsible) : empty_element_tag)
       content
     end
   end
@@ -413,7 +399,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:category) do
       work_package.category ?
         work_package.category.name :
-        '-'
+        empty_element_tag
     end
   end
 
@@ -421,7 +407,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:spent_time) do
       work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), work_package_time_entries_path(work_package)) :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -429,7 +415,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:fixed_version) do
       work_package.fixed_version ?
         link_to_version(work_package.fixed_version) :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -437,7 +423,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:estimated_hours) do
       work_package.estimated_hours ?
         l_hours(work_package.estimated_hours) :
-        "-"
+        empty_element_tag
     end
   end
 
@@ -464,7 +450,7 @@ module WorkPackagesHelper
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
+      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete), :class => 'short'
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
       field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
 
@@ -477,20 +463,21 @@ module WorkPackagesHelper
                            :cols => 60,
                            :rows => (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
                            :accesskey => accesskey(:edit),
-                           :class => 'wiki-edit'
+                           :class => 'wiki-edit',
+                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => work_package.project, :format => :json)
 
     WorkPackageAttribute.new(:description, field)
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
-    new_statuses = work_package.new_statuses_allowed_to(locals[:user], true)
+    new_statuses = work_package.new_statuses_allowed_to(locals[:user])
 
     field = if new_statuses.any?
               form.select(:status_id, (new_statuses.map {|p| [p.name, p.id]}), :required => true)
             elsif work_package.status
               form.label(:status) + work_package.status.name
             else
-              form.label(:status) + "-"
+              form.label(:status) + empty_element_tag
             end
 
     WorkPackageAttribute.new(:status, field)
@@ -503,12 +490,12 @@ module WorkPackagesHelper
 
   def work_package_form_assignee_attribute(form, work_package, locals = {})
     WorkPackageAttribute.new(:assignee,
-                             form.select(:assigned_to_id, (work_package.assignable_users.map {|m| [m.name, m.id]}), :include_blank => true))
+                             form.select(:assigned_to_id, (work_package.assignable_assignees.map {|m| [m.name, m.id]}), :include_blank => true))
   end
 
   def work_package_form_responsible_attribute(form, work_package, locals = {})
-    WorkPackageAttribute.new(:assignee,
-                             form.select(:responsible_id, options_for_responsible(locals[:project]), :include_blank => true))
+    WorkPackageAttribute.new(:responsible,
+                             form.select(:responsible_id, work_package.assignable_responsibles.map {|m| [m.name, m.id]}, :include_blank => true))
   end
 
   def work_package_form_category_attribute(form, work_package, locals = {})
@@ -516,12 +503,12 @@ module WorkPackagesHelper
       field = form.select(:category_id,
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
-
-      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
-                                         t(:label_work_package_category_new),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_work_package_category_new)),
+                                         I18n.t(:label_work_package_category_new),
                                          'category[name]',
                                          project_categories_path(locals[:project]),
-                                         :title => t(:label_work_package_category_new)) if authorize_for('categories', 'new')
+                                         :class => 'no-decoration-on-hover',
+                                         :title => I18n.t(:label_work_package_category_new)) if authorize_for('categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end
@@ -532,10 +519,11 @@ module WorkPackagesHelper
       field = form.select(:fixed_version_id,
                           version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
                           :include_blank => true)
-      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
-                             new_project_version_path(locals[:project]),
+                             project_versions_path(locals[:project]),
+                             :class => 'no-decoration-on-hover',
                              :title => l(:label_version_new)) if authorize_for('versions', 'new')
 
       WorkPackageAttribute.new(:fixed_version, field)
@@ -543,14 +531,14 @@ module WorkPackagesHelper
   end
 
   def work_package_form_start_date_attribute(form, work_package, locals = {})
-    start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date')
+    start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date'), :class => 'short'
     start_date_field += calendar_for("#{form.object_name}_start_date") unless attrib_disabled?(work_package, 'start_date')
 
     WorkPackageAttribute.new(:start_date, start_date_field)
   end
 
   def work_package_form_due_date_attribute(form, work_package, locals = {})
-    due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date')
+    due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date'), :class => 'short'
     due_date_field += calendar_for("#{form.object_name}_due_date") unless attrib_disabled?(work_package, 'due_date')
 
     WorkPackageAttribute.new(:due_date, due_date_field)
@@ -560,9 +548,10 @@ module WorkPackagesHelper
     field = form.text_field :estimated_hours,
                             :size => 3,
                             :disabled => attrib_disabled?(work_package, 'estimated_hours'),
-                            :value => number_with_precision(work_package.estimated_hours, :precision => 2)
+                            :value => number_with_precision(work_package.estimated_hours, :precision => 2),
+                            :class => 'short',
+                            :placeholder => TimeEntry.human_attribute_name(:hours)
 
-    field += TimeEntry.human_attribute_name(:hours)
 
     WorkPackageAttribute.new(:estimated_hours, field)
   end
@@ -598,5 +587,74 @@ module WorkPackagesHelper
     end
 
     ret
+  end
+
+  private
+
+  def work_package_show_custom_fields(work_package)
+    work_package.custom_field_values.each_with_object([]) do |v, a|
+      a << work_package_show_table_row(v.custom_field.name,
+                                       "custom_field cf_#{v.custom_field_id}",
+                                       v.custom_field.name_locale,
+                                       v.custom_field.default_value_locale) do
+        v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
+      end
+    end
+  end
+
+  def hook_attributes(work_package, attributes = [])
+    call_hook(:work_packages_show_attributes,
+              work_package: work_package,
+              project: @project,
+              attributes: attributes)
+    attributes
+  end
+
+  def work_package_show_main_attributes(work_package)
+    [
+       work_package_show_status_attribute(work_package),
+       work_package_show_priority_attribute(work_package),
+       work_package_show_assigned_to_attribute(work_package),
+       work_package_show_responsible_attribute(work_package),
+       work_package_show_category_attribute(work_package),
+       work_package_show_estimated_hours_attribute(work_package),
+       work_package_show_start_date_attribute(work_package),
+       work_package_show_due_date_attribute(work_package),
+       work_package_show_progress_attribute(work_package),
+       work_package_show_spent_time_attribute(work_package),
+       work_package_show_fixed_version_attribute(work_package)
+     ]
+  end
+
+  def truncated_work_package_description(work_package, lines = 3)
+    description_lines = work_package.description.to_s.lines.to_a[0,lines]
+
+    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
+      description_lines[lines-1].strip!
+
+      while !description_lines[lines-1].end_with?("...") do
+        description_lines[lines-1] = description_lines[lines-1] + "."
+      end
+    end
+
+    if work_package.description.blank?
+      empty_element_tag
+    else
+      format_text(description_lines.join(''))
+    end
+  end
+
+  def info_user_attributes(work_package)
+    responsible = if work_package.responsible_id.present?
+                    "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
+                    "#{h(work_package.responsible.name)}"
+                  end
+
+    assignee = if work_package.assigned_to_id.present?
+                 "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
+                 "#{h(work_package.assigned_to.name)}"
+               end
+
+    [responsible, assignee].compact.join("<br>").html_safe
   end
 end

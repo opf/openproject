@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_types/show.api.rabl' do
+describe 'api/v2/planning_element_types/show.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -58,7 +58,7 @@ describe 'api/v2/planning_element_types/show.api.rabl' do
     subject { response.body }
 
     it 'renders a planning_element_type document' do
-      should have_json_path('planning_element_type')
+      is_expected.to have_json_path('planning_element_type')
     end
 
     it 'should render all detail-information for the planning-element-type' do
@@ -71,7 +71,7 @@ describe 'api/v2/planning_element_types/show.api.rabl' do
                         :position => 100,
       }.to_json
 
-      should be_json_eql(expected_json).at_path('planning_element_type')
+      is_expected.to be_json_eql(expected_json).at_path('planning_element_type')
     end
 
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,13 +43,17 @@ class Project < ActiveRecord::Base
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w( new level_list )
 
-  # Specific overidden Activities
+  # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
-  has_many :assignable_members,
+  has_many :possible_assignee_members,
            :class_name => 'Member',
            :include => [:principal, :roles],
-           :conditions => Proc.new { self.class.assignable_members_condition }
+           :conditions => Proc.new { self.class.possible_assignees_condition }
+  has_many :possible_responsible_members,
+           :class_name => 'Member',
+           :include => [:principal, :roles],
+           :conditions => Proc.new { self.class.possible_responsibles_condition }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
@@ -62,7 +66,7 @@ class Project < ActiveRecord::Base
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :types, :order => "#{Type.table_name}.position"
-  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
+  has_many :work_packages, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
   has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
@@ -93,7 +97,7 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name, :identifier
   #TODO: we temporarily disable this validation because it leads to failed tests
-  #it implicitely assumes a db:seed-created standard type to be present and currently
+  #it implicitly assumes a db:seed-created standard type to be present and currently
   #neither development nor deployment setups are prepared for this
   #validates_presence_of :types
   validates_uniqueness_of :identifier
@@ -101,12 +105,13 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
-  # donwcase letters, digits, dashes but not digits only
+  # downcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
 
   before_destroy :delete_all_members
+  before_destroy :destroy_all_work_packages
 
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
@@ -234,7 +239,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = Type.where(is_default: true)
+      self.types = Type.default
     end
   end
 
@@ -585,9 +590,24 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
 
+  def destroy_all_work_packages
+    self.work_packages.each do |wp|
+      begin
+        wp.reload
+        wp.destroy
+      rescue ActiveRecord::RecordNotFound => e
+      end
+    end
+  end
+
   # Users/groups a work_package can be assigned to
-  def assignable_users
-    assignable_members.map(&:principal).compact.sort
+  def possible_assignees
+    possible_assignee_members.map(&:principal).compact.sort
+  end
+
+  # Users who can become responsible for a work_package
+  def possible_responsibles
+    possible_responsible_members.map(&:principal).compact.sort
   end
 
   # Returns the mail adresses of users that should be always notified on project events
@@ -682,7 +702,7 @@ class Project < ActiveRecord::Base
       total / self_and_descendants.count
     else
       if versions.count > 0
-        total = versions.collect(&:completed_pourcent).sum
+        total = versions.collect(&:completed_percent).sum
 
         total / versions.count
       else
@@ -905,7 +925,7 @@ class Project < ActiveRecord::Base
 
   protected
 
-  def self.assignable_members_condition
+  def self.possible_assignees_condition
 
     condition = Setting.work_package_group_assignment? ?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
@@ -914,6 +934,14 @@ class Project < ActiveRecord::Base
     condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
     condition << User::STATUSES[:active]
     condition << true
+
+    sanitize_sql_array condition
+  end
+
+  def self.possible_responsibles_condition
+
+    condition = ["(#{Principal.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?)",
+      'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
   end

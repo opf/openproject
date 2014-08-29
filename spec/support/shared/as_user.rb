@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,8 @@
 #   end
 
 def as_logged_in_user(user, &block)
-  @controller.stub(:user_setup).and_return(user)
-  User.stub(:current).and_return(user)
+  allow(@controller).to receive(:user_setup).and_return(user)
+  allow(User).to receive(:current).and_return(user)
 
   yield
 end

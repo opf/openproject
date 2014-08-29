@@ -1,8 +1,7 @@
-# encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +34,6 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   as_admin do
     Member.new.tap do |m|
       m.user = u
-      m.privacy_unnecessary = true if plugin_loaded?("redmine_dtag_privacy")
       m.roles << r
       m.project = p
     end.save!
@@ -89,4 +87,3 @@ end
 Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
   step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
-

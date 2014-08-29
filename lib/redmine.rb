@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,16 +36,11 @@ require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'open_project/themes'
 require 'redmine/hook'
+require 'open_project/hooks'
 require 'redmine/plugin'
 require 'redmine/notifiable'
 require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
-
-begin
-  require 'RMagick' unless Object.const_defined?(:Magick)
-rescue LoadError
-  # RMagick is not available
-end
 
 require 'csv'
 require 'globalize'
@@ -77,10 +72,14 @@ Redmine::AccessControl.map do |map|
                  },
                  :public => true
   map.permission :search_project, {:search => :index}, :public => true
-  map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
+  map.permission :add_project, {
+                                :projects => [:new, :create],
+                                :members => [:paginate_users]
+                               }, :require => :loggedin
   map.permission :edit_project,
                  {
-                   :projects => [:settings, :edit, :update]
+                   :projects => [:settings, :edit, :update],
+                   :members => [:paginate_users]
                  },
                  :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
@@ -88,19 +87,28 @@ Redmine::AccessControl.map do |map|
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :manage_types, {:projects => :types}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
-  map.permission :copy_projects, {:copy_projects => [:copy, :copy_project]}, :require => :member
+  map.permission :copy_projects, {
+                                  :copy_projects => [:copy, :copy_project],
+                                  :members => [:paginate_users]
+                                 }, :require => :member
+  map.permission :load_column_data, {
+                 :work_packages => [ :column_data ]
+                 }
+  map.permission :load_column_sums, {
+                 :work_packages => [ :column_sums ]
+                 }
 
-  map.project_module :issue_tracking do |map|
+  map.project_module :work_package_tracking do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                          :auto_complete => [:issues],
-                                         :context_menus => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
-                                         :queries => :index,
+                                         :queries => [:index, :create, :update, :available_columns, :custom_field_filters, :grouped],
                                          :work_packages => [:show, :index],
+                                         :work_packages_api => [:get],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
@@ -129,8 +137,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
-    map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
+    map.permission :manage_public_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :member
+    map.permission :save_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
@@ -146,7 +154,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |map|
-    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :'news/comments' => [:destroy]}, :require => :member
+    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy, :preview], :'news/comments' => [:destroy]}, :require => :member
     map.permission :view_news, {:news => [:index, :show]}, :public => true
     map.permission :comment_news, {:'news/comments' => :create}
   end
@@ -178,9 +186,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :move, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
-    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote]}
-    map.permission :edit_messages, {:messages => [:edit, :update]}, :require => :member
-    map.permission :edit_own_messages, {:messages => [:edit, :update]}, :require => :loggedin
+    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote, :preview]}
+    map.permission :edit_messages, {:messages => [:edit, :update, :preview]}, :require => :member
+    map.permission :edit_own_messages, {:messages => [:edit, :update, :preview]}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
@@ -192,8 +200,6 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   map.project_module :timelines do |map|
-    map.permission :manage_project_configuration,
-                   :require => :member
     map.permission :view_project_associations,
                    {:project_associations => [:index, :show]}
     map.permission :edit_project_associations,
@@ -225,10 +231,10 @@ Redmine::AccessControl.map do |map|
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:'data-icon' => '5'}, :if => Proc.new { User.current.logged? }
+  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:class => 'icon5 icon-star2'}, :if => Proc.new { User.current.logged? }
   # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
   menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, OpenProject::Info.help_url, :last => true, :caption => I18n.t('label_help'), :html => { :accesskey => OpenProject::AccessKeys.key_for(:help), :'data-icon' => 'L'}
+  menu.push :help, OpenProject::Info.help_url, :last => true, :caption => I18n.t('label_help'), :html => { :accesskey => OpenProject::AccessKeys.key_for(:help), :class => "icon5 icon-help"}
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -241,126 +247,137 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
-  menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:'data-icon2' => 'B'}
-  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:'data-icon2' => 'i'}
+  menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:class => "icon2 icon-user1"}
+  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:class => "icon2 icon-locked"}
+
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
-                             :if => Proc.new { Setting.users_deletable_by_self? }
+                             :if => Proc.new { Setting.users_deletable_by_self? },
+                             :html => {:class => 'icon2 icon-delete'}
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :projects, {:controller => '/admin', :action => 'projects'}, :caption => :label_project_plural, :html => {:'data-icon2' => '7'}
-  menu.push :users, {:controller => '/users'}, :caption => :label_user_plural, :html => {:'data-icon2' => 'B'}
-  menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural, :html => {:'data-icon2' => '&'}
-  menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions, :html => {:'data-icon2' => 'A'}
-  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural, :html => {:'data-icon2' => 'z'}
+  menu.push :projects, {:controller => '/admin', :action => 'projects'}, :caption => :label_project_plural, :html => {:class => "icon2 icon-list-view2"}
+  menu.push :users, {:controller => '/users'}, :caption => :label_user_plural, :html => {:class => "icon2 icon-user1"}
+  menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural, :html => {:class => "icon2 icon-group"}
+  menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions, :html => {:class => "icon2 icon-settings"}
+  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural, :html => {:class => "icon2 icon-tracker"}
   menu.push :statuses, {:controller => '/statuses'}, :caption => :label_work_package_status_plural,
-            :html => {:class => 'statuses', :'data-icon2' => 'A'}
-  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }, :html => {:'data-icon2' => 'A'}
+            :html => {:class => 'statuses icon2 icon-status'}
+  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }, :html => {:class => "icon2 icon-status"}
   menu.push :custom_fields, {:controller => '/custom_fields'},  :caption => :label_custom_field_plural,
-            :html => {:class => 'custom_fields', :'data-icon2' => 'A'}
-  menu.push :enumerations, {:controller => '/enumerations'}, :html => {:'data-icon2' => 'A'}
-  menu.push :settings, {:controller => '/settings'}, :html => {:'data-icon2' => 'T'}
-  menu.push :ldap_authentication, {:controller => '/ldap_auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication', :'data-icon2' => 'A'}
-  menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:'data-icon2' => 'A'}
-  menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:'data-icon2' => '%'}
+            :html => {:class => 'custom_fields icon2 icon-status' }
+  menu.push :enumerations, {:controller => '/enumerations'}, :html => {:class => "icon2 icon-status"}
+  menu.push :settings, {:controller => '/settings'}, :html => {:class => "icon2 icon-settings2"}
+  menu.push :ldap_authentication,
+            {:controller => '/ldap_auth_sources', :action => 'index'},
+            :html => {:class => 'server_authentication icon2 icon-status'},
+            :if => proc { !OpenProject::Configuration.disable_password_login? }
+  menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:class => "icon2 icon-status"}
+  menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:class => "icon2 icon-info"}
   menu.push :colors,
             {:controller => '/planning_element_type_colors', :action => 'index'},
-            {:caption    => :'timelines.admin_menu.colors', :html => {:'data-icon2' => 'A'}}
+            {:caption    => :'timelines.admin_menu.colors', :html => {:class => "icon2 icon-status"}}
   menu.push :project_types,
             {:controller => '/project_types', :action => 'index'},
-            {:caption    => :'timelines.admin_menu.project_types', :html => {:'data-icon2' => 'z'}}
+            {:caption    => :'timelines.admin_menu.project_types', :html => {:class => "icon2 icon-tracker"}}
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => '/projects', :action => 'show' },
-                       :html => {:'data-icon2' => '7'}
+                       :html => {:class => "icon2 icon-list-view2"}
 
   menu.push :activity, { :controller => '/activities', :action => 'index' },
                        :param => :project_id,
                        :if => Proc.new { |p| p.module_enabled?("activity") },
-                       :html => {:'data-icon2' => 'k'}
+                       :html => {:class => "icon2 icon-yes"}
 
   menu.push :roadmap, { :controller => '/versions', :action => 'index' },
                       :param => :project_id,
                       :if => Proc.new { |p| p.shared_versions.any? },
-                      :html => {:'data-icon2' => '0'}
+                      :html => {:class => "icon2 icon-process-arrow1"}
 
-  menu.push :work_packages, { :controller => '/work_packages', :action => 'index' },
-                            :param => :project_id,
-                            :caption => :label_work_package_plural,
-                            :html => {:'data-icon2' => 'c'}
+  menu.push :work_packages, { controller: '/work_packages', action: 'index' },
+                            param: :project_id,
+                            caption: :label_work_package_plural,
+                            html: {
+                              id: 'main-menu-work-packages',
+                              class: "icon2 icon-copy",
+                              "data-ui-route" => '',
+                              query_menu_item: 'query_menu_item'
+                            }
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
                                :param => :project_id,
                                :caption => :label_work_package_new,
                                :parent => :work_packages,
-                               :html => { :accesskey => OpenProject::AccessKeys.key_for(:new_work_package) }
+                               :html => { :accesskey => OpenProject::AccessKeys.key_for(:new_work_package), :class => "icon2 icon-add" }
 
   menu.push :summary_field, {:controller => '/work_packages/reports', :action => 'report'},
                             :param => :project_id,
                             :caption => :label_workflow_summary,
-                            :parent => :work_packages
+                            :parent => :work_packages,
+                            :html => { :class => "icon2 icon-stats4" }
 
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:'data-icon2' => 'f'}
+                        :html => {:class => "icon2 icon-new-planning-element"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
                        :caption => :label_calendar,
-                       :html => {:'data-icon2' => 'K'}
+                       :html => {:class => "icon2 icon-calendar"}
 
   menu.push :news, { :controller => '/news', :action => 'index' },
                    :param => :project_id,
                    :caption => :label_news_plural,
-                   :html => {:'data-icon2' => '2'}
+                   :html => {:class => "icon2 icon-news"}
 
   menu.push :new_news, { :controller => '/news', :action => 'new' },
                        :param => :project_id,
                        :caption => :label_news_new,
                        :parent => :news,
-                       :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
+                       :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) },
+                       :html => {:class => "icon2 icon-add"}
 
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil },
                      :param => :project_id,
                      :if => Proc.new { |p| p.boards.any? },
                      :caption => :label_board_plural,
-                     :html => {:'data-icon2' => 'x'}
+                     :html => {:class => "icon2 icon-ticket-note"}
 
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
                          :param => :project_id,
                          :if => Proc.new { |p| p.repository && !p.repository.new_record? },
-                         :html => {:'data-icon2' => 'o'}
+                         :html => {:class => "icon2 icon-open-folder"}
 
   menu.push :reportings, {:controller => '/reportings', :action => 'index'},
                          :param => :project_id,
                          :caption => :'timelines.project_menu.reportings',
-                         :html => {:'data-icon2' => 'w'}
+                         :html => {:class => "icon2 icon-stats"}
 
 
   menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
                                    :param => :project_id,
                                    :caption => :'timelines.project_menu.project_associations',
                                    :if => Proc.new { |p| p.project_type.try :allows_association },
-                                   :html => {:'data-icon2' => '4'}
+                                   :html => {:class => "icon2 icon-dependency"}
 
   menu.push :settings, { :controller => '/projects', :action => 'settings' },
                        :caption => :label_project_settings,
                        :last => true,
-                       :html => {:'data-icon2' => 'T'}
+                       :html => {:class => "icon2 icon-settings2"}
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :work_packages, :class_name => 'WorkPackage'
-  activity.register :changesets
-  activity.register :news
-  activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
-  activity.register :messages, :default => false
-  activity.register :time_entries, :default => false
+  activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
+  activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false
+  activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
+  activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
+  activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false
 end
 
 Redmine::Search.map do |search|
@@ -375,5 +392,3 @@ end
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
 end
-
-ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

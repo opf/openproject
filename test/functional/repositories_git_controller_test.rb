@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -230,8 +230,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_binary_file
       get :annotate, :project_id => 3, :path => 'images/edit.png'
       assert_response 500
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                              :content => /cannot be annotated/
+      assert_tag :tag => 'div', :attributes => { :id => /errorExplanation/ },
+                                :content => /cannot be annotated/
     end
 
     def test_revision

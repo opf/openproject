@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/reportings/show.api.rabl' do
+describe 'api/v2/reportings/show.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -59,7 +59,7 @@ describe 'api/v2/reportings/show.api.rabl' do
     subject {response.body}
 
     it 'renders a reporting document' do
-      response.should have_json_path('reporting')
+      expect(response).to have_json_path('reporting')
     end
 
     it 'renders the details of a reporting' do
@@ -70,7 +70,7 @@ describe 'api/v2/reportings/show.api.rabl' do
                         reported_project_status_comment: "Sample Comment"
                       }.to_json
 
-      should be_json_eql(expected_json).at_path('reporting')
+      is_expected.to be_json_eql(expected_json).at_path('reporting')
     end
 
 
@@ -93,10 +93,9 @@ describe 'api/v2/reportings/show.api.rabl' do
     it 'renders the reported project-status' do
       expected_json = { name: "beste" }.to_json
 
-      should be_json_eql(expected_json).at_path('reporting/reported_project_status')
+      is_expected.to be_json_eql(expected_json).at_path('reporting/reported_project_status')
     end
 
   end
 
 end
-

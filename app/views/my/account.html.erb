@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,54 +27,54 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title(l(:label_my_account)) -%>
+
 <% breadcrumb_paths(l(:label_my_account)) %>
-<div class="contextual">
-<%= call_hook(:view_my_account_contextual, :user => @user)%>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= call_hook(:view_my_account_contextual, :user => @user)%>
+<% end %>
 <h2><%=l(:label_my_account)%></h2>
+<%= render :partial => 'layouts/action_menu_specific' %>
 <%= error_messages_for 'user' %>
 
 <%= form_for @user, :as => :user, :url => { :action => "account" },
                           :builder => TabularFormBuilder,
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
-<div class="splitcontentleft">
-<h3><%=l(:label_information_plural)%></h3>
-<div class="box tabular">
-<p><%= f.text_field :firstname, :required => true %></p>
-<p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true %></p>
-<p><%= f.select :language, lang_options_for_select %></p>
-<% if Setting.openid? %>
-<p><%= f.text_field :identity_url  %></p>
+  <div>
+    <div class="splitcontentleft">
+      <h3><%=l(:label_information_plural)%></h3>
+      <div class="box tabular">
+        <p><%= f.text_field :firstname, :required => true %></p>
+        <p><%= f.text_field :lastname, :required => true %></p>
+        <p><%= f.text_field :mail, :required => true %></p>
+        <p><%= f.select :language, lang_options_for_select %></p>
+
+        <% @user.custom_field_values.select(&:editable?).each do |value| %>
+          <p><%= custom_field_tag_with_label :user, value %></p>
+        <% end %>
+        <%= call_hook(:view_my_account, :user => @user, :form => f) %>
+      </div>
+    </div>
+
+    <div class="splitcontentright">
+      <h3><%= User.human_attribute_name(:mail_notification) %></h3>
+      <div class="box">
+      <%= render :partial => 'users/mail_notifications' %>
+      </div>
+
+      <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+      <div class="box tabular">
+      <%= render :partial => 'users/impaired_settings' %>
+      </div>
+
+      <h3><%=l(:label_preferences)%></h3>
+      <div class="box tabular">
+      <%= render :partial => 'users/preferences' %>
+      </div>
+    </div>
+    <br style="clear:both;" />
+  </div>
+
+  <%= submit_tag l(:button_save) %>
 <% end %>
-
-<% @user.custom_field_values.select(&:editable?).each do |value| %>
-	<p><%= custom_field_tag_with_label :user, value %></p>
-<% end %>
-<%= call_hook(:view_my_account, :user => @user, :form => f) %>
-</div>
-
-<%= submit_tag l(:button_save) %>
-</div>
-
-<div class="splitcontentright">
-<h3><%= User.human_attribute_name(:mail_notification) %></h3>
-<div class="box">
-<%= render :partial => 'users/mail_notifications' %>
-</div>
-
-<h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-<div class="box tabular">
-<%= render :partial => 'users/impaired_settings' %>
-</div>
-
-<h3><%=l(:label_preferences)%></h3>
-<div class="box tabular">
-<%= render :partial => 'users/preferences' %>
-</div>
-
-</div>
-<% end %>
-
-<% html_title(l(:label_my_account)) -%>

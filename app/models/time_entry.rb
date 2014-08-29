@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,10 +39,14 @@ class TimeEntry < ActiveRecord::Base
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{o.journal.journable.project.event_title})"},
-                :event_url => Proc.new {|o| {:controller => '/timelog', :action => 'index', :project_id => o.journal.journable.project, :work_package_id => o.journal.journable.work_package}},
-                :event_author => :user,
-                :event_description => :comments
+
+  acts_as_journalized
+
+  acts_as_event title: Proc.new {|o| "#{l_hours(o.hours)} (#{o.project.event_title})"},
+                url: Proc.new {|o| {controller: '/timelog', action: 'index', project_id: o.project, work_package_id: o.work_package}},
+                datetime: :created_on,
+                author: :user,
+                description: :comments
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -95,14 +95,14 @@ function toggle_custom_field_format() {
       if (p_searchable) Element.hide(p_searchable.parentNode);
       hide_and_disable(p_values);
       break;
-		case "user":
+    case "user":
     case "version":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
       hide_and_disable(p_values);
       Element.hide(p_default_value);
-		  break;
+      break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
@@ -112,6 +112,26 @@ function toggle_custom_field_format() {
   }
 }
 
+function initLocaleChangeListener() {
+jQuery(".locale_selector").each(function (index) {
+    var localeSelector = jQuery(this);
+
+    localeSelector.change(function () {
+      localeSelector.children("option:selected").each(function () {
+        //alert(jQuery(this).attr('value'));
+        var span = jQuery(jQuery(this).parents("span.translation")[0])
+
+        if (typeof span.attr('lang') !== 'undefined') {
+          span.removeAttr('lang');
+        }
+
+        span.attr('lang', jQuery(this).attr('value'));
+      });
+    });
+
+    localeSelector.change();
+});
+}
 //]]>
 </script>
 
@@ -186,7 +206,7 @@ function toggle_custom_field_format() {
           <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
           <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
         <% end %>
-		  <%= hidden_field_tag "custom_field[type_ids][]", '' %>
+      <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
     &nbsp;
     <p><%= f.check_box :is_required %></p>
@@ -214,3 +234,4 @@ function toggle_custom_field_format() {
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>
+<%= javascript_tag "initLocaleChangeListener();" %>

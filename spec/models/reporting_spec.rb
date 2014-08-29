@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Reporting do
+describe Reporting, :type => :model do
   describe '- Relations ' do
     describe '#project' do
       it 'can read the project w/ the help of the belongs_to association' do
@@ -38,7 +38,7 @@ describe Reporting do
 
         reporting.reload
 
-        reporting.project.should == project
+        expect(reporting.project).to eq(project)
       end
 
       it 'can read the reporting_to_project w/ the help of the belongs_to association' do
@@ -48,7 +48,7 @@ describe Reporting do
 
         reporting.reload
 
-        reporting.reporting_to_project.should == project
+        expect(reporting.reporting_to_project).to eq(project)
       end
 
       it 'can read the reported_project_status w/ the help of the belongs_to association' do
@@ -58,7 +58,7 @@ describe Reporting do
 
         reporting.reload
 
-        reporting.reported_project_status.should == reported_project_status
+        expect(reporting.reported_project_status).to eq(reported_project_status)
       end
     end
   end
@@ -74,7 +74,7 @@ describe Reporting do
       FactoryGirl.create(:project, :id => 2)
     }
 
-    it { Reporting.new.tap { |r| r.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
+    it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
 
     describe 'project' do
       it 'is invalid w/o a project' do
@@ -82,10 +82,10 @@ describe Reporting do
         reporting = Reporting.new
         reporting.send(:assign_attributes, attributes, :without_protection => true)
 
-        reporting.should_not be_valid
+        expect(reporting).not_to be_valid
 
-        reporting.errors[:project].should be_present
-        reporting.errors[:project].should == ["can't be blank"]
+        expect(reporting.errors[:project]).to be_present
+        expect(reporting.errors[:project]).to eq(["can't be blank"])
       end
     end
 
@@ -95,10 +95,10 @@ describe Reporting do
         reporting = Reporting.new
         reporting.send(:assign_attributes, attributes, :without_protection => true)
 
-        reporting.should_not be_valid
+        expect(reporting).not_to be_valid
 
-        reporting.errors[:reporting_to_project].should be_present
-        reporting.errors[:reporting_to_project].should == ["can't be blank"]
+        expect(reporting.errors[:reporting_to_project]).to be_present
+        expect(reporting.errors[:reporting_to_project]).to eq(["can't be blank"])
       end
     end
   end

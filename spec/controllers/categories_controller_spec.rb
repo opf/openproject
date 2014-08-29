@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CategoriesController do
+describe CategoriesController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -41,15 +41,15 @@ describe CategoriesController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   shared_examples_for :redirect do
     subject { response }
 
-    it { should be_redirect }
+    it { is_expected.to be_redirect }
 
-    it { should redirect_to("/projects/#{project.identifier}/settings/categories") }
+    it { is_expected.to redirect_to("/projects/#{project.identifier}/settings/categories") }
   end
 
   describe :new do
@@ -57,9 +57,9 @@ describe CategoriesController do
 
     subject { response }
 
-    it { should be_success }
+    it { is_expected.to be_success }
 
-    it { should render_template('new') }
+    it { is_expected.to render_template('new') }
   end
 
   describe :create do
@@ -73,9 +73,9 @@ describe CategoriesController do
     describe :categories do
       subject { Category.find_by_name(category_name) }
 
-      it { subject.project_id.should eq(project.id) }
+      it { expect(subject.project_id).to eq(project.id) }
 
-      it { subject.assigned_to_id.should eq(user.id) }
+      it { expect(subject.assigned_to_id).to eq(user.id) }
     end
 
     it_behaves_like :redirect
@@ -94,12 +94,12 @@ describe CategoriesController do
 
       subject { Category.find(category.id).name }
 
-      it { should eq(name) }
+      it { is_expected.to eq(name) }
 
       describe :category_count do
         subject { Category.count }
 
-        it { should eq(1) }
+        it { is_expected.to eq(1) }
       end
 
       it_behaves_like :redirect
@@ -112,7 +112,7 @@ describe CategoriesController do
 
       subject { response.response_code }
 
-      it { should eq(404) }
+      it { is_expected.to eq(404) }
     end
   end
 
@@ -128,7 +128,7 @@ describe CategoriesController do
     shared_examples_for :delete do
       subject { Category.find_by_id(category.id) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "unused" do
@@ -148,14 +148,14 @@ describe CategoriesController do
 
       subject { Category.find_by_id(category.id) }
 
-      it { should_not be_nil }
+      it { is_expected.not_to be_nil }
 
       describe :response do
         subject { response }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
-        it { should render_template('destroy') }
+        it { is_expected.to render_template('destroy') }
       end
     end
 
@@ -173,7 +173,7 @@ describe CategoriesController do
 
       subject { work_package.reload.category_id }
 
-      it { should eq(target.id) }
+      it { is_expected.to eq(target.id) }
 
       it_behaves_like :delete
 
@@ -191,7 +191,7 @@ describe CategoriesController do
 
       subject { work_package.reload.category_id }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
 
       it_behaves_like :delete
 

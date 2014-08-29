@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,4 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery('#tab-content-memberships').html('<%= escape_javascript render(:partial => 'memberships') %>');
+<% content = escape_javascript render(partial: 'memberships') %>
+<% flash_message = escape_javascript render(partial: "members/common_notice",
+                                            locals: { message: l(:notice_successful_delete) }) %>
+jQuery('#tab-content-memberships').html('<%= content %>');
+jQuery('#tab-content-memberships').prepend('<%= flash_message %>');

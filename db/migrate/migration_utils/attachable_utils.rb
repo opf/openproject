@@ -1,9 +1,28 @@
+#-- encoding: UTF-8
+#-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -67,28 +86,16 @@ module Migration::Utils
     private
 
     def missing_attachments
-      begin
-        result = select_all <<-SQL
-          SELECT * FROM (
-            SELECT a.container_id AS journaled_id, a.container_type AS journaled_type, a.id AS attachment_id, a.filename, MAX(aj.id) AS aj_id, MAX(j.version) AS last_version
-            FROM attachments AS a JOIN journals AS j
-              ON (a.container_id = j.journable_id AND a.container_type = j.journable_type) LEFT JOIN attachable_journals AS aj
-              ON (a.id = aj.attachment_id)
-            GROUP BY a.container_id, a.container_type, a.id, a.filename
-            ) AS tmp
-          WHERE aj_id IS NULL
-        SQL
-      rescue ActiveRecord::StatementInvalid => ex
-        raise ex unless mysql?
-
-        raise "An MySQL error occured (see details below)!"\
-              "\n\n"\
-              "If you're facing an 'Illegal mix of collations error, consider "\
-              "running rake task "\
-              "'migrations:journals:fix_attachments_collation'."\
-              "\n\n"\
-              "#{ex.message}"
-      end
+      result = select_all <<-SQL
+        SELECT * FROM (
+          SELECT a.container_id AS journaled_id, a.container_type AS journaled_type, a.id AS attachment_id, a.filename, MAX(aj.id) AS aj_id, MAX(j.version) AS last_version
+          FROM attachments AS a JOIN journals AS j
+            ON (a.container_id = j.journable_id AND a.container_type = j.journable_type) LEFT JOIN attachable_journals AS aj
+            ON (a.id = aj.attachment_id)
+          GROUP BY a.container_id, a.container_type, a.id, a.filename
+          ) AS tmp
+        WHERE aj_id IS NULL
+      SQL
 
       result.collect { |row| MissingAttachment.new(row['journaled_id'],
                                                    row['journaled_type'],

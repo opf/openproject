@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -177,9 +177,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
 
+  # NOTE: this test seems to depend on other tests in suite
+  # because running whole suite is fine, but running only this test
+  # results in failure
   def test_update_stale_page_should_not_raise_an_error
     journal = FactoryGirl.create :wiki_content_journal,
                                  journable_id: 2,
+                                 version: 1,
                                  data: FactoryGirl.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     @request.session[:user_id] = 2
@@ -214,29 +218,7 @@ class WikiControllerTest < ActionController::TestCase
 
     c.reload
     assert_equal 'Previous text', c.text
-    assert_equal journal.version, c.version
-  end
-
-  def test_preview
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
-                                   :content => { :comments => '',
-                                                 :text => 'this is a *previewed text*',
-                                                 :lock_version => 3 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'strong', :content => /previewed text/
-  end
-
-  def test_preview_new_page
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'New page',
-                                   :content => { :text => 'h1. New page',
-                                                 :comments => '',
-                                                 :lock_version => 0 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'h1', :content => /New page/
+    assert_equal 2, c.version
   end
 
   def test_history
@@ -331,8 +313,8 @@ class WikiControllerTest < ActionController::TestCase
   def test_rename_with_redirect
     @request.session[:user_id] = 2
     put :rename, :project_id => 1, :id => 'Another_page',
-                 :wiki_page => { :title => 'Another renamed page',
-                                 :redirect_existing_links => 1 }
+                 :page => { :title => 'Another renamed page',
+                            :redirect_existing_links => 1 }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
@@ -342,8 +324,8 @@ class WikiControllerTest < ActionController::TestCase
   def test_rename_without_redirect
     @request.session[:user_id] = 2
     put :rename, :project_id => 1, :id => 'Another_page',
-                 :wiki_page => { :title => 'Another renamed page',
-                                 :redirect_existing_links => "0" }
+                 :page => { :title => 'Another renamed page',
+                            :redirect_existing_links => "0" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')

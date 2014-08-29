@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,8 +93,8 @@ class ProjectTest < ActiveSupport::TestCase
       assert !Project.new(:identifier => 'test').blank?
     end
 
-    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
-      assert_equal ['issue_tracking', 'repository'], Project.new.enabled_module_names
+    with_settings :default_projects_modules => ['work_package_tracking', 'repository'] do
+      assert_equal ['work_package_tracking', 'repository'], Project.new.enabled_module_names
     end
 
     assert_equal Type.all, Project.new.types
@@ -627,11 +627,11 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_enabled_module_names
-    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+    with_settings :default_projects_modules => ['work_package_tracking', 'repository'] do
       project = Project.new
 
-      project.enabled_module_names = %w(issue_tracking news)
-      assert_equal %w(issue_tracking news), project.enabled_module_names.sort
+      project.enabled_module_names = %w(work_package_tracking news)
+      assert_equal %w(news work_package_tracking), project.enabled_module_names.sort
     end
   end
 

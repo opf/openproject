@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,14 @@ require File.expand_path('../../../../test_helper', __FILE__)
 class Redmine::PluginTest < ActiveSupport::TestCase
 
   def setup
+    super
     @klass = Redmine::Plugin
     # In case some real plugins are installed
     @klass.clear
   end
 
   def teardown
+    super
     @klass.clear
   end
 

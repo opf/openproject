@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,9 @@ Feature: Issue edit
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_work_packages |
-      | edit_work_packages |
+      | view_work_packages     |
+      | edit_work_packages     |
+      | add_work_package_notes |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "omicronpersei8"

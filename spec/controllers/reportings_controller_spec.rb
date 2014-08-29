@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportingsController do
+describe ReportingsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'index.html' do
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:project) { FactoryGirl.create(:project) }
     def fetch
       get 'index', :project_id => project.identifier
     end
@@ -45,7 +45,7 @@ describe ReportingsController do
   end
 
   describe 'show.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
     def fetch
       get 'show', :project_id => project.identifier, :id => reporting.id
@@ -55,9 +55,9 @@ describe ReportingsController do
   end
 
   describe 'new.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     def fetch
-      FactoryGirl.create(:project, :is_public => true) # reporting candidate
+      FactoryGirl.create(:public_project) # reporting candidate
 
       get 'new', :project_id => project.identifier
     end
@@ -66,7 +66,7 @@ describe ReportingsController do
   end
 
   describe 'create.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     def fetch
       post 'create', :project_id => project.identifier,
                      :reporting  => FactoryGirl.build(:reporting,
@@ -80,7 +80,7 @@ describe ReportingsController do
   end
 
   describe 'edit.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
 
     def fetch
@@ -92,7 +92,7 @@ describe ReportingsController do
   end
 
   describe 'update.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
 
     def fetch
@@ -108,7 +108,7 @@ describe ReportingsController do
   end
 
   describe 'confirm_destroy.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
 
     def fetch
@@ -120,7 +120,7 @@ describe ReportingsController do
   end
 
   describe 'update.html' do
-    let(:project)   { FactoryGirl.create(:project, :is_public => false) }
+    let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
 
     def fetch

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title l(:label_administration), l("label_user_new") %>
+
 <h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%=l(:label_user_new)%></h2>
 
 <%= labelled_tabular_form_for @user,
                               :url => { :action => "create" },
                               :html => { :class => nil, :autocomplete => 'off' },
                               :as => :user do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
-	<p>
-		<%= submit_tag l(:button_create) %>
-		<%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-	</p>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
+  <p>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  </p>
 <% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,30 +70,15 @@ module Redmine
           self.name.underscore.pluralize
         end
 
-        # A model might provide as many activity_types as it wishes.
-        # Activities are just different search options for the event a model provides
-        def acts_as_activity(options = {})
-          activity_hash = journalized_activity_hash(options)
-          type = activity_hash[:type]
-          acts_as_activity_provider activity_hash
-          unless Redmine::Activity.providers[type].include? self.name
-            Redmine::Activity.register type.to_sym, :class_name => self.name
-          end
-        end
-
         # This call will add an activity and, if neccessary, start the journaling and
         # add an event callback on the model.
         # Versioning and acting as an Event may only be applied once.
         # To apply more than on activity, use acts_as_activity
         def acts_as_journalized(options = {}, &block)
 
-          acts_as_activity = options.delete(:acts_as_activity)
-
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
           self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
-
-          acts_as_activity(activity_hash) if acts_as_activity!=false
 
           return if journaled?
 
@@ -110,9 +95,6 @@ module Redmine
 
           # FIXME: When the transition to the new API is complete, remove me
           include Deprecated
-
-          JournalManager.journal_class(self).acts_as_event journalized_event_hash(event_hash)
-          #journal_class.acts_as_event journalized_event_hash(event_hash)
 
           (journal_hash[:except] ||= []) << self.primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
@@ -174,47 +156,6 @@ module Redmine
               end
             end
             [activity_hash, event_hash, journal_hash]
-          end
-
-          # Merges the passed activity_hash with the options we require for
-          # acts_as_journalized to work, as follows:
-          # # type is the supplied or the pluralized class name
-          # # timestamp is supplied or the journal's created_at
-          # # author_key will always be the journal's author
-          # #
-          # # find_options are merged as follows:
-          # # # select statement is enriched with the journal fields
-          # # # journal association is added to the includes
-          # # # if a project is associated with the model, this is added to the includes
-          # # # the find conditions are extended to only choose journals which have the proper activity_type
-          # => a valid activity hash
-          def journalized_activity_hash(options)
-            options.tap do |h|
-              h[:type] ||= plural_name
-              h[:timestamp] ||= "#{Journal.table_name}.created_at"
-              h[:author_key] ||= "#{Journal.table_name}.user_id"
-
-              h[:find_options] ||= {} # in case it is nil
-              h[:find_options] = {}.tap do |opts|
-                cond = ::ARCondition.new
-                cond.add(["#{Journal.table_name}.activity_type = ?", h[:type]])
-                cond.add(h[:find_options][:conditions]) if h[:find_options][:conditions]
-                opts[:conditions] = cond.conditions
-
-                include_opts = []
-                include_opts << :project if reflect_on_association(:project)
-                if h[:find_options][:include]
-                  include_opts += case h[:find_options][:include]
-                    when Array then h[:find_options][:include]
-                    else [h[:find_options][:include]]
-                  end
-                end
-                include_opts.uniq!
-                opts[:include] = include_opts
-
-                #opts[:joins] = h[:find_options][:joins] if h[:find_options][:joins]
-              end
-            end
           end
 
           # Merges the event hashes defaults with the options provided by the user

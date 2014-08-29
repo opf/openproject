@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_work_package_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_work_package_status_new), new_status_path, :class => 'icon icon-add' %>
+  <%= link_to(l(:label_update_work_package_done_ratios), update_work_package_done_ratio_statuses_path, :class => 'icon icon-reload2', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
+<% end %>
+
+<% html_title l(:label_administration), l(:label_work_package_status_plural) -%>
 
 <h2><%=l(:label_work_package_status_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <table class="list">
   <thead><tr>
@@ -48,24 +52,19 @@ See doc/COPYRIGHT.rdoc for more details.
   <tbody>
 <% for status in @statuses %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to h(status.name), :action => 'edit', :id => status %></td>
+  <td><%= link_to h(status.name), edit_status_path(status) %></td>
   <% if WorkPackage.use_status_for_done_ratio? %>
-  <td align="center"><%= h status.default_done_ratio %></td>
+    <td align="center"><%= h status.default_done_ratio %></td>
   <% end %>
   <td align="center"><%= checked_image status.is_default? %></td>
   <td align="center"><%= checked_image status.is_closed? %></td>
-  <td align="center" style="width:15%;"><%= reorder_links('status', {:action => 'update', :id => status}) %></td>
-  <td class="buttons">
-    <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
-                                   :method => :post,
-                                   :confirm => l(:text_are_you_sure),
-                                   :class => 'icon icon-del') %>
+  <td align="center" style="width:15%;">
+    <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
   </td>
+  <td class="buttons"><%= delete_link status_path(status) %></td>
   </tr>
 <% end %>
   </tbody>
 </table>
 
 <%= pagination_links_full @statuses %>
-
-<% html_title(l(:label_work_package_status_plural)) -%>

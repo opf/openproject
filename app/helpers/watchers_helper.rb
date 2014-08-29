@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,6 @@
 
 module WatchersHelper
 
-  # Deprecated method. Use watcher_link instead
-  #
-  # This method will be removed in ChiliProject 3.0 or later
-  def watcher_tag(object, user, options={:replace => 'watcher'})
-    ActiveSupport::Deprecation.warn "The WatchersHelper#watcher_tag is deprecated and will be removed in ChiliProject 3.0. Please use WatchersHelper#watcher_link instead. Please also note the differences between the APIs.", caller
-
-    options[:id] ||= options[:replace] if options[:replace].is_a? String
-
-    options[:replace] = Array(options[:replace]).map { |id| "##{id}" }
-
-    watcher_link(object, user, options)
-  end
-
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
@@ -57,7 +44,7 @@ module WatchersHelper
     path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", :object_type => object.class.to_s.underscore.pluralize,
                                                             :object_id => object.id,
                                                             :replace => options.delete('replace') )
-    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-fav' : ' icon icon-fav-off')
+    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-watch-1' : ' icon icon-not-watch')
 
     method = watched ?
       :delete :
@@ -73,17 +60,19 @@ module WatchersHelper
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watchers(true).collect do |watch|
+    lis = object.watcher_users.sort.collect do |user|
+      watcher = object.watchers(true).find{|u| u.user_id == user.id }
       content_tag :li do
-        avatar(watch.user, :size => "16") +
-          link_to_user(watch.user, :class => 'user') +
+        avatar(user, :class => 'avatar-mini') +
+          link_to_user(user, :class => 'user') +
           if remove_allowed
-            ' '.html_safe + link_to(image_tag('webalys/red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
-                             watcher_path(watch),
+            ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
+                                                 l(:button_delete_watcher, name: user.name)),
+                             watcher_path(watcher),
                              :method => :delete,
                              :remote => true,
-                             :style => "vertical-align: middle",
-                             :class => "delete")
+                             :title => l(:button_delete_watcher, name: user.name),
+                             :class => "delete no-decoration-on-hover")
           else
             ''.html_safe
           end

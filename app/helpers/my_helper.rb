@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,16 @@
 #++
 
 module MyHelper
+  include WorkPackagesFilterHelper
+
+  def calendar_items(startdt, enddt)
+    WorkPackage.visible.
+      where(:project_id => User.current.projects.map(&:id)).
+      where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", startdt, enddt, startdt, enddt).
+      includes(:project, :type, :priority, :assigned_to).
+      all
+  end
+
   def deletion_info_path
     url_for(:delete_my_account_info)
   end

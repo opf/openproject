@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_wiki_page_reassign_children) %></label>:
 <%= label_tag "reassign_to_id", l(:description_wiki_subpages_reassign), :class => "hidden-for-sighted" %>
 <%= select_tag 'reassign_to_id', wiki_page_options_for_select(@reassignable_to),
-																 :onclick => "$('todo_reassign').checked = true;" %>
+                                 :onclick => "$('todo_reassign').checked = true;" %>
 <% end %>
 </p>
 </div>

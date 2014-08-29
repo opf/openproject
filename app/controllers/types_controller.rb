@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,11 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
+  before_filter :require_login
   before_filter :require_admin, :except => [:index, :show]
 
   def index
-    @types = Type.without_standard
-                 .page(params[:page])
-                 .per_page(per_page_param)
+    @types = Type.page(params[:page]).per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end
@@ -76,6 +75,9 @@ class TypesController < ApplicationController
   def update
     @type = Type.find(params[:id])
 
+    # forbid renaming if it is a standard type
+    params[:type].delete :name if @type.is_standard?
+
     if @type.update_attributes(permitted_params.type)
       redirect_to types_path, :notice => t(:notice_successful_update)
     else
@@ -99,12 +101,17 @@ class TypesController < ApplicationController
   def destroy
     @type = Type.find(params[:id])
     # types cannot be deleted when they have work packages
+    # or they are standard types
     # put that into the model and do a `if @type.destroy`
-    if @type.work_packages.empty?
+    if @type.work_packages.empty? && !@type.is_standard?
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      flash[:error] = t(:error_can_not_delete_type)
+      if @type.is_standard?
+        flash[:error] = t(:error_can_not_delete_standard_type)
+      else
+        flash[:error] = t(:error_can_not_delete_type)
+      end
     end
     redirect_to :action => 'index'
   end

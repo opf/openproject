@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +29,51 @@
 
 module Api
   module V2
-
     module ApiController
+      module ClassMethods
+        def included(base)
+          base.class_eval do
+            if (respond_to? :skip_before_filter) && (respond_to? :prepend_before_filter)
+              skip_before_filter :disable_api
+              prepend_before_filter :disable_everything_except_api
+            end
+          end
+        end
 
-      include ::Api::V1::ApiController
-      extend ::Api::V1::ApiController::ClassMethods
+        def permeate_permissions(*filter_names)
+          filter_names.each do |filter_name|
+            define_method filter_name do |*args, &block|
+              begin
+                original_controller = params[:controller]
+                params[:controller] = original_controller.gsub(api_version, '')
+                result = super(*args, &block)
+              ensure
+                params[:controller] = original_controller
+              end
+              result
+            end
+          end
+        end
+      end
+      extend ClassMethods
 
       def api_version
         /api\/v2\//
       end
 
-      permeate_permissions :apply_at_timestamp,
+      permeate_permissions :authorize,
+                           :authorize_for_user,
+                           :check_if_deletion_allowed,
+                           :find_optional_project,
+                           :find_project,
+                           :find_time_entry,
+                           :apply_at_timestamp,
                            :determine_base,
                            :find_all_projects_by_project_id,
                            :find_project_by_project_id,
                            :jump_to_project_menu_item,
                            :find_optional_project_and_raise_error
+
 
     end
   end

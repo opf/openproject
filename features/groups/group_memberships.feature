@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ Feature: Group Memberships
       And I click on "tab-members"
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
-     Then I should be on the settings page of the project called "Project1"
+     Then I should be on the "members" tab of the settings page of the project called "Project1"
       And I should see "A-Team" within ".members"
       And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
@@ -93,7 +93,7 @@ Feature: Group Memberships
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
 
-     Then I should be on the settings page of the project called "Project1"
+     Then I should be on the "members" tab of the settings page of the project called "Project1"
       And I wait for the AJAX requests to finish
 
      When I delete the "A-Team" membership
@@ -167,3 +167,20 @@ Feature: Group Memberships
      Then I should see "A-Team" within ".members"
       And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
+
+  @javascript
+  Scenario: Adding/Removing a group to/from a project displays success message
+     When I go to the admin page of the group called "A-Team"
+      And I click on "tab-memberships"
+      And I select "Project1" from "Projects"
+      And I check "Manager"
+      And I press "Add" within "#tab-content-memberships"
+      And I wait for the AJAX requests to finish
+
+     Then I should see "Successful update." within ".notice"
+      And I should see "Project1"
+
+     When I follow "Delete" within "table.list.memberships"
+
+     Then I should see "Successful deletion." within ".notice"
+      And I should see "No data to display"

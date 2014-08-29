@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.link    "rel" => "self", "href" => url_for(:format => 'atom', :key => User.current.rss_key, :only_path => false)
   xml.link    "rel" => "alternate", "href" => home_url(:only_path => false)
   xml.id      url_for(:controller => '/welcome', :only_path => false)
-  xml.updated((journals.first ? journals.first.data.event_datetime : Time.now).xmlschema)
+  xml.updated((journals.first ? journals.first.created_at : Time.now).xmlschema)
   xml.author  { xml.name "#{Setting.app_title}" }
   journals.each do |change|
     work_package = change.journable
@@ -52,7 +52,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
           xml.text!(content_tag(:li, change_content)) if change_content.present?
         end
         xml.text! '</ul>'
-        xml.text! textilizable(change, :notes, :only_path => false) unless change.notes.blank?
+        xml.text! format_text(change, :notes, :only_path => false) unless change.notes.blank?
       end
     end
   end

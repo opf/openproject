@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,20 +66,15 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
 
   # url_for wants to access the controller method, which we do not have in our Diff class.
   # see: http://stackoverflow.com/questions/3659455/is-there-a-new-syntax-for-url-for-in-rails-3
-  def controller; @controller; end
+  def controller
+    nil
+  end
 
   def link(key, options)
-    url_attr = { :controller => '/journals',
-                 :action => 'diff',
-                 :id => @journal.id,
-                 :field => key.downcase,
-                 :only_path => options[:only_path],
-                 :protocol => Setting.protocol,
-    # the link params should better be defined with the
-    # skip_relative_url_root => true
-    # option. But this method is flawed in 2.3
-    # revise when on 3.2
-                 :host => Setting.host_name.gsub(Redmine::Utils.relative_url_root.to_s, "") }
+    url_attr = default_attributes(options).merge({ :controller => '/journals',
+                                                   :action => 'diff',
+                                                   :id => @journal.id,
+                                                   :field => key.downcase })
 
     if options[:no_html]
       url_for url_attr
@@ -89,5 +84,18 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
                 :class => 'description-details')
     end
   end
-end
 
+  def default_attributes(options)
+    if options[:only_path]
+      { :only_path => options[:only_path],
+        # setting :script_name is a hack that allows for setting the sub uri.
+        # I am not yet sure why url_for normally returns the sub uri but does not within
+        # this class.
+        :script_name => ::OpenProject::Configuration.rails_relative_url_root }
+    else
+      { :only_path => options[:only_path],
+        :protocol => Setting.protocol,
+        :host => Setting.host_name }
+    end
+  end
+end

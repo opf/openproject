@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PlanningElementTypeColor do
+describe PlanningElementTypeColor, :type => :model do
   describe '- Relations ' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do
@@ -38,8 +38,8 @@ describe PlanningElementTypeColor do
 
         color.reload
 
-        color.planning_element_types.size.should == 1
-        color.planning_element_types.first.should == planning_element_type
+        expect(color.planning_element_types.size).to eq(1)
+        expect(color.planning_element_types.first).to eq(planning_element_type)
       end
 
       it 'nullifies dependent planning_element_types' do
@@ -51,7 +51,7 @@ describe PlanningElementTypeColor do
         color.destroy
 
         planning_element_type.reload
-        planning_element_type.color_id.should be_nil
+        expect(planning_element_type.color_id).to be_nil
       end
     end
   end
@@ -67,20 +67,20 @@ describe PlanningElementTypeColor do
         attributes[:name] = nil
         color = PlanningElementTypeColor.new(attributes)
 
-        color.should_not be_valid
+        expect(color).not_to be_valid
 
-        color.errors[:name].should be_present
-        color.errors[:name].should == ["can't be blank"]
+        expect(color.errors[:name]).to be_present
+        expect(color.errors[:name]).to eq(["can't be blank"])
       end
 
       it 'is invalid w/ a name longer than 255 characters' do
         attributes[:name] = "A" * 500
         color = PlanningElementTypeColor.new(attributes)
 
-        color.should_not be_valid
+        expect(color).not_to be_valid
 
-        color.errors[:name].should be_present
-        color.errors[:name].should == ["is too long (maximum is 255 characters)"]
+        expect(color.errors[:name]).to be_present
+        expect(color.errors[:name]).to eq(["is too long (maximum is 255 characters)"])
       end
     end
 
@@ -89,39 +89,39 @@ describe PlanningElementTypeColor do
         attributes[:hexcode] = nil
         color = PlanningElementTypeColor.new(attributes)
 
-        color.should_not be_valid
+        expect(color).not_to be_valid
 
-        color.errors[:hexcode].should be_present
-        color.errors[:hexcode].should == ["can't be blank"]
+        expect(color.errors[:hexcode]).to be_present
+        expect(color.errors[:hexcode]).to eq(["can't be blank"])
       end
 
       it 'is invalid w/ malformed hexcodes' do
-        PlanningElementTypeColor.new(attributes.merge(:hexcode => '0#FFFFFF')).should_not be_valid
-        PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FFFFFF0')).should_not be_valid
-        PlanningElementTypeColor.new(attributes.merge(:hexcode => 'white')).   should_not be_valid
+        expect(PlanningElementTypeColor.new(attributes.merge(:hexcode => '0#FFFFFF'))).not_to be_valid
+        expect(PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FFFFFF0'))).not_to be_valid
+        expect(PlanningElementTypeColor.new(attributes.merge(:hexcode => 'white'))).   not_to be_valid
       end
 
       it 'fixes some wrong formats of hexcode automatically' do
         color = PlanningElementTypeColor.new(attributes.merge(:hexcode => 'FFCC33'))
-        color.should be_valid
-        color.hexcode.should == '#FFCC33'
+        expect(color).to be_valid
+        expect(color.hexcode).to eq('#FFCC33')
 
         color = PlanningElementTypeColor.new(attributes.merge(:hexcode => '#ffcc33'))
-        color.should be_valid
-        color.hexcode.should == '#FFCC33'
+        expect(color).to be_valid
+        expect(color.hexcode).to eq('#FFCC33')
 
         color = PlanningElementTypeColor.new(attributes.merge(:hexcode => 'fc3'))
-        color.should be_valid
-        color.hexcode.should == '#FFCC33'
+        expect(color).to be_valid
+        expect(color.hexcode).to eq('#FFCC33')
 
         color = PlanningElementTypeColor.new(attributes.merge(:hexcode => '#fc3'))
-        color.should be_valid
-        color.hexcode.should == '#FFCC33'
+        expect(color).to be_valid
+        expect(color.hexcode).to eq('#FFCC33')
       end
 
       it 'is valid w/ proper hexcodes' do
-        PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FFFFFF')). should be_valid
-        PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FF00FF')).should be_valid
+        expect(PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FFFFFF'))). to be_valid
+        expect(PlanningElementTypeColor.new(attributes.merge(:hexcode => '#FF00FF'))).to be_valid
       end
     end
   end

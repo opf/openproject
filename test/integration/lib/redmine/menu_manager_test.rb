@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,11 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
-                                                                                              :class => 'activity ellipsis' } } }
+                                                                                              :class => 'icon2 icon-yes activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_overview),
                                                                              :attributes => { :href => '/projects/ecookbook',
-                                                                                              :class => 'overview ellipsis selected' } } }
+                                                                                              :class => 'icon2 icon-list-view2 overview ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +41,7 @@ Then /^the "(.+)" drop-down should have the following options (enabled|disabled)
   end
 end
 
-Then /^the "(.+)" drop-down(?: within "([^\"]*)")? should have "([^\"]*)" selected$/ do |field_name, selector, option_name|
+Then /^the "(.+)" drop-down(?: inside "([^\"]*)")? should have "([^\"]*)" selected$/ do |field_name, selector, option_name|
   with_scope(selector) do
     find_field(field_name).find('option[selected]').text.should == option_name
   end

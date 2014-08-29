@@ -26,8 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @reporting
-node :reporting do |reporting|
-  partial '/api/v2/reportings/reporting.api', object: reporting
-end
 
-
+extends '/api/v2/reportings/reporting.api'

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,12 +99,15 @@ module Redmine
           end
         end
 
-        e = e.map(&:journals).flatten
-        e.sort! {|a,b| b.data.event_datetime <=> a.data.event_datetime}
+        projects = Project.find(e.collect(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
+        users = User.find(e.collect(&:author_id).compact)
 
-        if options[:limit]
-          e = e.slice(0, options[:limit])
+        e.each do |e|
+          e.event_author = users.find { |u| u.id == e.author_id } if e.author_id
+          e.project = projects.find { |p| p.id == e.project_id } if e.project_id
         end
+
+        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
         e
       end
 

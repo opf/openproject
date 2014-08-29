@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module Redmine
         line_encoding = nil
         if line.respond_to?(:force_encoding)
           line_encoding = line.encoding
-          # TODO: UTF-16 and Japanese CP932 which is imcompatible with ASCII
+          # TODO: UTF-16 and Japanese CP932 which is incompatible with ASCII
           #       In Japan, diffrence between file path encoding
           #       and file contents encoding is popular.
           line.force_encoding('ASCII-8BIT')
@@ -126,7 +126,7 @@ module Redmine
 
     # Escape the HTML for the diff
     def escapeHTML(line)
-        CGI.escapeHTML(line)
+      CGI.escapeHTML(line)
     end
 
     def diff_for_added_line
@@ -142,7 +142,7 @@ module Redmine
     def parse_line(line, type="inline")
       if line[0, 1] == "+"
         diff = diff_for_added_line
-        diff.line_right = escapeHTML line[1..-1]
+        diff.line_right = line[1..-1]
         diff.nb_line_right = @line_num_r
         diff.type_diff_right = 'diff_in'
         @line_num_r += 1
@@ -150,7 +150,7 @@ module Redmine
         true
       elsif line[0, 1] == "-"
         diff = Diff.new
-        diff.line_left = escapeHTML line[1..-1]
+        diff.line_left = line[1..-1]
         diff.nb_line_left = @line_num_l
         diff.type_diff_left = 'diff_out'
         self << diff
@@ -161,9 +161,9 @@ module Redmine
         write_offsets
         if line[0, 1] =~ /\s/
           diff = Diff.new
-          diff.line_right = escapeHTML line[1..-1]
+          diff.line_right = line[1..-1]
           diff.nb_line_right = @line_num_r
-          diff.line_left = escapeHTML line[1..-1]
+          diff.line_left = line[1..-1]
           diff.nb_line_left = @line_num_l
           self << diff
           @line_num_l += 1
@@ -237,7 +237,7 @@ module Redmine
 
     def html_line_left
       if offsets
-        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
       end
@@ -245,7 +245,7 @@ module Redmine
 
     def html_line_right
       if offsets
-        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
       end
@@ -253,7 +253,7 @@ module Redmine
 
     def html_line
       if offsets
-        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
       end

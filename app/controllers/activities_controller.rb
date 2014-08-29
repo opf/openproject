@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,8 @@ class ActivitiesController < ApplicationController
     @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
-    @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
+
+    set_activity_scope
 
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
@@ -56,7 +56,7 @@ class ActivitiesController < ApplicationController
     if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html {
-          @events_by_day = events.group_by {|e| e.data.event_date}
+          @events_by_day = events.group_by {|e| e.event_datetime.to_date}
           render :layout => false if request.xhr?
         }
         format.atom {
@@ -97,22 +97,19 @@ class ActivitiesController < ApplicationController
   def censor_events_from_projects_with_disabled_activity!(events)
     allowed_project_ids = EnabledModule.where(:name => 'activity').map(&:project_id)
     events.select! do |event|
-      if event.respond_to?(:data) and event.data.respond_to? :project_id
-        project_id = event.data.project_id
-      elsif event.respond_to?(:project_id) or event.journable.respond_to?(:project_id)
-        # if possible access project_id (its faster)
-        project_id = event.project_id
-      elsif event.respond_to?(:project) or event.journable.respond_to?(:project)
-        # sometimes (e.g.) for wikis, we have no :project_id, but a :project method.
-        project_id = event.project.id
-      end
-      if project_id.nil?
-        # show this event if it is not associated with a project
-        true
-      else
-        # show this event if the activity module is enabled in any of the associated projects
-        allowed_project_ids.include? project_id
-      end
+      event.project_id.nil? || allowed_project_ids.include?(event.project_id)
     end
+  end
+
+  def set_activity_scope
+    if params[:apply]
+      @activity.scope_select {|t| !params["show_#{t}"].nil?}
+    elsif session[:activity]
+      @activity.scope = session[:activity]
+    else
+      @activity.scope = (@author.nil? ? :default : :all)
+    end
+
+    session[:activity] = @activity.scope
   end
 end

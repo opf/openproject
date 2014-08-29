@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature:
+Feature: Administering Project Types
   As a ChiliProject Admin
   I want to be able to do basic CRUD operations on project types
 
@@ -123,7 +123,6 @@ Feature:
       And I follow "New project type"
       And I fill in "" for "Name"
       And I press "Save"
-     Then I should see an error flash stating "Project type could not be saved"
       And I should see an error explanation stating "Name can't be blank"
 
      When I fill in "Some other Project" for "Name"
@@ -137,7 +136,6 @@ Feature:
       And I follow the edit link of the project type "Extraordinary Project"
       And I fill in "" for "Name"
       And I press "Save"
-     Then I should see an error flash stating "Project type could not be saved"
      Then I should see an error explanation stating "Name can't be blank"
 
      When I fill in "Super-Extraordinary Project" for "Name"
@@ -153,4 +151,3 @@ Feature:
 
      Then I should see a notice flash stating "Successful deletion."
       And I should not see "Extraordinary Project"
-

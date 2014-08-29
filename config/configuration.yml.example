@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,10 +94,9 @@
 #
 # === More configuration options
 #
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
+# See following page:
 #
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 
 
 # default configuration options for all environments
@@ -110,6 +109,17 @@ default:
   smtp_authentication: :login
   smtp_user_name: "openproject@example.net"
   smtp_password: "my_openproject_password"
+
+  # Prefix to the url-path. This path is then prepended to all
+  # the routes and is used to correclty identify the path to the assets.
+  # Defaults to having no prefix.
+  # Examples:
+  # For OpenProject to be reachable as
+  # https://example.org/open_project
+  # the setting has o be:
+  # rails_relative_url_root: "/open_project"
+  #
+  # rails_relative_url_root: ""
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
@@ -134,6 +144,10 @@ default:
   # use memcache for performance, memcached must be installed
   # rails_cache_store: :memcache
 
+  # defines where session data is stored
+  # possible values are :cookie_store, :cache_store, :active_record_store
+  session_store: :cache_store
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
@@ -156,6 +170,24 @@ default:
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
   # database_cipher_key:
+  #
+  # Omniauth direct login:
+  #
+  # Per default the user may choose the usual password login as well as several omniauth providers
+  # on the login page and in the login drop down menu.
+  #
+  # With his configuration option you can set a specific omniauth provider to be
+  # used for direct login. Meaning that the login provider selection is skipped and
+  # the configured provider is used directly instead.
+  #
+  # If this option is active /login will lead directly to the configured omniauth provider
+  # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
+  #
+  # Note that this does not stop a user from manually navigating to any other
+  # omniauth provider if additional ones are configured.
+  # omniauth_direct_login_provider: developer
+  #
+  # disable_password_login: true
 
 # specific configuration options for production environment
 # that overrides the default ones

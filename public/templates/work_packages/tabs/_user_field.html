@@ -1,0 +1,13 @@
+<p>
+  <span ng-if="userName">
+    <img class="avatar-mini"
+         ng-if="user.props.avatar"
+         ng-src="{{user.props.avatar}}" />
+    <span class="user">
+      <a ng-href="{{ userPath(user.props.id) }}" ng-bind="user.props.name"
+         class="user-field-user-link"/>
+    </span>
+    <span class="role" ng-if="user.props.role" ng-bind="user.props.role"/>
+  </span>
+  <span ng-if="!userName"> - </span>
+</p>

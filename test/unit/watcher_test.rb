@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_users_should_not_validate_user
-    @user.stubs(:valid?).returns(false)
+    @user.stub(:valid?).and_return(false)
     @issue.watcher_users << @user
     assert @issue.watched_by?(@user)
   end

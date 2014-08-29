@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,8 +89,8 @@ class WelcomeControllerTest < ActionController::TestCase
 
     get :index
     assert_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+               attributes: { type: 'text/javascript' },
+               content: /warnLeavingUnsaved/
   end
 
   def test_warn_on_leaving_unsaved_turn_off
@@ -101,7 +101,7 @@ class WelcomeControllerTest < ActionController::TestCase
 
     get :index
     assert_no_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+                  attributes: { type: 'text/javascript' },
+                  content: /warnLeavingUnsaved/
   end
 end

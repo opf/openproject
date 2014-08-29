@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,57 +28,29 @@
 #++
 
 class Query < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+  include Queries::WorkPackages::AvailableFilterOptions
+
+  alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
 
   @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
 
   belongs_to :project
   belongs_to :user
   has_one :query_menu_item, :class_name => 'MenuItems::QueryMenuItem', :dependent => :delete, :order => 'name', :foreign_key => 'navigatable_id'
-  serialize :filters
+  serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
 
   attr_protected :project_id #, :user_id
 
-  validates_presence_of :name, :on => :save
+  validates :name, presence: true
   validates_length_of :name, :maximum => 255
 
-  validate :validate_filters
+  validate :validate_work_package_filters
 
   after_initialize :remember_project_scope
 
-  @@operators = { "="   => :label_equals,
-                  "!"   => :label_not_equals,
-                  "o"   => :label_open_work_packages,
-                  "c"   => :label_closed_work_packages,
-                  "!*"  => :label_none,
-                  "*"   => :label_all,
-                  ">="  => :label_greater_or_equal,
-                  "<="  => :label_less_or_equal,
-                  "<t+" => :label_in_less_than,
-                  ">t+" => :label_in_more_than,
-                  "t+"  => :label_in,
-                  "t"   => :label_today,
-                  "w"   => :label_this_week,
-                  ">t-" => :label_less_than_ago,
-                  "<t-" => :label_more_than_ago,
-                  "t-"  => :label_ago,
-                  "~"   => :label_contains,
-                  "!~"  => :label_not_contains }
-
-  cattr_reader :operators
-
-  @@operators_by_filter_type = { :list => [ "=", "!" ],
-                                 :list_status => [ "o", "=", "!", "c", "*" ],
-                                 :list_optional => [ "=", "!", "!*", "*" ],
-                                 :list_subprojects => [ "*", "!*", "=" ],
-                                 :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
-                                 :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
-                                 :string => [ "=", "~", "!", "!~" ],
-                                 :text => [  "~", "!~" ],
-                                 :integer => [ "=", ">=", "<=", "!*", "*" ] }
-
-  cattr_reader :operators_by_filter_type
 
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
@@ -89,7 +61,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:responsible, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
+    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], groupable: "#{WorkPackage.table_name}.responsible_id", :join => "LEFT OUTER JOIN users as responsible ON (#{WorkPackage.table_name}.responsible_id = responsible.id)"),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{Category.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
@@ -104,7 +76,11 @@ class Query < ActiveRecord::Base
 
   def initialize(attributes = nil, options = {})
     super
-    self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
+    add_default_filter if options[:initialize_with_default_filter]
+  end
+
+  def add_default_filter
+    self.filters = [ Queries::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
@@ -112,17 +88,19 @@ class Query < ActiveRecord::Base
     @is_for_all = project.nil?
   end
 
-  def validate_filters
-    return unless filters
+  def validate_work_package_filters
+    self.filters.each do |filter|
+      unless filter.valid?
+        messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
+        cf_id = custom_field_id filter
 
-    filters.each_key do |field|
-      unless \
-        # filter requires one or more values
-        (values_for(field) && values_for(field).first.present?) \
-        || ["o", "c", "!*", "*", "t", "w"].include?(operator_for(field))
-        # filter doesn't require any value
-        errors.add :base, errors.full_message(WorkPackage.human_attribute_name(field),
-                                              I18n.t('activerecord.errors.messages.invalid'))
+        if cf_id && CustomField.find(cf_id)
+          attribute_name = CustomField.find(cf_id).name
+          errors.add :base, attribute_name + I18n.t({:default => " %{message}",:message   => messages})
+        else
+          attribute_name = WorkPackage.human_attribute_name(filter.field)
+          errors.add :base, errors.full_message(attribute_name, messages)
+        end
       end
     end
   end
@@ -135,116 +113,15 @@ class Query < ActiveRecord::Base
     is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
 
-  def available_filters
-    return @available_filters if @available_filters
-
-    types = project.nil? ? Type.find(:all, :order => 'position') : project.rolled_up_types
-
-    @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => Status.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
-                           "type_id" => { :type => :list, :order => 2, :values => types.collect{|s| [s.name, s.id.to_s] } },
-                           "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
-                           "subject" => { :type => :text, :order => 8 },
-                           "created_at" => { :type => :date_past, :order => 9 },
-                           "updated_at" => { :type => :date_past, :order => 10 },
-                           "start_date" => { :type => :date, :order => 11 },
-                           "due_date" => { :type => :date, :order => 12 },
-                           "estimated_hours" => { :type => :integer, :order => 13 },
-                           "done_ratio" =>  { :type => :integer, :order => 14 }}
-
-    principals = []
-    if project
-      principals += project.principals.sort
-    else
-      all_projects = Project.visible.all
-      if all_projects.any?
-        # members of visible projects
-        principals += Principal.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort
-
-        # project filter
-        project_values = []
-        Project.project_tree(all_projects) do |p, level|
-          prefix = (level > 0 ? ('--' * level + ' ') : '')
-          project_values << ["#{prefix}#{p.name}", p.id.to_s]
-        end
-        @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
-      end
-    end
-    principals_by_class = principals.group_by(&:class)
-
-    user_values = principals_by_class[User].present? ?
-                    principals_by_class[User].collect{ |s| [s.name, s.id.to_s] }.sort :
-                    []
-
-    group_values = Setting.work_package_group_assignment? && principals_by_class[Group].present? ?
-                      principals_by_class[Group].collect{ |s| [s.name, s.id.to_s] }.sort :
-                      []
-
-    assigned_to_values = (user_values + group_values).sort
-    assigned_to_values = [["<< #{l(:label_me)} >>", "me"]] + assigned_to_values if User.current.logged?
-    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
-
-    author_values = []
-    author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    author_values += user_values
-    @available_filters["author_id"] = { :type => :list, :order => 5, :values => author_values } unless author_values.empty?
-
-
-    group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
-    @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values, :name => I18n.t('query_fields.member_of_group') } unless group_values.empty?
-
-    role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
-    @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values, :name => I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
-
-    @available_filters["responsible_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
-
-    if User.current.logged?
-      # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
-      # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = [["<< #{l(:label_me)} >>", "me"]]
-      user_values.each { |v| watcher_values << v } if User.current.allowed_to_globally?(:view_work_packages_watchers, {})
-      @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
-    end
-
-    if project
-      # project specific filters
-      categories = project.categories.all
-      unless categories.empty?
-        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => categories.collect{|s| [s.name, s.id.to_s] } }
-      end
-      versions = project.shared_versions.all
-      unless versions.empty?
-        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
-      end
-      unless project.leaf?
-        subprojects = project.descendants.visible.all
-        unless subprojects.empty?
-          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] }, :name => I18n.t('query_fields.subproject_id') }
-        end
-      end
-      add_custom_fields_filters(project.all_work_package_custom_fields)
-    else
-      # global filters for cross project issue list
-      system_shared_versions = Version.visible.find_all_by_sharing('system')
-      unless system_shared_versions.empty?
-        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => system_shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
-      end
-      add_custom_fields_filters(WorkPackageCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
-    end
-    @available_filters
-  end
 
   def add_filter(field, operator, values)
-    # values must be an array
-    return unless values and values.is_a? Array # and !values.first.empty?
-    # check if field is defined as an available filter
-    if available_filters.has_key? field
-      filter_options = available_filters[field]
-      # check if operator is allowed for that filter
-      #if @@operators_by_filter_type[filter_options[:type]].include? operator
-      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
-      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
-      #end
-      filters[field] = {:operator => operator, :values => values }
+    return unless work_package_filter_available?(field)
+
+    if filter = filter_for(field)
+      filter.operator = operator
+      filter.values = values
+    else
+      self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
 
@@ -256,6 +133,8 @@ class Query < ActiveRecord::Base
 
   # Add multiple filters using +add_filter+
   def add_filters(fields, operators, values)
+    values ||= {}
+
     if fields.is_a?(Array) && operators.is_a?(Hash) && values.is_a?(Hash)
       fields.each do |field|
         add_filter(field, operators[field], values[field])
@@ -264,19 +143,27 @@ class Query < ActiveRecord::Base
   end
 
   def has_filter?(field)
-    filters and filters[field]
+    filters.present? && filters.any? {|filter| filter.field.to_s == field.to_s}
   end
 
+  def filter_for(field)
+    (filters || []).detect {|filter| filter.field.to_s == field.to_s}
+  end
+
+  # Deprecated
   def operator_for(field)
-    has_filter?(field) ? filters[field][:operator] : nil
+    warn "#operator_for is deprecated. Query the filter object directly, instead."
+    filter_for(field).try :operator
   end
 
+  # Deprecated
   def values_for(field)
-    has_filter?(field) ? filters[field][:values] : nil
+    warn "#values_for is deprecated. Query the filter object directly, instead."
+    filter_for(field).try :values
   end
 
   def label_for(field)
-    label = available_filters[field][:name] if available_filters.has_key?(field)
+    label = available_work_package_filters[field][:name] if work_package_filter_available?(field)
     label ||= field.gsub(/\_id\z/, "")
   end
 
@@ -327,7 +214,7 @@ class Query < ActiveRecord::Base
   end
 
   def column_names=(names)
-    if names
+    if names.present?
       names = names.inject([]) { |out, e| out += e.to_s.split(',') }
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
@@ -402,11 +289,12 @@ class Query < ActiveRecord::Base
     project_clauses = []
     if project && !project.descendants.active.empty?
       ids = [project.id]
-      if has_filter?("subproject_id")
-        case operator_for("subproject_id")
+      subproject_filter = filter_for 'subproject_id'
+      if subproject_filter
+        case subproject_filter.operator
         when '='
           # include the selected subprojects
-          ids += values_for("subproject_id").each(&:to_i)
+          ids += subproject_filter.values.each(&:to_i)
         when '!*'
           # main project only
         else
@@ -427,20 +315,21 @@ class Query < ActiveRecord::Base
   def statement
     # filters clauses
     filters_clauses = []
-    filters.each_key do |field|
+    filters.each do |filter|
+      field = filter.field.to_s
       next if field == "subproject_id"
-      v = values_for(field).clone
-      next unless v and !v.empty?
-      operator = operator_for(field)
 
-      # "me" value subsitution
+      operator = filter.operator
+      values = filter.values ? filter.values.clone : [''] # HACK - some operators don't require values, but they are needed for building the statement
+
+      # "me" value substitution
       if @@user_filters.include? field
-        if v.delete("me")
+        if values.delete("me")
           if User.current.logged?
-            v.push(User.current.id.to_s)
-            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+            values.push(User.current.id.to_s)
+            values += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
           else
-            v.push("0")
+            values.push("0")
           end
         end
       end
@@ -452,22 +341,22 @@ class Query < ActiveRecord::Base
         db_field = 'value'
         is_custom_filter = true
         sql << "#{WorkPackage.table_name}.id IN (SELECT #{WorkPackage.table_name}.id FROM #{WorkPackage.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='WorkPackage' AND #{db_table}.customized_id=#{WorkPackage.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
-        sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
+        sql << sql_for_field(field, operator, values, db_table, db_field, true) + ')'
       elsif field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
         if User.current.admin?
           # Admins can always see all watchers
-          sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"
+          sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"
         else
           sql_parts = []
-          if User.current.logged? && user_id = v.delete(User.current.id.to_s)
+          if User.current.logged? && user_id = values.delete(User.current.id.to_s)
             # a user can always see his own watched issues
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
           project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
-          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"\
+          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"
         end
@@ -479,10 +368,9 @@ class Query < ActiveRecord::Base
           groups = Group.all
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          groups = Group.find_all_by_id(v)
+          groups = Group.find_all_by_id(values)
         end
         groups ||= []
-
         members_of_groups = groups.inject([]) {|user_ids, group|
           if group && group.user_ids.present?
             user_ids << group.user_ids
@@ -493,20 +381,23 @@ class Query < ActiveRecord::Base
         sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, WorkPackage.table_name, "assigned_to_id", false) + ')'
 
       elsif field == "assigned_to_role" # named field
+        roles = Role.givable
         if operator == "*" # Any Role
-          roles = Role.givable
           operator = '=' # Override the operator since we want to find by assigned_to
         elsif operator == "!*" # No role
-          roles = Role.givable
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          roles = Role.givable.find_all_by_id(v)
+          roles = roles.find_all_by_id(values)
         end
         roles ||= []
 
         members_of_roles = roles.inject([]) {|user_ids, role|
           if role && role.members
-            user_ids << role.members.collect(&:user_id)
+            user_ids << if project_id
+                            role.members.reject{|m| m.project_id != project_id}.collect(&:user_id)
+                        else
+                            role.members.collect(&:user_id)
+                        end
           end
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
@@ -516,11 +407,11 @@ class Query < ActiveRecord::Base
         # regular field
         db_table = WorkPackage.table_name
         db_field = field
-        sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
+        sql << '(' + sql_for_field(field, operator, values, db_table, db_field) + ')'
       end
       filters_clauses << sql
 
-    end if filters and valid?
+    end if filters.present? and valid?
 
     (filters_clauses << project_statement).join(' AND ')
   end
@@ -551,7 +442,18 @@ class Query < ActiveRecord::Base
     raise ::Query::StatementInvalid.new(e.message)
   end
 
+  # Note: Convenience method to allow the angular front end to deal with query menu items in a non implementation-specific way
+  def starred
+    !!query_menu_item
+  end
+
   private
+
+  def custom_field_id(filter)
+    matchdata = /cf\_(?<id>\d+)/.match(filter.field.to_s)
+
+    matchdata.nil? ? nil : matchdata[:id]
+  end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
@@ -627,31 +529,6 @@ class Query < ActiveRecord::Base
     return sql
   end
 
-  def add_custom_fields_filters(custom_fields)
-    available_filters # compute default available_filters
-    return available_filters if available_filters.any? { |key, _| key.starts_with? 'cf_' }
-
-    custom_fields.select(&:is_filter?).each do |field|
-      case field.field_format
-      when "int", "float"
-        options = { :type => :integer, :order => 20 }
-      when "text"
-        options = { :type => :text, :order => 20 }
-      when "list"
-        options = { :type => :list_optional, :values => field.possible_values, :order => 20}
-      when "date"
-        options = { :type => :date, :order => 20 }
-      when "bool"
-        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
-      when "user", "version"
-        next unless project
-        options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
-      else
-        options = { :type => :string, :order => 20 }
-      end
-      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
-    end
-  end
 
   # Returns a SQL clause for a date or datetime field.
   def date_range_clause(table, field, from, to)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/projects/show.api.rabl' do
+describe 'api/v2/projects/show.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -52,7 +52,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
     before do
-      User.stub(:current).and_return(admin)
+      allow(User).to receive(:current).and_return(admin)
 
       assign(:project,  sample_project)
       render
@@ -61,7 +61,7 @@ describe 'api/v2/projects/show.api.rabl' do
     subject { response.body }
 
     it 'renders a project document' do
-      should have_json_path('project')
+      is_expected.to have_json_path('project')
     end
 
     it 'renders the project-infos for an admin' do
@@ -80,13 +80,13 @@ describe 'api/v2/projects/show.api.rabl' do
                        created_on: "2011-01-06T11:35:00Z",
                        updated_on: "2011-01-07T11:35:00Z" }.to_json
 
-      should be_json_eql(expected_json).at_path('project')
+      is_expected.to be_json_eql(expected_json).at_path('project')
     end
 
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:public_project, :name => 'Parent', :identifier => 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -99,7 +99,7 @@ describe 'api/v2/projects/show.api.rabl' do
     describe 'project node' do
       it 'contains a parent element with name and id attributes' do
         expected_json = {id: parent_project.id, name: 'Parent', identifier: 'parent'}.to_json
-        response.should be_json_eql(expected_json).at_path('project/parent')
+        expect(response).to be_json_eql(expected_json).at_path('project/parent')
       end
     end
   end
@@ -110,7 +110,7 @@ describe 'api/v2/projects/show.api.rabl' do
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
-      User.stub(:current).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
 
       assign(:project, project)
       render
@@ -119,13 +119,13 @@ describe 'api/v2/projects/show.api.rabl' do
     subject {response.body}
 
     it 'does not contain a parent element' do
-      response.should_not have_json_path('project/parent')
+      expect(response).not_to have_json_path('project/parent')
     end
 
   end
 
   describe 'with a project having an invisible parent project and a visible grand-parent' do
-    let(:grand_parent_project) { FactoryGirl.create(:project,
+    let(:grand_parent_project) { FactoryGirl.create(:public_project,
                                                     :name => 'Grand-Parent',
                                                     :identifier => 'granny') }
     let(:parent_project)       { FactoryGirl.create(:project,
@@ -135,7 +135,7 @@ describe 'api/v2/projects/show.api.rabl' do
     let(:project)              { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
-      User.stub(:current).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
 
       assign(:project, project)
       render
@@ -145,7 +145,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
     it 'contains a parent element with name and id attributes of the grand parent' do
       expected_json = {id: parent_project.id, name: 'Grand-Parent', identifier: 'granny'}.to_json
-      response.should be_json_eql(expected_json).at_path('project/parent')
+      expect(response).to be_json_eql(expected_json).at_path('project/parent')
     end
 
   end
@@ -167,7 +167,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
     it 'contains a responsible node containing the responsible\'s id and name' do
       expected_json = {id: responsible.id, name: "Project Manager"}.to_json
-      should be_json_eql(expected_json).at_path('project/responsible')
+      is_expected.to be_json_eql(expected_json).at_path('project/responsible')
     end
 
   end
@@ -186,7 +186,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
     it 'contains a project_type element with name and id attributes' do
       expected_json = {id: 100, name: 'Sample ProjectType'}.to_json
-      should be_json_eql(expected_json).at_path('project/project_type')
+      is_expected.to be_json_eql(expected_json).at_path('project/project_type')
     end
 
   end
@@ -212,21 +212,21 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
     it 'contains 3 planning_element_types' do
-      should have_json_size(3).at_path("project/types")
+      is_expected.to have_json_size(3).at_path("project/types")
     end
 
 
-    it 'renders the corrent name, color, is_milestone for a planning_element_type' do
+    it 'renders the current name, color, is_milestone for a planning_element_type' do
       expected_json = {name: "SampleType", is_milestone: true, color: {hexcode: "#FF0000", name: "red"}}.to_json
 
-      should be_json_eql(expected_json).at_path("project/types/0")
+      is_expected.to be_json_eql(expected_json).at_path("project/types/0")
     end
 
   end
 
 
   describe 'with a project having project_associations' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:public_project) }
 
     before do
       FactoryGirl.create(:project_association,
@@ -251,14 +251,14 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
     it 'render 2 project_associations' do
-      should have_json_size(2).at_path('project/project_associations')
+      is_expected.to have_json_size(2).at_path('project/project_associations')
     end
 
 
     it 'render a project_association with the from- and -to-project' do
       expected_json = {project: {name: "Associated Project #1", identifier: "assoc_1"}}.to_json
 
-      should be_json_eql(expected_json).at_path('project/project_associations/0')
+      is_expected.to be_json_eql(expected_json).at_path('project/project_associations/0')
     end
 
   end
@@ -286,10 +286,10 @@ describe 'api/v2/projects/show.api.rabl' do
     subject {response.body}
 
     it 'renders custom field values' do
-      should have_json_path('project/custom_fields')
+      is_expected.to have_json_path('project/custom_fields')
 
       expected_json = {name: custom_field.name, value: "Wurst"}.to_json
-      should be_json_eql(expected_json).at_path('project/custom_fields/0')
+      is_expected.to be_json_eql(expected_json).at_path('project/custom_fields/0')
     end
   end
 

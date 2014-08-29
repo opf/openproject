@@ -1,8 +1,7 @@
-# encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -197,7 +196,7 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
 end
 
 Given /^there are the following types:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
@@ -206,6 +205,7 @@ Given /^there are the following types:$/ do |table|
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
     type.is_default     = t['is_default'] ? t['is_default'] : false
     type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
+    type.is_standard    = t['is_standard'] ? t['is_standard'] : false
     type.save!
   end
 end
@@ -252,19 +252,35 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
 end
 
 Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
-  steps %Q{
-    When I select \"#{column_name}\" from \"available_columns\"
-    When I press \"→\"
-  }
+  within('#s2id_selected_columns_new') do
+    find('input.select2-input').click
+  end
+
+  s2_result = find('ul.select2-results li', text: column_name)
+  s2_result.click
+end
+
+Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |column_name|
+  pending
 end
 
 Given /^I select to see [cC]olumn(?:s)?$/ do |table|
-  params = "?set_filter=1&" + table.raw.collect(&:first).collect do |name|
-    page.source =~ /<option value="(.*?)">#{name}<\/option>/
-    column_name = $1 || name.gsub(" ", "_").downcase
-    "query[column_names][]=#{column_name}"
-  end.join("&")
-  visit(current_path + params)
+  result = []
+  table.raw.each do |_perm|
+    perm = _perm.first
+    unless perm.blank?
+      result.push(perm)
+    end
+  end
+
+  result.each do |column_name|
+    within('#s2id_selected_columns_new') do
+      find('input.select2-input').click
+    end
+
+    s2_result = find('ul.select2-results li', text: column_name)
+    s2_result.click
+  end
 end
 
 Given /^I start debugging$/ do
@@ -328,6 +344,11 @@ Given /^the [pP]roject uses the following modules:$/ do |table|
   step %Q{the project "#{get_project}" uses the following modules:}, table
 end
 
+Given(/^the user "(.*?)" is responsible$/) do |user|
+  project = get_project
+  project.responsible_id = User.find_by_login(user).id
+  project.save
+end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
@@ -394,7 +415,7 @@ def modify_user(u, table)
   u
 end
 
-# Encapsule the logic to set a custom field on an issue
+# Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
@@ -425,7 +446,7 @@ def send_table_to_object(object, table, except = {}, rescue_block = nil)
         raise "No such method #{_key} on a #{object.class}"
       end
     end
-    object.save! if object.changed?
+    object.save!
   end
 end
 

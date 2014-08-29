@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,17 +75,17 @@ namespace :copyright do
   def copyright_regexp(format)
     case format
     when :ruby, :rb
-      /\A(?<shebang>#![^\n]+\n)?#--\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?#--\s*copyright.*?\+\+/m
     when :js, :css
-      /\A(?<shebang>#![^\n]+\n)?\/\/--\s*copyright.*?\/\/\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
-      /\A(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
-      /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
+      /(?<shebang>)?(?<additional>.*)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
     when :md, :html
-      /\A(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<!----\s*copyright.*?\+\+-->/m
     when :sql
-      /\A(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?-- --\s*copyright.*?\+\+/m
     else
       raise "Undefined format #{format}"
     end
@@ -104,7 +104,7 @@ namespace :copyright do
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
-        file_content.gsub!(regexp, '\k<shebang>' + copyright)
+        file_content.gsub!(regexp, '\k<shebang>' + '\k<additional>' + copyright)
       else
         if options[:position] == :bottom
           file_content = file_content + "\n\n" + copyright # append
@@ -200,8 +200,6 @@ namespace :copyright do
                 "app/assets/javascripts/Bitstream_Vera_Sans_400.font.js",
                 "app/assets/javascripts/date-de-DE.js",
                 "app/assets/javascripts/date-en-US.js",
-                "app/assets/javascripts/raphael.js",
-                "app/assets/javascripts/raphael-min.js",
                 "app/assets/javascripts/jstoolbar/"]
 
     rewrite_copyright("js", excluded, :js, args[:arg1])
@@ -261,15 +259,10 @@ namespace :copyright do
     rewrite_copyright("text.erb", [], :erb, args[:arg1])
   end
 
-  desc "Update the copyright on .api.rsb source files"
-  task :update_api_rsb, :arg1 do |task, args|
-    rewrite_copyright("api.rsb", [], :rb, args[:arg1])
-  end
-
   desc "Update the copyright on all source files"
   task :update, :arg1 do |task, args|
     %w{
-      css rb js js_erb css_erb html_erb json_erb text_erb atom_builder api_rsb rake
+      css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
       feature rdoc rjs md sql html yml yml_example rb_example special_files
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])

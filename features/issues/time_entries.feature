@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,13 +55,33 @@ Feature: Tracking Time
     And I am already admin
     And I am on the time entry page of issue "issue1"
 
+  @javascript
   Scenario: Adding a time entry
     When I log 2 hours with the comment "test"
     Then I should see a time entry with 2 hours and comment "test"
     And I should see a total spent time of 6 hours
 
+  @javascript
   Scenario: Editing a time entry
     When I update the first time entry with 4 hours and the comment "updated test"
     Then I should see a time entry with 4 hours and comment "updated test"
     And I should see a total spent time of 4 hours
 
+  @javascript
+  Scenario: Selecting time period
+    When I go to the time entry page of issue "issue1"
+     And I select "yesterday" from "period"
+    Then I should not see a total spent time of 0 hours
+
+    When I click "Apply"
+    Then I should see a total spent time of 0 hours
+
+  @javascript
+  Scenario: Selecting month for spent time report
+    When I go to the time entry report page of issue "issue1"
+     And I select "Year" from "Details"
+     And I select "Project" from "Add"
+    Then I should not see a total spent time of 4 hours
+
+    When I click "Apply" within ".timelog-report-selection"
+    Then I should see a total spent time of 4 hours

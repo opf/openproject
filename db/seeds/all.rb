@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,8 @@
 # not fixing stuff!
 Project
 
-PlanningElementTypeColor.ms_project_colors.map(&:save)
-default_color = PlanningElementTypeColor.find_by_name('pjSilver')
+PlanningElementTypeColor.colors.map(&:save)
+default_color = PlanningElementTypeColor.find_by_name('Grey-light')
 
 Type.find_or_create_by_is_standard(true, name: 'none',
                                          position: 0,

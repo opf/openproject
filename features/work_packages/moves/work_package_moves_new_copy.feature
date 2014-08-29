@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -128,7 +128,7 @@ Feature: Copying a work package
      And  I open the context menu on the work packages:
        | issue1 |
        | issue2 |
-     And I follow "Copy" within "#context-menu"
+     And I follow "Copy" within "#work-package-context-menu"
      Then I should see "Copy" within "#content"
       And I should not see "Move" within "#content"
 

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,9 +49,19 @@ Then(/^I should see a time entry with (\d+) hours and comment "(.*)"$/) do |hour
   expect(page).to have_content(comment)
 end
 
-Then(/^I should see a total spent time of (\d+) hours$/) do |hours|
-  within('div.total-hours') do
-    expect(find("span.hours-int")).to have_content hours
+Then(/^I should (not )?see a total spent time of (\d+) hours$/) do |negative, hours|
+  available = find('div.total-hours') rescue false
+
+  if available || !negative
+    within('div.total-hours') do
+      element = find("span.hours-int")
+
+      if negative
+        expect(element).not_to have_content hours
+      else
+        expect(element).to have_content hours
+      end
+    end
   end
 end
 
@@ -60,4 +71,3 @@ When(/^I update the first time entry with (\d+) hours and the comment "(.*?)"$/)
   fill_in TimeEntry.human_attribute_name(:comment), with: comment
   click_button "Save"
 end
-

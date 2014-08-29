@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,83 +28,123 @@
 
 require 'spec_helper'
 
-describe CustomFieldsController do
+describe CustomFieldsController, :type => :controller do
   let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:available_languages) { ["de", "en"] }
 
   before do
-    @controller.stub(:authorize)
-    @controller.stub(:check_if_login_required)
-    @controller.stub(:require_admin)
+    allow(@controller).to receive(:authorize)
+    allow(@controller).to receive(:check_if_login_required)
+    allow(@controller).to receive(:require_admin)
   end
 
   describe "POST edit" do
     before do
-      Setting.available_languages = ["de", "en"]
-      CustomField.stub(:find).and_return(custom_field)
+      allow(Setting).to receive(:available_languages).and_return(available_languages)
+      allow(CustomField).to receive(:find).and_return(custom_field)
     end
 
     describe "WITH all ok params" do
       let(:de_name) { "Ticket Feld" }
       let(:en_name) { "Issue Field" }
-      let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
+      let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
+                                                                          "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
-      it { response.should be_redirect }
-      it { custom_field.name(:de).should == de_name }
-      it { custom_field.name(:en).should == en_name }
+      it { expect(response).to be_redirect }
+      it { expect(custom_field.name(:de)).to eq(de_name) }
+      it { expect(custom_field.name(:en)).to eq(en_name) }
     end
 
     describe "WITH one empty name params" do
       let(:en_name) { "Issue Field" }
       let(:de_name) { "" }
-      let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
+      let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
+                                                                          "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
-      it { response.should be_redirect }
-      it { custom_field.name(:de).should == en_name }
-      it { custom_field.name(:en).should == en_name }
+      it { expect(response).to be_redirect }
+      it { expect(custom_field.name(:de)).to eq(en_name) }
+      it { expect(custom_field.name(:en)).to eq(en_name) }
     end
+
   end
 
   describe "POST new" do
     before do
-      Setting.available_languages = ["de", "en"]
+      allow(Setting).to receive(:available_languages).and_return(available_languages)
+    end
+
+    describe "WITH empty name param" do
+      let(:en_name) { "" }
+      let(:de_name) { "" }
+      let(:params) { { "type" => "WorkPackageCustomField",
+                       "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
+                                                                          "1" => { "name" => en_name, "locale" => "en" } } } } }
+      before do
+        post :create, params
+      end
+
+      it { expect(response).to render_template 'new' }
+      it { expect(assigns(:custom_field).errors.messages[:name].first).to eq "can't be blank" }
+      it { expect(assigns(:custom_field).translations).to be_empty }
     end
 
     describe "WITH all ok params" do
       let(:de_name) { "Ticket Feld" }
       let(:en_name) { "Issue Field" }
       let(:params) { { "type" => "WorkPackageCustomField",
-                       "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
+                       "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
+                                                                          "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        post :new, params
+        post :create, params
       end
 
-      it { response.should be_success }
-      it { assigns(:custom_field).name(:de).should == de_name }
-      it { assigns(:custom_field).name(:en).should == en_name }
+      it { expect(response).to be_success }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :de}[:name]).to eq(de_name) }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :en}[:name]).to eq(en_name) }
     end
 
     describe "WITH one empty name params" do
       let(:en_name) { "Issue Field" }
       let(:de_name) { "" }
       let(:params) { { "type" => "WorkPackageCustomField",
-                       "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
-
+                       "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
+                                                                          "1" => { "name" => en_name, "locale" => "en" } } } } }
       before do
-        post :new, params
+        post :create, params
       end
 
-      it { response.should be_success }
-      it { assigns(:custom_field).name(:de).should == en_name }
-      it { assigns(:custom_field).name(:en).should == en_name }
+      it { expect(response).to be_success }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :de}).to be_nil }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :en}[:name]).to eq(en_name) }
+    end
+
+    describe "WITH different language and default_value params" do
+      let(:en_name) { "Issue Field" }
+      let(:en_default) { "EN Default Value" }
+      let(:de_name) { "" }
+      let(:de_default) { "DE Default Value" }
+      let(:params) { { "type" => "WorkPackageCustomField",
+                       "custom_field" => { "translations_attributes" =>
+                                           { "0" => { "name" => de_name, "locale" => "de", "default_value" => de_default },
+                                             "1" => { "name" => en_name, "locale" => "en", "default_value" => '' }}}}}
+      before do
+        post :create, params
+      end
+
+      it { expect(response).to be_success }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :de}[:name]).to eq(en_name) }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :en}[:name]).to eq(en_name) }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :en}[:default_value]).to be_nil }
+      it { expect(assigns(:custom_field).translations.find{|elem| elem.locale == :de}[:default_value]).to eq(de_default) }
     end
   end
 end

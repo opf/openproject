@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,20 +33,6 @@ var ModalHelper = (function() {
     var modalHelper = this;
     var modalDiv, modalIframe;
 
-    function modalFunction(e) {
-      if (!e.ctrlKey && !e.metaKey) {
-        if (jQuery(e.target).attr("href")) {
-          url = jQuery(e.target).attr("href");
-        }
-
-        if (url) {
-          e.preventDefault();
-
-          modalHelper.createModal(url, function (modalDiv) {});
-        }
-      }
-    }
-
     jQuery(document).ready(function () {
       var body = jQuery(document.body);
       // whatever globals there are, they need to be added to the
@@ -56,16 +42,8 @@ var ModalHelper = (function() {
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
         body.append(modalDiv);
 
-        /** replace all data-modal links and all inside modal links */
-        body.on("click", "[data-modal]", modalFunction);
-
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
-        body.on("keyup", function (e) {
-          if (e.which == 27) {
-            modalHelper.close();
-          }
-        });
 
         ModalHelper._done = true;
       } else {
@@ -100,6 +78,10 @@ var ModalHelper = (function() {
       if (body.html() !== "") {
         this.hideLoadingModal();
         this.loadingModal = false;
+
+        // use jquery.trap.js to keep the keyboard focus within the modal
+        // while it's open
+        body.trap();
 
         body.on("keyup", function (e) {
           if (e.which == 27) {
@@ -138,7 +120,7 @@ var ModalHelper = (function() {
         body.find("#footnotes_debug").hide();
         body.css("min-width", "0px");
 
-        body.find(":input").change(function () {
+        jQuery(body).on('keyup', 'textarea', function() {
           modalDiv.data('changed', true);
         });
 
@@ -147,6 +129,14 @@ var ModalHelper = (function() {
         modalDiv.parent().show();
 
         modalIframe.attr("height", modalDiv.height());
+
+        // we cannot focus an element within
+        // the modal before focusing the modal
+        modalIframe.focus();
+
+        // foucs an element within the modal so
+        // that the user can start tabbing in it
+        body.focus();
       } else {
         this.showLoadingModal();
       }
@@ -190,6 +180,8 @@ var ModalHelper = (function() {
   };
 
   ModalHelper.prototype.close = function() {
+    jQuery('input:focus, textarea:focus').trigger('blur'); // unfocus inputs and textareas to get the 'onChange' event triggered
+
     var modalDiv = this.modalDiv;
     if (!this.loadingModal) {
       if (modalDiv && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {

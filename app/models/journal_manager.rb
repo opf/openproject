@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ class JournalManager
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
     if journable.respond_to? association
-      journal_assoc_name = "#{journal_association}_journals".to_sym
+      journal_assoc_name = "#{journal_association}_journals"
       changes = {}
       current = journable.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
       predecessor = journable.journals.last.send(journal_assoc_name).map(&:attributes)
@@ -97,17 +97,17 @@ class JournalManager
 
   def self.added_references(merged_references, key, value)
     merged_references.select {|_, v| v[0].nil? and not v[1].nil?}
-                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [nil, k[1][1][value]] }
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [nil, k[1][1][value]] }
   end
 
   def self.removed_references(merged_references, key, value)
     merged_references.select {|_, v| not v[0].nil? and v[1].nil?}
-                             .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], nil] }
+                             .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [k[1][0][value], nil] }
   end
 
   def self.changed_references(merged_references, key, value)
     merged_references.select {|_, v| not v[0].nil? and not v[1].nil? and v[0][value] != v[1][value]}
-                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], k[1][1][value]] }
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [k[1][0][value], k[1][1][value]] }
 
   end
 
@@ -128,9 +128,12 @@ class JournalManager
 
   def self.add_journal(journable, user = User.current, notes = "")
     if is_journalized? journable
+      # Maximum version might be nil, so use to_i here.
+      version = journable.journals.maximum(:version).to_i + 1
+
       journal_attributes = { journable_id: journable.id,
                              journable_type: journal_class_name(journable.class),
-                             version: (journable.journals.count + 1),
+                             version: version,
                              activity_type: journable.send(:activity_type),
                              changed_data: journable.attributes.symbolize_keys }
 
@@ -174,7 +177,7 @@ class JournalManager
     journal_class.new new_data
   end
 
-  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
+  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000
 
   def self.update_user_references(current_user_id, substitute_id)
     foreign_keys = ['author_id', 'user_id', 'assigned_to_id', 'responsible_id']
@@ -204,7 +207,24 @@ class JournalManager
   end
 
   def self.journal_class(type)
-    "Journal::#{journal_class_name(type)}".constantize
+    namespace = type.name.deconstantize
+
+    if namespace == 'Journal'
+      type
+    else
+      "Journal::#{journal_class_name(type)}".constantize
+    end
+  end
+
+  def self.journaled_class(journal_type)
+    namespace = journal_type.name.deconstantize
+
+    if namespace == 'Journal'
+      class_name = journal_type.name.demodulize
+      class_name.gsub('Journal', '').constantize
+    else
+      journal_type
+    end
   end
 
   def self.normalize_newlines(data)

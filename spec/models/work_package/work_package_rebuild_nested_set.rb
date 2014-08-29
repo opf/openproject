@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, "rebuilding nested set" do
+describe WorkPackage, "rebuilding nested set", :type => :model do
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }
@@ -62,7 +62,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH two one node trees" do
@@ -71,7 +71,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issue deep tree" do
@@ -79,7 +79,7 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issue deep tree" do
@@ -87,7 +87,7 @@ describe WorkPackage, "rebuilding nested set" do
         gchild_1_1_1
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -97,7 +97,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.should_not be_valid }
+      it { expect(WorkPackage).not_to be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -107,7 +107,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => 18 }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.should_not be_valid }
+      it { expect(WorkPackage).not_to be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -117,7 +117,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.should_not be_valid }
+      it { expect(WorkPackage).not_to be_valid }
     end
 
     describe "WITH a three issue deep tree
@@ -127,7 +127,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
       end
 
-      it { WorkPackage.should_not be_valid }
+      it { expect(WorkPackage).not_to be_valid }
     end
   end
 
@@ -142,7 +142,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
   end
 
@@ -157,7 +157,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -171,7 +171,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -185,7 +185,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -197,7 +197,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -209,7 +209,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -221,7 +221,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH two three issues deep trees
@@ -237,12 +237,12 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!(root_1)
       end
 
-      it { gchild_1_1_1.reload.root_id.should == root_1.id }
-      it { gchild_2_1_1.reload.root_id.should == child_2_1.id }
+      it { expect(gchild_1_1_1.reload.root_id).to eq(root_1.id) }
+      it { expect(gchild_2_1_1.reload.root_id).to eq(child_2_1.id) }
     end
 
     describe "WITH two three issues deep trees
-              WITH the right value of each grandchildren beeing equal to the left value
+              WITH the right value of each grandchildren being equal to the left value
               WITH selecting to fix only one tree" do
 
       before do
@@ -254,8 +254,8 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.rebuild_silently!(root_1)
       end
 
-      it { gchild_1_1_1.reload.rgt.should == gchild_1_1_1.lft + 1 }
-      it { gchild_2_1_1.reload.rgt.should == gchild_2_1_1.lft }
+      it { expect(gchild_1_1_1.reload.rgt).to eq(gchild_1_1_1.lft + 1) }
+      it { expect(gchild_2_1_1.reload.rgt).to eq(gchild_2_1_1.lft) }
     end
   end
 
@@ -270,7 +270,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -284,7 +284,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -298,7 +298,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -310,7 +310,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -322,7 +322,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -334,7 +334,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a one issue deep tree
@@ -347,7 +347,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH two one issue deep trees
@@ -361,7 +361,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -374,7 +374,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a tree issue deep tree
@@ -389,7 +389,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -404,7 +404,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a one issue deep tree
@@ -416,7 +416,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -428,7 +428,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -440,7 +440,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -452,7 +452,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -464,7 +464,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -476,7 +476,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -489,7 +489,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -502,7 +502,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -515,7 +515,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -528,7 +528,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -541,7 +541,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
    describe "WITH a two issues deep tree
@@ -554,7 +554,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -567,7 +567,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH two one issues deep tree
@@ -583,7 +583,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH two one issues deep tree
@@ -599,7 +599,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH one one issue deep tree
@@ -616,7 +616,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
 
     describe "WITH one one issue deep tree
@@ -633,7 +633,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.selectively_rebuild_silently!
       end
 
-      it { WorkPackage.should be_valid }
+      it { expect(WorkPackage).to be_valid }
     end
   end
 
@@ -645,7 +645,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => 2, :rgt => 1 }, { :id => root_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [root_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([root_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -655,7 +655,7 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([]) }
     end
 
     describe "WITH a two issues deep tree
@@ -665,7 +665,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => 4, :rgt => 3 }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -675,7 +675,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => 3, :rgt => 3 }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -685,7 +685,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => nil }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -695,7 +695,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => nil }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -706,7 +706,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -717,7 +717,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => root_1.reload.rgt + 1 }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -728,7 +728,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issues deep tree
@@ -739,7 +739,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => root_1.reload.lft - 1 }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_left_and_rights.map(&:id)).to match_array([child_1_1.id]) }
     end
   end
 
@@ -752,7 +752,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
+      it { expect(WorkPackage.invalid_duplicates_in_columns.map(&:id)).to match_array([root_1.id, child_1_1.id]) }
     end
 
    describe "WITH a two issues deep tree
@@ -763,7 +763,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
+      it { expect(WorkPackage.invalid_duplicates_in_columns.map(&:id)).to match_array([root_1.id, child_1_1.id]) }
     end
 
     describe "WITH two one issue deep tree
@@ -774,7 +774,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [] }
+      it { expect(WorkPackage.invalid_duplicates_in_columns.map(&:id)).to match_array([]) }
     end
 
     describe "WITH a three issues deep tree
@@ -785,7 +785,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => gchild_1_1_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [child_1_1.id, gchild_1_1_1.id] }
+      it { expect(WorkPackage.invalid_duplicates_in_columns.map(&:id)).to match_array([child_1_1.id, gchild_1_1_1.id]) }
     end
   end
 
@@ -798,7 +798,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { WorkPackage.invalid_roots.should be_empty }
+      it { expect(WorkPackage.invalid_roots).to be_empty }
     end
 
     describe "WITH two one issues deep tree
@@ -812,7 +812,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => root_1.lft, :root_id => root_1.id }, { :id => root_2.id })
       end
 
-      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { expect(WorkPackage.invalid_roots.map(&:id)).to match_array([root_1.id, root_2.id]) }
     end
 
     describe "WITH two one issues deep tree
@@ -826,7 +826,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => root_2.lft, :root_id => root_2.id }, { :id => root_1.id })
       end
 
-      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { expect(WorkPackage.invalid_roots.map(&:id)).to match_array([root_1.id, root_2.id]) }
     end
 
     describe "WITH one one issue deep tree
@@ -841,7 +841,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :lft => child_1_1.lft, :root_id => root_1.id }, { :id => root_2.id })
       end
 
-      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { expect(WorkPackage.invalid_roots.map(&:id)).to match_array([root_1.id, root_2.id]) }
     end
 
     describe "WITH one one issue deep tree
@@ -856,7 +856,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :rgt => child_2_1.rgt, :root_id => root_2.id}, { :id => root_1.id })
       end
 
-      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { expect(WorkPackage.invalid_roots.map(&:id)).to match_array([root_1.id, root_2.id]) }
     end
   end
 
@@ -867,7 +867,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
       end
 
-      it { WorkPackage.invalid_root_ids.should be_empty }
+      it { expect(WorkPackage.invalid_root_ids).to be_empty }
     end
 
     describe "WITH a two issue deep tree
@@ -876,7 +876,7 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { WorkPackage.invalid_root_ids.should be_empty }
+      it { expect(WorkPackage.invalid_root_ids).to be_empty }
     end
 
     describe "WITH a three issue deep tree
@@ -885,7 +885,7 @@ describe WorkPackage, "rebuilding nested set" do
         gchild_1_1_1
       end
 
-      it { WorkPackage.invalid_root_ids.should be_empty }
+      it { expect(WorkPackage.invalid_root_ids).to be_empty }
     end
 
     describe "WITH a one issue deep tree
@@ -896,7 +896,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => nil }, { :id => root_1.id })
       end
 
-      it { WorkPackage.invalid_root_ids.should be_empty }
+      it { expect(WorkPackage.invalid_root_ids).to be_empty }
     end
 
     describe "WITH two one issue deep trees
@@ -908,7 +908,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => root_2.id }, { :id => root_1.id })
       end
 
-      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [root_1.id] }
+      it { expect(WorkPackage.invalid_root_ids.map(&:id)).to match_array([root_1.id]) }
     end
 
     describe "WITH a two issue deep tree
@@ -919,7 +919,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_root_ids.map(&:id)).to match_array([child_1_1.id]) }
     end
 
     describe "WITH a two issue deep tree
@@ -932,7 +932,7 @@ describe WorkPackage, "rebuilding nested set" do
         WorkPackage.update_all({ :root_id => root_2.id }, { :id => child_1_1.id })
       end
 
-      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_root_ids.map(&:id)).to match_array([child_1_1.id]) }
     end
 
 
@@ -949,7 +949,7 @@ describe WorkPackage, "rebuilding nested set" do
       # As the sql statements do not work recursively
       # we are currently only able to spot the child
       # this is not how it should be
-      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { expect(WorkPackage.invalid_root_ids.map(&:id)).to match_array([child_1_1.id]) }
     end
   end
 end

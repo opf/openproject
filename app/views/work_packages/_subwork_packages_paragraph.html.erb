@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="work_package_hierarchy work_package_part">
   <strong><%= l(:label_work_package_hierarchy) %></strong>
   <% if User.current.allowed_to?(:manage_subtasks, @project) %>
-    (<%= link_to(l(:label_add_subtask), new_project_work_package_path(:project_id => @project,
-                                                                      :work_package => { :parent_id => work_package })) %>)
+    <%= link_to(icon_wrapper('icon icon-add', l(:label_add_subtask)),
+                new_project_work_package_path(project_id: @project, work_package: { parent_id: work_package }),
+                :title => l(:label_add_subtask),
+                :class => 'no-decoration-on-hover') %>
   <% end %>
 
   <% if !work_package.leaf? || work_package.parent %>
     <% indent = 0 %>
 
     <form action="#">
-      <table id="issue_tree" class="list">
+      <table id="issue_tree" class="list work-package-data-table">
+        <thead>
+          <tr>
+            <th class="hidden"><%= WorkPackage.human_attribute_name :id %></th>
+            <th><%= WorkPackage.human_attribute_name :subject %></th>
+            <th><%= WorkPackage.human_attribute_name :status %></th>
+            <th><%= WorkPackage.human_attribute_name :assigned_to %></th>
+            <th><%= WorkPackage.human_attribute_name :fixed_version %></th>
+          </tr>
+        </thead>
 
         <!-- render parent elements -->
         <% ancestors.each do |ancestor| %>

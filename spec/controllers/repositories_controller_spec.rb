@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,16 @@
 
 require 'spec_helper'
 
-describe RepositoriesController do
+describe RepositoriesController, :type => :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user, :member_in_project => project,
                                           :member_through_role => role) }
   let(:repository) { FactoryGirl.create(:repository, :project => project) }
 
   before do
-    Setting.stub(:enabled_scm).and_return(['Filesystem'])
+    allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
     repository  # ensure repository is created after stubbing the setting
-    User.stub(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
   end
 
   describe 'commits per author graph' do
@@ -50,11 +50,11 @@ describe RepositoriesController do
                                                               :view_commit_author_statistics]) }
 
       it 'should be successful' do
-        response.should be_success
+        expect(response).to be_success
       end
 
       it 'should have the right content type' do
-        response.content_type.should == 'image/svg+xml'
+        expect(response.content_type).to eq('image/svg+xml')
       end
     end
 
@@ -62,7 +62,7 @@ describe RepositoriesController do
       let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
 
       it 'should return 403' do
-        response.code.should == '403'
+        expect(response.code).to eq('403')
       end
     end
   end
@@ -77,7 +77,7 @@ describe RepositoriesController do
                                                               :view_commit_author_statistics]) }
 
       it 'show the commits per author graph' do
-        assigns(:show_commits_per_author).should == true
+        expect(assigns(:show_commits_per_author)).to eq(true)
       end
     end
 
@@ -85,7 +85,7 @@ describe RepositoriesController do
       let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
 
       it 'should NOT show the commits per author graph' do
-        assigns(:show_commits_per_author).should == false
+        expect(assigns(:show_commits_per_author)).to eq(false)
       end
     end
   end

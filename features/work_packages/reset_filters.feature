@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Resetting filteres on work packages
+Feature: Resetting filters on work packages
   Background:
     Given there is a project named "project1"
     And the project "project1" has the following types:
@@ -45,16 +45,11 @@ Feature: Resetting filteres on work packages
     And I am already admin
     And I am on the work package index page of the project called "project1"
 
-    When I select "Type" from "Add filter"
-     And I select "Other" from "values_type_id"
-     And I follow "Apply"
-
-    Then I should not see "Some issue"
-     And I should see "No data to display"
-
   @javascript
-  Scenario: Clearing filters via the filter buttons
-    When I follow "Clear"
-
-    Then I should be on the work package index page of the project called "project1"
-     And I should see "Some issue"
+  Scenario: Clearing filters via the "Clear" buttons
+    When I select "Type" from "Add filter"
+    And I select "is" from "operators-type_id"
+    And I select "Other" from "values-type_id"
+    Then I should not see "Some issue"
+    When I click "Clear"
+    Then I should see "Some issue"

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,19 +31,23 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
+
+<% content_for :action_menu_specific do %>
+  <%= link_to_if_authorized(l(:button_edit),
+                            {:action => :edit, :project_id => @project, :id => @reporting},
+                            :class => 'icon icon-edit',
+                            accesskey: accesskey(:edit)) %>
+  <%= link_to_if_authorized(l(:button_delete),
+                            {:action => :confirm_destroy, :project_id => @project, :id => @reporting},
+                            :class => 'icon icon-delete') %>
+<% end %>
+
 <h2>
   <%= l('timelines.reporting_for_project.show',
         :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
 </h2>
 
-<div class="contextual timelines-for_previous_heading">
-  <%= link_to_if_authorized(l(:button_edit),
-                            {:action => :edit, :project_id => @project, :id => @reporting},
-                            :class => 'icon icon-edit') %>
-  <%= link_to_if_authorized(l(:button_delete),
-                            {:action => :confirm_destroy, :project_id => @project, :id => @reporting},
-                            :class => 'icon icon-del') %>
-</div>
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= render :partial => 'show' %>
 

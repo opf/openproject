@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,6 +50,7 @@ Feature: Project Settings
       | edit_project  |
     And the user "alice" is a "alpha" in the project "project1"
     And the user "bob" is a "beta" in the project "project1"
+    And Delayed Job is turned off
 
   Scenario: Check for the existence of a copy button
     When I am already admin
@@ -96,7 +97,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
-    Then I should see "Successful creation."
+    Then I should see "Started to copy project"
     And  I go to the settings page of the project "cp"
     And  I should see "project2" within "#project_parent_id"
 
@@ -112,7 +113,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
-    Then I should see "Successful creation."
+    Then I should see "Started to copy project"
     And  I go to the settings page of the project "cp"
     And  I follow "Types" within "#content"
     Then the "Phase1" checkbox should be checked
@@ -131,7 +132,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
-    Then I should see "Successful creation."
+    Then I should see "Started to copy project"
     And  I go to the settings page of the project "cp"
     Then the "cfBug" checkbox should be checked
 
@@ -148,7 +149,7 @@ Feature: Project Settings
     And   I fill in "Identifier" with "cp"
     And   I check "Work packages"
     And   I click on "Copy"
-    Then  I should see "Successful creation."
+    Then  I should see "Started to copy project"
     And   I go to the work packages index page for the project "Copied Project"
     Then  I should see "issue1" within "#content"
     And   I should see "issue2" within "#content"
@@ -168,7 +169,7 @@ Feature: Project Settings
     And   I fill in "Identifier" with "cp"
     And   I check "Work packages"
     And   I click on "Copy"
-    Then  I should see "Successful creation."
+    Then  I should see "Started to copy project"
     And   I go to the page of the planning element "pe1" of the project called "Copied Project"
     Then  I should see "pe1" within "#content"
     And   I go to the page of the planning element "pe2" of the project called "Copied Project"
@@ -197,7 +198,7 @@ Feature: Project Settings
     And  I fill in "Identifier" with "cp"
     And  I check "Work packages"
     And  I click on "Copy"
-    Then I should see "Successful creation."
+    Then I should see "Started to copy project"
     And  I go to the work packages index page for the project "Copied Project"
     Then I should see "foo" within "#content"
     And  I follow "foo" within "#content"

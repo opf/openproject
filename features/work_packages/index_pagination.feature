@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,7 @@ Feature: Paginated work packages index list
       | subject    | Issuesubject |
     And I am already logged in as "bob"
 
+  @javascript
   Scenario: Pagination within a project
     When I go to the work packages index page of the project "project1"
     Then I should see 3 issues
@@ -53,6 +54,7 @@ Feature: Paginated work packages index list
     Then I should be on the work packages index page of the project "project1"
     And I should see 1 issue
 
+  @javascript @wip
   Scenario: Pagination outside a project
     When I go to the global index page of work packages
     Then I should see 3 issues
@@ -60,6 +62,7 @@ Feature: Paginated work packages index list
     Then I should be on the global index page of work packages
     And I should see 1 issue
 
+  @javascript
   Scenario: Changing issues per page
     When I go to the work packages index page of the project "project1"
     Then I follow "2" within ".pagination"

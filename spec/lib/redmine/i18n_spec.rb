@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 module OpenProject
-  describe I18n do
+  describe I18n, type: :helper do
     include Redmine::I18n
 
     let(:format) { '%d/%m/%Y' }
@@ -39,7 +39,7 @@ module OpenProject
     end
 
     describe 'with user time zone' do
-      before { User.current.stub(:time_zone).and_return(ActiveSupport::TimeZone['Athens'])}
+      before { allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens'])}
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
@@ -54,12 +54,12 @@ module OpenProject
     end
 
     describe 'without user time zone' do
-      before { User.current.stub(:time_zone).and_return(nil)}
+      before { allow(User.current).to receive(:time_zone).and_return(nil)}
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
-        time.stub(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 07, 01, 01, 59))
+        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 07, 01, 01, 59))
         expect(format_time_as_date(time,format)).to eq '01/07/2013'
       end
 
@@ -67,6 +67,17 @@ module OpenProject
         Time.zone = 'Berlin'
         time = Time.zone.local(2013, 06, 30, 23, 59)
         expect(format_time_as_date(time,format)).to eq '30/06/2013'
+      end
+    end
+
+    describe :all_languages do
+      it 'should at least return en' do
+        # using this to ensure that the files are evaluated
+        expect(all_languages).to include(:en)
+      end
+
+      it 'should return no js language as they are duplicates of the rest of the other language' do
+        expect(all_languages.any?{ |l| /\Ajs-/.match(l.to_s) }).to be_false
       end
     end
   end

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@
 
     var agent = navigator.userAgent;
 
-    if (agent.match(/MSIE [78]\.0/) === null) {
+    if (agent.match(/MSIE [789]\.0/) === null) {
       return;
     }
 
@@ -40,7 +40,7 @@
       title: I18n.t("js.unsupported_browser.title"),
       message: I18n.t("js.unsupported_browser.message"),
       link: I18n.t("js.unsupported_browser.learn_more"),
-      url: "https://www.openproject.org/unsupported_browser"
+      url: "https://www.openproject.org/supported_browsers"
     });
 
   });

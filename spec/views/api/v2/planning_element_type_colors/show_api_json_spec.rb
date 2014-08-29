@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_type_colors/show.api.rabl' do
+describe 'api/v2/planning_element_type_colors/show.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -53,14 +53,13 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl' do
     subject { response.body }
 
     it 'renders a color document' do
-      should have_json_path('color')
+      is_expected.to have_json_path('color')
     end
 
     it 'renders the detail information about the color' do
-      puts subject
       expected_json = {name: "Awesometastic color", hexcode: '#FFFFFF', position: 10}.to_json
 
-      should be_json_eql(expected_json).at_path('color')
+      is_expected.to be_json_eql(expected_json).at_path('color')
     end
 
   end

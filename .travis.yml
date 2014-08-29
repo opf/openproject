@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,32 +28,41 @@
 
 language: ruby
 rvm:
-  - 1.9.3
+  - 2.1
+sudo: false
+cache: bundler
 branches:
   only:
-    - feature/rails3
+    - dev
+    - stable
+    - release/3.0
 env:
+  # Frontend
+  - "TEST_SUITE=karma"
   # mysql2
-  - "TEST_SUITE=cucumber         CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:units       CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:functionals CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:integration CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=spec             CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
   # postgres
-  - "TEST_SUITE=cucumber         CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:units       CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:functionals CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:integration CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=spec             CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-script: "bundle exec rake $TEST_SUITE"
+  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
 before_install:
+  - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1366x768x16"
+  - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
+  - "nvm use 0.10"
+  - "travis_retry npm -g install bower@~1.3.8"
+  - "travis_retry bower install -F"
+  - "if [[ $TEST_SUITE == 'karma' ]]; then travis_retry npm install; fi"
 before_script:
-  - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
+  - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
 notifications:
   email: false
-addons:
-  code_climate:
-      repo_token:
-        secure: "BIooLUZt/ZPBh0KSOMrSdsm0uwyax9veNULE20hJLXxuj8dStxAHcrZW8gZvNaU0/vgz3RWKQeNJ6xV9BXYVjnAtYIkQmI+kiryRT9PE6OsLbqeU/OirahFi8Dwm4xfh/e9DVgTOyYHHhZ69aVFQxvKbXARGmfoHcy8gFduJ7ss="
+# Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
+# addons:
+#   code_climate:
+#       repo_token:
+#         secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="

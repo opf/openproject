@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,6 @@
   TopMenu.prototype = $.extend(TopMenu.prototype, {
     setup: function () {
       var self = this;
-      this.oldBrowser = parseInt($.browser.version, 10) < 8 && $.browser.msie;
       this.hover = false;
       this.menuIsOpen = false;
       this.withHeadingFoldOutAtBorder();
@@ -105,7 +104,7 @@
     },
 
     dropdowns: function () {
-      return this.menu_container.find(" > li.drop-down");
+      return this.menu_container.find("li.drop-down");
     },
 
     withHeadingFoldOutAtBorder: function () {
@@ -133,7 +132,7 @@
           // AND the dropdown we hover on is not currently open anyways
           if (self.hover && self.isClosed($(this))) {
             self.open($(this));
-          }  
+          }
         });
       });
     },
@@ -184,29 +183,13 @@
     slideDown: function (dropdown) {
       var toDrop = dropdown.find("> ul");
       dropdown.addClass("open");
-      if (this.oldBrowser) {
-        toDrop.show();
-
-        // this forces IE to redraw the menu area, un-bollocksing things
-        $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-
-      } else {
-        toDrop.slideDown(animationRate);
-      }
+      toDrop.slideDown(animationRate);
     },
 
     slideUp: function (dropdown) {
       var toDrop = $(dropdown).find("> ul");
       dropdown.removeClass("open");
-      if (this.oldBrowser) {
-        toDrop.hide();
-
-        // this forces IE to redraw the menu area, un-bollocksing things
-        $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-
-      } else {
-        toDrop.slideUp(animationRate);
-      }
+      toDrop.slideUp(animationRate);
     },
 
     // If there is ANY input, it will have precedence over links,
@@ -240,13 +223,26 @@
     }
   });
 
+  // this holds all top menus currently active.
+  // if one opens, all others are closed.
+  var top_menus = [];
   $.fn.top_menu = function () {
+    var new_menu;
     $(this).each(function () {
-      new TopMenu($(this));
+      new_menu = new TopMenu($(this));
+      top_menus.each(function (menu) {
+        menu.menu_container.on("openedMenu", function () {
+          new_menu.closing();
+        });
+        new_menu.menu_container.on("openedMenu", function () {
+          menu.closing();
+        });
+      });
+      top_menus.push(new_menu);
     });
-  }
+  };
 }(jQuery));
 
 jQuery(document).ready(function($) {
-  $(".account-nav").top_menu();
+  $("#top-menu-items").top_menu();
 });

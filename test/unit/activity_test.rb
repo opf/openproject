@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def teardown
+    super
     Journal.delete_all
   end
 
@@ -92,7 +93,7 @@ class ActivityTest < ActiveSupport::TestCase
 
     assert(events.size > 0)
     assert(events.size <= 10)
-    assert_nil(events.detect {|e| e.data.event_author != user})
+    assert_nil(events.detect {|e| e.event_author != user})
   end
 
   private
@@ -101,6 +102,8 @@ class ActivityTest < ActiveSupport::TestCase
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
-    events.group_by(&:journable).keys
+    events.collect do |e|
+      e.provider.new.activitied_type.find(e.journable_id)
+    end
   end
 end

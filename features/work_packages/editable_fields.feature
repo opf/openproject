@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ Feature: Fields editable on work package edit
     And I follow "More"
 
     Then I should see the following fields:
-      | Type            | Phase1           |
+      | Type            | Phase            |
       | Subject         | pe1              |
       | Description     | pe1 description  |
       | Priority        | prio1            |
@@ -107,15 +107,23 @@ Feature: Fields editable on work package edit
 
   Scenario: Going to the page and viewing custom field fields
     Given the role "manager" may have the following rights:
+      | view_work_packages |
       | edit_work_packages |
 
-    Given the following work package custom fields are defined:
+    And there are the following types:
+      | Name      |
+      | Phase     |
+    And the project "ecookbook" has the following types:
+      | name    | position |
+      | Phase   | 1        |
+    And the following work package custom fields are defined:
       | name | type  |
       | cf1  | int   |
+    And the custom field "cf1" is activated for type "Phase"
 
     And there are the following work packages in project "ecookbook":
-      | subject |
-      | pe1     |
+      | subject | type  |
+      | pe1     | Phase |
 
     And the work package "pe1" has the custom field "cf1" set to "4"
 

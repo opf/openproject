@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
 
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
@@ -37,22 +37,22 @@ describe WorkPackage do
 
     # validations
     [:subject, :priority, :project, :type, :author, :status].each do |field|
-      it{ should validate_presence_of field}
+      it{ is_expected.to validate_presence_of field}
     end
 
-    it { should ensure_length_of(:subject).is_at_most 255 }
-    it { should ensure_inclusion_of(:done_ratio).in_range 0..100 }
-    it { should validate_numericality_of :estimated_hours}
+    it { is_expected.to ensure_length_of(:subject).is_at_most 255 }
+    it { is_expected.to ensure_inclusion_of(:done_ratio).in_range 0..100 }
+    it { is_expected.to validate_numericality_of :estimated_hours}
 
     it "validates, that start-date is before end-date" do
       wp = FactoryGirl.build(:work_package, start_date: 1.day.from_now, due_date: 1.day.ago)
-      expect(wp).to have(1).errors_on(:due_date)
+      expect(wp.errors_on(:due_date).size).to eq(1)
     end
 
     it "validates, that correct formats are properly parsed" do
       wp = FactoryGirl.build(:work_package, start_date: "01/01/13", due_date: "31/01/13")
-      expect(wp).to have(:no).errors_on(:start_date)
-      expect(wp).to have(:no).errors_on(:due_date)
+      expect(wp.errors_on(:start_date).size).to eq(0)
+      expect(wp.errors_on(:due_date).size).to eq(0)
     end
 
     describe "hierarchical work_package-validations" do
@@ -92,7 +92,7 @@ describe WorkPackage do
       successor.start_date = "01/01/13"
 
       expect(successor).not_to be_valid
-      expect(successor).to have(1).errors_on(:start_date)
+      expect(successor.errors_on(:start_date).size).to eq(1)
 
     end
 
@@ -116,7 +116,7 @@ describe WorkPackage do
       wp.fixed_version = non_assignable_version
 
       expect(wp).not_to be_valid
-      expect(wp).to have(1).errors_on(:fixed_version_id)
+      expect(wp.errors_on(:fixed_version_id).size).to eq(1)
     end
 
     it "validate, that closed or locked versions cannot be assigned" do
@@ -128,7 +128,7 @@ describe WorkPackage do
 
         wp.fixed_version = non_assignable_version
         expect(wp).not_to be_valid
-        expect(wp).to have(1).errors_on(:fixed_version_id)
+        expect(wp.errors_on(:fixed_version_id).size).to eq(1)
       end
     end
 
@@ -148,16 +148,46 @@ describe WorkPackage do
         work_package.type = new_type
 
         expect(work_package).not_to be_valid
-        expect(work_package).to have(1).errors_on(:type_id)
+        expect(work_package.errors_on(:type_id).size).to eq(1)
       end
 
       it "validate, that the selected type is enabled for the project the wp was moved into" do
         work_package.project = new_project
 
         expect(work_package).not_to be_valid
-        expect(work_package).to have(1).errors_on(:type_id)
+        expect(work_package.errors_on(:type_id).size).to eq(1)
       end
 
+    end
+
+    describe "validations of priority" do
+      let (:active_priority) { FactoryGirl.create(:priority) }
+      let (:inactive_priority) { FactoryGirl.create(:priority, active: false) }
+
+      let (:wp) { FactoryGirl.create(:work_package) }
+
+      it "should validate on active priority" do
+        wp.priority = active_priority
+        expect(wp).to be_valid
+      end
+
+      it "should validate on an inactive priority that has been assigned before becoming inactive" do
+        wp.priority = active_priority
+        wp.save!
+
+        active_priority.active = false
+        active_priority.save!
+        wp.reload
+
+        expect(wp.priority.active).to be_falsey
+        expect(wp).to be_valid
+      end
+
+      it "should not validate on an inactive priority" do
+        wp.priority = inactive_priority
+        expect(wp).not_to be_valid
+        expect(wp.errors_on(:priority_id).size).to eq(1)
+      end
     end
 
 

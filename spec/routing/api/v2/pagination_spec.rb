@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,51 +28,51 @@
 
 require 'spec_helper'
 
-describe Api::V2::Pagination::PrincipalsController do
+describe Api::V2::Pagination::PrincipalsController, :type => :routing do
   it "should connect GET /api/v2/pagination/principals to principals#edit" do
-    get("/api/v2/pagination/principals").should route_to(:controller => 'api/v2/pagination/principals',
+    expect(get("/api/v2/pagination/principals")).to route_to(:controller => 'api/v2/pagination/principals',
                                                          :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::UsersController do
+describe Api::V2::Pagination::UsersController, :type => :routing do
   it "should connect GET /api/v2/pagination/users to users#edit" do
-    get("/api/v2/pagination/users").should route_to(:controller => 'api/v2/pagination/users',
+    expect(get("/api/v2/pagination/users")).to route_to(:controller => 'api/v2/pagination/users',
                                                     :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::StatusesController do
+describe Api::V2::Pagination::StatusesController, :type => :routing do
   it "should connect GET /api/v2/pagination/users to statuses#edit" do
-    get("/api/v2/pagination/statuses").should route_to(:controller => 'api/v2/pagination/statuses',
+    expect(get("/api/v2/pagination/statuses")).to route_to(:controller => 'api/v2/pagination/statuses',
                                                        :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::TypesController do
+describe Api::V2::Pagination::TypesController, :type => :routing do
   it "should connect GET /api/v2/pagination/types to types#edit" do
-    get("/api/v2/pagination/types").should route_to(:controller => 'api/v2/pagination/types',
+    expect(get("/api/v2/pagination/types")).to route_to(:controller => 'api/v2/pagination/types',
                                                     :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::ProjectTypesController do
+describe Api::V2::Pagination::ProjectTypesController, :type => :routing do
   it "should connect GET /api/v2/pagination/project_types to project_types#edit" do
-    get("/api/v2/pagination/project_types").should route_to(:controller => 'api/v2/pagination/project_types',
+    expect(get("/api/v2/pagination/project_types")).to route_to(:controller => 'api/v2/pagination/project_types',
                                                             :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::ReportedProjectStatusesController do
+describe Api::V2::Pagination::ReportedProjectStatusesController, :type => :routing do
   it "should connect GET /api/v2/pagination/reported_project_statuses to reported_project_statuses#edit" do
-    get("/api/v2/pagination/reported_project_statuses").should route_to(:controller => 'api/v2/pagination/reported_project_statuses',
+    expect(get("/api/v2/pagination/reported_project_statuses")).to route_to(:controller => 'api/v2/pagination/reported_project_statuses',
                                                                         :action => 'index')
   end
 end
 
-describe Api::V2::Pagination::ProjectsController do
+describe Api::V2::Pagination::ProjectsController, :type => :routing do
   it "should connect GET /api/v2/pagination/projects to projects#edit" do
-    get("/api/v2/pagination/projects").should route_to(:controller => 'api/v2/pagination/projects',
+    expect(get("/api/v2/pagination/projects")).to route_to(:controller => 'api/v2/pagination/projects',
                                                        :action => 'index')
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,12 @@ module OpenProject
 
           view = options[:view]
 
-          view.render :partial => '/timelines/timeline',
-                      :locals => {:timeline => timeline}
+          if view.respond_to?(:render)
+            view.render :partial => '/timelines/timeline',
+                        :locals => {:timeline => timeline}
+          else
+            raise NotImplementedError, 'Timeline rendering is not supported'
+          end
         end
       end
     end

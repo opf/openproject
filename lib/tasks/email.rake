@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -141,7 +141,7 @@ Examples:
   # Fixed project and default type specified, but emails can override
   # both type and priority attributes:
 
-  rake redmine:email:receive_iamp RAILS_ENV="production" \\
+  rake redmine:email:receive_imap RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx ssl=1 \\
     project=foo \\
     type=bug \\

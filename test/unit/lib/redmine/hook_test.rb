@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,10 +69,12 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
   Redmine::Hook.clear_listeners
 
   def setup
+    super
     @hook_module = Redmine::Hook
   end
 
   def teardown
+    super
     @hook_module.clear_listeners
   end
 
@@ -159,14 +161,14 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     issue = WorkPackage.find(1)
 
     ActionMailer::Base.deliveries.clear
-    UserMailer.issue_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    UserMailer.issue_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue).deliver
     mail2 = ActionMailer::Base.deliveries.last
 
     assert_equal mail.text_part.body.encoded, mail2.text_part.body.encoded
@@ -180,4 +182,3 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     @view_hook_helper ||= TestHookHelperView.new(Rails.root.to_s + '/app/views')
   end
 end
-

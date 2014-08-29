@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-#
 
 class CustomField < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
   translates :name,
@@ -54,10 +55,11 @@ class CustomField < ActiveRecord::Base
 
   alias_method_chain :translations_attributes=, :globalized
 
-  validates_presence_of :name, :field_format
+  validates_presence_of :field_format
 
-  validate :uniquess_of_name_with_scope
-  def uniquess_of_name_with_scope
+  validate :uniqueness_of_name_with_scope
+
+  def uniqueness_of_name_with_scope
     taken_names = CustomField.where(:type => type)
     taken_names = taken_names.where('id != ?', id) if id
     taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
@@ -65,11 +67,19 @@ class CustomField < ActiveRecord::Base
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
   validate :validate_presence_of_possible_values
+
   validate :validate_default_value_in_translations
+
+  validate :validate_name
+
+  validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length}, unless: Proc.new { |cf| cf.max_length.blank?}
+
+
 
   def initialize(attributes = nil, options = {})
     super
@@ -103,6 +113,26 @@ class CustomField < ActiveRecord::Base
       end
     end
     self.is_required = required_field
+  end
+
+  # check presence of name and check the length of name value
+  def validate_name
+    if self.translations.empty?
+      errors.add(:name, :blank) if self.name.nil?
+    else
+      fallback_name = self.translations.find{|el| el.name != nil}
+      self.translations.each do | translation |
+        if translation.name.nil? && fallback_name.nil?
+          errors.add(:name, :blank)
+        else
+          if ( translation.name.nil? && fallback_name.name.length > 30 ) || ( !translation.name.nil? && translation.name.length > 30 )
+            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', :count => 30))
+          end
+
+          translation.name = fallback_name.name if translation.name.nil?
+        end
+      end
+    end
   end
 
   def possible_values_options(obj=nil)
@@ -218,7 +248,23 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
+  def name_locale
+    attribute_locale :name, name
+  end
+
+  def default_value_locale
+    attribute_locale :default_value, default_value
+  end
+
   private
+
+  def attribute_locale(attribute, value)
+    locales_for_value = translations.select { |t| t.send(attribute) == value }
+                                    .collect(&:locale)
+                                    .uniq
+
+    locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
+  end
 
   def blank_attributes(attributes)
     value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)

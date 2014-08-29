@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,18 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div id="admin-index">
-	<%= render :partial => 'no_data' if @no_configuration_data %>
+  <%= render :partial => 'no_data' if @no_configuration_data %>
 </div>
 
-<div class="contextual">
-<%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
+<% end %>
+
+<% html_title(l(:label_administration), l(:label_project_plural)) -%>
 
 <h2><%=l(:label_project_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
@@ -44,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <label for='name'><%= Project.model_name.human %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
-<%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-reload' %>
+<%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-undo' %>
 </fieldset>
 <% end %>
 &nbsp;
@@ -60,20 +64,20 @@ See doc/COPYRIGHT.rdoc for more details.
   <tbody>
 <% project_tree(@projects) do |project, level| %>
   <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-	<td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
-	<td align="center"><%= checked_image project.is_public? %></td>
-	<td align="center"><%= format_date(project.created_on) %></td>
+  <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
+  <td align="center"><%= checked_image project.is_public? %></td>
+  <td align="center"><%= format_date(project.created_on) %></td>
   <td class="buttons">
     <%= link_to(l(:button_archive),
                 archive_project_path(project, :status => params[:status]),
                 :confirm => l(:text_are_you_sure),
                 :method => :put,
-                :class => 'icon icon-lock') if project.active? %>
+                :class => 'icon icon-locked') if project.active? %>
 
     <%= link_to(l(:button_unarchive),
                 unarchive_project_path(project, :status => params[:status]),
                 :method => :put,
-                :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
 
     <%= link_to(l(:button_copy),
                 copy_from_project_path(project, :admin),
@@ -81,12 +85,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= link_to(l(:button_delete),
                 confirm_destroy_project_path(project),
-                :class => 'icon icon-del') %>
+                :class => 'icon icon-delete') %>
   </td>
   </tr>
 <% end %>
   </tbody>
 </table>
 </div>
-
-<% html_title(l(:label_project_plural)) -%>

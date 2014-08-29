@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,13 +68,24 @@
 #                         end
 #                       }
 # This needs to return something that can be #instance_eval'ed AND #call'ed, i.e. a Proc.
-# A String containing code will NOT work.
+# A String containing code will NOT work but a lambda will, if the execution context
+# can be changed accordingly (simply providing an additional parameter will work in most
+# cases).
 #
+# There are several possibilities to add options to the call to #search_method:
+# Procs allow to change behaviour dynamically, as with ActiveRecords scopes.
+# Lambdas will work just as procs, but an additional parameter needs to get passed to
+#   change their context.
+# Everything else just gets passed as is.
+# search_options_for Project, proc { @bar.nil? ? @bar : { a: b, c: d } }
+# search_options_for Project, lambda { |self| (@bar.nil? ? @bar : { a: b, c: d }) }
+# search_options_for Project, { a: b, c: d }
+# search_options_for Project, "yeah!"
 #
 #
 module Pagination::Controller
   class Paginator
-    attr_accessor :model, :action, :pagination, :search, :controller, :last_action, :block, :response
+    attr_accessor :model, :action, :pagination, :search, :controller, :last_action, :block, :response, :search_options
 
     def initialize(controller, model)
       self.controller = controller
@@ -97,6 +108,10 @@ module Pagination::Controller
 
     def default_search
       :search_scope
+    end
+
+    def default_search_options
+      {}
     end
 
     def last_action
@@ -127,6 +142,10 @@ module Pagination::Controller
 
     def response
       @response ||= default_response_block
+    end
+
+    def search_options
+      @search_options ||= default_search_options
     end
 
     def changed?
@@ -169,14 +188,21 @@ module Pagination::Controller
                 paginator.model.method(paginator.send(meth))
               end
           end
-          @paginated_items = methods[:pagination].call(methods[:search].call(params[:q]),
-                               { :page => page, :page_limit => size }
-                             )
+
+          if (options = paginator.search_options).respond_to?(:call)
+            options = instance_eval(&(options.to_proc))
+          end
+
+          search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
+          @paginated_items = methods[:pagination].call(
+                                                       search_call,
+                                                       { :page => page, :page_limit => size }
+                                                      )
 
           @more = @paginated_items.total_pages > page
           @total = @paginated_items.total_entries
 
-          instance_eval(&(paginator.response))
+          instance_eval(&(paginator.response.to_proc))
         end
       }
     end
@@ -247,6 +273,10 @@ module Pagination::Controller
 
       def response_for(model, call)
         resolve_paginator_for(model).response = (call.respond_to?(:call) ? call : call.to_s.to_sym)
+      end
+
+      def search_options_for(model, options)
+        resolve_paginator_for(model).search_options = options
       end
 
       private

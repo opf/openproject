@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,26 +27,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
-<%= "(#{link_to(l(:button_add_watcher), new_watcher_path(:object_type => watched.class.name.underscore.pluralize,
-                                                         :object_id => watched),
-                                        :method => :get,
-                                        :remote => true
-               )})".html_safe if User.current.allowed_to?(:add_work_package_watchers, @project)
-%>
-<% unless @watcher.nil? %>
-	<%= remote_form_for(:watcher, @watcher,
-                     :url => {:controller => '/watchers',
-                              :action => 'create',
-                              :object_type => watched.class.name.underscore.pluralize,
-         	                    :object_id => watched},
-       	             :method => :post,
-      	             :html => {:id => 'new-watcher-form'}) do |f| %>
-		<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+<% user_allowed_to_add_watchers = User.current.allowed_to?(:add_work_package_watchers, @project) %>
 
-		<%= submit_tag l(:button_add) %>
-		<%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
-	<% end %>
+<strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
+<% if user_allowed_to_add_watchers %>
+  <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
+                  'new-watcher-form',
+                  { focus: 'watcher_user_id' },
+                  { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
+<% end %>
+
+<%= form_for(:watcher,
+             url: watchers_path(watched.class.name.underscore.pluralize, watched),
+             method: :post,
+             remote: true,
+             complete: "Form.Element.focus('watcher_user_id');",
+             html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
+  <p>
+    <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+
+    <%= submit_tag l(:button_add) %>
+    <%= toggle_link l(:button_cancel), 'new-watcher-form' %>
+  </p>
 <% end %>
 
 <%= watchers_list(watched) %>

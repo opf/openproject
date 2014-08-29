@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,10 +65,10 @@ Feature: Viewing a work package
       | New         | false      | true        |
 
     And there are the following issues in project "omicronpersei8":
-      | subject | type | description |
-      | issue1  | Bug  | "1"         |
-      | issue2  | Bug  | "2"         |
-      | issue3  | Bug  | "3"         |
+      | subject | type | description | author |
+      | issue1  | Bug  | "1"         | bob    |
+      | issue2  | Bug  | "2"         | bob    |
+      | issue3  | Bug  | "3"         | bob    |
 
     And there are the following work packages in project "omicronpersei8":
       | subject | start_date | due_date   |
@@ -87,7 +87,7 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     Then I should see "Bug #1: issue1"
     Then I should see "Bug #2: issue2" within ".idnt-1"
-    And I should see "0 Total progress"
+    And I should see "0% Total progress"
 
   Scenario: View work package with issue done ratio disabled
     Given the "work_package_done_ratio" setting is set to disabled
@@ -130,17 +130,17 @@ Feature: Viewing a work package
   @javascript
   Scenario: User adds herself as watcher to an issue
     When I go to the page of the work package "issue1"
-    Then I should see "Watch" within "#content > .action_menu_main"
-    When I click "Watch" within "#content > .action_menu_main"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_specific"
+    When I click "Watch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
 
   @javascript
   Scenario: User removes herself as watcher from an issue
     Given user is already watching "issue1"
     When I go to the page of the work package "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-    When I click "Unwatch" within "#content > .action_menu_main"
-    Then I should see "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    When I click "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within "#content > .action_menu_specific"
 
   @javascript
   Scenario: Log time leads to time entry creation page for issues

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ while day <= calendar.enddt %>
   <% else %>
     <div>
       <%= h("#{i.project} -") unless @project && @project == i.project %>
-      <%= link_to_version i, {}, {:before_text => image_tag("webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human, :class => "imgtag-icon") }%>
+      <%= link_to_version i, {}, {:before_text => icon_wrapper('icon-context icon-version', Version.model_name.human) }%>
     </div>
   <% end %>
 <% end %>

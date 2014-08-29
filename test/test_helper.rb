@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,13 +38,12 @@ end
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'fileutils'
+require 'rspec/mocks'
 
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
-require Rails.root.join('test/mocks/open_id_authentication_mock.rb')
 
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
-
 
 class ActionDispatch::IntegrationTest
   include Shoulda::Matchers::ActionController
@@ -93,8 +92,18 @@ class ActiveSupport::TestCase
         ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
       end
     end
-    # By default bypass worker queue and execute asynchronous tasks at once
-    Delayed::Worker.delay_jobs = false
+
+    # initializes the mocking features
+    RSpec::Mocks.setup
+  end
+
+  def teardown
+    super
+    # verifies method invocations
+    RSpec::Mocks.verify
+  ensure
+    # removes all mockings
+    RSpec::Mocks.teardown
   end
 
   def log_user(login, password)
@@ -115,10 +124,10 @@ class ActiveSupport::TestCase
   # Mock out a file
   def self.mock_file
     file = 'a_file.png'
-    file.stubs(:size).returns(32)
-    file.stubs(:original_filename).returns('a_file.png')
-    file.stubs(:content_type).returns('image/png')
-    file.stubs(:read).returns(false)
+    file.stub(:size).and_return(32)
+    file.stub(:original_filename).and_return('a_file.png')
+    file.stub(:content_type).and_return('image/png')
+    file.stub(:read).and_return(false)
     file
   end
 
@@ -250,8 +259,8 @@ class ActiveSupport::TestCase
       should "use the new value's name" do
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journable).returns(WorkPackage.last)
-        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+        journal.stub(:journable).and_return(WorkPackage.last)
+        journal.stub(:details).and_return({prop_key => [@old_value.id, @new_value.id]})
 
         assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end
@@ -259,8 +268,8 @@ class ActiveSupport::TestCase
       should "use the old value's name" do
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journable).returns(WorkPackage.last)
-        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+        journal.stub(:journable).and_return(WorkPackage.last)
+        journal.stub(:details).and_return({prop_key => [@old_value.id, @new_value.id]})
 
         assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ Feature: Copying an work package can copy over the watchers
   Scenario: Watchers should be copied when the user has the permission to
     Given I am already logged in as "lrrr"
     When I go to the copy page for the work package "Improve drive"
-    Then I should see "Watchers" within "p#watchers_form"
+    Then I should see "Watchers" within "div#watchers_form"
     When I fill in "Subject" with "Improve drive even more"
     And I submit the form by the "Create" button
     Then I should see "Watchers (2)"

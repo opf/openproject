@@ -1,0 +1,274 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+@import global/all
+
+$toggler-width: 40px
+
+@mixin highlight-left-item-border
+  border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
+
+@mixin toggle-menu-item-background($bg-color: $main_menu_bg_hover_selected_background, $color: $main_menu_selected_font_color)
+  @include default-transition
+
+  &:hover
+    background: $bg-color
+
+    @if $main_menu_enable_toggle_highlighting != true
+      // simultaneously hover all menu item anchor tags
+      > a
+        color: $color
+
+  > a
+    @include default-transition
+    cursor: pointer
+    text-decoration: none
+
+    &.selected, &.selected + a
+      background: $bg-color
+
+    &:hover, &.selected, &.selected + a
+      color: $color
+
+#main-menu
+  bottom: auto
+  width: $main_menu_width
+  float: left
+  left: 0
+  background-color: $main_menu_bg_color
+  @include default-transition
+
+  %absolute-layout-mode &
+    position: absolute
+    height:   100%
+    +allow-vertical-scrolling
+
+  ul
+    margin: 0
+    padding: 0
+
+    &.menu_root
+      border-right: $main_menu_border_width solid $main_menu_border_color
+
+      // main menu items
+      > li
+        border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
+
+        .main-item-wrapper
+          +toggle-menu-item-background
+
+          // left item border hover / selected effect
+          &:hover > a:not(.toggler)
+            +highlight-left-item-border
+
+          // placeholder for highlighted left-item-border
+          a:not(.toggler)
+            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
+
+            &.selected
+              +highlight-left-item-border
+        .open .toggler
+          .icon-toggler:before
+            content: "\e0cc"
+
+
+        // padding for placeholder for highlighted left-item-border
+        a
+          // work around due to dom manipulation on document: ready:
+          // this isn't scoped to .main-item-wrapper to avoid flickering
+          padding-left: 7px
+        a.toggler
+          // explicitly reset to zero to avoid selector precedence problems
+          padding-left: 0
+
+
+      // all menu items
+      li
+        float: none
+        list-style-type: none
+        margin: 0px
+        padding: 0px 0px 0px 0px
+        white-space: nowrap
+        position: relative
+        min-height: 23px
+
+        &.ng-leave
+          @include animation(0.5s fade-out)
+
+        a
+          background: none
+
+    ul.menu-children
+      display: none
+      padding-top: 1px
+      padding-bottom: 1px
+      background-color: $main_menu_child_menu_bg_color
+      padding: 0
+      &.unattached
+        border-top: 1px solid #ddd
+      li
+        +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
+
+        a
+          padding-left: 10px
+          font-size: $main_menu_child_font_size
+          line-height: $main_menu_child_item_height
+          height: $main_menu_child_item_height
+          border: none
+          color: $main_menu_child_font_color
+          margin-top: 1px
+
+          &:hover
+            border: none
+            text-decoration: none
+            color: $main_menu_child_selected_font_color
+          &.selected
+            border: none !important
+            color: $main_menu_child_selected_font_color
+            font-family: $font_family_normal
+            font-weight: bold
+
+  a
+    text-decoration: none
+    line-height: $main_menu_item_height
+    display: block
+    position: relative
+    height: $main_menu_item_height
+    color: $main_menu_font_color
+    font-weight: normal
+    font-size: $main_menu_font_size
+    font-style: normal
+    @include main-menu-font
+
+  .toggler
+    position: absolute
+    right: 0
+    top: 0
+    width: $toggler-width
+    height: $main_menu_item_height
+    text-align: center
+  .sub-menu-heading
+    float: left
+
+  #toggle-project-menu
+    border: $main_menu_item_border_width solid $main_menu_item_border_color
+    border-left: none
+    height: $main_menu_item_height - $main_menu_item_border_width
+    width: $main_menu_width - $main_menu_item_border_width
+    background-color: $main_menu_bg_color
+    @include default-transition
+    &:hover
+      background: $main_menu_bg_hover_selected_background
+    &.show
+      width: $main_menu_folded_width - $main_menu_item_border_width
+      a.navigation-toggler
+        height: 100%
+        padding: 0 10px 0 0
+        &:before
+          content: "\e00a"
+    a.navigation-toggler
+      @include default-transition
+      position: relative
+      height: $main_menu_item_height
+      text-align: right
+      padding: 0 6px 0 0
+      &:hover
+        color: $main_menu_navigation_toggler_font_hover_color
+  .toggle-follow
+    position: absolute
+    width: 140px
+  .icon-time
+    background: none
+    padding: 0 0 0 0
+
+.hidden-navigation
+  #main-menu
+    width: $main_menu_folded_width
+    .ellipsis
+      text-overflow: clip
+      -o-text-overflow: clip
+      -ms-text-overflow: clip
+    .toggler
+      display: none
+  #sidebar
+    display: none
+
+#sidebar
+  margin: 30px 0 0 0
+  padding: 0px 17px 0 17px
+  width: auto
+  color: $main_menu_sidebar_font_color
+  font-size: 12px
+  @include main-menu-font
+
+  h3
+    display: block
+    border: none
+    //border-top: 1px solid $main_menu_sidebar_h3_border_top_color
+    color: $main_menu_sidebar_h3_color
+    font-weight: normal
+    font-size: $main_menu_sidebar_h3_font_size
+    margin: 30px 0 8px 0
+    padding: 10px 0 0 0
+
+    text-transform: uppercase
+
+  > h3:first-child
+    margin-top: 0px
+
+  a, a:link
+    color: $main_menu_sidebar_link_color
+    font-size: 12px
+    display: inline
+    position: static
+    text-decoration: underline
+
+  a:hover
+    text-decoration: underline
+
+  input.button-small
+    margin-top: 14px
+    background: $main_menu_sidebar_button_bg_color
+    border-radius: 25px
+    -webkit-border-radius: 25px
+    padding: 3px 7px
+    color: $main_menu_sidebar_button_font_color
+    border: none
+    cursor: pointer
+    @include main-menu-font
+    @include default-transition
+    &:hover
+      background: $main_menu_sidebar_button_hover_bg_color
+      color: $main_menu_sidebar_button_hover_font_color
+
+  ul
+    border: none
+    overflow-x: hidden
+    li
+      border: none
+    li a
+      padding: 0px

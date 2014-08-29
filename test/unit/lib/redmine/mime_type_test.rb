@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,5 +68,13 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     to_test.each do |args, expected|
       assert_equal expected, Redmine::MimeType.is_type?(*args)
     end
+  end
+
+  def test_narrow_type_for_equal_main_type
+    assert_equal 'text/x-ruby', Redmine::MimeType.narrow_type('rubyfile.rb', 'text/plain')
+  end
+
+  def test_use_original_type_if_main_type_differs
+    assert_equal 'application/zip', Redmine::MimeType.narrow_type('rubyfile.rb', 'application/zip')
   end
 end

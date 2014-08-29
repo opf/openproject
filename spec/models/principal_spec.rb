@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principal do
+describe Principal, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:group) { FactoryGirl.build(:group) }
 
@@ -36,19 +36,19 @@ describe Principal do
     it "should return a user" do
       user.save!
 
-      Principal.send(method, *params).should == [user]
+      expect(Principal.send(method, *params)).to eq([user])
     end
 
     it "should return a group" do
       group.save!
 
-      Principal.send(method, *params).should == [group]
+      expect(Principal.send(method, *params)).to eq([group])
     end
 
     it "should not return the anonymous user" do
       User.anonymous
 
-      Principal.send(method, *params).should == []
+      expect(Principal.send(method, *params)).to eq([])
     end
 
     it "should not return an inactive user" do
@@ -56,7 +56,7 @@ describe Principal do
 
       user.save!
 
-      Principal.send(method, *params).should == []
+      expect(Principal.send(method, *params)).to eq([])
     end
   end
 
@@ -68,7 +68,7 @@ describe Principal do
 
       user.save!
 
-      Principal.active.should == []
+      expect(Principal.active).to eq([])
     end
   end
 
@@ -80,7 +80,7 @@ describe Principal do
 
       user.save!
 
-      Principal.active_or_registered.should == [user]
+      expect(Principal.active_or_registered).to eq([user])
     end
   end
 
@@ -103,19 +103,19 @@ describe Principal do
 
       user.save!
 
-      Principal.active_or_registered_like(search).should == [user]
+      expect(Principal.active_or_registered_like(search)).to eq([user])
     end
 
     it "should not return a user if the name does not match" do
       user.save!
 
-      Principal.active_or_registered_like(user.lastname + "123").should == []
+      expect(Principal.active_or_registered_like(user.lastname + "123")).to eq([])
     end
 
     it "should return a group if the name does match partially" do
       user.save!
 
-      Principal.active_or_registered_like(user.lastname[0, -1]).should == [user]
+      expect(Principal.active_or_registered_like(user.lastname[0, -1])).to eq([user])
     end
 
   end
@@ -135,41 +135,41 @@ describe Principal do
     end
 
     it "should return only users when called on User model" do
-      ((visible = User.visible_by(user)) & [user, user2]).size.should == visible.size
-      ((visible = User.visible_by(group)) & [user, user2]).size.should == visible.size
+      expect(((visible = User.visible_by(user)) & [user, user2]).size).to eq(visible.size)
+      expect(((visible = User.visible_by(group)) & [user, user2]).size).to eq(visible.size)
     end
 
     it "should return only groups when called on Group model" do
-      ((visible = Group.visible_by(user)) & [group, group2]).size.should == visible.size
-      ((visible = Group.visible_by(group)) & [group, group2]).size.should == visible.size
+      expect(((visible = Group.visible_by(user)) & [group, group2]).size).to eq(visible.size)
+      expect(((visible = Group.visible_by(group)) & [group, group2]).size).to eq(visible.size)
     end
 
     it "should return both groups and users when called on Principal model" do
-      ((visible = Principal.visible_by(group)) & [user, user2, group, group2]).
-        size.should == visible.size
-      ((visible = Principal.visible_by(group)) & [user, user2, group, group2]).
-        size.should == visible.size
+      expect(((visible = Principal.visible_by(group)) & [user, user2, group, group2]).
+        size).to eq(visible.size)
+      expect(((visible = Principal.visible_by(group)) & [user, user2, group, group2]).
+        size).to eq(visible.size)
     end
 
     it "should be empty for groups that have no common projects with other Principals" do
-      Principal.visible_by(non_member_user).size.should == 0
-      Principal.visible_by(non_member_group).size.should == 0
+      expect(Principal.visible_by(non_member_user).size).to eq(0)
+      expect(Principal.visible_by(non_member_group).size).to eq(0)
     end
 
     it "should return all users for admins when called on User model" do
-      ((visible = User.visible_by(admin)) & [user, user2, non_member_user, admin]).
-        size.should == visible.size
+      expect(((visible = User.visible_by(admin)) & [user, user2, non_member_user, admin]).
+        size).to eq(visible.size)
     end
 
     it "should return all groups for admins when called on Group model" do
-      ((visible = Group.visible_by(admin)) & [group, group2, non_member_group]).
-        size.should == visible.size
+      expect(((visible = Group.visible_by(admin)) & [group, group2, non_member_group]).
+        size).to eq(visible.size)
     end
 
     it "should return all principals for admins when called on Principals model" do
-      ((visible = Principal.visible_by(admin)) &
+      expect(((visible = Principal.visible_by(admin)) &
         [user, user2, non_member_user, admin, group, group2, non_member_group]).
-        size.should == visible.size
+        size).to eq(visible.size)
     end
   end
 end

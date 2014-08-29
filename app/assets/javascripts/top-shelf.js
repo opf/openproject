@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@
       options = { message: options };
     }
     return $.extend({}, $.fn.topShelf.defaults, options);
-  };
+  }
 
   $.fn.topShelf = function(options) {
     var opts = mergeOptions(options);
     var message = this;
-    var topShelf = $("<div/>").addClass(opts.className)
+    var topShelf = $("<div/>").addClass(opts.className);
 
     if (message.length === 0) {
       topShelf.append($("<h1/>").append(opts.title))
@@ -51,13 +51,13 @@
       topShelf.append(message);
     }
 
-    $("body").prepend(topShelf)
+    $("body").prepend(topShelf);
 
     return this;
   };
 
   $.fn.topShelf.defaults = {
-    className: "top-shelf",
+    className: "top-shelf icon icon-warning",
     title: "",
     message: "",
     link: "",

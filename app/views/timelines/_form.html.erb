@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.
   %>
-  <%= javascript_include_tag "timelines_autocompleter.js" %>
+  <%= javascript_include_tag "autocompleter.js" %>
   <%= javascript_include_tag "timelines_select_boxes.js" %>
 <% end %>
 
@@ -54,5 +54,5 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
 <% end %>

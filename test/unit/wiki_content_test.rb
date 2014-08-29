@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ class WikiContentTest < ActiveSupport::TestCase
     page = WikiPage.new(:wiki => @wiki, :title => "A new page")
     page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
     assert page.save
-    
+
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
@@ -79,7 +79,7 @@ class WikiContentTest < ActiveSupport::TestCase
     content = @page.content
     content.text = "My new content"
     assert content.save
-    
+
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 

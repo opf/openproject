@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,9 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_group, :only => [:destroy, :autocomplete_for_user, :show]
+  before_filter :find_group, :only => [:destroy, :autocomplete_for_user,
+                                       :show, :create_memberships, :destroy_membership,
+                                       :edit_membership]
 
 
   # GET /groups
@@ -73,7 +75,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.xml
   def create
-    @group = Group.new(params[:group])
+    @group = Group.new permitted_params.group
 
     respond_to do |format|
       if @group.save
@@ -93,7 +95,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id], :include => :users)
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(groups_path) }
         format.xml  { head :ok }
@@ -140,8 +142,8 @@ class GroupsController < ApplicationController
   end
 
   def create_memberships
-    @group = Group.find(params[:id])
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
+    membership_params = permitted_params.group_membership
+    @membership = Member.edit_membership(membership_params[:membership_id], membership_params[:membership], @group)
     @membership.save
 
     respond_to do |format|
@@ -153,8 +155,8 @@ class GroupsController < ApplicationController
   alias :edit_membership :create_memberships
 
   def destroy_membership
-    Member.find(params[:membership_id]).destroy
-    @group = Group.find(params[:id])
+    membership_params = permitted_params.group_membership
+    Member.find(membership_params[:membership_id]).destroy
     respond_to do |format|
       format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'memberships' }
       format.js { render :action => 'destroy_memberships' }

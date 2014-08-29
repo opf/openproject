@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,7 @@ class CustomValue < ActiveRecord::Base
     value.to_s
   end
 
-protected
+  protected
 
   def validate_presence_of_required_value
     errors.add(:value, :blank) if custom_field.is_required? && value.blank?
@@ -94,7 +94,7 @@ protected
   end
 
   def validate_length_of_value
-    if value.present?
+    if value.present? && custom_field.min_length.present? && custom_field.max_length.present?
       errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
       errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
     end

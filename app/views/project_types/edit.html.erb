@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<%= form_for(:project_type,
+<% html_title l(:label_administration), "#{l(:label_edit)} #{l("timelines.admin_menu.project_type")} #{@project_type.name}" %>
+
+<%= labelled_tabular_form_for(@project_type,
              :url  => project_type_path(@project_type),
-             :html => {:class => "tabular", :method => 'put'}) do |f| %>
+             :html => {:method => 'put'}) do |f| %>
 
   <%= render :partial => "project_types/form",
              :locals => {:f => f, :project_type => @project_type} %>

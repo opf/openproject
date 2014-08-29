@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -109,9 +109,9 @@ module UsersHelper
 
   def change_user_status_links(user)
     icons = {
-      'unlock' => 'unlock',
-      'activate' => 'unlock',
-      'lock' => 'lock'
+      'unlock' => 'unlocked',
+      'activate' => 'unlocked',
+      'lock' => 'locked'
     }
     build_change_user_status_action(user) do |title, name|
       link_to title,

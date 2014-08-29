@@ -1,8 +1,7 @@
 #-- encoding: UTF-8
-#
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -159,7 +158,7 @@ module WorkPackage::PdfExporter
                          base_y + max_height + description_height,
                          0,
                          [table_width])
-        pdf.SetY(base_y + max_height + description_height);
+        pdf.SetY(base_y + max_height + description_height)
       else
         pdf.SetY(base_y + max_height);
       end
@@ -313,7 +312,7 @@ module WorkPackage::PdfExporter
       col_x = pdf.GetX
       pdf.RDMMultiCell(col_widths[i], row_height, col_values[i], "T", 'L', 1)
       max_height = (pdf.GetY - base_y) if (pdf.GetY - base_y) > max_height
-      pdf.SetXY(col_x + col_widths[i], base_y);
+      pdf.SetXY(col_x + col_widths[i], base_y)
     end
     return max_height
   end

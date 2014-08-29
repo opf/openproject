@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ attachments_004:
   filename: source.rb
   author_id: 2
   description: This is a Ruby source file
-  content_type: application/x-ruby
+  content_type: text/x-ruby
 attachments_005:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: WorkPackage
@@ -88,7 +88,7 @@ attachments_006:
   filesize: 157
   filename: archive.zip
   author_id: 2
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_007:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: WorkPackage
@@ -100,7 +100,7 @@ attachments_007:
   filesize: 157
   filename: archive.zip
   author_id: 1
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_010:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: WorkPackage

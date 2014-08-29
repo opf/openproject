@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-  <div class="title-bar-extras"<%= " style=\"display: none;\"" if !@query.new_record? %>>
+  <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
@@ -53,13 +53,13 @@ See doc/COPYRIGHT.rdoc for more details.
                      :method => :get,
                      :update => "content",
                      :with => "jQuery('#query_form').serialize()"
-                   }, :class => 'icon icon-checked' %>
+                   }, :class => 'icon icon-yes' %>
 
 <%= link_to_remote l(:button_clear),
                    { :url => { :project_id => @project, :set_filter => 1 },
                      :method => :get,
                      :update => "content",
-                   }, :class => 'icon icon-reload' %>
+                   }, :class => 'icon icon-undo' %>
 </p>
 <% end %>
 
@@ -68,9 +68,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
 
 <p class="legend cal">
-	<span class="starting"><%= l(:text_tip_work_package_begin_day) %></span>
-	<span class="ending"><%= l(:text_tip_work_package_end_day) %></span>
-	<span class="starting ending"><%= l(:text_tip_work_package_begin_end_day) %></span>
+  <span class="starting"><%= l(:text_tip_work_package_begin_day) %></span>
+  <span class="ending"><%= l(:text_tip_work_package_end_day) %></span>
+  <span class="starting ending"><%= l(:text_tip_work_package_begin_end_day) %></span>
 </p>
 <% end %>
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'sprockets/rails'
+
+module Sprockets
+  module Rails
+    # Workaround to ensure some asset helpers (like #image_path) use the
+    # correct asset prefix.
+    # Helps OpenProject::Themes::ViewHelpers# find theme assets.
+    # NOTE: repercussions of this hack are unknown.
+    module LegacyAssetUrlHelper
+      ASSET_PUBLIC_DIRECTORIES.replace({
+        :audio      => '/assets',
+        :font       => '/assets',
+        :image      => '/assets',
+        :javascript => '/assets',
+        :stylesheet => '/assets',
+        :video      => '/assets'
+      })
+    end
+  end
+end
+
 require 'active_record'
 
 module ActiveRecord
@@ -44,7 +65,7 @@ module ActiveRecord
         included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
         unless included_in_general_attributes or included_in_superclasses
           # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Catched: #{e.message}"
+          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
         end
         super(attr, options) # without raise
       end
@@ -165,53 +186,6 @@ module ActionView
       end
     end
 
-
-    module ActiveRecordHelper
-      def error_messages_for(*params)
-        options = params.extract_options!.symbolize_keys
-
-        if object = options.delete(:object)
-          objects = Array.wrap(object)
-        else
-          objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
-        end
-
-        count  = objects.inject(0) {|sum, object| sum + object.errors.count }
-        unless count.zero?
-          html = {}
-          [:id, :class].each do |key|
-            if options.include?(key)
-              value = options[key]
-              html[key] = value unless value.blank?
-            else
-              html[key] = 'errorExplanation'
-            end
-          end
-          options[:object_name] ||= params.first
-
-          I18n.with_options :locale => options[:locale], :scope => [:activerecord, :errors, :template] do |locale|
-            header_message = if options.include?(:header_message)
-              options[:header_message]
-            else
-              object_name = options[:object_name].to_s
-              object_name = I18n.t(object_name, :default => object_name.gsub('_', ' '), :scope => [:activerecord, :models], :count => 1)
-              locale.t :header, :count => count, :model => object_name
-            end
-            message = options.include?(:message) ? options[:message] : locale.t(:body)
-
-            contents = ''
-            contents << content_tag(options[:header_tag] || :h2, header_message) unless header_message.blank?
-            contents << content_tag(:p, message) unless message.blank?
-            contents << content_tag(:ul, error_message_list(objects))
-
-            content_tag(:div, contents.html_safe, html)
-          end
-        else
-          ''
-        end
-      end
-    end
-
     module DateHelper
       # distance_of_time_in_words breaks when difference is greater than 30 years
       def distance_of_date_in_words(from_date, to_date = 0, options = {})
@@ -280,11 +254,44 @@ module ActiveRecord
   end
 end
 
+# Patches to fix Hash subclasses not preserving the class on reject and select
+# on Ruby 2.1.1. Apparently this will be standard behavior in Ruby 2.2, so
+# check please verify things work as expected before removing this.
+#
+# Rails 3.2 won't receive a fix for this, but Rails 4.x has this fixed.
+# Once we're using Rails 4, we can probably remove this.
+#
+# See
+# * https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/
+# * https://github.com/rails/rails/issues/14188
+# * https://github.com/rails/rails/pull/14198/files
+module ActiveSupport
+  class HashWithIndifferentAccess
+    def select(*args, &block)
+      dup.tap { |hash| hash.select!(*args, &block) }
+    end
+
+    def reject(*args, &block)
+      dup.tap { |hash| hash.reject!(*args, &block) }
+    end
+  end
+
+  class OrderedHash
+    def select(*args, &block)
+      dup.tap { |hash| hash.select!(*args, &block) }
+    end
+
+    def reject(*args, &block)
+      dup.tap { |hash| hash.reject!(*args, &block) }
+    end
+  end
+end
+
 module CollectiveIdea
   module Acts
     module NestedSet
       module Model
-        # fixes IssueNestedSetTest#test_destroy_parent_issue_updated_during_children_destroy
+        # fixes IssueNestedSetTest#test_destroy_parent_work_package_updated_during_children_destroy
         def destroy_descendants_with_reload
           destroy_descendants_without_reload
           # Reload is needed because children may have updated their parent (self) during deletion.

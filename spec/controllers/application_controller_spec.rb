@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationController do
+describe ApplicationController, :type => :controller do
   let(:user) { FactoryGirl.create(:user, :lastname => "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
@@ -47,11 +47,11 @@ describe ApplicationController do
 
     describe 'with log_requesting_user enabled' do
       before do
-        Setting.stub(:log_requesting_user?).and_return(true)
+        allow(Setting).to receive(:log_requesting_user?).and_return(true)
       end
 
       it 'should log the current user' do
-        Rails.logger.should_receive(:info).once.with(user_message)
+        expect(Rails.logger).to receive(:info).once.with(user_message)
 
         as_logged_in_user(user) do
           get(:index)
@@ -59,7 +59,7 @@ describe ApplicationController do
       end
 
       it 'should log an anonymous user' do
-        Rails.logger.should_receive(:info).once.with(anonymous_message)
+        expect(Rails.logger).to receive(:info).once.with(anonymous_message)
 
         # no login, so this is done as Anonymous
         get(:index)
@@ -68,16 +68,69 @@ describe ApplicationController do
 
     describe 'with log_requesting_user disabled' do
       before do
-        Setting.stub(:log_requesting_user?).and_return(false)
+        allow(Setting).to receive(:log_requesting_user?).and_return(false)
       end
 
       it 'should not log the current user' do
-        Rails.logger.should_not_receive(:info).with(user_message)
+        expect(Rails.logger).not_to receive(:info).with(user_message)
 
         as_logged_in_user(user) do
           get(:index)
         end
       end
     end
+  end
+
+  describe 'unverified request' do
+    shared_examples 'handle_unverified_request resets session' do
+      it 'deletes the autologin cookie' do
+        cookies[OpenProject::Configuration['autologin_cookie_name']] = 'some value'
+        allow(@controller).to receive(:render_error)
+
+        @controller.send :handle_unverified_request
+
+        expect(cookies[OpenProject::Configuration['autologin_cookie_name']]).to be_nil
+      end
+
+      it 'logs out the user' do
+        @controller.send(:logged_user=, FactoryGirl.create(:user))
+        allow(@controller).to receive(:render_error)
+
+        @controller.send :handle_unverified_request
+
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
+      end
+    end
+
+    context 'for non-API resources' do
+      before do
+        allow(@controller).to receive(:api_request?).and_return(false)
+      end
+
+      it_behaves_like 'handle_unverified_request resets session'
+
+      it 'should give 422' do
+        expect(@controller).to receive(:render_error) do |options|
+          expect(options[:status]).to eql(422)
+        end
+
+        @controller.send :handle_unverified_request
+      end
+    end
+
+    context 'for API resources' do
+      before do
+        allow(@controller).to receive(:api_request?).and_return(true)
+      end
+
+      it_behaves_like 'handle_unverified_request resets session'
+
+      it 'should not render an error' do
+        expect(@controller).to_not receive(:render_error)
+
+        @controller.send :handle_unverified_request
+      end
+    end
+
   end
 end

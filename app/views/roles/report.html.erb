@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% @roles.each do |role| %>
     <th>
         <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-        <%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+        <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+                                                            :class => 'no-decoration-on-hover',
                                                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
     </th>
     <% end %>
@@ -50,16 +51,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <% perms_by_module.keys.sort.each do |mod| %>
     <% unless mod.blank? %>
         <tr class="group open">
-        	<td colspan="<%= @roles.size + 1 %>">
-        		<span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
-        		<%= l_or_humanize(mod, :prefix => 'project_module_') %>
-        	</td>
+          <td colspan="<%= @roles.size + 1 %>">
+            <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <%= l_or_humanize(mod, :prefix => 'project_module_') %>
+          </td>
         </tr>
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
         <td>
-            <%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+            <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+                                                                :class => 'no-decoration-on-hover',
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </td>

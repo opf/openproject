@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group do
+describe Group, :type => :model do
   include BecomeMember
 
   let(:group) { FactoryGirl.build(:group) }
@@ -55,7 +55,7 @@ describe Group do
 
         package.reload
 
-        package.assigned_to.should == DeletedUser.first
+        expect(package.assigned_to).to eq(DeletedUser.first)
       end
 
       it 'should update all journals to have the deleted user as assigned' do
@@ -63,7 +63,21 @@ describe Group do
 
         package.reload
 
-        package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }.should be_true
+        expect(package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_truthy
+      end
+    end
+  end
+
+  describe :create do
+    describe 'group with empty group name' do
+      let(:group) { FactoryGirl.build(:group, lastname: '') }
+
+      it { expect(group.valid?).to be_falsey }
+
+      describe 'error message' do
+        before { group.valid? }
+
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname')}
       end
     end
   end

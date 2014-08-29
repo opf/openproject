@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user' %>
-<% if Setting.users_deletable_by_admins? %>
-  <%= link_to l(:button_delete), { :controller => '/users', :action => 'deletion_info', :id => @user.id }, :class => 'icon icon-del' %>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user1' %>
+  <% if Setting.users_deletable_by_admins? %>
+    <%= link_to l(:button_delete), { :controller => '/users', :action => 'deletion_info', :id => @user.id }, :class => 'icon icon-delete' %>
+  <% end %>
 <% end %>
-</div>
 
-<h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%=h @user.login %></h2>
+<% html_title(l(:label_administration), "#{l(:label_edit)} #{User.model_name.human} #{h(@user.login)}") -%>
+
+<h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%= avatar(@user) %> <%=h @user.login %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= render_tabs user_settings_tabs %>
-
-<% html_title(User.model_name.human, h(@user.login), l(:label_administration)) -%>

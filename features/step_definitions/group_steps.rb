@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,6 +61,10 @@ When /^I add the user "(.+)" to the group$/ do |user_login|
     And I press "Add" within "#tab-content-users"
   }
 end
+
+Given /^We have the group "(.*?)"/ do |name|
+   group = FactoryGirl.create(:group, :lastname => name)
+ end
 
 Given /^there is a group named "(.*?)" with the following members:$/ do |name, table|
   group = FactoryGirl.create(:group, :lastname => name)

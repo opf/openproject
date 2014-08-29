@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -74,26 +74,26 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_types',
                       l("timelines.filter.types") %>
 
-      <% if User.current.impaired? %>
-        <%= select("timeline[options]",
-                 :planning_element_types,
-                 filter_select_with_none(
-                   timeline.available_planning_element_types,
-                   :name, :id),
-                 {:selected => timeline.selected_planning_element_types.map(&:id)},
-                 {:multiple => true,
-                  :size => 12}) %>
-      <% else %>
-        <%= select("timeline[options]", :planning_element_types,
-                   options_for_select([]),
-                   {},
-                   { :'data-ajaxURL' => api_v2_paginate_types_path,
-                     :multiple => true,
-                     :'data-selected' => filter_select(
-                                           timeline.selected_planning_element_types,
-                                           :name, :id).to_json
-                   }) %>
-      <% end %>
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                   :planning_element_types,
+                   filter_select_with_none(
+                     timeline.available_planning_element_types,
+                     :name, :id),
+                   {:selected => timeline.selected_planning_element_types.map(&:id)},
+                   {:multiple => true,
+                    :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]", :planning_element_types,
+                     options_for_select([]),
+                     {},
+                     { :'data-ajaxURL' => api_v2_paginate_types_path,
+                       :multiple => true,
+                       :'data-selected' => filter_select(
+                                             timeline.selected_planning_element_types,
+                                             :name, :id).to_json
+                     }) %>
+        <% end %>
       </p>
 
       <p class="tl-form-overflow">
@@ -121,6 +121,33 @@ See doc/COPYRIGHT.rdoc for more details.
                    } %>
         <% end %>
       </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_planning_element_assignee',
+                      l("timelines.filter.work_package_assignee") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :planning_element_assignee,
+                     filter_select_with_none(
+                       timeline.available_responsibles,
+                       :name, :id),
+                     {:selected => timeline.selected_planning_element_assignee.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select "timeline[options]", :planning_element_assignee,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_planning_element_assignee,
+                                           :name, :id).to_json
+                   } %>
+        <% end %>
+      </p>
+      <%= render :partial => "timelines/custom_fields", :locals => {:timeline => @timeline, :custom_fields => timeline.get_custom_fields}%>
     </div>
   </div>
 </fieldset>

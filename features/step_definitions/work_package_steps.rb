@@ -1,7 +1,7 @@
-# encoding: utf-8
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ Given(/^the user "([^\"]+)" has the following queries by type in the project "(.
 
   table.hashes.each_with_index do |t, i|
     types = Type.find_all_by_name(t['type_value']).map {|type| type.id.to_s}
-    p.queries.create(user_id: u.id, name: t['name'], filters:  {type_id: {operator: "=", values: types} })
+    p.queries.create(user_id: u.id, name: t['name'], filters: [Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: types)])
   end
 end
 
@@ -113,12 +113,12 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   table_attributes.each do |key, value|
-    label = find('th', :text => key)
-    should have_css("td.#{label[:class]}", :text => value)
+    label = find('td.work_package_attribute_header', :text => key)
+    should have_css("td.#{label[:class].split(' ').last}", :text => value)
   end
 
   if table.rows_hash["Type"] || table.rows_hash["Subject"]
-    expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}")
+    expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}", Regexp::IGNORECASE)
 
     should have_css("h2", :text => expected_header)
   end
@@ -126,4 +126,10 @@ Then /^the work package should be shown with the following values:$/ do |table|
   if table.rows_hash["Description"]
     should have_css(".description", :text => table.rows_hash["Description"])
   end
+end
+
+Then(/^the attribute "(.*?)" of work package "(.*?)" should be "(.*?)"$/) do |attribute, wp_name, value|
+  wp = WorkPackage.find_by_subject(wp_name)
+  wp ||= WorkPackages.where("subject like ?", wp_name).to_sql
+  wp.send(attribute).to_s.should == value
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ class WorkPackages::ReportsController < ApplicationController
     @type_report      = reports_service.report_for("type")
     @priority_report  = reports_service.report_for("priority")
     @assignee_report  = reports_service.report_for("assigned_to")
+    @responsible_report = reports_service.report_for("responsible")
     @author_report    = reports_service.report_for("author")
     @version_report   = reports_service.report_for("version")
     @subproject_report= reports_service.report_for("subproject")

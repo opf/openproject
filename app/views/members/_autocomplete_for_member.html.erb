@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -37,22 +37,22 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
     <% else %>
-      <p>
-        <%= "#{l(:label_user_plural)}/#{l(:label_group_plural)}" %>:
+      <fieldset>
+        <legend><%= "#{l(:label_user_plural)}/#{l(:label_group_plural)}" %></legend>
         <%= principals_check_box_tags 'member[user_ids][]', principals %>
-      </p>
+      </fieldset>
   </div>
 
   <div class="roles splitcontentright">
-    <p><%= l(:label_role_plural) %>:
+    <fieldset>
+      <legend><%= l(:label_role_plural) %></legend>
       <% roles.each do |role| %>
         <div>
           <label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
         </div>
       <% end %>
-    </p>
+    </fieldset>
   </div>
 </div>
   <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
 <% end %>
-

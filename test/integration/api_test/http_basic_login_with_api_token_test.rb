@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,24 +33,25 @@ class ApiTest::HttpBasicLoginWithApiTokenTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     Setting.rest_api_enabled = '1'
     Setting.login_required = '1'
   end
 
   def teardown
+    super
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end
 
-  # Using the NewsController because it's a simple API.
-  context "get /api/v1/news" do
+  context "get /api/v2/projects" do
 
     context "in :xml format" do
-      should_allow_http_basic_auth_with_key(:get, "/api/v1/news.xml")
+      should_allow_http_basic_auth_with_key(:get, "/api/v2/projects.xml")
     end
 
     context "in :json format" do
-      should_allow_http_basic_auth_with_key(:get, "/api/v1/news.json")
+      should_allow_http_basic_auth_with_key(:get, "/api/v2/projects.json")
     end
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title l(:label_administration), l(:label_plugins) %>
+
 <h2><%= l(:label_plugins) %></h2>
 
 <% if @plugins.any? %>
@@ -35,8 +37,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <tr class="<%= cycle('odd', 'even') %>">
         <td><span class="name"><%=h plugin.name %></span>
             <%= content_tag('span', h(plugin.description), :class => 'description') unless plugin.description.blank? %>
-						<%= content_tag('span', link_to(h(plugin.url), plugin.url), :class => 'url') unless plugin.url.blank? %>
-				</td>
+            <%= content_tag('span', link_to(h(plugin.url), plugin.url), :class => 'url') unless plugin.url.blank? %>
+        </td>
         <td class="author"><%= plugin.author_url.blank? ? h(plugin.author) : link_to(h(plugin.author), plugin.author_url) %></td>
         <td class="version"><%=h plugin.version %></td>
         <td class="configure"><%= link_to(l(:button_configure), :controller => '/settings', :action => 'plugin', :id => plugin.id) if plugin.configurable? %></td>

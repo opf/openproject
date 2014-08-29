@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,40 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Provides helper methods for a project's calendar view.
 module CalendarsHelper
-  def link_to_previous_month(year, month, options={})
-    target_year, target_month = if month == 1
-                                  [year - 1, 12]
-                                else
-                                  [year, month - 1]
-                                end
-
-    name = if target_month == 12
-             "#{month_name(target_month)} #{target_year}"
-           else
-             "#{month_name(target_month)}"
-           end
-
-    link_to_month(name, target_year, target_month, options.merge(:class => 'navigate-left'))
+  # Generates a html link to a calendar of the previous month.
+  # @param [Integer] year the current year
+  # @param [Integer] month the current month
+  # @param [Hash, nil] options html options passed to the link generation
+  # @return [String] link to the calendar
+  def link_to_previous_month(year, month, options = {})
+    target_date = Date.new(year, month, 1) - 1.month
+    link_to_month(target_date, options.merge(class: 'navigate-left',
+                                             display_year: target_date.year != year))
   end
 
-  def link_to_next_month(year, month, options={})
-    target_year, target_month = if month == 12
-                                  [year + 1, 1]
-                                else
-                                  [year, month + 1]
-                                end
-
-    name = if target_month == 1
-             "#{month_name(target_month)} #{target_year}"
-           else
-             "#{month_name(target_month)}"
-           end
-
-    link_to_month(name, target_year, target_month, options.merge(:class => 'navigate-right'))
+  # Generates a html link to a calendar of the next month.
+  # @param [Integer] year the current year
+  # @param [Integer] month the current month
+  # @param [Hash, nil] options html options passed to the link generation
+  # @return [String] link to the calendar
+  def link_to_next_month(year, month, options = {})
+    target_date = Date.new(year, month, 1) + 1.month
+    link_to_month(target_date, options.merge(class: 'navigate-right',
+                                             display_year: target_date.year != year))
   end
 
-  def link_to_month(link_name, year, month, options={})
-    link_to_content_update(link_name, params.merge(:year => year, :month => month), options)
+  # Generates a html-link which leads to a calendar displaying the given date.
+  # @param [Date, Time] date the date which should be displayed
+  # @param [Hash, nil] options html options passed to the link generation
+  # @options options [Boolean] :display_year Whether the year should be displayed
+  # @return [String] link to the calendar
+  def link_to_month(date_to_show, options = {})
+    date = date_to_show.to_date
+    name = ::I18n.l date, format: options.delete(:display_year) ? '%B %Y' : '%B'
+    link_to_content_update(name, params.merge(:year => date.year, :month => date.month), options)
   end
 end

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +36,8 @@ module Api
 
       before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
       before_filter :check_project_exists
+
+      accept_key_auth :index, :show
 
       def index
         @types = (@project.nil?) ? Type.all : @project.types

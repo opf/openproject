@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,39 +28,39 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(l(:label_my_page)) %>
-<div class="contextual">
-    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
-</div>
+<% content_for :action_menu_specific do %>
+    <%= link_to l(:label_personalize_page), action: 'page_layout', accesskey: accesskey(:edit) %>
+<% end %>
 
 <h2><%=l(:label_my_page)%></h2>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <div id="list-top">
-	<% @blocks['top'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b	%>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['top'] %>
+  <% @blocks['top'].each do |b|
+     next unless MyController.available_blocks.keys.include? b  %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['top'] %>
 </div>
 
 <div id="list-left" class="splitcontentleft">
-	<% @blocks['left'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['left'] %>
+  <% @blocks['left'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['left'] %>
 </div>
 
 <div id="list-right" class="splitcontentright">
-	<% @blocks['right'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['right'] %>
+  <% @blocks['right'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['right'] %>
 </div>
-
-<%= context_menu :controller => '/work_packages/context_menus', :action => 'issues' %>
 
 <% html_title(l(:label_my_page)) -%>

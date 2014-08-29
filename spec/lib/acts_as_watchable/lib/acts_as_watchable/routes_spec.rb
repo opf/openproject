@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "1" }
 
         it "should be true" do
-          OpenProject::Acts::Watchable::Routes.matches?(request).should be_true
+          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
         end
       end
 
@@ -51,7 +51,7 @@ describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "schmu" }
 
         it "should be false" do
-          OpenProject::Acts::Watchable::Routes.matches?(request).should be_false
+          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
         end
       end
     end
@@ -70,9 +70,8 @@ describe OpenProject::Acts::Watchable::Routes do
       let(:id) { "4" }
 
       it "should be false" do
-        OpenProject::Acts::Watchable::Routes.matches?(request).should be_false
+        expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
       end
     end
   end
 end
-

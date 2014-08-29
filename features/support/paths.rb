@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,6 +67,15 @@ module NavigationHelpers
       project = Project.find_by_name(project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
+
+    when /^the lost password page$/
+          '/account/lost_password'
+
+     when /^the groups administration page$/
+          '/admin/groups'
+
+    when /^the admin page of pending users$/
+         "/users?sort=created_on:desc&status=2"
 
     when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = Wiki.titleize($1)
@@ -342,6 +352,10 @@ module NavigationHelpers
       issue_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{issue_id}/time_entries"
 
+    when /^the time entry report page of issue "(.+)"$/
+      issue_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{issue_id}/time_entries/report"
+
     when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new?copy="
@@ -354,6 +368,10 @@ module NavigationHelpers
     when /^the move page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new"
+
+    when /^the message page of message "(.+)"$/
+      message = Message.find_by_subject($1)
+      topic_path(message)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

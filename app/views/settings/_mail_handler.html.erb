@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box tabular settings">
 <p><%= setting_check_box :mail_handler_api_enabled,
-				 :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%></p>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%></p>
 
 <p><%= setting_text_field :mail_handler_api_key, :size => 30,
-																								 :id => 'settings_mail_handler_api_key',
-																								 :disabled => !Setting.mail_handler_api_enabled? %>
+                                                 :id => 'settings_mail_handler_api_key',
+                                                 :disabled => !Setting.mail_handler_api_enabled? %>
   <%= link_to_function l(:label_generate_key), "if ($('settings_mail_handler_api_key').disabled == false) { $('settings_mail_handler_api_key').value = randomKey(20) }" %>
 </p>
 </div>

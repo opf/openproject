@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
 <div id="roadmap">
 <% @versions.each do |version| %>
-    <h3 class="version">
-      <%= image_tag "webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human %>
+    <h3 class="version icon-context icon-version">
       <%= link_to_version version, :name => h(version.name) %>
     </h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
@@ -69,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <br />
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
 <% if @project.descendants.active.any? %>
-	<%= hidden_field_tag 'with_subprojects', 0 %>
+  <%= hidden_field_tag 'with_subprojects', 0 %>
   <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
 <% end %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
@@ -83,5 +82,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title(l(:label_roadmap)) %>
-
-<%= context_menu work_packages_context_menu_path %>

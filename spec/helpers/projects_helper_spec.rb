@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsHelper do
+describe ProjectsHelper, :type => :helper do
   include ApplicationHelper
   include ProjectsHelper
 
@@ -47,39 +47,39 @@ describe ProjectsHelper do
     let(:version) { FactoryGirl.create :version, :project => test_project }
 
     it 'can be formatted' do
-      format_version_name(version).should == "#{test_project.name} - #{version.name}"
+      expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")
     end
 
     it 'can be formatted within a project' do
       @project = test_project
-      format_version_name(version).should == version.name
+      expect(format_version_name(version)).to eq(version.name)
     end
 
     it 'does not create a link, without permission' do
-      link_to_version(version).should == "#{test_project.name} - #{version.name}"
+      expect(link_to_version(version)).to eq("#{test_project.name} - #{version.name}")
     end
 
     describe 'with a valid user' do
       let(:user) { FactoryGirl.create :user, :member_in_project => test_project }
-      before { User.stub(:current).and_return(user)}
+      before { allow(User).to receive(:current).and_return(user)}
 
       it 'generates a link' do
-        link_to_version(version).should == "<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>"
+        expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>")
       end
 
       it 'generates a link within a project' do
         @project = test_project
-        link_to_version(version).should == "<a href=\"/versions/#{version.id}\">#{version.name}</a>"
+        expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{version.name}</a>")
       end
     end
 
     describe 'when generating options-tags' do
       it 'generates nothing without a version' do
-        version_options_for_select([]).should be_empty
+        expect(version_options_for_select([])).to be_empty
       end
 
       it 'generates an option tag' do
-        version_options_for_select([], version).should == "<option value=\"#{version.id}\" selected=\"selected\">#{version.name}</option>"
+        expect(version_options_for_select([], version)).to eq("<option value=\"#{version.id}\" selected=\"selected\">#{version.name}</option>")
       end
     end
   end
@@ -88,7 +88,7 @@ describe ProjectsHelper do
     let(:version) { FactoryGirl.create :version, :project => test_project, :sharing => 'system' }
 
     it 'can be formatted' do
-      format_version_name(version).should == "#{test_project.name} - #{version.name}"
+      expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")
     end
   end
 
@@ -96,7 +96,7 @@ describe ProjectsHelper do
     let(:version) { Object }
 
     it 'does not generate a link' do
-      link_to_version(Object).should be_empty
+      expect(link_to_version(Object)).to be_empty
     end
   end
 end

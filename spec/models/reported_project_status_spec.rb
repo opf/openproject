@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportedProjectStatus do
+describe ReportedProjectStatus, :type => :model do
   describe '- Relations ' do
     describe '#reportings' do
       it 'can read reportings w/ the help of the has_many association' do
@@ -38,8 +38,8 @@ describe ReportedProjectStatus do
 
         reported_project_status.reload
 
-        reported_project_status.reportings.size.should == 1
-        reported_project_status.reportings.first.should == reporting
+        expect(reported_project_status.reportings.size).to eq(1)
+        expect(reported_project_status.reportings.first).to eq(reporting)
       end
     end
   end

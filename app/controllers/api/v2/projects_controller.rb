@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +33,7 @@ module Api
 
       include ::Api::V2::ApiController
 
-      before_filter :find_project, :except => :index
+      before_filter :find_project, :except => [:index, :level_list]
       before_filter :authorize, :only => :show
       before_filter :require_permissions, :only => :planning_element_custom_fields
 
@@ -65,6 +66,14 @@ module Api
       end
 
       def show
+        respond_to do |format|
+          format.api
+        end
+      end
+
+      def level_list
+        @projects = Project.project_level_list(Project.visible)
+
         respond_to do |format|
           format.api
         end

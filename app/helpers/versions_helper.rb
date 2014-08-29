@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 #++
 
 module VersionsHelper
+  include WorkPackagesFilterHelper
 
   STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 
@@ -49,7 +50,7 @@ module VersionsHelper
     counts = h.keys.compact.sort.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
     max = counts.collect {|c| c[:total]}.max
 
-    render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
+    render :partial => 'work_package_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
   end
 
   def status_by_options_for_select(value)

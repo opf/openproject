@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,22 @@
 
 require 'spec_helper'
 
-describe Version do
+describe Version, :type => :model do
 
   subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
   it "rejects a due date that is smaller than the start date" do
     version.start_date = '2013-05-01'
     version.effective_date = '2012-01-01'
 
     expect(version).not_to be_valid
-    expect(version.errors).to have(1).error_on(:effective_date)
+    expect(version.errors_on(:effective_date).size).to eq(1)
+  end
+
+  context 'deprecated methods' do
+    it { is_expected.to respond_to :completed_pourcent }
+    it { is_expected.to respond_to :closed_pourcent    }
   end
 end

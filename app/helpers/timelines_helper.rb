@@ -1,7 +1,7 @@
-#encoding: utf-8
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module TimelinesHelper
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.planning_elements.without_deleted.find(:all, :order => "COALESCE(parent_id, id), parent_id")
+    available_parents = planning_element.project.planning_elements.find(:all, :order => "COALESCE(parent_id, id), parent_id")
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
@@ -85,10 +85,6 @@ module TimelinesHelper
     ProjectType.all.map { |t| [t.name, t.id] }
   end
 
-  def options_for_responsible(project)
-    project.users.map { |u| [u.name, u.id] }
-  end
-
   def visible_parent_project(project)
     parent = project.parent
 
@@ -99,6 +95,7 @@ module TimelinesHelper
     parent
   end
 
+  # TODO Refactoring
   def header_tags
     %Q{
       <style type='text/css'>
@@ -204,6 +201,9 @@ module TimelinesHelper
           display: inline-block;
           width: 10em;
         }
+        .timelines-color-properties-preview {
+          margin-left: -22px;
+        }
         .timelines-reporting-properties .timelines-value,
         .timelines-pet-properties .timelines-value,
         .timelines-pt-properties .timelines-value {
@@ -214,26 +214,6 @@ module TimelinesHelper
           margin-top: -2.6em;
         }
       </style>
-      <!--[if IE]>
-      <style type='text/css'>
-        .timelines-milestone {
-          filter: progid:DXImageTransform.Microsoft.Matrix(
-                     sizingMethod='auto expand',
-                              M11=0.7071067811865476,
-                              M12=-0.7071067811865475,
-                              M21=0.7071067811865475,
-                              M22=0.7071067811865476);
-
-          width: 11px;
-          height: 11px;
-          margin-bottom: 0px;
-          margin-right: 8px;
-        }
-        .timelines-phase {
-          margin-left: 2px;
-        }
-      </style>
-      <![endif]-->
 
       <script>
         jQuery(function () {
@@ -287,6 +267,19 @@ module TimelinesHelper
     collection
   end
 
+  def list_to_select_object_with_none(collection)
+    collection = collection.map do |t|
+      {
+        :name => t,
+        :id => t
+      }
+    end
+    collection.unshift({
+      :name => l("timelines.filter.noneElement"),
+      :id => -1
+    })
+  end
+
   def internationalized_columns_select_object(collection)
     collection.map do |t|
       {
@@ -300,5 +293,31 @@ module TimelinesHelper
     collection.map do |t|
       [l("timelines.filter.column." + t), t]
     end
+  end
+
+  # Push timeline data to view as JSON via gon
+
+  include Gon::GonHelpers
+
+  def visible_timeline_paths(visible_timelines=[])
+    @visible_timelines.inject({}) do |timeline_paths, timeline|
+      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+    end
+  end
+
+  def push_visible_timeline_paths(visible_timelines)
+    gon.timelines = visible_timeline_paths visible_timelines
+  end
+
+  def push_current_timeline_id(id)
+    gon.current_timeline_id = id
+  end
+
+  def push_timeline_options(timeline)
+    gon.timeline_options = timeline.options.reverse_merge(
+      timeline_id: timeline.id,
+      project_id: timeline.project.identifier,
+      url_prefix: OpenProject::Configuration.rails_relative_url_root || ''
+    )
   end
 end

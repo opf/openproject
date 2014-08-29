@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,51 +28,107 @@
 
 require 'spec_helper'
 
-describe Api::V2::UsersController do
-  let(:current_user) { FactoryGirl.create(:admin) }
+describe Api::V2::UsersController, :type => :controller do
 
-  before do
-    User.stub(:current).and_return current_user
+  shared_context "As an admin" do
+    let(:current_user) { FactoryGirl.create(:admin) }
+
+    before { allow(User).to receive(:current).and_return current_user }
+  end
+
+  shared_context "As a normal user" do
+    let(:current_user) { FactoryGirl.create(:user) }
+
+    before { allow(User).to receive(:current).and_return current_user }
+  end
+
+  shared_examples_for "valid user API call" do
+    it { expect(assigns(:users).size).to eq(user_count) }
+
+    it { expect(response).to render_template('api/v2/users/index', formats: ["api"]) }
   end
 
   describe 'index.json' do
-    describe 'with 3 visible users' do
+    describe 'scopes' do
+      shared_examples_for "no scope provided" do
+        it { expect(response.status).to eq(400) }
+      end
 
-      before do
-        3.times do
-          FactoryGirl.create(:user)
+      context "no scope" do
+        before { get 'index', format: :json }
+
+        it_behaves_like "no scope provided"
+      end
+
+      context "empty scope" do
+        before { get 'index', ids: "", format: :json }
+
+        it_behaves_like "no scope provided"
+      end
+
+      context "filled scope" do
+        before { get 'index', ids: "1", format: :json }
+
+        it_behaves_like "valid user API call" do
+          let(:user_count) { 0 }
         end
+      end
+    end
 
-        get 'index', :format => 'json'
+    describe 'with 3 users' do
+      let(:ids) { User.all.collect(&:id).join(',') }
+
+      before { 3.times { FactoryGirl.create(:user) } }
+
+      context 'as an admin' do
+        include_context "As an admin"
+
+        before { get 'index', ids: ids, format: :json }
+
+        it_behaves_like "valid user API call" do
+          let(:user_count) { 4 }
+        end
       end
 
-      it 'returns 3 users' do
-        assigns(:users).size.should eql 3+1 # the admin is also available, when all users are selected
-      end
+      context 'as a normal user' do
+        include_context "As a normal user"
 
-      it 'renders the index template' do
-        response.should render_template('api/v2/users/index', :formats => ["api"])
+        before { get 'index', ids: ids, :format => 'json' }
+
+        it_behaves_like "valid user API call" do
+          let(:user_count) { 4 }
+        end
+      end
+    end
+
+    describe 'within a project' do
+      include_context "As a normal user"
+
+      let(:project) { FactoryGirl.create :project }
+      let!(:member)  { FactoryGirl.create :user, member_in_project: project }
+
+      let!(:non_member) { FactoryGirl.create :user }
+
+      before { get 'index', project_id: project.to_param, format: :json }
+
+      it_behaves_like "valid user API call" do
+        let(:user_count) { 1 }
       end
     end
 
     describe 'search for ids' do
+      include_context "As an admin"
+
       let (:user_1) {FactoryGirl.create(:user)}
       let (:user_2) {FactoryGirl.create(:user)}
 
-      it 'returns the users for requested ids' do
-        get 'index', ids: "#{user_1.id},#{user_2.id}", :format => 'json'
+      before { get 'index', ids: "#{user_1.id},#{user_2.id}", :format => 'json' }
 
-        found_users = assigns(:users)
+      subject { assigns(:users) }
 
-        found_users.size.should eql 2
-        found_users.should include user_1,user_2
+      it { expect(subject.size).to eq(2) }
 
-
-      end
-
+      it { expect(subject).to include(user_1, user_2) }
     end
-
-
-
   end
 end

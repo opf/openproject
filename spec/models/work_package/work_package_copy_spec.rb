@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :copy do
     let(:user) { FactoryGirl.create(:user) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
@@ -48,7 +48,7 @@ describe WorkPackage do
     shared_examples_for "copied work package" do
       subject { copy.id }
 
-      it { should_not eq(work_package.id) }
+      it { is_expected.not_to eq(work_package.id) }
     end
 
     describe "to the same project" do
@@ -59,7 +59,7 @@ describe WorkPackage do
       context :project do
         subject { copy.project }
 
-        it { should eq(source_project) }
+        it { is_expected.to eq(source_project) }
       end
     end
 
@@ -74,13 +74,13 @@ describe WorkPackage do
       context :project do
         subject { copy.project_id }
 
-        it { should eq(target_project.id) }
+        it { is_expected.to eq(target_project.id) }
       end
 
       context :type do
         subject { copy.type_id }
 
-        it { should eq(target_type.id) }
+        it { is_expected.to eq(target_type.id) }
       end
 
       context :custom_fields do
@@ -88,7 +88,7 @@ describe WorkPackage do
 
         subject { copy.custom_value_for(custom_field.id) }
 
-        it { should be_nil }
+        it { is_expected.to be_nil }
       end
 
       describe :attributes do
@@ -111,7 +111,7 @@ describe WorkPackage do
 
           subject { copy.assigned_to_id }
 
-          it { should eq(target_user.id) }
+          it { is_expected.to eq(target_user.id) }
         end
 
         context :status do
@@ -122,7 +122,7 @@ describe WorkPackage do
 
           subject { copy.status_id }
 
-          it { should eq(target_status.id) }
+          it { is_expected.to eq(target_status.id) }
         end
 
         context :date do
@@ -135,7 +135,7 @@ describe WorkPackage do
 
             subject { copy.start_date }
 
-            it { should eq(target_date) }
+            it { is_expected.to eq(target_date) }
           end
 
           context :end do
@@ -145,7 +145,7 @@ describe WorkPackage do
 
             subject { copy.due_date }
 
-            it { should eq(target_date) }
+            it { is_expected.to eq(target_date) }
           end
         end
       end
@@ -163,7 +163,7 @@ describe WorkPackage do
 
         before do
           source_project_member
-          User.stub(:current).and_return user
+          allow(User).to receive(:current).and_return user
         end
 
         it_behaves_like "copied work package"
@@ -171,12 +171,12 @@ describe WorkPackage do
         context "pre-condition" do
           subject { work_package.recipients }
 
-          it { should include(work_package.author.mail) }
+          it { is_expected.to include(work_package.author.mail) }
         end
 
         subject { copy.recipients }
 
-        it { should_not include(copy.author.mail) }
+        it { is_expected.not_to include(copy.author.mail) }
       end
     end
   end
@@ -220,33 +220,33 @@ describe WorkPackage do
       context :subject do
         subject { sink.subject }
 
-        it { should eq(source.subject) }
+        it { is_expected.to eq(source.subject) }
       end
 
       context :type do
         subject { sink.type }
 
-        it { should eq(source.type) }
+        it { is_expected.to eq(source.type) }
       end
 
       context :status do
         subject { sink.status }
 
-        it { should eq(source.status) }
+        it { is_expected.to eq(source.status) }
       end
 
       context :project do
         subject { sink.project_id }
 
-        it { should eq(project_id) }
+        it { is_expected.to eq(project_id) }
       end
 
       context :watchers do
         subject { sink.watchers.map(&:user_id) }
 
         it do
-          should =~ source.watchers.map(&:user_id)
-          sink.watchers.each { |w| w.should be_valid }
+          is_expected.to match_array(source.watchers.map(&:user_id))
+          sink.watchers.each { |w| expect(w).to be_valid }
         end
       end
     end
@@ -257,7 +257,7 @@ describe WorkPackage do
       context :custom_field do
         subject { sink.custom_value_for(custom_field.id).value }
 
-        it { should eq('MySQL') }
+        it { is_expected.to eq('MySQL') }
       end
     end
 

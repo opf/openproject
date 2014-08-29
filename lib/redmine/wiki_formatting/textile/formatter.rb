@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,8 +99,8 @@ module Redmine
           text.gsub!(AUTO_LINK_RE) do
             all, leading, proto, url, post = $&, $1, $2, $3, $6
             if leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
-              # don't replace URL's that are already linked
-              # and URL's prefixed with ! !> !< != (textile images)
+              # don't replace URLs that are already linked
+              # and URLs prefixed with ! !> !< != (textile images)
               all
             else
               # Idea below : an URL with unbalanced parethesis and

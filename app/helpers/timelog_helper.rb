@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 
 module TimelogHelper
   include ApplicationHelper
+  include WorkPackage::CsvExporter
 
   def render_timelog_breadcrumb
     links = []
@@ -66,10 +67,10 @@ module TimelogHelper
   end
 
   def select_hours(data, criteria, value)
-  	if value.to_s.empty?
-  		data.select {|row| row[criteria].blank? }
+    if value.to_s.empty?
+      data.select {|row| row[criteria].blank? }
     else
-    	data.select {|row| row[criteria].to_s == value.to_s}
+      data.select {|row| row[criteria].to_s == value.to_s}
     end
   end
 
@@ -113,7 +114,7 @@ module TimelogHelper
       # Export custom fields
       headers += custom_fields.collect(&:name)
 
-      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+      csv << encode_csv_columns(headers)
       # csv lines
       entries.each do |entry|
         fields = [format_date(entry.spent_on),
@@ -128,7 +129,7 @@ module TimelogHelper
                   ]
         fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
 
-        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+        csv << encode_csv_columns(fields)
       end
     end
     export

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ReportsController do
+describe WorkPackages::ReportsController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -52,7 +52,7 @@ describe WorkPackages::ReportsController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
 
     work_package_1
     work_package_2
@@ -65,9 +65,9 @@ describe WorkPackages::ReportsController do
 
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('report') }
+      it { is_expected.to render_template('report') }
 
       it { assigns :work_packages_by_type }
 
@@ -76,6 +76,8 @@ describe WorkPackages::ReportsController do
       it { assigns :work_packages_by_category }
 
       it { assigns :work_packages_by_assigned_to }
+
+      it { assigns :work_packages_by_responsible }
 
       it { assigns :work_packages_by_author }
 
@@ -88,9 +90,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
-        it { should render_template('report_details') }
+        it { is_expected.to render_template('report_details') }
 
         it { assigns :field }
 
@@ -131,6 +133,12 @@ describe WorkPackages::ReportsController do
         it_behaves_like "details view"
       end
 
+      describe :responsible do
+        let(:detail) { 'responsible' }
+
+        it_behaves_like "details view"
+      end
+
       describe :author do
         let(:detail) { 'author' }
 
@@ -148,9 +156,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
 
-        it { should redirect_to(report_project_work_packages_path(project.identifier)) }
+        it { is_expected.to redirect_to(report_project_work_packages_path(project.identifier)) }
       end
     end
   end

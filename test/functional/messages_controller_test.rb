@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ class MessagesControllerTest < ActionController::TestCase
         message.children << m
       end
     end
-    get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id
+    get :show, board_id: 1, id: 1, per_page: 100, r: message.children.last(order: 'id').id
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)

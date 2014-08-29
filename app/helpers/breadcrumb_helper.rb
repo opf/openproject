@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +29,7 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    home_link_text_with_icon = content_tag(:span, '',:'data-icon' => "(")
-    home_link_text_with_icon += content_tag(:span, I18n.t(:label_home), :class => 'hidden-for-sighted')
-    breadcrumb_list(link_to(home_link_text_with_icon, home_path),
+    breadcrumb_list(link_to(icon_wrapper("icon2 icon-home2", I18n.t(:label_home)), home_path),
                     link_to_project_ancestors(@project),
                     *breadcrumb_paths)
   end
@@ -71,7 +70,7 @@ module BreadcrumbHelper
       ancestors << project
       ancestors.collect do |p|
         if p == project
-          link_to_project(p, {:jump => current_menu_item}, {:title => p, :class => 'breadcrumb-project-title nocut'}).html_safe
+          link_to_project(p, {:only_path => false}, {:title => p, :class => 'breadcrumb-project-title nocut'}).html_safe
         else
           link_to_project(p, {:jump => current_menu_item}, {:title => p}).html_safe
         end

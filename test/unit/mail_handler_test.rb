@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
   end
 
-  def test_add_issue
+  def test_add_work_package
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', :allow_override => 'fixed_version')
@@ -70,7 +70,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert mail.subject.include?('New ticket on a given project')
   end
 
-  def test_add_issue_with_default_type
+  def test_add_work_package_with_default_type
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', :issue => {:type => 'Support request'})
     assert issue.is_a?(WorkPackage)
@@ -79,7 +79,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Support request', issue.type.name
   end
 
-  def test_add_issue_with_status
+  def test_add_work_package_with_status
     # This email contains: 'Project: onlinestore' and 'Status: Resolved'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
@@ -89,7 +89,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Status.find_by_name("Resolved"), issue.status
   end
 
-  def test_add_issue_with_attributes_override
+  def test_add_work_package_with_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -115,7 +115,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_with_partial_attributes_override
+  def test_add_work_package_with_partial_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['type'])
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -129,7 +129,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  def test_add_issue_with_spaces_between_attribute_and_separator
+  def test_add_work_package_with_spaces_between_attribute_and_separator
     issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -144,7 +144,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
 
-  def test_add_issue_with_attachment_to_specific_project
+  def test_add_work_package_with_attachment_to_specific_project
     issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -160,7 +160,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 10790, issue.attachments.first.filesize
   end
 
-  def test_add_issue_with_custom_fields
+  def test_add_work_package_with_custom_fields
     issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -170,7 +170,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.description.match(/^searchable field:/i)
   end
 
-  def test_add_issue_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
+  def test_add_work_package_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
     user = User.generate!(:firstname => 'Foo', :lastname => 'Bar')
     User.add_to_project(user, Project.find(2), Role.generate!(:name => 'Superhero'))
     issue = submit_email('ticket_on_given_project.eml') do |email|
@@ -180,7 +180,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal user, issue.assigned_to
   end
 
-  def test_add_issue_with_cc
+  def test_add_work_package_with_cc
     issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -189,13 +189,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, issue.watcher_user_ids.size
   end
 
-  def test_add_issue_by_unknown_user
+  def test_add_work_package_by_unknown_user
     assert_no_difference 'User.count' do
       assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'})
     end
   end
 
-  def test_add_issue_by_anonymous_user
+  def test_add_work_package_by_anonymous_user
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
@@ -204,7 +204,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_by_anonymous_user_with_no_from_address
+  def test_add_work_package_by_anonymous_user_with_no_from_address
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       issue = submit_email('ticket_by_empty_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
@@ -213,7 +213,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_by_anonymous_user_on_private_project
+  def test_add_work_package_by_anonymous_user_on_private_project
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert_no_difference 'WorkPackage.count' do
@@ -222,7 +222,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
+  def test_add_work_package_by_anonymous_user_on_private_project_without_permission_check
     assert_no_difference 'User.count' do
       assert_difference 'WorkPackage.count' do
         issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :no_permission_check => '1', :unknown_user => 'accept')
@@ -235,12 +235,12 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_without_from_header
+  def test_add_work_package_without_from_header
     Role.anonymous.add_permission!(:add_work_packages)
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
-  def test_add_issue_with_invalid_attributes
+  def test_add_work_package_with_invalid_attributes
     issue = submit_email('ticket_with_invalid_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -253,7 +253,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  def test_add_issue_with_localized_attributes
+  def test_add_work_package_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
     issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(WorkPackage)
@@ -268,7 +268,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  def test_add_issue_with_japanese_keywords
+  def test_add_work_package_with_japanese_keywords
     type = Type.create!(:name => '開発')
     Project.find(1).types << type
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'type')
@@ -292,7 +292,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
-  def test_add_issue_with_iso_8859_1_subject
+  def test_add_work_package_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
@@ -304,7 +304,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_emails_from_locked_users
     User.find(2).lock!
 
-    MailHandler.any_instance.expects(:dispatch).never
+    MailHandler.any_instance.should_receive(:dispatch).never
     assert_no_difference 'WorkPackage.count' do
       assert_equal false, submit_email('ticket_on_given_project.eml')
     end
@@ -318,7 +318,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_ignore_auto_replied_emails
-    MailHandler.any_instance.expects(:dispatch).never
+    MailHandler.any_instance.should_receive(:dispatch).never
     [
       "X-Auto-Response-Suppress: OOF",
       "Auto-Submitted: auto-replied",
@@ -334,8 +334,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_should_send_email_notification
-    Setting.notified_events = ['issue_added']
+  def test_add_work_package_should_send_email_notification
+    Setting.notified_events = ['work_package_added']
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
@@ -343,7 +343,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_add_issue_note
+  def test_add_work_package_note
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal User.find_by_login('jsmith'), journal.user
@@ -366,7 +366,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.journable.type.name
   end
 
-  def test_add_issue_note_with_attribute_changes
+  def test_add_work_package_note_with_attribute_changes
     WorkPackage.find(2).recreate_initial_journal!
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
@@ -386,7 +386,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !journal.notes.match(/^Start Date:/i)
   end
 
-  def test_add_issue_note_should_send_email_notification
+  def test_add_work_package_note_should_send_email_notification
     WorkPackage.find(2).recreate_initial_journal!
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
@@ -394,7 +394,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 3, ActionMailer::Base.deliveries.size
   end
 
-  def test_add_issue_note_should_not_set_defaults
+  def test_add_work_package_note_should_not_set_defaults
     journal = submit_email('ticket_reply.eml', :issue => {:type => 'Support request', :priority => 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,20 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController do
+describe WorkPackages::BulkController, :type => :routing do
 
   it "should connect GET /work_packages/bulk/edit to work_package_bulk/edit" do
-    get("/work_packages/bulk/edit").should route_to(controller: 'work_packages/bulk',
+    expect(get("/work_packages/bulk/edit")).to route_to(controller: 'work_packages/bulk',
                                                     action: 'edit')
   end
 
   it "should connect PUT /work_packages/bulk/update to work_package_bulk#update" do
-    put("/work_packages/bulk").should route_to(controller: 'work_packages/bulk',
+    expect(put("/work_packages/bulk")).to route_to(controller: 'work_packages/bulk',
                                                action: 'update')
   end
 
   it "should connect DELETE /work_packages/bulk to work_package_bulk#destroy" do
-    delete("/work_packages/bulk").should route_to(controller: 'work_packages/bulk',
+    expect(delete("/work_packages/bulk")).to route_to(controller: 'work_packages/bulk',
                                                   action: 'destroy')
   end
 end

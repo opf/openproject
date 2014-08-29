@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <% @newss.each do |news| %>
-    <h3><%= avatar(news.author, :size => "24") %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
+    <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
     <%= link_to h(news.title), news_path(news) %>
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">
-      <%= textilizable(news.summary.present? ? news.summary : truncate(news.description)) %>
+      <%= format_text(news.summary.present? ? news.summary : truncate(news.description), :object => news) %>
     </div>
 <% end %>
 <% end %>

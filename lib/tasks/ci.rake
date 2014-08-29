@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc "Run the Continous Integration tests for Redmine"
+desc "Run the Continuous Integration tests for OpenProject"
 task :ci do
   # RAILS_ENV and ENV[] can diverge so force them both to test
   ENV['RAILS_ENV'] = 'test'
@@ -74,15 +74,30 @@ namespace :ci do
 
       # Create and migrate the database
       Rake::Task["db:create"].invoke
+
+      # db:create invokes db:load_config. db:load_config collects migration paths, but the
+      # migration paths for plugins are set on the Engine config when the application
+      # is initialized, which the environment task does. The environment task is only later
+      # executed as dependency for db:migrate. db:migrate also depends on load_config, but since
+      # it has been executed before, rake doesn't execute it a second time.
+      # Loading the environment bevore explicitly executing db:load_config (not only invoking it)
+      # makes rake execute it a second time after the environment has been loaded.
+      # Loading the environment before db:create does not work, since initializing the application
+      # depends on an existing databse.
+      Rake::Task["environment"].invoke
+      Rake::Task["db:load_config"].execute
+
       Rake::Task["db:migrate"].invoke
       Rake::Task["db:schema:dump"].invoke
+
+      Rake::Task["bower:install"].invoke('-F')
 
       # Create test repositories
       Rake::Task["test:scm:setup:all"].invoke
     end
   end
 
-  desc "Setup Redmine for a new build."
+  desc "Setup OpenProject for a new build."
   task :setup do
     Rake::Task["ci:dump_environment"].invoke
     Rake::Task["db:drop"].invoke
@@ -92,7 +107,7 @@ namespace :ci do
     Rake::Task["test:scm:update"].invoke
   end
 
-  desc "Build Redmine"
+  desc "Build OpenProject"
   task :build do
     Rake::Task["test"].invoke
   end
@@ -112,4 +127,3 @@ namespace :ci do
 
   end
 end
-

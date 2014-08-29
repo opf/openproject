@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,7 @@ module Redmine
                               :description => :description,
                               :author => :author,
                               :url => {:controller => '/welcome'},
+                              :name => Proc.new { ::I18n.t(self.name.underscore, scope: 'events') },
                               :type => self.name.underscore.dasherize }
 
           cattr_accessor :event_options
@@ -54,7 +55,7 @@ module Redmine
           base.extend ClassMethods
         end
 
-        %w(datetime title description author type).each do |attr|
+        %w(datetime title description author name type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
               option = event_options[:#{attr}]

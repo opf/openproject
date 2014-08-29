@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,14 +38,14 @@ module RedmineDiff
       afinish = a.length-1
       bfinish = b.length-1
       mvector = []
-      
+
       # First we prune off any common elements at the beginning
       while (astart <= afinish && bstart <= afinish && a[astart] == b[bstart])
         mvector[astart] = bstart
         astart += 1
         bstart += 1
       end
-      
+
       # now the end
       while (astart <= afinish && bstart <= bfinish && a[afinish] == b[bfinish])
         mvector[afinish] = bfinish
@@ -56,7 +56,7 @@ module RedmineDiff
       bmatches = b.reverse_hash(bstart..bfinish)
       thresh = []
       links = []
-      
+
       (astart..afinish).each { |aindex|
         aelem = a[aindex]
         next unless bmatches.has_key? aelem
@@ -147,7 +147,7 @@ module RedmineDiff
         @difftype = diffs_or_a.class
       end
     end
-    
+
     def match(ai, bi)
       @diffs.push @curdiffs unless @curdiffs.empty?
       @curdiffs = []

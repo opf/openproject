@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -141,16 +141,18 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_activities
       c = Changeset.create(:repository => @repository, :committed_on => Time.now,
-                        :revision => '1', :comments => 'test')
-      assert c.event_title.include?('1:')
-      assert_equal '1', c.event_url[:rev]
+                           :revision => '1', :comments => 'test')
+      event = find_events(User.find(2)).first # manager
+      assert event.event_title.include?('1:')
+      assert event.event_path =~ /\?rev=1$/
     end
 
     def test_activities_nine_digit
       c = Changeset.create(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
-      assert c.event_title.include?('123456789:')
-      assert_equal '123456789', c.event_url[:rev]
+      event = find_events(User.find(2)).first # manager
+      assert event.event_title.include?('123456789:')
+      assert event.event_path =~ /\?rev=123456789$/
     end
 
     def test_log_encoding_ignore_setting
@@ -201,5 +203,13 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
+  end
+
+  private
+
+  def find_events(user, options={})
+    fetcher = Redmine::Activity::Fetcher.new(user, options)
+    fetcher.scope = ['changesets']
+    fetcher.events(Date.today - 30, Date.today + 1)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,26 +28,26 @@
 
 require 'spec_helper'
 
-describe UserPassword do
+describe UserPassword, :type => :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }
   let(:password) { FactoryGirl.create(:user_password) }
 
   describe :expired? do
     it 'should be true for an old password when password expiry is activated' do
       with_settings :password_days_valid => 30 do
-        old_password.expired?.should be_true
+        expect(old_password.expired?).to be_truthy
       end
     end
 
     it 'should be false when password expiry is enabled and the password was changed recently' do
       with_settings :password_days_valid => 30 do
-        password.expired?.should be_false
+        expect(password.expired?).to be_falsey
       end
     end
 
     it 'should be false for an old password when password expiry is disabled' do
       with_settings :password_days_valid => 0 do
-        old_password.expired?.should be_false
+        expect(old_password.expired?).to be_falsey
       end
     end
   end

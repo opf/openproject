@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,26 +30,31 @@
 require "digest/md5"
 
 class Attachment < ActiveRecord::Base
+  ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ]
+
   belongs_to :container, :polymorphic => true
 
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
   attr_protected :author_id
 
-  validates_presence_of :container, :filename, :author
+  validates_presence_of :container, :filename, :author, :content_type
   validates_length_of :filename, :maximum => 255
+  validates_length_of :description, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
   validate :filesize_below_allowed_maximum
 
+  after_initialize :set_default_content_type
+
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
-  acts_as_journalized :event_title => :filename,
-       :event_url => (Proc.new do |o|
-         { :controller => '/attachments', :action => 'download',
-           :id => o.journable_id, :filename => o.filename }
-       end), :acts_as_activity => false
+  acts_as_journalized
+  acts_as_event title: :filename,
+                url: (Proc.new do |o|
+                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                      end)
 
   cattr_accessor :storage_path
   @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
@@ -65,17 +70,11 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        # Incomming_file might be a String if you parse an incomming mail having an attachment
+        # Incoming_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
           self.filename.force_encoding("UTF-8") if filename.respond_to?(:force_encoding)
-        end
-        if @temp_file.respond_to?(:content_type)
-          self.content_type = @temp_file.content_type.to_s.chomp
-        end
-        if content_type.blank? && filename.present?
-          self.content_type = Redmine::MimeType.of(filename)
         end
         self.filesize = @temp_file.size
       end
@@ -101,7 +100,7 @@ class Attachment < ActiveRecord::Base
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
-        # @temp_file might be a String if you parse an incomming mail having an attachment
+        # @temp_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.is_a? String
           f.write(@temp_file)
@@ -115,10 +114,7 @@ class Attachment < ActiveRecord::Base
         end
       end
       self.digest = md5.hexdigest
-    end
-    # Don't save the content type if it's longer than the authorized length
-    if self.content_type && self.content_type.length > 255
-      self.content_type = nil
+      self.content_type = self.class.content_type_for(diskfile)
     end
   end
 
@@ -141,6 +137,10 @@ class Attachment < ActiveRecord::Base
     container.respond_to?(:project)? container.project : nil
   end
 
+  def content_disposition
+    inlineable? ? 'inline' : 'attachment'
+  end
+
   def visible?(user=User.current)
     container.attachments_visible?(user)
   end
@@ -149,21 +149,37 @@ class Attachment < ActiveRecord::Base
     container.attachments_deletable?(user)
   end
 
-  def image?
-    self.filename =~ /\.(jpe?g|gif|png)\z/i
+  # images are sent inline
+  def inlineable?
+    is_image?
+  end
+
+  def is_image?
+    ALLOWED_IMAGE_TYPES.include?(content_type)
+  end
+
+  # backwards compatibility for plugins
+  alias :image? :is_image?
+
+  def is_pdf?
+    content_type == 'application/pdf'
   end
 
   def is_text?
-    Redmine::MimeType.is_type?('text', filename)
+    content_type =~ /\Atext\/.+/
   end
 
   def is_diff?
-    self.filename =~ /\.(patch|diff)\z/i
+    is_text? && self.filename =~ /\.(patch|diff)\z/i
   end
 
   # Returns true if the file is readable
   def readable?
     File.readable?(diskfile)
+  end
+
+  def set_default_content_type
+    self.content_type = OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT if content_type.blank?
   end
 
   # Bulk attaches a set of files to an object
@@ -191,6 +207,10 @@ class Attachment < ActiveRecord::Base
       end
     end
     {:files => attached, :unsaved => obj.unsaved_attachments}
+  end
+
+  def self.content_type_for(file_path)
+    Redmine::MimeType.narrow_type(file_path, OpenProject::ContentTypeDetector.new(file_path).detect)
   end
 
 private

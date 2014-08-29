@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="search">
   <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
 
-  <%= form_tag(search_index_path(:project_id => @project), :method => :get) do %>
-
-    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+  <%= form_tag(search_path(@project), method: :get) do %>
+    <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
 
     <div id='search_wrap'>
 
       <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+      <span id="magnifier"></span>
 
     </div>
 

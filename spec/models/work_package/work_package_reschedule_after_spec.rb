@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.
-describe WorkPackage, "#reschedule_after" do
+describe WorkPackage, "#reschedule_after", :type => :model do
   let(:project) { FactoryGirl.build(:project_with_types) }
   let(:work_package) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
   let(:work_package2) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
@@ -62,11 +62,11 @@ describe WorkPackage, "#reschedule_after" do
         end
 
         it "should set the start_date to the provided date" do
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date plus the duration" do
-          instance.due_date.should == Date.today + 10.days
+          expect(instance.due_date).to eq(Date.today + 10.days)
         end
       end
 
@@ -79,11 +79,11 @@ describe WorkPackage, "#reschedule_after" do
         end
 
         it "should set the start_date to the provided date" do
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date plus the duration" do
-          instance.due_date.should == Date.today + 3.days
+          expect(instance.due_date).to eq(Date.today + 3.days)
         end
       end
 
@@ -96,11 +96,11 @@ describe WorkPackage, "#reschedule_after" do
         end
 
         it "should set the start_date to the provided date" do
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date plus the duration" do
-          instance.due_date.should == Date.today + 3.days
+          expect(instance.due_date).to eq(Date.today + 3.days)
         end
       end
 
@@ -116,22 +116,22 @@ describe WorkPackage, "#reschedule_after" do
 
         it "should set the start_date to the provided date" do
           instance.reload
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date to the provided date plus the child's duration" do
           instance.reload
-          instance.due_date.should == Date.today + 10.days
+          expect(instance.due_date).to eq(Date.today + 10.days)
         end
 
         it "should set the child's start date to the provided date" do
           child.reload
-          child.start_date.should == Date.today + 3.days
+          expect(child.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set child's due date to the provided date plus the child's duration" do
           child.reload
-          child.due_date.should == Date.today + 10.days
+          expect(child.due_date).to eq(Date.today + 10.days)
         end
       end
 
@@ -152,22 +152,22 @@ describe WorkPackage, "#reschedule_after" do
 
         it "should set the start_date to the provided date" do
           instance.reload
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date to the provided date plus the child's duration" do
           instance.reload
-          instance.due_date.should == Date.today + 9.days
+          expect(instance.due_date).to eq(Date.today + 9.days)
         end
 
         it "should set the child's start date to the provided date" do
           child.reload
-          child.start_date.should == Date.today + 3.days
+          expect(child.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set child's due date to the provided date plus the child's duration" do
           child.reload
-          child.due_date.should == Date.today + 9.days
+          expect(child.due_date).to eq(Date.today + 9.days)
         end
       end
 
@@ -186,32 +186,32 @@ describe WorkPackage, "#reschedule_after" do
 
         it "should set the start_date to the provided date" do
           instance.reload
-          instance.start_date.should == Date.today + 3.days
+          expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set the due date to the provided date plus the child's duration" do
           instance.reload
-          instance.due_date.should == Date.today + 10.days
+          expect(instance.due_date).to eq(Date.today + 10.days)
         end
 
         it "should set the child's start date to the provided date" do
           child.reload
-          child.start_date.should == Date.today + 3.days
+          expect(child.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set child's due date to the provided date plus the grandchild's duration" do
           child.reload
-          child.due_date.should == Date.today + 10.days
+          expect(child.due_date).to eq(Date.today + 10.days)
         end
 
         it "should set the grandchild's start date to the provided date" do
           grandchild.reload
-          grandchild.start_date.should == Date.today + 3.days
+          expect(grandchild.start_date).to eq(Date.today + 3.days)
         end
 
         it "should set the set grandchild's due date to the provided date plus the grandchild's duration" do
           grandchild.reload
-          grandchild.due_date.should == Date.today + 10.days
+          expect(grandchild.due_date).to eq(Date.today + 10.days)
         end
       end
     end

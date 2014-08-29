@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,7 +104,7 @@ module Redmine::Acts::Journalized
 
         initial_changes = {}
 
-        self.attributes.keys.reject{|attribute| self.class.vestal_journals_options[:except].include?(attribute)}.each do |name|
+        JournalManager.journal_class(self.class).journaled_attributes.each do |name|
 
           # Set the current attributes as initial attributes
           # This works as a fallback if no prior change is found

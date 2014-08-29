@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +38,8 @@ begin
 rescue Redmine::DefaultData::DataAlreadyLoaded
   puts "Redmine Default-Data already loaded"
 end
+
+user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
 # Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
 puts "Creating seeded project..."
@@ -103,11 +106,11 @@ repository = Repository::Filesystem.create! project: project,
 
 
 print "Creating objects for..."
-30.times do |count|
+user_count.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
 
   puts
-  print "...for user number #{count} (#{login})"
+  print "...for user number #{count + 1}/#{user_count} (#{login})"
 
   user = User.find_by_login(login)
 

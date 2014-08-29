@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,20 +33,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= f.hidden_field :lock_version %>
 <%= error_messages_for 'content' %>
 
-<p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                   :value => textilizable(@content, :text, :attachments => @content.page.attachments, :edit => true) %></p>
+<p>
+  <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+                  :value => format_text(@content, :text, :attachments => @content.page.attachments, :edit => true),
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                  :'ng-non-bindable' => '' %>
+</p>
 <p><label><%= Version.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
 <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
-
 <p><%= submit_tag l(:button_save) %>
-   <%= link_to_remote l(:label_preview),
-                       { :url => { :controller => '/wiki', :action => 'preview', :project_id => @project, :id => @page },
-                         :method => :post,
-                         :update => 'preview',
-                         :before => 'var form_data = Form.serialize("wiki_form", true); form_data._method="post";',
-                         :with => "$H(form_data).toQueryString()",
-                         :complete => "Element.scrollTo('preview')"
-                       }, :accesskey => accesskey(:preview) %></p>
+  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form' %>
+</p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 

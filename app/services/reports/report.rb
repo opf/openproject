@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ class Reports::Report
   end
 
   def statuses
-    @statuses ||= Status.order('position')
+    @statuses ||= Status.all
   end
 
   # ---- every report needs to implement these methods to supply all needed data for a report -----
@@ -63,11 +63,3 @@ class Reports::Report
   end
 
 end
-
-
-
-
-
-
-
-

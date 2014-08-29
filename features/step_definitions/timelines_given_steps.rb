@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +36,7 @@ Given /^the [pP]roject "([^\"]*)" has the parent "([^\"]*)"$/ do |child_name, pa
 end
 
 Given /^there are the following colors:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:color, type_attributes)
@@ -48,7 +49,7 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
 end
 
 Given /^there are the following reported project statuses:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:reported_project_status, type_attributes)
@@ -56,7 +57,7 @@ Given /^there are the following reported project statuses:$/ do |table|
 end
 
 Given /^there are the following project types:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_type, type_attributes)
@@ -70,7 +71,7 @@ Given /^there are the following projects of type "([^"]*)":$/ do |project_type_n
 end
 
 Given /^there are the following project associations:$/ do |table|
-  table.map_headers! { |h| h.delete(' ').underscore }
+  table = table.map_headers { |h| h.delete(' ').underscore }
 
   table.map_column!('project_a') { |name| Project.find_by_name!(name) }
   table.map_column!('project_b') { |name| Project.find_by_name!(name) }
@@ -81,7 +82,7 @@ Given /^there are the following project associations:$/ do |table|
 end
 
 Given /^there are the following reportings:$/ do |table|
-  table.map_headers! { |h| h.delete(' ').underscore }
+  table = table.map_headers { |h| h.delete(' ').underscore }
 
   table.hashes.each do |attrs|
     attrs['project'] = Project.find_by_name!(attrs["project"])
@@ -117,7 +118,7 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
 end
 
 def create_work_packages_from_table table, project
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     [ ["author", User],
@@ -140,6 +141,10 @@ def create_work_packages_from_table table, project
     # if the cast is ommitted, the contents of type_attributes is interpreted as an int
     unless type_attributes.has_key? :type
       type_attributes[:type] = Type.where(name: type_attributes[:type].to_s).first
+    end
+
+    if type_attributes.has_key? "author"
+      User.current = type_attributes['author']
     end
 
     FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))

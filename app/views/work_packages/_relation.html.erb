@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -47,9 +47,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= format_date(relation.other_work_package(work_package).due_date) %>
   </td>
   <td>
-    <%= link_to(image_tag('webalys/delete.png'), work_package_relation_path(work_package, relation),
+    <%= link_to(icon_wrapper('icon-context icon-delete',l(:label_relation_delete)), work_package_relation_path(work_package, relation),
                                          :method => :delete,
                                          :remote => true,
+                                         :class => 'no-decoration-on-hover',
                                          :title => l(:label_relation_delete),
                                          :alt   => l(:label_relation_delete)) if authorize_for('work_package_relations', 'destroy') %>
   </td>

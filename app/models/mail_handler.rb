@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -412,7 +412,7 @@ class MailHandler < ActionMailer::Base
 
   def find_assignee_from_keyword(keyword, issue)
     keyword = keyword.to_s.downcase
-    assignable = issue.assignable_users
+    assignable = issue.assignable_assignees
     assignee = nil
     assignee ||= assignable.detect {|a|
                     a.mail.to_s.downcase == keyword ||

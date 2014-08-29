@@ -1,17 +1,34 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
-describe WorkPackages::CalendarsController do
+describe WorkPackages::CalendarsController, :type => :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
                                   permissions: [:view_calendar]) }
@@ -21,20 +38,20 @@ describe WorkPackages::CalendarsController do
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project) }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe :index do
     shared_examples_for "calendar#index" do
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('calendar') }
+      it { is_expected.to render_template('calendar') }
 
       context :assigns do
         subject { assigns(:calendar) }
 
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
     end
 
@@ -67,7 +84,7 @@ describe WorkPackages::CalendarsController do
     describe "start of week" do
       context "Sunday" do
         before do
-          Setting.stub(:start_of_week).and_return(7)
+          allow(Setting).to receive(:start_of_week).and_return(7)
 
           get :index, month: '1', year: '2010'
         end
@@ -95,7 +112,7 @@ describe WorkPackages::CalendarsController do
 
       context "Monday" do
         before do
-          Setting.stub(:start_of_week).and_return(1)
+          allow(Setting).to receive(:start_of_week).and_return(1)
 
           get :index, month: '1', year: '2010'
         end

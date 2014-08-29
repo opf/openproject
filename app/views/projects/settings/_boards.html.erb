@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @project.boards.any? %>
 <table class="list">
-	<thead><tr>
-		<th><%= Board.model_name.human %></th>
-		<th><%= Board.human_attribute_name(:description) %></th>
-		<th></th>
-		<th></th>
-	</tr></thead>
-	<tbody>
+  <thead><tr>
+    <th><%= Board.model_name.human %></th>
+    <th><%= Board.human_attribute_name(:description) %></th>
+    <th></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
 <% @project.boards.each do |board|
-	next if board.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
+  next if board.new_record? %>
+  <tr class="<%= cycle 'odd', 'even' %>">
     <td><%=h board.name %></td>
     <td><%=h board.description %></td>
     <td class="small-icons" align="center">
@@ -48,11 +48,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </td>
     <td class="buttons">
       <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-      <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+      <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
     </td>
-	</tr>
+  </tr>
 <% end %>
-	</tbody>
+  </tbody>
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>

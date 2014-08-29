@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,8 @@ Feature: Attachments on work packages
       | edit_work_packages |
     And there is 1 user with the following:
       | login | bob|
+    And the user "bob" has the following preferences
+      | warn_on_leaving_unsaved | 0 |
     And the user "bob" is a "member" in the project "parent"
     And there are the following issue status:
       | name        | is_closed | is_default |

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementsController do
+describe Api::V2::PlanningElementsController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -95,8 +95,20 @@ describe Api::V2::PlanningElementsController do
     end
   end
 
+  def work_packages_to_structs(work_packages)
+    work_packages.map do |model|
+      Struct::WorkPackage.new.tap do |s|
+        model.attributes.each do |attribute, value|
+          s.send(:"#{attribute}=", value)
+        end
+        s.child_ids = []
+        s.custom_values = []
+      end
+    end
+  end
+
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
 
     FactoryGirl.create :priority, is_default: true
     FactoryGirl.create :default_status
@@ -113,7 +125,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders an empty list' do
           get 'index', :ids => '4711', :format => 'xml'
 
-          assigns(:planning_elements).should == []
+          expect(assigns(:planning_elements)).to eq([])
         end
       end
 
@@ -127,7 +139,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders an empty list' do
             get 'index', :ids => work_package.id.to_s, :format => 'xml'
 
-            assigns(:planning_elements).should == []
+            expect(assigns(:planning_elements)).to eq([])
           end
         end
 
@@ -140,11 +152,11 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              assigns(:planning_elements).should == []
+              expect(assigns(:planning_elements)).to eq([])
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
 
@@ -159,11 +171,11 @@ describe Api::V2::PlanningElementsController do
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              assigns(:planning_elements).should =~ @created_planning_elements
+              expect(assigns(:planning_elements)).to match_array(@created_planning_elements)
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
         end
@@ -194,7 +206,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders only existing work packages' do
             get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(","), :format => 'xml'
 
-            assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
+            expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
         end
 
@@ -205,13 +217,13 @@ describe Api::V2::PlanningElementsController do
           it 'renders only accessable work packages' do
             get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id].join(","), :format => 'xml'
 
-            assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
+            expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
 
           it 'renders only accessable work packages' do
             get 'index', :ids => [@project_c_wps[0].id, @project_c_wps[1].id].join(","), :format => 'xml'
 
-            assigns(:planning_elements).should =~ []
+            expect(assigns(:planning_elements)).to match_array([])
           end
         end
 
@@ -221,7 +233,131 @@ describe Api::V2::PlanningElementsController do
           it 'renders all work packages' do
             get 'index', :ids => (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(","), :format => 'xml'
 
-            assigns(:planning_elements).should =~ (@project_a_wps + @project_b_wps + @project_c_wps)
+            expect(assigns(:planning_elements)).to match_array(@project_a_wps + @project_b_wps + @project_c_wps)
+          end
+        end
+      end
+
+      describe 'w/ cross-project relations' do
+        before do
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        let!(:project1) { FactoryGirl.create(:project, :identifier => 'project-1') }
+        let!(:project2) { FactoryGirl.create(:project, :identifier => 'project-2') }
+        let!(:ticket_a) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_b) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_a.id) }
+        let!(:ticket_c) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_b.id) }
+        let!(:ticket_d) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_e) { FactoryGirl.create(:work_package, :project_id => project2.id, :parent_id => ticket_d.id) }
+        let!(:ticket_f) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_e.id) }
+
+        become_admin { [project1, project2] }
+
+        it 'rewires ancestors correctly' do
+          get 'index', project_id: project1.id, :format => 'xml'
+
+          # the controller returns structs. We therefore have to filter for those
+          ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+
+          expect(ticket_f_struct.parent_id).to eq(ticket_d.id)
+        end
+      end
+
+      describe 'changed since' do
+        let!(:work_package) do
+          work_package = Timecop.travel(5.hours.ago) do
+            wp = FactoryGirl.create(:work_package)
+            wp.save!
+            wp
+          end
+
+          work_package.subject = "Changed now!"
+          work_package.save!
+          work_package
+        end
+
+        become_admin { [work_package.project] }
+
+        shared_context 'get work packages changed since' do
+          before { get 'index', project_id: work_package.project_id, changed_since: timestamp,  format: 'xml' }
+        end
+
+        describe 'valid timestamp' do
+          shared_examples_for 'valid timestamp' do
+            let(:timestamp) { (work_package.updated_at - 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+
+            it { expect(assigns(:planning_elements).collect(&:id)).to match_array([work_package.id]) }
+          end
+
+          shared_examples_for 'valid but early timestamp' do
+            let(:timestamp) { (work_package.updated_at + 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+
+            it { expect(assigns(:planning_elements)).to be_empty }
+          end
+
+          it_behaves_like 'valid timestamp'
+
+          it_behaves_like 'valid but early timestamp'
+        end
+
+        describe 'invalid timestamp' do
+          let(:timestamp) { 'eeek' }
+
+          include_context 'get work packages changed since'
+
+          it { expect(response.status).to eq(400) }
+        end
+      end
+    end
+
+    describe 'ids' do
+      let(:project_a) { FactoryGirl.create(:project) }
+      let(:project_b) { FactoryGirl.create(:project) }
+      let(:project_c) { FactoryGirl.create(:project) }
+      let!(:work_package_a) { FactoryGirl.create(:work_package,
+                                                 project: project_a) }
+      let!(:work_package_b) { FactoryGirl.create(:work_package,
+                                                 project: project_b) }
+      let!(:work_package_c) { FactoryGirl.create(:work_package,
+                                                 project: project_c) }
+      let(:project_ids) { [project_a, project_b, project_c].collect(&:id).join(',') }
+      let(:wp_ids) { [work_package_a, work_package_b].collect(&:id) }
+
+      become_admin { [project_a, project_b, work_package_c.project] }
+
+      describe 'empty ids' do
+        before { get 'index', project_id: project_ids, ids: '', format: 'xml' }
+
+        it { expect(assigns(:planning_elements)).to be_empty }
+      end
+
+      shared_examples_for "valid ids request" do
+        before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
+
+        subject { assigns(:planning_elements).collect(&:id) }
+
+        it { expect(subject).to include(*wp_ids) }
+
+        it { expect(subject).not_to include(*invalid_wp_ids) }
+      end
+
+      describe 'known ids' do
+        context 'single id' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id] }
+            let(:invalid_wp_ids) { [work_package_b.id, work_package_c.id] }
+          end
+        end
+
+        context 'multiple ids' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id, work_package_b.id] }
+            let(:invalid_wp_ids) { [work_package_c.id] }
           end
         end
       end
@@ -232,7 +368,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'index', :project_id => 'project_x,project_b', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -245,7 +381,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 403 Forbidden page' do
             get 'index', :project_id => project.identifier, :format => 'xml'
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -258,32 +394,32 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              assigns(:planning_elements).should == []
+              expect(assigns(:planning_elements)).to eq([])
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
 
           describe 'w/ 3 planning elements within the project' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
-              end
+              ]
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               get 'index', :project_id => project.id, :format => 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              assigns(:planning_elements).should =~ @created_planning_elements
+              expect(assigns(:planning_elements)).to match_array(@created_planning_elements)
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
         end
@@ -300,7 +436,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 404 Not Found page' do
             get 'index', :project_id => 'project_x,project_b', :format => 'xml'
 
-            response.response_code.should == 404
+            expect(response.response_code).to eq(404)
           end
         end
 
@@ -313,11 +449,11 @@ describe Api::V2::PlanningElementsController do
 
 
           it 'assigns an empty planning_elements array' do
-            assigns(:planning_elements).should == []
+            expect(assigns(:planning_elements)).to eq([])
           end
 
           it 'renders the index builder template' do
-            response.should render_template('planning_elements/index', :formats => ["api"])
+            expect(response).to render_template('planning_elements/index', :formats => ["api"])
           end
         end
 
@@ -330,23 +466,24 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              assigns(:planning_elements).should == []
+              expect(assigns(:planning_elements)).to eq([])
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
 
           describe 'w/ 1 planning element in project_a and 2 in project_b' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project_a.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
-              end
+              ]
+
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, :project_id => project_c.id)
@@ -354,11 +491,11 @@ describe Api::V2::PlanningElementsController do
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              assigns(:planning_elements).should =~ @created_planning_elements
+              expect(assigns(:planning_elements)).to match_array(@created_planning_elements)
             end
 
             it 'renders the index builder template' do
-              response.should render_template('planning_elements/index', :formats => ["api"])
+              expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
         end
@@ -416,19 +553,19 @@ describe Api::V2::PlanningElementsController do
           :format => 'xml',
           :planning_element => planning_element.attributes.merge(:custom_fields => [
             { :id => custom_field.id, :value => "Wurst" }])
-        response.response_code.should == 303
+        expect(response.response_code).to eq(303)
 
         id = response.headers["Location"].scan(/\d+/).last.to_i
 
         wp = WorkPackage.find_by_id id
-        wp.should_not be_nil
+        expect(wp).not_to be_nil
 
         custom_value = wp.custom_values.find do |value|
           value.custom_field.name == custom_field.name
         end
 
-        custom_value.should_not be_nil
-        custom_value.value.should == "Wurst"
+        expect(custom_value).not_to be_nil
+        expect(custom_value.value).to eq("Wurst")
       end
     end
   end
@@ -441,7 +578,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'show', :id => '4711', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -449,7 +586,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'show', :project_id => '4711', :id => '1337', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -462,7 +599,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 403 Forbidden page' do
             get 'show', :project_id => project.id, :id => '1337', :format => 'xml'
 
-            response.response_code.should === 403
+            expect(response.response_code).to be === 403
           end
         end
 
@@ -470,9 +607,9 @@ describe Api::V2::PlanningElementsController do
           become_member_with_view_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect {
               get 'show', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -488,7 +625,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'show', :id => planning_element.id, :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -499,7 +636,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 403 Forbidden page' do
             get 'show', :project_id => project.id, :id => planning_element.id, :format => 'xml'
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -508,12 +645,12 @@ describe Api::V2::PlanningElementsController do
 
           it 'assigns the planning_element' do
             get 'show', :project_id => project.id, :id => planning_element.id, :format => 'xml'
-            assigns(:planning_element).should == planning_element
+            expect(assigns(:planning_element)).to eq(planning_element)
           end
 
           it 'renders the show builder template' do
             get 'show', :project_id => project.id, :id => planning_element.id, :format => 'xml'
-            response.should render_template('planning_elements/show', :formats => ["api"])
+            expect(response).to render_template('planning_elements/show', :formats => ["api"])
           end
         end
       end
@@ -542,15 +679,16 @@ describe Api::V2::PlanningElementsController do
       it "should render the custom field values" do
         get 'show', :project_id => project.identifier, :id => planning_element.id, :format => 'json'
 
-        response.should be_success
-        response.header['Content-Type'].should include 'application/json'
-        response.body.should include "Mett"
+        expect(response).to be_success
+        expect(response.header['Content-Type']).to include 'application/json'
+        expect(response.body).to include "Mett"
       end
     end
   end
 
   describe 'update.xml' do
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
 
     become_admin
 
@@ -569,6 +707,41 @@ describe Api::V2::PlanningElementsController do
       end
       let(:permission) { :edit_work_packages }
       it_should_behave_like "a controller action which needs project permissions"
+    end
+
+    describe 'empty' do
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(400) }
+    end
+
+    describe 'notes' do
+      let(:note) { "A note set by API" }
+
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            planning_element: { note: note },
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(204) }
+
+      describe 'journals' do
+        subject { work_package.reload.journals }
+
+        it { expect(subject.count).to eq(2) }
+
+        it { expect(subject.last.notes).to eq(note) }
+
+        it { expect(subject.last.user).to eq(User.current) }
+      end
     end
 
     describe 'with custom fields' do
@@ -598,16 +771,61 @@ describe Api::V2::PlanningElementsController do
               { :id => custom_field.id, :value => "Wurst" }
             ]
           }
-        response.response_code.should == 204
+        expect(response.response_code).to eq(204)
 
         wp = WorkPackage.find planning_element.id
         custom_value = wp.custom_values.find do |value|
           value.custom_field.name == custom_field.name
         end
 
-        custom_value.should_not be_nil
-        custom_value.value.should_not == "Mett"
-        custom_value.value.should == "Wurst"
+        expect(custom_value).not_to be_nil
+        expect(custom_value.value).not_to eq("Mett")
+        expect(custom_value.value).to eq("Wurst")
+      end
+    end
+
+    ##
+    # It should be possible to update a planning element's status by transmitting the
+    # field 'status_id'. The test tries to change a planning element's status from
+    # status A to B.
+    describe "status" do
+      let(:status_a) { FactoryGirl.create :status }
+      let(:status_b) { FactoryGirl.create :status }
+      let(:planning_element) { FactoryGirl.create :work_package, status: status_a }
+
+      shared_examples_for 'work package status change' do
+        before do
+          put 'update',
+              project_id: project.identifier,
+              format: 'xml',
+              id: planning_element.id,
+              planning_element: { status_id: status_b.id }
+        end
+
+        it { expect(response.response_code).to eq(expected_response_code) }
+
+        it { expect(WorkPackage.find(planning_element.id).status).to eq(expected_work_package_status) }
+      end
+
+      context 'valid workflow exists' do
+        let!(:workflow) { FactoryGirl.create(:workflow,
+                                             old_status: status_a,
+                                             new_status: status_b,
+                                             type_id: planning_element.type_id) }
+
+        before { planning_element.project.add_member!(current_user, workflow.role) }
+
+        it_behaves_like 'work package status change' do
+          let(:expected_response_code) { 204 }
+          let(:expected_work_package_status) { status_b }
+        end
+      end
+
+      context 'no valid workflow exists' do
+        it_behaves_like 'work package status change' do
+          let(:expected_response_code) { 422 }
+          let(:expected_work_package_status) { status_a }
+        end
       end
     end
   end
@@ -620,7 +838,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'destroy', :id => '4711', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -628,7 +846,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'destroy', :project_id => '4711', :id => '1337', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -641,7 +859,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 403 Forbidden page' do
             get 'destroy', :project_id => project.id, :id => '1337', :format => 'xml'
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -649,9 +867,9 @@ describe Api::V2::PlanningElementsController do
           become_member_with_delete_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect {
               get 'destroy', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -665,7 +883,7 @@ describe Api::V2::PlanningElementsController do
         it 'renders a 404 Not Found page' do
           get 'destroy', :id => planning_element.id, :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -676,7 +894,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders a 403 Forbidden page' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -686,20 +904,20 @@ describe Api::V2::PlanningElementsController do
           it 'assigns the planning_element' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
 
-            assigns(:planning_element).should == planning_element
+            expect(assigns(:planning_element)).to eq(planning_element)
           end
 
           it 'renders the destroy builder template' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
 
-            response.should render_template('planning_elements/destroy', :formats => ["api"])
+            expect(response).to render_template('planning_elements/destroy', :formats => ["api"])
           end
 
           it 'deletes the record' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
-            lambda do
+            expect {
               planning_element.reload
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

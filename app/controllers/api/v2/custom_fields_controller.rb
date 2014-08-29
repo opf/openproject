@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +35,12 @@ module Api
 
       accept_key_auth :index, :show
 
-      before_filter :require_permissions
-
       def index
-        wp_fields = WorkPackageCustomField.find :all,
-          :include => [:translations, :projects, :types],
-          :order => :id
+        wp_fields = WorkPackageCustomField.visible_by_user(User.current)
+                                          .find(:all,
+                                                :include => [:translations, :projects, :types],
+                                                :order => :id)
+                                          .uniq
         other_fields = CustomField.find :all,
           :include => :translations,
           :conditions => "type != 'WorkPackageCustomField'",
@@ -59,13 +60,6 @@ module Api
           format.api
         end
       end
-
-      protected
-
-      def require_permissions
-        deny_access unless User.current.allowed_to? :edit_project, nil, :global => true
-      end
-
     end
   end
 end

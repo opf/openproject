@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <label for="reporting_reported_project_status_comment">
       <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
     </label><br/>
-    <%= textilizable(@reporting, :reported_project_status_comment) %>
+    <%= format_text(@reporting, :reported_project_status_comment) %>
   </p>
 </fieldset>

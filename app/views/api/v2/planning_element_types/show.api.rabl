@@ -26,7 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-object @type
-node :planning_element_type do |type|
-  partial "api/v2/planning_element_types/planning_element_type", object: type
-end
+object @type => :planning_element_type
+
+extends "api/v2/planning_element_types/planning_element_type"

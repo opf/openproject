@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 #++
 
 # While loading the Issue class below, we lazy load the Project class. Which itself need WorkPackage.
-# So we create an 'emtpy' Issue class first, to make Project happy.
+# So we create an 'empty' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
 
@@ -71,13 +71,15 @@ class WorkPackage < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => WorkPackage.visible_condition(args.first ||
                                                                                  User.current) } }
-  scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
   scope :for_projects, lambda { |projects|
     {:conditions => {:project_id => projects}}
+  }
+
+  scope :changed_since, lambda { |changed_since|
+    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -100,6 +102,11 @@ class WorkPackage < ActiveRecord::Base
       :conditions => ::Query.merge_conditions(query.statement)
     }
   }
+
+  scope :with_author, lambda { |author|
+    {:conditions => {:author_id => author.id}}
+  }
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   after_initialize :set_default_values
@@ -143,7 +150,7 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachments_changed
+  acts_as_attachable :after_remove => :attachments_changed, :order => "#{Attachment.table_name}.filename"
 
   after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
@@ -161,42 +168,52 @@ class WorkPackage < ActiveRecord::Base
                        :project,
                        :priority
 
+  acts_as_journalized :except => ["root_id"]
+
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
-      Proc.new do |data|
-        journal = data.journal
-        work_package = journal.journable
-
-        title = work_package.to_s
-        title << " (#{work_package.status.name})" if work_package.status.present?
+      Proc.new do |o|
+        title = o.to_s
+        title << " (#{o.status.name})" if o.status.present?
 
         title
       end
     end
 
+    def self.event_name
+      Proc.new do |o|
+        I18n.t(o.event_type.underscore, scope: 'events')
+      end
+    end
+
     def self.event_type
-      Proc.new do |data|
-        journal = data.journal
+      Proc.new do |o|
+        journal = o.last_journal
         t = 'work_package'
 
-        t << if journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(data.status_id)
+               status = Status.find_by_id(o.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
-
         t
+      end
+    end
+
+    def self.event_url
+      Proc.new do |o|
+        { controller: :work_packages, action: :show, id: o.id }
       end
     end
   end
 
-  acts_as_journalized :event_title => JournalizedProcs.event_title,
-                      :event_type => JournalizedProcs.event_type,
-                      :except => ["root_id"],
-                      :activity_find_options => { :include => [:status, :type] }
+  acts_as_event title: JournalizedProcs.event_title,
+                type: JournalizedProcs.event_type,
+                name: JournalizedProcs.event_name,
+                url: JournalizedProcs.event_url
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')
@@ -212,7 +229,7 @@ class WorkPackage < ActiveRecord::Base
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_status_id,
                                                     :author_id, :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :due_date, :deleted_at
+  register_on_journal_formatter :datetime,          :start_date, :due_date
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
@@ -272,7 +289,7 @@ class WorkPackage < ActiveRecord::Base
     work_package.watchers.each do |watcher|
       # This might be a problem once this method is used on existing work packages
       # then, the watchers are added, keeping preexisting watchers
-      self.add_watcher(watcher.user)
+      self.add_watcher(watcher.user) if watcher.user.active?
     end
 
     self
@@ -363,12 +380,15 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def deleted?
-    !!read_attribute(:deleted_at)
+  # Users/groups the work_package can be assigned to
+  def assignable_assignees
+    project.possible_assignees
   end
 
   # Users the work_package can be assigned to
-  delegate :assignable_users, :to => :project
+  def assignable_responsibles
+    project.possible_responsibles
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
@@ -383,7 +403,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{(kind.is_standard) ? l(:default_type) : "#{kind.name}"} ##{id}: #{subject}"
+    "#{(kind.is_standard) ? "" : "#{kind.name}"} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -456,7 +476,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail adresses of users that should be notified
+  # Returns the mail addresses of users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -635,12 +655,10 @@ class WorkPackage < ActiveRecord::Base
       unless new_project.shared_versions.include?(work_package.fixed_version)
         work_package.fixed_version = nil
       end
+
       work_package.project = new_project
 
-      if !Setting.cross_project_work_package_relations? &&
-         parent && parent.project_id != project_id
-        self.parent_id = nil
-      end
+      enforce_cross_project_settings(work_package)
     end
     if new_type
       work_package.type = new_type
@@ -660,10 +678,14 @@ class WorkPackage < ActiveRecord::Base
                             else
                               self.status
                             end
+    else
+      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
     end
 
     if work_package.save
-      unless options[:copy]
+      if options[:copy]
+        create_and_save_journal_note work_package, options[:journal_note]
+      else
         # Manually update project_id on related time entries
         TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
 
@@ -681,10 +703,44 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Override of acts_as_watchable#possible_watcher_users
-  # Restricts the result to project members if the project is private
+  # Restricts the result to project members for private as well as public projects
   def possible_watcher_users
-    users = project.is_public? ? User.not_builtin : project.users
+    users = project.users
     users.select {|user| possible_watcher?(user)}
+  end
+
+  # check if user is allowed to edit WorkPackage Journals.
+  # see Redmine::Acts::Journalized::Permissions#journal_editable_by
+  def editable_by?(user)
+    project = self.project
+    allowed = user.allowed_to? :edit_work_package_notes, project, { :global => project.present? }
+    allowed = user.allowed_to? :edit_own_work_package_notes, project, { :global => project.present? } unless allowed
+    return allowed
+  end
+
+
+  def get_cast_custom_value_with_meta(custom_value, custom_field=nil)
+    return unless custom_value
+
+    custom_field ||= custom_value.custom_field
+    {
+      custom_field_id: custom_field.id,
+      field_format: custom_field.field_format, # TODO just return the cast value
+      value: custom_field.field_format == 'user' ? custom_field.cast_value(custom_value.value).as_json(methods: :name) : custom_field.cast_value(custom_value.value)
+    }
+  end
+
+  # Begin Custom Value Display Helper Methods
+  # TODO RS: This probably isn't the right place for display helpers. It's convenient though to have
+  #          the method on the model so that it can be used in the rabl template.
+  def get_custom_value_display_data(custom_field)
+    custom_value_display(custom_values.find_by_custom_field_id(custom_field.id))
+  end
+
+  def custom_values_display_data(field_names)
+    field_names.map do |field_name|
+      get_cast_custom_value_with_meta(custom_values.find_by_custom_field_id(field_name.to_s.gsub('cf_','')))
+    end
   end
 
   protected
@@ -727,11 +783,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_dates_from_children
-    active_children = children.without_deleted
-
-    unless active_children.empty?
-      self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
-      self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
+    unless children.empty?
+      self.start_date = [children.minimum(:start_date), children.minimum(:due_date)].compact.min
+      self.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].compact.max
     end
   end
 
@@ -846,44 +900,50 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'type_id',
-                       :joins => Type.table_name)
+                       :joins => Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'fixed_version_id',
-                       :joins => Version.table_name)
+                       :joins => Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'priority_id',
-                       :joins => IssuePriority.table_name)
+                       :joins => IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'category_id',
-                       :joins => Category.table_name)
+                       :joins => Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'assigned_to_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
+  end
+
+  def self.by_responsible(project)
+    count_and_group_by :project => project,
+                       :field => 'responsible_id',
+                       :joins => User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'author_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_subproject(project)
@@ -906,17 +966,34 @@ class WorkPackage < ActiveRecord::Base
   def set_default_values
     if new_record? # set default values for new records only
       self.status   ||= Status.default
-      self.priority ||= IssuePriority.default
+      self.priority ||= IssuePriority.active.default
     end
   end
 
   def add_time_entry_for(user, attributes)
-    return if attributes.nil? || attributes.values.all?(&:blank?)
+    return if time_entry_blank?(attributes)
 
     attributes.reverse_merge!({ :user => user,
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
+  end
+
+  ##
+  # Checks if the time entry defined by the given attributes is blank.
+  # A time entry counts as blank despite a selected activity if that activity
+  # is simply the default activity and all other attributes are blank.
+  def time_entry_blank?(attributes)
+    return true if attributes.nil?
+    key = "activity_id"
+    id = attributes[key]
+    default_id = if id && !id.blank?
+      Enumeration.exists? :id => id, :is_default => true, :type => 'TimeEntryActivity'
+    else
+      true
+    end
+
+    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -947,6 +1024,7 @@ class WorkPackage < ActiveRecord::Base
       end
     end
   end
+  private_class_method :update_versions
 
   # Default assignment based on category
   def default_assign
@@ -959,11 +1037,11 @@ class WorkPackage < ActiveRecord::Base
   def close_duplicates
     if closing?
       duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
+        # Reload is needed in case the duplicate was updated by a previous duplicate
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
-        # Implicitely creates a new journal
+        # Implicitly creates a new journal
         duplicate.update_attribute :status, self.status
         # Same user and notes
         duplicate.journals.last.user = current_journal.user
@@ -973,7 +1051,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
+  # based on specific criteria.
+  # DANGER: :field and :joins MUST never come from user input, because
+  # they are not SQL-escaped.
   #
   # Options
   # * project - Project to search in.
@@ -998,11 +1078,26 @@ class WorkPackage < ActiveRecord::Base
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
+  private_class_method :count_and_group_by
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   def set_attachments_error_details
     if invalid_attachment = self.attachments.detect{|a| !a.valid?}
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
+  end
+
+  def create_and_save_journal_note(work_package, journal_note)
+    if work_package && journal_note
+      work_package.add_journal User.current, journal_note
+      work_package.save!
+    end
+  end
+
+  def enforce_cross_project_settings(work_package)
+    parent_in_project = work_package.parent.nil? || work_package.parent.project == work_package.project
+
+    work_package.parent_id = nil unless Setting.cross_project_work_package_relations? || parent_in_project
   end
 end

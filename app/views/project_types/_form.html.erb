@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
   Form for Project Types.
 
   needs locals:
-  :f            => form builder
+  :f            => labelled form builder
   :project_type => ProjectType
 %>
-
-<%= error_messages_for 'project_type' %>
 
 <h2>
   <% if project_type.new_record? %>
@@ -47,15 +45,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </h2>
 
+<%= error_messages_for 'project_type' %>
+
 <div class="box">
-  <p>
-    <%= f.label :name, ProjectType.human_attribute_name(:name) %>
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :allows_association, ProjectType.human_attribute_name(:allows_association) %>
-    <%= f.check_box :allows_association %>
-  </p>
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.check_box :allows_association %></p>
   <p>
     <label><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
     <%= render :partial => "checkbox_list",

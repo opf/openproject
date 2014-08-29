@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +33,16 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <% if @group.memberships.any? %>
 <table class="list memberships">
-	<thead><tr>
-	  <th><%= Project.model_name.human %></th>
-	  <th><%= l(:label_role_plural) %></th>
-	  <th style="width:15%"></th>
-	</tr></thead>
-	<tbody>
-	<% @group.memberships.each do |membership| %>
-	<% next if membership.new_record? %>
-	<tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
-	<td class="project"><%=h membership.project %></td>
+  <thead><tr>
+    <th><%= Project.model_name.human %></th>
+    <th><%= l(:label_role_plural) %></th>
+    <th style="width:15%"></th>
+  </tr></thead>
+  <tbody>
+  <% @group.memberships.each do |membership| %>
+  <% next if membership.new_record? %>
+  <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+  <td class="project"><%=h membership.project %></td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
     <%= form_tag(membership_of_group_path(@group, membership),
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
                  :remote => true,
                  :id => "member-#{membership.id}-roles-form",
                  :style => 'display:none;') do %>
-      	<p><% roles.each do |role| %>
+        <p><% roles.each do |role| %>
         <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label><br />
         <% end %></p>
         <p><%= submit_tag l(:button_change) %>
@@ -62,10 +62,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
                                      :method => :delete,
                                      :remote => true,
-                                     :class => 'icon icon-del' %>
+                                     :class => 'icon icon-delete' %>
   </td>
-	</tr>
-	</tbody>
+  </tr>
+  </tbody>
 <% end; reset_cycle %>
 </table>
 <% else %>

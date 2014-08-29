@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,11 +41,14 @@ Feature: Reporting Permissions
           | login | editor |
 
       And there is 1 project with the following:
-          | Name | Santas Project |
+          | Name      | Santas Project |
+          | Is Public | true           |
       And there is 1 project with the following:
-          | Name | World Domination |
+          | Name      | World Domination |
+          | Is Public | true             |
       And there is 1 project with the following:
-          | Name | How to stay sane and drink lemonade |
+          | Name      | How to stay sane and drink lemonade |
+          | Is Public | true                                |
 
       And there is a role "project admin"
       And the role "project admin" may have the following rights:
@@ -115,7 +118,7 @@ Feature: Reporting Permissions
      When I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
-      And I follow "Edit status for project: World Domination"
+      And I follow link "Edit" for report "World Domination"
 
       And I fill in "So'n Feuerball" for "Status comment"
       And I click on "Save"
@@ -142,10 +145,10 @@ Feature: Reporting Permissions
       And I click on "Status reportings"
 
      Then I should see "New reporting"
-      And I should see "Edit status for project: World Domination"
+      And I should see "Edit" for report "World Domination"
       And I should not see "Delete status reported to project: World Domination"
 
-     When I follow "Edit status for project: World Domination"
+     When I follow link "Edit" for report "World Domination"
       And I fill in "Yeah Boy" for "Status comment"
       And I click on "Save"
 

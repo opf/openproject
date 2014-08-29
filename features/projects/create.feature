@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,32 @@
 #++
 
 Feature: Creating Projects
-
-  @javascript
-  Scenario: Creating a Subproject
+  Background:
     Given there is 1 project with the following:
       | name        | Parent      |
       | identifier  | parent      |
     And I am already admin
+
+  @javascript
+  Scenario: Creating a Subproject
     When I go to the overview page of the project "Parent"
-    And I follow "New subproject"
-    And I fill in "project_name" with "child"
-    And I press "Save"
+     And I follow "New subproject"
+     And I fill in "project_name" with "child"
+     And I press "Save"
     Then I should be on the settings page of the project called "child"
+
+  Scenario: Creating a Subproject
+    When I go to the overview page of the project "Parent"
+     And I follow "New subproject"
+    Then I should not see "Responsible"
+
+  @javascript
+  Scenario: Creating a Project with an already existing identifier
+    When I go to the projects admin page
+     And I follow "New project"
+     And I fill in "project_name" with "Parent"
+     And I press "Save"
+    Then I should be on the projects page
+     And I should see "Identifier has already been taken"
+     And I fill in "project_name" with "Parent 2"
+     And the "Identifier" field should contain "parent-2" within "#content"

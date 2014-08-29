@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ Feature: User session
     Then I should be on the login page
     When I fill in "bob" for "username" within "#login-form"
     And I fill in "adminADMIN!" for "password" within "#login-form"
-    And I click on "Login" within "#login-form"
+    And I click on "t:button_login" within "#login-form" [i18n]
     And I go to the my account page
     Then I should be on the my account page
 
@@ -45,7 +45,7 @@ Feature: User session
     Then I should be on the login page
     When I fill in "bob" for "username" within "#login-form"
     And I fill in "adminADMIN!" for "password" within "#login-form"
-    And I click on "Login" within "#login-form"
+    And I click on "t:button_login" within "#login-form" [i18n]
     Then I should be on the my account page
 
   Scenario: Autologin works if enabled
@@ -100,3 +100,14 @@ Feature: User session
     When I login as blocked_user with password iamblocked
     Then there should be a flash error message
     And the flash message should contain "Invalid user or password"
+
+  @javascript
+  Scenario: A deleted block is always visible in My page block list
+    Given I am already admin
+    When I go to the My page personalization page
+    And  I select "Calendar" from the available widgets drop down
+    And  I click on "Add"
+    Then the "Calendar" widget should be in the top block
+    And "Calendar" should be disabled in the my page available widgets drop down
+    When I click the first delete block link
+    Then "Calendar" should not be disabled in the my page available widgets drop down

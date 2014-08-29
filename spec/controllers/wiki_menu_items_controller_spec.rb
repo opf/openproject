@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController do
+describe WikiMenuItemsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   # create project with wiki
@@ -37,10 +37,10 @@ describe WikiMenuItemsController do
 
   let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, :wiki => wiki, :title => wiki_page.title) }
- 
+
   before :each do
     # log in user
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe :edit do
@@ -63,7 +63,7 @@ describe WikiMenuItemsController do
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
-          assigns['selected_parent_menu_item_id'].should == another_wiki_page_top_level_wiki_menu_item.id
+          expect(assigns['selected_parent_menu_item_id']).to eq(another_wiki_page_top_level_wiki_menu_item.id)
           # see FIXME in menu_helper.rb
         end
       end
@@ -78,7 +78,7 @@ describe WikiMenuItemsController do
         subject { response }
 
         it 'preselects the wiki menu item of the grand parent page as parent wiki menu item option' do
-          assigns['selected_parent_menu_item_id'].should == another_wiki_page_top_level_wiki_menu_item.id
+          expect(assigns['selected_parent_menu_item_id']).to eq(another_wiki_page_top_level_wiki_menu_item.id)
         end
       end
     end
@@ -88,7 +88,7 @@ describe WikiMenuItemsController do
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do
-        assigns['selected_parent_menu_item_id'].should == top_level_wiki_menu_item.id
+        expect(assigns['selected_parent_menu_item_id']).to eq(top_level_wiki_menu_item.id)
       end
     end
   end
@@ -107,10 +107,10 @@ describe WikiMenuItemsController do
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do
-      it { should include wiki_page }
-      it { should include child_page }
-      it { should include another_wiki_page }
-      it { should include another_child_page }
+      it { is_expected.to include wiki_page }
+      it { is_expected.to include child_page }
+      it { is_expected.to include another_wiki_page }
+      it { is_expected.to include another_child_page }
     end
   end
 
@@ -128,16 +128,16 @@ describe WikiMenuItemsController do
       end
 
       it 'destroys the current wiki menu item' do
-        wiki_page.menu_item.should be_nil
+        expect(wiki_page.menu_item).to be_nil
       end
 
       it 'creates a new main menu item for the selected wiki page' do
-        selected_page.menu_item.should be_present
-        selected_page.menu_item.parent.should be_nil
+        expect(selected_page.menu_item).to be_present
+        expect(selected_page.menu_item.parent).to be_nil
       end
 
       it 'transfers the menu item options to the selected wiki page' do
-        new_menu_item.options.should == { index_page: true, new_wiki_page: true }
+        expect(new_menu_item.options).to eq({ index_page: true, new_wiki_page: true })
       end
     end
 
@@ -151,7 +151,7 @@ describe WikiMenuItemsController do
       end
 
       it 'does not destroy the wiki menu item' do
-        wiki_menu_item.reload.should be_present
+        expect(wiki_menu_item.reload).to be_present
       end
     end
   end

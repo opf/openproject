@@ -1,19 +1,47 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
-describe MenuItem do
+describe MenuItem, :type => :model do
   describe 'validations' do
     let(:item) { FactoryGirl.build :menu_item }
 
     it 'requires a title' do
       item.title = nil
-      item.should_not be_valid
-      item.errors.should have_key :title
+      expect(item).not_to be_valid
+      expect(item.errors).to have_key :title
     end
 
     it 'requires a name' do
       item.name = nil
-      item.should_not be_valid
-      item.errors.should have_key :name
+      expect(item).not_to be_valid
+      expect(item.errors).to have_key :name
     end
 
     describe 'scoped uniqueness of title' do
@@ -22,12 +50,12 @@ describe MenuItem do
       let(:wiki_menu_item) { FactoryGirl.build :wiki_menu_item, title: item.title }
 
       it 'does not allow for duplicate titles' do
-        another_item.should_not be_valid
-        another_item.errors.should have_key :title
+        expect(another_item).not_to be_valid
+        expect(another_item.errors).to have_key :title
       end
 
       it 'allows for creating a menu item with the same title if it has a different type' do
-        wiki_menu_item.should be_valid
+        expect(wiki_menu_item).to be_valid
       end
     end
   end
@@ -38,7 +66,7 @@ describe MenuItem do
 
     example 'all children when deleting the parent' do
       menu_item.destroy
-      MenuItem.exists?(child_item.id).should be_false
+      expect(MenuItem.exists?(child_item.id)).to be_falsey
     end
   end
 end

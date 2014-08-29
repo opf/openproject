@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::TimelinesController do
+describe Api::V2::TimelinesController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -89,7 +89,7 @@ describe Api::V2::TimelinesController do
 
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   shared_examples_for 'all actions related to all timelines within a project' do
@@ -99,7 +99,7 @@ describe Api::V2::TimelinesController do
       it 'renders a 404 Not Found page' do
         fetch
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -109,7 +109,7 @@ describe Api::V2::TimelinesController do
       it 'renders a 404 Not Found page' do
         fetch :project_id => '4711'
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -122,7 +122,7 @@ describe Api::V2::TimelinesController do
         it 'renders a 403 Forbidden page' do
           fetch :project_id => project.identifier
 
-          response.response_code.should == 403
+          expect(response.response_code).to eq(403)
         end
       end
     end
@@ -136,7 +136,7 @@ describe Api::V2::TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :id => '4711'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -144,7 +144,7 @@ describe Api::V2::TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :project_id => '4711', :id => '1337'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -157,7 +157,7 @@ describe Api::V2::TimelinesController do
           it 'renders a 403 Forbidden page' do
             fetch :project_id => project.id, :id => '1337'
 
-            response.response_code.should === 403
+            expect(response.response_code).to be === 403
           end
         end
 
@@ -165,9 +165,9 @@ describe Api::V2::TimelinesController do
           become_member_with_all_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect {
               fetch :project_id => project.id, :id => '1337'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -181,7 +181,7 @@ describe Api::V2::TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :id => timeline.id
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -189,9 +189,9 @@ describe Api::V2::TimelinesController do
         let(:other_project)  { FactoryGirl.create(:project, :identifier => 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect {
             fetch :project_id => other_project.identifier,:id => timeline.id
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -202,7 +202,7 @@ describe Api::V2::TimelinesController do
           it 'renders a 403 Forbidden page' do
             fetch :project_id => project.id, :id => timeline.id
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -211,7 +211,7 @@ describe Api::V2::TimelinesController do
 
           it 'assigns the timeline' do
             fetch :project_id => project.id, :id => timeline.id
-            assigns(:timeline).should == timeline
+            expect(assigns(:timeline)).to eq(timeline)
           end
         end
       end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -41,27 +41,40 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= error_messages_for 'page' %>
 
-  <%= fields_for :page, @page do |page_fields| %>
-    <%= page_fields.hidden_field :parent_id %>
+  <div class="box">
+    <%= fields_for :page, @page do |page_fields| %>
+      <%= page_fields.hidden_field :parent_id %>
+      <p>
+        <%= page_fields.label :title%>
+        <br />
+        <%= page_fields.text_field :title, :size => 120 %>
+      </p>
+    <% end %>
+
     <p>
-      <label><%= WikiPage.human_attribute_name(:title) %></label><br />
-      <%= page_fields.text_field :title, :size => 120 %>
+      <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                      :'ng-non-bindable' => '' %>
     </p>
-  <% end %>
 
+    <p>
+      <%= f.label :comments %>
+      <br />
+      <%= f.text_field :comments, :size => 120 %>
+    </p>
 
-  <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
-  <p><label><%= Journal.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
-  <p><label><%= l(:label_attachment_plural) %></label><br /><%= render :partial => 'attachments/form', :f => f %></p>
+    <p>
+      <label><%= l(:label_attachment_plural) %></label>
+      <br />
+      <%= render :partial => 'attachments/form', :f => f %>
+    </p>
+  </div>
 
-  <p><%= submit_tag l(:button_save) %>
-     <%= link_to_remote l(:label_preview),
-                         { :url => wiki_preview_path(:project_id => @project),
-                           :method => :post,
-                           :update => 'preview',
-                           :with => "Form.serialize('wiki_form')",
-                           :complete => "Element.scrollTo('preview')"
-                         }, :accesskey => accesskey(:preview) %></p>
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <%= preview_link preview_wiki_path(@project), 'wiki_form' %>
+  </p>
+
   <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
@@ -72,4 +85,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title @page.pretty_title %>
-

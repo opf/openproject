@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,54 +28,60 @@
 
 require 'spec_helper'
 
-describe ProjectsController do
+describe ProjectsController, :type => :routing do
 
   describe "index" do
-    it { get("/projects").should      route_to( :controller => 'projects', :action => 'index')}
-    it { get("/projects.atom").should route_to( :controller => 'projects', :action => 'index', :format => 'atom')}
-    it { get("/projects.xml").should  route_to( :controller => 'projects', :action => 'index', :format => 'xml')}
+    it { expect(get("/projects")).to      route_to( :controller => 'projects', :action => 'index')}
+    it { expect(get("/projects.atom")).to route_to( :controller => 'projects', :action => 'index', :format => 'atom')}
+    it { expect(get("/projects.xml")).to  route_to( :controller => 'projects', :action => 'index', :format => 'xml')}
   end
 
 
   describe "show" do
-    it{ get("/projects/1").should       route_to( :controller => 'projects', :action => 'show', :id => '1' )}
-    it{ get("/projects/1.xml").should   route_to( :controller => 'projects', :action => 'show', :id => '1', :format =>"xml")}
-    it{ get("/projects/test").should    route_to( :controller => 'projects', :action => 'show', :id => 'test' )}
+    it{ expect(get("/projects/1")).to       route_to( :controller => 'projects', :action => 'show', :id => '1' )}
+    it{ expect(get("/projects/1.xml")).to   route_to( :controller => 'projects', :action => 'show', :id => '1', :format =>"xml")}
+    it{ expect(get("/projects/test")).to    route_to( :controller => 'projects', :action => 'show', :id => 'test' )}
   end
 
   describe "new" do
-    it { get("/projects/new").should route_to(:controller => 'projects', :action => 'new' )}
+    it { expect(get("/projects/new")).to route_to(:controller => 'projects', :action => 'new' )}
 
   end
 
   describe "create" do
-    it { post("/projects").should     route_to( :controller => 'projects', :action => 'create')}
-    it { post("/projects.xml").should route_to( :controller => 'projects', :action => 'create', :format => "xml")}
+    it { expect(post("/projects")).to     route_to( :controller => 'projects', :action => 'create')}
+    it { expect(post("/projects.xml")).to route_to( :controller => 'projects', :action => 'create', :format => "xml")}
   end
 
   describe "update" do
-    it { put("/projects/123").should      route_to(:controller => 'projects', :action => "update", :id => "123")}
-    it { put("/projects/123.xml").should  route_to(:controller => 'projects', :action => "update", :id => "123", :format => "xml")}
+    it { expect(put("/projects/123")).to      route_to(:controller => 'projects', :action => "update", :id => "123")}
+    it { expect(put("/projects/123.xml")).to  route_to(:controller => 'projects', :action => "update", :id => "123", :format => "xml")}
   end
 
   describe "destroy_info" do
-    it { get("/projects/123/destroy_info").should  route_to(:controller => 'projects', :action => "destroy_info", :id => "123")}
+    it { expect(get("/projects/123/destroy_info")).to  route_to(:controller => 'projects', :action => "destroy_info", :id => "123")}
   end
 
   describe "delete" do
-    it{ delete("/projects/123").should     route_to(:controller => 'projects', :action => "destroy", :id => "123")}
-    it{ delete("/projects/123.xml").should route_to(:controller => 'projects', :action => "destroy", :id => "123", :format => "xml")}
+    it{ expect(delete("/projects/123")).to     route_to(:controller => 'projects', :action => "destroy", :id => "123")}
+    it{ expect(delete("/projects/123.xml")).to route_to(:controller => 'projects', :action => "destroy", :id => "123", :format => "xml")}
   end
 
   describe "miscellanous" do
-    it { get("/projects/123/settings").should                  route_to(:controller => 'projects',      :action =>"settings",     :id =>"123")}
-    it { get("/projects/123/settings/members").should          route_to(:controller => 'projects',      :action =>"settings",     :id =>"123", :tab => "members")}
-    it { put("projects/123/modules").should                    route_to(:controller => 'projects',      :action =>"modules",      :id =>"123")}
-    it { put("projects/123/archive").should                    route_to(:controller => 'projects',      :action =>"archive",      :id =>"123")}
-    it { put("projects/123/unarchive").should                  route_to(:controller => 'projects',      :action =>"unarchive",    :id =>"123")}
-    it { get("projects/123/copy_project_from_settings").should route_to(:controller => 'copy_projects', :action =>"copy_project", :id =>"123", :coming_from => "settings")}
-    it { post("projects/123/copy").should                      route_to(:controller => 'copy_projects', :action =>"copy",         :id =>"123")}
+    it { expect(get("/projects/123/settings")).to                  route_to(:controller => 'projects',      :action =>"settings",     :id =>"123")}
+    it { expect(get("/projects/123/settings/members")).to          route_to(:controller => 'projects',      :action =>"settings",     :id =>"123", :tab => "members")}
+    it { expect(put("projects/123/modules")).to                    route_to(:controller => 'projects',      :action =>"modules",      :id =>"123")}
+    it { expect(put("projects/123/archive")).to                    route_to(:controller => 'projects',      :action =>"archive",      :id =>"123")}
+    it { expect(put("projects/123/unarchive")).to                  route_to(:controller => 'projects',      :action =>"unarchive",    :id =>"123")}
+    it { expect(get("projects/123/copy_project_from_settings")).to route_to(:controller => 'copy_projects', :action =>"copy_project", :id =>"123", :coming_from => "settings")}
+    it { expect(post("projects/123/copy")).to                      route_to(:controller => 'copy_projects', :action =>"copy",         :id =>"123")}
+  end
+
+  describe 'types' do
+    it do
+      expect(post('/projects/types/123')).to route_to(controller: 'projects',
+                                                      action: 'types',
+                                                      id: '123')
+    end
   end
 end
-
-

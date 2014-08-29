@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 module WorkPackage::Validations
   extend ActiveSupport::Concern
 
@@ -38,6 +39,7 @@ module WorkPackage::Validations
 
     validates :start_date, :date => {:allow_blank => true}
     validates :due_date, :date => {:after_or_equal_to => :start_date, :message => :greater_than_start_date, :allow_blank => true}, :unless => Proc.new { |wp| wp.start_date.blank?}
+    validates :due_date, :date => {:allow_blank => true}
 
     validate :validate_start_date_before_soonest_start_date
     validate :validate_fixed_version_is_assignable
@@ -46,6 +48,10 @@ module WorkPackage::Validations
 
     validate :validate_milestone_constraint
     validate :validate_parent_constraint
+
+    validate :validate_status_transition
+
+    validate :validate_active_priority
   end
 
   def validate_start_date_before_soonest_start_date
@@ -81,7 +87,29 @@ module WorkPackage::Validations
 
   def validate_parent_constraint
     if self.parent
-      errors.add :parent, :cannot_be_milestone if parent.is_milestone?
+      errors.add :parent_id, :cannot_be_milestone if parent.is_milestone?
     end
+  end
+
+  def validate_status_transition
+    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
+      errors.add :status_id, :status_transition_invalid
+    end
+  end
+
+  def validate_active_priority
+    if self.priority && !self.priority.active? && self.changes[:priority_id]
+      errors.add :priority_id, :only_active_priorities_allowed
+    end
+  end
+
+  private
+
+  def status_changed?
+    self.status_id_was != 0 && self.status_id_changed?
+  end
+
+  def status_transition_exists?
+    self.type.is_valid_transition?(self.status_id_was, self.status_id, User.current.roles(self.project))
   end
 end

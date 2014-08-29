@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ class AdminControllerTest < ActionController::TestCase
     post :default_configuration, :lang => 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert Status.find_by_name('Neu')
+    assert Status.find_by_name('neu')
   end
 
   def test_test_email
@@ -151,7 +151,7 @@ class AdminControllerTest < ActionController::TestCase
 
   def delete_configuration_data
     Role.delete_all('builtin = 0')
-    Type.delete_all
+    Type.delete_all('is_standard = false')
     Status.delete_all
     Enumeration.delete_all
   end

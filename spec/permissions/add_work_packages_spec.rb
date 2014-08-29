@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,4 +35,5 @@ describe WorkPackagesController, "add_work_packages permission", :type => :contr
   check_permission_required_for('work_packages#new', :add_work_packages)
   check_permission_required_for('work_packages#new_type', :add_work_packages)
   check_permission_required_for('work_packages#create', :add_work_packages)
+  check_permission_required_for('work_packages#preview', :add_work_packages)
 end

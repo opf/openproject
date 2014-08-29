@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,10 +42,18 @@ module OpenProject
           ThemeFinder.register_theme(subclass.instance)
         end
 
-        def new_theme(identifier = nil)
-          theme = Class.new(self).instance
-          theme.identifier = identifier if identifier
-          theme
+        ##
+        # Generate a new theme.
+        # You may give an optional block which can
+        # configure the newly created theme.
+        # For example:
+        # my_theme = Theme.new_theme do |theme|
+        #   theme.identifier = "Fancy new theme"
+        # end
+        def new_theme
+          Class.new(self).instance.tap do |theme|
+            yield(theme) if block_given?
+          end
         end
 
         def abstract!
@@ -59,19 +67,19 @@ module OpenProject
         end
 
         def abstract?
-          @abstract
+          !!@abstract
         end
       end
 
       # 'OpenProject::Themes::GoofyTheme' => :'goofy'
       def identifier
-        @identifier ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.underscore.dasherize.to_sym
+        @identifier ||= base_name.underscore.dasherize.to_sym
       end
       attr_writer :identifier
 
       # 'OpenProject::Themes::GoofyTheme' => 'Goofy'
       def name
-        @name ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.titleize
+        @name ||= base_name.titleize
       end
 
       def stylesheet_manifest
@@ -106,8 +114,7 @@ module OpenProject
       URI_REGEXP = %r{\A[-a-z]+://|\A(?:cid|data):|\A//}
 
       def path_to_image(source)
-        return source if source =~ URI_REGEXP
-        return source if source[0] == ?/
+        return source if source =~ URI_REGEXP or source.starts_with?(?/)
 
         if image_overridden?(source)
           File.join(assets_prefix, source)
@@ -121,6 +128,11 @@ module OpenProject
 
       include Singleton
       abstract!
+
+    private
+      def base_name
+        self.class.to_s.gsub(/Theme\z/, '').demodulize
+      end
     end
   end
 end

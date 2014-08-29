@@ -1,0 +1,125 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import global/all
+@import fonts/openproject_icon_font
+
+.jstEditor
+  padding-left: 0px
+
+  textarea, iframe
+    margin: 0
+
+.jstHandle
+  height: 10px
+  font-size: 0.1em
+  cursor: s-resize
+
+.jstElements
+  padding: 3px 3px
+
+  button
+    margin-right: 10px
+    width: 32px
+    height: 32px
+    padding: 6px 5px 4px 5px
+    border: $content_form_input_border
+    background: url(image-path('bg_input_file.png')) repeat-x 0 0
+    font-size: 18px
+    @include border-radius(2px)
+    &:before
+      @include icon-common
+
+    &:hover
+      border: $content_form_input_hover_border
+      cursor: pointer
+
+    span
+      display: none
+
+  span
+    display: inline
+
+  .help
+    float: right
+    margin-right: 0.5em
+    padding-top: 8px
+    font-size: 0.9em
+
+    a
+      padding: 2px 0 2px 20px
+
+.jstSpacer
+  width: 0px
+  font-size: 1px
+  margin-right: 4px
+
+.jstb_strong:before
+  content: "\e042"
+
+.jstb_em:before
+  content: "\e070"
+
+.jstb_ins:before
+  content: "\e0b3"
+
+.jstb_del:before
+  content: "\e072"
+
+.jstb_code:before
+  content: "\e050"
+
+.jstb_h1:before
+  content: "\e0d6"
+
+.jstb_h2:before
+  content: "\e0d7"
+
+.jstb_h3:before
+  content: "\e0d8"
+
+.jstb_ul:before
+  content: "\e07b"
+
+.jstb_ol:before
+  content: "\e07d"
+
+.jstb_bq:before
+  content: "\e08d"
+
+.jstb_unbq:before
+  content: "\e08e"
+
+.jstb_pre:before
+  content: "\e0d9"
+
+.jstb_link:before
+  content: "\e013"
+
+.jstb_img:before
+  content: "\e06c"

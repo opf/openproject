@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= f.error_messages %>
 <label for="project_association_description">
   <%= ProjectAssociation.human_attribute_name(:description)%>:
 </label>
 
-<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10) %>
+<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
+                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                :'ng-non-bindable' => '') %>
 <%= wikitoolbar_for 'project_association_description' %>

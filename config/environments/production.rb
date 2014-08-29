@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +47,8 @@ OpenProject::Application.configure do
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
+  config.assets.js_compressor = Uglifier.new(mangle: false) if defined? Uglifier
+
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
 
@@ -71,20 +74,32 @@ OpenProject::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
-  if OpenProject::Configuration['rails_cache_store'] == :memcache
-    config.cache_store = :dalli_store
-  end
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( ie6.css ie7.css
+  config.assets.precompile += %w( default.css
+                                  accessibility.css accessibility.js
+                                  admin_users.js
+                                  autocompleter.js
+                                  calendar/lang/*.js
+                                  contextual_fieldset.js
+                                  copy_issue_actions.js
+                                  date-de-DE.js date-en-US.js
+                                  jstoolbar/lang/*.js
+                                  members_form.js
+                                  members_select_boxes.js
+                                  project/responsible_attribute.js
+                                  repository_navigation.js
                                   rtl.css context_menu_rtl.css
-                                  accessibility.js accessibility.css
-                                  copy_issue_actions.js repository_navigation.js select_list_move.js
-                                  jstoolbar/lang/*.js calendar/lang/*.js )
+                                  select_list_move.js
+                                  timelines.css
+                                  timelines_modal.js
+                                  timelines_select_boxes.js
+                                  types_checkboxes.js
+                                  work_packages.js
+                                  angular-i18n/angular-locale_de-de.js
+                                )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

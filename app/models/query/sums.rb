@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 module ::Query::Sums
+  include ActionView::Helpers::NumberHelper
+
   def all_work_packages
     @all_work_packages ||= work_packages.all
   end
@@ -49,8 +53,22 @@ module ::Query::Sums
     end
   end
 
-  def grouped_sum_of(column, issue = cached_issue)
-    sum_of(column, group_for_issue(issue))
+  def grouped_sum_of_issue(column, issue = cached_issue)
+    grouped_sum_of column, group_for_issue(issue)
+  end
+
+  def grouped_sum_of(column, group)
+    sum_of column, group
+  end
+
+  def grouped_sums(column)
+    all_work_packages
+      .map{|wp| query.group_by_column.value(wp)}
+      .uniq
+      .inject({}) do |group_sums, current_group|
+        work_packages_in_current_group = all_work_packages.select{|wp| query.group_by_column.value(wp) == current_group}
+        group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
+      end
   end
 
   def total_sum_of(column)
@@ -59,7 +77,6 @@ module ::Query::Sums
 
   def sum_of(column, collection)
     return unless should_be_summed_up?(column)
-
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
     values = collection.map do |issue|
                column.respond_to?(:real_value) ?

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -266,8 +266,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
                         :revision => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                         :scmid    => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                         :comments => 'test')
-      assert c.event_title.include?('abc7234c:')
-      assert_equal 'abc7234cb2750b63f47bff735edc50a1c0a433c2', c.event_url[:rev]
+
+      event = find_events(User.find(2)).first # manager
+      assert event.event_title.include?('abc7234c:')
+      assert event.event_path =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
     end
 
     def test_log_utf8
@@ -323,5 +325,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
+  end
+
+  private
+
+  def find_events(user, options={})
+    fetcher = Redmine::Activity::Fetcher.new(user, options)
+    fetcher.scope = ['changesets']
+    fetcher.events(Date.today - 30, Date.today + 1)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ Feature: Query menu items
       | Features | Feature    |
     And I am already logged in as "bob"
 
-    @javascript
+    @wip @javascript
   Scenario: Create a query menu item
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
     And I click on "More functions"
@@ -61,7 +61,7 @@ Feature: Query menu items
     Then I should see "Bugs" within "#main-menu"
     And I should see "Successful creation."
 
-    @javascript
+    @wip @javascript
   Scenario: Delete a query menu item
     Given the user "bob" has the following query menu items in the project "Awesome Project":
       | name       | title      | navigatable |

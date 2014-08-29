@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 class WorkPackages::BulkController < ApplicationController
-  before_filter :disable_api
   before_filter :find_work_packages
   before_filter :authorize
 
@@ -43,7 +42,8 @@ class WorkPackages::BulkController < ApplicationController
     @work_packages.sort!
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
-    @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
+    @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
+    @responsibles = @projects.map(&:possible_responsibles).inject{|memo,a| memo & a}
     @types = @projects.map(&:types).inject{|memo,t| memo & t}
   end
 
@@ -67,7 +67,7 @@ class WorkPackages::BulkController < ApplicationController
       end
     end
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
-    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
+    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project}, false)
   end
 
   def destroy
@@ -77,6 +77,7 @@ class WorkPackages::BulkController < ApplicationController
         format.html { render :locals => { work_packages: @work_packages,
                                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
                     }
+        format.json { render json: { error_message: 'Clean up of associated objects required'}, status: 420 }
       end
 
     else
@@ -85,6 +86,7 @@ class WorkPackages::BulkController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default(project_work_packages_path(@work_packages.first.project)) }
+        format.json { head :ok }
       end
     end
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require 'rexml/document'
 module OpenProject
   module VERSION #:nodoc:
 
-    MAJOR = 3
+    MAJOR = 4
     MINOR = 0
     PATCH = 0
     TINY  = PATCH # Redmine compat
@@ -49,7 +49,7 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      'pre32'
+      ''
     end
 
     def self.revision

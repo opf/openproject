@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,6 @@ FactoryGirl.define do
   factory :comment do
     author :factory => :user
     sequence(:comments) { |n| "I am a comment No. #{n}" }
-    commented :factory => :work_package
+    commented :factory => :news
   end
 end

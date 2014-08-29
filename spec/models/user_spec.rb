@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User do
+describe User, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
@@ -46,31 +46,31 @@ describe User do
   describe 'a user with a long login (<= 256 chars)' do
     it 'is valid' do
       user.login = 'a' * 256
-      user.should be_valid
+      expect(user).to be_valid
     end
 
     it 'may be stored in the database' do
       user.login = 'a' * 256
-      user.save.should be_true
+      expect(user.save).to be_truthy
     end
 
     it 'may be loaded from the database' do
       user.login = 'a' * 256
       user.save
 
-      User.find_by_login('a' * 256).should == user
+      expect(User.find_by_login('a' * 256)).to eq(user)
     end
   end
 
   describe 'a user with and overly long login (> 256 chars)' do
     it 'is invalid' do
       user.login = 'a' * 257
-      user.should_not be_valid
+      expect(user).not_to be_valid
     end
 
     it 'may not be stored in the database' do
       user.login = 'a' * 257
-      user.save.should be_false
+      expect(user.save).to be_falsey
     end
 
   end
@@ -89,7 +89,7 @@ describe User do
         issue.save!
       end
 
-      it { user.assigned_issues.should == [issue] }
+      it { expect(user.assigned_issues).to eq([issue]) }
     end
 
     describe "WHEN the user has no issue assigned" do
@@ -99,7 +99,18 @@ describe User do
         issue.save!
       end
 
-      it { user.assigned_issues.should == [] }
+      it { expect(user.assigned_issues).to eq([]) }
+    end
+  end
+
+  describe '#authentication_provider' do
+    before do
+      user.identity_url = 'test_provider:veryuniqueid'
+      user.save!
+    end
+
+    it 'should create a human readable name' do
+      expect(user.authentication_provider).to eql('Test Provider')
     end
   end
 
@@ -112,13 +123,66 @@ describe User do
 
     before do
       user.save!
-      Setting.stub(:brute_force_block_after_failed_logins).and_return(3)
-      Setting.stub(:brute_force_block_minutes).and_return(30)
+      allow(Setting).to receive(:brute_force_block_after_failed_logins).and_return(3)
+      allow(Setting).to receive(:brute_force_block_minutes).and_return(30)
     end
 
     it 'should return the single blocked user' do
-      User.blocked.length.should == 1
-      User.blocked.first.id.should == blocked_user.id
+      expect(User.blocked.length).to eq(1)
+      expect(User.blocked.first.id).to eq(blocked_user.id)
+    end
+  end
+
+  describe '#change_password_allowed?' do
+    let(:user) { FactoryGirl.build(:user) }
+
+    context 'for user without auth source' do
+      before do
+        user.auth_source = nil
+      end
+
+      it 'should be true' do
+        assert user.change_password_allowed?
+      end
+    end
+
+    context 'for user with an auth source' do
+      let(:allowed_auth_source) { AuthSource.generate! }
+
+      context 'that allows password changes' do
+        before do
+          def allowed_auth_source.allow_password_changes?; true; end
+          user.auth_source = allowed_auth_source
+        end
+
+        it 'should allow password changes' do
+          expect(user.change_password_allowed?).to be_truthy
+        end
+      end
+
+      context 'that does not allow password changes' do
+        let(:denied_auth_source) { AuthSource.generate! }
+
+        before do
+          def denied_auth_source.allow_password_changes?; false; end
+          user.auth_source = denied_auth_source
+        end
+
+        it 'should not allow password changes' do
+          expect(user.change_password_allowed?).to be_falsey
+        end
+      end
+    end
+
+    context 'for user without authsource and with external authentication' do
+      before do
+        user.auth_source = nil
+        allow(user).to receive(:uses_external_authentication?).and_return(true)
+      end
+
+      it 'should not allow a password change' do
+        expect(user.change_password_allowed?).to be_falsey
+      end
     end
   end
 
@@ -138,7 +202,7 @@ describe User do
         watcher.save!
       end
 
-      it { user.watches.should == [watcher] }
+      it { expect(user.watches).to eq([watcher]) }
     end
 
     describe "WHEN the user isn't watching" do
@@ -146,7 +210,25 @@ describe User do
         issue.save!
       end
 
-      it { user.watches.should == [] }
+      it { expect(user.watches).to eq([]) }
+    end
+  end
+
+  describe '#uses_external_authentication?' do
+    context 'with identity_url' do
+      let(:user) { FactoryGirl.build(:user, :identity_url => 'test_provider:veryuniqueid') }
+
+      it 'should return true' do
+        expect(user.uses_external_authentication?).to be_truthy
+      end
+    end
+
+    context 'without identity_url' do
+      let(:user) { FactoryGirl.build(:user, :identity_url => nil) }
+
+      it 'should return false' do
+        expect(user.uses_external_authentication?).to be_falsey
+      end
     end
   end
 
@@ -158,33 +240,33 @@ describe User do
       @u.save
     end
 
-    it { @u.valid?.should be_false }
-    it { @u.errors[:password].should include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
+    it { expect(@u.valid?).to be_falsey }
+    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
   end
 
   describe '#random_password' do
     before do
       @u = User.new
-      @u.password.should be_nil
-      @u.password_confirmation.should be_nil
+      expect(@u.password).to be_nil
+      expect(@u.password_confirmation).to be_nil
       @u.random_password!
     end
 
-    it { @u.password.should_not be_blank }
-    it { @u.password_confirmation.should_not be_blank }
-    it { @u.force_password_change.should be_true}
+    it { expect(@u.password).not_to be_blank }
+    it { expect(@u.password_confirmation).not_to be_blank }
+    it { expect(@u.force_password_change).to be_truthy}
   end
 
   describe :try_authentication_for_existing_user do
     def build_user_double_with_expired_password(is_expired)
       user_double = double('User')
-      user_double.stub(:check_password?) { true }
-      user_double.stub(:active?) { true }
-      user_double.stub(:auth_source) { nil }
-      user_double.stub(:force_password_change) { false }
+      allow(user_double).to receive(:check_password?) { true }
+      allow(user_double).to receive(:active?) { true }
+      allow(user_double).to receive(:auth_source) { nil }
+      allow(user_double).to receive(:force_password_change) { false }
 
       # check for expired password should always happen
-      user_double.should_receive(:password_expired?) { is_expired }
+      expect(user_double).to receive(:password_expired?) { is_expired }
 
       user_double
     end
@@ -193,44 +275,44 @@ describe User do
       user_double = build_user_double_with_expired_password(true)
 
       # use !! to ensure value is boolean
-      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
-        == false
+      expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
+        eq(false)
     end
     it 'should allow login with a not expired password' do
       user_double = build_user_double_with_expired_password(false)
 
       # use !! to ensure value is boolean
-      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
-        == true
+      expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
+        eq(true)
     end
 
     context 'with an external auth source' do
       let(:auth_source) { FactoryGirl.build(:auth_source) }
       let(:user_with_external_auth_source) do
         user = FactoryGirl.build(:user, :login => 'user')
-        user.stub(:auth_source).and_return(auth_source)
+        allow(user).to receive(:auth_source).and_return(auth_source)
         user
       end
 
       context 'and successful external authentication' do
         before do
-          auth_source.should_receive(:authenticate).with('user', 'password').and_return(true)
+          expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(true)
         end
 
         it 'should succeed' do
-          User.try_authentication_for_existing_user(user_with_external_auth_source, 'password').
-            should == user_with_external_auth_source
+          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password')).
+            to eq(user_with_external_auth_source)
         end
       end
 
       context 'and failing external authentication' do
         before do
-          auth_source.should_receive(:authenticate).with('user', 'password').and_return(false)
+          expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(false)
         end
 
         it 'should fail when the authentication fails' do
-          User.try_authentication_for_existing_user(user_with_external_auth_source, 'password').
-            should == nil
+          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password')).
+            to eq(nil)
         end
       end
     end
@@ -243,25 +325,25 @@ describe User do
       end
 
       it 'creates a SystemUser' do
-        lambda do
+        expect {
           system_user = User.system
-          system_user.new_record?.should be_false
-          system_user.is_a?(SystemUser).should be_true
-        end.should change(User, :count).by(1)
+          expect(system_user.new_record?).to be_falsey
+          expect(system_user.is_a?(SystemUser)).to be_truthy
+        }.to change(User, :count).by(1)
       end
     end
 
     context 'a SystemUser exists' do
       before do
         @u = User.system
-        SystemUser.first.should == @u
+        expect(SystemUser.first).to eq(@u)
       end
 
       it 'returns existing SystemUser'  do
-        lambda do
+        expect {
           system_user = User.system
-          system_user.should == @u
-        end.should change(User, :count).by(0)
+          expect(system_user).to eq(@u)
+        }.to change(User, :count).by(0)
       end
     end
   end
@@ -277,7 +359,7 @@ describe User do
       before do
         default_admin.save
       end
-      it { User.default_admin_account_changed?.should be_false }
+      it { expect(User.default_admin_account_changed?).to be_falsey }
     end
 
     context "default admin account exists with changed password" do
@@ -287,7 +369,7 @@ describe User do
         default_admin.save
       end
 
-      it { User.default_admin_account_changed?.should be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
     context "default admin account was deleted" do
@@ -296,7 +378,7 @@ describe User do
         default_admin.delete
       end
 
-      it { User.default_admin_account_changed?.should be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
     context "default admin account was disabled" do
@@ -305,7 +387,7 @@ describe User do
         default_admin.save
       end
 
-      it { User.default_admin_account_changed?.should be_true }
+      it { expect(User.default_admin_account_changed?).to be_truthy }
     end
   end
 
@@ -316,18 +398,51 @@ describe User do
 
     context "feeds enabled" do
       before do
-        Setting.stub(:feeds_enabled?).and_return(true)
+        allow(Setting).to receive(:feeds_enabled?).and_return(true)
       end
 
-      it { User.find_by_rss_key(@rss_key).should == user }
+      it { expect(User.find_by_rss_key(@rss_key)).to eq(user) }
     end
 
     context "feeds disabled" do
       before do
-        Setting.stub(:feeds_enabled?).and_return(false)
+        allow(Setting).to receive(:feeds_enabled?).and_return(false)
       end
 
-      it { User.find_by_rss_key(@rss_key).should == nil }
+      it { expect(User.find_by_rss_key(@rss_key)).to eq(nil) }
+    end
+  end
+
+  describe '#impaired?' do
+    let(:anonymous) { FactoryGirl.create(:anonymous)}
+    let(:user) { FactoryGirl.create(:user)}
+
+    context 'anonymous user with accessibility mode disabled for anonymous users' do
+      before do
+        allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(false)
+      end
+
+      it { expect(anonymous.impaired?).to be_falsey }
+    end
+
+    context 'anonymous user with accessibility mode enabled for anonymous users' do
+      before do
+        allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(true)
+      end
+
+      it { expect(anonymous.impaired?).to be_truthy }
+    end
+
+    context 'not impaired user' do
+      it { expect(user.impaired?).to be_falsey }
+    end
+
+    context 'impaired user' do
+      before do
+        user.pref[:impaired] = true
+      end
+
+      it { expect(user.impaired?).to be_truthy }
     end
   end
 end

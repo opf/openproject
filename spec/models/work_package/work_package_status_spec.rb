@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,90 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
-  describe '- Relations ' do
-    describe '#workpackage status' do
-      it 'can read planning_elements w/ the help of the has_many association' do
-        status       = FactoryGirl.create(:status)
-        work_package = FactoryGirl.create(:work_package,
-                                          :status_id => status.id)
+describe WorkPackage, :type => :model do
+  describe 'status' do
+    let(:status) { FactoryGirl.create(:status) }
+    let!(:work_package) { FactoryGirl.create(:work_package,
+                                             status_id: status.id) }
 
-        WorkPackage.where(status_id: status.id).count.should == 1
-        WorkPackage.where(status_id: status.id).first.should == work_package
+    it 'can read planning_elements w/ the help of the has_many association' do
+      expect(WorkPackage.where(status_id: status.id).count).to eq(1)
+      expect(WorkPackage.where(status_id: status.id).first).to eq(work_package)
+    end
+
+    describe 'transition' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:type) { FactoryGirl.create(:type) }
+      let(:project) { FactoryGirl.create(:project,
+                                         types: [type]) }
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:edit_work_packages]) }
+      let(:invalid_role) { FactoryGirl.create(:role,
+                                              permissions: [:edit_work_packages]) }
+      let!(:member) { FactoryGirl.create(:member,
+                                         project: project,
+                                         principal: user,
+                                         roles: [role]) }
+      let(:status_2) { FactoryGirl.create(:status) }
+      let!(:work_package) { FactoryGirl.create(:work_package,
+                                               project_id: project.id,
+                                               type_id: type.id,
+                                               status_id: status.id) }
+      let(:valid_user_workflow) { FactoryGirl.create(:workflow,
+                                                     type_id: type.id,
+                                                     old_status: status,
+                                                     new_status: status_2,
+                                                     role: role) }
+      let(:invalid_user_workflow) { FactoryGirl.create(:workflow,
+                                                       type_id: type.id,
+                                                       old_status: status,
+                                                       new_status: status_2,
+                                                       role: invalid_role) }
+
+      shared_examples_for "work package status transition" do
+        describe 'valid' do
+          before do
+            valid_user_workflow
+
+            work_package.status = status_2
+          end
+
+          it { expect(work_package.save).to be_truthy }
+        end
+
+        describe 'invalid' do
+          before do
+            invalid_user_workflow
+
+            work_package.status = status_2
+          end
+
+          it { expect(work_package.save).to eq(invalid_result) }
+        end
+
+        describe 'non-existing' do
+          before { work_package.status = status_2 }
+
+          it { expect(work_package.save).to be_falsey }
+        end
+      end
+
+      describe 'non-admin user' do
+        before { allow(User).to receive(:current).and_return user }
+
+        it_behaves_like "work package status transition" do
+          let(:invalid_result) { false }
+        end
+      end
+
+      describe 'admin user' do
+        let(:admin) { FactoryGirl.create(:admin) }
+
+        before { allow(User).to receive(:current).and_return admin }
+
+        it_behaves_like "work package status transition" do
+          let(:invalid_result) { true }
+        end
       end
     end
   end

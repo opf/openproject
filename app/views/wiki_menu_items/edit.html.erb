@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for "wiki_menu_item", :object => @wiki_menu_item %>
 
-<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}.push(@page)) %>
+<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}.push(@page_title)) %>
 
 <h2><%= l(:wiki_menu_item_for, :title => @page_title) %></h2>
   <%= form_for @wiki_menu_item, :html => {:id => 'wiki_menu_item_form', :class => 'menu-item-form', :method => :put}, :url => wiki_menu_item_path(@project, @page) do |form| %>

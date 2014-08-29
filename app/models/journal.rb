@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,6 @@ class Journal < ActiveRecord::Base
     if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
       attributes.each {|k,v| attributes[k] = v[1]}
     end
-
     data.update_attributes attributes
   end
 
@@ -94,7 +93,7 @@ class Journal < ActiveRecord::Base
   end
 
   def editable_by?(user)
-    journable.journal_editable_by?(user)
+    (journable.journal_editable_by?(user) && self.user == user) || user.admin?
   end
 
   def details
@@ -104,11 +103,11 @@ class Journal < ActiveRecord::Base
   alias_method :changed_data, :details
 
   def new_value_for(prop)
-    details[prop.to_sym].last if details.keys.include? prop.to_sym
+    details[prop].last if details.keys.include? prop
   end
 
   def old_value_for(prop)
-    details[prop.to_sym].first if details.keys.include? prop.to_sym
+    details[prop].first if details.keys.include? prop
   end
 
   def data
@@ -140,7 +139,7 @@ class Journal < ActiveRecord::Base
     return {} if data.nil?
 
     if @changes.nil?
-      @changes = {}
+      @changes = HashWithIndifferentAccess.new
 
       if predecessor.nil?
         @changes = data.journaled_attributes.select{|_,v| !v.nil?}
@@ -167,10 +166,10 @@ class Journal < ActiveRecord::Base
 
   def get_association_changes(predecessor, journal_association, association, key, value)
     changes = {}
-    journal_assoc_name = "#{journal_association}_journals".to_sym
+    journal_assoc_name = "#{journal_association}_journals"
 
     if predecessor.nil?
-      send(journal_assoc_name).each_with_object(changes) {|a, h| h["#{association}_#{a.send(key)}".to_sym] = [nil, a.send(value)] }
+      send(journal_assoc_name).each_with_object(changes) {|a, h| h["#{association}_#{a.send(key)}"] = [nil, a.send(value)] }
     else
       current = send(journal_assoc_name).map(&:attributes)
       predecessor_attachable_journals = predecessor.send(journal_assoc_name).map(&:attributes)
@@ -188,8 +187,8 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND id < ?",
-                                   journable_type, journable_id, id)
+    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND version < ?",
+                                   journable_type, journable_id, version)
                             .order("version DESC")
                             .first
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::StatusesController do
+describe Api::V2::StatusesController, :type => :controller do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:status)     {FactoryGirl.create(:status)}
 
   before do
-    User.stub(:current).and_return valid_user
+    allow(User).to receive(:current).and_return valid_user
   end
 
   describe 'looking up a singular status' do
@@ -42,7 +42,7 @@ describe Api::V2::StatusesController do
 
     it 'that does not exist should raise an error' do
       get 'show', :id => '0', :format => 'json'
-      response.response_code.should == 404
+      expect(response.response_code).to eq(404)
     end
     it 'that exists should return the proper status' do
       get 'show', :id => closed.id, :format => 'json'
@@ -64,4 +64,3 @@ describe Api::V2::StatusesController do
   end
 
 end
-

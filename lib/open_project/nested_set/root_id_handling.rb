@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,10 @@
 # When included it adds the nested_set behaviour scoped by the attribute
 # 'root_id'
 #
-# AwesomeNestedSet offers beeing scoped but does not handle inserting and
-# updating with the scoped beeing set right. This module adds this.
+# AwesomeNestedSet offers being scoped but does not handle inserting and
+# updating with the scoped being set right. This module adds this.
 #
-# When beeing scoped, we no longer have one big set over the the entire table
+# When being scoped, we no longer have one big set over the the entire table
 # but a forest of sets instead.
 #
 # The idea of this extension is to always place the node in the correct set
@@ -84,10 +84,14 @@ module OpenProject::NestedSet
       end
 
       def validate_correct_parent
+        # calling parent triggers the loading, so if we could not load one, the parent does not exist
+        if parent_id && !parent
+          errors.add :parent_id, :does_not_exist
+        end
         # Checks parent issue assignment
         if parent
           if !Setting.cross_project_work_package_relations? && parent.project_id != self.project_id
-            errors.add :parent_id, :not_a_valid_parent
+            errors.add :parent_id, :cannot_be_in_another_project
           elsif !new_record?
             # moving an existing issue
             if parent.root_id != root_id
@@ -129,7 +133,7 @@ module OpenProject::NestedSet
       # of the parent. If no parent is provided, the new node defines it's own
       # set.
       def initial_root_id
-        if parent_id
+        if parent
           self.root_id = parent.root_id
         else
           self.root_id = id
@@ -214,7 +218,7 @@ module OpenProject::NestedSet
       #       1*6
       #       / \
       #    2*3  4*5
-      # for wich the node with lft = 2 and rgt = 3 is self and was removed, the
+      # for which the node with lft = 2 and rgt = 3 is self and was removed, the
       # resulting set will be:
       #       1*4
       #        |

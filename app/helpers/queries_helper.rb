@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,50 +30,16 @@
 module QueriesHelper
 
   def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+    Queries::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Queries::Filter.operators[o]), o]}
   end
 
-  def column_header(column)
-    column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
-                                                        :default_order => column.default_order) :
-                      content_tag('th', h(column.caption))
+  def column_locale(column)
+    (column.is_a? QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
   end
 
-  def column_content(column, issue)
-    value = column.value(issue)
-
-    case value.class.name
-    when 'String'
-      if column.name == :subject
-        link_to(h(value), work_package_path(issue))
-      else
-        h(value)
-      end
-    when 'Time'
-      format_time(value)
-    when 'Date'
-      format_date(value)
-    when 'Fixnum', 'Float'
-      if column.name == :done_ratio
-        progress_bar(value, :width => '80px')
-      else
-        h(value.to_s)
-      end
-    when 'User'
-      link_to_user value
-    when 'Project'
-      link_to_project value
-    when 'Version'
-      link_to(h(value), :controller => '/versions', :action => 'show', :id => value)
-    when 'TrueClass'
-      l(:general_text_Yes)
-    when 'FalseClass'
-      l(:general_text_No)
-    when 'Issue', 'PlanningElement'
-      link_to_work_package(value, :subject => false)
-    else
-      h(value)
-    end
+  def add_filter_from_params
+    @query.filters = []
+    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
   end
 
   # Retrieve query from session or build a new query
@@ -88,18 +54,17 @@ module QueriesHelper
     else
       if api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
         # Give it a name, required to be valid
-        @query = Query.new(:name => "_")
+        @query = Query.new({name: "_"})
         @query.project = @project
         if params[:fields] || params[:f]
-          @query.filters = {}
-          @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+          add_filter_from_params
         else
-          @query.available_filters.keys.each do |field|
+          @query.available_work_package_filters.keys.each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
         @query.group_by = params[:group_by]
-        @query.display_sums = params[:display_sums].present?
+        @query.display_sums = params[:display_sums].present? && params[:display_sums] == "true"
         @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
         session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :display_sums => @query.display_sums, :column_names => @query.column_names}
       else

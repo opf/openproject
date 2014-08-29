@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +33,16 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>
 <table class="list memberships">
-	<thead><tr>
-	  <th><%= Project.model_name.human %></th>
-	  <th><%= l(:label_role_plural) %></th>
-	  <th style="width:15%"></th>
+  <thead><tr>
+    <th><%= Project.model_name.human %></th>
+    <th><%= l(:label_role_plural) %></th>
+    <th style="width:15%"></th>
       <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
-	</tr></thead>
-	<tbody>
-	<% @user.memberships.each do |membership| %>
-	<% next if membership.new_record? %>
-	<tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+  </tr></thead>
+  <tbody>
+  <% @user.memberships.each do |membership| %>
+  <% next if membership.new_record? %>
+  <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
   <td class="project">
     <%= link_to_project membership.project %>
   </td>
@@ -51,9 +51,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= form_for(:membership, :remote => true,
                               :url => { :action => 'edit_membership', :id => @user, :membership_id => membership },
                               :html => { :id => "member-#{membership.id}-roles-form", :style => 'display:none;'}) do %>
-      	<p><% roles.each do |role| %>
+        <p><% roles.each do |role| %>
         <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
-        																									 :disabled => membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+                                                           :disabled => membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <p><%= submit_tag l(:button_change) %>
         <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;" %></p>
@@ -67,12 +67,12 @@ See doc/COPYRIGHT.rdoc for more details.
                                        :membership_id => membership },
                                       :remote => true,
                                       :method => :post,
-                                      :class => 'icon icon-del') if membership.deletable? %>
+                                      :class => 'icon icon-delete') if membership.deletable? %>
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
-	</tr>
+  </tr>
   <% end; reset_cycle %>
-	</tbody>
+  </tbody>
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>

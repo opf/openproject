@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,10 @@ class Type < ActiveRecord::Base
     Type.where(is_standard: true).first
   end
 
+  def self.default
+    Type.where(is_default: true)
+  end
+
   def statuses
     return [] if new_record?
     @statuses ||= Type.statuses([id])
@@ -102,8 +106,20 @@ class Type < ActiveRecord::Base
     PlanningElementTypeColor.all
   end
 
+  def is_valid_transition?(status_id_a, status_id_b, roles)
+    transition_exists?(status_id_a, status_id_b, roles.collect(&:id))
+  end
+
 private
+
   def check_integrity
     raise "Can't delete type" if WorkPackage.find(:first, :conditions => ["type_id=?", self.id])
+  end
+
+  def transition_exists?(status_id_a, status_id_b, role_ids)
+    workflows.where(old_status_id: status_id_a,
+                    new_status_id: status_id_b,
+                    role_id: role_ids)
+             .any?
   end
 end

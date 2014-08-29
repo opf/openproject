@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PaginationHelper do
+describe PaginationHelper, :type => :helper do
 
   let(:paginator) do
     # creating a mock pagination object
@@ -44,7 +44,7 @@ describe PaginationHelper do
     end
 
     # this is required in order to be able to produce a valid url
-    helper.stub(:params).and_return( { :controller => 'work_packages', :action => 'index' }.with_indifferent_access )
+    allow(helper).to receive(:params).and_return( { :controller => 'work_packages', :action => 'index' }.with_indifferent_access )
 
     paginator
   end
@@ -57,39 +57,39 @@ describe PaginationHelper do
     let(:pagination) { helper.pagination_links_full(paginator) }
 
     it "should be inside a 'pagination' p" do
-      pagination.should have_selector("p.pagination")
+      expect(pagination).to have_selector("p.pagination")
     end
 
     it "should not be inside a 'pagination' p if not desired" do
-      helper.pagination_links_full(paginator, :container => false).should_not have_selector("p.pagination")
+      expect(helper.pagination_links_full(paginator, :container => false)).not_to have_selector("p.pagination")
     end
 
     it "should have a next_page reference" do
-      pagination.should have_selector(".next_page")
+      expect(pagination).to have_selector(".next_page")
     end
 
     it "should have a previous_page reference" do
-      pagination.should have_selector(".previous_page")
+      expect(pagination).to have_selector(".previous_page")
     end
 
     it "should have links to every page except the current one" do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        pagination.should have_selector("a[href='#{work_packages_path(:page => i)}']", :text => Regexp.new("^#{i}$"))
+        expect(pagination).to have_selector("a[href='#{work_packages_path(:page => i)}']", :text => Regexp.new("^#{i}$"))
       end
     end
 
     it "should not have a link to the current page" do
-      pagination.should_not have_selector("a", :text => Regexp.new("^#{current_page}$"))
+      expect(pagination).not_to have_selector("a", :text => Regexp.new("^#{current_page}$"))
     end
 
     it "should have an element for the curren page" do
-      pagination.should have_selector("em.current", :text => Regexp.new("^#{current_page}$"))
+      expect(pagination).to have_selector("em.current", :text => Regexp.new("^#{current_page}$"))
     end
 
     it "should show the range of the entries displayed" do
-      pagination.should have_selector("span.range",
+      expect(pagination).to have_selector("span.range",
                                       :text => "(#{(current_page * per_page) - per_page + 1} - #{current_page * per_page}/#{total_entries})")
     end
 
@@ -101,7 +101,7 @@ describe PaginationHelper do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        pagination.should have_selector("a[href='#{work_packages_path({:page => i}.merge(params))}']", :text => Regexp.new("^#{i}$"))
+        expect(pagination).to have_selector("a[href='#{work_packages_path({:page => i}.merge(params))}']", :text => Regexp.new("^#{i}$"))
       end
     end
 
@@ -110,10 +110,10 @@ describe PaginationHelper do
 
       Setting.per_page_options = "#{per_page},#{per_page * 10}"
 
-      pagination.should have_selector("span.per_page_options")
+      expect(pagination).to have_selector("span.per_page_options")
 
-      pagination.should have_selector(".per_page_options span.current", :text => per_page)
-      pagination.should have_selector(".per_page_options a[href='#{work_packages_path(:page => current_page, :per_page => Setting.per_page_options_array.last)}']")
+      expect(pagination).to have_selector(".per_page_options span.current", :text => per_page)
+      expect(pagination).to have_selector(".per_page_options a[href='#{work_packages_path(:page => current_page, :per_page => Setting.per_page_options_array.last)}']")
 
       Setting.per_page_options = ar
     end
@@ -122,11 +122,11 @@ describe PaginationHelper do
       let(:current_page) { 1 }
 
       it "should deactivate the previous page link" do
-        pagination.should have_selector(".previous_page.disabled")
+        expect(pagination).to have_selector(".previous_page.disabled")
       end
 
       it "should have a link to the next page" do
-        pagination.should have_selector("a.next_page[href='#{work_packages_path({:page => current_page + 1})}']")
+        expect(pagination).to have_selector("a.next_page[href='#{work_packages_path({:page => current_page + 1})}']")
       end
     end
 
@@ -134,11 +134,11 @@ describe PaginationHelper do
       let(:current_page) { total_entries/per_page + 1 }
 
       it "should deactivate the next page link" do
-        pagination.should have_selector(".next_page.disabled")
+        expect(pagination).to have_selector(".next_page.disabled")
       end
 
       it "should have a link to the previous page" do
-        pagination.should have_selector("a.previous_page[href='#{work_packages_path({:page => current_page - 1})}']")
+        expect(pagination).to have_selector("a.previous_page[href='#{work_packages_path({:page => current_page - 1})}']")
       end
     end
 
@@ -146,7 +146,7 @@ describe PaginationHelper do
       let(:total_entries) { 0 }
 
       it "should be empty" do
-        pagination.should have_selector(".pagination", :text => /\A\z/)
+        expect(pagination).to have_selector(".pagination", :text => /\A\z/)
       end
     end
   end
@@ -155,13 +155,13 @@ describe PaginationHelper do
     it "should return page if provided and sensible" do
       page = 2
 
-      page_param( { :page => page } ).should == page
+      expect(page_param( { :page => page } )).to eq(page)
     end
 
     it "should return default page 1 if page provided but useless" do
       page = 0
 
-      page_param( { :page => page } ).should == 1
+      expect(page_param( { :page => page } )).to eq(1)
     end
 
     it "should calculate page from offset and limit if page is not provided" do
@@ -171,7 +171,7 @@ describe PaginationHelper do
         offset = 55
         limit = 10
 
-        page_param( { :offset => offset, :limit => limit } ).should == 6
+        expect(page_param( { :offset => offset, :limit => limit } )).to eq(6)
       end
     end
 
@@ -180,7 +180,7 @@ describe PaginationHelper do
       limit = 10
       page = 7
 
-      page_param( { :offset => offset, :limit => limit, :page => page } ).should == page
+      expect(page_param( { :offset => offset, :limit => limit, :page => page } )).to eq(page)
     end
 
     it "should not break if limit is bogus (also faulty settings)" do
@@ -188,12 +188,12 @@ describe PaginationHelper do
         offset = 55
         limit = "lorem"
 
-        page_param( { :offset => offset, :limit => limit } ).should == 28
+        expect(page_param( { :offset => offset, :limit => limit } )).to eq(28)
       end
     end
 
     it "should return 1 if nothing is provided" do
-      page_param( {} ).should == 1
+      expect(page_param( {} )).to eq(1)
     end
   end
 
@@ -202,7 +202,7 @@ describe PaginationHelper do
       with_settings :per_page_options => '1,2,3' do
         per_page = 2
 
-        per_page_param( { :per_page => per_page } ).should == per_page
+        expect(per_page_param( { :per_page => per_page } )).to eq(per_page)
       end
     end
 
@@ -211,8 +211,8 @@ describe PaginationHelper do
         session[:per_page] = 3
         per_page = 2
 
-        per_page_param( { :per_page => per_page } ).should == per_page
-        session[:per_page].should == 2
+        expect(per_page_param( { :per_page => per_page } )).to eq(per_page)
+        expect(session[:per_page]).to eq(2)
       end
     end
 
@@ -220,15 +220,15 @@ describe PaginationHelper do
       with_settings :per_page_options => '1,2,3' do
         per_page = 4
 
-        per_page_param( { :per_page => per_page } ).should == 1
+        expect(per_page_param( { :per_page => per_page } )).to eq(1)
       end
     end
 
-    it "preferes the value stored in the session if it is valid according to the settings" do
+    it "prefers the value stored in the session if it is valid according to the settings" do
       with_settings :per_page_options => '1,2,3' do
         session[:per_page] = 2
 
-        per_page_param( { :per_page => 3 } ).should == session[:per_page]
+        expect(per_page_param( { :per_page => 3 } )).to eq(session[:per_page])
       end
     end
 
@@ -236,24 +236,24 @@ describe PaginationHelper do
       with_settings :per_page_options => '1,2,3' do
         session[:per_page] = 4
 
-        per_page_param( { :per_page => 3 } ).should == 3
+        expect(per_page_param( { :per_page => 3 } )).to eq(3)
       end
     end
 
-    it "uses limit synonomously to per_page" do
+    it "uses limit synonymously to per_page" do
       with_settings :per_page_options => '1,2,3' do
         limit = 2
 
-        per_page_param( { :limit => limit } ).should == limit
+        expect(per_page_param( { :limit => limit } )).to eq(limit)
       end
     end
 
-    it "preferes per_page over limit" do
+    it "prefers per_page over limit" do
       with_settings :per_page_options => '1,2,3' do
         limit = 2
         per_page = 3
 
-        per_page_param( { :limit => limit, :per_page => per_page } ).should == per_page
+        expect(per_page_param( { :limit => limit, :per_page => per_page } )).to eq(per_page)
       end
     end
 
@@ -263,7 +263,7 @@ describe PaginationHelper do
 
         per_page_param( { :limit => limit } )
 
-        session[:per_page].should == limit
+        expect(session[:per_page]).to eq(limit)
       end
     end
   end

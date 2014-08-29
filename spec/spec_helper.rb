@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,8 @@ require 'capybara/rails'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/features/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/lib/api/v3/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -63,7 +65,32 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  #
+  # Taken from http://stackoverflow.com/questions/21922046/deadlock-detected-with-capybara-webkit
+  # which replaces the one we had before taken from http://stackoverflow.com/a/13234966
+  # Thanks a lot!
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before(:each) do |example|
+    DatabaseCleaner.strategy = if example.metadata[:js]
+                                 # JS => doesn't share connections => can't use transactions
+                                 # truncations seem to fail more often + they are slower
+                                 :deletion
+                               else
+                                 # No JS/Devise => run with Rack::Test => transactions are ok
+                                 :transaction
+                               end
+
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -82,7 +109,7 @@ RSpec.configure do |config|
   # add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
-  config.after(:each) do
+  config.after(:each) do |example|
     OpenProject::RSpecLazinessWarn.warn_if_user_current_set(example)
   end
 
@@ -91,6 +118,13 @@ RSpec.configure do |config|
       raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
     end
   end
+
+  config.mock_with :rspec do |c|
+    c.yield_receiver_to_any_instance_implementation_blocks = true
+  end
+
+  # include spec/api for API request specs
+  config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: { file_path: /spec\/api/ }
 end
 
 # load disable_specs.rbs from plugins

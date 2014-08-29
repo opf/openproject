@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,16 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController do
+describe WorkPackagesController, :type => :routing do
 
   it "should connect GET /project/1/work_packages/report to work_package/report#report" do
-    get("/projects/1/work_packages/report").should route_to( controller: 'work_packages/reports',
+    expect(get("/projects/1/work_packages/report")).to route_to( controller: 'work_packages/reports',
                                                              action: 'report',
                                                              project_id: '1')
   end
 
   it "should connect GET /project/1/work_packages/report/assigned_to to work_package/report#report_details" do
-    get("/projects/1/work_packages/report/assigned_to").should route_to( controller: 'work_packages/reports',
+    expect(get("/projects/1/work_packages/report/assigned_to")).to route_to( controller: 'work_packages/reports',
                                                                          action: 'report_details',
                                                                          project_id: '1',
                                                                          detail: 'assigned_to')

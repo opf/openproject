@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= h(entry.kind) %>">
 <td style="padding-left: <%=18 * depth%>px;" class="filename">
 <% if entry.is_dir? %>
-<span class="expander" onclick="<%=  remote_function :url => {:action => 'show', :project_id => @project, :path => to_path_param(ent_path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
+<span class="icon-context dir-expander" onclick="<%=  remote_function :url => {:action => 'show', :project_id => @project, :path => to_path_param(ent_path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
                   :method => :get,
                   :update => { :success => tr_id },
                   :position => :after,
@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <%=  link_to h(ent_name),
           {:action => (entry.is_dir? ? 'show' : 'changes'), :project_id => @project, :path => to_path_param(ent_path), :rev => @rev},
-          :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
+          :class => (entry.is_dir? ? 'icon-context icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
 <% changeset = @project.repository.find_changeset_by_name(entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %>

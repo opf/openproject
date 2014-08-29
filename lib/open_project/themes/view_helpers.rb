@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module OpenProject
       # if none is configured or one cannot be found it returns the default theme
       # which means this helper always returns a OpenProject::Themes::Theme subclass
       def current_theme
-        OpenProject::Themes.current_theme
+        OpenProject::Themes.current_theme user: User.current
       end
 
       # overrides image_tag defined in ActionView::Helpers::AssetTagHelpers (Rails 4)
@@ -59,6 +59,6 @@ end
 
 module ApplicationHelper
   # including a module is way better than defining methods directly in the application helper's module
-  # it plays nicely with inheritence and it will show up in ApplicationHelper.ancestors list
+  # it plays nicely with inheritance and it will show up in ApplicationHelper.ancestors list
   include OpenProject::Themes::ViewHelpers
 end

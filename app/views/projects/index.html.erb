@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,30 +31,32 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
 
-<div id="project-links" class="contextual">
-    <%= link_to(l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
-    <%= link_to(l(:label_work_package_view_all), { controller: :work_packages }) + ' |' if User.current.allowed_to?(:view_work_packages, nil, :global => true) %>
-    <%= link_to(l(:label_overall_spent_time), { :controller => '/time_entries' }) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
-    <%= link_to(l(:label_news_view_all), { :controller => '/news' }) + ' |' if User.current.allowed_to?(:view_news, nil, :global => true) %>
-    <%= link_to l(:label_overall_activity), { :controller => '/activities', :action => 'index' }%>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to(l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
+  <%= link_to(l(:label_work_package_view_all), { controller: :work_packages }) + ' |' if User.current.allowed_to?(:view_work_packages, nil, :global => true) %>
+  <%= link_to(l(:label_overall_spent_time), { :controller => '/time_entries' }) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
+  <%= link_to(l(:label_news_view_all), { :controller => '/news' }) + ' |' if User.current.allowed_to?(:view_news, nil, :global => true) %>
+  <%= link_to l(:label_overall_activity), { :controller => '/activities', :action => 'index' }%>
+<% end %>
+
+<% html_title(l(:label_project_plural)) -%>
 
 <h2><%=l(:label_project_plural)%></h2>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <div class="wiki">
-  <%= textilizable Setting.welcome_text %>
+  <%= format_text Setting.welcome_text %>
 </div>
 
-<%= render_project_hierarchy(@projects)%>
-
 <% if User.current.logged? %>
-<p style="text-align:right;">
-<span class="my-project"><%= l(:label_my_projects) %></span>
-</p>
+  <p style="float:right;">
+    <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
+  </p>
 <% end %>
+
+<%= render_project_hierarchy(@projects)%>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
-
-<% html_title(l(:label_project_plural)) -%>

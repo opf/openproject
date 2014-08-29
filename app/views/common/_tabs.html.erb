@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="tabs">
   <ul>
-  <% tabs.each do |tab| -%>
+  <% tabs.each do |tab| %>
     <li><%=
     position_span = you_are_here_info(tab[:name] == selected_tab)
     caption = case tab[:label]
@@ -40,26 +40,27 @@ See doc/COPYRIGHT.rdoc for more details.
     else
       l(tab[:label])
     end
-    link_to(position_span + caption, { :tab => tab[:name] },
-                                       :id => "tab-#{tab[:name]}",
-                                       :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                       :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;") %></li>
-  <% end -%>
+    link_to(position_span + caption, { tab: tab[:name] },
+                                       id: "tab-#{tab[:name]}",
+                                       class: (tab[:name] != selected_tab ? nil : 'selected'),
+                                       onclick: "showTab('#{tab[:name]}', this.href); this.blur(); return false;") %></li>
+  <% end %>
   </ul>
   <div class="tabs-buttons" style="display:none;">
-  	<button class="tab-left" onclick="moveTabLeft(this);"></button>
-  	<button class="tab-right" onclick="moveTabRight(this);"></button>
+    <button class="tab-left" onclick="moveTabLeft(this);"></button>
+    <button class="tab-right" onclick="moveTabRight(this);"></button>
   </div>
 </div>
 
 <script>
-	Event.observe(window, 'load', function() { displayTabsButtons(); });
-	Event.observe(window, 'resize', function() { displayTabsButtons(); });
+  jQuery(function() { displayTabsButtons(); });
+  jQuery(window).resize(function() { displayTabsButtons(); });
 </script>
 
-<% tabs.each do |tab| -%>
-  <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
-                       :id => "tab-content-#{tab[:name]}",
-                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>
-<% end -%>
+<% tabs.each do |tab| %>
+  <%= content_tag('div',
+                  render(partial: tab[:partial], locals: {tab: tab} ),
+                  id: "tab-content-#{tab[:name]}",
+                  style: (tab[:name] != selected_tab ? 'display:none' : nil),
+                  class: 'tab-content') %>
+<% end %>

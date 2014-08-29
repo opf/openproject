@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,10 @@ class ApplicationControllerTest < ActionController::TestCase
 
   # check that all language files are valid
   def test_localization
-    lang_files_count = Dir[Rails.root.join('config/locales/*.yml')].size
+    lang_files_count = Dir.glob(Rails.root.join('config/locales/*.yml'))
+                          .map { |f| File.basename(f) }
+                          .reject { |b| b.starts_with? 'js' }
+                          .size
     Setting.available_languages = Setting.all_languages
     assert_equal lang_files_count, valid_languages.size
     valid_languages.each do |lang|

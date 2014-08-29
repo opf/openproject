@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,15 @@
 #++
 
 class Board < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :project
-  has_many :topics, :class_name => 'Message', :conditions => "#{Message.table_name}.parent_id IS NULL", :order => "#{Message.table_name}.created_on DESC"
-  has_many :messages, :dependent => :destroy, :order => "#{Message.table_name}.created_on DESC"
+  has_many :topics, :class_name => 'Message', :conditions => "#{Message.table_name}.parent_id IS NULL" , :order => "#{Message.table_name}.sticky DESC"
+  has_many :messages, :dependent => :destroy , :order => "#{Message.table_name}.sticky DESC"
   belongs_to :last_message, :class_name => 'Message', :foreign_key => :last_message_id
   acts_as_list :scope => :project_id
   acts_as_watchable
-  
+
   attr_protected :project_id
 
   validates_presence_of :name, :description

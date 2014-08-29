@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @project.shared_versions.any? %>
 <table class="list versions">
-	<thead><tr>
+  <thead><tr>
     <th><%= Version.model_name.human %></th>
     <th><%= Version.human_attribute_name(:start_date) %></th>
     <th><%= Version.human_attribute_name(:effective_date) %></th>
@@ -39,10 +39,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <th><%= WikiPage.model_name.human %></th>
     <th style="width:15%"></th>
     </tr></thead>
-	<tbody>
+  <tbody>
 <% for version in @project.shared_versions.sort %>
     <tr class="version <%= cycle 'odd', 'even' %>  <%= 'shared' if version.project != @project %>">
-    <td class="name <%=h version.status %>"><%= link_to_version version %></td>
+    <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project%>"><%= link_to_version version %></td>
     <td class="date"><%= format_date(version.start_date) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%=h version.description %></td>
@@ -50,11 +50,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
     <td><%= link_to_if_authorized(h(version.wiki_page_title), {:controller => '/wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
     <td class="buttons">
-    	<% if version.project == @project %>
-    		<%= link_to_if_authorized l(:button_edit),   {:controller => '/versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
-    		<%= link_to_if_authorized l(:button_delete), {:controller => '/versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
-    	<% end %>
-   	</td>
+      <% if version.project == @project %>
+        <%= link_to_if_authorized l(:button_edit),   {:controller => '/versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => '/versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
+      <% end %>
+    </td>
     </tr>
 <% end; reset_cycle %>
     </tbody>
@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <% if @project.versions.any? %>
-	<%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
+  <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
 <% end %>
 </div>
 

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
 <%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
 <%= select_tag 'period', options_for_period_select(params[:period]),
-                         :onchange => 'this.form.submit();',
                          :onfocus => '$("period_type_1").checked = true;',
                          :disabled => @free_period %>
 </p>
@@ -62,6 +61,6 @@ raw l(:label_date_from_to,
 </div>
 </fieldset>
 <p class="buttons">
-	<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'icon icon-reload' %>
+  <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-yes' %>
+  <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'icon icon-undo' %>
 </p>

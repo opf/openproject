@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ FactoryGirl.define do
     admin false
     first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
 
-    after(:build) do |user, evaluator| # this is also done after :create
+    callback(:after_build) do |user, evaluator| # this is also done after :create
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
@@ -67,10 +67,6 @@ FactoryGirl.define do
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
     end
 
-    factory :anonymous, :class => AnonymousUser do
-      status User::STATUSES[:builtin]
-      initialize_with { User.anonymous }
-    end
 
     factory :deleted_user, :class => DeletedUser do
       status User::STATUSES[:builtin]
@@ -85,5 +81,9 @@ FactoryGirl.define do
       password_confirmation 'adminADMIN!'
       status User::STATUSES[:locked]
     end
+  end
+  factory :anonymous, :class => AnonymousUser do
+    status User::STATUSES[:builtin]
+    initialize_with { User.anonymous }
   end
 end

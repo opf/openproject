@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Project do
+describe Project, :type => :model do
   describe '- Relations ' do
     describe '#project_type' do
       it 'can read the project_type w/ the help of the belongs_to association' do
@@ -37,7 +37,7 @@ describe Project do
 
         project.reload
 
-        project.project_type.should == project_type
+        expect(project.project_type).to eq(project_type)
       end
     end
 
@@ -48,7 +48,7 @@ describe Project do
 
         project.reload
 
-        project.responsible.should == user
+        expect(project.responsible).to eq(user)
       end
     end
 
@@ -62,8 +62,8 @@ describe Project do
 
         project.reload
 
-        project.types.size.should == 1
-        project.types.first.should == type
+        expect(project.types.size).to eq(1)
+        expect(project.types.first).to eq(type)
       end
 
       it 'can read types w/ the help of the has_many-through association' do
@@ -75,8 +75,8 @@ describe Project do
 
         project.reload
 
-        project.types.size.should == 1
-        project.types.first.should == type
+        expect(project.types.size).to eq(1)
+        expect(project.types.first).to eq(type)
       end
     end
 
@@ -87,8 +87,8 @@ describe Project do
 
         project.reload
 
-        project.timelines.size.should  == 1
-        project.timelines.first.should == timeline
+        expect(project.timelines.size).to  eq(1)
+        expect(project.timelines.first).to eq(timeline)
       end
 
       it 'deletes associated timelines' do
@@ -110,8 +110,8 @@ describe Project do
 
         project.reload
 
-        project.reportings.size.should  == 1
-        project.reportings.first.should == reporting
+        expect(project.reportings.size).to  eq(1)
+        expect(project.reportings.first).to eq(reporting)
       end
 
       it 'can read reportings via target w/ the help of the has_many association' do
@@ -120,8 +120,8 @@ describe Project do
 
         project.reload
 
-        project.reportings.size.should  == 1
-        project.reportings.first.should == reporting
+        expect(project.reportings.size).to  eq(1)
+        expect(project.reportings.first).to eq(reporting)
       end
 
       it 'deletes associated reportings' do
@@ -140,13 +140,13 @@ describe Project do
       it 'exposes the via source helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_source }.to_not raise_error(NoMethodError)
+        expect { project.reportings_via_source }.to_not raise_error
       end
 
       it 'exposes the via target helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_target }.to_not raise_error(NoMethodError)
+        expect { project.reportings_via_target }.to_not raise_error
       end
     end
 
@@ -163,8 +163,8 @@ describe Project do
 
           project.reload
 
-          project.project_associations.size.should  == 1
-          project.project_associations.first.should == association
+          expect(project.project_associations.size).to  eq(1)
+          expect(project.project_associations.first).to eq(association)
         end
 
         it 'can read project_associations where project is project_b' do
@@ -177,8 +177,8 @@ describe Project do
 
           project.reload
 
-          project.project_associations.size.should  == 1
-          project.project_associations.first.should == association
+          expect(project.project_associations.size).to  eq(1)
+          expect(project.project_associations.first).to eq(association)
         end
 
         it 'deletes project_associations' do
@@ -212,8 +212,8 @@ describe Project do
 
           project.reload
 
-          project.associated_projects.size.should  == 1
-          project.associated_projects.first.should == other_project
+          expect(project.associated_projects.size).to  eq(1)
+          expect(project.associated_projects.first).to eq(other_project)
         end
 
         it 'can read associated_projects where project is project_b' do
@@ -225,8 +225,8 @@ describe Project do
 
           project.reload
 
-          project.associated_projects.size.should  == 1
-          project.associated_projects.first.should == other_project
+          expect(project.associated_projects.size).to  eq(1)
+          expect(project.associated_projects.first).to eq(other_project)
         end
 
         it 'hides the helper associations' do
@@ -257,9 +257,9 @@ describe Project do
 
           project.reload
 
-          project.types.size.should == 4 # including standard type
+          expect(project.types.size).to eq(4) # including standard type
           types.each do |type|
-            project.types.should be_include(type)
+            expect(project.types).to be_include(type)
           end
         end
 
@@ -280,8 +280,8 @@ describe Project do
 
           project.reload
 
-          project.types.size.should == 1
-          project.types.first.should == type_x
+          expect(project.types.size).to eq(1)
+          expect(project.types.first).to eq(type_x)
         end
       end
     end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,26 +32,30 @@ See doc/COPYRIGHT.rdoc for more details.
                  { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
 
-  <div class="splitcontentleft">
-    <p>
-      <%= fields.text_field :hours,
-                            :label => :label_spent_time %>
-      <%= TimeEntry.human_attribute_name(:hours) %>
-    </p>
+  <div class="clear">
+    <div class="splitcontentleft">
+      <div class="attribute_wrapper">
+        <%= fields.text_field :hours,
+                              :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
+                              :label => :label_spent_time,
+                              :placeholder => TimeEntry.human_attribute_name(:hours),
+                              :class => 'short' %>
+      </div>
+    </div>
+
+    <div class="splitcontentright">
+      <div class="attribute_wrapper">
+        <%= fields.select :activity_id, activity_collection_for_select_options %>
+      </div>
+    </div>
   </div>
 
-  <div class="splitcontentright">
-    <p>
-      <%= fields.select :activity_id, activity_collection_for_select_options %>
-    </p>
-  </div>
-
-  <p>
+  <div class="attribute_wrapper">
     <%= fields.text_field :comments %>
-  </p>
+  </div>
   <% time_entry.custom_field_values.each do |value| %>
-    <p>
+    <div class="attribute_wrapper">
       <%= custom_field_tag_with_label :time_entry, value %>
-    </p>
+    </div>
   <% end %>
 <% end %>

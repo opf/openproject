@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ Feature: Project creation with support for project type
   Scenario: The admin may create a project with a project type
     Given I am already admin
      When I go to the admin page
-      And I follow "Projects"
+      And I follow the first link matching "Projects"
       And I follow "New project"
      Then I fill in "Fancy Pants" for "Name"
       And I fill in "fancy-pants" for "Identifier"

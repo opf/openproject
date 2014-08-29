@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,16 @@ module Redmine
           heads_for_wiki_formatter
           url = url_for(:controller => '/help', :action => 'wiki_syntax')
           help_link = link_to(l(:setting_text_formatting), url,
+                              :class => 'icon icon-help',
                               :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
 
-          javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
+          javascript_tag(<<-EOF)
+            var wikiToolbar = new jsToolBar($('#{field_id}'));
+            wikiToolbar.setHelpLink('#{escape_javascript help_link}');
+            // initialize the toolbar later, so that i18n-js has a chance to set the translations
+            // for the wiki-buttons first.
+            jQuery(function(){ wikiToolbar.draw(); });
+          EOF
         end
 
         def initial_page_content(page)
@@ -45,12 +52,6 @@ module Redmine
         end
 
         def heads_for_wiki_formatter
-          unless @heads_for_wiki_formatter_included
-            content_for :header_tags do
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}")
-            end
-            @heads_for_wiki_formatter_included = true
-          end
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,10 @@
 
 require 'spec_helper'
 
-describe SearchController do
+describe SearchController, :type => :routing do
   it "should connect GET /search to search#index" do
-    get("/search").should route_to( :controller => 'search',
+    expect(get("/search")).to route_to( :controller => 'search',
                                     :action => 'index')
   end
 
 end
-

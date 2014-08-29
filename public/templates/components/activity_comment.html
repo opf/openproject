@@ -1,0 +1,18 @@
+<div class="activity-comment" ng-if="canAddComment">
+  <form name="commentForm">
+    <label>
+      <h3>{{ title }}</h3>
+      <textarea id="add-comment-text"
+                class="add-comment-text"
+                name="add_comment_text"
+                ng-model="activity.comment"
+                required
+                placeholder="{{ title }}">
+      </textarea>
+      <button class="button"
+              ng-click="createComment()"
+              ng-disabled="commentForm.$invalid"><i class="icon-yes icon-left"></i>{{ buttonTitle }}
+      </button>
+    </label>
+  </form>
+</div>

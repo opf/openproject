@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Timeline do
+describe Timeline, :type => :model do
   describe 'helper methods for creation' do
     describe 'available_responsibles' do
       it 'is sorted according to general setting' do
@@ -37,11 +37,11 @@ describe Timeline do
         t  = Timeline.new
 
         with_settings :user_format => :firstname_lastname do
-          t.available_responsibles.should == [ab, ba]
+          expect(t.available_responsibles).to eq([ab, ba])
         end
 
         with_settings :user_format => :lastname_firstname do
-          t.available_responsibles.should == [ba, ab]
+          expect(t.available_responsibles).to eq([ba, ab])
         end
       end
     end

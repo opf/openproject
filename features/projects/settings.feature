@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,7 +78,7 @@ Feature: Project Settings
   Scenario: Changing members per page keeps us on the members tab
     When I go to the settings page of the project "project1"
     And I follow "Members" within ".tabs"
-    And I follow "50" within ".per_page_options" within "#tab-content-members"
+    And I follow "20" within ".per_page_options" within "#tab-content-members"
     Then I should be on the members tab of the settings page of the project "project1"
 
   @javascript

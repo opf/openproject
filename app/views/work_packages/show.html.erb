@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_tag('h2', work_package.to_s) %>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <div class = "details">
   <div class="profile-wrap">
-    <%= avatar(work_package.author, :size => "40") %>
+    <%= avatar(work_package.author) %>
   </div>
 
   <p class="author">
@@ -47,33 +49,17 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </p>
 
-  <div class="issue details">
-    <div class="meta">
-      <table class="attributes">
-        <% work_package_show_attributes(work_package).each_slice(2) do |attributes| %>
-          <tr>
-          <% attributes.each do |attribute| %>
+  <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
 
-              <%= attribute.field %>
-
-          <% end %>
-          </tr>
-        <% end %>
-
-        <%= render_custom_fields_rows(work_package) %>
-        <%= call_hook(:view_work_packages_show_details_bottom, :issue => work_package) %>
-      </table>
-    </div>
-  </div>
   <% if work_package.description? %>
     <hr />
     <div class="description work_package_part">
       <div class="contextual">
-        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-comment') %>
+        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
       </div>
       <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
-      <div class="wiki wikicontent" data-user="<%= work_package.author %>">
-        <%= textilizable work_package, :description, :attachments => work_package.attachments %>
+      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
+        <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
   <% end %>
@@ -140,8 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
-<div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{work_packages_context_menu_path}')" %>
 
 <% #include calendar js files in case they are needed for edit
   include_calendar_headers_tags -%>

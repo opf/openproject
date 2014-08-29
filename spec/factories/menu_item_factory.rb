@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ FactoryGirl.define do
       end
 
       factory :wiki_menu_item_with_parent do
-        after :build do |wiki_menu_item|
+        callback(:after_build) do |wiki_menu_item|
           parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
           wiki_menu_item.wiki.wiki_menu_items << parent
           wiki_menu_item.parent = parent

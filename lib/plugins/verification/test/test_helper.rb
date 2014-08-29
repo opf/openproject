@@ -2,7 +2,6 @@ require 'rubygems'
 require 'test/unit'
 require 'active_support'
 require 'action_controller'
-require 'mocha/setup'
 
 require File.dirname(__FILE__) + '/../lib/action_controller/verification'
 

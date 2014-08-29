@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,13 +58,22 @@ module CustomFieldsHelper
     when "bool"
       hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, :id => field_id)
     when "list"
-      blank_option = custom_field.is_required? ?
-                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe : '') :
-                       '<option></option>'.html_safe
-      select_tag(field_name, blank_option + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value), :id => field_id)
+      blank_option = if custom_field.is_required? && custom_field.default_value.blank?
+                       "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>"
+                     elsif custom_field.is_required? && !custom_field.default_value.blank?
+                       ''
+                     else
+                       '<option></option>'
+                     end
+
+      options = blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value)
+
+      select_tag(field_name, options, :id => field_id)
     else
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
+
+    tag = content_tag :span, tag, lang: custom_field.name_locale
 
     custom_value.errors.empty? ?
       tag :
@@ -76,7 +85,8 @@ module CustomFieldsHelper
     content_tag "label", h(custom_value.custom_field.name) +
       (custom_value.custom_field.is_required? ? content_tag("span", ' *', :class => "required") : ""),
       :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
-      :class => (custom_value.errors.empty? ? nil : "error" )
+      :class => (custom_value.errors.empty? ? nil : "error" ),
+      :lang => custom_value.custom_field.name_locale
   end
 
   def blank_custom_field_label_tag(name, custom_field)

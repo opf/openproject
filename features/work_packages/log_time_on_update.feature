@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,8 @@ Feature: Logging time on work package update
       | name    | default |
       | status1 | true    |
     And there are the following work packages in project "ecookbook":
-      | subject |
-      | pe1     |
+      | subject | status_id |
+      | pe1     | 1         |
     And there is an activity "design"
     And I am already logged in as "manager"
 

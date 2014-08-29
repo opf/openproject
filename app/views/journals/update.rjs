@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,12 @@ if @journal.frozen?
   # journal was destroyed
   page.remove "change-#{@journal.id}"
 else
-  page.replace "journal-#{@journal.id}-notes", render_notes(@journal.journable, @journal,
-    :edit_permission => :edit_work_package_notes, :edit_own_permission => :edit_own_work_package_notes)
+  page.replace "journal-#{@journal.id}-notes", render_notes(
+                                                @journal.journable,
+                                                @journal,
+                                                edit_permission: :edit_work_package_notes,
+                                                edit_own_permission: :edit_own_work_package_notes,
+                                                quote_permission: :edit_work_packages)
   page.show "journal-#{@journal.id}-notes"
   page.remove "journal-#{@journal.id}-form"
 end

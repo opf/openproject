@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <ul>
 <% @work_packages.each do |work_package| -%>
-	<li><%= link_to_work_package work_package %></li>
+  <li><%= link_to_work_package work_package %></li>
 <% end -%>
 </ul>
 
@@ -78,14 +78,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= select_tag('assigned_to_id',
                  content_tag('option', l(:label_no_change_option), :value => '') +
                  content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
+                 options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
 </p>
 <p>
   <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
   <%= select_tag('responsible_id',
                  content_tag('option', l(:label_no_change_option), :value => '') +
                  content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
+                 options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
 </p>
 </div>
 
@@ -106,7 +106,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
 
 <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @target_project, :format => :json) %>
 <%= wikitoolbar_for 'notes' %>
 </fieldset>
 
@@ -114,12 +115,12 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% if @copy %>
-	<%= hidden_field_tag("copy") %>
-	<%= submit_tag l(:button_copy) %>
-	<%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
+  <%= hidden_field_tag("copy") %>
+  <%= submit_tag l(:button_copy) %>
+  <%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
 <% else %>
-	<%= submit_tag l(:button_move) %>
-	<%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+  <%= submit_tag l(:button_move) %>
+  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
 <% end %>
 <% end %>
 <% content_for :header_tags do %>

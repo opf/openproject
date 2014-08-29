@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <%= link_to_if User.current.allowed_to?({ :controller => '/timelog', :action => 'new' }, @project),
                  l(:button_log_time),
                  polymorphic_new_time_entry_path(@issue || @project),
-                 :class => 'icon icon-time-add' %>
-</div>
+                 :class => 'icon icon-time' %>
+<% end %>
 
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_tag(polymorphic_time_entries_report_path(@issue || @project), :method => :get, :id => 'query_form') do %>
   <% @criterias.each do |criteria| %>
@@ -45,18 +47,18 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'timelog/date_range' %>
   <%= render 'timelog/time_entry_tabs' %>
 
-  <p><label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+  <p class="timelog-report-selection">
+    <label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week'],
-                                                                            [l(:label_day_plural).titleize, 'day']], @columns),
-                                                        :onchange => "this.form.submit();" %>
+                                                                            [l(:label_day_plural).titleize, 'day']], @columns) %>
 
   <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
-                                                          :onchange => "this.form.submit();",
                                                           :style => 'width: 200px',
                                                           :id => nil,
                                                           :disabled => (@criterias.length >= 3), :id => "criterias") %>
-     <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'icon icon-reload' %></p>
+     <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-yes' %>
+     <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'icon icon-undo' %></p>
 <% end %>
 
 <% unless @criterias.empty? %>
@@ -100,4 +102,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title l(:label_spent_time), l(:label_report) %>
-

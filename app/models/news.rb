@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,13 @@ class News < ActiveRecord::Base
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
 
-  acts_as_journalized :event_url => Proc.new {|o| {:controller => '/news', :action => 'show', :id => o.journal.journable_id} }
+  acts_as_journalized
+
+  acts_as_event url: Proc.new {|o| {:controller => '/news', :action => 'show', :id => o.id } },
+                datetime: :created_on
+
   acts_as_searchable :columns => ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"], :include => :project
+
   acts_as_watchable
 
   after_create :add_author_as_watcher
@@ -82,6 +87,10 @@ class News < ActiveRecord::Base
 
   def post_comment!(attributes = {})
     new_comment(attributes).post!
+  end
+
+  def to_param
+    id && "#{id} #{title}".parameterize
   end
 
   private

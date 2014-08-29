@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,27 +45,35 @@ Feature: Exporting work packages
       | subject | Some Issue |
     And I am already logged in as "bob"
 
+    @wip @javascript
   Scenario: No export links on project work packages index if user has no "export_work_packages" permission
     When I go to the work packages index page of the project called "project1"
+    And I choose "Export" from the toolbar "settings" dropdown
     Then I should not see "CSV"
     And I should not see "PDF"
 
+    @wip @javascript
   Scenario: Export links on project issues work packages if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
      | export_work_packages |
     When I go to the work packages index page of the project called "project1"
+    And I choose "Export" from the toolbar "settings" dropdown
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
 
+    @wip @javascript
   Scenario: No export links on global issues index if user has no "export_work_packages" permission
     When I go to the global index page of work packages
+    And I choose "Export" from the toolbar "settings" dropdown
     Then I should not see "CSV"
     And I should not see "PDF"
 
+    @wip @javascript
   Scenario: Export links on global issues index if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
      | export_work_packages |
     When I go to the global index page of work packages
+    And I choose "Export" from the toolbar "settings" dropdown
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
 

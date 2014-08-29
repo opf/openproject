@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +38,7 @@ class WorkPackagesController < ApplicationController
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
 
-    if query.persisted? && current = query.query_menu_item.try(:name)
+    if query && query.persisted? && current = query.query_menu_item.try(:name)
       current.to_sym
     else
       :work_packages
@@ -45,18 +46,24 @@ class WorkPackagesController < ApplicationController
   end
 
   include QueriesHelper
-  include SortHelper
   include PaginationHelper
+  include SortHelper
+  include OpenProject::Concerns::Preview
+  include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show, :create, :update
 
-  before_filter :disable_api
+  # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index]
+                :authorize, :except => [:index, :preview, :column_data, :column_sums]
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export, :only => [:index, :all]
+                :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
+
+  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
+                                     :date, :percentageDone, :priority,
+                                     :estimatedTime, :versionName, :spentTime]
 
   def show
     respond_to do |format|
@@ -123,16 +130,6 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def preview
-    safe_params = permitted_params.update_work_package(project: project)
-    work_package.update_by(current_user, safe_params)
-
-    respond_to do |format|
-      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
-                                                 layout: false }
-    end
-  end
-
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => work_package })
 
@@ -175,10 +172,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    configure_update_notification(send_notifications?)
-
     safe_params = permitted_params.update_work_package(:project => project)
-    updated = work_package.update_by!(current_user, safe_params)
+
+    update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
+
+    updated = update_service.update
 
     render_attachment_warning_if_needed(work_package)
 
@@ -186,7 +184,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      show
+      redirect_to(work_package_path(work_package))
     else
       edit
     end
@@ -208,39 +206,29 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                            :order => sort_clause)
-
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
+    load_work_packages unless request.format.html?
 
     respond_to do |format|
       format.html do
+        gon.settings = client_preferences
+        gon.settings[:work_package_attributes] = hook_overview_attributes
+
         render :index, :locals => { :query => @query,
-                                    :work_packages => work_packages,
-                                    :results => results,
                                     :project => @project },
-                       :layout => !request.xhr?
+                       :layout => 'angular' # !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
+        charset = "charset=#{l(:general_csv_encoding).downcase}"
 
-        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+        send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
-                                                             results,
+                                                             @results,
                                                              :show_descriptions => params[:show_descriptions])
 
         send_data(serialized_work_packages,
@@ -248,7 +236,7 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        render_feed(work_packages,
+        render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
@@ -318,7 +306,7 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      wp = project.add_issue(permitted)
+      wp = project.add_work_package(permitted)
       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
       wp
@@ -381,7 +369,16 @@ class WorkPackagesController < ApplicationController
   end
 
   def priorities
-    IssuePriority.all
+    priorities = IssuePriority.active
+    augment_priorities_with_current_work_package_priority priorities
+
+    priorities
+  end
+
+  def augment_priorities_with_current_work_package_priority(priorities)
+    current_priority = work_package.try :priority
+
+    priorities << current_priority if current_priority && !priorities.include?(current_priority)
   end
 
   def allowed_statuses
@@ -407,6 +404,8 @@ class WorkPackagesController < ApplicationController
 
   def load_query
     @query ||= retrieve_query
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def not_found_unless_work_package
@@ -415,15 +414,11 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if EXPORT_FORMATS.include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+      !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
 
       deny_access
       false
     end
-  end
-
-  def configure_update_notification(state = true)
-    JournalObserver.instance.send_notification = state
   end
 
   def send_notifications?
@@ -439,5 +434,34 @@ class WorkPackagesController < ApplicationController
     else
       super
     end
+  end
+
+  private
+
+  def load_work_packages
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+
+    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    @work_packages = if @query.valid?
+                      @results.work_packages.page(page_param)
+                                            .per_page(per_page_param)
+                                            .all
+                    else
+                      []
+                    end
+  end
+
+  def parse_preview_data
+    parse_preview_data_helper :work_package, [:notes, :description]
+  end
+
+  def hook_overview_attributes(initial_attributes = DEFAULT_WORK_PACKAGE_PROPERTIES)
+    attributes = initial_attributes
+    call_hook(:work_packages_overview_attributes,
+              project: @project,
+              attributes: attributes)
+    attributes.uniq
   end
 end

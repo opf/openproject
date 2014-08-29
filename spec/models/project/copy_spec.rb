@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Copy do
+describe Project::Copy, :type => :model do
   describe :copy do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) { Project.new }
@@ -42,8 +42,8 @@ describe Project::Copy do
     subject { copy }
 
     it "should be able to be copied" do
-      copy.should be_valid
-      copy.should_not be_new_record
+      expect(copy).to be_valid
+      expect(copy).not_to be_new_record
     end
   end
 
@@ -65,7 +65,7 @@ describe Project::Copy do
     describe :types do
       subject { copy.types }
 
-      it { should == project.types }
+      it { is_expected.to eq(project.types) }
     end
 
     describe :work_package_custom_fields do
@@ -79,7 +79,7 @@ describe Project::Copy do
 
       subject { copy.work_package_custom_fields }
 
-      it { should == project.work_package_custom_fields }
+      it { is_expected.to eq(project.work_package_custom_fields) }
     end
 
     describe :is_public do
@@ -93,7 +93,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
 
       describe :public do
@@ -106,7 +106,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
     end
   end
@@ -123,23 +123,107 @@ describe Project::Copy do
     end
 
     describe :copy_work_packages do
-      before do
-        version = FactoryGirl.create(:version, :project => project)
-        wp1 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp2 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp3 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        relation = FactoryGirl.create(:relation, :from => wp1, :to => wp2)
-        wp1.parent = wp3
-        wp1.category = FactoryGirl.create(:category, :project => project)
-        [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
+      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
+      let(:work_package2) { FactoryGirl.create(:work_package, :project => project) }
+      let(:version) { FactoryGirl.create(:version, :project => project) }
 
-        copy.send :copy_work_packages, project
-        copy.save
+      describe :relation do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          FactoryGirl.create(:relation, :from => wp, :to => wp2)
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
+          expect(copy.work_packages.count).to eq(project.work_packages.count)
+        end
       end
 
-      it do
-        copy.work_packages.each { |wp| wp.should(be_valid) && wp.fixed_version.should(be_nil) }
-        copy.work_packages.count.should == project.work_packages.count
+      describe :parent do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          wp.parent = wp2
+          wp.save
+
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          expect(parent_wp = copy.work_packages.detect { |wp| wp.parent }).not_to eq(nil)
+          expect(parent_wp.parent.project).to eq(copy)
+        end
+      end
+
+      describe :category do
+        before do
+          wp = work_package
+          wp.category = FactoryGirl.create(:category, :project => project)
+          wp.save
+
+          project.work_packages << wp.reload
+
+          copy.send :copy_categories, project
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          expect(cat = copy.work_packages[0].category).not_to eq(nil)
+          expect(cat.project).to eq(copy)
+        end
+      end
+
+      describe :watchers do
+        let(:role) { FactoryGirl.create(:role, permissions:[:view_work_packages]) }
+        let(:watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+
+        describe :active_watcher do
+          before do
+            wp = work_package
+            wp.add_watcher watcher
+            wp.save
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does copy active watchers" do
+            expect(copy.work_packages[0].watchers.first.user).to eq(watcher)
+          end
+        end
+
+        describe :locked_watcher do
+          before do
+            user = watcher
+            wp = work_package
+            wp.add_watcher user
+            wp.save
+
+            user.lock!
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does not copy locked watchers" do
+            expect(copy.work_packages[0].watchers).to eq([])
+          end
+        end
       end
     end
 
@@ -155,7 +239,7 @@ describe Project::Copy do
 
       subject { copy.timelines.count }
 
-      it { should == project.timelines.count }
+      it { is_expected.to eq(project.timelines.count) }
     end
 
     describe :copy_queries do
@@ -168,7 +252,7 @@ describe Project::Copy do
 
       subject { copy.queries.count }
 
-      it { should == project.queries.count }
+      it { is_expected.to eq(project.queries.count) }
     end
 
     describe :copy_members do
@@ -183,7 +267,7 @@ describe Project::Copy do
 
         subject { copy.members.count }
 
-        it { should == project.members.count }
+        it { is_expected.to eq(project.members.count) }
       end
 
       describe :with_group do
@@ -196,7 +280,7 @@ describe Project::Copy do
 
         subject { copy.principals.count }
 
-        it { should == project.principals.count }
+        it { is_expected.to eq(project.principals.count) }
       end
     end
 
@@ -211,7 +295,8 @@ describe Project::Copy do
 
       subject { copy.wiki }
 
-      it { should_not == nil && should.be_valid }
+      it { is_expected.not_to eq(nil) }
+      it { is_expected.to be_valid }
 
       describe :copy_wiki_pages do
         describe :dont_copy_wiki_page_without_content do
@@ -224,7 +309,7 @@ describe Project::Copy do
 
           subject { copy.wiki.pages.count }
 
-          it { should == 0 }
+          it { is_expected.to eq(0) }
         end
 
         describe :copy_wiki_page_with_content do
@@ -237,7 +322,7 @@ describe Project::Copy do
 
           subject { copy.wiki.pages.count }
 
-          it { should == project.wiki.pages.count }
+          it { is_expected.to eq(project.wiki.pages.count) }
         end
       end
       describe :copy_wiki_menu_items do
@@ -249,21 +334,38 @@ describe Project::Copy do
 
         subject { copy.wiki.wiki_menu_items.count }
 
-        it { should == project.wiki.wiki_menu_items.count }
+        it { is_expected.to eq(project.wiki.wiki_menu_items.count) }
       end
     end
 
     describe :copy_boards do
-      before do
-        FactoryGirl.create(:board, project: project)
+      let(:board) { FactoryGirl.create(:board, project: project) }
 
-        copy.send(:copy_boards, project)
-        copy.save
+      context "boards are copied" do
+        before do
+          copy.send(:copy_boards, project)
+          copy.save
+        end
+
+        subject { copy.boards.count }
+
+        it { is_expected.to eq(project.boards.count) }
       end
 
-      subject { copy.boards.count }
+      context "board topics are copied" do
+        before do
+          topic = FactoryGirl.create(:message, board: board)
+          message = FactoryGirl.create(:message, board: board, parent_id: topic.id)
 
-      it { should == project.boards.count }
+          copy.send(:copy_boards, project)
+          copy.save
+        end
+
+        it "should copy topics without replies" do
+          expect(copy.boards.first.topics.count).to eq(project.boards.first.topics.count)
+          expect(copy.boards.first.messages.count).to_not eq(project.boards.first.messages.count)
+        end
+      end
     end
 
     describe :copy_versions do
@@ -276,7 +378,7 @@ describe Project::Copy do
 
       subject { copy.versions.count }
 
-      it { should == project.versions.count }
+      it { is_expected.to eq(project.versions.count) }
     end
 
     describe :copy_project_associations do
@@ -292,7 +394,7 @@ describe Project::Copy do
 
         subject { copy.send(:project_a_associations).count }
 
-        it { should == project.send(:project_a_associations).count }
+        it { is_expected.to eq(project.send(:project_a_associations).count) }
       end
 
       describe :project_b_associations do
@@ -305,7 +407,7 @@ describe Project::Copy do
 
         subject { copy.send(:project_b_associations).count }
 
-        it { should == project.send(:project_b_associations).count }
+        it { is_expected.to eq(project.send(:project_b_associations).count) }
       end
     end
 
@@ -319,7 +421,7 @@ describe Project::Copy do
 
       subject { copy.categories.count }
 
-      it { should == project.categories.count }
+      it { is_expected.to eq(project.categories.count) }
     end
   end
 end

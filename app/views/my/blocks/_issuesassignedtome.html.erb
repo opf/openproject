@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,19 +39,22 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_assigned_to_me_work_packages)%> (<%= assigned_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => assigned } %>
 
 <% if assigned.length > 0 %>
-<p class="small"><%= link_to l(:label_work_package_view_all_assigned_to_me), controller: :work_packages,
-                                                                             action: :index,
-                                                                             set_filter: 1,
-                                                                             assigned_to_id: 'me',
-                                                                             sort: 'priority:desc,updated_at:desc' %></p>
+  <p class="small">
+    <%= link_to l(:label_work_package_view_all_assigned_to_me),
+                work_packages_assigned_to_me_path,
+                :class => 'button_highlight' %>
+  </p>
 <% end %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            {controller: :work_packages, action: :index, set_filter: 1,
-                             assigned_to_id: 'me', format: 'atom', key: User.current.rss_key},
+                            work_packages_assigned_to_me_path({:format => 'atom', :key => User.current.rss_key}),
                             {title: l(:label_assigned_to_me_work_packages)}) %>
 <% end %>

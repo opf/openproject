@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/project_types/index.api.rabl' do
+describe 'api/v2/project_types/index.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -39,7 +39,7 @@ describe 'api/v2/project_types/index.api.rabl' do
       assign(:project_types, [])
       render
 
-      response.should have_json_size(0).at_path('project_types')
+      expect(response).to have_json_size(0).at_path('project_types')
     end
   end
 
@@ -57,7 +57,7 @@ describe 'api/v2/project_types/index.api.rabl' do
       assign(:project_types, project_types)
       render
 
-      response.should have_json_size(3).at_path('project_types')
+      expect(response).to have_json_size(3).at_path('project_types')
     end
 
   end
