@@ -666,6 +666,7 @@ A user must have the permission to **edit journals** to update an activity. A
 | subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ / WRITE |
 | description | Work package description | String | | Projects module should be refactored ... | READ / WRITE |
+| rawDescription | | String | | READ / WRITE |
 | status | | String | **REQUIRED** ... | New | READ / WRITE |
 | priority | | String | Must be one of the activated priorities | High | READ / WRITE |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ / WRITE |
@@ -684,155 +685,356 @@ A user must have the permission to **edit journals** to update an activity. A
                 "_type": "WorkPackage",
                 "_links": {
                     "self": {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                        "href": "/api/v3/work_packages/1528",
+                        "title": "Develop API"
+                    },
+                    "update": {
+                        "href": "/api/v3/work_packages/1528",
+                        "method": "patch",
+                        "title": "Update Develop API"
+                    },
+                    "delete": {
+                        "href": "/work_packages/bulk?ids=1528",
+                        "method": "delete",
+                        "title": "Delete Develop API"
+                    },
+                    "log_time": {
+                        "href": "/work_packages/1528/time_entries/new",
+                        "type": "text/html",
+                        "title": "Log time on Develop API"
+                    },
+                    "duplicate": {
+                        "href": "/projects/seeded_project/work_packages/new?copy_from=1528",
+                        "type": "text/html",
+                        "title": "Duplicate Develop API"
+                    },
+                    "move": {
+                        "href": "/work_packages/1528/move/new",
+                        "type": "text/html",
+                        "title": "Move Develop API"
                     },
                     "author": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "title": "OpenProject Admin - admin"
                     },
                     "responsible": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "href": "/api/v3/users/23",
+                        "title": "Laron Leuschke - Alaina5788"
                     },
                     "assignee": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "href": "/api/v3/users/11",
+                        "title": "Emmie Okuneva - Adele5450"
                     },
-                    "project": {
-                        "href": "/api/v3/projects/1",
-                        "title": "Lorem"
+                    "availableStatuses": {
+                        "href": "/api/v3/work_packages/1528/available_statuses",
+                        "title": "Available Statuses"
                     },
-                    "activities": [{
-                        "href": "/api/v3/activities/1",
-                        "title": "Priority changed from High to Low"
-                    }],
-                    "watchers": [{
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }],
-                    "relations": [{
-                        "href": "/api/v3/relationships/1",
-                        "title": "Work package A duplicated by Work package B"
-                    }],
-                    "attachments": [{
-                        "href": "/api/v3/attachments/1",
-                        "title": "Attachment filename"
-                    }],
+                    "availableWatchers": {
+                        "href": "/api/v3/work_packages/1528/available_watchers",
+                        "title": "Available Watchers"
+                    },
+                    "watch": {
+                        "href": "/api/v3/work_packages/1528/watchers",
+                        "method": "post",
+                        "data": {
+                            "user_id": 1
+                        },
+                        "title": "Watch work package"
+                    },
+                    "addWatcher": {
+                        "href": "/api/v3/work_packages/1528/watchers{?user_id}",
+                        "method": "post",
+                        "title": "Add watcher",
+                        "templated": true
+                    },
+                    "addRelation": {
+                        "href": "/api/v3/work_packages/1528/relations",
+                        "method": "post",
+                        "title": "Add relation"
+                    },
+                    "addComment": {
+                        "href": "/api/v3/work_packages/1528/activities",
+                        "method": "post",
+                        "title": "Add comment"
+                    },
                     "parent": {
-                        "href": "http://localhost:3000//api/v3/work_packages/2",
-                        "title": "Dolor"
+                        "href": "/api/v3/work_packages/1298",
+                        "title": "nisi eligendi officiis eos delectus quis voluptas dolores"
                     },
                     "children": [
                         {
-                            "href": "http://localhost:3000//api/v3/work_packages/1516",
-                            "title": "Sit Amet"
+                            "href": "/api/v3/work_packages/1529",
+                            "title": "Write API documentation"
                         }
                     ]
                 },
+                "id": 1528,
+                "subject": "Develop API",
+                "type": "Feature",
+                "description": "<p>Develop super cool OpenProject API.</p>",
+                "rawDescription": "Develop super cool OpenProject API.",
+                "status": "New",
+                "isClosed": false,
+                "priority": "Normal",
+                "startDate": null,
+                "dueDate": null,
+                "estimatedTime": {
+                    "units": "hours",
+                    "value": null
+                },
+                "percentageDone": 0,
+                "versionId": 2,
+                "versionName": "1.0",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "parentId": 1298,
+                "createdAt": "2014-08-29T12:40:53Z",
+                "updatedAt": "2014-08-29T12:44:41Z",
+                "customProperties": [
+                    {
+                        "name": "velit molestiae",
+                        "format": "text",
+                        "value": "dolor sit amet"
+                    },
+                    {
+                        "name": "et quam",
+                        "format": "text",
+                        "value": ""
+                    },
+                    {
+                        "name": "quo deserunt",
+                        "format": "text",
+                        "value": ""
+                    }
+                ],
                 "_embedded": {
                     "author": {
                         "_type": "User",
                         "_links": {
                             "self": {
                                 "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "title": "OpenProject Admin - admin"
                             }
                         },
                         "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
+                        "login": "admin",
+                        "firstName": "OpenProject",
+                        "lastName": "Admin",
+                        "name": "OpenProject Admin",
+                        "mail": "admin@example.net",
+                        "avatar": "http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97?secure=false",
+                        "createdAt": "2014-05-23T12:25:03Z",
+                        "updatedAt": "2014-08-29T06:37:03Z",
+                        "status": 1
                     },
                     "responsible": {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "href": "/api/v3/users/23",
+                                "title": "Laron Leuschke - Alaina5788"
                             }
                         },
-                        "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
+                        "id": 23,
+                        "login": "Alaina5788",
+                        "firstName": "Laron",
+                        "lastName": "Leuschke",
+                        "name": "Laron Leuschke",
+                        "mail": "camilla@marquardtkeeling.net",
+                        "avatar": "http://gravatar.com/avatar/0157adaf28fb535e890179cf070f4be0?secure=false",
+                        "createdAt": "2014-05-23T12:27:41Z",
+                        "updatedAt": "2014-05-23T12:27:41Z",
+                        "status": 1
                     },
                     "assignee": {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "href": "/api/v3/users/11",
+                                "title": "Emmie Okuneva - Adele5450"
                             }
                         },
-                        "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
-                    },
-                    "project": {
-                        "_type": "Project",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/projects/1",
-                                "title": "Lorem"
-                            },
-                            "workPackages": [{
-                                "href": "/api/v3/work_packages/1",
-                                "title": "Lorem ipsum"
-                            }]
-                        },
-                        "id": 1,
-                        "name": "Lorem",
-                        "description": "Lorem ipsum dolor sit amet",
-                        "homepage": "http://web.com",
-                        "identifier": "lorem",
-                        "type": "",
-                        "summary": "Lorem ipsum dolor sit amet",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z",
-                        "customProperties": [{
-                            "name": "My custom field 1",
-                            "format": "text",
-                            "value": "Lorem ipsum"
-                        }]
+                        "id": 11,
+                        "login": "Adele5450",
+                        "firstName": "Emmie",
+                        "lastName": "Okuneva",
+                        "name": "Emmie Okuneva",
+                        "mail": "ottilie@yundt.net",
+                        "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
+                        "createdAt": "2014-05-23T12:26:09Z",
+                        "updatedAt": "2014-05-23T12:26:09Z",
+                        "status": 1
                     },
                     "activities": [
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5970",
+                                    "title": "5970"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5970",
+                                    "method": "patch",
+                                    "title": "5970"
+                                }
+                            },
+                            "id": 5970,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "Type set to Feature",
+                                "Project set to Seeded Project",
+                                "Subject set to Develop API",
+                                "Description set (/journals/5970/diff/description)",
+                                "Due date set to 08/30/2014",
+                                "Category set to API",
+                                "Status set to New",
+                                "Assignee set to Emmie Okuneva",
+                                "Priority set to Normal",
+                                "Target version set to 1.0",
+                                "Author set to OpenProject Admin",
+                                "% done changed from 0 to 20",
+                                "Estimated time set to 3.00",
+                                "Start date set to 08/29/2014",
+                                "Parent set to nisi eligendi officiis eos delectus quis voluptas dolores",
+                                "Responsible set to Laron Leuschke",
+                                "velit molestiae set to dolor sit amet"
+                            ],
+                            "htmlDetails": [
+                                "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>",
+                                "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>",
+                                "<strong>Subject</strong> set to <i title=\"Develop API\">Develop API</i>",
+                                "<strong>Description</strong> set (<a href=\"/journals/5970/diff/description\" class=\"description-details\">Details</a>)",
+                                "<strong>Due date</strong> set to <i title=\"08/30/2014\">08/30/2014</i>",
+                                "<strong>Category</strong> set to <i title=\"API\">API</i>",
+                                "<strong>Status</strong> set to <i title=\"New\">New</i>",
+                                "<strong>Assignee</strong> set to <i title=\"Emmie Okuneva\">Emmie Okuneva</i>",
+                                "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
+                                "<strong>Target version</strong> set to <i title=\"1.0\">1.0</i>",
+                                "<strong>Author</strong> set to <i title=\"OpenProject Admin\">OpenProject Admin</i>",
+                                "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"20\">20</i>",
+                                "<strong>Estimated time</strong> set to <i title=\"3.00\">3.00</i>",
+                                "<strong>Start date</strong> set to <i title=\"08/29/2014\">08/29/2014</i>",
+                                "<strong>Parent</strong> set to <i title=\"nisi eligendi officiis eos delectus quis voluptas dolores\">nisi eligendi officiis eos delectus quis voluptas dolores</i>",
+                                "<strong>Responsible</strong> set to <i title=\"Laron Leuschke\">Laron Leuschke</i>",
+                                "<strong>velit molestiae</strong> set to <i title=\"dolor sit amet\">dolor sit amet</i>"
+                            ],
+                            "version": 1,
+                            "createdAt": "2014-08-29T12:40:53Z"
+                        },
                         {
                             "_type": "Activity::Comment",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/activities/1",
-                                    "title": "Priority changed from High to Low"
+                                    "href": "/api/v3/activities/5972",
+                                    "title": "5972"
                                 },
                                 "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
                                 },
                                 "user": {
                                     "href": "/api/v3/users/1",
-                                    "title": "John Sheppard - admin"
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5972",
+                                    "method": "patch",
+                                    "title": "5972"
                                 }
                             },
-                            "id": 1,
+                            "id": 5972,
+                            "comment": "<p><em>Updated automatically by changing values within child work package <a href=\"/work_packages/1529\" class=\"issue work_package status-1 priority-2 child created-by-me\" title=\"Write API documentation (New)\">#1529</a></em></p>",
+                            "rawComment": "_Updated automatically by changing values within child work package #1529_\n",
                             "details": [
-                                "Lorem ipsum dolor sit amet."
+                                "Due date deleted (08/30/2014)",
+                                "% done changed from 20 to 0",
+                                "Estimated time deleted (3.00)",
+                                "Start date deleted (08/29/2014)"
                             ],
-                            "comment": "Lorem ipsum dolor sit amet.",
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "version": 31
+                            "htmlDetails": [
+                                "<strong>Due date</strong> deleted (<strike><i title=\"08/30/2014\">08/30/2014</i></strike>)",
+                                "<strong>% done</strong> changed from <i title=\"20\">20</i> to <i title=\"0\">0</i>",
+                                "<strong>Estimated time</strong> deleted (<strike><i title=\"3.00\">3.00</i></strike>)",
+                                "<strong>Start date</strong> deleted (<strike><i title=\"08/29/2014\">08/29/2014</i></strike>)"
+                            ],
+                            "version": 2,
+                            "createdAt": "2014-08-29T12:42:09Z"
+                        },
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5975",
+                                    "title": "5975"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5975",
+                                    "method": "patch",
+                                    "title": "5975"
+                                }
+                            },
+                            "id": 5975,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "File OpenProject_Requirements.xlsx added"
+                            ],
+                            "htmlDetails": [
+                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/91/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
+                            ],
+                            "version": 3,
+                            "createdAt": "2014-08-29T12:43:49Z"
+                        },
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5977",
+                                    "title": "5977"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5977",
+                                    "method": "patch",
+                                    "title": "5977"
+                                }
+                            },
+                            "id": 5977,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "File OpenProject_Requirements.xlsx added"
+                            ],
+                            "htmlDetails": [
+                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/92/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
+                            ],
+                            "version": 4,
+                            "createdAt": "2014-08-29T12:44:41Z"
                         }
                     ],
                     "watchers": [
@@ -840,54 +1042,25 @@ A user must have the permission to **edit journals** to update an activity. A
                             "_type": "User",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "John Sheppard - j.sheppard"
+                                    "href": "/api/v3/users/11",
+                                    "title": "Emmie Okuneva - Adele5450"
                                 },
-                                "unwatch": {
-                                    "href": "/api/v3/work_packages/1/watchers/1",
+                                "removeWatcher": {
+                                    "href": "/api/v3/work_packages/1528/watchers/11",
                                     "method": "delete",
-                                    "title": "Unwatch work package"
+                                    "title": "Remove watcher"
                                 }
                             },
-                            "id": 1,
-                            "login": "j.sheppard",
-                            "firstName": "John",
-                            "lastName": "Sheppard",
-                            "mail": "shep@mail.com",
-                            "avatar": "https://gravatar/avatar",
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T08:51:20Z"
-                        }
-                    ],
-                    "relations": [
-                        {
-                            "_type": "Relation::Relates",
-                            "_links": {
-                                "self": {
-                                    "href": "http://localhost:3000//api/v3/relationships/1"
-                                },
-                                "relatedFrom": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1514"
-                                },
-                                "relatedTo": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1"
-                                }
-                            }
-                        },
-                        {
-                            "_type": "Relation::Precedes",
-                            "_links": {
-                                "self": {
-                                    "href": "http://localhost:3000//api/v3/relationships/4"
-                                },
-                                "relatedFrom": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1"
-                                },
-                                "relatedTo": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1513"
-                                }
-                            },
-                            "delay": 12
+                            "id": 11,
+                            "login": "Adele5450",
+                            "firstName": "Emmie",
+                            "lastName": "Okuneva",
+                            "name": "Emmie Okuneva",
+                            "mail": "ottilie@yundt.net",
+                            "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
+                            "createdAt": "2014-05-23T12:26:09Z",
+                            "updatedAt": "2014-05-23T12:26:09Z",
+                            "status": 1
                         }
                     ],
                     "attachments": [
@@ -895,58 +1068,99 @@ A user must have the permission to **edit journals** to update an activity. A
                             "_type": "Attachment",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/attachments/1",
-                                    "title": "Attachment filename"
+                                    "href": "/api/v3/attachments/91",
+                                    "title": "OpenProject_Requirements.xlsx"
                                 },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                "work_package": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
                                 },
                                 "author": {
                                     "href": "/api/v3/users/1",
-                                    "title": "Users login"
+                                    "title": "OpenProject Admin - admin"
                                 }
                             },
-                            "id": 1,
-                            "filename": "Attachment filename",
-                            "filesize": 30,
-                            "contentType": "txt",
-                            "description": "Lorem ipsum dolor sit amet.",
-                            "authorName": "John Sheppard",
-                            "authorLogin": "admin",
-                            "authorMail": "admin@example.net",
-                            "createdAt": "2014-05-21T08:51:20Z"
+                            "id": 91,
+                            "fileName": "OpenProject_Requirements.xlsx",
+                            "diskFileName": "140829144349_OpenProject_Requirements.xlsx",
+                            "description": "",
+                            "fileSize": 18423,
+                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
+                            "downloads": 0,
+                            "createdAt": "2014-08-29T12:43:49Z"
+                        },
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/92",
+                                    "title": "OpenProject_Requirements.xlsx"
+                                },
+                                "work_package": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                }
+                            },
+                            "id": 92,
+                            "fileName": "OpenProject_Requirements.xlsx",
+                            "diskFileName": "140829144441_OpenProject_Requirements.xlsx",
+                            "description": "Planning",
+                            "fileSize": 18423,
+                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
+                            "downloads": 0,
+                            "createdAt": "2014-08-29T12:44:41Z"
+                        }
+                    ],
+                    "relations": [
+                        {
+                            "_type": "Relation::Relates",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/relations/38"
+                                },
+                                "relatedFrom": {
+                                    "href": "/api/v3/work_packages/1528"
+                                },
+                                "relatedTo": {
+                                    "href": "/api/v3/work_packages/1412"
+                                },
+                                "remove": {
+                                    "href": "/api/v3/work_packages/1528/relations/38",
+                                    "method": "delete",
+                                    "title": "Remove relation"
+                                }
+                            }
                         }
                     ]
-                },
-                "id": 1,
-                "subject": "quis numquam qui voluptatum quia praesentium blanditiis nisi",
-                "type": "Support",
-                "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
-                "status": "New",
-                "priority": "Normal",
-                "startDate": "2014-05-29",
-                "dueDate": "2014-08-29",
-                "estimatedTime": {
-                    "units": "hours",
-                    "value": 10
-                },
-                "percentageDone": 0,
-                "targetVersionId": 1,
-                "targetVersionName": "sprint-01",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-22T09:41:29Z",
-                "customProperties": [{
-                    "name": "My custom field 1",
-                    "format": "text",
-                    "value": "Lorem ipsum"
-                }]
+                }
             }
 
 ## View work package [GET]
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
+
++ Response 200 (application/hal+json)
+
+    [WorkPackage][]
+
+## Edit WorkPackage [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    
++ Request (application/json)
+        {
+            "subject": "Lorem",
+            "rawDescription": "Ipsum",
+            "priority": "Bug"
+        }
 
 + Response 200 (application/hal+json)
 
@@ -961,175 +1175,356 @@ A user must have the permission to **edit journals** to update an activity. A
                 "_type": "WorkPackage",
                 "_links": {
                     "self": {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                        "href": "/api/v3/work_packages/1528",
+                        "title": "Develop API"
+                    },
+                    "update": {
+                        "href": "/api/v3/work_packages/1528",
+                        "method": "patch",
+                        "title": "Update Develop API"
+                    },
+                    "delete": {
+                        "href": "/work_packages/bulk?ids=1528",
+                        "method": "delete",
+                        "title": "Delete Develop API"
+                    },
+                    "log_time": {
+                        "href": "/work_packages/1528/time_entries/new",
+                        "type": "text/html",
+                        "title": "Log time on Develop API"
+                    },
+                    "duplicate": {
+                        "href": "/projects/seeded_project/work_packages/new?copy_from=1528",
+                        "type": "text/html",
+                        "title": "Duplicate Develop API"
+                    },
+                    "move": {
+                        "href": "/work_packages/1528/move/new",
+                        "type": "text/html",
+                        "title": "Move Develop API"
                     },
                     "author": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "title": "OpenProject Admin - admin"
                     },
                     "responsible": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "href": "/api/v3/users/23",
+                        "title": "Laron Leuschke - Alaina5788"
                     },
                     "assignee": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "href": "/api/v3/users/11",
+                        "title": "Emmie Okuneva - Adele5450"
                     },
-                    "project": {
-                        "href": "/api/v3/projects/1",
-                        "title": "Lorem"
+                    "availableStatuses": {
+                        "href": "/api/v3/work_packages/1528/available_statuses",
+                        "title": "Available Statuses"
                     },
-                    "activities": [{
-                        "href": "/api/v3/activities/1",
-                        "title": "Priority changed from High to Low"
-                    }],
-                    "watchers": [{
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }],
-                    "addWatcher": [{
-                        "href": "/api/v3/work_packages/1/watchers",
-                        "title": "John Sheppard"
-                    }],
-                    "removeWatcher": [{
-                        "href": "/api/v3/work_packages/1/watchters{/id}",
-                        "title": "John Sheppard",
-                        "templated": true
-                    }],
+                    "availableWatchers": {
+                        "href": "/api/v3/work_packages/1528/available_watchers",
+                        "title": "Available Watchers"
+                    },
                     "watch": {
-                        "href": "/api/v3/work_packages/1/watchers",
+                        "href": "/api/v3/work_packages/1528/watchers",
                         "method": "post",
-                        "data": "{ "user_id": 1 }",
+                        "data": {
+                            "user_id": 1
+                        },
                         "title": "Watch work package"
                     },
-                    "unwatch": {
-                        "href": "/api/v3/work_packages/1/watchers/1",
-                        "method": "delete",
-                        "title": "Unwatch work package"
+                    "addWatcher": {
+                        "href": "/api/v3/work_packages/1528/watchers{?user_id}",
+                        "method": "post",
+                        "title": "Add watcher",
+                        "templated": true
                     },
-                    "relations": [{
-                        "href": "/api/v3/relationships/1",
-                        "title": "Work package A duplicated by Work package B"
-                    }],
-                    "attachments": [{
-                        "href": "/api/v3/attachments/1",
-                        "title": "Attachment filename"
-                    }],
+                    "addRelation": {
+                        "href": "/api/v3/work_packages/1528/relations",
+                        "method": "post",
+                        "title": "Add relation"
+                    },
+                    "addComment": {
+                        "href": "/api/v3/work_packages/1528/activities",
+                        "method": "post",
+                        "title": "Add comment"
+                    },
                     "parent": {
-                        "href": "http://localhost:3000//api/v3/work_packages/2",
-                        "title": "Dolor"
+                        "href": "/api/v3/work_packages/1298",
+                        "title": "nisi eligendi officiis eos delectus quis voluptas dolores"
                     },
                     "children": [
                         {
-                            "href": "http://localhost:3000//api/v3/work_packages/1516",
-                            "title": "Sit Amet"
+                            "href": "/api/v3/work_packages/1529",
+                            "title": "Write API documentation"
                         }
                     ]
                 },
+                "id": 1528,
+                "subject": "Develop API",
+                "type": "Feature",
+                "description": "<p>Develop super cool OpenProject API.</p>",
+                "rawDescription": "Develop super cool OpenProject API.",
+                "status": "New",
+                "isClosed": false,
+                "priority": "Normal",
+                "startDate": null,
+                "dueDate": null,
+                "estimatedTime": {
+                    "units": "hours",
+                    "value": null
+                },
+                "percentageDone": 0,
+                "versionId": 2,
+                "versionName": "1.0",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "parentId": 1298,
+                "createdAt": "2014-08-29T12:40:53Z",
+                "updatedAt": "2014-08-29T12:44:41Z",
+                "customProperties": [
+                    {
+                        "name": "velit molestiae",
+                        "format": "text",
+                        "value": "dolor sit amet"
+                    },
+                    {
+                        "name": "et quam",
+                        "format": "text",
+                        "value": ""
+                    },
+                    {
+                        "name": "quo deserunt",
+                        "format": "text",
+                        "value": ""
+                    }
+                ],
                 "_embedded": {
                     "author": {
                         "_type": "User",
                         "_links": {
                             "self": {
                                 "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "title": "OpenProject Admin - admin"
                             }
                         },
                         "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
+                        "login": "admin",
+                        "firstName": "OpenProject",
+                        "lastName": "Admin",
+                        "name": "OpenProject Admin",
+                        "mail": "admin@example.net",
+                        "avatar": "http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97?secure=false",
+                        "createdAt": "2014-05-23T12:25:03Z",
+                        "updatedAt": "2014-08-29T06:37:03Z",
+                        "status": 1
                     },
                     "responsible": {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "href": "/api/v3/users/23",
+                                "title": "Laron Leuschke - Alaina5788"
                             }
                         },
-                        "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
+                        "id": 23,
+                        "login": "Alaina5788",
+                        "firstName": "Laron",
+                        "lastName": "Leuschke",
+                        "name": "Laron Leuschke",
+                        "mail": "camilla@marquardtkeeling.net",
+                        "avatar": "http://gravatar.com/avatar/0157adaf28fb535e890179cf070f4be0?secure=false",
+                        "createdAt": "2014-05-23T12:27:41Z",
+                        "updatedAt": "2014-05-23T12:27:41Z",
+                        "status": 1
                     },
                     "assignee": {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
+                                "href": "/api/v3/users/11",
+                                "title": "Emmie Okuneva - Adele5450"
                             }
                         },
-                        "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
-                    },
-                    "project": {
-                        "_type": "Project",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/projects/1",
-                                "title": "Lorem"
-                            },
-                            "workPackages": [{
-                                "href": "/api/v3/work_packages/1",
-                                "title": "Lorem ipsum"
-                            }]
-                        },
-                        "id": 1,
-                        "name": "Lorem",
-                        "description": "Lorem ipsum dolor sit amet",
-                        "homepage": "http://web.com",
-                        "identifier": "lorem",
-                        "type": "",
-                        "summary": "Lorem ipsum dolor sit amet",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z",
-                        "customProperties": [{
-                            "name": "My custom field 1",
-                            "format": "text",
-                            "value": "Lorem ipsum"
-                        }]
+                        "id": 11,
+                        "login": "Adele5450",
+                        "firstName": "Emmie",
+                        "lastName": "Okuneva",
+                        "name": "Emmie Okuneva",
+                        "mail": "ottilie@yundt.net",
+                        "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
+                        "createdAt": "2014-05-23T12:26:09Z",
+                        "updatedAt": "2014-05-23T12:26:09Z",
+                        "status": 1
                     },
                     "activities": [
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5970",
+                                    "title": "5970"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5970",
+                                    "method": "patch",
+                                    "title": "5970"
+                                }
+                            },
+                            "id": 5970,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "Type set to Feature",
+                                "Project set to Seeded Project",
+                                "Subject set to Develop API",
+                                "Description set (/journals/5970/diff/description)",
+                                "Due date set to 08/30/2014",
+                                "Category set to API",
+                                "Status set to New",
+                                "Assignee set to Emmie Okuneva",
+                                "Priority set to Normal",
+                                "Target version set to 1.0",
+                                "Author set to OpenProject Admin",
+                                "% done changed from 0 to 20",
+                                "Estimated time set to 3.00",
+                                "Start date set to 08/29/2014",
+                                "Parent set to nisi eligendi officiis eos delectus quis voluptas dolores",
+                                "Responsible set to Laron Leuschke",
+                                "velit molestiae set to dolor sit amet"
+                            ],
+                            "htmlDetails": [
+                                "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>",
+                                "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>",
+                                "<strong>Subject</strong> set to <i title=\"Develop API\">Develop API</i>",
+                                "<strong>Description</strong> set (<a href=\"/journals/5970/diff/description\" class=\"description-details\">Details</a>)",
+                                "<strong>Due date</strong> set to <i title=\"08/30/2014\">08/30/2014</i>",
+                                "<strong>Category</strong> set to <i title=\"API\">API</i>",
+                                "<strong>Status</strong> set to <i title=\"New\">New</i>",
+                                "<strong>Assignee</strong> set to <i title=\"Emmie Okuneva\">Emmie Okuneva</i>",
+                                "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
+                                "<strong>Target version</strong> set to <i title=\"1.0\">1.0</i>",
+                                "<strong>Author</strong> set to <i title=\"OpenProject Admin\">OpenProject Admin</i>",
+                                "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"20\">20</i>",
+                                "<strong>Estimated time</strong> set to <i title=\"3.00\">3.00</i>",
+                                "<strong>Start date</strong> set to <i title=\"08/29/2014\">08/29/2014</i>",
+                                "<strong>Parent</strong> set to <i title=\"nisi eligendi officiis eos delectus quis voluptas dolores\">nisi eligendi officiis eos delectus quis voluptas dolores</i>",
+                                "<strong>Responsible</strong> set to <i title=\"Laron Leuschke\">Laron Leuschke</i>",
+                                "<strong>velit molestiae</strong> set to <i title=\"dolor sit amet\">dolor sit amet</i>"
+                            ],
+                            "version": 1,
+                            "createdAt": "2014-08-29T12:40:53Z"
+                        },
                         {
                             "_type": "Activity::Comment",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/activities/1",
-                                    "title": "Priority changed from High to Low"
+                                    "href": "/api/v3/activities/5972",
+                                    "title": "5972"
                                 },
                                 "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
                                 },
                                 "user": {
                                     "href": "/api/v3/users/1",
-                                    "title": "John Sheppard - admin"
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5972",
+                                    "method": "patch",
+                                    "title": "5972"
                                 }
                             },
-                            "id": 1,
+                            "id": 5972,
+                            "comment": "<p><em>Updated automatically by changing values within child work package <a href=\"/work_packages/1529\" class=\"issue work_package status-1 priority-2 child created-by-me\" title=\"Write API documentation (New)\">#1529</a></em></p>",
+                            "rawComment": "_Updated automatically by changing values within child work package #1529_\n",
                             "details": [
-                                "Lorem ipsum dolor sit amet."
+                                "Due date deleted (08/30/2014)",
+                                "% done changed from 20 to 0",
+                                "Estimated time deleted (3.00)",
+                                "Start date deleted (08/29/2014)"
                             ],
-                            "comment": "Lorem ipsum dolor sit amet.",
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "version": 31
+                            "htmlDetails": [
+                                "<strong>Due date</strong> deleted (<strike><i title=\"08/30/2014\">08/30/2014</i></strike>)",
+                                "<strong>% done</strong> changed from <i title=\"20\">20</i> to <i title=\"0\">0</i>",
+                                "<strong>Estimated time</strong> deleted (<strike><i title=\"3.00\">3.00</i></strike>)",
+                                "<strong>Start date</strong> deleted (<strike><i title=\"08/29/2014\">08/29/2014</i></strike>)"
+                            ],
+                            "version": 2,
+                            "createdAt": "2014-08-29T12:42:09Z"
+                        },
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5975",
+                                    "title": "5975"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5975",
+                                    "method": "patch",
+                                    "title": "5975"
+                                }
+                            },
+                            "id": 5975,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "File OpenProject_Requirements.xlsx added"
+                            ],
+                            "htmlDetails": [
+                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/91/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
+                            ],
+                            "version": 3,
+                            "createdAt": "2014-08-29T12:43:49Z"
+                        },
+                        {
+                            "_type": "Activity",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activities/5977",
+                                    "title": "5977"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                },
+                                "update": {
+                                    "href": "/api/v3/activities/5977",
+                                    "method": "patch",
+                                    "title": "5977"
+                                }
+                            },
+                            "id": 5977,
+                            "comment": "",
+                            "rawComment": "",
+                            "details": [
+                                "File OpenProject_Requirements.xlsx added"
+                            ],
+                            "htmlDetails": [
+                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/92/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
+                            ],
+                            "version": 4,
+                            "createdAt": "2014-08-29T12:44:41Z"
                         }
                     ],
                     "watchers": [
@@ -1137,49 +1532,25 @@ A user must have the permission to **edit journals** to update an activity. A
                             "_type": "User",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "John Sheppard - j.sheppard"
+                                    "href": "/api/v3/users/11",
+                                    "title": "Emmie Okuneva - Adele5450"
+                                },
+                                "removeWatcher": {
+                                    "href": "/api/v3/work_packages/1528/watchers/11",
+                                    "method": "delete",
+                                    "title": "Remove watcher"
                                 }
                             },
-                            "id": 1,
-                            "login": "j.sheppard",
-                            "firstName": "John",
-                            "lastName": "Sheppard",
-                            "mail": "shep@mail.com",
-                            "avatar": "https://gravatar/avatar",
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T08:51:20Z"
-                        }
-                    ],
-                    "relations": [
-                        {
-                            "_type": "Relation::Relates",
-                            "_links": {
-                                "self": {
-                                    "href": "http://localhost:3000//api/v3/relationships/1"
-                                },
-                                "relatedFrom": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1514"
-                                },
-                                "relatedTo": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1"
-                                }
-                            }
-                        },
-                        {
-                            "_type": "Relation::Precedes",
-                            "_links": {
-                                "self": {
-                                    "href": "http://localhost:3000//api/v3/relationships/4"
-                                },
-                                "relatedFrom": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1"
-                                },
-                                "relatedTo": {
-                                    "href": "http://localhost:3000//api/v3/work_packages/1513"
-                                }
-                            },
-                            "delay": 12
+                            "id": 11,
+                            "login": "Adele5450",
+                            "firstName": "Emmie",
+                            "lastName": "Okuneva",
+                            "name": "Emmie Okuneva",
+                            "mail": "ottilie@yundt.net",
+                            "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
+                            "createdAt": "2014-05-23T12:26:09Z",
+                            "updatedAt": "2014-05-23T12:26:09Z",
+                            "status": 1
                         }
                     ],
                     "attachments": [
@@ -1187,52 +1558,77 @@ A user must have the permission to **edit journals** to update an activity. A
                             "_type": "Attachment",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/attachments/1",
-                                    "title": "Attachment filename"
+                                    "href": "/api/v3/attachments/91",
+                                    "title": "OpenProject_Requirements.xlsx"
                                 },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                "work_package": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
                                 },
                                 "author": {
                                     "href": "/api/v3/users/1",
-                                    "title": "Users login"
+                                    "title": "OpenProject Admin - admin"
                                 }
                             },
-                            "id": 1,
-                            "filename": "Attachment filename",
-                            "filesize": 30,
-                            "contentType": "txt",
-                            "description": "Lorem ipsum dolor sit amet.",
-                            "authorName": "John Sheppard",
-                            "authorLogin": "admin",
-                            "authorMail": "admin@example.net",
-                            "createdAt": "2014-05-21T08:51:20Z"
+                            "id": 91,
+                            "fileName": "OpenProject_Requirements.xlsx",
+                            "diskFileName": "140829144349_OpenProject_Requirements.xlsx",
+                            "description": "",
+                            "fileSize": 18423,
+                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
+                            "downloads": 0,
+                            "createdAt": "2014-08-29T12:43:49Z"
+                        },
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/92",
+                                    "title": "OpenProject_Requirements.xlsx"
+                                },
+                                "work_package": {
+                                    "href": "/api/v3/work_packages/1528",
+                                    "title": "Develop API"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "OpenProject Admin - admin"
+                                }
+                            },
+                            "id": 92,
+                            "fileName": "OpenProject_Requirements.xlsx",
+                            "diskFileName": "140829144441_OpenProject_Requirements.xlsx",
+                            "description": "Planning",
+                            "fileSize": 18423,
+                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
+                            "downloads": 0,
+                            "createdAt": "2014-08-29T12:44:41Z"
+                        }
+                    ],
+                    "relations": [
+                        {
+                            "_type": "Relation::Relates",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/relations/38"
+                                },
+                                "relatedFrom": {
+                                    "href": "/api/v3/work_packages/1528"
+                                },
+                                "relatedTo": {
+                                    "href": "/api/v3/work_packages/1412"
+                                },
+                                "remove": {
+                                    "href": "/api/v3/work_packages/1528/relations/38",
+                                    "method": "delete",
+                                    "title": "Remove relation"
+                                }
+                            }
                         }
                     ]
-                },
-                "id": 1,
-                "subject": "quis numquam qui voluptatum quia praesentium blanditiis nisi",
-                "type": "Support",
-                "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
-                "status": "New",
-                "priority": "Normal",
-                "startDate": "2014-05-29",
-                "dueDate": "2014-08-29",
-                "estimatedTime": {
-                    "units": "hours",
-                    "value": 10
-                },
-                "percentageDone": 0,
-                "targetVersionId": 1,
-                "targetVersionName": "sprint-01",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-22T09:41:29Z",
-                "customProperties": [{
-                    "name": "My custom field 1",
-                    "format": "text",
-                    "value": "Lorem ipsum"
-                }]
+                }
             }
 
 ## Watch work package [PATCH]
