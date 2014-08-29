@@ -20,12 +20,11 @@
 
                   <!-- Name -->
                   <td style="width:200px;">
-                    {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
+                    <label for="operators-{{filter.name}}">{{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}</label>
                   </td>
 
                   <!-- Operator -->
                   <td style="width:150px;">
-                    <label class="hidden-for-sighted" for="operators-{{filter.name}}">{{ I18n.t('js.work_packages.description_filter') }}</label>
                     <select require
                             class="select-small"
                             id="operators-{{filter.name}}"
