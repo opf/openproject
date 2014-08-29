@@ -73,8 +73,11 @@ angular.module('openproject.viewModels')
     },
 
     removeRelation: function(scope) {
+      var index = this.relations.indexOf(scope.relation);
+      var handler = this;
+
       WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
-          scope.$emit('workPackageRefreshRequired', '');
+          handler.relations.splice(index, 1);
         }, function(error) {
           ApiHelper.handleError(scope, error);
         });
@@ -138,8 +141,11 @@ angular.module('openproject.viewModels')
         };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.removeRelation = function(scope) {
+            var index = this.relations.indexOf(scope.relation);
+            var handler = this;
+
             WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
-                scope.$emit('workPackageRefreshRequired', '');
+                handler.relations.splice(index, 1);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
             }
