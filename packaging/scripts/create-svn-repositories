@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="openproject"
+APP_NAME="_APP_NAME_"
 CLI="${APP_NAME}"
 SVN_REPOSITORIES=$(${CLI} config:get SVN_REPOSITORIES)
 PORT=$(${CLI} config:get PORT)
