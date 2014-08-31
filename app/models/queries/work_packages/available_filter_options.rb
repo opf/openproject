@@ -94,7 +94,7 @@ module Queries::WorkPackages::AvailableFilterOptions
   # options for available filters
 
   def setup_available_work_package_filters
-    types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
+    types = project.nil? ? ::Type.find(:all, order: 'position') : project.rolled_up_types
 
     @available_work_package_filters = {
       status_id:       { type: :list_status, order: 1, values: Status.all.collect{|s| [s.name, s.id.to_s] } },

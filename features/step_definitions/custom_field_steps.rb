@@ -108,7 +108,7 @@ end
 
 Given /^the custom field "(.*?)" is activated for type "(.*?)"$/ do |field_name, type_name|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
-  type = Type.find_by_name(type_name)
+  type = ::Type.find_by_name(type_name)
   custom_field.types << type
 end
 

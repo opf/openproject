@@ -98,7 +98,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     assert_equal Type.all, Project.new.types
-    assert_equal Type.find(1, 3), Project.new(:type_ids => [1, 3]).types
+    assert_equal ::Type.find(1, 3), Project.new(:type_ids => [1, 3]).types
   end
 
   def test_update
@@ -420,7 +420,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_rolled_up_types
     parent = Project.find(1)
-    parent.types = Type.find([1,2])
+    parent.types = ::Type.find([1,2])
     child = parent.children.find(3)
 
     assert_equal [1, 2], parent.type_ids
@@ -434,9 +434,9 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_rolled_up_types_should_ignore_archived_subprojects
     parent = Project.find(1)
-    parent.types = Type.find([1,2])
+    parent.types = ::Type.find([1,2])
     child = parent.children.find(3)
-    child.types = Type.find([1,3])
+    child.types = ::Type.find([1,3])
     parent.children.each(&:archive)
 
     assert_equal [1,2], parent.rolled_up_types.collect(&:id)

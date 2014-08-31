@@ -144,7 +144,7 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
     When I edit the settings of the current timeline
   }
 
-  type = Type.find_by_name(type)
+  type = ::Type.find_by_name(type)
   page.execute_script(<<-JavaScript)
     jQuery('#timeline_options_planning_element_types').val('#{type.id}')
     jQuery('#content form').submit()
@@ -170,7 +170,7 @@ When (/^I show only projects which have a planning element which lies between "(
 
   page.should have_selector("#timeline_options_planning_element_time_types", :visible => false)
 
-  type = Type.find_by_name(type)
+  type = ::Type.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")

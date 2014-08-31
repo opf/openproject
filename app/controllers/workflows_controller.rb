@@ -40,7 +40,7 @@ class WorkflowsController < ApplicationController
 
   def edit
     @role = Role.find_by_id(params[:role_id])
-    @type = Type.find_by_id(params[:type_id])
+    @type = ::Type.find_by_id(params[:type_id])
 
     if request.post?
       Workflow.destroy_all( ["role_id=? and type_id=?", @role.id, @type.id])
@@ -78,7 +78,7 @@ class WorkflowsController < ApplicationController
     if params[:source_type_id].blank? || params[:source_type_id] == 'any'
       @source_type = nil
     else
-      @source_type = Type.find_by_id(params[:source_type_id].to_i)
+      @source_type = ::Type.find_by_id(params[:source_type_id].to_i)
     end
     if params[:source_role_id].blank? || params[:source_role_id] == 'any'
       @source_role = nil
@@ -86,7 +86,7 @@ class WorkflowsController < ApplicationController
       @source_role = Role.find_by_id(params[:source_role_id].to_i)
     end
 
-    @target_types = params[:target_type_ids].blank? ? nil : Type.find_all_by_id(params[:target_type_ids])
+    @target_types = params[:target_type_ids].blank? ? nil : ::Type.find_all_by_id(params[:target_type_ids])
     @target_roles = params[:target_role_ids].blank? ? nil : Role.find_all_by_id(params[:target_role_ids])
 
     if request.post?
@@ -109,6 +109,6 @@ class WorkflowsController < ApplicationController
   end
 
   def find_types
-    @types = Type.find(:all, :order => 'position')
+    @types = ::Type.find(:all, :order => 'position')
   end
 end

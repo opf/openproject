@@ -59,7 +59,7 @@ class TypesControllerTest < ActionController::TestCase
   def test_post_create
     post :create, :type => { :name => 'New type', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     assert_redirected_to :action => 'index'
-    type = Type.find_by_name('New type')
+    type = ::Type.find_by_name('New type')
     assert_equal [1], type.project_ids.sort
     assert_equal [1, 6], type.custom_field_ids
     assert_equal 0, type.workflows.count
@@ -68,13 +68,13 @@ class TypesControllerTest < ActionController::TestCase
   def test_post_create_with_workflow_copy
     post :create, :type => { :name => 'New type' }, :copy_workflow_from => 1
     assert_redirected_to :action => 'index'
-    type = Type.find_by_name('New type')
+    type = ::Type.find_by_name('New type')
     assert_equal 0, type.projects.count
-    assert_equal Type.find(1).workflows.count, type.workflows.count
+    assert_equal ::Type.find(1).workflows.count, type.workflows.count
   end
 
   def test_get_edit
-    Type.find(1).project_ids = [1, 3]
+    ::Type.find(1).project_ids = [1, 3]
 
     get :edit, :id => 1
     assert_response :success
@@ -97,18 +97,18 @@ class TypesControllerTest < ActionController::TestCase
     post :update, :id => 1, :type => { :name => 'Renamed',
                                        :project_ids => ['1', '2', ''] }
     assert_redirected_to :action => 'index'
-    assert_equal [1, 2], Type.find(1).project_ids.sort
+    assert_equal [1, 2], ::Type.find(1).project_ids.sort
   end
 
   def test_post_update_without_projects
     post :update, :id => 1, :type => { :name => 'Renamed',
                                         :project_ids => [''] }
     assert_redirected_to :action => 'index'
-    assert Type.find(1).project_ids.empty?
+    assert ::Type.find(1).project_ids.empty?
   end
 
   def test_move_lower
-   type = Type.find_by_position(1)
+   type = ::Type.find_by_position(1)
    post :move, :id => 1, :type => { :move_to => 'lower' }
    assert_equal 2, type.reload.position
   end

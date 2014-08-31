@@ -40,7 +40,7 @@ class Workflow < ActiveRecord::Base
   def self.count_by_type_and_role
     counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
     roles = Role.find(:all, :order => 'builtin, position')
-    types = Type.find(:all, :order => 'position')
+    types = ::Type.find(:all, :order => 'position')
 
     result = []
     types.each do |type|

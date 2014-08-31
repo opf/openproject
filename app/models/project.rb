@@ -65,7 +65,7 @@ class Project < ActiveRecord::Base
   has_many :principals, :through => :member_principals, :source => :principal
 
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :types, :order => "#{Type.table_name}.position"
+  has_and_belongs_to_many :types, :order => "#{::Type.table_name}.position"
   has_many :work_packages, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
   has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
@@ -239,7 +239,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = Type.default
+      self.types = ::Type.default
     end
   end
 
@@ -533,10 +533,10 @@ class Project < ActiveRecord::Base
   # Returns an array of the types used by the project and its active sub projects
   def rolled_up_types
     @rolled_up_types ||=
-      Type.find(:all, :joins => :projects,
-                      :select => "DISTINCT #{Type.table_name}.*",
+      ::Type.find(:all, :joins => :projects,
+                      :select => "DISTINCT #{::Type.table_name}.*",
                       :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                      :order => "#{Type.table_name}.position")
+                      :order => "#{::Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed

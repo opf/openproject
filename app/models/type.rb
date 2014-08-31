@@ -86,11 +86,11 @@ class Type < ActiveRecord::Base
   end
 
   def self.standard_type
-    Type.where(is_standard: true).first
+    ::Type.where(is_standard: true).first
   end
 
   def self.default
-    Type.where(is_default: true)
+    ::Type.where(is_default: true)
   end
 
   def statuses

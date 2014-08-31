@@ -159,7 +159,7 @@ class WorkPackage < ActiveRecord::Base
                                        self.method(:cleanup_time_entries_before_destruction_of)
 
   # Mapping attributes, that are passed in as id's onto their respective associations
-  # (eg. type=4711 onto type=Type.find(4711))
+  # (eg. type=4711 onto type=::Type.find(4711))
   include AssociationsMapper
   # recovered this from planning-element: is it still needed?!
   map_associations_for :parent,
@@ -900,7 +900,7 @@ class WorkPackage < ActiveRecord::Base
   def self.by_type(project)
     count_and_group_by :project => project,
                        :field => 'type_id',
-                       :joins => Type.table_name
+                       :joins => ::Type.table_name
   end
 
   def self.by_version(project)

@@ -62,7 +62,7 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
         :name => "Belag",
         :field_format => "text",
         :projects => [planning_element.project],
-        :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+        :types => [(::Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
     end
 
     before do

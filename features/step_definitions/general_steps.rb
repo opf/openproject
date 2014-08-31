@@ -198,7 +198,7 @@ end
 Given /^there are the following types:$/ do |table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
-    type = Type.find_by_name(t['name'])
+    type = ::Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
     type.position       = t['position'] ? t['position'] : i
     type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
@@ -225,7 +225,7 @@ end
 
 Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |type_name, role_name|
   role = Role.find_by_name(role_name)
-  type = Type.find_by_name(type_name)
+  type = ::Type.find_by_name(type_name)
   type.workflows = []
 
   Status.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
@@ -353,7 +353,7 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
-    type = Type.find_by_name(t['name'])
+    type = ::Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
     type.position = t['position'] ? t['position'] : i
     type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true

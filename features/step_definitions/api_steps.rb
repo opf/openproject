@@ -51,7 +51,7 @@ Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |ne
 end
 
 And(/^the json\-response for work_package "(.*?)" should have the type "(.*?)"$/) do |work_package_name, type_name|
-  type = Type.where(name: type_name).first
+  type = ::Type.where(name: type_name).first
   work_package = lookup_work_package(work_package_name)
   expect(work_package["type_id"]).to eql type.id
 end

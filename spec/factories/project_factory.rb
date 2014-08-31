@@ -34,7 +34,7 @@ FactoryGirl.define do
     enabled_module_names Redmine::AccessControl.available_project_modules
 
     callback(:before_create) do |project|
-      unless Type.find(:first, conditions: { is_standard: true })
+      unless ::Type.find(:first, conditions: { is_standard: true })
         project.types << FactoryGirl.build(:type_standard)
       end
     end

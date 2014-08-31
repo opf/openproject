@@ -109,6 +109,6 @@ class CustomFieldsController < ApplicationController
   end
 
   def find_types
-    @types = Type.find(:all, :order => 'position')
+    @types = ::Type.find(:all, :order => 'position')
   end
 end
