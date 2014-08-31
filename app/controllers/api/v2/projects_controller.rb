@@ -29,7 +29,7 @@
 
 module Api
   module V2
-    class ProjectsController < ProjectsController
+    class ProjectsController < ::ProjectsController
 
       include ::Api::V2::ApiController
 

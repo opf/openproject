@@ -30,7 +30,7 @@
 module Api
   module V2
 
-    class ReportingsController < ReportingsController
+    class ReportingsController < ::ReportingsController
 
       include ::Api::V2::ApiController
 

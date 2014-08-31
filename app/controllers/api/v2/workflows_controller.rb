@@ -29,7 +29,7 @@
 
 module Api
   module V2
-    class WorkflowsController < WorkflowsController
+    class WorkflowsController < ::WorkflowsController
       include ::Api::V2::ApiController
 
       Workflow = Struct.new(:type_id, :old_status_id, :transitions)

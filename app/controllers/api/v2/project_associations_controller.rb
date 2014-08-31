@@ -30,7 +30,7 @@
 module Api
   module V2
 
-    class ProjectAssociationsController < ProjectAssociationsController
+    class ProjectAssociationsController < ::ProjectAssociationsController
 
       include ::Api::V2::ApiController
 
