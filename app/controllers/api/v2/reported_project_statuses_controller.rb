@@ -30,7 +30,7 @@
 module Api
   module V2
 
-    class ReportedProjectStatusesController < ReportedProjectStatusesController
+    class ReportedProjectStatusesController < ::ReportedProjectStatusesController
 
       include ::Api::V2::ApiController
 

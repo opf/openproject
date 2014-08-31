@@ -30,7 +30,7 @@
 module Api
   module V2
 
-    class AuthenticationController < AuthenticationController
+    class AuthenticationController < ::AuthenticationController
 
       include ::Api::V2::ApiController
 
