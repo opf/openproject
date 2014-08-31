@@ -73,9 +73,9 @@ class Type < ActiveRecord::Base
     name <=> type.name
   end
 
-  def self.all
-    find(:all, :order => 'position')
-  end
+  # def self.all
+  #  find(:all, :order => 'position')
+  # end
 
   def self.statuses(types)
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
