@@ -129,7 +129,7 @@ SQL
 
     def self.resolve_types(work_packages)
       type_ids  = work_packages.map(&:type_id).uniq.compact
-      types     = Hash[Type.find(type_ids).map{|type| [type.id,type]}]
+      types     = Hash[::Type.find(type_ids).map{|type| [type.id,type]}]
     end
 
     def self.resolve_statuses(work_packages)

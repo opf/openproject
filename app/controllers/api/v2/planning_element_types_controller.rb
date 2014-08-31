@@ -48,7 +48,7 @@ module Api
       end
 
       def show
-        @type = (@project.nil?) ? Type.find(params[:id])
+        @type = (@project.nil?) ? ::Type.find(params[:id])
                                 : @project.types.find(params[:id])
 
         respond_to do |format|

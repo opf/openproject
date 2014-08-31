@@ -276,7 +276,7 @@ private
   end
 
   def types_used_by_work_packages
-    @types_used_by_work_packages ||= Type.find_all_by_id(WorkPackage.where(project_id: @project.id)
+    @types_used_by_work_packages ||= ::Type.find_all_by_id(WorkPackage.where(project_id: @project.id)
                                                                     .select(:type_id)
                                                                     .uniq)
   end

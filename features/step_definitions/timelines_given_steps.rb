@@ -103,7 +103,7 @@ Given /^the following types are enabled for projects of type "(.*?)"$/ do |proje
   project_type = ProjectType.find_by_name(project_type_name)
   projects = Project.where(:project_type_id => project_type.id)
   types = type_name_table.raw.flatten.map do |type_name|
-    Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
+    ::Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
   end
 
   projects.each do |project|
@@ -140,7 +140,7 @@ def create_work_packages_from_table table, project
     # lookup the type by its name and replace it with the type
     # if the cast is ommitted, the contents of type_attributes is interpreted as an int
     unless type_attributes.has_key? :type
-      type_attributes[:type] = Type.where(name: type_attributes[:type].to_s).first
+      type_attributes[:type] = ::Type.where(name: type_attributes[:type].to_s).first
     end
 
     if type_attributes.has_key? "author"

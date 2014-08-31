@@ -84,7 +84,7 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
 
           @all_types = Array.new
           @all_types.concat @created_planning_element_types
-          @all_types.concat Type.where(is_standard: true)
+          @all_types.concat ::Type.where(is_standard: true)
 
           # Creating one PlanningElemenType which is not assigned to any
           # Project and should therefore not show up in projects with a project

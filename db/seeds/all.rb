@@ -38,7 +38,7 @@ Project
 PlanningElementTypeColor.colors.map(&:save)
 default_color = PlanningElementTypeColor.find_by_name('Grey-light')
 
-Type.find_or_create_by_is_standard(true, name: 'none',
+::Type.find_or_create_by_is_standard(true, name: 'none',
                                          position: 0,
                                          color_id: default_color.id,
                                          is_default: true,

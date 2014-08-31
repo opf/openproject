@@ -62,7 +62,7 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
   work_package = WorkPackage.find_by_subject(subject)
   except = {}
 
-  except["type"] = lambda{|wp, value| wp.type = Type.find_by_name(value) if value }
+  except["type"] = lambda{|wp, value| wp.type = ::Type.find_by_name(value) if value }
   except["assigned_to"] = lambda{|wp, value| wp.assigned_to = User.find_by_login(value) if value}
   except["responsible"] = lambda{|wp, value| wp.responsible = User.find_by_login(value) if value}
 
@@ -74,7 +74,7 @@ Given(/^the user "([^\"]+)" has the following queries by type in the project "(.
   p = get_project(project_name)
 
   table.hashes.each_with_index do |t, i|
-    types = Type.find_all_by_name(t['type_value']).map {|type| type.id.to_s}
+    types = ::Type.find_all_by_name(t['type_value']).map {|type| type.id.to_s}
     p.queries.create(user_id: u.id, name: t['name'], filters: [Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: types)])
   end
 end

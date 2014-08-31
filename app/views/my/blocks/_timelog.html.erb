@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 entries = TimeEntry.find(:all,
                          :conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
                          :include => [:activity, :project, {:work_package => [:type, :status]}],
-                         :order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Type.table_name}.position ASC, #{WorkPackage.table_name}.id ASC")
+                         :order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{::Type.table_name}.position ASC, #{WorkPackage.table_name}.id ASC")
 entries_by_day = entries.group_by(&:spent_on)
 %>
 

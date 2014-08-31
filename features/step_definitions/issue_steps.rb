@@ -64,7 +64,7 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:
                            assigned_to: u,
                            status: Status.default || FactoryGirl.create(:status))
 
-    i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
+    i.type = ::Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
 
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
     i.save!
@@ -110,7 +110,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
 
     watchers = attributes.delete("watched_by")
 
-    type = Type.find_by_name(attributes.delete('type'))
+    type = ::Type.find_by_name(attributes.delete('type'))
     attributes.merge! :type_id => type.id if type
 
     version = Version.find_by_name(attributes.delete("version"))

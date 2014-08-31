@@ -455,7 +455,7 @@ class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
     @project  = Project.find_by_id(project_id)
-    @type  = Type.find_by_id(type_id)
+    @type  = ::Type.find_by_id(type_id)
     @user_ids = user_ids
   end
 

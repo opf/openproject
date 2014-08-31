@@ -529,7 +529,7 @@ describe Api::V2::PlanningElementsController, :type => :controller do
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :issue_custom_field,
@@ -660,7 +660,7 @@ describe Api::V2::PlanningElementsController, :type => :controller do
       render_views
 
       let(:project) { FactoryGirl.create(:project) }
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,
@@ -745,7 +745,7 @@ describe Api::V2::PlanningElementsController, :type => :controller do
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { ::Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,

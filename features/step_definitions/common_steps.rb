@@ -42,7 +42,7 @@ Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project,
 
   types = table.raw.map do |line|
     name = line.first
-    type = Type.find_by_name(name)
+    type = ::Type.find_by_name(name)
 
     type = FactoryGirl.create(:type, :name => name) if type.blank?
     type

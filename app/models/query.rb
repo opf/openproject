@@ -54,7 +54,7 @@ class Query < ActiveRecord::Base
 
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
-    QueryColumn.new(:type, :sortable => "#{Type.table_name}.position", :groupable => true),
+    QueryColumn.new(:type, :sortable => "#{::Type.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc'),
     QueryColumn.new(:status, :sortable => "#{Status.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),

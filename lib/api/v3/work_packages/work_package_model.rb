@@ -73,7 +73,7 @@ module API
         end
 
         def type=(value)
-          model.type = Type.find_by_name(value)
+          model.type = ::Type.find_by_name(value)
         end
 
         def status
