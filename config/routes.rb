@@ -34,14 +34,14 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
-  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
-  match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+  get '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
-  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
-  match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+  get '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  get '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
@@ -156,8 +156,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
-  match '/help/:ctrl/:page' => 'help#index'
+  get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
+  get '/help/:ctrl/:page' => 'help#index'
 
   resources :types do
     post 'move/:id', action: 'move', on: :collection
@@ -169,7 +169,7 @@ OpenProject::Application.routes.draw do
     end
   end
   resources :custom_fields, :except => :show
-  match "(projects/:project_id)/search" => 'search#index', :as => "search"
+  get "(projects/:project_id)/search" => 'search#index', :as => "search"
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -192,7 +192,7 @@ OpenProject::Application.routes.draw do
   get   'projects/:project_id/wiki/:id/toc' => 'wiki#index', :as => 'wiki_page_toc'
   post  'projects/:project_id/wiki/preview' => 'wiki#preview', as: 'preview_wiki'
   post  'projects/:id/wiki' => 'wikis#edit'
-  match 'projects/:id/wiki/destroy' => 'wikis#destroy'
+  delete 'projects/:id/wiki/destroy' => 'wikis#destroy'
 
   # generic route for adding/removing watchers.
   # Models declared as acts_as_watchable will be automatically added to
@@ -208,7 +208,7 @@ OpenProject::Application.routes.draw do
 
   # TODO: remove
   scope "issues" do
-    match 'changes' => 'journals#index', :as => 'changes'
+    get 'changes' => 'journals#index', :as => 'changes'
   end
 
   resources :projects, :except => [:edit] do
@@ -501,8 +501,8 @@ OpenProject::Application.routes.draw do
   end
   # redirect for backwards compatibility
   scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
-    match "/attachments/download/:id/:filename" => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), :format => false
-    match "/attachments/download/:id" => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), :format => false
+    get "/attachments/download/:id/:filename" => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), :format => false
+    get "/attachments/download/:id" => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), :format => false
   end
 
   scope :controller => 'sys' do
@@ -568,7 +568,8 @@ OpenProject::Application.routes.draw do
   get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
 
   # Install the default route as the lowest priority.
-  match '/:controller(/:action(/:id))'
-  match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
+  get '/:controller(/:action(/:id))'
+  get '/robots' => 'welcome#robots', :defaults => { :format => :txt }
+
   root :to => 'account#login'
 end
