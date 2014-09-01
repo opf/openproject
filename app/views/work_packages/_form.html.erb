@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_work_packages_form_details_top, { :issue => work_package, :form => f }) %>
 
-<div id="work_package_descr_fields"<% unless work_package.new_record? || work_package.errors.any? %> style="display:none;"<% end %>>
+<div id="work_package_descr_fields">
 
   <% work_package_form_top_attributes(f, work_package,
                                          :priorities => priorities,
