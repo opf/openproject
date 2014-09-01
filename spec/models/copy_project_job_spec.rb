@@ -29,19 +29,24 @@
 require 'spec_helper'
 
 describe CopyProjectJob, :type => :model do
-
-  let(:user) { FactoryGirl.create(:admin, language: :de) }
-  let(:source_project) { FactoryGirl.create(:project) }
-  let(:target_project) { FactoryGirl.create(:project) }
-
-  let(:copy_job) { CopyProjectJob.new user,
-                                      source_project,
-                                      target_project,
-                                      [], # enabled modules
-                                      [], # associations
-                                      false } # send mails
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:copy_projects]) }
+  let(:params) { { name: 'Copy', identifier: 'copy' } }
 
   describe 'copy localizes error message' do
+
+    let(:user_de) { FactoryGirl.create(:admin, language: :de) }
+    let(:source_project) { FactoryGirl.create(:project) }
+    let(:target_project) { FactoryGirl.create(:project) }
+
+    let(:copy_job) { CopyProjectJob.new user_de,
+                                        source_project,
+                                        target_project,
+                                        [], # enabled modules
+                                        [], # associations
+                                        false } # send mails
+
     before do
       # 'Delayed Job' uses a work around to get Rails 3 mailers working with it
       # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
@@ -57,6 +62,63 @@ describe CopyProjectJob, :type => :model do
       end
 
       copy_job.perform
+    end
+  end
+
+
+  shared_context 'copy project' do
+    before do
+      copy_project_job = CopyProjectJob.new(user,
+                                            project_to_copy,
+                                            params,
+                                            [],
+                                            [:members],
+                                            false)
+
+      copy_project_job.perform
+    end
+  end
+
+  describe 'perform' do
+    before { allow(User).to receive(:current).and_return(user) }
+
+    describe 'subproject' do
+      let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+      let(:subproject) { FactoryGirl.create(:project, parent: project) }
+
+      describe 'invalid parent' do
+        before { expect(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true)) }
+
+        include_context 'copy project' do
+          let(:project_to_copy) { subproject }
+        end
+
+        it { expect(Project.all).to match_array([project, subproject]) }
+      end
+
+      describe 'valid parent' do
+        let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
+        let(:member_add_subproject) { FactoryGirl.create(:member,
+                                                         user: user,
+                                                         project: project,
+                                                         roles: [role_add_subproject]) }
+
+        before do
+          expect(UserMailer).to receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
+
+          member_add_subproject
+        end
+
+        include_context 'copy project' do
+          let(:project_to_copy) { subproject }
+        end
+
+        subject { Project.find_by_identifier('copy') }
+
+        it { expect(subject).not_to be_nil }
+
+        it { expect(subject.parent).to eql(project) }
+      end
     end
   end
 end

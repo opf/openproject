@@ -209,7 +209,7 @@ module Project::Copy
       end
     end
 
-      # Copies members from +project+
+    # Copies members from +project+
     def copy_members(project)
       # Copy users first, then groups to handle members with inherited and given roles
       members_to_copy = []
@@ -224,8 +224,14 @@ module Project::Copy
         next if role_ids.empty?
         new_member.role_ids = role_ids
         new_member.project = self
-        Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
         self.memberships << new_member
+      end
+
+      # Update the omitted attributes for the copied memberships
+      self.memberships.each do |new_member|
+        member = project.memberships.find_by_user_id(new_member.user_id)
+        Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
+        new_member.save
       end
     end
 
