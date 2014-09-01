@@ -31,9 +31,11 @@ angular.module('openproject.workPackages.directives')
 .directive('workPackagesTable', [
   'I18n',
   'WorkPackagesTableService',
+  '$window',
+  '$timeout',
   'flags',
   'PathHelper',
-  function(I18n, WorkPackagesTableService, flags, PathHelper){
+  function(I18n, WorkPackagesTableService, $window, $timeout, flags, PathHelper){
 
   return {
     restrict: 'E',
@@ -71,6 +73,16 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
         scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
       });
+
+      function setHeaderWidths() {
+        element.find('.sort-header-outer, .work-packages-table--header-outer').each(function() {
+          var parentWidth = angular.element(this).parent().width();
+          angular.element(this).css('width', parentWidth + 'px');
+        });
+      }
+
+      $timeout(setHeaderWidths);
+      angular.element($window).on('resize', setHeaderWidths);
 
       element.on('hover', 'th', function() {
         element.find('col:eq('+ jQuery(this).index() +')').toggleClass('hover');
