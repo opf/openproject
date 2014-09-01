@@ -70,7 +70,7 @@ class CopyProjectJob < Struct.new(:user,
         p.enabled_module_names = enabled_modules
       end
 
-      if target_project.save && validate_parent_id(target_project, parent_id)
+      if validate_parent_id(target_project, parent_id) && target_project.save
         target_project.set_allowed_parent!(parent_id) if parent_id
 
         target_project.copy_associations(source_project, only: associations_to_copy)
@@ -80,6 +80,7 @@ class CopyProjectJob < Struct.new(:user,
         errors = (target_project.compiled_errors.flatten + [target_project.errors]).map(&:full_messages).flatten
       else
         errors = target_project.errors.full_messages
+        target_project = nil
       end
     end
   rescue ActiveRecord::RecordNotFound
