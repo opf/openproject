@@ -25,11 +25,6 @@ APP_GROUP=$(${CLI} config:get APP_GROUP)
 case "$1" in
 
   configure)
-    rake_commands="db:migrate"
-    if [ "$2" = "" ]; then
-      rake_commands="${rake_commands} db:seed"
-    fi
-
     # create attachments folder
     attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
     mkdir -p "${attachments_path}"
@@ -45,6 +40,7 @@ case "$1" in
     ${CLI} config:set SECRET_TOKEN="$secret_token"
 
     # migrate
+    rake_commands="db:migrate db:seed"
     ${CLI} run rake ${rake_commands} || true
 
     sys_api_key=$(${CLI} config:get SYS_API_KEY)
