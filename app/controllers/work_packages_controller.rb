@@ -439,14 +439,6 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def redirect_to_back_url_or_work_package(work_package)
-    if !params[:back_url].blank?
-      redirect_to(params[:back_url])
-    else
-      redirect_to(work_package_path(work_package))
-    end
-  end
-
   def load_work_packages
     sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
