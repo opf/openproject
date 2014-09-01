@@ -68,22 +68,22 @@ describe('tablePagination Directive', function () {
 
     it('should display correct number of page number links', function () {
       var numberOfPageNumberLinks = function () {
-        return element.find('a.page-no').size();
+        return element.find('a[rel="next"]').size();
       };
 
-      expect(numberOfPageNumberLinks()).to.eq(0);
+      expect(numberOfPageNumberLinks()).to.eq(1);
 
       scope.tableEntries = 11;
       scope.$apply();
-      expect(numberOfPageNumberLinks()).to.eq(1);
+      expect(numberOfPageNumberLinks()).to.eq(2);
 
       scope.tableEntries = 59;
       scope.$apply();
-      expect(numberOfPageNumberLinks()).to.eq(5);
+      expect(numberOfPageNumberLinks()).to.eq(6);
 
       scope.tableEntries = 101;
       scope.$apply();
-      expect(numberOfPageNumberLinks()).to.eq(10);
+      expect(numberOfPageNumberLinks()).to.eq(11);
     });
   });
 
@@ -99,7 +99,7 @@ describe('tablePagination Directive', function () {
     }));
 
     it('should always render perPage options', function () {
-      var perPageOptions = element.find('span.per_page_options');
+      var perPageOptions = element.find('.items-per-page-container .pagination');
 
       expect(perPageOptions.text()).to.include('Per page:');
     });

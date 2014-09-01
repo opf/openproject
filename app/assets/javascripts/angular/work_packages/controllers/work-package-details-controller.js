@@ -86,6 +86,9 @@ angular.module('openproject.workPackages.controllers')
     }
     $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
 
+    // Inform parent that work package is loaded so back url can be maintained
+    $scope.$emit('workPackgeLoaded');
+
     function outputMessage(message, isError) {
       $scope.$emit('flashMessage', {
         isError: !!isError,

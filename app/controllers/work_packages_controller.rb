@@ -159,7 +159,8 @@ class WorkPackagesController < ApplicationController
                  :project => project,
                  :priorities => priorities,
                  :time_entry => time_entry,
-                 :user => current_user }
+                 :user => current_user,
+                 :back_url => params[:back_url] }
 
     respond_to do |format|
       format.html do
@@ -184,7 +185,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to(work_package_path(work_package))
+      redirect_back_or_default(work_package_path(work_package), true, false)
     else
       edit
     end
@@ -437,6 +438,14 @@ class WorkPackagesController < ApplicationController
   end
 
   private
+
+  def redirect_to_back_url_or_work_package(work_package)
+    if !params[:back_url].blank?
+      redirect_to(params[:back_url])
+    else
+      redirect_to(work_package_path(work_package))
+    end
+  end
 
   def load_work_packages
     sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)

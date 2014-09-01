@@ -64,7 +64,7 @@ de:
     label_activate: "Aktiviere"
     label_add_columns: "Ausgewählte Spalten hinzufügen"
     label_add_comment: "Kommentar hinzufügen"
-    label_add_comment_title: "Fügen Sie Ihre Kommentare hier zu"
+    label_add_comment_title: "Fügen Sie Ihre Kommentare hier hinzu"
     label_added_by: "hinzugefügt von"
     label_added_time_by: "Von %{author} %{age} hinzugefügt"
     label_ago: "vor"
@@ -150,8 +150,8 @@ de:
     label_watcher_deleted_successfully: "Beobachter wurde erfolgreich entfernt!"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
-    label_global_queries: "Benutzerdefinierte Filter"
-    label_custom_queries: "Öffentliche Filter"
+    label_global_queries: "Öffentliche Filter"
+    label_custom_queries: "Benutzerdefinierte Filter"
     label_columns: "Spalten"
 
     text_are_you_sure: "Sind Sie sicher?"
@@ -265,6 +265,7 @@ de:
         months: "Monate"
         quarters: "Quartale"
         years: "Jahre"
+        slider: "Detail Schieber"
     tl_toolbar:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"

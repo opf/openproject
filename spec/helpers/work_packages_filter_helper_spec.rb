@@ -35,8 +35,8 @@ describe WorkPackagesFilterHelper, :type => :helper do
   describe :general_path_helpers do
 
     it "should give the path to work packages index with property filter" do
-      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"v\":2,\"n\":\"status\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
-      expect(CGI::unescape(helper.project_property_path(project, "status", 2))).to eq expectedDecoded
+      expectedDecoded = "/projects/" + project.identifier + "/work_packages?query_props={\"f\":[{\"v\":2,\"n\":\"status_id\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expect(CGI::unescape(helper.project_property_path(project, "status_id", 2))).to eq expectedDecoded
     end
 
   end
@@ -44,22 +44,22 @@ describe WorkPackagesFilterHelper, :type => :helper do
   describe :my_page_path_helpers do
 
     it "should give the path to work packages assigned to me" do
-      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"assigned_to_id\",\"o\":\"=\"}],\"t\":\"priority:desc,updated_at:desc\"}"
+      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"assigned_to_id\",\"o\":\"=\"},{\"n\":\"status_id\",\"o\":\"o\"}],\"t\":\"priority:desc,updated_at:desc\"}"
       expect(CGI::unescape(helper.work_packages_assigned_to_me_path)).to eq expectedDecoded
     end
 
     it "should give the path to work packages reported by me" do
-      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"author_id\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"author_id\",\"o\":\"=\"},{\"n\":\"status_id\",\"o\":\"*\"}],\"t\":\"updated_at:desc\"}"
       expect(CGI::unescape(helper.work_packages_reported_by_me_path)).to eq expectedDecoded
     end
 
     it "should give the path to work packages I'm responsible for" do
-      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"responsible_id\",\"o\":\"=\"}],\"t\":\"priority:desc,updated_at:desc\"}"
+      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"responsible_id\",\"o\":\"=\"},{\"n\":\"status_id\",\"o\":\"o\"}],\"t\":\"priority:desc,updated_at:desc\"}"
       expect(CGI::unescape(helper.work_packages_responsible_for_path)).to eq expectedDecoded
     end
 
     it "should give the path to work packages watched by me" do
-      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"watcher_id\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
+      expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"watcher_id\",\"o\":\"=\"},{\"n\":\"status_id\",\"o\":\"o\"}],\"t\":\"updated_at:desc\"}"
       expect(CGI::unescape(helper.work_packages_watched_path)).to eq expectedDecoded
     end
 

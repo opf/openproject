@@ -249,6 +249,9 @@ angular.module('openproject.helpers')
     staticWorkPackagePath: function(workPackageId) {
       return PathHelper.staticBase + PathHelper.workPackagePath(workPackageId);
     },
+    staticEditWorkPackagePath: function(workPackageId){
+      return PathHelper.staticWorkPackagePath(workPackageId) + '/edit';
+    },
     staticProjectPath: function(projectId) {
       return PathHelper.staticBase + PathHelper.projectPath(projectId);
     },

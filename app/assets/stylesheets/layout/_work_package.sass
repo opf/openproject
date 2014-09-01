@@ -75,18 +75,20 @@
 .work-packages--list-scroll-area
   position: absolute
   top:      0
-  bottom:   35px
+  bottom:   55px
   width:    100%
   overflow: auto
 
 .work-packages--list-pagination-area
   position: absolute
   bottom:   0px
-  height:   35px
+  width:    100%
+  height:   55px
+  padding:  3px 10px 0 0
 
 .work-packages--details
   position: relative
-  padding: 0 1em 1em
+  padding:  0
   border-left: 4px solid #eee
 
   @media only screen and (max-width: 1280px)
@@ -100,16 +102,20 @@
 
 .work-packages--details-content
   position:   absolute
-  top:        55px
+  top:        65px
   bottom:     55px
   width:      100%
   +allow-vertical-scrolling
-  padding:    0px 5px 15px 10px
+  padding:    0 25px 0 25px
 
 .work-packages--details-toolbar
   position:   absolute
   bottom:     0
   height:     55px
+  width:      100%
+  background: #F8F8F8
+  border:     1px solid #eeeeee
+  padding:    0 10px
 
 .controller-work_packages
   #work-packages-query-selection

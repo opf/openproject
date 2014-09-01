@@ -43,7 +43,10 @@ module WorkPackagesFilterHelper
   # Links for my page
   def work_packages_assigned_to_me_path(options = {})
     query = {
-      f: [ filter_object("assigned_to_id", "=", "me") ],
+      f: [
+        filter_object("assigned_to_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'priority:desc,updated_at:desc'
     }
     work_packages_with_query_path(query, options)
@@ -51,7 +54,10 @@ module WorkPackagesFilterHelper
 
   def work_packages_reported_by_me_path(options = {})
     query = {
-      f: [ filter_object("author_id", "=", "me") ],
+      f: [
+        filter_object("author_id", "=", "me"),
+        filter_object("status_id", "*")
+      ],
       t: 'updated_at:desc'
     }
     work_packages_with_query_path(query, options)
@@ -59,7 +65,10 @@ module WorkPackagesFilterHelper
 
   def work_packages_responsible_for_path(options = {})
     query = {
-      f: [ filter_object("responsible_id", "=", "me") ],
+      f: [
+        filter_object("responsible_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'priority:desc,updated_at:desc'
     }
     work_packages_with_query_path(query, options)
@@ -67,7 +76,10 @@ module WorkPackagesFilterHelper
 
   def work_packages_watched_path(options = {})
     query = {
-      f: [ filter_object("watcher_id", "=", "me") ],
+      f: [
+        filter_object("watcher_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'updated_at:desc'
     }
     work_packages_with_query_path(query, options)
@@ -77,7 +89,10 @@ module WorkPackagesFilterHelper
 
   def project_work_packages_assigned_to_me_path(project, options = {})
     query = {
-      f: [ filter_object("assigned_to_id", "=", "me") ],
+      f: [
+        filter_object("assigned_to_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'priority:desc,updated_at:desc'
     }
     project_work_packages_with_query_path(project, query, options)
@@ -85,7 +100,10 @@ module WorkPackagesFilterHelper
 
   def project_work_packages_reported_by_me_path(project, options = {})
     query = {
-      f: [ filter_object("author_id", "=", "me") ],
+      f: [
+        filter_object("author_id", "=", "me"),
+        filter_object("status_id", "*")
+      ],
       t: 'updated_at:desc'
     }
     project_work_packages_with_query_path(project, query, options)
@@ -93,7 +111,10 @@ module WorkPackagesFilterHelper
 
   def project_work_packages_responsible_for_path(project, options = {})
     query = {
-      f: [ filter_object("responsible_id", "=", "me") ],
+      f: [
+        filter_object("responsible_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'priority:desc,updated_at:desc'
     }
     project_work_packages_with_query_path(project, query, options)
@@ -101,7 +122,10 @@ module WorkPackagesFilterHelper
 
   def project_work_packages_watched_path(project, options = {})
     query = {
-      f: [ filter_object("watcher_id", "=", "me") ],
+      f: [
+        filter_object("watcher_id", "=", "me"),
+        filter_object("status_id", "o")
+      ],
       t: 'updated_at:desc'
     }
     project_work_packages_with_query_path(project, query, options)

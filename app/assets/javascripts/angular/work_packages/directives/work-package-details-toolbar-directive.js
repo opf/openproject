@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.directives')
   'WorkPackagesTableService',
   'WorkPackageService',
   'WorkPackageAuthorization',
+  'PathHelper',
   function(PERMITTED_MORE_MENU_ACTIONS,
            $state,
            $window,
@@ -46,7 +47,8 @@ angular.module('openproject.workPackages.directives')
            HookService,
            WorkPackagesTableService,
            WorkPackageService,
-           WorkPackageAuthorization) {
+           WorkPackageAuthorization,
+           PathHelper) {
 
   function getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActions(permittedMoreMenuActions);
@@ -87,6 +89,7 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/work_package_details_toolbar.html',
     scope: {
       workPackage: '=',
+      backUrl: '='
     },
     link: function(scope, element, attributes) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
@@ -98,7 +101,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.editWorkPackage = function() {
         // TODO: Temporarily going to the old edit dialog until we get in-place editing done
-        window.location = "/work_packages/" + scope.workPackage.props.id;
+        window.location = PathHelper.staticEditWorkPackagePath(scope.workPackage.props.id) + '?back_url=' + encodeURIComponent(scope.backUrl);
       };
 
       scope.triggerMoreMenuAction = function(action, link) {
