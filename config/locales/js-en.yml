@@ -147,6 +147,7 @@ en:
     label_watch_work_package: "Watch work package"
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
+    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
     label_global_queries: "Global queries"

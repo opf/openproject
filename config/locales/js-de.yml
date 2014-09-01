@@ -148,6 +148,7 @@ de:
     label_watch_work_package: "Arbeitspaket beobachten"
     label_watcher_added_successfully: "Beobachter wurde erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter wurde erfolgreich entfernt!"
+    label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
     label_global_queries: "Benutzerdefinierte Filter"
