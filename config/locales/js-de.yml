@@ -265,6 +265,7 @@ de:
         months: "Monate"
         quarters: "Quartale"
         years: "Jahre"
+        slider: "Detail Schieber"
     tl_toolbar:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"

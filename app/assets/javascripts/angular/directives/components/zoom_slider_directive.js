@@ -28,7 +28,16 @@
 
 angular.module('openproject.uiComponents')
 
-.directive('zoomSlider', function() {
+.directive('zoomSlider', ['I18n', function(I18n) {
+
+  function makeSliderAccessible(slider) {
+    var defaultLabel = angular.element('<span class="hidden-for-sighted">');
+    var sliderLabel = defaultLabel.text(I18n.t('js.timelines.zoom.slider'));
+    var sliderHandle = slider.find('a.ui-slider-handle');
+
+    sliderHandle.append(sliderLabel);
+  }
+
   // TODO pass options to directive and do not refer to timelines
   return {
     restrict: 'A',
@@ -54,6 +63,8 @@ angular.module('openproject.uiComponents')
       // Slider
       // TODO integrate angular-ui-slider
 
+      makeSliderAccessible(scope.slider);
+
       scope.$watch('currentScaleIndex', function(newIndex){
         scope.currentScaleIndex = newIndex;
 
@@ -65,4 +76,4 @@ angular.module('openproject.uiComponents')
 
     }
   };
-});
+}]);
