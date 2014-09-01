@@ -188,7 +188,8 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function getCurrentStateUrl(){
-    var relativeUri = decodeURIComponent($state.href($state.$current)); // ui-router escapes some of this string for whatever reason
+    // ui-router escapes some of this string for whatever reason
+    var relativeUri = decodeURIComponent($state.href($state.$current, {}, { inherit: true }));
 
     if($scope.query) {
       var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
