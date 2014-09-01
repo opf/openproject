@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['$uiViewScroll', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, I18n, PathHelper, ActivityService, UsersHelper) {
+.directive('userActivity', ['$uiViewScroll', '$timeout', '$location', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -62,6 +62,12 @@ angular.module('openproject.workPackages.tabs')
         scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;
         scope.userActive = UsersHelper.isActive(user);
+      });
+
+      $timeout(function() {
+        if($location.hash() == scope.activityNo.toString()) {
+          $uiViewScroll(element);
+        }
       });
 
       scope.editComment = function() {

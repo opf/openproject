@@ -78,6 +78,10 @@ angular.module('openproject')
       url: "/activity",
       templateUrl: "/templates/work_packages/tabs/activity.html",
     })
+    .state('work-packages.list.details.activity.details', {
+      url: "#{activity_no:[0-9]+}",
+      templateUrl: "/templates/work_packages/tabs/activity.html",
+    })
     .state('work-packages.list.details.relations', {
       url: "/relations",
       templateUrl: "/templates/work_packages/tabs/relations.html",
