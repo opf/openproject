@@ -27,6 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# remove password-reset flag from admin user
+# (the default password is OK in dev mode)
+admin = User.where(login: 'admin').first
+if admin && admin.force_password_change?
+  admin.force_password_change = false
+  admin.save!
+end
+
 # set some sensible defaults:
 include Redmine::I18n
 
