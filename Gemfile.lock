@@ -209,7 +209,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
-    libv8 (3.11.8.17)
     livingstyleguide (1.2.0.pre.1)
       hooks (= 0.3.3)
       minisyntax
@@ -308,7 +307,6 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
-    ref (1.0.5)
     reform (1.0.4)
       activemodel
       disposable (~> 0.0.4)
@@ -378,9 +376,6 @@ GEM
     svg-graph (1.0.5)
     syck (1.0.1)
     test-unit (2.5.5)
-    therubyracer (0.11.4)
-      libv8 (~> 3.11.8.12)
-      ref
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -496,7 +491,6 @@ DEPENDENCIES
   svg-graph
   syck
   test-unit (= 2.5.5)
-  therubyracer
   thin
   timecop (~> 0.6.1)
   uglifier (>= 1.0.3)

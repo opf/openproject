@@ -115,10 +115,6 @@ gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.0.pre.1'
 
-
-# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
-gem 'therubyracer', :group => :therubyracer
-
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
@@ -242,4 +238,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
-
