@@ -88,6 +88,26 @@ angular.module('openproject.workPackages.helpers')
       }
     },
 
+    getColumnDataId: function(object, column) {
+      var id;
+
+      switch (column.name) {
+        case 'parent':
+          id = object.parent_id;
+          break;
+        case 'project':
+          id = object.project_id;
+          break;
+        case 'subject':
+          id = object.id;
+          break;
+        default:
+          id = (object[column.name]) ? object[column.name].id : null;
+      }
+
+      return id;
+    },
+
     getFormattedColumnData: function(object, column) {
       var value = WorkPackagesHelper.getRowObjectContent(object, column.name);
 
