@@ -35,6 +35,10 @@ case "$1" in
     web_concurrency=$(${CLI} config:get WEB_CONCURRENCY || echo "2")
     ${CLI} config:set WEB_CONCURRENCY=${web_concurrency}
 
+    # set web timeout
+    web_timeout=$(${CLI} config:get WEB_TIMEOUT || echo "15")
+    ${CLI} config:set WEB_TIMEOUT=${web_timeout}
+
     # set SECRET_TOKEN env variable
     secret_token=$(${CLI} config:get SECRET_TOKEN || ${CLI} run rake -s secret | tail -1)
     ${CLI} config:set SECRET_TOKEN="$secret_token"
