@@ -177,13 +177,20 @@
         ng-if="displaySums"
         cg-busy="fetchTotalSums"
         class="sum group all issue work_package">
-      <td colspan="{{2  - (!!hideWorkPackageDetails * 1)}}">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
+      <td colspan="{{2  - (!!hideWorkPackageDetails * 1)}}">
+        <div class="work-packages-table--footer-outer">
+          {{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}
+        </div>
+      </td>
       <td ng-repeat="column in columns">
-        {{ column.total_sum }}
+        <div class="work-packages-table--footer-outer">
+          {{ column.total_sum }}
+        </div>
       </td>
     </tr>
 
   </tfoot>
 </table>
+<div class="work-packages-table--footer-background" ng-if="displaySums"></div>
 </div>
 </div>

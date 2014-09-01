@@ -33,11 +33,13 @@
     opacity: 0
 
 $work-packages-table--header-height: 40px
+$work-packages-table--footer-height: 34px
 
 .work-packages-table--container
   position:     relative
   height:       100%
-  padding-top:  $work-packages-table--header-height
+  padding-top:    $work-packages-table--header-height
+  padding-bottom: $work-packages-table--footer-height
   overflow:
     x: auto
     y: hidden
@@ -117,6 +119,12 @@ table.workpackages-table
   p:hover
     background: #fff598
 
+  .work-packages-table--footer-outer
+    position:     absolute
+    bottom:       0
+    line-height:  $work-packages-table--footer-height
+    z-index:      1
+
   .work-packages-table--header-outer,
   .sort-header-outer
     position:     absolute
@@ -139,3 +147,11 @@ table.workpackages-table
     & > .dropdown-indicator
       width: 1em
       text-align: right
+
+.work-packages-table--footer-background
+  position:     absolute
+  bottom:       0
+  width:        100%
+  height:       $work-packages-table--footer-height
+  background:   #f6f7f8
+  z-index:      0
