@@ -127,23 +127,49 @@
     $('#search_wrap .search_field').focus();
   };
 
+  /*
+    Helper function for the j/k-shortcuts. Returns a list of j/k-enumerable
+    items on the current page.
+  */
   var find_list_in_page = function(){
-    var dom_lists, focus_elements;
-    focus_elements = [];
-    dom_lists = $('table.list');
-    dom_lists.find('tbody tr').each(function(index, tr){
+    var focus_elements = []; // list of [list_entry, first_link] elements
+
+    // old-style table lists
+    $('table.list tbody tr').each(function(index, tr){
       var first_link = $(tr).find('a:visible')[0];
-      if ( first_link !== undefined ) { focus_elements.push(first_link); }
+      if ( first_link !== undefined ) {
+        focus_elements.push( [tr, first_link] );
+      }
     });
+
+    // new angular work package list
+    $('.workpackages-table .issue').each(function(index, issue){
+      var first_link = $(issue).find('a:visible')[0];
+      if ( first_link !== undefined ) {
+        focus_elements.push( [issue, first_link] );
+      }
+    });
+
     return focus_elements;
   };
 
   var focus_item_offset = function(offset){
-    var list, index;
+    var list, items, i;
     list = find_list_in_page();
+    item = $(document.activeElement).parents('tr')[0];
     if (list === null) { return; }
-    index = list.indexOf($(document.activeElement).parents('table.list tr').find('a:visible')[0]);
-    $(list[(index+offset+list.length) % list.length]).focus();
+    if (item === undefined) {
+      $(list[0][1]).focus();
+      return;
+    }
+
+    // scan through list to find the index of the current item
+    for (i = 0; i < list.length; ++i) {
+      if ( list[i][0] === item ) {
+        break;
+      }
+    }
+    $(list[(i+offset+list.length) % list.length][1]).focus();
   };
 
   var focus_next_item = function(){
@@ -178,13 +204,13 @@
 })(jQuery);
 
 jQuery(function(){
-  // simulated hover effect on table lists when using the keyboard
-  var tables = jQuery('table.list');
-  if (tables.size() === 0) { return; }
-  tables.on('blur', 'tr *', function(){
-    jQuery(this).parents('table.list tr').removeClass('keyboard_hover');
+  // simulated hover effect on tables when using the keyboard
+  var content = jQuery('#content');
+  content.on('hover', 'table tr *', function(){
+    jQuery(this).parents('table tr').first().removeClass('keyboard_hover');
   });
-  tables.on('focus', 'tr *', function(){
-    jQuery(this).parents('table.list tr').addClass('keyboard_hover');
+  content.on('focus', 'table tr *', function(){
+    jQuery('.keyboard_hover').removeClass('keyboard_hover');
+    jQuery(this).parents('table tr').first().addClass('keyboard_hover');
   });
 });
