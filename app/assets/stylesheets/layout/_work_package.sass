@@ -93,8 +93,9 @@
 
   @media only screen and (max-width: 1280px)
     display: none
-  // li[feature-flag=detailsView]
-  //   display: none
+    @at-root
+      li[feature-flag=detailsView]
+        display: none
   @media only screen and (min-width: 1281px)
     width: 480px
   @media only screen and (min-width: 1440px)
