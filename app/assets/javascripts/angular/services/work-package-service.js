@@ -74,7 +74,10 @@ angular.module('openproject.services')
           per_page: paginationOptions.perPage
         });
       } else {
-        angular.extend(params, DEFAULT_PAGINATION_OPTIONS);
+        angular.extend(params, {
+          page: DEFAULT_PAGINATION_OPTIONS.page,
+          per_page: DEFAULT_PAGINATION_OPTIONS.perPage,
+        });
       }
 
       return WorkPackageService.doQuery(url, params);
