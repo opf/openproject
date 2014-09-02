@@ -33,5 +33,8 @@ angular.module('openproject.workPackages.tabs')
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
+    link: function(scope, element, attributes) {
+      scope.relationToAddId = null;
+    }
   };
 }]);

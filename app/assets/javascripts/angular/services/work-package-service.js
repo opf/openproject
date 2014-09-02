@@ -147,7 +147,7 @@ angular.module('openproject.services')
         },
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8"
-      }};
+      }, force: true};
       return workPackage.links.update.fetch(options).then(function(workPackage) {
         return workPackage;
       })

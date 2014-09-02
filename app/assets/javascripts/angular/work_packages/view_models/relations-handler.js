@@ -62,11 +62,9 @@ angular.module('openproject.viewModels')
     },
 
     addRelation: function(scope) {
-      var inputElement = angular.element('#relation_to_id-' + this.relationsId);
-      var toId = inputElement.val();
-      WorkPackageService.addWorkPackageRelation(this.workPackage, toId, this.relationsId).then(function(relation) {
+      WorkPackageService.addWorkPackageRelation(this.workPackage, scope.relationToAddId, this.relationsId).then(function(relation) {
+          scope.relationToAddId = '';
           scope.updateFocus(-1);
-          inputElement.val('');
           scope.$emit('workPackageRefreshRequired', '');
       }, function(error) {
         ApiHelper.handleError(scope, error);
@@ -151,14 +149,13 @@ angular.module('openproject.viewModels')
                 scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
-            }
-        );
+            });
+        };
+
+        return handler;
     };
 
-    return handler;
-  }
-
-  return ChildrenRelationsHandler;
+    return ChildrenRelationsHandler;
 }])
 
 .factory('ParentRelationsHandler', ['CommonRelationsHandler', 'WorkPackageService', 'ApiHelper',
@@ -172,14 +169,24 @@ angular.module('openproject.viewModels')
         handler.relationsId = relationsId;
 
         handler.canAddRelation = function() { return !!this.workPackage.links.update; };
-        handler.canDeleteRelation = function() { return false; };
+        handler.canDeleteRelation = function() { return !!this.workPackage.links.update; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.addRelation = function(scope) {
-            var inputElement = angular.element('#relation_to_id-' + this.relationsId);
-            var parentId = inputElement.val();
-            WorkPackageService.updateWorkPackage(this.workPackage, {parentId: parentId}).then(function(workPackage) {
-                inputElement.val('');
+            WorkPackageService.updateWorkPackage(this.workPackage, {parentId: scope.relationToAddId}).then(function(workPackage) {
+                scope.relationToAddId = '';
+                scope.updateFocus(-1);
                 scope.$emit('workPackageRefreshRequired', '');
+            }, function(error) {
+                ApiHelper.handleError(scope, error);
+            });
+        };
+        handler.removeRelation = function(scope) {
+            var index = this.relations.indexOf(scope.relation);
+            var handler = this;
+
+            WorkPackageService.updateWorkPackage(scope.workPackage, {parentId: null}).then(function(response){
+                handler.relations.splice(index, 1);
+                scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
             });
@@ -187,5 +194,6 @@ angular.module('openproject.viewModels')
 
         return handler;
     }
+
     return ParentRelationsHandler;
 }])
