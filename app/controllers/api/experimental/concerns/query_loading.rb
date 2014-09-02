@@ -64,6 +64,6 @@ module Api::Experimental::Concerns::QueryLoading
   end
 
   def no_query_params_provided?
-    (params.keys & %w(group_by c fields f sort is_public name page per_page display_sums)).empty?
+    (params.keys & %w(group_by c fields f sort is_public name display_sums)).empty?
   end
 end
