@@ -48,7 +48,7 @@ module API
         property :due_date,         type: Date
         property :created_at,       type: DateTime
         property :updated_at,       type: DateTime
-        property :category_id, type: Integer
+        property :category_id,      type: Integer
         property :author,           type: String
         property :project_id,       type: Integer
         property :parent_id,        type: Integer, render_nil: true
@@ -125,6 +125,10 @@ module API
 
         def assignee
           ::API::V3::Users::UserModel.new(model.assigned_to) unless model.assigned_to.nil?
+        end
+
+        def category
+          ::API::V3::Categories::CategoryModel.new(model.category)  unless model.category.nil?
         end
 
         def activities
