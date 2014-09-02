@@ -26,6 +26,7 @@
           header-title="'#'"
           has-dropdown-menu
           target="ColumnContextMenu"
+          position-relative-to=".sort-header-outer"
           locals="columns, column"
           sortable="true"
           query="query"/>
@@ -33,6 +34,7 @@
       <th sort-header ng-repeat="column in columns"
                       has-dropdown-menu
                       target="ColumnContextMenu"
+                      position-relative-to=".sort-header-outer"
                       locals="columns, column"
                       locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
                       header-name="column.name"

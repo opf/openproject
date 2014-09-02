@@ -50,6 +50,7 @@ angular.module('openproject.uiComponents')
         locals = {},
         win = angular.element($window),
         menuElement,
+        positionRelativeTo = attrs.positionRelativeTo,
         triggerOnEvent = attrs.triggerOnEvent || 'click';
 
       /* contextMenu      is a mandatory attribute and used to bind a specific context
@@ -89,7 +90,10 @@ angular.module('openproject.uiComponents')
       }
 
       function positionDropdown() {
-        menuElement.css(getCssPositionProperties(menuElement, element));
+        var positionRelativeToElement = positionRelativeTo ?
+          element.find(positionRelativeTo) : element;
+
+        menuElement.css(getCssPositionProperties(menuElement, positionRelativeToElement));
       }
 
       element.bind(triggerOnEvent, function(event) {
