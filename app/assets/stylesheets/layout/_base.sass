@@ -90,6 +90,10 @@ h4, .wiki h3
     border:
       bottom: 5px solid $footer_bg_color
 
+  &.nomenus
+    %absolute-layout-mode &
+      top:    0
+
 #content
   @include default-transition
   margin: 0 0 0 $main_menu_width
@@ -120,6 +124,11 @@ h4, .wiki h3
 
     %absolute-layout-mode &
       width:    100%
+
+  &.nomenus
+    %absolute-layout-mode &
+      width:    100%
+      height:   100%
 
   &:after
     content: "."
