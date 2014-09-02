@@ -272,7 +272,9 @@ angular.module('openproject.workPackages.controllers')
     $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
   };
 
-  $scope.showWorkPackageDetails = function(id) {
-    $state.go(latestTab.getStateName(), { workPackageId: id });
+  $scope.showWorkPackageDetails = function(id, force) {
+    if (force || $state.current.controller == "DetailsTabOverviewController") {
+      $state.go(latestTab.getStateName(), { workPackageId: id });
+    }
   };
 }]);

@@ -126,6 +126,8 @@ angular.module('openproject.workPackages.directives')
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
           } else {
             setRowSelectionState(row, !currentRowCheckState);
+
+            scope.activationCallback({ id: row.object.id, force: false });
           }
         }
       };
@@ -137,7 +139,7 @@ angular.module('openproject.workPackages.directives')
 
         setRowSelectionState(row, true);
 
-        scope.activationCallback({ id: row.object.id });
+        scope.activationCallback({ id: row.object.id, force: true });
       };
     }
   };
