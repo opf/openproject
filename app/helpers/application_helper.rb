@@ -501,7 +501,7 @@ module ApplicationHelper
         else
           '' # use language
         end
-        js = "var CS = {lang: '#{current_language.to_s.downcase}', start: '#{start_of_week}'};"
+        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstWeekDay: '#{start_of_week}' };"
         javascript_tag(js)
       end
     end
