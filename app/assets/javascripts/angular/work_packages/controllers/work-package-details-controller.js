@@ -50,7 +50,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
-  '$location',
+  '$state',
   'latestTab',
   'workPackage',
   'I18n',
@@ -64,7 +64,7 @@ angular.module('openproject.workPackages.controllers')
   'CommonRelationsHandler',
   'ChildrenRelationsHandler',
   'ParentRelationsHandler',
-  function($scope, $location, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+  function($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -180,15 +180,13 @@ angular.module('openproject.workPackages.controllers')
       hideAllAttributes: true
     };
 
-    function getFocusAnchorLabel(path, workPackage) {
-      var splitPath = path.split('/');
-      var tab = splitPath[splitPath.length - 1];
+    function getFocusAnchorLabel(tab, workPackage) {
       var tabLabel = I18n.t('js.work_packages.tabs.' + tab);
       var params = { tab: tabLabel, type: workPackage.props.type, subject: workPackage.props.subject };
 
       return I18n.t('js.label_work_package_details_you_are_here', params);
     }
 
-    $scope.focusAnchorLabel = getFocusAnchorLabel($location.path(), $scope.workPackage);
+    $scope.focusAnchorLabel = getFocusAnchorLabel($state.current.url.replace(/\//, ''), $scope.workPackage);
   }
 ]);
