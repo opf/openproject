@@ -37,11 +37,11 @@ describe 'New work package', :type => :feature do
   before { allow(User).to receive(:current).and_return(user) }
 
   describe 'Datepicker', js: true do
-    shared_examples_for 'first week day set' do
+    shared_examples_for 'first week day set' do |locale: 'de'|
       let(:datepicker_selector) { '#ui-datepicker-div table.ui-datepicker-calendar thead tr th:nth-of-type(2)' }
 
       before do
-        allow(I18n).to receive(:locale).and_return 'de'
+        allow(I18n).to receive(:locale).and_return(locale)
         expect(Setting).to receive(:start_of_week).and_return(day_of_week) unless day_of_week.nil?
 
         work_packages_page.visit_new
@@ -53,7 +53,7 @@ describe 'New work package', :type => :feature do
       end
 
       subject { page.find(datepicker_selector).text }
-      
+
       it { expect(subject).to eql(day_acronym) }
     end
 
@@ -82,6 +82,11 @@ describe 'New work package', :type => :feature do
       it_behaves_like 'first week day set' do
         let(:day_of_week) { nil }
         let(:day_acronym) { 'Mo' }
+      end
+
+      it_behaves_like 'first week day set', locale: 'en' do
+        let(:day_of_week) { nil  }
+        let(:day_acronym) { 'Su' }
       end
     end
   end
