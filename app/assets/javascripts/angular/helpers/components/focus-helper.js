@@ -43,11 +43,21 @@ angular.module('openproject.uiComponents')
       return focusable[0];
     },
 
+    focus: function(element) {
+      var focusable = FocusHelper.getFocusableElement(element);
+
+      focusable.focus();
+    },
+
     focusElement: function(element) {
       $timeout(function() {
-        var focusable = FocusHelper.getFocusableElement(element);
+        FocusHelper.focus(element);
+      });
+    },
 
-        focusable.focus();
+    focusSelect2Element: function(element) {
+      $timeout(function() {
+        element.select2('focus');
       });
     }
   };

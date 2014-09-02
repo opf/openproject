@@ -14,12 +14,13 @@
       <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
       <fieldset>
         <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
-        <select focus="focusElementIndex < 0" ng-model="selectedWatcher.id" data-placeholder="{{ I18n.t('js.label_select_watcher') }}" ui-select2>
-          <option value=""></option>
-          <option ng-repeat="watcher in availableWatchers" value="{{watcher.props.id}}">
-            {{watcher.props.name}}
-          </option>
-        </select>
+        <input type="hidden"
+               ng-model="watcher.selected"
+               data-placeholder="{{ I18n.t('js.label_select_watcher') }}"
+               simple-query="getAvailableWatchers"
+               ui-select2-sortable
+               focus="focusElementIndex < 0">
+        </input>
       </fieldset>
     </div>
 

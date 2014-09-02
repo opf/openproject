@@ -32,11 +32,12 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('DetailsTabWatchersController',
             ['$scope',
+             '$filter',
              '$timeout',
              'workPackage',
              'I18n',
              'ADD_WATCHER_SELECT_INDEX',
-             function($scope, $timeout, workPackage, I18n, ADD_WATCHER_SELECT_INDEX) {
+             function($scope, $filter, $timeout, workPackage, I18n, ADD_WATCHER_SELECT_INDEX) {
   $scope.I18n = I18n;
   $scope.focusElementIndex;
 
@@ -87,21 +88,31 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  function addWatcher() {
-    var id = $scope.selectedWatcher.id;
+  $scope.getAvailableWatchers = function(term, result) {
+    var watchers = $scope.availableWatchers.map(function(watcher) {
+      return { id: watcher.props.id, name: watcher.props.name };
+    });
 
-    $scope.selectedWatcher.id = null;
+    result($filter('filter')(watchers, {name: term}));
+  };
 
-    if (id) {
-      $scope.workPackage.link('addWatcher', {user_id: id})
-        .fetch({ajax: {method: 'POST'}})
-        .then(addWatcherSuccess, $scope.outputError);
+  function addWatcher(newValue, oldValue) {
+    if (newValue) {
+      var id = newValue.id;
+
+      if (id) {
+        $scope.workPackage.link('addWatcher', {user_id: id})
+          .fetch({ajax: {method: 'POST'}})
+          .then(addWatcherSuccess, $scope.outputError);
+      }
     }
   }
 
   function addWatcherSuccess() {
     $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
     $scope.refreshWorkPackage();
+
+    $scope.watcher.selected = null;
 
     $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
   }
@@ -139,7 +150,7 @@ angular.module('openproject.workPackages.controllers')
     });
   }
 
-  $scope.selectedWatcher = { id: null };
+  $scope.watcher = { selected: null };
 
-  $scope.$watch('selectedWatcher.id', addWatcher);
+  $scope.$watch('watcher.selected', addWatcher);
 }]);
