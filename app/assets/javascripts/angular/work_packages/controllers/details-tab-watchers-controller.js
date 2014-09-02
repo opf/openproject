@@ -135,6 +135,7 @@ angular.module('openproject.workPackages.controllers')
       $scope.watchers.splice(index, 1);
 
       updateWatcherFocus(index);
+      $scope.$emit('workPackageRefreshRequired');
     }
   }
 
