@@ -38,7 +38,7 @@ angular.module('openproject.workPackages.controllers')
              'ADD_WATCHER_SELECT_INDEX',
              function($scope, $timeout, workPackage, I18n, ADD_WATCHER_SELECT_INDEX) {
   $scope.I18n = I18n;
-  $scope.focusElementIndex = ($scope.watchers.length > 0) ? 0 : ADD_WATCHER_SELECT_INDEX;
+  $scope.focusElementIndex;
 
   $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
 

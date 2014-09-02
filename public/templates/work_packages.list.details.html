@@ -25,6 +25,9 @@
 </div>
 
 <div class="work-packages--details-content">
+  <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel">
+  </span>
+
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
   <h2 title="{{ workPackage.props.subject }}" ng-bind="workPackage.props.subject"></h2>

@@ -112,11 +112,15 @@ describe('WorkPackageDetailsController', function() {
     var workPackageId = 99;
 
     buildController = function() {
+      var testState = {
+        current: { url: '/overview', },
+      };
       scope = $rootScope.$new();
 
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
+        $state: testState,
         latestTab: {},
         I18n: I18n,
         ConfigurationService: {
