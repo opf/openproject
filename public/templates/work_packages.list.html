@@ -39,7 +39,7 @@
                     class="button"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ui-sref="work-packages.list"
-                    ui-sref-active="active">
+                    ng-class="{ active: !isDetailsViewActive() }">
               <i class="icon-table-view icon-buttons"></i>
             </button>
           </li>
