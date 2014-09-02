@@ -40,7 +40,8 @@ angular.module('openproject.workPackages.directives')
   'AuthorisationService',
   '$window',
   '$state',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state){
+  '$timeout',
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state, $timeout){
 
   return {
     restrict: 'AE',
@@ -48,6 +49,13 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       angular.element($window).bind('click', function() {
         scope.$emit('hideAllDropdowns');
+      });
+
+      scope.$watch('query.displaySums', function(newValue, oldValue) {
+        $timeout(function() {
+          scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
+                                              : I18n.t('js.toolbar.settings.display_sums');
+        });
       });
 
       scope.saveQuery = function(event){

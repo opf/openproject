@@ -353,6 +353,7 @@ en:
         sort_by: "Sort by ..."
         group_by: "Group by ..."
         display_sums: "Display sums"
+        hide_sums: "Hide sums"
         save: "Save"
         save_as: "Save as ..."
         export: "Export ..."
