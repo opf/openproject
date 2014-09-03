@@ -28,7 +28,11 @@
     "sinon": "~1.9.1",
     "sinon-chai": "~2.5.0"
   },
+  "dependencies": {
+    "bower": "^1.3.3"
+  },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS"
+    "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }

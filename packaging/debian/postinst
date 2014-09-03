@@ -1,0 +1,75 @@
+#!/bin/sh
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+APP_NAME="_APP_NAME_"
+CLI="${APP_NAME}"
+APP_USER=$(${CLI} config:get APP_USER)
+APP_GROUP=$(${CLI} config:get APP_GROUP)
+
+# source debconf library
+. /usr/share/debconf/confmodule
+
+case "$1" in
+
+  configure)
+    rake_commands="db:migrate"
+    if [ "$2" = "" ]; then
+      rake_commands="${rake_commands} db:seed"
+    fi
+
+    # create attachments folder
+    attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
+    mkdir -p "${attachments_path}"
+    chown ${APP_USER}.${APP_GROUP} "${attachments_path}"
+    ${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
+
+    # set web concurrency
+    web_concurrency=$(${CLI} config:get WEB_CONCURRENCY || echo "2")
+    ${CLI} config:set WEB_CONCURRENCY=${web_concurrency}
+
+    # set SECRET_TOKEN env variable
+    secret_token=$(${CLI} config:get SECRET_TOKEN || ${CLI} run rake -s secret | tail -1)
+    ${CLI} config:set SECRET_TOKEN="$secret_token"
+
+    # migrate
+    ${CLI} run rake ${rake_commands} || true
+
+    sys_api_key=$(${CLI} config:get SYS_API_KEY)
+
+    # set various settings
+    db_get ${APP_NAME}/server/hostname
+    if [ -z "$RET" ]; then web_hostname=$(hostname -f); else web_hostname="$RET"; fi
+    db_get ${APP_NAME}/server/ssl
+    if [ "$RET" = "true" ]; then web_protocol="https"; else web_protocol="http"; fi
+
+    ${CLI} run rake setting:set[host_name=${web_hostname},protocol=${web_protocol},sys_api_enabled=1,sys_api_key=${sys_api_key}] 1>/dev/null
+
+    # scale
+    ${CLI} scale web=1 worker=1 || true
+
+    # let the admin reboot when he's ready
+  ;;
+
+  abort-upgrade|abort-remove|abort-deconfigure)
+    exit 0
+  ;;
+
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
