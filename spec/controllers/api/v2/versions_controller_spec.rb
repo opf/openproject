@@ -64,7 +64,6 @@ describe Api::V2::VersionsController, type: :controller do
 
       describe 'multiple projects' do
         let(:project_2) { FactoryGirl.create(:project) }
-        let!(:version_2) { FactoryGirl.create(:version, project: project_2) }
 
         shared_examples_for 'request with multiple projects' do
           before do
@@ -80,23 +79,38 @@ describe Api::V2::VersionsController, type: :controller do
           it { expect(assigns(:versions)).to match_array(expected_versions) }
         end
 
-        context 'user has access to all projects' do
-          it_behaves_like 'request with multiple projects' do
-            let(:projects) { [project, project_2] }
-            let(:expected_projects) { projects }
-            let(:expected_versions) { [version, version_2] }
+        context 'projects are not in hierarchy' do
+          let!(:version_2) { FactoryGirl.create(:version, project: project_2) }
+
+          context 'user has access to all projects' do
+            it_behaves_like 'request with multiple projects' do
+              let(:projects) { [project, project_2] }
+              let(:expected_projects) { projects }
+              let(:expected_versions) { [version, version_2] }
+            end
+          end
+
+          context 'user has access only to one project' do
+            let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+            before { allow(User).to receive(:current).and_return user }
+
+            it_behaves_like 'request with multiple projects' do
+              let(:projects) { [project, project_2] }
+              let(:expected_projects) { [project] }
+              let(:expected_versions) { [version] }
+            end
           end
         end
 
-        context 'user has access only to one project' do
-          let(:user) { FactoryGirl.create(:user, member_in_project: project) }
-
-          before { allow(User).to receive(:current).and_return user }
+        context 'projects are in hierarchy and version is shared' do
+          let(:child_project) { FactoryGirl.create(:project, parent: project) }
+          let!(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
 
           it_behaves_like 'request with multiple projects' do
-            let(:projects) { [project, project_2] }
-            let(:expected_projects) { [project] }
-            let(:expected_versions) { [version] }
+            let(:projects) { [project, child_project] }
+            let(:expected_projects) { [project, child_project] }
+            let(:expected_versions) { [version, shared_version, shared_version] }
           end
         end
       end
@@ -122,6 +136,15 @@ describe Api::V2::VersionsController, type: :controller do
         before { get :show, id: version.id, project_id: project.id, format: :json }
 
         it { expect(assigns(:version)).to eql version }
+      end
+
+      describe 'shared version' do
+        let(:child_project) { FactoryGirl.create(:project, parent: project) }
+        let!(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
+
+        before { get :show, id: shared_version.id, project_id: child_project.id, format: :json }
+
+        it { expect(assigns(:version)).to eql shared_version }
       end
     end
   end
