@@ -190,4 +190,39 @@ describe('workPackageColumn Directive', function() {
       });
 
     });
+
+    describe('linking', function() {
+      beforeEach(function() {
+
+        scope.workPackage = {
+          subject: "Subject",
+          type: { id: 1, name: 'Bug'},
+          sheep: 10,
+          parent: { id: 1, subject: 'Test child work package' },
+          parent_id: 1,
+          custom_values: [ { custom_field_id: 1, field_format: 'string', value: 'asdf1234'} ]
+        };
+        scope.displayType = 'link';
+       });
+
+      describe('to parent work package', function() {
+
+        beforeEach(function() {
+          scope.column = {
+            custom_field: false,
+            groupable: false,
+            meta_data: { data_type: 'object', link: { display: true, model_type: 'work_package'} },
+            name: 'parent',
+            sortable: 'work_packages.subject',
+            title: 'Parent'
+          }
+          compile();
+        });
+
+        it('should have correct href', function() {
+          var content = element.find('a').last();
+          expect(content.attr('href')).to.equal('/work_packages/1');
+        });
+      });
+    })
 });

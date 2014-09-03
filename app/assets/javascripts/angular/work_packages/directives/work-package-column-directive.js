@@ -73,7 +73,7 @@ angular.module('openproject.workPackages.directives')
         setDisplayText(getFormattedColumnValue());
 
         if (scope.column.meta_data.link.display) {
-          displayDataAsLink();
+          displayDataAsLink(WorkPackagesHelper.getColumnDataId(scope.workPackage, scope.column));
         } else {
           setCustomDisplayType();
         }
@@ -113,28 +113,25 @@ angular.module('openproject.workPackages.directives')
         // ...
       }
 
-      function displayDataAsLink() {
+      function displayDataAsLink(id) {
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
         scope.displayType = 'link';
-        scope.url = getLinkFor(scope.column.meta_data.link);
+        scope.url = getLinkFor(id, scope.column.meta_data.link);
       }
 
-      function getLinkFor(link_meta){
-        if (link_meta.model_type === 'work_package') {
-          return PathHelper.workPackagePath(scope.workPackage.id);
-        } else if (scope.workPackage[scope.column.name]) {
-          switch (link_meta.model_type) {
-            case 'user':
-              return PathHelper.staticUserPath(scope.workPackage[scope.column.name].id);
-            case 'version':
-              return PathHelper.staticVersionPath(scope.workPackage[scope.column.name].id);
-            case 'project':
-              return PathHelper.staticProjectPath(scope.workPackage.project.identifier);
-            default:
-              return '';
-          }
-
+      function getLinkFor(id, link_meta){
+        switch (link_meta.model_type) {
+          case 'work_package':
+            return PathHelper.workPackagePath(id);
+          case 'user':
+            return PathHelper.staticUserPath(id);
+          case 'version':
+            return PathHelper.staticVersionPath(id);
+          case 'project':
+            return PathHelper.staticProjectPath(id);
+          default:
+            return '';
         }
       }
 
