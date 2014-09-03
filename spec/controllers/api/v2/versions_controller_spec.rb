@@ -104,22 +104,24 @@ describe Api::V2::VersionsController, type: :controller do
   end
 
   describe '#show' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:version) { FactoryGirl.create(:version, name: 'Sprint 45', project: project) }
-
-    before do
-      allow(User).to receive(:current).and_return admin_user
+    it_behaves_like 'unauthorized access' do
+      let(:action) { :show }
+      let(:request_params) { { project_id: project.id, format: :xml } }
     end
 
     context 'with access' do
-      it 'that does not exist should raise an error' do
-        get :show, id: '0', project_id: project.id, format: :json
-        expect(response.response_code).to eq(404)
+      before { allow(User).to receive(:current).and_return admin_user }
+
+      describe 'invalid version' do
+        before { get :show, id: '0', project_id: project.id, format: :json }
+
+        it { expect(response.response_code).to eq(404) }
       end
 
-      it 'that exists should return the proper version' do
-        get :show, id: version.id, project_id: project.id, format: :json
-        expect(assigns(:version)).to eql version
+      describe 'valid version' do
+        before { get :show, id: version.id, project_id: project.id, format: :json }
+
+        it { expect(assigns(:version)).to eql version }
       end
     end
   end
