@@ -50,7 +50,7 @@ module Api
       end
 
       def show
-        @version = @project.versions.find(params[:id])
+        @version = @project.shared_versions.find(params[:id])
 
         respond_to do |format|
           format.api
@@ -102,7 +102,7 @@ module Api
       end
 
       def assign_versions(projects)
-        @versions = projects.collect(&:versions).flatten
+        @versions = projects.collect(&:shared_versions).flatten
       end
     end
 
