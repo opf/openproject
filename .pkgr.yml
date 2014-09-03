@@ -18,4 +18,5 @@ addons:
 crons:
   - packaging/cron/openproject-clear-old-sessions
   - packaging/cron/openproject-create-svn-repositories
+buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
 
