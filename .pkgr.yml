@@ -1,0 +1,21 @@
+user: openproject
+group: openproject
+targets:
+  debian-7:
+    build_dependencies:
+      - libmagickwand-dev
+      - libsqlite3-dev
+    dependencies:
+      - debconf
+      - memcached
+before_precompile: "packaging/setup"
+after_install: "packaging/debian/postinst"
+addons:
+  - mysql
+  - apache2
+  - svn-dav
+  - smtp
+crons:
+  - packaging/cron/openproject-clear-old-sessions
+  - packaging/cron/openproject-create-svn-repositories
+
