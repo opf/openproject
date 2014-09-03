@@ -65,12 +65,16 @@ describe Api::V2::VersionsController, type: :controller do
       describe 'multiple projects' do
         let(:project_2) { FactoryGirl.create(:project) }
 
-        shared_examples_for 'request with multiple projects' do
+        shared_context 'request versions' do
           before do
             get :index,
                 project_id: projects.collect(&:id).join(','),
                 format: :xml
           end
+        end
+
+        shared_examples_for 'request with multiple projects' do
+          include_context 'request versions'
 
           it { expect(assigns(:project)).to be_nil }
 
@@ -105,12 +109,20 @@ describe Api::V2::VersionsController, type: :controller do
 
         context 'projects are in hierarchy and version is shared' do
           let(:child_project) { FactoryGirl.create(:project, parent: project) }
+          let(:projects) { [project, child_project] }
           let!(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
 
           it_behaves_like 'request with multiple projects' do
-            let(:projects) { [project, child_project] }
             let(:expected_projects) { [project, child_project] }
-            let(:expected_versions) { [version, shared_version, shared_version] }
+            let(:expected_versions) { [version, shared_version] }
+          end
+
+          describe 'shared versions' do
+            include_context 'request versions'
+
+            subject { assigns(:versions).detect{ |v| v.id == shared_version.id }.shared_with }
+
+            it { expect(subject).to include(project.id, child_project.id) }
           end
         end
       end
