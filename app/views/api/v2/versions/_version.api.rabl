@@ -26,4 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @version
-attributes :id, :name
+attributes :id,
+           :name,
+           :description,
+           :status
+
+node :defining_project_id do |version|
+  version.project_id
+end
+
+node :start_date, if: lambda { |version| version.start_date.present? } { |version| version.start_date.iso8601 }
+node :effective_date, if: lambda { |version| version.effective_date.present? } { |version| version.effective_date.iso8601 }
+
+node :applies_to_project_ids do |version|
+  version.shared_with
+end
