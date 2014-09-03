@@ -128,6 +128,40 @@ describe Api::V2::VersionsController, type: :controller do
           end
         end
       end
+
+      describe 'ids' do
+        shared_context 'request versions filtered' do
+          before { get :index, ids: ids, project_id: project.id, format: :json }
+        end
+
+        describe 'invalid version' do
+          include_context 'request versions filtered' do
+            let(:ids) { '0' }
+          end
+
+          it { expect(assigns(:versions)).to be_empty }
+        end
+
+        describe 'valid versions' do
+          let(:version_2) { FactoryGirl.create(:version, project: project) }
+          let(:ids) { [version, version_2].collect(&:id).join(',') }
+
+          include_context 'request versions filtered'
+
+          it { expect(assigns(:versions).collect(&:id)).to match_array([version.id, version_2.id]) }
+        end
+
+        describe 'shared version' do
+          let(:child_project) { FactoryGirl.create(:project, parent: project) }
+          let(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
+
+          before { get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json }
+
+          it { expect(assigns(:versions).collect(&:id)).to match_array([shared_version.id]) }
+
+          it { expect(assigns(:versions).first.shared_with).to match_array([child_project.id]) }
+        end
+      end
     end
   end
 end
