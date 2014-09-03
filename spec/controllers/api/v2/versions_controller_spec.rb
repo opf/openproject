@@ -130,36 +130,4 @@ describe Api::V2::VersionsController, type: :controller do
       end
     end
   end
-
-  describe '#show' do
-    it_behaves_like 'unauthorized access' do
-      let(:action) { :show }
-      let(:request_params) { { project_id: project.id, format: :xml } }
-    end
-
-    context 'with access' do
-      before { allow(User).to receive(:current).and_return admin_user }
-
-      describe 'invalid version' do
-        before { get :show, id: '0', project_id: project.id, format: :json }
-
-        it { expect(response.response_code).to eq(404) }
-      end
-
-      describe 'valid version' do
-        before { get :show, id: version.id, project_id: project.id, format: :json }
-
-        it { expect(assigns(:version).id).to eql version.id }
-      end
-
-      describe 'shared version' do
-        let(:child_project) { FactoryGirl.create(:project, parent: project) }
-        let!(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
-
-        before { get :show, id: shared_version.id, project_id: child_project.id, format: :json }
-
-        it { expect(assigns(:version).id).to eql shared_version.id }
-      end
-    end
-  end
 end

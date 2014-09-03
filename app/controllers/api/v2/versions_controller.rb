@@ -58,14 +58,6 @@ module Api
         end
       end
 
-      def show
-        @version = internal_version(@project.shared_versions.find(params[:id]), @project.id)
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
       private
 
       def find_single_project
