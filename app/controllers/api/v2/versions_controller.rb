@@ -34,16 +34,16 @@ module Api
       include PaginationHelper
 
       include ::Api::V2::ApiController
+      include ::Api::V2::Concerns::MultipleProjects
+
       rescue_from ActiveRecord::RecordNotFound, with: -> { render_404 }
 
-      unloadable
+      before_filter :find_project_by_project_id, :authorize, except: :index
+      before_filter :find_all_projects_by_project_id, only: :index
 
-      before_filter :find_project_by_project_id, :authorize
       accept_key_auth :index, :show
 
       def index
-        @versions = @project.versions.all
-
         respond_to do |format|
           format.api
         end
@@ -55,6 +55,54 @@ module Api
         respond_to do |format|
           format.api
         end
+      end
+
+      private
+
+      def find_single_project
+        find_project_by_project_id  unless performed?
+        authorize                   unless performed?
+        assign_versions([@project]) unless performed?
+      end
+
+      def find_multiple_projects
+        # find_project_by_project_id
+        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
+        ids = ids.map(&:to_i).sort
+        identifiers = identifiers.sort
+
+        load_multiple_projects(ids, identifiers)
+
+        if !projects_contain_certain_ids_and_identifiers(ids, identifiers)
+          # => not all projects could be found
+          render_404
+          return
+        end
+
+        filter_authorized_projects
+
+        if @projects.blank?
+          @versions = []
+          return
+        end
+
+        assign_versions(@projects)
+      end
+
+      # Filters
+      def find_all_projects_by_project_id
+        if !params[:project_id] and params[:ids] then
+          identifiers = params[:ids].split(/,/).map(&:strip)
+          @versions = Version.visible(User.current).find_all_by_id(identifiers)
+        elsif params[:project_id] !~ /,/
+          find_single_project
+        else
+          find_multiple_projects
+        end
+      end
+
+      def assign_versions(projects)
+        @versions = projects.collect(&:versions).flatten
       end
     end
 
