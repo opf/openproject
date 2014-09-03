@@ -351,6 +351,7 @@ de:
         sort_by: "Sortiere nach ..."
         group_by: "Gruppiere nach ..."
         display_sums: "Summen anzeigen"
+        hide_sums: "Summen nicht anzeigen"
         save: "Speichern"
         save_as: "Speichern unter ..."
         export: "Exportieren ..."

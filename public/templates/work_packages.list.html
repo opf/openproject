@@ -84,7 +84,14 @@
     <li><a href ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a></li>
     <li><a href ng-click="showSortingModal()"><i class="icon-action-menu icon-sort-by2"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
     <li><a href ng-click="showGroupingModal()"><i class="icon-action-menu icon-group-by2"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
-    <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
+    <li>
+      <a href ng-click="toggleDisplaySums()">
+        <i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>
+        <accessible-element visible-text="I18n.t('js.toolbar.settings.display_sums')"
+                            readable-text="displaySumsLabel">
+        </accessible-element>
+      </a>
+    </li>
     <li class="dropdown-divider"></li>
     <li><a href ng-click="saveQuery($event)"
            ng-class="{'inactive': (!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
