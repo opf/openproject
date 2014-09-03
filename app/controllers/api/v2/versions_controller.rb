@@ -36,6 +36,15 @@ module Api
       include ::Api::V2::ApiController
       include ::Api::V2::Concerns::MultipleProjects
 
+      Version = Struct.new(:id,
+                           :name,
+                           :description,
+                           :project_id,
+                           :status,
+                           :start_date,
+                           :effective_date,
+                           :shared_with)
+
       rescue_from ActiveRecord::RecordNotFound, with: -> { render_404 }
 
       before_filter :find_project_by_project_id, :authorize, except: :index
@@ -50,7 +59,7 @@ module Api
       end
 
       def show
-        @version = @project.shared_versions.find(params[:id])
+        @version = internal_version(@project.shared_versions.find(params[:id]), @project.id)
 
         respond_to do |format|
           format.api
@@ -102,7 +111,29 @@ module Api
       end
 
       def assign_versions(projects)
-        @versions = projects.collect(&:shared_versions).flatten
+        projects_by_version = {}
+
+        projects.each do |project|
+          project.shared_versions.each do |version|
+            projects_by_version[version] = [] unless projects_by_version[version]
+            projects_by_version[version] << project unless projects_by_version[version].include? project
+          end
+        end
+
+        @versions = projects_by_version.keys.each_with_object([]) do |version, l|
+          l << internal_version(version, projects_by_version[version].collect(&:id))
+        end
+      end
+
+      def internal_version(version, shared_with)
+        Version.new(version.id,
+                    version.name,
+                    version.description,
+                    version.project_id,
+                    version.status,
+                    version.start_date,
+                    version.effective_date,
+                    Array.new(shared_with))
       end
     end
 

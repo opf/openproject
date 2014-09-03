@@ -59,7 +59,9 @@ describe Api::V2::VersionsController, type: :controller do
 
         it { expect(assigns(:projects)).to be_nil }
 
-        it { expect(assigns(:versions)).to include(version) }
+        it { expect(assigns(:versions).length).to eql(1) }
+
+        it { expect(assigns(:versions).collect(&:id)).to include(version.id) }
       end
 
       describe 'multiple projects' do
@@ -80,7 +82,7 @@ describe Api::V2::VersionsController, type: :controller do
 
           it { expect(assigns(:projects)).to match_array(expected_projects) }
 
-          it { expect(assigns(:versions)).to match_array(expected_versions) }
+          it { expect(assigns(:versions).collect(&:id)).to match_array(expected_versions.collect(&:id)) }
         end
 
         context 'projects are not in hierarchy' do
@@ -147,7 +149,7 @@ describe Api::V2::VersionsController, type: :controller do
       describe 'valid version' do
         before { get :show, id: version.id, project_id: project.id, format: :json }
 
-        it { expect(assigns(:version)).to eql version }
+        it { expect(assigns(:version).id).to eql version.id }
       end
 
       describe 'shared version' do
@@ -156,7 +158,7 @@ describe Api::V2::VersionsController, type: :controller do
 
         before { get :show, id: shared_version.id, project_id: child_project.id, format: :json }
 
-        it { expect(assigns(:version)).to eql shared_version }
+        it { expect(assigns(:version).id).to eql shared_version.id }
       end
     end
   end
