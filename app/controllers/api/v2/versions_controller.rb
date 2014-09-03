@@ -47,8 +47,7 @@ module Api
 
       rescue_from ActiveRecord::RecordNotFound, with: -> { render_404 }
 
-      before_filter :find_project_by_project_id, :authorize, except: :index
-      before_filter :find_all_projects_by_project_id, only: :index
+      before_filter :find_all_projects_by_project_id
 
       accept_key_auth :index, :show
 
@@ -60,13 +59,13 @@ module Api
 
       private
 
-      def find_single_project
+      def find_single_project(version_scope=nil)
         find_project_by_project_id  unless performed?
         authorize                   unless performed?
-        assign_versions([@project]) unless performed?
+        assign_versions([@project], version_scope) unless performed?
       end
 
-      def find_multiple_projects
+      def find_multiple_projects(version_scope=nil)
         # find_project_by_project_id
         ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
         ids = ids.map(&:to_i).sort
@@ -87,28 +86,34 @@ module Api
           return
         end
 
-        assign_versions(@projects)
+        assign_versions(@projects, version_scope)
       end
 
       # Filters
       def find_all_projects_by_project_id
-        if !params[:project_id] and params[:ids] then
-          identifiers = params[:ids].split(/,/).map(&:strip)
-          @versions = Version.visible(User.current).find_all_by_id(identifiers)
-        elsif params[:project_id] !~ /,/
-          find_single_project
+        version_scope = nil
+
+        if params[:project_id] and params[:ids] then
+          identifiers = params[:ids].split(/,/).map(&:strip).map(&:to_i)
+          version_scope = ::Version.visible(User.current).find_all_by_id(identifiers).collect(&:id)
+        end
+
+        if params[:project_id] !~ /,/
+          find_single_project version_scope
         else
-          find_multiple_projects
+          find_multiple_projects version_scope
         end
       end
 
-      def assign_versions(projects)
+      def assign_versions(projects, version_ids)
         projects_by_version = {}
 
         projects.each do |project|
           project.shared_versions.each do |version|
-            projects_by_version[version] = [] unless projects_by_version[version]
-            projects_by_version[version] << project unless projects_by_version[version].include? project
+            if version_ids.nil? or version_ids.include?(version.id)
+              projects_by_version[version] = [] unless projects_by_version[version]
+              projects_by_version[version] << project unless projects_by_version[version].include? project
+            end
           end
         end
 
