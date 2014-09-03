@@ -34,7 +34,8 @@ angular.module('openproject.models')
   Filter = function (data) {
     angular.extend(this, data);
 
-    if (this.isSingleInputField() && Array.isArray(this.values)) this.textValue = this.values[0];
+    // Experimental API controller will always give back strings even for numeric values so need to parse them
+    if (this.isSingleInputField() && Array.isArray(this.values)) this.textValue = this.parseSingleValue(this.values[0]);
 
     this.pruneValues();
   };
@@ -58,6 +59,10 @@ angular.module('openproject.models')
 
     isSingleInputField: function() {
       return SELECTABLE_FILTER_TYPES.indexOf(this.type) === -1;
+    },
+
+    parseSingleValue: function(v) {
+      return (this.type == 'integer') ? parseInt(v) : v;
     },
 
     getValuesAsArray: function() {

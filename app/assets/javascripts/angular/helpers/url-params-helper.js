@@ -28,7 +28,7 @@
 
 angular.module('openproject.helpers')
 
-.service('UrlParamsHelper', ['I18n', function(I18n) {
+.service('UrlParamsHelper', ['I18n', 'PaginationService', function(I18n, PaginationService) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -80,13 +80,14 @@ angular.module('openproject.helpers')
           };
           if(filter.textValue) {
             angular.extend(filterData, { v: filter.textValue });
-          }
-          if(filter.values) {
+          } else if(filter.values) {
             angular.extend(filterData, { v: filter.values });
           }
           return filterData
         });
       }
+      paramsData.pa = PaginationService.getPage();
+      paramsData.pp = PaginationService.getPerPage();
 
       return JSON.stringify(paramsData);
     },
@@ -112,6 +113,8 @@ angular.module('openproject.helpers')
         if(!!properties.g) {
           queryData.groupBy = properties.g;
         }
+
+        // Filters
         if(!!properties.f) {
           queryData.filters = properties.f.map(function(urlFilter) {
             var filterData = {
@@ -126,8 +129,18 @@ angular.module('openproject.helpers')
             return filterData;
           });
         }
+
+        // Sortation
         if(!!properties.t) {
           queryData.sortCriteria = properties.t;
+        }
+
+        // Pagination
+        if(!!properties.pa) {
+          queryData.page = properties.pa;
+        }
+        if(!!properties.pp) {
+          queryData.perPage = properties.pp;
         }
       }
 

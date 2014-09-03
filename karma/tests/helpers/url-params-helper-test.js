@@ -87,7 +87,7 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}]}";
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}],\"pa\":1,\"pp\":10}";
       expect(encodedJSON).to.eq(expectedJSON);
     })
   });
