@@ -1,0 +1,11 @@
+default:
+  rails_cache_store: <%= ENV.fetch('RAILS_CACHE_STORE') { :memcache }.to_sym %>
+  session_store: <%= ENV.fetch('SESSION_STORE') { :cache_store }.to_sym %>
+  email_delivery_method: <%= ENV.fetch('EMAIL_DELIVERY_METHOD') { :sendmail } %>
+  smtp_address: <%= ENV['SMTP_HOST'] %>
+  smtp_port: <%= ENV.fetch('SMTP_PORT') { 25 }.to_i %>
+  smtp_domain: <%= ENV.fetch('SMTP_DOMAIN') { ENV['HOSTNAME'] } %>
+  smtp_authentication: <%= ENV.fetch('SMTP_AUTHENTICATION') { :login }.to_sym %>
+  smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
+  smtp_password: <%= ENV['SMTP_PASSWORD'] %>
+  attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
