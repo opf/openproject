@@ -1,0 +1,3 @@
+APP_NAME="_APP_NAME_"
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+15 1 * * * root ${APP_NAME} run rake -s db:sessions:expire[7] >> /var/log/${APP_NAME}/cron-clear-old-sessions.log 2>&1
