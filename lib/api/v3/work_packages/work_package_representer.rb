@@ -214,6 +214,7 @@ module API
         property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
         property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
+        property :category, embedded: true, class: ::API::V3::Categories::CategoryModel, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
 
         property :activities, embedded: true, exec_context: :decorator
         property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.model) }

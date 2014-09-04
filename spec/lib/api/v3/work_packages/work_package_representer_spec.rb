@@ -38,9 +38,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:work_package) { FactoryGirl.build(:work_package,
       id: 42,
       created_at: DateTime.now,
-      updated_at: DateTime.now
+      updated_at: DateTime.now,
+      category:   category
     )
   }
+  let(:category) { FactoryGirl.build(:category) }
   let(:project) { work_package.project }
   let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations add_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
@@ -276,6 +278,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it { is_expected.not_to have_json_path('_embedded/watchers') }
         end
+      end
+
+      describe 'category' do
+        it { is_expected.to have_json_type(Hash).at_path('_embedded/category') }
+        it { is_expected.to be_json_eql(%{Category}.to_json).at_path('_embedded/category/_type') }
       end
     end
   end

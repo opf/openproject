@@ -30,6 +30,7 @@ angular.module('openproject.workPackages.controllers')
 
 .constant('TEXT_TYPE', 'text')
 .constant('VERSION_TYPE', 'version')
+.constant('CATEGORY_TYPE', 'category')
 .constant('USER_TYPE', 'user')
 .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
 
@@ -39,6 +40,7 @@ angular.module('openproject.workPackages.controllers')
   'ConfigurationService',
   'TEXT_TYPE',
   'VERSION_TYPE',
+  'CATEGORY_TYPE',
   'USER_TYPE',
   'USER_FIELDS',
   'CustomFieldHelper',
@@ -51,6 +53,7 @@ angular.module('openproject.workPackages.controllers')
            ConfigurationService,
            TEXT_TYPE,
            VERSION_TYPE,
+           CATEGORY_TYPE,
            USER_TYPE,
            USER_FIELDS,
            CustomFieldHelper,
@@ -77,6 +80,9 @@ angular.module('openproject.workPackages.controllers')
                 return {href: PathHelper.versionPath(versionId), title: $scope.workPackage.props.versionName};
                 break;
             case USER_TYPE:
+                return $scope.workPackage.embedded[property];
+                break;
+            case CATEGORY_TYPE:
                 return $scope.workPackage.embedded[property];
                 break;
             default:
@@ -170,8 +176,10 @@ angular.module('openproject.workPackages.controllers')
 
   function getPropertyFormat(property) {
     var format = USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
+    format = (property === 'versionName') ? VERSION_TYPE : format;
+    format = (property === 'category') ? CATEGORY_TYPE : format;
 
-    return ((property === 'versionName') ? VERSION_TYPE : format);
+    return format;
   }
 
   function addWorkPackageProperty(property, index) {
