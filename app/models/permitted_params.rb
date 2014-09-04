@@ -344,7 +344,7 @@ class PermittedParams < Struct.new(:params, :current_user)
           :project_id,
           :role_ids => []]],
       :member => [
-        :role_ids => []],
+        :role_ids => []], 
       :new_work_package => [
         # attributes common with :planning_element below
         :assigned_to_id,
