@@ -59,13 +59,13 @@ angular.module('openproject.helpers')
         paramsData.s = query.displaySums;
       }
 
-      if(!!query.projectId) {
+      if(query.projectId) {
         paramsData.p = query.projectId;
       }
-      if(!!query.groupBy) {
+      if(query.groupBy) {
         paramsData.g = query.groupBy;
       }
-      if(!!query.getSortation()) {
+      if(query.getSortation()) {
         paramsData.t = query.getSortation().encode()
       }
       if(query.filters && query.filters.length) {
@@ -101,21 +101,21 @@ angular.module('openproject.helpers')
       if(updateJson) {
         var properties = JSON.parse(updateJson);
 
-        if(!!properties.c) {
+        if(properties.c) {
           queryData.columns = properties.c.map(function(column) { return { name: column }; });
         }
         if(!!properties.s) {
           queryData.displaySums = properties.s;
         }
-        if(!!properties.p) {
+        if(properties.p) {
           queryData.projectId = properties.p;
         }
-        if(!!properties.g) {
+        if(properties.g) {
           queryData.groupBy = properties.g;
         }
 
         // Filters
-        if(!!properties.f) {
+        if(properties.f) {
           queryData.filters = properties.f.map(function(urlFilter) {
             var filterData = {
               name: urlFilter.n,
@@ -131,15 +131,15 @@ angular.module('openproject.helpers')
         }
 
         // Sortation
-        if(!!properties.t) {
+        if(properties.t) {
           queryData.sortCriteria = properties.t;
         }
 
         // Pagination
-        if(!!properties.pa) {
+        if(properties.pa) {
           queryData.page = properties.pa;
         }
-        if(!!properties.pp) {
+        if(properties.pp) {
           queryData.perPage = properties.pp;
         }
       }
