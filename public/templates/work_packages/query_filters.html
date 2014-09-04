@@ -10,8 +10,7 @@
             <table>
               <tbody>
                 <tr query-filter
-                    ng-repeat="filter in query.filters"
-                    ng-show="!filter.deactivated"
+                    ng-repeat="filter in query.getActiveFilters()"
                     id="tr_{{filter.name}}"
                     class="filter">
 
@@ -25,7 +24,8 @@
 
                   <!-- Operator -->
                   <td style="width:150px;">
-                    <select require
+                    <select focus="$index == focussedFilterIndex"
+                            require
                             class="select-small"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
@@ -132,7 +132,7 @@
 
                   <!-- Delete filter -->
                   <td>
-                    <accessible-by-keyboard execute="query.deactivateFilter(filter)">
+                    <accessible-by-keyboard execute="deactivateFilter(filter)">
                       <icon-wrapper icon-name="delete2"
                                     icon-title="{{I18n.t('js.button_delete')}}"/>
                     </accessible-by-keyboard>
