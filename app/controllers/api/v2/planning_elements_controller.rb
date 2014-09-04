@@ -35,6 +35,7 @@ module Api
       helper :timelines, :planning_elements
 
       include ::Api::V2::ApiController
+      include ::Api::V2::Concerns::MultipleProjects
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
@@ -122,26 +123,10 @@ module Api
 
       protected
 
-      def filter_authorized_projects
-        # authorize
-        # Ignoring projects, where user has no view_work_packages permission.
-        permission = params[:controller].sub api_version, ''
-        @projects = @projects.select do |project|
-          User.current.allowed_to?({:controller => permission,
-                                    :action     => params[:action]},
-                                    project)
-        end
-      end
-
       def load_multiple_projects(ids, identifiers)
         @projects = []
         @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
         @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-      end
-
-      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
-        (@projects.map(&:id) & ids).size == ids.size &&
-        (@projects.map(&:identifier) & identifiers).size == identifiers.size
       end
 
       def find_single_project
