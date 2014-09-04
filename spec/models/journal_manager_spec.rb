@@ -100,4 +100,52 @@ describe JournalManager, :type => :model do
       it { is_expected.to be_truthy }
     end
   end
+
+
+  describe "self.#update_user_references" do
+ 
+    let!(:work_package) {FactoryGirl.create :work_package}
+    let!(:doomed_user) {work_package.author}
+    let!(:data1) {
+      FactoryGirl.build(:journal_work_package_journal,
+        subject: work_package.subject,
+        status_id: work_package.status_id,
+        type_id: work_package.type_id,
+        author_id: doomed_user.id,
+        project_id: work_package.project_id)
+    }
+    let!(:data2) {
+      FactoryGirl.build(:journal_work_package_journal,
+        subject: work_package.subject,
+        status_id: work_package.status_id,
+        type_id: work_package.type_id,
+        author_id: doomed_user.id,
+        project_id: work_package.project_id)
+    }
+    let!(:doomed_user_journal) {
+      FactoryGirl.create :work_package_journal, 
+        notes: "1", 
+        user: doomed_user, 
+        journable_id: work_package.id, 
+        data: data1
+    }    
+    let!(:some_other_journal) {
+      FactoryGirl.create :work_package_journal, 
+        notes: "2", 
+        journable_id: work_package.id, 
+        data: data2
+    }
+
+    before do
+      doomed_user.destroy
+    end
+
+    it "should mark the user's journal as deleted" do
+      expect(doomed_user_journal.reload.user.is_a?(DeletedUser)).to be_truthy
+    end
+
+    it "should not mark an unrelated journal's user as deleted" do
+      expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsy
+    end
+  end
 end

@@ -197,8 +197,7 @@ class JournalManager
         end
 
         # change journal user
-        journal.user_id = substitute_id if journal.user_id = current_user_id
-
+        journal.user_id = substitute_id if journal.user_id == current_user_id
         journal.save if journal.data.changed?
       end
 
