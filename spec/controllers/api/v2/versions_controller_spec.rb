@@ -34,8 +34,6 @@ describe Api::V2::VersionsController, type: :controller do
   let(:admin_user) { FactoryGirl.create(:admin) }
 
   shared_examples_for 'unauthorized access' do
-    let(:project) { FactoryGirl.create(:project) }
-
     before { get action, request_params }
 
     it { expect(response.status).to eq(401) }
