@@ -36,7 +36,6 @@ angular.module('openproject.workPackages.directives')
   '$window',
   'I18n',
   'HookService',
-  'WorkPackagesTableService',
   'WorkPackageService',
   'WorkPackageAuthorization',
   'PathHelper',
@@ -45,7 +44,6 @@ angular.module('openproject.workPackages.directives')
            $window,
            I18n,
            HookService,
-           WorkPackagesTableService,
            WorkPackageService,
            WorkPackageAuthorization,
            PathHelper) {

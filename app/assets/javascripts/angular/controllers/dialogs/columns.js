@@ -37,14 +37,13 @@ angular.module('openproject.workPackages.controllers')
 }])
 
 .controller('ColumnsModalController', ['$scope',
-  '$timeout',
   '$filter',
   'columnsModal',
   'QueryService',
   'WorkPackageService',
   'WorkPackagesTableService',
   '$rootScope',
-  function($scope, $timeout, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, $rootScope) {
+  function($scope, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, $rootScope) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;

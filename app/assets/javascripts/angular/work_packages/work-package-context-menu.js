@@ -43,7 +43,6 @@ angular.module('openproject.workPackages')
 
 .controller('WorkPackageContextMenuController', [
   '$scope',
-  '$rootScope',
   'WorkPackagesTableHelper',
   'WorkPackageContextMenuHelper',
   'WorkPackageService',
@@ -51,7 +50,7 @@ angular.module('openproject.workPackages')
   'I18n',
   '$window',
   'PERMITTED_CONTEXT_MENU_ACTIONS',
-  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
+  function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 

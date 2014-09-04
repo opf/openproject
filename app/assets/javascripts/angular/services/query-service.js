@@ -32,7 +32,6 @@ angular.module('openproject.services')
   'Query',
   'Sortation',
   '$http',
-  '$location',
   'PathHelper',
   '$q',
   'AVAILABLE_WORK_PACKAGE_FILTERS',
@@ -46,7 +45,7 @@ angular.module('openproject.services')
   'ProjectService',
   'WorkPackagesTableHelper',
   'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
+  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 

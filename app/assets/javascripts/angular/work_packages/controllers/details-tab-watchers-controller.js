@@ -34,10 +34,9 @@ angular.module('openproject.workPackages.controllers')
             ['$scope',
              '$filter',
              '$timeout',
-             'workPackage',
              'I18n',
              'ADD_WATCHER_SELECT_INDEX',
-             function($scope, $filter, $timeout, workPackage, I18n, ADD_WATCHER_SELECT_INDEX) {
+             function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_INDEX) {
   $scope.I18n = I18n;
   $scope.focusElementIndex;
 

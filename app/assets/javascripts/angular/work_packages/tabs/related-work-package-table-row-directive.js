@@ -33,9 +33,7 @@ angular.module('openproject.workPackages.tabs')
     'I18n',
     'PathHelper',
     'WorkPackagesHelper',
-    'ApiHelper',
-    'WorkPackageService',
-    function(I18n, PathHelper, WorkPackagesHelper, ApiHelper, WorkPackageService) {
+    function(I18n, PathHelper, WorkPackagesHelper) {
   return {
     restrict: 'A',
     link: function(scope) {

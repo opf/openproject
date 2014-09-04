@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilters', ['WorkPackagesTableHelper', 'FiltersHelper', 'WorkPackageService', 'I18n', function(WorkPackagesTableHelper, FiltersHelper, WorkPackageService, I18n) {
+.directive('queryFilters', ['FiltersHelper', 'I18n', function(FiltersHelper, I18n) {
 
   return {
     restrict: 'E',

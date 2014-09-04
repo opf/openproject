@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('toggledMultiselect', ['WorkPackagesHelper', 'I18n', function(WorkPackagesHelper, I18n){
+.directive('toggledMultiselect', ['I18n', function(I18n){
   return {
     restrict: 'EA',
     replace: true,
