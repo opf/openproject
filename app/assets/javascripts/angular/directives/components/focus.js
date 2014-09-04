@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('focus', ['$timeout', 'FocusHelper', function($timeout, FocusHelper) {
+.directive('focus', ['FocusHelper', function(FocusHelper) {
 
   function isSelect2Element(attrs) {
     var select2attributes = Object.keys(attrs).filter(function(attribute) {

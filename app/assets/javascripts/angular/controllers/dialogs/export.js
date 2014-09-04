@@ -36,8 +36,8 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ExportModalController', ['$scope', 'exportModal', 'QueryService', 'UrlParamsHelper',
-	function($scope, exportModal, QueryService, UrlParamsHelper) {
+.controller('ExportModalController', ['exportModal', 'QueryService', 'UrlParamsHelper',
+	function(exportModal, QueryService, UrlParamsHelper) {
   this.name    = 'Export';
   var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;

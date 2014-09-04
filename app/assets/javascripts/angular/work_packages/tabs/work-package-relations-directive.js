@@ -31,13 +31,9 @@ angular.module('openproject.workPackages.tabs')
 
 .directive('workPackageRelations', [
     'I18n',
-    'PathHelper',
-    'WorkPackageService',
     'WorkPackagesHelper',
-    'PathHelper',
-    'ApiHelper',
     '$timeout',
-    function(I18n, PathHelper, WorkPackageService, WorkPackagesHelper, PathHelper, ApiHelper, $timeout) {
+    function(I18n, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,

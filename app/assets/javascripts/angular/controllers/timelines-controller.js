@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.controllers')
 
-.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
+.controller('TimelinesController', ['$scope', function($scope) {
   // Setup
 
   // Get server-side stuff into scope

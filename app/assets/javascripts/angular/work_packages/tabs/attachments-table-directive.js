@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('attachmentsTable', ['PathHelper', 'I18n', function(PathHelper, I18n){
+.directive('attachmentsTable', ['I18n', function(I18n){
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_attachments_table.html',

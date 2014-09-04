@@ -28,7 +28,13 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'PaginationService', 'I18n', '$timeout', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout) {
+.directive('queryFilter', [
+    'WorkPackageLoadingHelper',
+    'QueryService',
+    'PaginationService',
+    'I18n',
+    '$timeout',
+    function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout) {
 
   var updateResultsJob;
 

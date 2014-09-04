@@ -33,8 +33,7 @@ angular.module('openproject.workPackages.controllers')
     '$state',
     '$stateParams',
     'QueryService',
-    'ProjectService',
-    function($scope, $state, $stateParams, QueryService, ProjectService) {
+    function($scope, $state, $stateParams, QueryService) {
 
   // Setup
   $scope.$state = $state;

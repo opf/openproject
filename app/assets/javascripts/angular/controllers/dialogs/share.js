@@ -38,7 +38,6 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('ShareModalController', [
   '$scope',
-  'I18n',
   'shareModal',
   'QueryService',
   'AuthorisationService',
@@ -46,7 +45,7 @@ angular.module('openproject.workPackages.controllers')
   'QUERY_MENU_ITEM_TYPE',
   'queryMenuItemFactory',
   'PathHelper',
-  function($scope, I18n, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE, queryMenuItemFactory, PathHelper) {
+  function($scope, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE, queryMenuItemFactory, PathHelper) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
