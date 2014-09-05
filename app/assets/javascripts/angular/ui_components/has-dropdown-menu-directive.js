@@ -112,6 +112,11 @@ angular.module('openproject.uiComponents')
         }
       });
 
+      win.on('resize', function(event) {
+        if (contextMenu.active() && menuElement && ctrl.opened()) {
+          positionDropdown();
+        }
+      });
 
       win.bind('keyup', function(event) {
         if (contextMenu.active() && event.keyCode === 27) {
