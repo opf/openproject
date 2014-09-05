@@ -113,7 +113,7 @@ angular.module('openproject.uiComponents')
       });
 
       win.on('resize', function(event) {
-        if (contextMenu.active() && menuElement) {
+        if (contextMenu.active() && menuElement && ctrl.opened()) {
           positionDropdown();
         }
       });
