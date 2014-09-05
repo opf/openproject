@@ -610,6 +610,15 @@ describe UsersController, :type => :controller do
 
         expect(response.body).to have_selector("p", :text => /#{label}.*42/)
       end
+
+      it "should have @events_by_day grouped by day" do
+        expect(assigns(:events_by_day).keys.first.class).to eq(Date)
+      end
+
+      it 'should have more than one event for today' do
+        expect(assigns(:events_by_day).first.size).to be > 1
+      end
+
     end
   end
 end

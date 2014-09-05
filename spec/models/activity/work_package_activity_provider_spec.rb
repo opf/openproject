@@ -44,7 +44,7 @@ describe Activity::WorkPackageActivityProvider, :type => :model do
                                            role: role }
 
   describe '#event_type' do
-    describe 'latest event' do
+    describe 'latest events' do
 
       context 'when a work package has been created' do
         let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
@@ -53,13 +53,14 @@ describe Activity::WorkPackageActivityProvider, :type => :model do
         it { is_expected.to eq(work_package_edit_event) }
       end
 
+      context 'should be selected and ordered correctly' do
+        let!(:work_packages) {(1..20).map {(FactoryGirl.create :work_package, :author => user).id.to_s} }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {limit: 10}).map {|a| a.journable_id.to_s} }
+        it { is_expected.to eq(work_packages.reverse.first(10)) }
+      end
+
       context 'when a work package has been created and then closed' do
-        # the find_events method currently does not provide define an order
-        # unless the limit parameter is provided.  It is therefore possible for
-        # the first event to be the last in the array of events returned from
-        # this. Therefore we define a limit.
-        # That there is no order defined on the events is a BUG.
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 }).last.try :event_type }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 }).first.try :event_type }
 
         before do
           allow(User).to receive(:current).and_return(user)

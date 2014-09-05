@@ -96,7 +96,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.group_by(&:event_datetime)
+    @events_by_day = events.group_by{|e| e.event_datetime.to_date }
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
