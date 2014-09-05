@@ -44,6 +44,7 @@ angular.module('openproject.uiComponents')
 
         updatePageNumbers();
         scope.showPage(1);
+        scope.$emit('queryStateChange');
       };
 
       scope.showPage = function(pageNumber){
@@ -53,6 +54,7 @@ angular.module('openproject.uiComponents')
         updatePageNumbers();
 
         scope.$emit('workPackagesRefreshRequired');
+        scope.$emit('queryStateChange');
       };
 
       /**

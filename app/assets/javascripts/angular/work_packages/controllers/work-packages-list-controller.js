@@ -84,7 +84,15 @@ angular.module('openproject.workPackages.controllers')
       var queryData = UrlParamsHelper.decodeQueryFromJsonParams($state.params.query_id, queryParams);
       var queryFromParams = new Query(queryData, { rawFilters: true });
 
-      return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams);
+      // Set pagination options if present
+      if(!!queryFromParams.page) {
+        PaginationService.setPage(queryFromParams.page);
+      }
+      if(!!queryFromParams.perPage) {
+        PaginationService.setPerPage(queryFromParams.perPage);
+      }
+
+      return WorkPackageService.getWorkPackages($scope.projectIdentifier, queryFromParams, PaginationService.getPaginationOptions());
     } catch(e) {
       $scope.$emit('flashMessage', {
         isError: true,
@@ -166,7 +174,6 @@ angular.module('openproject.workPackages.controllers')
     PaginationService.setPerPageOptions(meta.per_page_options);
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
-
 
     // yield updatable data to scope
     $scope.columns = $scope.query.columns;
