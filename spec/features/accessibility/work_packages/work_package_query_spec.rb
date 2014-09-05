@@ -33,7 +33,7 @@ describe 'Work package index accessibility', :type => :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package,
-                                          project: project) }
+                                          project: project) } 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
@@ -194,6 +194,37 @@ describe 'Work package index accessibility', :type => :feature do
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
+    end
+  end
+
+  describe 'hotkeys', js: true do
+    let!(:another_work_package) { FactoryGirl.create(:work_package,
+                                            project: project) }
+    let!(:yet_another_work_package) { FactoryGirl.create(:work_package,
+                                            project: project) }   
+    let(:body) { find("body") }
+    before {work_packages_page.visit_index}                                        
+
+    context 'focus' do
+      let(:first_link_selector) { "table.list tbody tr:first-child a:focus" }
+      let(:second_link_selector) { "table.list tbody tr:nth-child(2) a:focus" }
+
+      it 'navigates with J' do
+        body.native.send_keys('j')
+        expect(page).to have_selector(first_link_selector)
+      end
+
+      it 'navigates with K' do
+        body.native.send_keys('k')
+        expect(page).to have_selector(second_link_selector)
+      end      
+    end
+
+    context "help" do
+      it 'opens help popup with \'?\'' do
+        body.native.send_keys('?')
+        expect(page).to have_selector(".ui-dialog")
+      end
     end
   end
 
