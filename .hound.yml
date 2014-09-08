@@ -118,7 +118,7 @@ LineEndConcatenation:
   Enabled: false
 
 LineLength:
-  Max: 80
+  Max: 99
 
 MethodLength:
   Enabled: false
