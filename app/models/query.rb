@@ -167,6 +167,10 @@ class Query < ActiveRecord::Base
     label ||= field.gsub(/\_id\z/, "")
   end
 
+  def normalized_name
+    name.parameterize.underscore
+  end
+
   def available_columns
     return @available_columns if @available_columns
     @available_columns = ::Query.available_columns

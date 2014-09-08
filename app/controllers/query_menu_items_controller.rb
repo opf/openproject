@@ -32,7 +32,7 @@ class QueryMenuItemsController < ApplicationController
   before_filter :authorize
 
   def create
-    @query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
+    @query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id @query.normalized_name, @query.id, title: @query.name
     if @query_menu_item.save
       flash[:notice] = l(:notice_successful_create)
     else
@@ -85,13 +85,13 @@ class QueryMenuItemsController < ApplicationController
   # inherit permissions from queries where create and update are performed bei new and edit actions
   def authorize(ctrl = 'queries', action = params[:action], global = false)
     action = case action
-    when 'create'
-      'new'
-    when 'update'
-      'edit'
-    else
-      action
-    end
+             when 'create'
+               'new'
+             when 'update'
+               'edit'
+             else
+               action
+             end
 
     super
   end
