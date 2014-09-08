@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<body class="<%= body_css_classes %>" ng-app="openproject">
+<body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>">
 <noscript>
   <div class="top-shelf icon icon-warning">
     <h1><%=l(:noscript_heading)%></h1>
