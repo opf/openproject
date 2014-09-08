@@ -702,13 +702,6 @@ class WorkPackage < ActiveRecord::Base
     work_package
   end
 
-  # Override of acts_as_watchable#possible_watcher_users
-  # Restricts the result to project members for private as well as public projects
-  def possible_watcher_users
-    users = project.users
-    users.select {|user| possible_watcher?(user)}
-  end
-
   # check if user is allowed to edit WorkPackage Journals.
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
