@@ -26,37 +26,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :menu_item do
-    sequence(:name) {|n| "Item No. #{n}" }
-    sequence(:title) {|n| "Menu item Title #{n}" }
+require 'spec_helper'
 
-    factory :wiki_menu_item, :class => MenuItems::WikiMenuItem do
-      wiki
+feature 'Query menu items' do
+  let(:user) { FactoryGirl.create :admin }
 
-      sequence(:title) {|n| "Wiki Title #{n}" }
+  let(:project) { FactoryGirl.create :project }
+  let(:query_a) { FactoryGirl.create :public_query, name: "some query", project: project }
+  let(:query_b) { FactoryGirl.create :public_query, name: query_a.name, project: project }
 
-      trait :with_menu_item_options do
-        index_page true
-        new_wiki_page true
-      end
+  let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
+  let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
 
-      factory :wiki_menu_item_with_parent do
-        after :build do |wiki_menu_item|
-          parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
-          wiki_menu_item.wiki.wiki_menu_items << parent
-          wiki_menu_item.parent = parent
-        end
-      end
-    end
+  before do
+    User.stub(:current).and_return user
+  end
 
-    factory :query_menu_item, :class => MenuItems::QueryMenuItem do
-      query
+  scenario 'Adding menu items for queries with identical names' do
+    visit "/projects/#{project.identifier}"
 
-      name { query.normalized_name }
-      title { query.name }
-
-      navigatable_id { query.id }
-    end
+    expect(page).to have_selector("a", text: "some query", count: 2)
   end
 end
