@@ -12,8 +12,8 @@
   <!-- present attributes -->
   <ul>
     <li ng-repeat="propertyData in presentWorkPackageProperties">
-      <label ng-bind="propertyData.label"/>
-      <span ng-switch="propertyData.format">
+      <div class="work-package-attributes--label" ng-bind="propertyData.label"/>
+      <div class="work-package-attributes--value" ng-switch="propertyData.format">
         <user-field ng-switch-when="user" user="propertyData.value"></user-field>
         <span ng-switch-when="dynamic" work-package-dynamic-attribute
                                        html-element="propertyData.value"
@@ -22,7 +22,7 @@
         <span ng-switch-when="version"><a ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a></span>
         <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
         <span ng-switch-default ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"/>
-      </span>
+      </div>
     </li>
   </ul>
   <!-- empty attributes -->
