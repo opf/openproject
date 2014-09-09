@@ -22,7 +22,7 @@ See doc/COPYRIGHT.md for more details.
 <div id="block_<%= block_name.dasherize %>" class="mypage-box">
   <div class="handle">
     <% content_for block_name do %>
-        <div id="<%= block_name %>-form-div" style="display: none;">
+        <div id="<%= block_name %>-form-div" style="display: none;" ng-non-bindable>
           <div class="box-actions">
             <a href="#" onclick="return resetTextilizable('<%= block_name %>');"
                class="icon icon-cancel"><%= l(:button_cancel) %></a>
