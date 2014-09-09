@@ -30,7 +30,7 @@
 #++
 
 module OpenProject::Documents::Patches
-  module ApplicationHelperPatch
+  module TextFormattingPatch
     def self.included(base)
 
       base.class_eval do
@@ -69,6 +69,6 @@ module OpenProject::Documents::Patches
   end
 end
 
-unless ApplicationHelper.included_modules.include?(OpenProject::Documents::Patches::ApplicationHelperPatch)
-  ApplicationHelper.send(:include, OpenProject::Documents::Patches::ApplicationHelperPatch)
+unless OpenProject::TextFormatting.included_modules.include?(OpenProject::Documents::Patches::TextFormattingPatch)
+  OpenProject::TextFormatting.send(:include, OpenProject::Documents::Patches::TextFormattingPatch)
 end

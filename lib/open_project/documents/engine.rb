@@ -60,7 +60,7 @@ module OpenProject::Documents
       Redmine::Search.register :documents
     end
 
-    patches [:ApplicationHelper, :CustomFieldsHelper, :Project]
+    patches [:CustomFieldsHelper, :Project]
 
     assets %w(documents.css)
 
@@ -75,6 +75,11 @@ module OpenProject::Documents
     config.to_prepare do
       require_dependency 'document_category'
       require_dependency 'document_category_custom_field'
+
+      # Have to apply this one by hand and not via op_engine patches method
+      # becauses the op_engine method does not allow for patching something
+      # in the lib/open_project directory. Bummer.
+      require_dependency 'open_project/documents/patches/text_formatting_patch'
     end
   end
 end
