@@ -32,6 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_document_plural)%></h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <% project_ids = @user.projects.select {|p| @user.allowed_to?(:view_documents, p)}.collect(&:id) %>
 <%= render(:partial => 'documents/document',
            :collection => Document.find(:all,
