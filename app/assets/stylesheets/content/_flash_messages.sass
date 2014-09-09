@@ -31,7 +31,9 @@
   padding: 4px
   margin: 0 0 10px 0
   color: $content_flash_msg_font_color
-  height: $content-flash-height
+
+  %absolute-layout-mode &
+    height: $content-flash-height
 
 div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
 div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
