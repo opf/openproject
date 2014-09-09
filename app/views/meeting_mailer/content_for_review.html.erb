@@ -19,7 +19,7 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h1><%= link_to(@meeting.project.name, @project_url) %>: <%= link_to(@meeting.title, @meeting_url) %></h1>
+<h1><%= link_to(@meeting.project.name, project_url(@meeting.project)) %>: <%= link_to(@meeting.title, meeting_url(@meeting)) %></h1>
 <em><%= @meeting.author %></em>
 
 <ul>
@@ -29,4 +29,10 @@ See doc/COPYRIGHT.md for more details.
 <li><%=Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
 </ul>
 
-<p><%=raw t(:"text_review_#{@content_type}", :author => h(User.current), :link => link_to(@meeting.title, @meeting_url)) %></p>
+<p>
+  <%=raw t(:"text_review_#{@content_type}",
+           :author => h(User.current),
+           :link => link_to(t(:"text_#{@content_type}_for_meeting",
+                              :meeting => @meeting.title),
+                            meeting_url(@meeting))) %>
+</p>
