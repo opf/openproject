@@ -286,12 +286,12 @@ angular.module('openproject.models')
 
       if (filter) {
         filter.deactivated = false;
+        this.removeFilter(filter.name);
       } else {
         var filterData = this.getExtendedFilterData(angular.extend({name: filterName}, options));
         filter = new Filter(filterData);
-
-        this.filters.push(filter);
       }
+      this.filters.push(filter);
     },
 
     removeFilter: function(filterName) {

@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilters', ['FiltersHelper', 'I18n', function(FiltersHelper, I18n) {
+.directive('queryFilters', ['FiltersHelper', 'I18n', '$timeout', function(FiltersHelper, I18n, $timeout) {
 
   return {
     restrict: 'E',
@@ -42,10 +42,19 @@ angular.module('openproject.workPackages.directives')
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {
               scope.query.addFilter(filterName);
+              scope.focussedFilterIndex = scope.query.getActiveFilters().length - 1;
               scope.filterToBeAdded = undefined;
             }
           });
+          scope.focussedFilterIndex = -1;
 
+          scope.deactivateFilter = function(filter) {
+            scope.query.deactivateFilter(filter);
+            scope.focussedFilterIndex = scope.query.getActiveFilters().length - 1;
+            $timeout(function() {
+              scope.$broadcast('updateFocus');
+            });
+          }
         }
       };
     }
