@@ -22,5 +22,9 @@ See doc/COPYRIGHT.md for more details.
 <h2 class="page-layout-only"><%= block_title || l(:label_custom_element) %></h2>
 <% if defined? block_name %>
   <%= content_for block_name %>
+  <div id="<%= block_name %>-text">
+    <%= textilizable(textile, :object => overview) %>
+  </div>
+<% else %>
+  <%= textilizable(textile, :object => overview) %>
 <% end %>
-<%= textilizable(textile, :object => overview) %>
