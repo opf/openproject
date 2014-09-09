@@ -46,7 +46,8 @@ angular.module('openproject.messages.controllers')
               {
                 params: {
                           sort: SortService.getSortParam(),
-                          page: PaginationService.getPage()
+                          page: PaginationService.getPage(),
+                          per_page: PaginationService.getPerPage()
                         }
               })
          .success(function(data, status, headers, config) {
