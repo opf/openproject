@@ -200,10 +200,29 @@ describe('workPackageColumn Directive', function() {
           sheep: 10,
           parent: { id: 1, subject: 'Test child work package' },
           parent_id: 1,
-          custom_values: [ { custom_field_id: 1, field_format: 'string', value: 'asdf1234'} ]
+          custom_values: [ { custom_field_id: 1, field_format: 'string', value: 'asdf1234'} ],
+          project: {
+            id:         29,
+            identifier: 'project-dream-team'
+          }
         };
         scope.displayType = 'link';
        });
+
+      describe('to project', function() {
+        beforeEach(function() {
+          scope.column = {
+            meta_data: { data_type: 'object', link: { display: true, model_type: 'project'} },
+            name: 'project'
+          }
+          compile();
+        });
+
+        it('should have correct href', function() {
+          var content = element.find('a').last();
+          expect(content.attr('href')).to.equal('/projects/project-dream-team');
+        });
+      });
 
       describe('to parent work package', function() {
 
