@@ -96,7 +96,7 @@ angular.module('openproject.workPackages.helpers')
           id = object.parent_id;
           break;
         case 'project':
-          id = object.project_id;
+          id = object.project.identifier;
           break;
         case 'subject':
           id = object.id;
