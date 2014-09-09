@@ -48,8 +48,7 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: -> { render_404 }
 
       before_filter :find_all_projects_by_project_id
-
-      accept_key_auth :index, :show
+      accept_key_auth :index
 
       def index
         respond_to do |format|
@@ -93,9 +92,11 @@ module Api
       def find_all_projects_by_project_id
         version_scope = nil
 
-        if params[:project_id] and params[:ids] then
+        if params[:project_id] && params[:ids]
           identifiers = params[:ids].split(/,/).map(&:strip).map(&:to_i)
-          version_scope = ::Version.visible(User.current).find_all_by_id(identifiers).collect(&:id)
+          version_scope = ::Version.visible(User.current)
+                                   .find_all_by_id(identifiers)
+                                   .map(&:id)
         end
 
         if params[:project_id] !~ /,/
@@ -106,19 +107,18 @@ module Api
       end
 
       def assign_versions(projects, version_ids)
-        projects_by_version = {}
+        projects_by_version = Hash.new { |h, k| h[k] = [] }
 
         projects.each do |project|
           project.shared_versions.each do |version|
-            if version_ids.nil? or version_ids.include?(version.id)
-              projects_by_version[version] = [] unless projects_by_version[version]
+            if version_ids.nil? || version_ids.include?(version.id)
               projects_by_version[version] << project unless projects_by_version[version].include? project
             end
           end
         end
 
-        @versions = projects_by_version.keys.each_with_object([]) do |version, l|
-          l << internal_version(version, projects_by_version[version].collect(&:id))
+        @versions = projects_by_version.each_with_object([]) do |(version, versions_projects), l|
+          l << internal_version(version, versions_projects.map(&:id))
         end
       end
 
