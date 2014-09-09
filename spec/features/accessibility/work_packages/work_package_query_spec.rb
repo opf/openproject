@@ -32,8 +32,7 @@ require 'features/work_packages/work_packages_page'
 describe 'Work package index accessibility', :type => :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package,
-                                          project: project) } 
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
@@ -206,8 +205,12 @@ describe 'Work package index accessibility', :type => :feature do
     before {work_packages_page.visit_index}                                        
 
     context 'focus' do
-      let(:first_link_selector) { "table.list tbody tr:first-child a:focus" }
-      let(:second_link_selector) { "table.list tbody tr:nth-child(2) a:focus" }
+      let(:first_link_selector) do
+        "table.list tbody tr:first-child a:focus, table.keyboard-accessible-list tbody tr:first-child a:focus"
+      end
+      let(:second_link_selector) do
+        "table.list tbody tr:nth-child(2) a:focus, table.keyboard-accessible-list tbody tr:nth-child(2) a:focus"
+      end
 
       it 'navigates with J' do
         body.native.send_keys('j')
