@@ -94,8 +94,7 @@ module Api
 
         if params[:project_id] && params[:ids]
           identifiers = params[:ids].split(/,/).map(&:strip).map(&:to_i)
-          version_scope = ::Version.visible(User.current)
-                                   .find_all_by_id(identifiers)
+          version_scope = ::Version.find_all_by_id(identifiers)
                                    .map(&:id)
         end
 

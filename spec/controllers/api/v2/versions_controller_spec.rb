@@ -159,6 +159,24 @@ describe Api::V2::VersionsController, type: :controller do
 
           it { expect(assigns(:versions).first.shared_with).to match_array([child_project.id]) }
         end
+
+        describe 'shared version when the user has access to only the inheriting project' do
+          let(:child_project) { FactoryGirl.create(:project, parent: project) }
+          let(:shared_version) do
+            FactoryGirl.create(:version, project: project, sharing: 'descendants')
+          end
+          let(:user) { FactoryGirl.create(:user, member_in_project: child_project) }
+
+          before do
+            allow(User).to receive(:current).and_return user
+
+            get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json
+          end
+
+          it { expect(assigns(:versions).collect(&:id)).to match_array([shared_version.id]) }
+
+          it { expect(assigns(:versions).first.shared_with).to match_array([child_project.id]) }
+        end
       end
     end
   end
