@@ -192,20 +192,24 @@ div
     width: 100%
 
     ul
+      list-style-type: none
+      +display(flex)
+      +flex-wrap(wrap)
       margin: 10px 0 0 0
       padding: 0
-      list-style-type: none
+
       li
         margin: 0 0 25px 0
         padding: 0
-        display: inline-table
+        +flex-grow(1)
         min-width: 33%
-        clear: left
+        max-width: 33%
 
     label
       font-weight: bold
       display: block
       margin: 0 0 7px 0
+
   &.detail-panel-attributes-toggler
     float: left
     margin: 10px 0 0 0
