@@ -34,12 +34,16 @@ describe('tablePagination Directive', function () {
 
   beforeEach(inject(function ($rootScope, $compile, _I18n_) {
     var html, I18n, t;;
-    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults"></table-pagination>';
+    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="noteUpdateResultsCalled()"></table-pagination>';
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
     I18n = _I18n_;
+
+    scope.noteUpdateResultsCalled = function() {
+      scope.updateResultsCalled = true;
+    }
 
     compile = function () {
       $compile(element)(scope);
@@ -84,6 +88,26 @@ describe('tablePagination Directive', function () {
       scope.tableEntries = 101;
       scope.$apply();
       expect(numberOfPageNumberLinks()).to.eq(11);
+    });
+  });
+
+  describe('updateResults callback', function () {
+    beforeEach(function() {
+      scope.updateResultsCalled = false;
+      compile();
+    });
+
+    it('calls the callback when showing a different page', function() {
+      element.find('a[rel="next"]:first').click();
+
+      expect(scope.updateResultsCalled).to.eq(true);
+    });
+
+    it('calls the callback when seleceting a different per page option', function() {
+      // click on first per-page anchor (current is not an anchor)
+      element.find('.items-per-page-container .pagination a:eq(0)').click()
+
+      expect(scope.updateResultsCalled).to.eq(true);
     });
   });
 
