@@ -154,13 +154,13 @@ angular.module('openproject.helpers')
       }
 
       return query.exportFormats.map(function(format){
-        var url = relativeUrl + "." + format.format + "?" + "set_filter=1&";
+        var url = relativeUrl + "." + format.format + "?" + "set_filter=1";
         if(format.flags){
           angular.forEach(format.flags, function(flag){
-            url = url + flag + "=" + "true";
+            url = url + "&" + flag + "=" + "true";
           });
         }
-        url = url + query.getQueryString();
+        url = url + "&" + query.getQueryString();
 
         return {
           identifier: format.identifier,
