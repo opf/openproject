@@ -375,10 +375,22 @@ angular.module('openproject.services')
       var url = PathHelper.apiQueryStarPath(query.id);
       var theQuery = query;
 
-      return QueryService.doPatch(url, function(response){
+      var success = function(response){
         theQuery.star();
         return response.data;
-      });
+      };
+
+      var failure = function(response){
+        var msg = undefined;
+
+        if(response.data.errors) {
+          msg = response.data.errors.join(", ");
+        }
+
+        return QueryService.failure(msg)(response);
+      };
+
+      return QueryService.doPatch(url, success, failure);
     },
 
     unstarQuery: function() {
@@ -409,9 +421,7 @@ angular.module('openproject.services')
       success = success || function(response){
         return response.data;
       };
-      failure = failure || function(response){
-        return angular.extend(response, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
-      };
+      failure = failure || QueryService.failure();
 
       return $http({
         method: method,
@@ -419,6 +429,13 @@ angular.module('openproject.services')
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(success, failure);
+    },
+
+    failure: function(msg){
+      msg = msg || I18n.t('js.notice_bad_request');
+      return function(response){
+        return angular.extend(response, { status: { text: msg, isError: true }} );
+      }
     }
   };
 

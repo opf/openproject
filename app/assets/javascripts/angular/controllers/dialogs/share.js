@@ -96,7 +96,7 @@ angular.module('openproject.workPackages.controllers')
         if($scope.query.starred != $scope.shareSettings.starred){
           QueryService.toggleQueryStarred()
             .then(function(data){
-              closeAndReport(messageObject);
+              closeAndReport(data.status || messageObject);
 
               return $scope.query;
             })
