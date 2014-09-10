@@ -46,7 +46,6 @@ angular.module('openproject.workPackages.directives')
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
-      scope.$broadcast('updateFocus');
 
       if (scope.showValueOptionsAsSelect) {
         WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues, [scope.filter.name, scope.projectIdentifier])
@@ -109,7 +108,6 @@ angular.module('openproject.workPackages.directives')
       function valueReset(filter, oldFilter) {
         return oldFilter.hasValues() && !filter.hasValues();
       }
-
     }
   };
 }]);
