@@ -26,26 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<% assigned = WorkPackage.visible.open.find(:all,
-                      :conditions => {:assigned_to_id => User.current.id},
-                      :limit => 10,
-                      :include => [ :status, :project, :type, :priority ],
-                      :order => "#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC") %>
-
-<% assigned_count = WorkPackage.visible.open.count(:conditions => {
-                      :assigned_to_id => User.current.id
-                    }) %>
-
-<h3><%=l(:label_assigned_to_me_work_packages)%> (<%= assigned_count %>)</h3>
+<h3><%=l(:label_assigned_to_me_work_packages)%> (<%= wps_assigned_to_me_count %>)</h3>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}_remove_block" %>
 <% end %>
 
-<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => assigned } %>
+<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => wps_assigned_to_me } %>
 
-<% if assigned.length > 0 %>
+<% if wps_assigned_to_me_count > 0 %>
   <p class="small">
     <%= link_to l(:label_work_package_view_all_assigned_to_me),
                 work_packages_assigned_to_me_path,
