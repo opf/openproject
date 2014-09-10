@@ -37,7 +37,7 @@ module Api
 
       def index
         @users = if @project
-                   @project.users.sort
+                   projects_principals
                  else
                    visible_users
                  end
@@ -50,13 +50,33 @@ module Api
       private
 
       def visible_users
-        Principal.active.where(["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", Project.visible.all.collect(&:id)]).sort.group_by(&:class)[User]
+        visible_project_ids = Project.visible.all.map(&:id)
+        desired_classes = if Setting.work_package_group_assignment?
+                            ['User', 'Group']
+                          else
+                            ['User']
+                          end
+
+        Principal.active.where(["#{User.table_name}.type IN (?) AND " \
+                                "#{User.table_name}.id IN " \
+                                  '(SELECT DISTINCT user_id FROM members WHERE project_id IN (?))',
+                                desired_classes,
+                                visible_project_ids]).sort
+      end
+
+      def projects_principals
+        principals = if Setting.work_package_group_assignment?
+                       @project.principals
+                     else
+                       @project.users
+                     end
+
+        principals.sort
       end
 
       def find_optional_project
         @project = Project.find(params[:project_id]) unless params[:project_id].blank?
       end
-
     end
   end
 end
