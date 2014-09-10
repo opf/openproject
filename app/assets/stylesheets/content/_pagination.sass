@@ -1,33 +1,50 @@
+.pagination
+  +display(flex)
+  +justify-content(space-between)
+  width: 100%
+
 .pagination--pages
-  float: left
+  +flex-grow(2)
+  +flex-shrink(2)
   margin: 10px 5px 0 0
 
 .pagination--options
-  float: right
+  +flex-grow(1)
+  +flex-shrink(1)
   margin: 10px 0 0 5px
 
 ul.pagination--items
   list-style-type: none
+  +display(flex)
   margin: 0
   padding: 0
   font-size: 90%
 
+  .pagination--pages &
+    +justify-content(flex-start)
+
+  .pagination––options &
+    +justify-content(flex-end)
+
   li
-    float: left
+    display: block
     margin: 0 5px 0 0
+
     &.current
       background: #ffffff
       border: 1px solid #ffffff
       padding: 3px 8px
-      display: block
       font-style: italic
+
     &.dots
       background: #ffffff
       border: 1px solid #ffffff
-      padding: 0px 0px
       font-style: italic
       padding: 3px 0px
-      display: block
+
+    &.pagination--label
+      margin: 0 10px 0 0
+      padding: 3px 0px
 
   a
     margin: 0
@@ -44,12 +61,8 @@ ul.pagination--items
     text-decoration: none
     &:hover
       background: #eaeaea
+
   .range
     margin: 0 0 0 5px
     padding: 3px 0px
     display: block
-
-.pagination--label
-  margin: 0 10px 0 0
-  padding: 3px 0px
-  display: block
