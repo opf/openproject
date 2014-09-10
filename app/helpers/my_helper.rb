@@ -38,7 +38,34 @@ module MyHelper
       all
   end
 
+  def wps_assigned_to_me
+    wps_assigned_to_me_scope.includes(:status, :project, :type, :priority)
+                            .limit(10)
+                            .order("#{IssuePriority.table_name}.position DESC, " \
+                                   "#{WorkPackage.table_name}.updated_at DESC")
+                            .all
+  end
+
+  def wps_assigned_to_me_count
+    wps_assigned_to_me_scope.count
+  end
+
   def deletion_info_path
     url_for(:delete_my_account_info)
+  end
+
+  private
+
+  def wps_assigned_to_me_scope
+    # We always want to have the WPs assigned to the users groups as well
+    # as the setting might have been active once, then WPs assigned to the
+    # group and then the setting disabled.
+    # As the WPs are then still assigned to the group, taking them into account
+    # is correct and gives the user the ability to find those packages.
+    assigned_to_ids = [User.current.id] + User.current.group_ids
+
+    WorkPackage.visible
+               .open
+               .where(assigned_to_id: assigned_to_ids)
   end
 end
