@@ -309,7 +309,7 @@ en:
         author: "Author"
         createdAt: "Created on"
         description: "Description"
-        date: "Datum"
+        date: "Date"
         dueDate: "Due date"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
