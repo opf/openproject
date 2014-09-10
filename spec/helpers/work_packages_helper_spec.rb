@@ -220,6 +220,34 @@ describe WorkPackagesHelper, :type => :helper do
     end
   end
 
+  # Testing private method here.
+  # Only doing so because this method is an exception.
+  # All other show... methods are public.
+  # TODO: check wether the method can be made public.
+  describe :work_package_show_custom_fields do
+    let(:stub_custom_field) do
+      stub_custom_field = FactoryGirl.build_stubbed(:custom_field,
+                                                    name: 'My Custom Field')
+    end
+
+    let(:stub_custom_value) do
+      FactoryGirl.build_stubbed(:work_package_custom_value, customized: stub_work_package,
+                                                            custom_field: stub_custom_field,
+                                                            value: '5')
+    end
+
+    it 'should show the field name unchanged' do
+      allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
+
+      attributes = helper.send(:work_package_show_custom_fields, stub_work_package)
+
+      expect(attributes.length).to eql(1)
+
+      expected_css_class = ".work_package_attribute_header.custom_field.cf_#{stub_custom_field.id}"
+      expect(attributes[0].field).to have_css(expected_css_class, :text => stub_custom_field.name)
+    end
+  end
+
   describe :work_package_form_category_attribute do
     let(:stub_project) { FactoryGirl.build_stubbed(:project) }
     let(:stub_category) { FactoryGirl.build_stubbed(:category) }

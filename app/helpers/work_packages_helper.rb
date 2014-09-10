@@ -332,8 +332,13 @@ module WorkPackagesHelper
 
   def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
+    attribute_string = if attribute.is_a?(Symbol)
+                         WorkPackage.human_attribute_name(attribute)
+                       else
+                         attribute
+                       end
 
-    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => attribute_lang) { "#{WorkPackage.human_attribute_name(attribute)}:" }
+    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => attribute_lang) { "#{attribute_string}:" }
     content << content_tag(:td, :class => klass, :lang => value_lang, &block)
 
     WorkPackageAttribute.new(attribute, content)
