@@ -99,7 +99,7 @@ describe('tablePagination Directive', function () {
     }));
 
     it('should always render perPage options', function () {
-      var perPageOptions = element.find('.items-per-page-container .pagination');
+      var perPageOptions = element.find('.pagination--options');
 
       expect(perPageOptions.text()).to.include('Per page:');
     });
