@@ -67,7 +67,7 @@ Documentation:
   Enabled: false
 
 DotPosition:
-  EnforcedStyle: trailing
+  EnforcedStyle: leading
 
 DoubleNegation:
   Enabled: false
