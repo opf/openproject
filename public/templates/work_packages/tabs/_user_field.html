@@ -2,7 +2,7 @@
   <span ng-if="userName">
     <img class="avatar-mini"
          ng-if="user.props.avatar"
-         ng-src="{{user.props.avatar}}" />
+         ng-src="{{user.props.avatar}}" alt="Avatar" title="{{userName}}" />
     <span class="user">
       <a ng-href="{{ userPath(user.props.id) }}" ng-bind="user.props.name"
          class="user-field-user-link"/>
