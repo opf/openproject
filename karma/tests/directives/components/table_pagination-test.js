@@ -59,11 +59,11 @@ describe('tablePagination Directive', function () {
 
       scope.tableEntries = 11;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/11)');
+      expect(range.text()).to.equal('(1 - 10/11)');
 
       scope.tableEntries = 663;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/663)');
+      expect(range.text()).to.equal('(1 - 10/663)');
     });
 
     it('should display correct number of page number links', function () {
