@@ -15,7 +15,7 @@
            href="">{{ pageNumber }}</a>
       </li>
 
-      <li ng-if="prePageNumbers" class="dots">...</li>
+      <li ng-if="prePageNumbers" class="dots">…</li>
 
       <li ng-if="pageNumbers.length > 1"
           ng-repeat="pageNumber in pageNumbers"
@@ -27,7 +27,7 @@
            href="">{{ pageNumber }}</a>
       </li>
 
-      <li ng-if="postPageNumbers" class="dots">...</li>
+      <li ng-if="postPageNumbers" class="dots">…</li>
 
       <li ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers">
         <a ng-click="showPage(pageNumber)"

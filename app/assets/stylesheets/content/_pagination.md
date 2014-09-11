@@ -9,7 +9,7 @@
       <li class="current">3</li>
       <li><a>4</a></li>
       <li><a>5</a></li>
-      <li class="dots">...</span>
+      <li class="dots">…</span>
       <li><a>34</a></li>
       <li><a>35</a></li>
       <li><a>Next</a></li>
