@@ -31,7 +31,8 @@ module Api
   module Experimental
 
     class VersionsController < ApplicationController
-      before_filter :find_project
+      before_filter :find_project,
+                    :authorize
 
       include ::Api::Experimental::ApiController
 

@@ -106,12 +106,21 @@ Redmine::AccessControl.map do |map|
                                          :auto_complete => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
-                                         :queries => [:index, :create, :update, :available_columns, :custom_field_filters, :grouped],
                                          :work_packages => [:show, :index],
                                          :work_packages_api => [:get],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
-                                         :planning_element_journals => [:index]}
+                                         :planning_element_journals => [:index],
+                                         :'api/experimental/queries' => [:available_columns,
+                                                                         :custom_field_filters,
+                                                                         :grouped],
+                                         :'api/experimental/users' => [:index],
+                                         :'api/experimental/versions' => [:index],
+                                         :'api/experimental/projects' => [:show,
+                                                                          :sub_projects,
+                                                                          :index],
+                                         :'api/experimental/work_packages' => [:index,
+                                                                               :column_data] }
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
                                          :'issues/previews' => :create,
@@ -137,8 +146,12 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
-    map.permission :manage_public_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :loggedin
+    map.permission :manage_public_queries, { :'api/experimental/queries' => [:create,
+                                                                             :update,
+                                                                             :destroy],
+                                             :queries => [:star, :unstar] }, :require => :member
+    map.permission :save_queries, { :'api/experimental/queries' => [:create, :update, :destroy],
+                                    :'queries' => [:star, :unstar] }, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}

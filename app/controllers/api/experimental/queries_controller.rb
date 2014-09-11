@@ -33,9 +33,9 @@ module Api::Experimental
     unloadable
 
     include ApiController
-    include Concerns::GrapeRouting
-    include Concerns::ColumnData
-    include Concerns::QueryLoading
+    include Api::Experimental::Concerns::GrapeRouting
+    include Api::Experimental::Concerns::ColumnData
+    include Api::Experimental::Concerns::QueryLoading
 
     include QueriesHelper
     include ExtendedHTTP

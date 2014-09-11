@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::VersionsController, :type => :controller do
+describe Api::Experimental::ProjectsController, type: :controller do
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
@@ -42,34 +42,60 @@ describe Api::Experimental::VersionsController, :type => :controller do
   end
 
   describe '#index' do
-    context 'with no versions available' do
-      it 'assigns an empty versions array' do
-        get 'index', format: 'xml', project_id: 1
-        expect(assigns(:versions)).to eq []
-      end
+    before do
+      get 'index', format: 'xml'
+    end
 
-      it 'renders the index template' do
-        get 'index', format: 'xml', project_id: 1
-        expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
+    context 'with the necessary permissions' do
+      it 'should respond with 200' do
+        expect(response.response_code).to eql(200)
       end
     end
 
-    context 'with versions available' do
-      before do
-        project.stub_chain(:shared_versions, :all).and_return(FactoryGirl.build_list(:version, 2))
-      end
-
-      it 'assigns an array with 2 versions' do
-        get 'index', format: 'xml', project_id: 1
-        expect(assigns(:versions).size).to eq 2
-      end
-    end
-
-    context 'when lacking the necessary permissions' do
-      let(:role)         { FactoryGirl.create(:role, permissions: []) }
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403' do
-        get 'index', format: 'xml', project_id: 1
+        expect(response.response_code).to eql(403)
+      end
+    end
+  end
+
+  describe '#show' do
+    before do
+      get 'show', format: 'xml', project_id: project.identifier
+    end
+
+    context 'with the necessary permissions' do
+      it 'should respond with 200' do
+        expect(response.response_code).to eql(200)
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should respond with 403' do
+        expect(response.response_code).to eql(403)
+      end
+    end
+  end
+
+  describe '#sub_projects' do
+    before do
+      get 'sub_projects', format: 'xml', project_id: project.identifier
+    end
+
+    context 'with the necessary permissions' do
+      it 'should respond with 200' do
+        expect(response.response_code).to eql(200)
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should respond with 403' do
         expect(response.response_code).to eql(403)
       end
     end

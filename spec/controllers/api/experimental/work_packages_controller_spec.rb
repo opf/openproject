@@ -36,16 +36,14 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
   let(:project_2) { FactoryGirl.create(:project,
                                        types: [type],
                                        is_public: false) }
-  let(:role) { FactoryGirl.create(:role,
-                                    permissions: [:view_work_packages,
-                                                  :add_work_packages,
-                                                  :edit_work_packages,
-                                                  :move_work_packages,
-                                                  :delete_work_packages]) }
-  let(:member) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user,
-                                      roles: [role]) }
+  let(:role) do
+    FactoryGirl.create(:role, permissions: [:view_work_packages,
+                                            :add_work_packages,
+                                            :edit_work_packages,
+                                            :move_work_packages,
+                                            :delete_work_packages,
+                                            :log_time])
+  end
   let(:status_1) { FactoryGirl.create(:status) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
@@ -65,11 +63,12 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
   let(:query_1) { FactoryGirl.create(:query,
                                      project: project_1) }
 
-
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project_1,
+                              member_through_role: role)
+  end
 
   before do
-    member
     allow(User).to receive(:current).and_return(current_user)
   end
 
@@ -128,7 +127,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       context 'with project_1 work packages' do
-        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
+        let(:work_packages) { [work_package_1, work_package_2, work_package_3] }
 
         it 'assigns work packages array + actions' do
           get 'index', format: 'xml', query_id: query_1.id, project_id: project_1.id
@@ -144,7 +143,15 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       context 'with default query' do
-        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
+        let(:work_packages) { [work_package_1, work_package_2, work_package_3] }
+
+        before do
+          # As work_package_3 is in project_2 we need to make the
+          # current user a member
+          FactoryGirl.create(:member, project: project_2,
+                                      principal: current_user,
+                                      roles: [role])
+        end
 
         it 'assigns work packages array + actions' do
           get 'index', format: 'xml'
@@ -152,6 +159,22 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
           expect(assigns(:work_packages).size).to eq(3)
           expect(assigns(:project)).to be_nil
         end
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should return 403 for the global action' do
+        get 'index', format: 'xml'
+
+        expect(response.response_code).to eql(403)
+      end
+
+      it 'should return 403 for the project based action' do
+        get 'index', format: 'xml', project_id: project_1.id
+
+        expect(response.response_code).to eql(403)
       end
     end
   end
@@ -208,6 +231,22 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       it 'renders the column_data template' do
         get :column_data, format: 'xml', ids: [1, 2], column_names: %w(subject status estimated_hours)
         expect(response).to render_template('api/experimental/work_packages/column_data', formats: %w(api))
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should return 403 for the global action' do
+        get 'column_data', format: 'xml'
+
+        expect(response.response_code).to eql(403)
+      end
+
+      it 'should return 403 for the project based action' do
+        get 'column_data', format: 'xml', project_id: project_1.id
+
+        expect(response.response_code).to eql(403)
       end
     end
   end
