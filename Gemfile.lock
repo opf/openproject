@@ -413,9 +413,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-jdbcmysql-adapter
-  activerecord-jdbcpostgresql-adapter
-  activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
@@ -442,7 +439,6 @@ DEPENDENCIES
   htmldiff
   i18n (>= 0.6.8)
   i18n-js!
-  jruby-openssl
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
