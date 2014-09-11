@@ -77,15 +77,9 @@ function removeBlock(block) {
     updateSelect();
 }
 
-function saveTextilizable(name) {
-    $(name + "-form-submit").click();
-    return false;
-}
-
 function resetTextilizable(name) {
     $("textile_" + name).setValue(window["page_layout-textile" + name] + "");
-    $(name + '-form-div').toggle();
-    $(name + '-preview-div').toggle();
+    toggleTextilizableVisibility(name);
     return false;
 }
 
@@ -93,12 +87,16 @@ function editTextilizable(name) {
     var textile_name = $("textile_" + name);
     if (textile_name != null) {
       window["page_layout-textile" + name] = textile_name.getValue();
-      $(name + '-form-div').toggle();
-      $(name + '-preview-div').toggle();
+      toggleTextilizableVisibility(name);
     }
     return false;
 }
 
+function toggleTextilizableVisibility(name) {
+  $(name + '-form-div').toggle();
+  $(name + '-preview-div').toggle();
+  $(name + '-text').toggle();
+}
 function addBlock() {
   new Ajax.Updater('list-hidden',
                    $('block-form').action,
