@@ -91,12 +91,6 @@ Redmine::AccessControl.map do |map|
                                   :copy_projects => [:copy, :copy_project],
                                   :members => [:paginate_users]
                                  }, :require => :member
-  map.permission :load_column_data, {
-                 :work_packages => [ :column_data ]
-                 }
-  map.permission :load_column_sums, {
-                 :work_packages => [ :column_sums ]
-                 }
 
   map.project_module :work_package_tracking do |map|
     # Issue categories
