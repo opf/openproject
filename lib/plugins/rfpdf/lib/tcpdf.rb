@@ -1,4 +1,5 @@
-#-- encoding: UTF-8
+# encoding: ascii-8bit
+
 #============================================================+
 # File name   : tcpdf.rb
 # Begin       : 2002-08-03
