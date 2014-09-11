@@ -106,7 +106,8 @@ module Queries::WorkPackages::AvailableFilterOptions
       start_date:      { type: :date, order: 11 },
       due_date:        { type: :date, order: 12 },
       estimated_hours: { type: :integer, order: 13 },
-      done_ratio:      { type: :integer, order: 14 }
+      done_ratio:      { type: :integer, order: 14 },
+      parent_id:       { type: :integer, order: 15 }
     }.with_indifferent_access
 
     add_readable_names_to_work_package_filters @available_work_package_filters
