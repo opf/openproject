@@ -2,24 +2,26 @@
   <nav class="pagination--pages">
     <ul class="pagination--items">
 
-      <li ng-show="paginationOptions.page != 1">
+      <li ng-show="paginationOptions.page != 1" class="pagination--item">
         <a ng-click="showPage(paginationOptions.page - 1)"
            rel="prev start"
            href="">{{ I18n.t('js.label_previous') }}
         </a>
       </li>
 
-      <li ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers">
+      <li ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers"
+        class="pagination--item">
         <a ng-click="showPage(pageNumber)"
            rel="next"
            href="">{{ pageNumber }}</a>
       </li>
 
-      <li ng-if="prePageNumbers" class="dots">…</li>
+      <li ng-if="prePageNumbers" class="pagination--space">…</li>
 
       <li ng-if="pageNumbers.length > 1"
           ng-repeat="pageNumber in pageNumbers"
-          ng-class="{ 'current': pageNumber == paginationOptions.page }">
+          ng-class="{ '-current': pageNumber == paginationOptions.page }"
+          class="pagination--item">
         <em ng-if="pageNumber == paginationOptions.page">{{ pageNumber }}</em>
         <a ng-if="pageNumber != paginationOptions.page"
            ng-click="showPage(pageNumber)"
@@ -27,22 +29,23 @@
            href="">{{ pageNumber }}</a>
       </li>
 
-      <li ng-if="postPageNumbers" class="dots">…</li>
+      <li ng-if="postPageNumbers" class="pagination--space">…</li>
 
-      <li ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers">
+      <li ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers" class="pagination--item">
         <a ng-click="showPage(pageNumber)"
            rel="next"
            href="">{{ pageNumber }}</a>
       </li>
-      <li ng-show="totalEntries && paginationOptions.page < pageNumbers[pageNumbers.length - 1]">
+      <li ng-show="totalEntries && paginationOptions.page < pageNumbers[pageNumbers.length - 1]"
+        class="pagination--item">
         <a ng-click="showPage(paginationOptions.page + 1)"
            rel="next"
-           class="pagination-next-link"
+           class="pagination--next-link"
            href="">{{ I18n.t('js.label_next') }}
         </a>
       </li>
 
-      <li class="range">{{ currentRange }}</li>
+      <li class="pagination--range">{{ currentRange }}</li>
     </ul>
   </nav>
 
@@ -51,7 +54,8 @@
       <li class="pagination--label">{{ I18n.t('js.label_per_page') }}</li>
 
       <li ng-repeat="perPageOption in paginationOptions.perPageOptions"
-          ng-class="{ 'current': perPageOption == paginationOptions.perPage }">
+          ng-class="{ '-current': perPageOption == paginationOptions.perPage }"
+          class="pagination--item">
 
        <span ng-if="perPageOption != paginationOptions.perPage">
          <a href="" ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</a>
