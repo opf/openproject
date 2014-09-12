@@ -217,9 +217,16 @@ div
   margin: 0 0 7px 0
   padding: 0 4px 0 0
 
-.work-package-attributes--value
+.work-package-attributes--value-container
   padding: 0 4px 0 0
-  +ellipsis
+  display: block
+
+.work-package-attributes--value
+  &.-dynamic,
+  &.-version,
+  &.-category,
+  &.-text,
+    +ellipsis
 
 span.role
   font-size: 11px
