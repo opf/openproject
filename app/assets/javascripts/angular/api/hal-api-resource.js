@@ -12,7 +12,7 @@ angular.module('openproject.api')
     setup: function(uri) {
       HALAPIResource.configure();
       return new Hyperagent.Resource({
-        url: PathHelper.apiV3 + '/' + uri,
+        url: PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri,
       });
     }
   };
