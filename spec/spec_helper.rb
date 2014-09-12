@@ -74,7 +74,9 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
+    Capybara.default_wait_time = 5
   end
+
 
   config.before(:each) do |example|
     DatabaseCleaner.strategy = if example.metadata[:js]

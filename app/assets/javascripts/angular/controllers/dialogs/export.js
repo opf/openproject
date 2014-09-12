@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ExportModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/export.html'
+    templateUrl:  '/templates/work_packages/modals/export.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
