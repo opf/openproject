@@ -44,12 +44,12 @@ describe Api::Experimental::VersionsController, :type => :controller do
   describe '#index' do
     context 'with no versions available' do
       it 'assigns an empty versions array' do
-        get 'index', format: 'xml', project_id: 1
+        get 'index', format: 'json', project_id: 1
         expect(assigns(:versions)).to eq []
       end
 
       it 'renders the index template' do
-        get 'index', format: 'xml', project_id: 1
+        get 'index', format: 'json', project_id: 1
         expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
       end
     end
@@ -60,7 +60,7 @@ describe Api::Experimental::VersionsController, :type => :controller do
       end
 
       it 'assigns an array with 2 versions' do
-        get 'index', format: 'xml', project_id: 1
+        get 'index', format: 'json', project_id: 1
         expect(assigns(:versions).size).to eq 2
       end
     end
@@ -69,7 +69,7 @@ describe Api::Experimental::VersionsController, :type => :controller do
       let(:role)         { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403' do
-        get 'index', format: 'xml', project_id: 1
+        get 'index', format: 'json', project_id: 1
         expect(response.response_code).to eql(403)
       end
     end

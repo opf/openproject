@@ -46,7 +46,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
   describe '#available_columns' do
     context 'with no query_id parameter' do
       it 'assigns available_columns' do
-        get :available_columns, format: :xml
+        get :available_columns, format: :json
         expect(assigns(:available_columns)).not_to be_empty
         expect(assigns(:available_columns).first).to have_key('name')
         expect(assigns(:available_columns).first).to have_key('meta_data')
@@ -54,7 +54,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
     end
 
     it 'renders the available_columns template' do
-      get :available_columns, format: :xml
+      get :available_columns, format: :json
       expect(response).to render_template('api/experimental/queries/available_columns', formats: %w(api))
     end
 
@@ -62,12 +62,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        get :available_columns, format: :xml
+        get :available_columns, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        get :available_columns, format: :xml, project_id: project.id
+        get :available_columns, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end
@@ -76,13 +76,13 @@ describe Api::Experimental::QueriesController, :type => :controller do
   describe '#custom_field_filters' do
     context 'with no query_id parameter' do
       it 'assigns custom_field_filters' do
-        get :available_columns, format: :xml
+        get :available_columns, format: :json
         expect(assigns(:custom_field_filters)).to be_nil
       end
     end
 
     it 'renders the custom_field template' do
-      get :custom_field_filters, format: :xml
+      get :custom_field_filters, format: :json
       expect(response).to render_template('api/experimental/queries/custom_field_filters', formats: %w(api))
     end
 
@@ -90,12 +90,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        get :custom_field_filters, format: :xml
+        get :custom_field_filters, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        get :custom_field_filters, format: :xml, project_id: project.id
+        get :custom_field_filters, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end
@@ -104,14 +104,14 @@ describe Api::Experimental::QueriesController, :type => :controller do
   describe '#grouped' do
     context 'within a project' do
       it 'responds with 200' do
-        get :grouped, format: :xml, project_id: project.id
+        get :grouped, format: :json, project_id: project.id
       end
 
     end
 
     context 'without a project' do
       it 'responds with 200' do
-        get :grouped, format: :xml
+        get :grouped, format: :json
       end
     end
 
@@ -119,12 +119,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        post :grouped, format: :xml
+        post :grouped, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        post :grouped, format: :xml, project_id: project.id
+        post :grouped, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end
@@ -141,7 +141,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'op' => { 'status_id' => 'o' },
           'sort' => 'parent:desc',
           'project_id' => project.id,
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -159,7 +159,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'name' => 'sdfsdfsdf',
           'op' => { 'status_id' => 'o' },
           'sort' => 'parent:desc',
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -172,12 +172,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        post :create, format: :xml
+        post :create, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        post :create, format: :xml, project_id: project.id
+        post :create, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end
@@ -198,7 +198,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'query_id' => query.id,
           'id' => query.id,
           'project_id' => project.id,
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -220,7 +220,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -233,12 +233,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        post :update, format: :xml
+        post :update, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        post :update, format: :xml, project_id: project.id
+        post :update, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end
@@ -259,7 +259,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'query_id' => query.id,
           'id' => query.id,
           'project_id' => project.id,
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -281,7 +281,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,
-          'format' => 'xml' }
+          'format' => 'json' }
       end
 
       it 'responds with 200' do
@@ -294,12 +294,12 @@ describe Api::Experimental::QueriesController, :type => :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should respond with 403 to global request' do
-        delete :destroy, format: :xml
+        delete :destroy, format: :json
         expect(response.response_code).to eql(403)
       end
 
       it 'should respond with 403 to project scoped request' do
-        delete :destroy, format: :xml, project_id: project.id
+        delete :destroy, format: :json, project_id: project.id
         expect(response.response_code).to eql(403)
       end
     end

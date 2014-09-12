@@ -41,7 +41,7 @@ describe Api::Experimental::UsersController, type: :controller do
   describe '#index' do
     context 'without a project' do
       before do
-        get 'index', format: 'xml'
+        get 'index', format: 'json'
       end
 
       context 'with the necessary permissions' do
@@ -61,7 +61,7 @@ describe Api::Experimental::UsersController, type: :controller do
 
     context 'with a project' do
       before do
-        get 'index', project_id: project.id, format: 'xml'
+        get 'index', project_id: project.id, format: 'json'
       end
 
       context 'with the necessary permissions' do
