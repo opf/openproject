@@ -193,7 +193,7 @@ module Api
           # the parent_id would thus be nil.
           # Disabling rewiring allows fetching work packages with their parent_ids
           # even when the parents are not included in the list of requested work packages.
-          rewire_ancestors unless params[:rewire_parents] == '0'
+          rewire_ancestors unless params[:rewire_parents] == 'false'
         end
 
       end
@@ -285,7 +285,10 @@ module Api
       helper_method :include_journals?
 
       def include_journals?
-        params[:include].tap { |i| i.present? && i.include?("journals") }
+        # .tap and the following block here were useless as the block's return value is ignored.
+        # Keeping this code to show its original intention, but not fixing it to not
+        # break things for clients that might not properly use the parameter.
+        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods

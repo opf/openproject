@@ -180,16 +180,16 @@ describe Api::V2::PlanningElementsController, :type => :controller do
           end
 
           describe 'w/ 2 planning elements within a specific project and one PE requested' do
-            context 'with rewire_parents=0' do
+            context 'with rewire_parents=false' do
               let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
               let!(:wp_child)  { FactoryGirl.create(:work_package, project_id: project.id,
                                                                    parent_id: wp_parent.id) }
 
-              context 'with rewire_parents=0' do
+              context 'with rewire_parents=false' do
                 before do
                   get 'index', project_id: project.id,
                                ids: wp_child.id.to_s,
-                               rewire_parents: '0',
+                               rewire_parents: 'false',
                                format: 'xml'
                 end
 
@@ -305,7 +305,7 @@ describe Api::V2::PlanningElementsController, :type => :controller do
 
         context 'with rewire_parents=false' do
           before do
-            get 'index', project_id: project1.id, format: 'xml', rewire_parents: '0'
+            get 'index', project_id: project1.id, format: 'xml', rewire_parents: 'false'
           end
 
           it "doesn't rewire ancestors" do
