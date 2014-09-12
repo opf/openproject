@@ -206,7 +206,7 @@ module Api
           # the parent_id would thus be nil.
           # Disabling rewiring allows fetching work packages with their parent_ids
           # even when the parents are not included in the list of requested work packages.
-          rewire_ancestors unless params[:rewire_parents] == '0'
+          rewire_ancestors unless params[:rewire_parents] == 'false'
         end
 
       end
