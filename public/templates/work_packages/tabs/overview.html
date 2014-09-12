@@ -31,8 +31,10 @@
   <ul class="work-package-details-overview-tab-empty-attributes"
       slide-toggle collapsed="toggleStates.hideAllAttributes">
       <li ng-repeat="property in emptyWorkPackageProperties">
-        <label ng-bind="property"></label>
-        <span> - </span>
+        <div class="work-package-attributes--label" ng-bind="property"></div>
+        <div class="work-package-attributes--value-container">
+          <div class="work-package-attributes--value">-</div>
+        </div>
       </li>
   </ul>
   <panel-expander ng-if="emptyWorkPackageProperties.length"
