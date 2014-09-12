@@ -34,7 +34,9 @@ angular.module('openproject.helpers')
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',
-    staticBase: window.appBasePath ? window.appBasePath : '',
+
+    appBasePath:  window.appBasePath ? window.appBasePath : '',
+    staticBase:   appBasePath,
 
     activityFromPath: function(projectIdentifier, from) {
       var link = '/activity';

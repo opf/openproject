@@ -45,6 +45,7 @@ angular.module('openproject.workPackages.controllers')
   'USER_FIELDS',
   'CustomFieldHelper',
   'WorkPackagesHelper',
+  'PathHelper',
   'UserService',
   'HookService',
   '$q',
@@ -58,6 +59,7 @@ angular.module('openproject.workPackages.controllers')
            USER_FIELDS,
            CustomFieldHelper,
            WorkPackagesHelper,
+           PathHelper,
            UserService,
            HookService,
            $q) {

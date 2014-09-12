@@ -145,6 +145,9 @@ openprojectApp
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
 
     // prepend a given base path to requests performed via $http
+    //
+    // NOTE: this does not apply to Hyperagent-based queries, which instead use
+    //       jQuery's AJAX implementation.
     $httpProvider.interceptors.push(function ($q) {
       return {
         'request': function (config) {
