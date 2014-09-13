@@ -28,36 +28,55 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::RolesController, :type => :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+describe Api::Experimental::UsersController, type: :controller do
+  let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:project)      { FactoryGirl.create(:project) }
+  let(:role)         { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
 
   before do
     allow(User).to receive(:current).and_return(current_user)
+    allow(Project).to receive(:find).and_return(project)
   end
 
   describe '#index' do
-    context 'with no roles available' do
-      it 'assigns an empty roles array' do
-        get 'index', format: 'xml'
-        expect(assigns(:roles)).to eq []
+    context 'without a project' do
+      before do
+        get 'index', format: 'json'
       end
 
-      it 'renders the index template' do
-        get 'index', format: 'xml'
-        expect(response).to render_template('api/experimental/roles/index', formats: ['api'])
+      context 'with the necessary permissions' do
+        it 'should respond with 200' do
+          expect(response.response_code).to eql(200)
+        end
+      end
+
+      context 'without the necessary permissions' do
+        let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+        it 'should respond with 403' do
+          expect(response.response_code).to eql(403)
+        end
       end
     end
 
-    context 'with roles available' do
+    context 'with a project' do
       before do
-        allow(Role).to receive(:givable).and_return(FactoryGirl.build_list(:role, 2))
+        get 'index', project_id: project.id, format: 'json'
       end
 
-      it 'assigns an array with 2 roles' do
-        get 'index', format: 'xml'
-        expect(assigns(:roles).size).to eq 2
+      context 'with the necessary permissions' do
+        it 'should respond with 200' do
+          expect(response.response_code).to eql(200)
+        end
+      end
+
+      context 'without the necessary permissions' do
+        let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+        it 'should respond with 403' do
+          expect(response.response_code).to eql(403)
+        end
       end
     end
   end
-
 end

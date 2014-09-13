@@ -31,9 +31,9 @@ module Api
   module Experimental
 
     class UsersController < ApplicationController
-      before_filter :find_optional_project, only: [:index]
-
       include ::Api::Experimental::ApiController
+
+      before_filter :find_optional_project
 
       def index
         @users = if @project
@@ -72,10 +72,6 @@ module Api
                      end
 
         principals.sort
-      end
-
-      def find_optional_project
-        @project = Project.find(params[:project_id]) unless params[:project_id].blank?
       end
     end
   end

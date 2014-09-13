@@ -36,16 +36,14 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
   let(:project_2) { FactoryGirl.create(:project,
                                        types: [type],
                                        is_public: false) }
-  let(:role) { FactoryGirl.create(:role,
-                                    permissions: [:view_work_packages,
-                                                  :add_work_packages,
-                                                  :edit_work_packages,
-                                                  :move_work_packages,
-                                                  :delete_work_packages]) }
-  let(:member) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user,
-                                      roles: [role]) }
+  let(:role) do
+    FactoryGirl.create(:role, permissions: [:view_work_packages,
+                                            :add_work_packages,
+                                            :edit_work_packages,
+                                            :move_work_packages,
+                                            :delete_work_packages,
+                                            :log_time])
+  end
   let(:status_1) { FactoryGirl.create(:status) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
@@ -65,25 +63,26 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
   let(:query_1) { FactoryGirl.create(:query,
                                      project: project_1) }
 
-
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project_1,
+                              member_through_role: role)
+  end
 
   before do
-    member
     allow(User).to receive(:current).and_return(current_user)
   end
 
   describe '#index' do
     context 'with no work packages available' do
       it 'assigns an empty work packages array' do
-        get 'index', format: 'xml'
+        get 'index', format: 'json'
         expect(assigns(:work_packages)).to eq([])
 
         # expect(assigns(:allowed_statuses)).to eq([])
       end
 
       it 'renders the index template' do
-        get 'index', format: 'xml'
+        get 'index', format: 'json'
         expect(response).to render_template('api/experimental/work_packages/index', formats: %w(api))
       end
 
@@ -92,7 +91,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
         expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
                                       .and_return(expected_query)
 
-        get 'index', format: 'xml'
+        get 'index', format: 'json'
 
         expect(assigns(:query)).to eql expected_query
       end
@@ -103,7 +102,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
           expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
                                         .and_return(expected_query)
 
-          get 'index', format: 'xml', filter_param => double('anything', to_i: 1).as_null_object
+          get 'index', format: 'json', filter_param => double('anything', to_i: 1).as_null_object
 
           expect(assigns(:query)).to eql expected_query
         end
@@ -128,10 +127,10 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       context 'with project_1 work packages' do
-        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
+        let(:work_packages) { [work_package_1, work_package_2, work_package_3] }
 
         it 'assigns work packages array + actions' do
-          get 'index', format: 'xml', query_id: query_1.id, project_id: project_1.id
+          get 'index', format: 'json', query_id: query_1.id, project_id: project_1.id
 
           expect(assigns(:work_packages).size).to eq(2)
 
@@ -144,14 +143,38 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       context 'with default query' do
-        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
+        let(:work_packages) { [work_package_1, work_package_2, work_package_3] }
+
+        before do
+          # As work_package_3 is in project_2 we need to make the
+          # current user a member
+          FactoryGirl.create(:member, project: project_2,
+                                      principal: current_user,
+                                      roles: [role])
+        end
 
         it 'assigns work packages array + actions' do
-          get 'index', format: 'xml'
+          get 'index', format: 'json'
 
           expect(assigns(:work_packages).size).to eq(3)
           expect(assigns(:project)).to be_nil
         end
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should return 403 for the global action' do
+        get 'index', format: 'json'
+
+        expect(response.response_code).to eql(403)
+      end
+
+      it 'should return 403 for the project based action' do
+        get 'index', format: 'json', project_id: project_1.id
+
+        expect(response.response_code).to eql(403)
       end
     end
   end
@@ -159,15 +182,15 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
   describe '#column_data' do
     context 'with incorrect parameters' do
       specify {
-        expect { get :column_data, format: 'xml' }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json' }.to raise_error(/API Error/)
       }
 
       specify {
-        expect { get :column_data, format: 'xml', ids: [1, 2] }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json', ids: [1, 2] }.to raise_error(/API Error/)
       }
 
       specify {
-        expect { get :column_data, format: 'xml', column_names: %w(subject status) }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json', column_names: %w(subject status) }.to raise_error(/API Error/)
       }
     end
 
@@ -183,18 +206,18 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       it 'handles incorrect column names' do
-        expect { get :column_data, format: 'xml', ids: [1, 2], column_names: %w(non_existent status) }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json', ids: [1, 2], column_names: %w(non_existent status) }.to raise_error(/API Error/)
       end
 
       it 'assigns column data' do
-        get :column_data, format: 'xml', ids: [1, 2], column_names: %w(subject status estimated_hours)
+        get :column_data, format: 'json', ids: [1, 2], column_names: %w(subject status estimated_hours)
 
         expect(assigns(:columns_data).size).to eq(3)
         expect(assigns(:columns_data).first.size).to eq(2)
       end
 
       it 'assigns column metadata' do
-        get :column_data, format: 'xml', ids: [1, 2],
+        get :column_data, format: 'json', ids: [1, 2],
           column_names: %w(subject status estimated_hours done_ratio)
 
         expect(assigns(:columns_meta)).to have_key('group_sums')
@@ -206,8 +229,24 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       it 'renders the column_data template' do
-        get :column_data, format: 'xml', ids: [1, 2], column_names: %w(subject status estimated_hours)
+        get :column_data, format: 'json', ids: [1, 2], column_names: %w(subject status estimated_hours)
         expect(response).to render_template('api/experimental/work_packages/column_data', formats: %w(api))
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should return 403 for the global action' do
+        get 'column_data', format: 'json'
+
+        expect(response.response_code).to eql(403)
+      end
+
+      it 'should return 403 for the project based action' do
+        get 'column_data', format: 'json', project_id: project_1.id
+
+        expect(response.response_code).to eql(403)
       end
     end
   end
