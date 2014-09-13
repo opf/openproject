@@ -22,14 +22,6 @@ GIT
     rspec-example_disabler (0.0.1)
 
 GIT
-  remote: https://github.com/fnando/i18n-js.git
-  revision: 12fe8ec2133dc162087eef2b1639309a01cbb414
-  branch: 12fe8ec2133dc162087eef2b1639309a01cbb414
-  specs:
-    i18n-js (3.0.0.rc5)
-      i18n
-
-GIT
   remote: https://github.com/rails/prototype_legacy_helper.git
   revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
   specs:
@@ -171,7 +163,9 @@ GEM
     hike (1.2.3)
     hooks (0.3.3)
     htmldiff (0.0.1)
-    i18n (0.6.9)
+    i18n (0.6.11)
+    i18n-js (3.0.0.rc6)
+      i18n (~> 0.6)
     ice_nine (0.11.0)
     interception (0.5)
     json (1.8.1)
@@ -410,7 +404,7 @@ DEPENDENCIES
   gravatar_image_tag (~> 1.2.0)
   htmldiff
   i18n (>= 0.6.8)
-  i18n-js!
+  i18n-js (~> 3.0.0.rc6)
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
