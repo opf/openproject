@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ShareModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/share.html'
+    templateUrl:  '/templates/work_packages/modals/share.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 

@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'SortingModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/sorting.html'
+    templateUrl:  '/templates/work_packages/modals/sorting.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
