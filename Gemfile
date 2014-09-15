@@ -131,6 +131,9 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 # small wrapper around the command line
 gem 'cocaine'
 
+# required by Procfile, for deployment on heroku or packaging with packager.io.
+# also, better than thin since we can control worker concurrency.
+gem 'unicorn'
 
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable

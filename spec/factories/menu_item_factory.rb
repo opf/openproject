@@ -53,7 +53,10 @@ FactoryGirl.define do
     factory :query_menu_item, :class => MenuItems::QueryMenuItem do
       query
 
-      sequence(:title) {|n| "Query Title #{n}" }
+      name { query.normalized_name }
+      title { query.name }
+
+      navigatable_id { query.id }
     end
   end
 end

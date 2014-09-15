@@ -178,6 +178,44 @@ describe Api::V2::PlanningElementsController do
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
+
+          describe 'w/ 2 planning elements within a specific project and one PE requested' do
+            context 'with rewire_parents=false' do
+              let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
+              let!(:wp_child)  { FactoryGirl.create(:work_package, project_id: project.id,
+                                                                   parent_id: wp_parent.id) }
+
+              context 'with rewire_parents=false' do
+                before do
+                  get 'index', project_id: project.id,
+                               ids: wp_child.id.to_s,
+                               rewire_parents: 'false',
+                               format: 'xml'
+                end
+
+                it "includes the child's parent_id" do
+                  expect(assigns(:planning_elements)[0].parent_id).to eq wp_parent.id
+                end
+              end
+
+              context 'without rewire_parents' do
+                # This is unbelievably inconsistent. When requesting this without a project_id,
+                # the rewiring is not done at all, so the parent_id can be seen with and
+                # without rewiring disabled.
+                # Passing a project_id here, so we can test this with rewiring enabled.
+                before do
+                  get 'index', project_id: project.id,
+                               ids: wp_child.id.to_s,
+                               format: 'xml'
+                end
+
+                it "doesn't include child's parent_id" do
+                  expect(assigns(:planning_elements)[0].parent_id).to eq nil
+                end
+              end
+            end
+          end
+
         end
       end
 
@@ -254,13 +292,32 @@ describe Api::V2::PlanningElementsController do
 
         become_admin { [project1, project2] }
 
-        it 'rewires ancestors correctly' do
-          get 'index', project_id: project1.id, :format => 'xml'
+        context 'without rewire_parents' do  # equivalent to rewire_parents=true
+          it 'rewires ancestors correctly' do
+            get 'index', project_id: project1.id, :format => 'xml'
 
-          # the controller returns structs. We therefore have to filter for those
-          ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+            # the controller returns structs. We therefore have to filter for those
+            ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
 
-          expect(ticket_f_struct.parent_id).to eq(ticket_d.id)
+            expect(ticket_f_struct.parent_id).to eq(ticket_d.id)
+          end
+        end
+
+        context 'with rewire_parents=false' do
+          before do
+            get 'index', project_id: project1.id, format: 'xml', rewire_parents: 'false'
+          end
+
+          it "doesn't rewire ancestors" do
+            # the controller returns structs. We therefore have to filter for those
+            ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+
+            expect(ticket_f_struct.parent_id).to eq(ticket_e.id)
+          end
+
+          it 'filters out invisible work packages' do
+            expect(assigns(:planning_elements).map(&:id)).to_not include(ticket_e.id)
+          end
         end
       end
 
