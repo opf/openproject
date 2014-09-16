@@ -99,9 +99,6 @@ module OpenProject
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # automatically compile translations.js
-    config.middleware.use I18n::JS::Middleware
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
