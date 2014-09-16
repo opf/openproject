@@ -19,7 +19,7 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<%= @meeting.project.name %>: <%= @meeting.title %> (<%= @meeting_url %>)
+<%= @meeting.project.name %>: <%= @meeting.title %> (<%= meeting_url(@meeting) %>)
 <%= @meeting.author %>
 
 <%=t :label_meeting_date_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %> <%= Time.zone %>
@@ -27,4 +27,7 @@ See doc/COPYRIGHT.md for more details.
 <%= Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %>
 <%= Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %>
 
-<%=t(:"text_review_#{@content_type}", :author => User.current, :link => t(:"text_#{@content_type}_for_meeting", :meeting => @meeting.title) + " (#{@meeting_url})") %>
+<%=t(:"text_review_#{@content_type}",
+     :author => User.current,
+     :link => t(:"text_#{@content_type}_for_meeting",
+                :meeting => @meeting.title) + " (#{meeting_url(@meeting)})") %>

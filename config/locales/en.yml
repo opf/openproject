@@ -80,5 +80,5 @@ en:
   text_in_hours: "in hours"
   text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
   text_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review:"
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review:"
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
