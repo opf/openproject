@@ -126,12 +126,14 @@ Feature: Team Member
     Given I am on the master backlog
      When I view the stories of Sprint 001 in the work_packages tab
      Then I should see the WorkPackages page
+     And I should see "Target version" within "#filters"
 
   @javascript
   Scenario: View the project stories in the work_packages tab
     Given I am on the master backlog
      When I view the stories in the work_packages tab
      Then I should see the WorkPackages page
+     And I should see "Target version" within "#filters"
 
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"
