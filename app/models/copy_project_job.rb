@@ -36,6 +36,7 @@ class CopyProjectJob < Struct.new(:user,
   include OpenProject::LocaleHelper
 
   def perform
+    User.current = user
     target_project, errors = with_locale_for(user) do
       create_project_copy(source_project,
                           target_project_params,
