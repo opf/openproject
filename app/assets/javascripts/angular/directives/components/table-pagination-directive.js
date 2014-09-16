@@ -46,6 +46,7 @@ angular.module('openproject.uiComponents')
         updatePageNumbers();
         scope.showPage(1);
         scope.$emit('queryStateChange');
+        scope.updateResults();
       };
 
       scope.showPage = function(pageNumber){
