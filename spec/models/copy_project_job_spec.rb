@@ -48,6 +48,7 @@ describe CopyProjectJob do
   end
 
   before { User.stub(:current).and_return(user) }
+  after { User.current = nil }
 
   describe 'perform' do
     describe 'subproject' do
@@ -86,6 +87,17 @@ describe CopyProjectJob do
         it { expect(subject).not_to be_nil }
 
         it { expect(subject.parent).to eql(project) }
+      end
+
+      describe "valid user" do
+        let(:subproject_to_be_copied) {
+          FactoryGirl.create(:project, parent: project)
+        }
+        include_context "copy project" do
+          let(:project_to_copy) { subproject_to_be_copied }
+        end
+
+        it { expect(User.current).to eql(user) }
       end
     end
   end
