@@ -119,6 +119,15 @@ describe CopyProjectJob, :type => :model do
 
         it { expect(subject.parent).to eql(project) }
       end
+
+      describe 'valid user' do
+        let(:subproject_to_be_copied) { FactoryGirl.create(:project, parent: project) }
+        include_context 'copy project' do
+          let(:project_to_copy) { subproject_to_be_copied }
+        end
+
+        it { expect(User.current).to eql(user) }
+      end
     end
   end
 end
