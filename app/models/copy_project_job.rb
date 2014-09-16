@@ -35,6 +35,7 @@ class CopyProjectJob < Struct.new(:user,
                                   :send_mails)
 
   def perform
+    User.current = user
     target_project, errors = create_project_copy(source_project,
                                                  target_project_params,
                                                  enabled_modules,
