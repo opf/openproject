@@ -54,17 +54,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div ng-controller="TimeEntriesController">
   <% unless @entries.empty? %>
-  <%= render :partial => 'list', :locals => { :entries => @entries }%>
+    <%= render :partial => 'list', :locals => { :entries => @entries }%>
 
-  <table-pagination total-entries="totalEntryCount" update-results="loadTimeEntries()"></table-pagination>
-  <modal-loading></modal-loading>
-<div>
+    <table-pagination total-entries="totalEntryCount" update-results="loadTimeEntries()"></table-pagination>
+    <modal-loading></modal-loading>
 
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
-  <%= f.link_to 'CSV', :url => params %>
-<% end %>
-<% end %>
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
+      <%= f.link_to 'CSV', :url => params %>
+    <% end %>
+  <% end %>
+</div>
 
 <% html_title l(:label_spent_time), l(:label_details) %>
 
