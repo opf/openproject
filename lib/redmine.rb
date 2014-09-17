@@ -109,6 +109,8 @@ Redmine::AccessControl.map do |map|
                                                                          :custom_field_filters,
                                                                          :grouped],
                                          :'api/experimental/users' => [:index],
+                                         :'api/experimental/roles' => [:index],
+                                         :'api/experimental/groups' => [:index],
                                          :'api/experimental/versions' => [:index],
                                          :'api/experimental/projects' => [:show,
                                                                           :sub_projects,
