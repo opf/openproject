@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::VersionsController, :type => :controller do
+describe Api::Experimental::VersionsController, type: :controller do
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
@@ -38,39 +38,75 @@ describe Api::Experimental::VersionsController, :type => :controller do
 
   before do
     allow(User).to receive(:current).and_return(current_user)
-    allow(Project).to receive(:find).and_return(project)
+    allow(Project).to receive(:find).with(project.id.to_s)
+                                    .and_return(project)
   end
 
   describe '#index' do
-    context 'with no versions available' do
-      it 'assigns an empty versions array' do
-        get 'index', format: 'json', project_id: 1
-        expect(assigns(:versions)).to eq []
+    context 'within a project' do
+      context 'with no versions available' do
+        it 'assigns an empty versions array' do
+          get 'index', format: 'json', project_id: project.id
+          expect(assigns(:versions)).to eq []
+        end
+
+        it 'renders the index template' do
+          get 'index', format: 'json', project_id: project.id
+          expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
+        end
       end
 
-      it 'renders the index template' do
-        get 'index', format: 'json', project_id: 1
-        expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
+      context 'with versions available' do
+        before do
+          project.stub_chain(:shared_versions, :all)
+                 .and_return(FactoryGirl.build_list(:version, 2))
+        end
+
+        it 'assigns an array with 2 versions' do
+          get 'index', format: 'json', project_id: project.id
+          expect(assigns(:versions).size).to eq 2
+        end
+      end
+
+      context 'when lacking the necessary permissions' do
+        let(:role)         { FactoryGirl.create(:role, permissions: []) }
+
+        it 'should respond with 403' do
+          get 'index', format: 'json', project_id: project.id
+          expect(response.response_code).to eql(403)
+        end
       end
     end
 
-    context 'with versions available' do
-      before do
-        project.stub_chain(:shared_versions, :all).and_return(FactoryGirl.build_list(:version, 2))
+    context 'without a project' do
+      context 'with globally shared versions' do
+        let(:shared_versions) { FactoryGirl.build_list(:version, 2) }
+
+        before do
+          # TODO: rename to receive_message_chain once on rspec 3.0
+          Version.stub_chain(:visible, :systemwide)
+                 .and_return(shared_versions)
+
+          get 'index', format: 'json'
+        end
+
+        it 'assigns an array with 2 versions' do
+          expect(assigns(:versions)).to match_array(shared_versions)
+        end
+
+        it 'responds with 200' do
+          expect(response.response_code).to eql(200)
+        end
+
       end
 
-      it 'assigns an array with 2 versions' do
-        get 'index', format: 'json', project_id: 1
-        expect(assigns(:versions).size).to eq 2
-      end
-    end
+      context 'when lacking the necessary permissions' do
+        let(:role)         { FactoryGirl.create(:role, permissions: []) }
 
-    context 'when lacking the necessary permissions' do
-      let(:role)         { FactoryGirl.create(:role, permissions: []) }
-
-      it 'should respond with 403' do
-        get 'index', format: 'json', project_id: 1
-        expect(response.response_code).to eql(403)
+        it 'responds with 403' do
+          get 'index', format: 'json'
+          expect(response.response_code).to eql(403)
+        end
       end
     end
   end

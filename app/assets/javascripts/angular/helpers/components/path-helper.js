@@ -175,6 +175,9 @@ angular.module('openproject.helpers')
     apiProjectUsersPath: function(projectIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.usersPath();
     },
+    apiVersionsPath: function(projectIdentifier) {
+      return PathHelper.apiExperimental + PathHelper.versionsPath();
+    },
     apiProjectVersionsPath: function(projectIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.versionsPath();
     },

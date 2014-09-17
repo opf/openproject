@@ -27,25 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module Experimental
+require 'spec_helper'
 
-    class VersionsController < ApplicationController
-      before_filter :find_optional_project
+describe Api::Experimental::VersionsController, type: :routing do
+  it 'should connect GET ' +
+     '/api/experimental/projects/:project_id/versions.json to versions#index' do
+    expect(get('/api/experimental/projects/blubs/versions.json'))
+      .to route_to(controller: 'api/experimental/versions',
+                   action: 'index',
+                   project_id: 'blubs',
+                   format: 'json')
+  end
 
-      include ::Api::Experimental::ApiController
-
-      def index
-        @versions = if @project
-                      @project.shared_versions.all
-                    else
-                      Version.visible.systemwide
-                    end
-
-        respond_to do |format|
-          format.api
-        end
-      end
-    end
+  it 'should connect GET ' +
+     '/api/experimental/versions.json to versions#index' do
+    expect(get('/api/experimental/versions.json'))
+      .to route_to(controller: 'api/experimental/versions',
+                   action: 'index',
+                   format: 'json')
   end
 end
