@@ -80,7 +80,10 @@ describe CopyProjectJob, :type => :model do
   end
 
   describe 'perform' do
-    before { allow(User).to receive(:current).and_return(user) }
+    before do
+      allow(User).to receive(:current).and_return(user)
+      expect(User).to receive(:current=).with(user)
+    end
 
     describe 'subproject' do
       let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
