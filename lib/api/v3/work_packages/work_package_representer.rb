@@ -168,6 +168,14 @@ module API
           } if current_user_allowed_to(:manage_work_package_relations, represented.model)
         end
 
+        link :addChild do
+          {
+            href: new_project_work_package_path(represented.model.project, work_package: {parent_id: represented.model}),
+            type: 'text/html',
+            title: "Add child of #{represented.subject}"
+          } if current_user_allowed_to(:add_work_packages, represented.model)
+        end
+
         link :addComment do
           {
               href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",

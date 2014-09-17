@@ -130,14 +130,12 @@ angular.module('openproject.viewModels')
         handler.type = "child";
         handler.applyCustomExtensions = undefined;
 
-        handler.canAddRelation = function() { return true };
+        handler.canAddRelation = function() { return !!this.workPackage.links.addChild }; 
         handler.canDeleteRelation = function() {
           return !!this.workPackage.links.update;
         };
         handler.addRelation = function() {
-            window.location = PathHelper.staticWorkPackageNewWithParentPath(
-                this.workPackage.props.projectId, this.workPackage.props.id
-            );
+          window.location = this.workPackage.links.addChild.href
         };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.removeRelation = function(scope) {
