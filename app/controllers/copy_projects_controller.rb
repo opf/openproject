@@ -37,7 +37,8 @@ class CopyProjectsController < ApplicationController
 
   def copy
     target_project_name = params[:project][:name]
-    @copy_project = Project.new(params[:project])
+    @copy_project = Project.new
+    @copy_project.safe_attributes = params[:project]
 
     if @copy_project.valid?
       copy_project_job = CopyProjectJob.new(User.current,
