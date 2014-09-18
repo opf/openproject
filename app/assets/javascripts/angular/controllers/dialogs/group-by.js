@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'GroupByModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/group_by.html'
+    templateUrl:  '/templates/work_packages/modals/group_by.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 

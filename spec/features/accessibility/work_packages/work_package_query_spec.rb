@@ -210,7 +210,6 @@ describe 'Work package index accessibility', :type => :feature do
                                             project: project) }
     let!(:yet_another_work_package) { FactoryGirl.create(:work_package,
                                             project: project) }   
-    let(:body) { find("body") }
     before {work_packages_page.visit_index}                                        
 
     context 'focus' do
@@ -222,19 +221,19 @@ describe 'Work package index accessibility', :type => :feature do
       end
 
       it 'navigates with J' do
-        body.native.send_keys('j')
+        find("body").native.send_keys('j')
         expect(page).to have_selector(first_link_selector)
       end
 
       it 'navigates with K' do
-        body.native.send_keys('k')
+        find("body").native.send_keys('k')
         expect(page).to have_selector(second_link_selector)
       end      
     end
 
     context "help" do
       it 'opens help popup with \'?\'' do
-        body.native.send_keys('?')
+        find("body").native.send_keys('?')
         expect(page).to have_selector(".ui-dialog")
       end
     end
@@ -276,6 +275,49 @@ describe 'Work package index accessibility', :type => :feature do
         let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
         let(:target_link) { '#column-context-menu .menu li:first-of-type a' }
         let(:keys) { :enter }
+      end
+    end
+  end
+
+  describe 'settings button', js: true do
+
+    shared_examples_for 'menu setting item' do
+      context 'closable by ESC and remembers focus on gear button' do
+        before do
+          work_packages_page.visit_index
+          find(:css, ".work-packages-settings-button").click
+          anchor.click
+        end
+        it do
+          # expect the modal to be shown
+          expect(page).to have_selector(".ng-modal-window")
+          find("body").native.send_keys(:escape)
+          # expect it to disappear
+          expect(page).to_not have_selector(".ng-modal-window")
+          # expect the gear to be focused
+          expect(page).to have_selector("#work-packages-settings-button:focus")
+        end
+      end
+    end
+
+    context 'gear button' do
+
+      context 'columns popup anchor' do
+        it_behaves_like 'menu setting item' do
+          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(1) a") }
+        end
+      end
+
+      context 'sorting popup anchor' do
+        it_behaves_like 'menu setting item' do
+          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(2) a") }
+        end
+      end
+
+      context 'grouping popup anchor' do
+        it_behaves_like 'menu setting item' do
+          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(3) a") }
+        end
       end
     end
   end

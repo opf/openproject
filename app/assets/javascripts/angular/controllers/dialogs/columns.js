@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ColumnsModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/columns.html'
+    templateUrl:  '/templates/work_packages/modals/columns.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
