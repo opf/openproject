@@ -71,9 +71,22 @@ module Report::QueryUtils
   def collection(*values)
     return "" if values.empty?
 
-    v = (values.is_a? Array) ? values.flatten.each_with_object([]) { |x, l| l << x.to_s.split(',') }
-                             : values.to_s.split(',')
+    v = if values.is_a?(Array)
+          values.flatten.each_with_object([]) do |str, l|
+            l << split_with_safe_return(str)
+          end
+        else
+          split_with_safe_return(str)
+        end
+
     "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
+  end
+
+  def split_with_safe_return(str)
+    # From ruby doc:
+    # When the input str is empty an empty Array is returned as the string is
+    # considered to have no fields to split.
+    str.to_s.empty? ? '' : str.to_s.split(',')
   end
 
   ##
