@@ -45,15 +45,6 @@ describe 'Work package index accessibility', :type => :feature do
     work_packages_page.visit_index
   end
 
-  after do
-    # This is here to ensure the page is loaded completely before the next spec
-    # is run. As the filters are loaded late in the page, all Ajax requests
-    # have been answered by then.  Without this, requests still running from
-    # the last spec, might expect data that has already been removed as
-    # preparation for the current spec.
-    expect(page).to have_selector('.filter label', text: 'Status')
-  end
-
   describe 'Select all link' do
     let(:link_selector) { 'table.workpackages-table th.checkbox a' }
 
@@ -258,11 +249,22 @@ describe 'Work package index accessibility', :type => :feature do
           end
 
           it { expect(page).to have_selector(source_link + ':focus') }
+
+          after do
+            cleanup if defined?(cleanup)
+          end
         end
+
       end
     end
 
     describe 'work package context menu', js: true do
+      let(:cleanup) do
+        # ensure work package queried by context menu is fully loaded.
+        expect(page).to have_selector('.work-packages--details h2', text: work_package.subject,
+                                                                    visible: false)
+      end
+
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.open a' }
         let(:source_link) { ".workpackages-table tr.issue td.id a" }
