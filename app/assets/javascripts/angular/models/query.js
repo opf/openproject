@@ -72,7 +72,8 @@ angular.module('openproject.models')
           'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty(),
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -90,7 +91,8 @@ angular.module('openproject.models')
           'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -299,6 +301,7 @@ angular.module('openproject.models')
     },
 
     deactivateFilter: function(filter) {
+      this.dirty = true;
       filter.deactivated = true;
     },
 
