@@ -44,9 +44,11 @@ describe CopyProjectsController, :type => :controller do
     }
   }
 
-
   before do
     allow(User).to receive(:current).and_return current_user
+    # Prevent actually setting User.current.
+    # Otherwise the set user might be used in the next spec.
+    allow(User).to receive(:current=)
 
     request.env['HTTP_REFERER'] = redirect_path
   end
