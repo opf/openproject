@@ -8,7 +8,7 @@
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])">{{ value[0] }}</option>
+    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])" label="{{ value[0] }}">{{ value[0] }}</option>
   </select>
 
   <select multiple
@@ -21,7 +21,7 @@
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])">{{ value[0] }}</option>
+    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])" label="{{ value[0] }}">{{ value[0] }}</option>
   </select>
 
   <a href class="no-decoration-on-hover" title="{{I18n.t('js.work_packages.label_enable_multi_select')}}" ng-click="toggleMultiselect()">

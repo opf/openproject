@@ -33,7 +33,7 @@
                             style="vertical-align: top;"
                             ng-disabled="isLoading">
 
-                      <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator">{{ I18n.t('js.' + option[1]) }}</option>
+                      <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator" label="{{ I18n.t('js.' + option[1]) }}">{{ I18n.t('js.' + option[1]) }}</option>
                     </select>
                   </td>
 
