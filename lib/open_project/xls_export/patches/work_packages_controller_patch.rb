@@ -46,6 +46,7 @@ module OpenProject::XlsExport
           issues.each do |work_package|
             row = (columns.collect do |column|
                     cv = formatters[column].format work_package, column
+                    cv = cv.in_time_zone(current_user.time_zone) if cv.is_a?(ActiveSupport::TimeWithZone)
                     (cv.respond_to? :name) ? cv.name : cv
                   end).unshift(work_package.id)
             row << work_package.description if options[:show_descriptions]
