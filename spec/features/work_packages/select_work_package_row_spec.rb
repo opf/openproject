@@ -315,6 +315,12 @@ describe 'Select work package row', :type => :feature do
       before do
         select_work_package_row(1, :double)
       end
+      after do
+        # ensure work package queried by double clicking the row is fully
+        # loaded before starting the next spec.
+        expect(page).to have_selector('.work-packages--details h2', text: work_package_3.subject,
+                                                                    visible: false)
+      end
 
       it_behaves_like 'work package row selected' do
         let(:index) { 1 }
