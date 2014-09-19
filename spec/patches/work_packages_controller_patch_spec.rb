@@ -157,4 +157,42 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       expect(sheet.rows.size).to eq(1) # just the headers
     end
   end
+
+  describe 'with user time zone' do
+    let(:zone) { +2 }
+
+    before do
+      allow(current_user).to receive(:time_zone).and_return(zone)
+
+      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
+        column.caption =~ /time/i
+      end
+
+      get 'index',
+          :format => 'xls',
+          :project_id => work_package.project_id,
+          :set_filter => '1',
+          :c => ['subject', 'status', 'updated_at']
+
+      expect(response.response_code).to eq(200)
+
+      f = Tempfile.new 'result.xls'
+      begin
+        f.binmode
+        f.write response.body
+      ensure
+        f.close
+      end
+
+      require 'spreadsheet'
+
+      @sheet = Spreadsheet.open(f.path).worksheets.first
+      f.unlink
+    end
+
+    it 'should adapt the datetime fields to the user time zone' do
+      updated_at_cell = @sheet.rows.last.to_a.last
+      expect(updated_at_cell.to_s(:number)).to eq(work_package.updated_at.in_time_zone(zone).to_s(:number))
+    end
+  end
 end
