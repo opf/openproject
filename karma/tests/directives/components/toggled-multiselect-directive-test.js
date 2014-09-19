@@ -72,9 +72,9 @@ describe('toggledMultiselect Directive', function() {
         expect(element.prop('tagName')).to.equal('DIV');
       });
 
-      it('should render two SELECTs, one of which are hidden by default', function() {
-        expect(element.find('select').size()).to.equal(2);
-        expect(element.find('select.ng-hide').size()).to.equal(1);
+      it('should render only one select', function() {
+        expect(element.find('select').size()).to.equal(1);
+        expect(element.find('select.ng-hide').size()).to.equal(0);
       });
 
       it('should render two OPTIONs for displayed SELECT', function() {
