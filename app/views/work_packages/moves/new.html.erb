@@ -54,9 +54,13 @@ See doc/COPYRIGHT.rdoc for more details.
                                             :with => "Form.serialize('move_form')") %></p>
 
 <p><label for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
-  <%= select_tag("new_type_id",
+  <%= select_tag "new_type_id",
                  content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(@types, "id", "name")) %>
+                 options_from_collection_for_select(@types, "id", "name"),
+                 :onchange => remote_function(:url => { :action => 'new' },
+                                              :method => :get,
+                                              :update => 'status_id',
+                                              :with => "Form.serialize('move_form')") %>
 </p>
 
 <p>
