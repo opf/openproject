@@ -51,9 +51,6 @@ angular.module('openproject.helpers')
 
       return link;
     },
-    assetPath: function(assetIdentifier) {
-      return '/assets/' + assetIdentifier;
-    },
     attachmentPath: function(attachmentId, fileName) {
       return '/attachments/' + attachmentId + '/' + fileName;
     },
