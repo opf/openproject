@@ -50,6 +50,10 @@ class WorkPackagesPage
     visit edit_work_package_path(id)
   end
 
+  def visit_copy(id)
+    visit new_work_package_move_path(id)
+  end
+
   def visit_calendar
     visit index_path + "/calendar"
   end
