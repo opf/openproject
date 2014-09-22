@@ -59,7 +59,8 @@ describe('tablePagination Directive', function () {
     it('should display the correct page range', function () {
       var range = element.find('.range');
 
-      expect(range.text()).to.equal('');
+      expect(range.text()).to.equal('(0 - 0/0)');
+      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
 
       scope.tableEntries = 11;
       scope.$apply();

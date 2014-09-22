@@ -33,7 +33,7 @@
          rel="next"
          href="">{{ pageNumber }}</a>
     </li>
-    <li ng-show="paginationOptions.page < pageNumbers[pageNumbers.length - 1]">
+    <li ng-show="totalEntries && paginationOptions.page < pageNumbers[pageNumbers.length - 1]">
       <a ng-click="showPage(paginationOptions.page + 1)"
          rel="next"
          class="pagination-next-link"
