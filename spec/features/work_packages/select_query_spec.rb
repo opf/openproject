@@ -51,7 +51,6 @@ describe 'Query selection', :type => :feature do
 
   context 'when a query is selected' do
     before do
-      work_packages_page.visit_index
       work_packages_page.select_query query
     end
 
