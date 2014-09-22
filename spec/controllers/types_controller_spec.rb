@@ -54,6 +54,7 @@ describe TypesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
+      allow(User).to receive(:current).and_return current_user
       allow(@controller).to receive(:require_login)
       allow(@controller).to receive(:check_if_login_required)
       allow(@controller).to receive(:require_admin)
