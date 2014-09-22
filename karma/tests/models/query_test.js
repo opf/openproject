@@ -47,6 +47,42 @@ describe('Query', function() {
     expect(new Query(queryData)).to.be.an('object');
   });
 
+  describe('toParams, toUpdateParams', function() {
+    beforeEach(function() {
+      query = Factory.build('Query');
+    });
+
+    context('query is dirty', function() {
+      beforeEach(function() {
+        query.id = 1;
+        query.dirty = true;
+      });
+      it("should contain accept_empty_query_fields as true", function() {
+        expect(query.toParams())
+          .to.have.property('accept_empty_query_fields')
+          .and.equal(true);
+        expect(query.toUpdateParams())
+          .to.have.property('accept_empty_query_fields')
+          .and.equal(true);
+      });
+    });
+
+    context('query is dirty', function() {
+      beforeEach(function() {
+        query.id = 1;
+        query.dirty = false;
+      });
+      it("should contain accept_empty_query_fields as true", function() {
+        expect(query.toParams())
+          .to.have.property('accept_empty_query_fields')
+          .and.equal(false);
+        expect(query.toUpdateParams())
+          .to.have.property('accept_empty_query_fields')
+          .and.equal(false);
+      });
+    });
+  });
+
   describe('adding filters', function(){
     beforeEach(function(){
       query = Factory.build('Query', {filters: []});

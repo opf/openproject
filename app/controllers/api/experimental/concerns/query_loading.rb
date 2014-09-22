@@ -47,7 +47,7 @@ module Api::Experimental::Concerns::QueryLoading
 
   def prepare_query
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    view_context.add_filter_from_params if params[:fields] || params[:f]
+    view_context.add_filter_from_params if params[:fields] || params[:f] || params[:accept_empty_query_fields]
     @query.group_by = params[:group_by] if params[:group_by].present?
     @query.sort_criteria = prepare_sort_criteria if params[:sort]
     @query.display_sums = params[:display_sums] if params[:display_sums].present?
