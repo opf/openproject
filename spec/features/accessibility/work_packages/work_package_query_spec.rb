@@ -52,6 +52,7 @@ describe 'Work package index accessibility', :type => :feature do
     # the data in the db to prepare for the next spec.
     #
     # Taking an element, that get's activated late in the page setup.
+    find("#work-packages-filter-toggle-button").click
     expect(page).to have_selector('.filter label', text: I18n.t(:label_status))
   end
 
@@ -198,8 +199,8 @@ describe 'Work package index accessibility', :type => :feature do
     let!(:another_work_package) { FactoryGirl.create(:work_package,
                                             project: project) }
     let!(:yet_another_work_package) { FactoryGirl.create(:work_package,
-                                            project: project) }   
-    before {work_packages_page.visit_index}                                        
+                                            project: project) }
+    before {work_packages_page.visit_index}
 
     context 'focus' do
       let(:first_link_selector) do
@@ -217,7 +218,7 @@ describe 'Work package index accessibility', :type => :feature do
       it 'navigates with K' do
         find("body").native.send_keys('k')
         expect(page).to have_selector(second_link_selector)
-      end      
+      end
     end
 
     context "help" do

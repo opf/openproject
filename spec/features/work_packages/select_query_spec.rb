@@ -55,6 +55,7 @@ describe 'Query selection', :type => :feature do
     end
 
     it 'should show the filter', js: true do
+      find("#work-packages-filter-toggle-button").click
       expect(work_packages_page.selected_filter(filter_name)).to have_content(i18n_filter_name)
     end
   end
