@@ -70,6 +70,21 @@ describe('tablePagination Directive', function () {
       expect(range.text()).to.equal('(1 - 10/663)');
     });
 
+    it('should display the "next" link correctly', function() {
+      scope.tableEntries = 115;
+      scope.$apply();
+      // should be 12 pages, in 10 iterations we will get to the penultimate page
+      // this also covers the case where you clink on the 9th and "next" is  hidden
+      for (var i = 0; i <= 9; i++) {
+        element.find(".pagination-next-link").click();
+        expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(false);
+      }
+
+      //on the last page now, next should be hidden
+      element.find(".pagination-next-link").click();
+      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
+    });
+
     it('should display correct number of page number links', function () {
       var numberOfPageNumberLinks = function () {
         return element.find('a[rel="next"]').size();
