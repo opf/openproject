@@ -94,6 +94,9 @@ RSpec.configure do |config|
                                end
 
     DatabaseCleaner.start
+
+    # we need a tenant object so tests won't complain too much
+    Subscribem::Account.create domain: 'example.com', owner: 'owner', namespace: 'public'
   end
 
   config.after(:each) do

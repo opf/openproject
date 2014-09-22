@@ -34,6 +34,42 @@ describe AccountController, :type => :controller do
     User.current = nil
   end
 
+  let(:private_key) do
+    # Note: This is a 1024-bit private key for fast tests.
+    # Never use anything less than 2048 bits in production.
+    OpenSSL::PKey::RSA.new(
+      '-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQCxYRj9meltCUvQeIWC8O3fBgLxD+KvTqNL70e3X68Gnlujmhrd
+63AMUaOERVs8ejFOnaaa7mrE7oR5ZjKSsJsMz556U6pjQs58IgIgCz/1mJFRJt4E
+gf8jzBm1yBvhx2u/MeqXQT1eMZC547wfuqM1TAnKLzUOAv6vVaLcBS7efwIDAQAB
+AoGBAJlKfWtk4MrfNsrR7SftCNUtf8tOXCv+fLb58fNyWHMS1cU8P627cxjiULrV
+qXRJcWUsbzgDhPft3USA4oHM6CCoLH3YSq68Z2TDejEAL/0goN1DJhpbUcGAMH8N
+QVUvslGplKL1MAZIFjRt49fAdGR9gY2ubnMk8kfxYYVY36JpAkEA4lHSnDLrEKja
+Y+LfWmp+xa3yziuvZvUvlJKI3ZzIhEX8NehY386CokcVctvBgI5+LfwPKoqvM1pw
+ScpwOf/XpQJBAMikNlVGqrO+hmf9KRzW8Na4nmZHENMLKWCFIZ35tgnwn20I7SSo
+Mkji4cy3pPWPttL1OzE7dKZnUSaEEd7p5FMCQBABj26in0NXXdKwqfFAFOUwLzrr
+lgUnFA1i67EYtIm+VV8OprJ1bYHCmz67Ug0ghsYDzKLKmid8nvJpEdTYRk0CQCxg
+XYAI7DJrHlEbph8xzvy+wpH+f9Mdsd4eM+w70a5rIOe9xK2J4e1K+QQNThfd3GLW
+SGxAKTGwwjsRlN5Hvu8CQQCVIujRZYvnJ5QcJPULNPAFUyh+y/wy0o0h3uhWuL6m
+DewvP8xDMpdAe09OFuSBCMkICczaSnRDuag8bah0RzDI
+-----END RSA PRIVATE KEY-----')
+  end
+  let(:public_key) { private_key.public_key }
+
+  before do
+    allow(Subscribem).to receive(:access_token_public_key).and_return(public_key)
+  end
+
+  let(:access_token) { JSON::JWT.new(claims).sign(private_key, :RS256).to_s }
+  let(:claims) do
+    {
+      # gives the user login rights to the current tenant's instance
+      privs: {
+        'owner' => ['openproject:login']
+      }
+    }
+  end
+
   context 'GET #omniauth_login' do
     before do
       allow(Setting).to receive(:self_registration?).and_return(true)
@@ -50,6 +86,9 @@ describe AccountController, :type => :controller do
                     email: 'foo@bar.com',
                     first_name: 'foo',
                     last_name: 'bar'
+            },
+            credentials: {
+              token: access_token
             }
           )
         end
@@ -83,7 +122,11 @@ describe AccountController, :type => :controller do
           OmniAuth::AuthHash.new(
             provider: 'google',
             uid: '123545',
-            info: { name: 'foo', email: 'foo@bar.com' }
+            info: { name: 'foo', email: 'foo@bar.com' },
+            credentials: {
+              token: access_token
+            }
+
             # first_name and last_name not set
           )
         end
@@ -158,7 +201,11 @@ describe AccountController, :type => :controller do
                     email: 'foo@bar.com',
                     first_name: 'foo',
                     last_name: 'bar'
+            },
+            credentials: {
+              token: access_token
             }
+
           )
         end
 
@@ -189,7 +236,11 @@ describe AccountController, :type => :controller do
           info: { name: 'foo',
                   last_name: 'bar',
                   email: 'foo@bar.com'
+          },
+          credentials: {
+            token: access_token
           }
+
         )
       end
 
@@ -396,7 +447,11 @@ describe AccountController, :type => :controller do
           # id is deliberately missing here to make the auth_hash invalid
           info: { name: 'foo',
                   email: 'foo@bar.com'
+          },
+          credentials: {
+            token: access_token
           }
+
         )
       end
 
@@ -433,7 +488,15 @@ describe AccountController, :type => :controller do
   end
 
   describe '#identity_url_from_omniauth' do
-    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid' } }
+    let(:omniauth_hash) {
+      {
+        provider: 'developer',
+        uid: 'veryuniqueid',
+        credentials: {
+          token: access_token
+        }
+      }
+    }
 
     it 'should return the correct identity_url' do
       result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
