@@ -40,6 +40,7 @@ describe 'my/page', :type => :view do
 
   describe 'timelog block' do
     before do
+      allow(User).to receive(:current).and_return user
       assign(:user, user)
       time_entry.spent_on = Date.today
       time_entry.save!
