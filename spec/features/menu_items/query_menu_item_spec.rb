@@ -65,7 +65,7 @@ feature 'Query menu items' do
       check 'show_in_menu'
       click_on 'Save'
 
-      expect(page).to have_text('Successful update')
+      expect(page).to have_selector('.flash', text: 'Successful update')
       expect(page).to have_selector('a', text: query.name)
     end
   end
