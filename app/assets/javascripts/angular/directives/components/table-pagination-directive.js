@@ -68,6 +68,8 @@ angular.module('openproject.uiComponents')
       function updateCurrentRangeLabel() {
         if (scope.totalEntries){
           scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
+        } else {
+          scope.currentRange = "(0 - 0/0)";
         }
       }
 
