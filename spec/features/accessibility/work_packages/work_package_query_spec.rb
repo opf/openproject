@@ -37,12 +37,17 @@ describe 'Work package index accessibility', :type => :feature do
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
 
+  def visit_index_page
+    work_packages_page.visit_index
+    # ensure the page is loaded before expecting anything
+    find('.filter-fields select option', text: /\AAssignee\Z/,
+                                         visible: false)
+  end
+
   before do
     allow(User).to receive(:current).and_return(user)
 
     work_package
-
-    work_packages_page.visit_index
   end
 
   after do
@@ -52,12 +57,14 @@ describe 'Work package index accessibility', :type => :feature do
     # the data in the db to prepare for the next spec.
     #
     # Taking an element, that get's activated late in the page setup.
-    find("#work-packages-filter-toggle-button").click
-    expect(page).to have_selector('.filter label', text: I18n.t(:label_status))
+    expect(page).to have_selector('.filter label', text: I18n.t(:label_status),
+                                                   visible: false)
   end
 
   describe 'Select all link' do
     let(:link_selector) { 'table.workpackages-table th.checkbox a' }
+
+    before { visit_index_page }
 
     describe 'Initial state', js: true do
       it { expect(page).to have_selector(link_selector) }
@@ -83,6 +90,8 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'Sort link', js: true do
+    before { visit_index_page }
+
     def click_sort_ascending_link
       expect(page).to have_selector(sort_ascending_selector)
       element = find(sort_ascending_selector)
@@ -197,10 +206,10 @@ describe 'Work package index accessibility', :type => :feature do
 
   describe 'hotkeys', js: true do
     let!(:another_work_package) { FactoryGirl.create(:work_package,
-                                            project: project) }
+                                                     project: project) }
     let!(:yet_another_work_package) { FactoryGirl.create(:work_package,
-                                            project: project) }
-    before {work_packages_page.visit_index}
+                                                     project: project) }
+    before { visit_index_page }
 
     context 'focus' do
       let(:first_link_selector) do
@@ -230,6 +239,9 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'context menus' do
+
+    before { visit_index_page }
+
     shared_examples_for 'context menu' do
       describe 'focus' do
         before do
@@ -281,11 +293,11 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'settings button', js: true do
+    before { visit_index_page }
 
     shared_examples_for 'menu setting item' do
       context 'closable by ESC and remembers focus on gear button' do
         before do
-          work_packages_page.visit_index
           find(:css, ".work-packages-settings-button").click
           anchor.click
         end
