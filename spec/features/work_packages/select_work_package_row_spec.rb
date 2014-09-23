@@ -56,6 +56,7 @@ describe 'Select work package row', :type => :feature do
     # have been answered by then.  Without this, requests still running from
     # the last spec, might expect data that has already been removed as
     # preparation for the current spec.
+    find("#work-packages-filter-toggle-button").click
     expect(page).to have_selector('.filter label', text: 'Status')
   end
 

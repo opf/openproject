@@ -49,12 +49,13 @@ angular.module('openproject.workPackages.controllers')
       AuthorisationService, UrlParamsHelper,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-
   // Setup
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
+    $scope.showFiltersOptions = false;
+
     var queryParams = $location.search().query_props;
 
     var fetchWorkPackages;
@@ -150,7 +151,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function afterQuerySetupCallback(query) {
-    $scope.showFiltersOptions = query.filters.length > 0;
+    $scope.showFiltersOptions = false;
   }
 
   function setupWorkPackagesTable(json) {

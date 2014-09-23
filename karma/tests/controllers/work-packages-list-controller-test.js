@@ -214,6 +214,7 @@ describe('WorkPackagesListController', function() {
       expect(scope.disableFilters).to.eq(false);
       expect(scope.disableNewWorkPackage).to.eq(true);
       expect(scope.query.id).to.eq(testQueries['1'].id);
+      expect(scope.showFiltersOptions).to.eq(false);
     });
   });
 
