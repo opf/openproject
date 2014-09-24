@@ -68,7 +68,8 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
-      'omniauth_direct_login_provider' => nil
+      'omniauth_direct_login_provider' => nil,
+      'omniauth_store_access_token_in_cookie' => false
     }
 
     @config = nil
