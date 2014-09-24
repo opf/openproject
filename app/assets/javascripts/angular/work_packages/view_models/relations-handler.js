@@ -90,23 +90,25 @@ angular.module('openproject.viewModels')
         var relationsId = this.relationsId;
 
         $timeout(function() {
-          var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
-          new Ajax.Autocompleter('relation_to_id-' + relationsId,
-                                 'related_issue_candidates-' + relationsId,
-                                 url,
-                                 { minChars: 1,
-                                   frequency: 0.5,
-                                   paramName: 'q',
-                                   updateElement: function(value) {
-                                     // Have to use the duplicate assignment here to update the field
-                                     // * to the user
-                                     // * to the angular scope
-                                     // Doing just one will not suffice.
-                                     angular.element('#relation_to_id-' + relationsId).val(value.id)
-                                                                                      .scope().relationToAddId = value.id;
-                                   },
-                                   parameters: 'scope=all'
-                                   });
+          if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
+            var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
+            new Ajax.Autocompleter('relation_to_id-' + relationsId,
+                                   'related_issue_candidates-' + relationsId,
+                                   url,
+                                   { minChars: 1,
+                                     frequency: 0.5,
+                                     paramName: 'q',
+                                     updateElement: function(value) {
+                                       // Have to use the duplicate assignment here to update the field
+                                       // * to the user
+                                       // * to the angular scope
+                                       // Doing just one will not suffice.
+                                       angular.element('#relation_to_id-' + relationsId).val(value.id)
+                                                                                        .scope().relationToAddId = value.id;
+                                     },
+                                     parameters: 'scope=all'
+                                     });
+          }
         });
       }
       ////////////////////////////////////////////////////////////////////
