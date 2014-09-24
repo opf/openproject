@@ -53,25 +53,25 @@ describe WorkPackages::BulkController, :type => :controller do
                                                 :view_work_packages,
                                                 :manage_subtasks]) }
   let!(:workflow) { FactoryGirl.create(:workflow, old_status: status,
-                                      new_status: status_2,
-                                      type_id: bug_type.id,
-                                      role: role) }
+                                       new_status: status_2,
+                                       type_id: bug_type.id,
+                                       role: role) }
   let!(:workflow_1) { FactoryGirl.create(:workflow, old_status: status,
-                                        new_status: status_3,
-                                        type_id: bug_type.id,
-                                        role: role) }
+                                         new_status: status_3,
+                                         type_id: bug_type.id,
+                                         role: role) }
   let(:member1_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user,
-                                      roles: [role]) }
+                                        project: project_1,
+                                        principal: user,
+                                        roles: [role]) }
   let(:member2_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user2,
-                                      roles: [role]) }
+                                        project: project_1,
+                                        principal: user2,
+                                        roles: [role]) }
   let(:member1_p2) { FactoryGirl.create(:member,
-                                      project: project_2,
-                                      principal: user,
-                                      roles: [role]) }
+                                        project: project_2,
+                                        principal: user,
+                                        roles: [role]) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
                                             assigned_to: user,
