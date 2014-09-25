@@ -132,8 +132,12 @@ describe "OpenID Connect" do
       expect(response.status).to be 302
       expect(response.location).to match /my\/first_login$/
 
-      # check that cookie is stored in the access token
-      expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+      # after_login requires the optional third context parameter
+      # remove this guard once we are on v4.1
+      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
+        # check that cookie is stored in the access token
+        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+      end
     end
   end
 
