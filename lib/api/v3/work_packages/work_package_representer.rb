@@ -191,6 +191,14 @@ module API
           } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
+        link :version do
+          {
+            href: version_path(represented.model.fixed_version),
+            type: 'text/html',
+            title: "#{represented.model.fixed_version}"
+          } if represented.model.fixed_version && @current_user.allowed_to?({controller: "versions", action: "show"}, represented.model.fixed_version.project, global: false)
+        end
+
         links :children do
           visible_children.map do |child|
             { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
