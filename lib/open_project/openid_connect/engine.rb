@@ -49,7 +49,7 @@ module OpenProject::OpenIDConnect
           # fetch the access token if it's present
           access_token = auth_hash.fetch(:credentials, {})[:token]
           # put it into a cookie
-          if access_token
+          if context && access_token
             context.send(:cookies)[:_open_project_session_access_token] = {
               value:  access_token,
               secure: secure_cookie
