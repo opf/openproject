@@ -39,6 +39,7 @@ describe CopyProjectsController, :type => :controller do
       "responsible_id"=>current_user.id,
       "project_type_id" => "",
       "homepage" => "",
+      "enabled_module_names" => ["work_package_tracking", "boards", ""],
       "is_public" => project.is_public,
       "type_ids" => project.types.collect(&:id)
     }
@@ -110,6 +111,10 @@ describe CopyProjectsController, :type => :controller do
     end
 
     it { expect(Project.count).to eq(2) }
+
+    it 'copied project should have enabled modules specified in params' do
+      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(["work_package_tracking", "boards"])
+    end
 
     it_behaves_like 'successful copy' do
       let(:source_project) { project }
