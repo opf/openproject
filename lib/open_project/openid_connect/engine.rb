@@ -37,5 +37,29 @@ module OpenProject::OpenIDConnect
         OmniAuth::OpenIDConnect::Provider.available.map { |p| p.new.to_hash }
       end
     end
+
+    config.to_prepare do
+      # set a secure cookie in production
+      secure_cookie = Rails.env.production?
+      # for changing the setting at runtime, e.g. for testing, we need to evaluate this each time
+      store_token   = -> { OpenProject::Configuration['omniauth_store_access_token_in_cookie'] }
+
+      # register an #after_login callback which sets a cookie containing the access token
+      OpenProject::OmniAuth::Authorization.after_login do |user, auth_hash, context|
+        # check the configuration
+        if store_token.call
+          # fetch the access token if it's present
+          access_token = auth_hash.fetch(:credentials, {})[:token]
+          # put it into a cookie
+          if access_token
+            context.send(:cookies)[:_open_project_session_access_token] = {
+              value:  access_token,
+              secure: secure_cookie
+            }
+          end
+        end
+      end
+    end
+
   end
 end

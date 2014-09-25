@@ -57,6 +57,9 @@ describe "OpenID Connect" do
     # Since the test is not supposed to make an actual call it is be stubbed too.
     OpenIDConnect::AccessToken.any_instance.stub(:userinfo!).and_return(
       OpenIDConnect::ResponseObject::UserInfo.new(user_info))
+
+    # enable storing the access token in a cookie
+    OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
   end
 
   describe "sign-up and login" do
@@ -128,6 +131,9 @@ describe "OpenID Connect" do
 
       expect(response.status).to be 302
       expect(response.location).to match /my\/first_login$/
+
+      # check that cookie is stored in the access token
+      expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
     end
   end
 
