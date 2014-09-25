@@ -84,7 +84,9 @@ module Concerns::OmniauthLogin
 
     fill_user_fields_from_omniauth user, auth_hash
 
-    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash, self } }
+    opts = {
+      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash, self }
+    }
 
     # Create on the fly
     register_user_according_to_setting(user, opts) do
@@ -106,7 +108,9 @@ module Concerns::OmniauthLogin
     fill_user_fields_from_omniauth(user, auth)
     user.update_attributes(permitted_params.user_register_via_omniauth)
 
-    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth, self } }
+    opts = {
+      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth, self }
+    }
     register_user_according_to_setting user, opts
   end
 
