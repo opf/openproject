@@ -1,6 +1,17 @@
 Color Variables
 ===============
 
+## OpenProject Colors
+
+```
+@colors
+
+-               $colors-black      $colors-white  -                   -
+$colors-blue    $colors-mint       $colors-lime   $colors-green-neon  $colors-green
+$colors-orange  $colors-red-bright $colors-red    $colors-yellow      $colors-purple
+-               $colors-grey-dark   $colors-grey-light    -           -
+```
+
 ## Global Color Variables
 
 ```
