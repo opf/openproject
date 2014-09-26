@@ -51,7 +51,10 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.getObjectsData = function(term, result) {
     // Note: This relies on the columns having been cached in the service so they can be instantly available.
-    result($filter('filter')($scope.availableColumnsData, {label: term}));
+    var filtered = $filter('filter')($scope.availableColumnsData, {label: term});
+        sorted = $filter('orderBy')(filtered, 'label');
+
+    return result(sorted);
   };
 
   // Data conversion for select2
