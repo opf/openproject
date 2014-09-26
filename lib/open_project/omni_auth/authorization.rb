@@ -52,7 +52,7 @@ module OpenProject
       # Signals that the given user has been logged in.
       #
       # Note: Only call if you know what you are doing.
-      def self.after_login!(user, auth_hash, context = nil)
+      def self.after_login!(user, auth_hash, context = self)
         after_login_callbacks.each do |callback|
           callback.after_login user, auth_hash, context
         end
