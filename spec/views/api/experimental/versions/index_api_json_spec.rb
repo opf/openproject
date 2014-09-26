@@ -28,12 +28,16 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/versions/index.api.rabl', :type => :view do
+describe 'api/experimental/versions/index.api.rabl', type: :view do
+  let(:project_a) { FactoryGirl.build_stubbed(:project) }
+  let(:project_b) { FactoryGirl.build_stubbed(:project) }
+  let(:version_1)   { FactoryGirl.build_stubbed(:version, project: project_a) }
+  let(:version_2)   { FactoryGirl.build_stubbed(:version, project: project_a) }
+
   before do
     params[:format] = 'json'
 
     assign(:versions, versions)
-    render
   end
 
   subject { response.body }
@@ -41,19 +45,43 @@ describe 'api/experimental/versions/index.api.rabl', :type => :view do
   describe 'with no versions available' do
     let(:versions) { [] }
 
+    before do
+      render
+    end
+
     it { is_expected.to have_json_path('versions') }
     it { is_expected.to have_json_size(0).at_path('versions') }
   end
 
-  describe 'with 2 versions available' do
-    let(:versions) { [
-      FactoryGirl.build(:version), FactoryGirl.build(:version)
-    ] }
+  describe 'with 2 versions of the project' do
+    let(:versions) { [version_1, version_2] }
+    let(:version_1_json) { { id: version_1.id, name: version_1.name }.to_json }
+    let(:version_2_json) { { id: version_2.id, name: version_2.name }.to_json }
+
+    before do
+      assign(:project, project_a)
+      render
+    end
 
     it { is_expected.to have_json_path('versions') }
     it { is_expected.to have_json_size(2).at_path('versions') }
 
     it { is_expected.to have_json_type(Object).at_path('versions/1') }
-    it { is_expected.to have_json_path('versions/1/name')            }
+    it { is_expected.to include_json(version_1_json).at_path('versions') }
+    it { is_expected.to include_json(version_2_json).at_path('versions') }
+  end
+
+  describe 'with a version that is in a different project' do
+    let(:versions)  { [version_1] }
+    let(:version_1_json) { { id: version_1.id, name: version_1.to_s_with_project }.to_json }
+
+    before do
+      assign(:project, project_b)
+      render
+    end
+
+    it { is_expected.to have_json_path('versions') }
+    it { is_expected.to have_json_size(1).at_path('versions') }
+    it { is_expected.to include_json(version_1_json).at_path('versions') }
   end
 end

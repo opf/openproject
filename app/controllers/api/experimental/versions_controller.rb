@@ -31,25 +31,21 @@ module Api
   module Experimental
 
     class VersionsController < ApplicationController
-      before_filter :find_project,
-                    :authorize
+      before_filter :find_optional_project
 
       include ::Api::Experimental::ApiController
 
       def index
-        @versions = @project.shared_versions.all
+        @versions = if @project
+                      @project.shared_versions.all
+                    else
+                      Version.visible.systemwide
+                    end
 
         respond_to do |format|
           format.api
         end
       end
-
-      private
-
-      def find_project
-        @project = Project.find(params[:project_id])
-      end
-
     end
   end
 end

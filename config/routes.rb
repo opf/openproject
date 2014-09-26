@@ -148,6 +148,7 @@ OpenProject::Application.routes.draw do
         resources :users, only: [:index]
       end
 
+      resources :versions, only: [:index]
       resources :groups, only: [:index]
       resources :roles, only: [:index]
       resources :users, only: [:index]

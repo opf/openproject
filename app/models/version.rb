@@ -54,6 +54,8 @@ class Version < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
 
+  scope :systemwide, -> { where(sharing: 'system') }
+
   safe_attributes 'name',
     'description',
     'effective_date',
