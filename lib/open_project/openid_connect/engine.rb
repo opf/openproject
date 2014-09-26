@@ -60,7 +60,9 @@ module OpenProject::OpenIDConnect
 
       # for changing the setting at runtime, e.g. for testing, we need to evaluate this each time
       def self.store_access_token?
-        OpenProject::Configuration['omniauth_store_access_token_in_cookie']
+        # TODO: we might want this to be configurable, for now we always enable it
+        # OpenProject::Configuration['omniauth_store_access_token_in_cookie']
+        true
       end
     end
 
