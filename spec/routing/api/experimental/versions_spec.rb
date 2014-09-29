@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -28,45 +29,21 @@
 
 require 'spec_helper'
 
-describe Version, :type => :model do
-
-  subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
-
-  it { is_expected.to be_valid }
-
-  it "rejects a due date that is smaller than the start date" do
-    version.start_date = '2013-05-01'
-    version.effective_date = '2012-01-01'
-
-    expect(version).not_to be_valid
-    expect(version.errors_on(:effective_date).size).to eq(1)
+describe Api::Experimental::VersionsController, type: :routing do
+  it 'should connect GET ' +
+     '/api/experimental/projects/:project_id/versions.json to versions#index' do
+    expect(get('/api/experimental/projects/blubs/versions.json'))
+      .to route_to(controller: 'api/experimental/versions',
+                   action: 'index',
+                   project_id: 'blubs',
+                   format: 'json')
   end
 
-  context 'deprecated methods' do
-    it { is_expected.to respond_to :completed_pourcent }
-    it { is_expected.to respond_to :closed_pourcent    }
-  end
-
-  describe :systemwide do
-    it 'contains the version if it is shared with all projects' do
-      version.sharing = 'system'
-      version.save!
-
-      expect(Version.systemwide.all).to match_array [version]
-    end
-
-    it 'is empty if the version is not shared' do
-      version.sharing = 'none'
-      version.save!
-
-      expect(Version.systemwide.all).to be_empty
-    end
-
-    it 'is empty if the version is shared with the project hierarchy' do
-      version.sharing = 'hierarchy'
-      version.save!
-
-      expect(Version.systemwide.all).to be_empty
-    end
+  it 'should connect GET ' +
+     '/api/experimental/versions.json to versions#index' do
+    expect(get('/api/experimental/versions.json'))
+      .to route_to(controller: 'api/experimental/versions',
+                   action: 'index',
+                   format: 'json')
   end
 end

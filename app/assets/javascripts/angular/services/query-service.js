@@ -296,7 +296,7 @@ angular.module('openproject.services')
                 retrieveAvailableValues = UserService.getUsers(projectIdentifier);
                 break;
               case 'version':
-                retrieveAvailableValues = VersionService.getProjectVersions(projectIdentifier);
+                retrieveAvailableValues = VersionService.getVersions(projectIdentifier);
                 break;
               case 'role':
                 retrieveAvailableValues = RoleService.getRoles();

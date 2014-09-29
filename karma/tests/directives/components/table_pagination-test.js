@@ -59,7 +59,8 @@ describe('tablePagination Directive', function () {
     it('should display the correct page range', function () {
       var range = element.find('.range');
 
-      expect(range.text()).to.equal('');
+      expect(range.text()).to.equal('(0 - 0/0)');
+      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
 
       scope.tableEntries = 11;
       scope.$apply();
@@ -68,6 +69,21 @@ describe('tablePagination Directive', function () {
       scope.tableEntries = 663;
       scope.$apply();
       expect(range.text()).to.equal('(1 - 10/663)');
+    });
+
+    it('should display the "next" link correctly', function() {
+      scope.tableEntries = 115;
+      scope.$apply();
+      // should be 12 pages, in 10 iterations we will get to the penultimate page
+      // this also covers the case where you clink on the 9th and "next" is  hidden
+      for (var i = 0; i <= 9; i++) {
+        element.find(".pagination-next-link").click();
+        expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(false);
+      }
+
+      //on the last page now, next should be hidden
+      element.find(".pagination-next-link").click();
+      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
     });
 
     it('should display correct number of page number links', function () {

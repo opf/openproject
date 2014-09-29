@@ -39,24 +39,75 @@ describe TypesController, :type => :controller do
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
 
-  context "with an unauthorized account" do
-    let(:current_user) { nil }
+  context 'with an unauthorized account' do
+    let(:current_user) { FactoryGirl.create(:user) }
 
-    describe "the access should be restricted" do
-      before { get 'index' }
+    before do
+      allow(User).to receive(:current).and_return(current_user)
+    end
 
-      it { expect(response.status).to eq(302) }
-      it { expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Ftypes' }
+    describe 'GET index' do
+      describe 'the access should be restricted' do
+        before { get 'index' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'GET new' do
+      describe 'the access should be restricted' do
+        before { get 'new' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'GET edit' do
+      describe 'the access should be restricted' do
+        before { get 'edit' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'POST create' do
+      describe 'the access should be restricted' do
+        before { post 'create' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'DELETE destroy' do
+      describe 'the access should be restricted' do
+        before { delete 'destroy' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'POST update' do
+      describe 'the access should be restricted' do
+        before { post 'update' }
+
+        it { expect(response.status).to eq(403) }
+      end
+    end
+
+    describe 'POST move' do
+      describe 'the access should be restricted' do
+        before { post 'move' }
+
+        it { expect(response.status).to eq(403) }
+      end
     end
   end
 
   context "with an authorized account" do
-    let(:current_user) { FactoryGirl.create(:user) }
+    let(:current_user) { FactoryGirl.create(:admin) }
 
     before do
-      allow(@controller).to receive(:require_login)
-      allow(@controller).to receive(:check_if_login_required)
-      allow(@controller).to receive(:require_admin)
+      allow(User).to receive(:current).and_return(current_user)
     end
 
     describe "GET index" do

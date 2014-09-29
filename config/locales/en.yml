@@ -280,6 +280,7 @@ en:
       wiki: "Wiki"
       wiki_page: "Wiki page"
       workflow: "Workflow"
+      work_package: "Work package"
 
   errors:
     header_invalid_fields: "There were problems with the following fields:"
