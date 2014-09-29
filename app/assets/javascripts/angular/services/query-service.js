@@ -353,6 +353,12 @@ angular.module('openproject.services')
         query.save(response.data.query);
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
+        // The starred-state does not get saved via the API. So we manually
+        // set it, if the old query was starred.
+        if (query.starred) {
+          QueryService.starQuery();
+        }
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
