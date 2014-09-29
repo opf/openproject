@@ -27,10 +27,11 @@
 //++
 
 describe('workPackageTotalSums Directive', function() {
-    var compile, element, rootScope, scope;
+    var compile, element, rootScope, scope, stateParams = {};
 
     beforeEach(angular.mock.module('openproject.workPackages.directives',
                                    'openproject.models',
+                                   'openproject.layout',
                                    'openproject.services'));
 
     beforeEach(module('openproject.api', 'templates', function($provide) {
@@ -38,6 +39,7 @@ describe('workPackageTotalSums Directive', function() {
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+      $provide.constant('$stateParams', stateParams);
       $provide.constant('ConfigurationService', configurationService);
     }));
 
