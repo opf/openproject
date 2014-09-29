@@ -112,23 +112,29 @@ table.workpackages-table
       border-bottom: 1px solid #dddddd
       &:hover
         background: #e4f7fb
-    tr td
+
+    td
+      min-width: 100px
+      max-width: 300px
+      overflow:  hidden
+      text-overflow: ellipsis
       text-align: left
       line-height: 34px
+
       &.icon-table
         font-size: 20px
       &.checkbox
+        min-width: 0
         width: 20px
+      &.id
+        min-width: 0
+        width: 50px
       &.info
+        min-width: 0
         width: 20px
         a
           text-decoration: none
           color: $global_font_color
-
-    td
-      max-width: 300px
-      overflow:  hidden
-      text-overflow: ellipsis
 
     p
       padding: 0 8px
