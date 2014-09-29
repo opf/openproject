@@ -36,6 +36,7 @@
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
+require 'subscribem/test_helper'
 
 # json-spec is used to specifiy our json-apis
 require "json_spec/cucumber"
@@ -60,7 +61,7 @@ Capybara.configure do |config|
     config.visible_text_only = true
     # Set App host to not contain subdomain for multitenancy.
     # Multitenancy would try to choose another schema when it finds a subdomain.
-    config.app_host = "http://example.org"
+    config.app_host = "http://tenant1.example.org"
 end
 
 # By default, any exception happening in your Rails application will bubble up
@@ -123,6 +124,7 @@ end
 
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
 Before do |scenario|
+  Subscribem.ensure_tenant('tenant1')
   page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
 end
 
