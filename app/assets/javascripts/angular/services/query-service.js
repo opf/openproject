@@ -45,7 +45,10 @@ angular.module('openproject.services')
   'ProjectService',
   'WorkPackagesTableHelper',
   'I18n',
-  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
+  'queryMenuItemFactory',
+  '$rootScope',
+  'QUERY_MENU_ITEM_TYPE',
+  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
@@ -363,7 +366,32 @@ angular.module('openproject.services')
       });
     },
 
-    toggleQueryStarred: function() {
+    getQueryPath: function(query) {
+      if (query.project_id) {
+        return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      } else {
+        return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      }
+    },
+
+    addOrRemoveMenuItem: function(query) {
+      if (!query) return;
+
+      if(query.starred) {
+        queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
+        $rootScope.$broadcast('$stateChangeSuccess', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      } else {
+        $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      }
+    },
+
+    toggleQueryStarred: function(query) {
       if(query.starred) {
         return QueryService.unstarQuery();
       } else {
@@ -377,6 +405,7 @@ angular.module('openproject.services')
 
       var success = function(response){
         theQuery.star();
+        QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
       };
 
@@ -399,6 +428,7 @@ angular.module('openproject.services')
 
       return QueryService.doPatch(url, function(response){
         theQuery.unstar();
+        QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
       });
     },

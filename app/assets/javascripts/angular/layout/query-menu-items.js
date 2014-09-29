@@ -44,8 +44,7 @@ angular.module('openproject.layout')
   '$animate',
   '$timeout',
   'QUERY_MENU_ITEM_TYPE',
-  'QueryService',
-  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE, QueryService) {
+  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -53,7 +52,7 @@ angular.module('openproject.layout')
       scope.queryId = scope.objectId || attrs.objectId;
 
       function setActiveState() {
-        element.toggleClass('selected', (scope.queryId || null) === $stateParams.query_id);
+        element.toggleClass('selected', String(scope.queryId || null) === String($stateParams.query_id));
       }
       $timeout(setActiveState);
       scope.$on('$stateChangeSuccess', setActiveState);
@@ -72,10 +71,7 @@ angular.module('openproject.layout')
 
       scope.$on('openproject.layout.renameQueryMenuItem', function(event, itemData) {
         if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.queryId === scope.queryId) {
-          QueryService.updateHighlightName()
-          .then(function() {
-            element.html(itemData.queryName);
-          });
+          element.html(itemData.queryName);
         }
       });
     }
