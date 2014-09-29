@@ -75,7 +75,6 @@ table.workpackages-table
 
   thead
     tr
-      border-bottom: 1px solid #dddddd
       &:hover
         background: none
     th
@@ -83,7 +82,8 @@ table.workpackages-table
       font-size: 14px
       text-align: left
       line-height: 34px
-      padding: 0 8px
+      padding: 0
+
       &.icon-table
         font-size: 20px
       &.active-column
@@ -146,9 +146,14 @@ table.workpackages-table
   .sort-header-outer
     position:     absolute
     top:          0
+    padding:      0 8px
     line-height:  $work-packages-table--header-height
-    // hack to deal with overlaps
-    background:   white
+    overflow:     hidden
+    z-index:      1
+
+    &:hover,
+    &.hover
+      background:   #f8f8f8
 
   .sort-header
     white-space: nowrap
@@ -164,6 +169,15 @@ table.workpackages-table
     & > .dropdown-indicator
       width: 1em
       text-align: right
+
+.work-packages-table--header-background
+  position:     absolute
+  top:          0
+  width:        100%
+  height:       $work-packages-table--header-height
+  background:   white
+  border-bottom: 1px solid #dddddd
+  z-index:      0
 
 .work-packages-table--footer-background
   position:     absolute
