@@ -39,10 +39,12 @@ $work-packages-table--footer-height: 34px
   position:     relative
   height:       100%
   padding-top:    $work-packages-table--header-height
-  padding-bottom: $work-packages-table--footer-height
   overflow:
     x: auto
     y: hidden
+
+  &.-with-footer
+    padding-bottom: $work-packages-table--footer-height
 
 .work-packages-table--container-inner
   height:       100%
@@ -71,54 +73,68 @@ table.workpackages-table
     &.hover
       background:   #f8f8f8
 
-  thead th
-    text-transform: uppercase
-    font-size: 14px
-    text-align: left
-    line-height: 34px
-    padding: 0 8px
-    &.icon-table
-      font-size: 20px
-    &.active-column
-      background: #f8f8f8
-    a
-      text-decoration: none
-      color: $global_font_color
-      &:hover, &:active
-        text-decoration: none
-        color: $global_font_color
-  thead tr
-    border-bottom: 1px solid #dddddd
-    &:hover
-      background: none
-
-  tr
-    border-bottom: 1px solid #dddddd
-    &:hover
-      background: #e4f7fb
-  tr td
-    text-align: left
-    line-height: 34px
-    &.icon-table
-      font-size: 20px
-    &.checkbox
-      width: 20px
-    &.info
-      width: 20px
+  thead
+    tr
+      border-bottom: 1px solid #dddddd
+      &:hover
+        background: none
+    th
+      text-transform: uppercase
+      font-size: 14px
+      text-align: left
+      line-height: 34px
+      padding: 0 8px
+      &.icon-table
+        font-size: 20px
+      &.active-column
+        background: #f8f8f8
       a
         text-decoration: none
         color: $global_font_color
+        &:hover, &:active
+          text-decoration: none
+          color: $global_font_color
 
-  td
-    max-width: 300px
-    overflow:  hidden
-    text-overflow: ellipsis
+  tfoot
+    tr
+      border:
+        top:    0
+        bottom: 0
+      height:   0
+    td
+      height:   0
+      padding:
+        top:    0
+        bottom: 0
 
-  p
-    padding: 0 8px
-    margin: 0
-  p:hover
-    background: #fff598
+  tbody
+    tr
+      border-bottom: 1px solid #dddddd
+      &:hover
+        background: #e4f7fb
+    tr td
+      text-align: left
+      line-height: 34px
+      &.icon-table
+        font-size: 20px
+      &.checkbox
+        width: 20px
+      &.info
+        width: 20px
+        a
+          text-decoration: none
+          color: $global_font_color
+
+    td
+      max-width: 300px
+      overflow:  hidden
+      text-overflow: ellipsis
+
+    p
+      padding: 0 8px
+      margin: 0
+    p:hover
+      background: #fff598
 
   .work-packages-table--footer-outer
     position:     absolute
