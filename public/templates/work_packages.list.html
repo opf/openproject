@@ -103,7 +103,7 @@
     <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': cannot('query', 'delete')}">
       <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
     </li>
-    <li><a href ng-click="showExportModal()" ng-class="{'inactive': cannot('work_package', 'export')}">
+    <li><a href ng-click="showExportModal($event)" ng-class="{'inactive': cannot('work_package', 'export')}">
       <i class="icon-action-menu icon-export"></i>{{ I18n.t('js.toolbar.settings.export') }}</a>
     </li>
     <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': (cannot('query', 'publicize') && cannot('query', 'star'))}">
