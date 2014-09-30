@@ -91,10 +91,11 @@ angular.module('openproject.workPackages.directives')
         }
       }
 
-      function setHeaderWidths() {
-        var headers = element.find('.sort-header-outer,' +
-                                   '.work-packages-table--header-outer');
-        headers.each(function() {
+      function setHeaderFooterWidths() {
+        var headersFooters = element.find('.sort-header-outer,' +
+                                   '.work-packages-table--header-outer,' +
+                                   '.work-packages-table--footer-outer');
+        headersFooters.each(function() {
           var parentWidth = angular.element(this).parent().width();
           angular.element(this).css('width', parentWidth + 'px');
         });
@@ -102,7 +103,7 @@ angular.module('openproject.workPackages.directives')
 
       var setTableWidths = _.debounce(function() {
         setTableContainerWidths();
-        setHeaderWidths();
+        setHeaderFooterWidths();
       }, 50);
 
       $timeout(setTableWidths);
