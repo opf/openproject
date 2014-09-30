@@ -74,12 +74,12 @@ angular.module('openproject.workPackages.directives')
         scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
       });
 
-      function setHeaderWidths() {
+      var setHeaderWidths = _.debounce(function() {
         element.find('.sort-header-outer, .work-packages-table--header-outer').each(function() {
           var parentWidth = angular.element(this).parent().width();
           angular.element(this).css('width', parentWidth + 'px');
         });
-      }
+      }, 50);
 
       $timeout(setHeaderWidths);
       angular.element($window).on('resize', setHeaderWidths);
