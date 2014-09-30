@@ -167,6 +167,7 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'rails-erd', '~> 1.1'
 end
 
 group :development, :test do

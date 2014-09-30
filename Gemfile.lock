@@ -112,6 +112,7 @@ GEM
       capybara (>= 1.0, < 3)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
+    choice (0.1.6)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -289,6 +290,11 @@ GEM
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
+    rails-erd (1.1.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      choice (~> 0.1.6)
+      ruby-graphviz (~> 1.0.4)
     rails_autolink (1.1.0)
       rails (> 3.1)
     railties (3.2.21)
@@ -343,6 +349,7 @@ GEM
       activesupport (>= 3.0.0)
       i18n
       iso8601
+    ruby-graphviz (1.0.9)
     ruby-prof (0.13.0)
     ruby-progressbar (1.2.0)
     rubytree (0.8.3)
@@ -465,6 +472,7 @@ DEPENDENCIES
   rack_session_access
   rails (~> 3.2.21)
   rails-dev-tweaks (~> 0.6.1)
+  rails-erd (~> 1.1)
   rails_autolink
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
