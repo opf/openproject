@@ -83,6 +83,7 @@ angular.module('openproject.workPackages.directives')
 
       $timeout(setHeaderWidths);
       angular.element($window).on('resize', setHeaderWidths);
+      scope.$on('$stateChangeSuccess', setHeaderWidths);
 
       scope.$watchCollection('columns', function() {
         // force Browser rerender
