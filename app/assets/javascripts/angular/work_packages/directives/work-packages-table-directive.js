@@ -84,6 +84,19 @@ angular.module('openproject.workPackages.directives')
       $timeout(setHeaderWidths);
       angular.element($window).on('resize', setHeaderWidths);
 
+      scope.$watchCollection('columns', function() {
+        // force Browser rerender
+        element.hide().show(0);
+
+        angular.element($window).trigger('resize');
+      });
+      scope.$watchCollection('rows', function() {
+        // force Browser rerender
+        element.hide().show(0);
+
+        angular.element($window).trigger('resize');
+      });
+
       element.on('hover', 'th', function() {
         element.find('col:eq('+ jQuery(this).index() +')').toggleClass('hover');
       });
