@@ -37,14 +37,20 @@ describe WorkPackages::AutoCompletesController, :type => :controller do
                                     project: project,
                                     principal: user,
                                     roles: [role]) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            subject: "Can't print recipes",
-                                            project: project) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            subject: "Error 281 when updating a recipe",
-                                            project: project) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            project: project) }
+  let(:work_package_1) do
+    FactoryGirl.create(:work_package, subject: "Can't print recipes",
+                                      project: project)
+  end
+
+  let(:work_package_2) do
+    FactoryGirl.create(:work_package, subject: 'Error when updating a recipe',
+                                      project: project)
+  end
+
+  let(:work_package_3) do
+    FactoryGirl.create(:work_package, subject: 'Lorem ipsum',
+                                      project: project)
+  end
 
   before do
     member
@@ -170,8 +176,10 @@ describe WorkPackages::AutoCompletesController, :type => :controller do
                                           project: project_2,
                                           principal: user,
                                           roles: [role]) }
-      let(:work_package_4) { FactoryGirl.create(:work_package,
-                                                project: project_2) }
+      let(:work_package_4) do
+        FactoryGirl.create(:work_package, subject: 'Foo Bar Baz',
+                                          project: project_2)
+      end
 
       before do
         member_2
