@@ -197,13 +197,12 @@ angular.module('openproject.services')
 
       if (defaultHandling) {
         promise.success(function(data, status) {
-                // TODO wire up to API and processs API response
+                // TODO wire up to API and process API response
                 $rootScope.$emit('flashMessage', {
                   isError: false,
                   text: I18n.t('js.work_packages.message_successful_bulk_delete')
                 });
-
-                WorkPackagesTableService.removeRowsById(ids);
+                $rootScope.$emit('workPackagesRefreshRequired');
               })
               .error(function(data, status) {
                 // TODO wire up to API and processs API response
