@@ -1,0 +1,108 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# This capsulates permissions a user has for a work package.  It caches based
+# on the work package's project and is thus optimized for the context menu.
+#
+# This is no conern but it was placed here so that it will be removed together
+# with the rest of the experimental API.
+
+class QueryPolicy < BasePolicy
+  private
+
+  def cache
+    @cache ||= Hash.new do |hash, query|
+      hash[query] = {
+        update: update_allowed?(query),
+#          log_time: log_time_allowed?(work_package),
+#          move: move_allowed?(work_package),
+#          copy: move_allowed?(work_package),
+#          duplicate: copy_allowed?(work_package), # duplicating is another form of copying
+#          delete: delete_allowed?(work_package)
+      }
+    end
+  end
+
+  def update_allowed?(query)
+    @update_private_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:save_queries, project)
+    end
+
+    @update_public_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:manage_public_queries, project)
+    end
+
+    query.persisted? &&
+    (@update_private_cache[query.project] && query.user == user ||
+     @update_public_cache[query.project] && query.is_public)
+  end
+
+  def log_time_allowed?(work_package)
+    @log_time_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:log_time, project)
+    end
+
+    @log_time_cache[work_package.project]
+  end
+
+  def move_allowed?(work_package)
+    @move_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:move_work_packages, project)
+    end
+
+    @move_cache[work_package.project]
+  end
+
+  def copy_allowed?(work_package)
+    type_active_in_project?(work_package) && add_allowed?(work_package)
+  end
+
+  def delete_allowed?(work_package)
+    @delete_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:delete_work_packages, project)
+    end
+
+    @delete_cache[work_package.project]
+  end
+
+  def add_allowed?(work_package)
+    @add_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:add_work_packages, project)
+    end
+
+    @add_cache[work_package.project]
+  end
+
+  def type_active_in_project?(work_package)
+    @type_active_cache ||= Hash.new do |hash, project|
+      hash[project] = project.types.pluck(:id)
+    end
+
+    @type_active_cache[work_package.project].include?(work_package.type_id)
+  end
+end

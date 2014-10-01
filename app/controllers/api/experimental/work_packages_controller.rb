@@ -85,7 +85,7 @@ module Api
       private
 
       def setup_context_menu_actions
-        @can = Api::Experimental::Concerns::Can.new(User.current)
+        @can = WorkPackagePolicy.new(User.current)
       end
 
       def columns_total_sums(column_names, work_packages)

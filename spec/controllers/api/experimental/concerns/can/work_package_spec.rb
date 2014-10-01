@@ -26,9 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::Concerns::Can, type: :controller do
+describe Api::Experimental::Concerns::Can::WorkPackage, type: :controller do
   let(:user)         { FactoryGirl.build_stubbed(:user) }
   let(:project)      { FactoryGirl.build_stubbed(:project) }
   let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
