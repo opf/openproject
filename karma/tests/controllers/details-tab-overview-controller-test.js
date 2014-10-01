@@ -299,17 +299,42 @@ describe('DetailsTabOverviewController', function() {
       describe('is "version"', function() {
         beforeEach(function() {
           workPackage.props.versionName = 'Test version';
-          workPackage.props.versionId = 1
+          workPackage.props.versionId = 1;
+          workPackage.links = workPackage.links || {};
           buildController();
         });
 
-        it('should return the version as a link with correct href', function() {
-          expect(fetchPresentPropertiesWithName('versionName')[0].value.href).to.equal('/versions/1');
+        context('versionViewable is false or missing', function() {
+          beforeEach(function() {
+            buildController();
+          });
+
+          it ('should set the correct viewable property', function() {
+            expect(fetchPresentPropertiesWithName('versionName')[0].value.viewable).to.equal(false);
+          });
         });
 
-        it('should return the version as a link with correct title', function() {
-          expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
+        context('versionViewable is true', function() {
+          beforeEach(function() {
+            workPackage.links.version = {
+              href: "/versions/1"
+            };
+            buildController();
+          });
+
+          it('should return the version as a link with correct href', function() {
+            expect(fetchPresentPropertiesWithName('versionName')[0].value.href).to.equal('/versions/1');
+          });
+
+          it('should return the version as a link with correct title', function() {
+            expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
+          });
+
+          it ('should set the correct viewable property', function() {
+            expect(fetchPresentPropertiesWithName('versionName')[0].value.viewable).to.equal(true);
+          });
         });
+
       });
 
       describe('is "user"', function() {

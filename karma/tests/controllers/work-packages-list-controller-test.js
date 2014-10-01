@@ -33,13 +33,15 @@ describe('WorkPackagesListController', function() {
      testProjectService, testWorkPackageService, testQueryService, testPaginationService;
   var testQueries;
   var buildController;
+  var stateParams = {};
 
-  beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.services'));
+  beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout', 'openproject.services'));
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
   beforeEach(inject(function($rootScope, $controller, $timeout) {

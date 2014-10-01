@@ -29,12 +29,14 @@
 /*jshint expr: true*/
 
 describe('workPackageContextMenu', function() {
-  var container, contextMenu, $rootScope;
+  var container, contextMenu, $rootScope, stateParams;
+  stateParams = {};
 
   beforeEach(module('ng-context-menu',
                     'openproject.api',
                     'openproject.workPackages',
                     'openproject.models',
+                    'openproject.layout',
                     'openproject.services',
                     'templates'));
 
@@ -44,6 +46,7 @@ describe('workPackageContextMenu', function() {
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('ConfigurationService', configurationService);
+    $provide.constant('$stateParams', stateParams);
   }));
 
   beforeEach(function() {

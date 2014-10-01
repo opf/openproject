@@ -39,7 +39,7 @@ module Api
 
       # before filters are inherited from TypesController
       skip_before_filter :require_admin, only: [:index]
-      before_filter :require_login, only: [:index]
+      before_filter :find_optional_project, only: [:index]
 
       accept_key_auth :index, :show
 

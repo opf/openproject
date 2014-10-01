@@ -135,13 +135,6 @@ angular.module('openproject.workPackages.services')
         WorkPackagesTableService.removeRow(row);
       });
     },
-    removeRowsById: function(ids) {
-      angular.forEach(this.getRows(), function(row) {
-        if (ids.indexOf(row.object.id) >= 0) {
-          WorkPackagesTableService.removeRow(row);
-        }
-      });
-    },
 
     sortBy: function(columnName, direction) {
       QueryService.getQuery().sortation.addSortElement({

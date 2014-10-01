@@ -27,12 +27,13 @@
 //++
 
 describe('Work Package Relations Directive', function() {
-  var I18n, PathHelper, compile, element, scope, ChildrenRelationsHandler;
+  var I18n, PathHelper, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.workPackages.tabs',
                                  'openproject.api',
                                  'openproject.helpers',
                                  'openproject.models',
+                                 'openproject.layout',
                                  'openproject.services',
                                  'openproject.viewModels',
                                  'ngSanitize'));
@@ -42,6 +43,7 @@ describe('Work Package Relations Directive', function() {
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 

@@ -28,11 +28,16 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementTypesController, :type => :controller do
-  let (:current_user) { FactoryGirl.create(:admin) }
+describe Api::V2::PlanningElementTypesController, type: :controller do
+  let (:admin) { FactoryGirl.create(:admin) }
+  let(:project) { FactoryGirl.create(:project, is_public: false, no_types: true) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:non_admin_user) do
+    FactoryGirl.create(:user, member_in_project: project,
+                              member_through_role: role)
+  end
 
   before do
-    allow(@controller).to receive(:require_login)
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -40,11 +45,12 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
     project.types << type
   end
 
-
   describe 'with project scope' do
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
     describe 'index.xml' do
+      let(:current_user) { non_admin_user }
+      let(:permission) { :view_work_packages }
+
       def fetch
         get 'index', :project_id => project.identifier, :format => 'xml'
       end
@@ -94,7 +100,7 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
 
         it 'assigns an array with all planning element types' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          expect(assigns(:types)).to eq(@all_types)
+          expect(assigns(:types).to_set).to eq(@all_types.to_set)
         end
 
         it 'renders the index template' do
@@ -105,13 +111,15 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
     end
 
     describe 'show.xml' do
+      let(:current_user) { admin }
+
       def fetch
         @available_type = FactoryGirl.create(:type, :id => '1337')
         enable_type(project, @available_type)
 
         get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
       end
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action with require_admin'
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -164,10 +172,13 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
 
   describe 'without project scope' do
     describe 'index.xml' do
+      let(:current_user) { non_admin_user }
+      let(:permission) { :view_work_packages }
+
       def fetch
         get 'index', :format => 'xml'
       end
-      it_should_behave_like "a controller action with unrestricted access"
+      it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'with no planning element types available' do
         it 'assigns an empty planning_element_types array' do
@@ -192,7 +203,7 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
 
         it 'assigns an array with all planning element types' do
           get 'index', :format => 'xml'
-          expect(assigns(:types)).to eq(@created_planning_element_types)
+          expect(assigns(:types).to_set).to eq(@created_planning_element_types.to_set)
         end
 
         it 'renders the index template' do
@@ -203,6 +214,8 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
     end
 
     describe 'show.xml' do
+      let(:current_user) { admin }
+
       describe 'with unknown planning element type' do
         if false # would like to write it this way
           it 'returns status code 404' do
@@ -234,7 +247,7 @@ describe Api::V2::PlanningElementTypesController, :type => :controller do
         def fetch
           get 'show', :id => '1337', :format => 'xml'
         end
-        it_should_behave_like "a controller action with unrestricted access"
+        it_should_behave_like 'a controller action with require_admin'
 
         it 'assigns the available planning element type' do
           get 'show', :id => '1337', :format => 'xml'
