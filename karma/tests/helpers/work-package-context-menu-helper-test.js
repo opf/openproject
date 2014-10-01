@@ -31,14 +31,16 @@
 describe('WorkPackageContextMenuHelper', function() {
   var PERMITTED_CONTEXT_MENU_ACTIONS = ['edit', 'log_time', 'update', 'move'];
   var WorkPackageContextMenuHelper;
+  var stateParams = {};
 
-  beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api', 'openproject.services'));
+  beforeEach(module('openproject.workPackages.helpers', 'openproject.models', 'openproject.api', 'openproject.layout','openproject.services'));
 
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 

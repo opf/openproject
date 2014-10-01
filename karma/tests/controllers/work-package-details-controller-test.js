@@ -31,6 +31,7 @@
 describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
+  var stateParams = {};
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
@@ -93,7 +94,7 @@ describe('WorkPackageDetailsController', function() {
     return workPackage;
   }
 
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
+  beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
@@ -106,6 +107,7 @@ describe('WorkPackageDetailsController', function() {
   beforeEach(module('templates', function($provide) {
     var state = { go: function() { return false; } };
     $provide.value('$state', state);
+    $provide.constant('$stateParams', stateParams);
   }));
 
   beforeEach(inject(function($rootScope, $controller, $timeout) {

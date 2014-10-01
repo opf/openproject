@@ -29,12 +29,14 @@
 /*jshint expr: true*/
 
 describe('workPackageDetailsToolbar', function() {
-  var I18n, HookService, compile, scope, element;
+  var I18n, HookService, compile, scope, element, stateParams;
   var html = "<work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>";
+  stateParams = {};
 
   beforeEach(module('ui.router',
                     'openproject.api',
                     'openproject.models',
+                    'openproject.layout',
                     'openproject.services',
                     'openproject.uiComponents',
                     'openproject.workPackages.directives',
@@ -44,6 +46,7 @@ describe('workPackageDetailsToolbar', function() {
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 
