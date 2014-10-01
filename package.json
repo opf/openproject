@@ -32,7 +32,7 @@
     "bower": "~1.3.8"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "test": "$(npm bin)/karma start --single-run --browsers Firefox,PhantomJS",
+    "postinstall": "$(npm bin)/bower install"
   }
 }
