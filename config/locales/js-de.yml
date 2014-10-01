@@ -142,7 +142,7 @@ de:
     label_sum_for: "Summe für"
     label_this_week: "aktuelle Woche"
     label_today: "heute"
-    label_total_progress: "Gesamtfortschritt"
+    label_total_progress: "%{percent}% Gesamtfortschritt"
     label_visible_for_others: "Seite sichtbar für andere Nutzer"
     label_work_package: "Arbeitspaket"
     label_watch_work_package: "Arbeitspaket beobachten"
