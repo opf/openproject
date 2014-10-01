@@ -1,4 +1,3 @@
-
 angular.module('openproject.api')
 
 .factory('HALAPIResource', ['$q', 'PathHelper', function HALAPIResource($q, PathHelper) {

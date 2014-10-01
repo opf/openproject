@@ -130,7 +130,7 @@ angular.module('openproject.viewModels')
         handler.type = "child";
         handler.applyCustomExtensions = undefined;
 
-        handler.canAddRelation = function() { return !!this.workPackage.links.addChild }; 
+        handler.canAddRelation = function() { return !!this.workPackage.links.addChild };
         handler.canDeleteRelation = function() {
           return !!this.workPackage.links.update;
         };
