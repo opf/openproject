@@ -1,0 +1,94 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div id="admin-index">
+  <%= render :partial => 'no_data' if @no_configuration_data %>
+</div>
+
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
+<% end %>
+
+<% html_title(l(:label_administration), l(:label_project_plural)) -%>
+
+<h2><%=l(:label_project_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<%= form_tag({}, :method => :get) do %>
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
+<label for='status'><%= Project.human_attribute_name(:status) %> :</label>
+<%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+<label for='name'><%= Project.model_name.human %>:</label>
+<%= text_field_tag 'name', params[:name], :size => 30 %>
+<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-undo' %>
+</fieldset>
+<% end %>
+&nbsp;
+
+<div class="autoscroll">
+<table class="list">
+  <thead><tr>
+    <th><%=  Project.model_name.human %></th>
+    <th><%=  Project.human_attribute_name(:is_public) %></th>
+    <th><%=  Project.human_attribute_name(:created_on) %></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% project_tree(@projects) do |project, level| %>
+  <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
+  <td align="center"><%= checked_image project.is_public? %></td>
+  <td align="center"><%= format_date(project.created_on) %></td>
+  <td class="buttons">
+    <%= link_to(l(:button_archive),
+                archive_project_path(project, :status => params[:status]),
+                :confirm => l(:text_are_you_sure),
+                :method => :put,
+                :class => 'icon icon-locked') if project.active? %>
+
+    <%= link_to(l(:button_unarchive),
+                unarchive_project_path(project, :status => params[:status]),
+                :method => :put,
+                :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+
+    <%= link_to(l(:button_copy),
+                copy_from_project_path(project, :admin),
+                :class => 'icon icon-copy') %>
+
+    <%= link_to(l(:button_delete),
+                confirm_destroy_project_path(project),
+                :class => 'icon icon-delete') %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+</div>

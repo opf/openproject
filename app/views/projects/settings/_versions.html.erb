@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if @project.shared_versions.any? %>
+<table class="list versions">
+  <thead><tr>
+    <th><%= Version.model_name.human %></th>
+    <th><%= Version.human_attribute_name(:start_date) %></th>
+    <th><%= Version.human_attribute_name(:effective_date) %></th>
+    <th><%= Version.human_attribute_name(:description) %></th>
+    <th><%= Version.human_attribute_name(:status) %></th>
+    <th><%= Version.human_attribute_name(:sharing) %></th>
+    <th><%= WikiPage.model_name.human %></th>
+    <th style="width:15%"></th>
+    </tr></thead>
+  <tbody>
+<% for version in @project.shared_versions.sort %>
+    <tr class="version <%= cycle 'odd', 'even' %>  <%= 'shared' if version.project != @project %>">
+    <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project%>"><%= link_to_version version %></td>
+    <td class="date"><%= format_date(version.start_date) %></td>
+    <td class="date"><%= format_date(version.effective_date) %></td>
+    <td class="description"><%=h version.description %></td>
+    <td class="status"><%= l("version_status_#{version.status}") %></td>
+    <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
+    <td><%= link_to_if_authorized(h(version.wiki_page_title), {:controller => '/wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
+    <td class="buttons">
+      <% if version.project == @project %>
+        <%= link_to_if_authorized l(:button_edit),   {:controller => '/versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
+        <%= link_to_if_authorized l(:button_delete), {:controller => '/versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
+      <% end %>
+    </td>
+    </tr>
+<% end; reset_cycle %>
+    </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<div class="contextual">
+<% if @project.versions.any? %>
+  <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
+<% end %>
+</div>
+
+<p><%= link_to_if_authorized l(:label_version_new), :controller => '/versions', :action => 'new', :project_id => @project %></p>

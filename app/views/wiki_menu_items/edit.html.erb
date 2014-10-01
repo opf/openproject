@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for "wiki_menu_item", :object => @wiki_menu_item %>
+
+<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}.push(@page_title)) %>
+
+<h2><%= l(:wiki_menu_item_for, :title => @page_title) %></h2>
+  <%= form_for @wiki_menu_item, :html => {:id => 'wiki_menu_item_form', :class => 'menu-item-form', :method => :put}, :url => wiki_menu_item_path(@project, @page) do |form| %>
+  <p class="item-name">
+    <%= form.label :name, l(:label_menu_item_name), {:id => 'item-name'} %>
+    <% if @wiki_menu_item.name.nil? %>
+      <%= form.text_field :name, :size => 20, :value => @page_title.gsub("_"," ") %>
+    <% else %>
+      <%= form.text_field :name, :size => 20 %>
+    <% end %>
+  </p>
+  </br>
+  <div style="clear: both;"></div>
+  <fieldset class="box" id="wiki_menu_item_setting"><legend><%=l(:menu_item_setting)%></legend>
+    <p>
+      <%= form.radio_button 'setting', :no_item %>
+      <%= form.label 'setting_no_item', l(:label_wiki_dont_show_menu_item) %>
+    </p>
+    <p class="main_item">
+      <%= form.radio_button 'setting', :main_item %>
+      <%= form.label 'setting_main_item', l(:label_wiki_show_menu_item) %>
+    </p>
+    <p class="wiki_menu_item_optional_links">
+      <%= form.check_box 'new_wiki_page' %>
+      <%= form.label 'new_wiki_page', l(:label_wiki_show_new_page_link) %>
+
+      </br>
+
+      <%= form.check_box 'index_page' %>
+      <%= form.label 'index_page', l(:label_wiki_show_index_page_link) %>
+    </p>
+    <p>
+      <% disabled = @parent_menu_item_options.empty? %>
+      <%= form.radio_button 'setting', :sub_item, :disabled => disabled %>
+      <%= form.label 'setting_sub_item', l(:label_wiki_show_submenu_item), {:id => 'with-select'} %>
+      <%= select_tag "parent_wiki_menu_item", options_for_select(@parent_menu_item_options, @selected_parent_menu_item_id), :disabled => disabled %>
+    </p>
+  </fieldset>
+  <p>
+    <%= submit_tag l(:button_save), :method => :post %>
+    <%= link_to l(:button_cancel), {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title} %>
+  </p>
+  <% end %>

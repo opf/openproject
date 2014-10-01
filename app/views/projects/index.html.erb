@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
+<% end %>
+
+<% content_for :action_menu_specific do %>
+  <%= link_to(l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
+  <%= link_to(l(:label_work_package_view_all), { controller: :work_packages }) + ' |' if User.current.allowed_to?(:view_work_packages, nil, :global => true) %>
+  <%= link_to(l(:label_overall_spent_time), { :controller => '/time_entries' }) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
+  <%= link_to(l(:label_news_view_all), { :controller => '/news' }) + ' |' if User.current.allowed_to?(:view_news, nil, :global => true) %>
+  <%= link_to l(:label_overall_activity), { :controller => '/activities', :action => 'index' }%>
+<% end %>
+
+<% html_title(l(:label_project_plural)) -%>
+
+<h2><%=l(:label_project_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<div class="wiki">
+  <%= format_text Setting.welcome_text %>
+</div>
+
+<% if User.current.logged? %>
+  <p style="float:right;">
+    <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
+  </p>
+<% end %>
+
+<%= render_project_hierarchy(@projects)%>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+<% end %>

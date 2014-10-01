@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= render :partial => 'action_menu' %>
+
+<% html_title l(:label_administration), l(:label_workflow_plural) -%>
+
+<h2><%= l(:label_workflow_plural) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<% if @workflow_counts.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<div class="autoscroll">
+<table class="list">
+<thead>
+    <tr>
+    <th></th>
+    <% @workflow_counts.first.last.each do |role, count| %>
+    <th>
+        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+    </th>
+
+    <% end %>
+    </tr>
+</thead>
+<tbody>
+<% @workflow_counts.each do |type, roles| -%>
+<tr class="<%= cycle('odd', 'even') %>">
+  <td><%= h type %></td>
+  <% roles.each do |role, count| -%>
+    <td align="center">
+      <%= link_to((count > 0 ? count : image_tag('webalys/red_x.png')), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
+    </td>
+  <% end -%>
+</tr>
+<% end -%>
+</tbody>
+</table>
+</div>
+<% end %>

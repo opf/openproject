@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l(:label_enumerations) %>
+
+<h2><%=l(:label_enumerations)%></h2>
+
+<% Enumeration.descendants.each do |klass| %>
+<h3><%= l(klass::OptionName) %></h3>
+
+<% enumerations = klass.shared %>
+<% if enumerations.any? %>
+<table class="list"><thead>
+<tr>
+  <th><%= Enumeration.human_attribute_name(:name) %></th>
+  <th style="width:15%;"><%= Enumeration.human_attribute_name(:is_default) %></th>
+  <th style="width:15%;"><%= Enumeration.human_attribute_name(:active) %></th>
+  <th style="width:15%;"></th>
+  <th align="center" style="width:10%;"> </th>
+</tr></thead>
+<% enumerations.each do |enumeration| %>
+<tr class="<%= cycle('odd', 'even') %>">
+  <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
+  <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
+  <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
+  <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
+  <td class="buttons">
+    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
+                :method => :delete,
+                :confirm => l(:text_are_you_sure),
+                :class => 'icon icon-delete' %>
+  </td>
+</tr>
+<% end %>
+</table>
+<% reset_cycle %>
+<% end %>
+
+<p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
+<% end %>

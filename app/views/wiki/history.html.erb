@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%= h(@page.pretty_title) %></h2>
+
+<h3><%= l(:label_history) %></h3>
+
+<%= form_tag({:action => "diff"}, :method => :get) do %>
+<table class="list wiki-page-versions">
+<thead><tr>
+    <th>#</th>
+    <th></th>
+    <th></th>
+    <th><%= Journal.human_attribute_name(:updated_on) %></th>
+    <th><%= Journal.human_attribute_name(:author) %></th>
+    <th><%= Journal.human_attribute_name(:comments) %></th>
+    <th></th>
+</tr></thead>
+<tbody>
+<% show_diff = @versions.size > 1 %>
+<% line_num = 1 %>
+<% @versions.each do |ver| %>
+<tr class="wiki-page-version <%= cycle("odd", "even") %>">
+    <td class="id"><%= link_to h(ver.version), :action => 'show', :id => @page, :project_id => @page.project, :version => ver.version %></td>
+    <td class="checkbox">
+      <% if show_diff && (line_num < @versions.size)  %>
+      <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_from) + " " + h(ver.version.to_s) %></label>
+        <%= radio_button_tag('version', ver.version, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") %>
+      <% end %>
+    </td>
+    <td class="checkbox">
+      <% if show_diff && (line_num > 1) %>
+        <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_to) + " " + h(ver.version.to_s) %></label>
+        <%= radio_button_tag('version_from', ver.version, (line_num==2), :id => "cbto-#{line_num}") %>
+      <% end %>
+    </td>
+    <td class="updated_on"><%= format_time(ver.created_at) %></td>
+    <td class="author"><%= link_to_user ver.user %></td>
+    <td class="comments"><%=h ver.notes %></td>
+    <td class="buttons"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page, :version => ver.version %></td>
+</tr>
+<% line_num += 1 %>
+<% end %>
+</tbody>
+</table>
+<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+
+<%= pagination_links_full @versions %>
+
+<% end %>

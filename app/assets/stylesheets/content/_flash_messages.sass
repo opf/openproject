@@ -1,0 +1,70 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+@import global/all
+
+#errorExplanation, div.flash, .nodata, .warning
+  padding: 4px
+  margin: 0 0 10px 0
+  color: $content_flash_msg_font_color
+
+  %absolute-layout-mode &
+    height: $content-flash-height
+
+div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
+div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
+  @include default-font-normal($content_flash_msg_font_color)
+  text-decoration: none
+  cursor: default
+
+div.flash
+  display: none
+
+  &.ng-leave
+    @include animation(0.5s fade-out)
+  i.close-handler
+    float: right
+    font-size: $content_flash_icon_close_handler_font-size
+    padding: 3px 2px
+    cursor: pointer
+
+#errorExplanation
+  display: none
+  ul
+    font-size: 0.9em
+    margin-left: 30px
+  h2, p
+    @include hidden_for_sighted
+
+div.flash.error, #errorExplanation
+  background-color: $content_flash_error_msg_bg_color
+
+div.flash.notice
+  background-color: $content_flash_notice_msg_bg_color
+
+div.flash.warning, .nodata, .warning
+  background-color: $content_flash_warning_msg_bg_color

@@ -1,0 +1,203 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# = OpenProject configuration file
+#
+# Each environment has it's own configuration options.  If you are only
+# running in production, only the production block needs to be configured.
+# Environment specific configuration options override the default ones.
+#
+# Note that this file needs to be a valid YAML file.
+#
+# Instead of using a configuration.yml file, you can configure OpenProject via
+# environment variables. See doc/CONFIGURATION.md for more information.
+#
+#
+# == Outgoing email settings (email_delivery setting)
+#
+# === Common configurations
+#
+# ==== Sendmail command
+#
+# production:
+#   email_delivery_method: :sendmail
+#
+# ==== Simple SMTP server at localhost
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "localhost"
+#   smtp_port: 25
+#
+# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :login
+#   smtp_domain: 'foo.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
+#
+# ==== SMTP server at example.com using PLAIN authentication
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :plain
+#   smtp_domain: 'example.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
+#
+# ==== SMTP server at using TLS (GMail)
+#
+# This requires some additional configuration. See the article at:
+# http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
+#
+#
+# === More configuration options
+#
+# See following page:
+#
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+
+
+# default configuration options for all environments
+default:
+  # Outgoing emails configuration (see examples above)
+  email_delivery_method: :smtp
+  smtp_address: smtp.example.net
+  smtp_port: 25
+  smtp_domain: example.net
+  smtp_authentication: :login
+  smtp_user_name: "openproject@example.net"
+  smtp_password: "my_openproject_password"
+
+  # Prefix to the url-path. This path is then prepended to all
+  # the routes and is used to correclty identify the path to the assets.
+  # Defaults to having no prefix.
+  # Examples:
+  # For OpenProject to be reachable as
+  # https://example.org/open_project
+  # the setting has o be:
+  # rails_relative_url_root: "/open_project"
+  #
+  # rails_relative_url_root: ""
+
+  # Absolute path to the directory where attachments are stored.
+  # The default is the 'files' directory in your OpenProject instance.
+  # Your OpenProject instance needs to have write permission on this
+  # directory.
+  # Examples:
+  # attachments_storage_path: /var/openproject/files
+  # attachments_storage_path:
+
+  # Configuration of the autologin cookie.
+  # autologin_cookie_name: the name of the cookie (default: autologin)
+  # autologin_cookie_path: the cookie path (default: /)
+  # autologin_cookie_secure: true sets the cookie secure flag (default: false)
+  # autologin_cookie_name:
+  # autologin_cookie_path:
+  # autologin_cookie_secure:
+
+  # disable browser cache for security reasons
+  # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # disable_browser_cache: true
+
+  # use memcache for performance, memcached must be installed
+  # rails_cache_store: :memcache
+
+  # defines where session data is stored
+  # possible values are :cookie_store, :cache_store, :active_record_store
+  session_store: :cache_store
+
+  # Configuration of SCM executable command.
+  # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  # Examples:
+  # scm_subversion_command: svn                                       # (default: svn)
+  # scm_git_command:        /usr/local/bin/git                        # (default: git)
+  # scm_subversion_command:
+  # scm_git_command:
+
+  # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
+  # If you don't want to enable data encryption, just leave it blank.
+  # WARNING: losing/changing this key will make encrypted data unreadable.
+  #
+  # If you want to encrypt existing passwords in your database:
+  # * set the cipher key here in your configuration file
+  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  #
+  # If you have encrypted data and want to change this key, you have to:
+  # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
+  # * change the cipher key here in your configuration file
+  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  # database_cipher_key:
+  #
+  # Omniauth direct login:
+  #
+  # Per default the user may choose the usual password login as well as several omniauth providers
+  # on the login page and in the login drop down menu.
+  #
+  # With his configuration option you can set a specific omniauth provider to be
+  # used for direct login. Meaning that the login provider selection is skipped and
+  # the configured provider is used directly instead.
+  #
+  # If this option is active /login will lead directly to the configured omniauth provider
+  # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
+  #
+  # Note that this does not stop a user from manually navigating to any other
+  # omniauth provider if additional ones are configured.
+  # omniauth_direct_login_provider: developer
+  #
+  # disable_password_login: true
+
+# specific configuration options for production environment
+# that overrides the default ones
+# production:
+
+# specific configuration options for development environment
+# that overrides the default ones
+development:
+  email_delivery_method: :letter_opener
+
+# Configuration for the test environment
+test:
+  email_delivery_method: :test

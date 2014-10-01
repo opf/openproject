@@ -1,0 +1,48 @@
+Return-Path: <JSmith@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer ; Sun, 22 Jun 2008 12:28:07 +0200
+Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
+In-Reply-To: <openproject.issue-2.20060719210421@osiris>
+From: "John Smith" <JSmith@somenet.foo>
+To: <openproject@somenet.foo>
+Subject: Re: update to issue 2
+Date: Sun, 22 Jun 2008 12:28:07 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+	format=flowed;
+	charset="iso-8859-1";
+	reply-type=original
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+An update to the issue by the sender.
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas imperdiet
+turpis et odio. Integer eget pede vel dolor euismod varius. Phasellus
+blandit eleifend augue. Nulla facilisi. Duis id diam. Class aptent taciti
+sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In
+in urna sed tellus aliquet lobortis. Morbi scelerisque tortor in dolor. Cras
+sagittis odio eu lacus. Aliquam sem tortor, consequat sit amet, vestibulum
+id, iaculis at, lectus. Fusce tortor libero, congue ut, euismod nec, luctus
+eget, eros. Pellentesque tortor enim, feugiat in, dignissim eget, tristique
+sed, mauris --- Pellentesque habitant morbi tristique senectus et netus et
+malesuada fames ac turpis egestas. Quisque sit amet libero. In hac habitasse
+platea dictumst.
+
+>> > --- Reply above. Do not remove this line. ---
+>> >
+>> > Issue #6779 has been updated by Eric Davis.
+>> >
+>> > Subject changed from Projects with JSON to Project JSON API
+>> > Status changed from New to Assigned
+>> > Assignee set to Eric Davis
+>> > Priority changed from Low to Normal
+>> > Estimated time deleted (1.00)
+>> >
+>> > Looks like the JSON api for projects was missed. I'm going to be
+>> > reviewing the existing APIs and trying to clean them up over the next
+>> > few weeks.

@@ -1,0 +1,140 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+@import global/all
+
+html
+  @include html_body_spacing
+  min-width: 1100px
+  &.in_modal
+    min-width: 0
+
+body
+  @include html_body_spacing
+  color: $global_font_color
+  font: normal normal normal $global_font_size $font_family_normal
+  line-height: $global_line_height
+  background: white
+
+  &%absolute-layout-mode
+    overflow:
+      x: auto
+      y: hidden
+
+#wrapper
+  @include default-transition
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from($main_menu_bg_color), to($main_menu_bg_color))
+  background-image: -webkit-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: -moz-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: linear-gradient(to bottom, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-repeat: no-repeat
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($main_menu_bg_color)}', endColorstr='#{ie-hex-str($main_menu_bg_color)}', GradientType=0)
+
+  background-size: $main_menu_width 100%
+  min-height: 100%
+  height: auto
+  position: relative
+  &.nosidebar, &.nomenus
+    background: none
+  &.hidden-navigation
+    background-size: $main_menu_folded_width 100%
+
+h1
+  margin: 0
+  padding: 0
+  font-size: 24px
+h3, .wiki h2
+  font-size: 16px
+  padding: 2px 10px 1px 0px
+  margin: 0 0 10px 0
+  border-bottom: 1px solid #bbbbbb
+h4, .wiki h3
+  font-size: 13px
+  padding: 0px 10px 1px 0px
+  margin-bottom: 5px
+  border-bottom: 1px dotted #bbbbbb
+
+#main
+  z-index: 20
+  overflow: auto
+  padding-bottom: $footer_height
+
+  %absolute-layout-mode &
+    position: absolute
+    top:      55px
+    bottom:   0
+    width:    100%
+    overflow: hidden
+    border:
+      bottom: 5px solid $footer_bg_color
+
+  &.nomenus
+    %absolute-layout-mode &
+      top:    0
+
+#content
+  @include default-transition
+  margin: 0 0 0 $main_menu_width
+  padding: 10px 20px
+  width: auto
+  overflow: hidden
+  height: auto
+  background-color: #fff
+  border-style: none solid solid solid
+  z-index: 10
+
+  %absolute-layout-mode &
+    position:   absolute
+    box-sizing: border-box
+    width:      calc(100% - #{$main_menu_width})
+    height:     calc(100% - 40px)
+    padding:    10px 0 0 20px
+
+  &.hidden-navigation
+    margin-left: $main_menu_folded_width
+
+    %absolute-layout-mode &
+      width:    calc(100% - #{$main_menu_folded_width})
+
+  &.nosidebar
+    margin-left: 0
+    padding: 20px 40px
+
+    %absolute-layout-mode &
+      width:    100%
+
+  &.nomenus
+    %absolute-layout-mode &
+      width:    100%
+      height:   100%
+
+  &:after
+    content: "."
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden

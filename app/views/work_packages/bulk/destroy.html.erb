@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%= l(:label_confirmation) %></h2>
+
+<%= error_messages_for work_packages.first %>
+
+<%= form_tag work_packages_bulk_path, :method => :delete do %>
+  <% work_packages.each do |work_package| %>
+    <%= hidden_field_tag 'ids[]', work_package.id %>
+  <% end %>
+
+  <div class="box">
+
+    <%= work_package_associations_to_address(associated) %>
+
+    <p class="bold">
+      <%= l(:text_destroy_what_to_do) %>
+    </p>
+
+    <%= fields_for :to_do do |f| %>
+      <p>
+
+        <%= f.radio_button 'action', 'destroy' %>
+        <%= f.label 'action_destroy', l(:text_destroy) %>
+
+      </p>
+      <p>
+
+        <%= f.radio_button 'action' , 'nullify' %>
+        <%= f.label 'action_nullify', l(:text_assign_to_project) %>
+
+      </p>
+      <p>
+
+        <%= f.radio_button 'action', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
+        <%= f.label 'action_reassign', l(:text_reassign) %>
+
+        <%= f.label 'reassign_to_id', l(:text_reassign_to) %>
+        <%= f.text_field 'reassign_to_id', :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
+
+      </p>
+    <% end %>
+  </div>
+
+  <%= submit_tag l(:button_apply) %>
+
+<% end %>

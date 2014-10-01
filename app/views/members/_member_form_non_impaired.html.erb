@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= javascript_include_tag "members_select_boxes.js" %>
+
+<%= form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => project},
+                     :remote => true,
+                     :method => :post,
+                     :html => {:id => "members_add_form"}) do |f| %>
+  <fieldset>
+    <legend><%= l(:label_member_new) %></legend>
+      <div class="select-boxes">
+        <label>
+          <%= l(:label_principal_search) %>
+          <%= select_tag "member[user_ids]", options_for_select([]),
+                         :title => l(:label_principal_search),
+                         :multiple => true,
+                         :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
+                         :'data-projectId' => project.id,
+                         :class => "select2-select remote" %>
+        </label>
+        <label>
+          <%= l(:label_role_search) %>
+          <% options = roles.collect { |obj| [obj.name, obj.id] } %>
+          <%= select_tag 'member[role_ids]', options_for_select(options),
+                         :title => l(:label_role_search),
+                         :multiple => true,
+                         :tabIndex => 0,
+                         :class => "select2-select" %>
+        </label>
+      </div>
+      <div style="clear:both">&nbsp;</div>
+    <div><%= submit_tag l(:button_add), :id => 'member-add-submit' %></div>
+  </fieldset>
+<% end %>

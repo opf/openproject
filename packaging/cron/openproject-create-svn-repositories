@@ -1,0 +1,2 @@
+APP_NAME="_APP_NAME_"
+*/10 * * * * root /opt/${APP_NAME}/packaging/scripts/create-svn-repositories >> /var/log/${APP_NAME}/cron-create-svn-repositories.log 2>&1

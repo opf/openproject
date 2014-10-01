@@ -1,0 +1,94 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
+
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
+<%
+entries = TimeEntry.find(:all,
+                         :conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
+                         :include => [:activity, :project, {:work_package => [:type, :status]}],
+                         :order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Type.table_name}.position ASC, #{WorkPackage.table_name}.id ASC")
+entries_by_day = entries.group_by(&:spent_on)
+%>
+
+<div class="total-hours">
+  <p><%= l(:label_total) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+</div>
+
+<% if entries.any? %>
+  <table class="list time-entries">
+    <thead>
+      <tr>
+        <th><%= l(:label_activity) %></th>
+        <th><%= Project.model_name.human %></th>
+        <th><%= TimeEntry.human_attribute_name(:comments) %></th>
+        <th><%= TimeEntry.human_attribute_name(:hours) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% entries_by_day.keys.sort.reverse.each do |day| %>
+        <tr class="odd">
+          <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
+          <td colspan="2"></td>
+          <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
+          <td></td>
+        </tr>
+        <% entries_by_day[day].each do |entry| -%>
+          <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
+            <td class="activity"><%=h entry.activity %></td>
+            <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_work_package(entry.work_package, :truncate => 50) if entry.work_package%></td>
+            <td class="comments"><%=h entry.comments %></td>
+            <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+            <td align="center">
+              <% if entry.editable_by?(@user) -%>
+                <%= link_to icon_wrapper('icon-context icon-edit', l(:button_edit)),
+                            {:controller => '/timelog', :action => 'edit', :id => entry},
+                            :alt => l(:button_edit),
+                            :class => 'no-decoration-on-hover',
+                            :title => l(:button_edit) %>
+                <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
+                            {:controller => '/timelog', :action => 'destroy', :id => entry},
+                            :confirm => l(:text_are_you_sure),
+                            :class => 'no-decoration-on-hover',
+                            :method => :delete,
+                            :alt => l(:button_delete),
+                            :title => l(:button_delete) %>
+              <% end -%>
+            </td>
+          </tr>
+        <% end -%>
+      <% end -%>
+    </tbody>
+  </table>
+<% end %>

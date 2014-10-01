@@ -1,0 +1,54 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l(:label_summary) %>
+
+<h2><%=l(:label_summary)%></h2>
+
+<div class="splitcontentleft">
+<%
+[@type_report, @priority_report, @assignee_report, @responsible_report, @author_report].each do |report| %>
+  <%= render :partial => 'report_category', :locals => { report: report} %>
+<% end %>
+<%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
+</div>
+
+<div class="splitcontentright">
+<%
+additional_reports = [@version_report]
+additional_reports << @subproject_report if @project.children.any?
+additional_reports << @category_report
+%>
+
+<% additional_reports.each do |report| %>
+  <%= render :partial => 'report_category', :locals => { report: report } %>
+  <br />
+<% end %>
+<%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
+</div>

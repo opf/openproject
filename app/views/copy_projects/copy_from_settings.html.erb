@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'copy_project' %>
+
+<h2><%=l(:label_project_new)%></h2>
+
+<%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
+  <div class="copy box">
+    <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
+    <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
+                                                                               :project => @copy_project } %>
+    <%= render :partial => "projects/form/attributes/description", :locals => { :form => f } %>
+    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @project } %>
+    <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
+                                                                                   :project => @project } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :project_type_id, :value => @project.project_type_id } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
+    <%= render :partial => "copy_projects/copy_settings/hidden_types",
+               :locals => { :form => f, :types => @types, :project => @project } %>
+    <%= render :partial => "copy_projects/copy_settings/hidden_custom_fields",
+               :locals => { :form => f, :project => @project, :issue_custom_fields => @issue_custom_fields } %>
+    <%= render :partial => "copy_projects/copy_settings/enabled_module_names",
+               :locals => { :project => @project } %>
+  </div>
+
+  <%= render :partial => "copy_projects/copy_settings/copy_associations", :locals => { :project => @project } %>
+
+  <%= submit_tag l(:button_copy) %>
+<% end %>

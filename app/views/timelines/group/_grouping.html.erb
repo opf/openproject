@@ -1,0 +1,154 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="grouping" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.grouping') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_one_enabled,
+                      l('timelines.filter.grouping_one') %>
+
+        <%= check_box_tag("timeline[options][grouping_one_enabled]",
+                          :yes,
+                          timeline.options["grouping_one_enabled"].present?) %>
+
+        <span>
+          <%= label_tag :timeline_options_grouping_one_selection,
+                        l('timelines.filter.grouping_one_phrase'),
+                        class: 'inline-label' %>
+        </span>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :grouping_one_selection,
+                     filter_select_with_none(
+                       timeline.available_grouping_projects,
+                       :name, :id),
+                     {:selected => timeline.selected_grouping_projects.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select "timeline[options]", :grouping_one_selection,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_projects_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_grouping_projects,
+                                           :name, :id).to_json
+                   }
+        %>
+        <% end %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_one_sort,
+                      l('timelines.filter.sort.sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :grouping_one_sort,
+                     [[l('timelines.filter.sort.alphabet'), '0'], [l('timelines.filter.sort.explicit_order'), '1']],
+
+                     {:selected => timeline.options['grouping_one_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_two_enabled,
+                      l('timelines.filter.grouping_two') %>
+
+        <%= check_box_tag("timeline[options][grouping_two_enabled]",
+                          :yes,
+                          timeline.options["grouping_two_enabled"].present?) %>
+
+        <span>
+          <%= label_tag :timeline_options_grouping_two_selection,
+                        l('timelines.filter.grouping_two_phrase'),
+                        class: 'inline-label' %>
+        </span>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :grouping_two_selection,
+                     filter_select_with_none(
+                       timeline.available_grouping_project_types,
+                       :name, :id),
+                     {:selected => timeline.selected_grouping_project_types.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]", :grouping_two_selection,
+                     options_for_select([]),
+                     {},
+                     { :'data-ajaxURL' => api_v2_paginate_project_types_path,
+                       :multiple => true,
+                       :'data-selected' => filter_select(
+                                             timeline.selected_grouping_project_types,
+                                             :name, :id).to_json
+                     })
+          %>
+        <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_two_sort,
+                      l('timelines.filter.sort.sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :grouping_two_sort,
+                     [[l('timelines.filter.sort.default'), '0'], [l('timelines.filter.sort.date'), '1'], [l('timelines.filter.sort.alphabet'), '2']],
+
+                     {:selected => timeline.options['grouping_two_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_hide_other_group,
+                      I18n.t('timelines.filter.grouping_hide_group', :group => l('timelines.filter.grouping_other')) %>
+
+        <%= check_box_tag("timeline[options][hide_other_group]",
+                          :yes,
+                          timeline.options["hide_other_group"].present?) %>
+      </p>
+    </div>
+  </div>
+</fieldset>

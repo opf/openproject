@@ -1,0 +1,97 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_comparison" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.comparisons') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_comparison_none',
+                      l('timelines.filter.comparison.none') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'none',
+                         :checked => (timeline.comparison == 'none')) %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_relative',
+                      l('timelines.filter.comparison.relative') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'relative',
+                         :checked => (timeline.comparison == 'relative')) %>
+
+        <%  relative_text = text_field_tag "timeline[options][compare_to_relative]",
+                                           timeline.options["compare_to_relative"],
+                                           :size => 3
+
+            relative_select = select("timeline[options]",
+                                     :compare_to_relative_unit,
+                                     [ [l('timelines.filter.time_relative.days'), 0],
+                                       [l('timelines.filter.time_relative.weeks'), '1'],
+                                       [l('timelines.filter.time_relative.months'), '2']
+                                     ],
+                                     { :selected => timeline.options['compare_to_relative_unit'] },
+                                     { :multiple => false, :size => 1})
+        %>
+
+        <%= l('timelines.filter.comparison.compare_relative',
+              :timespan => relative_text + relative_select).html_safe %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_absolute',
+                      l('timelines.filter.comparison.absolute') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'absolute',
+                         :checked => (timeline.comparison == 'absolute')) %>
+
+        <%  absolute_text = text_field_tag("timeline[options][compare_to_absolute]",
+                                           timeline.options["compare_to_absolute"],
+                                           :size => 10)
+            absolute_calendar = calendar_for('timeline_options_compare_to_absolute') %>
+
+        <%= l('timelines.filter.comparison.compare_absolute',
+              :date => absolute_text + absolute_calendar).html_safe %>
+
+      </p>
+    </div>
+  </div>
+</fieldset>

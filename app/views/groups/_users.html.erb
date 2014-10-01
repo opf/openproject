@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="splitcontentleft">
+<% if @group.users.any? %>
+  <table class="list users">
+    <thead><tr>
+      <th><%= User.model_name.human %></th>
+      <th style="width:15%"></th>
+    </tr></thead>
+    <tbody>
+    <% @group.users.sort.each do |user| %>
+      <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
+        <td class="user"><%= link_to_user user %></td>
+        <td class="buttons">
+          <%= link_to l(:button_delete), member_of_group_path(@group, user),
+                                         :method => :delete,
+                                         :remote => :true,
+                                         :class => 'icon icon-delete' %>
+
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
+
+<div class="splitcontentright">
+<% users = User.active.not_in_group(@group).all(:limit => 100) %>
+<% if users.any? %>
+  <%= form_tag(members_of_group_path(@group), :method => :post, :remote => true) do |f| %>
+    <fieldset><legend><%=l(:label_user_new)%></legend>
+
+    <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
+    <%= observe_field(:user_search,
+                      :frequency => 0.5,
+                      :update => :users,
+                      :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
+                      :with => 'q',
+                      :method => :get)
+                  %>
+
+    <div id="users">
+      <%= principals_check_box_tags 'user_ids[]', users %>
+    </div>
+
+    <p><%= submit_tag l(:button_add) %></p>
+    </fieldset>
+  <% end %>
+<% end %>
+
+</div>

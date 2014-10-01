@@ -1,0 +1,14 @@
+1.00 Added view template functionality
+1.10 Added Chinese support
+1.11 Added Japanese support
+1.12 Added Korean support
+1.13 Updated to fpdf.rb 1.53d.
+     Added makefont and fpdf_eps.
+     Handle \n at the beginning of a string in MultiCell.
+     Tried to fix clipping issue in MultiCell - still needs some work.
+1.14 2006-09-26
+* Added support for @options_for_rfpdf hash for configuration:
+  * Added :filename option in this hash
+If you're using the same settings for @options_for_rfpdf often, you might want to 
+put your assignment in a before_filter (perhaps overriding :filename, etc in your actions).
+1.15 2009-11-20 Rails 2.* support - Thanks to Prawnto plugin for showing the way to the new TemplateHandler

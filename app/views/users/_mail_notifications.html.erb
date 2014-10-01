@@ -1,0 +1,41 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<p>
+<%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
+<%= select_tag 'user[mail_notification]', options_for_select(user_mail_notification_options(@user), @user.mail_notification),
+                                      :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
+</p>
+<%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
+<p><% @user.projects.each do |project| %>
+    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
+<% end %></p>
+<p><em><%= l(:text_user_mail_option) %></em></p>
+<% end %>
+<p><label><%= l(:label_user_mail_no_self_notified) %><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></label></p>

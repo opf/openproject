@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= render :partial => 'action_menu' %>
+
+<h2><%= Workflow.model_name.human %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<p><%=l(:text_workflow_edit)%>:</p>
+
+<%= form_tag({}, :method => 'get') do %>
+<p>
+  <label><%= Role.model_name.human %>:
+  <%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %></label>
+
+  <label><%= Type.model_name.human %>:
+  <%= select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %></label>
+
+  <%= hidden_field_tag 'used_statuses_only', '0' %>
+  <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>
+</p>
+<p>
+<%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit) %>
+</p>
+<% end %>
+
+<% if @type && @role && @statuses.any? %>
+  <%= form_tag({}, :id => 'workflow_form' ) do %>
+    <%= hidden_field_tag 'type_id', @type.id %>
+    <%= hidden_field_tag 'role_id', @role.id %>
+    <div class="autoscroll">
+      <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+
+      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
+        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
+        <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
+          <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
+        </div>
+      </fieldset>
+      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
+
+      <fieldset class="collapsible" style="padding: 0;">
+        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
+        <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
+      <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+        </div>
+      </fieldset>
+      <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
+    </div>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+<% end %>
+
+<% html_title(Workflow.model_name.human) -%>

@@ -1,0 +1,131 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= header_tags %>
+<%= javascript_include_tag("work_packages.js") %>
+<%= render :partial => 'work_packages/action_menu', :locals => { work_package: work_package } %>
+
+<% work_package_breadcrumb %>
+
+<%= content_tag('h2', work_package.to_s) %>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<div class = "details">
+  <div class="profile-wrap">
+    <%= avatar(work_package.author) %>
+  </div>
+
+  <p class="author">
+    <%= authoring work_package.created_at, work_package.author %>.
+    <% if work_package.created_at != work_package.updated_at %>
+      <%= l(:label_updated_time, time_tag(work_package.updated_at)).html_safe %>.
+    <% end %>
+  </p>
+
+  <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
+
+  <% if work_package.description? %>
+    <hr />
+    <div class="description work_package_part">
+      <div class="contextual">
+        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
+      </div>
+      <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
+      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
+        <%= format_text work_package, :description, :attachments => work_package.attachments %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if work_package.attachments.any? -%>
+    <%= link_to_attachments work_package %>
+  <% end -%>
+
+  <%= call_hook(:view_work_packages_show_description_bottom, :issue => work_package) %>
+
+
+  <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => work_package,
+                                                                    :ancestors => ancestors,
+                                                                    :descendants => descendants } %>
+
+  <% if authorize_for('work_package_relations', 'create') || relations.present? %>
+    <div id="relations" class="work_package_part">
+    <%= render :partial => 'relations', :locals => { :work_package => work_package,
+                                                     :relations => relations } %>
+    </div>
+  <% end %>
+
+  <% if User.current.allowed_to?(:add_work_package_watchers, project) ||
+    (work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, project)) %>
+    <div id="watchers" class="work_package_part">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => work_package} %>
+    </div>
+  <% end %>
+</div>
+<div style="clear: both;"></div>
+
+<%= render :partial => 'action_menu_with_edit_container' if current_user.wants_comments_in_reverse_order? %>
+
+<% if changesets.present? %>
+  <div id="work_package-changesets">
+    <h3><%=l(:label_associated_revisions)%></h3>
+    <%= render :partial => 'changesets', :locals => { :changesets => changesets} %>
+  </div>
+<% end %>
+
+<% if journals.present? %>
+  <div id="history">
+    <h3><%=l(:label_history)%></h3>
+    <%= render :partial => 'history', :locals => { :work_package => work_package, :journals => journals } %>
+  </div>
+<% end %>
+
+<%= render :partial => 'action_menu_with_edit_container' unless current_user.wants_comments_in_reverse_order? %>
+
+<div style="clear: both;"></div>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'PDF' %>
+<% end %>
+
+<% html_title h(work_package.to_s) %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
+  <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
+<% end %>
+
+<% #include calendar js files in case they are needed for edit
+  include_calendar_headers_tags -%>

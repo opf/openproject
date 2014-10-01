@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'type' %>
+
+<div class="splitcontentleft">
+<div class="box tabular">
+<!--[form:type]-->
+<p><%= f.text_field :name, :required => true, :disabled => @type.is_standard? %></p>
+<p><%= f.check_box :is_in_roadmap %></p>
+<p><%= f.select :color_id, options_for_colors(controller.type) %></p>
+<p><%= f.check_box :in_aggregation %></p>
+<p><%= f.check_box :is_default %></p>
+<p><%= f.check_box :is_milestone %></p>
+
+<% if WorkPackageCustomField.all.any? %>
+<p>
+  <label><%= l(:label_custom_field_plural) %></label>
+  <% WorkPackageCustomField.all.each do |field| %>
+    <label class="block">
+      <%= check_box_tag 'type[custom_field_ids][]',field.id, @type.custom_fields.include?(field) %>
+      <%= field.name %>
+    </label>
+  <% end %>
+</p>
+<%= hidden_field_tag 'type[custom_field_ids][]', '' %>
+<% end %>
+
+<% if controller.type.new_record? && @types.any? %>
+<p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
+<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@types, :id, :name)) %></p>
+<% end %>
+<!--[eoform:type]-->
+</div>
+<%= submit_tag l(controller.type.new_record? ? :button_create : :button_save) %>
+</div>
+
+<div class="splitcontentright">
+<% if @projects.any? %>
+<fieldset class="box" id="type_project_ids"><legend><%= l(:label_project_plural) %></legend>
+<%= project_nested_ul(@projects) do |p|
+  content_tag('label', check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), :id => nil) + ' ' + h(p))
+end %>
+<%= hidden_field_tag('type[project_ids][]', '', :id => nil) %>
+<p><%= check_all_links 'type_project_ids' %></p>
+</fieldset>
+<% end %>
+</div>

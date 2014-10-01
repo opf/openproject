@@ -1,0 +1,89 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if report.statuses.try(:empty?) and report.rows.try(:empty?) %>
+  <p><i><%=l(:label_no_data)%></i></p>
+<% else %>
+  <% column_names = report.statuses.map(&:name) + [l(:label_open_work_packages), l(:label_closed_work_packages), l(:label_total)] %>
+<% col_width = 70 / (column_names.length+3) %>
+<table class="list">
+  <thead>
+    <tr>
+      <th style="width:25%"></th>
+<% column_names.each do |name| %>
+      <th style="width:<%= col_width %>%; text-align: center"><%= name %></th>
+<% end %>
+    </tr>
+  </thead>
+<tbody>
+<% for row in report.rows %>
+<tr class="<%= cycle("odd", "even") %>">
+  <td>
+    <%= link_to h(row.name),
+                project_report_property_path((row.is_a?(Project) ? row : @project),
+                                             "#{report.field}",
+                                             row.id) %>
+  </td>
+<% for status in report.statuses %>
+  <td align="center">
+    <%= aggregate_link report.data,
+                       { report.field => row.id, "status_id" => status.id },
+                       project_report_property_status_path((row.is_a?(Project) ? row : @project),
+                                                           status.id,
+                                                           "#{report.field}",
+                                                           row.id) %>
+  </td>
+<% end %>
+  <td align="center">
+    <%= aggregate_link report.data,
+                       { report.field => row.id, "closed" => 0 },
+                         project_report_property_open_path((row.is_a?(Project) ? row : @project),
+                                                           "#{report.field}",
+                                                           row.id) %>
+  </td>
+  <td align="center">
+    <%= aggregate_link report.data,
+                       { report.field => row.id, "closed" => 1 },
+                         project_report_property_closed_path((row.is_a?(Project) ? row : @project),
+                                                             "#{report.field}",
+                                                             row.id) %>
+  </td>
+  <td align="center">
+    <%= aggregate_link report.data,
+                       { report.field => row.id },
+                       project_report_property_path((row.is_a?(Project) ? row : @project),
+                                                               "#{report.field}",
+                                                               row.id) %>
+  </td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end
+  reset_cycle %>

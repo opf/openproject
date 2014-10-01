@@ -1,0 +1,91 @@
+/*-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++*/
+
+body, #wrapper { direction: rtl;}
+
+#quick-search { float: left; }
+#main-menu { margin-left: -500px; left: auto; right: 6px; margin-right: 0px;}
+#main-menu li { float: right; }
+#top-menu ul { float: right; }
+#account { float: left; }
+#top-menu #loggedas { float: left; }
+#top-menu li { float: right; }
+.tabular label.floating
+{
+  margin-right: 0;
+  margin-left: auto;
+  text-align: right;
+}
+.tabular label
+{
+  float: right;
+  margin-left: auto;
+}
+.tabular p
+{
+  clear: right;
+}
+.tabular label.block { text-align: right; }
+.icon
+{
+       background-position: 100% 40%;
+       padding-right: 20px;
+       padding-left: 0px;
+}
+div#activity dt, #search-results dt
+{
+  background-position: 100% 50%;
+  padding-right: 20px;
+  padding-left: 0px;
+}
+#content .tabs ul li { float: right; }
+#content .tabs ul { padding-left: auto; padding-right: 1em; }
+table.progress { float: right; }
+.contextual { float: left; }
+.icon22 { background-position: 100% 40%; padding-right: 26px; padding-left: auto; }
+h3, .wiki h2 { padding: 10px 2px 1px 0; }
+.tooltip span.tip { text-align: right; }
+tr.issue td.subject { text-align: right; }
+tr.time-entry td.subject, tr.time-entry td.comments { text-align: right; }
+#sidebar { float: left; }
+#main.nosidebar #content { border-width: 1px; border-style: solid; border-color: #D7D7D7 #BBBBBB #BBBBBB #D7D7D7;}
+.tabular.settings label { margin-left: auto; }
+.splitcontentleft { float: right; }
+.splitcontentright { float: left; }
+p.progress-info { clear: right; }
+table.list td.buttons a { padding-right: 20px; }
+.filecontent { direction: ltr; }
+.entries { direction: ltr; }
+.changeset-changes { direction: ltr; padding-left: 2em }
+.changesets { direction: ltr; }
+div#issue-changesets { float: left; margin-right: 1em; margin-left: 0 }
+div#issue-changesets div.wiki { direction: ltr; padding-left: 2em }
+#activity dt, .journal { clear: right; }
+.journal-link { float: left; }
+div.wiki pre { direction: ltr; }

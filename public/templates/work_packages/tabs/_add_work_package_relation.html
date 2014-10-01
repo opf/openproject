@@ -1,0 +1,17 @@
+<form name="add_relation_form">
+  <button class="button"
+          title="{{ btnTitle }}"
+          ng-bind-html="btnIcon + ' ' + btnTitle"
+          ng-click="handler.addRelation(this)"
+          ng-disabled="add_relation_form.$invalid">
+  </button>
+  <input id="relation_to_id-{{ handler.relationsId }}"
+         name="relation[to_id][{{ handler.relationsId }}]"
+         size="10"
+         type="text"
+         autocomplete="off"
+         ng-model="relationToAddId"
+         required>
+  <div id="related_issue_candidates-{{ handler.relationsId }}"
+   class="autocomplete related-issue-candidates"></div>
+</form>
