@@ -43,6 +43,28 @@ describe Api::Experimental::QueriesController, :type => :controller do
     allow(User).to receive(:current).and_return(current_user)
   end
 
+  shared_context 'expects policy to be followed' do |action|
+    let(:called_with_expected_args) { { called: false } }
+
+    before do
+      policy = double('QueryPolicy').as_null_object
+      allow(QueryPolicy).to receive(:new).and_return(policy)
+
+      expect(policy).to receive(:allowed?) do |received_query, received_action|
+
+        if received_query.id == query.id &&
+           received_action == action
+          called_with_expected_args[:called] = true
+        end
+
+      end.at_least(1).times.and_return(true)
+    end
+
+    after do
+      expect(called_with_expected_args[:called]).to be_truthy
+    end
+  end
+
   describe '#available_columns' do
     context 'with no query_id parameter' do
       it 'assigns available_columns' do
@@ -187,6 +209,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
     context 'within a project' do
       let(:query) { FactoryGirl.create(:query, project: project) }
 
+      include_context 'expects policy to be followed', :update
+
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
           'f' => ['status_id'],
@@ -209,6 +233,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
     context 'without a project' do
       let(:query) { FactoryGirl.create(:query, project: nil) }
+
+      include_context 'expects policy to be followed', :update
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
@@ -245,8 +271,11 @@ describe Api::Experimental::QueriesController, :type => :controller do
   end
 
   describe '#destroy' do
+
     context 'within a project' do
       let(:query) { FactoryGirl.create(:query, project: project) }
+
+      include_context 'expects policy to be followed', :destroy
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
@@ -270,6 +299,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
     context 'without a project' do
       let(:query) { FactoryGirl.create(:query, project: nil) }
+
+      include_context 'expects policy to be followed', :destroy
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
