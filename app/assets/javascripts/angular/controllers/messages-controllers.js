@@ -36,6 +36,7 @@ angular.module('openproject.messages.controllers')
   $scope.projectId = gon.project_id;
   $scope.activityModuleEnabled = gon.activity_modul_enabled;
 
+  PaginationService.setPerPageOptions(gon.settings.pagination.per_page_options);
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
