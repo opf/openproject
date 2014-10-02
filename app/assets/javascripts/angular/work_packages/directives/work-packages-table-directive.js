@@ -101,13 +101,15 @@ angular.module('openproject.workPackages.directives')
         });
       }
 
-      var setTableWidths = _.debounce(function() {
-        setTableContainerWidths();
-        setHeaderFooterWidths();
-      }, 50);
+      var setTableWidths = function() {
+        $timeout(function() {
+          setTableContainerWidths();
+          setHeaderFooterWidths();
+        })
+      };
 
       $timeout(setTableWidths);
-      angular.element($window).on('resize', setTableWidths);
+      angular.element($window).on('resize', _.debounce(setTableWidths, 50));
       scope.$on('$stateChangeSuccess', setTableWidths);
 
       scope.$watchCollection('columns', function() {
