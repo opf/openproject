@@ -220,6 +220,19 @@ angular.module('openproject.models')
     },
 
     /**
+     * @name isGlobal
+     * @function
+     *
+     * @description
+     * Returns true if the query is a global query, meaning a query that is not
+     * scoped to a project.
+     * @returns {boolean} default
+     */
+    isGlobal: function() {
+      return !this.project_id;
+    },
+
+    /**
      * @name setFilters
      * @function
      *
