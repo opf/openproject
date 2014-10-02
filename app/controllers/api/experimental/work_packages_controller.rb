@@ -176,29 +176,6 @@ module Api
         json_query
       end
 
-      def allowed_links_on_query(query, user)
-        links = {}
-        QueryPolicy.new(user).tap do |auth|
-          new_query = Query.new(project: @project)
-          links[:create]      = api_experimental_queries_path      if auth.allowed?(new_query,
-                                                                                    :create)
-          links[:update]      = api_experimental_query_path(query) if auth.allowed?(query,
-                                                                                    :update)
-          links[:delete]      = api_experimental_query_path(query) if auth.allowed?(query,
-                                                                                    :delete)
-          links[:publicize]   = api_experimental_query_path(query) if auth.allowed?(query,
-                                                                                    :publicize)
-          links[:depublicize] = api_experimental_query_path(query) if auth.allowed?(query,
-                                                                                    :depublicize)
-          links[:star]        = query_route_from_grape('star', query) if auth.allowed?(query,
-                                                                                       :star)
-          links[:unstar]      = query_route_from_grape('unstar', query) if auth.allowed?(query,
-                                                                                         :unstar)
-        end
-
-        links
-      end
-
       def export_formats
         export_formats = [{ identifier: "atom", format: "atom", label_locale: "label_format_atom" },
           { identifier: "pdf",  format: "pdf", label_locale: "label_format_pdf"},
