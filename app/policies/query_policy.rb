@@ -38,71 +38,52 @@ class QueryPolicy < BasePolicy
   def cache
     @cache ||= Hash.new do |hash, query|
       hash[query] = {
-        update: update_allowed?(query),
-#          log_time: log_time_allowed?(work_package),
-#          move: move_allowed?(work_package),
-#          copy: move_allowed?(work_package),
-#          duplicate: copy_allowed?(work_package), # duplicating is another form of copying
-#          delete: delete_allowed?(work_package)
+        update: persisted_and_own_or_public?(query),
+        delete: persisted_and_own_or_public?(query),
+        create: create_allowed?(query),
+        publicize: publicize_allowed?(query),
+        depublicize: depublicize_allowed?(query),
+        star: persisted_and_own_or_public?(query),
+        unstar: persisted_and_own_or_public?(query)
       }
     end
   end
 
-  def update_allowed?(query)
-    @update_private_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:save_queries, project)
-    end
-
-    @update_public_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_public_queries, project)
-    end
-
+  def persisted_and_own_or_public?(query)
     query.persisted? &&
-    (@update_private_cache[query.project] && query.user == user ||
-     @update_public_cache[query.project] && query.is_public)
+    (save_queries_allowed?(query) && query.user == user ||
+     manage_public_queries_allowed?(query) && query.is_public)
   end
 
-  def log_time_allowed?(work_package)
-    @log_time_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:log_time, project)
+  def create_allowed?(query)
+    query.new_record? &&
+    save_queries_allowed?(query)
+  end
+
+  def publicize_allowed?(query)
+    !query.is_public &&
+    query.user_id == user.id &&
+    manage_public_queries_allowed?(query)
+  end
+
+  def depublicize_allowed?(query)
+    query.is_public &&
+    manage_public_queries_allowed?(query)
+  end
+
+  def save_queries_allowed?(query)
+    @save_queries_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:save_queries, project, global: project.nil?)
     end
 
-    @log_time_cache[work_package.project]
+    @save_queries_cache[query.project]
   end
 
-  def move_allowed?(work_package)
-    @move_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:move_work_packages, project)
+  def manage_public_queries_allowed?(query)
+    @manage_public_queries_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:manage_public_queries, project, global: project.nil?)
     end
 
-    @move_cache[work_package.project]
-  end
-
-  def copy_allowed?(work_package)
-    type_active_in_project?(work_package) && add_allowed?(work_package)
-  end
-
-  def delete_allowed?(work_package)
-    @delete_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:delete_work_packages, project)
-    end
-
-    @delete_cache[work_package.project]
-  end
-
-  def add_allowed?(work_package)
-    @add_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:add_work_packages, project)
-    end
-
-    @add_cache[work_package.project]
-  end
-
-  def type_active_in_project?(work_package)
-    @type_active_cache ||= Hash.new do |hash, project|
-      hash[project] = project.types.pluck(:id)
-    end
-
-    @type_active_cache[work_package.project].include?(work_package.type_id)
+    @manage_public_queries_cache[query.project]
   end
 end

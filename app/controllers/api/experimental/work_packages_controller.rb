@@ -172,25 +172,31 @@ module Api
       def query_as_json(query, user)
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
+        json_query[:_links] = allowed_links_on_query(query, user)
+        json_query
+      end
+
+      def allowed_links_on_query(query, user)
         links = {}
-        links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-
-        if !query.new_record?
-          links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-          links[:depublicize] = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-
-          if ((query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
-              user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
-
-            links[:star]        = query_route_from_grape("star", query)
-            links[:unstar]      = query_route_from_grape("unstar", query)
-          end
+        QueryPolicy.new(user).tap do |auth|
+          new_query = Query.new(project: @project)
+          links[:create]      = api_experimental_queries_path      if auth.allowed?(new_query,
+                                                                                    :create)
+          links[:update]      = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                    :update)
+          links[:delete]      = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                    :delete)
+          links[:publicize]   = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                    :publicize)
+          links[:depublicize] = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                    :depublicize)
+          links[:star]        = query_route_from_grape('star', query) if auth.allowed?(query,
+                                                                                       :star)
+          links[:unstar]      = query_route_from_grape('unstar', query) if auth.allowed?(query,
+                                                                                         :unstar)
         end
 
-        json_query[:_links] = links
-        json_query
+        links
       end
 
       def export_formats
