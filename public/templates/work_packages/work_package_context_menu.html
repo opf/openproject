@@ -1,7 +1,7 @@
 <div id="work-package-context-menu" class="action-menu">
   <ul class="menu">
     <li class="open">
-      <a focus href
+      <a focus href=""
          ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
         <i ng-class="['icon-action-menu', 'icon-table-detail-view']"></i>
         <span ng-bind="I18n.t('js.button_open_details')"/>
@@ -10,22 +10,22 @@
     <li ng-repeat="(action, link) in permittedActions"
         ng-click="triggerContextMenuAction(action, link)"
         class="{{action}}">
-      <a href ng-click="deleteWorkPackages()">
+      <a href="" ng-click="deleteWorkPackages()">
         <i ng-class="['icon-action-menu', 'icon-' + action]"></i>
         <span ng-bind="I18n.t('js.button_' + action)"/>
       </a>
     </li>
 
     <li class="folder priority" ng-hide="hideResourceActions">
-      <a href class="context_item">TODO Priority</a>
+      <a href="" class="context_item">TODO Priority</a>
       <i class="icon-pulldown-arrow4 icon-submenu"></i>
       <ul class="sub-menu">
-        <li><a href class=" disabled">Immediate</a></li>
-        <li><a href class=" disabled">Urgent</a></li>
-        <li><a href class=" disabled">High</a></li>
-        <li><a href class=" disabled">Normal</a></li>
-        <li><a href class=" disabled">Low</a></li>
-        <li><a href class=" disabled">Pointless</a></li>
+        <li><a href="" class=" disabled">Immediate</a></li>
+        <li><a href="" class=" disabled">Urgent</a></li>
+        <li><a href="" class=" disabled">High</a></li>
+        <li><a href="" class=" disabled">Normal</a></li>
+        <li><a href="" class=" disabled">Low</a></li>
+        <li><a href="" class=" disabled">Pointless</a></li>
       </ul>
       <div class="submenu"></div>
     </li>
