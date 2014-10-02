@@ -35,6 +35,7 @@ angular.module('openproject.layout.controllers')
 
   this.toggleNavigation = function() {
     $rootScope.showNavigation = !$rootScope.showNavigation;
+    $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
     $window.sessionStorage.setItem('openproject:navigation-toggle',
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };

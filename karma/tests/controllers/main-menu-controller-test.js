@@ -59,6 +59,13 @@ describe('MainMenuController', function() {
       expect(rootScope.showNavigation).to.be.true;
     });
 
+    it('should fire an event when toggled', function() {
+      var callback = sinon.spy();
+      rootScope.$on('openproject.layout.navigationToggled', callback);
+      ctrl.toggleNavigation();
+      expect(callback).to.have.been.calledWithMatch(sinon.match.any, sinon.match.truthy);
+    });
+
     it('should persist choice to sessionStorage', function() {
       expect(sessionStorage.getItem('openproject:navigation-toggle')).to.be.undefined;
 
