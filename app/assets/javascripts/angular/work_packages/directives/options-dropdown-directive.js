@@ -94,7 +94,9 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.showShareModal = function(event){
-        showExistingQueryModal.call(shareModal, event);
+        if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
+          showExistingQueryModal.call(shareModal, event);
+        }
       }
 
       scope.showSettingsModal = function(event){
