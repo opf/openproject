@@ -62,7 +62,7 @@ angular.module('openproject.uiComponents')
               model.highlighted = model.id == scope.selectedId;
             });
           }
-        });        
+        });
       }
 
       function initFilteredModels() {
@@ -191,7 +191,7 @@ angular.module('openproject.uiComponents')
       angular.element('#title-filter').bind('click', function(event) {
         preventDefault(event);
       });
-      
+
       scope.handleSelection = function(event) {
         switch(event.which) {
           case KEY_CODES.enter:

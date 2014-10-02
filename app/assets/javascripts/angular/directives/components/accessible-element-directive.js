@@ -3,7 +3,7 @@ angular.module('openproject.uiComponents')
 .directive('accessibleElement', [function() {
   return {
     restrict: 'E',
-    scope: { 
+    scope: {
       visibleText: '=',
       readableText: '=',
     },
