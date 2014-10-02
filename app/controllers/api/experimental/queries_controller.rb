@@ -43,6 +43,9 @@ module Api::Experimental
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
     before_filter :setup_existing_query, only: [:update, :destroy]
+    before_filter :authorize_on_query, only: [:create,
+                                              :update,
+                                              :destroy]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -126,6 +129,10 @@ module Api::Experimental
     def setup_existing_query
       @query = Query.find(params[:id])
       prepare_query
+    end
+
+    def authorize_on_query
+      deny_access unless QueryPolicy.new(current_user).allowed?(@query, params[:action].to_sym)
     end
 
     def visible_queries
