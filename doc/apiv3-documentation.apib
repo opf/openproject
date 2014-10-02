@@ -1819,6 +1819,79 @@ Gets a list of users that can be assigned to the work package as responsible.
 
     [Available Responsibles][]
 
+## AvailableStatuses [/work_packages/{work_package_id}/available_statuses{?type}]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "http://localhost:3000/api/v3/work_packages/688/available_statuses"
+                },
+                "workPackage": {
+                  "href": "http://localhost:3000/api/v3/work_packages/688"
+                }
+              },
+              "_type": "Statuses",
+              "_embedded": {
+                "statuses": [
+                  {
+                    "_type": "Status",
+                    "id": "1",
+                    "name": "New"
+                  },
+                  {
+                    "_type": "Status",
+                    "id": "2",
+                    "name": "In Progress"
+                  },
+                  {
+                    "_type": "Status",
+                    "id": "3",
+                    "name": "Resolved"
+                  },
+                  {
+                    "_type": "Status",
+                    "id": "4",
+                    "name": "Feedback"
+                  },
+                  {
+                    "_type": "Status",
+                    "id": "5",
+                    "name": "Closed"
+                  },
+                  {
+                    "_type": "Status",
+                    "id": "6",
+                    "name": "Rejected"
+                  }
+                ]
+              }
+            }
+
+## Available statuses [GET]
+
+Gets a list of statuses that are assignable to the work package. The list
+depends on the current attribute value of the work package's:
+* type
+* assignee
+* author
+
+If the attribute value for type is to be changed, the new value can be supplied
+via a parameter. The author can never be changed. Only the current value of the
+assignee attribute is relevant so there is no parameter to test for a changed
+value.
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+    + type = `nil` (optional, string, `5`) ... Id of the type the work package
+    is going to be changed into
+
++ Response 200 (application/hal+json)
+
+    [AvailableStatuses][]
+	
 ## AvailableWatchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
 
 + Model
