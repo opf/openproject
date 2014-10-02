@@ -110,8 +110,12 @@ angular.module('openproject.workPackages.directives')
 
       $timeout(setTableWidths);
       angular.element($window).on('resize', _.debounce(setTableWidths, 50));
-      scope.$on('$stateChangeSuccess', setTableWidths);
-      scope.$on('openproject.layout.navigationToggled', setTableWidths);
+      scope.$on('$stateChangeSuccess', function() {
+        $timeout(setTableWidths, 200);
+      });
+      scope.$on('openproject.layout.navigationToggled', function() {
+        $timeout(setTableWidths, 200);
+      });
 
       scope.$watchCollection('columns', function() {
         // force Browser rerender
