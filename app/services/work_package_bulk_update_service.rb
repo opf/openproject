@@ -37,7 +37,7 @@ class WorkPackageBulkUpdateService
     @project       = @projects.first if @projects.size == 1
   end
 
-  def run(params, save_wp=false)
+  def run(params)
     prepare(params)
   end
 
