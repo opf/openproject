@@ -36,7 +36,7 @@ angular.module('openproject.workPackages')
     controller: 'ColumnContextMenuController',
     controllerAs: 'contextMenu',
     templateUrl: '/templates/work_packages/column_context_menu.html',
-    container: '.work-packages--list-scroll-area'
+    container: '.work-packages--list-table-area'
   });
 }])
 
