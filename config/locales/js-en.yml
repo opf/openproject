@@ -255,7 +255,7 @@ en:
         all:         "Show all"
       project_status: "Project status"
       project_type: "Project type"
-      really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
+      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
       save: Save
       start_date: "Start date"
