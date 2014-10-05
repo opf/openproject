@@ -84,7 +84,7 @@ END_DESC
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
 
-      MailHandler.receive(File.read('/home/pacs/edv01/users/openproject/dummy.txt'), options)
+      MailHandler.receive(STDIN.read, options)
     end
 
     desc <<-END_DESC
