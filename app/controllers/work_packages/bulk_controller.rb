@@ -40,7 +40,18 @@ class WorkPackages::BulkController < ApplicationController
 
   def edit
     @work_packages.sort!
-    @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
+    begin
+      @available_statuses = []
+      type = Type.find_by_name('Bug')
+      @projects.map do |project|
+        current_user_role = current_user.roles_for_project(project)
+        @available_statuses += @work_packages.map{ |wp|
+          wp.status.find_new_statuses_allowed_to(current_user_role, type)
+        }.inject{|memo,w|memo & w}
+      end
+    rescue
+      @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
+    end
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
     @responsibles = @projects.map(&:possible_responsibles).inject{|memo,a| memo & a}

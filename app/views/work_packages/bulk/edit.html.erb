@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), work_package_path(i)) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 
 <%= form_tag(url_for(controller: '/work_packages/bulk', action: :update, ids: @work_packages),
-             method: :put) do %>
+             method: :put, :id => 'bulk_update') do %>
 <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
@@ -41,7 +41,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <p>
   <label for="work_package_type_id"><%= WorkPackage.human_attribute_name(:type) %></label>
-  <%= select_tag('work_package[type_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@types, :id, :name)) %>
+  <%= select_tag "work_package[type_id]",
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                     options_from_collection_for_select(@types, :id, :name),
+                 :onchange => remote_function(:url => new_move_work_packages_path,
+                                              :method => :get,
+                                              :update => 'work_package_status_id',
+                                              :with => "Form.serialize('bulk_update')") %>
 </p>
 <% if @available_statuses.any? %>
 <p>
