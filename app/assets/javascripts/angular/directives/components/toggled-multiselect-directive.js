@@ -50,7 +50,7 @@ angular.module('openproject.uiComponents')
       function switchToMultiSelect() {
         scope.isMultiselect = true;
 
-        if (!Array.isArray(scope.values)) {
+        if (scope.values && !Array.isArray(scope.values)) {
           scope.values = [scope.values];
         }
       }
