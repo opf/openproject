@@ -41,8 +41,7 @@ describe('toggledMultiselect Directive', function() {
     }));
 
     beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<toggled-multiselect icon-name="cool-icon.png" name="name" values="values" available-options="options"></toggled-multiselect>';
+      var html = '<toggled-multiselect icon-name="cool-icon.png" name="name" values="values" available-options="options"></toggled-multiselect>';
 
       element = angular.element(html);
       rootScope = $rootScope;
