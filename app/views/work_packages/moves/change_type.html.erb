@@ -1,5 +1,5 @@
-<% unless @statuses.empty? %>
-  <% @statuses.each do |status| %>
+<% unless @available_statuses.empty? %>
+  <% @available_statuses.each do |status| %>
     <option value="<%= status.id %>"><%= status.name %></option>
   <% end %>
 <% else %>
