@@ -40,15 +40,6 @@ class WorkPackages::MovesController < ApplicationController
     respond_to do |format|
       format.html
       format.js do
-        type_id = params[:new_type_id].nil? ? params[:work_package][:type_id] : params[:new_type_id]
-        wp_type = @target_project.types.find_by_id(type_id)
-        @statuses = []
-        @work_packages.each do |wp|
-          wp_status = wp.status
-          current_user_role = current_user.roles_for_project(@target_project)
-          @statuses += wp_status.find_new_statuses_allowed_to(current_user_role, wp_type)
-        end
-        @statuses.uniq!
         render template: 'work_packages/moves/change_type', layout: false
       end
     end
