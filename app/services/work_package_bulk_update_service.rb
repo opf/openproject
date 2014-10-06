@@ -118,7 +118,22 @@ class WorkPackageBulkUpdateService
     .inject { |memo, c| memo & c }
     @assignables        = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
     @responsibles       = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
+
+    if params[:new_type_id].nil? &&
+        (params[:work_package].nil? || !(params[:work_package].include? :type_id))
+      @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }
+      .inject { |memo, w| memo & w }
+    else
+      type_id = params[:new_type_id].nil? ? params[:work_package][:type_id] : params[:new_type_id]
+      wp_type = @target_project.types.find_by_id(type_id)
+      @available_statuses = []
+      @work_packages.each do |wp|
+        wp_status = wp.status
+        current_user_role = User.current.roles_for_project(@target_project)
+        @available_statuses += wp_status.find_new_statuses_allowed_to(current_user_role, wp_type)
+      end
+      @available_statuses.uniq!
+    end
 
     if params.has_key? :copy
       @types = @target_project.types
