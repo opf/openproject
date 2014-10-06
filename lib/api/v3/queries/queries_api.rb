@@ -46,9 +46,9 @@ module API
 
             helpers do
               def allowed_to_manage_stars?
-                (@query.is_public? && current_user.allowed_to?(:manage_public_queries, @query.project)) ||
-                  (!@query.is_public?  && (current_user.admin? ||
-                    (current_user.allowed_to?(:save_queries, @query.project) && @query.user_id == current_user.id)))
+                # TODO: find a better way
+                action = env['api.endpoint'].options[:path].first
+                QueryPolicy.new(current_user).allowed?(@query, action)
               end
             end
 

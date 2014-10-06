@@ -85,7 +85,7 @@ module Api
       private
 
       def setup_context_menu_actions
-        @can = Api::Experimental::Concerns::Can.new(User.current)
+        @can = WorkPackagePolicy.new(User.current)
       end
 
       def columns_total_sums(column_names, work_packages)
@@ -172,24 +172,7 @@ module Api
       def query_as_json(query, user)
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
-        links = {}
-        links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-
-        if !query.new_record?
-          links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-          links[:depublicize] = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-
-          if ((query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
-              user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
-
-            links[:star]        = query_route_from_grape("star", query)
-            links[:unstar]      = query_route_from_grape("unstar", query)
-          end
-        end
-
-        json_query[:_links] = links
+        json_query[:_links] = allowed_links_on_query(query, user)
         json_query
       end
 

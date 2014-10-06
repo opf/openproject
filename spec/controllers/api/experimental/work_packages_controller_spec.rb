@@ -87,6 +87,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       it 'assigns a query which has the default filter arguments set' do
+        allow(Query).to receive(:new).and_call_original
         expected_query = Query.new
         expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
                                       .and_return(expected_query)
@@ -98,6 +99,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
 
       %w(group_by c fields f sort is_public name display_sums).each do |filter_param|
         it "assigns a query which does not have the default filter arguments set if the #{filter_param} argument is provided" do
+          allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
           expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
                                         .and_return(expected_query)
