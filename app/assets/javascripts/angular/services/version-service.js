@@ -46,7 +46,7 @@ angular.module('openproject.services')
     doQuery: function(url, params) {
       return $http.get(url, { params: params })
         .then(function(response){
-          return response.data.versions;
+          return _.sortBy(response.data.versions, 'name');
         });
     }
   };
