@@ -95,4 +95,29 @@ describe('toggledMultiselect Directive', function() {
         });
       });
     });
+
+    describe('w/o values', function() {
+      beforeEach(function() {
+        scope.name    = "BO' SELECTA";
+        scope.options = [
+          ['New York', 'NY'],
+          ['California', 'CA']
+        ];
+
+        compile();
+
+        var multiselectToggleElement = element.find('a');
+        multiselectToggleElement.trigger('click');
+      });
+
+      describe('scope.values', function() {
+        it('should not become an array', function() {
+          expect(Array.isArray(scope.values)).to.be.false;
+        });
+
+        it('should leave scope.values as undefined', function() {
+          expect(scope.values).to.be.undefined;
+        });
+      });
+    });
 });
