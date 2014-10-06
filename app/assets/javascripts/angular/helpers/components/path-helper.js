@@ -42,7 +42,7 @@ angular.module('openproject.helpers')
       var link = '/activity';
 
       if (projectIdentifier) {
-        link = PathHelper.projectPath(projectIdentifier) + link;
+        link = PathHelper.staticBase + PathHelper.projectPath(projectIdentifier) + link;
       }
 
       if (from) {
@@ -64,7 +64,7 @@ angular.module('openproject.helpers')
       return PathHelper.boardsPath() + '/' + boardIdentifier + '/topics';
     },
     messagePath: function(messageIdentifier) {
-      return '/topics/' + messageIdentifier;
+      return PathHelper.staticBase + '/topics/' + messageIdentifier;
     },
     projectsPath: function() {
       return '/projects';
@@ -99,7 +99,7 @@ angular.module('openproject.helpers')
       return '/work_packages';
     },
     workPackagePath: function(id) {
-      return '/work_packages/' + id;
+      return PathHelper.staticBase + '/work_packages/' + id;
     },
     workPackageDuplicatePath: function(projectId, workPackageId) {
       return "/projects/" + projectId + "/work_packages/new?copy_from=" + workPackageId;
@@ -111,7 +111,7 @@ angular.module('openproject.helpers')
       return PathHelper.workPackagesBulkDeletePath() + '?ids=' + (Array.isArray(ids) ? ids.join() : ids);
     },
     usersPath: function() {
-      return '/users';
+      return PathHelper.staticBase + '/users';
     },
     userPath: function(id) {
       return PathHelper.usersPath() + '/' + id;
@@ -249,7 +249,7 @@ angular.module('openproject.helpers')
       return PathHelper.staticBase + PathHelper.userPath(userId);
     },
     staticWorkPackagePath: function(workPackageId) {
-      return PathHelper.staticBase + PathHelper.workPackagePath(workPackageId);
+      return PathHelper.workPackagePath(workPackageId);
     },
     staticEditWorkPackagePath: function(workPackageId){
       return PathHelper.staticWorkPackagePath(workPackageId) + '/edit';
