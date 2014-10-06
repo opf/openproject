@@ -26,30 +26,47 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+/*jshint expr: true*/
 
-.service('VersionService', ['$http', 'PathHelper', function($http, PathHelper) {
+describe('VersionService', function() {
 
-  var VersionService = {
-    getVersions: function(projectIdentifier) {
-      var url;
+  var VersionService, $httpBackend;
+  beforeEach(module('openproject.services'));
 
-      if(projectIdentifier) {
-        url = PathHelper.apiProjectVersionsPath(projectIdentifier);
-      } else {
-        url = PathHelper.apiVersionsPath();
-      }
+  beforeEach(inject(function(_$httpBackend_, _VersionService_){
+    $httpBackend   = _$httpBackend_;
+    VersionService = _VersionService_;
+  }));
 
-      return VersionService.doQuery(url);
-    },
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
-    doQuery: function(url, params) {
-      return $http.get(url, { params: params })
-        .then(function(response){
-          return _.sortBy(response.data.versions, 'name');
-        });
-    }
-  };
+  describe('getVersions', function() {
 
-  return VersionService;
-}]);
+    var versions = [
+      {id: 1, name: 'b version'},
+      {id: 2, name: 'a version'}
+    ];
+
+    beforeEach(function() {
+      $httpBackend.when('GET', '/api/experimental/projects/aProject/versions')
+        .respond({ versions: versions });
+    });
+
+    it('loads the versions sorted by their name', function() {
+      $httpBackend.expectGET('/api/experimental/projects/aProject/versions');
+
+      var callback = sinon.spy(),
+          requested_versions = VersionService.getVersions('aProject').then(callback);
+
+      $httpBackend.flush();
+      expect(callback).to.have.been.calledWith(sinon.match([
+        {id: 2, name: 'a version'},
+        {id: 1, name: 'b version'}
+      ]));
+    });
+
+  });
+});
