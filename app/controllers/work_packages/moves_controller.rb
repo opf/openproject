@@ -34,7 +34,20 @@ class WorkPackages::MovesController < ApplicationController
 
   def new
     prepare_for_work_package_move
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html
+      format.js do
+        wp_type = @target_project.types.find_by_id(params[:new_type_id])
+        @statuses = []
+        @work_packages.each do |wp|
+          wp_status = wp.status
+          current_user_role = current_user.roles_for_project(@target_project)
+          @statuses += wp_status.find_new_statuses_allowed_to(current_user_role, wp_type)
+        end
+        @statuses.uniq!
+        render template: 'work_packages/moves/change_type', layout: false
+      end
+    end
   end
 
   def create
