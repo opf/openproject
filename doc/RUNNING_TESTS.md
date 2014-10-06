@@ -85,7 +85,7 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 
 ## Running tests with Karma
 
-To run JavaScript tests, first ensure you have Karma and all necessary
+To run JavaScript unit tests, first ensure you have Karma and all necessary
 dependencies installed via npm (i.e. `npm install`). If you want a single test
 run, use the standard npm command:
 
@@ -96,6 +96,21 @@ more options (such as another Browsers), invoke the Karma command directly. e.g.
 
     ./node_modules/karma/bin/karma start
     ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
+
+## Running tests with Protractor
+
+To run JavaScript e2e tests, ensure you have the necessary prerequisites:
+Protractor (installed via npm) and Selenium WebDriver:
+
+    npm install -g protractor
+    webdriver-manager update
+
+You currently need to manually start the Rails application on port 3000.
+
+You can then proceed to start both the Selenium server and Protractor:
+
+    webdriver-manager start
+    ./node_modules/protractor/bin/protractor protractor/conf.js
 
 ## RSpec
 
