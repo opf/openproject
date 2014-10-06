@@ -125,10 +125,9 @@
 
 
 <div class="work-packages--split-view">
-  <div class="work-packages--list" cg-busy="settingUpPage">
+  <div class="work-packages--list" cg-busy="[settingUpPage,refreshWorkPackages]">
     <div class="work-packages--list-table-area">
       <work-packages-table ng-if="rows && columns"
-                           cg-busy="refreshWorkPackages"
                            project-identifier="projectIdentifier"
                            columns="columns"
                            rows="rows"
