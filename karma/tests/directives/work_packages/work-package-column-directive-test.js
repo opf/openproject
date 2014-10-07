@@ -205,6 +205,7 @@ describe('workPackageColumn Directive', function() {
           sheep: 10,
           parent: { id: 1, subject: 'Test child work package' },
           parent_id: 1,
+          assigned_to: { id: 1, name: 'Name', firstname: 'My', type: 'User' },
           custom_values: [ { custom_field_id: 1, field_format: 'string', value: 'asdf1234'} ],
           project: {
             id:         29,
@@ -213,6 +214,49 @@ describe('workPackageColumn Directive', function() {
         };
         scope.displayType = 'link';
        });
+
+      describe('to assignee', function() {
+        describe('who is a regular user', function() {
+          beforeEach(function() {
+            scope.column = {
+              meta_data: { data_type: 'object', link: { display: true, model_type: 'user'} },
+              name: 'assigned_to'
+            };
+            scope.workPackage.assigned_to.type = 'User';
+            compile();
+          });
+
+          it('should have correct href', function() {
+            var content = element.find('a').last();
+            expect(content.attr('href')).to.equal('/users/1');
+          });
+
+          it('should have the title equal to content', function() {
+            var tag = element.find('a').last();
+            expect(tag.attr('title')).to.equal(tag.text());
+          });
+        });
+
+        describe('who is a group', function() {
+          beforeEach(function() {
+            scope.column = {
+              meta_data: { data_type: 'object', link: { display: true, model_type: 'user'} },
+              name: 'assigned_to'
+            };
+            scope.workPackage.assigned_to.type = 'Group';
+            compile();
+          });
+
+          it('should not be a link', function() {
+            expect(element.find('a').length).to.equal(0);
+          });
+
+          it('should only have the name as content', function() {
+            var content = element.find('span').first();
+            expect(content.text()).to.equal('Name');
+          });
+        });
+      });
 
       describe('to project', function() {
         beforeEach(function() {
