@@ -28,11 +28,14 @@
 
 angular.module('openproject.viewModels')
 
+.constant('MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', 3)
+
 .factory('CommonRelationsHandler', [
     '$timeout',
     'WorkPackageService',
     'ApiHelper',
-    function($timeout, WorkPackageService, ApiHelper) {
+    'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS',
+    function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -84,34 +87,41 @@ angular.module('openproject.viewModels')
     },
 
     applyCustomExtensions: function() {
-      // Massive hack alert - Using old prototype autocomplete ///////////
       if(this.canAddRelation) {
         var workPackage = this.workPackage;
         var relationsId = this.relationsId;
+        var handler = this;
 
-        $timeout(function() {
-          if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
-            var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
-            new Ajax.Autocompleter('relation_to_id-' + relationsId,
-                                   'related_issue_candidates-' + relationsId,
-                                   url,
-                                   { minChars: 1,
-                                     frequency: 0.5,
-                                     paramName: 'q',
-                                     updateElement: function(value) {
-                                       // Have to use the duplicate assignment here to update the field
-                                       // * to the user
-                                       // * to the angular scope
-                                       // Doing just one will not suffice.
-                                       angular.element('#relation_to_id-' + relationsId).val(value.id)
-                                                                                        .scope().relationToAddId = value.id;
-                                     },
-                                     parameters: 'scope=all'
-                                     });
-          }
-        });
+        $timeout(function() { handler.addAutocompleter(MAX_AUTOCOMPLETER_ADDITION_ITERATIONS, workPackage, relationsId); });
       }
-      ////////////////////////////////////////////////////////////////////
+    },
+
+    addAutocompleter: function(retries, workPackage, relationsId) {
+      if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
+        // Massive hack alert - Using old prototype autocomplete ///////////
+        var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
+        new Ajax.Autocompleter('relation_to_id-' + relationsId,
+                               'related_issue_candidates-' + relationsId,
+                               url,
+                               { minChars: 1,
+                                 frequency: 0.5,
+                                 paramName: 'q',
+                                 updateElement: function(value) {
+                                   // Have to use the duplicate assignment here to update the field
+                                   // * to the user
+                                   // * to the angular scope
+                                   // Doing just one will not suffice.
+                                   angular.element('#relation_to_id-' + relationsId).val(value.id)
+                                                                                    .scope().relationToAddId = value.id;
+                                 },
+                                 parameters: 'scope=all'
+                                 });
+          ////////////////////////////////////////////////////////////////////
+      } else if (retries > 0) {
+        var handler = this;
+
+        $timeout(function() { handler.addAutocompleter(--retries, workPackage, relationsId); });
+      }
     },
 
     getRelatedWorkPackage: function(workPackage, relation) {
