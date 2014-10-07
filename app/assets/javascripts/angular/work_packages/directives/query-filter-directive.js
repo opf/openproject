@@ -78,15 +78,6 @@ angular.module('openproject.workPackages.directives')
         }
       }, true);
 
-      function applyFilters() {
-        if (scope.showValueOptionsAsSelect) {
-          return scope.updateResults();
-        } else {
-          updateResultsJob = WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
-          return updateResultsJob;
-        }
-      }
-
       function buildOptions(values) {
         return values.map(function(value) {
           return [value.name, value.id];
