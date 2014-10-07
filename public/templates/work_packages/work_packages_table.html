@@ -194,5 +194,13 @@
 </table>
 <div class="work-packages-table--header-background"></div>
 <div class="work-packages-table--footer-background" ng-if="displaySums"></div>
+<div class="work-packages-table--no-results-container" ng-if="!rows.length">
+  <h2 class="work-packages-table--no-results-title">
+    <i class="icon-info"></i>
+    {{ I18n.t('js.work_packages.no_results.title') }}
+  </h2>
+  <div class="work-packages-table--no-results-description"
+    ng-bind-html="I18n.t('js.work_packages.no_results.description_html')"></div>
+</div>
 </div>
 </div>
