@@ -125,90 +125,95 @@ div
 
 // Detail Panel Content
 
-span.subtitle
+.subtitle
   margin: 0px 0 0 0
   padding: 0 0 10px 0
   display: block
   font-size: 12px
   font-size: 0.75rem
 
-div
-  &.select-type
-    font-size: 20px
-    font-size: 1.25rem
-    line-height: 26px
-    float: left
-    color: $content_link_color
-  &.detail-panel-description
-    float: left
-    margin: 0
-    line-height: 18px
-  &.panel-toggler
-    float: left
+.select-type
+  font-size: 20px
+  font-size: 1.25rem
+  line-height: 26px
+  float: left
+  color: $content_link_color
+
+.detail-panel-description
+  float: left
+  margin: 0
+  line-height: 18px
+
+.panel-toggler
+  float: left
+  width: 100%
+  color: #777777
+
+  fieldset
+    border-top: 1px solid #ddd
+    border-left: 0px
+    border-right: 0px
+    border-bottom: 0px
+    cursor: pointer
     width: 100%
-    color: #777777
-    fieldset
-      border-top: 1px solid #ddd
-      border-left: 0px
-      border-right: 0px
-      border-bottom: 0px
-      cursor: pointer
-      width: 100%
-    legend
-      padding: 0 20px
-    span
-      background: #ffffff
-      padding: 0
-      font-size: 12px
-      font-size: 0.75rem
-    i
-      background: #ffffff
-      padding: 0 10px 0 0px
+  legend
+    padding: 0 20px
+  span
+    background: #ffffff
+    padding: 0
+    font-size: 12px
+    font-size: 0.75rem
+  i
+    background: #ffffff
+    padding: 0 10px 0 0px
 
-  &#detail-panel-watchers
-    width: 100%
-    padding-top: 30px
-    ul
-      margin: 15px 0
-      padding: 0 0 15px 0
-      list-style-type: none
-      li
-        clear: both
-        height: 24px
+#detail-panel-watchers
+  width: 100%
+  padding-top: 30px
 
-    .detail-panel-watchers-delete-watcher-icon
-      padding: 0 8px
-      font-size: 10px
-      color: $colors-red
-    fieldset
-      border: 0
-    #detail-panel-watchers-add-watcher
-      clear: left
+  ul
+    margin: 15px 0
+    padding: 0 0 15px 0
+    list-style-type: none
 
-  &.detail-panel-attributes
-    float: left
-    margin: 15px 0 0 0
-    width: 100%
+    li
+      clear: both
+      height: 24px
 
-    ul
-      list-style-type: none
-      +display(flex)
-      +flex-wrap(wrap)
-      margin: 10px 0 0 0
-      padding: 0
+  .detail-panel-watchers-delete-watcher-icon
+    padding: 0 8px
+    font-size: 10px
+    color: $colors-red
+  fieldset
+    border: 0
 
-      li
-        margin: 0 0 25px 0
-        padding: 0
-        +flex(1 0 33%)
-        max-width: 33%
+  #detail-panel-watchers-add-watcher
+    clear: left
 
-  &.detail-panel-attributes-toggler
-    float: left
+.detail-panel-attributes
+  float: left
+  margin: 15px 0 0 0
+  width: 100%
+
+  ul
+    list-style-type: none
+    +display(flex)
+    +flex-wrap(wrap)
     margin: 10px 0 0 0
-    width: 100%
-    text-align: center
-    border-bottom: 1px solid #ddd
+    padding: 0
+
+    li
+      margin: 0 0 25px 0
+      padding: 0
+      +flex(1 0 33%)
+      max-width: 33%
+
+.detail-panel-attributes-toggler
+  float: left
+  margin: 10px 0 0 0
+  width: 100%
+  text-align: center
+  border-bottom: 1px solid #ddd
 
 .work-package-attributes--label
   font-weight: bold
