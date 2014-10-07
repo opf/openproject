@@ -1,0 +1,13 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: teatro
+  pool: 5
+  min_messages: warning
+  username: postgres
+
+development:
+  <<: *default
+
+production:
+  <<: *default
