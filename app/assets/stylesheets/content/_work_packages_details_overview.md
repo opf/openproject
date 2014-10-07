@@ -17,14 +17,14 @@
       <div class="work-package-attributes--label">Assignee</div>
       <div class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -user">
-          <p>
-            <span>
-              <img class="avatar-mini" alt="Avatar" title="Max Mustermann" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
-              <span class="user">
-                <a class="user-field-user-link" href="#">Max Mustermann</a>
+          <span class="user-avatar--container">
+            <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails+filter-junk-away@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+            <span class="user-avatar--user-with-role">
+              <span class="user-avatar--user">
+                <a class="user-avatar--user-link" href="#">testing.long.emails+filter-junk-away@openproject.org</a>
               </span>
             </span>
-          </p>
+          </span>
         </div>
       </div>
     </li>
@@ -32,14 +32,18 @@
       <div class="work-package-attributes--label">Responsible</div>
       <div class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -user">
-          <p>
-            <span>
-              <img class="avatar-mini" alt="Avatar" title="Max Mustermann" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
-              <span class="user">
-                <a class="user-field-user-link" href="#">Max Mustermann</a>
+          <span class="user-avatar--container">
+            <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails+filter-junk-away@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+            <span class="user-avatar--user-with-role">
+              <span class="user-avatar--user">
+                <a class="user-avatar--link" href="#">Karl-Theodor zu Guttenberg (copy)</a>
+              </span>
+              <span class="user-avatar--role">
+                Distinguished Statesman.
+                Former Minister for Economics and Technology.
               </span>
             </span>
-          </p>
+          </span>
         </div>
       </div>
     </li>
@@ -97,14 +101,17 @@
       <div class="work-package-attributes--label">Custom User</div>
       <div class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -user">
-          <p>
-            <span>
-              <img class="avatar-mini" alt="Avatar" title="Max Mustermann" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
-              <span class="user">
-                <a class="user-field-user-link" href="#">Max Mustermann</a>
+          <span class="user-avatar--container">
+            <img class="user-avatar--avatar" alt="Avatar" title="Max Mustermann" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+            <span class="user-avatar--user-with-role">
+              <span class="user-avatar--user">
+                <a class="user-avatar--user-link" href="#">Max Mustermann</a>
+              </span>
+              <span class="user-avatar--role">
+                Fully Generic Person
               </span>
             </span>
-          </p>
+          </span>
         </div>
       </div>
     </li>
