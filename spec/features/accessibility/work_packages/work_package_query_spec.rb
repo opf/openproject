@@ -260,6 +260,7 @@ describe 'Work package index accessibility', :type => :feature do
             expect(page).to have_selector(target_link)
             element = find(target_link)
             element.native.send_keys(:enter)
+            expect(page).not_to have_selector(target_link)
           end
 
           it { expect(page).to have_selector(source_link + ':focus') }
