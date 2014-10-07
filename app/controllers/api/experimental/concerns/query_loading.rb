@@ -76,7 +76,7 @@ module Api::Experimental::Concerns::QueryLoading
       links[:update]      = api_experimental_query_path(query) if auth.allowed?(query,
                                                                                 :update)
       links[:delete]      = api_experimental_query_path(query) if auth.allowed?(query,
-                                                                                :delete)
+                                                                                :destroy)
       links[:publicize]   = api_experimental_query_path(query) if auth.allowed?(query,
                                                                                 :publicize)
       links[:depublicize] = api_experimental_query_path(query) if auth.allowed?(query,
