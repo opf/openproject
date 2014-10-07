@@ -279,8 +279,8 @@ describe QueryPolicy, type: :controller do
 
     it_should_behave_like 'action on persisted', :update, global: true
     it_should_behave_like 'action on persisted', :update, global: false
-    it_should_behave_like 'action on persisted', :delete, global: true
-    it_should_behave_like 'action on persisted', :delete, global: false
+    it_should_behave_like 'action on persisted', :destroy, global: true
+    it_should_behave_like 'action on persisted', :destroy, global: false
     it_should_behave_like 'action on unpersisted', :create, global: true
     it_should_behave_like 'action on unpersisted', :create, global: false
     it_should_behave_like 'publicize', global: false
