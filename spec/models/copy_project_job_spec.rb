@@ -48,8 +48,8 @@ describe CopyProjectJob do
   end
 
   before { User.stub(:current).and_return(user) }
-
   describe 'perform' do
+    before { User.should_receive(:current=).with(user) }
     describe 'subproject' do
       let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
       let(:subproject) { FactoryGirl.create(:project, parent: project) }
