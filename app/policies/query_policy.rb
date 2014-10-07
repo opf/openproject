@@ -39,7 +39,7 @@ class QueryPolicy < BasePolicy
     @cache ||= Hash.new do |hash, query|
       hash[query] = {
         update: persisted_and_own_or_public?(query),
-        delete: persisted_and_own_or_public?(query),
+        destroy: persisted_and_own_or_public?(query),
         create: create_allowed?(query),
         publicize: publicize_allowed?(query),
         depublicize: depublicize_allowed?(query),

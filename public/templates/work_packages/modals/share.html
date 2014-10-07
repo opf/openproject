@@ -9,7 +9,7 @@
         <input type="checkbox"
                name="is_public"
                ng-model="query.isPublic"
-               ng-disabled="cannot('query', 'publicize')"
+               ng-disabled="cannot('query', 'publicize') && cannot('query', 'depublicize')"
                focus></input>
         <div class="styled-checkbox"></div>
         {{ I18n.t('js.label_visible_for_others') }}
