@@ -1,11 +1,7 @@
-<div>
-  <table class="progress" ng-style="{width: width}">
-    <tbody>
-      <tr>
-        <td class="closed" ng-if="progressInPercent > 0" ng-style="{width: progressInPercent + '%'}"></td>
-        <td class="todo" ng-style="{width: (scaleLength - progressInPercent) + '%'}"></td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="progress-bar-legend">{{ I18n.t('js.label_total_progress', { percent: progressInPercent }) }}</p>
-</div>
+<span>
+  <span ng-style="{width: width}" class="progress-bar">
+    <span ng-style="{width: progressInPercent + '%'}" class="inner-progress closed"></span>
+    <span style="width: 0%" class="inner-progress done"></span>
+  </span>
+  <span class="progress-bar-legend">{{ I18n.t('js.label_total_progress', { percent: progressInPercent || 0 }) }}</span>
+</span>

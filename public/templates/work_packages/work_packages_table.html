@@ -62,7 +62,7 @@
         }"
         id="group-header-{{ row.groupName }}">
       <td colspan="{{ columns.length + 2 - (!!hideWorkPackageDetails * 1) }}">
-        <span ng-class="[
+        <div ng-class="[
                 'expander',
                 'icon-context',
                 'icon-' + (groupExpanded[currentGroup] && 'minus' || 'plus')
@@ -76,9 +76,9 @@
             {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}
           </span>
           <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
-        </span>
+        </div>
 
-        <span>
+        <div>
           <span work-package-column
                 work-package="row.object"
                 column="groupByColumn"
@@ -95,7 +95,7 @@
               </a>
             </span>
           </span>
-        </span>
+        </div>
 
       </td>
     </tr>

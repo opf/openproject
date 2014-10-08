@@ -28,8 +28,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <p>
-  <%= Version.human_attribute_name(:start_date) %> <%= h(format_date(version.start_date)) %>
-  <%= Version.human_attribute_name(:due_date) %> <%= h(format_date(version.due_date)) %>
+  <% if version.start_date %>
+    <%= Version.human_attribute_name(:start_date) %> <%= h(format_date(version.start_date)) %>
+  <% end %>
+  <% if version.start_date %>
+    <%= Version.human_attribute_name(:due_date) %> <%= h(format_date(version.due_date)) %>
+  <% end %>
 </p>
 
 <% if !version.completed? && version.due_date %>
@@ -46,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 
 <% if version.fixed_issues.count > 0 %>
-  <%= progress_bar([version.closed_percent, version.completed_percent], :width => '40em', :legend => ('%0.0f%' % version.completed_percent)) %>
+  <%= progress_bar([version.closed_percent, version.completed_percent], :width => '40em', :legend => ('%0.0f' % version.completed_percent)) %>
   <p class="progress-info">
     <%= link_to_if(version.closed_issues_count > 0,
                    l(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),

@@ -28,33 +28,25 @@
 
 /***** Progress bar ****
 
-#content table.progress
-  border-spacing: 0pt
-  empty-cells: show
-  text-align: center
-  float: left
+.progress-bar
+  display: inline-block
   margin: 3px 6px 1px 0px
+  height: 0.9em
   border: 1px solid #BBBBBB
-  border-collapse: separate
   -moz-border-radius: 3px
   -webkit-border-radius: 3px
   border-radius: 3px
-  td
-    height: 0.9em
-    &.closed
-      background: #BAE0BA none repeat scroll 0%
+  background: #FFFFFF none repeat scroll 0%
+
+  .inner-progress
+    display: inline-block
+    float: left
+    height: 100%
     &.done
       background: #DEF0DE none repeat scroll 0%
-    &.open
-      background: #FFF none repeat scroll 0%
+    &.closed
+      background: #BAE0BA none repeat scroll 0%
 
-p
-  &.pourcent
-    font-size: 80%
-  &.progress-bar-legend
-    font-size: 80%
-    float: left
-  &.progress-info
-    clear: left
-    font-style: italic
-    font-size: 80%
+.progress-bar-legend
+  font-size: 80%
+

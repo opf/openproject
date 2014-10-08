@@ -52,19 +52,17 @@ describe('progressBar Directive', function() {
         compile();
       });
 
-      it('should render a div', function() {
-        expect(element.prop('tagName')).to.equal('DIV');
+      it('should render a span', function() {
+        expect(element.prop('tagName')).to.equal('SPAN');
       });
 
       it('should have a legend attribute', function() {
         expect(element.attr('legend').trim()).to.equal('State of things');
       });
 
-      it('should have an inner table cell with appropriate width', function() {
-        var cell = element.find('table td');
-
-        expect(cell.length).to.equal(2); // ng-if adds 2 to DOM
-        expect(cell.css('width')).to.equal('50%');
+      it('should have an inner span with appropriate width', function() {
+        var span = element.find('.inner-progress.closed');
+        expect(span.css('width')).to.equal('50%');
       });
 
       describe('when the progress is updated within the scope', function() {
@@ -74,7 +72,7 @@ describe('progressBar Directive', function() {
         });
 
         it('should update the progress bar', function() {
-          var cell = element.find('table td');
+          var cell = element.find('.inner-progress.closed');
           expect(cell.css('width')).to.equal('20%');
         });
       });
