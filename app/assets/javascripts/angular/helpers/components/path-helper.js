@@ -198,7 +198,7 @@ angular.module('openproject.helpers')
     },
     apiUsersPath: function() {
       // experimantal, TODO: Migrate to V3
-      return PathHelper.apiExperimental + PathHelper.usersPath();
+      return PathHelper.apiExperimental + '/users';
     },
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';
