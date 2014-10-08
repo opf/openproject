@@ -1,0 +1,116 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+.detail-panel-attributes
+  float: left
+  margin: 15px 0 0 0
+  width: 100%
+
+  ul
+    list-style-type: none
+    +display(flex)
+    +flex-wrap(wrap)
+    margin: 10px 0 0 0
+    padding: 0
+
+    li
+      margin: 0 0 25px 0
+      padding: 0
+      +flex(1 0 33%)
+      max-width: 33%
+
+.detail-panel-attributes-toggler
+  float: left
+  margin: 10px 0 0 0
+  width: 100%
+  text-align: center
+  border-bottom: 1px solid #ddd
+
+.work-package-attributes--label
+  font-weight: bold
+  margin: 0 0 7px 0
+  padding: 0 4px 0 0
+
+.work-package-attributes--value-container
+  padding: 0 4px 0 0
+  display: block
+
+.work-package-attributes--value
+  &.-dynamic,
+  &.-version,
+  &.-category,
+  &.-text,
+    +ellipsis
+
+
+.detail-panel-latest-activity
+  float: left
+  margin: 10px 0 0 0
+  line-height: 18px
+  width: 100%
+  h3
+    margin: 0 0 10px 0
+    padding: 0
+    font-size: 14px
+    font-size: 0.875rem
+    font-weight: bold
+  ul
+    margin: 0
+    padding: 0
+    list-style-type: none
+    li
+      margin: 0 0 20px 0
+      padding: 0
+
+
+.panel-toggler
+  float: left
+  width: 100%
+  color: #777777
+
+  fieldset
+    border-top: 1px solid #ddd
+    border-left: 0px
+    border-right: 0px
+    border-bottom: 0px
+    cursor: pointer
+    width: 100%
+  legend
+    padding: 0 20px
+  span
+    background: #ffffff
+    padding: 0
+    font-size: 12px
+    font-size: 0.75rem
+  i
+    background: #ffffff
+    padding: 0 10px 0 0px
+  a
+    color: inherit
+    &:hover
+      text-decoration: inherit

@@ -1,4 +1,4 @@
-# Work Packages Detail Overview
+# Work Packages - [Details Pane] - Overview
 
 ## Attributes
 
