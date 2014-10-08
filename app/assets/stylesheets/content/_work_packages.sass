@@ -50,12 +50,11 @@
     font-weight:  bold
     border:       none
 
-div
-  .report-category-actions
-    margin-top: -28px
-    font-size: 17px // like h3
-    width: 100%
-    text-align: right
+.report-category-actions
+  margin-top: -28px
+  font-size: 17px // like h3
+  width: 100%
+  text-align: right
 
 #work_package-form
   @extend %form-style
@@ -232,7 +231,7 @@ div
     +ellipsis
 
 
-div.detail-panel-latest-activity
+.detail-panel-latest-activity
   float: left
   margin: 10px 0 0 0
   line-height: 18px
@@ -251,7 +250,7 @@ div.detail-panel-latest-activity
       margin: 0 0 20px 0
       padding: 0
 
-div.work-package-details-tab
+.work-package-details-tab
   img
     &.avatar
       float: left
@@ -260,33 +259,37 @@ div.work-package-details-tab
       float: left
       margin: -3px 7px 0 0
 
-span
-  &.user
-    display: block
-    line-height: 16px
-  &.date
-    display: block
-    font-size: 12px
-  &.comment
-    display: block
-    margin: 10px 0 0 46px
-    padding: 0 100px 0 0
-    color: #777777
-    font-style: italic
+// TODO: remove or rename with more specific name
+span.user
+  display: block
+  line-height: 16px
 
-div
-  &.comments-number
-    padding: 0
-    float: right
-    text-align: right
-    display: block
-  &.comments-icons
-    padding: 0
-    text-align: right
-    display: block
-    i
-      padding: 5px 0 0 5px
-      display: inline-block
+// TODO: remove or rename with more specific name
+span.date
+  display: block
+  font-size: 12px
+
+// TODO: remove or rename with more specific name
+span.comment
+  display: block
+  margin: 10px 0 0 46px
+  padding: 0 100px 0 0
+  color: #777777
+  font-style: italic
+
+.comments-number
+  padding: 0
+  float: right
+  text-align: right
+  display: block
+
+.comments-icons
+  padding: 0
+  text-align: right
+  display: block
+  i
+    padding: 5px 0 0 5px
+    display: inline-block
 
 .comment ul
   list-style-type: disc !important
@@ -295,31 +298,30 @@ div
     padding: 0 !important
     margin: 0 !important
 
-div
-  &.comments-form
-    float: left
+.comments-form
+  float: left
+  width: 100%
+  margin: 10px 0 100px 0
+  textarea
+    border: 1px solid #dddddd
+    padding: 8px
+    border-radius: 2px
+    font-size: 13px
+    font-size: 0.8125rem
+    box-sizing: border-box
     width: 100%
-    margin: 10px 0 100px 0
-    textarea
-      border: 1px solid #dddddd
-      padding: 8px
-      border-radius: 2px
-      font-size: 13px
-      font-size: 0.8125rem
-      box-sizing: border-box
-      width: 100%
-    button
-      float: right
-      font-size: 13px
-      font-size: 0.8125rem
-      background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
-      border: 1px solid #CCCCCC
-      border-radius: 2px
-      color: #222222
-      margin: 10px 0 0 0px
-      padding: 4px 10px 2px
-      cursor: pointer
-      height: 32px
+  button
+    float: right
+    font-size: 13px
+    font-size: 0.8125rem
+    background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
+    border: 1px solid #CCCCCC
+    border-radius: 2px
+    color: #222222
+    margin: 10px 0 0 0px
+    padding: 4px 10px 2px
+    cursor: pointer
+    height: 32px
 
 i
   &.icon-left
