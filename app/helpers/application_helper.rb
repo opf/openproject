@@ -453,27 +453,30 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
+  # Generates the HTML for a progress bar
+  # Params:
+  # * pcts:
+  #   * a number indicating the percentage done
+  #   * or an array of two numbers -> [percentage_closed, percentage_done]
+  #     where percentage_closed <= percentage_done
+  #     and   percentage_close + percentage_done <= 100
+  # * options:
+  #   A hash containing the following keys:
+  #   * width: (default '100px') the css-width for the progress bar
+  #   * legend: (default: '') the text displayed alond with the progress bar
   def progress_bar(pcts, options={})
-    pcts = [pcts, pcts] unless pcts.is_a?(Array)
-    pcts = pcts.collect(&:round)
-    pcts[1] = pcts[1] - pcts[0]
-    pcts << (100 - pcts[1] - pcts[0])
+    pcts = Array(pcts).map(&:round)
+    closed = pcts[0]
+    done   = (pcts[1] || closed) - closed
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
 
-    bar = content_tag 'table', { :class => 'progress', :style => "width: #{width};" } do
-      row = content_tag 'tr' do
-        ((pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
-        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')).html_safe
-      end
+    content_tag :span do
+      content_tag :span, {class: 'progress-bar', style: "width: #{width}"} do
+        content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%") +
+        content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
+      end.<<(content_tag :span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
     end
-
-    number = content_tag 'p', :class => 'percent' do
-      legend + '% ' + l(:total_progress)
-    end
-
-    bar + number
   end
 
   def checked_image(checked=true)
