@@ -243,7 +243,12 @@ describe 'Work package index accessibility', :type => :feature do
 
   describe 'context menus' do
 
-    before { visit_index_page }
+    before do
+      window = Capybara.current_session.driver.browser.manage.window
+      window.maximize
+
+      visit_index_page
+    end
 
     shared_examples_for 'context menu' do
       describe 'focus' do
