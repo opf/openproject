@@ -28,11 +28,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_specific do %>
-  <%= li_unless_nil(link_to_if_authorized(l(:button_copy),
-                                          { :controller => "copy_projects",
-                                            :action => "copy_project",
-                                            :coming_from => :settings },
-                                          :class => 'copy icon icon-copy',
-                                          :accesskey => accesskey(:copy))) %>
+  <%= li_unless_nil(link_to(l(:button_copy),
+                            { :controller => "copy_projects",
+                              :action => "copy_project",
+                              :coming_from => :settings },
+                            :class => 'copy icon icon-copy',
+                            :accesskey => accesskey(:copy))) if @project.copy_allowed? %>
 <% end %>
 <%= render :partial => 'layouts/action_menu_specific' %>
