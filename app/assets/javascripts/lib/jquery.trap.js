@@ -23,7 +23,7 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
 */
 
 /*jshint boss: true, bitwise: true, curly: true, expr: true, newcap: true, noarg: true, nonew: true, latedef: true, regexdash: true */
-    
+
     var DATA_ISTRAPPING_KEY = "trap.isTrapping";
 
     function onkeypress(e) {
@@ -35,16 +35,15 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
             }
         }
     }
-    
+
     // will return true if we could process the tab event
     // otherwise, return false
     function processTab(container, elt, goReverse) {
         var $focussable = getFocusableElementsInContainer(container),
             curElt = elt,
             index, nextIndex, prevIndex, lastIndex;
-        
+
         do {
-        
             index = $focussable.index(curElt);
             nextIndex = index + 1;
             prevIndex = index - 1;
@@ -60,11 +59,11 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
                     nextIndex = 0;
                     break;
             }
-                            
+
             if (goReverse) {
                 nextIndex = prevIndex;
             }
-            
+
             curElt = $focussable.get(nextIndex);
             // IE sometimes throws when an element is not visible
             try {
@@ -76,26 +75,26 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
 
         return true;        
     }
-    
+
     function filterKeepSpeciallyFocusable() {
         return this.tabIndex > 0;
     }
-    
+
     function filterKeepNormalElements() {
         return !this.tabIndex; // true if no tabIndex or tabIndex == 0
     }
-    
+
     function sortFocusable(a, b) {
         return (a.t - b.t) || (a.i - b.i);
     }
-    
+
     function getFocusableElementsInContainer(container) {
         var $container = $(container);
         var result = [],
             cnt = 0;
 
         fixIndexSelector.enable && fixIndexSelector.enable();
-        
+
         // leaving away command and details for now
         $container.find("a[href], link[href], [draggable=true], [contenteditable=true], :input:enabled, [tabindex=0]")
             .filter(":visible")
@@ -107,7 +106,7 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
                     i: cnt++ // index for stable sort
                 });
             });
-            
+
         $container
             .find("[tabindex]")
             .filter(":visible")
@@ -121,34 +120,34 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
             });
 
         fixIndexSelector.disable && fixIndexSelector.disable();
-        
+
         result = $.map(result.sort(sortFocusable), // needs stable sort
             function(val) {
                 return val.v;
             }
         );
-            
-        
+
+
         return $(result);
-        
+
     }
-    
+
     function trap() {
         this.keydown(onkeypress);
         this.data(DATA_ISTRAPPING_KEY, true);
         return this;
     }
-    
+
     function untrap() {
         this.unbind('keydown', onkeypress);
         this.removeData(DATA_ISTRAPPING_KEY);
         return this;
     }
-    
+
     function isTrapping() {
         return !!this.data(DATA_ISTRAPPING_KEY);
     }
-    
+
     $.fn.extend({
         trap: trap,
         untrap: untrap,
@@ -159,7 +158,7 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
     // this triggers problems for tabindex attribute
     // selectors in IE7-
     // see https://github.com/julienw/jquery-trap-input/issues/3
-    
+
    var fixIndexSelector = {};
 
    if ($.find.find && $.find.attr !== $.attr) {
@@ -168,7 +167,7 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
        (function() {
             var tabindexKey = "tabindex";
             var sizzleAttrHandle = $.expr.attrHandle;
-                
+
             // this function comes directly from jQuery 1.7.2 (propHooks.tabIndex.get)
             // we have to put it here if we want to support jQuery < 1.6 which
             // doesn't have an attrHooks object to reference.
@@ -181,18 +180,18 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
                     parseInt( attributeNode.value, 10 ) :
                     undefined;
             }
-            
+
             function fixSizzleAttrHook() {
                 // in jQ <= 1.6.x, we add to Sizzle the attrHook from jQuery's attr method
                 sizzleAttrHandle[tabindexKey] = sizzleAttrHandle.tabIndex = getTabindexAttr;
             }
-            
+
             function unfixSizzleAttrHook() {
                 delete sizzleAttrHandle[tabindexKey];
                 delete sizzleAttrHandle.tabIndex;
             }
 
-            
+
             fixIndexSelector = {
                 enable: fixSizzleAttrHook,
                 disable: unfixSizzleAttrHook
