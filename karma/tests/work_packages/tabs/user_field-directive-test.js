@@ -62,11 +62,11 @@ describe('userField Directive', function() {
 
         context("user's avatar", function() {
           it('should have an alt attribute', function() {
-            expect(element.find('.avatar-mini').attr('alt')).to.equal('Avatar');
+            expect(element.find('.user-avatar--avatar').attr('alt')).to.equal('Avatar');
           });
 
           it("should have the title set to user's name", function() {
-            expect(element.find('.avatar-mini').attr('title')).to.equal('John Doe');
+            expect(element.find('.user-avatar--avatar').attr('title')).to.equal('John Doe');
           });
 
         });
