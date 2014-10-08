@@ -65,15 +65,17 @@ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
             }
 
             curElt = $focussable.get(nextIndex);
-            // IE sometimes throws when an element is not visible
+            if (!curElt || curElt === elt) { return true; }
+
             try {
                 curElt.focus();
-            } catch(e) {
+            } catch(e) { // IE sometimes throws when an element is not visible
+                return true;
             }
-        
-        } while (elt === elt.ownerDocument.activeElement);
 
-        return true;        
+        } while ($focussable.length > 1 && elt === elt.ownerDocument.activeElement);
+
+        return true;
     }
 
     function filterKeepSpeciallyFocusable() {
