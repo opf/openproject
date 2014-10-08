@@ -301,6 +301,10 @@ de:
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
+      no_results:
+        title: Keine Arbeitspakete anzuzeigen
+        description_html: |
+          <p>Es wurden entweder keine Arbeitspaketet erzeugt oder alle Arbeitspakete wurden ausgefiltert.</p>
       properties:
         assignee: "Zugewiesen an"
         author: "Autor"

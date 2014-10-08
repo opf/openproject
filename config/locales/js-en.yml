@@ -304,6 +304,10 @@ en:
       label_options: "Options"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
+      no_results:
+        title: No work packages to display
+        description_html: |
+          <p>Either none have been created or all work packages are filtered out.</p>
       properties:
         assignee: "Assignee"
         author: "Author"
