@@ -12,7 +12,7 @@
           </span>
         </span>
       </span>
-      <a class="" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
+      <a class="detail-panel-watchers-delete-watcher-link" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
     </li>
     <li>
       <span class="user-avatar--container">
@@ -23,7 +23,7 @@
           </span>
         </span>
       </span>
-      <a class="" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
+      <a class="detail-panel-watchers-delete-watcher-link" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
     </li>
     <li>
       <span class="user-avatar--container">
@@ -34,7 +34,7 @@
           </span>
         </span>
       </span>
-      <a class="" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
+      <a class="detail-panel-watchers-delete-watcher-link" href=""><span><span class="detail-panel-watchers-delete-watcher-icon icon-context icon-button icon-close icon-context icon-button icon-close" title="Delete watcher"><span class="hidden-for-sighted">Delete watcher</span></span></span></a>
     </li>
   </ul>
 </div>
