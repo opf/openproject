@@ -135,7 +135,7 @@ Feature: Team Member
      When I view the stories in the work_packages tab
      Then I should see the WorkPackages page
      When I press "Filter"
-     Then I should see "Target version" within "#filters"
+     Then I should see "Version" within "#filters"
 
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"
