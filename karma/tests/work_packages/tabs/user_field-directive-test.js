@@ -27,51 +27,53 @@
 //++
 
 describe('userField Directive', function() {
-    var compile, element, rootScope, scope;
+  var compile, element, rootScope, scope;
 
-    beforeEach(angular.mock.module('openproject.workPackages.tabs'));
-    beforeEach(module('templates', 'openproject.helpers'));
+  beforeEach(angular.mock.module('openproject.workPackages.tabs'));
+  beforeEach(module('templates', 'openproject.helpers'));
 
-    beforeEach(inject(function($rootScope, $compile, PathHelper) {
-      var html;
-      html = '<user-field user="user"></user-field>';
+  beforeEach(inject(function($rootScope, $compile, PathHelper) {
+    var html;
+    html = '<user-field user="user"></user-field>';
 
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
 
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
-      };
-    }));
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-    describe('element', function() {
-      describe('with a valid user', function(){
-        beforeEach(function() {
-          scope.user = {
-            props: {
-              firstName: "John",
-              lastName: "Doe",
-              avatar: "avatar.png"
-            }
-          };
-          compile();
-          scope.$apply();
-        });
-
-        context("user's avatar", function() {
-          it('should have an alt attribute', function() {
-            expect(element.find('.user-avatar--avatar').attr('alt')).to.equal('Avatar');
-          });
-
-          it("should have the title set to user's name", function() {
-            expect(element.find('.user-avatar--avatar').attr('title')).to.equal('John Doe');
-          });
-
-        });
+  describe('element', function() {
+    describe('with a valid user', function() {
+      beforeEach(function() {
+        scope.user = {
+          props: {
+            firstName: "John",
+            lastName: "Doe",
+            avatar: "avatar.png"
+          }
+        };
+        compile();
+        scope.$apply();
       });
 
+      context("user's avatar", function() {
+        it('should have an alt attribute', function() {
+          expect(element.find('.user-avatar--avatar').attr(
+            'alt')).to.equal('Avatar');
+        });
 
+        it("should have the title set to user's name", function() {
+          expect(element.find('.user-avatar--avatar').attr(
+            'title')).to.equal('John Doe');
+        });
+
+      });
     });
+
+
+  });
 });
