@@ -127,7 +127,6 @@ angular.module('openproject.workPackages.directives')
           case 'user':
             if (scope.workPackage[scope.column.name].type == 'Group') {
               // if it's a group, we have nothing to link to
-              // in the (distant) future we will return a link to a group
               scope.displayType = 'text';
               return '';
             } else {
