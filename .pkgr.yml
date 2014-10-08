@@ -5,17 +5,21 @@ targets:
     build_dependencies:
       - libmagickwand-dev
       - libsqlite3-dev
-    dependencies:
-      - debconf
-      - memcached
+  fedora-20:
+    build_dependencies:
+      - ImageMagick-devel
 before_precompile: "packaging/setup"
-after_install: "packaging/debian/postinst"
-addons:
-  - mysql
-  - apache2
-  - svn-dav
-  - smtp
 crons:
   - packaging/cron/openproject-clear-old-sessions
   - packaging/cron/openproject-create-svn-repositories
-
+services:
+  - postgres
+installer: true
+wizards:
+  - https://github.com/pkgr/addon-mysql.git#installer
+  - https://github.com/pkgr/addon-apache2.git#installer
+  - https://github.com/pkgr/addon-svn-dav.git#installer
+  - https://github.com/pkgr/addon-smtp.git#installer
+  - https://github.com/pkgr/addon-memcached.git#installer
+  - https://github.com/pkgr/addon-openproject.git#installer
+buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
