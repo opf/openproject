@@ -39,7 +39,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       id: 42,
       created_at: DateTime.now,
       updated_at: DateTime.now,
-      category:   category
+      category:   category,
+      done_ratio: 50
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -93,6 +94,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('estimatedTime/units') }
       it { is_expected.to have_json_path('estimatedTime/value') }
+    end
+
+    describe 'percentageDone' do
+      describe 'work package done ratio setting behavior' do
+        context 'setting enabled' do
+          it { expect(parse_json(subject)['percentageDone']).to eq(50) }
+        end
+
+        context 'setting disabled' do
+          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+
+          it { expect(parse_json(subject)['percentageDone']).to be_nil }
+        end
+      end
     end
 
     describe '_links' do
