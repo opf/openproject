@@ -207,10 +207,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
   describe '#update' do
     context 'within a project' do
-      let(:query) { FactoryGirl.create(:query, project: project) }
-
-      include_context 'expects policy to be followed', :update
-
+      let(:user) { FactoryGirl.create(:user) }
+      let(:query) { FactoryGirl.create(:query, project: project, user: user) }
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
           'f' => ['status_id'],
@@ -225,9 +223,56 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'format' => 'json' }
       end
 
-      it 'responds with 200' do
-        post :update, valid_params
-        expect(response.response_code).to eql(200)
+      shared_examples_for 'valid query update' do
+        before { post :update, valid_params }
+
+        it { expect(response.response_code).to eql(200) }
+      end
+
+      describe 'query update' do
+        context 'w/o public state' do
+          include_context 'expects policy to be followed', :update
+
+          it_behaves_like 'valid query update'
+        end
+
+        describe 'public state' do
+          let(:role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
+          let!(:membership) { FactoryGirl.create(:member,
+                                                 user: user,
+                                                 project: query.project,
+                                                 role_ids: [role.id]) }
+
+          before { allow(User).to receive(:current).and_return(user) }
+
+          context 'with public state' do
+            include_context 'expects policy to be followed', :update
+
+            before { valid_params['is_public'] = true.to_s }
+
+            it_behaves_like 'valid query update'
+          end
+
+          context 'with public state only' do
+            let(:admin) { FactoryGirl.create(:admin) }
+
+            include_context 'expects policy to be followed', :publicize
+
+            it_behaves_like 'valid query update' do
+              let(:valid_params) do
+               { 'f' => ['status_id'],
+                 'is_public' => 'true',
+                 'name' => query.name,
+                 'op' => { 'status_id' => 'o' },
+                 'v' => { 'status_id' => [''] },
+                 'query_id' => query.id,
+                 'id' => query.id,
+                 'project_id' => project.id,
+                 'format' => 'json' }
+              end
+            end
+          end
+        end
       end
     end
 
