@@ -270,7 +270,7 @@ module API
         end
 
         def percentage_done
-          (Setting.work_package_done_ratio == 'disabled') ? nil : represented.percentage_done
+          represented.percentage_done unless Setting.work_package_done_ratio == 'disabled'
         end
       end
     end
