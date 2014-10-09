@@ -30,7 +30,7 @@
 describe('queryMenuItemFactory', function() {
   var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',
       $rootScope, scope,
-      queryMenuItemFactory, stateParams = {};
+      queryMenuItemFactory, state = {}, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.layout'));
   beforeEach(module('templates',
@@ -46,6 +46,10 @@ describe('queryMenuItemFactory', function() {
   }));
 
   beforeEach(module('templates', function($provide) {
+    // Mock check whether we are on a work_packages page
+    state = { includes: function() { return true; } }
+    $provide.value('$state', state);
+
     $provide.value('$stateParams', stateParams);
   }));
 
@@ -66,7 +70,7 @@ describe('queryMenuItemFactory', function() {
   }));
 
 
-  describe('#generateMenuItem', function() {
+  describe('#generateMenuItem for a query', function() {
     var menuItem, itemLink;
     var path = '/work_packages?query_id=1',
         title = 'Query',
@@ -110,6 +114,98 @@ describe('queryMenuItemFactory', function() {
         $rootScope.$broadcast('$stateChangeSuccess');
 
         expect(itemLink.hasClass('selected')).to.be.false;
+      });
+    });
+  });
+
+  describe('#generateMenuItem for the work package index item', function() {
+    var menuItem, itemLink;
+    var path = '/work_packages',
+        title = 'Work Packages',
+        objectId = undefined;
+
+    beforeEach(function() {
+      queryMenuItemFactory.generateMenuItem(title, path, objectId);
+      $rootScope.$apply();
+
+      menuItem = menuContainer.children('li');
+      itemLink = menuItem.children('a');
+      scope = itemLink.scope();
+    });
+
+    describe('on a work_package page', function() {
+
+      describe('for an undefined query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = undefined;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.true;
+        });
+      });
+
+      describe('for a null query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = null;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.true;
+        });
+      });
+
+      describe('for an integer query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = 1;
+          $timeout.flush();
+        }));
+
+        it('does not mark the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
+      });
+
+      describe('for a string query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = "1";
+          $timeout.flush();
+        }));
+
+        it('does not mark the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
+      });
+    });
+
+    describe('on a non-work package page', function() {
+      beforeEach(function() {
+        // Change mock for checking whether we are on a work_packages page
+        state.includes = function() { return false; };
+      });
+
+      describe('for an undefined query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = undefined;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
+      });
+
+      describe('for a null query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = null;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
       });
     });
   });
