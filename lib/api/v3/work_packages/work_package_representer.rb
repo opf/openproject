@@ -216,7 +216,10 @@ module API
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
-        property :percentage_done, render_nil: true, exec_context: :decorator
+        property :percentage_done,
+                 render_nil: true,
+                 exec_context: :decorator,
+                 setter: -> (value, *) { represented.percentage_done = value }
         property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
