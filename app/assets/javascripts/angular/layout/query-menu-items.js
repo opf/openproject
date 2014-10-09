@@ -52,7 +52,12 @@ angular.module('openproject.layout')
       scope.queryId = scope.objectId || attrs.objectId;
 
       function setActiveState() {
-        element.toggleClass('selected', String(scope.queryId || null) === String($stateParams.query_id));
+        // Apparently the queryId sometimes is an number, sometimes a string, sometimes
+        // undefined and sometimes null. String ensures number and string comparisons work,
+        // '|| null' ensures null and undefined are regarded as the same.
+        // No idea though, why these sometimes are null and sometimes are undefined.
+        element.toggleClass('selected', String(scope.queryId || null) ===
+                                        String($stateParams.query_id || null));
       }
       $timeout(setActiveState);
       scope.$on('$stateChangeSuccess', setActiveState);
