@@ -37,6 +37,7 @@ class Queries::WorkPackages::Filter < Queries::Filter
      due_date:         :date,
      estimated_hours:  :integer,
      done_ratio:       :integer,
+     parent_id:        :integer,
      project_id:       :list,
      category_id:      :list_optional,
      fixed_version_id: :list_optional,
