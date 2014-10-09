@@ -125,7 +125,7 @@ angular.module('openproject.workPackages.directives')
           case 'work_package':
             return PathHelper.workPackagePath(id);
           case 'user':
-            if (scope.workPackage[scope.column.name].type == 'Group') {
+            if (scope.workPackage[scope.column.name] && scope.workPackage[scope.column.name].type == 'Group') {
               // if it's a group, we have nothing to link to
               scope.displayType = 'text';
               return '';
