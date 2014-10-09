@@ -132,7 +132,32 @@ module Api::Experimental
     end
 
     def authorize_on_query
-      deny_access unless QueryPolicy.new(current_user).allowed?(@query, params[:action].to_sym)
+      deny_access unless action_on_query_allowed?(params[:action])
+    end
+
+    def action_on_query_allowed?(action)
+      actions = [action]
+
+      if actions.include? 'update'
+        original_query = Query.find(params[:id])
+        actions << ((original_query.is_public) ? :depublicize : :publicize) if @query.is_public != original_query.is_public
+
+        actions.delete('update') if actions.length > 1 && !query_changed(original_query)
+      end
+
+      allowed = actions.map(&:to_sym)
+                       .map { |action| QueryPolicy.new(current_user).allowed?(original_query || @query, action) }
+                       .reduce(:&)
+      allowed
+    end
+
+    def query_changed(query)
+      changed = [:group_by, :sort_criteria, :display_sums, :column_names, :name].each_with_object([]) do |attribute, l|
+        l << (@query.send(attribute) != query.send(attribute))
+      end.reduce(:|)
+
+      changed |= @query.filters.map(&:to_hash) != query.filters.map(&:to_hash)
+      changed
     end
 
     def visible_queries
