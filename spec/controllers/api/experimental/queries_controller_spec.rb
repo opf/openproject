@@ -253,22 +253,44 @@ describe Api::Experimental::QueriesController, :type => :controller do
             it_behaves_like 'valid query update'
           end
 
-          context 'with public state only' do
-            let(:admin) { FactoryGirl.create(:admin) }
+          describe 'with public state only' do
+            context 'publicize' do
+              let(:admin) { FactoryGirl.create(:admin) }
 
-            include_context 'expects policy to be followed', :publicize
+              include_context 'expects policy to be followed', :publicize
 
-            it_behaves_like 'valid query update' do
-              let(:valid_params) do
-               { 'f' => ['status_id'],
-                 'is_public' => 'true',
-                 'name' => query.name,
-                 'op' => { 'status_id' => 'o' },
-                 'v' => { 'status_id' => [''] },
-                 'query_id' => query.id,
-                 'id' => query.id,
-                 'project_id' => project.id,
-                 'format' => 'json' }
+              it_behaves_like 'valid query update' do
+                let(:valid_params) do
+                 { 'f' => ['status_id'],
+                   'is_public' => 'true',
+                   'name' => query.name,
+                   'op' => { 'status_id' => 'o' },
+                   'v' => { 'status_id' => [''] },
+                   'query_id' => query.id,
+                   'id' => query.id,
+                   'project_id' => project.id,
+                   'format' => 'json' }
+                end
+              end
+            end
+
+            context 'depublicize' do
+              let(:query) { FactoryGirl.create(:query, project: project, is_public: true) }
+
+              include_context 'expects policy to be followed', :depublicize
+
+              it_behaves_like 'valid query update' do
+                let(:valid_params) do
+                 { 'f' => ['status_id'],
+                   'is_public' => 'false',
+                   'name' => query.name,
+                   'op' => { 'status_id' => 'o' },
+                   'v' => { 'status_id' => [''] },
+                   'query_id' => query.id,
+                   'id' => query.id,
+                   'project_id' => project.id,
+                   'format' => 'json' }
+                end
               end
             end
           end
