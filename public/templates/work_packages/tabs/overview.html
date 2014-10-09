@@ -12,25 +12,34 @@
   <!-- present attributes -->
   <ul>
     <li ng-repeat="propertyData in presentWorkPackageProperties">
-      <label ng-bind="propertyData.label"/>
-      <span ng-switch="propertyData.format">
-        <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-        <span ng-switch-when="dynamic" work-package-dynamic-attribute
-                                       html-element="propertyData.value"
-                                       work-package="workPackage">
-        </span>
-        <span ng-switch-when="version"><a ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a></span>
-        <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
-        <span ng-switch-default ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"/>
-      </span>
+      <div class="work-package-attributes--label" ng-bind="propertyData.label"/>
+      <div class="work-package-attributes--value-container" ng-switch="propertyData.format">
+        <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+          <user-field ng-switch-when="user" user="propertyData.value"></user-field>
+          <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                         html-element="propertyData.value"
+                                         work-package="workPackage">
+          </span>
+          <span ng-switch-when="version">
+            <a ng-if="propertyData.value.viewable" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+            <span ng-if="!propertyData.value.viewable">{{propertyData.value.title}}</span>
+          </span>
+          <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
+          <span ng-switch-default
+            ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
+            ng-attr-title="{{propertyData.value}}"/>
+        </div>
+      </div>
     </li>
   </ul>
   <!-- empty attributes -->
   <ul class="work-package-details-overview-tab-empty-attributes"
       slide-toggle collapsed="toggleStates.hideAllAttributes">
       <li ng-repeat="property in emptyWorkPackageProperties">
-        <label ng-bind="property"></label>
-        <span> - </span>
+        <div class="work-package-attributes--label" ng-bind="property"></div>
+        <div class="work-package-attributes--value-container">
+          <div class="work-package-attributes--value">-</div>
+        </div>
       </li>
   </ul>
   <panel-expander ng-if="emptyWorkPackageProperties.length"

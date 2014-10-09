@@ -27,18 +27,20 @@
 //++
 
 describe('optionsDropdown Directive', function() {
-    var compile, element, rootScope, scope, I18n;
+    var compile, element, rootScope, scope, I18n, stateParams = {};
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('openproject.models',
                       'openproject.workPackages.controllers',
                       'openproject.api',
+                      'openproject.layout',
                       'openproject.services'));
     beforeEach(module('templates', function($provide) {
       configurationService = new Object();
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+      $provide.constant('$stateParams', stateParams);
       $provide.constant('ConfigurationService', configurationService);
     }));
 
@@ -95,6 +97,27 @@ describe('optionsDropdown Directive', function() {
           expect(saveAsLink.hasClass('inactive')).to.be.ok;
         });
 
+        context('share option', function() {
+          beforeEach(function() {
+            optionsDropdownHtml = '<div options-dropdown><a class="publicize-or-star-link" href ng-click="showShareModal($event)" ng-class="{\'inactive\': (cannot(\'query\', \'publicize\') && cannot(\'query\', \'star\'))}"></a></div>';
+            var query = new Query({
+              id: 1
+            });
+            scope.query = query;
+            AuthorisationService.initModelAuth('query', {
+              create: '/queries'
+            })
+            element = angular.element(optionsDropdownHtml);
+            compile();
+          });
+
+          it('should check with AuthorisationService when called', function() {
+            var shareLink = element.find('.publicize-or-star-link').first();
+            sinon.spy(AuthorisationService, "can");
+            shareLink.click();
+            expect(AuthorisationService.can).to.have.been.called;
+          });
+        })
         it('should not open save as modal', function() {
           var saveAsLink = element.find('a').first();
           saveAsLink.click();

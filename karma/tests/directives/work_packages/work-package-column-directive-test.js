@@ -85,6 +85,11 @@ describe('workPackageColumn Directive', function() {
           var content = element.find('span').first();
           expect(content.text()).to.equal('Bug');
         });
+
+        it('should have the object title as title attribute', function() {
+          var tag = element.find('span').first();
+          expect(tag.attr('title')).to.equal('Bug');
+        });
       });
 
       describe('rendering a text field', function(){
@@ -222,6 +227,11 @@ describe('workPackageColumn Directive', function() {
           var content = element.find('a').last();
           expect(content.attr('href')).to.equal('/projects/project-dream-team');
         });
+
+        it('should have the title equal to content', function() {
+          var tag = element.find('a').last();
+          expect(tag.attr('title')).to.equal(tag.text());
+        });
       });
 
       describe('to parent work package', function() {
@@ -241,6 +251,10 @@ describe('workPackageColumn Directive', function() {
         it('should have correct href', function() {
           var content = element.find('a').last();
           expect(content.attr('href')).to.equal('/work_packages/1');
+        });
+        it('should have the title equal to content', function() {
+          var tag = element.find('a').last();
+          expect(tag.attr('title')).to.equal(tag.text());
         });
       });
     })

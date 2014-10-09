@@ -26,6 +26,9 @@ Attr:
 BlockNesting:
   Enabled: false
 
+Blocks:
+  Enabled: false
+
 CaseEquality:
   Enabled: false
 

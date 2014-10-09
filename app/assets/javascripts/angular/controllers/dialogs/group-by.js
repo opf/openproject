@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'GroupByModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/group_by.html'
+    templateUrl:  '/templates/work_packages/modals/group_by.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
@@ -48,7 +49,10 @@ angular.module('openproject.workPackages.controllers')
   this.closeMe = groupingModal.deactivate;
 
   $scope.getGroupableColumnsData = function(term, result) {
-    result($filter('filter')($scope.groupableColumnsData, {label: term}));
+    var filtered = $filter('filter')($scope.groupableColumnsData, { label: term });
+        sorted = $filter('orderBy')(filtered, 'label');
+
+    return result(sorted);
   };
 
   $scope.updateGroupBy = function(){

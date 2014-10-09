@@ -21,6 +21,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       "vendor/assets/components/jquery/dist/jquery.js",
+      "vendor/assets/components/lodash/dist/lodash.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-router/release/angular-ui-router.js",

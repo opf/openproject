@@ -33,7 +33,8 @@ angular.module('openproject.uiComponents')
     restrict: 'EA',
     templateUrl: '/templates/components/table_pagination.html',
     scope: {
-      totalEntries: '='
+      totalEntries: '=',
+      updateResults: '&'
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
@@ -45,6 +46,7 @@ angular.module('openproject.uiComponents')
         updatePageNumbers();
         scope.showPage(1);
         scope.$emit('queryStateChange');
+        scope.updateResults();
       };
 
       scope.showPage = function(pageNumber){
@@ -55,6 +57,7 @@ angular.module('openproject.uiComponents')
 
         scope.$emit('workPackagesRefreshRequired');
         scope.$emit('queryStateChange');
+        scope.updateResults();
       };
 
       /**
@@ -65,6 +68,8 @@ angular.module('openproject.uiComponents')
       function updateCurrentRangeLabel() {
         if (scope.totalEntries){
           scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
+        } else {
+          scope.currentRange = "(0 - 0/0)";
         }
       }
 

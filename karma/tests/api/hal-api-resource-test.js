@@ -30,12 +30,23 @@
 
 describe('HALAPIResource', function() {
 
-  var HALAPIResource;
-  beforeEach(module('openproject.api', 'openproject.helpers'));
+  var HALAPIResource, testPathHelper;
+  beforeEach(module('openproject.api'));
 
-  beforeEach(inject(function(_HALAPIResource_){
-    HALAPIResource = _HALAPIResource_;
-  }));
+  beforeEach(function() {
+    testPathHelper = {
+      apiV3: '/api/v3',
+      appBasePath: ''
+    };
+
+    module(function($provide) {
+      $provide.value('PathHelper', testPathHelper);
+    });
+
+    inject(function(_HALAPIResource_) {
+      HALAPIResource = _HALAPIResource_;
+    });
+  });
 
   describe('setup', function() {
     var workPackageUri = 'work_packages/1';
@@ -50,12 +61,35 @@ describe('HALAPIResource', function() {
       resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
     }));
 
-    beforeEach(inject(function() {
-      HALAPIResource.setup(workPackageUri);
-    }))
+    afterEach(function() {
+      resourceFunction.restore();
+    });
 
-    it('makes an api setup call', function() {
-      expect(resourceFunction).to.have.been.calledWith({ url: "/api/v3/" + workPackageUri });
-    })
+    describe('with default (empty) base path', function() {
+      beforeEach(inject(function() {
+        HALAPIResource.setup(workPackageUri);
+      }));
+
+      it('makes an api setup call', function() {
+        expect(resourceFunction).to.have.been.calledWith({
+          url: "/api/v3/" + workPackageUri
+        });
+      })
+    });
+
+    describe('with custom appBasePath', function() {
+      beforeEach(inject(function() {
+        testPathHelper.appBasePath = '/whitelabel';
+
+        HALAPIResource.setup(workPackageUri);
+      }));
+
+      it('makes an api setup call', function() {
+        expect(resourceFunction).to.have.been.calledWith({
+          url: "/whitelabel/api/v3/" + workPackageUri
+        });
+      })
+    });
+
   });
 });

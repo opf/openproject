@@ -32,14 +32,6 @@ GIT
       sprockets (= 2.2.2.backport2)
 
 GIT
-  remote: https://github.com/fnando/i18n-js.git
-  revision: 12fe8ec2133dc162087eef2b1639309a01cbb414
-  branch: 12fe8ec2133dc162087eef2b1639309a01cbb414
-  specs:
-    i18n-js (3.0.0.rc5)
-      i18n
-
-GIT
   remote: https://github.com/guilleiguaran/sass-rails.git
   revision: 0393d9e1a6e4a776e61f16fb75f97971b9f4abd2
   branch: backport
@@ -197,7 +189,9 @@ GEM
     hike (1.2.3)
     hooks (0.3.3)
     htmldiff (0.0.1)
-    i18n (0.6.9)
+    i18n (0.6.11)
+    i18n-js (3.0.0.rc6)
+      i18n (~> 0.6)
     ice_nine (0.11.0)
     interception (0.3)
     journey (1.0.4)
@@ -210,7 +204,7 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
-    livingstyleguide (1.2.0.pre.1)
+    livingstyleguide (1.2.0)
       hooks (= 0.3.3)
       minisyntax
       redcarpet (~> 3.0.0)
@@ -345,13 +339,13 @@ GEM
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
-    rubyzip (1.1.4)
-    sass (3.3.7)
-    selenium-webdriver (2.42.0)
-      childprocess (>= 0.5.0)
+    rubyzip (1.1.6)
+    sass (3.3.14)
+    selenium-webdriver (2.43.0)
+      childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
-      websocket (~> 1.0.4)
+      websocket (~> 1.0)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
@@ -403,7 +397,7 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0.3)
       equalizer (~> 0.0.9)
-    websocket (1.0.7)
+    websocket (1.2.1)
     will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -441,12 +435,12 @@ DEPENDENCIES
   gravatar_image_tag (~> 1.2.0)
   htmldiff
   i18n (>= 0.6.8)
-  i18n-js!
+  i18n-js (~> 3.0.0.rc6)
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
-  livingstyleguide (~> 1.2.0.pre.1)
+  livingstyleguide (~> 1.2.0)
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
@@ -486,7 +480,7 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass (~> 3.3.6)
   sass-rails!
-  selenium-webdriver (~> 2.42.0)
+  selenium-webdriver (~> 2.43.0)
   shoulda
   shoulda-matchers
   simplecov (= 0.8.0.pre)

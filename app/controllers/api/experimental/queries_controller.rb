@@ -33,9 +33,9 @@ module Api::Experimental
     unloadable
 
     include ApiController
-    include Concerns::GrapeRouting
-    include Concerns::ColumnData
-    include Concerns::QueryLoading
+    include Api::Experimental::Concerns::GrapeRouting
+    include Api::Experimental::Concerns::ColumnData
+    include Api::Experimental::Concerns::QueryLoading
 
     include QueriesHelper
     include ExtendedHTTP
@@ -43,6 +43,9 @@ module Api::Experimental
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
     before_filter :setup_existing_query, only: [:update, :destroy]
+    before_filter :authorize_on_query, only: [:create,
+                                              :update,
+                                              :destroy]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -106,30 +109,14 @@ module Api::Experimental
 
     private
 
-    def setup_query_links
-      user = User.current
-      @query_links = {}
-      @query_links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-
-      if !@query.new_record?
-        @query_links[:update]      = api_experimental_query_path(@query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-        @query_links[:delete]      = api_experimental_query_path(@query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-        @query_links[:publicize]   = api_experimental_query_path(@query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-        @query_links[:depublicize] = api_experimental_query_path(@query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-
-        if ((@query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
-            user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
-
-          @query_links[:star]        = query_route_from_grape("star", @query)
-          @query_links[:unstar]      = query_route_from_grape("unstar", @query)
-        end
-      end
-    end
-
     def setup_query
       @query ||= init_query
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def setup_query_links
+      @query_links = allowed_links_on_query(@query, current_user)
     end
 
     def setup_query_for_create
@@ -142,6 +129,10 @@ module Api::Experimental
     def setup_existing_query
       @query = Query.find(params[:id])
       prepare_query
+    end
+
+    def authorize_on_query
+      deny_access unless QueryPolicy.new(current_user).allowed?(@query, params[:action].to_sym)
     end
 
     def visible_queries

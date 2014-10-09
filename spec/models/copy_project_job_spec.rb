@@ -65,6 +65,53 @@ describe CopyProjectJob, :type => :model do
     end
   end
 
+  describe 'copy project succeeds with errors' do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:source_project) { FactoryGirl.create(:project, types: [type]) }
+    let!(:work_package) { FactoryGirl.create(:work_package, project: source_project, type: type) }
+    let(:type) { FactoryGirl.create(:type_bug) }
+    let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                             name: 'required_field',
+                                             field_format: 'text',
+                                             is_required: true,
+                                             is_for_all: true) }
+    let(:copy_job) { CopyProjectJob.new admin,
+                                        source_project,
+                                        params,
+                                        [], # enabled modules
+                                        [:work_packages], # associations
+                                        false } # send mails
+    let(:params) { {name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id]} }
+    let(:expected_error_message) { "#{WorkPackage.model_name.human} '#{work_package.type.name} #: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}" }
+
+    before do
+      source_project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
+
+      allow(User).to receive(:current).and_return(admin)
+
+      # 'Delayed Job' uses a work around to get Rails 3 mailers working with it
+      # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
+      # Thus, we need to return a message object here, otherwise 'Delayed Job'
+      # will complain about an object without a method #deliver.
+      allow(UserMailer).to receive(:copy_project_succeeded).and_return(double("Mail::Message", deliver: true))
+
+      @copied_project, @errors = copy_job.send(:create_project_copy,
+                                               source_project,
+                                               params,
+                                               [], # enabled modules
+                                               [:work_packages], # associations
+                                               false)
+    end
+
+    it 'copies the project' do
+      expect(Project.find_by_identifier(params[:identifier])).to eq(@copied_project)
+    end
+
+    it 'sets descriptive validation errors' do
+      expect(@errors.first).to eq(expected_error_message)
+    end
+  end
 
   shared_context 'copy project' do
     before do
@@ -80,7 +127,10 @@ describe CopyProjectJob, :type => :model do
   end
 
   describe 'perform' do
-    before { allow(User).to receive(:current).and_return(user) }
+    before do
+      allow(User).to receive(:current).and_return(user)
+      expect(User).to receive(:current=).with(user)
+    end
 
     describe 'subproject' do
       let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }

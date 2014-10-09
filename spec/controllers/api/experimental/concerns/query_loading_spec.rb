@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,21 +26,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module I18nJsHelper
-  def i18n_js_tags
-    fallbacks = I18n.fallbacks[I18n.locale].map(&:to_s)
-    fallbacks.shift
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-    s = ""
-    s << javascript_include_tag("i18n")
-    s << javascript_include_tag("i18n/translations")
-    s << javascript_tag(%Q{
-      I18n.defaultLocale = "#{I18n.default_locale}";
-      I18n.locale        = "#{I18n.locale}";
-      I18n.fallbacks     = true;
-      I18n.fallbackRules = I18n.fallbackRules || {};
-      I18n.fallbackRules['#{I18n.locale}'] = #{fallbacks.to_json};
-    })
-    s
+describe 'QueryLoading', :type => :controller do
+  include Api::Experimental::Concerns::QueryLoading
+  include QueriesHelper
+
+  describe '#prepare_query' do
+    let!(:query) { FactoryGirl.create :query }
+    let(:view_context) { ActionController::Base.new.view_context }
+
+    before do
+      view_context.stub(:add_filter_from_params)
+    end
+
+    context "accept_empty_query_fields is true" do
+      let(:params) { { accept_empty_query_fields: true, query_id: query.id } }
+      it 'should call add_filter_from_params' do
+        view_context.should_receive :add_filter_from_params
+        init_query
+      end
+    end
+
+    context "accept_empty_query_fields is false or missing" do
+      let(:params) { { accept_empty_query_fields: false, query_id: query.id } }
+      it 'should not call add_filter_from_params' do
+        view_context.should_not_receive :add_filter_from_params
+        init_query
+      end
+    end
   end
+
 end

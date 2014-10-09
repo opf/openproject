@@ -32,12 +32,13 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ExportModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/export.html'
+    templateUrl:  '/templates/work_packages/modals/export.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
 .controller('ExportModalController', ['exportModal', 'QueryService', 'UrlParamsHelper',
-	function(exportModal, QueryService, UrlParamsHelper) {
+  function(exportModal, QueryService, UrlParamsHelper) {
   this.name    = 'Export';
   var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;

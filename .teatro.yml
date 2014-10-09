@@ -8,3 +8,5 @@ stage:
   database:
     - bundle exec rake db:create db:migrate
     - bundle exec rake db:seed RAILS_ENV=development
+
+  run: foreman start -c web=1,worker=1

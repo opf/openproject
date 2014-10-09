@@ -34,6 +34,8 @@ module Api
 
       include ::Api::Experimental::ApiController
 
+      before_filter :authorize_global
+
       def index
         @groups = Group.all
 

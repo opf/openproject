@@ -46,15 +46,15 @@ module Api::Experimental::Concerns::QueryLoading
   end
 
   def prepare_query
+    @query.is_public = params[:is_public] if params[:is_public]
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    view_context.add_filter_from_params if params[:fields] || params[:f]
+    view_context.add_filter_from_params if params[:fields] || params[:f] || params[:accept_empty_query_fields]
     @query.group_by = params[:group_by] if params[:group_by].present?
     @query.sort_criteria = prepare_sort_criteria if params[:sort]
     @query.display_sums = params[:display_sums] if params[:display_sums].present?
     @query.column_names = params[:c] if params[:c]
     @query.column_names = nil if params[:default_columns]
     @query.name = params[:name] if params[:name]
-    @query.is_public = params[:is_public] if params[:is_public]
   end
 
   def prepare_sort_criteria
@@ -65,5 +65,28 @@ module Api::Experimental::Concerns::QueryLoading
 
   def no_query_params_provided?
     (params.keys & %w(group_by c fields f sort is_public name display_sums)).empty?
+  end
+
+  def allowed_links_on_query(query, user)
+    links = {}
+    QueryPolicy.new(user).tap do |auth|
+      new_query = Query.new(project: @project)
+      links[:create]      = api_experimental_queries_path      if auth.allowed?(new_query,
+                                                                                :create)
+      links[:update]      = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                :update)
+      links[:delete]      = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                :destroy)
+      links[:publicize]   = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                :publicize)
+      links[:depublicize] = api_experimental_query_path(query) if auth.allowed?(query,
+                                                                                :depublicize)
+      links[:star]        = query_route_from_grape('star', query) if auth.allowed?(query,
+                                                                                   :star)
+      links[:unstar]      = query_route_from_grape('unstar', query) if auth.allowed?(query,
+                                                                                     :unstar)
+    end
+
+    links
   end
 end

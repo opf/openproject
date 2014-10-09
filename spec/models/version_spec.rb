@@ -46,4 +46,27 @@ describe Version, :type => :model do
     it { is_expected.to respond_to :completed_pourcent }
     it { is_expected.to respond_to :closed_pourcent    }
   end
+
+  describe :systemwide do
+    it 'contains the version if it is shared with all projects' do
+      version.sharing = 'system'
+      version.save!
+
+      expect(Version.systemwide.all).to match_array [version]
+    end
+
+    it 'is empty if the version is not shared' do
+      version.sharing = 'none'
+      version.save!
+
+      expect(Version.systemwide.all).to be_empty
+    end
+
+    it 'is empty if the version is shared with the project hierarchy' do
+      version.sharing = 'hierarchy'
+      version.save!
+
+      expect(Version.systemwide.all).to be_empty
+    end
+  end
 end

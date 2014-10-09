@@ -36,6 +36,7 @@ angular.module('openproject.messages.controllers')
   $scope.projectId = gon.project_id;
   $scope.activityModuleEnabled = gon.activity_modul_enabled;
 
+  PaginationService.setPerPageOptions(gon.settings.pagination.per_page_options);
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
@@ -46,7 +47,8 @@ angular.module('openproject.messages.controllers')
               {
                 params: {
                           sort: SortService.getSortParam(),
-                          page: PaginationService.getPage()
+                          page: PaginationService.getPage(),
+                          per_page: PaginationService.getPerPage()
                         }
               })
          .success(function(data, status, headers, config) {

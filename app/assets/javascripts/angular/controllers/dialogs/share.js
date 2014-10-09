@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ShareModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/share.html'
+    templateUrl:  '/templates/work_packages/modals/share.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
@@ -41,11 +42,9 @@ angular.module('openproject.workPackages.controllers')
   'shareModal',
   'QueryService',
   'AuthorisationService',
-  '$rootScope',
-  'QUERY_MENU_ITEM_TYPE',
   'queryMenuItemFactory',
   'PathHelper',
-  function($scope, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE, queryMenuItemFactory, PathHelper) {
+  function($scope, shareModal, QueryService, AuthorisationService, queryMenuItemFactory, PathHelper) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -58,27 +57,6 @@ angular.module('openproject.workPackages.controllers')
   function closeAndReport(message) {
     shareModal.deactivate();
     $scope.$emit('flashMessage', message);
-  }
-
-  function getQueryPath(query) {
-    if (query.project_id) {
-      return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
-    } else {
-      return PathHelper.workPackagesPath() + '?query_id=' + query.id;
-    }
-  }
-
-  function addOrRemoveMenuItem(query) {
-    if (!query) return;
-
-    if(query.starred) {
-      queryMenuItemFactory.generateMenuItem(query.name, getQueryPath(query), query.id);
-    } else {
-      $rootScope.$broadcast('openproject.layout.removeMenuItem', {
-        itemType: QUERY_MENU_ITEM_TYPE,
-        objectId: query.id
-      });
-    }
   }
 
   $scope.cannot = AuthorisationService.cannot;
@@ -94,13 +72,12 @@ angular.module('openproject.workPackages.controllers')
       })
       .then(function(data){
         if($scope.query.starred != $scope.shareSettings.starred){
-          QueryService.toggleQueryStarred()
+          QueryService.toggleQueryStarred($scope.query)
             .then(function(data){
-              closeAndReport(messageObject);
+              closeAndReport(data.status || messageObject);
 
               return $scope.query;
-            })
-            .then(addOrRemoveMenuItem);
+            });
         } else {
           closeAndReport(messageObject);
         }

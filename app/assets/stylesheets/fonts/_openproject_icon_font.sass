@@ -103,7 +103,7 @@
   font-size: 50px
 
 @mixin icon-context-padding
-  padding: 0 4px 0 0
+  padding: 0 10px 0 0
 
 [data-icon]:before
   @include icon-common
@@ -221,7 +221,7 @@
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,
 .icon-context:before
-  @include icon-context-rules
+  padding: 0 10px 0 0
 
 .legacy-pagination .previous_page:before,
 .legacy-pagination .next_page:after

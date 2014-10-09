@@ -37,6 +37,10 @@ module Api
       before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
       before_filter :check_project_exists
 
+      # before filters are inherited from TypesController
+      skip_before_filter :require_admin, only: [:index]
+      before_filter :find_optional_project, only: [:index]
+
       accept_key_auth :index, :show
 
       def index

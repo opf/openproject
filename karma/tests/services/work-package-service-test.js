@@ -30,14 +30,16 @@
 
 describe('WorkPackageService', function() {
 
-  var WorkPackageService;
-  beforeEach(module('openproject.api','openproject.services', 'openproject.models'));
+  var WorkPackageService,
+      stateParams = {};
+  beforeEach(module('openproject.api', 'openproject.layout','openproject.services', 'openproject.models'));
 
   beforeEach(module('templates', function($provide) {
     configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 

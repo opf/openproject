@@ -33,7 +33,9 @@ module Api
     class ProjectsController < ApplicationController
       include ::Api::Experimental::ApiController
 
-      before_filter :find_project, except: [:index]
+      before_filter :find_project,
+                    :authorize, except: [:index]
+      before_filter :authorize_global, only: [:index]
 
       def index
         # Note: Ordering by project hierarchy by default

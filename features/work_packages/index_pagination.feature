@@ -54,7 +54,7 @@ Feature: Paginated work packages index list
     Then I should be on the work packages index page of the project "project1"
     And I should see 1 issue
 
-  @javascript @wip
+  @javascript
   Scenario: Pagination outside a project
     When I go to the global index page of work packages
     Then I should see 3 issues

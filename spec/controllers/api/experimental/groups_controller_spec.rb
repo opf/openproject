@@ -28,8 +28,13 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::GroupsController, :type => :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+describe Api::Experimental::GroupsController, type: :controller do
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project,
+                              member_through_role: role)
+  end
+  let(:project)      { FactoryGirl.create(:project) }
+  let(:role)         { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
 
   before do
     allow(User).to receive(:current).and_return(current_user)
@@ -37,27 +42,48 @@ describe Api::Experimental::GroupsController, :type => :controller do
 
   describe '#index' do
     context 'with no groups available' do
-      it 'assigns an empty groups array' do
+      before do
         get 'index', format: 'xml'
+      end
+
+      it 'assigns an empty groups array' do
         expect(assigns(:groups)).to eq []
       end
 
       it 'renders the index template' do
-        get 'index', format: 'xml'
         expect(response).to render_template('api/experimental/groups/index', formats: ['api'])
+      end
+
+      it 'should respond with 200' do
+        expect(response.response_code).to eql(200)
       end
     end
 
     context 'with groups available' do
       before do
         allow(Group).to receive(:all).and_return(FactoryGirl.build_list(:group, 2))
+        get 'index', format: 'xml'
       end
 
       it 'assigns an array with 2 groups' do
-        get 'index', format: 'xml'
         expect(assigns(:groups).size).to eq 2
+      end
+
+      it 'should respond with 200' do
+        expect(response.response_code).to eql(200)
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      before do
+        get 'index', format: 'xml'
+      end
+
+      it 'should respond with 403' do
+        expect(response.response_code).to eql(403)
       end
     end
   end
-
 end

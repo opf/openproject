@@ -63,7 +63,7 @@
         </label>
         <button id="work-packages-settings-button"
                 title="{{ I18n.t('js.button_settings') }}"
-                class="button last"
+                class="button last work-packages-settings-button"
                 with-dropdown dropdown-id="settingsDropdown">
           <i class="icon-settings"></i>
           <i class="icon-pulldown-arrow1 icon-dropdown"></i>
@@ -103,7 +103,7 @@
     <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': cannot('query', 'delete')}">
       <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
     </li>
-    <li><a href ng-click="showExportModal()" ng-class="{'inactive': cannot('work_package', 'export')}">
+    <li><a href ng-click="showExportModal($event)" ng-class="{'inactive': cannot('work_package', 'export')}">
       <i class="icon-action-menu icon-export"></i>{{ I18n.t('js.toolbar.settings.export') }}</a>
     </li>
     <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': (cannot('query', 'publicize') && cannot('query', 'star'))}">
@@ -125,10 +125,9 @@
 
 
 <div class="work-packages--split-view">
-  <div class="work-packages--list" cg-busy="settingUpPage">
-    <div class="work-packages--list-scroll-area">
+  <div class="work-packages--list" cg-busy="[settingUpPage,refreshWorkPackages]">
+    <div class="work-packages--list-table-area">
       <work-packages-table ng-if="rows && columns"
-                           cg-busy="refreshWorkPackages"
                            project-identifier="projectIdentifier"
                            columns="columns"
                            rows="rows"

@@ -109,7 +109,10 @@ angular.module('openproject.timeEntries', [
 ]);
 angular.module('openproject.timeEntries.controllers', []);
 
-angular.module('openproject.layout', []);
+angular.module('openproject.layout', [
+  'openproject.layout.controllers'
+]);
+angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
@@ -145,6 +148,9 @@ openprojectApp
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
 
     // prepend a given base path to requests performed via $http
+    //
+    // NOTE: this does not apply to Hyperagent-based queries, which instead use
+    //       jQuery's AJAX implementation.
     $httpProvider.interceptors.push(function ($q) {
       return {
         'request': function (config) {
@@ -156,9 +162,14 @@ openprojectApp
   }])
   .run([
     '$http',
+    '$rootScope',
+    '$window',
     'flags',
-    function($http, flags) {
+    function($http, $rootScope, $window, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
+
+    $rootScope.showNavigation =
+      $window.sessionStorage.getItem('openproject:navigation-toggle') !== 'collapsed';
 
     flags.set($http.get('/javascripts/feature-flags.json'));
   }])

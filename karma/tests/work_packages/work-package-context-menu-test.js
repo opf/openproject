@@ -29,12 +29,14 @@
 /*jshint expr: true*/
 
 describe('workPackageContextMenu', function() {
-  var container, contextMenu, $rootScope;
+  var container, contextMenu, $rootScope, stateParams;
+  stateParams = {};
 
   beforeEach(module('ng-context-menu',
                     'openproject.api',
                     'openproject.workPackages',
                     'openproject.models',
+                    'openproject.layout',
                     'openproject.services',
                     'templates'));
 
@@ -44,6 +46,7 @@ describe('workPackageContextMenu', function() {
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('ConfigurationService', configurationService);
+    $provide.constant('$stateParams', stateParams);
   }));
 
   beforeEach(function() {
@@ -107,11 +110,11 @@ describe('workPackageContextMenu', function() {
     });
 
     it('adds an icon from the icon fonts to each list container', function() {
-      expect(container.find('.' + actions[0] +' a').attr('class')).to.include('icon-' + actions[0]);
+      expect(container.find('.' + actions[0] +' a i').attr('class')).to.include('icon-' + actions[0]);
     });
 
     xit('translates the action name', function() {
-      expect(container.find('.' + actions[0] +' a').contents()).to.equal('anything');
+      expect(container.find('.' + actions[0] +' a i').contents()).to.equal('anything');
       // TODO find out how to stub I18n.t inside directive
     });
 
@@ -138,7 +141,7 @@ describe('workPackageContextMenu', function() {
       });
 
       it('displays a link triggering deleteWorkPackages within the scope', function() {
-        expect(directListElements.find('a.icon-delete').attr('ng-click')).to.equal('deleteWorkPackages()');
+        expect(directListElements.find('a:has(i.icon-delete)').attr('ng-click')).to.equal('deleteWorkPackages()');
       });
     });
   });

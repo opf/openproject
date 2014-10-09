@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.controllers')
   return btfModal({
     controller:   'ColumnsModalController',
     controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/columns.html'
+    templateUrl:  '/templates/work_packages/modals/columns.html',
+    afterFocusOn: '#work-packages-settings-button'
   });
 }])
 
@@ -49,8 +50,13 @@ angular.module('openproject.workPackages.controllers')
   this.closeMe = columnsModal.deactivate;
 
   $scope.getObjectsData = function(term, result) {
-    // Note: This relies on the columns having been cached in the service so they can be instantly available.
-    result($filter('filter')($scope.availableColumnsData, {label: term}));
+    var filtered = $filter('filter')($scope.availableColumnsData.filter(function(column) {
+        //Note: very special case; if such columns shall multiple, we better add a field
+        // to the query model hash of available columns
+        return column.id != "id";
+      }), {label: term});
+    var sorted = $filter('orderBy')(filtered, 'label');
+    return result(sorted);
   };
 
   // Data conversion for select2

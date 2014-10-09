@@ -162,6 +162,8 @@ module Api
       # Filters
       def find_all_projects_by_project_id
         if !params[:project_id] and params[:ids] then
+          # WTF. Why do we completely skip rewiring in this case and always provide parent_ids?
+          # This is totally inconistent.
           identifiers = params[:ids].split(/,/).map(&:strip)
           @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
         elsif params[:project_id] !~ /,/
@@ -182,7 +184,16 @@ module Api
           @planning_elements = convert_to_struct(current_work_packages(projects))
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
-          rewire_ancestors
+
+          # Allow disabling rewiring - this exposes parent IDs of work packages invisible
+          # to the user.
+          # When requesting single work packages via IDs, the rewiring fails as it assumes
+          # that all visible work packages are loaded, which they might not be. For a work
+          # package with a parent visible to the user, but not included in the requested IDs,
+          # the parent_id would thus be nil.
+          # Disabling rewiring allows fetching work packages with their parent_ids
+          # even when the parents are not included in the list of requested work packages.
+          rewire_ancestors unless params[:rewire_parents] == 'false'
         end
 
       end
@@ -274,7 +285,10 @@ module Api
       helper_method :include_journals?
 
       def include_journals?
-        params[:include].tap { |i| i.present? && i.include?("journals") }
+        # .tap and the following block here were useless as the block's return value is ignored.
+        # Keeping this code to show its original intention, but not fixing it to not
+        # break things for clients that might not properly use the parameter.
+        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods

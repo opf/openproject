@@ -41,8 +41,7 @@ describe('toggledMultiselect Directive', function() {
     }));
 
     beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<toggled-multiselect icon-name="cool-icon.png" name="name" values="values" available-options="options"></toggled-multiselect>';
+      var html = '<toggled-multiselect icon-name="cool-icon.png" name="name" values="values" available-options="options"></toggled-multiselect>';
 
       element = angular.element(html);
       rootScope = $rootScope;
@@ -54,7 +53,7 @@ describe('toggledMultiselect Directive', function() {
       };
     }));
 
-    describe('element', function() {
+    describe('with values', function() {
       beforeEach(function() {
         scope.name    = "BO' SELECTA";
         scope.values  = [
@@ -68,30 +67,57 @@ describe('toggledMultiselect Directive', function() {
         compile();
       });
 
-      it('should render a div', function() {
-        expect(element.prop('tagName')).to.equal('DIV');
+      describe('element', function() {
+        it('should render a div', function() {
+          expect(element.prop('tagName')).to.equal('DIV');
+        });
+
+        it('should render only one select', function() {
+          expect(element.find('select').size()).to.equal(1);
+          expect(element.find('select.ng-hide').size()).to.equal(0);
+        });
+
+        it('should render two OPTIONs for displayed SELECT', function() {
+          var select = element.find('select:not(.ng-hide)').first();
+          expect(select.find('option').size()).to.equal(2);
+
+          var option = select.find('option').first();
+          expect(option.val()).to.equal('NY');
+          expect(option.text()).to.equal('New York');
+        });
+
+        xit('should render a link that toggles multi-select', function() {
+          var a = element.find('a');
+          expect(element.find('select.ng-hide').size()).to.equal(1);
+          a.click();
+          scope.$apply();
+          expect(element.find('select.ng-hide').size()).to.equal(1);
+        });
+      });
+    });
+
+    describe('w/o values', function() {
+      beforeEach(function() {
+        scope.name    = "BO' SELECTA";
+        scope.options = [
+          ['New York', 'NY'],
+          ['California', 'CA']
+        ];
+
+        compile();
+
+        var multiselectToggleElement = element.find('a');
+        multiselectToggleElement.trigger('click');
       });
 
-      it('should render two SELECTs, one of which are hidden by default', function() {
-        expect(element.find('select').size()).to.equal(2);
-        expect(element.find('select.ng-hide').size()).to.equal(1);
-      });
+      describe('scope.values', function() {
+        it('should not become an array', function() {
+          expect(Array.isArray(scope.values)).to.be.false;
+        });
 
-      it('should render two OPTIONs for displayed SELECT', function() {
-        var select = element.find('select:not(.ng-hide)').first();
-        expect(select.find('option').size()).to.equal(2);
-
-        var option = select.find('option').first();
-        expect(option.val()).to.equal('NY');
-        expect(option.text()).to.equal('New York');
-      });
-
-      xit('should render a link that toggles multi-select', function() {
-        var a = element.find('a');
-        expect(element.find('select.ng-hide').size()).to.equal(1);
-        a.click();
-        scope.$apply();
-        expect(element.find('select.ng-hide').size()).to.equal(1);
+        it('should leave scope.values as undefined', function() {
+          expect(scope.values).to.be.undefined;
+        });
       });
     });
 });

@@ -35,6 +35,9 @@ module OpenProject
         display: {
           date_format: momentjstify_date_format(Setting.date_format),
           time_format: momentjstify_time_format(Setting.time_format)
+        },
+        pagination: {
+          per_page_options: Setting.per_page_options_array
         }
       }
     end

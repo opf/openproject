@@ -171,7 +171,7 @@ de:
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
         done_ratio: "% erledigt"
-        fixed_version: "Zielversion"
+        fixed_version: "Version"
         parent: "Übergeordnete Aufgabe"
         parent_issue: "Übergeordnete Aufgabe"
         parent_work_package: "Übergeordnete Aufgabe"
@@ -1374,6 +1374,7 @@ de:
     Rollen, Typ, Arbeitspaket-Status und Workflows wurden noch nicht
     konfiguriert. Es ist sehr zu empfehlen, die Standard-Konfiguration
     zu laden. Sobald sie geladen ist, können Sie sie abändern.
+  text_notice_too_many_values_are_inperformant: "Achtung: Das Anzeigen von mehr als 100 Objekten pro Seite kann die Seitenladezeiten erhöhen."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"

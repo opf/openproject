@@ -34,7 +34,8 @@ angular.module('openproject.workPackages.directives')
     'PaginationService',
     'I18n',
     '$timeout',
-    function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout) {
+    '$animate',
+    function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout, $animate) {
 
   var updateResultsJob;
 
@@ -45,8 +46,8 @@ angular.module('openproject.workPackages.directives')
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
+      $animate.enabled(false, element);
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
-      scope.$broadcast('updateFocus');
 
       if (scope.showValueOptionsAsSelect) {
         WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues, [scope.filter.name, scope.projectIdentifier])
@@ -109,7 +110,6 @@ angular.module('openproject.workPackages.directives')
       function valueReset(filter, oldFilter) {
         return oldFilter.hasValues() && !filter.hasValues();
       }
-
     }
   };
 }]);

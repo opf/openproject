@@ -75,13 +75,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
 
-      it { is_expected.to have_json_path('versionId') }
-      it { is_expected.to have_json_path('versionName') }
+
 
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
 
       it { is_expected.to have_json_path('isClosed') }
+
+      describe 'version' do
+        it { is_expected.to have_json_path('versionId') }
+        it { is_expected.to have_json_path('versionName') }
+      end
     end
 
     describe 'estimatedTime' do
@@ -97,6 +101,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
         expect(subject).to have_json_path('_links/self/title')
+      end
+
+      describe 'version' do
+        context 'no version set' do
+          it { is_expected.to_not have_json_path('versionViewable') }
+        end
+
+        context 'version set' do
+          let!(:version) { FactoryGirl.create :version, project: project }
+          before do
+            work_package.fixed_version = version
+          end
+
+          it { is_expected.to have_json_path('_links/version/href') }
+
+          context ' but is not accessible due to permissions' do
+            before do
+              current_user.stub(:allowed_to?).and_call_original
+              current_user.stub(:allowed_to?).with({controller: "versions", action: "show"}, project, global: false).and_return(false)
+            end
+
+            it { is_expected.to_not have_json_path('_links/version/href') }
+          end
+        end
       end
 
       context 'when the user has the permission to view work packages' do
@@ -182,6 +210,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add relation' do
           expect(subject).to_not have_json_path('_links/addRelation/href')
+        end
+      end
+
+      context 'when the user has the permission to add work packages' do
+        before do
+          role.permissions.push(:add_work_packages) and role.save
+        end
+        it 'should have a link to add child' do
+          expect(subject).to have_json_path('_links/addChild/href')
+        end
+      end
+
+      context 'when the user does not have the permission to add work packages' do
+        before do
+          role.permissions.delete(:add_work_packages) and role.save
+        end
+        it 'should not have a link to add child' do
+          expect(subject).to_not have_json_path('_links/addChild/href')
         end
       end
 

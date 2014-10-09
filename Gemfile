@@ -113,14 +113,14 @@ gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git',
 gem 'sass',             '~> 3.3.6'
 gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.0.pre.1'
+gem 'livingstyleguide', '~> 1.2.0'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: '12fe8ec2133dc162087eef2b1639309a01cbb414'
+gem 'i18n-js', '~> 3.0.0.rc6'
 
 # small wrapper around the command line
 gem 'cocaine'
@@ -160,7 +160,7 @@ group :test do
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
-  gem 'selenium-webdriver', '~> 2.42.0'
+  gem 'selenium-webdriver', '~> 2.43.0'
   gem 'timecop', "~> 0.6.1"
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this

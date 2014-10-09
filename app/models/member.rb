@@ -49,6 +49,10 @@ class Member < ActiveRecord::Base
     self.user.name
   end
 
+  def to_s
+    name
+  end
+
   # Set the roles for this member to the given roles_or_role_ids.
   # Inherited roles are left untouched.
   def assign_roles(roles_or_role_ids)

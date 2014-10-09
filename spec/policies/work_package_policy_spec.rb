@@ -26,40 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require File.expand_path('../../spec_helper', __FILE__)
 
-describe QueryMenuItemsController, :type => :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+describe WorkPackagePolicy, type: :controller do
+  let(:user)         { FactoryGirl.build_stubbed(:user) }
+  let(:project)      { FactoryGirl.build_stubbed(:project) }
+  let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
 
-  let(:project) { FactoryGirl.create :project }
-  let(:public_query) { FactoryGirl.create :public_query }
+  describe :allowed? do
+    let(:subject) { described_class.new(user) }
 
-  before do
-    # log in user
-    allow(User).to receive(:current).and_return current_user
-  end
-
-  describe '#create' do
-    before :each do
-      post :create, project_id: project, query_id: public_query
-      @query_menu_item = public_query.reload.query_menu_item
+    before do
+      allow(user).to receive(:allowed_to?).and_return false
     end
 
-    it 'creates a query menu item' do
-      expect(@query_menu_item).to be_present
+    it 'is false for edit if the user has no permission in the project' do
+      expect(subject.allowed?(work_package, :edit)).to be_false
     end
 
-    it 'redirects to the query on work_packages#index' do
-      expect(response).to redirect_to project_work_packages_path(project, query_id: public_query.id)
+    it 'is true for edit if the user has the edit_work_package permission in the project' do
+      allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
+                                          .and_return true
+      expect(subject.allowed?(work_package, :edit)).to be_true
     end
-  end
 
-  describe '#destroy' do
-    let(:query_menu_item) { public_query.create_query_menu_item name: public_query.name, title: public_query.name }
-
-    it 'destroys the query_menu_item' do
-      delete :destroy, id: query_menu_item, project_id: project, query_id: public_query
-      expect(MenuItems::QueryMenuItem.exists?(query_menu_item.id)).to be_falsey
+    it 'is true for edit if the user has the add_work_package_notes permission in the project' do
+      allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
+                                          .and_return true
+      expect(subject.allowed?(work_package, :edit)).to be_true
     end
   end
 end
