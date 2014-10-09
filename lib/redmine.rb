@@ -65,7 +65,6 @@ end
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
-                   :types => [:index, :show],
                    :projects => [:show],
                    :projects => [:show],
                    :activities => [:index]
@@ -118,7 +117,8 @@ Redmine::AccessControl.map do |map|
                                          :'api/experimental/work_packages' => [:index,
                                                                                :column_data],
                                          # This is api/v2/planning_element_types
-                                         :'planning_element_types' => [:index] }
+                                         :'planning_element_types' => [:index,
+                                                                       :show] }
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
                                          :'issues/previews' => :create,
