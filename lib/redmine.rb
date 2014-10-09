@@ -66,7 +66,6 @@ Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
                    :projects => [:show],
-                   :projects => [:show],
                    :activities => [:index]
                  },
                  :public => true
