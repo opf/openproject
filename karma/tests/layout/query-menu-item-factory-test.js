@@ -30,7 +30,7 @@
 describe('queryMenuItemFactory', function() {
   var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',
       $rootScope, scope,
-      queryMenuItemFactory, stateParams = {};
+      queryMenuItemFactory, state = {}, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.layout'));
   beforeEach(module('templates',
@@ -46,6 +46,10 @@ describe('queryMenuItemFactory', function() {
   }));
 
   beforeEach(module('templates', function($provide) {
+    // Mock check whether we are on a work_packages page
+    state = { includes: function() { return true; } }
+    $provide.value('$state', state);
+
     $provide.value('$stateParams', stateParams);
   }));
 
@@ -129,47 +133,79 @@ describe('queryMenuItemFactory', function() {
       scope = itemLink.scope();
     });
 
-    describe('for an undefined query_id', function() {
-      beforeEach(inject(function($timeout) {
-        stateParams.query_id = undefined;
-        $timeout.flush();
-      }));
+    describe('on a work_package page', function() {
 
-      it('marks the item as selected', function() {
-        expect(itemLink.hasClass('selected')).to.be.true;
+      describe('for an undefined query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = undefined;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.true;
+        });
+      });
+
+      describe('for a null query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = null;
+          $timeout.flush();
+        }));
+
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.true;
+        });
+      });
+
+      describe('for an integer query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = 1;
+          $timeout.flush();
+        }));
+
+        it('does not mark the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
+      });
+
+      describe('for a string query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = "1";
+          $timeout.flush();
+        }));
+
+        it('does not mark the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
       });
     });
 
-    describe('for a null query_id', function() {
-      beforeEach(inject(function($timeout) {
-        stateParams.query_id = null;
-        $timeout.flush();
-      }));
-
-      it('marks the item as selected', function() {
-        expect(itemLink.hasClass('selected')).to.be.true;
+    describe('on a non-work package page', function() {
+      beforeEach(function() {
+        // Change mock for checking whether we are on a work_packages page
+        state.includes = function() { return false; };
       });
-    });
 
-    describe('for an integer query_id', function() {
-      beforeEach(inject(function($timeout) {
-        stateParams.query_id = 1;
-        $timeout.flush();
-      }));
+      describe('for an undefined query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = undefined;
+          $timeout.flush();
+        }));
 
-      it('does not mark the item as selected', function() {
-        expect(itemLink.hasClass('selected')).to.be.false;
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
       });
-    });
 
-    describe('for a string query_id', function() {
-      beforeEach(inject(function($timeout) {
-        stateParams.query_id = "1";
-        $timeout.flush();
-      }));
+      describe('for a null query_id', function() {
+        beforeEach(inject(function($timeout) {
+          stateParams.query_id = null;
+          $timeout.flush();
+        }));
 
-      it('does not mark the item as selected', function() {
-        expect(itemLink.hasClass('selected')).to.be.false;
+        it('marks the item as selected', function() {
+          expect(itemLink.hasClass('selected')).to.be.false;
+        });
       });
     });
   });

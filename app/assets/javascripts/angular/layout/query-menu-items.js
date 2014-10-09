@@ -40,11 +40,12 @@ angular.module('openproject.layout')
  */
 .factory('queryMenuItemFactory', [
   'menuItemFactory',
+  '$state',
   '$stateParams',
   '$animate',
   '$timeout',
   'QUERY_MENU_ITEM_TYPE',
-  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
+  function(menuItemFactory, $state, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -56,8 +57,9 @@ angular.module('openproject.layout')
         // undefined and sometimes null. String ensures number and string comparisons work,
         // '|| null' ensures null and undefined are regarded as the same.
         // No idea though, why these sometimes are null and sometimes are undefined.
-        element.toggleClass('selected', String(scope.queryId || null) ===
-                                        String($stateParams.query_id || null));
+        element.toggleClass('selected', $state.includes('work-packages') &&
+                                        (String(scope.queryId || null) ===
+                                         String($stateParams.query_id || null)));
       }
       $timeout(setActiveState);
       scope.$on('$stateChangeSuccess', setActiveState);
