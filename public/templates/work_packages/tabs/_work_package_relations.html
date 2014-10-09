@@ -27,9 +27,12 @@
               </td>
               <td title="{{ relatedWorkPackage.props.status }}">{{ relatedWorkPackage.props.status }}</td>
               <td>
-                <a ng-if="relatedWorkPackage.embedded.assignee" title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
+                <a ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype != 'Group'" title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
                   {{ relatedWorkPackage.embedded.assignee.props.name }}
                 </a>
+                <span ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype == 'Group'">
+                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+                </span>
                 <empty-element ng-if="!relatedWorkPackage.embedded.assignee"></empty-element>
               </td>
               <td>
