@@ -61,7 +61,7 @@ class WorkPackagesController < ApplicationController
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
-  # The order in here is actually imporant for the angular client.
+  # The order in here is actually important for the angular client.
   # The first 6 are always to be displayed.
   DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
                                      :date, :percentageDone, :priority,
