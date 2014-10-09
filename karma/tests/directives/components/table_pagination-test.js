@@ -121,7 +121,7 @@ describe('tablePagination Directive', function () {
 
     it('calls the callback when seleceting a different per page option', function() {
       // click on first per-page anchor (current is not an anchor)
-      element.find('.items-per-page-container .pagination a:eq(0)').click()
+      element.find('.pagination--options a:eq(0)').click()
 
       expect(scope.updateResultsCalled).to.eq(true);
     });
