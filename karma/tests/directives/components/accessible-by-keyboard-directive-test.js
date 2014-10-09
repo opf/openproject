@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('userField Directive', function() {
+describe('accessibleByKeyboard Directive', function() {
   var compile, element, rootScope, scope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.tabs'));
-  beforeEach(module('templates', 'openproject.helpers'));
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('templates'));
 
-  beforeEach(inject(function($rootScope, $compile, PathHelper) {
-    var html;
-    html = '<user-field user="user"></user-field>';
+  beforeEach(inject(function($rootScope, $compile) {
+    var html =
+      '<accessible-by-keyboard link-class="blue"></accessible-by-keyboard>';
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -46,34 +46,13 @@ describe('userField Directive', function() {
     };
   }));
 
-  describe('element', function() {
-    describe('with a valid user', function() {
-      beforeEach(function() {
-        scope.user = {
-          props: {
-            firstName: "John",
-            lastName: "Doe",
-            avatar: "avatar.png"
-          }
-        };
-        compile();
-        scope.$apply();
-      });
-
-      context("user's avatar", function() {
-        it('should have an alt attribute', function() {
-          expect(element.find('.user-avatar--avatar').attr(
-            'alt')).to.equal('Avatar');
-        });
-
-        it("should have the title set to user's name", function() {
-          expect(element.find('.user-avatar--avatar').attr(
-            'title')).to.equal('John Doe');
-        });
-
-      });
+  describe('inner element', function() {
+    beforeEach(function() {
+      compile();
     });
 
-
+    it('should render an inner link with specified class', function() {
+      expect(element.find('a').hasClass('blue')).to.be.true;
+    });
   });
 });
