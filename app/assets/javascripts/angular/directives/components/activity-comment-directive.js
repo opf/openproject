@@ -50,10 +50,12 @@ angular.module('openproject.uiComponents')
 
       scope.createComment = function() {
         var descending = ConfigurationService.commentsSortedInDescendingOrder();
+        scope.processingComment = true;
         ActivityService.createComment(scope.workPackage, scope.activities, descending, scope.activity.comment)
           .then(function(response) {
             scope.activity.comment = '';
             scope.$emit('workPackageRefreshRequired', '');
+            scope.processingComment = false;
             return response;
           });
       };
