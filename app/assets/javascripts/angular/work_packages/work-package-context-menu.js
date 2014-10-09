@@ -65,6 +65,9 @@ angular.module('openproject.workPackages')
     $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
   });
 
+  $scope.isDetailsViewLinkVisible = function() {
+    return angular.element('#work-package-context-menu li.open').is(':visible');
+  };
 
   $scope.triggerContextMenuAction = function(action, link) {
     if (action === 'delete') {
