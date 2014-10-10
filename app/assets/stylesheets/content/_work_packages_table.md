@@ -2,7 +2,7 @@
 
 ```
 <div class="work-packages-table--container">
-  <div class="work-packages-table--container-inner">
+  <div class="work-packages-table--results-container">
     <table class="workpackages-table">
       <thead>
         <tr>
