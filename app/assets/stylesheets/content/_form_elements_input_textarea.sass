@@ -2,17 +2,22 @@
 
 #work-packages-index
   input
-    border: 1px solid #cacaca
     background: #ffffff
-    border-radius: 2px
-    padding: 8px
     font-family: $font_family_normal
     font-size: $global_font_size
     box-sizing: border-box
-    &:hover
-      border: 1px solid #aaaaaa
     &:focus
       box-shadow: 1px 1px 1px #dddddd inset
+  input:not([type="checkbox"])
+    padding: 8px
+    border: 1px solid #cacaca
+    border-radius: 2px
+    &:hover
+      border: 1px solid #aaaaaa
+  input[type="checkbox"]
+    /* IE (at least 10) has a padding by default.
+      Remove it to prevent a white border around the checkbox. */
+    padding: 0
   .wide
     width: 180px
   .small
