@@ -79,7 +79,7 @@ angular.module('openproject.workPackages.directives')
       }
 
       function getInnerContainer() {
-        return element.find('.work-packages-table--container-inner');
+        return element.find('.work-packages-table--results-container');
       }
 
       function getBackgrounds() {
