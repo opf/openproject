@@ -101,9 +101,32 @@ describe('userActivity Directive', function() {
             expect(element.find('.avatar').attr('title')).to.equal('John Doe');
           });
 
+          describe('when being empty', function() {
+            beforeEach(function() {
+              scope.activity.links.user.fetch = function() {
+                return {
+                  then: function(cb) {
+                    cb({
+                      props: {
+                        id: 1,
+                        name: "John Doe",
+                        avatar: '',
+                        status: 1
+                      }
+                    });
+                  }
+                };
+              };
+              compile();
+            });
+
+            it('should not be rendered', function() {
+              expect(element.find('.avatar')).to.have.length(0);
+            });
+          });
+
         });
       });
-
 
     });
 });

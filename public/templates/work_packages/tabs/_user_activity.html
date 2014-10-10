@@ -17,7 +17,7 @@
          ng-click="editComment()"></i>
     </div>
   </div>
-  <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
+  <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" ng-if="userAvatar" />
   <span class="user" ng-if="userActive"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
   <span class="user" ng-if="!userActive">{{ userName }}</span>
   <span class="date">{{ I18n.t('js.label_commented_on') }} <date-time date-time-value="activity.props.createdAt"/></date-time>

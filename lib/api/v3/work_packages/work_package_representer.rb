@@ -216,7 +216,10 @@ module API
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
-        property :percentage_done, render_nil: true
+        property :percentage_done,
+                 render_nil: true,
+                 exec_context: :decorator,
+                 setter: -> (value, *) { represented.percentage_done = value }
         property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
@@ -264,6 +267,10 @@ module API
 
         def visible_children
           @visible_children ||= represented.model.children.find_all { |child| child.visible? }
+        end
+
+        def percentage_done
+          represented.percentage_done unless Setting.work_package_done_ratio == 'disabled'
         end
       end
     end

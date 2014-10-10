@@ -304,7 +304,7 @@ de:
       no_results:
         title: Keine Arbeitspakete anzuzeigen
         description_html: |
-          <p>Es wurden entweder keine Arbeitspaketet erzeugt oder alle Arbeitspakete wurden ausgefiltert.</p>
+          <p>Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.</p>
       properties:
         assignee: "Zugewiesen an"
         author: "Autor"
