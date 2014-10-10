@@ -1,6 +1,6 @@
 <div class="work-packages-table--container"
   ng-class="{ '-with-footer': displaySums }">
-<div class="work-packages-table--container-inner">
+<div class="work-packages-table--container-inner" ng-if="rows.length">
 <table class="workpackages-table keyboard-accessible-list">
   <colgroup>
     <col />
@@ -194,6 +194,7 @@
 </table>
 <div class="work-packages-table--header-background"></div>
 <div class="work-packages-table--footer-background" ng-if="displaySums"></div>
+</div>
 <div class="work-packages-table--no-results-container" ng-if="!rows.length">
   <h2 class="work-packages-table--no-results-title">
     <i class="icon-info"></i>
@@ -201,6 +202,5 @@
   </h2>
   <div class="work-packages-table--no-results-description"
     ng-bind-html="I18n.t('js.work_packages.no_results.description_html')"></div>
-</div>
 </div>
 </div>
