@@ -74,35 +74,65 @@ angular.module('openproject.workPackages.directives')
         scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
       });
 
+      function getTable() {
+        return element.find('table');
+      }
+
+      function getInnerContainer() {
+        return element.find('.work-packages-table--container-inner');
+      }
+
+      function getBackgrounds() {
+        return element.find('.work-packages-table--header-background,' +
+          '.work-packages-table--footer-background');
+      }
+
+      function getHeadersFooters() {
+        return element.find(
+          '.sort-header-outer,' +
+          '.work-packages-table--header-outer,' +
+          '.work-packages-table--footer-outer'
+        );
+      }
+
       function setTableContainerWidths() {
-        var table          = element.find('table'),
-            innerContainer = element.find('.work-packages-table--results-container'),
-            backgrounds    = element.find('.work-packages-table--header-background,' +
-                                          '.work-packages-table--footer-background');
         // adjust overall containers
-        if (table.width() > element.width()) {
+        var tableWidth = getTable().width(),
+            scrollBarWidth = 16;
+
+        // account for a possible scrollbar
+        if (tableWidth > document.documentElement.clientWidth - scrollBarWidth) {
+          tableWidth += scrollBarWidth;
+        }
+        if (tableWidth > element.width()) {
           // force containers to the width of the table
-          innerContainer.width(table.width());
-          backgrounds.width(table.width());
+          getInnerContainer().width(tableWidth);
+          getBackgrounds().width(tableWidth);
         } else {
           // ensure table stretches to container sizes
-          innerContainer.css('width', '100%');
-          backgrounds.css('width', '100%');
+          getInnerContainer().css('width', '100%');
+          getBackgrounds().css('width', '100%');
         }
       }
 
       function setHeaderFooterWidths() {
-        var headersFooters = element.find('.sort-header-outer,' +
-                                   '.work-packages-table--header-outer,' +
-                                   '.work-packages-table--footer-outer');
-        headersFooters.each(function() {
+        getHeadersFooters().each(function() {
           var parentWidth = angular.element(this).parent().width();
           angular.element(this).css('width', parentWidth + 'px');
         });
       }
 
+      function invalidateWidths() {
+        getInnerContainer().css('width', 'auto');
+        getBackgrounds().css('width', 'auto');
+        getHeadersFooters().each(function() {
+          angular.element(this).css('width', 'auto');
+        });
+      }
+
       var setTableWidths = function() {
         $timeout(function() {
+          invalidateWidths();
           setTableContainerWidths();
           setHeaderFooterWidths();
         })
