@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'securerandom'
+
 module API
   module V3
     module Queries
@@ -54,9 +56,11 @@ module API
 
             patch :star do
               authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
-              normalized_query_name = @query.name.parameterize.underscore
-              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id(
-                normalized_query_name, @query.id, title: @query.name
+              # Query name is not user-visible, but apparently used as CSS class. WTF.
+              # Normalizing the query name can result in conflicts and empty names in case all
+              # characters are filtered out. A random name doesn't have these problems.
+              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_navigatable_id(
+                @query.id, name: SecureRandom.uuid, title: @query.name
               )
               query_menu_item.save!
               @representer
