@@ -1,5 +1,7 @@
 # Work packages table
 
+## with work packages
+
 ```
 <div class="work-packages-table--container">
   <div class="work-packages-table--results-container">
@@ -137,6 +139,22 @@
       </tbody>
     </table>
     <div class="work-packages-table--header-background"></div>
+  </div>
+</div>
+```
+
+## with no work packages
+
+```
+<div class="work-packages-table--container" style="height:150px">
+  <div class="work-packages-table--no-results-container">
+    <h2 class="work-packages-table--no-results-title">
+      <i class="icon-info"></i>
+      No work packages to display
+    </h2>
+    <div class="work-packages-table--no-results-description">
+      <p>Either none have been created or all work packages are filtered out.</p>
+    </div>
   </div>
 </div>
 ```
