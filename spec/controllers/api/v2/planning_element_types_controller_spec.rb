@@ -57,10 +57,10 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
       it_should_behave_like "a controller action which needs project permissions"
 
       describe 'with unknown project' do
-        it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
-            get 'index', :project_id => 'blah', :format => 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+        it 'returns 404' do
+          get 'index', project_id: 'blah', format: 'xml'
+
+          expect(response.response_code).to eql 404
         end
       end
 
@@ -111,7 +111,8 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
     end
 
     describe 'show.xml' do
-      let(:current_user) { admin }
+      let(:current_user) { non_admin_user }
+      let(:permission) { :view_work_packages }
 
       def fetch
         @available_type = FactoryGirl.create(:type, :id => '1337')
@@ -119,21 +120,21 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
       end
-      it_should_behave_like 'a controller action with require_admin'
+      it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'with unknown project' do
-        it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
-            get 'show', :project_id => 'blah', :id => '1337', :format => 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+        it 'returns 404' do
+          get 'show', project_id: 'blah', id: '1337', format: 'xml'
+
+          expect(response.response_code).to eql 404
         end
       end
 
       describe 'with unknown planning element type' do
-        it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
-            get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+        it 'returns 404' do
+          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+
+          expect(response.response_code).to eql 404
         end
       end
 
@@ -142,10 +143,10 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
           FactoryGirl.create(:type, :id => '1337')
         end
 
-        it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
-            get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+        it 'returns 404' do
+          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+
+          expect(response.response_code).to eql 404
         end
       end
 
@@ -214,28 +215,14 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
     end
 
     describe 'show.xml' do
-      let(:current_user) { admin }
+      let(:current_user) { non_admin_user }
+      let(:permission) { :view_work_packages }
 
       describe 'with unknown planning element type' do
-        if false # would like to write it this way
-          it 'returns status code 404' do
-            get 'show', :id => '1337', :format => 'xml'
+        it 'returns 404' do
+          get 'show', id: '1337', format: 'xml'
 
-            expect(response.status).to eq('404 Not Found')
-          end
-
-          it 'returns an empty body' do
-            get 'show', :id => '1337', :format => 'xml'
-
-            expect(response.body).to be_empty
-          end
-
-        else # but have to write it that way
-          it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
-              get 'show', :id => '1337', :format => 'xml'
-            }.to raise_error(ActiveRecord::RecordNotFound)
-          end
+          expect(response.response_code).to eql 404
         end
       end
 
@@ -247,7 +234,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         def fetch
           get 'show', :id => '1337', :format => 'xml'
         end
-        it_should_behave_like 'a controller action with require_admin'
+        it_should_behave_like 'a controller action which needs project permissions'
 
         it 'assigns the available planning element type' do
           get 'show', :id => '1337', :format => 'xml'
