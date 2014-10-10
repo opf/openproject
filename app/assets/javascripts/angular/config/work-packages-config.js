@@ -73,6 +73,6 @@ angular.module('openproject.workPackages.config')
   page: 1,
   perPage: 10,
   perPageOptions: [10, 100, 500, 1000],
-  maxVisiblePageOptions: 9,
+  maxVisiblePageOptions: 6,
   optionsTruncationSize: 2,
 });
