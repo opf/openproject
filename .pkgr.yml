@@ -16,6 +16,7 @@ services:
   - postgres
 installer: true
 wizards:
+  - https://github.com/pkgr/addon-legacy-installer.git#installer
   - https://github.com/pkgr/addon-mysql.git#installer
   - https://github.com/pkgr/addon-apache2.git#installer
   - https://github.com/pkgr/addon-svn-dav.git#installer
