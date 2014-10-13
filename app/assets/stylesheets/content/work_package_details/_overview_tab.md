@@ -18,10 +18,10 @@
       <div class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -user">
           <span class="user-avatar--container">
-            <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails+filter-junk-away@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+            <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
             <span class="user-avatar--user-with-role">
               <span class="user-avatar--user">
-                <a class="user-avatar--user-link" href="#">testing.long.emails+filter-junk-away@openproject.org</a>
+                <a class="user-avatar--user-link" href="#">testing.long.emails@openproject.org</a>
               </span>
             </span>
           </span>
