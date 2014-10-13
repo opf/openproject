@@ -43,7 +43,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
     allow(User).to receive(:current).and_return(current_user)
   end
 
-  shared_context 'expects policy to be followed' do |action|
+  shared_context 'expects policy to be followed' do |allowed_actions|
     let(:called_with_expected_args) { { called: false } }
 
     before do
@@ -53,7 +53,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
       expect(policy).to receive(:allowed?) do |received_query, received_action|
 
         if received_query.id == query.id &&
-           received_action == action
+           Array(allowed_actions).include?(received_action)
           called_with_expected_args[:called] = true
         end
 
@@ -246,7 +246,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
           before { allow(User).to receive(:current).and_return(user) }
 
           context 'with public state' do
-            include_context 'expects policy to be followed', :update
+            include_context 'expects policy to be followed', [:update, :publicize]
 
             before { valid_params['is_public'] = true.to_s }
 
