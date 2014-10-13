@@ -53,7 +53,7 @@ module API
             end
 
             patch :star do
-              #TODO Replace by QueryPolicy
+              # TODO Replace by QueryPolicy
               authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
               normalized_query_name = @query.name.parameterize.underscore
               query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id(
@@ -64,7 +64,7 @@ module API
             end
 
             patch :unstar do
-              #TODO Replace by QueryPolicy
+              # TODO Replace by QueryPolicy
               authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
               query_menu_item = @query.query_menu_item
               return @representer if @query.query_menu_item.nil?
