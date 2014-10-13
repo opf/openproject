@@ -43,9 +43,8 @@ module Api::Experimental
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
     before_filter :setup_existing_query, only: [:update, :destroy]
-    before_filter :authorize_on_query, only: [:create,
-                                              :update,
-                                              :destroy]
+    before_filter :authorize_on_query, only: [:create, :destroy]
+    before_filter :authorize_update_on_query, only: [:update]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -132,26 +131,25 @@ module Api::Experimental
     end
 
     def authorize_on_query
-      deny_access unless action_on_query_allowed?(params[:action])
+      deny_access unless QueryPolicy.new(current_user).allowed?(@query, params[:action].to_sym)
     end
 
-    def action_on_query_allowed?(action)
-      actions = [action]
+    def authorize_update_on_query
+      original_query = Query.find(params[:id])
+      actions = [params[:action].to_sym]
+      changed = @query.changed
 
-      if actions.include? 'update'
-        original_query = Query.find(params[:id])
-        changed = @query.changed
-        actions << ((@query.changed_attributes['is_public']) ? :depublicize : :publicize) if @query.changed.include? 'is_public'
+      actions << ((@query.changed_attributes['is_public']) ? :depublicize : :publicize) if @query.changed.include? 'is_public'
 
-        changed.delete('is_public')
+      changed.delete('is_public')
 
-        actions.delete('update') if actions.length > 1 && !changed.empty?
-      end
+      actions.delete(:update) if actions.length > 1 && !changed.empty?
 
       allowed = actions.map(&:to_sym)
-                       .map { |action| QueryPolicy.new(current_user).allowed?(original_query || @query, action) }
+                       .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
                        .reduce(:&)
-      allowed
+
+      deny_access unless allowed
     end
 
     def visible_queries
