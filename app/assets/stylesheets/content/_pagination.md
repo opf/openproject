@@ -14,12 +14,12 @@
       <li class="pagination--item"><a>34</a></li>
       <li class="pagination--item"><a>35</a></li>
       <li class="pagination--item -next"><a>Next</a></li>
-      <li class="pagination--range">(1 - 50/820)</li>
+      <li class="pagination--range" title="(1 - 50/820)">(1 - 50/820)</li>
     </ul>
   </nav>
   <div class="pagination--options">
     <ul class="pagination--items">
-      <li class="pagination--label">Per page:</li>
+      <li class="pagination--label" title="Per page:">Per page:</li>
       <li class="pagination--item"><a>10</a></li>
       <li class="pagination--item"><a>20</a></li>
       <li class="pagination--item -current">50</li>

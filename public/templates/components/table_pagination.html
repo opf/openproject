@@ -45,13 +45,13 @@
         </a>
       </li>
 
-      <li class="pagination--range">{{ currentRange }}</li>
+      <li class="pagination--range" title="{{ currentRange }}">{{ currentRange }}</li>
     </ul>
   </nav>
 
   <div class="pagination--options">
     <ul class="pagination--items">
-      <li class="pagination--label">{{ I18n.t('js.label_per_page') }}</li>
+      <li class="pagination--label" title="{{ I18n.t('js.label_per_page') }}">{{ I18n.t('js.label_per_page') }}</li>
 
       <li ng-repeat="perPageOption in paginationOptions.perPageOptions"
           ng-class="{ '-current': perPageOption == paginationOptions.perPage }"
