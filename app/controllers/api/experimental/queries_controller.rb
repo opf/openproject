@@ -139,11 +139,21 @@ module Api::Experimental
       actions = [:update]
       changed = @query.changed
 
+      # On update we must distinguish between a usual request updating the query
+      # and a request that (only) (de-)publicizes the query
       if changed.include? 'is_public'
+        # The permission to change the public state is handled separately
         changed.delete('is_public')
+        # ActiveRecord::Dirty will (nearly) always return 'filters' as changed,
+        # because it compares filters via object identity. Thus, we need to
+        # apply our own filter comparison to detect changed filters correctly.
         changed.delete('filters') if @query.filters == original_query.filters
 
+        # Check user's publication permissions
         actions << (@query.is_public ? :publicize : :depublicize)
+        # We don't need to check the update permission if the query is not
+        # changed by the request. Otherwise the user would need to have the
+        # update permission to change the publication state of a query.
         actions.delete(:update) if changed.empty?
       end
 
