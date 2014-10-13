@@ -125,7 +125,7 @@ Feature: Team Member
   Scenario: View sprint stories in the work_packages tab
     Given I am on the master backlog
      When I view the stories of Sprint 001 in the work_packages tab
-     Then I should see the WorkPackages page
+     Then I should be on the work packages index page of the project called "ecookbook"
      When I press "Filter"
      Then I should see "Sprint 001" within "#tr_fixed_version_id"
 
@@ -133,7 +133,7 @@ Feature: Team Member
   Scenario: View the project stories in the work_packages tab
     Given I am on the master backlog
      When I view the stories in the work_packages tab
-     Then I should see the WorkPackages page
+     Then I should be on the work packages index page of the project called "ecookbook"
      When I press "Filter"
      Then I should see "Version" within "#filters"
 
