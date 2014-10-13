@@ -136,7 +136,7 @@ module Api::Experimental
 
     def authorize_update_on_query
       original_query = Query.find(params[:id])
-      actions = [params[:action].to_sym]
+      actions = [:update]
       changed = @query.changed
 
       if @query.changed.include? 'is_public'
