@@ -58,15 +58,21 @@ ul.legacy-actions-more
   right: 0px
   z-index: 100
   white-space: nowrap
-  padding: 10px
-  padding-top: 5px
+  padding: 5px 0 5px 0
 
   background: white
   border: 1px solid #B7B7B7
 
   box-shadow: 1px 1px 2px #aaa
   > li
-    padding-top: 5px
+    [class^="icon-"]:before
+      vertical-align: -1px
+    a
+      padding: 2.5px 10px 2.5px 10px
+      display: block
+      &:hover
+        background-color: #F0F0F0
+
 
 
 #lower-title-bar ul.legacy-actions-specific
