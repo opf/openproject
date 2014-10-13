@@ -44,7 +44,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
   end
 
   shared_context 'expects policy to be followed' do |allowed_actions|
-    let(:called_with_expected_args) { { called: false } }
+    let(:called_with_expected_args) { [] }
 
     before do
       policy = double('QueryPolicy').as_null_object
@@ -54,14 +54,14 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
         if received_query.id == query.id &&
            Array(allowed_actions).include?(received_action)
-          called_with_expected_args[:called] = true
+          called_with_expected_args << received_action
         end
 
       end.at_least(1).times.and_return(true)
     end
 
     after do
-      expect(called_with_expected_args[:called]).to be_truthy
+      expect(called_with_expected_args.uniq).to match_array(Array(allowed_actions))
     end
   end
 
