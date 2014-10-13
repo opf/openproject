@@ -221,6 +221,7 @@ OpenProject::Application.routes.draw do
       #     => "/projects/1/settings/members"
       #
       get 'settings(/:tab)', :action => 'settings', :as => :settings
+      get :project_tree
 
       match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", :via => :get, :as => :copy_from,
             constraints: { coming_from: /(admin|settings)/ }

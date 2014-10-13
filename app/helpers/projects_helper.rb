@@ -49,7 +49,7 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 
-  def parent_project_select_tag(project)
+  def parent_project_select_options(project)
     selected = project.parent
     # retrieve the requested parent project
     parent_id = (params[:project] && params[:project][:parent_id]) || params[:parent_id]
@@ -58,9 +58,9 @@ module ProjectsHelper
     end
 
     options = ''
-    options << "<option value=''></option>" if project.allowed_parents.include?(nil)
+    options << "<option value=''>(none)</option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
-    content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
+    options.html_safe
   end
 
   # Renders a tree of projects as a nested set of unordered lists

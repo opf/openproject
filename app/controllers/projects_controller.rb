@@ -217,6 +217,11 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
+  def project_tree
+    @project.safe_attributes = params[:project]
+    render text: view_context.parent_project_select_options(@project)
+  end
+
 private
   def find_optional_project
     return true unless params[:id]
