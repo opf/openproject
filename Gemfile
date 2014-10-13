@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "= 4.0.9"
+gem "rails", "= 4.0.10"
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'rails-observers'
