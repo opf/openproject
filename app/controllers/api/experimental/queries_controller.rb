@@ -139,7 +139,7 @@ module Api::Experimental
       actions = [:update]
       changed = @query.changed
 
-      if @query.changed.include? 'is_public'
+      if changed.include? 'is_public'
         changed -= ['is_public', 'filters']
 
         actions << ((@query.changed_attributes['is_public']) ? :depublicize : :publicize)
