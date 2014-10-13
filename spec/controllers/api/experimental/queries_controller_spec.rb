@@ -254,7 +254,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
           before { allow(User).to receive(:current).and_return(user) }
 
-          context 'with public state' do
+          context 'with other changes' do
             include_context 'expects policy to be followed', [:update, :publicize]
 
             before { valid_params['is_public'] = true.to_s }
@@ -262,7 +262,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
             it_behaves_like 'valid query update'
           end
 
-          describe 'with public state only' do
+          describe 'w/o other changes' do
             context 'publicize' do
               let(:admin) { FactoryGirl.create(:admin) }
               let(:valid_params) do
