@@ -76,7 +76,7 @@ angular.module('openproject.workPackages.directives')
 
       function setTableContainerWidths() {
         var table          = element.find('table'),
-            innerContainer = element.find('.work-packages-table--container-inner'),
+            innerContainer = element.find('.work-packages-table--results-container'),
             backgrounds    = element.find('.work-packages-table--header-background,' +
                                           '.work-packages-table--footer-background');
         // adjust overall containers
