@@ -65,6 +65,15 @@ describe Api::Experimental::QueriesController, :type => :controller do
     end
   end
 
+  shared_context 'expects policy to be ignored' do |ignored_action|
+    before do
+      policy = double('QueryPolicy').as_null_object
+      allow(QueryPolicy).to receive(:new).and_return(policy)
+
+      expect(policy).not_to receive(:allowed?).with(anything, :update).and_return(false)
+    end
+  end
+
   describe '#available_columns' do
     context 'with no query_id parameter' do
       it 'assigns available_columns' do
@@ -256,41 +265,55 @@ describe Api::Experimental::QueriesController, :type => :controller do
           describe 'with public state only' do
             context 'publicize' do
               let(:admin) { FactoryGirl.create(:admin) }
+              let(:valid_params) do
+               { 'f' => ['status_id'],
+                 'is_public' => 'true',
+                 'name' => query.name,
+                 'op' => { 'status_id' => 'o' },
+                 'v' => { 'status_id' => [''] },
+                 'query_id' => query.id,
+                 'id' => query.id,
+                 'project_id' => project.id,
+                 'format' => 'json' }
+              end
 
-              include_context 'expects policy to be followed', :publicize
+              context 'allowed policy' do
+                include_context 'expects policy to be followed', :publicize
 
-              it_behaves_like 'valid query update' do
-                let(:valid_params) do
-                 { 'f' => ['status_id'],
-                   'is_public' => 'true',
-                   'name' => query.name,
-                   'op' => { 'status_id' => 'o' },
-                   'v' => { 'status_id' => [''] },
-                   'query_id' => query.id,
-                   'id' => query.id,
-                   'project_id' => project.id,
-                   'format' => 'json' }
-                end
+                it_behaves_like 'valid query update'
+              end
+
+              context 'forbidden policy' do
+                include_context 'expects policy to be ignored', :update
+
+                it_behaves_like 'valid query update'
               end
             end
 
             context 'depublicize' do
               let(:query) { FactoryGirl.create(:query, project: project, is_public: true) }
+              let(:valid_params) do
+               { 'f' => ['status_id'],
+                 'is_public' => 'false',
+                 'name' => query.name,
+                 'op' => { 'status_id' => 'o' },
+                 'v' => { 'status_id' => [''] },
+                 'query_id' => query.id,
+                 'id' => query.id,
+                 'project_id' => project.id,
+                 'format' => 'json' }
+              end
 
-              include_context 'expects policy to be followed', :depublicize
+              context 'allowed policy' do
+                include_context 'expects policy to be followed', :depublicize
 
-              it_behaves_like 'valid query update' do
-                let(:valid_params) do
-                 { 'f' => ['status_id'],
-                   'is_public' => 'false',
-                   'name' => query.name,
-                   'op' => { 'status_id' => 'o' },
-                   'v' => { 'status_id' => [''] },
-                   'query_id' => query.id,
-                   'id' => query.id,
-                   'project_id' => project.id,
-                   'format' => 'json' }
-                end
+                it_behaves_like 'valid query update'
+              end
+
+              context 'forbidden policy' do
+                include_context 'expects policy to be ignored', :update
+
+                it_behaves_like 'valid query update'
               end
             end
           end
