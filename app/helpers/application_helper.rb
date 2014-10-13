@@ -131,11 +131,7 @@ module ApplicationHelper
   end
 
   def format_version_name(version)
-    if version.project == @project
-      h(version)
-    else
-      h("#{version.project} - #{version}")
-    end
+    h(version.to_s_for_project(@project))
   end
 
   def due_date_distance_in_words(date)

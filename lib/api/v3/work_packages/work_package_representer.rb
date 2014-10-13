@@ -195,7 +195,7 @@ module API
           {
             href: version_path(represented.model.fixed_version),
             type: 'text/html',
-            title: "#{represented.model.fixed_version}"
+            title: "#{represented.model.fixed_version.to_s_for_project(represented.model.project)}"
           } if represented.model.fixed_version && @current_user.allowed_to?({controller: "versions", action: "show"}, represented.model.fixed_version.project, global: false)
         end
 
