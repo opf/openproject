@@ -1819,6 +1819,109 @@ Gets a list of users that can be assigned to the work package as responsible.
 
     [Available Responsibles][]
 
+## AvailableCustomProperties [/work_packages/{work_package_id}/available_custom_properties{?type}]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "http://localhost:3000/api/v3/work_packages/688/available_custom_properties"
+                },
+                "workPackage": {
+                  "href": "http://localhost:3000/api/v3/work_packages/688"
+                }
+              },
+              "_type": "CustomProperties",
+              "_embedded": {
+                "customProperties": [
+                  {
+                    "_type": "CustomProperty::Text",
+                    "name": "e-mail",
+                    "validations": {
+                      "isRequired": "false",
+                      "minLength": "0",
+                      "maxLength": "100",
+                      "regularExpression": "[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}",
+                    },
+                    "defaultValue": "foo@bar.com"
+                  },
+                  {
+                    "_type": "CustomProperty::List",
+                    "name": "Country",
+                    "validations": {
+                      "availableValues": [
+                        "Ghana",
+                        "Nigeria",
+                        "South Africa"
+                      ],
+                      "isRequired": "true",
+                    },
+                    "defaultValue": "Ghana"
+                  },
+                  {
+                    "_type": "CustomProperty::Date",
+                    "name": "Date of Birth",
+                    "validations": {
+                      "isRequired": "false",
+                    },
+                    "defaultValue": "2000/01/01"
+                  },
+                  {
+                    "_type": "BooleanCustomProperty",
+                    "name": "Funny?",
+                    "validations": {
+                      "isRequired": "true",
+                    },
+                    "defaultValue": "NO"
+                  },
+                  {
+                    "_type": "CustomProperty::User",
+                    "_links": {
+                      "availableValues": {
+                        "href": "http://localhost:3000/api/v3/projects/5/members"
+                      }
+                    },
+                    "name": "Friend",
+                    "validations": {
+                      "isRequired": "false"
+                    },
+                    "defaultValue": ""
+                  },
+                  {
+                    "_type": "CustomProperty::Version",
+                    "_links": {
+                      "availableValues": {
+                        "href": "http://localhost:3000/api/v3/projects/5/versions"
+                      }
+                    },
+                    "name": "State of maturity",
+                    "validations": {
+                      "isRequired": "false"
+                    },
+                    "defaultValue": ""
+                  }
+                ]
+              }
+            }
+
+## Available custom properties [GET]
+
+Gets a list of custom properties that are assignable to the work package.
+
+The list depends on the type of the work package. If the attribute value for
+type is to be changed, the new value can be supplied as a parameter.
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+    + type = `nil` (optional, string, `Bug`) ... Name of the type the work package
+    is going to be changed into
+
++ Response 200 (application/hal+json)
+
+    [AvailableCustomProperties][]
+	
 ## AvailableWatchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
 
 + Model
