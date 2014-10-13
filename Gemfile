@@ -45,9 +45,6 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "= 4.0.9"
-gem 'protected_attributes'
-gem 'actionpack-action_caching'
-gem 'rails-observers'
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -62,7 +59,7 @@ gem 'rails_autolink'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.2.0"
 
-gem 'awesome_nested_set'
+gem "awesome_nested_set", ">= 3.0.0.rc.6"
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 
