@@ -57,18 +57,18 @@ describe('tablePagination Directive', function () {
     });
 
     it('should display the correct page range', function () {
-      var range = element.find('.range');
+      var range = element.find('.pagination--range');
 
       expect(range.text()).to.equal('(0 - 0/0)');
-      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
+      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(true);
 
       scope.tableEntries = 11;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/11)');
+      expect(range.text()).to.equal('(1 - 10/11)');
 
       scope.tableEntries = 663;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/663)');
+      expect(range.text()).to.equal('(1 - 10/663)');
     });
 
     it('should display the "next" link correctly', function() {
@@ -77,13 +77,13 @@ describe('tablePagination Directive', function () {
       // should be 12 pages, in 10 iterations we will get to the penultimate page
       // this also covers the case where you clink on the 9th and "next" is  hidden
       for (var i = 0; i <= 9; i++) {
-        element.find(".pagination-next-link").click();
-        expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(false);
+        element.find(".pagination--next-link").click();
+        expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(false);
       }
 
       //on the last page now, next should be hidden
-      element.find(".pagination-next-link").click();
-      expect(element.find(".pagination-next-link").parent().hasClass("ng-hide")).to.equal(true);
+      element.find(".pagination--next-link").click();
+      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(true);
     });
 
     it('should display correct number of page number links', function () {
@@ -103,7 +103,7 @@ describe('tablePagination Directive', function () {
 
       scope.tableEntries = 101;
       scope.$apply();
-      expect(numberOfPageNumberLinks()).to.eq(11);
+      expect(numberOfPageNumberLinks()).to.eq(8);
     });
   });
 
@@ -121,7 +121,7 @@ describe('tablePagination Directive', function () {
 
     it('calls the callback when seleceting a different per page option', function() {
       // click on first per-page anchor (current is not an anchor)
-      element.find('.items-per-page-container .pagination a:eq(0)').click()
+      element.find('.pagination--options a:eq(0)').click()
 
       expect(scope.updateResultsCalled).to.eq(true);
     });
@@ -139,7 +139,7 @@ describe('tablePagination Directive', function () {
     }));
 
     it('should always render perPage options', function () {
-      var perPageOptions = element.find('.items-per-page-container .pagination');
+      var perPageOptions = element.find('.pagination--options');
 
       expect(perPageOptions.text()).to.include('Per page:');
     });
