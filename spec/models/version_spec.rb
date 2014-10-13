@@ -42,6 +42,18 @@ describe Version, :type => :model do
     expect(version.errors_on(:effective_date).size).to eq(1)
   end
 
+  context '#to_s_for_project' do
+    let(:other_project) { FactoryGirl.build(:project) }
+
+    it 'returns only the version for the same project' do
+      expect(version.to_s_for_project(version.project)).to eq("#{version.name}")
+    end
+
+    it 'returns the project name and the version name for a different project' do
+      expect(version.to_s_for_project(other_project)).to eq("#{version.project.name} - #{version.name}")
+    end
+  end
+
   context 'deprecated methods' do
     it { is_expected.to respond_to :completed_pourcent }
     it { is_expected.to respond_to :closed_pourcent    }

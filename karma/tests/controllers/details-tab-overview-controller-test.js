@@ -312,13 +312,19 @@ describe('DetailsTabOverviewController', function() {
           it ('should set the correct viewable property', function() {
             expect(fetchPresentPropertiesWithName('versionName')[0].value.viewable).to.equal(false);
           });
+          it('should set the given title', function() {
+            expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
+          });
         });
 
         context('versionViewable is true', function() {
           beforeEach(function() {
-            workPackage.links.version = {
-              href: "/versions/1"
-            };
+          workPackage.links.version = {
+            href: "/versions/1",
+            props: {
+              title: 'Test version'
+            }
+          };
             buildController();
           });
 
