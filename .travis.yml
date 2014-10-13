@@ -36,6 +36,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - feature/rails4
 env:
   # Frontend
   - "TEST_SUITE=karma"
