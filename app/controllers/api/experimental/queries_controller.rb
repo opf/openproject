@@ -139,11 +139,13 @@ module Api::Experimental
       actions = [params[:action].to_sym]
       changed = @query.changed
 
-      actions << ((@query.changed_attributes['is_public']) ? :depublicize : :publicize) if @query.changed.include? 'is_public'
+      if @query.changed.include? 'is_public'
+        changed -= ['is_public', 'filters']
 
-      changed.delete('is_public')
-
-      actions.delete(:update) if actions.length > 1 && !changed.empty?
+        actions << ((@query.changed_attributes['is_public']) ? :depublicize : :publicize)
+        filters_changed = @query.filters != original_query.filters
+        actions.delete(:update) if changed.empty? && !filters_changed
+      end
 
       allowed = actions.map(&:to_sym)
                        .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }

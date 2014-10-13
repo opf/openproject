@@ -70,7 +70,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
       policy = double('QueryPolicy').as_null_object
       allow(QueryPolicy).to receive(:new).and_return(policy)
 
-      expect(policy).not_to receive(:allowed?).with(anything, :update).and_return(false)
+      expect(policy).not_to receive(:allowed?).with(anything, ignored_action).and_return(false)
     end
   end
 
