@@ -33,7 +33,7 @@ describe('focus Directive', function() {
   beforeEach(module('templates'));
 
   beforeEach(inject(function($compile, $rootScope, $document, $timeout) {
-    var html = '<input type="text" name="testInput" focus></input>';
+    var html = '<input type="text" name="testInput" focus id="focusTest"></input>';
 
     doc = $document[0];
     rootScope = $rootScope;
@@ -50,6 +50,12 @@ describe('focus Directive', function() {
       $timeout.flush();
     };
   }));
+
+  afterEach(function() {
+    var body = angular.element(doc.body);
+
+    body.find('#focusTest').remove();
+  });
 
   describe('element', function() {
     it('should focus the element', function() {
