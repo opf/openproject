@@ -1,15 +1,16 @@
 FORMAT: 1A
 
 # OpenProject API v3
-TODO: Description
 
-# Group Hypermedia
+# Group General
+
+# Hypermedia
 TODO: Description & Resources
 
-# Group Formats
+# Formats
 TODO: Description and why only JSON
 
-# Group HAL+JSON
+# HAL+JSON
 HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
 Read more: http://stateless.co/hal_specification.html
 
@@ -22,7 +23,7 @@ Read more: http://stateless.co/hal_specification.html
     - `_count` - number of records fetched in the response
     - `_total` - number of available records
 
-# Group API response structure
+# API response structure
 Depending on the performed request, the OpenProject API will return a response in one of the following possible structures:
 
 - As a **simple HAL+JSON object** (e.g.: GET /projects/:id)
@@ -132,14 +133,14 @@ This allows you to see exactly what went wrong and inform the user.
 **TODO**
 
 
-# Group Allowed HTTP methods
+# Allowed HTTP methods
 
 - `GET` - Get a single resource or collection of resources
 - `POST` - Create a new resource or perform
 - `PATCH` - Update a resource
 - `DELETE` - Delete a resource
 
-# Group Response codes
+# Response codes
 
 - `200 OK` - Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource.
 - `201 Created` - The request has been fulfilled and resulted in a new resource being created
@@ -161,9 +162,6 @@ This allows you to see exactly what went wrong and inform the user.
 - `500 Internal Server Error` - A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
 - `501 Not Implemented` - The server either does not recognize the request method, or it lacks the ability to fulfill the request. Usually this implies future availability.
 - `503 Service Unavailable` - The server is currently unavailable (because it is overloaded or down for maintenance).
-
-# OpenProject API error objects
-**TODO**
 
 # Group Activities
 
