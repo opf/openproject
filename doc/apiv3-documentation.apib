@@ -567,6 +567,71 @@ A user must have the permission to **edit journals** to update an activity. A
 
     [Unstar Query][]
 
+# Group Statuses
+
+## Properties
+| Property | Description | Type    | Constraints | Example | Supported operations |
+|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
+| id       | Status id   | Integer | Must be a positive integer | 12 | READ |
+| name     | Status name | String  |             | Closed  | READ |
+
+## Statuses [/statuses]
+
++ Model
+	+ Body
+	
+			{
+				_links:
+				{
+					self:
+					{
+						href: "/api/v3/statuses"
+					}
+				},
+				_type: "Statuses",
+				_embedded:
+				{
+					statuses: [
+						{
+							_type: "Status",
+							id: 1,
+							name: "New"
+						},
+						{
+							_type: "Status",
+							id: 3,
+							name: "Resolved"
+						},
+						{
+							_type: "Status",
+							id: 4,
+							name: "Feedback"
+						},
+						{
+							_type: "Status",
+							id: 5,
+							name: "Closed"
+						},
+						{
+							_type: "Status",
+							id: 6,
+							name: "Rejected"
+						},
+						{
+							_type: "Status",
+							id: 2,
+							name: "In Progress"
+						}
+					]
+				}
+			}
+			
+## List all Statuses [GET]
+
++ Response 200 (application/hal+json)
+
+	[Statuses][]
+	
 # Group Users
 
 ## Properties:
