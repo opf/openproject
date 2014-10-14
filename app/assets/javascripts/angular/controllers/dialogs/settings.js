@@ -56,6 +56,10 @@ angular.module('openproject.workPackages.controllers')
     query.name = $scope.queryName;
     QueryService.saveQuery()
       .then(function(data) {
+        QueryService.updateHighlightName();
+        return data;
+      })
+      .then(function(data) {
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
 

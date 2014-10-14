@@ -69,6 +69,12 @@ describe('queryMenuItemFactory', function() {
     queryMenuItemFactory = _queryMenuItemFactory_;
   }));
 
+  afterEach(inject(function($document) {
+    // The document does not seem to be cleaned up after each test instead each
+    // test leaves additional DOM. Thus the tests are not independent.
+    // Therefore we clean it by hand.
+    $document.find('body').html('');
+  }));
 
   describe('#generateMenuItem for a query', function() {
     var menuItem, itemLink;
