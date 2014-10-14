@@ -786,6 +786,59 @@ A user must have the permission to **edit journals** to update an activity. A
 
     [User][]
 
+# Group Versions
+
+## Properties
+| Property | Description | Type    | Constraints | Example | Supported operations |
+|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
+| id       | Version id   | Integer | Must be a positive integer | 12 | READ |
+| name     | Version name | String  |             | Version 1.0  | READ |
+
+## Versions by Project [/projects/{project_id}/versions]
+
++ Model
+	+ Body
+	
+			{
+				_links:
+				{
+					self:
+					{
+						href: "/api/v3/projects/11/versions"
+					}
+				},
+				_type: "Versions",
+				_embedded:
+				{
+					versions: [
+						{
+							_type: "Version",
+							id: 11,
+							name: "v3.0 Alpha"
+						},
+						{
+							_type: "Version",
+							id: 12,
+							name: "v2.0"
+						},
+						{
+							_type: "Version",
+							id: 10,
+							name: "v1.0"
+						}
+					]
+				}
+			}
+			
+## List versions available in a project [GET]
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
+
++ Response 200 (application/hal+json)
+
+	[Versions by Project][]
+	
 # Group Watchers
 
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
