@@ -263,19 +263,21 @@ describe Api::Experimental::QueriesController, :type => :controller do
           end
 
           describe 'w/o other changes' do
+            let(:change_public_state_only_params) do
+             { 'f' => ['status_id'],
+               'is_public' => 'true',
+               'name' => query.name,
+               'op' => { 'status_id' => 'o' },
+               'v' => { 'status_id' => [''] },
+               'query_id' => query.id,
+               'id' => query.id,
+               'project_id' => project.id,
+               'format' => 'json' }
+            end
+
             context 'publicize' do
               let(:admin) { FactoryGirl.create(:admin) }
-              let(:valid_params) do
-               { 'f' => ['status_id'],
-                 'is_public' => 'true',
-                 'name' => query.name,
-                 'op' => { 'status_id' => 'o' },
-                 'v' => { 'status_id' => [''] },
-                 'query_id' => query.id,
-                 'id' => query.id,
-                 'project_id' => project.id,
-                 'format' => 'json' }
-              end
+              let(:valid_params) { change_public_state_only_params }
 
               context 'allowed policy' do
                 include_context 'expects policy to be followed', :publicize
@@ -292,17 +294,7 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
             context 'depublicize' do
               let(:query) { FactoryGirl.create(:query, project: project, is_public: true) }
-              let(:valid_params) do
-               { 'f' => ['status_id'],
-                 'is_public' => 'false',
-                 'name' => query.name,
-                 'op' => { 'status_id' => 'o' },
-                 'v' => { 'status_id' => [''] },
-                 'query_id' => query.id,
-                 'id' => query.id,
-                 'project_id' => project.id,
-                 'format' => 'json' }
-              end
+              let(:valid_params) { change_public_state_only_params.merge({ 'is_public' => 'false' }) }
 
               context 'allowed policy' do
                 include_context 'expects policy to be followed', :depublicize
