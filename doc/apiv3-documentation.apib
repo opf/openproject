@@ -294,6 +294,66 @@ A user must have the permission to **edit journals** to update an activity. A
 
     [Attachment][]
 
+# Group Priorities
+
+## Properties
+| Property | Description | Type    | Constraints | Example | Supported operations |
+|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
+| id       | Priority id   | Integer | Must be a positive integer | 12 | READ |
+| name     | Priority name | String  |             | High  | READ |
+
+## Priorities [/priorities]
+
++ Model
+	+ Body
+	
+			{
+				_links:
+				{
+					self:
+					{
+						href: "/api/v3/priorities"
+					}
+				},
+				_type: "Priorities",
+				_embedded:
+				{
+					priorities: [
+						{
+							_type: "Priority",
+							id: 1,
+							name: "Low"
+						},
+						{
+							_type: "Priority",
+							id: 2,
+							name: "Normal"
+						},
+						{
+							_type: "Priority",
+							id: 3,
+							name: "High"
+						},
+						{
+							_type: "Priority",
+							id: 4,
+							name: "Urgent"
+						},
+						{
+							_type: "Priority",
+							id: 5,
+							name: "Immediate"
+						}
+					]
+				}
+			}
+			
+## List all Priorities [GET]
+
++ Response 200 (application/hal+json)
+
+	[Priorities][]
+
 # Group Projects
 
 ## Links:
