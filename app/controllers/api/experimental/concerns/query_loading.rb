@@ -37,6 +37,9 @@ module Api::Experimental::Concerns::QueryLoading
     if !params[:query_id].blank?
       @query = Query.find(params[:query_id])
       @query.project = @project if @query.project.nil?
+      unless QueryPolicy.new(User.current).allowed?(@query, :show)
+        raise ActiveRecord::RecordNotFound.new
+      end
     else
       @query = Query.new({ name: "_", :project => @project },
                          :initialize_with_default_filter => no_query_params_provided?)
