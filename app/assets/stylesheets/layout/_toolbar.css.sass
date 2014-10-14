@@ -1,3 +1,8 @@
+@mixin querySelectDropdownLink($color)
+  display: block
+  color: $color
+  font-weight: normal
+
 .toolbar-container
   $line-height: 20px
   $padding: 10px
@@ -63,7 +68,7 @@
 
   li.first
     border-radius: 5px
-    background-color: #24B3E7
+    background-color: $drop_down_selected_bg_color
 
   span.filter-selection
     text-decoration: underline
@@ -93,10 +98,11 @@
       display: block
       &:hover
         background: #f0f0f0
+      &.first
+        a
+          @include querySelectDropdownLink($drop_down_selected_font_color)
       a
-        display: block
-        color: $main_menu_font_color
-        font-weight: normal
+        @include querySelectDropdownLink($main_menu_font_color)
         &:hover
           text-decoration: none
   .search-query-wrapper
