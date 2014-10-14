@@ -119,6 +119,10 @@ class Queries::Filter
     self.filter_types_by_field[field]
   end
 
+  def ==(filter)
+    filter.attributes_hash == attributes_hash
+  end
+
   protected
 
   def attributes_hash

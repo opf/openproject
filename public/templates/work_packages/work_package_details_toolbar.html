@@ -14,7 +14,9 @@
     <li ng-repeat="(action, properties) in permittedActions"
         ng-click="triggerMoreMenuAction(action, properties.link)"
         class="{{action}}">
-      <a href
+      <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+      properly. Thus, don't remove the hrefs or the empty URLs! -->
+      <a href=""
          ng-class="['icon-context'].concat(properties.css)"
          ng-bind="I18n.t('js.button_' + action)">
       </a>
