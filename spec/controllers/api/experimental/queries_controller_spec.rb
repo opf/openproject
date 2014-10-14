@@ -43,8 +43,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
     allow(User).to receive(:current).and_return(current_user)
   end
 
-  shared_context 'expects policy to be followed' do |action|
-    let(:called_with_expected_args) { { called: false } }
+  shared_context 'expects policy to be followed' do |allowed_actions|
+    let(:called_with_expected_args) { [] }
 
     before do
       policy = double('QueryPolicy').as_null_object
@@ -53,15 +53,24 @@ describe Api::Experimental::QueriesController, :type => :controller do
       expect(policy).to receive(:allowed?) do |received_query, received_action|
 
         if received_query.id == query.id &&
-           received_action == action
-          called_with_expected_args[:called] = true
+           Array(allowed_actions).include?(received_action)
+          called_with_expected_args << received_action
         end
 
       end.at_least(1).times.and_return(true)
     end
 
     after do
-      expect(called_with_expected_args[:called]).to be_truthy
+      expect(called_with_expected_args.uniq).to match_array(Array(allowed_actions))
+    end
+  end
+
+  shared_context 'expects policy to be ignored' do |ignored_action|
+    before do
+      policy = double('QueryPolicy').as_null_object
+      allow(QueryPolicy).to receive(:new).and_return(policy)
+
+      expect(policy).not_to receive(:allowed?).with(anything, ignored_action).and_return(false)
     end
   end
 
@@ -207,10 +216,8 @@ describe Api::Experimental::QueriesController, :type => :controller do
 
   describe '#update' do
     context 'within a project' do
-      let(:query) { FactoryGirl.create(:query, project: project) }
-
-      include_context 'expects policy to be followed', :update
-
+      let(:user) { FactoryGirl.create(:user) }
+      let(:query) { FactoryGirl.create(:query, project: project, user: user) }
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
           'f' => ['status_id'],
@@ -225,9 +232,84 @@ describe Api::Experimental::QueriesController, :type => :controller do
           'format' => 'json' }
       end
 
-      it 'responds with 200' do
-        post :update, valid_params
-        expect(response.response_code).to eql(200)
+      shared_examples_for 'valid query update' do
+        before { post :update, valid_params }
+
+        it { expect(response.response_code).to eql(200) }
+      end
+
+      describe 'query update' do
+        context 'w/o public state' do
+          include_context 'expects policy to be followed', :update
+
+          it_behaves_like 'valid query update'
+        end
+
+        describe 'public state' do
+          let(:role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
+          let!(:membership) { FactoryGirl.create(:member,
+                                                 user: user,
+                                                 project: query.project,
+                                                 role_ids: [role.id]) }
+
+          before { allow(User).to receive(:current).and_return(user) }
+
+          context 'with other changes' do
+            include_context 'expects policy to be followed', [:update, :publicize]
+
+            before { valid_params['is_public'] = true.to_s }
+
+            it_behaves_like 'valid query update'
+          end
+
+          describe 'w/o other changes' do
+            let(:change_public_state_only_params) do
+             { 'f' => ['status_id'],
+               'is_public' => 'true',
+               'name' => query.name,
+               'op' => { 'status_id' => 'o' },
+               'v' => { 'status_id' => [''] },
+               'query_id' => query.id,
+               'id' => query.id,
+               'project_id' => project.id,
+               'format' => 'json' }
+            end
+
+            context 'publicize' do
+              let(:admin) { FactoryGirl.create(:admin) }
+              let(:valid_params) { change_public_state_only_params }
+
+              context 'allowed policy' do
+                include_context 'expects policy to be followed', :publicize
+
+                it_behaves_like 'valid query update'
+              end
+
+              context 'forbidden policy' do
+                include_context 'expects policy to be ignored', :update
+
+                it_behaves_like 'valid query update'
+              end
+            end
+
+            context 'depublicize' do
+              let(:query) { FactoryGirl.create(:query, project: project, is_public: true) }
+              let(:valid_params) { change_public_state_only_params.merge({ 'is_public' => 'false' }) }
+
+              context 'allowed policy' do
+                include_context 'expects policy to be followed', :depublicize
+
+                it_behaves_like 'valid query update'
+              end
+
+              context 'forbidden policy' do
+                include_context 'expects policy to be ignored', :update
+
+                it_behaves_like 'valid query update'
+              end
+            end
+          end
+        end
       end
     end
 

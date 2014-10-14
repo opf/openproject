@@ -55,6 +55,7 @@ module API
             end
 
             patch :star do
+              # TODO Replace by QueryPolicy
               authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
               # Query name is not user-visible, but apparently used as CSS class. WTF.
               # Normalizing the query name can result in conflicts and empty names in case all
@@ -67,6 +68,7 @@ module API
             end
 
             patch :unstar do
+              # TODO Replace by QueryPolicy
               authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
               query_menu_item = @query.query_menu_item
               return @representer if @query.query_menu_item.nil?

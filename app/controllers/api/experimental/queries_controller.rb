@@ -43,9 +43,8 @@ module Api::Experimental
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
     before_filter :setup_existing_query, only: [:update, :destroy]
-    before_filter :authorize_on_query, only: [:create,
-                                              :update,
-                                              :destroy]
+    before_filter :authorize_on_query, only: [:create, :destroy]
+    before_filter :authorize_update_on_query, only: [:update]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -133,6 +132,36 @@ module Api::Experimental
 
     def authorize_on_query
       deny_access unless QueryPolicy.new(current_user).allowed?(@query, params[:action].to_sym)
+    end
+
+    def authorize_update_on_query
+      original_query = Query.find(params[:id])
+      actions = [:update]
+      changed = @query.changed
+
+      # On update we must distinguish between a usual request updating the query
+      # and a request that (only) (de-)publicizes the query
+      if changed.include? 'is_public'
+        # The permission to change the public state is handled separately
+        changed.delete('is_public')
+        # ActiveRecord::Dirty will (nearly) always return 'filters' as changed,
+        # because it compares filters via object identity. Thus, we need to
+        # apply our own filter comparison to detect changed filters correctly.
+        changed.delete('filters') if @query.filters == original_query.filters
+
+        # Check user's publication permissions
+        actions << (@query.is_public ? :publicize : :depublicize)
+        # We don't need to check the update permission if the query is not
+        # changed by the request. Otherwise the user would need to have the
+        # update permission to change the publication state of a query.
+        actions.delete(:update) if changed.empty?
+      end
+
+      allowed = actions.map(&:to_sym)
+                       .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
+                       .reduce(:&)
+
+      deny_access unless allowed
     end
 
     def visible_queries
