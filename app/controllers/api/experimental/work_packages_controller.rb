@@ -48,7 +48,7 @@ module Api
       before_filter :load_query, only: [:index]
 
       def index
-        @work_packages = current_work_packages(@project) unless performed?
+        @work_packages = current_work_packages(@project)
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
