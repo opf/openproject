@@ -1,5 +1,7 @@
 <div id="tabs">
   <ul class="tabrow">
+    <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+    properly. Thus, don't remove the hrefs or the empty URLs! -->
     <li ui-sref="work-packages.list.details.overview({})"
         ui-sref-active="selected">
       <a href="" ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
