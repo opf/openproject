@@ -46,9 +46,9 @@ module Api
 
       before_filter :find_optional_project
       before_filter :load_query, only: [:index]
-      before_filter :assign_work_packages, only: [:index]
 
       def index
+        @work_packages = current_work_packages(@project) unless performed?
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
@@ -61,7 +61,6 @@ module Api
 
         setup_context_menu_actions
 
-        # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
         end
@@ -115,10 +114,6 @@ module Api
         @query ||= init_query
       rescue ActiveRecord::RecordNotFound
         render_404
-      end
-
-      def assign_work_packages
-        @work_packages = current_work_packages(@project) unless performed?
       end
 
       def current_work_packages(projects)
