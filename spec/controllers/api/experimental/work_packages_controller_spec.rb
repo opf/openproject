@@ -60,12 +60,16 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
                                             type: type,
                                             status: status_1,
                                             project: project_2) }
-  let(:query_1) { FactoryGirl.create(:query,
-                                     project: project_1) }
 
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project_1,
                               member_through_role: role)
+  end
+
+  let(:query_1) do
+    FactoryGirl.create(:query,
+                       project: project_1,
+                       user: current_user)
   end
 
   before do
@@ -177,6 +181,29 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
         get 'index', format: 'json', project_id: project_1.id
 
         expect(response.response_code).to eql(403)
+      end
+
+      context 'viewing another persions private query' do
+        let(:other_user) do
+          FactoryGirl.create(:user, member_in_project: project_1,
+                                    member_through_role: role)
+        end
+
+        let(:role) do
+          FactoryGirl.create(:role, permissions: [:view_work_packages])
+        end
+
+        it 'is visible by the owner' do
+          get 'index', format: 'json', query_id: query_1.id, project_id: project_1.id
+          expect(response.response_code).to eql(200)
+        end
+
+        it 'is not visible by another user' do
+          allow(User).to receive(:current).and_return(other_user)
+
+          get 'index', format: 'json', query_id: query_1.id, project_id: project_1.id
+          expect(response.response_code).to eql(404)
+        end
       end
     end
   end
