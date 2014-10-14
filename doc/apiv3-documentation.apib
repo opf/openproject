@@ -294,6 +294,54 @@ A user must have the permission to **edit journals** to update an activity. A
 
     [Attachment][]
 
+# Group Categories
+
+## Properties
+| Property | Description | Type    | Constraints | Example | Supported operations |
+|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
+| id       | Category id   | Integer | Must be a positive integer | 12 | READ |
+| name     | Category name | String  |             | Category Name  | READ |
+
+## Categories by Project [/projects/{project_id}/categories]
+
++ Model
+	+ Body
+	
+			{
+				_links:
+				{
+					self:
+					{
+						href: "/api/v3/projects/11/categories"
+					}
+				},
+				_type: "Categories",
+				_embedded:
+				{
+					categories: [
+						{
+							_type: "Category",
+							id: 10,
+							name: "Foo"
+						},
+						{
+							_type: "Category",
+							id: 11,
+							name: "Bar"
+						}
+					]
+				}
+			}
+			
+## List categories of a project [GET]
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose categories will be listed
+
++ Response 200 (application/hal+json)
+
+	[Categories by Project][]
+	
 # Group Priorities
 
 ## Properties
