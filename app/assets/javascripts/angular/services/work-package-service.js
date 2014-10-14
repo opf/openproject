@@ -181,8 +181,16 @@ angular.module('openproject.services')
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response){
-        return response.data;
-      });
+                return response.data;
+              },
+              function(failedResponse) {
+                $rootScope.$emit('flashMessage', {
+                  isError: true,
+                  isPermanent: true,
+                  text: I18n.t('js.work_packages.query.errors.unretrievable_query')
+                });
+              }
+      );
     },
 
     performBulkDelete: function(ids, defaultHandling) {
