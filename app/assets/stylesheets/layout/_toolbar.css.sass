@@ -3,6 +3,10 @@
   color: $color
   font-weight: normal
 
+@mixin querySelectDropdownFilterSelect($color)
+  text-decoration: underline
+  color: $color
+
 .toolbar-container
   $line-height: 20px
   $padding: 10px
@@ -71,8 +75,7 @@
     background-color: $drop_down_selected_bg_color
 
   span.filter-selection
-    text-decoration: underline
-    color: #000000
+    @include querySelectDropdownFilterSelect($main_menu_font_color)
 
   .dropdown-scrollable
     overflow-y: auto
@@ -101,6 +104,8 @@
       &.first
         a
           @include querySelectDropdownLink($drop_down_selected_font_color)
+          span.filter-selection
+            @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
       a
         @include querySelectDropdownLink($main_menu_font_color)
         &:hover
