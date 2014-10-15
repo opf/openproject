@@ -132,7 +132,7 @@ module API
           }
         end
 
-        link :watch do
+        link :watchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers",
             method: :post,
@@ -143,7 +143,7 @@ module API
             !represented.model.watcher_users.include?(@current_user)
         end
 
-        link :unwatch do
+        link :unwatchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers/#{@current_user.id}",
             method: :delete,
