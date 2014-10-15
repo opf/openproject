@@ -53,7 +53,7 @@ namespace :test do
       desc "Creates a test subversion repository"
       task :subversion => :create_dir do
         repo_path = "tmp/test/subversion_repository"
-        system "svnadmin create #{repo_path}"
+        system "svnadmin create #{repo_path} --pre-1.6-compatible"
         system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
       end
 
