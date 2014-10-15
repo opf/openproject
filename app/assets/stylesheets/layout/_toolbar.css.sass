@@ -70,7 +70,7 @@
   li
     float: none
 
-  li.first
+  li.selected
     border-radius: 5px
     background-color: $drop_down_selected_bg_color
 
@@ -101,7 +101,7 @@
       display: block
       &:hover
         background: #f0f0f0
-      &.first
+      &.selected
         a
           @include querySelectDropdownLink($drop_down_selected_font_color)
           span.filter-selection
