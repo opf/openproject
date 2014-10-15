@@ -53,8 +53,8 @@ module API
               @representer
             end
 
-			##disabled to prevent security risks caused by missing setter restrictions
-			##see https://community.openproject.org/work_packages/16768
+            # disabled to prevent security risks caused by missing setter restrictions
+            # see https://community.openproject.org/work_packages/16768
             #patch do
             #  authorize(:edit_work_packages, context: @work_package.project)
             #  @representer.from_json(env['api.request.input'])
