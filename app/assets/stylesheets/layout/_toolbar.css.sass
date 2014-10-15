@@ -2,6 +2,11 @@
   text-decoration: underline
   color: $color
 
+@mixin querySelectionLink($color)
+  a
+    color: $color
+    text-decoration: none
+
 .toolbar-container
   $line-height: 20px
   $padding: 10px
@@ -92,13 +97,12 @@
       padding: 4px 25px
       display: block
       font-weight: normal
-      a
-        text-decoration: none
+      @include querySelectionLink($main_menu_font_color)
       &.selected
         background: $drop_down_selected_bg_color
-        color: $drop_down_selected_font_color
+        @include querySelectionLink($drop_down_selected_font_color)
         &:hover
-          color: $main_menu_font_color
+          @include querySelectionLink($main_menu_font_color)
         span.filter-selection
           @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
       &:hover
