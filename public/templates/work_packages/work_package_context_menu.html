@@ -1,8 +1,9 @@
 <div id="work-package-context-menu" class="action-menu">
   <ul class="menu">
-    <li class="open" feature-flag="detailsView">
-      <a focus="isDetailsViewLinkVisible()" href=""
-         ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+    <li class="open"
+        feature-flag="detailsView"
+        ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+      <a focus="isDetailsViewLinkVisible()" href="">
         <i ng-class="['icon-action-menu', 'icon-table-detail-view']"></i>
         <span ng-bind="I18n.t('js.button_open_details')"/>
       </a>
