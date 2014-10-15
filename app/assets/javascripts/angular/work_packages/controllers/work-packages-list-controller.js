@@ -54,7 +54,11 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
-    $scope.showFiltersOptions = false;
+    setupFiltersVisibility();
+    $scope.toggleShowFilterOptions = function() {
+      WorkPackagesTableService.toggleShowFilterOptions();
+      setupFiltersVisibility();
+    };
 
     var queryParams = $location.search().query_props;
 
@@ -151,7 +155,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function afterQuerySetupCallback(query) {
-    $scope.showFiltersOptions = false;
+    setupFiltersVisibility();
   }
 
   function setupWorkPackagesTable(json) {
@@ -186,6 +190,10 @@ angular.module('openproject.workPackages.controllers')
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
     AuthorisationService.initModelAuth("query", meta.query._links);
+  }
+
+  function setupFiltersVisibility() {
+    $scope.showFiltersOptions = WorkPackagesTableService.getShowFilterOptions();
   }
 
   function fetchAvailableColumns() {
@@ -277,12 +285,21 @@ angular.module('openproject.workPackages.controllers')
   });
 
   $scope.openLatestTab = function() {
-    $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
+    $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId, query_props: $location.search().query_props });
   };
+
+  $scope.closeDetailsView = function() {
+    // can't use query_props in $state.go since it's not specified
+    // in the config. if I put it into config, a reload will be triggered
+    // on each filter change
+    var path = $state.href("work-packages.list"),
+        query_props = $location.search().query_props;
+    $location.url(path).search('query_props', query_props);
+  }
 
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
-      $state.go(latestTab.getStateName(), { workPackageId: id });
+      $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
     }
   };
 }]);
