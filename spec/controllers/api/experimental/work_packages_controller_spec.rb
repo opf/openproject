@@ -280,4 +280,33 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
     end
   end
 
+  describe '#column_sums' do
+    it 'returns 200' do
+      get 'column_sums', column_names: ['id'], format: 'json'
+
+      expect(response.response_code).to eql(200)
+    end
+
+    it 'renders template' do
+      get 'column_sums', column_names: ['id'], format: 'json'
+
+      expect(response).to render_template('api/experimental/work_packages/column_sums', formats: %w(api))
+    end
+
+    context 'without the necessary permissions' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'should return 403 for the global action' do
+        get 'column_sums', format: 'json'
+
+        expect(response.response_code).to eql(403)
+      end
+
+      it 'should return 403 for the project based action' do
+        get 'column_sums', format: 'json', project_id: project_1.id
+
+        expect(response.response_code).to eql(403)
+      end
+    end
+  end
 end

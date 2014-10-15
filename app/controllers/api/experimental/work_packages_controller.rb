@@ -45,7 +45,8 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_optional_project
-      before_filter :load_query, only: [:index]
+      before_filter :load_query, only: [:index,
+                                        :column_sums]
 
       def index
         @work_packages = current_work_packages(@project)
@@ -79,6 +80,13 @@ module Api
           total_sums: columns_total_sums(column_names, work_packages),
           group_sums: columns_group_sums(column_names, work_packages, params[:group_by])
         }
+      end
+
+      def column_sums
+        raise 'API Error' unless params[:column_names]
+
+        column_names = params[:column_names]
+        @column_sums = columns_total_sums(column_names, all_query_work_packages)
       end
 
       private

@@ -114,7 +114,8 @@ Redmine::AccessControl.map do |map|
                                                                           :sub_projects,
                                                                           :index],
                                          :'api/experimental/work_packages' => [:index,
-                                                                               :column_data],
+                                                                               :column_data,
+                                                                               :column_sums],
                                          # This is api/v2/planning_element_types
                                          :'planning_element_types' => [:index,
                                                                        :show] }
