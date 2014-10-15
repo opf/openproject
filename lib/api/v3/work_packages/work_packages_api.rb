@@ -55,6 +55,7 @@ module API
 
             # disabled to prevent security risks caused by missing setter restrictions
             # see https://community.openproject.org/work_packages/16768
+            # don't forget to re-enable the tests after uncommenting ;-)
             #patch do
             #  authorize(:edit_work_packages, context: @work_package.project)
             #  @representer.from_json(env['api.request.input'])

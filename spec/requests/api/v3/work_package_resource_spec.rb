@@ -206,6 +206,7 @@ h4. things we like
 
   end
 
+  # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
     before(:each) do
@@ -227,21 +228,21 @@ h4. things we like
           }
         end
 
-        it 'should respond with 200' do
+        xit 'should respond with 200' do
           expect(response.status).to eq(200)
         end
 
-        it 'should respond with updated work package' do
+        xit 'should respond with updated work package' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
 
-        it 'should update the dates in iso8601 format' do
+        xit 'should update the dates in iso8601 format' do
           expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
           expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
         end
 
-        it 'should allow html in raw description' do
+        xit 'should allow html in raw description' do
           expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
         end
 
@@ -261,11 +262,11 @@ h4. things we like
           }
         end
 
-        it 'should respond with 422' do
+        xit 'should respond with 422' do
           expect(response.status).to eq 422
         end
 
-         it 'should respond with explanatory error message' do
+        xit 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
           parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
         end
