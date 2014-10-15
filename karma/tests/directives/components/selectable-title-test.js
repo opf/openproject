@@ -136,13 +136,13 @@ describe('selectableTitle Directive', function() {
       element.find('h2 span').first().click();
       var listElements = element.find('li');
 
-      expect(jQuery(listElements[0]).hasClass('first')).to.be.false;
+      expect(jQuery(listElements[0]).hasClass('selected')).to.be.false;
 
       var e = jQuery.Event('keydown');
       e.which = 40;
       element.find('#title-filter').first().trigger(e);
 
-      expect(jQuery(listElements[0]).hasClass('first')).to.be.true;
+      expect(jQuery(listElements[0]).hasClass('selected')).to.be.true;
     });
 
     it('highlight the second element on key down/up pressing group transitioning bonanza', function() {
@@ -152,7 +152,7 @@ describe('selectableTitle Directive', function() {
       element.find('h2 span').first().click();
       var listElements = element.find('li');
 
-      expect(jQuery(listElements[1]).hasClass('first')).to.be.false;
+      expect(jQuery(listElements[1]).hasClass('selected')).to.be.false;
 
       for(i = 0; i < 3; i++){
         var e = jQuery.Event('keydown');
@@ -163,7 +163,7 @@ describe('selectableTitle Directive', function() {
       e.which = 38;
       element.find('#title-filter').first().trigger(e);
 
-      expect(jQuery(listElements[1]).hasClass('first')).to.be.true;
+      expect(jQuery(listElements[1]).hasClass('selected')).to.be.true;
     });
 
     xit('should change the title when a model is selected with enter key', function() {

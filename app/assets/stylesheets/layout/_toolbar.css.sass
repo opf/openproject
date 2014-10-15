@@ -1,3 +1,12 @@
+@mixin querySelectDropdownFilterSelect($color)
+  text-decoration: underline
+  color: $color
+
+@mixin querySelectionLink($color)
+  a
+    color: $color
+    text-decoration: none
+
 .toolbar-container
   $line-height: 20px
   $padding: 10px
@@ -61,13 +70,8 @@
   li
     float: none
 
-  li.first
-    border-radius: 5px
-    background-color: #24B3E7
-
   span.filter-selection
-    text-decoration: underline
-    color: #000000
+    @include querySelectDropdownFilterSelect($main_menu_font_color)
 
   .dropdown-scrollable
     overflow-y: auto
@@ -89,16 +93,22 @@
     margin: 0 0 10px 0
     float: left
     li
+      color: $main_menu_font_color
       padding: 4px 25px
       display: block
+      font-weight: normal
+      @include querySelectionLink($main_menu_font_color)
+      &.selected
+        background: $drop_down_selected_bg_color
+        @include querySelectionLink($drop_down_selected_font_color)
+        &:hover
+          @include querySelectionLink($main_menu_font_color)
+          span.filter-selection
+            @include querySelectDropdownFilterSelect($main_menu_font_color)
+        span.filter-selection
+          @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
       &:hover
         background: #f0f0f0
-      a
-        display: block
-        color: $main_menu_font_color
-        font-weight: normal
-        &:hover
-          text-decoration: none
   .search-query-wrapper
     padding: 15px
   input
