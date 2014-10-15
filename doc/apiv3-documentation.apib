@@ -253,21 +253,21 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-	
-	**Required permission:** edit journals
+    
+    **Required permission:** edit journals
 
     + Body
-		
-		TBD
+        
+        TBD
 
-	
+    
 + Response 422 (application/hal+json)
 
     Returned if the client tries to modify a read-only property.
 
     + Body
-		
-		TBD
+        
+        TBD
 
 # Group Attachments
 
@@ -335,34 +335,34 @@ Updates an activity's comment and, on success, returns the updated activity.
 ## Categories by Project [/projects/{project_id}/categories]
 
 + Model
-	+ Body
-	
-			{
-				_links:
-				{
-					self:
-					{
-						href: "/api/v3/projects/11/categories"
-					}
-				},
-				_type: "Categories",
-				_embedded:
-				{
-					categories: [
-						{
-							_type: "Category",
-							id: 10,
-							name: "Foo"
-						},
-						{
-							_type: "Category",
-							id: 11,
-							name: "Bar"
-						}
-					]
-				}
-			}
-			
+    + Body
+    
+            {
+                _links:
+                {
+                    self:
+                    {
+                        href: "/api/v3/projects/11/categories"
+                    }
+                },
+                _type: "Categories",
+                _embedded:
+                {
+                    categories: [
+                        {
+                            _type: "Category",
+                            id: 10,
+                            name: "Foo"
+                        },
+                        {
+                            _type: "Category",
+                            id: 11,
+                            name: "Bar"
+                        }
+                    ]
+                }
+            }
+            
 ## List categories of a project [GET]
 
 + Parameters
@@ -370,8 +370,8 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Response 200 (application/hal+json)
 
-	[Categories by Project][]
-	
+    [Categories by Project][]
+    
 # Group Priorities
 
 ## Properties
@@ -383,54 +383,54 @@ Updates an activity's comment and, on success, returns the updated activity.
 ## Priorities [/priorities]
 
 + Model
-	+ Body
-	
-			{
-				_links:
-				{
-					self:
-					{
-						href: "/api/v3/priorities"
-					}
-				},
-				_type: "Priorities",
-				_embedded:
-				{
-					priorities: [
-						{
-							_type: "Priority",
-							id: 1,
-							name: "Low"
-						},
-						{
-							_type: "Priority",
-							id: 2,
-							name: "Normal"
-						},
-						{
-							_type: "Priority",
-							id: 3,
-							name: "High"
-						},
-						{
-							_type: "Priority",
-							id: 4,
-							name: "Urgent"
-						},
-						{
-							_type: "Priority",
-							id: 5,
-							name: "Immediate"
-						}
-					]
-				}
-			}
-			
+    + Body
+    
+            {
+                _links:
+                {
+                    self:
+                    {
+                        href: "/api/v3/priorities"
+                    }
+                },
+                _type: "Priorities",
+                _embedded:
+                {
+                    priorities: [
+                        {
+                            _type: "Priority",
+                            id: 1,
+                            name: "Low"
+                        },
+                        {
+                            _type: "Priority",
+                            id: 2,
+                            name: "Normal"
+                        },
+                        {
+                            _type: "Priority",
+                            id: 3,
+                            name: "High"
+                        },
+                        {
+                            _type: "Priority",
+                            id: 4,
+                            name: "Urgent"
+                        },
+                        {
+                            _type: "Priority",
+                            id: 5,
+                            name: "Immediate"
+                        }
+                    ]
+                }
+            }
+            
 ## List all Priorities [GET]
 
 + Response 200 (application/hal+json)
 
-	[Priorities][]
+    [Priorities][]
 
 # Group Projects
 
@@ -716,60 +716,60 @@ Updates an activity's comment and, on success, returns the updated activity.
 ## Statuses [/statuses]
 
 + Model
-	+ Body
-	
-			{
-				_links:
-				{
-					self:
-					{
-						href: "/api/v3/statuses"
-					}
-				},
-				_type: "Statuses",
-				_embedded:
-				{
-					statuses: [
-						{
-							_type: "Status",
-							id: 1,
-							name: "New"
-						},
-						{
-							_type: "Status",
-							id: 3,
-							name: "Resolved"
-						},
-						{
-							_type: "Status",
-							id: 4,
-							name: "Feedback"
-						},
-						{
-							_type: "Status",
-							id: 5,
-							name: "Closed"
-						},
-						{
-							_type: "Status",
-							id: 6,
-							name: "Rejected"
-						},
-						{
-							_type: "Status",
-							id: 2,
-							name: "In Progress"
-						}
-					]
-				}
-			}
-			
+    + Body
+    
+            {
+                _links:
+                {
+                    self:
+                    {
+                        href: "/api/v3/statuses"
+                    }
+                },
+                _type: "Statuses",
+                _embedded:
+                {
+                    statuses: [
+                        {
+                            _type: "Status",
+                            id: 1,
+                            name: "New"
+                        },
+                        {
+                            _type: "Status",
+                            id: 3,
+                            name: "Resolved"
+                        },
+                        {
+                            _type: "Status",
+                            id: 4,
+                            name: "Feedback"
+                        },
+                        {
+                            _type: "Status",
+                            id: 5,
+                            name: "Closed"
+                        },
+                        {
+                            _type: "Status",
+                            id: 6,
+                            name: "Rejected"
+                        },
+                        {
+                            _type: "Status",
+                            id: 2,
+                            name: "In Progress"
+                        }
+                    ]
+                }
+            }
+            
 ## List all Statuses [GET]
 
 + Response 200 (application/hal+json)
 
-	[Statuses][]
-	
+    [Statuses][]
+    
 # Group Users
 
 ## Properties:
@@ -829,39 +829,39 @@ Updates an activity's comment and, on success, returns the updated activity.
 ## Versions by Project [/projects/{project_id}/versions]
 
 + Model
-	+ Body
-	
-			{
-				_links:
-				{
-					self:
-					{
-						href: "/api/v3/projects/11/versions"
-					}
-				},
-				_type: "Versions",
-				_embedded:
-				{
-					versions: [
-						{
-							_type: "Version",
-							id: 11,
-							name: "v3.0 Alpha"
-						},
-						{
-							_type: "Version",
-							id: 12,
-							name: "v2.0"
-						},
-						{
-							_type: "Version",
-							id: 10,
-							name: "v1.0"
-						}
-					]
-				}
-			}
-			
+    + Body
+    
+            {
+                _links:
+                {
+                    self:
+                    {
+                        href: "/api/v3/projects/11/versions"
+                    }
+                },
+                _type: "Versions",
+                _embedded:
+                {
+                    versions: [
+                        {
+                            _type: "Version",
+                            id: 11,
+                            name: "v3.0 Alpha"
+                        },
+                        {
+                            _type: "Version",
+                            id: 12,
+                            name: "v2.0"
+                        },
+                        {
+                            _type: "Version",
+                            id: 10,
+                            name: "v1.0"
+                        }
+                    ]
+                }
+            }
+            
 ## List versions available in a project [GET]
 
 + Parameters
@@ -869,8 +869,8 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Response 200 (application/hal+json)
 
-	[Versions by Project][]
-	
+    [Versions by Project][]
+    
 # Group Work packages
 
 ## Links:
@@ -1395,9 +1395,9 @@ Updates an activity's comment and, on success, returns the updated activity.
     Returned if the client tries to modify a read-only property.
 
     + Body
-		
-		TBD
-	
+        
+        TBD
+    
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
 
 + Model
