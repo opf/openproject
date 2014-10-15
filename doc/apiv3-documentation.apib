@@ -237,9 +237,6 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 Updates an activity's comment and, on success, returns the updated activity.
 
-A user must have the permission to **edit journals** to update an activity. A
-``403`` is returned otherwise.
-
 + Parameters
     + id (required, integer, `1`) ... Activity id
 
@@ -252,6 +249,25 @@ A user must have the permission to **edit journals** to update an activity. A
 + Response 200 (application/hal+json)
 
     [Activity][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+	
+	**Required permission:** edit journals
+
+    + Body
+		
+		TBD
+
+	
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to modify a read-only property.
+
+    + Body
+		
+		TBD
 
 # Group Attachments
 
@@ -1370,6 +1386,14 @@ A user must have the permission to **edit journals** to update an activity. A
 
     [WorkPackage][]
 
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to modify a read-only property.
+
+    + Body
+		
+		TBD
+	
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
 
 + Model
