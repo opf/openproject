@@ -103,6 +103,8 @@
         @include querySelectionLink($drop_down_selected_font_color)
         &:hover
           @include querySelectionLink($main_menu_font_color)
+          span.filter-selection
+            @include querySelectDropdownFilterSelect($main_menu_font_color)
         span.filter-selection
           @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
       &:hover
