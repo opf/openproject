@@ -33,10 +33,16 @@ describe 'QueryLoading', :type => :controller do
   include QueriesHelper
 
   describe '#prepare_query' do
-    let!(:query) { FactoryGirl.create :query }
+    let(:user)    { FactoryGirl.create(:user) }
+    let!(:query) do
+      FactoryGirl.create :query,
+                         user: user
+    end
     let(:view_context) { ActionController::Base.new.view_context }
 
     before do
+      allow(User).to receive(:current).and_return(user)
+      allow(user).to receive(:allowed_to?).and_return true
       view_context.stub(:add_filter_from_params)
     end
 
@@ -56,5 +62,4 @@ describe 'QueryLoading', :type => :controller do
       end
     end
   end
-
 end
