@@ -5,6 +5,7 @@
 @mixin querySelectionLink($color)
   a
     color: $color
+    font-weight: normal
     text-decoration: none
 
 .toolbar-container
@@ -96,15 +97,14 @@
       color: $main_menu_font_color
       padding: 4px 25px
       display: block
-      font-weight: normal
-      @include querySelectionLink($main_menu_font_color)
+      @include querySelectionLink($drop_down_unselected_font_color)
       &.selected
         background: $drop_down_selected_bg_color
         @include querySelectionLink($drop_down_selected_font_color)
         &:hover
-          @include querySelectionLink($main_menu_font_color)
+          @include querySelectionLink($drop_down_unselected_font_color)
           span.filter-selection
-            @include querySelectDropdownFilterSelect($main_menu_font_color)
+            @include querySelectDropdownFilterSelect($drop_down_unselected_font_color)
         span.filter-selection
           @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
       &:hover
