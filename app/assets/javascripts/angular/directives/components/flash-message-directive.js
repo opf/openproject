@@ -54,7 +54,7 @@ angular.module('openproject.uiComponents')
         }
 
         // fade out after time out
-        if (!ConfigurationService.accessibilityModeEnabled()) {
+        if (!ConfigurationService.accessibilityModeEnabled() && !message.isPermanent) {
           $timeout(function() {
             scope.message = undefined;
           }, fadeOutTime);
