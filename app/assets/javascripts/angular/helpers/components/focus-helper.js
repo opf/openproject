@@ -56,9 +56,19 @@ angular.module('openproject.uiComponents')
     },
 
     focusSelect2Element: function(element) {
-      $timeout(function() {
-        element.select2('focus');
-      });
+      var focusSelect2ElementRecursiv = function(retries) {
+        $timeout(function() {
+          element.select2('focus');
+
+          var isSelect2Focused = angular.element(document.activeElement).hasClass('select2-input');
+
+          if (!isSelect2Focused && retries > 0) {
+            focusSelect2ElementRecursiv(--retries);
+          }
+        });
+      }
+
+      focusSelect2ElementRecursiv(3);
     }
   };
 
