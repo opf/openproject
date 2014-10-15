@@ -46,7 +46,8 @@ describe('SettingsModalController', function() {
       saveQuery: function() {
         defer = $q.defer();
         return defer.promise;
-      }
+      },
+      updateHighlightName: function() {}
     };
 
     settingsModal = { deactivate: angular.noop };
@@ -66,6 +67,7 @@ describe('SettingsModalController', function() {
 
       sinon.spy(scope, "$emit");
       sinon.spy(settingsModal, "deactivate");
+      sinon.spy(QueryService, "updateHighlightName");
 
       scope.updateQuery();
       defer.resolve({status: "Query updated!"});
@@ -81,6 +83,9 @@ describe('SettingsModalController', function() {
       expect(scope.$emit).to.have.been.calledWith("flashMessage",
         "Query updated!");
     });
-  });
 
+    it ('should update the query menu name', function() {
+      expect(QueryService.updateHighlightName).to.have.been.called;
+    });
+  });
 });
