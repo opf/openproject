@@ -171,6 +171,7 @@ However for the future we plan to add authentication modes that are more suitabl
 - `404 Not Found` - The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
 - `405 Method Not Allowed` - A request was made of a resource using a request method not supported by that resource
 - `406 Not Acceptable` - The requested resource is only capable of generating content not acceptable according to the Accept headers sent in the request.
+- `409 Conflict` - The client tried to change a resource that was changed since the client requested it.
 - `422 Unprocessable Entity` - The request was well-formed but was unable to be followed due to semantic errors.
 
 - `500 Internal Server Error` - A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
@@ -883,6 +884,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Work package id | Integer | Must be a positive integer | 12 | READ |
+| lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
 | subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ / WRITE |
 | description | Work package description | String | | Projects module should be refactored ... | READ / WRITE |
@@ -1374,8 +1376,15 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 **NOT IMPLEMENTED**
 
-When calling this endpoint the client provides a single object that contains the properties or links that it wants to change.
+When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 Note that it is only allowed to provide properties or links supporting the **write** operation.
+
+Additionally to the fields the client wants to change, it is mandatory to provide:
+
+* The `_type` which should as of now always be `WorkPackage`
+* The value of `lockVersion` which was received by the `GET` request this change originates from.
+
+The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
 **TBD:** How to handle custom fields? (w.r.t. edit_forms that will be introduced later)
 
@@ -1394,6 +1403,14 @@ Note that it is only allowed to provide properties or links supporting the **wri
 
     [WorkPackage][]
 
++ Response 409 (application/hal+json)
+
+    Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
+
+    + Body
+        
+            TBD    
+    
 + Response 422 (application/hal+json)
 
     Returned if the client tries to modify a read-only property.
