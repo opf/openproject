@@ -34,7 +34,8 @@ angular.module('openproject.workPackages.services')
   'WorkPackagesTableHelper',
   function($filter, QueryService, WorkPackagesTableHelper) {
   var workPackagesTableData = {
-    allRowsChecked: false
+    allRowsChecked: false,
+    showFiltersOptions: false
   };
   var bulkLinks = {};
 
@@ -167,6 +168,13 @@ angular.module('openproject.workPackages.services')
       }
 
       return activeSelectionBorderIndex;
+    },
+
+    getShowFilterOptions: function() {
+      return workPackagesTableData.showFiltersOptions;
+    },
+    toggleShowFilterOptions: function() {
+      workPackagesTableData.showFiltersOptions = !workPackagesTableData.showFiltersOptions;
     }
   };
 

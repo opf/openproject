@@ -25,7 +25,7 @@
           <div class="title-group-header">{{ group.name }}</div>
           <li ng-repeat="model in group.models" ng-class="{'selected': model.highlighted }">
             <a href
-              ui-sref="work-packages.list({ query_id: model.id, query: undefined })"
+              ui-sref="work-packages.list({ query_id: model.id, query_props: undefined })"
               title="{{ model.label }}"
               ng-bind-html="model.labelHtml"></a>
           </li>
