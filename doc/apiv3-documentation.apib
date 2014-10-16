@@ -1374,6 +1374,11 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 **NOT IMPLEMENTED**
 
+When calling this endpoint the client provides a single object that contains the properties or links that it wants to change.
+Note that it is only allowed to provide properties or links supporting the **write** operation.
+
+**TBD:** How to handle custom fields? (w.r.t. edit_forms that will be introduced later)
+
 + Parameters
     + id (required, integer, `1`) ... Work package id
 
@@ -1382,7 +1387,6 @@ Updates an activity's comment and, on success, returns the updated activity.
         {
             "subject": "Lorem",
             "rawDescription": "Ipsum",
-            "priority": "High",
             "customProperties": {"et quam": "Dolor", "velit molestiae": "Sit amet"}
         }
 
