@@ -314,7 +314,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                             caption: :label_work_package_plural,
                             html: {
                               id: 'main-menu-work-packages',
-                              class: "icon2 icon-copy",
+                              class: "icon2 icon-project-tree",
                               "data-ui-route" => '',
                               query_menu_item: 'query_menu_item'
                             }
@@ -334,7 +334,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:class => "icon2 icon-new-planning-element"}
+                        :html => {:class => "icon2 icon-timeline-view"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
@@ -367,7 +367,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :reportings, {:controller => '/reportings', :action => 'index'},
                          :param => :project_id,
                          :caption => :'timelines.project_menu.reportings',
-                         :html => {:class => "icon2 icon-stats"}
+                         :html => {:class => "icon2 icon-status-reporting"}
 
 
   menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
