@@ -8,7 +8,7 @@
          href="#{{ activityNo }}"></a>
     </span>
     <div class="comments-icons"
-         ng-show="activity.props._type == 'Activity::Comment' && inFocus">
+         ng-show="activity.props._type == 'Activity::Comment' && (inFocus || accessibilityModeEnabled)">
       <i class="icon-quote action-icon"
          ng-if="userCanQuote"
          ng-click="quoteComment()"></i>
