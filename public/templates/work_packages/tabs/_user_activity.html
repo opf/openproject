@@ -9,12 +9,14 @@
     </span>
     <div class="comments-icons"
          ng-show="activity.props._type == 'Activity::Comment' && (inFocus || accessibilityModeEnabled)">
-      <i class="icon-quote action-icon"
-         ng-if="userCanQuote"
-         ng-click="quoteComment()"></i>
-      <i class="icon-edit action-icon"
-         ng-if="userCanEdit"
-         ng-click="editComment()"></i>
+      <accessible-by-keyboard ng-if="userCanQuote" execute="quoteComment()">
+        <icon-wrapper icon-name="quote" icon-title="{{ I18n.t('js.wiki_formatting.quote') }}" css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard ng-if="userCanEdit" execute="editComment()">
+        <icon-wrapper icon-name="edit" icon-title="{{ I18n.t('js.button_edit') }}" css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
     </div>
   </div>
   <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" ng-if="userAvatar" />
