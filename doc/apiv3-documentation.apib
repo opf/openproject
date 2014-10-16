@@ -1388,15 +1388,17 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
 **TBD:** How to handle custom fields? (w.r.t. edit_forms that will be introduced later)
 
+**TBD:** What about multi-format fields? (description: html vs. "raw" vs. whatever)
+
 + Parameters
     + id (required, integer, `1`) ... Work package id
 
 + Request (application/json)
 
         {
-            "subject": "Lorem",
-            "rawDescription": "Ipsum",
-            "customProperties": {"et quam": "Dolor", "velit molestiae": "Sit amet"}
+            "_type": "WorkPackage",
+            "lockVersion": 13,
+            "subject": "Lorem"
         }
 
 + Response 200 (application/hal+json)
