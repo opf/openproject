@@ -23,4 +23,3 @@ wizards:
   - https://github.com/pkgr/addon-smtp.git#installer
   - https://github.com/pkgr/addon-memcached.git#installer
   - https://github.com/pkgr/addon-openproject.git#installer
-buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
