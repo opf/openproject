@@ -35,9 +35,12 @@
   <h2 title="{{ workPackage.props.subject }}" ng-bind="workPackage.props.subject"></h2>
 
   <span class="subtitle">
-    <i class="star icon-star1" ng-class="{active: isWatched}" ng-click="toggleWatch()"
-      title="{{isWatched && I18n.t('js.label_unwatch_work_package') || I18n.t('js.label_watch_work_package')}}"
-      ng-if="toggleWatchLink" />
+    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()">
+      <icon-wrapper icon-name="{{ 'star1' + (isWatched ? ' active' : '') }}"
+                    icon-title="{{ isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package') }}"
+                    css-class="star">
+      </icon-wrapper>
+    </accessible-by-keyboard>
     <a href="#">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
       <a ng-if="authorActive" ng-href="{{ authorPath }}" ng-bind="author.props.name"/>
