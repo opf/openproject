@@ -1504,9 +1504,6 @@ Gets a list of users that can watch the work package.
 Creates an activity for the selected work package and, on success, returns the
 updated activity.
 
-A user must have the permission to **create journals** to update an activity. A
-``403`` is returned otherwise.
-
 + Parameters
     + id (required, integer, `1`) ... Work package id
 
@@ -1519,6 +1516,17 @@ A user must have the permission to **create journals** to update an activity. A
 + Response 201 (application/hal+json)
 
     [Activity][]
+    
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+    
+    **Required permission:** create journals
+
+    + Body
+        
+            TBD
+
 
 ## Available Assignees [/work_packages/{work_package_id}/available_assignees]
 
