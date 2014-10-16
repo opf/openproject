@@ -1403,6 +1403,16 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
     [WorkPackage][]
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+    
+    **Required permission:** edit workpackage
+
+    + Body
+        
+            TBD    
+    
 + Response 409 (application/hal+json)
 
     Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
