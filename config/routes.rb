@@ -43,6 +43,8 @@ OpenProject::Application.routes.draw do
   match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
+  match '/404', to: 'application#render_404'
+
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
