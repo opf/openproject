@@ -42,7 +42,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'rspec/example_disabler'
 require 'capybara/rails'
-require 'subscribem/test_helper'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -96,7 +95,6 @@ RSpec.configure do |config|
                                end
 
     DatabaseCleaner.start
-    Subscribem.ensure_tenant('tenant1')
   end
 
   config.after(:each) do
@@ -124,12 +122,12 @@ RSpec.configure do |config|
     if self.class.metadata[:type] == :request
       # override ActionDispatch::Integration::Session::DEFAULT_HOST
       # by default: www.example.com
-      host! "tenant1.example.org"
+      host! "example.org"
     end
 
     if [:request, :feature].include?(self.class.metadata[:type])
       # by default url_for uses www.example.com but there's no www tenant
-      default_url_options[:host] = "tenant1.example.org"
+      default_url_options[:host] = "example.org"
     end
   end
 
