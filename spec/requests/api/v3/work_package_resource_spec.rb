@@ -209,13 +209,19 @@ h4. things we like
   # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
-    before(:each) do
-      allow(User).to receive(:current).and_return current_user
-      patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
-    end
+
     subject(:response) { last_response }
 
+    shared_context 'patch request' do
+      before(:each) do
+        allow(User).to receive(:current).and_return current_user
+        patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      end
+    end
+
     context 'user with needed permissions' do
+      include_context 'patch request'
+
       context 'valid update' do
         let(:params) do
           {
