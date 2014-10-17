@@ -26,6 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+//= require uri.js/src/URI
+//= require uri.js/src/URITemplate
+//= require hyperagent/dist/hyperagent
+
+//= require angular
+//= require angular-animate
+//= require angular-modal
+//= require angular-ui-router
+//= require angular-ui-select2
+//= require angular-ui-select2-sortable
+//= require angular-ui-date/src/date
+//= require angular-sanitize
+//= require angular-truncate
+//= require angular-feature-flags/dist/featureFlags.js
+//= require angular-busy
+
+//= require angular-context-menu
+
+//= require openproject-ui_components/app/assets/javascripts/angular/ui-components-app
+//= require_self
+//= require_tree .
+
 // global
 angular.module('openproject.config', []);
 angular.module('openproject.services', [
