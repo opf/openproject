@@ -44,6 +44,8 @@ end
 
 source 'https://rubygems.org'
 
+ruby '2.1.3'
+
 gem "rails", "~> 3.2.19"
 
 gem "coderay", "~> 1.0.5"
