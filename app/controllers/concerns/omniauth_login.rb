@@ -118,13 +118,22 @@ module Concerns::OmniauthLogin
 
   def omniauth_hash_to_user_attributes(auth)
     info = auth[:info]
-    {
+
+    attribute_map = {
       login:        info[:email],
       mail:         info[:email],
       firstname:    info[:first_name] || info[:name],
       lastname:     info[:last_name],
       identity_url: identity_url_from_omniauth(auth)
     }
+
+    # Allow strategies to override mapping
+    strategy = request.env['omniauth.strategy']
+    if strategy.respond_to?(:omniauth_hash_to_user_attributes)
+      attribute_map.merge(strategy.omniauth_hash_to_user_attributes(auth))
+    else
+      attribute_map
+    end
   end
 
   def identity_url_from_omniauth(auth)
