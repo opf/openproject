@@ -209,6 +209,13 @@ h4. things we like
   # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
+    let(:valid_params) do
+      {
+        _type: 'WorkPackage',
+        subject: 'Updated subject',
+        lockVersion: work_package.lock_version,
+      }
+    end
 
     subject(:response) { last_response }
 
@@ -217,6 +224,15 @@ h4. things we like
         allow(User).to receive(:current).and_return current_user
         patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
       end
+    end
+
+    context 'user without needed permissions' do
+      let(:current_user) { FactoryGirl.create :user }
+      let(:params) { valid_params }
+
+      include_context 'patch request'
+
+      it { expect(response.status).to eq(403) }
     end
 
     context 'user with needed permissions' do
