@@ -41,19 +41,18 @@ module.exports = function(config) {
       "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
 
       "app/assets/javascripts/angular/openproject-app.js",
-      "app/assets/javascripts/angular/config/work-packages-config.js",
-      "app/assets/javascripts/angular/config/configuration-service.js",
 
-      "app/assets/javascripts/angular/controllers/**/*.js",
-      "app/assets/javascripts/angular/dialogs/**/*.js",
-      "app/assets/javascripts/angular/helpers/**/*.js",
-      'app/assets/javascripts/angular/filters/**/*.js',
-      "app/assets/javascripts/angular/models/**/*.js",
-      "app/assets/javascripts/angular/directives/**/*.js",
+      "app/assets/javascripts/angular/config/configuration-service.js",
       'app/assets/javascripts/angular/api/**/*.js',
+      "app/assets/javascripts/angular/helpers/**/*.js",
+      "app/assets/javascripts/angular/models/**/*.js",
       'app/assets/javascripts/angular/services/**/*.js',
 
       "app/assets/javascripts/angular/layout/**/*.js",
+      "app/assets/javascripts/angular/messages/**/*.js",
+      "app/assets/javascripts/angular/time_entries/**/*.js",
+      "app/assets/javascripts/angular/timelines/**/*.js",
+      "app/assets/javascripts/angular/ui_components/**/*.js",
       "app/assets/javascripts/angular/work_packages/**/*.js",
 
       "app/assets/javascripts/lib/jquery.trap.js",
