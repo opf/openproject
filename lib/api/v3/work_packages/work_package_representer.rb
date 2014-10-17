@@ -228,6 +228,9 @@ module API
         property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
 
+        property :responsible_id, getter: -> (*) { nil }
+        property :assignee_id, getter: -> (*) { nil }
+
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
         property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
@@ -259,6 +262,10 @@ module API
         def custom_properties
             values = represented.model.custom_field_values
             values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
+        end
+
+        def custom_properties=(value)
+          represented.custom_properties = value
         end
 
         def current_user_allowed_to(permission, work_package)

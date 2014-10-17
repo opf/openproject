@@ -52,8 +52,6 @@ module API
         property :author,           type: String
         property :project_id,       type: Integer
         property :parent_id,        type: Integer, render_nil: true
-        property :responsible_id,   type: Integer
-        property :assigned_to_id,   type: Integer
         property :fixed_version_id, type: Integer
 
 
@@ -115,6 +113,14 @@ module API
           model.done_ratio = value
         end
 
+        def responsible_id=(value)
+          model.responsible_id = value
+        end
+
+        def assignee_id=(value)
+          model.assigned_to_id = value
+        end
+
         def author
           ::API::V3::Users::UserModel.new(model.author)  unless model.author.nil?
         end
@@ -154,6 +160,22 @@ module API
 
         def is_closed
           model.closed?
+        end
+
+        def custom_properties=(value)
+          value.each do |property|
+            custom_field = model.available_custom_fields.select { |f| f.name == property[0] }.first
+            if custom_field
+              custom_value = model.custom_values.find_by_custom_field_id(custom_field.id)
+
+              if custom_value
+                custom_value.value = property[1]
+                custom_value.save!
+              else
+                CustomValue.create!(customized_type: 'WorkPackage', customized_id: model.id, custom_field_id: custom_field.id, value: property[1])
+              end
+            end
+          end
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status
