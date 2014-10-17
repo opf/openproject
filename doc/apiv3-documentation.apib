@@ -26,118 +26,60 @@ Read more: http://stateless.co/hal_specification.html
     - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
     - `_embedded` - contains all embedded objects
-    - `_collection` - contains the collection of objects
     - `_count` - number of records fetched in the response
     - `_total` - number of available records
 
 # API response structure
-Depending on the performed request, the OpenProject API will return a response in one of the following possible structures:
 
-- As a **simple HAL+JSON object** (e.g.: GET /projects/:id)
-- As a **collection of HAL+JSON objects** (e.g.: GET /projects)
-- As a **collection of HTTP statuses and HAL+JSON objects** (e.g.: PATCH /projects?id[]=1&id[]=2)
-- As an **OpenProject API error object**
+All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
+contains its members in its `_embedded` section.
 
-### Simple HAL+JSON object
-Contains its own data properties and some meta properties:
+## Simple objects
 
-        {
-            "id": 1,
-            "name": "My awesome project",
-            ...
-
-            "_type": "Project",
-            "_links": {
-                "self": { "href": "/projects/1", "title": "My awesome project" },
-                "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
-                "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
-            },
-            "_embedded": {
-                ...
-            }
-        }
-
-### Collection of HAL+JSON objects
-Contains collection of simple HAL+JSON objects in its `_collection` property. Also contains some collection
-specific meta data:
+For example:
 
     {
-        "_collection": [{
-            "id": 1,
-            ...
+        "id": 1,
+        "name": "My awesome project",
+        ...
 
-            "_type": "Project"
-            "_links": {
-                "self": { "href": "/projects/1", "title": "My awesome project" },
-                "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
-                "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
-            },
-            "_embedded": {
-                ...
-            }
-        }, {
-            "id": 2,
-            ...
-
-            "_type": "Project"
-            "_links": {
-                "self": { "href": "/projects/2", "title": "My awesome project" },
-                "update": { "href": "/projects/2", "method": "patch", "title": "Update My awesome project" },
-                "delete": { "href": "/projects/2", "method": "delete", "title": "Delete My awesome project" }
-            },
-            "_embedded": {
-                ...
-            }
-        }],
         "_type": "Project",
         "_links": {
-            ...
+            "self": { "href": "/projects/1", "title": "My awesome project" },
+            "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
+            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
         },
-        "_count": 2,
-        "_total": 476
-    }
-
-### Collection of HTTP statuses and HAL+JSON objects
-
-A response with this structure will be returned by endpoints performing **batch operations** (e.g.: update multiple projects).
-The main HTTP status code of the response will be `207 Multi-Status` and the response body will contain different response
-codes based on the results of each individual operation.
-
-For example if you perform a batch update request on multiple projects (`PATCH /projects`) it is possible that one project will
-be updated successfully while the update of the other project will fail:
-
-    {
-        "_collection": [{
-            "status": { "code": 200, "text": "Ok" },
-            "object": {
-                "id": 1,
-                "name": "My awesome project",
-                ...
-
-                "_type": "Project",
-                "_links": {
-                    ...
-                },
-                "_embedded": {
-                    ...
-                }
-            }
-        }, {
-            "status": { "code": 500, "text": "Internal Server Error" },
-            "error": {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:InternalServerError",
-                "message": "An internal server error occured. This is not your fault."
-            },
-            "request": { requestParams }
-        }],
-        "_type": "Project",
-        "_links": {
+        "_embedded": {
             ...
         }
     }
 
-This allows you to see exactly what went wrong and inform the user.
+## Collection objects
+
+For example:
+
+    {
+        "_links":
+        {
+            "self": { href: "/api/v3/projects" }
+        },
+        "_type": "Projects",
+        "_embedded":
+        {
+            "projects": [
+                {
+                    "self": { "href": "/projects/1" }
+                    "_type": "Project",
+                    // ... etc ...
+                },
+                {
+                    "self": { "href": "/projects/2" }
+                    "_type": "Project",
+                    // ... etc ...
+                }
+            ]
+        }
+    }
 
 ### Error objects
 
