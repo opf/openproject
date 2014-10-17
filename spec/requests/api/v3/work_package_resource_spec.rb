@@ -280,7 +280,28 @@ h4. things we like
         end
       end
 
+      context 'update with read-only attributes' do
+        let(:params) do
+          valid_params.merge({ startDate: DateTime.now.utc.iso8601 })
+        end
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(422) }
+      end
+
       context 'valid update' do
+        let(:params) do
+          {
+            subject: 'Updated subject',
+            rawDescription: '<h1>Updated description</h1>',
+            priority: FactoryGirl.create(:priority).name,
+            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
+            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
+            percentageDone: 90,
+          }
+        end
+
         xit 'should respond with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
         end
