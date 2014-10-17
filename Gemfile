@@ -26,22 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
-  abort <<-Message
-
-  *****************************************************
-  *                                                   *
-  *   OpenProject requires bundler version >= 1.5.0   *
-  *                                                   *
-  *   Please install bundler with:                    *
-  *                                                   *
-  *   gem install bundler                             *
-  *                                                   *
-  *****************************************************
-
-  Message
-end
-
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.19"
