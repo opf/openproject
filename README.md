@@ -46,6 +46,8 @@ module OpenProject::SomeAuthPlugin
             port: '692',
             #, ... more provider options
             display_name: 'Provider 2'
+            # ... provide custom attribute mapping
+            openproject_attribute_map: Proc.new {|auth| { login: auth[:info][:uid] } }
           }
         ]
       end
@@ -69,6 +71,12 @@ In the example our own plugin provides the icon. In the plugin's directory it ha
 **Additional provider attribute `display_name`**
 
 Another extra attribute shown is `display_name`. While `name` is used to identify the provider in URLs `display_name` is what is shown to the user.
+
+**Additional provider attribute `openproject_attribute_map`**
+
+To provide a custom user attribute mapping for this strategy, you may optionally specify a block that returns an attribute mapping hash. In the examplary strategy *another_provider*, the OpenProject attribute `:login` is overridden reflect the attribute `:uid` from the strategy.
+
+The block is called with the [OmniAuth AuthHash object](https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema). You can use the `:extra` key to access the raw attributes as returned from the authentication schema.
 
 ## OpenProject Integration
 
