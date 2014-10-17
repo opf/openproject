@@ -148,30 +148,6 @@ However for the future we plan to add authentication modes that are more suitabl
 - `PATCH` - Update a resource
 - `DELETE` - Delete a resource
 
-# Response codes
-
-- `200 OK` - Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource.
-- `201 Created` - The request has been fulfilled and resulted in a new resource being created
-- `202 Accepted` - The request has been accepted for processing, but the processing has not been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place.
-- `204 No content` - The server successfully processed the request, but is not returning any content. Usually used as a response to a successful delete request. Also returned for requests containing the If-Modified-Since header if the document is up-to-date.
-- `207 Multi-Status` - The message body that follows can contain a number of separate response codes, depending on how many sub-requests were made.
-
-- `301 Moved Permanently` - This and all future requests should be directed to the given
-- `303 See Other` - The response to the request can be found under another URI using a GET method. When received in response to a POST (or PUT/DELETE), it should be assumed that the server has received the data and the redirect should be issued with a separate GET message.
-
-- `400 Bad Request` - The request cannot be fulfilled due to bad syntax.
-- `401 Unauthorized` - Similar to 403 Forbidden, but specifically for use when authentication is required and has failed or has not yet been provided.
-- `403 Forbidden` - The request was a valid request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.
-- `404 Not Found` - The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
-- `405 Method Not Allowed` - A request was made of a resource using a request method not supported by that resource
-- `406 Not Acceptable` - The requested resource is only capable of generating content not acceptable according to the Accept headers sent in the request.
-- `409 Conflict` - The client tried to change a resource that was changed since the client requested it.
-- `422 Unprocessable Entity` - The request was well-formed but was unable to be followed due to semantic errors.
-
-- `500 Internal Server Error` - A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
-- `501 Not Implemented` - The server either does not recognize the request method, or it lacks the ability to fulfill the request. Usually this implies future availability.
-- `503 Service Unavailable` - The server is currently unavailable (because it is overloaded or down for maintenance).
-
 # Group Activities
 
 ## Properties:
