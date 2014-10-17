@@ -161,11 +161,12 @@ This shall give the client additional details about the cause of an error.
     
 #### List of Error Identifiers
 
-* `urn:openproject-org:api:v3:errors:InternalServerError` - Default for HTTP 500 when no further information is available
-* `urn:openproject-org:api:v3:errors:MissingPermission` - The client does not have the needed permissions to perform the requested action
-* `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` - The client tried to set or change a property that is not writable
-* `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` - The client tried to set a property to an invalid value
-* `urn:openproject-org:api:v3:errors:UpdateConflict` - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**) - The client does not have the needed permissions to perform the requested action
+* `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
+* `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
+* `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
+* `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 
 # Authentication
 
