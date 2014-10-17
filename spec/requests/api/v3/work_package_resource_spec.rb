@@ -212,8 +212,6 @@ h4. things we like
     let(:valid_params) do
       {
         _type: 'WorkPackage',
-        subject: 'Updated subject',
-        lockVersion: work_package.lock_version,
       }
     end
 
@@ -239,23 +237,21 @@ h4. things we like
       include_context 'patch request'
 
       context 'valid update' do
-        let(:params) do
-          {
-            subject: 'Updated subject',
-            rawDescription: '<h1>Updated description</h1>',
-            priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
-            percentageDone: 90,
-          }
+
+        context 'parent id' do
+          let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
+          let(:params) { valid_params.merge({ parentId: parent.id }) }
+
+          it { expect(response.status).to eq(200) }
+
+          it { expect(subject.body).to be_json_eql(parent.id.to_json).at_path('parentId') }
         end
 
-        xit 'should respond with 200' do
-          expect(response.status).to eq(200)
-        end
-
-        xit 'should respond with updated work package' do
+        xit 'should respond with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+        end
+
+        xit 'should respond with updated work package priority' do
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
 
