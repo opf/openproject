@@ -67,6 +67,11 @@ module API
                   fail Errors::Validation.new(@work_package)
                 end
               end
+
+              def work_package_attributes
+                attributes = JSON.parse(env['api.request.input'])
+                attributes.delete_if { |key, _| VALID_REQUEST_ATTRIBUTES.include? key }
+              end
             end
 
             before do
@@ -85,7 +90,7 @@ module API
               check_work_package_attributes # fails if request contains invalid attributes
               check_parent_update # fails if parent update is invalid
 
-              @representer.from_json(env['api.request.input'])
+              @representer.from_json(work_package_attributes.to_json)
               @representer.represented.sync
               if @representer.represented.model.valid? && @representer.represented.save
                 @representer
