@@ -317,28 +317,15 @@ h4. things we like
       end
 
       context 'invalid update' do
+        let(:params) { valid_params.tap { |h| h[:subject] = '' } }
+
         include_context 'patch request'
 
-        let(:params) do
-          {
-            subject: ' ',
-            type: FactoryGirl.create(:type).name,
-            rawDescription: '<h1>Updated description</h1>',
-            status: FactoryGirl.create(:status).name,
-            priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
-            percentageDone: 90,
-          }
-        end
+        it { expect(response.status).to eq(422) }
 
-        xit 'should respond with 422' do
-          expect(response.status).to eq 422
-        end
-
-        xit 'should respond with explanatory error message' do
+        it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
+          parsed_errors.should eq(["Subject can't be blank"])
         end
       end
     end
