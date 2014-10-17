@@ -81,12 +81,17 @@ For example:
         }
     }
 
-### Error objects
+# Error objects
 
-Additionally to returning apropriate HTTP status codes, the API will also return error objects as the body of `4xx` and `5xx` responses.
-This shall give the client additional details about the cause of an error.
+In case of an error, the API will respond with an apropriate HTTP status code.
+For responses with an HTTP status of `4xx` and `5xx` the body will contain one or more error objects.
+They shall give the client additional details about the cause of an errorneous response.
 
-* All error objects have their `_type` set to `Error`
+Multiple errors are returned inside a collection object as described above.
+
+## General errors
+
+* Most error objects have their `_type` set to `Error` (see below for exceptions)
 * The `errorIdentifier` serves as a unique (and machine readable) identifier for a specific error cause
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
@@ -94,15 +99,32 @@ This shall give the client additional details about the cause of an error.
     * It *must not* include HTML or other kind of markup
     * Error messages form complete sentences including punctuation
 
-#### Example
+### Example
 
     {
         "_type": "Error",
         "errorIdentifier": "urn:openproject-org:api:v3:errors:InternalServerError",
         "message": "An internal server error occured. This is not your fault."
     }
+
+## Validation errors
+
+An HTTP 422 response will carry one or more **validation errors**. Validation errors follow the same rules as general errors with the following
+additions:
+
+* Their `_type` is defined as `ValidationError`
+* They have an additional `field` attribute that indicates the field that failed validation
+
+### Example
     
-#### List of Error Identifiers
+    {
+        "_type": "ValidationError",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+        "message": "The subject might not be blank.",
+        "field": "subject"
+    }
+    
+## List of Error Identifiers
 
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
@@ -1420,9 +1442,10 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     + Body
         
             {
-                "_type": "Error",
+                "_type": "ValidationError",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "The subject of a work package must not be empty."
+                "message": "The subject might not be blank.",
+                "field": "Subject"
             }
     
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
