@@ -214,7 +214,7 @@ module API
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true, writeable: false
-        property :subject, render_nil: true, writeable: false
+        property :subject, render_nil: true
         property :type, render_nil: true, writeable: false
         property :description, render_nil: true, writeable: false
         property :raw_description, render_nil: true, writeable: false
