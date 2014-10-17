@@ -26,8 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('uri.js/src/URI');
-require('uri.js/src/URITemplate');
+var URI = require('uri.js/src/URI');
+var URITemplate = require('uri.js/src/URITemplate');
+
+window.URI = URI;
+window.URITemplate = URITemplate;
+
 require('hyperagent/dist/hyperagent');
 
 var angular = require('angular');

@@ -27,7 +27,8 @@
 //++
 
 var gulp = require('gulp'),
-  jshint = require('gulp-jshint');
+  jshint = require('gulp-jshint'),
+  webpack = require('gulp-webpack');
 
 var paths = {
   scripts: ['app/assets/javascripts/**/*.js']
@@ -37,6 +38,12 @@ gulp.task('lint', function() {
   return gulp.src(paths.scripts)
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('webpack', function() {
+  return gulp.src('app/assets/javascripts/angular/openproject-app.js')
+    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('default', function() {

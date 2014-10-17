@@ -50,37 +50,13 @@ module.exports = function(config) {
     files: [
       "vendor/assets/components/jquery/dist/jquery.js",
       "vendor/assets/components/lodash/dist/lodash.js",
-      "vendor/assets/components/angular/angular.js",
-      "vendor/assets/components/angular-mocks/angular-mocks.js",
-      "vendor/assets/components/angular-ui-router/release/angular-ui-router.js",
-      "vendor/assets/components/angular-ui-select2/src/select2.js",
-      "vendor/assets/components/angular-modal/modal.js",
-      "vendor/assets/components/angular-truncate/src/truncate.js",
-      "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
       "vendor/assets/components/moment-timezone/moment-timezone.js",
-      "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
       'vendor/assets/components/select2/select2.js',
-      'vendor/assets/components/hyperagent/dist/hyperagent.js',
-
-      "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
-
       "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
 
-      "app/assets/javascripts/angular/openproject-app.js",
-
-      "app/assets/javascripts/angular/config/configuration-service.js",
-      'app/assets/javascripts/angular/api/**/*.js',
-      "app/assets/javascripts/angular/helpers/**/*.js",
-      "app/assets/javascripts/angular/models/**/*.js",
-      'app/assets/javascripts/angular/services/**/*.js',
-
-      "app/assets/javascripts/angular/layout/**/*.js",
-      "app/assets/javascripts/angular/messages/**/*.js",
-      "app/assets/javascripts/angular/time_entries/**/*.js",
-      "app/assets/javascripts/angular/timelines/**/*.js",
-      "app/assets/javascripts/angular/ui_components/**/*.js",
-      "app/assets/javascripts/angular/work_packages/**/*.js",
+      'app/assets/javascripts/angular/openproject-app.js',
+      "vendor/assets/components/angular-mocks/angular-mocks.js",
 
       "app/assets/javascripts/lib/jquery.trap.js",
 
@@ -116,7 +92,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'app/assets/javascripts/*.js': ['coverage'],
-      'app/assets/javascripts/angular/**/*.js': ['coverage'],
+      'app/assets/javascripts/angular/**/*.js': ['webpack'], // coverage disabled
       'public/templates/**/*.html': ['ng-html2js']
     },
 
@@ -169,6 +145,14 @@ module.exports = function(config) {
     ngHtml2JsPreprocessor: {
       stripPrefix:  'public',
       moduleName:   'templates'
+    },
+
+    webpack: require('./webpack.config.js'),
+
+    webpackServer: {
+      stats: {
+        colors: true
+      }
     }
   });
 };
