@@ -291,18 +291,13 @@ h4. things we like
       end
 
       context 'valid update' do
-        let(:params) do
-          {
-            subject: 'Updated subject',
-            rawDescription: '<h1>Updated description</h1>',
-            priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
-            percentageDone: 90,
-          }
-        end
+        let(:params) { valid_params.merge({ subject: 'Updated subject'}) }
 
-        xit 'should respond with updated work package subject' do
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
         end
 
