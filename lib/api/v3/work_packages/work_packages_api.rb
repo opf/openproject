@@ -39,7 +39,21 @@ module API
           namespace ':id' do
 
             helpers do
+              VALID_REQUEST_ATTRIBUTES = ['_type', 'lockVersion']
+              VALID_UPDATE_ATTRIBUTES = VALID_REQUEST_ATTRIBUTES + ['subject', 'parentId']
+
               attr_reader :work_package
+
+              def check_work_package_attributes
+                attributes = JSON.parse(env['api.request.input'])
+                invalid_attributes = invalid_work_package_update_attributes(attributes)
+
+                fail Errors::Validation.new(nil) unless invalid_attributes.empty?
+              end
+
+              def invalid_work_package_update_attributes(attributes)
+                attributes.delete_if { |key, _| VALID_UPDATE_ATTRIBUTES.include? key }
+              end
 
               def check_parent_update
                 attributes = JSON.parse(env['api.request.input'])
@@ -68,6 +82,7 @@ module API
 
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
+              check_work_package_attributes # fails if request contains invalid attributes
               check_parent_update # fails if parent update is invalid
 
               @representer.from_json(env['api.request.input'])
