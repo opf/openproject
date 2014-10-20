@@ -48,7 +48,7 @@ end
 
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response', 401,
-                                    'Unauthorized',
+                                    'MissingPermission',
                                     'You need to be authenticated to access this resource'
 end
 
