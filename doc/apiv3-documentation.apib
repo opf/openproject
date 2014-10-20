@@ -84,10 +84,8 @@ For example:
 # Error objects
 
 In case of an error, the API will respond with an apropriate HTTP status code.
-For responses with an HTTP status of `4xx` and `5xx` the body will contain one or more error objects.
-They shall give the client additional details about the cause of an errorneous response.
-
-Multiple errors are returned inside a collection object as described above.
+For responses with an HTTP status of `4xx` and `5xx` the body will always contain a single error object.
+Error objects shall give the client additional details about the cause of an errorneous response.
 
 ## General errors
 
@@ -107,21 +105,55 @@ Multiple errors are returned inside a collection object as described above.
         "message": "An internal server error occured. This is not your fault."
     }
 
-## Validation errors
+## Embedded error information
 
-An HTTP 422 response will carry one or more **validation errors**. Validation errors follow the same rules as general errors with the following
-additions:
+Errors might optionally contain embedded objects that contain further information.
 
-* Their `_type` is defined as `ValidationError`
-* They have an additional `field` attribute that indicates the field that failed validation
+**TBD:** Shall we define *what* can be embedded? E.g. only "details" and "errors"? (And those of custom type) Or shall
+we even leave the keys open to the implementation?
 
 ### Example
-    
+
     {
-        "_type": "ValidationError",
-        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-        "message": "The subject might not be blank.",
-        "field": "subject"
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:ExampleError",
+        "message": "This is an example error."
+        "_embedded": {
+            "details": {
+                "_type": "ExampleErrorDetailInformation",
+                "exampleField": "foo"
+            }
+        }
+    }
+
+## Multiple error objects
+
+To ease implementation of basic clients it is guaranteed that a single error object is returned.
+However it is allowed that an error object contains other error objects *embedded* under the key `errors`, thereby aggregating them.
+
+The errorIdentifier of such an object has to be `urn:openproject-org:api:v3:errors:MultipleErrors`. The message can either describe one of the
+embedded errors or simply state that multiple errors occured.
+
+### Example
+
+    {
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:MultipleErrors",
+        "message": "Multiple fields violated their constraints."
+        "_embedded": {
+            "errors": [
+                {
+                    "_type": "Error",
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation"
+                    // ...
+                },
+                {
+                    "_type": "Error",
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation"
+                    // ...
+                }
+            ]
+        }
     }
     
 ## List of Error Identifiers
@@ -132,6 +164,7 @@ additions:
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
+* `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
 # Authentication
 
