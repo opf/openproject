@@ -91,6 +91,9 @@ Error objects shall give the client additional details about the cause of an err
 
 * Error objects have their `_type` set to `Error`
 * The `errorIdentifier` serves as a unique (and machine readable) identifier for a specific error cause
+    * There *may* be multiple possible error identifiers per HTTP status code
+    * There *may* be multiple possible HTTP status codes per error identifier
+    * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
     * It it localized depending on the users preferences
@@ -160,7 +163,7 @@ embedded errors or simply state that multiple errors occured.
     
 ## List of Error Identifiers
 
-* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**) - The client does not have the needed permissions to perform the requested action
+* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
