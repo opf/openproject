@@ -29,22 +29,11 @@
 
 module API
   module Errors
-    class Unauthenticated < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class Unauthenticated < ErrorBase
+      IDENTIFIER = 'urn:openproject-org:api:v3:errors:Unauthorized'
 
-      def initialize(args = { })
-        @code = args[:code] || 401
-        @title = args[:title] || 'not_authenticated'
-        @description = args[:description] || 'User needs to be authenticated to access this resource.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
-
-      def errors
-        [{ key: @title, messages: ['You need to be authenticated to access this resource'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+      def initialize
+        super 401, IDENTIFIER, 'You need to be authenticated to access this resource'
       end
     end
   end

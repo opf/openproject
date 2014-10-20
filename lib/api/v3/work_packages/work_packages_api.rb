@@ -109,8 +109,7 @@ module API
 
                     representer
                   else
-                    errors = work_package.errors.full_messages.join(", ")
-                    fail Errors::Validation.new(work_package, description: errors)
+                    fail Errors::Validation.new(work_package)
                   end
                 end
               end

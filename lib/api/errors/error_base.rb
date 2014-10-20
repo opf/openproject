@@ -29,13 +29,21 @@
 
 module API
   module Errors
-    class Validation < ErrorBase
-      IDENTIFIER = 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
+    class ErrorBase < Grape::Exceptions::Base
+      attr_reader :code
 
-      def initialize(obj)
-        message = obj.nil? ? '' : obj.errors.full_messages
+      def initialize(code, identifier, message)
+        @code = code
+        @identifier = identifier
+        @message = message
+      end
 
-        super 422, IDENTIFIER, message
+      def to_json
+        {
+          "_type" => "Error",
+          "errorIdentifier" => @identifier,
+          "message" => message
+        }.to_json
       end
     end
   end
