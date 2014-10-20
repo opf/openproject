@@ -165,7 +165,7 @@ de:
       done_ratio: "% erledigt"
       due_date: "Abgabedatum"
       estimated_hours: "Geschätzter Aufwand"
-      fixed_version: "Zielversion"
+      fixed_version: "Version"
       member_of_group: "Zuständigkeitsgruppe"
       parent: "Übergeordnetes Arbeitspaket"
       parent_issue: "Übergeordnetes Arbeitspaket"
@@ -301,6 +301,10 @@ de:
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
+      no_results:
+        title: Keine Arbeitspakete anzuzeigen
+        description_html: |
+          <p>Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.</p>
       properties:
         assignee: "Zugewiesen an"
         author: "Autor"

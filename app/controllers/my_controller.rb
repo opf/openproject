@@ -121,7 +121,7 @@ class MyController < ApplicationController
       User.current.pref.save
 
       flash[:notice] = l(:notice_account_updated)
-      redirect_back_or_default(:controller => '/my', :action => 'page')
+      redirect_back_or_default(controller: '/my', action: 'page')
     end
   end
 

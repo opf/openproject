@@ -30,12 +30,6 @@
 module WorkPackagesHelper
   include AccessibilityHelper
 
-  def work_package_api_done_ratio_if_enabled(api, issue)
-    if Setting.work_package_done_ratio != 'disabled'
-      api.done_ratio  issue.done_ratio
-    end
-  end
-
   def work_package_breadcrumb
     full_path = if !@project.nil?
                   link_to(I18n.t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))

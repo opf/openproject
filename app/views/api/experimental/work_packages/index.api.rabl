@@ -41,7 +41,7 @@ child @work_packages => :work_packages do
       when Status
         wp.send(column_name).as_json(only: [:id, :name])
       when User, Group
-        wp.send(column_name).as_json(only: [:id, :firstname], methods: :name)
+        wp.send(column_name).as_json(only: [:id, :firstname, :type], methods: :name)
       when Version
         wp.send(column_name).as_json(only: [:id, :name])
       when WorkPackage

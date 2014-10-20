@@ -65,8 +65,6 @@ end
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
-                   :types => [:index, :show],
-                   :projects => [:show],
                    :projects => [:show],
                    :activities => [:index]
                  },
@@ -116,9 +114,11 @@ Redmine::AccessControl.map do |map|
                                                                           :sub_projects,
                                                                           :index],
                                          :'api/experimental/work_packages' => [:index,
-                                                                               :column_data],
+                                                                               :column_data,
+                                                                               :column_sums],
                                          # This is api/v2/planning_element_types
-                                         :'planning_element_types' => [:index] }
+                                         :'planning_element_types' => [:index,
+                                                                       :show] }
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
                                          :'issues/previews' => :create,
@@ -314,7 +314,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                             caption: :label_work_package_plural,
                             html: {
                               id: 'main-menu-work-packages',
-                              class: "icon2 icon-copy",
+                              class: "icon2 icon-project-tree",
                               "data-ui-route" => '',
                               query_menu_item: 'query_menu_item'
                             }
@@ -334,7 +334,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:class => "icon2 icon-new-planning-element"}
+                        :html => {:class => "icon2 icon-timeline-view"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
@@ -367,7 +367,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :reportings, {:controller => '/reportings', :action => 'index'},
                          :param => :project_id,
                          :caption => :'timelines.project_menu.reportings',
-                         :html => {:class => "icon2 icon-stats"}
+                         :html => {:class => "icon2 icon-status-reporting"}
 
 
   menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},

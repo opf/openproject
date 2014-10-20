@@ -45,10 +45,11 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_optional_project
-      before_filter :load_query, only: [:index]
-      before_filter :assign_work_packages, only: [:index]
+      before_filter :load_query, only: [:index,
+                                        :column_sums]
 
       def index
+        @work_packages = current_work_packages(@project)
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
@@ -61,7 +62,6 @@ module Api
 
         setup_context_menu_actions
 
-        # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
         end
@@ -80,6 +80,13 @@ module Api
           total_sums: columns_total_sums(column_names, work_packages),
           group_sums: columns_group_sums(column_names, work_packages, params[:group_by])
         }
+      end
+
+      def column_sums
+        raise 'API Error' unless params[:column_names]
+
+        column_names = params[:column_names]
+        @column_sums = columns_total_sums(column_names, all_query_work_packages)
       end
 
       private
@@ -115,10 +122,6 @@ module Api
         @query ||= init_query
       rescue ActiveRecord::RecordNotFound
         render_404
-      end
-
-      def assign_work_packages
-        @work_packages = current_work_packages(@project) unless performed?
       end
 
       def current_work_packages(projects)

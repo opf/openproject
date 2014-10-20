@@ -243,7 +243,12 @@ describe 'Work package index accessibility', :type => :feature do
 
   describe 'context menus' do
 
-    before { visit_index_page }
+    before do
+      window = Capybara.current_session.driver.browser.manage.window
+      window.maximize
+
+      visit_index_page
+    end
 
     shared_examples_for 'context menu' do
       describe 'focus' do
@@ -259,26 +264,17 @@ describe 'Work package index accessibility', :type => :feature do
           before do
             expect(page).to have_selector(target_link)
             element = find(target_link)
-            element.native.send_keys(:enter)
+            element.native.send_keys(:escape)
+            expect(page).not_to have_selector(target_link)
           end
 
           it { expect(page).to have_selector(source_link + ':focus') }
-
-          after do
-            cleanup if defined?(cleanup)
-          end
         end
 
       end
     end
 
     describe 'work package context menu', js: true do
-      let(:cleanup) do
-        # ensure work package queried by context menu is fully loaded.
-        expect(page).to have_selector('.work-packages--details h2', text: work_package.subject,
-                                                                    visible: false)
-      end
-
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.open a' }
         let(:source_link) { ".workpackages-table tr.issue td.id a" }

@@ -107,8 +107,8 @@ angular.module('openproject.workPackages.controllers')
     function setWorkPackageScopeProperties(workPackage){
       $scope.workPackage = workPackage;
 
-      $scope.isWatched = !!workPackage.links.unwatch;
-      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+      $scope.isWatched = !!workPackage.links.unwatchChanges;
+      $scope.toggleWatchLink = workPackage.links.watchChanges === undefined ? workPackage.links.unwatchChanges : workPackage.links.watchChanges;
       $scope.watchers = workPackage.embedded.watchers;
 
       // activities and latest activities

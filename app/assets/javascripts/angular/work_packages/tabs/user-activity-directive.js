@@ -28,7 +28,16 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['$uiViewScroll', '$timeout', '$location', 'I18n', 'PathHelper', 'ActivityService', 'UsersHelper', function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper) {
+.directive('userActivity', [
+    '$uiViewScroll',
+    '$timeout',
+    '$location',
+    'I18n',
+    'PathHelper',
+    'ActivityService',
+    'UsersHelper',
+    'ConfigurationService',
+    function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, ConfigurationService) {
   return {
     restrict: 'E',
     replace: true,
@@ -56,6 +65,7 @@ angular.module('openproject.workPackages.tabs')
       scope.inFocus = false;
       scope.userCanEdit = !!scope.activity.links.update;
       scope.userCanQuote = !!scope.workPackage.links.addComment;
+      scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;

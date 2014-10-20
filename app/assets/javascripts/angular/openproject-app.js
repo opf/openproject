@@ -132,7 +132,8 @@ angular.module('openproject.timeEntries', [
 angular.module('openproject.timeEntries.controllers', []);
 
 angular.module('openproject.layout', [
-  'openproject.layout.controllers'
+  'openproject.layout.controllers',
+  'ui.router'
 ]);
 angular.module('openproject.layout.controllers', []);
 

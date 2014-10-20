@@ -38,8 +38,9 @@ class QueryPolicy < BasePolicy
   def cache
     @cache ||= Hash.new do |hash, query|
       hash[query] = {
+        show: viewable?(query),
         update: persisted_and_own_or_public?(query),
-        delete: persisted_and_own_or_public?(query),
+        destroy: persisted_and_own_or_public?(query),
         create: create_allowed?(query),
         publicize: publicize_allowed?(query),
         depublicize: depublicize_allowed?(query),
@@ -53,6 +54,11 @@ class QueryPolicy < BasePolicy
     query.persisted? &&
     (save_queries_allowed?(query) && query.user == user ||
      manage_public_queries_allowed?(query) && query.is_public)
+  end
+
+  def viewable?(query)
+    view_work_packages_allowed?(query) &&
+     (query.is_public? || query.user == user)
   end
 
   def create_allowed?(query)
@@ -69,6 +75,14 @@ class QueryPolicy < BasePolicy
   def depublicize_allowed?(query)
     query.is_public &&
     manage_public_queries_allowed?(query)
+  end
+
+  def view_work_packages_allowed?(query)
+    @view_work_packages_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:view_work_packages, project, global: project.nil?)
+    end
+
+    @view_work_packages_cache[query.project]
   end
 
   def save_queries_allowed?(query)

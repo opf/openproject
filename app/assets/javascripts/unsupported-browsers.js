@@ -31,8 +31,8 @@
   $(function() {
 
     var agent = navigator.userAgent;
-
-    if (agent.match(/MSIE [789]\.0/) === null) {
+    if (agent.match(/MSIE [789]\.0/) === null &&                // IE 7-9
+        agent.match(/Firefox\/(([1-2][0-9]|30)\.)/) === null) { // Firefox 10-30
       return;
     }
 

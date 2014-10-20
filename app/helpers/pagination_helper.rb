@@ -48,7 +48,7 @@ module PaginationHelper
     end
 
     merged_options[:container] ?
-      content_tag(:p, html, :class => "pagination") :
+      content_tag(:p, html, :class => "legacy-pagination") :
       html
   end
 

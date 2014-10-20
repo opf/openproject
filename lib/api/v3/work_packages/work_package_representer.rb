@@ -132,7 +132,7 @@ module API
           }
         end
 
-        link :watch do
+        link :watchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers",
             method: :post,
@@ -143,7 +143,7 @@ module API
             !represented.model.watcher_users.include?(@current_user)
         end
 
-        link :unwatch do
+        link :unwatchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers/#{@current_user.id}",
             method: :delete,
@@ -195,7 +195,7 @@ module API
           {
             href: version_path(represented.model.fixed_version),
             type: 'text/html',
-            title: "#{represented.model.fixed_version}"
+            title: "#{represented.model.fixed_version.to_s_for_project(represented.model.project)}"
           } if represented.model.fixed_version && @current_user.allowed_to?({controller: "versions", action: "show"}, represented.model.fixed_version.project, global: false)
         end
 
@@ -216,7 +216,10 @@ module API
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
-        property :percentage_done, render_nil: true
+        property :percentage_done,
+                 render_nil: true,
+                 exec_context: :decorator,
+                 setter: -> (value, *) { represented.percentage_done = value }
         property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
@@ -264,6 +267,10 @@ module API
 
         def visible_children
           @visible_children ||= represented.model.children.find_all { |child| child.visible? }
+        end
+
+        def percentage_done
+          represented.percentage_done unless Setting.work_package_done_ratio == 'disabled'
         end
       end
     end

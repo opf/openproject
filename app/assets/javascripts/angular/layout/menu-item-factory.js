@@ -76,9 +76,39 @@ angular.module('openproject.layout')
         if (linkFn) linkFn(scope, menuItem.children('a'), {});
 
         $compile(menuItem)(scope);
-        $animate.enter(menuItem, container);
-      });
 
+        var previousItem = previousMenuItem(title);
+
+        $animate.enter(menuItem, container, previousItem);
+      });
+    }
+
+    /**
+     * previousMenuItem
+     *
+     * Returns the menu item within the factories's container that has a title
+     * alphabetically before the provided title. The considered menu items have
+     * the type (css class) this factory is responsible for.
+     *
+     * Params
+     *  * title: The string used for comparing.
+     */
+
+    function previousMenuItem(title) {
+      var allItems     = container.find('li'),
+          previousElement = angular.element(allItems[allItems.size() - 1]),
+          i = allItems.size() - 2;
+
+      for (i; i >= 0; i--) {
+        if ((title > previousElement.find('a').attr('title')) ||
+            (previousElement.find('.' + type).size() === 0))
+        {
+          return previousElement;
+        }
+        else {
+          previousElement = angular.element(allItems[i]);
+        }
+      }
     }
 
     return {

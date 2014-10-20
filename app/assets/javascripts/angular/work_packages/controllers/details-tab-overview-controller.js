@@ -79,8 +79,10 @@ angular.module('openproject.workPackages.controllers')
                     return;
                 }
                 var versionId = $scope.workPackage.props.versionId,
-                  versionLinkPresent = !!$scope.workPackage.links.version;
-                return {href: versionLinkPresent ? $scope.workPackage.links.version.href : null, title: $scope.workPackage.props.versionName, viewable: versionLinkPresent};
+                    versionLinkPresent = !!$scope.workPackage.links.version;
+                var versionTitle = versionLinkPresent ? $scope.workPackage.links.version.props.title : $scope.workPackage.props.versionName,
+                    versionHref  = versionLinkPresent ? $scope.workPackage.links.version.href : null;
+                return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
                 break;
             case USER_TYPE:
                 return $scope.workPackage.embedded[property];

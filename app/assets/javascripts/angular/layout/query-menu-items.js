@@ -40,11 +40,12 @@ angular.module('openproject.layout')
  */
 .factory('queryMenuItemFactory', [
   'menuItemFactory',
+  '$state',
   '$stateParams',
   '$animate',
   '$timeout',
   'QUERY_MENU_ITEM_TYPE',
-  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
+  function(menuItemFactory, $state, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -52,7 +53,12 @@ angular.module('openproject.layout')
       scope.queryId = scope.objectId || attrs.objectId;
 
       function setActiveState() {
-        element.toggleClass('selected', String(scope.queryId || null) === String($stateParams.query_id));
+        // Apparently the queryId sometimes is an number, sometimes a string, sometimes
+        // undefined and sometimes null. Use == instead of == to make sure these
+        // comparisons work.
+        // No idea though, why these sometimes are null and sometimes are undefined.
+        element.toggleClass('selected', $state.includes('work-packages') &&
+                                        (scope.queryId == $stateParams.query_id));
       }
       $timeout(setActiveState);
       scope.$on('$stateChangeSuccess', setActiveState);

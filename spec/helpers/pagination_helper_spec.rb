@@ -57,11 +57,11 @@ describe PaginationHelper, :type => :helper do
     let(:pagination) { helper.pagination_links_full(paginator) }
 
     it "should be inside a 'pagination' p" do
-      expect(pagination).to have_selector("p.pagination")
+      expect(pagination).to have_selector("p.legacy-pagination")
     end
 
     it "should not be inside a 'pagination' p if not desired" do
-      expect(helper.pagination_links_full(paginator, :container => false)).not_to have_selector("p.pagination")
+      expect(helper.pagination_links_full(paginator, :container => false)).not_to have_selector("p.legacy-pagination")
     end
 
     it "should have a next_page reference" do
@@ -146,7 +146,7 @@ describe PaginationHelper, :type => :helper do
       let(:total_entries) { 0 }
 
       it "should be empty" do
-        expect(pagination).to have_selector(".pagination", :text => /\A\z/)
+        expect(pagination).to have_selector(".legacy-pagination", :text => /\A\z/)
       end
     end
   end

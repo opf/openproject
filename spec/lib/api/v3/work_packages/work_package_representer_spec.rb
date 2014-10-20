@@ -39,7 +39,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       id: 42,
       created_at: DateTime.now,
       updated_at: DateTime.now,
-      category:   category
+      category:   category,
+      done_ratio: 50
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -95,6 +96,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('estimatedTime/value') }
     end
 
+    describe 'percentageDone' do
+      describe 'work package done ratio setting behavior' do
+        context 'setting enabled' do
+          it { expect(parse_json(subject)['percentageDone']).to eq(50) }
+        end
+
+        context 'setting disabled' do
+          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+
+          it { expect(parse_json(subject)['percentageDone']).to be_nil }
+        end
+      end
+    end
+
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
@@ -130,11 +145,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/watch/href')
+            expect(subject).to have_json_path('_links/watchChanges/href')
           end
 
           it 'should not have a link to unwatch' do
-            expect(subject).to_not have_json_path('_links/unwatch/href')
+            expect(subject).to_not have_json_path('_links/unwatchChanges/href')
           end
         end
 
@@ -144,11 +159,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/unwatch/href')
+            expect(subject).to have_json_path('_links/unwatchChanges/href')
           end
 
           it 'should not have a link to watch' do
-            expect(subject).to_not have_json_path('_links/watch/href')
+            expect(subject).to_not have_json_path('_links/watchChanges/href')
           end
         end
       end
@@ -157,11 +172,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:current_user) { FactoryGirl.create :user }
 
         it 'should not have a link to unwatch' do
-          expect(subject).to_not have_json_path('_links/unwatch/href')
+          expect(subject).to_not have_json_path('_links/unwatchChanges/href')
         end
 
         it 'should not have a link to watch' do
-          expect(subject).to_not have_json_path('_links/watch/href')
+          expect(subject).to_not have_json_path('_links/watchChanges/href')
         end
       end
 

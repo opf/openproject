@@ -3,54 +3,50 @@
      ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
   <ul class="menu">
     <li ng-if="canSort()" ng-click="sortAscending(column.name)">
-      <a focus href>
+      <a focus href="">
         <i class="icon-action-menu icon-sort-ascending"></i>
         <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
       </a>
     </li>
 
     <li ng-if="canSort()" ng-click="sortDescending(column.name)">
-      <i class="icon-action-menu icon-sort-descending"></i>
-      <a href>
+      <a href="">
+        <i class="icon-action-menu icon-sort-descending"></i>
         <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
       </a>
     </li>
 
-    <li ng-click="groupBy(column.name)"
-        ng-if="isGroupable">
-      <i class="icon-action-menu icon-group-by2"></i>
-      <a focus="focusFeature('group')" href>
+    <li ng-if="isGroupable" ng-click="groupBy(column.name)">
+      <a focus="focusFeature('group')" href="">
+        <i class="icon-action-menu icon-group-by2"></i>
         <span ng-bind="I18n.t('js.work_packages.query.group')"/>
       </a>
     </li>
 
-    <li ng-click="moveLeft(column.name)"
-        ng-if="canMoveLeft()">
-      <i class="icon-action-menu icon-column-left"></i>
-      <a focus="focusFeature('moveLeft')" href>
+    <li ng-if="canMoveLeft()" ng-click="moveLeft(column.name)">
+      <a focus="focusFeature('moveLeft')" href="">
+        <i class="icon-action-menu icon-column-left"></i>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
       </a>
     </li>
 
-    <li ng-click="moveRight(column.name)"
-        ng-if="canMoveRight()">
-      <i class="icon-action-menu icon-column-right"></i>
-      <a focus="focusFeature('moveRight')" href>
+    <li ng-if="canMoveRight()" ng-click="moveRight(column.name)">
+      <a focus="focusFeature('moveRight')" href="">
+        <i class="icon-action-menu icon-column-right"></i>
         <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>
       </a>
     </li>
 
-    <li ng-if="canBeHidden()"
-        ng-click="hideColumn(column.name)">
-    <i class="icon-action-menu icon-delete2"></i>
-      <a focus="focusFeature('hide')" href>
+    <li ng-if="canBeHidden()" ng-click="hideColumn(column.name)">
+      <a focus="focusFeature('hide')" href="">
+        <i class="icon-action-menu icon-delete2"></i>
         <span ng-bind="I18n.t('js.work_packages.query.hide_column')"/>
       </a>
     </li>
 
     <li ng-click="insertColumns()">
-    <i class="icon-action-menu icon-columns"></i>
-      <a focus="focusFeature('insert')" href>
+      <a focus="focusFeature('insert')" href="">
+        <i class="icon-action-menu icon-columns"></i>
         <span ng-bind="I18n.t('js.work_packages.query.insert_columns')"/>
       </a>
     </li>

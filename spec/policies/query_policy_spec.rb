@@ -42,6 +42,39 @@ describe QueryPolicy, type: :controller do
       allow(user).to receive(:allowed_to?).and_return true
     end
 
+    shared_examples 'viewing queries' do |global|
+      context "#{ global ? 'in global context' : 'in project context' }" do
+        let(:other_user) { FactoryGirl.build_stubbed(:user) }
+        if global
+          let(:project) { nil }
+        end
+
+        it 'is true if the query is public and another user views it' do
+          query.is_public = true
+          query.user = other_user
+          expect(subject.allowed?(query, :show)).to be_truthy
+        end
+
+        context 'query belongs to a different user' do
+          let(:query) do
+            FactoryGirl.build_stubbed(:query,
+                                      project: project,
+                                      user: user,
+                                      is_public: false)
+          end
+
+          it 'is true if the query is private and the owner views it' do
+            expect(subject.allowed?(query, :show)).to be_truthy
+          end
+
+          it 'is false if the query is private and another user views it' do
+            query.user = other_user
+            expect(subject.allowed?(query, :show)).to be_falsy
+          end
+        end
+      end
+    end
+
     shared_examples 'action on persisted' do |action, global|
       context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
         if global
@@ -279,8 +312,8 @@ describe QueryPolicy, type: :controller do
 
     it_should_behave_like 'action on persisted', :update, global: true
     it_should_behave_like 'action on persisted', :update, global: false
-    it_should_behave_like 'action on persisted', :delete, global: true
-    it_should_behave_like 'action on persisted', :delete, global: false
+    it_should_behave_like 'action on persisted', :destroy, global: true
+    it_should_behave_like 'action on persisted', :destroy, global: false
     it_should_behave_like 'action on unpersisted', :create, global: true
     it_should_behave_like 'action on unpersisted', :create, global: false
     it_should_behave_like 'publicize', global: false
@@ -291,5 +324,7 @@ describe QueryPolicy, type: :controller do
     it_should_behave_like 'action on persisted', :star, global: true
     it_should_behave_like 'action on persisted', :unstar, global: false
     it_should_behave_like 'action on persisted', :unstar, global: true
+    it_should_behave_like 'viewing queries', global: true
+    it_should_behave_like 'viewing queries', global: false
   end
 end

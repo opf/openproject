@@ -177,6 +177,14 @@ class Version < ActiveRecord::Base
     "#{project} - #{name}"
   end
 
+  def to_s_for_project(other_project)
+    if other_project == project
+      name
+    else
+      to_s_with_project
+    end
+  end
+
   # Versions are sorted by effective_date and "Project Name - Version name"
   # Those with no effective_date are at the end, sorted by "Project Name - Version name"
   def <=>(version)

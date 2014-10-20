@@ -2,7 +2,8 @@
     <ul ng-if="watchers.length">
       <li ng-repeat="watcher in watchers">
         <user-field focus="$index == focusElementIndex" user="watcher"></user-field>
-        <accessible-by-keyboard execute="deleteWatcher(watcher)" ng-if="watcher.links.removeWatcher">
+        <accessible-by-keyboard execute="deleteWatcher(watcher)" ng-if="watcher.links.removeWatcher"
+          link-class="detail-panel-watchers-delete-watcher-link">
           <icon-wrapper icon-name="close"
                         icon-title="{{I18n.t('js.button_delete_watcher')}}"
                         class="detail-panel-watchers-delete-watcher-icon"></icon-wrapper>

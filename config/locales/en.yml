@@ -130,7 +130,7 @@ en:
         admin: "Administrator"
         auth_source: "Authentication mode"
         language: "Language"
-        last_login_on: "Last connection"
+        last_login_on: "Last login"
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
@@ -171,7 +171,7 @@ en:
         created_at: Created
       work_package:
         done_ratio: "% done"
-        fixed_version: "Target version"
+        fixed_version: "Version"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -772,7 +772,7 @@ en:
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
   label_last_changes: "last %{count} changes"
-  label_last_login: "Last connection"
+  label_last_login: "Last login"
   label_last_month: "last month"
   label_last_n_days: "last %{count} days"
   label_last_week: "last week"
