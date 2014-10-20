@@ -26,23 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.api')
+angular.module('openproject.uiComponents')
 
-.factory('HALAPIResource', ['$q', 'PathHelper', function HALAPIResource($q, PathHelper) {
-  'use strict';
-
-  var HALAPIResource = {
-    configure: function() {
-      Hyperagent.configure('defer', $q.defer);
-    },
-
-    setup: function(uri) {
-      HALAPIResource.configure();
-      return new Hyperagent.Resource({
-        url: PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri,
-      });
-    }
+.directive('emptyElement', [function() {
+  return {
+    restrict: 'E',
+    templateUrl: "/templates/components/empty_element.html"
   };
-
-  return HALAPIResource;
 }]);
