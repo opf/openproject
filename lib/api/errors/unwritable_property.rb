@@ -29,23 +29,13 @@
 
 module API
   module Errors
-    class UnwritableProperty < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class UnwritableProperty < ErrorBase
+      IDENTIFIER = 'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
 
-      def initialize(property, args = { })
-        @property = property
-        @code = args[:code] || 422
-        @title = args[:title] || 'unwriteable_property_error'
-        @description = args[:description] || 'You tried to write read-only property.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
-
-      def errors
-        [{ key: @property, messages: ['is read-only'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+      def initialize(invalid_attributes)
+        super 422,
+              IDENTIFIER,
+              "You must not write the following attributes: #{invalid_attributes.keys.join(', ')}"
       end
     end
   end
