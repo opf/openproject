@@ -69,11 +69,6 @@ module API
       end
     end
 
-    rescue_from ActiveRecord::RecordInvalid do |e|
-      error = ::API::Errors::Validation.new(e.record)
-      Rack::Response.new(error.to_json, error.code, error.headers).finish
-    end
-
     rescue_from ActiveRecord::RecordNotFound do |e|
       api_error = ::API::Errors::NotFound.new(e.message)
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
