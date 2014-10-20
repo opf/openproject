@@ -266,7 +266,7 @@ h4. things we like
 
         include_context 'patch request'
 
-        it { expect(response.status).to eq(422) }
+        it_behaves_like 'read-only violation', ['startDate']
       end
 
       context 'valid update' do

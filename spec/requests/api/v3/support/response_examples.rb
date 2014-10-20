@@ -69,3 +69,9 @@ shared_examples_for 'constraint violation' do |message|
                                     'PropertyConstraintViolation',
                                     message
 end
+
+shared_examples_for 'read-only violation' do |attributes|
+  it_behaves_like 'error response', 422,
+                                    'PropertyIsReadOnly',
+                                    "You must not write the following attributes: #{attributes.join(', ')}"
+end
