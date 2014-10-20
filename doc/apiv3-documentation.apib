@@ -89,7 +89,7 @@ Error objects shall give the client additional details about the cause of an err
 
 ## General errors
 
-* Most error objects have their `_type` set to `Error` (see below for exceptions)
+* Error objects have their `_type` set to `Error`
 * The `errorIdentifier` serves as a unique (and machine readable) identifier for a specific error cause
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
@@ -109,48 +109,50 @@ Error objects shall give the client additional details about the cause of an err
 
 Errors might optionally contain embedded objects that contain further information.
 
-**TBD:** Shall we define *what* can be embedded? E.g. only "details" and "errors"? (And those of custom type) Or shall
-we even leave the keys open to the implementation?
+### Error details
 
-### Example
+Under the embedded key `details` there might be an object describing the error more verbosely. For example if the
+error affects a specific field, this field could be defined there.
+
+#### Example
 
     {
         "_type": "Error",
-        "errorIdentifier": "urn:openproject-org:api:v3:errors:ExampleError",
-        "message": "This is an example error."
+        "errorIdentifier": "urn:openproject-org:api:v3:examples:ExampleError",
+        "message": "This is an example error.",
         "_embedded": {
             "details": {
                 "_type": "ExampleErrorDetailInformation",
-                "exampleField": "foo"
+                "errorneousField": "subject"
             }
         }
     }
 
-## Multiple error objects
+### Multiple error objects
 
-To ease implementation of basic clients it is guaranteed that a single error object is returned.
-However it is allowed that an error object contains other error objects *embedded* under the key `errors`, thereby aggregating them.
+To ease implementation of basic clients it is guaranteed that the response body always only contains a single error object.
+However it is allowed that an error object *embeds* other error objects under the key `errors`, thereby aggregating them.
 
-The errorIdentifier of such an object has to be `urn:openproject-org:api:v3:errors:MultipleErrors`. The message can either describe one of the
+The `errorIdentifier` of such an object is always `urn:openproject-org:api:v3:errors:MultipleErrors`. The message can either describe one of the
 embedded errors or simply state that multiple errors occured.
 
-### Example
+#### Example
 
     {
         "_type": "Error",
         "errorIdentifier": "urn:openproject-org:api:v3:errors:MultipleErrors",
-        "message": "Multiple fields violated their constraints."
+        "message": "Multiple fields violated their constraints.",
         "_embedded": {
             "errors": [
                 {
                     "_type": "Error",
-                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation"
-                    // ...
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                    "...": "..."
                 },
                 {
                     "_type": "Error",
-                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation"
-                    // ...
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                    "...": "..."
                 }
             ]
         }
