@@ -27,43 +27,33 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
-describe 'API v3 User resource', :type => :request do
-  include Rack::Test::Methods
+shared_examples_for 'handling anonymous user' do |type, path|
+  context 'anonymous user' do
+    let(:get_path) { path % [id] }
+    let(:project) { FactoryGirl.create(:project, is_public: true) }
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:model) { ::API::V3::Users::UserModel.new(user) }
-  let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
-
-  describe '#get' do
-    subject(:response) { last_response }
-
-    context 'logged in user' do
-      let(:get_path) { "/api/v3/users/#{user.id}" }
-      before do
-        allow(User).to receive(:current).and_return current_user
-        get get_path
-      end
+    context 'when access for anonymous user is allowed' do
+      before { get get_path }
 
       it 'should respond with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct attachment' do
-        expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
-      end
-
-      context 'requesting nonexistent user' do
-        let(:get_path) { "/api/v3/users/9999" }
-
-        it_behaves_like 'not found', 9999, 'User'
+      it 'should respond with correct type' do
+        expect(subject.body).to include_json(type.to_json).at_path('_type')
+        expect(subject.body).to be_json_eql(id.to_json).at_path('id')
       end
     end
 
-    it_behaves_like 'handling anonymous user', 'User', '/api/v3/users/%s' do
-      let(:id) { user.id }
+    context 'when access for anonymous user is not allowed' do
+      before do
+        Setting.login_required = 1
+        get get_path
+      end
+      after { Setting.login_required = 0 }
+
+      it_behaves_like 'unauthenticated access'
     end
   end
 end
