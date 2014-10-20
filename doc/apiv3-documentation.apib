@@ -727,8 +727,14 @@ Updates an activity's comment and, on success, returns the updated activity.
 ## Properties
 | Property | Description | Type    | Constraints | Example | Supported operations |
 |:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Status id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Status name | String  |             | Closed  | READ |
+| id       | Status id   | Integer | Must be a positive integer | 12 |       READ |
+| name     | Status name | String  |             | Closed  |                 READ |
+| position | Sort index of the status | Integer  | |     1 |                 READ |
+| isDefault|             | Boolean |             | true    |                 READ |
+| isClosed | are tickets of this status considered closed? | Boolean | | true | READ |
+| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | 50 | READ |
+| createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 ## Statuses [/statuses]
 
