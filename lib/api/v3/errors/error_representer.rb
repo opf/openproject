@@ -27,15 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :identifier, :message
+require 'roar/decorator'
+require 'roar/representer/json/hal'
 
-      def initialize(code, identifier, message)
-        @code = code
-        @identifier = identifier
-        @message = message
+module API
+  module V3
+    module Errors
+      class ErrorRepresenter < Roar::Decorator
+        include Roar::Representer::JSON::HAL
+        include Roar::Representer::Feature::Hypermedia
+
+        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+
+        property :_type, exec_context: :decorator
+        property :errorIdentifier, getter: -> (*) { identifier }, render_nil: true
+        property :message, getter: -> (*) { message }, render_nil: true
+
+        def _type
+          'Error'
+        end
       end
     end
   end

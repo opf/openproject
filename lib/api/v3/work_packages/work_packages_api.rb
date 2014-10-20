@@ -48,7 +48,7 @@ module API
                 attributes = JSON.parse(env['api.request.input'])
                 invalid_attributes = invalid_work_package_update_attributes(attributes)
 
-                fail Errors::Validation.new(nil) unless invalid_attributes.empty?
+                fail ::API::Errors::Validation.new(nil) unless invalid_attributes.empty?
               end
 
               def invalid_work_package_update_attributes(attributes)
@@ -64,7 +64,7 @@ module API
 
                 if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
                   @work_package.errors.add(:parent_id, :not_a_valid_parent)
-                  fail Errors::Validation.new(@work_package)
+                  fail ::API::Errors::Validation.new(@work_package)
                 end
               end
 
@@ -95,7 +95,7 @@ module API
               if @representer.represented.model.valid? && @representer.represented.save
                 @representer
               else
-                fail Errors::Validation.new(@representer.represented.model)
+                fail ::API::Errors::Validation.new(@representer.represented.model)
               end
             end
 
@@ -109,7 +109,7 @@ module API
 
                     representer
                   else
-                    fail Errors::Validation.new(work_package)
+                    fail ::API::Errors::Validation.new(work_package)
                   end
                 end
               end

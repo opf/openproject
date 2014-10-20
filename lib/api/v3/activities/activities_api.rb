@@ -57,7 +57,7 @@ module API
 
                   representer
                 else
-                  fail Errors::Validation.new(activity)
+                  fail ::API::Errors::Validation.new(activity)
                 end
               end
 

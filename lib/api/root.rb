@@ -76,11 +76,13 @@ module API
 
     rescue_from ActiveRecord::RecordNotFound do |e|
       api_error = ::API::Errors::NotFound.new(e.message)
-      error_response({ status: api_error.code, message: api_error.to_json })
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      error_response({ status: api_error.code, message: representer.to_json })
     end
 
     rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
-      error_response({ status: e.code, message: e.to_json })
+      representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+      error_response({ status: e.code, message: representer.to_json })
     end
 
     # run authentication before each request
