@@ -52,7 +52,7 @@ describe API::V3::Activities::ActivitiesAPI, :type => :request do
   shared_examples_for "invalid activity request" do
     before { allow(User).to receive(:current).and_return(admin) }
 
-    it { expect(last_response.status).to eq(422) }
+    it_behaves_like 'constraint violation', :empty
   end
 
   describe "PATCH /api/v3/activities/:activityId" do

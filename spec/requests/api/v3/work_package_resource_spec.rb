@@ -161,14 +161,7 @@ h4. things we like
       context 'requesting nonexistent work package' do
         let(:get_path) { "/api/v3/work_packages/909090" }
 
-        it 'should respond with 404' do
-          expect(last_response.status).to eq(404)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
-        end
+        it_behaves_like 'not found', 909090, 'WorkPackage'
       end
     end
 
@@ -178,14 +171,7 @@ h4. things we like
         get get_path
       end
 
-      it 'should respond with 403' do
-        expect(last_response.status).to eq(403)
-      end
-
-      it 'should respond with explanatory error message' do
-        parsed_errors = JSON.parse(last_response.body)['errors']
-        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-      end
+      it_behaves_like 'unauthorized access'
     end
 
     context 'when acting as an anonymous user' do
@@ -194,14 +180,7 @@ h4. things we like
         get get_path
       end
 
-      it 'should respond with 401' do
-        expect(last_response.status).to eq(403)
-      end
-
-      it 'should respond with explanatory error message' do
-        parsed_errors = JSON.parse(last_response.body)['errors']
-        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-      end
+      it_behaves_like 'unauthorized access'
     end
 
   end
@@ -230,7 +209,7 @@ h4. things we like
 
       include_context 'patch request'
 
-      it { expect(response.status).to eq(403) }
+      it_behaves_like 'unauthorized access'
     end
 
     context 'user with needed permissions' do
@@ -321,12 +300,7 @@ h4. things we like
 
         include_context 'patch request'
 
-        it { expect(response.status).to eq(422) }
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq(["Subject can't be blank"])
-        end
+        it_behaves_like 'constraint violation', "Subject can't be blank"
       end
     end
   end

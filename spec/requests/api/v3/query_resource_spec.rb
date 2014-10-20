@@ -122,14 +122,7 @@ describe 'API v3 Query resource', :type => :request do
           let(:star_path) { "/api/v3/queries/999/star" }
           before(:each) { patch star_path }
 
-          it 'should respond with 404' do
-            expect(last_response.status).to eq(404)
-          end
-
-          it 'should respond with explanatory error message' do
-            parsed_errors = JSON.parse(last_response.body)['errors']
-            expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
-          end
+          it_behaves_like 'not found', 999, 'Query'
         end
       end
 
@@ -142,14 +135,7 @@ describe 'API v3 Query resource', :type => :request do
           patch star_path
         end
 
-        it 'should respond with 403' do
-          expect(last_response.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
 
@@ -185,14 +171,7 @@ describe 'API v3 Query resource', :type => :request do
           let(:another_user) { FactoryGirl.create(:user) }
           let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
 
-          it 'should respond with 403' do
-            expect(last_response.status).to eq(403)
-          end
-
-          it 'should respond with explanatory error message' do
-            parsed_errors = JSON.parse(last_response.body)['errors']
-            expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-          end
+          it_behaves_like 'unauthorized access'
         end
       end
 
@@ -206,14 +185,7 @@ describe 'API v3 Query resource', :type => :request do
           patch star_path
         end
 
-        it 'should respond with 403' do
-          expect(last_response.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-        end
+        it_behaves_like 'unauthorized access'
       end
 
     end
@@ -306,14 +278,7 @@ describe 'API v3 Query resource', :type => :request do
           let(:unstar_path) { "/api/v3/queries/999/unstar" }
           before(:each) { patch unstar_path }
 
-          it 'should respond with 404' do
-            expect(last_response.status).to eq(404)
-          end
-
-          it 'should respond with explanatory error message' do
-            parsed_errors = JSON.parse(last_response.body)['errors']
-            expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find Query with id=999']}])
-          end
+          it_behaves_like 'not found', 999, 'Query'
         end
       end
 
@@ -326,14 +291,7 @@ describe 'API v3 Query resource', :type => :request do
           patch unstar_path
         end
 
-        it 'should respond with 403' do
-          expect(last_response.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
 
@@ -369,14 +327,7 @@ describe 'API v3 Query resource', :type => :request do
           let(:another_user) { FactoryGirl.create(:user) }
           let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
 
-          it 'should respond with 403' do
-            expect(last_response.status).to eq(403)
-          end
-
-          it 'should respond with explanatory error message' do
-            parsed_errors = JSON.parse(last_response.body)['errors']
-            expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-          end
+          it_behaves_like 'unauthorized access'
         end
       end
 
@@ -390,14 +341,7 @@ describe 'API v3 Query resource', :type => :request do
           patch unstar_path
         end
 
-        it 'should respond with 403' do
-          expect(last_response.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
 

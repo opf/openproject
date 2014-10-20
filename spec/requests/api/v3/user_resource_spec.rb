@@ -57,13 +57,8 @@ describe 'API v3 User resource', :type => :request do
 
       context 'requesting nonexistent user' do
         let(:get_path) { "/api/v3/users/9999" }
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
 
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
-        end
+        it_behaves_like 'not found', 9999, 'User'
       end
     end
 
@@ -89,13 +84,7 @@ describe 'API v3 User resource', :type => :request do
         end
         after { Setting.login_required = 0 }
 
-        it 'should respond with 401' do
-          expect(subject.status).to eq(401)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authenticated'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthenticated access'
       end
     end
   end
