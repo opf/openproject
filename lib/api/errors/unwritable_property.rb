@@ -31,8 +31,17 @@ module API
   module Errors
     class UnwritableProperty < ErrorBase
       def initialize(invalid_attributes)
-        super 422,
-              "You must not write the following attributes: #{invalid_attributes.keys.join(', ')}"
+        attributes = Array(invalid_attributes)
+
+        fail ArgumentError, "UnwritableProperty error must contain at least one invalid attribute!" if attributes.empty?
+
+        super 422, "You must not write a read-only attribute"
+
+        if attributes.length > 1
+          invalid_attributes.each do |attribute|
+            @errors << UnwritableProperty.new(attribute)
+          end
+        end
       end
     end
   end

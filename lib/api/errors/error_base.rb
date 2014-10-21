@@ -30,11 +30,12 @@
 module API
   module Errors
     class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :errors
+      attr_reader :code, :message, :details, :errors
 
       def initialize(code, message)
         @code = code
         @message = message
+        @errors = []
       end
     end
   end

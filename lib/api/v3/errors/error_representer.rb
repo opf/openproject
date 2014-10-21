@@ -43,11 +43,19 @@ module API
         property :error_identifier, exec_context: :decorator, render_nil: true
         property :message, getter: -> (*) { message }, render_nil: true
 
+        collection :errors,
+                   embedded: true,
+                   class: ::API::Errors::ErrorBase,
+                   decorator: ::API::V3::Errors::ErrorRepresenter,
+                   if: -> (*) { !Array(errors).empty? }
+
         def _type
           'Error'
         end
 
         def error_identifier
+          return 'urn:openproject-org:api:v3:errors:MultipleErrors' unless Array(represented.errors).empty?
+
           case represented
           when ::API::Errors::NotFound
             'urn:openproject-org:api:v3:errors:NotFound'

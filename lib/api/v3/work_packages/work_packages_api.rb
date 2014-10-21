@@ -48,7 +48,7 @@ module API
                 attributes = JSON.parse(env['api.request.input'])
                 invalid_attributes = invalid_work_package_update_attributes(attributes)
 
-                fail ::API::Errors::UnwritableProperty.new(invalid_attributes) unless invalid_attributes.empty?
+                fail ::API::Errors::UnwritableProperty.new(invalid_attributes.keys) unless invalid_attributes.empty?
               end
 
               def invalid_work_package_update_attributes(attributes)
