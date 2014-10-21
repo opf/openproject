@@ -887,6 +887,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
 | description | Work package description | String | | Projects module should be refactored ... | READ |
 | rawDescription | | String | | | READ |
+| parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
 | status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
