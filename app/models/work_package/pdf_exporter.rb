@@ -438,11 +438,14 @@ module WorkPackage::PdfExporter
         # 0x5c char handling
         txtar = txt.split('\\')
         txtar << '' if txt[-1] == ?\\
-        txtar.collect {|x| x.encode(l(:general_pdf_encoding), 'UTF-8')}.join('\\').gsub(/\\/, "\\\\\\\\")
+        txtar.collect {|x|
+          Redmine::CodesetUtil.from_utf8(x, l(:general_pdf_encoding)).
+            force_encoding('ASCII-8BIT')
+        }.join('\\').gsub(/\\/, "\\\\\\\\")
       rescue
-        txt
-      end || ''
-      return txt
+        txt.force_encoding('ASCII-8BIT')
+      end || ''.force_encoding('ASCII-8BIT')
+      return txt.force_encoding('ASCII-8BIT')
     end
 
     def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
