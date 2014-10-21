@@ -53,19 +53,16 @@ module API
               @representer
             end
 
-            # disabled to prevent security risks caused by missing setter restrictions
-            # see https://community.openproject.org/work_packages/16768
-            # don't forget to re-enable the tests after uncommenting ;-)
-            #patch do
-            #  authorize(:edit_work_packages, context: @work_package.project)
-            #  @representer.from_json(env['api.request.input'])
-            #  @representer.represented.sync
-            #  if @representer.represented.model.valid? && @representer.represented.save
-            #    @representer
-            #  else
-            #    fail Errors::Validation.new(@representer.represented.model)
-            #  end
-            #end
+            patch do
+              authorize(:edit_work_packages, context: @work_package.project)
+              @representer.from_json(env['api.request.input'])
+              @representer.represented.sync
+              if @representer.represented.model.valid? && @representer.represented.save
+                @representer
+              else
+                fail Errors::Validation.new(@representer.represented.model)
+              end
+            end
 
             resource :activities do
 
