@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.constant('PERMITTED_BULK_ACTIONS', ['edit', 'watch', 'move', 'copy', 'delete'])
-
-.service('WorkPackageContextMenuHelper', ['PERMITTED_BULK_ACTIONS', 'WorkPackagesTableService', 'UrlParamsHelper', function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
+module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
   function getPermittedActionLinks(workPackage, permittedActionConstansts) {
     var linksToPermittedActions = {};
     var permittedActions = getIntersection([workPackage._actions, permittedActionConstansts]);
@@ -98,4 +94,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return WorkPackageContextMenuHelper;
-}]);
+}

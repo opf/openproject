@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.helpers')
-
-.factory('TimelineTableHelper', [function() {
+module.exports = function() {
   var NodeFilter = function(options) {
     this.options = options;
   };
@@ -133,4 +131,4 @@ angular.module('openproject.timelines.helpers')
   };
 
   return TimelineTableHelper;
-}]);
+}

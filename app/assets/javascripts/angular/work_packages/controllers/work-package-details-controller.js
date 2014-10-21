@@ -26,45 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.constant('RELATION_TYPES', {
-  relatedTo: "Relation::Relates",
-  duplicates: "Relation::Duplicates",
-  duplicated: "Relation::Duplicated",
-  blocks: "Relation::Blocks",
-  blocked: "Relation::Blocked",
-  precedes: "Relation::Precedes",
-  follows: "Relation::Follows"
-})
-.constant('RELATION_IDENTIFIERS', {
-  parent: "parent",
-  relatedTo: "relates",
-  duplicates: "duplicates",
-  duplicated: "duplicated",
-  blocks: "blocks",
-  blocked: "blocked",
-  precedes: "precedes",
-  follows: "follows"
-})
-
-.controller('WorkPackageDetailsController', [
-  '$scope',
-  '$state',
-  'latestTab',
-  'workPackage',
-  'I18n',
-  'RELATION_TYPES',
-  'RELATION_IDENTIFIERS',
-  '$q',
-  'WorkPackagesHelper',
-  'PathHelper',
-  'UsersHelper',
-  'ConfigurationService',
-  'CommonRelationsHandler',
-  'ChildrenRelationsHandler',
-  'ParentRelationsHandler',
-  function($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
+module.exports = function($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
@@ -188,5 +150,5 @@ angular.module('openproject.workPackages.controllers')
     }
 
     $scope.focusAnchorLabel = getFocusAnchorLabel($state.current.url.replace(/\//, ''), $scope.workPackage);
-  }
-]);
+
+}

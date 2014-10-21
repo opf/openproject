@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('ActivityService', ['HALAPIResource',
-  '$http',
-  'PathHelper', function(HALAPIResource, $http, PathHelper){
+module.exports = function(HALAPIResource, $http, PathHelper){
 
   var ActivityService = {
     createComment: function(workPackage, activities, descending, comment) {
@@ -61,4 +57,4 @@ angular.module('openproject.services')
   }
 
   return ActivityService;
-}]);
+}

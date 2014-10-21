@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('accessibleElement', [function() {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -37,4 +35,4 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: "/templates/components/accessible_element.html"
   };
-}]);
+}

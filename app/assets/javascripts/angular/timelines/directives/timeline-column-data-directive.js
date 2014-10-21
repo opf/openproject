@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.constant('WORK_PACKAGE_DATE_COLUMNS', ['start_date', 'due_date'])
-.directive('timelineColumnData', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
+module.exports = function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
 
 
   return {
@@ -114,4 +111,4 @@ angular.module('openproject.timelines.directives')
       }
     }
   };
-}]);
+}

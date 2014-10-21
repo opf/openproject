@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackageRow', ['I18n', 'WorkPackagesTableService', function(I18n, WorkPackagesTableService){
+module.exports = function(I18n, WorkPackagesTableService){
 
   function setCheckboxTitle(scope) {
     var checkboxTitleLocale = I18n.t('js.description_select_work_package');
@@ -54,4 +52,4 @@ angular.module('openproject.workPackages.directives')
       });
     }
   };
-}]);
+}

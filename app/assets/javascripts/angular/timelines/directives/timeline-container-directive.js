@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineContainer', ['Timeline', function(Timeline) {
+module.exports = function(Timeline) {
   getInitialOutlineExpansion = function(timelineOptions) {
     initialOutlineExpansion = timelineOptions.initial_outline_expansion;
     if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
@@ -64,4 +62,4 @@ angular.module('openproject.timelines.directives')
       scope.timeline.expansionIndex = getInitialOutlineExpansion(scope.timelineOptions);
     }
   };
-}]);
+}

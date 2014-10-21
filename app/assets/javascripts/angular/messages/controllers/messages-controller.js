@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.messages.controllers')
-
-.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, SortService, PaginationService) {
+module.exports = function($scope, $http, PathHelper, SortService, PaginationService) {
   $scope.PathHelper = PathHelper;
   $scope.messages = gon.messages;
   $scope.totalMessageCount = gon.total_count;
@@ -59,4 +57,4 @@ angular.module('openproject.messages.controllers')
            $scope.isLoading = false;
          });
   };
-}]);
+}

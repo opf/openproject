@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.filter('latestItems', function(){
+module.exports = function() {
   return function(items, isDescending, visible){
     return isDescending ? items.slice(0, visible) : items.slice(-visible).reverse();
   }
-});
+}

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineColumnName', ['I18n', 'CustomFieldHelper', function(I18n, CustomFieldHelper) {
+module.exports = function(I18n, CustomFieldHelper) {
   return {
     restrict: 'A',
     scope: {
@@ -49,4 +47,4 @@ angular.module('openproject.timelines.directives')
       }
     }
   };
-}]);
+}

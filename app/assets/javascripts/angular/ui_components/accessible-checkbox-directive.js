@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('accessibleCheckbox', [function(){
+module.exports = function() {
   return {
     restrict: 'EA',
     replace: true,
@@ -42,4 +40,4 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/accessible_checkbox.html'
   };
-}]);
+}

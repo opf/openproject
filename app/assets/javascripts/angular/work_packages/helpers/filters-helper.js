@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.factory('FiltersHelper', ['I18n', function(I18n) {
+module.exports = function(I18n) {
   var FiltersHelper = {
 
     assignAncestorLevels: function(projects){
@@ -71,4 +69,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return FiltersHelper;
-}]);
+}

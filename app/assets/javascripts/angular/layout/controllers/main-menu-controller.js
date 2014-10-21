@@ -26,12 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.layout.controllers')
-
-.controller('MainMenuController', [
-  '$rootScope',
-  '$window',
-  function($rootScope, $window) {
+module.exports = function($rootScope, $window) {
 
   this.toggleNavigation = function() {
     $rootScope.showNavigation = !$rootScope.showNavigation;
@@ -39,4 +34,4 @@ angular.module('openproject.layout.controllers')
     $window.sessionStorage.setItem('openproject:navigation-toggle',
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
-}]);
+}

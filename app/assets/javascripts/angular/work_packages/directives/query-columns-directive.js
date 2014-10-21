@@ -26,14 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('queryColumns', [
-  'WorkPackagesTableHelper',
-  'WorkPackagesTableService',
-  'WorkPackageService',
-  'QueryService',
-  function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
+module.exports = function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
@@ -82,4 +75,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

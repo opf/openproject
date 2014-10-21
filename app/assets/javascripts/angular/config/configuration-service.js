@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.config')
-
-.service('ConfigurationService', [
-  '$log',
-  function($log) {
+module.exports = function($log) {
 
   return {
     settingsPresent: function() {
@@ -90,4 +86,4 @@ angular.module('openproject.config')
       return attributes;
     }
   };
-}]);
+};

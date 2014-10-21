@@ -27,11 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
-
-.service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', function($timeout, FOCUSABLE_SELECTOR) {
+module.exports = function($timeout, FOCUSABLE_SELECTOR) {
   FocusHelper = {
     getFocusableElement: function(element) {
       var focusable = element;
@@ -73,4 +69,4 @@ angular.module('openproject.uiComponents')
   };
 
   return FocusHelper;
-}]);
+}

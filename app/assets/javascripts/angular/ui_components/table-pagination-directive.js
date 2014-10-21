@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('tablePagination', ['I18n', 'PaginationService', function(I18n, PaginationService) {
+module.exports = function(I18n, PaginationService) {
   return {
     restrict: 'EA',
     templateUrl: '/templates/components/table_pagination.html',
@@ -110,4 +108,4 @@ angular.module('openproject.uiComponents')
 
     }
   };
-}]);
+}

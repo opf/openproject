@@ -26,31 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages')
-
-.constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
-
-.factory('WorkPackageContextMenu', [
-  'ngContextMenu',
-  function(ngContextMenu) {
-
-  return ngContextMenu({
-    controller: 'WorkPackageContextMenuController',
-    controllerAs: 'contextMenu',
-    templateUrl: '/templates/work_packages/work_package_context_menu.html'
-  });
-}])
-
-.controller('WorkPackageContextMenuController', [
-  '$scope',
-  'WorkPackagesTableHelper',
-  'WorkPackageContextMenuHelper',
-  'WorkPackageService',
-  'WorkPackagesTableService',
-  'I18n',
-  '$window',
-  'PERMITTED_CONTEXT_MENU_ACTIONS',
-  function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
+module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window, PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 
@@ -102,4 +78,4 @@ angular.module('openproject.workPackages')
     }
   }
 
-}]);
+}

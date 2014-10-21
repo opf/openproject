@@ -26,13 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.services')
-
-.service('WorkPackagesTableService', [
-  '$filter',
-  'QueryService',
-  'WorkPackagesTableHelper',
-  function($filter, QueryService, WorkPackagesTableHelper) {
+module.exports = function($filter, QueryService, WorkPackagesTableHelper) {
   var workPackagesTableData = {
     allRowsChecked: false,
     showFiltersOptions: false
@@ -179,4 +173,4 @@ angular.module('openproject.workPackages.services')
   };
 
   return WorkPackagesTableService;
-}]);
+}

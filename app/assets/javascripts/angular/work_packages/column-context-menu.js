@@ -26,29 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages')
-
-.factory('ColumnContextMenu', [
-  'ngContextMenu',
-  function(ngContextMenu) {
-
-  return ngContextMenu({
-    controller: 'ColumnContextMenuController',
-    controllerAs: 'contextMenu',
-    templateUrl: '/templates/work_packages/column_context_menu.html',
-    container: '.work-packages--list-table-area'
-  });
-}])
-
-.controller('ColumnContextMenuController', [
-  '$scope',
-  'ColumnContextMenu',
-  'I18n',
-  'QueryService',
-  'WorkPackagesTableHelper',
-  'WorkPackagesTableService',
-  'columnsModal',
-  function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
+module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
 
     $scope.I18n = I18n;
 
@@ -126,4 +104,4 @@ angular.module('openproject.workPackages')
 
       return focus;
     }
-}]);
+}

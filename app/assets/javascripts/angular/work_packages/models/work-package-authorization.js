@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.models')
-
-.factory('WorkPackageAuthorization', [function() {
+module.exports = function() {
 
   WorkPackageAuthorization = function (workPackage) {
     this.workPackage = workPackage;
@@ -51,4 +49,4 @@ angular.module('openproject.workPackages.models')
   };
 
   return WorkPackageAuthorization;
-}]);
+}

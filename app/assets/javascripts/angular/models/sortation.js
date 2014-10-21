@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-
-.factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
+module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   var defaultSortDirection = 'asc';
 
   var Sortation = function(sortation) {
@@ -128,4 +126,4 @@ angular.module('openproject.models')
   };
 
   return Sortation;
-}]);
+}

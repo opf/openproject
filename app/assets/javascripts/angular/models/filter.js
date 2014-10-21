@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-
-.constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.constant('SELECTABLE_FILTER_TYPES', ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'])
-.factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', 'SELECTABLE_FILTER_TYPES', function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
+module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
   Filter = function (data) {
     angular.extend(this, data);
 
@@ -103,4 +99,4 @@ angular.module('openproject.models')
   };
 
   return Filter;
-}]);
+}

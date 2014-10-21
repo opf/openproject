@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.api')
-
-.factory('HALAPIResource', ['$q', 'PathHelper', function HALAPIResource($q, PathHelper) {
+module.exports = function HALAPIResource($q, PathHelper) {
   'use strict';
 
   var HALAPIResource = {
@@ -45,4 +43,4 @@ angular.module('openproject.api')
   };
 
   return HALAPIResource;
-}]);
+};

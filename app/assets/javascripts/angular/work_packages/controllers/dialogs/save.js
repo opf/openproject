@@ -26,24 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('saveModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'SaveModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/save.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('SaveModalController', [
-  '$scope',
-  'saveModal',
-  'QueryService',
-  'AuthorisationService',
-  '$state',
-  function($scope, saveModal, QueryService, AuthorisationService, $state) {
+module.exports = function($scope, saveModal, QueryService, AuthorisationService, $state) {
 
   this.name    = 'Save';
   this.closeMe = saveModal.deactivate;
@@ -61,4 +44,4 @@ angular.module('openproject.workPackages.controllers')
         $scope.$emit('flashMessage', data.status);
       });
   };
-}]);
+}

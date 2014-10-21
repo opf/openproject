@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('progressBar', ['I18n', function(I18n) {
+module.exports = function(I18n) {
   return {
     restrict: 'EA',
     replace: true,
@@ -53,4 +51,4 @@ angular.module('openproject.uiComponents')
       });
     }
   };
-}]);
+}

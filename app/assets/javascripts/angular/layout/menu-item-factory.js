@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.layout')
-
 /**
  * menuItemFactory
  *
@@ -37,13 +35,7 @@ angular.module('openproject.layout')
  *
  * An example for setting up the factory is given in angular/layout/query-menu-items.js
  */
-.factory('menuItemFactory', [
-  '$rootScope',
-  '$compile',
-  '$http',
-  '$templateCache',
-  '$animate',
-  function($rootScope, $compile, $http, $templateCache, $animate) {
+module.exports = function($rootScope, $compile, $http, $templateCache, $animate) {
 
   return function(options) {
     if (!options.container) {
@@ -116,4 +108,4 @@ angular.module('openproject.layout')
       link: linkFn
     };
   };
-}]);
+}

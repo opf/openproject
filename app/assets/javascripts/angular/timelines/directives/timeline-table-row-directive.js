@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineTableRow', [function() {
+module.exports = function() {
   return {
     restrict: 'A',
     // TODO restrict to 'E' once https://github.com/angular/angular.js/issues/1459 is solved
@@ -49,4 +47,4 @@ angular.module('openproject.timelines.directives')
       });
     }
   };
-}]);
+}

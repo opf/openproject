@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('SortService', [function() {
+module.exports = function() {
   var sortOptions = {
     column: "",
     direction: ""
@@ -71,4 +69,4 @@ angular.module('openproject.services')
   };
 
   return SortService;
-}]);
+}

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.factory('WorkPackagesTableHelper', ['WorkPackagesHelper', function(WorkPackagesHelper) {
+module.exports = function(WorkPackagesHelper) {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
     buildRows: function(workPackages, groupBy) {
@@ -178,4 +176,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return WorkPackagesTableHelper;
-}]);
+}

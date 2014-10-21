@@ -27,15 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.constant('LABEL_MAX_CHARS', 40)
-.constant('KEY_CODES', {
-  enter: 13,
-  up: 38,
-  down: 40
-})
-.directive('selectableTitle', ['$sce', 'LABEL_MAX_CHARS', 'KEY_CODES', function($sce, LABEL_MAX_CHARS, KEY_CODES) {
+module.exports = function($sce, LABEL_MAX_CHARS, KEY_CODES) {
   return {
     restrict: 'E',
     replace: true,
@@ -242,4 +234,4 @@ angular.module('openproject.uiComponents')
       };
     }
   };
-}]);
+}

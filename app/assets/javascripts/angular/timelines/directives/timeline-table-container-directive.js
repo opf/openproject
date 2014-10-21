@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
-
+module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
 
   return {
     restrict: 'E',
@@ -174,4 +171,4 @@ angular.module('openproject.timelines.directives')
       renderTimeline();
     }
   };
-}]);
+}

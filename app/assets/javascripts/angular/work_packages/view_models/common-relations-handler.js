@@ -26,16 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.viewModels')
-
-.constant('MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', 3)
-
-.factory('CommonRelationsHandler', [
-    '$timeout',
-    'WorkPackageService',
-    'ApiHelper',
-    'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS',
-    function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
+module.exports = function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -136,79 +127,4 @@ angular.module('openproject.viewModels')
   };
 
   return CommonRelationsHandler;
-}])
-
-.factory('ChildrenRelationsHandler', ['PathHelper', 'CommonRelationsHandler', 'WorkPackageService',
-    function(PathHelper, CommonRelationsHandler, WorkPackageService) {
-
-    function ChildrenRelationsHandler(workPackage, children) {
-        var handler = new CommonRelationsHandler(workPackage, children, undefined);
-
-        handler.type = "child";
-        handler.applyCustomExtensions = undefined;
-
-        handler.canAddRelation = function() { return !!this.workPackage.links.addChild };
-        handler.canDeleteRelation = function() {
-          return !!this.workPackage.links.update;
-        };
-        handler.addRelation = function() {
-          window.location = this.workPackage.links.addChild.href
-        };
-        handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
-        handler.removeRelation = function(scope) {
-            var index = this.relations.indexOf(scope.relation);
-            var handler = this;
-
-            WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
-                handler.relations.splice(index, 1);
-                scope.updateFocus(index);
-            }, function(error) {
-                ApiHelper.handleError(scope, error);
-            });
-        };
-
-        return handler;
-    };
-
-    return ChildrenRelationsHandler;
-}])
-
-.factory('ParentRelationsHandler', ['CommonRelationsHandler', 'WorkPackageService', 'ApiHelper',
-    function(CommonRelationsHandler, WorkPackageService, ApiHelper) {
-    function ParentRelationsHandler(workPackage, parents, relationsId) {
-        var handler = new CommonRelationsHandler(workPackage, parents, relationsId);
-
-        handler.type = "parent";
-        handler.addRelation = undefined;
-        handler.isSingletonRelation = true;
-        handler.relationsId = relationsId;
-
-        handler.canAddRelation = function() { return !!this.workPackage.links.update; };
-        handler.canDeleteRelation = function() { return !!this.workPackage.links.update; };
-        handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
-        handler.addRelation = function(scope) {
-            WorkPackageService.updateWorkPackage(this.workPackage, {parentId: scope.relationToAddId}).then(function(workPackage) {
-                scope.relationToAddId = '';
-                scope.updateFocus(-1);
-                scope.$emit('workPackageRefreshRequired', '');
-            }, function(error) {
-                ApiHelper.handleError(scope, error);
-            });
-        };
-        handler.removeRelation = function(scope) {
-            var index = this.relations.indexOf(scope.relation);
-            var handler = this;
-
-            WorkPackageService.updateWorkPackage(scope.workPackage, {parentId: null}).then(function(response){
-                handler.relations.splice(index, 1);
-                scope.updateFocus(index);
-            }, function(error) {
-                ApiHelper.handleError(scope, error);
-            });
-        };
-
-        return handler;
-    }
-
-    return ParentRelationsHandler;
-}])
+}

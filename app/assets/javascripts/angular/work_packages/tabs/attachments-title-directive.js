@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('attachmentsTitle', [function(){
+module.exports = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -40,4 +38,4 @@ angular.module('openproject.workPackages.directives')
       scope.attachmentsTitle = I18n.t('js.work_packages.tabs.attachments') + " (" + scope.attachments.length + ")";
     }
   };
-}]);
+}

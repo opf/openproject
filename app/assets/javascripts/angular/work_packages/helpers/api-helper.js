@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.factory('ApiHelper', [function() {
+module.exports = function() {
   var ApiHelper = {
     handleError: function(scope, error) {
       scope.$emit('flashMessage', {
@@ -50,4 +48,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return ApiHelper;
-}]);
+}

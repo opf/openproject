@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.tabs')
-
-.directive('panelExpander', [function() {
+module.exports = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -39,4 +37,4 @@ angular.module('openproject.workPackages.tabs')
       collapseText: '@'
     }
   };
-}]);
+}

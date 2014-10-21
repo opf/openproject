@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('backUrl', [function() {
+module.exports = function() {
   return {
     restrict: 'E',
     templateUrl: '/templates/components/back_url.html',
   };
-}]);
+}

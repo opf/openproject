@@ -26,22 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('exportModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'ExportModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/export.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('ExportModalController', ['exportModal', 'QueryService', 'UrlParamsHelper',
-  function(exportModal, QueryService, UrlParamsHelper) {
+module.exports = function(exportModal, QueryService, UrlParamsHelper) {
   this.name    = 'Export';
   var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;
 
   this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
-}]);
+}

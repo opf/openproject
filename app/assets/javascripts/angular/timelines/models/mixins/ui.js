@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('UI', ['$timeout', function($timeout) {
+module.exports = function($timeout) {
 
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ UI and Plotting                                                   │
@@ -1023,4 +1021,4 @@ angular.module('openproject.timelines.models')
   };
 
   return UI;
-}]);
+}

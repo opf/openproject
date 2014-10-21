@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.controllers')
-
-.controller('TimelinesController', ['$scope', function($scope) {
+module.exports = function($scope) {
   // Setup
 
   // Get server-side stuff into scope
@@ -37,4 +35,4 @@ angular.module('openproject.timelines.controllers')
   // Count timeline containers
   $scope.timelineContainerCount = 0;
 
-}]);
+}

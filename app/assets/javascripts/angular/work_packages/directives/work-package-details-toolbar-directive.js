@@ -26,20 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move', 'delete'])
-
-.directive('workPackageDetailsToolbar', [
-  'PERMITTED_MORE_MENU_ACTIONS',
-  '$state',
-  '$window',
-  'I18n',
-  'HookService',
-  'WorkPackageService',
-  'WorkPackageAuthorization',
-  'PathHelper',
-  function(PERMITTED_MORE_MENU_ACTIONS,
+module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
            $state,
            $window,
            I18n,
@@ -122,4 +109,4 @@ angular.module('openproject.workPackages.directives')
       }
     }
   };
-}]);
+}

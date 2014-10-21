@@ -26,16 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackagesTable', [
-  'I18n',
-  'WorkPackagesTableService',
-  '$window',
-  '$timeout',
-  'flags',
-  'PathHelper',
-  function(I18n, WorkPackagesTableService, $window, $timeout, flags, PathHelper){
+module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, flags, PathHelper){
 
   return {
     restrict: 'E',
@@ -201,4 +192,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('sortHeader', [
-  'I18n',
-  function(I18n){
+module.exports = function(I18n){
 
   return {
     restrict: 'A',
@@ -80,4 +76,4 @@ angular.module('openproject.workPackages.directives')
 
     }
   };
-}]);
+}
