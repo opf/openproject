@@ -37,16 +37,35 @@ namespace :backup do
       args.with_defaults(:path_to_backup => default_db_filename)
       FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
 
-      conn = ActiveRecord::Base.connection
-      case conn.adapter_name
-      when /PotsgreSQL/i
-        raise "Database '#{conn.adapter_name}' not supported."
+      config = database_configuration
+      case config['adapter']
+      when /PostgreSQL/i
+        with_pg_config(config) do |config_file|
+          pg_dump_call = ['pg_dump',
+                          '--clean',
+                          "--file=#{args[:path_to_backup]}",
+                          '--format=custom',
+                          '--no-owner',
+                          "#{config['database']}"]
+          pg_dump_call << "--host=#{config['host']}" if config['host']
+          pg_dump_call << "--port=#{config['port']}" if config['port']
+          user = config.values_at('user', 'username').compact.first
+          pg_dump_call << "--username=#{user}" if user
+
+          system({'PGPASSFILE' => config_file}, *pg_dump_call)
+        end
       when /MySQL2/i
-        with_mysql_config do |config_file|
-          system "mysqldump --defaults-file=\"#{config_file}\" --single-transaction \"#{database_name}\" | gzip > \"#{args[:path_to_backup]}\""
+        with_mysql_config(config) do |config_file|
+          system 'mysqldump',
+                 "--defaults-file=#{config_file}",
+                 '--single-transaction',
+                 '--add-drop-table',
+                 '--add-locks',
+                 "--result-file=#{args[:path_to_backup]}.sql",
+                 "#{config['database']}"
         end
       else
-        raise "Database '#{conn.adapter_name}' not supported."
+        raise "Database '#{config['adapter']}' not supported."
       end
     end
 
@@ -55,34 +74,54 @@ namespace :backup do
       raise "You must provide the path to the database dump" unless args[:path_to_backup]
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
-      conn = ActiveRecord::Base.connection
-      case conn.adapter_name
-      when /PotsgreSQL/i
-        raise "Database '#{conn.adapter_name}' not supported."
+      config = database_configuration
+      case config['adapter']
+      when /PostgreSQL/i
+        with_pg_config(config) do |config_file|
+          pg_restore_call = ['pg_restore',
+                       '--clean',
+                       '--no-owner',
+                       '--single-transaction',
+                       "--dbname=#{config['database']}"]
+          pg_restore_call << "--host=#{config['host']}" if config['host']
+          pg_restore_call << "--port=#{config['port']}" if config['port']
+          user = config.values_at('user', 'username').compact.first
+          pg_restore_call << "--username=#{user}" if user
+          pg_restore_call << "#{args[:path_to_backup]}"
+
+          system({'PGPASSFILE' => config_file}, *pg_restore_call)
+        end
       when /MySQL2/i
-        with_mysql_config do |config_file|
-          system "gzip -d < \"#{args[:path_to_backup]}\" | mysql --defaults-file=\"#{config_file}\" \"#{database_name}\""
+        with_mysql_config(config) do |config_file|
+          system "mysql --defaults-file=\"#{config_file}\" \"#{config['database']}\" < \"#{args[:path_to_backup]}\""
         end
       else
-        raise "Database '#{conn.adapter_name}' not supported."
+        raise "Database '#{config['adapter']}' not supported."
       end
     end
 
     private
-    def with_mysql_config(&blk)
-        file = Tempfile.new('op_mysql_config')
-        file.write sql_dump_tempfile
-        file.close
-        blk.yield file.path
-        file.unlink
+    def database_configuration
+      ActiveRecord::Base.configurations[Rails.env]
     end
 
-    def database_name
-      ActiveRecord::Base.configurations[Rails.env]['database']
+    def with_pg_config(config, &blk)
+      file = Tempfile.new('op_pg_config')
+      file.write "*:*:*:*:#{config['password']}"
+      file.close
+      blk.yield file.path
+      file.unlink
     end
 
-    def sql_dump_tempfile
-      config = ActiveRecord::Base.configurations[Rails.env]
+    def with_mysql_config(config, &blk)
+      file = Tempfile.new('op_mysql_config')
+      file.write sql_dump_tempfile(config)
+      file.close
+      blk.yield file.path
+      file.unlink
+    end
+
+    def sql_dump_tempfile(config)
       t =  "[client]\n"
       t << "password=\"#{config['password']}\"\n"
       t << "user=\"#{config.values_at('user', 'username').compact.first}\"\n"
@@ -95,7 +134,7 @@ namespace :backup do
     end
 
     def default_db_filename
-      Rails.root.join('backup', "openproject-#{sanitize_filename(Rails.env.to_s)}-db-#{date_string}.sql.zip")
+      Rails.root.join('backup', "openproject-#{sanitize_filename(Rails.env.to_s)}-db-#{date_string}")
     end
 
     def date_string
