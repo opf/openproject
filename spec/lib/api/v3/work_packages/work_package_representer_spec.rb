@@ -86,4 +86,27 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
   end
+
+  describe 'costs module disabled' do
+    before do
+      project.enabled_module_names = project.enabled_module_names - ['costs_module']
+      project.save!
+    end
+
+    describe 'work_package' do
+      it { should_not have_json_path('spentHours') }
+
+      it { should_not have_json_path('overallCosts') }
+
+      describe 'embedded' do
+        it { should_not have_json_path('_embedded/costObject') }
+
+        it { should_not have_json_path('_embedded/summarizedCostEntries') }
+      end
+    end
+
+    describe '_links' do
+      it { should_not have_json_path('_links/log_costs') }
+    end
+  end
 end
