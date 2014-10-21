@@ -259,14 +259,25 @@ h4. things we like
         end
       end
 
-      context 'update with read-only attributes' do
-        let(:params) do
-          valid_params.merge({ startDate: DateTime.now.utc.iso8601 })
-        end
-
+      describe 'update with read-only attributes' do
         include_context 'patch request'
 
-        it_behaves_like 'read-only violation', ['startDate']
+        context 'single read-only attribute' do
+          let(:params) { valid_params.merge({ startDate: DateTime.now.utc.iso8601 }) }
+
+          it_behaves_like 'read-only violation', 'startDate'
+        end
+
+        context 'multiple read-only attributes' do
+          let(:params) do
+            valid_params.merge({ startDate: DateTime.now.utc.iso8601,
+                                 dueDate: DateTime.now.utc.iso8601 })
+          end
+
+          it_behaves_like 'multiple errors', 422, "You must not write a read-only attribute"
+
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
+        end
       end
 
       context 'valid update' do

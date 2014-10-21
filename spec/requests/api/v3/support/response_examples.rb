@@ -70,8 +70,24 @@ shared_examples_for 'constraint violation' do |message|
                                     message
 end
 
-shared_examples_for 'read-only violation' do |attributes|
+shared_examples_for 'read-only violation' do |attribute|
   it_behaves_like 'error response', 422,
                                     'PropertyIsReadOnly',
-                                    "You must not write the following attributes: #{attributes.join(', ')}"
+                                    "You must not write a read-only attribute"
+end
+
+shared_examples_for 'multiple errors' do |code, message|
+  it_behaves_like 'error response', code, 'MultipleErrors', message
+end
+
+shared_examples_for 'multiple errors of the same type' do |error_count, id|
+  subject { JSON.parse(last_response.body)['_embedded']['errors'] }
+
+  it { expect(subject.count).to eq(error_count) }
+
+  it 'has child errors of expected type' do
+    subject.each do |error|
+      expect(error['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}")
+    end
+  end
 end
