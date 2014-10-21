@@ -724,6 +724,13 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Statuses
 
+**NOTE**: only `id` and `name` are implemented
+
+## Links:
+|  Link  | Description | Type   | Constraints | Supported operations |
+|:------:|-------------| ------ | ----------- | -------------------- |
+| self   | This status | Status | not null    | READ |
+
 ## Properties
 | Property | Description | Type    | Constraints | Example | Supported operations |
 |:--------:|-------------| ------- | ----------- | ------- | -------------------- |
@@ -742,46 +749,124 @@ Updates an activity's comment and, on success, returns the updated activity.
     + Body
     
             {
-                _links:
+                "_links":
                 {
-                    self:
+                    "self":
                     {
-                        href: "/api/v3/statuses"
+                        "href": "/api/v3/statuses"
                     }
                 },
-                _type: "Statuses",
-                _embedded:
+                "_type": "Statuses",
+                "_embedded":
                 {
-                    statuses: [
+                    "statuses": [
                         {
-                            _type: "Status",
-                            id: 1,
-                            name: "New"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/1"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 1,
+                            "name": "New",
+                            "position": 1,
+                            "isDefault": true,
+                            "isClosed": false,
+                            "defaultDoneRatio": 0,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 3,
-                            name: "Resolved"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/3"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 3,
+                            "name": "Resolved",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 75,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 4,
-                            name: "Feedback"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/4"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 4,
+                            "name": "Feedback",
+                            "position": 4,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 25,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 5,
-                            name: "Closed"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/5"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 5,
+                            "name": "Closed",
+                            "position": 5,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 6,
-                            name: "Rejected"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/6"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 6,
+                            "name": "Rejected",
+                            "position": 6,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 2,
-                            name: "In Progress"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/2"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 2,
+                            "name": "In Progress",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 50,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         }
                     ]
                 }
@@ -792,6 +877,37 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Statuses][]
+    
+## Status [/statuses/{id}]
+
++ Model
+    + Body
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/statuses/1"
+                    }
+                },
+                "_type": "Status",
+                "id": 1,
+                "name": "New",
+                "position": 1,
+                "isDefault": true,
+                "isClosed": false,
+                "defaultDoneRatio": 0,
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T09:12:00Z"
+            }
+            
+## View Status [GET]
+
+**NOT IMPLEMENTED**
+
++ Response 200 (application/hal+json)
+
+    [Status][]
     
 # Group Users
 
