@@ -30,12 +30,10 @@
 module API
   module Errors
     class Validation < ErrorBase
-      IDENTIFIER = 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
-
       def initialize(obj)
         message = obj.nil? ? '' : obj.errors.full_messages
 
-        super 422, IDENTIFIER, message
+        super 422, message
       end
     end
   end

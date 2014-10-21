@@ -30,10 +30,8 @@
 module API
   module Errors
     class NotFound < ErrorBase
-      IDENTIFIER = 'urn:openproject-org:api:v3:errors:NotFound'
-
       def initialize(message)
-        super 404, IDENTIFIER, message
+        super 404, message
       end
     end
   end

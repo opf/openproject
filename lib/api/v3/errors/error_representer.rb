@@ -40,11 +40,24 @@ module API
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
-        property :errorIdentifier, getter: -> (*) { identifier }, render_nil: true
+        property :error_identifier, exec_context: :decorator, render_nil: true
         property :message, getter: -> (*) { message }, render_nil: true
 
         def _type
           'Error'
+        end
+
+        def error_identifier
+          case represented
+          when ::API::Errors::NotFound
+            'urn:openproject-org:api:v3:errors:NotFound'
+          when ::API::Errors::Unauthenticated, ::API::Errors::Unauthorized
+            'urn:openproject-org:api:v3:errors:MissingPermission'
+          when ::API::Errors::UnwritableProperty
+            'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
+          when ::API::Errors::Validation
+            'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
+          end
         end
       end
     end

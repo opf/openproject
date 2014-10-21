@@ -30,10 +30,8 @@
 module API
   module Errors
     class Unauthorized < ErrorBase
-      IDENTIFIER = 'urn:openproject-org:api:v3:errors:MissingPermission'
-
       def initialize
-        super 403, IDENTIFIER, 'You are not authorize to access this resource'
+        super 403, 'You are not authorize to access this resource'
       end
     end
   end

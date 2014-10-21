@@ -30,10 +30,8 @@
 module API
   module Errors
     class Unauthenticated < ErrorBase
-      IDENTIFIER = 'urn:openproject-org:api:v3:errors:MissingPermission'
-
       def initialize
-        super 401, IDENTIFIER, 'You need to be authenticated to access this resource'
+        super 401, 'You need to be authenticated to access this resource'
       end
     end
   end
