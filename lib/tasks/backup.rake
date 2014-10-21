@@ -52,7 +52,11 @@ namespace :backup do
           user = config.values_at('user', 'username').compact.first
           pg_dump_call << "--username=#{user}" if user
 
-          Kernel.system({'PGPASSFILE' => config_file}, *pg_dump_call)
+          if config['password']
+            Kernel.system({'PGPASSFILE' => config_file}, *pg_dump_call)
+          else
+            Kernel.system(*pg_dump_call)
+          end
         end
       when /MySQL2/i
         with_mysql_config(config) do |config_file|
@@ -89,7 +93,11 @@ namespace :backup do
           pg_restore_call << "--username=#{user}" if user
           pg_restore_call << "#{args[:path_to_backup]}"
 
-          Kernel.system({'PGPASSFILE' => config_file}, *pg_restore_call)
+          if config['password']
+            Kernel.system({'PGPASSFILE' => config_file}, *pg_restore_call)
+          else
+            Kernel.system(*pg_restore_call)
+          end
         end
       when /MySQL2/i
         with_mysql_config(config) do |config_file|
