@@ -87,7 +87,7 @@ module API
 
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
-              check_work_package_attributes # fails if request contains invalid attributes
+              check_work_package_attributes # fails if request contains read-only attributes
               check_parent_update # fails if parent update is invalid
 
               @representer.from_json(work_package_attributes.to_json)
