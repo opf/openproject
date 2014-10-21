@@ -878,6 +878,20 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Statuses][]
     
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+    
+    **Required permission:** view workpackage (on any project)
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the statuses."
+            }
+    
 ## Status [/statuses/{id}]
 
 + Model
@@ -908,6 +922,20 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Status][]
+    
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+    
+    **Required permission:** view workpackage (on any project)
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this status."
+            }
     
 # Group Users
 
