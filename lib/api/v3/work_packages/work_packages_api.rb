@@ -45,6 +45,12 @@ module API
                 attributes = JSON.parse(env['api.request.input'])
 
                 authorize(:manage_subtasks, context: @work_package.project) if attributes.include? 'parentId'
+
+                parent_id = attributes['parentId'].blank? ? nil : attributes['parentId'].to_i
+
+                if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
+                  fail Errors::Validation.new(nil, { message: "Parent work package does not exist!" } )
+                end
               end
             end
 
