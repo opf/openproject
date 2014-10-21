@@ -176,6 +176,14 @@ module API
           } if current_user_allowed_to(:add_work_packages, represented.model)
         end
 
+        link :changeParent do
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}",
+            method: :patch,
+            title: "Change parent of #{represented.subject}"
+          } if current_user_allowed_to(:manage_subtasks, represented.model)
+        end
+
         link :addComment do
           {
               href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",

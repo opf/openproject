@@ -312,6 +312,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:permission) { :move_work_packages }
         end
       end
+
+      describe 'changeParent' do
+        it_behaves_like 'action link' do
+          let(:action) { 'changeParent' }
+          let(:permission) { :manage_subtasks }
+        end
+      end
     end
 
     describe '_embedded' do
