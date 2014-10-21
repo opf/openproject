@@ -40,6 +40,12 @@ module API
 
             helpers do
               attr_reader :work_package
+
+              def check_parent_update
+                attributes = JSON.parse(env['api.request.input'])
+
+                authorize(:manage_subtasks, context: @work_package.project) if attributes.include? 'parentId'
+              end
             end
 
             before do
@@ -55,6 +61,8 @@ module API
 
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
+              check_parent_update # fails if parent update is invalid
+
               @representer.from_json(env['api.request.input'])
               @representer.represented.sync
               if @representer.represented.model.valid? && @representer.represented.save
