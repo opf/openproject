@@ -134,12 +134,11 @@ namespace :backup do
     end
 
     def default_db_filename
-      Rails.root.join('backup', "openproject-#{sanitize_filename(Rails.env.to_s)}-db-#{date_string}")
+      Rails.root.join('backup', sanitize_filename("openproject-#{Rails.env.to_s}-db-#{date_string}"))
     end
 
     def date_string
-      time = Time.now.strftime('%Y%m%dT%H%M%S%z') # e.g. "20141020T165335+0200"
-      sanitize_filename(time)
+      Time.now.strftime('%Y%m%dT%H%M%S%z') # e.g. "20141020T165335+0200"
     end
 
     def sanitize_filename(filename)
