@@ -372,7 +372,7 @@ module WorkPackage::PdfExporter
     end
 
     def fix_text_encoding(txt)
-      txt
+      txt.force_encoding('ASCII-8BIT')
     end
 
     def Footer
