@@ -52,17 +52,17 @@ namespace :backup do
           user = config.values_at('user', 'username').compact.first
           pg_dump_call << "--username=#{user}" if user
 
-          system({'PGPASSFILE' => config_file}, *pg_dump_call)
+          Kernel.system({'PGPASSFILE' => config_file}, *pg_dump_call)
         end
       when /MySQL2/i
         with_mysql_config(config) do |config_file|
-          system 'mysqldump',
-                 "--defaults-file=#{config_file}",
-                 '--single-transaction',
-                 '--add-drop-table',
-                 '--add-locks',
-                 "--result-file=#{args[:path_to_backup]}.sql",
-                 "#{config['database']}"
+          Kernel.system 'mysqldump',
+                        "--defaults-file=#{config_file}",
+                        '--single-transaction',
+                        '--add-drop-table',
+                        '--add-locks',
+                        "--result-file=#{args[:path_to_backup]}.sql",
+                        "#{config['database']}"
         end
       else
         raise "Database '#{config['adapter']}' not supported."
@@ -89,11 +89,11 @@ namespace :backup do
           pg_restore_call << "--username=#{user}" if user
           pg_restore_call << "#{args[:path_to_backup]}"
 
-          system({'PGPASSFILE' => config_file}, *pg_restore_call)
+          Kernel.system({'PGPASSFILE' => config_file}, *pg_restore_call)
         end
       when /MySQL2/i
         with_mysql_config(config) do |config_file|
-          system "mysql --defaults-file=\"#{config_file}\" \"#{config['database']}\" < \"#{args[:path_to_backup]}\""
+          Kernel.system "mysql --defaults-file=\"#{config_file}\" \"#{config['database']}\" < \"#{args[:path_to_backup]}\""
         end
       else
         raise "Database '#{config['adapter']}' not supported."
