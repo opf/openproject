@@ -32,7 +32,7 @@ require 'fileutils'
 
 namespace :backup do
   namespace :database do
-    desc "Creates a database dump which can be used as a backup.\n"
+    desc 'Creates a database dump which can be used as a backup.'
     task :create, [:path_to_backup] => [:environment] do |task, args|
       args.with_defaults(:path_to_backup => default_db_filename)
       FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
@@ -69,9 +69,9 @@ namespace :backup do
       end
     end
 
-    desc "Restores a database dump created by the :create task.\n"
+    desc 'Restores a database dump created by the :create task.'
     task :restore, [:path_to_backup] => [:environment] do |task, args|
-      raise "You must provide the path to the database dump" unless args[:path_to_backup]
+      raise 'You must provide the path to the database dump' unless args[:path_to_backup]
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
       config = database_configuration

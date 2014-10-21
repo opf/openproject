@@ -46,14 +46,14 @@ describe 'mysql' do
 
     it 'calls the mysqldump binary' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args.first).to eql('mysqldump') 
+        expect(args.first).to eql('mysqldump')
       end
       subject.invoke
     end
 
     it 'writes the mysql config file' do
       expect(Kernel).to receive(:system) do |*args|
-        defaults_file = args.find {|s| s.starts_with? '--defaults-file='}
+        defaults_file = args.find { |s| s.starts_with? '--defaults-file=' }
         defaults_file = defaults_file[('--defaults-file='.length)..-1]
         expect(File.readable?(defaults_file)).to be true
 
@@ -67,8 +67,8 @@ describe 'mysql' do
     it 'uses the first task parameter as the target filename' do
       custom_file_path = './foo/bar/testfile.sql'
       expect(Kernel).to receive(:system) do |*args|
-        result_file = args.find {|s| s.starts_with? '--result-file='}
-        expect(result_file).to include(custom_file_path) 
+        result_file = args.find { |s| s.starts_with? '--result-file=' }
+        expect(result_file).to include(custom_file_path)
       end
       subject.invoke custom_file_path
     end
@@ -87,7 +87,7 @@ describe 'mysql' do
 
     it 'calls the mysql binary' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args.first).to start_with('mysql') 
+        expect(args.first).to start_with('mysql')
       end
       subject.invoke backup_file.path
     end
@@ -106,7 +106,7 @@ describe 'mysql' do
 
     it 'uses the first task parameter as the target filename' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args.first).to include(backup_file.path) 
+        expect(args.first).to include(backup_file.path)
       end
       subject.invoke backup_file.path
     end
@@ -135,7 +135,7 @@ describe 'postgresql' do
 
     it 'calls the pg_dump binary' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args[1]).to eql('pg_dump') 
+        expect(args[1]).to eql('pg_dump')
       end
       subject.invoke
     end
@@ -154,8 +154,8 @@ describe 'postgresql' do
     it 'uses the first task parameter as the target filename' do
       custom_file_path = './foo/bar/testfile.sql'
       expect(Kernel).to receive(:system) do |*args|
-        result_file = args.find {|s| s.to_s.starts_with? '--file='}
-        expect(result_file).to include(custom_file_path) 
+        result_file = args.find { |s| s.to_s.starts_with? '--file=' }
+        expect(result_file).to include(custom_file_path)
       end
       subject.invoke custom_file_path
     end
@@ -174,7 +174,7 @@ describe 'postgresql' do
 
     it 'calls the pg_restore binary' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args[1]).to start_with('pg_restore') 
+        expect(args[1]).to start_with('pg_restore')
       end
       subject.invoke backup_file.path
     end
@@ -192,7 +192,7 @@ describe 'postgresql' do
 
     it 'uses the first task parameter as the target filename' do
       expect(Kernel).to receive(:system) do |*args|
-        expect(args.last).to eql(backup_file.path) 
+        expect(args.last).to eql(backup_file.path)
       end
       subject.invoke backup_file.path
     end
