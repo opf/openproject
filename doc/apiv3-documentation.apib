@@ -1018,6 +1018,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 |:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
 | self         | This work package                        | WorkPackage | not null    | READ                 |
 | author       | The person that created the work package | User        | not null    | READ                 |
+| status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
 | changeParent | Endpoint to change the parent (requires *manage_subtasks* permission) | Action | | READ     |
 
 ## Properties:
@@ -1030,7 +1031,6 @@ Updates an activity's comment and, on success, returns the updated activity.
 | description | Work package description | String | | Projects module should be refactored ... | READ |
 | rawDescription | | String | | | READ |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
-| status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
 | dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
@@ -1088,6 +1088,10 @@ Updates an activity's comment and, on success, returns the updated activity.
                         "href": "/api/v3/users/11",
                         "title": "Emmie Okuneva - Adele5450"
                     },
+                    "status": {
+                        "href": "/api/v3/statuses/1",
+                        "title": "New"
+                    },
                     "availableStatuses": {
                         "href": "/api/v3/work_packages/1528/available_statuses",
                         "title": "Available Statuses"
@@ -1141,7 +1145,6 @@ Updates an activity's comment and, on success, returns the updated activity.
                 "type": "Feature",
                 "description": "<p>Develop super cool OpenProject API.</p>",
                 "rawDescription": "Develop super cool OpenProject API.",
-                "status": "New",
                 "isClosed": false,
                 "priority": "Normal",
                 "startDate": null,
