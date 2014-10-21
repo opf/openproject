@@ -49,7 +49,8 @@ module API
                 parent_id = attributes['parentId'].blank? ? nil : attributes['parentId'].to_i
 
                 if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
-                  fail Errors::Validation.new(nil, { message: "Parent work package does not exist!" } )
+                  @work_package.errors.add(:parent_id, :not_a_valid_parent)
+                  fail Errors::Validation.new(@work_package)
                 end
               end
             end
