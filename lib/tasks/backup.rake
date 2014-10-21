@@ -45,12 +45,12 @@ namespace :backup do
                           '--clean',
                           "--file=#{args[:path_to_backup]}",
                           '--format=custom',
-                          '--no-owner',
-                          "#{config['database']}"]
+                          '--no-owner']
           pg_dump_call << "--host=#{config['host']}" if config['host']
           pg_dump_call << "--port=#{config['port']}" if config['port']
           user = config.values_at('user', 'username').compact.first
           pg_dump_call << "--username=#{user}" if user
+          pg_dump_call << "#{config['database']}"
 
           if config['password']
             Kernel.system({'PGPASSFILE' => config_file}, *pg_dump_call)
