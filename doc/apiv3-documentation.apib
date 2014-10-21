@@ -901,7 +901,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Work package id | Integer | Must be a positive integer | 12 | READ |
 | lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
-| subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
+| subject | Work package subject | String | not null; 1 <= length <= 255 | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ / WRITE |
 | description | Work package description | String | | Projects module should be refactored ... | READ / WRITE |
 | rawDescription | | String | | | READ / WRITE |
