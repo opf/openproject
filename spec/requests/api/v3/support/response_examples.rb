@@ -71,6 +71,12 @@ shared_examples_for 'constraint violation' do |message|
 end
 
 shared_examples_for 'read-only violation' do |attribute|
+  describe 'details' do
+    subject { JSON.parse(last_response.body)['_embedded']['details'] }
+
+    it { expect(subject['attribute']).to eq(attribute) }
+  end
+
   it_behaves_like 'error response', 422,
                                     'PropertyIsReadOnly',
                                     "You must not write a read-only attribute"
@@ -88,6 +94,25 @@ shared_examples_for 'multiple errors of the same type' do |error_count, id|
   it 'has child errors of expected type' do
     subject.each do |error|
       expect(error['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}")
+    end
+  end
+end
+
+shared_examples_for 'multiple errors of the same type with details' do |expected_details, expected_detail_values|
+  let(:errors) { JSON.parse(last_response.body)['_embedded']['errors'] }
+  let(:details) { errors.each_with_object([]) { |error, l| l << error['_embedded']['details'] }.compact }
+
+  subject do
+    details.inject({}) do |h, d|
+      h.merge(d) { |key, old, new| Array(old) + Array(new) }
+    end
+  end
+
+  it { expect(subject.keys).to match_array(Array(expected_details)) }
+
+  it 'contains all expected values' do
+    Array(expected_details).each do |detail|
+      expect(subject[detail]).to match_array(Array(expected_detail_values[detail]))
     end
   end
 end

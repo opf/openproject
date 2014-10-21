@@ -277,6 +277,10 @@ h4. things we like
           it_behaves_like 'multiple errors', 422, "You must not write a read-only attribute"
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
+
+          it_behaves_like 'multiple errors of the same type with details',
+                          'attribute',
+                          { 'attribute' => ['startDate', 'dueDate'] }
         end
       end
 
