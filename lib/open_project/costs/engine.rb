@@ -113,7 +113,7 @@ module OpenProject::Costs
           href: new_work_packages_cost_entry_path(represented.model),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if current_user_allowed_to(:log_costs, represented.model)
+        } if costs_enabled && current_user_allowed_to(:log_costs, represented.model)
       end
 
       property :cost_object,
@@ -121,15 +121,20 @@ module OpenProject::Costs
                embedded: true,
                class: ::API::V3::CostObjects::CostObjectModel,
                decorator: ::API::V3::CostObjects::CostObjectRepresenter,
-               if: -> (*) { !represented.model.cost_object.nil? }
+               if: -> (*) { costs_enabled && !represented.model.cost_object.nil? }
 
       property :spent_hours,
                exec_context: :decorator,
-               if: -> (*) { current_user_allowed_to_view_spent_hours }
+               if: -> (*) { costs_enabled && current_user_allowed_to_view_spent_hours }
 
-      property :overall_costs, exec_context: :decorator
+      property :overall_costs,
+               exec_context: :decorator,
+               if: -> (*) { costs_enabled }
 
-      property :summarized_cost_entries, embedded: true, exec_context: :decorator
+      property :summarized_cost_entries,
+               embedded: true,
+               exec_context: :decorator,
+               if: -> (*) { costs_enabled }
 
       send(:define_method, :cost_object) do
         ::API::V3::CostObjects::CostObjectModel.new(represented.model.cost_object)
@@ -156,6 +161,10 @@ module OpenProject::Costs
 
       send(:define_method, :attributes_helper) do
         @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented.model)
+      end
+
+      send(:define_method, :costs_enabled) do
+        represented.model.project && represented.model.project.module_enabled?(:costs_module)
       end
     end
 
