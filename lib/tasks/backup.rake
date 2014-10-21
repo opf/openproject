@@ -65,7 +65,7 @@ namespace :backup do
                         '--single-transaction',
                         '--add-drop-table',
                         '--add-locks',
-                        "--result-file=#{args[:path_to_backup]}.sql",
+                        "--result-file=#{args[:path_to_backup]}",
                         "#{config['database']}"
         end
       else
@@ -142,7 +142,14 @@ namespace :backup do
     end
 
     def default_db_filename
-      Rails.root.join('backup', sanitize_filename("openproject-#{Rails.env.to_s}-db-#{date_string}"))
+      filename = "openproject-#{Rails.env.to_s}-db-#{date_string}"
+      case database_configuration['adapter']
+      when /PostgreSQL/i
+        filename << '.backup'
+      else
+        filename << '.sql'
+      end
+      Rails.root.join('backup', sanitize_filename(filename))
     end
 
     def date_string
