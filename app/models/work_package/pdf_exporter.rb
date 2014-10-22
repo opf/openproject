@@ -434,12 +434,21 @@ module WorkPackage::PdfExporter
     def fix_text_encoding(txt)
       # these quotation marks are not correctly rendered in the pdf
       txt = txt.gsub(/[â€œâ€�]/, '"') if txt
+      encoding = case current_language.to_s.downcase
+        when 'ko'    then "CP949"
+        when 'ja'    then "CP932"
+        when 'zh'    then "gb18030"
+        when 'zh-tw' then "Big5"
+        when 'th'    then "cp874"
+        else
+          raise
+        end
       txt = begin
         # 0x5c char handling
         txtar = txt.split('\\')
         txtar << '' if txt[-1] == ?\\
         txtar.collect {|x|
-          Redmine::CodesetUtil.from_utf8(x, l(:general_pdf_encoding)).
+          Redmine::CodesetUtil.from_utf8(x, encoding).
             force_encoding('ASCII-8BIT')
         }.join('\\').gsub(/\\/, "\\\\\\\\")
       rescue
