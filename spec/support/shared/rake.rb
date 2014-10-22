@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,48 +26,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
+# Origins from http://robots.thoughtbot.com/test-rake-tasks-like-a-boss
+# Author: Josh Clayton
 
-module OpenProject
-  module VERSION #:nodoc:
+require 'rake'
 
-    MAJOR = 4
-    MINOR = 1
-    PATCH = 0
-    TINY  = PATCH # Redmine compat
+shared_context 'rake' do
+  let(:rake)      { Rake::Application.new }
+  let(:task_name) { self.class.description }
+  let(:task_path) { "lib/tasks/#{task_name.split(':').first}" }
+  subject         { rake[task_name] }
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
+  def loaded_files_excluding_current_rake_file
+    $".reject { |file| file == Rails.root.join("#{task_path}.rake").to_s }
+  end
 
-    def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
-      end
-    end
+  before do
+    Rake.application = rake
+    Rake.application.rake_require(task_path, [Rails.root.to_s], loaded_files_excluding_current_rake_file)
 
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
+    Rake::Task.define_task(:environment)
   end
 end

@@ -40,6 +40,19 @@ module API
 
             helpers do
               attr_reader :work_package
+
+              def check_parent_update
+                attributes = JSON.parse(env['api.request.input'])
+
+                authorize(:manage_subtasks, context: @work_package.project) if attributes.include? 'parentId'
+
+                parent_id = attributes['parentId'].blank? ? nil : attributes['parentId'].to_i
+
+                if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
+                  @work_package.errors.add(:parent_id, :not_a_valid_parent)
+                  fail Errors::Validation.new(@work_package)
+                end
+              end
             end
 
             before do
@@ -53,19 +66,18 @@ module API
               @representer
             end
 
-            # disabled to prevent security risks caused by missing setter restrictions
-            # see https://community.openproject.org/work_packages/16768
-            # don't forget to re-enable the tests after uncommenting ;-)
-            #patch do
-            #  authorize(:edit_work_packages, context: @work_package.project)
-            #  @representer.from_json(env['api.request.input'])
-            #  @representer.represented.sync
-            #  if @representer.represented.model.valid? && @representer.represented.save
-            #    @representer
-            #  else
-            #    fail Errors::Validation.new(@representer.represented.model)
-            #  end
-            #end
+            patch do
+              authorize(:edit_work_packages, context: @work_package.project)
+              check_parent_update # fails if parent update is invalid
+
+              @representer.from_json(env['api.request.input'])
+              @representer.represented.sync
+              if @representer.represented.model.valid? && @representer.represented.save
+                @representer
+              else
+                fail Errors::Validation.new(@representer.represented.model)
+              end
+            end
 
             resource :activities do
 

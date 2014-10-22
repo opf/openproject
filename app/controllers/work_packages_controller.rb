@@ -67,7 +67,7 @@ class WorkPackagesController < ApplicationController
   # disabled.
   DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
                                      :date, :percentageDone, :priority,
-                                     :category, :estimatedTime, :versionName, :spentTime]
+                                     :category, :estimatedTime, :versionName, :spentTime].freeze
 
   def show
     respond_to do |format|
@@ -464,7 +464,14 @@ class WorkPackagesController < ApplicationController
 
   def enabled_default_work_package_properties
     @enabled_default_work_package_properties ||= begin
-                                                   properties = DEFAULT_WORK_PACKAGE_PROPERTIES
+                                                   # Need to dup here because
+                                                   # otherwise the contant
+                                                   # would be altered which is
+                                                   # retained between requests.
+                                                   # Changes to the constant
+                                                   # would therefore be kept by
+                                                   # the process.
+                                                   properties = DEFAULT_WORK_PACKAGE_PROPERTIES.dup
                                                    properties.delete(:percentageDone) if Setting.work_package_done_ratio == 'disabled'
                                                    properties
                                                  end
