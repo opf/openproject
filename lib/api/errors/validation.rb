@@ -31,9 +31,11 @@ module API
   module Errors
     class Validation < ErrorBase
       def initialize(obj)
-        message = obj.nil? ? '' : obj.errors.full_messages
+        messages = obj.respond_to?(:errors) ? obj.errors.full_messages : Array(obj)
 
-        super 422, message
+        super 422, (messages.length == 1) ? messages[0] : 'Multiple fields violated their constraints.'
+
+        messages.each { |m| @errors << Validation.new(m) } if messages.length > 1
       end
     end
   end
