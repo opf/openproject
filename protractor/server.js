@@ -57,7 +57,7 @@ app.use('/bower_components', express.static(railsRoot +
   '/vendor/assets/components'));
 app.use('/assets/angular-busy', express.static(railsRoot +
   '/vendor/assets/components/angular-busy'));
-app.get('/work_packages', function(req, res) {
+app.get('/work_packages*', function(req, res) {
   fs.readFile(__dirname + '/index.html', 'utf8', function(err,
     text) {
     res.send(text);
