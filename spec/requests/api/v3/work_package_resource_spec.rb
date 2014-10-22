@@ -217,6 +217,8 @@ h4. things we like
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
         let(:params) { valid_params.merge({ parentId: parent.id }) }
 
+        before { allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true) }
+
         context 'w/o permission' do
           include_context 'patch request'
 
@@ -224,11 +226,7 @@ h4. things we like
         end
 
         context 'with permission' do
-          before do
-            allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
-
-            role.add_permission!(:manage_subtasks)
-          end
+          before { role.add_permission!(:manage_subtasks) }
 
           include_context 'patch request'
 
