@@ -878,21 +878,23 @@ Updates an activity's comment and, on success, returns the updated activity.
 |:------:|-------------| ---- | ----------- | -------------------- |
 | self   | This work package | WorkPackage | not null | READ |
 | author | The person that created the work package | User | not null | READ |
+| changeParent | Endpoint to change the parent (only if the user has the manage_subtasks permission) | | | READ |
 
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Work package id | Integer | Must be a positive integer | 12 | READ |
-| subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
-| type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ / WRITE |
-| description | Work package description | String | | Projects module should be refactored ... | READ / WRITE |
-| rawDescription | | String | | | READ / WRITE |
-| status | | String | **REQUIRED** ... | New | READ / WRITE |
-| priority | | String | Must be one of the activated priorities | High | READ / WRITE |
-| startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ / WRITE |
-| dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ / WRITE |
-| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ / WRITE |
-| percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ / WRITE |
+| subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ |
+| type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
+| description | Work package description | String | | Projects module should be refactored ... | READ |
+| rawDescription | | String | | | READ |
+| parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
+| status | | String | **REQUIRED** ... | New | READ |
+| priority | | String | Must be one of the activated priorities | High | READ |
+| startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
+| dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
+| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ |
+| percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
@@ -971,6 +973,11 @@ Updates an activity's comment and, on success, returns the updated activity.
                         "href": "/api/v3/work_packages/1528/relations",
                         "method": "post",
                         "title": "Add relation"
+                    },
+                    "changeParent": {
+                      "href": "/api/v3/work_packages/694",
+                      "method": "patch",
+                      "title": "Change parent of Bug in OpenProject"
                     },
                     "addComment": {
                         "href": "/api/v3/work_packages/1528/activities",
@@ -1372,18 +1379,13 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 ## Edit WorkPackage [PATCH]
 
-**NOT IMPLEMENTED**
-
 + Parameters
     + id (required, integer, `1`) ... Work package id
 
 + Request (application/json)
 
         {
-            "subject": "Lorem",
-            "rawDescription": "Ipsum",
-            "priority": "High",
-            "customProperties": {"et quam": "Dolor", "velit molestiae": "Sit amet"}
+            "parentId": "42"
         }
 
 + Response 200 (application/hal+json)

@@ -47,7 +47,7 @@ module API
           super(model)
         end
 
-        property :_type, exec_context: :decorator
+        property :_type, exec_context: :decorator, writeable: false
 
         link :self do
           {
@@ -176,6 +176,14 @@ module API
           } if current_user_allowed_to(:add_work_packages, represented.model)
         end
 
+        link :changeParent do
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}",
+            method: :patch,
+            title: "Change parent of #{represented.subject}"
+          } if current_user_allowed_to(:manage_subtasks, represented.model)
+        end
+
         link :addComment do
           {
               href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",
@@ -205,40 +213,41 @@ module API
           end unless visible_children.empty?
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
-        property :subject, render_nil: true
-        property :type, render_nil: true
-        property :description, render_nil: true
-        property :raw_description, render_nil: true
-        property :status, render_nil: true
-        property :is_closed
-        property :priority, render_nil: true
-        property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
-        property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
-        property :estimated_time, render_nil: true
+        property :id, getter: -> (*) { model.id }, render_nil: true, writeable: false
+        property :subject, render_nil: true, writeable: false
+        property :type, render_nil: true, writeable: false
+        property :description, render_nil: true, writeable: false
+        property :raw_description, render_nil: true, writeable: false
+        property :status, render_nil: true, writeable: false
+        property :is_closed, writeable: false
+        property :priority, render_nil: true, writeable: false
+        property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true, writeable: false
+        property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true, writeable: false
+        property :estimated_time, render_nil: true, writeable: false
         property :percentage_done,
                  render_nil: true,
                  exec_context: :decorator,
-                 setter: -> (value, *) { represented.percentage_done = value }
-        property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
-        property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
-        property :project_id, getter: -> (*) { model.project.id }
-        property :project_name, getter: -> (*) { model.project.try(:name) }
-        property :parent_id
-        property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
-        property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
+                 setter: -> (value, *) { represented.percentage_done = value },
+                 writeable: false
+        property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true, writeable: false
+        property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true, writeable: false
+        property :project_id, getter: -> (*) { model.project.id }, writeable: false
+        property :project_name, getter: -> (*) { model.project.try(:name) }, writeable: false
+        property :parent_id, writeable: true
+        property :created_at, getter: -> (*) { model.created_at.utc.iso8601 }, render_nil: true, writeable: false
+        property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601 }, render_nil: true, writeable: false
 
-        collection :custom_properties, exec_context: :decorator, render_nil: true
+        collection :custom_properties, exec_context: :decorator, render_nil: true, writeable: false
 
-        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
-        property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
-        property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
-        property :category, embedded: true, class: ::API::V3::Categories::CategoryModel, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
+        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }, writeable: false
+        property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }, writeable: false
+        property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }, writeable: false
+        property :category, embedded: true, class: ::API::V3::Categories::CategoryModel, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }, writeable: false
 
-        property :activities, embedded: true, exec_context: :decorator
-        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.model) }
-        collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
-        property :relations, embedded: true, exec_context: :decorator
+        property :activities, embedded: true, exec_context: :decorator, writeable: false
+        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.model) }, writeable: false
+        collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter, writeable: false
+        property :relations, embedded: true, exec_context: :decorator, writeable: false
 
         def _type
           'WorkPackage'

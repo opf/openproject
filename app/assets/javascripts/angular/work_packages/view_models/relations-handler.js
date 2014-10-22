@@ -183,8 +183,8 @@ angular.module('openproject.viewModels')
         handler.isSingletonRelation = true;
         handler.relationsId = relationsId;
 
-        handler.canAddRelation = function() { return !!this.workPackage.links.update; };
-        handler.canDeleteRelation = function() { return !!this.workPackage.links.update; };
+        handler.canAddRelation = function() { return !!this.workPackage.links.changeParent; };
+        handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.addRelation = function(scope) {
             WorkPackageService.updateWorkPackage(this.workPackage, {parentId: scope.relationToAddId}).then(function(workPackage) {
