@@ -257,6 +257,19 @@ h4. things we like
         end
       end
 
+      context 'subject' do
+        let(:params) { valid_params.merge({ subject: 'Updated subject'}) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated work package subject' do
+          expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+        end
+
+      end
+
       describe 'update with read-only attributes' do
         include_context 'patch request'
 
@@ -283,16 +296,6 @@ h4. things we like
       end
 
       context 'valid update' do
-        let(:params) { valid_params.merge({ subject: 'Updated subject'}) }
-
-        include_context 'patch request'
-
-        it { expect(response.status).to eq(200) }
-
-        it 'should respond with updated work package subject' do
-          expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
-        end
-
         xit 'should respond with updated work package priority' do
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
