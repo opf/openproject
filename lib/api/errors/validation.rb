@@ -41,7 +41,7 @@ module API
       end
 
       def errors
-        @obj.errors.full_messages
+        @obj.nil? ? '' : @obj.errors.full_messages
       end
 
       def to_json

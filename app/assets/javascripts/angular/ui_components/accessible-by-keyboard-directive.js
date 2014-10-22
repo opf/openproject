@@ -26,23 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.api')
+angular.module('openproject.uiComponents')
 
-.factory('HALAPIResource', ['$q', 'PathHelper', function HALAPIResource($q, PathHelper) {
-  'use strict';
-
-  var HALAPIResource = {
-    configure: function() {
-      Hyperagent.configure('defer', $q.defer);
+.directive('accessibleByKeyboard', [function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      execute: '&',
+      linkClass: '@'
     },
-
-    setup: function(uri) {
-      HALAPIResource.configure();
-      return new Hyperagent.Resource({
-        url: PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri,
-      });
+    template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling'" +
+      " ng-click='execute()' href='' class='{{ linkClass }}'>" +
+      "<span ng-transclude></span>" +
+      "</a>",
+    link: function(scope, element, attrs) {
+      scope.defaultEventHandling = !attrs.execute;
     }
   };
-
-  return HALAPIResource;
 }]);

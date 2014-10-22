@@ -209,31 +209,83 @@ h4. things we like
   # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
-    before(:each) do
-      allow(User).to receive(:current).and_return current_user
-      patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+    let(:valid_params) do
+      {
+        _type: 'WorkPackage',
+      }
     end
+
     subject(:response) { last_response }
 
+    shared_context 'patch request' do
+      before(:each) do
+        allow(User).to receive(:current).and_return current_user
+        patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+      end
+    end
+
+    context 'user without needed permissions' do
+      let(:current_user) { FactoryGirl.create :user }
+      let(:params) { valid_params }
+
+      include_context 'patch request'
+
+      it { expect(response.status).to eq(403) }
+    end
+
     context 'user with needed permissions' do
+      context 'parent id' do
+        let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
+        let(:params) { valid_params.merge({ parentId: parent.id }) }
+
+        context 'w/o permission' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(403) }
+        end
+
+        context 'with permission' do
+          before do
+            allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+
+            role.add_permission!(:manage_subtasks)
+          end
+
+          include_context 'patch request'
+
+          context 'invalid parent' do
+            let(:invisible_parent) { FactoryGirl.create(:work_package) }
+            let(:params) { valid_params.merge({ parentId: invisible_parent.id }) }
+
+            it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_false }
+
+            it { expect(response.status).to eq(422) }
+          end
+
+          context 'empty id' do
+            let(:params) { valid_params.merge({ parentId: nil }) }
+
+            it { expect(response.status).to eq(200) }
+
+            it { expect(subject.body).not_to have_json_path('parentId') }
+          end
+
+          context 'valid id' do
+            let(:params) { valid_params.merge({ parentId: parent.id }) }
+
+            it { expect(response.status).to eq(200) }
+
+            it { expect(subject.body).to be_json_eql(parent.id.to_json).at_path('parentId') }
+          end
+        end
+      end
+
       context 'valid update' do
-        let(:params) do
-          {
-            subject: 'Updated subject',
-            rawDescription: '<h1>Updated description</h1>',
-            priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.yesterday - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.yesterday + 2.weeks).to_datetime.utc.iso8601,
-            percentageDone: 90,
-          }
-        end
-
-        xit 'should respond with 200' do
-          expect(response.status).to eq(200)
-        end
-
-        xit 'should respond with updated work package' do
+        xit 'should respond with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
+        end
+
+        xit 'should respond with updated work package priority' do
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
 
@@ -249,6 +301,8 @@ h4. things we like
       end
 
       context 'invalid update' do
+        include_context 'patch request'
+
         let(:params) do
           {
             subject: ' ',

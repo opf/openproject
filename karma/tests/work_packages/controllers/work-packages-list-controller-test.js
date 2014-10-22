@@ -218,6 +218,17 @@ describe('WorkPackagesListController', function() {
       expect(scope.query.id).to.eq(testQueries['1'].id);
       expect(scope.showFiltersOptions).to.eq(false);
     });
+
+    context('second initialisation', function() {
+      beforeEach(function() {
+        scope.toggleShowFilterOptions();
+        buildController(testParams, testState, testLocation);
+      });
+
+      it('should persist the showFiltersOptions value', function() {
+        expect(scope.showFiltersOptions).to.eq(true);
+      });
+    });
   });
 
   describe('initialisation of query by id', function() {

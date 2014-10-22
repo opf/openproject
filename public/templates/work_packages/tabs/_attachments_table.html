@@ -14,7 +14,7 @@
       <td attachment-title-cell attachment="attachment"></td>
       <td attachment-file-size attachment="attachment"></td>
       <td attachment-user-cell attachment="attachment"></td>
-      <td>{{ attachment.props.description }}</td>
+      <td title="{{ attachment.props.description }}" ng-bind="attachment.props.description"></td>
       <td><date-time date-time-value="attachment.props.createdAt"></date-time></td>
     </tr>
   </tbody>

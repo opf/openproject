@@ -24,7 +24,7 @@
         <button id="work-packages-filter-toggle-button"
                 class="button"
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
-                ng-click="showFiltersOptions = !showFiltersOptions"
+                ng-click="toggleShowFilterOptions()"
                 ng-class="{active: showFiltersOptions}">
           <i class="icon-filter-big icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
         </button>
@@ -38,7 +38,7 @@
             <button id="work-packages-list-view-button"
                     class="button"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
-                    ui-sref="work-packages.list"
+                    ng-click="closeDetailsView()"
                     ng-class="{ active: !isDetailsViewActive() }">
               <i class="icon-table-view icon-buttons"></i>
             </button>
