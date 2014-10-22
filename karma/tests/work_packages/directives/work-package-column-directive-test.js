@@ -32,7 +32,7 @@ describe('workPackageColumn Directive', function() {
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('templates', 'openproject.api', 'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      configurationService = new Object();
+      var configurationService = new Object();
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 

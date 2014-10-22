@@ -33,7 +33,7 @@ describe('workPackageGroupSums Directive', function() {
                                    'openproject.models',
                                    'openproject.services'));
     beforeEach(module('openproject.api', 'templates', function($provide) {
-      configurationService = new Object();
+      var configurationService = new Object();
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 
