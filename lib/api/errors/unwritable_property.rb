@@ -33,9 +33,9 @@ module API
       def initialize(invalid_attributes)
         attributes = Array(invalid_attributes)
 
-        fail ArgumentError, "UnwritableProperty error must contain at least one invalid attribute!" if attributes.empty?
+        fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
-        super 422, "You must not write a read-only attribute"
+        super 422, 'You must not write a read-only attribute'
 
         if attributes.length > 1
           invalid_attributes.each do |attribute|

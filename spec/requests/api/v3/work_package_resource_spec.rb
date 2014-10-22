@@ -215,7 +215,7 @@ h4. things we like
     context 'user with needed permissions' do
       context 'parent id' do
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
-        let(:params) { valid_params.merge({ parentId: parent.id }) }
+        let(:params) { valid_params.merge(parentId: parent.id) }
 
         before { allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true) }
 
@@ -232,7 +232,7 @@ h4. things we like
 
           context 'invalid parent' do
             let(:invisible_parent) { FactoryGirl.create(:work_package) }
-            let(:params) { valid_params.merge({ parentId: invisible_parent.id }) }
+            let(:params) { valid_params.merge(parentId: invisible_parent.id) }
 
             it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_false }
 
@@ -240,7 +240,7 @@ h4. things we like
           end
 
           context 'empty id' do
-            let(:params) { valid_params.merge({ parentId: nil }) }
+            let(:params) { valid_params.merge( parentId: nil) }
 
             it { expect(response.status).to eq(200) }
 
@@ -248,7 +248,7 @@ h4. things we like
           end
 
           context 'valid id' do
-            let(:params) { valid_params.merge({ parentId: parent.id }) }
+            let(:params) { valid_params.merge(parentId: parent.id) }
 
             it { expect(response.status).to eq(200) }
 
@@ -258,7 +258,7 @@ h4. things we like
       end
 
       context 'subject' do
-        let(:params) { valid_params.merge({ subject: 'Updated subject'}) }
+        let(:params) { valid_params.merge(subject: 'Updated subject') }
 
         include_context 'patch request'
 
@@ -274,24 +274,23 @@ h4. things we like
         include_context 'patch request'
 
         context 'single read-only attribute' do
-          let(:params) { valid_params.merge({ startDate: DateTime.now.utc.iso8601 }) }
+          let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
 
           it_behaves_like 'read-only violation', 'startDate'
         end
 
         context 'multiple read-only attributes' do
           let(:params) do
-            valid_params.merge({ startDate: DateTime.now.utc.iso8601,
-                                 dueDate: DateTime.now.utc.iso8601 })
+            valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
           end
 
-          it_behaves_like 'multiple errors', 422, "You must not write a read-only attribute"
+          it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
 
           it_behaves_like 'multiple errors of the same type with details',
                           'attribute',
-                          { 'attribute' => ['startDate', 'dueDate'] }
+                          'attribute' => ['startDate', 'dueDate']
         end
       end
 
@@ -329,11 +328,11 @@ h4. things we like
 
           include_context 'patch request'
 
-          #it_behaves_like 'multiple errors', 422, 'multiple fields violated their constraints.'
+          # it_behaves_like 'multiple errors', 422, 'multiple fields violated their constraints.'
 
-          #it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+          # it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          #it_behaves_like 'multiple errors of the same type with messages', ['error1', 'error2']
+          # it_behaves_like 'multiple errors of the same type with messages', ['error1', 'error2']
         end
       end
     end

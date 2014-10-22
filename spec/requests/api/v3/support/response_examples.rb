@@ -47,27 +47,31 @@ shared_examples_for 'error response' do |code, id, message|
 end
 
 shared_examples_for 'unauthenticated access' do
-  it_behaves_like 'error response', 401,
-                                    'MissingPermission',
-                                    'You need to be authenticated to access this resource'
+  it_behaves_like 'error response',
+                  401,
+                  'MissingPermission',
+                  'You need to be authenticated to access this resource'
 end
 
 shared_examples_for 'unauthorized access' do
-  it_behaves_like 'error response', 403,
-                                    'MissingPermission',
-                                    'You are not authorize to access this resource'
+  it_behaves_like 'error response',
+                  403,
+                  'MissingPermission',
+                  'You are not authorize to access this resource'
 end
 
 shared_examples_for 'not found' do |id, type|
-  it_behaves_like 'error response', 404,
-                                    'NotFound',
-                                    "Couldn\'t find #{type} with id=#{id}"
+  it_behaves_like 'error response',
+                  404,
+                  'NotFound',
+                  "Couldn\'t find #{type} with id=#{id}"
 end
 
 shared_examples_for 'constraint violation' do |message|
-  it_behaves_like 'error response', 422,
-                                    'PropertyConstraintViolation',
-                                    message
+  it_behaves_like 'error response',
+                  422,
+                  'PropertyConstraintViolation',
+                  message
 end
 
 shared_examples_for 'read-only violation' do |attribute|
@@ -77,9 +81,10 @@ shared_examples_for 'read-only violation' do |attribute|
     it { expect(subject['attribute']).to eq(attribute) }
   end
 
-  it_behaves_like 'error response', 422,
-                                    'PropertyIsReadOnly',
-                                    "You must not write a read-only attribute"
+  it_behaves_like 'error response',
+                  422,
+                  'PropertyIsReadOnly',
+                  'You must not write a read-only attribute'
 end
 
 shared_examples_for 'multiple errors' do |code, message|
@@ -104,7 +109,7 @@ shared_examples_for 'multiple errors of the same type with details' do |expected
 
   subject do
     details.inject({}) do |h, d|
-      h.merge(d) { |key, old, new| Array(old) + Array(new) }
+      h.merge(d) { |_, old, new| Array(old) + Array(new) }
     end
   end
 
