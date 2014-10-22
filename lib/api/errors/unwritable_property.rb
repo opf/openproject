@@ -41,6 +41,8 @@ module API
           invalid_attributes.each do |attribute|
             @errors << UnwritableProperty.new(attribute)
           end
+        else
+          @details = { attribute: attributes[0] }
         end
       end
     end

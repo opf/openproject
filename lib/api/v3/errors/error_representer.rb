@@ -42,6 +42,7 @@ module API
         property :_type, exec_context: :decorator
         property :error_identifier, exec_context: :decorator, render_nil: true
         property :message, getter: -> (*) { message }, render_nil: true
+        property :details, embedded: true
 
         collection :errors,
                    embedded: true,
