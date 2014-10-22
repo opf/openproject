@@ -312,11 +312,29 @@ h4. things we like
       end
 
       context 'invalid update' do
-        let(:params) { valid_params.tap { |h| h[:subject] = '' } }
+        context 'single invalid attribute' do
+          let(:params) { valid_params.tap { |h| h[:subject] = '' } }
 
-        include_context 'patch request'
+          include_context 'patch request'
 
-        it_behaves_like 'constraint violation', "Subject can't be blank"
+          it_behaves_like 'constraint violation', "Subject can't be blank"
+        end
+
+        context 'multiple invalid attributes' do
+          # TODO Add another invalid parameter
+          # At the moment only subject and parent id are writable but validated
+          # at different places. Thus, we need to wait until this is harmonized
+          # or other attributes become writable.
+          let(:params) { valid_params.tap { |h| h[:subject] = '' } }
+
+          include_context 'patch request'
+
+          #it_behaves_like 'multiple errors', 422, 'multiple fields violated their constraints.'
+
+          #it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+
+          #it_behaves_like 'multiple errors of the same type with messages', ['error1', 'error2']
+        end
       end
     end
   end
