@@ -193,6 +193,11 @@ module OpenProject::Costs
       ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_work_package_observer
     end
 
+    initializer 'costs.register_test_path' do |app|
+      require File.join(File.dirname(__FILE__), 'disabled_specs')
+      app.config.plugins_to_test_paths << root
+    end
+
     initializer 'costs.patch_number_helper' do |app|
       # we have to do the patching in the initializer to make sure we only do this once in development
       # since the NumberHelper is not unloaded
