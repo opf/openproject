@@ -75,7 +75,7 @@ describe('API helper', function() {
     }
 
     describe('single error', function() {
-      var apiError = createApiErrorObject('NotFound', 'Not found');
+      var apiError = createApiErrorObject('NotFound', 'Not found.');
       var error = createErrorObject(404, null, JSON.stringify(apiError));
       var expectedResult = 'Not found.';
 
@@ -85,13 +85,13 @@ describe('API helper', function() {
     });
 
     describe('multiple errors', function() {
-      var errorMessage = 'This is an error message';
+      var errorMessage = 'This is an error message.';
       var apiError = createApiErrorObject('PropertyIsReadOnly', errorMessage, true);
       var error = createErrorObject(404, null, JSON.stringify(apiError));
 
       it('should return concatenated api error messages', function() {
         var messages = [];
-        var expectedResult = errorMessage + '. ' + errorMessage + '.';
+        var expectedResult = errorMessage + ' ' + errorMessage;
 
         expect(ApiHelper.getErrorMessage(error)).to.eq(expectedResult);
       });

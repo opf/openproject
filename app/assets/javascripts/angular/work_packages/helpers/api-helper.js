@@ -53,7 +53,7 @@ angular.module('openproject.workPackages.helpers')
           messages.push(response.message);
         }
 
-        message = messages.join('. ') + '.';
+        message = messages.join(' ');
 
         return message;
       }
