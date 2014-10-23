@@ -338,6 +338,14 @@ h4. things we like
           it_behaves_like 'multiple errors of the same type with messages', ['Subject can\'t be blank.', 'Parent does not exist.']
         end
 
+        context 'missing lock version' do
+          let(:params) { valid_params.except(:lockVersion) }
+
+          include_context 'patch request'
+          
+          it_behaves_like 'update conflict'
+        end
+
         context 'state object' do
           let(:params) { valid_params.merge(subject: 'Updated subject') }
 
