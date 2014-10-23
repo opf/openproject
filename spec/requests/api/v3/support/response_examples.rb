@@ -57,7 +57,7 @@ shared_examples_for 'unauthorized access' do
   it_behaves_like 'error response',
                   403,
                   'MissingPermission',
-                  'You are not authorize to access this resource'
+                  'You are not authorized to access this resource'
 end
 
 shared_examples_for 'not found' do |id, type|
