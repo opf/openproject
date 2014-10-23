@@ -87,6 +87,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { is_expected.to have_json_path('versionId') }
         it { is_expected.to have_json_path('versionName') }
       end
+
+      describe 'lock version' do
+        it { is_expected.to have_json_path('lockVersion') }
+
+        it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
+
+        it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+      end
     end
 
     describe 'estimatedTime' do
