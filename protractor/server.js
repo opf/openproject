@@ -26,46 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var gulp = require('gulp');
-var jshint = require('gulp-jshint');
-var gulpWebpack = require('gulp-webpack');
-var webpack = require('webpack');
-var config = require('./webpack.config.js');
-var sass = require('gulp-ruby-sass');
+var fs = require('fs');
+var globSync = require('glob').sync;
+var bodyParser = require('body-parser');
+var mocks = globSync('./mocks/**/*.js', {
+  cwd: __dirname
+}).map(require);
 
-var paths = {
-  scripts: ['app/assets/javascripts/**/*.js']
-};
+var express = require('express');
+var railsRoot = __dirname + '/..';
+var app = express();
 
-gulp.task('lint', function() {
-  return gulp.src(paths.scripts)
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+mocks.forEach(function(route) {
+  route(app);
 });
 
-gulp.task('webpack', function() {
-  return gulp.src('app/assets/javascripts/angular/openproject-app.js')
-    .pipe(gulpWebpack(config))
-    .pipe(gulp.dest('app/assets/javascripts/'));
-});
-
-gulp.task('sass', function() {
-  return gulp.src('app/assets/stylesheets/default_simple.css.sass')
-    .pipe(sass({
-      bundleExec: true,
-      require: 'bourbon'
-    }))
-    .on('error', function(err) {
-      console.log(err.message);
-    })
-    .pipe(gulp.dest('tmp/stylesheets'));
-});
-
-gulp.task('express', function() {
-  var app = require('./protractor/server');
-  app.listen(3000, function() {
-    console.log('Listening at localhost:3000');
+app.use(express.static(__dirname));
+app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));
+app.use('/assets', express.static(railsRoot + '/app/assets/images'));
+app.use('/assets', express.static(railsRoot + '/app/assets/stylesheets'));
+app.use('/templates', express.static(railsRoot + '/public/templates'));
+app.use('/javascripts', express.static(railsRoot + '/public/javascripts'));
+app.use('/stylesheets', express.static(railsRoot + '/tmp/stylesheets'));
+app.use('/bower_components', express.static(railsRoot +
+  '/vendor/assets/components'));
+app.use('/assets/angular-busy', express.static(railsRoot +
+  '/vendor/assets/components/angular-busy'));
+app.get('/work_packages', function(req, res) {
+  fs.readFile(__dirname + '/index.html', 'utf8', function(err,
+    text) {
+    res.send(text);
   });
 });
 
-gulp.task('default', ['webpack', 'sass', 'express']);
+module.exports = app;
