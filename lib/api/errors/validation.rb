@@ -33,7 +33,7 @@ module API
       def initialize(obj)
         messages = obj.respond_to?(:errors) ? obj.errors.full_messages : Array(obj)
 
-        super 422, (messages.length == 1) ? messages[0] : 'Multiple fields violated their constraints.'
+        super 422, (messages.length == 1) ? messages[0] + '.' : 'Multiple fields violated their constraints.'
 
         messages.each { |m| @errors << Validation.new(m) } if messages.length > 1
       end

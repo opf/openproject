@@ -31,7 +31,7 @@ module API
   module Errors
     class Unauthenticated < ErrorBase
       def initialize
-        super 401, 'You need to be authenticated to access this resource'
+        super 401, 'You need to be authenticated to access this resource.'
       end
     end
   end

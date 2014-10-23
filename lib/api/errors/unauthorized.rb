@@ -31,7 +31,7 @@ module API
   module Errors
     class Unauthorized < ErrorBase
       def initialize
-        super 403, 'You are not authorize to access this resource'
+        super 403, 'You are not authorize to access this resource.'
       end
     end
   end

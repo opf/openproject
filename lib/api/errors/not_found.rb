@@ -31,7 +31,7 @@ module API
   module Errors
     class NotFound < ErrorBase
       def initialize(message)
-        super 404, message
+        super 404, message + '.'
       end
     end
   end
