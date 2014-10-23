@@ -69,8 +69,9 @@ module API
               end
 
               def work_package_attributes
-                attributes = JSON.parse(env['api.request.input'])
-                attributes.delete_if { |key, _| VALID_REQUEST_ATTRIBUTES.include? key }
+                @work_package_attributes ||= JSON.parse(env['api.request.input']).tap do |attributes|
+                  attributes.delete_if { |key, _| VALID_REQUEST_ATTRIBUTES.include? key }
+                end
               end
             end
 
