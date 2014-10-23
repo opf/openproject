@@ -1,0 +1,7 @@
+<% unless @available_statuses.empty? %>
+  <% @available_statuses.each do |status| %>
+    <option value="<%= status.id %>"><%= status.name %></option>
+  <% end %>
+<% else %>
+  <option value=""><%= I18n.t(:label_no_change_option)%></option>
+<%end%>

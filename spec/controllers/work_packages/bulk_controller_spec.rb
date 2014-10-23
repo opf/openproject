@@ -37,10 +37,14 @@ describe WorkPackages::BulkController, :type => :controller do
                                             is_for_all: true) }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
   let(:status) { FactoryGirl.create(:status) }
+  let!(:status_2) { FactoryGirl.create(:status) }
+  let!(:status_3) { FactoryGirl.create(:status) }
   let(:type) { FactoryGirl.create(:type_standard,
                                   custom_fields: [custom_field_1, custom_field_2]) }
+  let(:bug_type) { FactoryGirl.create(:type, name: 'Bug') }
+  let(:feature_type) { FactoryGirl.create(:type, name: 'Feature') }
   let(:project_1) { FactoryGirl.create(:project,
-                                       types: [type],
+                                       types: [type, bug_type, feature_type],
                                        work_package_custom_fields: [custom_field_2]) }
   let(:project_2) { FactoryGirl.create(:project,
                                        types: [type]) }
@@ -48,18 +52,28 @@ describe WorkPackages::BulkController, :type => :controller do
                                   permissions: [:edit_work_packages,
                                                 :view_work_packages,
                                                 :manage_subtasks]) }
+  let!(:workflow) { FactoryGirl.create(:workflow,
+                                       old_status: status,
+                                       new_status: status_2,
+                                       type_id: bug_type.id,
+                                       role: role) }
+  let!(:workflow_1) { FactoryGirl.create(:workflow,
+                                         old_status: status,
+                                         new_status: status_3,
+                                         type_id: bug_type.id,
+                                         role: role) }
   let(:member1_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user,
-                                      roles: [role]) }
+                                        project: project_1,
+                                        principal: user,
+                                        roles: [role]) }
   let(:member2_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user2,
-                                      roles: [role]) }
+                                        project: project_1,
+                                        principal: user2,
+                                        roles: [role]) }
   let(:member1_p2) { FactoryGirl.create(:member,
-                                      project: project_2,
-                                      principal: user,
-                                      roles: [role]) }
+                                        project: project_2,
+                                        principal: user,
+                                        roles: [role]) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
                                             assigned_to: user,
@@ -125,6 +139,17 @@ describe WorkPackages::BulkController, :type => :controller do
             it { assert_tag :select, attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
           end
         end
+      end
+    end
+
+    describe 'statuses' do
+      before do
+        allow(User).to receive(:current).and_return user2
+        get :edit, ids: [work_package_1.id, work_package_2.id]
+      end
+
+      it 'should display statuses for "Bug" type as default' do
+        expect(assigns(:available_statuses)).to match_array([status_2, status_3].compact)
       end
     end
 
