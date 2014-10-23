@@ -43,6 +43,7 @@ module API
         # N.B. required by ActionView::Helpers::UrlHelper
         def controller; nil; end
 
+        property :lock_version,     type: Integer
         property :subject,          type: String
         property :start_date,       type: Date
         property :due_date,         type: Date

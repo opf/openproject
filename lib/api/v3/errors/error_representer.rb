@@ -58,6 +58,8 @@ module API
           return 'urn:openproject-org:api:v3:errors:MultipleErrors' unless Array(represented.errors).empty?
 
           case represented
+          when ::API::Errors::Conflict
+            'urn:openproject-org:api:v3:errors:UpdateConflict'
           when ::API::Errors::NotFound
             'urn:openproject-org:api:v3:errors:NotFound'
           when ::API::Errors::Unauthenticated, ::API::Errors::Unauthorized

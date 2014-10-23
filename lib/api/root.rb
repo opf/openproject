@@ -75,6 +75,12 @@ module API
       error_response(status: api_error.code, message: representer.to_json)
     end
 
+    rescue_from ActiveRecord::StaleObjectError do
+      api_error = ::API::Errors::Conflict.new
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      error_response(status: api_error.code, message: representer.to_json)
+    end
+
     rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
       representer = ::API::V3::Errors::ErrorRepresenter.new(e)
       error_response(status: e.code, message: representer.to_json)

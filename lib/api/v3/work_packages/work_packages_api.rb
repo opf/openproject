@@ -39,8 +39,8 @@ module API
           namespace ':id' do
 
             helpers do
-              VALID_REQUEST_ATTRIBUTES = ['_type', 'lockVersion']
-              VALID_UPDATE_ATTRIBUTES = VALID_REQUEST_ATTRIBUTES + ['subject', 'parentId']
+              VALID_REQUEST_ATTRIBUTES = ['_type']
+              VALID_UPDATE_ATTRIBUTES = VALID_REQUEST_ATTRIBUTES + ['lockVersion', 'subject', 'parentId']
 
               attr_reader :work_package
 
