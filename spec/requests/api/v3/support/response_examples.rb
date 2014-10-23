@@ -124,7 +124,7 @@ end
 
 shared_examples_for 'multiple errors of the same type with messages' do |expected_messages|
   let(:errors) { JSON.parse(last_response.body)['_embedded']['errors'] }
-  let(:messages) { errors.each_with_object([]) { |error, l| l << error['_embedded']['messages'] }.compact }
+  let(:messages) { errors.each_with_object([]) { |error, l| l << error['message'] }.compact }
 
   it { expect(messages).to match_array(Array(expected_messages)) }
 end
