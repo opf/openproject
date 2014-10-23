@@ -35,7 +35,7 @@
   <h2 title="{{ workPackage.props.subject }}" ng-bind="workPackage.props.subject"></h2>
 
   <span class="subtitle">
-    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()">
+    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()" class="star">
       <icon-wrapper icon-name="{{ 'star1' + (isWatched ? ' active' : '') }}"
                     icon-title="{{ isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package') }}"
                     css-class="star">
