@@ -342,7 +342,7 @@ h4. things we like
           let(:params) { valid_params.except(:lockVersion) }
 
           include_context 'patch request'
-          
+
           it_behaves_like 'update conflict'
         end
 
