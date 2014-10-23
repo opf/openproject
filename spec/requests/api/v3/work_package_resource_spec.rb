@@ -234,7 +234,7 @@ h4. things we like
             let(:invisible_parent) { FactoryGirl.create(:work_package) }
             let(:params) { valid_params.merge(parentId: invisible_parent.id) }
 
-            it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_false }
+            it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_falsey }
 
             it { expect(response.status).to eq(422) }
           end
@@ -320,19 +320,22 @@ h4. things we like
         end
 
         context 'multiple invalid attributes' do
-          # TODO Add another invalid parameter
-          # At the moment only subject and parent id are writable but validated
-          # at different places. Thus, we need to wait until this is harmonized
-          # or other attributes become writable.
-          let(:params) { valid_params.tap { |h| h[:subject] = '' } }
+          let(:invisible_parent) { FactoryGirl.create(:work_package) }
+          let(:params) { valid_params }
+          let(:params) do
+            valid_params.tap { |h| h[:subject] = '' }
+                        .merge(parentId: invisible_parent.id)
+          end
+
+          before { role.add_permission!(:manage_subtasks) }
 
           include_context 'patch request'
 
-          # it_behaves_like 'multiple errors', 422, 'multiple fields violated their constraints.'
+          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
 
-          # it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          # it_behaves_like 'multiple errors of the same type with messages', ['error1', 'error2']
+          it_behaves_like 'multiple errors of the same type with messages', ['Subject can\'t be blank', 'Parent does not exist']
         end
       end
     end
