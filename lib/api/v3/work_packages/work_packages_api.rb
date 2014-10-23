@@ -57,9 +57,6 @@ module API
 
               def check_parent_update
                 attributes = JSON.parse(env['api.request.input'])
-
-                authorize(:manage_subtasks, context: @work_package.project) if attributes.include? 'parentId'
-
                 parent_id = attributes['parentId'].blank? ? nil : attributes['parentId'].to_i
 
                 if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
@@ -88,6 +85,7 @@ module API
 
             patch do
               authorize(:edit_work_packages, context: @work_package.project)
+              authorize(:manage_subtasks, context: @work_package.project) if work_package_attributes.has_key? 'parentId'
               check_work_package_attributes # fails if request contains read-only attributes
               check_parent_update # fails if parent update is invalid
 
