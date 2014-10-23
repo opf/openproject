@@ -1458,10 +1458,14 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     + Body
         
             {
-                "_type": "ValidationError",
+                "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
                 "message": "The subject might not be blank.",
-                "field": "Subject"
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
             }
     
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
