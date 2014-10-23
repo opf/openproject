@@ -158,15 +158,13 @@ module API
 
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
-        validate :validate_parent_constraint
+        validate :milestone_constraint
 
         private
 
-          def validate_parent_constraint
-            if model.parent
-              errors.add :parent_id, :cannot_be_milestone if model.parent.is_milestone?
-            end
-          end
+        def milestone_constraint
+          errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
+        end
       end
     end
   end
