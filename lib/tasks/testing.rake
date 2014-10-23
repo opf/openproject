@@ -103,3 +103,6 @@ namespace :test do
     task :run => [:cucumber, :spec, :test]
   end
 end
+
+Rake::Task['test:prepare'].enhance(['assets:webpack'])
+Rake::Task['spec:prepare'].enhance(['assets:webpack'])
