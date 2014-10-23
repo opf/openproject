@@ -67,6 +67,13 @@ shared_examples_for 'not found' do |id, type|
                   "Couldn\'t find #{type} with id=#{id}"
 end
 
+shared_examples_for 'update conflict' do
+  it_behaves_like 'error response',
+                  409,
+                  'UpdateConflict',
+                  'Couldn\'t update the resource because of conflicting modifications'
+end
+
 shared_examples_for 'constraint violation' do |message|
   it_behaves_like 'error response',
                   422,
