@@ -55,16 +55,6 @@ module API
                 attributes.delete_if { |key, _| VALID_UPDATE_ATTRIBUTES.include? key }
               end
 
-              def check_parent_update
-                attributes = JSON.parse(env['api.request.input'])
-                parent_id = attributes['parentId'].blank? ? nil : attributes['parentId'].to_i
-
-                if parent_id && !WorkPackage.visible(current_user).exists?(parent_id)
-                  @work_package.errors.add(:parent_id, :not_a_valid_parent)
-                  fail ::API::Errors::Validation.new(@work_package)
-                end
-              end
-
               def work_package_attributes
                 @work_package_attributes ||= JSON.parse(env['api.request.input']).tap do |attributes|
                   attributes.delete_if { |key, _| VALID_REQUEST_ATTRIBUTES.include? key }
@@ -87,14 +77,12 @@ module API
               authorize(:edit_work_packages, context: @work_package.project)
               authorize(:manage_subtasks, context: @work_package.project) if work_package_attributes.has_key? 'parentId'
               check_work_package_attributes # fails if request contains read-only attributes
-              check_parent_update # fails if parent update is invalid
 
               @representer.from_json(work_package_attributes.to_json)
-              @representer.represented.sync
-              if @representer.represented.model.valid? && @representer.represented.save
+              if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
                 @representer
               else
-                fail ::API::Errors::Validation.new(@representer.represented.model)
+                fail ::API::Errors::Validation.new(@representer.represented)
               end
             end
 

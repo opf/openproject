@@ -159,11 +159,28 @@ module API
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :milestone_constraint
+        validate :user_allowed_to_access_parent
 
         private
 
         def milestone_constraint
           errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
+        end
+
+        def user_allowed_to_access_parent
+          errors.add(:parent_id, error_message('parent_id.does_not_exist')) if parent_changed? && !parent_visible?
+        end
+
+        def parent_changed?
+          parent_id != model.parent_id
+        end
+
+        def parent_visible?
+          !parent_id || ::WorkPackage.visible(User.current).exists?(parent_id)
+        end
+
+        def error_message(path)
+          I18n.t("activerecord.errors.models.work_package.attributes.#{path}")
         end
       end
     end
