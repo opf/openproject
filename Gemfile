@@ -42,7 +42,13 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   Message
 end
 
-source 'https://rubygems.org'
+# Set encoding to UTF-8 to Fix ASCII Errors
+if RUBY_VERSION =~ /1.9/ # assuming you're running Ruby ~1.9
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+end
+
+source 'http://mirror1.ops.rhcloud.com/mirror/ruby/'
 
 gem "rails", "~> 3.2.19"
 
