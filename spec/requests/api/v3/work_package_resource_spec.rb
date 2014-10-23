@@ -322,7 +322,6 @@ h4. things we like
 
         context 'multiple invalid attributes' do
           let(:invisible_parent) { FactoryGirl.create(:work_package) }
-          let(:params) { valid_params }
           let(:params) do
             valid_params.tap { |h| h[:subject] = '' }
                         .merge(parentId: invisible_parent.id)
