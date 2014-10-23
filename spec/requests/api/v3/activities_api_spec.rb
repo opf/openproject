@@ -76,7 +76,10 @@ describe API::V3::Activities::ActivitiesAPI, :type => :request do
     end
 
     it_behaves_like "invalid activity request" do
-      before { allow_any_instance_of(Journal).to receive(:save).and_return(false) }
+      before do
+        allow_any_instance_of(Journal).to receive(:save).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return([''])
+      end
 
       include_context "edit activity"
     end
