@@ -76,9 +76,6 @@ These are generic (and condensed) installation instructions for the **current de
 
 3. Create databases, schemas and populate with seed data:
 
-        bundle exec rake db:setup
-
-        # - OR - in multiple steps:
         # bundle exec rake db:create:all
         # bundle exec rake db:migrate
         # bundle exec rake db:seed
