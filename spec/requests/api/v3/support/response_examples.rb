@@ -36,11 +36,11 @@ shared_examples_for 'error response' do |code, id, message|
 
     it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
 
-    it 'includes an error description' do
-      if message == :empty
-        expect(subject['message']).to be_empty
-      else
-        expect(subject['message']).to include(message)
+    describe 'message' do
+      it { expect(subject['message']).to include(message) }
+
+      it 'includes punctuation' do
+        expect(subject['message']).to match(/(\.|\?|\!)\z/)
       end
     end
   end
