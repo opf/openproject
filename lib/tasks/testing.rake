@@ -104,5 +104,8 @@ namespace :test do
   end
 end
 
-Rake::Task['test:prepare'].enhance(['assets:webpack'])
-Rake::Task['spec:prepare'].enhance(['assets:webpack'])
+%w(test spec).each do |type|
+  if Rake::Task.task_defined?("#{type}:prepare")
+    Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
+  end
+end
