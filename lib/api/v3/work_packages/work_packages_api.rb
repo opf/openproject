@@ -44,10 +44,6 @@ module API
 
               attr_reader :work_package
 
-              def check_lock_version
-                fail ::API::Errors::Conflict unless work_package_attributes.include? 'lockVersion'
-              end
-
               def check_work_package_attributes
                 attributes = JSON.parse(env['api.request.input'])
                 invalid_attributes = invalid_work_package_update_attributes(attributes)
@@ -78,7 +74,7 @@ module API
             end
 
             patch do
-              check_lock_version # fails if lock version is missing
+              @representer.represented.lock_version = nil # enforces availibility validation of lock_version
               check_work_package_attributes # fails if request contains read-only attributes
 
               @representer.from_json(work_package_attributes.to_json)

@@ -166,6 +166,7 @@ module API
 
         validate :user_allowed_to_edit
         validate :user_allowed_to_edit_parent
+        validate :lock_version_set
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :milestone_constraint
@@ -182,6 +183,10 @@ module API
             changed_model = model.dup.tap { |m| m.parent_id = parent_id }
             fail ::API::Errors::Unauthorized unless @can.allowed?(changed_model, :manage_subtasks)
           end
+        end
+
+        def lock_version_set
+          fail ::API::Errors::Conflict if lock_version.nil?
         end
 
         def milestone_constraint
