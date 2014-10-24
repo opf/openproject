@@ -165,6 +165,7 @@ module API
         end
 
         validate :user_allowed_to_edit
+        validate :user_allowed_to_edit_parent
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :milestone_constraint
@@ -174,6 +175,13 @@ module API
 
         def user_allowed_to_edit
           fail ::API::Errors::Unauthorized unless @can.allowed?(model, :edit)
+        end
+
+        def user_allowed_to_edit_parent
+          if parent_changed?
+            changed_model = model.dup.tap { |m| m.parent_id = parent_id }
+            fail ::API::Errors::Unauthorized unless @can.allowed?(changed_model, :manage_subtasks)
+          end
         end
 
         def milestone_constraint

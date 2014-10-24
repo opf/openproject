@@ -78,7 +78,6 @@ module API
             end
 
             patch do
-              authorize(:manage_subtasks, context: @work_package.project) if work_package_attributes.has_key? 'parentId'
               check_lock_version # fails if lock version is missing
               check_work_package_attributes # fails if request contains read-only attributes
 
