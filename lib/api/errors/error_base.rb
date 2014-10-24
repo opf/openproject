@@ -46,7 +46,7 @@ module API
           end
         end
 
-        nil
+        ::API::Errors::Validation.new(errors.full_messages)
       end
 
       def initialize(code, message)
