@@ -232,10 +232,9 @@ h4. things we like
           include_context 'patch request'
 
           context 'invalid parent' do
-            let(:invisible_parent) { FactoryGirl.create(:work_package) }
-            let(:params) { valid_params.merge(parentId: invisible_parent.id) }
+            let(:params) { valid_params.merge(parentId: '-123') }
 
-            it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_falsey }
+            it { expect(WorkPackage.visible(current_user).exists?('-123')).to be_falsey }
 
             it { expect(response.status).to eq(422) }
           end
@@ -321,10 +320,9 @@ h4. things we like
         end
 
         context 'multiple invalid attributes' do
-          let(:invisible_parent) { FactoryGirl.create(:work_package) }
           let(:params) do
             valid_params.tap { |h| h[:subject] = '' }
-                        .merge(parentId: invisible_parent.id)
+                        .merge(parentId: '-123')
           end
 
           before { role.add_permission!(:manage_subtasks) }
