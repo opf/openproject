@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe UsersHelper do
+describe UsersHelper, :type => :helper do
   include UsersHelper
 
   def build_user(status, blocked)
     user = FactoryGirl.build(:user)
-    user.stub(:status).and_return(User::STATUSES[status])
-    user.stub(:failed_too_many_recent_login_attempts?).and_return(blocked)
-    user.stub(:failed_login_count).and_return(3)
+    allow(user).to receive(:status).and_return(User::STATUSES[status])
+    allow(user).to receive(:failed_too_many_recent_login_attempts?).and_return(blocked)
+    allow(user).to receive(:failed_login_count).and_return(3)
     user
   end
 
@@ -69,7 +69,7 @@ describe UsersHelper do
         end
 
         it "should return #{expectation}" do
-          @status.should == expectation
+          expect(@status).to eq(expectation)
         end
       end
     end
@@ -92,11 +92,11 @@ describe UsersHelper do
           @buttons = change_user_status_buttons(user)
         end
         it "should contain '#{expectation}'" do
-          @buttons.should include(expectation)
+          expect(@buttons).to include(expectation)
         end
 
         it "should contain a single button" do
-          @buttons.scan('<input').count.should == 1
+          expect(@buttons.scan('<input').count).to eq(1)
         end
       end
     end
@@ -108,12 +108,12 @@ describe UsersHelper do
       end
 
       it  "should return inputs (buttons)" do
-        @buttons.scan('<input').count.should == 2
+        expect(@buttons.scan('<input').count).to eq(2)
       end
 
       it "should contain 'Lock' and 'Reset Failed logins'" do
-        @buttons.should include(I18n.t(:lock, :scope => :user))
-        @buttons.should include(I18n.t(:reset_failed_logins, :scope => :user))
+        expect(@buttons).to include(I18n.t(:lock, :scope => :user))
+        expect(@buttons).to include(I18n.t(:reset_failed_logins, :scope => :user))
       end
     end
   end

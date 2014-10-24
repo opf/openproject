@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementJournalsController do
+describe Api::V2::PlanningElementJournalsController, :type => :controller do
   let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
   describe 'index.xml' do
@@ -45,4 +45,3 @@ describe Api::V2::PlanningElementJournalsController do
     it_should_behave_like "a controller action which needs project permissions"
   end
 end
-

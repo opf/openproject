@@ -39,11 +39,11 @@ module SimpleBenchmark
   # (user cpu time + system cpu time + user and system cpu time of children)
   # This is not wallclock time.
   def self.bench(title)
-    print "#{title}... "
+    $stderr.print "#{title}... "
     result = Benchmark.measure do
       yield
     end
-    print "%.03fs\n" % result.total
+    $stderr.printf "%.03fs\n", result.total
   end
 end
 
@@ -52,6 +52,18 @@ SimpleBenchmark.bench "require 'rails/all'" do
 end
 
 if defined?(Bundler)
+  # lib directory has to be added to the load path so that
+  # the open_project/plugins files can be found (places under lib).
+  # Now it would be possible to remove that and use require with
+  # lib included but some plugins already use
+  #
+  # require 'open_project/plugins'
+  #
+  # to ensure the code to be loaded. So we provide a compaibility
+  # layer here. One might remove this later.
+  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+  require 'open_project/plugins'
+
   SimpleBenchmark.bench 'Bundler.require' do
     Bundler.require(:default, :assets, :opf_plugins, Rails.env)
   end
@@ -87,9 +99,6 @@ module OpenProject
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # automatically compile translations.js
-    config.middleware.use I18n::JS::Middleware
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
@@ -98,6 +107,33 @@ module OpenProject
 
     # Enable the asset pipeline
     config.assets.enabled = true
+
+    bower_assets_path    = Rails.root.join(*%w(vendor assets components))
+    config.assets.paths << bower_assets_path.join(*%w(select2)).to_s
+    config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
+    config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
+
+    # Whitelist assets to be precompiled.
+    #
+    # This is a workaround for an issue where the precompilation process will
+    # fail on extensionless files (README, LICENSE, etc.)
+    # See: https://github.com/sstephenson/sprockets/issues/347
+    precompile_whitelist = %w(
+      .html .erb .haml
+      .png  .jpg .gif .jpeg .ico
+      .eot  .otf .svc .woff .ttf
+      .svg
+    )
+    config.assets.precompile.shift
+    config.assets.precompile.unshift -> (path) {
+      (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
+    }
+    config.assets.precompile += %w(
+      jquery-ui/themes/base/jquery-ui.css
+      select2/select2.css
+      angular-busy/dist/angular-busy.css
+      angular-busy/angular-busy.html
+    )
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
@@ -137,6 +173,10 @@ module OpenProject
       ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
+
+    # Load API files
+    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     OpenProject::Configuration.configure_cache(config)
   end

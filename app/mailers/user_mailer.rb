@@ -28,9 +28,11 @@
 #++
 
 class UserMailer < ActionMailer::Base
-  helper :application,  # for textilizable
+  helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
+
+  include OpenProject::LocaleHelper
 
   # wrap in a lambda to allow changing at run-time
   default :from => Proc.new { Setting.mail_from }
@@ -70,7 +72,7 @@ class UserMailer < ActionMailer::Base
     # default user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
-    # orginal user to be available. Otherwise, it cannot fulfill its duty.
+    # original user to be available. Otherwise, it cannot fulfill its duty.
     User.current = author if User.current != author
 
     @journal = journal
@@ -214,7 +216,8 @@ class UserMailer < ActionMailer::Base
                              :action     => :diff,
                              :project_id => wiki_content.project,
                              :id         => wiki_content.page.title,
-                             :version    => wiki_content.version)
+                             # using wiki_content.version + 1 because at this point the journal is not saved yet
+                             :version    => wiki_content.version + 1)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
@@ -301,7 +304,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  # Activates/desactivates email deliveries during +block+
+  # Activates/deactivates email deliveries during +block+
   def self.with_deliveries(temporary_state = true, &block)
     old_state = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = temporary_state
@@ -337,11 +340,11 @@ protected
   # different ways to create a mail (passing a block, giving parameters
   # with optional template, or passing the body directly), we would have
   # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modiyfing the set of parts rails
+  # Therefore, we use option 2: modifying the set of parts rails
   # created internally as a result of the above ways, as this is
   # much shorter.
   # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following funtion. However, we should at least
+  # or semantics of the following function. However, we should at least
   # notice this as there are tests for checking the no-html setting.
   def collect_responses_and_parts_order(headers)
     responses, parts_order = super(headers)
@@ -391,11 +394,6 @@ private
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
-  def with_locale_for(user, &block)
-    locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
-    I18n.with_locale(locale, &block)
-  end
-
   # Prepends given fields with 'X-OpenProject-' to save some duplication
   def open_project_headers(hash)
     hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
@@ -443,7 +441,10 @@ end
 
 class DoNotSendMailsWithoutReceiverInterceptor
   def self.delivering_email(mail)
-    mail.perform_deliveries = false if mail.to.blank?
+    receivers = [mail.to, mail.cc, mail.bcc]
+    # the above fields might be empty arrays (if entries have been removed
+    # by another interceptor) or nil, therefore checking for blank?
+    mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end
 

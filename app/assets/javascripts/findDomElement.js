@@ -52,7 +52,7 @@
       return found;
     } else {
       if (parent.length === 0 || parent.is(options.stopAt)) {
-        return $([])
+        return $([]);
       } else {
         return parent.findElementInDom(selector, options);
       }

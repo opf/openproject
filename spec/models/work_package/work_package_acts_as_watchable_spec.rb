@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project) }
@@ -61,22 +61,22 @@ describe WorkPackage do
     context 'when it is a public project' do
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
-        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      it { should include(project_member) }
-      it { should_not include(admin) }
+      xit { is_expected.to include(project_member) }
+      it { is_expected.not_to include(admin) }
 
       context 'and the non member role has the permission to view work packages' do
         include_context 'non member role has the permission to view work packages'
 
-        it { should_not include(non_member_user) }
+        it { is_expected.not_to include(non_member_user) }
       end
 
       context 'and the anonymous role has the permission to view work packages' do
         include_context 'anonymous role has the permission to view work packages'
 
-        it { should_not include(anonymous_user) }
+        it { is_expected.not_to include(anonymous_user) }
       end
     end
 
@@ -91,21 +91,21 @@ describe WorkPackage do
 
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
-        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      it { should include(project_member) }
+      xit { is_expected.to include(project_member) }
 
-      it { should_not include(admin) }
-      it { should_not include(non_member_user) }
-      it { should_not include(anonymous_user) }
+      it { is_expected.not_to include(admin) }
+      it { is_expected.not_to include(non_member_user) }
+      it { is_expected.not_to include(anonymous_user) }
     end
   end
 
   describe '#watcher_recipients' do
     subject { work_package.watcher_recipients }
 
-    it { should include(watching_user.mail) }
+    it { is_expected.to include(watching_user.mail) }
 
     context 'when the permission to view work packages has been removed' do
       before do
@@ -113,7 +113,7 @@ describe WorkPackage do
         work_package.reload
       end
 
-      it { should_not include(watching_user.mail) }
+      it { is_expected.not_to include(watching_user.mail) }
     end
   end
 
@@ -127,20 +127,18 @@ describe WorkPackage do
         work_package.reload
       end
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
   end
 
   context 'notifications' do
     let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
 
-    before :each do
-      Delayed::Worker.delay_jobs = false
-    end
-
     it 'sends one delayed mail notification for each watcher recipient' do
       UserMailer.stub_chain :work_package_updated, :deliver
-      UserMailer.should_receive(:work_package_updated).exactly(number_of_recipients).times
+      # Ensure notification setting to be set in a way that will trigger e-mails.
+      allow(Setting).to receive(:notified_events).and_return(%w(work_package_updated))
+      expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
       work_package.update_attributes :description => 'Any new description'
     end
   end

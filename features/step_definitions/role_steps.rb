@@ -87,4 +87,3 @@ end
 Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
   step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
-

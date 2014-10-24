@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/reported_project_statuses/index.api.rabl' do
+describe 'api/v2/reported_project_statuses/index.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -40,7 +40,7 @@ describe 'api/v2/reported_project_statuses/index.api.rabl' do
 
       render
 
-      response.should have_json_size(0).at_path('reported_project_statuses')
+      expect(response).to have_json_size(0).at_path('reported_project_statuses')
     end
   end
 
@@ -60,7 +60,7 @@ describe 'api/v2/reported_project_statuses/index.api.rabl' do
     end
 
     it 'renders a reported_project_statuses document with the size 3 of array' do
-      response.should have_json_size(3).at_path('reported_project_statuses')
+      expect(response).to have_json_size(3).at_path('reported_project_statuses')
     end
 
   end

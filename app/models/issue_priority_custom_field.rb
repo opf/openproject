@@ -32,4 +32,3 @@ class IssuePriorityCustomField < CustomField
     :enumeration_work_package_priorities
   end
 end
-

@@ -25,4 +25,3 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-

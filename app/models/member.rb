@@ -49,6 +49,10 @@ class Member < ActiveRecord::Base
     self.user.name
   end
 
+  def to_s
+    name
+  end
+
   # Set the roles for this member to the given roles_or_role_ids.
   # Inherited roles are left untouched.
   def assign_roles(roles_or_role_ids)
@@ -115,7 +119,7 @@ class Member < ActiveRecord::Base
     Category.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id] if user
   end
 
-  # Find or initilize a Member with an id, attributes, and for a Principal
+  # Find or initialize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
     # interface refactoring needed

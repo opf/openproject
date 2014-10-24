@@ -42,6 +42,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <label for="reporting_reported_project_status_comment">
       <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
     </label><br/>
-    <%= textilizable(@reporting, :reported_project_status_comment) %>
+    <%= format_text(@reporting, :reported_project_status_comment) %>
   </p>
 </fieldset>

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_types/index.api.rabl' do
+describe 'api/v2/planning_element_types/index.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -41,7 +41,7 @@ describe 'api/v2/planning_element_types/index.api.rabl' do
       assign(:types, [])
       render
 
-      response.should have_json_size(0).at_path('planning_element_types')
+      expect(response).to have_json_size(0).at_path('planning_element_types')
     end
   end
 
@@ -62,7 +62,7 @@ describe 'api/v2/planning_element_types/index.api.rabl' do
     subject{response.body}
 
     it 'renders 3 planning_element_types' do
-      should have_json_size(3).at_path('planning_element_types')
+      is_expected.to have_json_size(3).at_path('planning_element_types')
     end
   end
 end

@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe TimelogController do
+describe TimelogController, :type => :routing do
   it "should connect GET /work_packages/:work_package_id/time_entries/new to timelog#new" do
-    get("/work_packages/1/time_entries/new").should route_to( :controller => 'timelog',
+    expect(get("/work_packages/1/time_entries/new")).to route_to( :controller => 'timelog',
                                                               :action => 'new',
                                                               :work_package_id => '1' )
   end

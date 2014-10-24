@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BoardsController do
+describe BoardsController, :type => :controller do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:project) }
   let!(:board) { FactoryGirl.build(:board,
@@ -43,19 +43,19 @@ describe BoardsController do
     let(:board_params) { {:name => 'my board', :description => 'awesome board'} }
 
     before do
-      @controller.should_receive(:authorize)
-      @controller.should_receive(:find_project_by_project_id) do
+      expect(@controller).to receive(:authorize)
+      expect(@controller).to receive(:find_project_by_project_id) do
         @controller.instance_variable_set(:@project, project)
       end
 
       # parameter expectation needs to have strings as keys
-      Board.should_receive(:new).with(board_params.stringify_keys).and_return(board)
+      expect(Board).to receive(:new).with(board_params.stringify_keys).and_return(board)
     end
 
     describe 'w/ the params beeing valid' do
 
       before do
-        board.should_receive(:save).and_return(true)
+        expect(board).to receive(:save).and_return(true)
 
         as_logged_in_user user do
           post :create, params
@@ -63,18 +63,18 @@ describe BoardsController do
       end
 
       it 'should redirect to the settings page if successful' do
-        response.should redirect_to :controller => '/projects', :action => 'settings', :id => project, :tab => 'boards'
+        expect(response).to redirect_to :controller => '/projects', :action => 'settings', :id => project, :tab => 'boards'
       end
 
       it 'have a successful creation flash' do
-        flash[:notice].should == I18n.t(:notice_successful_create)
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
       end
     end
 
     describe 'w/ the params beeing invalid' do
 
       before do
-        board.should_receive(:save).and_return(false)
+        expect(board).to receive(:save).and_return(false)
 
         as_logged_in_user user do
           post :create, params
@@ -82,7 +82,7 @@ describe BoardsController do
       end
 
       it 'should render the new template' do
-        response.should render_template('new')
+        expect(response).to render_template('new')
       end
     end
   end
@@ -96,7 +96,7 @@ describe BoardsController do
                                         project: project,
                                         position: 2) }
 
-    before { @controller.stub(:authorize).and_return(true) }
+    before { allow(@controller).to receive(:authorize).and_return(true) }
 
     describe :higher do
       let(:move_to) { 'higher' }
@@ -122,7 +122,7 @@ describe BoardsController do
                                               :description => 'Board description') }
 
     before do
-      @controller.should_receive(:authorize)
+      expect(@controller).to receive(:authorize)
     end
 
     describe 'w/ the params beeing valid' do
@@ -136,20 +136,20 @@ describe BoardsController do
       end
 
       it 'should redirect to the settings page if successful' do
-        response.should redirect_to :controller => '/projects',
+        expect(response).to redirect_to :controller => '/projects',
                                     :action => 'settings',
                                     :id => board.project,
                                     :tab => 'boards'
       end
 
       it 'have a successful update flash' do
-        flash[:notice].should == I18n.t(:notice_successful_update)
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
       end
 
       it 'should change the database entry' do
         board.reload
-        board.name.should == 'New name'
-        board.description.should == 'New description'
+        expect(board.name).to eq('New name')
+        expect(board.description).to eq('New description')
       end
     end
 
@@ -164,14 +164,73 @@ describe BoardsController do
       end
 
       it 'should render the edit template' do
-        response.should render_template('edit')
+        expect(response).to render_template('edit')
       end
 
       it 'should not change the database entry' do
         board.reload
-        board.name.should == 'Board name'
-        board.description.should == 'Board description'
+        expect(board.name).to eq('Board name')
+        expect(board.description).to eq('Board description')
       end
+    end
+
+  end
+
+  describe :sticky do
+
+    let!(:message1) { FactoryGirl.create(:message, board: board) }
+    let!(:message2) { FactoryGirl.create(:message, board: board) }
+    let!(:sticked_message1) { FactoryGirl.create(:message, board_id: board.id, subject: "How to",
+                                                 content: "How to install this cool app", sticky: "1", sticked_on: Time.now - 2.minute) }
+
+    let!(:sticked_message2) { FactoryGirl.create(:message, board_id: board.id, subject: "FAQ",
+                                                 content: "Frequestly asked question", sticky: "1", sticked_on: Time.now - 1.minute) }
+
+    describe "all sticky messages" do
+      before do
+        expect(@controller).to receive(:authorize)
+        get :show, project_id: project.id, id: board.id
+      end
+
+      it { expect(response).to render_template 'show' }
+      it "should be displayed on top" do
+        expect(assigns[:topics][0].id).to eq(sticked_message1.id)
+      end
+    end
+
+    describe "edit a sticky message" do
+      before(:each) do
+        sticked_message1.sticky = 0
+        sticked_message1.save!
+      end
+
+      describe "when sticky is unset from message" do
+        before do
+          expect(@controller).to receive(:authorize)
+          get :show, project_id: project.id, id: board.id
+        end
+
+        it "it should not be displayed as sticky message" do
+
+          expect(sticked_message1.sticked_on).to be_nil
+          expect(assigns[:topics][0].id).to_not eq(sticked_message1.id)
+        end
+      end
+
+      describe "when sticky is set back to message" do
+        before do
+          sticked_message1.sticky = 1
+          sticked_message1.save!
+
+          expect(@controller).to receive(:authorize)
+          get :show, project_id: project.id, id: board.id
+        end
+
+        it "it should not be displayed on first position" do
+          expect(assigns[:topics][0].id).to eq(sticked_message2.id)
+        end
+      end
+
     end
 
   end

@@ -38,9 +38,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <p><%= f.text_field :lastname, :required => true %></p>
   <p><%= f.text_field :mail, :required => true %></p>
   <p><%= f.select :language, lang_options_for_select %></p>
-  <% if Setting.openid? %>
-  <p><%= f.text_field :identity_url  %></p>
-  <% end %>
 
   <% @user.custom_field_values.each do |value| %>
     <p><%= custom_field_tag_with_label :user, value %></p>
@@ -57,38 +54,63 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box tabular">
   <h3><%=l(:label_authentication)%></h3>
-  <% unless @auth_sources.empty? %>
-    <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
+  <% if @user.uses_external_authentication? %>
+    <p>
+      <label><%= I18n.t('user.authentication_provider') %></label>
+      <%= @user.authentication_provider %>
+    </p>
+    <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+  <% else %>
+    <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
+      <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
+    <% end %>
+    <% if !OpenProject::Configuration.disable_password_login? %>
+      <%
+        pw_style =
+          if @user.change_password_allowed?
+            ''
+          else
+            ' style="display: none;"'
+          end
+      %>
+      <div id="password_fields"<%= pw_style.html_safe %>>
+        <% assign_random_password_enabled = params[:user] &&
+                                            params[:user][:assign_random_password] %>
+        <p>
+          <label for="user_assign_random_password">
+            <%= I18n.t(:assign_random_password, :scope => :user) %>
+          </label>
+          <%= check_box_tag("user[assign_random_password]",
+                            "1",
+                            assign_random_password_enabled) %>
+        </p>
+        <p>
+          <%= f.password_field :password,
+                               :required => true,
+                               :size => 25,
+                               :disabled => assign_random_password_enabled %><br />
+          <%= password_complexity_requirements %>
+        </p>
+        <p>
+          <%= f.password_field :password_confirmation,
+                               :required => true,
+                               :size => 25,
+                               :disabled => assign_random_password_enabled %>
+        </p>
+        <p>
+          <%= f.check_box :force_password_change,
+                          :disabled => assign_random_password_enabled %>
+        </p>
+      </div>
+    <% else %>
+      <div id="no_password_info">
+        <p>
+          <label><%= I18n.t 'warning' %></label>
+          <%= I18n.t 'user.no_login' %>
+        </p>
+      </div>
+    <% end %>
   <% end %>
-  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
-    <% assign_random_password_enabled = params[:user] && 
-                                        params[:user][:assign_random_password] %>
-    <p>
-      <label for="user_assign_random_password">
-        <%= I18n.t(:assign_random_password, :scope => :user) %>
-      </label>
-      <%= check_box_tag("user[assign_random_password]",
-                        "1",
-                        assign_random_password_enabled) %>
-    </p>
-    <p>
-      <%= f.password_field :password,
-                           :required => true,
-                           :size => 25,
-                           :disabled => assign_random_password_enabled %><br />
-      <%= password_complexity_requirements %>
-    </p>
-    <p>
-      <%= f.password_field :password_confirmation,
-                           :required => true,
-                           :size => 25,
-                           :disabled => assign_random_password_enabled %>
-    </p>
-    <p>
-      <%= f.check_box :force_password_change,
-                      :disabled => assign_random_password_enabled %>
-    </p>
-  </div>
 </div>
 
 <div class="box">

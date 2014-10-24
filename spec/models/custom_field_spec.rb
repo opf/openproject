@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField do
+describe CustomField, :type => :model do
   before { CustomField.destroy_all }
 
   let(:field)  { FactoryGirl.build :custom_field }
@@ -43,7 +43,7 @@ describe CustomField do
           field2.save!
         end
 
-        it { field.should_not be_valid }
+        it { expect(field).not_to be_valid }
       end
 
       describe "WHEN value and locale are identical and type is different" do
@@ -53,7 +53,7 @@ describe CustomField do
           field.type = "TestCustomField"
         end
 
-        it { field.should be_valid }
+        it { expect(field).to be_valid }
       end
 
       describe "WHEN type and locale are identical and value is different" do
@@ -63,7 +63,7 @@ describe CustomField do
           field2.save!
         end
 
-        it { field.should be_valid }
+        it { expect(field).to be_valid }
       end
 
       describe "WHEN value and type are identical and locale is different" do
@@ -81,7 +81,7 @@ describe CustomField do
           field.name = "taken_name"
         end
 
-        it { field.should be_valid }
+        it { expect(field).to be_valid }
       end
     end
 
@@ -100,12 +100,12 @@ describe CustomField do
 
       it "should return english name when in locale en" do
         I18n.locale = :en
-        field.name.should == "Field"
+        expect(field.name).to eq("Field")
       end
 
       it "should return german name when in locale de" do
         I18n.locale = :de
-        field.name.should == "Feld"
+        expect(field.name).to eq("Feld")
       end
     end
   end
@@ -119,10 +119,10 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { field.should have(1).translations }
-      it { field.name(:de).should == "Feld" }
-      it { field.default_value(:de).should == "zwei" }
-      it { field.possible_values(:locale => :de).should == ["eins", "zwei", "drei"] }
+      it { expect(field.translations.size).to eq(1) }
+      it { expect(field.name(:de)).to eq("Feld") }
+      it { expect(field.default_value(:de)).to eq("zwei") }
+      it { expect(field.possible_values(:locale => :de)).to eq(["eins", "zwei", "drei"]) }
     end
 
     describe "WHEN providing a hash with only a locale" do
@@ -130,7 +130,7 @@ describe CustomField do
         field.translations_attributes = [ { "locale" => "de" } ]
       end
 
-      it { field.should have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN providing a hash with a locale and blank values" do
@@ -141,7 +141,7 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { field.should have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN providing a hash with a locale and only one values" do
@@ -150,8 +150,8 @@ describe CustomField do
                                             "locale" => "de" } ]
       end
 
-      it { field.should have(1).translations }
-      it { field.name(:de).should == "Feld" }
+      it { expect(field.translations.size).to eq(1) }
+      it { expect(field.name(:de)).to eq("Feld") }
     end
 
     describe "WHEN providing a hash without a locale but with values" do
@@ -162,7 +162,7 @@ describe CustomField do
                                             "locale" => "" } ]
       end
 
-      it { field.should have(0).translations }
+      it { expect(field.translations.size).to eq(0) }
     end
 
     describe "WHEN already having a translation and wishing to delete it" do
@@ -182,7 +182,7 @@ describe CustomField do
         field.save!
       end
 
-      it { field.should have(1).translations }
+      it { expect(field.translations.size).to eq(1) }
     end
   end
 
@@ -197,8 +197,8 @@ describe CustomField do
         field.default_value = "default"
       end
 
-      it { field.default_value(:en).should == "default" }
-      it { field.default_value(:de).should == "Standard" }
+      it { expect(field.default_value(:en)).to eq("default") }
+      it { expect(field.default_value(:de)).to eq("Standard") }
     end
   end
 
@@ -220,8 +220,8 @@ describe CustomField do
         I18n.locale = :en
       end
 
-      it { field.possible_values(:locale => :en).should == ["one", "two", "three"] }
-      it { field.possible_values(:locale => :de).should == ["eins", "zwei", "drei"] }
+      it { expect(field.possible_values(:locale => :en)).to eq(["one", "two", "three"]) }
+      it { expect(field.possible_values(:locale => :de)).to eq(["eins", "zwei", "drei"]) }
     end
   end
 
@@ -242,7 +242,7 @@ describe CustomField do
                                             "default_value" => "two" } ]
       end
 
-      it { field.should_not be_valid }
+      it { expect(field).not_to be_valid }
     end
 
     describe "WITH a list field
@@ -261,7 +261,7 @@ describe CustomField do
                                             "default_value" => "two" } ]
       end
 
-      it { field.should be_valid }
+      it { expect(field).to be_valid }
     end
 
 
@@ -281,12 +281,12 @@ describe CustomField do
                                             "default_value" => "four" } ]
       end
 
-      it { field.should_not be_valid }
+      it { expect(field).not_to be_valid }
     end
 
     describe "WITH a list field
               WITH two translations
-              WITH possible_values beeing empty in a fallbacked translation" do
+              WITH possible_values being empty in a fallbacked translation" do
 
       before do
         field.field_format = 'list'
@@ -298,11 +298,11 @@ describe CustomField do
                                             "default_value" => "two" } ]
       end
 
-      it { field.should be_valid }
+      it { expect(field).to be_valid }
     end
 
     describe "WITH a list field
-              WITH the field beeing required
+              WITH the field being required
               WITH two translations
               WITH neither translation defining a default_value" do
 
@@ -316,12 +316,12 @@ describe CustomField do
                                             "locale" => "en" } ]
       end
 
-      it { field.should be_valid }
+      it { expect(field).to be_valid }
     end
 
     describe "WITH a boolean field
-              WITH the field beeing required
-              WITH two translations beeing provided
+              WITH the field being required
+              WITH two translations being provided
               WITH only one translation specifying a default value" do
 
       before do
@@ -334,7 +334,71 @@ describe CustomField do
         field.is_required = true
       end
 
-      it { field.should be_valid }
+      it { expect(field).to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH minimum length blank" do
+      before do
+        field.field_format = 'text'
+        field.min_length = nil
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH maximum length blank" do
+      before do
+        field.field_format = 'text'
+        field.max_length = nil
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH minimum length not an integer" do
+      before do
+        field.field_format = 'text'
+        field.min_length = 'a'
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH maximum length not an integer" do
+      before do
+        field.field_format = 'text'
+        field.max_length = 'a'
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH minimum length greater than maximum length" do
+      before do
+        field.field_format = 'text'
+        field.min_length = 2
+        field.max_length = 1
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH negative minimum length" do
+      before do
+        field.field_format = 'text'
+        field.min_length = -2
+      end
+      it { expect(field).not_to be_valid }
+    end
+
+    describe "WITH a text field
+              WITH negative maximum length" do
+      before do
+        field.field_format = 'text'
+        field.max_length = -2
+      end
+      it { expect(field).not_to be_valid }
     end
   end
 end

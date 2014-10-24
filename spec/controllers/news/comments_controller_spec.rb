@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe News::CommentsController do
+describe News::CommentsController, :type => :controller do
   render_views
 
   let(:user) { FactoryGirl.create(:admin)   }
   let(:news) { FactoryGirl.create(:news)    }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe "#create" do

@@ -62,6 +62,3 @@ I18n::JS.module_eval do
     alias_method_chain :filter, :uneven_nesting_fix
   end
 end
-
-# Exporting I18n files at server startup time
-I18n::JS.export

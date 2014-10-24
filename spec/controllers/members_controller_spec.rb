@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MembersController do
+describe MembersController, :type => :controller do
   let(:admin) {FactoryGirl.create(:admin)}
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
@@ -38,7 +38,7 @@ describe MembersController do
                                              :roles => [role]) }
 
   before do
-    User.stub(:current).and_return(admin)
+    allow(User).to receive(:current).and_return(admin)
   end
 
   describe "create" do
@@ -46,7 +46,7 @@ describe MembersController do
     let(:project_2) { FactoryGirl.create(:project) }
 
     before do
-      User.stub(:current).and_return(admin)
+      allow(User).to receive(:current).and_return(admin)
     end
 
     it "should work for multiple users" do
@@ -57,15 +57,15 @@ describe MembersController do
           :role_ids => [role.id]
         }
 
-      response.response_code.should < 400
+      expect(response.response_code).to be < 400
 
       [admin, user].each do |u|
         u.reload
-        u.memberships.should have_at_least(1).item
+        expect(u.memberships.size).to be >= 1
 
-        u.memberships.find do |m|
-          m.roles.should include(role)
-        end.should_not be_nil
+        expect(u.memberships.find do |m|
+          expect(m.roles).to include(role)
+        end).not_to be_nil
       end
     end
   end
@@ -83,7 +83,7 @@ describe MembersController do
     }
 
     before do
-      User.stub(:current).and_return(admin)
+      allow(User).to receive(:current).and_return(admin)
     end
 
     it "should, however, allow roles to be updated through mass assignment" do
@@ -94,7 +94,7 @@ describe MembersController do
           :role_ids => [role_1.id, role_2.id]
         }
 
-      Member.find(member_2.id).roles.should include(role_1, role_2)
+      expect(Member.find(member_2.id).roles).to include(role_1, role_2)
       expect(response.response_code).to be < 400
     end
   end
@@ -103,7 +103,7 @@ describe MembersController do
     let(:params) { ActionController::Parameters.new({ "id" => project.identifier.to_s }) }
 
     before do
-      User.stub(:current).and_return(user)
+      allow(User).to receive(:current).and_return(user)
     end
 
     describe "WHEN the user is authorized
@@ -116,14 +116,14 @@ describe MembersController do
 
       it "should be success" do
         post :autocomplete_for_member, params, :format => :xhr
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
     describe "WHEN the user is not authorized" do
       it "should be forbidden" do
         post :autocomplete_for_member, params, :format => :xhr
-        response.response_code.should == 403
+        expect(response.response_code).to eq(403)
       end
     end
   end
@@ -175,9 +175,9 @@ describe MembersController do
         end
 
         it "should add members" do
-          user2.should be_member_of(project)
-          user3.should be_member_of(project)
-          user4.should be_member_of(project)
+          expect(user2).to be_member_of(project)
+          expect(user3).to be_member_of(project)
+          expect(user4).to be_member_of(project)
         end
 
         it "should replace the tab with RJS" do

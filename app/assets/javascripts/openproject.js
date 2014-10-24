@@ -70,7 +70,7 @@ window.OpenProject = (function ($) {
         project.parents = parents.slice(0, -1); // make sure to pass a clone
         project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
         project.url     = openProject.getFullUrl('/projects/' + project.identifier) + "?jump=" +
-                            encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'))
+                            encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'));
 
         return project;
       });
@@ -84,7 +84,7 @@ window.OpenProject = (function ($) {
       }
 
       if (!url) {
-        url = this.getFullUrl("/api/v1/projects/level_list.json");
+        url = this.getFullUrl("/api/v2/projects/level_list.json");
       }
 
       if (this.projects) {
@@ -440,7 +440,7 @@ window.OpenProject = (function ($) {
 
     Helpers.accessibilityModeEnabled = function() {
       return jQuery('meta[name="accessibility-mode"]').attr('content') === 'true';
-    }
+    };
 
     return Helpers;
   })();

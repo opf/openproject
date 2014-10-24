@@ -28,6 +28,7 @@
 #++
 
 module VersionsHelper
+  include WorkPackagesFilterHelper
 
   STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 

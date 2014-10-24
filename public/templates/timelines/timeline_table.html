@@ -1,0 +1,70 @@
+<table class="tl-main-table">
+  <thead>
+    <tr>
+      <th class="tl-first-column" ng-style="{height: height}">{{I18n.t('js.timelines.filter.column.name')}}</th>
+      <th timeline-column-name
+          ng-repeat="columnName in columns"
+          column-name="columnName"
+          locale-prefix="js.timelines.filter.column"
+          custom-fields="timeline.custom_fields"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr timeline-grouping-label
+        ng-repeat-start="row in rows"
+        ng-if="isGrouping"
+        ng-show="showGroupingLabel()">
+      <td class="tl-grouping" colspan="{{columns.length + 1}}">
+        <span class="tl-word-ellipsis">{{row.firstLevelGroupingName}}</span>
+      </td>
+    </tr>
+
+    <tr timeline-table-row
+        ng-repeat-end
+        ng-class="{
+          'tl-first-row': $first,
+          'tl-last-row': $last,
+          'tl-project-row': rowObjectType === 'Project'
+        }"
+        ng-if="!(hideTreeRoot && $first || rowObjectType === 'Project' && excludeEmpty && !row.childNodes)"
+        ng-show="rowObjectType === 'Project' && row.level === 1 || (row.ancestors | ancestorsExpanded)">
+
+      <!-- tree node expansion toggle -->
+
+      <td ng-class="[
+            'tl-first-column',
+            'tl-indent-' + indent,
+            row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
+          ]">
+        <a ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0">{{row.expanded && '-' || '+'}}</a>
+
+        <span class="tl-word-ellipsis">
+          <span ng-if="changeDetected">
+            <a title="{{I18n.t('js.timelines.change')}}"
+               ng-class="{
+                 'icon tl-icon-added': rowObject.isNewlyAdded(),
+                 'icon tl-icon-deleted': rowObject.isDeleted(),
+                 'icon tl-icon-changed': !rowObject.isDeleted() && !rowObject.isNewlyAdded()
+               }" />
+          </span>
+
+          <span>
+            <a href="{{row.url}}" modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObjectType === 'Project'}">{{ row.text | characters:40 }}</a>
+          </span>
+
+          <div ng-show="row.lastVisible" class="tl-invisible" style="height: 15px; width: 15px;"></div>
+        </span>
+      </td>
+
+      <td timeline-column-data
+          ng-repeat="columnName in columns"
+          column-name="columnName"
+          row-object="rowObject"
+          timeline="timeline"
+          custom-fields="timeline.custom_fields">
+      </td>
+    </tr>
+  </tbody>
+
+</table>

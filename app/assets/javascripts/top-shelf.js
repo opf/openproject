@@ -33,12 +33,12 @@
       options = { message: options };
     }
     return $.extend({}, $.fn.topShelf.defaults, options);
-  };
+  }
 
   $.fn.topShelf = function(options) {
     var opts = mergeOptions(options);
     var message = this;
-    var topShelf = $("<div/>").addClass(opts.className)
+    var topShelf = $("<div/>").addClass(opts.className);
 
     if (message.length === 0) {
       topShelf.append($("<h1/>").append(opts.title))
@@ -51,7 +51,7 @@
       topShelf.append(message);
     }
 
-    $("body").prepend(topShelf)
+    $("body").prepend(topShelf);
 
     return this;
   };

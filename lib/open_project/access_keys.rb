@@ -30,7 +30,7 @@
 module OpenProject
   module AccessKeys
     ACCESSKEYS = {:preview => '1',
-                  :new_issue => '2',
+                  :new_work_package => '2',
                   :edit => '3',
                   :quick_search => '4',
                   :project_search => '5',

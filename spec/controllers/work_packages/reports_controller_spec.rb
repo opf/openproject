@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ReportsController do
+describe WorkPackages::ReportsController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -52,7 +52,7 @@ describe WorkPackages::ReportsController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
 
     work_package_1
     work_package_2
@@ -65,9 +65,9 @@ describe WorkPackages::ReportsController do
 
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('report') }
+      it { is_expected.to render_template('report') }
 
       it { assigns :work_packages_by_type }
 
@@ -90,9 +90,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
-        it { should render_template('report_details') }
+        it { is_expected.to render_template('report_details') }
 
         it { assigns :field }
 
@@ -156,9 +156,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
 
-        it { should redirect_to(report_project_work_packages_path(project.identifier)) }
+        it { is_expected.to redirect_to(report_project_work_packages_path(project.identifier)) }
       end
     end
   end

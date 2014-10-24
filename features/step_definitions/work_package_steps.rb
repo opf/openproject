@@ -118,7 +118,7 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   if table.rows_hash["Type"] || table.rows_hash["Subject"]
-    expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}")
+    expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}", Regexp::IGNORECASE)
 
     should have_css("h2", :text => expected_header)
   end

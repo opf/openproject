@@ -55,11 +55,13 @@ Feature: Tracking Time
     And I am already admin
     And I am on the time entry page of issue "issue1"
 
+  @javascript
   Scenario: Adding a time entry
     When I log 2 hours with the comment "test"
     Then I should see a time entry with 2 hours and comment "test"
     And I should see a total spent time of 6 hours
 
+  @javascript
   Scenario: Editing a time entry
     When I update the first time entry with 4 hours and the comment "updated test"
     Then I should see a time entry with 4 hours and comment "updated test"

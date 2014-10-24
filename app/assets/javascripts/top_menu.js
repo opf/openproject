@@ -37,7 +37,6 @@
   TopMenu.prototype = $.extend(TopMenu.prototype, {
     setup: function () {
       var self = this;
-      this.oldBrowser = parseInt($.browser.version, 10) < 8 && $.browser.msie;
       this.hover = false;
       this.menuIsOpen = false;
       this.withHeadingFoldOutAtBorder();
@@ -133,7 +132,7 @@
           // AND the dropdown we hover on is not currently open anyways
           if (self.hover && self.isClosed($(this))) {
             self.open($(this));
-          }  
+          }
         });
       });
     },
@@ -184,29 +183,13 @@
     slideDown: function (dropdown) {
       var toDrop = dropdown.find("> ul");
       dropdown.addClass("open");
-      if (this.oldBrowser) {
-        toDrop.show();
-
-        // this forces IE to redraw the menu area, un-bollocksing things
-        $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-
-      } else {
-        toDrop.slideDown(animationRate);
-      }
+      toDrop.slideDown(animationRate);
     },
 
     slideUp: function (dropdown) {
       var toDrop = $(dropdown).find("> ul");
       dropdown.removeClass("open");
-      if (this.oldBrowser) {
-        toDrop.hide();
-
-        // this forces IE to redraw the menu area, un-bollocksing things
-        $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-
-      } else {
-        toDrop.slideUp(animationRate);
-      }
+      toDrop.slideUp(animationRate);
     },
 
     // If there is ANY input, it will have precedence over links,
@@ -257,7 +240,7 @@
       });
       top_menus.push(new_menu);
     });
-  }
+  };
 }(jQuery));
 
 jQuery(document).ready(function($) {

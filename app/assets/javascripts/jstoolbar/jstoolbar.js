@@ -95,7 +95,7 @@ jsButton.prototype.draw = function() {
     button.onclick = function() { try { This.fn.apply(This.scope, arguments) } catch (e) {} return false; };
   }
   return button;
-}
+};
 
 function jsSpace(id) {
   this.id = id || null;
@@ -109,7 +109,7 @@ jsSpace.prototype.draw = function() {
   if (this.width) span.style.marginRight = this.width+'px';
 
   return span;
-}
+};
 
 function jsCombo(title, options, scope, fn, className) {
   this.title = title || null;
@@ -140,10 +140,10 @@ jsCombo.prototype.draw = function() {
     } catch (e) { alert(e); }
 
     return false;
-  }
+  };
 
   return select;
-}
+};
 
 
 jsToolBar.prototype = {
@@ -177,7 +177,7 @@ jsToolBar.prototype = {
     return b;
   },
   space: function(toolName) {
-    var tool = new jsSpace(toolName)
+    var tool = new jsSpace(toolName);
     if (this.elements[toolName].width !== undefined)
       tool.width = this.elements[toolName].width;
     return tool;
@@ -207,7 +207,7 @@ jsToolBar.prototype = {
     this.toolNodes = {}; // vide les raccourcis DOM/**/
 
     var h = document.createElement('div');
-    h.className = 'help'
+    h.className = 'help';
     h.innerHTML = this.help_link;
     this.toolbar.appendChild(h);
 
@@ -297,12 +297,14 @@ jsToolBar.prototype = {
           range.text = subst;
           this.textarea.caretPos -= suffix.length;
       } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          var cursorPosition = start;
           this.textarea.value = this.textarea.value.substring(0, start) + subst + this.textarea.value.substring(end);
           if (sel) {
-              this.textarea.setSelectionRange(start + subst.length, start + subst.length);
+              cursorPosition += subst.length;
           } else {
-              this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
+              cursorPosition += prefix.length + res.length;
           }
+          this.textarea.setSelectionRange(cursorPosition, cursorPosition);
           this.textarea.scrollTop = scrollPos;
       }
   },

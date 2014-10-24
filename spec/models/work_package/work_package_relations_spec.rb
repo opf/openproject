@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :relation do
     let(:closed_state) { FactoryGirl.create(:status,
                                             is_closed: true) }
@@ -50,7 +50,7 @@ describe WorkPackage do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         original.project.add_member!(user, workflow.role)
       end
@@ -83,8 +83,8 @@ describe WorkPackage do
         end
 
         it "only duplicates are closed" do
-          dup_1.closed?.should be_true
-          dup_2.closed?.should be_true
+          expect(dup_1.closed?).to be_truthy
+          expect(dup_2.closed?).to be_truthy
         end
       end
 
@@ -100,7 +100,7 @@ describe WorkPackage do
 
         subject { original.closed? }
 
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
     end
 
@@ -129,13 +129,13 @@ describe WorkPackage do
         context "blocked work package" do
           subject { blocked.blocked? }
 
-          it { should be_true }
+          it { is_expected.to be_truthy }
         end
 
         context "blocking work package" do
           subject { blocks.blocked? }
 
-          it { should be_false }
+          it { is_expected.to be_falsey }
         end
       end
 
@@ -156,7 +156,7 @@ describe WorkPackage do
         shared_examples_for "work package with status transitions" do
           subject { work_package.new_statuses_allowed_to(user) }
 
-          it { should_not be_empty }
+          it { is_expected.not_to be_empty }
         end
 
         shared_context "allowed status transitions" do
@@ -178,7 +178,7 @@ describe WorkPackage do
           describe "deny closed state" do
             include_context "allowed status transitions"
 
-            it { should be_empty }
+            it { is_expected.to be_empty }
           end
         end
 
@@ -190,7 +190,7 @@ describe WorkPackage do
           describe "allow closed state" do
             include_context "allowed status transitions"
 
-            it { should_not be_empty }
+            it { is_expected.not_to be_empty }
           end
         end
       end
@@ -214,7 +214,7 @@ describe WorkPackage do
       shared_examples_for "following start date" do
         subject { following.reload.start_date }
 
-        it { should eq(preceding.due_date + 1) }
+        it { is_expected.to eq(preceding.due_date + 1) }
       end
 
       before { relation_precedes }
@@ -282,7 +282,7 @@ describe WorkPackage do
       shared_examples_for "all dependant work packages visible" do
         subject { work_package_1.all_dependent_packages.collect(&:id) }
 
-        it { should =~ expected_ids }
+        it { is_expected.to match_array(expected_ids) }
       end
 
       context "w/o circular dependency" do

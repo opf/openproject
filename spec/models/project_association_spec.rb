@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectAssociation do
+describe ProjectAssociation, :type => :model do
   describe '- Relations ' do
     describe '#project_a' do
       it 'can read the first project w/ the help of the belongs_to association' do
@@ -39,7 +39,7 @@ describe ProjectAssociation do
                                      :project_a_id => project_a.id,
                                      :project_b_id => project_b.id)
 
-        association.project_a.should == project_a
+        expect(association.project_a).to eq(project_a)
       end
 
       it 'can read the second project w/ the help of the belongs_to association' do
@@ -50,7 +50,7 @@ describe ProjectAssociation do
                                      :project_a_id => project_a.id,
                                      :project_b_id => project_b.id)
 
-        association.project_b.should == project_b
+        expect(association.project_b).to eq(project_b)
       end
 
       it 'can read both projects w/ the help of the pseudo has_many association' do
@@ -61,8 +61,8 @@ describe ProjectAssociation do
                                      :project_a_id => project_a.id,
                                      :project_b_id => project_b.id)
 
-        association.projects.should include(project_a)
-        association.projects.should include(project_b)
+        expect(association.projects).to include(project_a)
+        expect(association.projects).to include(project_b)
       end
     end
   end
@@ -78,7 +78,7 @@ describe ProjectAssociation do
       FactoryGirl.create(:project, :id => 2)
     }
 
-    it { ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
+    it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
 
     it "should be invalid for a self referential association" do
       attributes[:project_b_id] = attributes[:project_a_id]
@@ -87,12 +87,12 @@ describe ProjectAssociation do
         a.send(:assign_attributes, attributes, :without_protection => true)
       end
 
-      project_association.should_not be_valid
+      expect(project_association).not_to be_valid
 
-      project_association.errors[:base].should == [I18n.t(:identical_projects, :scope => [:activerecord,
+      expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, :scope => [:activerecord,
                                                                                          :errors,
                                                                                          :models,
-                                                                                         :project_association])]
+                                                                                         :project_association])])
     end
 
     describe 'project_a' do
@@ -100,9 +100,9 @@ describe ProjectAssociation do
         attributes[:project_a_id] = nil
         project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }
 
-        project_association.should_not be_valid
+        expect(project_association).not_to be_valid
 
-        project_association.errors[:project_a].should == ["can't be blank"]
+        expect(project_association.errors[:project_a]).to eq(["can't be blank"])
       end
     end
 
@@ -111,9 +111,9 @@ describe ProjectAssociation do
         attributes[:project_b_id] = nil
         project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }
 
-        project_association.should_not be_valid
+        expect(project_association).not_to be_valid
 
-        project_association.errors[:project_b].should == ["can't be blank"]
+        expect(project_association.errors[:project_b]).to eq(["can't be blank"])
       end
     end
   end

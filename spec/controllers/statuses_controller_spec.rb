@@ -28,32 +28,32 @@
 
 require 'spec_helper'
 
-describe StatusesController do
+describe StatusesController, :type => :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   shared_examples_for :response do
     subject { response }
 
-    it { should be_success }
+    it { is_expected.to be_success }
 
-    it { should render_template(template) }
+    it { is_expected.to render_template(template) }
   end
 
   shared_examples_for :redirect do
     subject { response }
 
-    it { should be_redirect }
+    it { is_expected.to be_redirect }
 
-    it { should redirect_to({ action: :index }) }
+    it { is_expected.to redirect_to({ action: :index }) }
   end
 
   shared_examples_for :statuses do
     subject { Status.find_by_name(name) }
 
-    it { should_not be_nil }
+    it { is_expected.not_to be_nil }
   end
 
   describe :index do
@@ -146,7 +146,7 @@ describe StatusesController do
     shared_examples_for :destroyed do
       subject { Status.find_by_name(name) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "unused" do
@@ -196,14 +196,14 @@ describe StatusesController do
 
   describe :update_work_package_done_ratio do
     shared_examples_for :flash do
-      it { should set_the_flash.to(message) }
+      it { is_expected.to set_the_flash.to(message) }
     end
 
     context "with 'work_package_done_ratio' using 'field'" do
-      let(:message) { /not updated/ } 
+      let(:message) { /not updated/ }
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'field'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
         post :update_work_package_done_ratio
       end
@@ -214,10 +214,10 @@ describe StatusesController do
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
-      let(:message) { /Work package done ratios updated/ } 
+      let(:message) { /Work package done ratios updated/ }
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'status'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
         post :update_work_package_done_ratio
       end

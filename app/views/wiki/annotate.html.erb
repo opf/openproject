@@ -28,7 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_specific do %>
-  <%= link_to(l(:button_edit), {:action => 'edit', :id => @page}, :class => 'icon icon-edit') %>
+  <%= link_to(l(:button_edit),
+              {:action => 'edit', :id => @page},
+              :class => 'icon icon-edit',
+              :accesskey => accesskey(:edit)) %>
   <%= link_to(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-wiki') %>
 <% end %>
 

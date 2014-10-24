@@ -53,7 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <p>
       <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
+                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                      :'ng-non-bindable' => '' %>
     </p>
 
     <p>
@@ -84,4 +85,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title @page.pretty_title %>
-

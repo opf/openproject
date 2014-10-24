@@ -294,4 +294,30 @@ module TimelinesHelper
       [l("timelines.filter.column." + t), t]
     end
   end
+
+  # Push timeline data to view as JSON via gon
+
+  include Gon::GonHelpers
+
+  def visible_timeline_paths(visible_timelines=[])
+    @visible_timelines.inject({}) do |timeline_paths, timeline|
+      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+    end
+  end
+
+  def push_visible_timeline_paths(visible_timelines)
+    gon.timelines = visible_timeline_paths visible_timelines
+  end
+
+  def push_current_timeline_id(id)
+    gon.current_timeline_id = id
+  end
+
+  def push_timeline_options(timeline)
+    gon.timeline_options = timeline.options.reverse_merge(
+      timeline_id: timeline.id,
+      project_id: timeline.project.identifier,
+      url_prefix: OpenProject::Configuration.rails_relative_url_root || ''
+    )
+  end
 end

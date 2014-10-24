@@ -45,7 +45,7 @@ describe OpenProject::Configuration do
     end
 
     it 'should merge the config from the file into the given config hash' do
-      config['somesetting'].should == 'foo'
+      expect(config['somesetting']).to eq('foo')
     end
   end
 
@@ -58,7 +58,7 @@ describe OpenProject::Configuration do
         }, 'test')}
 
       it 'should load a default setting' do
-        config['somesetting'].should == 'foo'
+        expect(config['somesetting']).to eq('foo')
       end
     end
 
@@ -69,7 +69,7 @@ describe OpenProject::Configuration do
         }, 'test')}
 
       it 'should load a setting' do
-        config['somesetting'].should == 'foo'
+        expect(config['somesetting']).to eq('foo')
       end
     end
 
@@ -80,7 +80,7 @@ describe OpenProject::Configuration do
         }, 'test')}
 
       it 'should load the overriding value' do
-        config['somesetting'].should == 'bar'
+        expect(config['somesetting']).to eq('bar')
       end
     end
   end
@@ -104,20 +104,20 @@ describe OpenProject::Configuration do
 
   describe '.with' do
     before do
-      OpenProject::Configuration.should_receive(:load_config_from_file) do |filename, env, config|
+      expect(OpenProject::Configuration).to receive(:load_config_from_file) do |filename, env, config|
         config.merge!({ 'somesetting' => 'foo' })
       end
       OpenProject::Configuration.load(:env => 'test')
     end
 
     it 'should return the overriden the setting within the block' do
-      OpenProject::Configuration['somesetting'].should == 'foo'
+      expect(OpenProject::Configuration['somesetting']).to eq('foo')
 
       OpenProject::Configuration.with 'somesetting' => 'bar' do
-        OpenProject::Configuration['somesetting'].should == 'bar'
+        expect(OpenProject::Configuration['somesetting']).to eq('bar')
       end
 
-      OpenProject::Configuration['somesetting'].should == 'foo'
+      expect(OpenProject::Configuration['somesetting']).to eq('foo')
     end
   end
 
@@ -140,13 +140,13 @@ describe OpenProject::Configuration do
       end
 
       it 'should adopt the delivery method' do
-        settings['email_delivery_method'].should == :smtp
+        expect(settings['email_delivery_method']).to eq(:smtp)
       end
 
       it 'should convert smtp settings' do
-        settings['smtp_address'].should == 'smtp.example.net'
-        settings['smtp_port'].should == 25
-        settings['smtp_domain'].should == 'example.net'
+        expect(settings['smtp_address']).to eq('smtp.example.net')
+        expect(settings['smtp_port']).to eq(25)
+        expect(settings['smtp_domain']).to eq('example.net')
       end
     end
 
@@ -158,9 +158,9 @@ describe OpenProject::Configuration do
       end
 
       it 'should convert smtp settings' do
-        settings['smtp_address'].should == 'smtp.example.net'
-        settings['smtp_port'].should == 25
-        settings['smtp_domain'].should == 'example.net'
+        expect(settings['smtp_address']).to eq('smtp.example.net')
+        expect(settings['smtp_port']).to eq(25)
+        expect(settings['smtp_domain']).to eq('example.net')
       end
     end
   end
@@ -178,9 +178,9 @@ describe OpenProject::Configuration do
     end
 
     it 'should enable deliveries and configure ActionMailer smtp delivery' do
-      action_mailer.should_receive(:perform_deliveries=).with(true)
-      action_mailer.should_receive(:delivery_method=).with(:smtp)
-      action_mailer.should_receive(:smtp_settings=).with({:address => 'smtp.example.net',
+      expect(action_mailer).to receive(:perform_deliveries=).with(true)
+      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
+      expect(action_mailer).to receive(:smtp_settings=).with({:address => 'smtp.example.net',
                                                           :port => '25'})
       OpenProject::Configuration.send(:configure_action_mailer, config)
     end

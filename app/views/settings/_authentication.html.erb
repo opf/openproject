@@ -42,22 +42,38 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <fieldset>
       <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
-      <p><%= setting_text_field :password_min_length, :size => 6 %></p>
-      <p><%= setting_multiselect :password_active_rules,
-                OpenProject::Passwords::Evaluator.known_rules.map do |r|
-                  [l("label_password_rule_#{r}"), r]
-                end %></p>
-      <p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
-      <p><%= setting_text_field :password_days_valid, :size => 6 %></p>
-      <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
-      <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+      <% if !OpenProject::Configuration.disable_password_login? %>
+        <p><%= setting_text_field :password_min_length, :size => 6 %></p>
+        <p><%= setting_multiselect :password_active_rules,
+                  OpenProject::Passwords::Evaluator.known_rules.map do |r|
+                    [l("label_password_rule_#{r}"), r]
+                  end %></p>
+        <p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
+        <p><%= setting_text_field :password_days_valid, :size => 6 %></p>
+        <p><%= setting_text_field :password_count_former_banned, :size => 6 %></p>
+        <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+      <% else %>
+        <p>
+          <label><%= I18n.t :note %></label>
+          <%=
+            url = 'https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md#disable-password-login'
+
+            explanation = I18n.t :note_password_login_disabled,
+                                 :configuration => "<a href=\"#{url}\">#{I18n.t('label_configuration')}</a>"
+
+            explanation.html_safe
+          %>
+        </p>
+      <% end %>
     </fieldset>
 
-    <fieldset>
-      <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
-      <p><%= setting_text_field :brute_force_block_after_failed_logins %></p>
-      <p><%= setting_text_field :brute_force_block_minutes %></p>
-    </fieldset>
+    <% unless OpenProject::Configuration.disable_password_login? %>
+      <fieldset>
+        <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
+        <p><%= setting_text_field :brute_force_block_after_failed_logins %></p>
+        <p><%= setting_text_field :brute_force_block_minutes %></p>
+      </fieldset>
+    <% end %>
 
     <fieldset>
       <legend><%= I18n.t(:session, :scope => [:settings]) %></legend>
@@ -77,16 +93,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <fieldset>
       <legend><%= I18n.t(:other, :scope => [:settings]) %></legend>
-      <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
-
       <p><%= setting_check_box :log_requesting_user %></p>
       <p><%= setting_check_box :rest_api_enabled %></p>
     </fieldset>
   </div>
 
-  <div style="float:right;">
-      <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
-  </div>
+  <% unless OpenProject::Configuration.disable_password_login? %>
+    <div style="float:right;">
+        <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
+    </div>
+  <% end %>
 
   <%= submit_tag l(:button_save) %>
 <% end %>

@@ -28,10 +28,10 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementPrioritiesController do
+describe Api::V2::PlanningElementPrioritiesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
-  before { User.stub(:current).and_return current_user }
+  before { allow(User).to receive(:current).and_return current_user }
 
   describe '#index' do
     shared_examples_for 'valid work package priority index request' do
@@ -66,4 +66,3 @@ describe Api::V2::PlanningElementPrioritiesController do
     end
   end
 end
-

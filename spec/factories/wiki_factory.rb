@@ -32,4 +32,3 @@ FactoryGirl.define do
     project
   end
 end
-

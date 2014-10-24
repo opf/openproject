@@ -38,18 +38,18 @@ body, #wrapper { direction: rtl;}
 #top-menu li { float: right; }
 .tabular label.floating
 {
-	margin-right: 0;
-	margin-left: auto;
-	text-align: right;
+  margin-right: 0;
+  margin-left: auto;
+  text-align: right;
 }
-.tabular label 
+.tabular label
 {
-	float: right;
-	margin-left: auto;
+  float: right;
+  margin-left: auto;
 }
 .tabular p
 {
-	clear: right;
+  clear: right;
 }
 .tabular label.block { text-align: right; }
 .icon
@@ -60,9 +60,9 @@ body, #wrapper { direction: rtl;}
 }
 div#activity dt, #search-results dt
 {
-	background-position: 100% 50%;
-	padding-right: 20px;
-	padding-left: 0px;
+  background-position: 100% 50%;
+  padding-right: 20px;
+  padding-left: 0px;
 }
 #content .tabs ul li { float: right; }
 #content .tabs ul { padding-left: auto; padding-right: 1em; }
@@ -89,4 +89,3 @@ div#issue-changesets div.wiki { direction: ltr; padding-left: 2em }
 #activity dt, .journal { clear: right; }
 .journal-link { float: left; }
 div.wiki pre { direction: ltr; }
-

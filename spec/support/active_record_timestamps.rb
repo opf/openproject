@@ -32,7 +32,7 @@ def without_timestamping
     begin
       yield
     ensure
-      ActiveRecord::Base.record_timestamps = true 
+      ActiveRecord::Base.record_timestamps = true
     end
   end
 end

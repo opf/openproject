@@ -28,11 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
-  before :each do
-    Delayed::Worker.delay_jobs = false
-  end
-
+describe WorkPackage, :type => :model do
   describe ActionMailer::Base do
     let(:user_1) { FactoryGirl.create(:user,
                                       mail: "dlopper@somenet.foo") }
@@ -43,15 +39,15 @@ describe WorkPackage do
     before do
       ActionMailer::Base.deliveries.clear
 
-      work_package.stub(:recipients).and_return([user_1.mail])
-      work_package.stub(:watcher_recipients).and_return([user_2.mail])
+      allow(work_package).to receive(:recipients).and_return([user_1.mail])
+      allow(work_package).to receive(:watcher_recipients).and_return([user_2.mail])
 
       work_package.save
     end
 
     subject { ActionMailer::Base.deliveries.size }
 
-    it { should eq(2) }
+    it { is_expected.to eq(2) }
 
     context "stale object" do
       before do
@@ -66,7 +62,7 @@ describe WorkPackage do
         work_package.save! rescue nil
       end
 
-      it { should eq(0) }
+      it { is_expected.to eq(0) }
     end
 
     context "no notification" do
@@ -78,7 +74,7 @@ describe WorkPackage do
         work_package.save!
       end
 
-      it { should eq(0) }
+      it { is_expected.to eq(0) }
     end
 
     context :group_assigned_work_package do
@@ -91,7 +87,7 @@ describe WorkPackage do
 
       subject { work_package.recipients }
 
-      it { should include(user_1.mail) }
+      it { is_expected.to include(user_1.mail) }
     end
   end
 end

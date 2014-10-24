@@ -125,27 +125,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
   end
 
   context "issues" do
-    # REST actions
-    should route(:get, "/api/v1/issues.xml").to( :controller => 'api/v1/issues',
-                                                 :action => 'index',
-                                                 :format => 'xml')
-    should route(:get, "/api/v1/projects/23/issues.xml").to( :controller => 'api/v1/issues',
-                                                             :action => 'index',
-                                                             :project_id => '23',
-                                                             :format => 'xml')
-    should route(:get, "/api/v1/issues/64.xml").to( :controller => 'api/v1/issues',
-                                                    :action => 'show',
-                                                    :id => '64',
-                                                    :format => 'xml')
-    should route(:get, "/api/v1/projects/23/issues/new.xml").to( :controller => 'api/v1/issues',
-                                                                 :action => 'new',
-                                                                 :project_id => '23',
-                                                                 :format => 'xml' )
-    should route(:delete, "/api/v1/issues/1.xml").to( :controller => 'api/v1/issues',
-                                                      :action => 'destroy',
-                                                      :id => '1',
-                                                      :format => 'xml')
-
     # Extra actions
     should route(:get, "/issues/changes").to( :controller => 'journals',
                                               :action => 'index')
@@ -283,16 +262,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                         :format => 'atom',
                                                         :project_id => '567' )
 
-      should route(:get, "/api/v1/projects/567/news.xml").to( :controller => 'api/v1/news',
-                                                              :action => 'index',
-                                                              :format => 'xml',
-                                                              :project_id => '567' )
-
-      should route(:get, "/api/v1/projects/567/news.json").to( :controller => 'api/v1/news',
-                                                               :action => 'index',
-                                                               :format => 'json',
-                                                               :project_id => '567' )
-
       should route(:get, "/projects/567/news/new").to( :controller => 'news',
                                                        :action => 'new',
                                                        :project_id => '567' )
@@ -309,14 +278,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
     should route(:get, "/news.atom").to( :controller => 'news',
                                          :action => 'index',
                                          :format => 'atom' )
-
-    should route(:get, "/api/v1/news.xml").to( :controller => 'api/v1/news',
-                                               :action => 'index',
-                                               :format => 'xml' )
-
-    should route(:get, "/api/v1/news.json").to( :controller => 'api/v1/news',
-                                                :action => 'index',
-                                                :format => 'json' )
 
     should route(:get, "/news/2").to( :controller => 'news',
                                       :action => 'show',

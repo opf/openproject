@@ -28,7 +28,6 @@
 #++
 
 class WorkPackages::BulkController < ApplicationController
-  before_filter :disable_api
   before_filter :find_work_packages
   before_filter :authorize
 
@@ -68,7 +67,7 @@ class WorkPackages::BulkController < ApplicationController
       end
     end
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
-    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
+    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project}, false)
   end
 
   def destroy
@@ -78,6 +77,7 @@ class WorkPackages::BulkController < ApplicationController
         format.html { render :locals => { work_packages: @work_packages,
                                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
                     }
+        format.json { render json: { error_message: 'Clean up of associated objects required'}, status: 420 }
       end
 
     else
@@ -86,6 +86,7 @@ class WorkPackages::BulkController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default(project_work_packages_path(@work_packages.first.project)) }
+        format.json { head :ok }
       end
     end
   end

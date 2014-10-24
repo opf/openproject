@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe NewsController do
+describe NewsController, :type => :controller do
   render_views
 
   include BecomeMember
@@ -38,7 +38,7 @@ describe NewsController do
   let(:news)    { FactoryGirl.create(:news)    }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe "#index" do
@@ -114,7 +114,7 @@ describe NewsController do
         expect(news.author).to eq user
         expect(news.project).to eq project
 
-        expect(ActionMailer::Base.deliveries).to have(1).element
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
     end
 

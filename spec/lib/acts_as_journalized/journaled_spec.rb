@@ -33,7 +33,7 @@ describe "Journalized Objects" do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-    User.stub(:current).and_return(@current)
+    allow(User).to receive(:current).and_return(@current)
   end
 
 
@@ -44,7 +44,7 @@ describe "Journalized Objects" do
     initial_journal = @work_package.journals.first
     recreated_journal = @work_package.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   it 'should work with news' do
@@ -53,7 +53,7 @@ describe "Journalized Objects" do
     initial_journal = @news.journals.first
     recreated_journal = @news.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
 
@@ -63,7 +63,7 @@ describe "Journalized Objects" do
     initial_journal = @wiki_content.journals.first
     recreated_journal = @wiki_content.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   it 'should work with messages' do
@@ -72,7 +72,7 @@ describe "Journalized Objects" do
     initial_journal = @message.journals.first
     recreated_journal = @message.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   it 'should work with time entries' do
@@ -84,7 +84,7 @@ describe "Journalized Objects" do
     initial_journal = @time_entry.journals.first
     recreated_journal = @time_entry.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   it 'should work with attachments' do
@@ -93,7 +93,7 @@ describe "Journalized Objects" do
     initial_journal = @attachment.journals.first
     recreated_journal = @attachment.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   it 'should work with changesets' do
@@ -105,7 +105,7 @@ describe "Journalized Objects" do
     initial_journal = @changeset.journals.first
     recreated_journal = @changeset.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 
   describe 'journal_editable_by?' do
@@ -128,7 +128,7 @@ describe "Journalized Objects" do
           role.remove_permission! :edit_work_packages
         end
 
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
     end
   end

@@ -1,0 +1,13 @@
+<div class="sort-header-outer">
+  <span title="{{ fullTitle }}" class="sort-header">
+    <a href="javascript://"
+       ng-if="sortable"
+       ng-class="[currentSortDirection && 'sort', currentSortDirection]"
+       lang-attribute
+       lang="{{locale}}">{{headerTitle}}</a>
+    <span ng-if="!sortable">{{headerTitle}}</span>
+    <icon-wrapper css-class="dropdown-indicator"
+                  icon-name="pulldown-arrow1"
+                  title="{{I18n.t('js.label_open_menu')}}"></icon-wrapper>
+  </span>
+</div>

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/show' do
+describe 'work_packages/show', :type => :view do
   let(:work_package) { FactoryGirl.create( :work_package, :description => '') }
   let(:attachment)   { FactoryGirl.create(:attachment,
                                           :author => work_package.author,
@@ -76,6 +76,5 @@ describe 'work_packages/show' do
       expect(rendered).to have_xpath("//ul/li[4]/a", :text => watching_user_5.name)
       expect(rendered).to have_xpath("//ul/li[5]/a", :text => watching_user_1.name)
     }
-
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Wiki do
+describe Wiki, :type => :model do
   let(:project) { FactoryGirl.create(:project, :without_wiki) }
   let(:start_page) { 'The wiki start page' }
 
@@ -36,11 +36,11 @@ describe Wiki do
     let(:wiki) { project.create_wiki start_page: start_page }
 
     it 'creates a wiki menu item on creation' do
-      wiki.wiki_menu_items.should be_one
+      expect(wiki.wiki_menu_items).to be_one
     end
 
     it 'sets the wiki menu item title to the name of the start page' do
-      wiki.wiki_menu_items.first.title.should == start_page
+      expect(wiki.wiki_menu_items.first.title).to eq(start_page)
     end
   end
 end

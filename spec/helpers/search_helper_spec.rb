@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe 'search/index' do
+describe 'search/index', :type => :helper do
   let(:project) { FactoryGirl.create(:project) }
   let(:scope) { "foobar" }
 
   before do
-    helper.stub(:params).and_return({
+    allow(helper).to receive(:params).and_return({
       :q => "foobar",
       :all_words => "1",
       :scope => scope
@@ -48,5 +48,80 @@ describe 'search/index' do
     expect(response).to have_selector("a", :count => results_by_type.size)
     expect(response).to include("/projects/#{project.identifier}/search")
     expect(response).to include("scope=#{scope}")
+  end
+
+  describe '#highlight_tokens' do
+    let(:maximum_length) { 1300 }
+
+    subject { helper.highlight_tokens title, tokens }
+    subject(:highlighted_title) { helper.highlight_tokens title, tokens }
+
+    context 'with single token' do
+      let(:tokens) { %w(token) }
+      let(:title) { 'This is a token.' }
+      let(:expected_title) { 'This is a <span class="highlight token-0">token</span>.' }
+
+      it { is_expected.to eq expected_title }
+    end
+
+    context 'with multiple tokens' do
+      let(:tokens) { %w(token another) }
+      let(:title) { 'This is a token and another token.' }
+      let(:expected_title) { 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.' }
+
+      it { is_expected.to eq expected_title }
+    end
+
+    context 'with huge content' do
+      let(:tokens) { %w(token) }
+      let(:title) { (('1234567890' * 100) + ' token ') * 100 }
+      let(:highlighted_token) { '<span class="highlight token-0">token</span>' }
+
+      it { expect(highlighted_title).to include highlighted_token }
+
+      it 'does not exceed maximum length' do
+        expect(highlighted_title.length).to be <= maximum_length
+      end
+    end
+
+    context 'with multibyte title' do
+      let(:tokens) { %w(token) }
+      let(:title) { ('й' * 200) + ' token ' + ('й' * 200) }
+      let(:expected_title) { ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45) }
+
+      it { is_expected.to eq expected_title }
+    end
+  end
+
+  describe '#highlight_first' do
+    let(:tokens) { %w(token) }
+
+    subject { helper.highlight_first titles, tokens }
+
+    context 'when first is matched' do
+      let(:first) { 'This is a token' }
+      let(:second) { 'I have some token for you' }
+      let(:titles) { [first, second] }
+      let(:first_highlighted) { 'This is a <span class="highlight token-0">token</span>' }
+
+      it { is_expected.to eq first_highlighted }
+    end
+
+    context 'when first is not matched' do
+      let(:first) { 'This is a book' }
+      let(:second) { 'I have some token for you' }
+      let(:titles) { [first, second] }
+      let(:second_highlighted) { 'I have some <span class="highlight token-0">token</span> for you' }
+
+      it { is_expected.to eq second_highlighted }
+    end
+
+    context 'when both first and second is not matched' do
+      let(:first) { 'This is a book' }
+      let(:second) { 'I have some book for you' }
+      let(:titles) { [first, second] }
+
+      it { is_expected.to eq second }
+    end
   end
 end

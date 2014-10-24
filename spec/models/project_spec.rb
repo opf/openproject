@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
-describe Project do
+describe Project, :type => :model do
   include BecomeMember
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -39,7 +39,7 @@ describe Project do
   describe Project::STATUS_ACTIVE do
     it "equals 1" do
       # spec that STATUS_ACTIVE has the correct value
-      Project::STATUS_ACTIVE.should == 1
+      expect(Project::STATUS_ACTIVE).to eq(1)
     end
   end
 
@@ -51,12 +51,12 @@ describe Project do
 
     it "is active when :status equals STATUS_ACTIVE" do
       project = FactoryGirl.create :project, :status => 42
-      project.should be_active
+      expect(project).to be_active
     end
 
     it "is not active when :status doesn't equal STATUS_ACTIVE" do
       project = FactoryGirl.create :project, :status => 99
-      project.should_not be_active
+      expect(project).not_to be_active
     end
   end
 
@@ -71,7 +71,7 @@ describe Project do
       project.project_type = project_type
       project.save!
 
-      project.associated_project_candidates(admin).should be_empty
+      expect(project.associated_project_candidates(admin)).to be_empty
     end
   end
 
@@ -79,26 +79,26 @@ describe Project do
     let(:project) { FactoryGirl.create(:project_with_types) }
 
     it "should return a new work_package" do
-      project.add_work_package.should be_a(WorkPackage)
+      expect(project.add_work_package).to be_a(WorkPackage)
     end
 
     it "should not be saved" do
-      project.add_work_package.should be_new_record
+      expect(project.add_work_package).to be_new_record
     end
 
     it "returned work_package should have project set to self" do
-      project.add_work_package.project.should == project
+      expect(project.add_work_package.project).to eq(project)
     end
 
     it "returned work_package should have type set to project's first type" do
-      project.add_work_package.type.should == project.types.first
+      expect(project.add_work_package.type).to eq(project.types.first)
     end
 
     it "returned work_package should have type set to provided type" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_work_package(:type => specific_type).type.should == specific_type
+      expect(project.add_work_package(:type => specific_type).type).to eq(specific_type)
     end
 
     it "should raise an error if the provided type is not one of the project's types" do
@@ -113,16 +113,16 @@ describe Project do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_work_package(:type_id => specific_type.id).type.should == specific_type
+      expect(project.add_work_package(:type_id => specific_type.id).type).to eq(specific_type)
     end
 
     it "should set all the other attributes" do
       attributes = { :blubs => double('blubs') }
 
       new_work_package = FactoryGirl.build_stubbed(:work_package)
-      new_work_package.should_receive(:attributes=).with(attributes)
+      expect(new_work_package).to receive(:attributes=).with(attributes)
 
-      WorkPackage.stub(:new).and_yield(new_work_package)
+      allow(WorkPackage).to receive(:new).and_yield(new_work_package)
 
       project.add_work_package(attributes)
     end
@@ -132,13 +132,13 @@ describe Project do
     it 'should find the project by id if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
 
-      Project.find_visible(user, project.id).should == project
+      expect(Project.find_visible(user, project.id)).to eq(project)
     end
 
     it 'should find the project by identifier if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
 
-      Project.find_visible(user, project.identifier).should == project
+      expect(Project.find_visible(user, project.identifier)).to eq(project)
     end
 
     it 'should not find the project by identifier if the user is no project member' do
@@ -160,12 +160,44 @@ describe Project do
     end
 
     it 'creates a wiki' do
-      project.wiki.should be_present
+      expect(project.wiki).to be_present
     end
 
     it 'creates a wiki menu item named like the default start page' do
-      project.wiki.wiki_menu_items.should be_one
-      project.wiki.wiki_menu_items.first.title.should == project.wiki.start_page
+      expect(project.wiki.wiki_menu_items).to be_one
+      expect(project.wiki.wiki_menu_items.first.title).to eq(project.wiki.start_page)
+    end
+  end
+
+  describe 'copy_allowed?' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
+    let(:role_copy_projects) { FactoryGirl.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
+    let(:parent_project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:project, parent: parent_project) }
+    let!(:subproject_member) { FactoryGirl.create(:member,
+                                                  user: user,
+                                                  project: project,
+                                                  roles: [role_copy_projects]) }
+    before do
+      allow(User).to receive(:current).and_return(user)
+    end
+
+    context 'with permission to add subprojects' do
+      let!(:member_add_subproject) { FactoryGirl.create(:member,
+                                                        user: user,
+                                                        project: parent_project,
+                                                        roles: [role_add_subproject]) }
+
+      it 'should allow copy' do
+        expect(project.copy_allowed?).to eq(true)
+      end
+    end
+
+    context 'with permission to add subprojects' do
+      it 'should not allow copy' do
+        expect(project.copy_allowed?).to eq(false)
+      end
     end
   end
 end

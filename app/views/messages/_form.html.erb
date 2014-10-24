@@ -46,14 +46,16 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
-	<p><label><%= Board.name.humanize %></label><br />
+  <p><label><%= Board.name.humanize %></label><br />
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>
 
 <p>
-<%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
+  <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
+  <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                  :'ng-non-bindable' => '' %>
+</p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->
 

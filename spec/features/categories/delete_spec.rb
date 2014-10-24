@@ -29,14 +29,14 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-describe 'Deletion' do
+describe 'Deletion', :type => :feature do
   let(:current_user) { FactoryGirl.create :admin }
   let(:category) { FactoryGirl.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
   let(:delete_button) { 'div#tab-content-categories a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
 
-  before { User.stub(:current).and_return current_user }
+  before { allow(User).to receive(:current).and_return current_user }
 
   shared_context 'delete category' do
     before do

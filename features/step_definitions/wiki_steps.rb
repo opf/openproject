@@ -81,3 +81,23 @@ Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following conte
   wc = wp.content || wp.create_content
   wc.update_attribute(:text, table.raw.first)
 end
+
+Given /^the wiki page "([^"]*)" of the project "([^"]*)" has (\d+) versions{0,1}$/ do |page, project, version_count|
+  project = Project.find_by_name project
+  wiki = project.wiki
+  wp = wiki.pages.find_or_create_by_title(page)
+  wp.save! unless wp.persisted?
+  wc = wp.content || FactoryGirl.create(:wiki_content, page: wp)
+
+  last_version = wc.journals.max(&:version).version
+
+  version_count.to_i.times.each do |v|
+    version = last_version + v + 1
+    data = FactoryGirl.build(:journal_wiki_content_journal,
+                             text: "This is version #{version}")
+    FactoryGirl.create(:wiki_content_journal,
+                       version: version,
+                       data: data,
+                       journable_id: wc.id)
+  end
+end

@@ -28,19 +28,21 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(
-  link_to(l(:label_board_plural), {:controller => '/boards', :action => 'index', :project_id => @project}),
-  link_to(h(@board.name), {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board}))
+  link_to(l(:label_board_plural), project_boards_path(@project)),
+  link_to(h(@board.name), project_board_path(@project, @board)))
 %>
 
 <% content_for :action_menu_specific do %>
   <%= watcher_link(@topic, User.current) %>
-  <%= link_to_remote_if_authorized(l(:button_quote),
-                                   { :url => {:action => 'quote', :id => @topic} ,
-                                     :method => :get },
-                                   { :class => 'icon icon-quote'} ) unless @topic.locked? %>
+  <%= link_to(l(:button_quote),
+              { action: 'quote', id: @topic },
+              remote: true,
+              method: 'get',
+              class: 'icon icon-quote') if !@topic.locked? && authorize_for('messages', 'reply') %>
   <%= link_to(l(:button_edit),
               edit_topic_path(@topic),
-              :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+              :class => 'icon icon-edit',
+              accesskey: accesskey(:edit)) if @message.editable_by?(User.current) %>
   <%= link_to(l(:button_delete),
               topic_path(@topic),
               :method => :delete,
@@ -48,14 +50,15 @@ See doc/COPYRIGHT.rdoc for more details.
               :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 <% end %>
 
-<h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<div class="top-page">
+  <%= render :partial => 'layouts/action_menu_specific' %>
+  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
+</div>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
-<div class="wiki">
-<%= textilizable(@topic.content, :attachments => @topic.attachments) %>
+<div class="wiki" ng-non-bindable>
+<%= format_text(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
 </div>
 <%= link_to_attachments @topic, :author => false %>
 </div>
@@ -66,18 +69,21 @@ See doc/COPYRIGHT.rdoc for more details.
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <h4>
-      <%= avatar(message.author, :size => "24") %>
-      <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+      <%= avatar(message.author) %>
+      <%= link_to h(message.subject), topic_path(@topic,
+                                                 :r => message,
+                                                 :anchor => "message-#{message.id}") %>
       -
       <%= authoring message.created_on, message.author %>
     </h4>
     <div class="message-reply-menu">
-      <%= link_to_remote_if_authorized(icon_wrapper('icon-context icon-quote', l(:button_quote)),
-                                       { :url => {:action => 'quote', :id => message},
-                                         :method => :get },
-                                       :title => l(:button_quote),
-                                       :class => 'no-decoration-on-hover',
-                                       :alt => l(:button_quote)) unless @topic.locked? %>
+      <%= link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
+                  { action: 'quote', id: message },
+                  remote: true,
+                  method: 'get',
+                  title: l(:button_quote),
+                  class: 'no-decoration-on-hover',
+                  alt: l(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
@@ -91,8 +97,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
-    <div class="wiki">
-      <%= textilizable message, :content, :attachments => message.attachments %>
+    <div class="wiki" ng-non-bindable>
+      <%= format_text message, :content, :attachments => message.attachments %>
     </div>
     <%= link_to_attachments message, :author => false %>
   </div>

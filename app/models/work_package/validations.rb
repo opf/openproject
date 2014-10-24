@@ -39,6 +39,7 @@ module WorkPackage::Validations
 
     validates :start_date, :date => {:allow_blank => true}
     validates :due_date, :date => {:after_or_equal_to => :start_date, :message => :greater_than_start_date, :allow_blank => true}, :unless => Proc.new { |wp| wp.start_date.blank?}
+    validates :due_date, :date => {:allow_blank => true}
 
     validate :validate_start_date_before_soonest_start_date
     validate :validate_fixed_version_is_assignable

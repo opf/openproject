@@ -51,7 +51,7 @@ module JournalsHelper
   def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
     header = <<-HTML
       <div class="profile-wrap">
-        #{avatar(journal.user, :size => "40")}
+        #{avatar(journal.user)}
       </div>
       <h4>
         <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
@@ -78,7 +78,7 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    editable = model.journal_editable_by?(User.current) if User.current.logged?
+    editable = journal.editable_by?(User.current) if User.current.logged?
 
     unless journal.notes.blank?
 
@@ -110,8 +110,9 @@ module JournalsHelper
     content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
     attachments = model.try(:attachments) || []
     content << content_tag('div',
-                           textilizable(journal, :notes, :attachments => attachments),
+                           format_text(journal, :notes, :attachments => attachments),
                            :class => 'wikicontent',
+                           :'ng-non-bindable' => '',
                            "data-user" => journal.journable.author)
 
     css_classes = "wiki journal-notes"

@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'status' do
     let(:status) { FactoryGirl.create(:status) }
     let!(:work_package) { FactoryGirl.create(:work_package,
                                              status_id: status.id) }
 
     it 'can read planning_elements w/ the help of the has_many association' do
-      WorkPackage.where(status_id: status.id).count.should == 1
-      WorkPackage.where(status_id: status.id).first.should == work_package
+      expect(WorkPackage.where(status_id: status.id).count).to eq(1)
+      expect(WorkPackage.where(status_id: status.id).first).to eq(work_package)
     end
 
     describe 'transition' do
@@ -76,7 +76,7 @@ describe WorkPackage do
             work_package.status = status_2
           end
 
-          it { expect(work_package.save).to be_true }
+          it { expect(work_package.save).to be_truthy }
         end
 
         describe 'invalid' do
@@ -92,12 +92,12 @@ describe WorkPackage do
         describe 'non-existing' do
           before { work_package.status = status_2 }
 
-          it { expect(work_package.save).to be_false }
+          it { expect(work_package.save).to be_falsey }
         end
       end
 
       describe 'non-admin user' do
-        before { User.stub(:current).and_return user }
+        before { allow(User).to receive(:current).and_return user }
 
         it_behaves_like "work package status transition" do
           let(:invalid_result) { false }
@@ -107,7 +107,7 @@ describe WorkPackage do
       describe 'admin user' do
         let(:admin) { FactoryGirl.create(:admin) }
 
-        before { User.stub(:current).and_return admin }
+        before { allow(User).to receive(:current).and_return admin }
 
         it_behaves_like "work package status transition" do
           let(:invalid_result) { true }

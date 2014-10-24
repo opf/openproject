@@ -1,0 +1,146 @@
+@mixin querySelectDropdownFilterSelect($color)
+  text-decoration: underline
+  color: $color
+
+@mixin querySelectionLink($color)
+  a
+    color: $color
+    font-weight: normal
+    text-decoration: none
+
+.toolbar-container
+  $line-height: 20px
+  $padding: 10px
+  $sub-min-width: 200px
+  $sub-max-width: 300px
+  $drop-item-back-color: #a91e2f
+
+  height:  $header_height
+  padding: 0px
+
+#toolbar
+  ul
+    margin:  0
+    padding: 0
+    float: right
+
+  li
+    list-style-type: none
+
+#toolbar-items
+  li
+    float: left
+    &.toolbar-item
+      margin: 0 5px //$drop-nav-spacing // spacing between nav items
+
+  button
+    margin-right: 0
+
+  a.last, .last
+    margin-right: 0px
+    //font-size: $font-size
+    //line-height: $line-height
+
+
+
+.title-container
+  $line-height: 20px
+  $padding: 10px
+  $sub-max-width: 300px
+  $drop-item-back-color: #a91e2f
+
+  h2
+    border: 0
+    padding: 12px 0 0 0
+
+  span
+    color: $content_link_color
+
+    &:hover
+      text-decoration: underline
+
+  float:   left
+  height:  $header_height
+  padding: 0px
+
+  ul
+    margin:  0
+    padding: 0
+    float: left
+
+  li
+    float: none
+
+  span.filter-selection
+    @include querySelectDropdownFilterSelect($main_menu_font_color)
+
+  .dropdown-scrollable
+    overflow-y: auto
+    max-height: 500px
+
+#querySelectDropdown
+  min-width: 250px
+  border: 1px solid #dddddd
+  box-shadow: 1px 1px 4px #cccccc
+  background: #ffffff
+  padding: 3px 0
+  .query-menu-container
+    float: left
+    clear: both
+    width: 100%
+    display: block
+  ul.query-menu
+    width: 100%
+    margin: 0 0 10px 0
+    float: left
+    li
+      color: $main_menu_font_color
+      padding: 4px 25px
+      display: block
+      @include querySelectionLink($drop_down_unselected_font_color)
+      &.selected
+        background: $drop_down_selected_bg_color
+        @include querySelectionLink($drop_down_selected_font_color)
+        &:hover
+          @include querySelectionLink($drop_down_unselected_font_color)
+          span.filter-selection
+            @include querySelectDropdownFilterSelect($drop_down_unselected_font_color)
+        span.filter-selection
+          @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
+      &:hover
+        background: #f0f0f0
+  .search-query-wrapper
+    padding: 15px
+  input
+    margin: 0 auto
+    width: 100%
+    min-width: 250px
+    height: 30px
+    line-height: 30px
+    padding: 0 0px
+    background: #ffffff
+    border: 1px solid #cacaca
+    font-size: 13px
+    color: #222222
+    border-radius: 2px
+  .title-group-header
+    padding: 0 15px 0 15px
+    font-weight: bold
+    text-transform: uppercase
+  #magnifier
+    position: absolute
+    margin: 8px 0 0 -22px
+    color: #999999
+    font-size: 12px
+
+  input[type="search"]::-webkit-search-cancel-button
+    display: none
+
+.text
+  cursor: pointer
+  i
+    float: right
+    color: #333333
+    padding-left: 5px
+  &:hover
+    text-decoration: none

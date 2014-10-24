@@ -29,6 +29,11 @@
 //= require mousetrap
 
 (function($){
+
+  var accessibleListSelector = "table.list, table.keyboard-accessible-list";
+  var accessibleRowSelector = "table.list tr, table.keyboard-accessible-list tr";
+
+
   var menu_sidebar = function() {
     return $('div#menu-sidebar');
   };
@@ -130,10 +135,10 @@
   var find_list_in_page = function(){
     var dom_lists, focus_elements;
     focus_elements = [];
-    dom_lists = $('table.list');
+    dom_lists = $(accessibleListSelector);
     dom_lists.find('tbody tr').each(function(index, tr){
       var first_link = $(tr).find('a:visible')[0];
-      if ( first_link !== undefined ) { focus_elements.push(first_link); };
+      if ( first_link !== undefined ) { focus_elements.push(first_link); }
     });
     return focus_elements;
   };
@@ -142,7 +147,7 @@
     var list, index;
     list = find_list_in_page();
     if (list === null) { return; }
-    index = list.indexOf($(document.activeElement).parents('table.list tr').find('a:visible')[0]);
+    index = list.indexOf($(document.activeElement).parents(accessibleRowSelector).find('a:visible')[0]);
     $(list[(index+offset+list.length) % list.length]).focus();
   };
 
@@ -175,16 +180,17 @@
 
   Mousetrap.bind('p',     function(){ search_project();      return false; });
   Mousetrap.bind('s',     function(){ search_global();       return false; });
-})(jQuery);
 
-jQuery(function(){
-  // simulated hover effect on table lists when using the keyboard
-  var tables = jQuery('table.list');
-  if (tables.size() === 0) { return; }
-  tables.on('blur', 'tr *', function(){
-    jQuery(this).parents('table.list tr').removeClass('keyboard_hover');
+  jQuery(function(){
+    // simulated hover effect on table lists when using the keyboard
+    var tables = jQuery(accessibleListSelector);
+    if (tables.size() === 0) { return; }
+    tables.on('blur', 'tr *', function(){
+      jQuery(this).parents(accessibleRowSelector).removeClass('keyboard_hover');
+    });
+    tables.on('focus', 'tr *', function(){
+      jQuery(this).parents(accessibleRowSelector).addClass('keyboard_hover');
+    });
   });
-  tables.on('focus', 'tr *', function(){
-    jQuery(this).parents('table.list tr').addClass('keyboard_hover');
-  });
-});
+
+})(jQuery);

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'acts_as_searchable' do
+describe WorkPackage, 'acts_as_searchable', :type => :model do
   include BecomeMember
 
   let(:wp_subject) { "the quick brown fox jumps over the lazy dog" }
@@ -45,13 +45,13 @@ describe WorkPackage, 'acts_as_searchable' do
               w/ beeing member with the appropriate permission" do
       before do
         work_package
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
       it "should return the work package" do
-        WorkPackage.search(wp_subject.split).first.should include(work_package)
+        expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
       end
     end
 
@@ -65,13 +65,13 @@ describe WorkPackage, 'acts_as_searchable' do
 
       before do
         work_package
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
       it "should return the work package if the offset is before the work packages created at value" do
-        WorkPackage.search(wp_subject.split, nil, :offset => offset).first.should include(work_package)
+        expect(WorkPackage.search(wp_subject.split, nil, :offset => offset).first).to include(work_package)
       end
     end
   end

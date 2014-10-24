@@ -28,9 +28,11 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController do
+describe WorkPackages::MovesController, :type => :controller do
 
   let(:user) { FactoryGirl.create(:user)}
+  let(:role) { FactoryGirl.create :role,
+                                  permissions: [:move_work_packages] }
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
   let(:status) { FactoryGirl.create :default_status }
@@ -49,7 +51,7 @@ describe WorkPackages::MovesController do
   let(:current_user) { FactoryGirl.create(:user) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'new.html' do
@@ -63,7 +65,7 @@ describe WorkPackages::MovesController do
         it 'renders a 404 page' do
           get 'new', :id => '1337'
 
-          response.response_code.should === 404
+          expect(response.response_code).to be === 404
         end
       end
 
@@ -73,7 +75,7 @@ describe WorkPackages::MovesController do
         it 'raises ActiveRecord::RecordNotFound errors' do
           get 'new', :id => '1337'
 
-          response.response_code.should === 404
+          expect(response.response_code).to be === 404
         end
       end
     end
@@ -87,7 +89,7 @@ describe WorkPackages::MovesController do
         it 'renders a 403 Forbidden page' do
           get 'new', :work_package_id => work_package.id
 
-          response.response_code.should == 403
+          expect(response.response_code).to eq(403)
         end
       end
 
@@ -99,7 +101,7 @@ describe WorkPackages::MovesController do
         end
 
         it 'renders the new builder template' do
-          response.should render_template('work_packages/moves/new', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('work_packages/moves/new', :formats => ["html"], :layout => :base)
         end
       end
     end
@@ -108,17 +110,12 @@ describe WorkPackages::MovesController do
   describe '#create' do
     become_member_with_move_work_package_permissions
 
+    let!(:member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { FactoryGirl.create(:project, :is_public => false) }
     let(:work_package_2) { FactoryGirl.create(:work_package,
                                               :project_id => project.id,
                                               :type => type_2,
                                               :priority => priority) }
-
-    before do
-      role = FactoryGirl.create :role, permissions: [:move_work_packages]
-
-      member = FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role])
-    end
 
     describe 'an issue to another project' do
       context "w/o following" do
@@ -136,8 +133,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the project's work packages page" do
-          should be_redirect
-          should redirect_to(project_work_packages_path(project))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -156,8 +153,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the work package page" do
-          should be_redirect
-          should redirect_to(work_package_path(work_package))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(work_package_path(work_package))
         end
       end
     end
@@ -179,13 +176,13 @@ describe WorkPackages::MovesController do
         end
 
         it "project id is changed for both work packages" do
-          work_package.project_id.should eq(target_project.id)
-          work_package_2.project_id.should eq(target_project.id)
+          expect(work_package.project_id).to eq(target_project.id)
+          expect(work_package_2.project_id).to eq(target_project.id)
         end
 
         it "changed no types" do
-          work_package.type_id.should eq(type.id)
-          work_package_2.type_id.should eq(type_2.id)
+          expect(work_package.type_id).to eq(type.id)
+          expect(work_package_2.type_id).to eq(type_2.id)
         end
       end
 
@@ -200,8 +197,8 @@ describe WorkPackages::MovesController do
         end
 
         it "changed work packages' types" do
-          work_package.type_id.should eq(type_2.id)
-          work_package_2.type_id.should eq(type_2.id)
+          expect(work_package.type_id).to eq(type_2.id)
+          expect(work_package_2.type_id).to eq(type_2.id)
         end
       end
 
@@ -216,8 +213,8 @@ describe WorkPackages::MovesController do
         end
 
         it "changed work packages' priority" do
-          work_package.priority_id.should eq(target_priority.id)
-          work_package_2.priority_id.should eq(target_priority.id)
+          expect(work_package.priority_id).to eq(target_priority.id)
+          expect(work_package_2.priority_id).to eq(target_priority.id)
         end
       end
 
@@ -270,7 +267,7 @@ describe WorkPackages::MovesController do
 
           it "redirects to the work package copy" do
             copy = WorkPackage.first(:order => 'id desc')
-            should redirect_to(work_package_path(copy))
+            is_expected.to redirect_to(work_package_path(copy))
           end
         end
 
@@ -285,19 +282,19 @@ describe WorkPackages::MovesController do
           subject { WorkPackage.first(:order => 'id desc', :conditions => {:project_id => project.id}) }
 
           it "did not change the type" do
-            subject.type_id.should eq(work_package.type_id)
+            expect(subject.type_id).to eq(work_package.type_id)
           end
 
           it "did not change the status" do
-            subject.status_id.should eq(work_package.status_id)
+            expect(subject.status_id).to eq(work_package.status_id)
           end
 
           it "did not change the assignee" do
-            subject.assigned_to_id.should eq(work_package.assigned_to_id)
+            expect(subject.assigned_to_id).to eq(work_package.assigned_to_id)
           end
 
           it "did not change the responsible" do
-            subject.responsible_id.should eq(work_package.responsible_id)
+            expect(subject.responsible_id).to eq(work_package.responsible_id)
           end
         end
 
@@ -322,42 +319,42 @@ describe WorkPackages::MovesController do
           subject { WorkPackage.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => target_project.id}) }
 
           it "copied two work packages" do
-            subject.count.should eq(2)
+            expect(subject.count).to eq(2)
           end
 
           it "did change the project" do
             subject.map(&:project_id).each do |id|
-              id.should eq(target_project.id)
+              expect(id).to eq(target_project.id)
             end
           end
 
           it "did change the assignee" do
             subject.map(&:assigned_to_id).each do |id|
-              id.should eq(target_user.id)
+              expect(id).to eq(target_user.id)
             end
           end
 
           it "did change the responsible" do
             subject.map(&:responsible_id).each do |id|
-              id.should eq(target_user.id)
+              expect(id).to eq(target_user.id)
             end
           end
 
           it "did change the status" do
             subject.map(&:status_id).each do |id|
-              id.should eq(target_status.id)
+              expect(id).to eq(target_status.id)
             end
           end
 
           it "did change the start date" do
             subject.map(&:start_date).each do |date|
-              date.should eq(start_date)
+              expect(date).to eq(start_date)
             end
           end
 
           it "did change the end date" do
             subject.map(&:due_date).each do |date|
-              date.should eq(due_date)
+              expect(date).to eq(due_date)
             end
           end
         end
@@ -377,6 +374,60 @@ describe WorkPackages::MovesController do
           it { expect(subject.count).to eq(2) }
 
           it { expect(subject.sort_by(&:id).last.notes).to eq(note) }
+        end
+
+        context "child work package from one project to other" do
+          let(:to_project) { FactoryGirl.create(:project,
+                                                types: [type]) }
+          let!(:member) { FactoryGirl.create(:member,
+                                             user: current_user,
+                                             roles: [role],
+                                             project: to_project) }
+          let(:child_wp) { FactoryGirl.create(:work_package,
+                                              type: type,
+                                              project: project,
+                                              parent_id: work_package.id) }
+
+          shared_examples_for "successful move" do
+            it { expect(flash[:notice]).to eq(I18n.t(:notice_successful_create)) }
+          end
+
+          before do
+            allow(User).to receive(:current).and_return(current_user)
+
+            def self.copy_child_work_package
+              post :create,
+                   ids: [child_wp.id],
+                   copy: '',
+                   new_project_id: to_project.id,
+                   work_package_id: child_wp.id,
+                   new_type_id: to_project.types.first.id
+            end
+          end
+
+          context "when cross_project_work_package_relations is disabled" do
+            before do
+              allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
+
+              copy_child_work_package
+            end
+
+            it_behaves_like "successful move"
+
+            it { expect(to_project.work_packages.first.parent_id).to be_nil }
+          end
+
+          context "when cross_project_work_package_relations is enabled" do
+            before do
+              allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+
+              copy_child_work_package
+            end
+
+            it_behaves_like "successful move"
+
+            it { expect(to_project.work_packages.first.parent_id).to eq(child_wp.parent_id) }
+          end
         end
       end
     end

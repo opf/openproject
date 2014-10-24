@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController do
+describe WikiMenuItemsController, :type => :controller do
   before do
     User.delete_all
     Role.delete_all
@@ -47,24 +47,24 @@ describe WikiMenuItemsController do
     it 'renders the edit action' do
       admin_user = FactoryGirl.create(:admin)
 
-      User.stub(:current).and_return admin_user
+      allow(User).to receive(:current).and_return admin_user
       permission_role = FactoryGirl.create(:role, :name => "accessgranted", :permissions => [:manage_wiki_menu])
       member = FactoryGirl.create(:member, :principal => admin_user, :user => admin_user, :project => @project, :roles => [permission_role])
 
       get 'edit', @params
 
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
   describe 'w/o valid auth' do
 
     it 'be forbidden' do
-      User.stub(:current).and_return FactoryGirl.create(:user)
+      allow(User).to receive(:current).and_return FactoryGirl.create(:user)
 
       get 'edit', @params
 
-      response.status.should == 403 # forbidden
+      expect(response.status).to eq(403) # forbidden
     end
   end
 end

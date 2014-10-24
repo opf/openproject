@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= link_to h(@board.name), :controller => '/boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%= l(:label_message_new) %></h2>
 
-<%= form_for Message.new,
+<%= form_for @message,
              :url => board_topics_path(@board),
              :html => { :multipart => true,
                         :id => 'message-form'} do |f| %>

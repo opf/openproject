@@ -68,7 +68,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
       </label><br/>
       <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
-                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
+                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                      :'ng-non-bindable' => '') %>
       <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
     </p>
   </fieldset>
@@ -82,5 +83,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
 <% end %>

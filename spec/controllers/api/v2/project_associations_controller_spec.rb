@@ -28,11 +28,11 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::ProjectAssociationsController do
+describe Api::V2::ProjectAssociationsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'index.xml' do
@@ -40,7 +40,7 @@ describe Api::V2::ProjectAssociationsController do
       it 'renders a 404 Not Found page' do
         get 'index', :format => 'xml'
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -48,7 +48,7 @@ describe Api::V2::ProjectAssociationsController do
       it 'renders a 404 Not Found page' do
         get 'index', :project_id => '4711', :format => 'xml'
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -66,12 +66,12 @@ describe Api::V2::ProjectAssociationsController do
         describe 'w/o any project_associations within the project' do
           it 'assigns an empty project_associations array' do
             get 'index', :project_id => project.id, :format => 'xml'
-            assigns(:project_associations).should == []
+            expect(assigns(:project_associations)).to eq([])
           end
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('project_associations/index', :formats => ["api"])
+            expect(response).to render_template('project_associations/index', :formats => ["api"])
           end
         end
 
@@ -89,12 +89,12 @@ describe Api::V2::ProjectAssociationsController do
 
           it 'assigns a project_associations array containing all three elements' do
             get 'index', :project_id => project.id, :format => 'xml'
-            assigns(:project_associations).should == @created_project_associations
+            expect(assigns(:project_associations)).to eq(@created_project_associations)
           end
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('project_associations/index', :formats => ["api"])
+            expect(response).to render_template('project_associations/index', :formats => ["api"])
           end
         end
       end
@@ -107,7 +107,7 @@ describe Api::V2::ProjectAssociationsController do
         it 'renders a 404 Not Found page' do
           get 'show', :id => '4711', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -115,7 +115,7 @@ describe Api::V2::ProjectAssociationsController do
         it 'renders a 404 Not Found page' do
           get 'index', :project_id => '4711', :id => '1337', :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -124,9 +124,9 @@ describe Api::V2::ProjectAssociationsController do
 
         describe 'w/ the current user being a member' do
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect {
               get 'show', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -140,7 +140,7 @@ describe Api::V2::ProjectAssociationsController do
         it 'renders a 404 Not Found page' do
           get 'show', :id => project_association.id, :format => 'xml'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -155,12 +155,12 @@ describe Api::V2::ProjectAssociationsController do
         describe 'w/ the current user being a member' do
           it 'assigns the project_association' do
             get 'show', :project_id => project.id, :id => project_association.id, :format => 'xml'
-            assigns(:project_association).should == project_association
+            expect(assigns(:project_association)).to eq(project_association)
           end
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :id => project_association.id, :format => 'xml'
-            response.should render_template('project_associations/index', :formats => ["api"])
+            expect(response).to render_template('project_associations/index', :formats => ["api"])
           end
         end
       end

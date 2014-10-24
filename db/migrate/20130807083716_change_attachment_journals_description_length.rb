@@ -35,4 +35,3 @@ class ChangeAttachmentJournalsDescriptionLength < ActiveRecord::Migration
                   :text
   end
 end
-

@@ -32,9 +32,9 @@ require 'rexml/document'
 module OpenProject
   module VERSION #:nodoc:
 
-    MAJOR = 3
+    MAJOR = 4
     MINOR = 0
-    PATCH = 14
+    PATCH = 0
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).

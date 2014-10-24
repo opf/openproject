@@ -127,7 +127,7 @@ module OpenProject
         context 'with correct path' do
           before do
             # set the dir of this file as the images folder
-            theme.stub(:overridden_images_path).and_return(File.dirname(__FILE__))
+            allow(theme).to receive(:overridden_images_path).and_return(File.dirname(__FILE__))
           end
 
           it 'stores images that are overridden by the theme' do
@@ -142,11 +142,11 @@ module OpenProject
         context 'with incorrect path' do
           before do
             # the theme has a non-existing images path
-            theme.stub(:overridden_images_path).and_return('some/wrong/path')
+            allow(theme).to receive(:overridden_images_path).and_return('some/wrong/path')
           end
 
           it 'wont fail' do
-            expect { theme.overridden_images }.to_not raise_error Errno::ENOENT
+            expect { theme.overridden_images }.to_not raise_error
           end
 
           it 'has an empty list' do
@@ -160,7 +160,7 @@ module OpenProject
 
         before do
           # set a list of overridden images
-          theme.stub(:overridden_images).and_return(['add.png'])
+          allow(theme).to receive(:overridden_images).and_return(['add.png'])
         end
 
         it "prepends the theme path if file is present" do
@@ -185,7 +185,7 @@ module OpenProject
 
         before do
           # set an arbitrary base path for assets
-          theme.stub(:assets_path).and_return('some/assets/path')
+          allow(theme).to receive(:assets_path).and_return('some/assets/path')
         end
 
         it 'appends the path to images overridden by the theme' do
@@ -198,15 +198,15 @@ module OpenProject
 
         before do
           # set the dir of this file as the images folder
-          theme.stub(:overridden_images_path).and_return(File.dirname(__FILE__))
+          allow(theme).to receive(:overridden_images_path).and_return(File.dirname(__FILE__))
         end
 
         it 'is overritten if the theme redefines it' do
-          expect(theme.image_overridden?('theme_spec.rb')).to be_true
+          expect(theme.image_overridden?('theme_spec.rb')).to be_truthy
         end
 
         it "is not overritten if the theme doesn't redefine it" do
-          expect(theme.image_overridden?('missing.rb')).to be_false
+          expect(theme.image_overridden?('missing.rb')).to be_falsey
         end
       end
 
@@ -246,10 +246,10 @@ module OpenProject
 
       before do
         # set a list of overridden images
-        theme.stub(:overridden_images).and_return(['add.png'])
+        allow(theme).to receive(:overridden_images).and_return(['add.png'])
 
         # set the theme as current
-        helpers.stub(:current_theme).and_return(theme)
+        allow(helpers).to receive(:current_theme).and_return(theme)
       end
 
       it 'overridden images are nested' do

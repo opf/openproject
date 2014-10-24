@@ -28,11 +28,11 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportingsController do
+describe ReportingsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'index.html' do

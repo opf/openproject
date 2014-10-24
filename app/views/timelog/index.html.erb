@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= include_gon %>
+
 <% content_for :action_menu_specific do %>
   <%= link_to_if User.current.allowed_to?({ :controller => '/timelog', :action => 'new' }, @project),
                  l(:button_log_time),
@@ -50,16 +52,19 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
 </div>
 
-<% unless @entries.empty? %>
-<%= render :partial => 'list', :locals => { :entries => @entries }%>
+<div ng-controller="TimeEntriesController">
+  <% unless @entries.empty? %>
+    <%= render :partial => 'list', :locals => { :entries => @entries }%>
 
-<%= pagination_links_full @entries %>
+    <table-pagination total-entries="totalEntryCount" update-results="loadTimeEntries()"></table-pagination>
+    <modal-loading></modal-loading>
 
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
-  <%= f.link_to 'CSV', :url => params %>
-<% end %>
-<% end %>
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
+      <%= f.link_to 'CSV', :url => params %>
+    <% end %>
+  <% end %>
+</div>
 
 <% html_title l(:label_spent_time), l(:label_details) %>
 

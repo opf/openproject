@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%# TODO Remove when not needed any more %>
+
 <script type="text/javascript">
 //<![CDATA[
 function add_filter() {
@@ -50,7 +52,7 @@ function toggle_filter(field) {
 
     if (check_box.checked) {
         Element.show("operators_" + field);
-				Form.Element.enable("operators_" + field);
+        Form.Element.enable("operators_" + field);
         Form.Element.enable("values_" + field);
         toggle_operator(field);
     } else {

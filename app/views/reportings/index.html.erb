@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= header_tags %>
-<%= javascript_include_tag 'contextual_fieldset.js', :plugin => 'chiliproject_timelines' %>
+<%= javascript_include_tag 'contextual_fieldset.js' %>
 
 <% content_for :action_menu_specific do %>
     <%= link_to_if_authorized(l("timelines.new_reporting"),
@@ -65,8 +65,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="timelines-rep-short">
             <%=h reporting.reported_project_status.try(:name) || "-" %>
           </td>
-          <td class="timelines-rep-comment">
-            <%= textilizable reporting, :reported_project_status_comment %>
+          <td class="timelines-rep-comment" ng-non-bindable>
+            <%= format_text reporting, :reported_project_status_comment %>
           </td>
           <td class="timelines-rep-last_change">
             <%= format_date reporting.updated_at %>

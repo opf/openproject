@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l("timelines.project_menu.timelines") %>
+<% html_title "#{l('timelines.project_menu.timelines')}: #{@timeline.name}" %>
 
 <% content_for :action_menu_specific do %>
 
@@ -40,7 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                            :action => 'edit',
                                            :project_id => @project,
                                            :id => @timeline},
-                                          :class => 'icon icon-edit') do %>
+                                           :class => 'icon icon-edit',
+                                           :accesskey => accesskey(:edit)) do %>
     <%= l(:button_edit) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
   <% end) %>
 
@@ -57,23 +58,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<%= form_tag :id => "specialForm" do %>
-  <%= label_tag 'timeline_select', l("timelines.timeline") %>
-  <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {:id => 'timeline_select'}) %>
-<% end %>
+<div id="timeline">
+  <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
+    <%= label_tag 'timeline_select', l("timelines.timeline") %>
+    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+  <% end %>
 
-<script type="text/javascript">
-  (function() {
-    var timelines = {};
-    <% @visible_timelines.each do |timeline| %>
-    timelines[<%= timeline.id %>] = {
-      url: '<%= project_timeline_path(@project, timeline) %>'
-    }
-    <% end %>
-    jQuery('#timeline_select').change(function() {
-      document.location.href = timelines[this.value].url;
-    });
-  })();
-</script>
+  <% push_visible_timeline_paths @visible_timelines %>
+  <% push_current_timeline_id @timeline.id %>
 
-<%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+  <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+</div>

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:project) { FactoryGirl.build(:project_with_types) }
   let(:work_package) { FactoryGirl.build(:work_package, :project => project) }
   let(:work_package2) { FactoryGirl.build(:work_package, :project => project) }
@@ -45,29 +45,29 @@ describe WorkPackage do
 
       shared_examples_for "root" do
         it "should set root_id to the id of the #{subclass}" do
-          instance.root_id.should == instance.id
+          expect(instance.root_id).to eq(instance.id)
         end
 
         it "should set lft to 1" do
-          instance.lft.should == 1
+          expect(instance.lft).to eq(1)
         end
 
         it "should set rgt to 2" do
-          instance.rgt.should == 2
+          expect(instance.rgt).to eq(2)
         end
       end
 
       shared_examples_for "first child" do
         it "should set root_id to the id of the parent #{subclass}" do
-          instance.root_id.should == parent.id
+          expect(instance.root_id).to eq(parent.id)
         end
 
         it "should set lft to 2" do
-          instance.lft.should == 2
+          expect(instance.lft).to eq(2)
         end
 
         it "should set rgt to 3" do
-          instance.rgt.should == 3
+          expect(instance.rgt).to eq(3)
         end
       end
 
@@ -117,7 +117,7 @@ describe WorkPackage do
         it_should_behave_like "root"
 
         it "should set parent_id to nil" do
-          instance.parent_id.should == nil
+          expect(instance.parent_id).to eq(nil)
         end
       end
 
@@ -136,7 +136,7 @@ describe WorkPackage do
         it_should_behave_like "first child"
 
         it "should set parent_id to new parent" do
-          instance.parent_id.should == parent.id
+          expect(instance.parent_id).to eq(parent.id)
         end
       end
 
@@ -158,32 +158,32 @@ describe WorkPackage do
 
         it "former roots's root_id should be unchanged" do
           parent.reload
-          parent.root_id.should == parent.id
+          expect(parent.root_id).to eq(parent.id)
         end
 
         it "former roots's lft should be 1" do
           parent.reload
-          parent.lft.should == 1
+          expect(parent.lft).to eq(1)
         end
 
         it "former roots's rgt should be 4" do
           parent.reload
-          parent.rgt.should == 4
+          expect(parent.rgt).to eq(4)
         end
 
         it "former right siblings's root_id should be unchanged" do
           other_child.reload
-          other_child.root_id.should == parent.id
+          expect(other_child.root_id).to eq(parent.id)
         end
 
         it "former right siblings's left should be 2" do
           other_child.reload
-          other_child.lft.should == 2
+          expect(other_child.lft).to eq(2)
         end
 
         it "former right siblings's rgt should be 3" do
           other_child.reload
-          other_child.rgt.should == 3
+          expect(other_child.rgt).to eq(3)
         end
       end
 
@@ -221,32 +221,32 @@ describe WorkPackage do
 
         it "former parent's root_id should be unchanged" do
           parent.reload
-          parent.root_id.should == parent.id
+          expect(parent.root_id).to eq(parent.id)
         end
 
         it "former parent's left should be 1" do
           parent.reload
-          parent.lft.should == 1
+          expect(parent.lft).to eq(1)
         end
 
         it "former parent's right should be 2" do
           parent.reload
-          parent.rgt.should == 2
+          expect(parent.rgt).to eq(2)
         end
 
         it "the child should have the root_id of the parent #{subclass}" do
           child.reload
-          child.root_id.should == instance.id
+          expect(child.root_id).to eq(instance.id)
         end
 
         it "the child should have a lft of 2" do
           child.reload
-          child.lft.should == 2
+          expect(child.lft).to eq(2)
         end
 
         it "the child should have a rgt of 3" do
           child.reload
-          child.rgt.should == 3
+          expect(child.rgt).to eq(3)
         end
       end
     end

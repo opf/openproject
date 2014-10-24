@@ -29,7 +29,7 @@
 module.exports = function(grunt) {
 
   var jsPath = "app/assets/javascripts/";
-  var testSource = "mocha/index.html";
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -40,27 +40,9 @@ module.exports = function(grunt) {
         }
       }
     },
-    mocha_phantomjs: {
-      all: [testSource],
-      small: {
-        src:[testSource],
-        options: {
-          reporter: "dot"
-        }
-      },
-      cov: {
-        src:[testSource],
-        options: {
-          output: "coverage.json",
-          reporter: "json-cov"
-        }
-      },
-      jenkins: {
-        src:[testSource],
-        options: {
-          reporter: "xunit",
-          output: "test_results_mocha.xunit"
-        }
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
       }
     },
     jscoverage: {
@@ -72,7 +54,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: [jsPath] ,
-        tasks: ['jshint', 'mocha_phantomjs:small'],
+        tasks: ['jshint'],
         options: {
           spawn: false,
         },
@@ -83,7 +65,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jscoverage");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  grunt.loadNpmTasks('grunt-karma');
 
   // Default task(s).
   grunt.registerTask('default', ['jshint']);
@@ -124,6 +106,6 @@ module.exports = function(grunt) {
     exec("cat coverage.json | node_modules/json2htmlcov/bin/json2htmlcov > coverage.html");
   });
 
-  grunt.registerTask('coverage', ['jscoverage', 'moveFiles', 'mocha_phantomjs:cov', 'jsonCov2Html', 'cleanUpCoverage']);
+  grunt.registerTask('coverage', ['jscoverage', 'moveFiles', 'jsonCov2Html', 'cleanUpCoverage']);
 
 };

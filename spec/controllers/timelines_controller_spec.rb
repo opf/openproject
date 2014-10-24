@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesController do
+describe TimelinesController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -89,7 +89,7 @@ describe TimelinesController do
 
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   shared_examples_for 'all actions related to all timelines within a project' do
@@ -99,7 +99,7 @@ describe TimelinesController do
       it 'renders a 404 Not Found page' do
         fetch
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -109,7 +109,7 @@ describe TimelinesController do
       it 'renders a 404 Not Found page' do
         fetch :project_id => '4711'
 
-        response.response_code.should == 404
+        expect(response.response_code).to eq(404)
       end
     end
 
@@ -122,7 +122,7 @@ describe TimelinesController do
         it 'renders a 403 Forbidden page' do
           fetch :project_id => project.identifier
 
-          response.response_code.should == 403
+          expect(response.response_code).to eq(403)
         end
       end
     end
@@ -136,7 +136,7 @@ describe TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :id => '4711'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -144,7 +144,7 @@ describe TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :project_id => '4711', :id => '1337'
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -157,7 +157,7 @@ describe TimelinesController do
           it 'renders a 403 Forbidden page' do
             fetch :project_id => project.id, :id => '1337'
 
-            response.response_code.should === 403
+            expect(response.response_code).to be === 403
           end
         end
 
@@ -165,9 +165,9 @@ describe TimelinesController do
           become_member_with_all_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect {
               fetch :project_id => project.id, :id => '1337'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -181,7 +181,7 @@ describe TimelinesController do
         it 'renders a 404 Not Found page' do
           fetch :id => timeline.id
 
-          response.response_code.should == 404
+          expect(response.response_code).to eq(404)
         end
       end
 
@@ -189,9 +189,9 @@ describe TimelinesController do
         let(:other_project)  { FactoryGirl.create(:project, :identifier => 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect {
             fetch :project_id => other_project.identifier,:id => timeline.id
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -202,7 +202,7 @@ describe TimelinesController do
           it 'renders a 403 Forbidden page' do
             fetch :project_id => project.id, :id => timeline.id
 
-            response.response_code.should == 403
+            expect(response.response_code).to eq(403)
           end
         end
 
@@ -211,7 +211,7 @@ describe TimelinesController do
 
           it 'assigns the timeline' do
             fetch :project_id => project.id, :id => timeline.id
-            assigns(:timeline).should == timeline
+            expect(assigns(:timeline)).to eq(timeline)
           end
         end
       end
@@ -234,7 +234,7 @@ describe TimelinesController do
         describe 'w/o any timelines within the project' do
           it 'redirects to /new' do
             fetch :project_id => project.identifier
-            response.should redirect_to :action => 'new',
+            expect(response).to redirect_to :action => 'new',
                                         :project_id => project.identifier
           end
         end
@@ -250,7 +250,7 @@ describe TimelinesController do
 
           it 'redirects to first (in alphabetical order) timeline' do
             fetch :project_id => project.identifier
-            response.should redirect_to :action => 'show',
+            expect(response).to redirect_to :action => 'show',
                                         :id => @created_timelines.last.id,
                                         :project_id => project.identifier
 
@@ -274,14 +274,14 @@ describe TimelinesController do
 
       it 'renders the new template' do
         fetch :project_id => project.id
-        response.should render_template('timelines/new', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('timelines/new', :formats => ["html"], :layout => :base)
       end
 
       it 'assigns a new timeline instance for the current project' do
         fetch :project_id => project.id
 
-        assigns[:timeline].should be_new_record
-        assigns[:timeline].project.should == project
+        expect(assigns[:timeline]).to be_new_record
+        expect(assigns[:timeline].project).to eq(project)
       end
     end
   end
@@ -303,20 +303,20 @@ describe TimelinesController do
           fetch :project_id => project.id, :timeline => {:name => 'bb'}
 
           project.timelines.reload
-          project.timelines.first.name.should == 'bb'
+          expect(project.timelines.first.name).to eq('bb')
         end
 
         it 'redirects to show' do
           fetch :project_id => project.id, :timeline => {:name => 'bb'}
 
           timeline = project.timelines.reload.first
-          response.should redirect_to(project_timeline_path(project, timeline))
+          expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful creation' do
           fetch :project_id => project.id, :timeline => {:name => 'bb'}
 
-          flash[:notice].should =~ /success/i
+          expect(flash[:notice]).to match(/success/i)
         end
       end
 
@@ -324,20 +324,20 @@ describe TimelinesController do
         it 'does not save the new timelines instance' do
           fetch :project_id => project.id, :timeline => {:name => ''}
 
-          project.timelines.reload.should be_empty
+          expect(project.timelines.reload).to be_empty
         end
 
         it 'renders the create action' do
           fetch :project_id => project.id, :timeline => {:name => ''}
 
-          response.should render_template('timelines/new', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('timelines/new', :formats => ["html"], :layout => :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
           fetch :project_id => project.id, :timeline => {:name => ''}
 
           t = assigns[:timeline]
-          t.should be_new_record
+          expect(t).to be_new_record
         end
       end
     end
@@ -364,7 +364,7 @@ describe TimelinesController do
         visible_timelines = [timeline] + other_timelines
 
         fetch :project_id => project.id, :id => timeline.id
-        assigns(:visible_timelines).should =~ visible_timelines
+        expect(assigns(:visible_timelines)).to match_array(visible_timelines)
       end
 
       describe 'visible_timelines array' do
@@ -373,13 +373,13 @@ describe TimelinesController do
           visible_timelines = visible_timelines.sort_by(&:name)
 
           fetch :project_id => project.id, :id => timeline.id
-          assigns(:visible_timelines).should == visible_timelines
+          expect(assigns(:visible_timelines)).to eq(visible_timelines)
         end
       end
 
       it 'renders the show template' do
         fetch :project_id => project.id, :id => timeline.id
-        response.should render_template('timelines/show', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('timelines/show', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -399,7 +399,7 @@ describe TimelinesController do
 
       it 'renders the edit template' do
         fetch :project_id => project.id, :id => timeline.id
-        response.should render_template('timelines/edit', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('timelines/edit', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -422,19 +422,19 @@ describe TimelinesController do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
 
           timeline.reload
-          timeline.name.should == 'bb'
+          expect(timeline.name).to eq('bb')
         end
 
         it 'redirects to show' do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
 
-          response.should redirect_to(project_timeline_path(project, timeline))
+          expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful update' do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
 
-          flash[:notice].should =~ /success/i
+          expect(flash[:notice]).to match(/success/i)
         end
       end
 
@@ -443,20 +443,20 @@ describe TimelinesController do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
 
           timeline.reload
-          timeline.name.should == 'b'
+          expect(timeline.name).to eq('b')
         end
 
         it 'renders the edit action' do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
 
-          response.should render_template('timelines/edit', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('timelines/edit', :formats => ["html"], :layout => :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
 
           t = assigns[:timeline]
-          t.should be_changed
+          expect(t).to be_changed
         end
       end
     end
@@ -478,7 +478,7 @@ describe TimelinesController do
       it 'renders the confirm_destroy action' do
         fetch :project_id => project.id, :id => timeline.id
 
-        response.should render_template('timelines/confirm_destroy', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('timelines/confirm_destroy', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -505,13 +505,13 @@ describe TimelinesController do
       it 'redirects to index' do
         fetch :project_id => project.id, :id => timeline.id
 
-        response.should redirect_to project_timelines_path project
+        expect(response).to redirect_to project_timelines_path project
       end
 
       it 'notifies the user about the successful deletion' do
         fetch :project_id => project.id, :id => timeline.id
 
-        flash[:notice].should =~ /success/i
+        expect(flash[:notice]).to match(/success/i)
       end
     end
   end

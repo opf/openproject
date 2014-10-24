@@ -1,0 +1,4 @@
+<span class="message"
+      ng-show="activity.props._type == 'Activity::Comment'"
+      ng-bind-html="activity.props.comment"/>
+<textarea ng-if="commentInEdit = activity.props.id" id="edit-comment-text"></textarea>

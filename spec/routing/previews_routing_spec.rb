@@ -28,51 +28,51 @@
 
 require 'spec_helper'
 
-describe 'preview' do
+describe 'preview', :type => :routing do
   it "should connect POST /projects/:project_id/wiki/preview to wiki#preview" do
-    post("/projects/1/wiki/preview").should route_to(controller: 'wiki',
-                                                     action: 'preview',
-                                                     project_id: '1')
+    expect(post("/projects/1/wiki/preview")).to route_to(controller: 'wiki',
+                                                         action: 'preview',
+                                                         project_id: '1')
   end
 
   it "should connect POST /projects/:project_id/wiki/:id/preview to wiki#preview" do
-    post("/projects/1/wiki/1/preview").should route_to(controller: 'wiki',
-                                                       action: 'preview',
-                                                       project_id: '1',
-                                                       id: '1')
+    expect(post("/projects/1/wiki/1/preview")).to route_to(controller: 'wiki',
+                                                           action: 'preview',
+                                                           project_id: '1',
+                                                           id: '1')
   end
 
   it "should connect POST news/preview to news#preview" do
-    post("/news/preview").should route_to(controller: 'news',
-                                          action: 'preview')
+    expect(post("/news/preview")).to route_to(controller: 'news',
+                                              action: 'preview')
   end
 
   it "should connect POST /news/:id/preview to news#preview" do
-    post("/news/1/preview").should route_to(controller: 'news',
-                                            action: 'preview',
-                                            id: '1')
+    expect(post("/news/1/preview")).to route_to(controller: 'news',
+                                                action: 'preview',
+                                                id: '1')
   end
 
   it "should connect POST /boards/:board_id/topics/preview to messages#preview" do
-    post("/boards/1/topics/preview").should route_to(controller: 'messages',
-                                                     action: 'preview',
-                                                     board_id: '1')
+    expect(post("/boards/1/topics/preview")).to route_to(controller: 'messages',
+                                                         action: 'preview',
+                                                         board_id: '1')
   end
 
   it "should connect POST /topics/:id/preview to messages#preview" do
-    post("/topics/1/preview").should route_to(controller: 'messages',
-                                              action: 'preview',
-                                              id: '1')
+    expect(post("/topics/1/preview")).to route_to(controller: 'messages',
+                                                  action: 'preview',
+                                                  id: '1')
   end
 
   it "should connect POST /work_packages/preview to work_packages#preview" do
-    post("/work_packages/preview").should route_to(controller: 'work_packages',
-                                                   action: 'preview')
+    expect(post("/work_packages/preview")).to route_to(controller: 'work_packages',
+                                                       action: 'preview')
   end
 
   it "should connect POST /work_packages/:id/preview to work_packages#preview" do
-    post("/work_packages/1/preview").should route_to(controller: 'work_packages',
-                                                     action: 'preview',
-                                                     id: '1')
+    expect(post("/work_packages/1/preview")).to route_to(controller: 'work_packages',
+                                                         action: 'preview',
+                                                         id: '1')
   end
 end

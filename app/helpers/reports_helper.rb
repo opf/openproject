@@ -28,6 +28,7 @@
 #++
 
 module ReportsHelper
+  include WorkPackagesFilterHelper
 
   def aggregate(data, criteria)
     a = 0

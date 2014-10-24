@@ -28,8 +28,8 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::AuthenticationController do
-  before { Setting.stub(:rest_api_enabled?).and_return true }
+describe Api::V2::AuthenticationController, :type => :controller do
+  before { allow(Setting).to receive(:rest_api_enabled?).and_return true }
 
   describe 'index.xml' do
     def fetch
@@ -41,7 +41,7 @@ describe Api::V2::AuthenticationController do
     describe 'REST API disabled' do
       before do
 
-        Setting.stub!(:rest_api_enabled?).and_return false
+        allow(Setting).to receive(:rest_api_enabled?).and_return false
 
         fetch
       end
@@ -53,7 +53,7 @@ describe Api::V2::AuthenticationController do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        User.stub(:current).and_return(user)
+        allow(User).to receive(:current).and_return(user)
 
         fetch
       end
@@ -62,7 +62,7 @@ describe Api::V2::AuthenticationController do
 
       it { expect(subject).not_to be_nil }
 
-      it { expect(subject.authorized).to be_true }
+      it { expect(subject.authorized).to be_truthy }
 
       it { expect(subject.authenticated_user_id).to eq(user.id) }
     end
@@ -74,10 +74,10 @@ describe Api::V2::AuthenticationController do
     let(:ttl) { 42 }
 
     before do
-      Setting.stub(:login_required?).and_return true
-      Setting.stub(:rest_api_enabled?).and_return true
-      Setting.stub(:session_ttl_enabled?).and_return true
-      Setting.stub(:session_ttl).and_return ttl
+      allow(Setting).to receive(:login_required?).and_return true
+      allow(Setting).to receive(:rest_api_enabled?).and_return true
+      allow(Setting).to receive(:session_ttl_enabled?).and_return true
+      allow(Setting).to receive(:session_ttl).and_return ttl
     end
 
     after do

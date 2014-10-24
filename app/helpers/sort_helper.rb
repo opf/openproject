@@ -110,7 +110,7 @@ module SortHelper
     def to_sql
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
-          (o ? s.to_a : s.to_a.collect {|c| append_desc(c)}).join(', ')
+          (o ? Array(s) : Array(s).collect {|c| append_desc(c)}).join(', ')
         end
       end.compact.join(', ')
       sql.blank? ? nil : sql
@@ -265,4 +265,3 @@ module SortHelper
     content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
   end
 end
-

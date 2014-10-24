@@ -73,7 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
 .select2-results .select2-searching,
 .select2-results .select2-more-results
 {
-  background: url(<%= asset_path 'select2-spinner.gif' %>) no-repeat scroll 100% center #fff;
+  background: url(<%= asset_path 'select2/select2-spinner.gif' %>) no-repeat scroll 100% center #fff;
 }
 
 
@@ -111,7 +111,15 @@ See doc/COPYRIGHT.rdoc for more details.
   color: #000;
 }
 
-.controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable:hover, .controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable.select2-highlighted {
+.controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable.select2-highlighted {
   color: #fff;
   font-weight: bold;
+}
+
+.select2-drop {
+  z-index: 30001;
+}
+
+.select2-drop-mask {
+  z-index: 30000;
 }

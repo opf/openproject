@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SearchController do
+describe SearchController, :type => :controller do
   let!(:project) { FactoryGirl.create(:project,
                                       name: 'eCookbook') }
   let(:user) { FactoryGirl.create(:user,
@@ -39,7 +39,7 @@ describe SearchController do
     it { expect(response).to render_template('index') }
   end
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   describe 'project search' do
 
@@ -51,6 +51,14 @@ describe SearchController do
       subject { get :index, q: "cook" }
 
       it_behaves_like 'successful search'
+
+      context 'is a work package reference' do
+        let!(:work_package) { FactoryGirl.create :work_package, project: project }
+
+        subject { get :index, q: "##{work_package.id}" }
+
+        it { is_expected.to redirect_to work_package }
+      end
     end
   end
 
@@ -90,6 +98,127 @@ describe SearchController do
           assert_select "dt.work_package-closed" do
             assert_select "a", text: Regexp.new(work_package_2.status.name)
           end
+        end
+      end
+    end
+
+    context 'with first note' do
+      let!(:note_1) { FactoryGirl.create :work_package_journal,
+                                         journable_id: work_package_1.id,
+                                         notes: 'Test note 1',
+                                         version: 2 }
+
+      before { Journal.any_instance.stub(predecessor: note_1) }
+
+      context 'and second note' do
+        let!(:note_2) { FactoryGirl.create :work_package_journal,
+                                           journable_id: work_package_1.id,
+                                           notes: 'Special note 2',
+                                           version: 3 }
+
+        describe 'second note predecessor' do
+          subject { note_2.send :predecessor }
+
+          it { is_expected.to eq note_1 }
+          it { expect(note_1.data).to_not be nil }
+          it { expect(subject.data).to_not be nil }
+        end
+
+        before { get :index, q: 'note', issues: 1 }
+
+        it_behaves_like 'successful search'
+
+        describe :result do
+
+          it { expect(assigns(:results).count).to be 1 }
+
+          it { expect(assigns(:results)).to include work_package_1 }
+
+          describe :view do
+            render_views
+
+            it 'highlights last note' do
+              assert_select 'dt.work_package-note + dd' do
+                assert_select '.description', text: note_2.notes
+              end
+            end
+
+            it 'links to work package with anchor to highlighted note' do
+              assert_select 'dt.work_package-note' do
+                assert_select 'a', href: work_package_path(work_package_1, anchor: 'note-2')
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  describe 'helper methods' do
+    describe '#scan_query_tokens' do
+      subject { @controller.send(:scan_query_tokens, query) }
+
+      context 'with one token' do
+        let(:query) { 'word' }
+
+        it { is_expected.to eq %w(word) }
+
+        context 'with double quotes' do
+          let(:query) { '"hello world"' }
+
+          it { is_expected.to eq ['hello world'] }
+        end
+      end
+
+      context 'with multiple tokens' do
+        let(:query) { 'hello world something-hyphenated' }
+
+        it { is_expected.to eq %w(hello world something-hyphenated) }
+
+        context 'with double quotes' do
+          let(:query) { 'hello "fallen world" something-hyphenated' }
+
+          it { is_expected.to eq ['hello', 'fallen world', 'something-hyphenated'] }
+        end
+      end
+    end
+
+    describe '#scan_work_package_reference' do
+      subject { @controller.send(:scan_work_package_reference, query) }
+
+      context 'with normal query' do
+        let(:query) { 'lorem' }
+
+        it { is_expected.to be nil }
+      end
+
+      context 'with work package reference' do
+        let(:query) { '#4123' }
+
+        it { is_expected.not_to be nil }
+
+        describe 'captures' do
+          let!(:check_block) { Proc.new { |id| @work_package_id = id } }
+
+          it 'block gets called' do
+            # NOTE: this is how it is favored to do in RSpec3
+            # expect(check_block).to receive :call
+            # but we have only RSpec2 here, so:
+            expect(check_block).to receive :call
+            @controller.send(:scan_work_package_reference, query, &check_block)
+          end
+
+          it 'id inside of block is work package id' do
+            @controller.send(:scan_work_package_reference, query, &check_block)
+
+            expect(@work_package_id.to_i).to eq 4123
+          end
+        end
+
+        context 'and with additional text' do
+          let(:query) { '#4123 and some text' }
+
+          it { is_expected.to be nil }
         end
       end
     end

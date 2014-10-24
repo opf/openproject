@@ -30,7 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  include Redmine::SafeAttributes
+  include ActiveModel::ForbiddenAttributesProtection
 
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
@@ -134,8 +134,6 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
-  # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
@@ -145,7 +143,7 @@ class User < Principal
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
-  # Login must contain lettres, numbers, underscores only
+  # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => 256
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -209,19 +207,6 @@ class User < Principal
     write_attribute(:mail, arg.to_s.strip)
   end
 
-  def identity_url=(url)
-    if url.blank?
-      write_attribute(:identity_url, '')
-    else
-      begin
-        write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
-      rescue OpenIdAuthentication::InvalidOpenId
-        # Invlaid url, don't save
-      end
-    end
-    self.read_attribute(:identity_url)
-  end
-
   def self.search_in_project(query, options)
     Project.find(options.fetch(:project)).users.like(query)
   end
@@ -257,7 +242,7 @@ class User < Principal
       try_authentication_and_create_user(login, password)
     end
     unless prevent_brute_force_attack(user, login).nil?
-      user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+      user.log_successful_login if user && !user.new_record?
       return user
     end
     nil
@@ -266,7 +251,7 @@ class User < Principal
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
   def self.try_authentication_for_existing_user(user, password)
-    return nil if !user.active?
+    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
     if user.auth_source
       # user has an external authentication method
       return nil unless user.auth_source.authenticate(user.login, password)
@@ -281,6 +266,8 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
+    return nil if OpenProject::Configuration.disable_password_login?
+
     user = nil
     attrs = AuthSource.authenticate(login, password)
     if attrs
@@ -304,7 +291,7 @@ class User < Principal
     if tokens.size == 1
       token = tokens.first
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        token.user.update_attribute(:last_login_on, Time.now)
+        token.user.log_successful_login
         token.user
       end
     end
@@ -317,6 +304,12 @@ class User < Principal
     else
       @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
     end
+  end
+
+  # Return user's authentication provider for display
+  def authentication_provider
+    return if identity_url.blank?
+    identity_url.split(':', 2).first.titleize
   end
 
   def status_name
@@ -371,8 +364,15 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
+    return false if uses_external_authentication? ||
+                    OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
     return auth_source.allow_password_changes?
+  end
+
+  # Is the user authenticated via an external authentication source via OmniAuth?
+  def uses_external_authentication?
+    return identity_url.present?
   end
 
   #
@@ -405,6 +405,9 @@ class User < Principal
     save
   end
 
+  def log_successful_login
+    update_attribute(:last_login_on, Time.now)
+  end
 
   def pref
     preference || build_preference
@@ -641,31 +644,17 @@ class User < Principal
     return true if admin?
 
     initialize_allowance_evaluators
-
     # authorize if user has at least one membership granting this permission
     candidates_for_global_allowance.any? do |candidate|
       denied = @registered_allowance_evaluators.any? do |evaluator|
         evaluator.denied_for_global? candidate, action, options
       end
 
-
       !denied && @registered_allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options
       end
     end
   end
-
-  # These are also implemented as strong_parameters, so also see
-  # app/modles/permitted_params.rb
-  # Delete these if everything in the UsersController uses strong_parameters.
-  safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
-                  'custom_field_values', 'custom_fields', 'identity_url'
-
-  safe_attributes 'auth_source_id', 'force_password_change',
-    :if => lambda {|user, current_user| current_user.admin?}
-
-  safe_attributes 'group_ids',
-    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?}
 
   # Utility method to help check if a user should be notified about an
   # event.
@@ -703,6 +692,10 @@ class User < Principal
     else
       false
     end
+  end
+
+  def reported_work_package_count
+    WorkPackage.on_active_project.with_author(self).visible.count
   end
 
   def self.current=(user)

@@ -52,9 +52,6 @@
 
   pdf.AddPage();
 
-  # set barcode
-  # pdf.SetBarcode(Time.now.strftime("Y-m-d H:i:s"));
-
   # output some HTML code
   pdf.SetFont("vera", "", 10);
     

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.api.rabl' do
+describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
   before do
     params[:format] = 'json'
   end
@@ -40,8 +40,8 @@ describe 'api/v2/planning_elements/index.api.rabl' do
     end
 
     it 'renders an empty planning_elements document' do
-      response.body.should have_json_path('planning_elements')
-      response.body.should have_json_size(0).at_path('planning_elements')
+      expect(response.body).to have_json_path('planning_elements')
+      expect(response.body).to have_json_size(0).at_path('planning_elements')
     end
   end
 
@@ -64,27 +64,27 @@ describe 'api/v2/planning_elements/index.api.rabl' do
     end
 
     it "should render 3 planning-elements" do
-      should have_json_size(3).at_path("planning_elements")
+      is_expected.to have_json_size(3).at_path("planning_elements")
     end
 
     it 'should render the subject' do
-      response.body.should be_json_eql("Subject #1".to_json).at_path("planning_elements/0/subject")
+      expect(response.body).to be_json_eql("Subject #1".to_json).at_path("planning_elements/0/subject")
     end
 
     it 'should render a the type_id' do
       type = project.types.first
       expected_json = {name: type.name}.to_json
 
-      should be_json_eql(type.id.to_json).at_path("planning_elements/0/type_id")
+      is_expected.to be_json_eql(type.id.to_json).at_path("planning_elements/0/type_id")
 
     end
 
     it 'should render a status-id' do
-      response.body.should be_json_eql(wp1.status.id.to_json).at_path("planning_elements/0/status_id")
+      expect(response.body).to be_json_eql(wp1.status.id.to_json).at_path("planning_elements/0/status_id")
     end
 
     it 'should render a project-id' do
-      should be_json_eql(project.id.to_json).at_path(("planning_elements/0/project_id"))
+      is_expected.to be_json_eql(project.id.to_json).at_path(("planning_elements/0/project_id"))
     end
 
 
@@ -123,9 +123,9 @@ describe 'api/v2/planning_elements/index.api.rabl' do
     end
 
     it 'should render custom field values' do
-      response.body.should be_json_eql("MySQL".to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
-      response.body.should have_json_path("planning_elements/1")
-      response.body.should_not have_json_path("planning_elements/1/cf_#{custom_field.id}")
+      expect(response.body).to be_json_eql("MySQL".to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
+      expect(response.body).to have_json_path("planning_elements/1")
+      expect(response.body).not_to have_json_path("planning_elements/1/cf_#{custom_field.id}")
     end
   end
 end

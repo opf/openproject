@@ -30,7 +30,7 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :disable_api
+  before_filter :disable_api, except: [:index, :destroy]
   before_filter :find_work_package, :only => [:new, :create]
   before_filter :find_project, :only => [:new, :create]
   before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
@@ -42,6 +42,7 @@ class TimelogController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
   include PaginationHelper
+  include OpenProject::ClientPreferenceExtractor
 
   def index
     sort_init 'spent_on', 'desc'
@@ -67,15 +68,23 @@ class TimelogController < ApplicationController
         # Paginate results
         @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
 
-        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
-                                    .where(cond.conditions)
-                                    .order(sort_clause)
-                                    .page(params[:page])
-                                    .per_page(per_page_param)
-
         @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
+        set_entries(cond)
+
+        gon.rabl "app/views/timelog/index.rabl"
+        gon.project_id = @project.id if @project
+        gon.work_package_id = @issue.id if @issue
+        gon.sort_column = 'spent_on'
+        gon.sort_direction = 'desc'
+        gon.total_count = total_entry_count(cond)
+        gon.settings = client_preferences
 
         render :layout => !request.xhr?
+      }
+      format.json {
+        set_entries(cond)
+
+        gon.rabl "app/views/timelog/index.rabl"
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
@@ -169,6 +178,7 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
         }
+        format.json { render json: { text:l(:notice_successful_delete) } }
       end
     else
       respond_to do |format|
@@ -176,6 +186,7 @@ class TimelogController < ApplicationController
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         }
+        format.json { render json: { isError:true, text:l(:notice_unable_delete_time_entry) } }
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -183,6 +194,19 @@ class TimelogController < ApplicationController
   end
 
   private
+
+  def total_entry_count(cond)
+    TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
+                     .where(cond.conditions).count
+  end
+
+  def set_entries(cond)
+    @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
+                                .where(cond.conditions)
+                                .order(sort_clause)
+                                .page(params[:page])
+                                .per_page(per_page_param)
+  end
 
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])

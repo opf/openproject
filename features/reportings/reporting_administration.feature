@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: General Reporting adminstration
+Feature: General Reporting administration
   As a ChiliProject Admin
   I want to perform CRUD operations on reportings.
 

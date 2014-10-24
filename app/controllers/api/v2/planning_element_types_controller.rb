@@ -29,13 +29,13 @@
 
 module Api
   module V2
-
     class PlanningElementTypesController < TypesController
-
       include ::Api::V2::ApiController
 
-      before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
-      before_filter :check_project_exists
+      # Before filters are inherited from TypesController.
+      # However we do want non admins to access the actions.
+      skip_before_filter :require_admin
+      before_filter :find_optional_project
 
       accept_key_auth :index, :show
 
@@ -48,22 +48,20 @@ module Api
       end
 
       def show
-        @type = (@project.nil?) ? Type.find(params[:id])
-                                : @project.types.find(params[:id])
+        @type = if @project.nil?
+                  Type.find_by_id(params[:id])
+                else
+                  @project.types.find_by_id(params[:id])
+                end
 
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      private
-
-      def check_project_exists
-        if params.has_key? :project_id && @project.nil?
-          raise ActiveRecord::RecordNotFound
+        if @type
+          respond_to do |format|
+            format.api
+          end
+        else
+          render_404
         end
       end
     end
-
   end
 end

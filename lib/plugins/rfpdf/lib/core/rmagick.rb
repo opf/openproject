@@ -27,11 +27,11 @@ module RFPDF
   # http://uk2.php.net/getimagesize
   def getimagesize(filename)
     image = Magick::ImageList.new(filename)
-    
+
     out = Hash.new
     out[0] = image.columns
     out[1] = image.rows
-    
+
     # These are actually meant to return integer values But I couldn't seem to find anything saying what those values are.
     # So for now they return strings. The only place that uses this at the moment is the parsejpeg method, so I've changed that too.
     case image.mime_type
@@ -41,14 +41,14 @@ module RFPDF
       out[2] = "JPEG"
     when "image/png"
       out[2] = "PNG"
-    when " 	image/vnd.wap.wbmp"
+    when "   image/vnd.wap.wbmp"
       out[2] = "WBMP"
     when "image/x-xpixmap"
       out[2] = "XPM"
     end
     out[3] = "height=\"#{image.rows}\" width=\"#{image.columns}\""
     out['mime'] = image.mime_type
-    
+
     # This needs work to cover more situations
     # I can't see how to just list the number of channels with ImageMagick / rmagick
     if image.colorspace.to_s == "CMYKColorspace"
@@ -58,8 +58,8 @@ module RFPDF
     end
 
     out['bits'] = image.channel_depth
-    
+
     out
   end
-  
+
 end

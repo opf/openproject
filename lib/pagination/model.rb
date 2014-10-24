@@ -50,7 +50,7 @@ module Pagination::Model
         limit = options.fetch(:page_limit) || 10
         page = options.fetch(:page) || 1
 
-        scope.paginate({ :per_page => limit, :page => page }) 
+        scope.paginate({ :per_page => limit, :page => page })
       end
 
       # ignores options passed in from the controller, overwrite to use 'em

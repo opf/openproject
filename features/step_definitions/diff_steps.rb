@@ -52,4 +52,3 @@ When(/^I should see the following inline diff(?: on (.+?)):$/) do |page, table|
     end
   end
 end
-

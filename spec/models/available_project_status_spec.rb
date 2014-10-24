@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AvailableProjectStatus do
+describe AvailableProjectStatus, :type => :model do
   describe '- Relations ' do
     describe '#project_type' do
       it 'can read the project_type w/ the help of the belongs_to association' do
@@ -38,7 +38,7 @@ describe AvailableProjectStatus do
 
         available_project_status.reload
 
-        available_project_status.project_type.should == project_type
+        expect(available_project_status.project_type).to eq(project_type)
       end
     end
 
@@ -50,7 +50,7 @@ describe AvailableProjectStatus do
 
         available_project_status.reload
 
-        available_project_status.reported_project_status.should == reported_project_status
+        expect(available_project_status.reported_project_status).to eq(reported_project_status)
       end
     end
   end
@@ -66,17 +66,17 @@ describe AvailableProjectStatus do
       FactoryGirl.create(:reported_project_status, :id => 2)
     }
 
-    it { AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
+    it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
 
     describe 'project_type' do
       it 'is invalid w/o a project_type' do
         attributes[:project_type_id] = nil
         available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }
 
-        available_project_status.should_not be_valid
+        expect(available_project_status).not_to be_valid
 
-        available_project_status.errors[:project_type].should be_present
-        available_project_status.errors[:project_type].should == ["can't be blank"]
+        expect(available_project_status.errors[:project_type]).to be_present
+        expect(available_project_status.errors[:project_type]).to eq(["can't be blank"])
       end
     end
 
@@ -85,10 +85,10 @@ describe AvailableProjectStatus do
         attributes[:reported_project_status_id] = nil
         available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }
 
-        available_project_status.should_not be_valid
+        expect(available_project_status).not_to be_valid
 
-        available_project_status.errors[:reported_project_status].should be_present
-        available_project_status.errors[:reported_project_status].should == ["can't be blank"]
+        expect(available_project_status.errors[:reported_project_status]).to be_present
+        expect(available_project_status.errors[:reported_project_status]).to eq(["can't be blank"])
       end
     end
   end

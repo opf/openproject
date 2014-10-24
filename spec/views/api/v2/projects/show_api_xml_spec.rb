@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/projects/show.api.rabl' do
+describe 'api/v2/projects/show.api.rabl', :type => :view do
 
   let(:project) { FactoryGirl.build(:project) }
 

@@ -46,7 +46,7 @@ Given /^users are not allowed to reuse the last ([0-9]+) passwords$/ do |count|
 end
 
 def fill_change_password(old_password, new_password, confirmation=new_password)
-  # use find and set with id to prevent ambigious match I get with fill_in
+  # use find and set with id to prevent ambiguous match I get with fill_in
   find('#password').set(old_password)
 
   fill_in('new_password', :with => new_password)

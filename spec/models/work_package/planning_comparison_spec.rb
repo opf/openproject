@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe "Planning Comparison" do
+describe "Planning Comparison", :type => :model do
 
   let (:project){FactoryGirl.create(:project)}
   let (:admin)  {FactoryGirl.create(:admin)}
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects
-    User.stub(:current).and_return(admin)
+    allow(User).to receive(:current).and_return(admin)
   end
 
   describe "going back in history" do

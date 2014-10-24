@@ -28,34 +28,34 @@
 
 require 'spec_helper'
 
-describe CategoriesController do
+describe CategoriesController, :type => :routing do
 
   it "should connect GET /projects/test/categories/new to categories#new" do
-    get("/projects/test/categories/new").should route_to( controller: 'categories',
+    expect(get("/projects/test/categories/new")).to route_to( controller: 'categories',
                                                           action: 'new',
                                                           project_id: 'test' )
   end
 
   it "should connect POST /projects/test/categories to categories#create" do
-    post("/projects/test/categories").should route_to( controller: 'categories',
+    expect(post("/projects/test/categories")).to route_to( controller: 'categories',
                                                        action: 'create',
                                                        project_id: 'test' )
   end
 
   it "should connect GET /categories/5/edit to categories#edit" do
-    get("/categories/5/edit").should route_to( controller: 'categories',
+    expect(get("/categories/5/edit")).to route_to( controller: 'categories',
                                                             action: 'edit',
                                                             id: '5' )
   end
 
   it "should connect PUT /categories/5 to categories#update" do
-    put("/categories/5").should route_to( controller: 'categories',
+    expect(put("/categories/5")).to route_to( controller: 'categories',
                                           action: 'update',
                                           id: '5' )
   end
 
   it "should connect DELETE /categories/5 to categories#delete" do
-    delete("/categories/5").should route_to( controller: 'categories',
+    expect(delete("/categories/5")).to route_to( controller: 'categories',
                                              action: 'destroy',
                                              id: '5' )
   end

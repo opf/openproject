@@ -1,7 +1,35 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 module OpenProjectRepositoryAuthenticationSpecs
-  describe SysController do
+  describe SysController, :type => :controller do
     let(:commit_role) { FactoryGirl.create(:role, :permissions => [:commit_access,
                                                                   :browse_repository]) }
     let(:browse_role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
@@ -19,9 +47,9 @@ module OpenProjectRepositoryAuthenticationSpecs
       @member = FactoryGirl.create(:member, :user => valid_user,
                                             :roles => [browse_role],
                                             :project => random_project)
-      Setting.stub(:sys_api_key).and_return("12345678")
-      Setting.stub(:sys_api_enabled?).and_return(true)
-      Setting.stub(:repository_authentication_caching_enabled?).and_return(true)
+      allow(Setting).to receive(:sys_api_key).and_return("12345678")
+      allow(Setting).to receive(:sys_api_enabled?).and_return(true)
+      allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
     end
 
     describe :repo_auth, "for valid login, but no access to repo_auth" do
@@ -32,8 +60,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it "should respond 403 not allowed" do
-        response.code.should == "403"
-        response.body.should == "Not allowed"
+        expect(response.code).to eq("403")
+        expect(response.body).to eq("Not allowed")
       end
     end
 
@@ -49,12 +77,12 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       it "should respond 200 okay dokay for GET" do
         post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
-        response.code.should == "200"
+        expect(response.code).to eq("200")
       end
 
       it "should respond 403 not allowed for POST" do
         post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
-        response.code.should == "403"
+        expect(response.code).to eq("403")
       end
     end
 
@@ -71,12 +99,12 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       it "should respond 200 okay dokay for GET" do
         post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
-        response.code.should == "200"
+        expect(response.code).to eq("200")
       end
 
       it "should respond 200 okay dokay for POST" do
         post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
-        response.code.should == "200"
+        expect(response.code).to eq("200")
       end
     end
 
@@ -92,7 +120,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it "should respond 401 auth required" do
-        response.code.should == "401"
+        expect(response.code).to eq("401")
       end
     end
 
@@ -105,7 +133,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it "should respond 403 not allowed" do
-        response.code.should == "403"
+        expect(response.code).to eq("403")
       end
     end
 
@@ -124,7 +152,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it "should respond 200 OK" do
-        response.code.should == "200"
+        expect(response.code).to eq("200")
       end
     end
 
@@ -135,8 +163,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it "should respond 401 auth required" do
-        response.code.should == "401"
-        response.body.should == "Authorization required"
+        expect(response.code).to eq("401")
+        expect(response.body).to eq("Authorization required")
       end
     end
 
@@ -148,21 +176,21 @@ module OpenProjectRepositoryAuthenticationSpecs
       it "should respond 403 for valid username/password" do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
         post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
-        response.code.should == "403"
-        response.body.should == "Access denied. Repository management WS is disabled or key is invalid."
+        expect(response.code).to eq("403")
+        expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
       end
 
       it "should respond 403 for invalid username/password" do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("invalid", "invalid")
         post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
-        response.code.should == "403"
-        response.body.should == "Access denied. Repository management WS is disabled or key is invalid."
+        expect(response.code).to eq("403")
+        expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
       end
     end
 
     before(:each) do
       Rails.cache.clear
-      Rails.cache.stub(:kind_of?).with(anything).and_return(false)
+      allow(Rails.cache).to receive(:kind_of?).with(anything).and_return(false)
     end
 
     describe :cached_user_login do
@@ -171,18 +199,20 @@ module OpenProjectRepositoryAuthenticationSpecs
       let(:cache_expiry) { OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER }
 
       it "should call user_login only once when called twice" do
-        controller.should_receive(:user_login).once.and_return(valid_user)
+        expect(controller).to receive(:user_login).once.and_return(valid_user)
         2.times { controller.send(:cached_user_login, valid_user.login, valid_user_password) }
       end
 
       it "should return the same as user_login for valid creds" do
-        controller.send(:cached_user_login, valid_user.login, valid_user_password).should ==
+        expect(controller.send(:cached_user_login, valid_user.login, valid_user_password)).to eq(
         controller.send(:user_login, valid_user.login, valid_user_password)
+        )
       end
 
       it "should return the same as user_login for invalid creds" do
-        controller.send(:cached_user_login, "invalid", "invalid").should ==
+        expect(controller.send(:cached_user_login, "invalid", "invalid")).to eq(
           controller.send(:user_login, "invalid", "invalid")
+        )
       end
 
       it "should use cache" do
@@ -191,21 +221,21 @@ module OpenProjectRepositoryAuthenticationSpecs
         # with the cache key in question
 
         # unfortunately, and_call_original currently fails
-        Rails.cache.stub(:fetch) do |*args|
-          args.first.should_not == cache_key
+        allow(Rails.cache).to receive(:fetch) do |*args|
+          expect(args.first).not_to eq(cache_key)
 
           name = args.first.split("/").last
           Marshal.dump(Setting.send(:find_or_default, name).value)
         end
         #Rails.cache.should_receive(:fetch).with(anything).and_call_original
-        Rails.cache.should_receive(:fetch).with(cache_key, :expires_in => cache_expiry) \
+        expect(Rails.cache).to receive(:fetch).with(cache_key, :expires_in => cache_expiry) \
                                           .and_return(Marshal.dump(valid_user.id.to_s))
         controller.send(:cached_user_login, valid_user.login, valid_user_password)
       end
 
       describe "with caching disabled" do
         before do
-          Setting.stub(:repository_authentication_caching_enabled?).and_return(false)
+          allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(false)
         end
 
         it 'should not use a cache' do
@@ -214,8 +244,8 @@ module OpenProjectRepositoryAuthenticationSpecs
           # with the cache key in question
           #
           # unfortunately, and_call_original currently fails
-          Rails.cache.stub(:fetch) do |*args|
-            args.first.should_not == cache_key
+          allow(Rails.cache).to receive(:fetch) do |*args|
+            expect(args.first).not_to eq(cache_key)
 
             name = args.first.split("/").last
             Marshal.dump(Setting.send(:find_or_default, name).value)

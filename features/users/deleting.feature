@@ -29,7 +29,7 @@
 Feature: User deletion
 
   @javascript
-  Scenario: A user can delete himself if the setting permitts it
+  Scenario: A user can delete himself if the setting permits it
     Given the "users_deletable_by_self" setting is set to true
     And there is 1 user with the following:
       | login     | bob |
@@ -41,7 +41,7 @@ Feature: User deletion
     Then I should see "Account successfully deleted"
     And I should be on the login page
 
-  Scenario: A user can not delete himself if the setting forbidds it
+  Scenario: A user can not delete himself if the setting forbids it
     Given the "users_deletable_by_self" setting is set to false
     And there is 1 user with the following:
       | login     | bob |

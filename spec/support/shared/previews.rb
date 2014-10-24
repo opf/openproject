@@ -46,7 +46,7 @@ shared_examples_for 'authorizes object access' do
   let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   before do
-    User.stub(:current).and_return(unauthorized_user)
+    allow(User).to receive(:current).and_return(unauthorized_user)
 
     put :preview, preview_params
   end

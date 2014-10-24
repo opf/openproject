@@ -29,14 +29,14 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-describe 'Delete project' do
+describe 'Delete project', :type => :feature do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:projects_page) { ProjectsPage.new(project) }
   let(:delete_button) { find('input[type="submit"]') }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
 
     projects_page.visit_confirm_destroy
   end

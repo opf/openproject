@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(l(:label_my_page)) %>
 <% content_for :action_menu_specific do %>
-    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
+    <%= link_to l(:label_personalize_page), action: 'page_layout', accesskey: accesskey(:edit) %>
 <% end %>
 
 <h2><%=l(:label_my_page)%></h2>
@@ -62,7 +62,5 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
   <% end if @blocks['right'] %>
 </div>
-
-<%= context_menu :controller => '/work_packages/context_menus', :action => 'issues' %>
 
 <% html_title(l(:label_my_page)) -%>

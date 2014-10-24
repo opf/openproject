@@ -1,0 +1,23 @@
+  <exclusive-edit>
+    <div class="detail-activity">
+      <ul class="work-package-details-activities-list">
+        <li ng-repeat="activity in activities"
+            class="work-package-details-activities-activity"
+            ng-init="activityNo    = activitiesSortedInDescendingOrder && activities.length - $index || $index + 1;
+                     currentDate   = (activity.props.createdAt|date:'longDate');
+                     currentAnchor = 'note-' + activityNo">
+          <h3 class="activity-date"
+              ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
+              ng-bind="currentDate"/>
+          <user-activity work-package="workPackage"
+                         activity="activity"
+                         activity-no="activityNo"
+                         input-element-id="'add-comment-text'">
+          </user-activity>
+        </li>
+      </ul>
+    </div>
+    <activity-comment work-package="workPackage"
+                      activities="activities">
+    </activity-comment>
+  </exclusive-edit>

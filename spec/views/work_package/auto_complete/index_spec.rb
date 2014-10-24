@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/auto_completes/index.html.erb' do
+describe 'work_packages/auto_completes/index.html.erb', :type => :view do
   let(:work_package) { FactoryGirl.build( :work_package,
                                           :subject => '<script>alert("do not alert this");</script>') }
 
@@ -36,10 +36,10 @@ describe 'work_packages/auto_completes/index.html.erb' do
     assign :work_packages, [work_package]
     render
     # there are items
-    response.should have_selector "li"
+    expect(response).to have_selector "li"
     # but there is not script tag
-    response.should_not have_selector "script"
+    expect(response).not_to have_selector "script"
     # normal text should be included
-    response.should include "do not alert this"
+    expect(response).to include "do not alert this"
   end
 end

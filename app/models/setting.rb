@@ -30,15 +30,15 @@
 class Setting < ActiveRecord::Base
 
   DATE_FORMATS = [
-	'%Y-%m-%d',
-	'%d/%m/%Y',
-	'%d.%m.%Y',
-	'%d-%m-%Y',
-	'%m/%d/%Y',
-	'%d %b %Y',
-	'%d %B %Y',
-	'%b %d, %Y',
-	'%B %d, %Y'
+  '%Y-%m-%d',
+  '%d/%m/%Y',
+  '%d.%m.%Y',
+  '%d-%m-%Y',
+  '%m/%d/%Y',
+  '%d %b %Y',
+  '%d %B %Y',
+  '%b %d, %Y',
+  '%B %d, %Y'
     ]
 
   TIME_FORMATS = [
@@ -98,12 +98,12 @@ class Setting < ActiveRecord::Base
     # or set using Setting.some_setting_name = "some value"
     src = <<-END_SRC
       def self.#{name}
-        # when runnung too early, there is no settings table. do nothing
+        # when running too early, there is no settings table. do nothing
         self[:#{name}] if settings_table_exists_yet?
       end
 
       def self.#{name}?
-        # when runnung too early, there is no settings table. do nothing
+        # when running too early, there is no settings table. do nothing
         self[:#{name}].to_i > 0 if settings_table_exists_yet?
       end
 
@@ -152,10 +152,17 @@ class Setting < ActiveRecord::Base
 
   def self.[]=(name, v)
     setting = find_or_default(name)
+    # remember the old setting and mark it as read-only
+    old_setting = setting.dup.freeze
     setting.value = (v ? v : "")
     Rails.cache.delete(cache_key(name))
-    setting.save
-    setting.value
+    if setting.save
+      # fire callbacks for name and pass as much information as possible
+      fire_callbacks(name, setting, old_setting)
+      setting.value
+    else
+      old_setting.value
+    end
   end
 
   # Check whether a setting was defined
@@ -180,10 +187,6 @@ class Setting < ActiveRecord::Base
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
-  end
-
-  def self.openid?
-    Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
 
   # Deprecation Warning: This method is no longer available. There is no
@@ -231,4 +234,7 @@ private
     # accessing settings a lot.
     @settings_table_exists_yet ||= connection.table_exists?(table_name)
   end
+
+  require_dependency 'setting/callbacks'
+  extend Callbacks
 end

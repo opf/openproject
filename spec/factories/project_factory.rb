@@ -29,12 +29,17 @@
 
 FactoryGirl.define do
   factory :project do
+    ignore do
+      no_types false
+    end
+
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
     enabled_module_names Redmine::AccessControl.available_project_modules
 
-    before :create do |project|
-      unless Type.find(:first, conditions: { is_standard: true })
+    callback(:before_create) do |project, evaluator|
+      unless evaluator.no_types ||
+             Type.where(is_standard: true).count > 0
         project.types << FactoryGirl.build(:type_standard)
       end
     end
@@ -44,22 +49,22 @@ FactoryGirl.define do
     end
 
     factory :project_with_types do
-      after :build do |project|
+      callback(:after_build) do |project|
         project.types << FactoryGirl.build(:type)
       end
-      after :create do |project|
+      callback(:after_create) do |project|
         project.types.each { |type| type.save! }
       end
 
       factory :valid_project do
-        after :build do |project|
+        callback(:after_build) do |project|
           project.types << FactoryGirl.build(:type_with_workflow)
         end
       end
     end
 
     trait :without_wiki do
-      after :build do |project|
+      callback(:after_build) do |project|
         project.enabled_module_names = project.enabled_module_names - ['wiki']
       end
     end
@@ -74,13 +79,13 @@ FactoryGirl.define do
 
     # activate timeline module
 
-    after_create do |project|
+    callback(:after_create) do |project|
       project.enabled_module_names += ["timelines"]
     end
 
     # add user to project
 
-    after_create do |project|
+    callback(:after_create) do |project|
 
       role = FactoryGirl.create(:role)
       member = FactoryGirl.build(:member,
@@ -95,7 +100,7 @@ FactoryGirl.define do
 
     # generate planning elements
 
-    after_create do |project|
+    callback(:after_create) do |project|
 
       start_date = rand(18.months).ago
       due_date = start_date
@@ -113,7 +118,7 @@ FactoryGirl.define do
 
     # create a timeline in that project
 
-    after_create do |project|
+    callback(:after_create) do |project|
       FactoryGirl.create(:timeline, :project => project)
     end
 
@@ -130,7 +135,7 @@ FactoryGirl.define do
 
     # create some project types
 
-    after_create do |project|
+    callback(:after_create) do |project|
       if (@project_types.empty?)
 
         6.times do
@@ -142,7 +147,7 @@ FactoryGirl.define do
 
     # create some planning_element_types
 
-    after_create do |project|
+    callback(:after_create) do |project|
 
       20.times do
         planning_element_type = FactoryGirl.create(:planning_element_type)
@@ -155,7 +160,7 @@ FactoryGirl.define do
     end
 
 
-    after_create do |project|
+    callback(:after_create) do |project|
 
       projects = Array.new
 

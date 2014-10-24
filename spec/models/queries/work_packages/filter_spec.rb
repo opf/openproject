@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter do
+describe Queries::WorkPackages::Filter, :type => :model do
   describe :type do
 
     describe 'validations' do
@@ -40,7 +40,7 @@ describe Queries::WorkPackages::Filter do
         let(:filter) { FactoryGirl.build :work_packages_filter, field: :status_id, operator: '*', values: [] }
 
         it 'is valid if no values are given' do
-          filter.should be_valid
+          expect(filter).to be_valid
         end
       end
 
@@ -48,19 +48,19 @@ describe Queries::WorkPackages::Filter do
         let(:filter) { FactoryGirl.build :work_packages_filter, field: :done_ratio, operator: '>=', values: [] }
 
         context 'and no value is given' do
-          it { should_not be_valid }
+          it { is_expected.not_to be_valid }
         end
 
         context 'and only an empty string is given as value' do
           let(:filter) { FactoryGirl.build :work_packages_filter, field: :due_date, operator: 't-', values: [''] }
 
-          it { should_not be_valid }
+          it { is_expected.not_to be_valid }
         end
 
         context 'and values are given' do
           before { filter.values = [5] }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
       end
 
@@ -72,18 +72,18 @@ describe Queries::WorkPackages::Filter do
         context 'and the filter values is an integer' do
           before { filter.values = [1, '12', 123] }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         context 'and the filter values is not an integer' do
           before { filter.values == [1, 'asdf'] }
 
-          it { should_not be_valid }
+          it { is_expected.not_to be_valid }
 
           context 'and the operator is *' do
             before { filter.operator = '*' }
 
-            it { should be_valid }
+            it { is_expected.to be_valid }
           end
         end
       end
@@ -94,13 +94,13 @@ describe Queries::WorkPackages::Filter do
         context "and the operator is 't' (today)" do
           before { filter.operator = 't' }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         context "and the operator is 'w' (this week)" do
           before { filter.operator = 'w' }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         context 'and the operator compares the current day' do
@@ -109,13 +109,13 @@ describe Queries::WorkPackages::Filter do
           context 'and the value is an integer' do
             before { filter.values = ['4'] }
 
-            it { should be_valid }
+            it { is_expected.to be_valid }
           end
 
           context 'and the value is not an integer' do
             before { filter.values = ['four'] }
 
-            it { should_not be_valid }
+            it { is_expected.not_to be_valid }
           end
         end
       end
@@ -126,7 +126,7 @@ describe Queries::WorkPackages::Filter do
         context 'and the field is whitelisted' do
           before { filter.field = :project_id }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         # this context tests the case when a new item is injected in
@@ -138,19 +138,19 @@ describe Queries::WorkPackages::Filter do
             filter.class.add_filter_type_by_field('some_new_key', 'list')
           end
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         context 'and the field is not whitelisted and no custom field key' do
           before { filter.field = :any_key }
 
-          it { should_not be_valid }
+          it { is_expected.not_to be_valid }
         end
 
         context 'and the field is a custom field starting with "cf"' do
           before { filter.field = :cf_any_key }
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
       end
     end

@@ -96,4 +96,3 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   end
 
 end
-

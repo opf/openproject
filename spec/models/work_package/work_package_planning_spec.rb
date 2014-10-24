@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user)    { FactoryGirl.create(:user) }
 
@@ -46,7 +46,7 @@ describe WorkPackage do
 
         planning_element.reload
 
-        planning_element.project.should == project
+        expect(planning_element.project).to eq(project)
       end
 
       it 'can read the responsible w/ the help of the belongs_to association' do
@@ -56,7 +56,7 @@ describe WorkPackage do
 
         planning_element.reload
 
-        planning_element.responsible.should == user
+        expect(planning_element.responsible).to eq(user)
       end
 
       it 'can read the type w/ the help of the belongs_to association' do
@@ -67,7 +67,7 @@ describe WorkPackage do
 
         planning_element.reload
 
-        planning_element.type.should == type
+        expect(planning_element.type).to eq(type)
       end
 
       it 'can read the planning_element_status w/ the help of the belongs_to association' do
@@ -77,7 +77,7 @@ describe WorkPackage do
 
         work_package.reload
 
-        work_package.status.should == status
+        expect(work_package.status).to eq(status)
       end
     end
   end
@@ -93,27 +93,27 @@ describe WorkPackage do
       }
     }
 
-    it { WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
+    it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
 
     describe 'subject' do
       it 'is invalid w/o a subject' do
         attributes[:subject] = nil
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        expect(planning_element).not_to be_valid
 
-        planning_element.errors[:subject].should be_present
-        planning_element.errors[:subject].should == ["can't be blank"]
+        expect(planning_element.errors[:subject]).to be_present
+        expect(planning_element.errors[:subject]).to eq(["can't be blank"])
       end
 
       it 'is invalid w/ a subject longer than 255 characters' do
         attributes[:subject] = "A" * 500
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        expect(planning_element).not_to be_valid
 
-        planning_element.errors[:subject].should be_present
-        planning_element.errors[:subject].should == ["is too long (maximum is 255 characters)"]
+        expect(planning_element.errors[:subject]).to be_present
+        expect(planning_element.errors[:subject]).to eq(["is too long (maximum is 255 characters)"])
       end
     end
 
@@ -122,9 +122,9 @@ describe WorkPackage do
         attributes[:start_date] = nil
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should be_valid
+        expect(planning_element).to be_valid
 
-        planning_element.errors[:start_date].should_not be_present
+        expect(planning_element.errors[:start_date]).not_to be_present
       end
     end
 
@@ -133,9 +133,9 @@ describe WorkPackage do
         attributes[:due_date] = nil
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should be_valid
+        expect(planning_element).to be_valid
 
-        planning_element.errors[:due_date].should_not be_present
+        expect(planning_element.errors[:due_date]).not_to be_present
       end
 
       it 'is invalid if start_date is after due_date' do
@@ -143,10 +143,10 @@ describe WorkPackage do
         attributes[:due_date]   = Date.today - 1.week
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        expect(planning_element).not_to be_valid
 
-        planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["must be greater than start date"]
+        expect(planning_element.errors[:due_date]).to be_present
+        expect(planning_element.errors[:due_date]).to eq(["must be greater than start date"])
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -155,10 +155,10 @@ describe WorkPackage do
         attributes[:due_date]              = Date.today + 1.week
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        expect(planning_element).not_to be_valid
 
-        planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["is not on start date, although this is required for milestones"]
+        expect(planning_element.errors[:due_date]).to be_present
+        expect(planning_element.errors[:due_date]).to eq(["is not on start date, although this is required for milestones"])
       end
     end
 
@@ -167,10 +167,10 @@ describe WorkPackage do
         attributes[:project_id] = nil
         planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        expect(planning_element).not_to be_valid
 
-        planning_element.errors[:project].should be_present
-        planning_element.errors[:project].should == ["can't be blank"]
+        expect(planning_element.errors[:project]).to be_present
+        expect(planning_element.errors[:project]).to eq(["can't be blank"])
       end
     end
 
@@ -192,10 +192,10 @@ describe WorkPackage do
             attributes[:parent] = parent
             planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-            planning_element.should_not be_valid
+            expect(planning_element).not_to be_valid
 
-            planning_element.errors[:parent_id].should be_present
-            planning_element.errors[:parent_id].should == [self.send("#{I18n.locale}_message")]
+            expect(planning_element.errors[:parent_id]).to be_present
+            expect(planning_element.errors[:parent_id]).to eq([self.send("#{I18n.locale}_message")])
           end
 
         end
@@ -220,7 +220,7 @@ describe WorkPackage do
         @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :due_date => Date.new(2001, 03, 20))
 
         @pe1.reload
-        @pe1.start_date.should == @pe11.start_date
+        expect(@pe1.start_date).to eq(@pe11.start_date)
       end
     end
 
@@ -232,7 +232,7 @@ describe WorkPackage do
         @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :due_date => Date.new(2001, 03, 20))
 
         @pe1.reload
-        @pe1.due_date.should == @pe12.due_date
+        expect(@pe1.due_date).to eq(@pe12.due_date)
       end
     end
   end
@@ -257,38 +257,38 @@ describe WorkPackage do
                                   ) }
 
     it "has an initial journal, so that it's creation shows up in activity" do
-      pe.journals.size.should == 1
+      expect(pe.journals.size).to eq(1)
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 11
+      expect(changes.size).to eq(11)
 
-      changes.should include(:subject)
-      changes.should include(:author_id)
-      changes.should include(:description)
-      changes.should include(:start_date)
-      changes.should include(:due_date)
-      changes.should include(:done_ratio)
-      changes.should include(:status_id)
-      changes.should include(:priority_id)
-      changes.should include(:project_id)
-      changes.should include(:responsible_id)
-      changes.should include(:type_id)
+      expect(changes).to include(:subject)
+      expect(changes).to include(:author_id)
+      expect(changes).to include(:description)
+      expect(changes).to include(:start_date)
+      expect(changes).to include(:due_date)
+      expect(changes).to include(:done_ratio)
+      expect(changes).to include(:status_id)
+      expect(changes).to include(:priority_id)
+      expect(changes).to include(:project_id)
+      expect(changes).to include(:responsible_id)
+      expect(changes).to include(:type_id)
     end
 
     it 'stores updates in journals' do
       pe.reload
       pe.update_attribute(:due_date, Date.new(2012, 2, 1))
 
-      pe.journals.size.should == 2
-      changes = pe.journals.last.changed_data.to_hash
+      expect(pe.journals.size).to eq(2)
+      changes = pe.journals.last.changed_data
 
-      changes.size.should == 1
+      expect(changes.size).to eq(1)
 
-      changes.should include(:due_date)
+      expect(changes).to include(:due_date)
 
-      changes[:due_date].first.should == Date.new(2012, 1, 31)
-      changes[:due_date].last.should  == Date.new(2012, 2, 1)
+      expect(changes[:due_date].first).to eq(Date.new(2012, 1, 31))
+      expect(changes[:due_date].last).to  eq(Date.new(2012, 2, 1))
     end
 
     describe 'workpackage hierarchies' do
@@ -308,8 +308,8 @@ describe WorkPackage do
         child_pe # trigger creation of child and parent
 
         # sanity check
-        child_pe.journals.size.should == 1
-        pe.journals.size.should == 2
+        expect(child_pe.journals.size).to eq(1)
+        expect(pe.journals.size).to eq(2)
 
         # update child
         child_pe.reload
@@ -318,11 +318,11 @@ describe WorkPackage do
         # reload parent to avoid stale journal caches
         pe.reload
 
-        pe.journals.size.should == 3
-        changes = pe.journals.last.changed_data.to_hash
+        expect(pe.journals.size).to eq(3)
+        changes = pe.journals.last.changed_data
 
-        changes.size.should == 1
-        changes.should include(:start_date)
+        expect(changes.size).to eq(1)
+        expect(changes).to include(:start_date)
       end
 
     end
@@ -337,10 +337,10 @@ describe WorkPackage do
                             :subject    => "Numero Uno")
     end
 
-    it 'should delete the object permanantly when using destroy' do
+    it 'should delete the object permanently when using destroy' do
       @pe1.destroy
 
-      WorkPackage.find_by_id(@pe1.id).should be_nil
+      expect(WorkPackage.find_by_id(@pe1.id)).to be_nil
     end
 
     it 'destroys all child elements' do
@@ -353,7 +353,7 @@ describe WorkPackage do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        WorkPackage.find_by_id(pe.id).should be_nil
+        expect(WorkPackage.find_by_id(pe.id)).to be_nil
       end
     end
   end

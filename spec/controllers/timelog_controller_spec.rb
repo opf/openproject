@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimelogController do
+describe TimelogController, :type => :controller do
   let!(:activity) { FactoryGirl.create(:default_activity) }
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:admin,
@@ -42,7 +42,7 @@ describe TimelogController do
   let(:project_id) { project.id }
   let(:work_package_id) { "" }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe :create do
     shared_examples_for "successful timelog creation" do
@@ -87,7 +87,7 @@ describe TimelogController do
 
         describe :view do
           render_views
-          
+
           it { expect(response.body).to match(/Work Package is invalid/) }
         end
       end

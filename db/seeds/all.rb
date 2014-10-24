@@ -73,6 +73,8 @@ if User.admin.empty?
   user.admin = true
   user.login = "admin"
   user.password = "admin"
+  # force password change on first login
+  user.force_password_change = true
   user.firstname = "OpenProject"
   user.lastname = "Admin"
   user.mail = ENV.fetch('ADMIN_EMAIL') { "admin@example.net" }

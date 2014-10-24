@@ -28,9 +28,11 @@
 #++
 
 module ProjectsHelper
+  include WorkPackagesFilterHelper
+
   def link_to_version(version, html_options = {}, options={})
     return '' unless version && version.is_a?(Version)
-    link_to_if version.visible?, options[:before_text].to_s + format_version_name(version), { :controller => '/versions', :action => 'show', :id => version }, html_options
+    link_to_if version.visible?, options[:before_text].to_s.html_safe + format_version_name(version), { :controller => '/versions', :action => 'show', :id => version }, html_options
   end
 
   def project_settings_tabs
@@ -85,7 +87,7 @@ module ProjectsHelper
         classes = (ancestors.empty? ? 'root' : 'child')
         s << "<li class='#{classes}'><div class='#{classes}'>" +
                link_to_project(project, {}, {:class => "project"}, true)
-        s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
+        s << "<div class='wiki description'>#{format_text(project.short_description, :project => project)}</div>" unless project.description.blank?
         s << "</div>\n"
         ancestors << project
       end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group do
+describe Group, :type => :model do
   include BecomeMember
 
   let(:group) { FactoryGirl.build(:group) }
@@ -55,7 +55,7 @@ describe Group do
 
         package.reload
 
-        package.assigned_to.should == DeletedUser.first
+        expect(package.assigned_to).to eq(DeletedUser.first)
       end
 
       it 'should update all journals to have the deleted user as assigned' do
@@ -63,17 +63,17 @@ describe Group do
 
         package.reload
 
-        package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }.should be_true
+        expect(package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_truthy
       end
     end
   end
-  
+
   describe :create do
     describe 'group with empty group name' do
       let(:group) { FactoryGirl.build(:group, lastname: '') }
 
-      it { expect(group.valid?).to be_false }
-      
+      it { expect(group.valid?).to be_falsey }
+
       describe 'error message' do
         before { group.valid? }
 

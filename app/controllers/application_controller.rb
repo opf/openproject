@@ -56,28 +56,54 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   protect_from_forgery
+  # CSRF protection prevents two things. It prevents an attacker from using a
+  # user's session to execute requests. It also prevents an attacker to log in
+  # a user with the attacker's account. API requests each contain their own
+  # authentication token, e.g. as key parameter or header, so they don't have
+  # to be protected by CSRF protection as long as they don't create a session
+  #
+  # We can't reliably determine here whether a request is an API
+  # request as this happens in our way too complex find_current_user method
+  # that is only executed after this method. E.g we might have to check that
+  # no session is active and that no autologin cookie is set.
+  #
+  # Thus, we always reset any active session and the autologin cookie to make
+  # sure find_current user doesn't find a user based on an active session.
+  #
+  # Nevertheless, API requests should not be aborted, which they would be
+  # if we raised an error here. Still, users should see an error message
+  # when sending a form with a wrong CSRF token (e.g. after session expiration).
+  # Thus, we show an error message unless the request probably is an API
+  # request.
   def handle_unverified_request
     super
+    cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
-    cookies.delete(:autologin)
-  end
 
-  # FIXME: Remove this when all of Rack and Rails have learned how to
-  # properly use encodings
-  before_filter :params_filter
-  def params_filter
-    self.utf8nize!(params) if RUBY_VERSION >= '1.9'
-  end
-  def utf8nize!(obj)
-    if obj.is_a? String
-      obj.respond_to?(:force_encoding) ? obj.force_encoding("UTF-8") : obj
-    elsif obj.is_a? Hash
-      obj.each {|k, v| obj[k] = self.utf8nize!(v)}
-    elsif obj.is_a? Array
-      obj.each {|v| self.utf8nize!(v)}
-    else
-      obj
-    end
+    # Don't render an error message for requests that appear to be API requests.
+    #
+    # The api_request? method uses the format parameter or a header
+    # to determine whether a request is an API request. Unfortunately, having
+    # an API request doesn't mean we don't use a session for authentication.
+    # Also, attackers can send CSRF requests with arbitrary headers using
+    # browser plugins. For more information on this, see:
+    # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails/
+    #
+    # Resetting the session above is enough for preventing an attacking from
+    # using a user's session to execute requests with the user's account.
+    #
+    # It's not enough to prevent login CSRF, so we have to explicitly deny requests
+    # with invalid CSRF token for all requests that create a session with a logged in
+    # user. This is implemented as a before filter on AccountController that disallows
+    # all requests classified as API calls by api_request (via disable_api). It's
+    # important that disable_api and handle_unverified_request both use the same method
+    # to determine whether a request is an API request to ensure that a request either
+    # has a valid CSRF token and is not classified as API request, so no error is raised
+    # here OR a request has an invalid CSRF token and is classified as API request, no error
+    # is raised here, but is denied by disable_api.
+    #
+    # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
+    render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
   before_filter :user_setup,
@@ -89,9 +115,6 @@ class ApplicationController < ActionController::Base
                 :stop_if_feeds_disabled,
                 :set_cache_buster
 
-
-  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
-
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
@@ -101,31 +124,33 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
-  def default_url_options(options={})
-    { :layout => params["layout"] }
+  def default_url_options(options = {})
+    { :layout => params['layout'] }
   end
 
   # set http headers so that the browser does not store any
   # data (caches) of this site
-  # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
-  # see: http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
+  # see:
+  # https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
   def set_cache_buster
     if OpenProject::Configuration['disable_browser_cache']
-      response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-      response.headers["Pragma"] = "no-cache"
-      response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+      response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+      response.headers['Pragma'] = 'no-cache'
+      response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
     end
   end
 
-  # the current user is a per-session kind of thing and session stuff is controller responsibility.
-  # a globally accessible User.current is a big code smell. when used incorrectly it allows getting
-  # the current user outside of a session scope, i.e. in the model layer, from mailers or in the console
-  # which doesn't make any sense. for model code that needs to be aware of the current user, i.e. when
-  # returning all visible projects for <somebody>, the controller should pass the current user to the model,
-  # instead of letting it fetch it by itself through User.current.
-  # this method acts as a reminder and wants to encourage you to use it.
-  # - Project.visible_by actually allows the controller to pass in a user but it falls back to User.current
-  #   and there are other places in the session-unaware codebase, that rely on User.current.)
+  # The current user is a per-session kind of thing and session stuff is controller responsibility.
+  # A globally accessible User.current is a big code smell. When used incorrectly it allows getting
+  # the current user outside of a session scope, i.e. in the model layer, from mailers or
+  # in the console which doesn't make any sense. For model code that needs to be aware of the
+  # current user, i.e. when returning all visible projects for <somebody>, the controller should
+  # pass the current user to the model, instead of letting it fetch it by itself through
+  # `User.current`. This method acts as a reminder and wants to encourage you to use it.
+  # Project.visible_by actually allows the controller to pass in a user but it falls back
+  # to `User.current` and there are other places in the session-unaware codebase,
+  # that rely on `User.current`.
   def current_user
     User.current
   end
@@ -184,7 +209,7 @@ class ApplicationController < ActionController::Base
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
-    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " +
+    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " \
                      "<#{escape_for_logging(User.current.mail)}>)" unless User.current.anonymous?
     logger.info "OpenProject User: #{escape_for_logging(User.current.name)}#{login_and_mail}"
   end
@@ -205,12 +230,10 @@ class ApplicationController < ActionController::Base
 
   def set_localization
     lang = nil
-    if User.current.logged?
-      lang = find_language(User.current.language)
-    end
+    lang = find_language(User.current.language) if User.current.logged?
     if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
-      if !accept_lang.blank?
+      unless accept_lang.blank?
         accept_lang = accept_lang.downcase
         lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
       end
@@ -220,27 +243,30 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    if !User.current.logged?
+    unless User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
         url = url_for(params)
       else
         controller = "/#{params[:controller].to_s}" unless params[:controller].to_s.starts_with?('/')
-        url = url_for(:controller => controller, :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+        url = url_for(controller: controller,
+                      action: params[:action],
+                      id: params[:id],
+                      project_id: params[:project_id])
       end
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
 
-        authentication_scheme = if request.headers["X-Authentication-Scheme"] == "Session"
-          'Session'
-        else
-          'Basic'
-        end
-        format.any(:xml, :js, :json)  {
+        authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
+                                  'Session'
+                                else
+                                  'Basic'
+                                end
+        format.any(:xml, :js, :json)  do
           head :unauthorized,
-          "X-Reason" => "login needed",
-          'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
-        }
+               'X-Reason' => 'login needed',
+               'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
+        end
       end
       return false
     end
@@ -249,7 +275,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
-    if !User.current.admin?
+    unless User.current.admin?
       render_403
       return false
     end
@@ -262,16 +288,17 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project || @projects, :global => global)
-    if allowed
-      true
-    else
+    context = @project || @projects
+    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+
+    unless is_authorized
       if @project && @project.archived?
         render_403 :message => :notice_not_authorized_archived_project
       else
         deny_access
       end
     end
+    is_authorized
   end
 
   # Authorize the user for the requested action outside a project
@@ -305,7 +332,8 @@ class ApplicationController < ActionController::Base
     controller_name = params[:controller] if controller_name.nil?
 
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => controller_name, :action => params[:action]}, @project, :global => true)
+    allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
+                                       @project, :global => true)
     allowed ? true : deny_access
   end
 
@@ -322,7 +350,7 @@ class ApplicationController < ActionController::Base
     model = self.class._model_object
     if model
       @object = model.find(params[:id])
-      self.instance_variable_set('@' + controller_name.singularize, @object) if @object
+      instance_variable_set('@' + controller_name.singularize, @object) if @object
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -333,7 +361,7 @@ class ApplicationController < ActionController::Base
       model_object = self.class._model_object
       instance = model_object.find(params[:id])
       @project = instance.project
-      self.instance_variable_set('@' + model_object.to_s.underscore, instance)
+      instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
       @project = Project.find(params[:project_id])
     end
@@ -351,7 +379,7 @@ class ApplicationController < ActionController::Base
     associated = find_belongs_to_chained_objects(associations, model_object)
 
     associated.each do |a|
-      self.instance_variable_set('@' + a.class.to_s.downcase, a)
+      instance_variable_set('@' + a.class.to_s.downcase, a)
     end
 
   rescue ActiveRecord::RecordNotFound
@@ -361,15 +389,15 @@ class ApplicationController < ActionController::Base
   # this method finds all records that are specified in the associations param
   # after the first object is found it traverses the belongs_to chain of that first object
   # if a start_object is provided it is taken as the starting point of the traversal
-  # e.g associations [Message, Board, Project] finds Message by find(:message_id) then message.board
-  # and board.project
+  # e.g associations [Message, Board, Project] finds Message by find(:message_id)
+  # then message.board and board.project
   def find_belongs_to_chained_objects(associations, start_object = nil)
     associations.inject([start_object].compact) do |instances, association|
       scope_name, scope_association = association.is_a?(Hash) ?
                                         [association.keys.first.to_s.downcase, association.values.first] :
                                         [association.to_s.downcase, association.to_s.downcase]
 
-      #TODO: Remove this hidden dependency on params
+      # TODO: Remove this hidden dependency on params
       instances << (instances.last.nil? ?
                       scope_name.camelize.constantize.find(params[:"#{scope_name}_id"]) :
                       instances.last.send(scope_association.to_sym))
@@ -386,8 +414,8 @@ class ApplicationController < ActionController::Base
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
                                 .find_all_by_id(params[:work_package_id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @work_packages.empty?
-    @projects = @work_packages.collect(&:project).compact.uniq
+    fail ActiveRecord::RecordNotFound if @work_packages.empty?
+    @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -402,8 +430,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # make sure that the user is a member of the project (or admin) if project is private
-  # used as a before_filter for actions that do not require any particular permission on the project
+  # Make sure that the user is a member of the project (or admin) if project is private
+  # used as a before_filter for actions that do not require any particular permission
+  # on the project.
   def check_project_privacy
     if @project && @project.active?
       if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
@@ -422,12 +451,17 @@ class ApplicationController < ActionController::Base
     params[:back_url] || request.env['HTTP_REFERER']
   end
 
-  def redirect_back_or_default(default)
-    back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
+  def redirect_back_or_default(default, escape = true, use_escaped = true)
+    escaped_back_url = if escape
+                 URI.escape(CGI.unescape(params[:back_url].to_s))
+               else
+                 params[:back_url]
+               end
+
     # if we have a back_url it must not contain two consecutive dots
-    if back_url.present? && !back_url.match(%r{\.\.})
+    if escaped_back_url.present? && !escaped_back_url.match(/\.\./)
       begin
-        uri = URI.parse(back_url)
+        uri = URI.parse(escaped_back_url)
 
         # do not redirect user to another host (even protocol relative urls have the host set)
         # whenever a host is set it must match the request's host
@@ -437,10 +471,14 @@ class ApplicationController < ActionController::Base
         uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
 
         # do not redirect to another subdirectory
-        uri_subdir_allowed = relative_url_root.blank? || uri.path.match(%r{\A#{relative_url_root}})
+        uri_subdir_allowed = relative_url_root.blank? || uri.path.match(/\A#{relative_url_root}/)
 
         if uri_local_to_host && uri_path_allowed && uri_subdir_allowed
-          redirect_to(back_url)
+          if use_escaped
+            redirect_to(escaped_back_url)
+          else
+            redirect_to(back_url)
+          end
           return
         end
       rescue URI::InvalidURIError
@@ -451,36 +489,36 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  def render_400(options={})
+  def render_400(options = {})
     @project = nil
-    render_error({:message => :notice_bad_request, :status => 400}.merge(options))
-    return false
+    render_error({ message: :notice_bad_request, status: 400 }.merge(options))
+    false
   end
 
-  def render_403(options={})
+  def render_403(options = {})
     @project = nil
-    render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
-    return false
+    render_error({ message: :notice_not_authorized, status: 403 }.merge(options))
+    false
   end
 
-  def render_404(options={})
-    render_error({:message => :notice_file_not_found, :status => 404}.merge(options))
-    return false
+  def render_404(options = {})
+    render_error({ message: :notice_file_not_found, status: 404 }.merge(options))
+    false
   end
 
-  def render_500(options={})
+  def render_500(options = {})
     message = t(:notice_internal_server_error, :app_title => Setting.app_title)
 
-    if $!.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set("@project", nil)
-      @template.instance_variable_set("@status", 500)
-      @template.instance_variable_set("@message", message)
+    if $ERROR_INFO.is_a?(ActionView::ActionViewError)
+      @template.instance_variable_set('@project', nil)
+      @template.instance_variable_set('@status', 500)
+      @template.instance_variable_set('@message', message)
     else
       @project = nil
     end
 
-    render_error({:message => message}.merge(options))
-    return false
+    render_error({ message: message }.merge(options))
+    false
   end
 
   def render_optional_error_file(status_code)
@@ -498,16 +536,16 @@ class ApplicationController < ActionController::Base
 
   # Renders an error response
   def render_error(arg)
-    arg = {:message => arg} unless arg.is_a?(Hash)
+    arg = { message: arg } unless arg.is_a?(Hash)
 
     @message = arg[:message]
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
 
     respond_to do |format|
-      format.html {
+      format.html do
         render :template => 'common/error', :layout => use_layout, :status => @status
-      }
+      end
       format.any(:atom, :xml, :js, :json, :pdf, :csv) { head @status }
     end
   end
@@ -519,19 +557,12 @@ class ApplicationController < ActionController::Base
     request.xhr? ? false : 'base'
   end
 
-  def invalid_authenticity_token
-    if api_request?
-      logger.error "Form authenticity token is missing or is invalid. API calls must include a proper Content-type header (text/xml or text/json)."
-    end
-    render_error "Invalid form authenticity token."
-  end
-
-  def render_feed(items, options={})
+  def render_feed(items, options = {})
     @items = items || []
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
+    @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
+    render :template => 'common/feed', :layout => false, :content_type => 'application/atom+xml'
   end
 
   def self.accept_key_auth(*actions)
@@ -549,15 +580,16 @@ class ApplicationController < ActionController::Base
     tmp = []
     if value
       parts = value.split(/,\s*/)
-      parts.each {|part|
-        if m = %r{\A([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?\z}.match(part)
-          val = m[1]
-          q = (m[2] or 1).to_f
+      parts.each do |part|
+        match = /\A([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?\z/.match(part)
+        if match
+          val = match[1]
+          q = (match[2] || 1).to_f
           tmp.push([val, q])
         end
-      }
-      tmp = tmp.sort_by{|val, q| -q}
-      tmp.collect!{|val, q| val}
+      end
+      tmp = tmp.sort_by { |val, q| -q }
+      tmp.map! { |val, q| val }
     end
     return tmp
   rescue
@@ -581,14 +613,16 @@ class ApplicationController < ActionController::Base
   def api_key_from_request
     if params[:key].present?
       params[:key]
-    elsif request.headers["X-OpenProject-API-Key"].present?
-      request.headers["X-OpenProject-API-Key"]
+    elsif request.headers['X-OpenProject-API-Key'].present?
+      request.headers['X-OpenProject-API-Key']
     end
   end
 
   # Renders a warning flash if obj has unsaved attachments
   def render_attachment_warning_if_needed(obj)
-    flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size) if obj.unsaved_attachments.present?
+    if obj.unsaved_attachments.present?
+      flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size)
+    end
   end
 
   # Rescues an invalid query statement. Just in case...
@@ -596,12 +630,13 @@ class ApplicationController < ActionController::Base
     logger.error "Query::StatementInvalid: #{exception.message}" if logger
     session.delete(:query)
     sort_clear if respond_to?(:sort_clear)
-    render_error "An error occurred while executing the query and has been logged. Please report this error to your administrator."
+    render_error 'An error occurred while executing the query and has been logged. ' \
+                 'Please report this error to your administrator.'
   end
 
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
-    object.errors.collect do |attribute, error|
+    object.errors.map do |attribute, error|
       { attribute => error }
     end.to_json
   end
@@ -609,13 +644,15 @@ class ApplicationController < ActionController::Base
   # Renders API response on validation failure
   def render_validation_errors(object)
     options = { :status => :unprocessable_entity, :layout => false }
-    options.merge!(case params[:format]
-      when 'xml';  { :xml =>  object.errors }
-      when 'json'; { :json => {'errors' => object.errors} } # ActiveResource client compliance
-      else
-        raise "Unknown format #{params[:format]} in #render_validation_errors"
-      end
-    )
+    errors = case params[:format]
+             when 'xml'
+               { :xml =>  object.errors }
+             when 'json'
+               { json: { 'errors' => object.errors } } # ActiveResource client compliance
+             else
+               fail "Unknown format #{params[:format]} in #render_validation_errors"
+             end
+    options.merge! errors
     render options
   end
 
@@ -624,7 +661,7 @@ class ApplicationController < ActionController::Base
   def default_template(action_name = self.action_name)
     if api_request?
       begin
-        return self.view_paths.find_template(default_template_name(action_name), 'api')
+        return view_paths.find_template(default_template_name(action_name), 'api')
       rescue ::ActionView::MissingTemplate
         # the api template was not found
         # fallback to the default behaviour
@@ -640,16 +677,16 @@ class ApplicationController < ActionController::Base
   end
 
   def default_breadcrumb
-    name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize + "_plural")
+    name = l('label_' + self.class.name.gsub('Controller', '').underscore.singularize + '_plural')
     if name =~ /translation missing/i
-      name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize)
+      name = l('label_' + self.class.name.gsub('Controller', '').underscore.singularize)
     end
     name
   end
   helper_method :default_breadcrumb
 
   def disable_everything_except_api
-    if !api_request?
+    unless api_request?
       head 410
       return false
     end
@@ -657,6 +694,9 @@ class ApplicationController < ActionController::Base
   end
 
   def disable_api
+    # Changing this to not use api_request? to determine whether a request is an API
+    # request can have security implications regarding CSRF. See handle_unverified_request
+    # for more information.
     if api_request?
       head 410
       return false
@@ -674,7 +714,7 @@ class ApplicationController < ActionController::Base
                       :id => params[:id], :project_id => params[:project_id])
       end
       flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
-      redirect_to(:controller => "account", :action => "login", :back_url => url)
+      redirect_to(:controller => 'account', :action => 'login', :back_url => url)
     end
     session[:updated_at] = Time.now
   end
@@ -689,7 +729,7 @@ class ApplicationController < ActionController::Base
 
   def stop_if_feeds_disabled
     if feed_request? && !Setting.feeds_enabled?
-      render_404({:message => I18n.t('label_disabled')})
+      render_404(message: I18n.t('label_disabled'))
     end
   end
 
@@ -709,9 +749,10 @@ class ApplicationController < ActionController::Base
     @permitted_params ||= PermittedParams.new(params, current_user)
   end
 
-  # active support load hooks provide plugins with a consistent entry point to patch core classes.
-  # they should be called at the very end of a class definition or file, so plugins can be sure everything has been loaded.
-  # this load hook allows plugins to register callbacks when the core application controller is fully loaded.
-  # good explanation of load hooks: http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
+  # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.
+  # They should be called at the very end of a class definition or file,
+  # so plugins can be sure everything has been loaded. This load hook allows plugins to register
+  # callbacks when the core application controller is fully loaded. Good explanation of load hooks:
+  # http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
   ActiveSupport.run_load_hooks(:application_controller, self)
 end

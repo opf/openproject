@@ -34,17 +34,19 @@ function recreateSortables() {
     Sortable.destroy('list-left');
     Sortable.destroy('list-right');
 
-	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
-	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
-	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
+  Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
+  Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
+  Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
 }
 
 function updateSelect() {
     s = $('block-select')
     for (var i = 0; i < s.options.length; i++) {
-        if ($('block_' + s.options[i].value)) {
+        var block = $('block_' + s.options[i].value);
+        if (block && block.visible()) {
             s.options[i].disabled = true;
         } else {
+            if (block) { block.remove(); }
             s.options[i].disabled = false;
         }
     }
@@ -57,8 +59,9 @@ function afterAddBlock() {
 }
 
 function removeBlock(block) {
-    Effect.DropOut(block);
-    updateSelect();
+    Effect.DropOut(block,{ 'afterFinish':function(){
+        updateSelect();
+    }});
 }
 //]]>
 </script>
@@ -84,24 +87,24 @@ function removeBlock(block) {
 <%= render :partial => 'layouts/action_menu_specific' %>
 
 <div id="list-top" class="block-receiver">
-	<% @blocks['top'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-	<% end if @blocks['top'] %>
+  <% @blocks['top'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+  <% end if @blocks['top'] %>
 </div>
 
 <div id="list-left" class="splitcontentleft block-receiver">
-	<% @blocks['left'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-	<% end if @blocks['left'] %>
+  <% @blocks['left'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+  <% end if @blocks['left'] %>
 </div>
 
 <div id="list-right" class="splitcontentright block-receiver">
-	<% @blocks['right'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-	<% end if @blocks['right'] %>
+  <% @blocks['right'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+  <% end if @blocks['right'] %>
 </div>
 
 <%= sortable_element 'list-top',

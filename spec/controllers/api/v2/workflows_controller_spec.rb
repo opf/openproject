@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::WorkflowsController do
+describe Api::V2::WorkflowsController, :type => :controller do
   describe '#index' do
     describe 'unauthorized access' do
       let(:project) { FactoryGirl.create(:project) }
@@ -41,7 +41,7 @@ describe Api::V2::WorkflowsController do
     describe 'authorized access' do
       let(:current_user) { FactoryGirl.create(:user) }
 
-      before { User.stub(:current).and_return current_user }
+      before { allow(User).to receive(:current).and_return current_user }
 
       shared_examples_for 'valid workflow index request' do
         it { expect(assigns(:project)).to eq(project) }

@@ -28,16 +28,16 @@
 
 require 'spec_helper'
 
-describe BoardsController do
+describe BoardsController, :type => :routing do
   it "should connect GET /projects/:project/boards/:board/move to boards#move" do
-    get("/projects/1/boards/1/move").should route_to(controller: 'boards',
+    expect(get("/projects/1/boards/1/move")).to route_to(controller: 'boards',
                                                      action: 'move',
                                                      project_id: '1',
                                                      id: '1')
   end
 
   it "should connect POST /projects/:project/boards/:board/move to boards#move" do
-    post("/projects/1/boards/1/move").should route_to(controller: 'boards',
+    expect(post("/projects/1/boards/1/move")).to route_to(controller: 'boards',
                                                       action: 'move',
                                                       project_id: '1',
                                                       id: '1')

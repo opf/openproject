@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe CopyProjectsController do
+describe CopyProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:redirect_path) { "source_project_settings" }
   let(:permission) { :copy_projects }
@@ -39,14 +39,17 @@ describe CopyProjectsController do
       "responsible_id"=>current_user.id,
       "project_type_id" => "",
       "homepage" => "",
+      "enabled_module_names" => ["work_package_tracking", "boards", ""],
       "is_public" => project.is_public,
       "type_ids" => project.types.collect(&:id)
     }
   }
 
-
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
+    # Prevent actually setting User.current.
+    # Otherwise the set user might be used in the next spec.
+    allow(User).to receive(:current=)
 
     request.env['HTTP_REFERER'] = redirect_path
   end
@@ -56,7 +59,7 @@ describe CopyProjectsController do
       get 'copy_project', :id => project.id, :coming_from => :settings
     end
 
-    it { assigns(:project).should == project }
+    it { expect(assigns(:project)).to eq(project) }
 
     it { expect(assigns(:copy_project).id).to be_nil }
 
@@ -109,6 +112,10 @@ describe CopyProjectsController do
 
     it { expect(Project.count).to eq(2) }
 
+    it 'copied project should have enabled modules specified in params' do
+      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(["work_package_tracking", "boards"])
+    end
+
     it_behaves_like 'successful copy' do
       let(:source_project) { project }
       let(:target_project_name) { "copy" }
@@ -137,7 +144,7 @@ describe CopyProjectsController do
   describe 'copy sends eMail' do
     context 'on success' do
       it 'user receives success mail' do
-        UserMailer.should_receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
@@ -145,15 +152,14 @@ describe CopyProjectsController do
 
     context 'on error' do
       before do
-        UserMailer.stub(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
+        allow(UserMailer).to receive(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
       end
 
       it 'user receives success mail' do
-        UserMailer.should_receive(:copy_project_failed).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
-
     end
   end
 end

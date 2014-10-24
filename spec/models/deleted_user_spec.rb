@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeletedUser do
+describe DeletedUser, :type => :model do
   before do
     User.delete_all
   end
@@ -36,31 +36,31 @@ describe DeletedUser do
   let(:user) { DeletedUser.new }
 
   describe :admin do
-    it { user.admin.should be_false }
+    it { expect(user.admin).to be_falsey }
   end
 
   describe :logged? do
-    it { user.should_not be_logged }
+    it { expect(user).not_to be_logged }
   end
 
   describe :name do
-    it { user.name.should == I18n.t('user.deleted') }
+    it { expect(user.name).to eq(I18n.t('user.deleted')) }
   end
 
   describe :mail do
-    it { user.mail.should be_nil }
+    it { expect(user.mail).to be_nil }
   end
 
   describe :time_zone do
-    it { user.time_zone.should be_nil }
+    it { expect(user.time_zone).to be_nil }
   end
 
   describe :rss_key do
-    it { user.rss_key.should be_nil }
+    it { expect(user.rss_key).to be_nil }
   end
 
   describe :destroy do
-    it { user.destroy.should be_false }
+    it { expect(user.destroy).to be_falsey }
   end
 
   describe :available_custom_fields do
@@ -68,7 +68,7 @@ describe DeletedUser do
       FactoryGirl.create(:user_custom_field)
     end
 
-    it { user.available_custom_fields.should == [] }
+    it { expect(user.available_custom_fields).to eq([]) }
   end
 
   describe :create do
@@ -81,9 +81,9 @@ describe DeletedUser do
         u2.save
       end
 
-      it { u1.should_not be_new_record }
-      it { u2.should be_new_record }
-      it { u2.errors[:base].should include 'A DeletedUser already exists.' }
+      it { expect(u1).not_to be_new_record }
+      it { expect(u2).to be_new_record }
+      it { expect(u2.errors[:base]).to include 'A DeletedUser already exists.' }
     end
   end
 
@@ -91,7 +91,7 @@ describe DeletedUser do
     describe "WHEN no login, first-, lastname and mail is provided" do
       let(:user) { DeletedUser.new }
 
-      it { user.should be_valid }
+      it { expect(user).to be_valid }
     end
   end
 
@@ -103,12 +103,12 @@ describe DeletedUser do
         user.save!
       end
 
-      it { DeletedUser.first.should == user }
+      it { expect(DeletedUser.first).to eq(user) }
     end
 
     describe "WHEN no deleted user exists" do
-      it { DeletedUser.first.is_a?(DeletedUser).should be_true }
-      it { DeletedUser.first.should_not be_new_record }
+      it { expect(DeletedUser.first.is_a?(DeletedUser)).to be_truthy }
+      it { expect(DeletedUser.first).not_to be_new_record }
     end
   end
 end

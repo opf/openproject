@@ -66,7 +66,7 @@ FactoryGirl.define do
   factory :type_with_workflow, :class => Type do
     sequence(:name) { |n| "Type #{n}" }
     sequence(:position) { |n| n }
-    after :build do |t|
+    callback(:after_build) do |t|
       t.workflows = [FactoryGirl.build(:workflow_with_default_status)]
     end
   end

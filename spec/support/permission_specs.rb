@@ -43,13 +43,13 @@ module PermissionSpecs
         it "should allow calling #{controller_action} when having the permission #{permission} permission" do
           become_member_with_permissions(project, current_user, permission)
 
-          controller.send(:authorize, controller_name, action_name).should be_true
+          expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
         end
 
         it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
           become_member_with_permissions(project, current_user)
 
-          controller.send(:authorize, controller_name, action_name).should be_false
+          expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
         end
       end
 
@@ -57,11 +57,10 @@ module PermissionSpecs
         # As failures generate a response we need to prevent calls to nil
         controller.response = ActionController::TestResponse.new
 
-        User.stub(:current).and_return(current_user)
+        allow(User).to receive(:current).and_return(current_user)
 
         controller.instance_variable_set(:@project, project)
       end
     end
   end
 end
-

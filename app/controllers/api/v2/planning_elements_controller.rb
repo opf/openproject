@@ -35,6 +35,7 @@ module Api
       helper :timelines, :planning_elements
 
       include ::Api::V2::ApiController
+      include ::Api::V2::Concerns::MultipleProjects
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
@@ -58,7 +59,9 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element.except :note)
+        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+
+        @planning_element.attach_files(params[:attachments])
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -92,9 +95,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element.except :note
+        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
 
         successfully_updated = @planning_element.save
 
@@ -120,26 +123,10 @@ module Api
 
       protected
 
-      def filter_authorized_projects
-        # authorize
-        # Ignoring projects, where user has no view_work_packages permission.
-        permission = params[:controller].sub api_version, ''
-        @projects = @projects.select do |project|
-          User.current.allowed_to?({:controller => permission,
-                                    :action     => params[:action]},
-                                    project)
-        end
-      end
-
       def load_multiple_projects(ids, identifiers)
         @projects = []
         @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
         @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-      end
-
-      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
-        (@projects.map(&:id) & ids).size == ids.size &&
-        (@projects.map(&:identifier) & identifiers).size == identifiers.size
       end
 
       def find_single_project

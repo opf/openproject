@@ -85,9 +85,19 @@ class Message < ActiveRecord::Base
 
   validate :validate_unlocked_root, :on => :create
 
+  before_save :set_sticked_on_date
+
   # Can not reply to a locked topic
   def validate_unlocked_root
     errors.add :base, 'Topic is locked' if root.locked? && self != root
+  end
+
+  def set_sticked_on_date
+    if sticky?
+      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
+    else
+      self.sticked_on = nil
+    end
   end
 
   def update_last_reply_in_parent

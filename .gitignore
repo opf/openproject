@@ -42,6 +42,7 @@
 /log/*.log
 /tmp
 
+/backup
 /.project
 /.loadpath
 /config/additional_environment.rb
@@ -54,17 +55,20 @@
 /db/*.sqlite3
 /db/schema.rb
 /files/*
+/karma/reports
 /log/*.log*
 /log/mongrel_debug
 /public/dispatch.*
 /public/plugin_assets
 /public/assets
+/public/javascripts
 /tmp/*
 /tmp/cache/*
 /tmp/sessions/*
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
+/vendor/assets/components
 /*.rbc
 /doc/app
 #/Gemfile.lock

@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'configuration/helpers'
+
 module OpenProject
   module Configuration
+    extend Helpers
 
     # Configuration default values
     @defaults = {
@@ -47,7 +50,7 @@ module OpenProject
       # use dalli defaults for memcache
       'cache_memcache_server'   => nil,
       # where to store session data
-      'session_store'           => :cookie_store,
+      'session_store'           => :cache_store,
       # url-path prefix
       'rails_relative_url_root' => "",
 
@@ -62,7 +65,10 @@ module OpenProject
       'smtp_enable_starttls_auto' => nil,
       'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
-      'sendmail_arguments' => '-i'
+      'sendmail_arguments' => '-i',
+
+      'disable_password_login' => false,
+      'omniauth_direct_login_provider' => nil
     }
 
     @config = nil

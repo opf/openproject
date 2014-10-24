@@ -39,6 +39,7 @@ class BoardsController < ApplicationController
   include SortHelper
   include WatchersHelper
   include PaginationHelper
+  include OpenProject::ClientPreferenceExtractor
 
   def index
     @boards = @project.boards
@@ -51,29 +52,49 @@ class BoardsController < ApplicationController
   end
 
   def show
+    sort_init 'updated_on', 'desc'
+    sort_update  'created_on' => "#{Message.table_name}.created_on",
+                'replies' => "#{Message.table_name}.replies_count",
+                'updated_on' => "#{Message.table_name}.updated_on"
+
     respond_to do |format|
       format.html {
-        sort_init 'updated_on', 'desc'
-        sort_update	'created_on' => "#{Message.table_name}.created_on",
-                    'replies' => "#{Message.table_name}.replies_count",
-                    'updated_on' => "#{Message.table_name}.updated_on"
+        set_topics
 
-        @topics =  @board.topics.order(["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '))
-                                .includes(:author, { :last_reply => :author })
-                                .page(params[:page])
-                                .per_page(per_page_param)
+        gon.rabl "app/views/messages/index.rabl"
+        gon.project_id = @project.id
+        gon.activity_modul_enabled = @project.module_enabled?("activity");
+        gon.board_id = @board.id
+        gon.sort_column = 'updated_on'
+        gon.sort_direction = 'desc'
+        gon.total_count = @board.topics.count
+        gon.settings = client_preferences
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
       }
+      format.json {
+        set_topics
+
+        gon.rabl "app/views/messages/index.rabl"
+
+        render template: "messages/index"
+      }
       format.atom {
-        @messages = @board.messages.order('created_on DESC')
+        @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                                    .includes(:author, :board)
                                    .limit(Setting.feeds_limit.to_i)
 
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end
+  end
+
+  def set_topics
+    @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+                            .includes(:author, { :last_reply => :author })
+                            .page(params[:page])
+                            .per_page(per_page_param)
   end
 
   def new

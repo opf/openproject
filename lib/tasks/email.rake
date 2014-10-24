@@ -141,7 +141,7 @@ Examples:
   # Fixed project and default type specified, but emails can override
   # both type and priority attributes:
 
-  rake redmine:email:receive_iamp RAILS_ENV="production" \\
+  rake redmine:email:receive_imap RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx ssl=1 \\
     project=foo \\
     type=bug \\

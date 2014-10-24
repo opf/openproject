@@ -99,17 +99,6 @@ class WorkPackages::MovesController < ApplicationController
 
   private
 
-  # Filter for bulk work package operations
-  def find_work_packages
-    @work_packages = WorkPackage.includes(:project)
-                                .find_all_by_id(params[:work_package_id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @work_packages.empty?
-    @projects = @work_packages.collect(&:project).compact.uniq
-    @project = @projects.first if @projects.size == 1
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def prepare_for_work_package_move
     @work_packages.sort!
     @copy = params.has_key? :copy

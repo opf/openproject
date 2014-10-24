@@ -28,7 +28,6 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= javascript_include_tag "members_select_boxes.js" %>
-<%= javascript_include_tag "activate_error_messages" %>
 
 <%= form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => project},
                      :remote => true,

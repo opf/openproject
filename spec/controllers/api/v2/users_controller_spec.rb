@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe Api::V2::UsersController do
+describe Api::V2::UsersController, :type => :controller do
 
   shared_context "As an admin" do
     let(:current_user) { FactoryGirl.create(:admin) }
 
-    before { User.stub(:current).and_return current_user }
+    before { allow(User).to receive(:current).and_return current_user }
   end
 
   shared_context "As a normal user" do
     let(:current_user) { FactoryGirl.create(:user) }
 
-    before { User.stub(:current).and_return current_user }
+    before { allow(User).to receive(:current).and_return current_user }
   end
 
   shared_examples_for "valid user API call" do
@@ -98,6 +98,21 @@ describe Api::V2::UsersController do
         it_behaves_like "valid user API call" do
           let(:user_count) { 4 }
         end
+      end
+    end
+
+    describe 'within a project' do
+      include_context "As a normal user"
+
+      let(:project) { FactoryGirl.create :project }
+      let!(:member)  { FactoryGirl.create :user, member_in_project: project }
+
+      let!(:non_member) { FactoryGirl.create :user }
+
+      before { get 'index', project_id: project.to_param, format: :json }
+
+      it_behaves_like "valid user API call" do
+        let(:user_count) { 1 }
       end
     end
 

@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Api::V2::WorkflowsController do
+describe Api::V2::WorkflowsController, :type => :routing do
   it "should connect GET /projects/blubs/workflows to workflows#index" do
-    get("/api/v2/projects/blubs/workflows").should route_to( controller: 'api/v2/workflows',
+    expect(get("/api/v2/projects/blubs/workflows")).to route_to( controller: 'api/v2/workflows',
                                                              project_id: 'blubs',
                                                              action: 'index')
   end

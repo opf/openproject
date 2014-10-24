@@ -45,7 +45,7 @@ end
 
 # opens a menu item in the main menu
 When /^I open the "([^"]+)" (?:sub)?menu$/ do |menu_name|
-  
+
   nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"]")
 
   # w/o javascript, all menu elements are expanded by default. So the toggler

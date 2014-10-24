@@ -31,14 +31,14 @@ module Api
     module Pagination
       module PaginationSpecHelper
         def paginating_index_action(model, scope)
-          describe :index do
+          describe :index, :type => :controller do
             let(:params) { { "page" => "1",
                              "page_limit" =>
                              "10", "q" => "blubs",
                              "format" => "json" } }
 
             before do
-              model.should_receive(scope)
+              expect(model).to receive(scope)
                    .with(params["q"])
                    .and_return(model)
 
@@ -46,7 +46,7 @@ module Api
             end
 
             it 'should be successful' do
-              response.should be_success
+              expect(response).to be_success
             end
           end
         end
@@ -54,4 +54,3 @@ module Api
     end
   end
 end
-

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PermittedParams do
+describe PermittedParams, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:admin) { FactoryGirl.build(:admin) }
 
@@ -42,11 +42,11 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:project_type => { "blubs1" => "blubs" } )
 
-      PermittedParams.new(params, user).project_type.should == {}
+      expect(PermittedParams.new(params, user).project_type).to eq({})
 
       PermittedParams.permit(:project_type, :blubs1)
 
-      PermittedParams.new(params, user).project_type.should == { "blubs1" => "blubs" }
+      expect(PermittedParams.new(params, user).project_type).to eq({ "blubs1" => "blubs" })
 
 
       PermittedParams.instance_variable_set(:@whitelisted_params, original_whitelisted)
@@ -61,19 +61,19 @@ describe PermittedParams do
     it "should return name" do
       params = ActionController::Parameters.new(:project_type => { "name" => "blubs" } )
 
-      PermittedParams.new(params, user).project_type.should == { "name" => "blubs" }
+      expect(PermittedParams.new(params, user).project_type).to eq({ "name" => "blubs" })
     end
 
     it "should return allows_association" do
       params = ActionController::Parameters.new(:project_type => { "allows_association" => "1" } )
 
-      PermittedParams.new(params, user).project_type.should == { "allows_association" => "1" }
+      expect(PermittedParams.new(params, user).project_type).to eq({ "allows_association" => "1" })
     end
 
     it "should return reported_project_status_ids" do
       params = ActionController::Parameters.new(:project_type => { "reported_project_status_ids" => ["1"] } )
 
-      PermittedParams.new(params, user).project_type.should == { "reported_project_status_ids" => ["1"] }
+      expect(PermittedParams.new(params, user).project_type).to eq({ "reported_project_status_ids" => ["1"] })
     end
   end
 
@@ -81,7 +81,7 @@ describe PermittedParams do
     it "should permit move_to" do
       params = ActionController::Parameters.new(:project_type => { "move_to" => "1" } )
 
-      PermittedParams.new(params, user).project_type_move.should == { "move_to" => "1" }
+      expect(PermittedParams.new(params, user).project_type_move).to eq({ "move_to" => "1" })
     end
   end
 
@@ -89,13 +89,13 @@ describe PermittedParams do
     it "should permit name" do
       params = ActionController::Parameters.new(:color => { "name" => "blubs" } )
 
-      PermittedParams.new(params, user).color.should == { "name" => "blubs" }
+      expect(PermittedParams.new(params, user).color).to eq({ "name" => "blubs" })
     end
 
     it "should permit hexcode" do
       params = ActionController::Parameters.new(:color => { "hexcode" => "#fff" } )
 
-      PermittedParams.new(params, user).color.should == { "hexcode" => "#fff" }
+      expect(PermittedParams.new(params, user).color).to eq({ "hexcode" => "#fff" })
     end
   end
 
@@ -103,7 +103,7 @@ describe PermittedParams do
     it "should permit move_to" do
       params = ActionController::Parameters.new(:color => { "move_to" => "1" } )
 
-      PermittedParams.new(params, user).color_move.should == { "move_to" => "1" }
+      expect(PermittedParams.new(params, user).color_move).to eq({ "move_to" => "1" })
     end
   end
 
@@ -111,7 +111,7 @@ describe PermittedParams do
     it "should permit move_to" do
       params = ActionController::Parameters.new(:custom_field => { "editable" => "0", "visible" => "0", 'filtered' => 42 } )
 
-      PermittedParams.new(params, user).custom_field.should == { "editable" => "0", "visible" => "0" }
+      expect(PermittedParams.new(params, user).custom_field).to eq({ "editable" => "0", "visible" => "0" })
     end
   end
 
@@ -121,7 +121,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type).to eq(hash)
     end
 
     it "should permit in_aggregation" do
@@ -129,7 +129,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type).to eq(hash)
     end
 
     it "should permit is_milestone" do
@@ -137,7 +137,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type).to eq(hash)
     end
 
     it "should permit is_default" do
@@ -145,7 +145,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type).to eq(hash)
     end
 
     it "should permit color_id" do
@@ -153,7 +153,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type).to eq(hash)
     end
   end
 
@@ -163,7 +163,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:planning_element_type => hash)
 
-      PermittedParams.new(params, user).planning_element_type_move.should == hash
+      expect(PermittedParams.new(params, user).planning_element_type_move).to eq(hash)
     end
   end
 
@@ -174,7 +174,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit description" do
@@ -182,7 +182,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit start_date" do
@@ -190,7 +190,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit due_date" do
@@ -198,7 +198,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit assigned_to_id" do
@@ -206,7 +206,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit responsible_id" do
@@ -214,7 +214,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit type_id" do
@@ -222,15 +222,15 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
-    it "should permit prioritiy_id" do
+    it "should permit priority_id" do
       hash = { "priority_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit parent_id" do
@@ -238,7 +238,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit parent_id" do
@@ -246,7 +246,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit fixed_version_id" do
@@ -254,7 +254,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit estimated_hours" do
@@ -262,7 +262,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit done_ratio" do
@@ -270,7 +270,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit status_id" do
@@ -278,7 +278,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit category_id" do
@@ -286,31 +286,31 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should permit watcher_user_ids when the user is allowed to add watchers" do
       project = double('project')
 
-      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
+      allow(user).to receive(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package(:project => project).should == hash
+      expect(PermittedParams.new(params, user).new_work_package(:project => project)).to eq(hash)
     end
 
     it "should not return watcher_user_ids when the user is not allowed to add watchers" do
       project = double('project')
 
-      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
+      allow(user).to receive(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package(:project => project).should == {}
+      expect(PermittedParams.new(params, user).new_work_package(:project => project)).to eq({})
     end
 
     it "should permit custom field values" do
@@ -318,7 +318,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
@@ -326,7 +326,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == {}
+      expect(PermittedParams.new(params, user).new_work_package).to eq({})
     end
   end
 
@@ -336,7 +336,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit description" do
@@ -344,7 +344,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit start_date" do
@@ -352,7 +352,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit due_date" do
@@ -360,7 +360,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit assigned_to_id" do
@@ -368,7 +368,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit responsible_id" do
@@ -376,7 +376,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit type_id" do
@@ -384,15 +384,15 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
-    it "should permit prioritiy_id" do
+    it "should permit priority_id" do
       hash = { "priority_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit parent_id" do
@@ -400,7 +400,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit parent_id" do
@@ -408,7 +408,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit fixed_version_id" do
@@ -416,7 +416,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit estimated_hours" do
@@ -424,7 +424,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit done_ratio" do
@@ -432,7 +432,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit lock_version" do
@@ -440,7 +440,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit status_id" do
@@ -448,7 +448,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit category_id" do
@@ -456,7 +456,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit notes" do
@@ -464,7 +464,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit attachments" do
@@ -472,29 +472,29 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package.should == hash
+      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
     end
 
     it "should permit time_entry if the user has the log_time permission" do
       hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
 
       project = double('project')
-      user.stub(:allowed_to?).with(:log_time, project).and_return(true)
+      allow(user).to receive(:allowed_to?).with(:log_time, project).and_return(true)
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package(:project => project).should == hash
+      expect(PermittedParams.new(params, user).update_work_package(:project => project)).to eq(hash)
     end
 
     it "should not permit time_entry if the user lacks the log_time permission" do
       hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
 
       project = double('project')
-      user.stub(:allowed_to?).with(:log_time, project).and_return(false)
+      allow(user).to receive(:allowed_to?).with(:log_time, project).and_return(false)
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).update_work_package(:project => project).should == {}
+      expect(PermittedParams.new(params, user).update_work_package(:project => project)).to eq({})
     end
 
     it "should permit custom field values" do
@@ -502,7 +502,7 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == hash
+      expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end
 
     it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
@@ -510,60 +510,177 @@ describe PermittedParams do
 
       params = ActionController::Parameters.new(:work_package => hash)
 
-      PermittedParams.new(params, user).new_work_package.should == {}
+      expect(PermittedParams.new(params, user).new_work_package).to eq({})
     end
   end
 
   describe :user do
-    admin_permissions = ['firstname',
+    admin_permissions = ['admin',
+                         'login',
+                         'firstname',
                          'lastname',
                          'mail',
                          'mail_notification',
                          'language',
                          'custom_fields',
-                         'identity_url',
                          'auth_source_id',
                          'force_password_change']
 
-    it 'should permit nothing for a non-admin user' do
-      # Hash with {'key' => 'key'} for all admin_permissions
-      field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+    [:user_update_as_admin, :user_create_as_admin].each do |method|
+      describe method do
 
-      params = ActionController::Parameters.new(field_sample)
-      PermittedParams.new(params, user).user_update_as_admin.should == {}
+        it 'should permit nothing for a non-admin user' do
+          # Hash with {'key' => 'key'} for all admin_permissions
+          field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+
+          params = ActionController::Parameters.new(field_sample)
+          expect(PermittedParams.new(params, user).method(method).call(false, true)).to eq({})
+        end
+
+        admin_permissions.each do |field|
+          it "should permit #{field}" do
+            hash = { field => 'test' }
+            params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(false, true)
+
+            expect(result).to eq({ field => 'test' })
+          end
+        end
+
+        context 'with no password change allowed' do
+          it 'should not permit force_password_change' do
+            hash = { 'force_password_change' => 'true' }
+            params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(false, false)
+
+            expect(result).to eq({})
+          end
+        end
+
+        context 'with external authentication' do
+          it 'should not permit auth_source_id' do
+            hash = { 'auth_source_id' => 'true' }
+            params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(true, true)
+
+            expect(result).to eq({})
+          end
+        end
+
+        it "should permit custom field values" do
+          hash = { "custom_field_values" => { "1" => "5" } }
+
+          params = ActionController::Parameters.new(:user => hash)
+          result = PermittedParams.new(params, admin).method(method).call(false, true)
+
+          expect(result).to eq(hash)
+        end
+
+        it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+          hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+          params = ActionController::Parameters.new(:user => hash)
+          result = PermittedParams.new(params, admin).method(method).call(false, true)
+
+          expect(result).to eq({})
+        end
+
+      end
     end
 
-    admin_permissions.each do |field|
+    describe :user_update_as_admin do
+      it 'should permit a group_ids list' do
+        hash = { 'group_ids' => ['1', '2'] }
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user_update_as_admin(false, false)).to eq(hash)
+      end
+    end
+
+    describe :user_create_as_admin do
+      it 'should not permit a group_ids list' do
+        hash = { 'group_ids' => ['1', '2'] }
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user_create_as_admin(false, false)).to eq({})
+      end
+    end
+
+    user_permissions = [
+      'firstname',
+      'lastname',
+      'mail',
+      'mail_notification',
+      'language',
+      'custom_fields',
+    ]
+
+    describe :user do
+      user_permissions.each do |field|
+        it "should permit #{field}" do
+          hash = { field => 'test' }
+          params = ActionController::Parameters.new(:user => hash)
+
+          expect(PermittedParams.new(params, admin).user).to eq(
+            { field => 'test' }
+          )
+        end
+      end
+
+      (admin_permissions - user_permissions).each do |field|
+          it "should not permit #{field} (admin-only)" do
+            hash = { field => 'test' }
+            params = ActionController::Parameters.new(:user => hash)
+
+            expect(PermittedParams.new(params, admin).user).to eq({})
+          end
+        end
+
+      it "should permit custom field values" do
+        hash = { "custom_field_values" => { "1" => "5" } }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user).to eq(hash)
+      end
+
+      it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+        hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user).to eq({})
+      end
+
+      it 'should not allow identity_url' do
+        hash = { 'identity_url'  => 'test_identity_url' }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user).to eq({})
+      end
+    end
+  end
+
+  describe '#user_register_via_omniauth' do
+    user_permissions = %w(login firstname lastname mail language)
+
+    user_permissions.each do |field|
       it "should permit #{field}" do
         hash = { field => 'test' }
         params = ActionController::Parameters.new(:user => hash)
 
-        PermittedParams.new(params, admin).user_update_as_admin.should ==
-          { field => 'test' }
+        expect(PermittedParams.new(params, admin).user_register_via_omniauth).to eq(
+          field => 'test')
       end
     end
 
-    it 'should permit a group_ids list' do
-      hash = { 'group_ids' => ['1', '2'] }
-      params = ActionController::Parameters.new(:user => hash)
-
-      PermittedParams.new(params, admin).user_update_as_admin.should == hash
-    end
-
-    it "should permit custom field values" do
-      hash = { "custom_field_values" => { "1" => "5" } }
+    it 'should not allow identity_url' do
+      hash = { 'identity_url'  => 'test_identity_url' }
 
       params = ActionController::Parameters.new(:user => hash)
 
-      PermittedParams.new(params, admin).user_update_as_admin.should == hash
-    end
-
-    it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
-      hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
-
-      params = ActionController::Parameters.new(:user => hash)
-
-      PermittedParams.new(params, admin).user_update_as_admin.should == {}
+      expect(PermittedParams.new(params, admin).user_register_via_omniauth).to eq({})
     end
   end
 
@@ -571,7 +688,7 @@ describe PermittedParams do
     let(:params_key) { (defined? hash_key) ? hash_key : attribute }
     let(:params) { ActionController::Parameters.new(params_key => hash) }
 
-    subject { PermittedParams.new(params, user).send(attribute) } 
+    subject { PermittedParams.new(params, user).send(attribute) }
   end
 
   shared_examples_for 'allows params' do
@@ -585,7 +702,7 @@ describe PermittedParams do
 
     it { expect(subject).not_to eq(hash) }
   end
-  
+
   shared_examples_for 'allows move params' do
     let(:hash) { { "move_to" => "lower" } }
 
@@ -752,5 +869,55 @@ describe PermittedParams do
 
       it_behaves_like 'forbids params'
     end
+  end
+
+  describe '.add_permitted_attributes' do
+    before do
+      @original_permitted_attributes = PermittedParams.permitted_attributes.clone
+    end
+
+    after do
+      # Class variable is not accessible within class_eval
+      original_permitted_attributes = @original_permitted_attributes
+
+      PermittedParams.class_eval do
+        @whitelisted_params = original_permitted_attributes
+      end
+    end
+
+    describe 'with a known key' do
+      let(:attribute) { :user }
+
+      before do
+        PermittedParams.send(:add_permitted_attributes, :user => [:a_test_field])
+      end
+
+      context 'with an allowed parameter' do
+        let(:hash) { {'a_test_field' => 'a test value'} }
+
+        it_behaves_like 'allows params'
+      end
+
+      context 'with a disallowed parameter' do
+        let(:hash) { {'a_not_allowed_field' => 'a test value'} }
+
+        it_behaves_like 'forbids params'
+      end
+    end
+
+    describe 'with an unknown key' do
+      let(:attribute) { :unknown_key }
+      let(:hash) { {'a_test_field' => 'a test value'} }
+
+      before do
+        expect(Rails.logger).to receive(:warn)
+        PermittedParams.send(:add_permitted_attributes, :unknown_key => [:a_test_field])
+      end
+
+      it 'permitted attributes should not include the key and the rails logger should receive a warning' do
+        expect(PermittedParams.permitted_attributes.keys).to_not include(:unknown_key)
+      end
+    end
+
   end
 end

@@ -33,14 +33,18 @@ class CopyProjectJob < Struct.new(:user,
                                   :enabled_modules,
                                   :associations_to_copy,
                                   :send_mails)
+  include OpenProject::LocaleHelper
 
   def perform
     User.current = user
-    target_project, errors = create_project_copy(source_project,
-                                                 target_project_params,
-                                                 enabled_modules,
-                                                 associations_to_copy,
-                                                 send_mails)
+
+    target_project, errors = with_locale_for(user) do
+      create_project_copy(source_project,
+                          target_project_params,
+                          enabled_modules,
+                          associations_to_copy,
+                          send_mails)
+    end
 
     if target_project
       UserMailer.delay.copy_project_succeeded(user, source_project, target_project, errors)
@@ -69,13 +73,21 @@ class CopyProjectJob < Struct.new(:user,
       end
 
       if validate_parent_id(target_project, parent_id) && target_project.save
-        target_project.set_allowed_parent!(parent_id) if parent_id 
+        target_project.set_allowed_parent!(parent_id) if parent_id
 
         target_project.copy_associations(source_project, only: associations_to_copy)
 
         # Project was created
         # But some objects might not have been copied due to validation failures
-        errors = (target_project.compiled_errors.flatten + [target_project.errors]).map(&:full_messages).flatten
+        error_objects = (target_project.compiled_errors.flatten + [target_project.errors]).flatten
+        error_objects.each do |error_object|
+          base = error_object.instance_variable_get(:@base)
+          error_prefix = base.is_a?(Project) ? "" : "#{base.class.model_name.human} '#{base.to_s}': "
+
+          error_object.full_messages.flatten.each do |error|
+            errors << error_prefix + error
+          end
+        end
       else
         errors = target_project.errors.full_messages
         target_project = nil

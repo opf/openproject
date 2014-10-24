@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized l(:button_edit), {:controller => '/versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
+  <%= link_to_if_authorized l(:button_edit), {:controller => '/versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit', accesskey: accesskey(:edit) %>
   <%= link_to_if_authorized(l(:button_edit_associated_wikipage, :page_title => truncate(@version.wiki_page_title, :length => 50, :separator => ' ')),
                             {:controller => '/wiki', :action => 'edit',
                              :project_id => @version.project,
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="top-page">
   <%= render :partial => 'layouts/action_menu_specific' %>
-  <h2 title="<%= h(@version.name)%>"><%= h(@version.name) %></h2>
+  <h2 title="<%= h(@version.name) %>"><%= h(@version.name) %></h2>
 </div>
 
 <div id="version-summary">

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AttachmentsController do
+describe AttachmentsController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -40,7 +40,7 @@ describe AttachmentsController do
                                      principal: user,
                                      roles: [role]) }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   describe :destroy do
     let(:attachment) { FactoryGirl.create(:attachment,
@@ -49,15 +49,15 @@ describe AttachmentsController do
     shared_examples_for :deleted do
       subject { Attachment.find_by_id(attachment.id) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     shared_examples_for :redirected do
       subject { response }
 
-      it { should be_redirect }
+      it { is_expected.to be_redirect }
 
-      it { should redirect_to(redirect_path) }
+      it { is_expected.to redirect_to(redirect_path) }
     end
 
     context :work_package do

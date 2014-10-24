@@ -28,77 +28,77 @@
 
 require 'spec_helper'
 
-describe RepositoriesController do
+describe RepositoriesController, :type => :routing do
   describe "show" do
-    it{ get("/projects/testproject/repository").should route_to( :controller => 'repositories',
+    it{ expect(get("/projects/testproject/repository")).to route_to( :controller => 'repositories',
                                                                  :action => 'show',
                                                                  :project_id => 'testproject') }
 
-    it{ get("/projects/testproject/repository/path/to/file.c").should route_to( :controller => 'repositories',
+    it{ expect(get("/projects/testproject/repository/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                 :action => 'show',
                                                                                 :project_id => 'testproject',
                                                                                 :path => 'path/to/file.c') }
 
-    it{ get("/projects/testproject/repository/revisions/5").should route_to( :controller => 'repositories',
+    it{ expect(get("/projects/testproject/repository/revisions/5")).to route_to( :controller => 'repositories',
                                                                              :action => 'show',
                                                                              :rev => '5',
                                                                              :project_id => 'testproject') }
   end
 
   describe "edit" do
-    it {  get("/projects/testproject/repository/edit").should route_to( :controller => 'repositories',
+    it {  expect(get("/projects/testproject/repository/edit")).to route_to( :controller => 'repositories',
                                                                         :action => 'edit',
                                                                         :project_id => 'testproject') }
 
-    it { post("/projects/testproject/repository/edit").should route_to( :controller => 'repositories',
+    it { expect(post("/projects/testproject/repository/edit")).to route_to( :controller => 'repositories',
                                                                         :action => 'edit',
                                                                         :project_id => 'testproject') }
   end
 
   describe "revisions" do
-    it { get("/projects/testproject/repository/revisions").should      route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions")).to      route_to( :controller => 'repositories',
                                                                                  :action => 'revisions',
                                                                                  :project_id => 'testproject') }
 
-    it { get("/projects/testproject/repository/revisions.atom").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions.atom")).to route_to( :controller => 'repositories',
                                                                                  :action => 'revisions',
                                                                                  :project_id => 'testproject',
                                                                                  :format => 'atom') }
   end
 
   describe "revision" do
-    it { get("/projects/testproject/repository/revision/2457").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revision/2457")).to route_to( :controller => 'repositories',
                                                                                 :action => 'revision',
                                                                                 :project_id => 'testproject',
                                                                                 :rev => '2457') }
 
-    it { get("/projects/testproject/repository/revision").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revision")).to route_to( :controller => 'repositories',
                                                                            :action => 'revision',
                                                                            :project_id => 'testproject') }
   end
 
   describe "diff" do
-    it { get("/projects/testproject/repository/revisions/2457/diff").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/2457/diff")).to route_to( :controller => 'repositories',
                                                                                       :action => 'diff',
                                                                                       :project_id => 'testproject',
                                                                                       :rev => '2457') }
 
-    it { get("/projects/testproject/repository/revisions/2457/diff.diff").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/2457/diff.diff")).to route_to( :controller => 'repositories',
                                                                                            :action => 'diff',
                                                                                            :project_id => 'testproject',
                                                                                            :rev => '2457',
                                                                                            :format => 'diff') }
 
-    it { get("/projects/testproject/repository/diff").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/diff")).to route_to( :controller => 'repositories',
                                                                        :action => 'diff',
                                                                        :project_id => 'testproject') }
 
-    it { get("/projects/testproject/repository/diff/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/diff/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                       :action => 'diff',
                                                                                       :project_id => 'testproject',
                                                                                       :path => "path/to/file.c") }
 
-    it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/2/diff/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                                   :action => 'diff',
                                                                                                   :project_id => 'testproject',
                                                                                                   :path => "path/to/file.c",
@@ -106,31 +106,31 @@ describe RepositoriesController do
   end
 
   describe "browse" do
-    it { get("/projects/testproject/repository/browse/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/browse/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                         :action => 'browse',
                                                                                         :project_id => 'testproject',
                                                                                         :path => "path/to/file.c") }
   end
 
   describe "entry" do
-    it { get("/projects/testproject/repository/entry/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/entry/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                        :action => 'entry',
                                                                                        :project_id => 'testproject',
                                                                                        :path => "path/to/file.c") }
 
-    it { get("/projects/testproject/repository/revisions/2/entry/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/2/entry/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                                    :action => 'entry',
                                                                                                    :project_id => 'testproject',
                                                                                                    :path => "path/to/file.c",
                                                                                                    :rev => '2') }
 
-    it { get("/projects/testproject/repository/raw/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/raw/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                      :action => 'entry',
                                                                                      :project_id => 'testproject',
                                                                                      :path => "path/to/file.c",
                                                                                      :format => 'raw') }
 
-    it { get("/projects/testproject/repository/revisions/master/raw/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/master/raw/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                                       :action => 'entry',
                                                                                                       :project_id => 'testproject',
                                                                                                       :path => "path/to/file.c",
@@ -140,11 +140,11 @@ describe RepositoriesController do
   end
 
   describe "annotate" do
-    it { get("/projects/testproject/repository/annotate/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/annotate/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                           :action => 'annotate',
                                                                                           :project_id => 'testproject',
                                                                                           :path => "path/to/file.c") }
-    it { get("/projects/testproject/repository/revisions/5/annotate/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/5/annotate/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                                       :action => 'annotate',
                                                                                                       :project_id => 'testproject',
                                                                                                       :path => "path/to/file.c",
@@ -152,12 +152,12 @@ describe RepositoriesController do
   end
 
   describe "changes" do
-    it { get("/projects/testproject/repository/changes/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/changes/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                          :action => 'changes',
                                                                                          :project_id => 'testproject',
                                                                                          :path => "path/to/file.c") }
 
-    it { get("/projects/testproject/repository/revisions/5/changes/path/to/file.c").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/revisions/5/changes/path/to/file.c")).to route_to( :controller => 'repositories',
                                                                                                      :action => 'changes',
                                                                                                      :project_id => 'testproject',
                                                                                                      :path => "path/to/file.c",
@@ -165,29 +165,29 @@ describe RepositoriesController do
   end
 
   describe "stats" do
-    it { get("/projects/testproject/repository/statistics").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/statistics")).to route_to( :controller => 'repositories',
                                                                              :action => 'stats',
                                                                              :project_id => 'testproject') }
   end
 
   describe "committers" do
-    it { get("/projects/testproject/repository/committers").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/committers")).to route_to( :controller => 'repositories',
                                                                              :action => 'committers',
                                                                              :project_id => 'testproject') }
 
-    it { post("/projects/testproject/repository/committers").should route_to( :controller => 'repositories',
+    it { expect(post("/projects/testproject/repository/committers")).to route_to( :controller => 'repositories',
                                                                               :action => 'committers',
                                                                               :project_id => 'testproject') }
   end
 
   describe "graph" do
-    it { get("/projects/testproject/repository/graph").should route_to( :controller => 'repositories',
+    it { expect(get("/projects/testproject/repository/graph")).to route_to( :controller => 'repositories',
                                                                         :action => 'graph',
                                                                         :project_id => 'testproject') }
   end
 
   describe "destroy" do
-    it { delete("/projects/testproject/repository").should route_to( :controller => 'repositories',
+    it { expect(delete("/projects/testproject/repository")).to route_to( :controller => 'repositories',
                                                                      :action => 'destroy',
                                                                      :project_id => 'testproject') }
   end

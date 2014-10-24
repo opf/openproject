@@ -28,6 +28,5 @@
 #++
 
 def disable_flash_sweep
-  controller.instance_eval { flash.stub(:sweep) }
+  controller.instance_eval { RSpec::Mocks.allow_message(flash, :sweep) }
 end
-

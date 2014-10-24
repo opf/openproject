@@ -36,16 +36,11 @@ require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'open_project/themes'
 require 'redmine/hook'
+require 'open_project/hooks'
 require 'redmine/plugin'
 require 'redmine/notifiable'
 require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
-
-begin
-  require 'RMagick' unless Object.const_defined?(:Magick)
-rescue LoadError
-  # RMagick is not available
-end
 
 require 'csv'
 require 'globalize'
@@ -70,8 +65,6 @@ end
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
-                   :types => [:index, :show],
-                   :projects => [:show],
                    :projects => [:show],
                    :activities => [:index]
                  },
@@ -103,14 +96,29 @@ Redmine::AccessControl.map do |map|
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                          :auto_complete => [:issues],
-                                         :context_menus => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
-                                         :queries => :index,
                                          :work_packages => [:show, :index],
+                                         :work_packages_api => [:get],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
-                                         :planning_element_journals => [:index]}
+                                         :planning_element_journals => [:index],
+                                         :'api/experimental/queries' => [:available_columns,
+                                                                         :custom_field_filters,
+                                                                         :grouped],
+                                         :'api/experimental/users' => [:index],
+                                         :'api/experimental/roles' => [:index],
+                                         :'api/experimental/groups' => [:index],
+                                         :'api/experimental/versions' => [:index],
+                                         :'api/experimental/projects' => [:show,
+                                                                          :sub_projects,
+                                                                          :index],
+                                         :'api/experimental/work_packages' => [:index,
+                                                                               :column_data,
+                                                                               :column_sums],
+                                         # This is api/v2/planning_element_types
+                                         :'planning_element_types' => [:index,
+                                                                       :show] }
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
                                          :'issues/previews' => :create,
@@ -136,8 +144,12 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
-    map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
+    map.permission :manage_public_queries, { :'api/experimental/queries' => [:create,
+                                                                             :update,
+                                                                             :destroy],
+                                             :queries => [:star, :unstar] }, :require => :member
+    map.permission :save_queries, { :'api/experimental/queries' => [:create, :update, :destroy],
+                                    :'queries' => [:star, :unstar] }, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
@@ -248,6 +260,7 @@ end
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:class => "icon2 icon-user1"}
   menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:class => "icon2 icon-locked"}
+
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
@@ -268,8 +281,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             :html => {:class => 'custom_fields icon2 icon-status' }
   menu.push :enumerations, {:controller => '/enumerations'}, :html => {:class => "icon2 icon-status"}
   menu.push :settings, {:controller => '/settings'}, :html => {:class => "icon2 icon-settings2"}
-  menu.push :ldap_authentication, {:controller => '/ldap_auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication icon2 icon-status'}
+  menu.push :ldap_authentication,
+            {:controller => '/ldap_auth_sources', :action => 'index'},
+            :html => {:class => 'server_authentication icon2 icon-status'},
+            :if => proc { !OpenProject::Configuration.disable_password_login? }
   menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:class => "icon2 icon-status"}
   menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:class => "icon2 icon-info"}
   menu.push :colors,
@@ -294,10 +309,15 @@ Redmine::MenuManager.map :project_menu do |menu|
                       :if => Proc.new { |p| p.shared_versions.any? },
                       :html => {:class => "icon2 icon-process-arrow1"}
 
-  menu.push :work_packages, { controller: '/work_packages', action: 'index', set_filter: 1 },
+  menu.push :work_packages, { controller: '/work_packages', action: 'index' },
                             param: :project_id,
                             caption: :label_work_package_plural,
-                            html: {class: "icon2 icon-copy"}
+                            html: {
+                              id: 'main-menu-work-packages',
+                              class: "icon2 icon-project-tree",
+                              "data-ui-route" => '',
+                              query_menu_item: 'query_menu_item'
+                            }
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
                                :param => :project_id,
@@ -314,7 +334,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:class => "icon2 icon-new-planning-element"}
+                        :html => {:class => "icon2 icon-timeline-view"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
@@ -347,7 +367,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :reportings, {:controller => '/reportings', :action => 'index'},
                          :param => :project_id,
                          :caption => :'timelines.project_menu.reportings',
-                         :html => {:class => "icon2 icon-stats"}
+                         :html => {:class => "icon2 icon-status-reporting"}
 
 
   menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
@@ -365,7 +385,7 @@ end
 Redmine::Activity.map do |activity|
   activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false 
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false
   activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
   activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false
@@ -383,5 +403,3 @@ end
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
 end
-
-ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

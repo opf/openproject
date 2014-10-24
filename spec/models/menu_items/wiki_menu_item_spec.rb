@@ -28,25 +28,25 @@
 
 require 'spec_helper'
 
-describe MenuItems::WikiMenuItem do
+describe MenuItems::WikiMenuItem, :type => :model do
   before(:each) do
     @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity])
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
 
-    User.stub(:current).and_return(@current)
+    allow(User).to receive(:current).and_return(@current)
   end
 
   it 'should create a default wiki menu item when enabling the wiki' do
-    MenuItems::WikiMenuItem.all.should_not be_any
+    expect(MenuItems::WikiMenuItem.all).not_to be_any
 
     @project.enabled_modules << EnabledModule.new(:name => 'wiki')
     @project.reload
 
     wiki_item = @project.wiki.wiki_menu_items.first
-    wiki_item.name.should eql 'Wiki'
-    wiki_item.title.should eql 'Wiki'
-    wiki_item.options[:index_page].should eql true
-    wiki_item.options[:new_wiki_page].should eql true
+    expect(wiki_item.name).to eql 'Wiki'
+    expect(wiki_item.title).to eql 'Wiki'
+    expect(wiki_item.options[:index_page]).to eql true
+    expect(wiki_item.options[:new_wiki_page]).to eql true
   end
 
   it 'should change title when a wikipage is renamed' do
@@ -60,7 +60,7 @@ describe MenuItems::WikiMenuItem do
     wikipage.save!
 
     menu_item_1.reload
-    menu_item_1.title.should == wikipage.title
+    expect(menu_item_1.title).to eq(wikipage.title)
   end
 
   describe 'it should destroy' do
@@ -88,12 +88,12 @@ describe MenuItems::WikiMenuItem do
     describe 'all items when destroying' do
       it 'the associated project' do
         @project.destroy
-        MenuItems::WikiMenuItem.all.should_not be_any
+        expect(MenuItems::WikiMenuItem.all).not_to be_any
       end
 
       it 'the associated wiki' do
         @project.wiki.destroy
-        MenuItems::WikiMenuItem.all.should_not be_any
+        expect(MenuItems::WikiMenuItem.all).not_to be_any
       end
     end
   end

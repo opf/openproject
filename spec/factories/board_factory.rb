@@ -33,4 +33,3 @@ FactoryGirl.define do
     sequence(:description) { |n| "I am the Board No. #{n}" }
   end
 end
-

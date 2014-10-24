@@ -230,8 +230,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_binary_file
       get :annotate, :project_id => 3, :path => 'images/edit.png'
       assert_response 500
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                              :content => /cannot be annotated/
+      assert_tag :tag => 'div', :attributes => { :id => /errorExplanation/ },
+                                :content => /cannot be annotated/
     end
 
     def test_revision

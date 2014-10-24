@@ -17,10 +17,10 @@ else
   log_ko "MySQL connection is NOT working"
 fi
 
-if /etc/init.d/apache2 status &>/dev/null; then
-  log_ok "Apache2 is running"
+if ps -u "$SERVER_USER" &>/dev/null ; then
+  log_ok "Web server is running"
 else
-  log_ko "Apache2 is NOT running"
+  log_ko "Web server is NOT running"
 fi
 
 if ps -u "$APP_USER" -f | grep -q "unicorn worker" ; then

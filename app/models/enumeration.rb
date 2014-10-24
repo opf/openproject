@@ -73,7 +73,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   # Destroys enumerations in a single transaction
-  # It ensures, that the transactions can be safely transfered to each
+  # It ensures, that the transactions can be safely transferred to each
   # entry's parent
   def self.bulk_destroy(entries)
     sorted_entries = sort_by_ancestor_last(entries)
@@ -105,7 +105,7 @@ class Enumeration < ActiveRecord::Base
     self.objects_count != 0
   end
 
-  # Is this enumeration overiding a system level enumeration?
+  # Is this enumeration overriding a system level enumeration?
   def is_override?
     !self.parent.nil?
   end

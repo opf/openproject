@@ -46,19 +46,28 @@ class WorkPackagesController < ApplicationController
   end
 
   include QueriesHelper
-  include SortHelper
   include PaginationHelper
+  include SortHelper
   include OpenProject::Concerns::Preview
+  include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show, :create, :update
 
-  before_filter :disable_api
+  # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index, :preview]
+                :authorize, :except => [:index, :preview, :column_data, :column_sums]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
+
+  # The order in here is actually important for the angular client.
+  # The first 6 are always to be displayed.
+  # Beware that 'percentageDone' may be removed if the related setting is
+  # disabled.
+  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
+                                     :date, :percentageDone, :priority,
+                                     :category, :estimatedTime, :versionName, :spentTime].freeze
 
   def show
     respond_to do |format|
@@ -154,7 +163,8 @@ class WorkPackagesController < ApplicationController
                  :project => project,
                  :priorities => priorities,
                  :time_entry => time_entry,
-                 :user => current_user }
+                 :user => current_user,
+                 :back_url => params[:back_url] }
 
     respond_to do |format|
       format.html do
@@ -179,7 +189,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      show
+      redirect_back_or_default(work_package_path(work_package), true, false)
     else
       edit
     end
@@ -201,40 +211,29 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                            :order => sort_clause)
-
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
+    load_work_packages unless request.format.html?
 
     respond_to do |format|
       format.html do
+        gon.settings = client_preferences
+        gon.settings[:work_package_attributes] = hook_overview_attributes
+
         render :index, :locals => { :query => @query,
-                                    :work_packages => work_packages,
-                                    :results => results,
                                     :project => @project },
-                       :layout => !request.xhr?
+                       :layout => 'angular' # !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
-                                                             results,
+                                                             @results,
                                                              :show_descriptions => params[:show_descriptions])
 
         send_data(serialized_work_packages,
@@ -242,7 +241,7 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        render_feed(work_packages,
+        render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
@@ -442,7 +441,47 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  private
+
+  def load_work_packages
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+
+    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    @work_packages = if @query.valid?
+                      @results.work_packages.page(page_param)
+                                            .per_page(per_page_param)
+                                            .all
+                    else
+                      []
+                    end
+  end
+
   def parse_preview_data
     parse_preview_data_helper :work_package, [:notes, :description]
+  end
+
+  def enabled_default_work_package_properties
+    @enabled_default_work_package_properties ||= begin
+                                                   # Need to dup here because
+                                                   # otherwise the contant
+                                                   # would be altered which is
+                                                   # retained between requests.
+                                                   # Changes to the constant
+                                                   # would therefore be kept by
+                                                   # the process.
+                                                   properties = DEFAULT_WORK_PACKAGE_PROPERTIES.dup
+                                                   properties.delete(:percentageDone) if Setting.work_package_done_ratio == 'disabled'
+                                                   properties
+                                                 end
+  end
+
+  def hook_overview_attributes(initial_attributes = enabled_default_work_package_properties)
+    attributes = initial_attributes
+    call_hook(:work_packages_overview_attributes,
+              project: @project,
+              attributes: attributes)
+    attributes.uniq
   end
 end

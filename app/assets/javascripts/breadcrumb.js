@@ -80,4 +80,4 @@ jQuery.fn.reverse = [].reverse;
       return false;
     }
   };
-})(jQuery)
+})(jQuery);

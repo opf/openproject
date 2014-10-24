@@ -29,6 +29,7 @@
 
 class Queries::Filter
   include ActiveModel::Validations
+  include ActiveModel::Serialization
 
   class_attribute :filter_types_by_field, instance_writer: false
 
@@ -91,12 +92,19 @@ class Queries::Filter
     end
   end
 
+  # (de-)serialization
   def self.from_hash(filter_hash)
     filter_hash.keys.map {|field| new(field, filter_hash[field]) }
   end
 
   def to_hash
     { field => attributes_hash }
+  end
+
+  alias_method :name, :field
+
+  def attributes
+    { name: name, operator: operator, values: values }
   end
 
   def field=(field)
@@ -111,6 +119,10 @@ class Queries::Filter
     self.filter_types_by_field[field]
   end
 
+  def ==(filter)
+    filter.attributes_hash == attributes_hash
+  end
+
   protected
 
   def attributes_hash
@@ -122,7 +134,7 @@ class Queries::Filter
   private
 
   def validate_presence_of_values
-    errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.reject(&:blank?).empty?
+    errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.nil? || values.reject(&:blank?).empty?
   end
 
   def validate_filter_values

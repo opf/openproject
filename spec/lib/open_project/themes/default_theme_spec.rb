@@ -67,7 +67,7 @@ module OpenProject
       describe '#path_to_image' do
         before do
           # set a list of overridden images, which default theme should ignore
-          theme.stub(:overridden_images).and_return(['add.png'])
+          allow(theme).to receive(:overridden_images).and_return(['add.png'])
         end
 
         it "doesn't prepend the theme path for the default theme" do
@@ -97,11 +97,11 @@ module OpenProject
         before do
           # set the dir of this file as the images folder
           # default theme should ignore all files in it
-          theme.stub(:overridden_images_path).and_return(File.dirname(__FILE__))
+          allow(theme).to receive(:overridden_images_path).and_return(File.dirname(__FILE__))
         end
 
         it 'is false' do
-          expect(theme.image_overridden?('theme_spec.rb')).to be_false
+          expect(theme.image_overridden?('theme_spec.rb')).to be_falsey
         end
       end
     end
@@ -112,10 +112,10 @@ module OpenProject
 
       before do
         # set a list of overridden images
-        theme.stub(:overridden_images).and_return(['add.png'])
+        allow(theme).to receive(:overridden_images).and_return(['add.png'])
 
         # set the theme as current
-        helpers.stub(:current_theme).and_return(theme)
+        allow(helpers).to receive(:current_theme).and_return(theme)
       end
 
       it 'overridden images are on root level' do

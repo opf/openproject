@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage do
+describe WikiPage, :type => :model do
   let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
   let!(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki, title: wiki.wiki_menu_items.first.title) }
@@ -41,13 +41,13 @@ describe WikiPage do
 
     context 'when called without options' do
       it 'returns the menu item of the parent page' do
-        grand_child_page.nearest_parent_menu_item.should == child_page_wiki_menu_item
+        expect(grand_child_page.nearest_parent_menu_item).to eq(child_page_wiki_menu_item)
       end
     end
 
     context 'when called with {is_main_item => true}' do
       it 'returns the menu item of the grand parent if the menu item of its parent is not a main item' do
-        grand_child_page.nearest_parent_menu_item(is_main_item: true).should == wiki_page.menu_item
+        expect(grand_child_page.nearest_parent_menu_item(is_main_item: true)).to eq(wiki_page.menu_item)
       end
     end
   end
@@ -59,8 +59,8 @@ describe WikiPage do
       end
 
       it 'ensures there is still a wiki menu item' do
-        wiki.wiki_menu_items.should be_one
-        wiki.wiki_menu_items.first.is_main_item?.should be_true
+        expect(wiki.wiki_menu_items).to be_one
+        expect(wiki.wiki_menu_items.first.is_main_item?).to be_truthy
       end
     end
 
@@ -71,8 +71,8 @@ describe WikiPage do
       end
 
       it 'ensures that there is still a wiki menu item named like the wiki start page' do
-        wiki.wiki_menu_items.should be_one
-        wiki.wiki_menu_items.first.name.should == wiki.start_page
+        expect(wiki.wiki_menu_items).to be_one
+        expect(wiki.wiki_menu_items.first.name).to eq(wiki.start_page)
       end
     end
   end

@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe ActivitiesController do
+describe ActivitiesController, :type => :controller do
   before :each do
-    @controller.stub(:set_localization)
+    allow(@controller).to receive(:set_localization)
 
     admin = FactoryGirl.create(:admin)
-    User.stub(:current).and_return admin
+    allow(User).to receive(:current).and_return admin
 
     @params = {}
   end
@@ -92,8 +92,8 @@ describe ActivitiesController do
 
       it 'renders activity' do
         get 'index', project_id: project.id
-        response.should be_success
-        response.should render_template 'index'
+        expect(response).to be_success
+        expect(response).to render_template 'index'
       end
     end
 
@@ -103,8 +103,8 @@ describe ActivitiesController do
 
       it 'renders 403' do
         get 'index', project_id: project.id
-        response.status.should == 403
-        response.should render_template 'common/error'
+        expect(response.status).to eq(403)
+        expect(response).to render_template 'common/error'
       end
     end
 

@@ -31,7 +31,6 @@
 jQuery(document).ready(function($) {
   [
     $("#reporting_reported_project_status_id"),
-    $("#timeline_select"),
     $("#timeline_options_initial_outline_expansion"),
     $("#timeline_options_zoom_factor"),
     $("#timeline_options_compare_to_relative_unit"),
@@ -40,7 +39,7 @@ jQuery(document).ready(function($) {
     $("#timeline_options_grouping_two_sort"),
     $("#timeline_options_planning_element_time_relative_one_unit"),
     $("#timeline_options_planning_element_time_relative_two_unit")
-  ].each(function (item) {
+  ].forEach(function (item) {
     $("input[name='" + $(item).attr("name")+"']").remove();
 
     $(item).select2({
@@ -70,7 +69,7 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_responsibles"),
     $("#timeline_options_planning_element_assignee"),
     $("#timeline_options_grouping_two_selection")
-  ].each(function (item) {
+  ].forEach(function (item) {
     $(item).autocomplete({ multiple: true,
                            ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
                         });
@@ -80,7 +79,7 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_types"),
     $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_planning_element_status")
-  ].each(function (item) {
+  ].forEach(function (item) {
     $(item).autocomplete({
       multiple: true
     });
@@ -95,7 +94,7 @@ jQuery(document).ready(function($) {
   [
     $("#reporting_reporting_to_project_id"),
     $("#project_association_select_project_b_id")
-  ].each(function (item) {
+  ].forEach(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: false,
@@ -113,7 +112,7 @@ jQuery(document).ready(function($) {
 
   [
     $("#timeline_options_grouping_one_selection")
-  ].each(function (item) {
+  ].forEach(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: true,
@@ -132,7 +131,7 @@ jQuery(document).ready(function($) {
 
   [
     $("#timeline_options_parents")
-  ].each(function (item) {
+  ].forEach(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: true,
@@ -169,4 +168,3 @@ jQuery(document).ready(function($) {
     field.closest("fieldset").removeClass('collapsed').children("div").show();
   }
 });
-

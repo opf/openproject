@@ -200,8 +200,6 @@ namespace :copyright do
                 "app/assets/javascripts/Bitstream_Vera_Sans_400.font.js",
                 "app/assets/javascripts/date-de-DE.js",
                 "app/assets/javascripts/date-en-US.js",
-                "app/assets/javascripts/raphael.js",
-                "app/assets/javascripts/raphael-min.js",
                 "app/assets/javascripts/jstoolbar/"]
 
     rewrite_copyright("js", excluded, :js, args[:arg1])
@@ -261,15 +259,10 @@ namespace :copyright do
     rewrite_copyright("text.erb", [], :erb, args[:arg1])
   end
 
-  desc "Update the copyright on .api.rsb source files"
-  task :update_api_rsb, :arg1 do |task, args|
-    rewrite_copyright("api.rsb", [], :rb, args[:arg1])
-  end
-
   desc "Update the copyright on all source files"
   task :update, :arg1 do |task, args|
     %w{
-      css rb js js_erb css_erb html_erb json_erb text_erb atom_builder api_rsb rake
+      css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
       feature rdoc rjs md sql html yml yml_example rb_example special_files
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])

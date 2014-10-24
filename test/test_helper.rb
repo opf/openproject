@@ -41,7 +41,6 @@ require 'fileutils'
 require 'rspec/mocks'
 
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
-require Rails.root.join('test/mocks/open_id_authentication_mock.rb')
 
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
@@ -93,22 +92,18 @@ class ActiveSupport::TestCase
         ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
       end
     end
-    # By default bypass worker queue and execute asynchronous tasks at once
-    Delayed::Worker.delay_jobs = false
 
     # initializes the mocking features
-    RSpec::Mocks.setup(self)
+    RSpec::Mocks.setup
   end
 
   def teardown
-    begin
-      super
-      # verifies method invocations
-      RSpec::Mocks.verify
-    ensure
-      # removes all mockings
-      RSpec::Mocks.teardown
-    end
+    super
+    # verifies method invocations
+    RSpec::Mocks.verify
+  ensure
+    # removes all mockings
+    RSpec::Mocks.teardown
   end
 
   def log_user(login, password)

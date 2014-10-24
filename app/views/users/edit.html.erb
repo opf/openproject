@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title(l(:label_administration), "#{l(:label_edit)} #{User.model_name.human} #{h(@user.login)}") -%>
 
-<h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%=h @user.login %></h2>
+<h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%= avatar(@user) %> <%=h @user.login %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 

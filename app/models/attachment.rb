@@ -70,7 +70,7 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        # Incomming_file might be a String if you parse an incomming mail having an attachment
+        # Incoming_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
@@ -100,7 +100,7 @@ class Attachment < ActiveRecord::Base
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
-        # @temp_file might be a String if you parse an incomming mail having an attachment
+        # @temp_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.is_a? String
           f.write(@temp_file)

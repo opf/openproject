@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Changeset do
+describe Changeset, :type => :model do
   let(:email) { "bob@bobbit.org" }
   let(:repo) { FactoryGirl.create(:repository) }
   let(:changeset) { FactoryGirl.build(:changeset,
@@ -37,7 +37,7 @@ describe Changeset do
                                       committer: email,
                                       comments: "Initial commit") }
 
-  before { Setting.stub(:enabled_scm).and_return(['Filesystem']) }
+  before { allow(Setting).to receive(:enabled_scm).and_return(['Filesystem']) }
 
   shared_examples_for 'valid changeset' do
     it { expect(changeset.revision).to eq('1') }
@@ -79,7 +79,7 @@ describe Changeset do
       let!(:committer) { FactoryGirl.create(:user, login: email) }
 
       before do
-        User.stub(:current).and_return current_user
+        allow(User).to receive(:current).and_return current_user
 
         changeset.save!
       end

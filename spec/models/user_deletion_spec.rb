@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User, 'deletion' do
+describe User, 'deletion', :type => :model do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user) { FactoryGirl.build(:user, :member_in_project => project) }
   let(:user2) { FactoryGirl.build(:user) }
@@ -60,18 +60,18 @@ describe User, 'deletion' do
       user.destroy
     end
 
-    it { User.find_by_id(user.id).should be_nil }
+    it { expect(User.find_by_id(user.id)).to be_nil }
   end
 
   shared_examples_for "updated journalized associated object" do
     before do
-      User.stub(:current).and_return user2
+      allow(User).to receive(:current).and_return user2
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
       end
       associated_instance.save!
 
-      User.stub(:current).and_return user # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
@@ -82,22 +82,22 @@ describe User, 'deletion' do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == substitute_user
+        expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
-    it { associated_instance.journals.first.user.should == user2 }
+    it { expect(associated_instance.journals.first.user).to eq(user2) }
     it "should update first journal changes" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association_key association].last.should == user2.id
+        expect(associated_instance.journals.first.changed_data[association_key association].last).to eq(user2.id)
       end
     end
-    it { associated_instance.journals.last.user.should == substitute_user }
+    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it "should update second journal changes" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association_key association].last.should == substitute_user.id
+        expect(associated_instance.journals.last.changed_data[association_key association].last).to eq(substitute_user.id)
       end
     end
   end
@@ -117,23 +117,23 @@ describe User, 'deletion' do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == substitute_user
+        expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
   end
 
   shared_examples_for "created journalized associated object" do
     before do
-      User.stub(:current).and_return user # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
       end
       associated_instance.save!
 
-      User.stub(:current).and_return user2
+      allow(User).to receive(:current).and_return user2
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
@@ -144,23 +144,23 @@ describe User, 'deletion' do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should keep the current user on all associations" do
       associations.each do |association|
-        associated_instance.send(association).should == user2
+        expect(associated_instance.send(association)).to eq(user2)
       end
     end
-    it { associated_instance.journals.first.user.should == substitute_user }
+    it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association_key association].last.should == substitute_user.id
+        expect(associated_instance.journals.first.changed_data[association_key association].last).to eq(substitute_user.id)
       end
     end
-    it { associated_instance.journals.last.user.should == user2 }
+    it { expect(associated_instance.journals.last.user).to eq(user2) }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association_key association].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data[association_key association].last.should == user2.id
+        expect(associated_instance.journals.last.changed_data[association_key association].first).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.changed_data[association_key association].last).to eq(user2.id)
       end
     end
   end
@@ -199,13 +199,13 @@ describe User, 'deletion' do
     let(:associations) { [:author, :assigned_to, :responsible] }
 
     before do
-      User.stub(:current).and_return user2
+      allow(User).to receive(:current).and_return user2
       associated_instance.author = user2
       associated_instance.assigned_to = user2
       associated_instance.responsible = user2
       associated_instance.save!
 
-      User.stub(:current).and_return user # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.author = user
       associated_instance.assigned_to = user
@@ -216,22 +216,22 @@ describe User, 'deletion' do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
-      associated_instance.author.should == substitute_user
-      associated_instance.assigned_to.should be_nil
-      associated_instance.responsible.should be_nil
+      expect(associated_instance.author).to eq(substitute_user)
+      expect(associated_instance.assigned_to).to be_nil
+      expect(associated_instance.responsible).to be_nil
     end
-    it { associated_instance.journals.first.user.should == user2 }
+    it { expect(associated_instance.journals.first.user).to eq(user2) }
     it "should update first journal changes" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association_key association].last.should == user2.id
+        expect(associated_instance.journals.first.changed_data[association_key association].last).to eq(user2.id)
       end
     end
-    it { associated_instance.journals.last.user.should == substitute_user }
+    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it "should update second journal changes" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association_key association].last.should == substitute_user.id
+        expect(associated_instance.journals.last.changed_data[association_key association].last).to eq(substitute_user.id)
       end
     end
   end
@@ -324,9 +324,9 @@ describe User, 'deletion' do
       user.destroy
     end
 
-    it { Member.find_by_id(member.id).should be_nil }
-    it { Role.find_by_id(role.id).should == role }
-    it { Project.find_by_id(project.id).should == project }
+    it { expect(Member.find_by_id(member.id)).to be_nil }
+    it { expect(Role.find_by_id(role.id)).to eq(role) }
+    it { expect(Project.find_by_id(project.id)).to eq(project) }
   end
 
   describe "WHEN the user is watching something" do
@@ -340,7 +340,7 @@ describe User, 'deletion' do
       user.destroy
     end
 
-    it { Watcher.find_by_id(watch.id).should be_nil }
+    it { expect(Watcher.find_by_id(watch.id)).to be_nil }
   end
 
   describe "WHEN the user has a token created" do
@@ -354,7 +354,7 @@ describe User, 'deletion' do
       user.destroy
     end
 
-    it { Token.find_by_id(token.id).should be_nil }
+    it { expect(Token.find_by_id(token.id)).to be_nil }
   end
 
   describe "WHEN the user has created a private query" do
@@ -366,7 +366,7 @@ describe User, 'deletion' do
       user.destroy
     end
 
-    it { Query.find_by_id(query.id).should be_nil }
+    it { expect(Query.find_by_id(query.id)).to be_nil }
   end
 
   describe "WHEN the user has created a public query" do
@@ -403,11 +403,11 @@ describe User, 'deletion' do
 
     before do
       Setting.enabled_scm = Setting.enabled_scm << "Filesystem"
-      User.stub(:current).and_return user2
+      allow(User).to receive(:current).and_return user2
       associated_instance.user = user2
       associated_instance.save!
 
-      User.stub(:current).and_return user # in order to have the content journal created by the user
+      allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.user = user
       associated_instance.save!
@@ -416,17 +416,17 @@ describe User, 'deletion' do
       associated_instance.reload
     end
 
-    it { associated_class.find_by_id(associated_instance.id).should == associated_instance }
+    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
     it "should replace the user on all associations" do
-      associated_instance.user.should be_nil
+      expect(associated_instance.user).to be_nil
     end
-    it { associated_instance.journals.first.user.should == user2 }
+    it { expect(associated_instance.journals.first.user).to eq(user2) }
     it "should update first journal changes" do
-      associated_instance.journals.first.changed_data[:user_id].last.should == user2.id
+      expect(associated_instance.journals.first.changed_data[:user_id].last).to eq(user2.id)
     end
-    it { associated_instance.journals.last.user.should == substitute_user }
+    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it "should update second journal changes" do
-      associated_instance.journals.last.changed_data[:user_id].last.should == substitute_user.id
+      expect(associated_instance.journals.last.changed_data[:user_id].last).to eq(substitute_user.id)
     end
   end
 
@@ -438,8 +438,8 @@ describe User, 'deletion' do
       project.reload
     end
 
-    it { Project.find_by_id(project.id).should == project }
-    it { project.responsible.should be_nil }
+    it { expect(Project.find_by_id(project.id)).to eq(project) }
+    it { expect(project.responsible).to be_nil }
   end
 
   describe "WHEN the user is assigned an issue category" do
@@ -452,8 +452,8 @@ describe User, 'deletion' do
       category.reload
     end
 
-    it { Category.find_by_id(category.id).should == category }
-    it { category.assigned_to.should be_nil }
+    it { expect(Category.find_by_id(category.id)).to eq(category) }
+    it { expect(category.assigned_to).to be_nil }
   end
 
   describe "WHEN the user is used in a timelines filter" do
@@ -464,7 +464,7 @@ describe User, 'deletion' do
       timeline.options["planning_element_assignee"] = [user.id.to_s]
       timeline.options["project_responsibles"] = [user.id.to_s]
       timeline.save!
-      
+
       user.destroy
       timeline.reload
     end

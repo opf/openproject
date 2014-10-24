@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_type_colors/index.api.rabl' do
+describe 'api/v2/planning_element_type_colors/index.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -39,7 +39,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl' do
       assign(:colors, [])
       render
 
-      response.should have_json_size(0).at_path("colors")
+      expect(response).to have_json_size(0).at_path("colors")
     end
   end
 
@@ -58,7 +58,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl' do
     end
 
     it 'renders a colors document with the size 3 of array' do
-      response.should have_json_size(3).at_path("colors")
+      expect(response).to have_json_size(3).at_path("colors")
     end
 
   end

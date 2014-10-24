@@ -28,27 +28,27 @@
 
 require 'spec_helper'
 
-describe MenuItems::QueryMenuItem do
+describe MenuItems::QueryMenuItem, :type => :model do
 
-	let(:project) { FactoryGirl.create :project, :enabled_module_names => %w[activity] }
-	let(:query) { FactoryGirl.create :query, :project => project }
-	let(:another_query) { FactoryGirl.create :query, :project => project }
+  let(:project) { FactoryGirl.create :project, :enabled_module_names => %w[activity] }
+  let(:query) { FactoryGirl.create :query, :project => project }
+  let(:another_query) { FactoryGirl.create :query, :project => project }
 
   describe 'it should destroy all items when destroying' do
-	  before(:each) do
-	  	query_item = FactoryGirl.create(:query_menu_item,
-			      														:query   => query,
-			                                  :name    => "Query Item",
-			                                  :title   => "Query Item")
-	  	another_query_item = FactoryGirl.create(:query_menu_item,
-																					  		:query   => another_query,
-							                                  :name    => "Another Query Item",
-							                                  :title   => "Another Query Item")
-	  end
+    before(:each) do
+      query_item = FactoryGirl.create(:query_menu_item,
+                                        :query   => query,
+                                        :name    => "Query Item",
+                                        :title   => "Query Item")
+      another_query_item = FactoryGirl.create(:query_menu_item,
+                                                :query   => another_query,
+                                                :name    => "Another Query Item",
+                                                :title   => "Another Query Item")
+    end
 
     it 'the associated query' do
       query.destroy
-      MenuItems::QueryMenuItem.where(navigatable_id: query.id).should be_empty
+      expect(MenuItems::QueryMenuItem.where(navigatable_id: query.id)).to be_empty
     end
   end
 end

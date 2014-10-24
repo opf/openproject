@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w( new level_list )
 
-  # Specific overidden Activities
+  # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
   has_many :possible_assignee_members,
@@ -97,7 +97,7 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name, :identifier
   #TODO: we temporarily disable this validation because it leads to failed tests
-  #it implicitely assumes a db:seed-created standard type to be present and currently
+  #it implicitly assumes a db:seed-created standard type to be present and currently
   #neither development nor deployment setups are prepared for this
   #validates_presence_of :types
   validates_uniqueness_of :identifier
@@ -105,7 +105,7 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
-  # donwcase letters, digits, dashes but not digits only
+  # downcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
@@ -212,6 +212,10 @@ class Project < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def copy_allowed?
+    User.current.allowed_to?(:copy_projects, self) && (self.parent.nil? || User.current.allowed_to?(:add_subprojects, self.parent))
   end
 
   def self.selectable_projects
@@ -702,7 +706,7 @@ class Project < ActiveRecord::Base
       total / self_and_descendants.count
     else
       if versions.count > 0
-        total = versions.collect(&:completed_pourcent).sum
+        total = versions.collect(&:completed_percent).sum
 
         total / versions.count
       else

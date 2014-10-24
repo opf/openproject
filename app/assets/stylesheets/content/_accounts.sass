@@ -1,0 +1,142 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import global/mixins
+@import content/forms
+
+#login-form
+  margin-left: auto
+  margin-right: auto
+  padding-top: 20px
+  // label width + label padding-right + input width + input padding-left + input border
+  width: 155px + 5px + $content_from_input_width + 10px + 2px
+
+  .button_highlight
+    // align with input fields
+    // label width + label padding-right
+    margin-left: 155px + 5px
+
+    height: 32px
+
+  .attribute_wrapper
+    @include prevent-float-collapse
+
+  label
+    // inline-block can't guarantee a specific width (possibly due to whitespace)
+    display: block
+    float: left
+
+  input
+    &[type=password], &[type=text]
+      // inline-block can't guarantee a specific width
+      display: block
+
+  .login-options-container
+    margin-bottom: 10px
+    .login-links
+      float: right
+      text-align: right
+      font-size: 12px
+
+// use id selectors to be specific enough to override general content and top-menu definitions
+#content .login-auth-providers, #top-menu #nav-login-content .login-auth-providers
+  width: 471px
+  margin-top: 25px
+
+  h3
+    border: none
+    margin-top: 20px
+    font-weight: normal
+    font-size: $global_font_size
+    text-decoration: none
+    text-align: center
+
+    position: relative
+    z-index: 1
+
+    // line behind title
+    // from http://codepen.io/ericrasch/pen/Irlpm
+    &:before
+      border-top: 2px solid $content_form_separator_color
+      content: ""
+      // this centers the line to the full width specified
+      margin: 0 auto
+      // positioning must be absolute here, and relative positioning
+      //  must be applied to the parent
+      position: absolute
+      top: 50%
+      left: 0
+      right: 0
+      bottom: 0
+      width: 95%
+      z-index: -1
+
+    // also line behind title
+    span
+      // to hide the lines from behind the text, you have to set the
+      // background color the same as the container
+      background: $content_form_bg_color
+      padding: 0 15px
+
+  .login-auth-provider-list
+    @include prevent-float-collapse
+
+  a.auth-provider
+    float: left
+    width: 97px
+    height: 40px
+    padding-left: 50px
+    margin-left: 10px
+    margin-top: 20px
+    background-image: url(image-path('auth_provider-developer.png'))
+    background-size: 40px 40px
+    background-repeat: no-repeat
+    font-weight: normal
+    color: $global_font_color
+
+    &:hover
+      text-decoration: none
+
+    .auth-provider-name
+      vertical-align: middle
+      height: 40px
+      display: table-cell
+      white-space: normal
+
+#top-menu #nav-login-content .login-auth-providers
+  h3
+    &:before
+      width: 100%
+    span
+      background: $header_drop_down_bg_color
+  .login-auth-provider-list
+    margin-top: -15px
+    margin-bottom: 10px
+
+#top-menu #nav-login-content .login-auth-providers.no-pwd
+  margin-top: 0px

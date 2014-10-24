@@ -25,11 +25,22 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-$font_family_normal:                            'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif !default
-$font_family_bold:                              'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif !default
+$base-body-color: white
+$light-gray: #ccc
+
+$font_family_normal:                            'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif !default
 $global_font_color:                             #555555 !default
 $global_font_size:                              13px !default
 $global_line_height:                            1.5 !default
+
+$headline_h1_font_size:                      28px !default
+$headline_h1_font-color:                    #555555 !default
+$headline_h2_font_size:                      22px !default
+$headline_h2_font-color:                    #06799F !default
+$headline_h3_font_size:                      19px !default
+$headline_h3_font-color:                    #555555 !default
+$headline_h4_font_size:                      17px !default
+$headline_h4_font-color:                    #555555 !default
 
 $header_height:                                 55px !default
 $header_bg_color:                               #3493B3 !default
@@ -131,6 +142,8 @@ $content_flash_msg_font_color:                  #111111 !default
 $content_flash_error_msg_bg_color:              #FF8B8B !default
 $content_flash_notice_msg_bg_color:             #C4EA96 !default
 $content_flash_warning_msg_bg_color:            #EBD785 !default
+$content-flash-height:                          25px !default
+$content_flash_icon_close_handler_font-size:    12px !default
 
 $content_calendar_border_width:                 1px !default
 $content_calendar_border_color:                 #D7D7D7 !default
@@ -141,12 +154,15 @@ $content_calendar_cell_today_bg_color:          #FFFFDD !default
 $content_calendar_inactive_day_font_color:      #FFFFFF !default
 $content_calendar_inactive_day_bg_color:        #4B4B4B !default
 
+$context_menu_font_color:                       $main_menu_font_color !default
+
 $button_bg_color:                               #3493B3 !default
 $button_bg_hover_color:                         #06799F !default
 $button_font_color:                             #222222 !default
 $button_font_hover_color:                       #222222 !default
 $button_highlight_font_color:                   #FFFFFF !default
 $button_highlight_font_hover_color:             #FFFFFF !default
+$button_active_font_color:                      #BBBBBB !default
 $button_highlight_background_color:             #0B8DB8 !default
 $button_highlight_background_gradient_moz:      -moz-linear-gradient(top, #0B8DB8 0%, #06799F 100%) !default
 $button_highlight_background_gradient_webkit:   -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0B8DB8), color-stop(100%, #06799F)) !default
@@ -163,9 +179,38 @@ $content_box_border:                            1px solid #EAEAEA !default
 $content_box_bg_color:                          #FFFFFF !default
 $my_page_edit_box_border_color:                 #06799F !default
 
+$drop_down_unselected_font_color:               $main_menu_font_color !default
+$drop_down_selected_font_color:                 $main_menu_font_color !default
+$drop_down_selected_bg_color:                   #24B3E7 !default
+
+$action_menu_bg_color:                          #FFFFFF
+
+$wiki_default_font_size:                        $global_font_size
 $wiki_toc_header_font_size:                     10px !default
 $wiki_toc_ul_font_size:                         0.8em !default
 
 $journal_attribute_font_size:                   11px !default
 
 $repository_entry_filename_margin_left:         24px !default
+
+$user_avatar_border_radius:                     50px !default
+$user_avatar_width:                             36px !default
+$user_avatar_mini_border_radius:                50px !default
+$user_avatar_mini_width:                        20px !default
+
+/* Predefined OpenProject Colors */
+
+$colors-black:                                  #000000
+$colors-white:                                  #FFFFFF
+$colors-blue:                                   #3399CC
+$colors-mint:                                   #66CCCC
+$colors-lime:                                   #66CC99
+$colors-green-neon:                             #00CC33
+$colors-green:                                  #339933
+$colors-orange:                                 #FFCC00
+$colors-red-bright:                             #FF3300
+$colors-red:                                    #CC3333
+$colors-yellow:                                 #FFFF00
+$colors-purple:                                 #CC0066
+$colors-grey-dark:                              #666666
+$colors-grey-light:                             #DDDDDD

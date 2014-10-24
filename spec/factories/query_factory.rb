@@ -42,6 +42,6 @@ FactoryGirl.define do
       sequence(:name) { |n| "Private query #{n}" }
     end
 
-    after(:build) { |query| query.add_default_filter }
+    callback(:after_build) { |query| query.add_default_filter }
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "WorkPackage-Visibility" do
+describe "WorkPackage-Visibility", :type => :model do
 
   let(:admin)    {FactoryGirl.create(:admin)}
   let(:anonymous){FactoryGirl.create(:anonymous)}
@@ -46,7 +46,7 @@ describe "WorkPackage-Visibility" do
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
       # just make sure, that the workpackage is visible, when this permission is set
       Role.anonymous.add_permission! :view_work_packages
-      WorkPackage.visible(anonymous).should include subject
+      expect(WorkPackage.visible(anonymous)).to include subject
     end
 
   end
@@ -56,29 +56,28 @@ describe "WorkPackage-Visibility" do
     subject { FactoryGirl.create(:work_package, :project => private_project)}
 
     it "should be visible for the admin, even if the project is private" do
-      WorkPackage.visible(admin).should include subject
+      expect(WorkPackage.visible(admin)).to include subject
     end
 
     it "should not be visible for anonymous users, when the project is private" do
-      WorkPackage.visible(anonymous).should_not include subject
+      expect(WorkPackage.visible(anonymous)).not_to include subject
     end
 
     it "should be visible for members of the project, that are allowed to view workpackages" do
       member = FactoryGirl.create(:member, user: user, project: private_project, role_ids: [view_work_packages.id])
-      WorkPackage.visible(user).should include subject
+      expect(WorkPackage.visible(user)).to include subject
     end
 
     it "should __not__ be visible for non-members of the project without the permission to view workpackages" do
-      WorkPackage.visible(user).should_not include subject
+      expect(WorkPackage.visible(user)).not_to include subject
     end
 
     it "should __not__ be visible for members of the project, without the right to view work_packages" do
       no_permission = FactoryGirl.create(:role, :permissions => [:no_permission])
       member = FactoryGirl.create(:member, user: user, project: private_project, role_ids: [no_permission.id])
 
-      WorkPackage.visible(user).should_not include subject
+      expect(WorkPackage.visible(user)).not_to include subject
     end
   end
 
 end
-

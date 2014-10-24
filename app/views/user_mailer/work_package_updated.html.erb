@@ -35,6 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 </ul>
 
-<%= textilizable(@journal.notes, :only_path => false) %>
+<%= format_text(@journal.notes, :only_path => false) %>
 <hr />
 <%= render :partial => 'issue_details', :locals => { :issue => @issue } %>

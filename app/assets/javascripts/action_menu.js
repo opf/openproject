@@ -56,7 +56,7 @@ jQuery(function ($) {
       menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
     }
     return menu_start_position;
-  };
+  }
 
   function close_menu(event) {
     var menu = $(event.data.menu);
@@ -65,11 +65,11 @@ jQuery(function ($) {
       menu.find(" > li.drop-down.open").removeClass("open").find("> ul").slideUp(animationSpeed);
       // no need to watch for clicks, when the menu is already closed
       $('html').off('click', close_menu);
-    };
-  };
+    }
+  }
 
   function open_menu(menu) {
-    var drop_down = menu.find(" > li.drop-down")
+    var drop_down = menu.find(" > li.drop-down");
     // do not open a menu, which is already open
     if ( !drop_down.hasClass('open') ) {
       drop_down.find('> ul').slideDown(animationSpeed, function(){
@@ -78,17 +78,17 @@ jQuery(function ($) {
         $('html').on('click', {menu: menu.get(0)}, close_menu);
       });
       drop_down.addClass('open');
-    };
-  };
+    }
+  }
 
   // open the given submenu when clicking on it
   function install_menu_logic(menu) {
     menu.find(" > li.drop-down").click(function(event) {
       open_menu(menu);
     });
-  };
+  }
 
-  $('.action_menu_main, .action_menu_specific').each(function(idx, menu){
+  $('.legacy-actions-main, .legacy-actions-specific').each(function(idx, menu){
     install_menu_logic($(menu));
   });
 });

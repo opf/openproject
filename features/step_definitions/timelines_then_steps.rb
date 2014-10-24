@@ -54,7 +54,7 @@ Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) d
   }
 
   elements = find_lowest_containing_element content2, table
-  elements[-1].should have_xpath("preceding::th/descendant-or-self::*[text()='#{content1}']")
+  elements[-1].should have_xpath("preceding::th/descendant-or-self::*[contains(text(),'#{content1}')]")
 end
 
 Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in "(.*?)"$/) do |content1, content2, table|
@@ -90,7 +90,7 @@ end
 
 Then(/^I should see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
   elements = find_lowest_containing_element wp_name, ".tl-main-table"
-  elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[text()='#{content}']")
+  elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[contains(text(), '#{content}')]")
 end
 
 Then(/^I should not see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
@@ -110,7 +110,7 @@ Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, 
   }
 
   elements = find_lowest_containing_element project_name_one, ".tl-word-ellipsis"
-  elements[-1].should have_xpath("preceding::span[@class='tl-word-ellipsis']/descendant-or-self::*[text()='#{project_name_two}']")
+  elements[-1].should have_xpath("preceding::span[contains(@class,'tl-word-ellipsis')]/descendant-or-self::*[text()='#{project_name_two}']")
 end
 
 Then(/^I should see the project "(.*?)"$/) do |project_name|

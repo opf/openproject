@@ -30,10 +30,10 @@
 # When included it adds the nested_set behaviour scoped by the attribute
 # 'root_id'
 #
-# AwesomeNestedSet offers beeing scoped but does not handle inserting and
-# updating with the scoped beeing set right. This module adds this.
+# AwesomeNestedSet offers being scoped but does not handle inserting and
+# updating with the scoped being set right. This module adds this.
 #
-# When beeing scoped, we no longer have one big set over the the entire table
+# When being scoped, we no longer have one big set over the the entire table
 # but a forest of sets instead.
 #
 # The idea of this extension is to always place the node in the correct set
@@ -218,7 +218,7 @@ module OpenProject::NestedSet
       #       1*6
       #       / \
       #    2*3  4*5
-      # for wich the node with lft = 2 and rgt = 3 is self and was removed, the
+      # for which the node with lft = 2 and rgt = 3 is self and was removed, the
       # resulting set will be:
       #       1*4
       #        |

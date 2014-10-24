@@ -55,7 +55,7 @@ module OpenProject
         # Registers a theme instance, so that it is listed
         # in `themes` and `registered_themes`.
         # Every Theme, which is subclassed from OpenProject::Themes::Theme
-        # automatically registeres itself using this method.
+        # automatically registers itself using this method.
         #
         # params: theme (a OpenProject::Themes::Theme instance)
         def register_theme(theme)
@@ -66,8 +66,10 @@ module OpenProject
           # we need to wrap the call to #stylesheet_manifest in a Proc,
           # because when this code is executed the theme instance (theme) hasn't had
           # a chance to override the method yet
-          Rails.application.config.assets.precompile << Proc.new {
-            theme.stylesheet_manifest unless theme.abstract?
+          Rails.application.config.assets.precompile << -> (path) {
+            return if theme.abstract?
+
+            theme.stylesheet_manifest == path
           }
         end
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalsController do
+describe JournalsController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_package]) }
@@ -39,6 +39,9 @@ describe JournalsController do
                                                         :author => user,
                                                         :project => project,
                                                         :description => '') }
+  let(:journal) { FactoryGirl.create(:work_package_journal,
+                  journable: work_package,
+                  user: user) }
 
   describe "GET diff" do
     render_views
@@ -50,8 +53,8 @@ describe JournalsController do
       get :diff, params
     end
 
-    it { response.should be_success }
-    it { response.body.strip.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>" }
+    it { expect(response).to be_success }
+    it { expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>") }
   end
 
   describe :edit do
@@ -60,9 +63,9 @@ describe JournalsController do
         work_package.update_attribute :description, 'description'
         role.add_permission! *permissions
         member.save and user.reload
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
-        get :edit, id: work_package.journals.last.id
+        get :edit, id: journal.id
       end
 
       context 'with permissions to edit work packages and edit own work package notes' do

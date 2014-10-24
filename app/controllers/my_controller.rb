@@ -69,7 +69,7 @@ class MyController < ApplicationController
     @user = User.current
     @pref = @user.pref
     if request.put?
-      @user.safe_attributes = params[:user]
+      @user.attributes = permitted_params.user
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       if @user.save
@@ -91,6 +91,8 @@ class MyController < ApplicationController
 
   # When making changes here, also check AccountController.change_password
   def change_password
+    return render_404 if OpenProject::Configuration.disable_password_login?
+
     @user = User.current  # required by "my" layout
     @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
@@ -119,7 +121,7 @@ class MyController < ApplicationController
       User.current.pref.save
 
       flash[:notice] = l(:notice_account_updated)
-      redirect_back_or_default(:controller => '/my', :action => 'page')
+      redirect_back_or_default(controller: '/my', action: 'page')
     end
   end
 
