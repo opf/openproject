@@ -12,6 +12,7 @@
     "glob": "^4.0.6",
     "gulp": "^3.8.9",
     "gulp-jshint": "^1.8.5",
+    "gulp-protractor": "0.0.11",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-webpack": "^1.0.0",
     "json-loader": "^0.5.1",

@@ -33,6 +33,12 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 
+var protractor = require('gulp-protractor').protractor,
+  webdriverStandalone = require('gulp-protractor').webdriver_standalone,
+  webdriverUpdate = require('gulp-protractor').webdriver_update;
+
+var server;
+
 var paths = {
   scripts: ['app/assets/javascripts/**/*.js']
 };
@@ -63,9 +69,26 @@ gulp.task('sass', function() {
 
 gulp.task('express', function() {
   var app = require('./protractor/server');
-  app.listen(3000, function() {
+  server = app.listen(3000, function() {
     console.log('Listening at localhost:3000');
   });
+});
+
+gulp.task('webdriver:update', webdriverUpdate);
+gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
+
+gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'express'], function(done) {
+  gulp.src('protractor/**/*_spec.js')
+    .pipe(protractor({
+      configFile: 'protractor/conf.js',
+    }))
+    .on('error', function(e) {
+      throw e;
+    })
+    .on('end', function() {
+      server.close();
+      done();
+    });
 });
 
 gulp.task('default', ['webpack', 'sass', 'express']);

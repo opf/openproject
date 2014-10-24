@@ -44,5 +44,7 @@ exports.config = {
   mochaOpts: {
     timeout:  40000,
     reporter: 'spec'
-  }
+  },
+
+  baseUrl: 'http://localhost:3000'
 };
