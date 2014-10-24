@@ -68,7 +68,7 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              model = ::API::V3::WorkPackages::WorkPackageModel.new(@work_package)
+              model = ::API::V3::WorkPackages::WorkPackageModel.new(@work_package, current_user)
               @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
             end
 

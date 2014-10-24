@@ -40,6 +40,12 @@ module API
         include OpenProject::StaticRouting::UrlHelpers
         include WorkPackagesHelper
 
+        def initialize(object, user)
+          super(object)
+
+          @user = user
+        end
+
         # N.B. required by ActionView::Helpers::UrlHelper
         def controller; nil; end
 
@@ -177,7 +183,7 @@ module API
         end
 
         def parent_visible?
-          !parent_id || ::WorkPackage.visible(User.current).exists?(parent_id)
+          !parent_id || ::WorkPackage.visible(@user).exists?(parent_id)
         end
 
         def error_message(path)
