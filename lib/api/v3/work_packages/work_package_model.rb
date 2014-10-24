@@ -167,6 +167,7 @@ module API
         validate :user_allowed_to_edit
         validate :user_allowed_to_edit_parent
         validate :lock_version_set
+        validate :readonly_attributes_unchanged
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :milestone_constraint
@@ -189,6 +190,22 @@ module API
           fail ::API::Errors::Conflict if lock_version.nil?
         end
 
+        def readonly_attributes_unchanged
+          changed_attributes = readonly_attributes.each_with_object([]) do |a, l|
+            if model.respond_to?(a)
+              new = send(a)
+              current = model.send(a)
+
+              new = new.id if !new.nil? && new.respond_to?(:id)
+              current = current.id if !current.nil? && current.respond_to?(:id)
+
+              l << a if new != current
+            end
+          end
+
+          fail ::API::Errors::UnwritableProperty.new(changed_attributes) unless changed_attributes.empty?
+        end
+
         def milestone_constraint
           errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
         end
@@ -207,6 +224,14 @@ module API
 
         def error_message(path)
           I18n.t("activerecord.errors.models.work_package.attributes.#{path}")
+        end
+
+        def readonly_attributes
+          all_attributes - [:lock_version, :subject, :parent_id]
+        end
+
+        def all_attributes
+          self.send(:fields).methods(false).grep(/[^=]$/)
         end
       end
     end

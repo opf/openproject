@@ -39,27 +39,7 @@ module API
           namespace ':id' do
 
             helpers do
-              VALID_REQUEST_ATTRIBUTES = ['_type']
-              VALID_UPDATE_ATTRIBUTES = VALID_REQUEST_ATTRIBUTES + ['lockVersion', 'subject', 'parentId']
-
               attr_reader :work_package
-
-              def check_work_package_attributes
-                attributes = JSON.parse(env['api.request.input'])
-                invalid_attributes = invalid_work_package_update_attributes(attributes)
-
-                fail ::API::Errors::UnwritableProperty.new(invalid_attributes.keys) unless invalid_attributes.empty?
-              end
-
-              def invalid_work_package_update_attributes(attributes)
-                attributes.delete_if { |key, _| VALID_UPDATE_ATTRIBUTES.include? key }
-              end
-
-              def work_package_attributes
-                @work_package_attributes ||= JSON.parse(env['api.request.input']).tap do |attributes|
-                  attributes.delete_if { |key, _| VALID_REQUEST_ATTRIBUTES.include? key }
-                end
-              end
             end
 
             before do
@@ -75,9 +55,8 @@ module API
 
             patch do
               @representer.represented.lock_version = nil # enforces availibility validation of lock_version
-              check_work_package_attributes # fails if request contains read-only attributes
 
-              @representer.from_json(work_package_attributes.to_json)
+              @representer.from_json(env['api.request.input'])
               if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
                 @representer
               else

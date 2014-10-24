@@ -42,7 +42,7 @@ module API
             @errors << UnwritableProperty.new(attribute)
           end
         else
-          @details = { attribute: attributes[0] }
+          @details = { attribute: attributes[0].to_s.camelize(:lower) }
         end
       end
     end
