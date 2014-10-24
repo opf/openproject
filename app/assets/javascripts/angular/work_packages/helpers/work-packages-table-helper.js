@@ -34,7 +34,7 @@ module.exports = function(WorkPackagesHelper) {
       var currentGroup, allGroups = [], groupIndex = -1;
 
       angular.forEach(workPackages, function(workPackage, i) {
-        while(ancestors.length > 0 && workPackage.parent_id !== ancestors.last().object.id) {
+        while(ancestors.length > 0 && workPackage.parent_id !== _.last(ancestors).object.id) {
           // this helper method only reflects hierarchies if nested work packages follow one another
           ancestors.pop();
         }
@@ -44,7 +44,7 @@ module.exports = function(WorkPackagesHelper) {
 
         var row = {
           level: ancestors.length,
-          parent: ancestors.last(),
+          parent: _.last(ancestors),
           ancestors: ancestors.slice(0),
           object: workPackage
         };

@@ -34,7 +34,7 @@ module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
       if (sortation.length > 0) {
         // Convert sortation element from API meta format
         this.sortElements = sortation.map(function(sortElement) {
-          return {field: sortElement.first(), direction: sortElement.last()};
+          return {field: _.first(sortElement), direction: _.last(sortElement)};
         });
       } else {
         this.sortElements = this.decodeEncodedSortation(DEFAULT_SORT_CRITERIA);

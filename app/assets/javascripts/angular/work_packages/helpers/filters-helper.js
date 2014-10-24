@@ -32,7 +32,7 @@ module.exports = function(I18n) {
     assignAncestorLevels: function(projects){
       var ancestors = [];
       angular.forEach(projects, function(project, i){
-        while(ancestors.length > 0 && project.parent_id !== ancestors.last().id) {
+        while(ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
           // this helper method only reflects hierarchies if nested projects follow one another
           ancestors.pop();
         }

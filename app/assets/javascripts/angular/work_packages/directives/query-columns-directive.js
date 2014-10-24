@@ -57,7 +57,7 @@ module.exports = function(WorkPackagesTableHelper, WorkPackagesTableService, Wor
           };
 
           scope.moveSelectedColumnBy = function(by) {
-            var nameOfColumnToBeMoved = scope.markedSelectedColumns.first();
+            var nameOfColumnToBeMoved = _.first(scope.markedSelectedColumns);
             WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
           };
 
