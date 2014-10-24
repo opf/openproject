@@ -180,10 +180,7 @@ module API
         end
 
         def user_allowed_to_edit_parent
-          if parent_changed?
-            changed_model = model.dup.tap { |m| m.parent_id = parent_id }
-            errors.add :error_unauthorized, '' unless @can.allowed?(changed_model, :manage_subtasks)
-          end
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks) if parent_changed?
         end
 
         def lock_version_set
@@ -231,7 +228,7 @@ module API
         end
 
         def all_attributes
-          self.send(:fields).methods(false).grep(/[^=]$/)
+          send(:fields).methods(false).grep(/[^=]$/)
         end
       end
     end
