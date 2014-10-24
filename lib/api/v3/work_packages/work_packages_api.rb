@@ -60,7 +60,9 @@ module API
               if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
                 @representer
               else
-                fail ::API::Errors::Validation.new(@representer.represented)
+                error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+
+                fail (error ? error : ::API::Errors::Validation.new(@representer.represented))
               end
             end
 

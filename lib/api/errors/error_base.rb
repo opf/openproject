@@ -32,6 +32,23 @@ module API
     class ErrorBase < Grape::Exceptions::Base
       attr_reader :code, :message, :details, :errors
 
+      def self.create(errors)
+        [:error_unauthorized, :error_conflict, :error_readonly].each do |key|
+          if errors.has_key?(key)
+            case key
+            when :error_unauthorized
+              return ::API::Errors::Unauthorized
+            when :error_conflict
+              return ::API::Errors::Conflict
+            when :error_readonly
+              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
+            end
+          end
+        end
+
+        nil
+      end
+
       def initialize(code, message)
         @code = code
         @message = message

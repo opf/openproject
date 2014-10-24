@@ -176,18 +176,18 @@ module API
         private
 
         def user_allowed_to_edit
-          fail ::API::Errors::Unauthorized unless @can.allowed?(model, :edit)
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
         end
 
         def user_allowed_to_edit_parent
           if parent_changed?
             changed_model = model.dup.tap { |m| m.parent_id = parent_id }
-            fail ::API::Errors::Unauthorized unless @can.allowed?(changed_model, :manage_subtasks)
+            errors.add :error_unauthorized, '' unless @can.allowed?(changed_model, :manage_subtasks)
           end
         end
 
         def lock_version_set
-          fail ::API::Errors::Conflict if lock_version.nil?
+          errors.add :error_conflict, '' if lock_version.nil?
         end
 
         def readonly_attributes_unchanged
@@ -203,7 +203,7 @@ module API
             end
           end
 
-          fail ::API::Errors::UnwritableProperty.new(changed_attributes) unless changed_attributes.empty?
+          errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
         end
 
         def milestone_constraint
