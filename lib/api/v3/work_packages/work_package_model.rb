@@ -44,6 +44,7 @@ module API
           super(object)
 
           @user = user
+          @can = WorkPackagePolicy.new(user)
         end
 
         # N.B. required by ActionView::Helpers::UrlHelper
@@ -163,12 +164,17 @@ module API
           model.closed?
         end
 
+        validate :user_allowed_to_edit
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
         validate :milestone_constraint
         validate :user_allowed_to_access_parent
 
         private
+
+        def user_allowed_to_edit
+          fail ::API::Errors::Unauthorized unless @can.allowed?(model, :edit)
+        end
 
         def milestone_constraint
           errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
