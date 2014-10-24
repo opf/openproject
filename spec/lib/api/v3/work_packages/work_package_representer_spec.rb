@@ -34,7 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:representer)  { described_class.new(model, current_user: current_user) }
 
-  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
+  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user) }
   let(:work_package) { FactoryGirl.build(:work_package,
       id: 42,
       created_at: DateTime.now,
