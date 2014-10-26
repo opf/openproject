@@ -318,7 +318,7 @@ en:
     login: "Login"
     mail: "Email"
     name: "Name"
-    password: "Password"
+    password: "Current Password"
     project: "Project"
     role: "Role"
     start_date: "Start date"
