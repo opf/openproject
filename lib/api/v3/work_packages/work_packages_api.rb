@@ -41,7 +41,7 @@ module API
             helpers do
               attr_reader :work_package
 
-              def update_representer(work_package)
+              def decorate_work_package(work_package)
                 model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user)
                 @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
               end
@@ -49,7 +49,7 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              update_representer(@work_package)
+              decorate_work_package(@work_package)
             end
 
             get do
@@ -62,7 +62,7 @@ module API
 
               @representer.from_json(env['api.request.input'])
               if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
-                update_representer(@work_package.reload)
+                decorate_work_package(@work_package.reload)
                 @representer
               else
                 fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
