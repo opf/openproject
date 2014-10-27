@@ -38,7 +38,7 @@ describe('API helper', function() {
   }));
 
   function createErrorObject(status, statusText, responseText) {
-    var error = new Object();
+    var error = {};
 
     error.status = status;
     error.statusText = statusText;
