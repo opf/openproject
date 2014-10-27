@@ -395,15 +395,10 @@ Throughout OpenProject textile is used to support formatting of user input.
 Using the apropriate rendering endpoint it is possible to render custom textile inputs into HTML and thus
 receive a preview of the rendered textile.
 
-The endpoint is called with a JSON-object containing two properties:
+The request to the endpoint should have a MIME-Type of `text/plain`.
+The request body is the actual textile string that shall be rendered as HTML string.
 
-**source**: The actual textile string that shall be rendered as HTML string.
-
-**context** (*optional*): The context - in the form of an API-link - in which the rendering occurs, for example a specific work package.
-If left out only context-agnostic rendering takes place.
-Please note that OpenProject features textile-extensions that can only work given a context (e.g. display attached images).
-
-## Textile [/render/textile]
+## Textile [/render/textile{?context}]
 
 + Model
     + Body
@@ -411,12 +406,16 @@ Please note that OpenProject features textile-extensions that can only work give
 
 ## Preview Textile document [POST]
 
-+ Request (application/json)
++ Parameters
+    + context (optional, string, `/api/v3/work_packages/42`)
+        API-Link to the context in which the rendering occurs, for example a specific work package.
+        
+        If left out only context-agnostic rendering takes place.
+        Please note that OpenProject features textile-extensions that can only work given a context (e.g. display attached images).
 
-    {
-        "source": "Hello world! \"This\":http://example.com *is* textile!",
-        "context": "api/v3/work_packages/42"
-    }
++ Request (text/plain)
+
+    Hello world! "This":http://example.com *is* textile!
 
 + Response 200 (text/html)
 
