@@ -30,6 +30,38 @@
 var openprojectCostsApp = angular.module('openproject');
 
 openprojectCostsApp.run(['HookService', function(HookService) {
+  HookService.register('workPackagePluginAttributes', function(params) {
+    var attributes = params.attributes;
+    var workPackage = params.workPackage;
+    var spentTimeIndex = attributes.indexOf('spentTime');
+    var costsActivted = false;
+    var costsAttributes = {
+      props: {
+        overallCosts: null,
+        spentHours: 'spentHoursLinked'
+      },
+      embedded: {
+        costObject: null,
+        summarizedCostEntries: 'spentUnits'
+      }
+    };
+
+    angular.forEach(costsAttributes, function(costAttributes, property) {
+      angular.forEach(costAttributes, function(id, costAttribute) {
+        if (workPackage[property][costAttribute]) {
+          attributes.push(id || costAttribute);
+          // if at least a single Costs attribute is available in the API
+          // response then the Costs module must be active
+          costsActivted = true;
+        }
+      });
+    });
+
+    if (spentTimeIndex >= 0 && costsActivted) {
+      attributes.splice(spentTimeIndex, 1);
+    }
+  });
+
   HookService.register('workPackageOverviewAttributes', function(params) {
     var directive;
 
