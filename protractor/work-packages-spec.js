@@ -52,13 +52,12 @@ describe('OpenProject', function() {
 
     page.workPackagesTable.all(by.css('th')).getText().then(function(text) {
       expect(text).to.include.members([
-        'PROJECT',
+        '',
+        '#',
         'TYPE',
         'STATUS',
-        'PRIORITY',
         'SUBJECT',
-        'ASSIGNEE',
-        'UPDATED ON'
+        'ASSIGNEE'
       ]);
     });
   });
