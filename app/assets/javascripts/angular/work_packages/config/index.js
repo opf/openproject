@@ -65,6 +65,12 @@ angular.module('openproject.workPackages.config')
   subproject_id: { type: 'list_subprojects', modelName: 'sub_project', order: 18, locale_name: 'subproject' },
 })
 
+.constant('WORK_PACKAGE_ATTRIBUTES', [
+  'status', 'assignee', 'responsible',
+  'date', 'percentageDone', 'priority',
+  'category', 'estimatedTime', 'versionName', 'spentTime'
+])
+
 .constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
 
 .constant('MAX_SORT_ELEMENTS', 3)

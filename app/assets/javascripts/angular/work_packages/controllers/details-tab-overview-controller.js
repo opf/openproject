@@ -47,7 +47,7 @@ module.exports = function($scope,
   $scope.emptyWorkPackageProperties = [];
   $scope.userPath = PathHelper.staticUserPath;
 
-  var workPackageProperties = ConfigurationService.workPackageAttributes();
+  var workPackageProperties = ConfigurationService.workPackageAttributes($scope.workPackage);
 
     function getPropertyValue(property, format) {
         switch(format) {

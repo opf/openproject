@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($log) {
+module.exports = function($log, WORK_PACKAGE_ATTRIBUTES, HookService) {
 
   return {
     settingsPresent: function() {
@@ -77,11 +77,12 @@ module.exports = function($log) {
     timeFormat: function() {
       return gon.settings.display.time_format;
     },
-    workPackageAttributeSettingsPresent: function() {
-      return this.settingsPresent() && gon.settings.hasOwnProperty('work_package_attributes');
-    },
-    workPackageAttributes: function() {
-      var attributes = (this.workPackageAttributeSettingsPresent()) ? gon.settings.work_package_attributes : [];
+    workPackageAttributes: function(workPackage) {
+      var attributes = WORK_PACKAGE_ATTRIBUTES;
+
+      HookService.call('workPackagePluginAttributes',
+                       { attributes: attributes,
+                         workPackage: workPackage });
 
       return attributes;
     }
