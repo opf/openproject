@@ -193,8 +193,9 @@ However for the future we plan to add authentication modes that are more suitabl
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Activity id | Integer | Must be a positive integer | 12 | READ |
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| comment | | String | | Lorem ipsum. | READ / WRITE |
-| details | | Array | | ["Priority changed from High to Low"] | READ |
+| textileComment | | String | | Lorem ipsum. | READ / WRITE |
+| htmlComment | | String | | Lorem ipsum. | READ |
+| textileDetails | | Array | | ["Priority changed from High to Low"] | READ |
 | htmlDetails | | Array | | ["<strong>Priority changed from High to Low</strong>"] | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
@@ -222,13 +223,14 @@ Activity can be either _type Activity or _type Activity::Comment.
                     }
                 },
                 "id": 1,
-                "details": [
+                "textileDetails": [
                     "Lorem ipsum dolor sit amet."
                 ],
                 "htmlDetails": [
                     "<strong>Lorem ipsum dolor sit amet.</strong>"
                 ],
-                "comment": "Lorem ipsum dolor sit amet.",
+                "htmlComment": "<p>Lorem ipsum dolor sit amet.</p>",
+                "textileComment": "Lorem ipsum dolor sit amet.",
                 "createdAt": "2014-05-21T08:51:20Z",
                 "version": 31
             }
@@ -252,7 +254,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Request (application/json)
 
         {
-          "comment": "The updated comment"
+          "textileComment": "The updated comment"
         }
 
 + Response 200 (application/hal+json)
@@ -951,8 +953,8 @@ The request body is the actual textile string that shall be rendered as HTML str
 | lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
 | subject | Work package subject | String | not null; 1 <= length <= 255 | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
-| description | Work package description | String | | Projects module should be refactored ... | READ |
-| rawDescription | | String | | | READ |
+| htmlDescription | Work package description rendered as HTML | String | | Projects module should be refactored ... | READ |
+| textileDescription | Work package description as raw textile string | String | | | READ |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
 | status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
@@ -1063,8 +1065,8 @@ The request body is the actual textile string that shall be rendered as HTML str
                 "id": 1528,
                 "subject": "Develop API",
                 "type": "Feature",
-                "description": "<p>Develop super cool OpenProject API.</p>",
-                "rawDescription": "Develop super cool OpenProject API.",
+                "htmlDescription": "<p>Develop super cool OpenProject API.</p>",
+                "textileDescription": "Develop super cool OpenProject API.",
                 "status": "New",
                 "isClosed": false,
                 "priority": "Normal",
@@ -1180,9 +1182,9 @@ The request body is the actual textile string that shall be rendered as HTML str
                                 }
                             },
                             "id": 5970,
-                            "comment": "",
-                            "rawComment": "",
-                            "details": [
+                            "htmlComment": "",
+                            "textileComment": "",
+                            "textileDetails": [
                                 "Type set to Feature",
                                 "Project set to Seeded Project",
                                 "Subject set to Develop API",
@@ -1245,9 +1247,9 @@ The request body is the actual textile string that shall be rendered as HTML str
                                 }
                             },
                             "id": 5972,
-                            "comment": "<p><em>Updated automatically by changing values within child work package <a href=\"/work_packages/1529\" class=\"issue work_package status-1 priority-2 child created-by-me\" title=\"Write API documentation (New)\">#1529</a></em></p>",
-                            "rawComment": "_Updated automatically by changing values within child work package #1529_\n",
-                            "details": [
+                            "htmlComment": "<p><em>Updated automatically by changing values within child work package <a href=\"/work_packages/1529\" class=\"issue work_package status-1 priority-2 child created-by-me\" title=\"Write API documentation (New)\">#1529</a></em></p>",
+                            "textileComment": "_Updated automatically by changing values within child work package #1529_\n",
+                            "textileDetails": [
                                 "Due date deleted (08/30/2014)",
                                 "% done changed from 20 to 0",
                                 "Estimated time deleted (3.00)",
@@ -1284,9 +1286,9 @@ The request body is the actual textile string that shall be rendered as HTML str
                                 }
                             },
                             "id": 5975,
-                            "comment": "",
-                            "rawComment": "",
-                            "details": [
+                            "htmlComment": "",
+                            "textileComment": "",
+                            "textileDetails": [
                                 "File OpenProject_Requirements.xlsx added"
                             ],
                             "htmlDetails": [
@@ -1317,9 +1319,9 @@ The request body is the actual textile string that shall be rendered as HTML str
                                 }
                             },
                             "id": 5977,
-                            "comment": "",
-                            "rawComment": "",
-                            "details": [
+                            "htmlComment": "",
+                            "textileComment": "",
+                            "textileDetails": [
                                 "File OpenProject_Requirements.xlsx added"
                             ],
                             "htmlDetails": [
@@ -1623,7 +1625,7 @@ updated activity.
 + Request (application/json)
 
         {
-          "comment": "I think this is awesome!"
+          "textileComment": "I think this is awesome!"
         }
 
 + Response 201 (application/hal+json)
