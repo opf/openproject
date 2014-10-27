@@ -162,7 +162,7 @@ embedded errors or simply state that multiple errors occured.
     }
     
 ## List of Error Identifiers
-
+* `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
@@ -389,6 +389,54 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Categories by Project][]
     
+# Group Previewing
+
+Throughout OpenProject textile is used to support formatting of user input.
+Using the apropriate rendering endpoint it is possible to render custom textile inputs into HTML and thus
+receive a preview of the rendered textile.
+
+The endpoint is called with a JSON-object containing two properties:
+
+**source**: The actual textile string that shall be rendered as HTML string.
+
+**context** (*optional*): The context - in the form of an API-link - in which the rendering occurs, for example a specific work package.
+If left out only context-agnostic rendering takes place.
+Please note that OpenProject features textile-extensions that can only work given a context (e.g. display attached images).
+
+## Textile [/render/textile]
+
++ Model
+    + Body
+            <p>Hello world! <a href="http://example.com">This</a> <strong>is</strong> textile!</p>
+
+## Preview Textile document [POST]
+
++ Request (application/json)
+
+    {
+        "source": "Hello world! \"This\":http://example.com *is* textile!",
+        "context": "api/v3/work_packages/42"
+    }
+
++ Response 200 (text/html)
+
+    [Textile][]
+    
++ Response 400 (application/json)
+
+    Returned if the context passed by the client is not valid (e.g. unknown).
+    
+    Note that this response will also occur when the requesting user
+    is not allowed to see the context resource (e.g. limited work package visibility).
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRenderContext",
+                "message": "Could not render textile string in the given context."
+            }
+
 # Group Priorities
 
 ## Properties
