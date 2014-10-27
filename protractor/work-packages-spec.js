@@ -39,23 +39,6 @@ describe('OpenProject', function() {
 
   before(function() {
     browser.get('http://localhost:3000/');
-
-    var loginButton = $('.login');
-    var loginArea   = $('#nav-login-content');
-
-    expect(loginButton.getText()).to.eventually.equal('Sign in');
-    expect(loginArea.isDisplayed()).to.eventually.be.false;
-
-    loginButton.click();
-    expect(loginArea.isDisplayed()).to.eventually.be.true;
-
-    var usernameField = $('#username-pulldown');
-    var passwordField = $('#password-pulldown');
-    var inputButton   = $('input[name=login]');
-
-    usernameField.sendKeys('admin');
-    passwordField.sendKeys('admin');
-    inputButton.click();
   });
 
   it('should show work packages title', function() {
