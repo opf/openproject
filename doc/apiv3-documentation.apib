@@ -451,7 +451,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Projects
 
-## Links:
+## Linked Properties:
 |  Link  | Description | Type | Constraints | Supported operations |
 |:------:|-------------| ---- | ----------- | -------------------- |
 | self   | This project | Project | not null | READ |
@@ -726,7 +726,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 **NOTE**: only `id` and `name` are implemented
 
-## Links:
+## Linked Properties:
 |  Link  | Description | Type   | Constraints | Supported operations |
 |:------:|-------------| ------ | ----------- | -------------------- |
 | self   | This status | Status | not null    | READ |
@@ -1040,14 +1040,24 @@ Updates an activity's comment and, on success, returns the updated activity.
     
 # Group Work packages
 
-## Links:
+## Actions:
+
+| Link                | Description                                                          | Condition                        | 
+|:-------------------:|----------------------------------------------------------------------| -------------------------------- | 
+| changeParent        | Endpoint to change the parent (**TBD**: diff to updateImmediately?)  | **Permission**: manage subtasks  |
+| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit workpackage |
+| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit workpackage |
+| watch               | Add current user to WP watchers                                      | logged in; not watching          |
+| unwatch             | Remove current user from WP watchers                                 | logged in; watching              |
+| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher      |
+
+## Linked Properties:
 
 | Link         | Description                              | Type        | Constraints | Supported operations |
 |:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
 | self         | This work package                        | WorkPackage | not null    | READ                 |
 | author       | The person that created the work package | User        | not null    | READ                 |
 | status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
-| changeParent | Endpoint to change the parent (requires *manage_subtasks* permission) | Action | | READ     |
 
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
