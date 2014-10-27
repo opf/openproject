@@ -214,6 +214,10 @@ h4. things we like
     end
 
     context 'user with needed permissions' do
+      shared_examples_for 'lock version updated' do
+        it { expect(subject.body).to be_json_eql(work_package.reload.lock_version).at_path('lockVersion') }
+      end
+
       context 'parent id' do
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
         let(:params) { valid_params.merge(parentId: parent.id) }
@@ -245,6 +249,8 @@ h4. things we like
             it { expect(response.status).to eq(200) }
 
             it { expect(subject.body).not_to have_json_path('parentId') }
+
+            it_behaves_like 'lock version updated'
           end
 
           context 'valid id' do
@@ -253,6 +259,8 @@ h4. things we like
             it { expect(response.status).to eq(200) }
 
             it { expect(subject.body).to be_json_eql(parent.id.to_json).at_path('parentId') }
+
+            it_behaves_like 'lock version updated'
           end
         end
       end
@@ -268,6 +276,7 @@ h4. things we like
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
         end
 
+        it_behaves_like 'lock version updated'
       end
 
       describe 'update with read-only attributes' do
