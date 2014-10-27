@@ -193,8 +193,8 @@ However for the future we plan to add authentication modes that are more suitabl
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Activity id | Integer | Must be a positive integer | 12 | READ |
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| textileComment | | String | | Lorem ipsum. | READ / WRITE |
-| htmlComment | | String | | Lorem ipsum. | READ |
+| textileComment | | String | | Lorem *ipsum*. | READ / WRITE |
+| htmlComment | | String | | Lorem <strong>ipsum</strong>. | READ |
 | textileDetails | | Array | | ["Priority changed from High to Low"] | READ |
 | htmlDetails | | Array | | ["<strong>Priority changed from High to Low</strong>"] | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
