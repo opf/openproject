@@ -47,7 +47,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project_id: project.id,
                                           cost_object: cost_object) }
-  let(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
+  let(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(work_package, user) }
   let(:representer) { described_class.new(model, current_user: user) }
 
 
