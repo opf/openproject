@@ -42,6 +42,7 @@ branches:
 env:
   # Frontend
   - "TEST_SUITE=karma"
+  - "TEST_SUITE=protractor"
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
   - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
@@ -50,7 +51,7 @@ env:
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
   - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
   - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
+script: "if [[ $TEST_SUITE =~ ^(karma|protractor)$ ]]; then npm run $TEST_SUITE; else bundle exec rake $TEST_SUITE; fi"
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
@@ -59,7 +60,7 @@ before_install:
   - "nvm use 0.10"
   - "travis_retry npm install"
 before_script:
-  - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
+  - "if [[ ! $TEST_SUITE =~ ^(karma|protractor)$ ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
 notifications:
   email: false
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
