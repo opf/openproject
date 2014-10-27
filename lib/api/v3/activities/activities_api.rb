@@ -57,8 +57,7 @@ module API
 
                   representer
                 else
-                  errors = activity.errors.full_messages.join(", ")
-                  fail Errors::Validation.new(activity, description: errors)
+                  fail ::API::Errors::Validation.new(activity)
                 end
               end
 

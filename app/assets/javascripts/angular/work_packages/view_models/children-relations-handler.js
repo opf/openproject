@@ -44,9 +44,14 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
       handler.removeRelation = function(scope) {
           var index = this.relations.indexOf(scope.relation);
           var handler = this;
+          var params = {
+            lockVersion: scope.relation.props.lockVersion,
+            parentId: null
+          };
 
-          WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
+          WorkPackageService.updateWorkPackage(scope.relation, params).then(function(response){
               handler.relations.splice(index, 1);
+              scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
           }, function(error) {
               ApiHelper.handleError(scope, error);

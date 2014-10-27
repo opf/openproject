@@ -29,23 +29,13 @@
 
 module API
   module Errors
-    class Validation < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class Validation < ErrorBase
+      def initialize(obj)
+        messages = obj.respond_to?(:errors) ? obj.errors.full_messages : Array(obj)
 
-      def initialize(obj, args = { })
-        @obj = obj
-        @code = args[:code] || 422
-        @title = args[:title] || 'validation_error'
-        @description = args[:description] || 'Validation failed.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
+        super 422, (messages.length == 1) ? messages[0] + '.' : 'Multiple fields violated their constraints.'
 
-      def errors
-        @obj.nil? ? '' : @obj.errors.full_messages
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+        messages.each { |m| @errors << Validation.new(m) } if messages.length > 1
       end
     end
   end

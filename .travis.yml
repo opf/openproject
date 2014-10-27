@@ -38,6 +38,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - release/4.0
 env:
   # Frontend
   - "TEST_SUITE=karma"

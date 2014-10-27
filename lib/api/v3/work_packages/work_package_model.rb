@@ -40,9 +40,17 @@ module API
         include OpenProject::StaticRouting::UrlHelpers
         include WorkPackagesHelper
 
+        def initialize(object, user)
+          super(object)
+
+          @user = user
+          @can = WorkPackagePolicy.new(user)
+        end
+
         # N.B. required by ActionView::Helpers::UrlHelper
         def controller; nil; end
 
+        property :lock_version,     type: Integer
         property :subject,          type: String
         property :start_date,       type: Date
         property :due_date,         type: Date
@@ -156,17 +164,72 @@ module API
           model.closed?
         end
 
+        validate :user_allowed_to_edit
+        validate :user_allowed_to_edit_parent
+        validate :lock_version_set
+        validate :readonly_attributes_unchanged
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
-        validate :validate_parent_constraint
+        validate :milestone_constraint
+        validate :user_allowed_to_access_parent
 
         private
 
-          def validate_parent_constraint
-            if model.parent
-              errors.add :parent_id, :cannot_be_milestone if model.parent.is_milestone?
+        def user_allowed_to_edit
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
+        end
+
+        def user_allowed_to_edit_parent
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks) if parent_changed?
+        end
+
+        def lock_version_set
+          errors.add :error_conflict, '' if lock_version.nil?
+        end
+
+        def readonly_attributes_unchanged
+          changed_attributes = readonly_attributes.each_with_object([]) do |a, l|
+            if model.respond_to?(a)
+              new = send(a)
+              current = model.send(a)
+
+              new = new.id if !new.nil? && new.respond_to?(:id)
+              current = current.id if !current.nil? && current.respond_to?(:id)
+
+              l << a if new != current
             end
           end
+
+          errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+        end
+
+        def milestone_constraint
+          errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
+        end
+
+        def user_allowed_to_access_parent
+          errors.add(:parent_id, error_message('parent_id.does_not_exist')) if parent_changed? && !parent_visible?
+        end
+
+        def parent_changed?
+          parent_id != model.parent_id
+        end
+
+        def parent_visible?
+          !parent_id || ::WorkPackage.visible(@user).exists?(parent_id)
+        end
+
+        def error_message(path)
+          I18n.t("activerecord.errors.models.work_package.attributes.#{path}")
+        end
+
+        def readonly_attributes
+          all_attributes - [:lock_version, :subject, :parent_id]
+        end
+
+        def all_attributes
+          send(:fields).methods(false).grep(/[^=]$/)
+        end
       end
     end
   end

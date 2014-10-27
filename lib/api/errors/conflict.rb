@@ -29,9 +29,9 @@
 
 module API
   module Errors
-    class Unauthenticated < ErrorBase
+    class Conflict < ErrorBase
       def initialize
-        super 401, 'You need to be authenticated to access this resource.'
+        super 409, 'Couldn\'t update the resource because of conflicting modifications.'
       end
     end
   end

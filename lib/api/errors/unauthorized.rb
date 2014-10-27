@@ -29,23 +29,9 @@
 
 module API
   module Errors
-    class Unauthorized < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
-
-      def initialize(user, args = { })
-        @user = user
-        @code = args[:code] || 403
-        @title = args[:title] || 'not_authorized'
-        @description = args[:description] || 'User does not have sufficent rights to access the resource.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
-
-      def errors
-        [{ key: @title, messages: ['You are not authorize to access this resource'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+    class Unauthorized < ErrorBase
+      def initialize
+        super 403, 'You are not authorized to access this resource.'
       end
     end
   end

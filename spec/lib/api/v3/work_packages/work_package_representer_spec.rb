@@ -34,7 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:representer)  { described_class.new(model, current_user: current_user) }
 
-  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
+  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user) }
   let(:work_package) { FactoryGirl.build(:work_package,
       id: 42,
       created_at: DateTime.now,
@@ -86,6 +86,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'version' do
         it { is_expected.to have_json_path('versionId') }
         it { is_expected.to have_json_path('versionName') }
+      end
+
+      describe 'lock version' do
+        it { is_expected.to have_json_path('lockVersion') }
+
+        it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
+
+        it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
       end
     end
 

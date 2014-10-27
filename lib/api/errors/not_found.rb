@@ -29,23 +29,9 @@
 
 module API
   module Errors
-    class NotFound < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
-
-      def initialize(message, args = { })
-        @message = message
-        @code = args[:code] || 404
-        @title = args[:title] || 'not_found'
-        @description = args[:description] || 'Resource couldn\'t be found.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
-
-      def errors
-        [{ key: @title, messages: [@message] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+    class NotFound < ErrorBase
+      def initialize(message)
+        super 404, message + '.'
       end
     end
   end

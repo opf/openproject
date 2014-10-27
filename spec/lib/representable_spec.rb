@@ -26,13 +26,53 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require 'representable/json'
 
-module API
-  module Errors
-    class Unauthenticated < ErrorBase
-      def initialize
-        super 401, 'You need to be authenticated to access this resource.'
-      end
+describe Representable do
+  let(:object) { Struct.new(:title).new('test') }
+
+  class ReverseNamingStrategy
+    def call(name)
+      name.reverse
+    end
+  end
+
+  describe 'as_strategy with lambda' do
+    class UpcaseRepresenter < Representable::Decorator
+      include Representable::JSON
+
+      self.as_strategy = ->(name) { name.upcase }
+
+      property :title
+    end
+
+    it { expect(UpcaseRepresenter.new(object).to_json).to eql("{\"TITLE\":\"test\"}") }
+  end
+
+  describe 'as_strategy with class responding to #call?' do
+    class ReverseRepresenter < Representable::Decorator
+      include Representable::JSON
+
+      self.as_strategy = ReverseNamingStrategy.new
+
+      property :title
+    end
+
+    it { expect(ReverseRepresenter.new(object).to_json).to eql("{\"eltit\":\"test\"}") }
+  end
+
+  describe 'as_strategy with class not responding to #call?' do
+    it 'raises error' do
+      expect {
+        class FailRepresenter < Representable::Decorator
+          include Representable::JSON
+
+          self.as_strategy = Object.new
+
+          property :title
+        end
+      }.to raise_error(RuntimeError)
     end
   end
 end

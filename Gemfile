@@ -179,9 +179,8 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.7.0'
-gem 'representable', git: 'https://github.com/finnlabs/representable'
-gem 'roar',   '~> 0.12.6'
+gem 'grape', '~> 0.9.0'
+gem 'roar',   '~> 0.12.9'
 gem 'reform', '~> 1.0.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
