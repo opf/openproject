@@ -404,6 +404,7 @@ The request body is the actual textile string that shall be rendered as HTML str
 
 + Model
     + Body
+    
             <p>Hello world! <a href="http://example.com">This</a> <strong>is</strong> textile!</p>
 
 ## Preview Textile document [POST]
@@ -417,7 +418,7 @@ The request body is the actual textile string that shall be rendered as HTML str
 
 + Request (text/plain)
 
-    Hello world! "This":http://example.com *is* textile!
+            Hello world! "This":http://example.com *is* textile!
 
 + Response 200 (text/html)
 
