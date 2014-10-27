@@ -953,8 +953,8 @@ The request body is the actual textile string that shall be rendered as HTML str
 | lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
 | subject | Work package subject | String | not null; 1 <= length <= 255 | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
-| htmlDescription | Work package description rendered as HTML | String | | Projects module should be refactored ... | READ |
-| textileDescription | Work package description as raw textile string | String | | | READ |
+| htmlDescription | Work package description rendered as HTML | String | | <p>Projects module should be refactored...</p> | READ |
+| textileDescription | Work package description as raw textile string | String | | Projects module should be refactored... | READ / WRITE |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
 | status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
