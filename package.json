@@ -14,6 +14,7 @@
     "gulp-jshint": "^1.8.5",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-webpack": "^1.0.0",
+    "json-loader": "^0.5.1",
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
     "karma-chai": "~0.1.0",
@@ -33,7 +34,8 @@
     "sinon": "~1.9.1",
     "sinon-chai": "~2.5.0",
     "webpack": "^1.4.8",
-    "webpack-dev-server": "^1.6.5"
+    "webpack-dev-server": "^1.6.5",
+    "yaml-loader": "^0.1.0"
   },
   "dependencies": {
     "URIjs": "^1.14.1",

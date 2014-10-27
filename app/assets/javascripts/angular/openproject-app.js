@@ -34,6 +34,11 @@ window.URITemplate = URITemplate;
 
 require('hyperagent/dist/hyperagent');
 
+var I18n = require('./vendor/i18n');
+window.I18n = I18n;
+I18n.translations.de = require("json!yaml!./../../../../config/locales/js-de.yml").de;
+I18n.translations.en = require("json!yaml!./../../../../config/locales/js-en.yml").en;
+
 var angular = require('angular');
 require('angular-animate');
 require('angular-modal');
