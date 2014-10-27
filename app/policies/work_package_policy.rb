@@ -46,7 +46,8 @@ class WorkPackagePolicy < BasePolicy
         move: move_allowed?(work_package),
         copy: move_allowed?(work_package),
         duplicate: copy_allowed?(work_package), # duplicating is another form of copying
-        delete: delete_allowed?(work_package)
+        delete: delete_allowed?(work_package),
+        manage_subtasks: manage_subtasks_allowed?(work_package)
       }
     end
   end
@@ -102,5 +103,13 @@ class WorkPackagePolicy < BasePolicy
     end
 
     @type_active_cache[work_package.project].include?(work_package.type_id)
+  end
+
+  def manage_subtasks_allowed?(work_package)
+    @manage_subtasks_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project)
+    end
+
+    @manage_subtasks_cache[work_package.project]
   end
 end

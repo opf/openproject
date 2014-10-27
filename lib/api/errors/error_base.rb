@@ -29,9 +29,30 @@
 
 module API
   module Errors
-    class Unauthenticated < ErrorBase
-      def initialize
-        super 401, 'You need to be authenticated to access this resource.'
+    class ErrorBase < Grape::Exceptions::Base
+      attr_reader :code, :message, :details, :errors
+
+      def self.create(errors)
+        [:error_unauthorized, :error_conflict, :error_readonly].each do |key|
+          if errors.has_key?(key)
+            case key
+            when :error_unauthorized
+              return ::API::Errors::Unauthorized
+            when :error_conflict
+              return ::API::Errors::Conflict
+            when :error_readonly
+              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
+            end
+          end
+        end
+
+        ::API::Errors::Validation.new(errors.full_messages)
+      end
+
+      def initialize(code, message)
+        @code = code
+        @message = message
+        @errors = []
       end
     end
   end

@@ -38,15 +38,30 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getErrorMessage: function(error) {
-      if(error.status == 422) {
-        var response = JSON.parse(error.responseText);
-        return response.errors.join('. ');
-      }
       if(error.status == 500) {
         return error.statusText;
+      } else {
+        var response = JSON.parse(error.responseText);
+        var messages = [];
+        var message;
+
+        if (ApiHelper.isMultiErrorMessage(response)) {
+          angular.forEach(response._embedded.errors, function(error) {
+            this.push(error.message);
+          }, messages);
+        } else {
+          messages.push(response.message);
+        }
+
+        message = messages.join(' ');
+
+        return message;
       }
     },
 
+    isMultiErrorMessage: function(error) {
+      return error.errorIdentifier == 'urn:openproject-org:api:v3:errors:MultipleErrors';
+    }
   };
 
   return ApiHelper;

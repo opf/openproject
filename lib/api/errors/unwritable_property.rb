@@ -29,23 +29,21 @@
 
 module API
   module Errors
-    class UnwritableProperty < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class UnwritableProperty < ErrorBase
+      def initialize(invalid_attributes)
+        attributes = Array(invalid_attributes)
 
-      def initialize(property, args = { })
-        @property = property
-        @code = args[:code] || 422
-        @title = args[:title] || 'unwriteable_property_error'
-        @description = args[:description] || 'You tried to write read-only property.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
+        fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
-      def errors
-        [{ key: @property, messages: ['is read-only'] }]
-      end
+        super 422, 'You must not write a read-only attribute.'
 
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+        if attributes.length > 1
+          invalid_attributes.each do |attribute|
+            @errors << UnwritableProperty.new(attribute)
+          end
+        else
+          @details = { attribute: attributes[0].to_s.camelize(:lower) }
+        end
       end
     end
   end

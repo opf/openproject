@@ -49,10 +49,10 @@ describe API::V3::Activities::ActivitiesAPI, :type => :request do
     it { expect(subject['rawComment']).to eq(comment) }
   end
 
-  shared_examples_for "invalid activity request" do
+  shared_examples_for "invalid activity request" do |message|
     before { allow(User).to receive(:current).and_return(admin) }
 
-    it { expect(last_response.status).to eq(422) }
+    it_behaves_like 'constraint violation', message
   end
 
   describe "PATCH /api/v3/activities/:activityId" do
@@ -75,8 +75,11 @@ describe API::V3::Activities::ActivitiesAPI, :type => :request do
       include_context "edit activity"
     end
 
-    it_behaves_like "invalid activity request" do
-      before { allow_any_instance_of(Journal).to receive(:save).and_return(false) }
+    it_behaves_like "invalid activity request", 'An error occurred' do
+      before do
+        allow_any_instance_of(Journal).to receive(:save).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['An error occurred'])
+      end
 
       include_context "edit activity"
     end

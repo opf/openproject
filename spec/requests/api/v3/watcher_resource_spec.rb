@@ -84,13 +84,7 @@ describe 'API v3 Watcher resource', :type => :request do
       context 'when work package doesn\'t exist' do
         let(:post_path) { "/api/v3/work_packages/9999/watchers" }
 
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
-        end
+        it_behaves_like 'not found', 9999, 'WorkPackage'
       end
     end
 
@@ -98,13 +92,7 @@ describe 'API v3 Watcher resource', :type => :request do
       context 'when the current user is trying to assign another user as watcher' do
         let(:current_user) { unauthorized_user }
 
-        it 'should respond with 403' do
-          expect(subject.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthorized access'
       end
 
       context 'when the current user tries to watch the work package her- or himself' do
@@ -144,13 +132,7 @@ describe 'API v3 Watcher resource', :type => :request do
       context 'when work package doesn\'t exist' do
         let(:delete_path) { "/api/v3/work_packages/9999/watchers/#{watcher.id}" }
 
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
-        end
+        it_behaves_like 'not found', 9999, 'WorkPackage'
       end
     end
 
@@ -158,13 +140,7 @@ describe 'API v3 Watcher resource', :type => :request do
       context 'when the current user tries to deassign another user from the work package watchers' do
         let(:current_user) { unauthorized_user }
 
-        it 'should respond with 403' do
-          expect(subject.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthorized access'
       end
 
       context 'when the current user tries to watch the work package her- or himself' do

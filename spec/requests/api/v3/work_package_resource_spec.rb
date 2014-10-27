@@ -161,14 +161,7 @@ h4. things we like
       context 'requesting nonexistent work package' do
         let(:get_path) { "/api/v3/work_packages/909090" }
 
-        it 'should respond with 404' do
-          expect(last_response.status).to eq(404)
-        end
-
-        it 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
-        end
+        it_behaves_like 'not found', 909090, 'WorkPackage'
       end
     end
 
@@ -178,14 +171,7 @@ h4. things we like
         get get_path
       end
 
-      it 'should respond with 403' do
-        expect(last_response.status).to eq(403)
-      end
-
-      it 'should respond with explanatory error message' do
-        parsed_errors = JSON.parse(last_response.body)['errors']
-        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-      end
+      it_behaves_like 'unauthorized access'
     end
 
     context 'when acting as an anonymous user' do
@@ -194,14 +180,7 @@ h4. things we like
         get get_path
       end
 
-      it 'should respond with 401' do
-        expect(last_response.status).to eq(403)
-      end
-
-      it 'should respond with explanatory error message' do
-        parsed_errors = JSON.parse(last_response.body)['errors']
-        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
-      end
+      it_behaves_like 'unauthorized access'
     end
 
   end
@@ -212,6 +191,7 @@ h4. things we like
     let(:valid_params) do
       {
         _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 
@@ -230,13 +210,19 @@ h4. things we like
 
       include_context 'patch request'
 
-      it { expect(response.status).to eq(403) }
+      it_behaves_like 'unauthorized access'
     end
 
     context 'user with needed permissions' do
+      shared_examples_for 'lock version updated' do
+        it { expect(subject.body).to be_json_eql(work_package.reload.lock_version).at_path('lockVersion') }
+      end
+
       context 'parent id' do
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
-        let(:params) { valid_params.merge({ parentId: parent.id }) }
+        let(:params) { valid_params.merge(parentId: parent.id) }
+
+        before { allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true) }
 
         context 'w/o permission' do
           include_context 'patch request'
@@ -245,46 +231,79 @@ h4. things we like
         end
 
         context 'with permission' do
-          before do
-            allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
-
-            role.add_permission!(:manage_subtasks)
-          end
+          before { role.add_permission!(:manage_subtasks) }
 
           include_context 'patch request'
 
           context 'invalid parent' do
-            let(:invisible_parent) { FactoryGirl.create(:work_package) }
-            let(:params) { valid_params.merge({ parentId: invisible_parent.id }) }
+            let(:params) { valid_params.merge(parentId: '-123') }
 
-            it { expect(WorkPackage.visible(current_user).exists?(invisible_parent.id)).to be_false }
+            it { expect(WorkPackage.visible(current_user).exists?('-123')).to be_falsey }
 
             it { expect(response.status).to eq(422) }
           end
 
           context 'empty id' do
-            let(:params) { valid_params.merge({ parentId: nil }) }
+            let(:params) { valid_params.merge( parentId: nil) }
 
             it { expect(response.status).to eq(200) }
 
             it { expect(subject.body).not_to have_json_path('parentId') }
+
+            it_behaves_like 'lock version updated'
           end
 
           context 'valid id' do
-            let(:params) { valid_params.merge({ parentId: parent.id }) }
+            let(:params) { valid_params.merge(parentId: parent.id) }
 
             it { expect(response.status).to eq(200) }
 
             it { expect(subject.body).to be_json_eql(parent.id.to_json).at_path('parentId') }
+
+            it_behaves_like 'lock version updated'
           end
         end
       end
 
-      context 'valid update' do
-        xit 'should respond with updated work package subject' do
+      context 'subject' do
+        let(:params) { valid_params.merge(subject: 'Updated subject') }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
         end
 
+        it_behaves_like 'lock version updated'
+      end
+
+      describe 'update with read-only attributes' do
+        include_context 'patch request'
+
+        context 'single read-only attribute' do
+          let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
+
+          it_behaves_like 'read-only violation', 'startDate'
+        end
+
+        context 'multiple read-only attributes' do
+          let(:params) do
+            valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
+          end
+
+          it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
+
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
+
+          it_behaves_like 'multiple errors of the same type with details',
+                          'attribute',
+                          'attribute' => ['startDate', 'dueDate']
+        end
+      end
+
+      context 'valid update' do
         xit 'should respond with updated work package priority' do
           expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
         end
@@ -301,28 +320,54 @@ h4. things we like
       end
 
       context 'invalid update' do
-        include_context 'patch request'
+        context 'single invalid attribute' do
+          let(:params) { valid_params.tap { |h| h[:subject] = '' } }
 
-        let(:params) do
-          {
-            subject: ' ',
-            type: FactoryGirl.create(:type).name,
-            rawDescription: '<h1>Updated description</h1>',
-            status: FactoryGirl.create(:status).name,
-            priority: FactoryGirl.create(:priority).name,
-            startDate: (Date.new - 1.week).to_datetime.utc.iso8601,
-            dueDate: (Date.new + 2.weeks).to_datetime.utc.iso8601,
-            percentageDone: 90,
-          }
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation', "Subject can't be blank"
         end
 
-        xit 'should respond with 422' do
-          expect(response.status).to eq 422
+        context 'multiple invalid attributes' do
+          let(:params) do
+            valid_params.tap { |h| h[:subject] = '' }
+                        .merge(parentId: '-123')
+          end
+
+          before { role.add_permission!(:manage_subtasks) }
+
+          include_context 'patch request'
+
+          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
+
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+
+          it_behaves_like 'multiple errors of the same type with messages', ['Subject can\'t be blank.', 'Parent does not exist.']
         end
 
-        xit 'should respond with explanatory error message' do
-          parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq(["Subject can't be blank", "Type is not included in the list"])
+        context 'missing lock version' do
+          let(:params) { valid_params.except(:lockVersion) }
+
+          include_context 'patch request'
+
+          it_behaves_like 'update conflict'
+        end
+
+        context 'state object' do
+          let(:params) { valid_params.merge(subject: 'Updated subject') }
+
+          before do
+            params
+
+            work_package.subject = 'I am the first!'
+            work_package.save!
+
+            expect(valid_params[:lockVersion]).not_to eq(work_package.lock_version)
+          end
+
+          include_context 'patch request'
+
+          it_behaves_like 'update conflict'
         end
       end
     end
