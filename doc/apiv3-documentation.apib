@@ -389,6 +389,51 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Categories by Project][]
     
+# Group Forms
+
+This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
+
+* make writable attributes of a resource discoverable
+* show to which values a property can be set
+* validate changes to a resource and indicate validation errors
+
+A form is associated to a single resource and aids in performing changes on that resource.
+
+## Actions:
+
+| Link                | Description                                                           | Condition                        |
+|:-------------------:|-----------------------------------------------------------------------| -------------------------------- |
+| validate            | Validate changes, show errors and allowed values for changed resource |                                  |
+| commit              | Actually perform changes to the resource                              | form content is valid            |
+| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
+    
+## Embedded Properties:
+
+Forms contain exactly two embedded properties:
+
+* `payload`
+* `fields`
+
+Their purpose is explained below.
+
+### Payload
+
+The payload contains an edited version of the resource that will be modified when commiting the form.
+This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
+thereby acting as a preview for the changes.
+
+The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
+
+### Fields
+
+Fields provide more detailed information about the **writable** properties of a resource.
+Technically `fields` is a dictionary containing names of the writable properties as keys
+and objects describing the corresponding property, here called **field schema**.
+
+#### Field schema
+
+TODO: explain what field schema describes
+
 # Group Priorities
 
 ## Properties
