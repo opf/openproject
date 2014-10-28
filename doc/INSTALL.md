@@ -84,7 +84,15 @@ These are generic (and condensed) installation instructions for the **current de
 
 ### Run!
 
-1. Start Rails:
+1. In development, bundle JavaScript assets using Webpack:
+
+        ./node_modules/webpack/bin/webpack.js
+
+   Pass the `-w` flag to keep Webpack watching for changes.
+
+   In production, this step is executed as part of `rake assets:precompile` task.
+
+2. Start Rails:
 
         bundle exec rails server
 
