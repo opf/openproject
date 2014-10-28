@@ -308,6 +308,11 @@ en:
         title: No work packages to display
         description_html: |
           <p>Either none have been created or all work packages are filtered out.</p>
+      property_groups:
+        details: "Details"
+        people: "People"
+        estimateAndTime: "Estimates & Time"
+        other: "Other"
       properties:
         assignee: "Assignee"
         author: "Author"

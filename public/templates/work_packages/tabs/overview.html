@@ -10,7 +10,7 @@
 
 <div class="detail-panel-attributes">
   <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
-    <h3 ng-bind="group.groupName"></h3>
+    <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
 
     <ul>
       <li ng-repeat="propertyData in group.attributes"

@@ -305,6 +305,11 @@ de:
         title: Keine Arbeitspakete anzuzeigen
         description_html: |
           <p>Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.</p>
+      property_groups:
+        details: "Details"
+        people: "Personen"
+        estimateAndTime: "Schätzungen & Zeit"
+        other: "Andere"
       properties:
         assignee: "Zugewiesen an"
         author: "Autor"
