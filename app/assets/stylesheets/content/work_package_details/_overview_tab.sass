@@ -33,16 +33,14 @@
 
   ul
     list-style-type: none
-    +display(flex)
-    +flex-wrap(wrap)
     margin: 10px 0 0 0
     padding: 0
 
     li
       margin: 0 0 25px 0
       padding: 0
-      +flex(1 0 33%)
-      max-width: 33%
+      +display(flex)
+      width: 100%
 
 .detail-panel-attributes-toggler
   float: left
@@ -55,10 +53,12 @@
   font-weight: bold
   margin: 0 0 7px 0
   padding: 0 4px 0 0
+  flex: 1
 
 .work-package-attributes--value-container
   padding: 0 4px 0 0
   display: block
+  flex: 2
 
 .work-package-attributes--value
   &.-dynamic,
