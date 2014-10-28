@@ -88,7 +88,16 @@ If you want to follow these steps manually for any reason:
 
 ## Rails backend and integration tests
 
-### Cucumber
+### RSpec
+
+You can run the specs with the following commands:
+
+* `bundle exec rake spec` Run all core specs with a random seed
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
+
+TODO: how to run plugins specs.
+
+### Cucumber [DEPRECATED]
 
 The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
@@ -141,16 +150,7 @@ You can always start a debugger using the step "And I start debugging".
 If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
-### RSpec
-
-You can run the specs with the following commands:
-
-* `bundle exec rake spec` Run all core specs with a random seed
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
-
-TODO: how to run plugins specs.
-
-### Test Unit
+### Test Unit [DEPRECATED]
 
 You can run a single test with the following command:
 
