@@ -52,18 +52,6 @@ module OpenProject::Backlogs::Hooks
       attributes
     end
 
-    def work_packages_overview_attributes(context = {})
-      project = context[:project]
-      attributes = context[:attributes]
-
-      return unless project && project.module_enabled?(:backlogs)
-
-      attributes << :storyPoints
-      attributes << :remainingHours
-
-      attributes
-    end
-
     private
 
     def work_package_show_story_points_attribute(work_package)
@@ -83,6 +71,8 @@ module OpenProject::Backlogs::Hooks
 
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
+
+    render_on :view_work_package_overview_attributes, partial: 'hooks/backlogs/view_work_package_overview_attributes'
 
     def view_work_packages_form_details_bottom(context = {})
       snippet = ''

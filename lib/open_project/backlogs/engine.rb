@@ -126,6 +126,7 @@ module OpenProject::Backlogs
       backlogs/taskboard.css
       backlogs/jquery.flot/excanvas.js
       backlogs/burndown.js
+      angular/openproject-backlogs-app.js
     )
 
     patches [:PermittedParams, :WorkPackage, :Status, :MyController, :Project,
