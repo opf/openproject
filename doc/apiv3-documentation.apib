@@ -163,6 +163,7 @@ embedded errors or simply state that multiple errors occured.
     
 ## List of Error Identifiers
 
+* `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
@@ -259,6 +260,18 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Activity][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+    
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
@@ -398,6 +411,9 @@ This API provides forms as a concept to aid in editing or creating resources. Th
 * validate changes to a resource and indicate validation errors
 
 A form is associated to a single resource and aids in performing changes on that resource.
+When posting to a form endpoint with an empty request body or an empty JSON object,
+you will receive an initial form for the associated resource.
+Subsequent calls to the form should contain a single JSON object as described by the form.
 
 ## Actions:
 
@@ -545,7 +561,7 @@ by the field schema. However you *may* include all the properties sent in the `p
             
 ## Example Form [POST]
 
-+ Request
++ Request (application/json)
 
         {
             "lockVersion": 5,
@@ -556,6 +572,34 @@ by the field schema. However you *may* include all the properties sent in the `p
 + Response 200 (application/hal+json)
 
     [Example Form][]
+    
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body and the request body
+    was not empty.
+    
+    Note that this error only occurs when the content is not at all a single JSON object.
+    It **does not occur** for requests containing undefined properties or invalid property values.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was neither empty, nor did it contain a single JSON object."
+            }
+            
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to modify the associated resource.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit example resources."
+            }
 
 # Group Priorities
 
@@ -818,10 +862,22 @@ by the field schema. However you *may* include all the properties sent in the `p
 
 + Parameters
     + id (required, integer, `1`) ... Query id
-
+    
 + Response 200 (application/hal+json)
 
     [Star Query][]
+    
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
 
 ## Unstar Query [/queries/{id}/unstar]
 
@@ -889,6 +945,18 @@ by the field schema. However you *may* include all the properties sent in the `p
 + Response 200 (application/hal+json)
 
     [Unstar Query][]
+    
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
 
 # Group Statuses
 
@@ -1756,6 +1824,18 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
     [WorkPackage][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+    
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
@@ -1896,9 +1976,9 @@ Gets a list of users that can watch the work package.
 
     [Available Watchers][]
 
-## Comment  WorkPackage [/work_packages/{id}/activities]
+## Comment WorkPackage [/work_packages/{id}/activities]
 
-## Comment  work package [POST]
+## Comment work package [POST]
 
 Creates an activity for the selected work package and, on success, returns the
 updated activity.
@@ -1915,6 +1995,18 @@ updated activity.
 + Response 201 (application/hal+json)
 
     [Activity][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+        
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
     
 + Response 403 (application/hal+json)
 
