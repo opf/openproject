@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,40 +26,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :join, :default_order
-  include Redmine::I18n
+require 'spec_helper'
 
-  def initialize(name, options={})
-    self.name = name
-    self.sortable = options[:sortable]
+describe ::QueryColumn, type: :model do
+  let(:instance) { QueryColumn.new(:query_column) }
 
-    self.groupable = if (groupable = options[:groupable]) == true
-      name.to_s
-    else
-      groupable || false
+  describe :groupable? do
+    it 'is false by default' do
+      expect(instance.groupable?).to be_falsey
     end
-    self.join = options.delete(:join)
 
-    self.default_order = options[:default_order]
-    @caption_key = options[:caption] || name.to_s
+    it 'is true if told so' do
+      instance.groupable = true
+
+      expect(instance.groupable?).to be_truthy
+    end
+
+    it 'is true if a value is provided (e.g. for specifying sql code)' do
+      instance.groupable = "COALESCE(null, 1)"
+
+      expect(instance.groupable?).to be_truthy
+    end
   end
 
-  def caption
-    WorkPackage.human_attribute_name(@caption_key)
-  end
+  describe :sortable? do
+    it 'is false by default' do
+      expect(instance.sortable?).to be_falsey
+    end
 
-  # Returns true if the column is sortable, otherwise false
-  def sortable?
-    !!sortable
-  end
+    it 'is true if told so' do
+      instance.sortable = true
 
-  # Returns true if the column is groupable, otherwise false
-  def groupable?
-    !!groupable
-  end
+      expect(instance.sortable?).to be_truthy
+    end
 
-  def value(issue)
-    issue.send name
+    it 'is true if a value is provided (e.g. for specifying sql code)' do
+      instance.sortable = "COALESCE(null, 1)"
+
+      expect(instance.sortable?).to be_truthy
+    end
+
   end
 end
