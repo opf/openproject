@@ -37,10 +37,6 @@ var WorkPackagesPage = require('./pages/work-packages-page.js');
 describe('OpenProject', function() {
   var page = new WorkPackagesPage();
 
-  before(function() {
-    browser.get('http://localhost:3000/');
-  });
-
   it('should show work packages title', function() {
     page.get();
 

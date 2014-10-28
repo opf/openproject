@@ -31,7 +31,7 @@ function WorkPackagesPage() {
   this.workPackagesTable = $('.workpackages-table');
 
   this.get = function() {
-    browser.get('http://localhost:3000/work_packages');
+    browser.get('/work_packages');
   };
 };
 
