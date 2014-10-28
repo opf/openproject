@@ -33,6 +33,14 @@ function WorkPackagesPage() {
   this.get = function() {
     browser.get('/work_packages');
   };
-};
+
+  this.getSelectableTitle = function() {
+    return $('h2');
+  };
+
+  this.getTableHeaders = function() {
+    return this.workPackagesTable.all(by.css('th'));
+  };
+}
 
 module.exports = WorkPackagesPage;

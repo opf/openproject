@@ -40,13 +40,13 @@ describe('OpenProject', function() {
   it('should show work packages title', function() {
     page.get();
 
-    expect($('h2').getText()).to.eventually.equal('WORK PACKAGES');
+    expect(page.getSelectableTitle().getText()).to.eventually.equal('WORK PACKAGES');
   });
 
   it('should show work packages', function() {
     page.get();
 
-    page.workPackagesTable.all(by.css('th')).getText().then(function(text) {
+    page.getTableHeaders().getText().then(function(text) {
       expect(text).to.include.members([
         '',
         '#',
