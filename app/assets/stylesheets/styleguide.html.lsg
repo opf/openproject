@@ -1,5 +1,5 @@
 # Base setup:
-source: ../stylesheets/default_simple.css.sass
+source: ../stylesheets/default.css.sass
 title: "Living Style Guide for OpenProject"
 
 # Adjust default LivingStyleGuide design:

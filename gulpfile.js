@@ -56,7 +56,7 @@ gulp.task('webpack', function() {
 });
 
 gulp.task('sass', function() {
-  return gulp.src('app/assets/stylesheets/default_simple.css.sass')
+  return gulp.src('app/assets/stylesheets/default.css.sass')
     .pipe(sass({
       bundleExec: true,
       require: 'bourbon'
