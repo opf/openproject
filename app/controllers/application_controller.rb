@@ -506,6 +506,8 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  public(:render_404)
+
   def render_500(options = {})
     message = t(:notice_internal_server_error, :app_title => Setting.app_title)
 
