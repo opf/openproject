@@ -33,6 +33,6 @@
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install --config.interactive=false"
   }
 }
