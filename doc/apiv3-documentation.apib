@@ -1096,7 +1096,7 @@ by the field schema. However you *may* include all the properties sent in the `p
 
     Returned if the client does not have sufficient permissions.
     
-    **Required permission:** view workpackage (on any project)
+    **Required permission:** view work package (on any project)
 
     + Body
         
@@ -1214,8 +1214,8 @@ by the field schema. However you *may* include all the properties sent in the `p
 | Link                | Description                                                          | Condition                        | 
 |:-------------------:|----------------------------------------------------------------------| -------------------------------- | 
 | changeParent        | Endpoint to change the parent (**TBD**: diff to updateImmediately?)  | **Permission**: manage subtasks  |
-| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit workpackage |
-| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit workpackage |
+| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
+| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
 | watch               | Add current user to WP watchers                                      | logged in; not watching          |
 | unwatch             | Remove current user from WP watchers                                 | logged in; watching              |
 | addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher      |
@@ -1760,7 +1760,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
     Returned if the client does not have sufficient permissions.
     
-    **Required permission:** edit workpackage
+    **Required permission:** edit work package
 
     + Body
         
