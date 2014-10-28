@@ -66,7 +66,7 @@ module SCM
 
   module Subversion
     def self.create(path)
-      system_or_raise "svnadmin create #{path}"
+      system_or_raise "svnadmin create #{path} --pre-1.6-compatible"
     end
   end
 
