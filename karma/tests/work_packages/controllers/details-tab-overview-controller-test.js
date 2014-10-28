@@ -36,7 +36,7 @@ describe('DetailsTabOverviewController', function() {
   var scope;
   var buildController;
   var HookService;
-  var ConfigurationService;
+  var WorkPackagesOverviewService;
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
@@ -78,8 +78,11 @@ describe('DetailsTabOverviewController', function() {
                     'openproject.config',
                     'openproject.workPackages.controllers'));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _ConfigurationService_) {
+  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _WorkPackagesOverviewService_) {
     var workPackageId = 99;
+
+    HookService = _HookService_;
+    WorkPackagesOverviewService = _WorkPackagesOverviewService_;
 
     buildController = function() {
       scope = $rootScope.$new();
@@ -90,16 +93,12 @@ describe('DetailsTabOverviewController', function() {
         I18n: I18n,
         UserService: UserService,
         CustomFieldHelper: CustomFieldHelper,
+        WorkPackagesOverviewService: WorkPackagesOverviewService,
+        HookService: HookService
       });
 
       $timeout.flush();
     };
-
-    HookService = _HookService_;
-    ConfigurationService = _ConfigurationService_;
-
-    workPackageAttributesStub = sinon.stub(ConfigurationService, "workPackageAttributes");
-    workPackageAttributesStub.returns(DEFAULT_WORK_PACKAGE_PROPERTIES);
   }));
 
   describe('initialisation', function() {
@@ -109,15 +108,27 @@ describe('DetailsTabOverviewController', function() {
   });
 
   describe('work package properties', function() {
+    function getProperties() {
+      var properties = [];
+
+      angular.forEach(scope.groupedAttributes, function(group) {
+        angular.forEach(group.attributes, function(attribute) {
+          properties.push(attribute);
+        });
+      });
+
+      return properties;
+    }
+
     function fetchPresentPropertiesWithName(propertyName) {
-      return scope.presentWorkPackageProperties.filter(function(propertyData) {
-        return propertyData.property === propertyName;
+      return getProperties().filter(function(propertyData) {
+        return propertyData.property === propertyName && propertyData.value != null;
       });
     }
 
     function fetchEmptyPropertiesWithName(propertyName) {
-      return scope.emptyWorkPackageProperties.filter(function(propertyData) {
-        return propertyData.property === propertyName;
+      return getProperties().filter(function(propertyData) {
+        return propertyData.property === propertyName && propertyName.value == null;
       });
     }
 
@@ -389,7 +400,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('adds the custom property to empty properties', function() {
-          expect(scope.emptyWorkPackageProperties.indexOf(customPropertyName)).to.be.greaterThan(-1);
+          expect(fetchEmptyPropertiesWithName(customPropertyName)).not.to.be.empty;
         });
       });
 
@@ -414,21 +425,16 @@ describe('DetailsTabOverviewController', function() {
       var propertyName = 'myPluginProperty';
       var directiveName = 'my-plugin-property-directive';
 
-      beforeEach(function() {
-        gon.settings = { };
-        gon.settings.work_package_attributes = [propertyName];
-
-        var attributes = DEFAULT_WORK_PACKAGE_PROPERTIES.slice(0);
-        attributes.push(propertyName);
-
-        workPackageAttributesStub.returns(attributes);
-
+      before(function() {
         var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
+
         workPackageOverviewAttributesStub.withArgs('workPackageOverviewAttributes',
                                                    { type: propertyName,
                                                      workPackage: workPackage })
                                          .returns([directiveName]);
         workPackageOverviewAttributesStub.returns([]);
+
+        WorkPackagesOverviewService.addAttributesToGroup('other', [propertyName]);
 
         buildController();
       });
@@ -447,11 +453,17 @@ describe('DetailsTabOverviewController', function() {
     });
 
     describe('Properties are sorted', function() {
+      var propertyNames = ['a', 'b', 'c'];
+
       beforeEach(function() {
         var stub = sinon.stub(I18n, 't');
 
-        stub.withArgs('js.work_packages.properties.spentTime').returns('SpentTime');
+        stub.withArgs('js.work_packages.properties.a').returns('z');
+        stub.withArgs('js.work_packages.properties.b').returns('y');
+        stub.withArgs('js.work_packages.properties.c').returns('x');
         stub.returnsArg(0);
+
+        WorkPackagesOverviewService.addAttributesToGroup('other', propertyNames);
 
         buildController();
       });
@@ -464,16 +476,8 @@ describe('DetailsTabOverviewController', function() {
         var isSorted = function(element, index, array) {
           return index === 0 || String(array[index - 1].label.toLowerCase()) <= String(element.label.toLowerCase());
         };
-        // Don't consider the first 6 properties because those are predefined
-        // and will not be sorted.
-        expect(scope.presentWorkPackageProperties.slice(6).every(isSorted)).to.be.true;
-      });
-
-      it('sorts list of empty properties', function() {
-        var isSorted = function(element, index, array) {
-          return index === 0 || String(array[index - 1].toLowerCase()) <= String(element.toLowerCase());
-        };
-        expect(scope.emptyWorkPackageProperties.every(isSorted)).to.be.true;
+        var groupOtherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', scope.groupedAttributes);
+        expect(groupOtherAttributes.every(isSorted)).to.be.true;
       });
     });
   });
