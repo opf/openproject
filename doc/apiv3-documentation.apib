@@ -393,7 +393,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
 
-* make writable attributes of a resource discoverable
+* make writable properties of a resource discoverable
 * show to which values a property can be set
 * validate changes to a resource and indicate validation errors
 
@@ -454,6 +454,108 @@ resource lists (requiring one or more separate requests).
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
 It is only necessary to include the properties that you want to change and the properties that are defined as **required**
 by the field schema. However you *may* include all the properties sent in the `payload` section.
+
+## Example Form [/example/form]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/example/form" },
+                    "validate": {
+                        "href": "/api/v3/example/form",
+                        "method": "POST"
+                    },
+                    "previewMarkup": {
+                        "href": "/api/v3/render/textile",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/example",
+                        "method": "PATCH"
+                    }
+                },
+                
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "status": { "href": "/api/v3/statuses/1" }
+                        },
+                        "_type": "Example",
+                        "lockVersion": 5,
+                        "subject": "An example title"
+                    },
+                    "fields": {
+                        "lockVersion": {
+                            "type": "Integer",
+                            "required": true
+                        },
+                        "_type": {
+                            "type": "MetaType",
+                            "required": true
+                        },
+                        "subject": {
+                            "type": "String"
+                        },
+                        "status": {
+                            "_links": {
+                                "allowed_values": [
+                                    { "href": "/api/v3/statuses/1", "title": "New" },
+                                    { "href": "/api/v3/statuses/2", "title": "Closed" }
+                                ]
+                            },
+                            
+                            "type": "Status",
+                            
+                            "_embedded": {
+                                "allowed_values": [
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                        "_type": "Status",
+                                        "id": 1,
+                                        "name": "New",
+                                        "position": 1,
+                                        "isDefault": true,
+                                        "isClosed": false,
+                                        "defaultDoneRatio": 0,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    },
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                        "_type": "Status",
+                                        "id": 2,
+                                        "name": "Closed",
+                                        "position": 2,
+                                        "isDefault": false,
+                                        "isClosed": true,
+                                        "defaultDoneRatio": 100,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+            
+## Example Form [POST]
+
++ Request
+
+        {
+            "lockVersion": 5,
+            "_type": "Example",
+            "subject": "An example title"
+        }
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
 
 # Group Priorities
 
