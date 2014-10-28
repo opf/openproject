@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($log, WORK_PACKAGE_ATTRIBUTES, HookService) {
+module.exports = function($log) {
 
   return {
     settingsPresent: function() {
@@ -80,15 +80,5 @@ module.exports = function($log, WORK_PACKAGE_ATTRIBUTES, HookService) {
     enabledModulesPresent : function() {
       return this.settingsPresent() && gon.settings.hasOwnProperty('enabled_modules');
     },
-    workPackageAttributes: function() {
-      var attributes = WORK_PACKAGE_ATTRIBUTES;
-      var enabledModules = (this.enabledModulesPresent()) ? gon.settings.enabled_modules : [];
-
-      HookService.call('workPackagePluginAttributes',
-                       { attributes: attributes,
-                         enabledModules: enabledModules });
-
-      return attributes;
-    }
   };
 };
