@@ -30,35 +30,29 @@
 var openprojectCostsApp = angular.module('openproject');
 
 openprojectCostsApp.run(['HookService', function(HookService) {
-  HookService.register('workPackagePluginAttributes', function(params) {
-    var attributes = params.attributes;
-    var workPackage = params.workPackage;
+  var setupCostsAttributes = function(attributes) {
     var spentTimeIndex = attributes.indexOf('spentTime');
-    var costsActivted = false;
     var costsAttributes = {
-      props: {
-        overallCosts: null,
-        spentHours: 'spentHoursLinked'
-      },
-      embedded: {
-        costObject: null,
-        summarizedCostEntries: 'spentUnits'
-      }
+      overallCosts: null,
+      spentHours: 'spentHoursLinked',
+      costObject: null,
+      summarizedCostEntries: 'spentUnits'
     };
 
-    angular.forEach(costsAttributes, function(costAttributes, property) {
-      angular.forEach(costAttributes, function(id, costAttribute) {
-        if (workPackage[property][costAttribute]) {
-          attributes.push(id || costAttribute);
-          // if at least a single Costs attribute is available in the API
-          // response then the Costs module must be active
-          costsActivted = true;
-        }
-      });
+    angular.forEach(costsAttributes, function(id, costAttribute) {
+      attributes.push(id || costAttribute);
     });
 
-    if (spentTimeIndex >= 0 && costsActivted) {
+    if (spentTimeIndex >= 0) {
       attributes.splice(spentTimeIndex, 1);
+    }
+  }
+
+  HookService.register('workPackagePluginAttributes', function(params) {
+    var costsActivted = params.enabledModules.indexOf('costs_module') >= 0;
+
+    if (costsActivted) {
+      setupCostsAttributes(params.attributes)
     }
   });
 
