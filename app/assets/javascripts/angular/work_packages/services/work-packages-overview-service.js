@@ -64,7 +64,11 @@ module.exports = function(WORK_PACKAGE_ATTRIBUTES) {
       var attributes = this.getGroupAttributes(groupName);
 
       if (attributes) {
-        attributes.splice(position, 0, attribute);
+        if (position) {
+          attributes.splice(position, 0, attribute);
+        } else {
+          attributes.push(attribute);
+        }
       }
     },
     addGroup: function(groupName, position) {
