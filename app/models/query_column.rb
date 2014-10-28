@@ -34,12 +34,8 @@ class QueryColumn
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
+    self.groupable = options[:groupable]
 
-    self.groupable = if (groupable = options[:groupable]) == true
-      name.to_s
-    else
-      groupable || false
-    end
     self.join = options.delete(:join)
 
     self.default_order = options[:default_order]
@@ -48,6 +44,14 @@ class QueryColumn
 
   def caption
     WorkPackage.human_attribute_name(@caption_key)
+  end
+
+  def groupable=(value)
+    @groupable = name_or_value_or_false(value)
+  end
+
+  def sortable=(value)
+    @sortable =  name_or_value_or_false(value)
   end
 
   # Returns true if the column is sortable, otherwise false
@@ -62,5 +66,21 @@ class QueryColumn
 
   def value(issue)
     issue.send name
+  end
+
+  protected
+
+  def name_or_value_or_false(value)
+    # This is different from specifying value = nil in the signature
+    # in that it will also set the value to false if nil is provided.
+    value ||= false
+
+    # Explicitly checking for true because apparently, we do not want
+    # truish values to count here.
+    if (value == true)
+      name.to_s
+    else
+      value
+    end
   end
 end
