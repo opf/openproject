@@ -108,12 +108,18 @@ describe('WorkPackagesOverviewService', function() {
     });
   });
 
-  describe('removeAttributeFromGroup', function() {
+  describe('removeAttribute', function() {
     var groupName = 'estimateAndTime';
     var attribute = 'spentTime';
 
+    it('group contains attribute', function() {
+      var group = Service.getGroupAttributes(groupName);
+
+      expect(group.indexOf(attribute)).to.be.above(-1);
+    });
+
     it('removes attribute from group', function() {
-      Service.removeAttributeFromGroup(groupName, attribute);
+      Service.removeAttribute(attribute);
       var group = Service.getGroupAttributes(groupName);
 
       expect(group).not.to.be.null;

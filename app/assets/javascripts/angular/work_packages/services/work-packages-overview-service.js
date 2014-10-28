@@ -80,14 +80,13 @@ module.exports = function(WORK_PACKAGE_ATTRIBUTES) {
         }
       }
     },
-    removeAttributeFromGroup: function(groupName, attribute) {
-      var attributes = this.getGroupAttributes(groupName);
-
-      if (attributes) {
-        var index = attributes.indexOf(attribute);
+    removeAttribute: function(attribute) {
+      for (var x=0; x < workPackageDetailsAttributes.length; x++) {
+        var group = workPackageDetailsAttributes[x];
+        var index = group.attributes.indexOf(attribute);
 
         if (index >= 0) {
-          attributes.splice(index, 1);
+          group.attributes.splice(index, 1);
         }
       }
     }
