@@ -46,6 +46,6 @@
     "test": "npm run karma && npm run protractor",
     "karma": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
     "protractor": "./node_modules/gulp/bin/gulp.js tests:protractor",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install --config.interactive=false"
   }
 }
