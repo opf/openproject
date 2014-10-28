@@ -69,8 +69,8 @@ gulp.task('sass', function() {
 
 gulp.task('express', function() {
   var app = require('./protractor/server');
-  server = app.listen(3000, function() {
-    console.log('Listening at localhost:3000');
+  server = app.listen(8080, function() {
+    console.log('Listening at localhost:8080');
   });
 });
 
