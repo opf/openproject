@@ -169,6 +169,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
+* `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
@@ -425,10 +426,11 @@ Subsequent calls to the form should contain a single JSON object as described by
     
 ## Embedded Properties:
 
-Forms contain exactly two embedded properties:
+Forms contain exactly three embedded properties:
 
 * `payload`
 * `fields`
+* `validationErrors`
 
 Their purpose is explained below.
 
@@ -437,6 +439,8 @@ Their purpose is explained below.
 The payload contains an edited version of the resource that will be modified when commiting the form.
 This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
 thereby acting as a preview for the changes.
+
+**TBD**: what if the content of a value is invalid/undefined? (null? old value? invalid new value?)
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
@@ -470,6 +474,13 @@ resource lists (requiring one or more separate requests).
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
 It is only necessary to include the properties that you want to change and the properties that are defined as **required**
 by the field schema. However you *may* include all the properties sent in the `payload` section.
+
+### Validation Errors
+
+Like `fields` the validation errors build a dictionary where the key is a property name.
+Each value is an error object that indicates the error that occured validating the corresponding property.
+
+There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 
 ## Example Form [/example/form]
 
@@ -555,7 +566,8 @@ by the field schema. However you *may* include all the properties sent in the `p
                                 ]
                             }
                         }
-                    }
+                    },
+                    "validationErrors": { }
                 }
             }
             
