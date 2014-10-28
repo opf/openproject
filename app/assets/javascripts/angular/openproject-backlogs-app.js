@@ -36,20 +36,10 @@
 // main app
 var openprojectBacklogsApp = angular.module('openproject');
 
-openprojectCostsApp.run(['HookService', function(HookService) {
-  var setupBacklogsAttributes = function(attributes) {
-    var backlogsAttributes = ['storyPoints', 'remainingHours'];
-
-    angular.forEach(backlogsAttributes, function(attribute) {
-      attributes.push(attribute);
-    });
-  };
-
-  HookService.register('workPackagePluginAttributes', function(params) {
-    var backlogsActivated = params.enabledModules.indexOf('backlogs') >= 0;
-
-    if (backlogsActivated) {
-      setupBacklogsAttributes(params.attributes);
-    }
-  });
+openprojectCostsApp.run([ 'ConfigurationService',
+                         'WorkPackagesOverviewService',
+                         function(ConfigurationService, WorkPackagesOverviewService) {
+  if (ConfigurationService.isModuleEnabled('backlogs')) {
+    WorkPackagesOverviewService.addAttributesToGroup('estimatesAndTime', ['storyPoints', 'remainingHours']);
+  }
 }]);
