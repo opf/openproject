@@ -37,26 +37,19 @@
 var openprojectBacklogsApp = angular.module('openproject');
 
 openprojectCostsApp.run(['HookService', function(HookService) {
-  HookService.register('workPackagePluginAttributes', function(params) {
-    var attributes = params.attributes;
-    var workPackage = params.workPackage;
-    var backlogsActivated = false;
-    var backlogsAttributes = {
-      props: {
-        storyPoints: null,
-        remainingHours: null
-      }
-    };
+  var setupBacklogsAttributes = function(attributes) {
+    var backlogsAttributes = ['storyPoints', 'remainingHours'];
 
-    angular.forEach(backlogsAttributes, function(costAttributes, property) {
-      angular.forEach(costAttributes, function(id, backlogsAttribute) {
-        if (workPackage[property][backlogsAttribute]) {
-          attributes.push(id || backlogsAttribute);
-          // if at least a single Backlogs attribute is available in the API
-          // response then the Backlogs module must be active
-          backlogsActivated = true;
-        }
-      });
+    angular.forEach(backlogsAttributes, function(attribute) {
+      attributes.push(attribute);
     });
+  };
+
+  HookService.register('workPackagePluginAttributes', function(params) {
+    var backlogsActivated = params.enabledModules.indexOf('backlogs') >= 0;
+
+    if (backlogsActivated) {
+      setupBacklogsAttributes(params.attributes);
+    }
   });
 }]);
