@@ -43,11 +43,11 @@ describe('WorkPackagesOverviewService', function() {
     var attributes = ['status', 'percentageDone', 'date', 'priority', 'versionName', 'category'];
 
     it('has details', function() {
-      var group = Service.getGroupAttributes(groupName);
+      var attributes = Service.getGroupAttributes(groupName);
 
-      expect(group).not.to.be.null;
-      expect(group).to.have.length(attributes.length);
-      expect(group).to.include.members(attributes);
+      expect(attributes).not.to.be.null;
+      expect(attributes).to.have.length(attributes.length);
+      expect(attributes).to.include.members(attributes);
     });
   });
 
@@ -57,10 +57,10 @@ describe('WorkPackagesOverviewService', function() {
 
     it('adds attributes to group', function() {
       Service.addAttributesToGroup(groupName, attributes);
-      var group = Service.getGroupAttributes(groupName);
+      var attributes = Service.getGroupAttributes(groupName);
 
-      expect(group).not.to.be.null;
-      expect(group).to.include.members(attributes);
+      expect(attributes).not.to.be.null;
+      expect(attributes).to.include.members(attributes);
     });
   });
 
@@ -71,12 +71,12 @@ describe('WorkPackagesOverviewService', function() {
 
     it('adds attribute to specific position in group', function() {
       Service.addAttributeToGroup(groupName, attribute, position);
-      var group = Service.getGroupAttributes(groupName);
+      var attributes = Service.getGroupAttributes(groupName);
 
-      expect(group).not.to.be.null;
-      expect(group).to.have.length(3);
-      expect(group).to.include.members(['assignee', 'responsible', attribute]);
-      expect(group[1]).to.equal(attribute);
+      expect(attributes).not.to.be.null;
+      expect(attributes).to.have.length(3);
+      expect(attributes).to.include.members(['assignee', 'responsible', attribute]);
+      expect(attributes[1]).to.equal(attribute);
     });
   });
 
@@ -113,18 +113,18 @@ describe('WorkPackagesOverviewService', function() {
     var attribute = 'spentTime';
 
     it('group contains attribute', function() {
-      var group = Service.getGroupAttributes(groupName);
+      var attributes = Service.getGroupAttributes(groupName);
 
-      expect(group.indexOf(attribute)).to.be.above(-1);
+      expect(attributes.indexOf(attribute)).to.be.above(-1);
     });
 
     it('removes attribute from group', function() {
       Service.removeAttribute(attribute);
-      var group = Service.getGroupAttributes(groupName);
+      var attributes = Service.getGroupAttributes(groupName);
 
-      expect(group).not.to.be.null;
-      expect(group).to.have.length(1);
-      expect(group).to.include.members(['estimatedTime']);
+      expect(attributes).not.to.be.null;
+      expect(attributes).to.have.length(1);
+      expect(attributes).to.include.members(['estimatedTime']);
     });
   });
 });
