@@ -177,5 +177,15 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
+  $scope.isGroupEmpty = function(group) {
+    return group.attributes.filter(function(element) {
+      return !!element.value;
+    }).length == 0;
+  };
 
+  $scope.anyEmptyWorkPackageValue = function() {
+    return $scope.groupedAttributes.filter(function(element) {
+      return $scope.isGroupEmpty(element);
+    }).length > 0;
+  };
 }

@@ -9,11 +9,12 @@
 
 
 <div class="detail-panel-attributes">
-  <div ng-repeat="group in groupedAttributes" class="detail-panel-attributes-group">
+  <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
     <h3 ng-bind="group.groupName"></h3>
 
     <ul>
-      <li ng-repeat="propertyData in group.attributes">
+      <li ng-repeat="propertyData in group.attributes"
+          ng-show="propertyData.value || !toggleStates.hideAllAttributes">
         <div class="work-package-attributes--label" ng-bind="propertyData.label"></div>
 
         <div class="work-package-attributes--value-container" ng-switch="propertyData.value">
@@ -42,6 +43,12 @@
       </li>
     </ul>
   </div>
+
+  <panel-expander if="anyEmptyWorkPackageValue()"
+                  collapsed="toggleStates.hideAllAttributes"
+                  expand-text="{{ I18n.t('js.label_show_attributes') }}"
+                  collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+  </panel-expander>
 </div>
 
 <div class="detail-panel-latest-activity">
