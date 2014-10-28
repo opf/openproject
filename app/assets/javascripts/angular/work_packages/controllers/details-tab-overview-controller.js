@@ -107,6 +107,15 @@ module.exports = function($scope,
 
       group.attributes = attributesWithValues;
     });
+
+    // The loops before overwrite the attributes array of group 'other'. Thus,
+    // to get the current values of that array, I need to get that array again.
+    otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
+    // Sorting the 'other' group is an acutal requirement. So, check if the
+    // requirement has changed before removing this code!
+    otherAttributes.sort(function(a, b) {
+      return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
+    });
   })();
 
   function getWorkPackageProperty(property) {
