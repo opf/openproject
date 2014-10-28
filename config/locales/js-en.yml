@@ -36,6 +36,8 @@
 en:
   js:
     work_packages:
+      property_groups:
+        costs: "Costs"
       properties:
         costObject: "Budget"
         spentHoursLinked: "Spent time"

@@ -29,9 +29,12 @@
 // main app
 var openprojectCostsApp = angular.module('openproject');
 
-openprojectCostsApp.run(['HookService', function(HookService) {
-  var setupCostsAttributes = function(attributes) {
-    var spentTimeIndex = attributes.indexOf('spentTime');
+openprojectCostsApp.run(['HookService',
+                         'ConfigurationService',
+                         'WorkPackagesOverviewService',
+                         function(HookService, ConfigurationService, WorkPackagesOverviewService) {
+  var setupCostsAttributes = function() {
+    var position = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes().length - 1;
     var costsAttributes = {
       overallCosts: null,
       spentHours: 'spentHoursLinked',
@@ -39,22 +42,17 @@ openprojectCostsApp.run(['HookService', function(HookService) {
       summarizedCostEntries: 'spentUnits'
     };
 
-    angular.forEach(costsAttributes, function(id, costAttribute) {
-      attributes.push(id || costAttribute);
-    });
+    WorkPackagesOverviewService.removeAttribute('spentTime');
+    WorkPackagesOverviewService.addGroup('costs', position);
 
-    if (spentTimeIndex >= 0) {
-      attributes.splice(spentTimeIndex, 1);
-    }
+    angular.forEach(costsAttributes, function(id, costAttribute) {
+      WorkPackagesOverviewService.addAttributeToGroup('costs', id || costAttribute);
+    });
   }
 
-  HookService.register('workPackagePluginAttributes', function(params) {
-    var costsActivted = params.enabledModules.indexOf('costs_module') >= 0;
-
-    if (costsActivted) {
-      setupCostsAttributes(params.attributes)
-    }
-  });
+  if (ConfigurationService.isModuleEnabled('costs_module')) {
+    setupCostsAttributes();
+  }
 
   HookService.register('workPackageOverviewAttributes', function(params) {
     var directive;
