@@ -432,7 +432,23 @@ and objects describing the corresponding property, here called **field schema**.
 
 #### Field schema
 
-TODO: explain what field schema describes
+**Linked Properties**
+
+| Property       | Description                                                    | Example       |
+|:--------------:|----------------------------------------------------------------| ------------- |
+| allowed_values | List of resources that are assignable by the current user.     | `{ href: "/api/v3/statuses" }` |
+
+**Properties**
+
+| Property       | Description                                                    | Example       |
+|:--------------:|----------------------------------------------------------------| ------------- |
+| type           | The data type of the properties values                         | String        |
+
+**Remarks**
+
+The `allowed_values` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
+resource lists (requiring one or more separate requests).
 
 # Group Priorities
 
