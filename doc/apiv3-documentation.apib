@@ -440,15 +440,20 @@ and objects describing the corresponding property, here called **field schema**.
 
 **Properties**
 
-| Property       | Description                                                    | Example       |
-|:--------------:|----------------------------------------------------------------| ------------- |
-| type           | The data type of the properties values                         | String        |
+| Property       | Description                                                    | Example       | Default |
+|:--------------:|----------------------------------------------------------------| ------------- | ------- |
+| type           | The data type of the properties values                         | String        |         |
+| required | If true every request body for the current resource **must** contain this property | true | false |
 
 **Remarks**
 
 The `allowed_values` can either contain a list of canonical links or just a single link to a collection resource.
 This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
 resource lists (requiring one or more separate requests).
+
+A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+It is only necessary to include the properties that you want to change and the properties that are defined as **required**
+by the field schema. However you *may* include all the properties sent in the `payload` section.
 
 # Group Priorities
 
