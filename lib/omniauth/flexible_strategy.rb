@@ -60,6 +60,14 @@ module OmniAuth
       @provider
     end
 
+    def omniauth_hash_to_user_attributes(auth)
+      if options.key?(:openproject_attribute_map)
+        options[:openproject_attribute_map].call(auth)
+      else
+        {}
+      end
+    end
+
     def path_for_provider(name)
       "#{path_prefix}/#{name}"
     end

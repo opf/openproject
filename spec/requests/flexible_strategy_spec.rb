@@ -93,4 +93,43 @@ describe OmniAuth::FlexibleStrategy do
       expect(env).not_to include 'omniauth.strategy' # no hit
     end
   end
+
+  describe 'calling strategies' do
+    let(:provider_with_mapping) do
+      {
+        name: 'provider_with_mapping',
+        openproject_attribute_map: Proc.new do |auth|
+          { uid: auth[:info][:myUsername], mail: auth[:extra][:raw_info][:myMail] }
+        end
+      }
+    end
+    let(:auth_hash) do
+      {
+        info: { myUsername: 'foo', myFullName: 'Foo Bar' },
+        extra: { raw_info: { myMail: 'foo@example.com' } }
+      }
+    end
+
+    before do
+      middleware.providers = [provider_a, provider_with_mapping]
+    end
+
+    context 'with a mapping set' do
+      it 'returns an attribute hash' do
+        middleware.call env_for("http://www.example.com/auth/provider_with_mapping")
+
+        attribute_map = middleware.omniauth_hash_to_user_attributes(auth_hash)
+        expect(attribute_map).to eq({ uid: 'foo', mail: 'foo@example.com' })
+      end
+    end
+
+    context 'without a mapping set' do
+      it 'returns an empty hash' do
+        middleware.call env_for("http://www.example.com/auth/provider_a")
+
+        attribute_map = middleware.omniauth_hash_to_user_attributes(auth_hash)
+        expect(attribute_map).to eq({})
+      end
+    end
+  end
 end
