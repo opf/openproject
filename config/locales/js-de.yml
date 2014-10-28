@@ -308,7 +308,7 @@ de:
       property_groups:
         details: "Details"
         people: "Personen"
-        estimateAndTime: "Schätzungen & Zeit"
+        estimatesAndTime: "Schätzungen & Zeit"
         other: "Andere"
       properties:
         assignee: "Zugewiesen an"

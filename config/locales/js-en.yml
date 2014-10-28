@@ -311,7 +311,7 @@ en:
       property_groups:
         details: "Details"
         people: "People"
-        estimateAndTime: "Estimates & Time"
+        estimatesAndTime: "Estimates & Time"
         other: "Other"
       properties:
         assignee: "Assignee"

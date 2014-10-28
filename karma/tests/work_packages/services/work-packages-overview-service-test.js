@@ -109,7 +109,7 @@ describe('WorkPackagesOverviewService', function() {
   });
 
   describe('removeAttribute', function() {
-    var groupName = 'estimateAndTime';
+    var groupName = 'estimatesAndTime';
     var attribute = 'spentTime';
 
     it('group contains attribute', function() {
