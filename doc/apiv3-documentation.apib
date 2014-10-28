@@ -18,6 +18,7 @@ TODO: Description & Resources
 TODO: Description and why only JSON
 
 # HAL+JSON
+
 HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
 Read more: http://stateless.co/hal_specification.html
 
@@ -29,6 +30,10 @@ Read more: http://stateless.co/hal_specification.html
     - `_count` - number of records fetched in the response
     - `_total` - number of available records
 
+HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
+partially represented (e.g. some properties can be left out).
+However in this API you have the guarantee that whenever a resource is **embedded**, it is embedded in its **full representation**.
+    
 # API response structure
 
 All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
