@@ -34,14 +34,19 @@ module.exports = function(WORK_PACKAGE_ATTRIBUTES) {
     getGroupedWorkPackageOverviewAttributes: function() {
       return angular.copy(workPackageDetailsAttributes);
     },
-    getGroupAttributesForGroupedAttributes: function(groupName, groupedAttributes) {
+    getGroup: function(groupName, groupedAttributes) {
       for (var x=0; x < groupedAttributes.length; x++) {
         if (groupedAttributes[x].groupName === groupName) {
-          return groupedAttributes[x].attributes;
+          return groupedAttributes[x];
         }
       }
 
       return null;
+    },
+    getGroupAttributesForGroupedAttributes: function(groupName, groupedAttributes) {
+      var group = this.getGroup(groupName, groupedAttributes);
+
+      return (group ? group.attributes : null);
     },
     getGroupAttributes: function(groupName) {
       return this.getGroupAttributesForGroupedAttributes(groupName, workPackageDetailsAttributes);
@@ -60,6 +65,19 @@ module.exports = function(WORK_PACKAGE_ATTRIBUTES) {
 
       if (attributes) {
         attributes.splice(position, 0, attribute);
+      }
+    },
+    addGroup: function(groupName, position) {
+      var group = this.getGroup(groupName, workPackageDetailsAttributes);
+
+      if (!group) {
+        group = { groupName: groupName, attributes: [] };
+
+        if (position) {
+          workPackageDetailsAttributes.splice(position, 0, group);
+        } else {
+          workPackageDetailsAttributes.push(group);
+        }
       }
     },
     removeAttributeFromGroup: function(groupName, attribute) {

@@ -80,6 +80,34 @@ describe('WorkPackagesOverviewService', function() {
     });
   });
 
+  describe('addGroup', function() {
+    var groupName = 'myPluginGroup';
+
+    describe('w/o position', function() {
+      it('adds group to the end', function() {
+        Service.addGroup(groupName);
+        var groupedAttributs = Service.getGroupedWorkPackageOverviewAttributes();
+        var lastElementIndex = groupedAttributs.length - 1;
+
+        expect(groupedAttributs[lastElementIndex].groupName).to.equal(groupName);
+        expect(groupedAttributs[lastElementIndex].attributes).to.be.empty;
+      });
+    });
+
+    describe('with position', function() {
+      var position = 2;
+
+      it('adds group to the specified position', function() {
+        Service.addGroup(groupName, position);
+        var groupedAttributs = Service.getGroupedWorkPackageOverviewAttributes();
+
+        expect(groupedAttributs.length).to.equal(5);
+        expect(groupedAttributs[position].groupName).to.equal(groupName);
+        expect(groupedAttributs[position].attributes).to.be.empty;
+      });
+    });
+  });
+
   describe('removeAttributeFromGroup', function() {
     var groupName = 'estimateAndTime';
     var attribute = 'spentTime';
