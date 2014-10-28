@@ -52,11 +52,9 @@ These are generic (and condensed) installation instructions for the **current de
 
         bundle install
 
-2. Install JavaScript dependencies with [npm] and [Bower]:
+2. Install JavaScript dependencies with [npm]:
 
-        npm -g install bower
         npm install
-        bower install
 
 ### Configure Rails
 
