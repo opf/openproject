@@ -77,8 +77,11 @@ module.exports = function($log) {
     timeFormat: function() {
       return gon.settings.display.time_format;
     },
-    enabledModulesPresent : function() {
+    enabledModulesPresent: function() {
       return this.settingsPresent() && gon.settings.hasOwnProperty('enabled_modules');
+    },
+    isModuleEnabled: function(module) {
+      return gon.settings.enabled_modules.indexOf(module) >= 0;
     },
   };
 };
