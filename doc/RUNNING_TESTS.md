@@ -73,17 +73,17 @@ If you want to follow these steps manually for any reason:
 
 1. Ensure you have the the latest Selenium WebDriver:
 
-       npm install -g protractor
-       webdriver-manager update
+        npm install -g protractor
+        webdriver-manager update
 
 2. You can start the frontend application
 
-       gulp express
+        gulp express
 
 3. You can then proceed to start both the Selenium server and Protractor:
 
-       webdriver-manager start
-       ./node_modules/protractor/bin/protractor protractor/conf.js
+        webdriver-manager start
+        ./node_modules/protractor/bin/protractor protractor/conf.js
 
 
 ## Rails backend and integration tests
