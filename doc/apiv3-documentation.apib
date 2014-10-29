@@ -473,7 +473,8 @@ and objects describing the corresponding property, here called **field schema**.
 | Property       | Description                                                    | Example       | Default |
 |:--------------:|----------------------------------------------------------------| ------------- | ------- |
 | type           | The data type of the properties values                         | String        |         |
-| required   | If true every request for the current resource **must** contain this property | true | false |
+| required       | If true every request **must** contain this property           | true          | false   |
+| writable       | If false it is not allowed to **change** the properties value  | false         | true    |
 
 **Remarks**
 
@@ -528,11 +529,13 @@ There are only key value pairs for properties that failed validation, the elemen
                     "fields": {
                         "lockVersion": {
                             "type": "Integer",
-                            "required": true
+                            "required": true,
+                            "writable": false
                         },
                         "_type": {
                             "type": "MetaType",
-                            "required": true
+                            "required": true,
+                            "writable": false
                         },
                         "subject": {
                             "type": "String"
