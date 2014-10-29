@@ -434,7 +434,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 Forms contain exactly three embedded properties:
 
 * `payload`
-* `fields`
+* `schema`
 * `validationErrors`
 
 Their purpose is explained below.
@@ -454,11 +454,11 @@ contain a default value for that property. Nevertheless the client will also rec
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
-### Fields
+### Schema
 
-Fields provide more detailed information about the **writable** properties of a resource.
-Technically `fields` is a dictionary containing names of the writable properties as keys
-and objects describing the corresponding property, here called **field schema**.
+The schema provides more detailed information about the properties of a resource.
+Technically `schema` is a dictionary containing names of properties as keys
+and objects describing the corresponding property as values. The values are called **field schema**.
 
 #### Field schema
 
@@ -488,7 +488,7 @@ by the field schema. However you *may* include all the properties sent in the `p
 
 ### Validation Errors
 
-Like `fields` the validation errors build a dictionary where the key is a property name.
+Like `schema` the validation errors build a dictionary where the key is a property name.
 Each value is an error object that indicates the error that occured validating the corresponding property.
 
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
@@ -526,7 +526,7 @@ There are only key value pairs for properties that failed validation, the elemen
                         "lockVersion": 5,
                         "subject": "An example title"
                     },
-                    "fields": {
+                    "schema": {
                         "lockVersion": {
                             "type": "Integer",
                             "required": true,
@@ -1830,7 +1830,7 @@ Note that it is only allowed to provide properties or links supporting the **wri
 Additionally to the fields the client wants to change, it is mandatory to provide:
 
 * The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from.
+* The value of `lockVersion` which was received by the `GET` request this change originates from
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
