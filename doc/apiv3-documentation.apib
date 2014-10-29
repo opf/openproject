@@ -33,7 +33,7 @@ Read more: http://stateless.co/hal_specification.html
 HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
 partially represented (e.g. some properties can be left out).
 However in this API you have the guarantee that whenever a resource is **embedded**, it is embedded in its **full representation**.
-    
+
 # API response structure
 
 All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
@@ -165,7 +165,7 @@ embedded errors or simply state that multiple errors occured.
             ]
         }
     }
-    
+
 ## List of Error Identifiers
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
@@ -271,34 +271,34 @@ Updates an activity's comment and, on success, returns the updated activity.
     Occurs when the client did not send a valid JSON object in the request body.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was not a single JSON object."
             }
-    
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** edit journals
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to edit the comment of this journal entry."
             }
 
-    
+
 + Response 422 (application/hal+json)
 
     Returned if the client tries to modify a read-only property.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
@@ -372,7 +372,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -398,7 +398,7 @@ Updates an activity's comment and, on success, returns the updated activity.
                     ]
                 }
             }
-            
+
 ## List categories of a project [GET]
 
 + Parameters
@@ -407,7 +407,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Categories by Project][]
-    
+
 # Group Forms
 
 This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
@@ -428,7 +428,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 | validate            | Validate changes, show errors and allowed values for changed resource |                                  |
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
-    
+
 ## Embedded Properties:
 
 Forms contain exactly three embedded properties:
@@ -514,7 +514,7 @@ There are only key value pairs for properties that failed validation, the elemen
                         "method": "PATCH"
                     }
                 },
-                
+
                 "_type": "Form",
 
                 "_embedded": {
@@ -547,9 +547,9 @@ There are only key value pairs for properties that failed validation, the elemen
                                     { "href": "/api/v3/statuses/2", "title": "Closed" }
                                 ]
                             },
-                            
+
                             "type": "Status",
-                            
+
                             "_embedded": {
                                 "allowed_values": [
                                     {
@@ -583,7 +583,7 @@ There are only key value pairs for properties that failed validation, the elemen
                     "validationErrors": { }
                 }
             }
-            
+
 ## show or validate form [POST]
 
 This is an example of how a form might look like. Note that this endpoint does not exist in the actual implementation.
@@ -599,29 +599,29 @@ This is an example of how a form might look like. Note that this endpoint does n
 + Response 200 (application/hal+json)
 
     [Example Form][]
-    
+
 + Response 400 (application/hal+json)
 
     Occurs when the client did not send a valid JSON object in the request body and the request body
     was not empty.
-    
+
     Note that this error only occurs when the content is not at all a single JSON object.
     It **does not occur** for requests containing undefined properties or invalid property values.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was neither empty, nor did it contain a single JSON object."
             }
-            
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions to modify the associated resource.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
@@ -640,7 +640,7 @@ This is an example of how a form might look like. Note that this endpoint does n
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -681,7 +681,7 @@ This is an example of how a form might look like. Note that this endpoint does n
                     ]
                 }
             }
-            
+
 ## List all Priorities [GET]
 
 + Response 200 (application/hal+json)
@@ -889,17 +889,17 @@ This is an example of how a form might look like. Note that this endpoint does n
 
 + Parameters
     + id (required, integer, `1`) ... Query id
-    
+
 + Response 200 (application/hal+json)
 
     [Star Query][]
-    
+
 + Response 400 (application/hal+json)
 
     Occurs when the client did not send an empty request body.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
@@ -972,13 +972,13 @@ This is an example of how a form might look like. Note that this endpoint does n
 + Response 200 (application/hal+json)
 
     [Unstar Query][]
-    
+
 + Response 400 (application/hal+json)
 
     Occurs when the client did not send an empty request body.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
@@ -1010,7 +1010,7 @@ This is an example of how a form might look like. Note that this endpoint does n
 
 + Model
     + Body
-    
+
             {
                 "_links":
                 {
@@ -1134,32 +1134,32 @@ This is an example of how a form might look like. Note that this endpoint does n
                     ]
                 }
             }
-            
+
 ## List all Statuses [GET]
 
 + Response 200 (application/hal+json)
 
     [Statuses][]
-    
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** view work package (on any project)
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the statuses."
             }
-    
+
 ## Status [/statuses/{id}]
 
 + Model
     + Body
-    
+
             {
                 "_links":
                 {
@@ -1178,7 +1178,7 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-21T09:12:00Z"
             }
-            
+
 ## View Status [GET]
 
 **NOT IMPLEMENTED**
@@ -1186,21 +1186,21 @@ This is an example of how a form might look like. Note that this endpoint does n
 + Response 200 (application/hal+json)
 
     [Status][]
-    
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** view work package (on any project)
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see this status."
             }
-    
+
 # Group Users
 
 ## Properties:
@@ -1261,7 +1261,7 @@ This is an example of how a form might look like. Note that this endpoint does n
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -1292,7 +1292,7 @@ This is an example of how a form might look like. Note that this endpoint does n
                     ]
                 }
             }
-            
+
 ## List versions available in a project [GET]
 
 + Parameters
@@ -1301,12 +1301,12 @@ This is an example of how a form might look like. Note that this endpoint does n
 + Response 200 (application/hal+json)
 
     [Versions by Project][]
-    
+
 # Group Work packages
 
 ## Actions:
 
-| Link                | Description                                                          | Condition                        | 
+| Link                | Description                                                          | Condition                        |
 |:-------------------:|----------------------------------------------------------------------| -------------------------------- |
 | update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
 | updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
@@ -1855,39 +1855,39 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     Occurs when the client did not send a valid JSON object in the request body.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was not a single JSON object."
             }
-    
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** edit work package
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to edit the content of the work package."
             }
-    
+
 + Response 409 (application/hal+json)
 
     Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
                 "message": "Your changes could not be saved, because the work package was changed since you've seen it the last time."
             }
-    
+
 + Response 422 (application/hal+json)
 
     Returned if:
@@ -1895,7 +1895,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     * a constraint for a property was violated
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
@@ -1917,7 +1917,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Parameters
     + id (required, integer, `1`) ... ID of the work package being modified
-    
+
 + Response 200 (application/hal+json)
 
     [Example Form][]
@@ -2042,21 +2042,21 @@ updated activity.
     Occurs when the client did not send a valid JSON object in the request body.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was not a single JSON object."
             }
-    
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** create journals
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
