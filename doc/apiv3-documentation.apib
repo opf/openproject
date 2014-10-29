@@ -445,7 +445,12 @@ The payload contains an edited version of the resource that will be modified whe
 This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
 thereby acting as a preview for the changes.
 
-**TBD**: what if the content of a value is invalid/undefined? (null? old value? invalid new value?)
+In case the client tries to set the value to something invalid, the invalid change is also reflected here. However a validation error (see below)
+indicates that a commit of this payload would fail.
+
+It might happen that setting one property affects the allowed values for another property. Thus by changing a property A
+the current value of another property B might become invalid. If the client did not yet touch the value of B, the payload will
+contain a default value for that property. Nevertheless the client will also receive an apropriate validation error for value B.
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
