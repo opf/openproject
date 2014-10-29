@@ -151,28 +151,6 @@ describe WorkPackagesController, :type => :controller do
         allow(query).to receive(:as_json).and_return("")
       end
 
-      describe 'settings passed to front-end client' do
-        describe 'visible attributes' do
-          let(:call_action) { get('index', :project_id => project.id) }
-
-          context 'all attributes visible' do
-            before { call_action }
-
-            it { expect(assigns(:enabled_default_work_package_properties)).to match_array(WorkPackagesController::DEFAULT_WORK_PACKAGE_PROPERTIES) }
-          end
-
-          context 'done ratio is disabled' do
-            before do
-              allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-
-              call_action
-            end
-
-            it { expect(assigns(:enabled_default_work_package_properties)).not_to include(:percentageDone) }
-          end
-        end
-      end
-
       describe 'html' do
         let(:call_action) { get('index', :project_id => project.id) }
         before { call_action }
