@@ -38,16 +38,8 @@
   margin: 15px 0 0 0
   width: 100%
 
-  ul
-    list-style-type: none
+  dl
     margin: 0 0 24px 0
-    padding: 0
-
-    li
-      margin: 0 0 8px 0
-      padding: 0
-      +display(flex)
-      width: 100%
 
 .detail-panel-attributes-toggler
   float: left
@@ -56,27 +48,26 @@
   text-align: center
   border-bottom: 1px solid #ddd
 
+@mixin work-package-attribute-margin
+  margin: 0 0 12px 0
+
 .work-package-attributes--label
+  @include work-package-attribute-margin
   font-weight: bold
-  margin: 0 0 7px 0
   padding: 0 4px 0 0
-  flex: 1
+  float: left
+  clear: left
+  width: 33%
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
 
 .work-package-attributes--value-container
+  @include work-package-attribute-margin
   padding: 0 4px 0 0
-  display: block
-  flex: 2
+  overflow: hidden
 
 .work-package-attributes--value
-  &.-dynamic,
-  &.-version,
-  &.-category,
-  &.-text,
-    +ellipsis
-
   &.-user
     overflow: hidden
 

@@ -12,36 +12,38 @@
   <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
     <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
 
-    <ul>
-      <li ng-repeat="propertyData in group.attributes"
-          ng-show="propertyData.value || !toggleStates.hideAllAttributes">
-        <div class="work-package-attributes--label" ng-bind="propertyData.label"></div>
-
-        <div class="work-package-attributes--value-container" ng-switch="propertyData.value">
-          <div ng-switch-when="null" class="work-package-attributes--value">
-            <empty-element></empty-element>
-          </div>
-          <div ng-switch-default ng-switch="propertyData.format">
-            <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-              <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-              <span ng-switch-when="dynamic" work-package-dynamic-attribute
-                                             html-element="propertyData.value"
-                                             work-package="workPackage">
-              </span>
-              <span ng-switch-when="version">
-                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-              </span>
-              <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
-              <span ng-switch-default
-                ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
-                ng-attr-title="{{propertyData.value}}"/>
-            </div>
+    <dl>
+      <dt ng-repeat-start="propertyData in group.attributes"
+          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-bind="propertyData.label"
+          class="work-package-attributes--label">
+      </dt>
+      <dd ng-repeat-end
+          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-switch="propertyData.value"
+          class="work-package-attributes--value-container">
+        <div ng-switch-when="null" class="work-package-attributes--value">
+          <empty-element></empty-element>
+        </div>
+        <div ng-switch-default ng-switch="propertyData.format">
+          <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+            <user-field ng-switch-when="user" user="propertyData.value"></user-field>
+            <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                           html-element="propertyData.value"
+                                           work-package="workPackage">
+            </span>
+            <span ng-switch-when="version">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
+            <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
+            <span ng-switch-default
+              ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
+              ng-attr-title="{{propertyData.value}}"/>
           </div>
         </div>
-
-      </li>
-    </ul>
+      </dd>
+    </dl>
   </div>
 
   <panel-expander if="anyEmptyWorkPackageValue()"
