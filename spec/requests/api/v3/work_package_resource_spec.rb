@@ -284,6 +284,36 @@ h4. things we like
         it_behaves_like 'lock version updated'
       end
 
+      context 'description' do
+        shared_examples_for 'description updated' do |description|
+          it 'should respond with updated work package description' do
+            expect(subject.body).to be_json_eql(description.to_json).at_path('description')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'w/o value (empty)' do
+          let(:params) { valid_params.merge(rawDescription: nil) }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it_behaves_like 'description updated', ''
+        end
+
+        context 'with value' do
+          let(:params) { valid_params.merge(rawDescription: '*Some text* _describing_ *something*...') }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it_behaves_like 'description updated', '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+        end
+      end
+
       describe 'update with read-only attributes' do
         include_context 'patch request'
 
@@ -349,11 +379,6 @@ h4. things we like
           expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
           expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
         end
-
-        xit 'should allow html in raw description' do
-          expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
-        end
-
       end
 
       context 'invalid update' do
