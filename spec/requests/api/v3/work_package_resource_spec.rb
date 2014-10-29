@@ -287,10 +287,42 @@ h4. things we like
       describe 'update with read-only attributes' do
         include_context 'patch request'
 
-        context 'single read-only attribute' do
-          let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
+        describe 'single read-only violation' do
+          context 'start date' do
+            let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
 
-          it_behaves_like 'read-only violation', 'startDate'
+            it_behaves_like 'read-only violation', 'startDate'
+          end
+
+          context 'due date' do
+            let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
+
+            it_behaves_like 'read-only violation', 'dueDate'
+          end
+
+          context 'created_at' do
+            let(:params) { valid_params.merge(createdAt: DateTime.now.utc.iso8601) }
+
+            it_behaves_like 'read-only violation', 'createdAt'
+          end
+
+          context 'updated_at' do
+            let(:params) { valid_params.merge(updatedAt: DateTime.now.utc.iso8601) }
+
+            it_behaves_like 'read-only violation', 'updatedAt'
+          end
+
+          context 'project id' do
+            let(:params) { valid_params.merge(projectId: 1) }
+
+            it_behaves_like 'read-only violation', 'projectId'
+          end
+
+          context 'fixed version id' do
+            let(:params) { valid_params.merge(versionId: 1) }
+
+            it_behaves_like 'read-only violation', 'fixedVersionId'
+          end
         end
 
         context 'multiple read-only attributes' do
