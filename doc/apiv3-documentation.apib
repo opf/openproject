@@ -1911,12 +1911,16 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
 This endpoint returns a form to allow a guided modification of an existing work package.
 
-For more details see the general specification of [Forms](#forms).
+For more details and all possible responses see the general specification of [Forms](#forms).
 
 ## WorkPackage Edit Form [POST]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the work package being modified
+    
++ Response 200 (application/hal+json)
+
+    [Example Form][]
 
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
 
