@@ -59,7 +59,9 @@ openprojectCostsApp.run(['HookService',
 
     switch (params.type) {
       case "spentUnits":
-        if (params.workPackage.embedded.summarizedCostEntries.length > 0) {
+        var summarizedCostEntries = params.workPackage.embedded.summarizedCostEntries;
+
+        if (summarizedCostEntries && summarizedCostEntries.length > 0) {
           directive = "summarized-cost-entries";
         }
         break;
