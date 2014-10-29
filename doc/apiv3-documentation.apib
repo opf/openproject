@@ -490,8 +490,10 @@ by the field schema. However you *may* include all the properties sent in the `p
 
 Like `schema` the validation errors build a dictionary where the key is a property name.
 Each value is an error object that indicates the error that occured validating the corresponding property.
-
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
+
+However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
+That is because the main purpose of a form is helping the client to sort out validation errors.
 
 ## Example Form [/example/form]
 
