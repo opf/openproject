@@ -188,14 +188,18 @@ module API
 
         def readonly_attributes_unchanged
           changed_attributes = readonly_attributes.each_with_object([]) do |a, l|
-            if model.respond_to?(a)
-              new = send(a)
-              current = model.send(a)
+            attribute_model = (a.is_a? Hash) ? a.values[0] : a
+            attribute_form = (a.is_a? Hash) ? a.keys[0] : a
+
+            if model.respond_to?(attribute_model)
+              new = send(attribute_form)
+              current = model.send(attribute_model)
 
               new = new.id if !new.nil? && new.respond_to?(:id)
               current = current.id if !current.nil? && current.respond_to?(:id)
+              new = new[:value] if new.is_a?(Hash) && new.has_key?(:value)
 
-              l << a if new != current
+              l << attribute_model if new != current
             end
           end
 
@@ -223,7 +227,9 @@ module API
         end
 
         def readonly_attributes
-          all_attributes - [:lock_version, :subject, :parent_id]
+          all_attributes - [:lock_version, :subject, :parent_id, :raw_description] \
+                         + [ { percentage_done: :done_ratio },
+                             { estimated_time: :estimated_hours } ]
         end
 
         def all_attributes
