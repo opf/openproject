@@ -33,6 +33,7 @@ describe OpenProject::OmniAuth::Authorization do
     let(:auth_hash) { Struct.new(:uid).new 'bar' }
     let(:user)  { FactoryGirl.create :user, mail: 'foo@bar.de' }
     let(:state) { Struct.new(:number, :user_email, :uid).new 0, nil, nil }
+    let(:collector) { [] }
 
     before do
       OpenProject::OmniAuth::Authorization.after_login_callbacks.clear
@@ -44,6 +45,10 @@ describe OpenProject::OmniAuth::Authorization do
       OpenProject::OmniAuth::Authorization.after_login do |user, auth|
         state.user_email = user.mail
         state.uid = auth.uid
+      end
+
+      OpenProject::OmniAuth::Authorization.after_login do |_, _, context|
+        collector << context
       end
     end
 
@@ -57,6 +62,12 @@ describe OpenProject::OmniAuth::Authorization do
       expect(state.number).to eq 42
       expect(state.user_email).to eq 'foo@bar.de'
       expect(state.uid).to eq 'bar'
+    end
+
+    it "it optionally passes in a context" do
+      context = stub(:some_context)
+      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, context
+      expect(collector).to include(context)
     end
   end
 end

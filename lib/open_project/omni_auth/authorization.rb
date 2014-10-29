@@ -52,9 +52,9 @@ module OpenProject
       # Signals that the given user has been logged in.
       #
       # Note: Only call if you know what you are doing.
-      def self.after_login!(user, auth_hash)
+      def self.after_login!(user, auth_hash, context = self)
         after_login_callbacks.each do |callback|
-          callback.after_login user, auth_hash
+          callback.after_login user, auth_hash, context
         end
       end
 
@@ -171,8 +171,8 @@ module OpenProject
         #
         # @param [User] User who has been logged in.
         # @param [Omniauth::AuthHash] Omniauth authentication info including credentials.
-        def after_login(user, auth_hash)
-          fail "subclass responsibility: after_login(#{user}, #{auth_hash})"
+        def after_login(user, auth_hash, context)
+          fail "subclass responsibility: after_login(#{user}, #{auth_hash}, #{context})"
         end
       end
 
@@ -185,8 +185,8 @@ module OpenProject
           @block = block
         end
 
-        def after_login(user, auth_hash)
-          block.call user, auth_hash
+        def after_login(user, auth_hash, context)
+          block.call user, auth_hash, context
         end
       end
 
