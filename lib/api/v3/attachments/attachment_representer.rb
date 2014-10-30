@@ -43,28 +43,28 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/attachments/#{represented.model.id}", title: "#{represented.model.filename}" }
+          { href: "#{root_path}api/v3/attachments/#{represented.id}", title: "#{represented.filename}" }
         end
 
         link :work_package do
-          work_package = represented.model.container
+          work_package = represented.container
           { href: "#{root_path}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
         end
 
         link :author do
-          author = represented.model.author
+          author = represented.author
           { href: "#{root_path}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :filename, as: :fileName, render_nil: true
         property :disk_filename, as: :diskFileName, render_nil: true
         property :description, render_nil: true
-        property :file_size, getter: -> (*) { model.filesize }, render_nil: true
-        property :content_type, getter: -> (*) { model.content_type }, render_nil: true
+        property :file_size, getter: -> (*) { filesize }, render_nil: true
+        property :content_type, render_nil: true
         property :digest, render_nil: true
-        property :downloads, getter: -> (*) { model.downloads }, render_nil: true
-        property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
+        property :downloads, render_nil: true
+        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
 
         def _type
           'Attachment'

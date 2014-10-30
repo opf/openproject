@@ -39,11 +39,10 @@ module API
 
             before do
               @user  = User.find(params[:id])
-              @model = UserModel.new(@user)
             end
 
             get do
-              UserRepresenter.new(@model)
+              UserRepresenter.new(@user)
             end
 
           end

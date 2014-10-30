@@ -42,7 +42,7 @@ module API
 
         property :_type, exec_context: :decorator
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :name, render_nil: true
 
         def _type

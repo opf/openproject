@@ -44,20 +44,20 @@ module API
 
         link :self do
           {
-            href: "#{root_path}api/v3/projects/#{represented.model.id}",
+            href: "#{root_path}api/v3/projects/#{represented.id}",
             title: "#{represented.name}"
           }
         end
 
         link 'categories' do
-          "#{root_path}api/v3/projects/#{represented.model.id}/categories"
+          "#{root_path}api/v3/projects/#{represented.id}/categories"
         end
 
         link 'versions' do
-          "#{root_path}api/v3/projects/#{represented.model.id}/versions"
+          "#{root_path}api/v3/projects/#{represented.id}/versions"
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :identifier,   render_nil: true
 
         property :name,         render_nil: true
@@ -67,7 +67,7 @@ module API
         property :created_on,   render_nil: true
         property :updated_on,   render_nil: true
 
-        property :type,         render_nil: true
+        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
 
         def _type
           'Project'

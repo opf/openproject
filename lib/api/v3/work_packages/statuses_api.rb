@@ -55,8 +55,7 @@ module API
 
           statuses = work_package.new_statuses_allowed_to(current_user)
 
-          models = statuses.map { |status| ::API::V3::Statuses::StatusModel.new(status) }
-          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(models)
+          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(statuses)
 
           represented
         end

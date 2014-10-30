@@ -41,8 +41,7 @@ module API
               attr_reader :work_package
 
               def decorate_work_package(work_package)
-                model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user)
-                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
+                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
               end
             end
 
@@ -73,8 +72,7 @@ module API
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(model,  current_user: current_user)
+                    representer = ::API::V3::Activities::ActivityRepresenter.new(work_package.journals.last, current_user: current_user)
 
                     representer
                   else
@@ -103,10 +101,7 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_assignees = @work_package.assignable_assignees
-                build_representer(available_assignees,
-                                  ::API::V3::Users::UserModel,
-                                  ::API::V3::Users::UserCollectionRepresenter,
-                                  as: :available_assignees)
+                ::API::V3::Users::UserCollectionRepresenter.new(available_assignees, as: :available_assignees)
               end
 
             end
@@ -118,10 +113,7 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_responsibles = @work_package.assignable_responsibles
-                build_representer(available_responsibles,
-                                  ::API::V3::Users::UserModel,
-                                  ::API::V3::Users::UserCollectionRepresenter,
-                                  as: :available_responsibles)
+                ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles, as: :available_responsibles)
               end
 
             end

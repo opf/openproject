@@ -39,8 +39,7 @@ module API
 
             before do
               @activity = Journal.find(params[:id])
-              model = ::API::V3::Activities::ActivityModel.new(@activity)
-              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model,  current_user: current_user)
+              @representer =  ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
             end
 
             get do
@@ -51,8 +50,7 @@ module API
             helpers do
               def save_activity(activity)
                 if activity.save
-                  model = ::API::V3::Activities::ActivityModel.new(activity)
-                  representer = ::API::V3::Activities::ActivityRepresenter.new(model)
+                  representer = ::API::V3::Activities::ActivityRepresenter.new(activity)
 
                   representer
                 else

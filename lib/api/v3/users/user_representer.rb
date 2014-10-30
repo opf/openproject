@@ -52,30 +52,30 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
+          { href: "#{root_path}api/v3/users/#{represented.id}", title: "#{represented.name} - #{represented.login}" }
         end
 
         link :removeWatcher do
           {
-            href: "#{root_path}api/v3/work_packages/#{@work_package.id}/watchers/#{represented.model.id}",
+            href: "#{root_path}api/v3/work_packages/#{@work_package.id}/watchers/#{represented.id}",
             method: :delete,
             title: 'Remove watcher'
           } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :login, render_nil: true
-        property :subtype, getter: -> (*) { model.type }, render_nil: true
+        property :subtype, getter: -> (*) { type }, render_nil: true
         property :firstname, as: :firstName, render_nil: true
         property :lastname, as: :lastName, render_nil: true
-        property :name, getter: -> (*) { model.try(:name) }, render_nil: true
+        property :name, render_nil: true
         property :mail, render_nil: true
         property :avatar, getter: -> (*) { avatar_url(represented) },
                           render_nil: true,
                           exec_context: :decorator
-        property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
-        property :status, getter: -> (*) { model.status }, render_nil: true
+        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
+        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
+        property :status, getter: -> (*) { status }, render_nil: true
 
         def _type
           'User'

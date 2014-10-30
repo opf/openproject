@@ -32,12 +32,7 @@ module API
       class WatchersAPI < Grape::API
         get '/available_watchers' do
           available_watchers = @work_package.possible_watcher_users
-          build_representer(
-            available_watchers,
-            ::API::V3::Users::UserModel,
-            ::API::V3::Users::UserCollectionRepresenter,
-            as: :available_watchers
-          )
+          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers, as: :available_watchers)
         end
 
         resources :watchers do
@@ -59,7 +54,7 @@ module API
               -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
             )
 
-            build_representer(user, ::API::V3::Users::UserModel, ::API::V3::Users::UserRepresenter)
+            ::API::V3::Users::UserRepresenter.new(user)
           end
 
           namespace ':user_id' do

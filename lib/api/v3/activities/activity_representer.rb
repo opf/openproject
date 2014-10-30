@@ -37,6 +37,7 @@ module API
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
+        include OpenProject::TextFormatting
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -49,53 +50,60 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/activities/#{represented.model.id}", title: "#{represented.model.id}" }
+          { href: "#{root_path}api/v3/activities/#{represented.id}", title: "#{represented.id}" }
         end
 
         link :workPackage do
-          { href: "#{root_path}api/v3/work_packages/#{represented.model.journable.id}", title: "#{represented.model.journable.subject}" }
+          { href: "#{root_path}api/v3/work_packages/#{represented.journable.id}", title: "#{represented.journable.subject}" }
         end
 
         link :user do
-          { href: "#{root_path}api/v3/users/#{represented.model.user.id}", title: "#{represented.model.user.name} - #{represented.model.user.login}" }
+          { href: "#{root_path}api/v3/users/#{represented.user.id}", title: "#{represented.user.name} - #{represented.user.login}" }
         end
 
         link :update do
           {
-            href: "#{root_path}api/v3/activities/#{represented.model.id}",
+            href: "#{root_path}api/v3/activities/#{represented.id}",
             method: :patch,
-            title: "#{represented.model.id}"
+            title: "#{represented.id}"
           } if current_user_allowed_to_edit?
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
-        property :notes, as: :comment, render_nil: true
-        property :raw_notes, as: :rawComment, render_nil: true
+        property :id, render_nil: true
+        property :notes, as: :comment, exec_context: :decorator, render_nil: true
+        property :raw_notes, as: :rawComment,
+                 getter: -> (*) { notes },
+                 setter: -> (value, *) { notes = value },
+                 render_nil: true
         property :details, exec_context: :decorator, render_nil: true
         property :html_details, exec_context: :decorator, render_nil: true
-        property :version, getter: -> (*) { model.version }, render_nil: true
-        property :created_at, getter: -> (*) { model.created_at.utc.iso8601 }, render_nil: true
+        property :version, render_nil: true
+        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
 
         def _type
-          if represented.model.notes.blank?
+          if represented.notes.blank?
             'Activity'
           else
             'Activity::Comment'
           end
         end
 
+        def notes
+          format_text(represented.notes, object: represented.journable)
+        end
+
         def details
-          render_details(represented.model, no_html: true)
+          render_details(represented, no_html: true)
         end
 
         def html_details
-          render_details(represented.model)
+          render_details(represented)
         end
 
         private
 
         def current_user_allowed_to_edit?
-          (current_user_allowed_to(:edit_own_work_package_notes, represented.model.journable) && represented.model.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.model.journable)
+          (current_user_allowed_to(:edit_own_work_package_notes, represented.journable) && represented.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.journable)
         end
 
         def current_user_allowed_to(permission, work_package)

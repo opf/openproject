@@ -144,17 +144,17 @@ module WorkPackagesHelper
              link_text = [link_text, suffix].reject(&:empty?).join(': ')
              link_text = [hidden_link, link_text].reject(&:empty?).join('')
 
-             link_to(link_text.html_safe,
-                     work_package_path(package),
-                     title: title,
-                     class: css_class)
+             ActionController::Base.helpers.link_to(link_text.html_safe,
+                                                    work_package_path(package),
+                                                    :title => title,
+                                                    :class => css_class)
            else
              link_text = [hidden_link, link].reject(&:empty?).join('')
 
-             html_link = link_to(link_text.html_safe,
-                                 work_package_path(package),
-                                 title: title,
-                                 class: css_class)
+             html_link = ActionController::Base.helpers.link_to(link_text.html_safe,
+                                                                work_package_path(package),
+                                                                :title => title,
+                                                                :class => css_class)
 
              [[prefix, html_link].reject(&:empty?).join(' - '),
               suffix].reject(&:empty?).join(': ')
