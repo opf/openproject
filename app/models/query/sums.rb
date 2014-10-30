@@ -86,7 +86,7 @@ module ::Query::Sums
                begin
                  next if value.respond_to? :today? or value.is_a? String
                  true if Float(value)
-               rescue ArgumentError, TypeError
+               rescue ArgumentError, ::TypeError
                  false
                end
              end

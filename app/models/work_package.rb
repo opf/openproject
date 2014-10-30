@@ -521,7 +521,7 @@ class WorkPackage < ActiveRecord::Base
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
 
-    # Type must be set before since new_statuses_allowed_to depends on it.
+    # ::Type must be set before since new_statuses_allowed_to depends on it.
     if t = attrs.delete('type_id')
       self.type_id = t
     end

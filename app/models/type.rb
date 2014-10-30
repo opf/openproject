@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Type < ActiveRecord::Base
+class ::Type < ActiveRecord::Base
 
   extend Pagination::Model
 
@@ -95,7 +95,7 @@ class Type < ActiveRecord::Base
 
   def statuses
     return [] if new_record?
-    @statuses ||= Type.statuses([id])
+    @statuses ||= ::Type.statuses([id])
   end
 
   def enabled_in?(object)

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TypesHelper
+module ::TypesHelper
 
   def icon_for_type(type)
     return unless type

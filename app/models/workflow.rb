@@ -73,7 +73,7 @@ class Workflow < ActiveRecord::Base
     end
 
     target_types = Array(target_types)
-    target_types = Type.all if target_types.empty?
+    target_types = ::Type.all if target_types.empty?
 
     target_roles = Array(target_roles)
     target_roles = Role.all if target_roles.empty?

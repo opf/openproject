@@ -73,14 +73,14 @@ class ProjectsController < ApplicationController
 
   def new
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @types = Type.all
+    @types = ::Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @types = Type.all
+    @types = ::Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
 
@@ -237,7 +237,7 @@ private
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @category ||= Category.new
     @member ||= @project.members.new
-    @types = Type.all
+    @types = ::Type.all
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
