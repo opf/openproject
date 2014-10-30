@@ -60,26 +60,15 @@ describe 'API v3 Project resource' do
 
       context 'requesting nonexistent project' do
         let(:get_path) { "/api/v3/projects/9999" }
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
 
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
-        end
+        it_behaves_like 'not found', 9999, 'Project'
       end
 
       context 'requesting project without sufficient permissions' do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
         let(:get_path) { "/api/v3/projects/#{another_project.id}" }
 
-        it 'should respond with 403' do
-          expect(subject.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
   end

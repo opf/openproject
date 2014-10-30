@@ -103,7 +103,7 @@ describe JournalManager, :type => :model do
 
 
   describe "self.#update_user_references" do
- 
+
     let!(:work_package) {FactoryGirl.create :work_package}
     let!(:doomed_user) {work_package.author}
     let!(:data1) {
@@ -123,16 +123,16 @@ describe JournalManager, :type => :model do
         project_id: work_package.project_id)
     }
     let!(:doomed_user_journal) {
-      FactoryGirl.create :work_package_journal, 
-        notes: "1", 
-        user: doomed_user, 
-        journable_id: work_package.id, 
+      FactoryGirl.create :work_package_journal,
+        notes: "1",
+        user: doomed_user,
+        journable_id: work_package.id,
         data: data1
-    }    
+    }
     let!(:some_other_journal) {
-      FactoryGirl.create :work_package_journal, 
-        notes: "2", 
-        journable_id: work_package.id, 
+      FactoryGirl.create :work_package_journal,
+        notes: "2",
+        journable_id: work_package.id,
         data: data2
     }
 

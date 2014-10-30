@@ -61,13 +61,8 @@ describe 'API v3 Attachment resource', :type => :request do
 
       context 'requesting nonexistent attachment' do
         let(:get_path) { "/api/v3/attachments/9999" }
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
 
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
-        end
+        it_behaves_like 'not found', 9999, 'Attachment'
       end
 
       context 'requesting attachments without sufficient permissions' do
@@ -76,47 +71,12 @@ describe 'API v3 Attachment resource', :type => :request do
         let(:another_attachment) { FactoryGirl.create(:attachment, container: another_work_package) }
         let(:get_path) { "/api/v3/attachments/#{another_attachment.id}" }
 
-        it 'should respond with 403' do
-          expect(subject.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
 
-    context 'anonymous user' do
-      let(:get_path) { "/api/v3/attachments/#{attachment.id}" }
-      let(:project) { FactoryGirl.create(:project, is_public: true) }
-
-      context 'when access for anonymous user is allowed' do
-        before { get get_path }
-
-        it 'should respond with 200' do
-          expect(subject.status).to eq(200)
-        end
-
-        it 'should respond with correct activity' do
-          expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
-        end
-      end
-
-      context 'when access for anonymous user is not allowed' do
-        before do
-          Setting.login_required = 1
-          get get_path
-        end
-        after { Setting.login_required = 0 }
-
-        it 'should respond with 401' do
-          expect(subject.status).to eq(401)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authenticated'.to_json).at_path('title')
-        end
-      end
+    it_behaves_like 'handling anonymous user', 'Attachment', '/api/v3/attachments/%s' do
+      let(:id) { attachment.id }
     end
   end
 end

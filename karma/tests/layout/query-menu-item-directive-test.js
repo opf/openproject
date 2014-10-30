@@ -49,6 +49,9 @@ describe('queryMenuItem Directive', function() {
         unstarQuery: angular.noop
       };
       $provide.value('QueryService', QueryServiceMock);
+
+      // Mock check whether we are on a work_packages page
+      $provide.constant('$state', { includes: function() { return true; } });
     }));
 
     beforeEach(inject(function($rootScope, $compile) {

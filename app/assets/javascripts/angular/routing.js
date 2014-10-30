@@ -60,7 +60,7 @@ angular.module('openproject')
       templateUrl: "/templates/work_packages.list.html"
     })
     .state('work-packages.list.details', {
-      url: "/{workPackageId:[0-9]+}",
+      url: "/{workPackageId:[0-9]+}?query_props",
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController',
       resolve: {

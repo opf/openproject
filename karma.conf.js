@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
 // Karma configuration
 // Generated on Sun Apr 06 2014 00:15:29 GMT+0200 (CEST)
 
@@ -21,11 +49,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       "vendor/assets/components/jquery/dist/jquery.js",
+      "vendor/assets/components/lodash/dist/lodash.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-router/release/angular-ui-router.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
-      "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
       "vendor/assets/components/angular-modal/modal.js",
       "vendor/assets/components/angular-truncate/src/truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
@@ -40,19 +68,18 @@ module.exports = function(config) {
       "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
 
       "app/assets/javascripts/angular/openproject-app.js",
-      "app/assets/javascripts/angular/config/work-packages-config.js",
-      "app/assets/javascripts/angular/config/configuration-service.js",
 
-      "app/assets/javascripts/angular/controllers/**/*.js",
-      "app/assets/javascripts/angular/dialogs/**/*.js",
-      "app/assets/javascripts/angular/helpers/**/*.js",
-      'app/assets/javascripts/angular/filters/**/*.js',
-      "app/assets/javascripts/angular/models/**/*.js",
-      "app/assets/javascripts/angular/directives/**/*.js",
+      "app/assets/javascripts/angular/config/configuration-service.js",
       'app/assets/javascripts/angular/api/**/*.js',
+      "app/assets/javascripts/angular/helpers/**/*.js",
+      "app/assets/javascripts/angular/models/**/*.js",
       'app/assets/javascripts/angular/services/**/*.js',
 
       "app/assets/javascripts/angular/layout/**/*.js",
+      "app/assets/javascripts/angular/messages/**/*.js",
+      "app/assets/javascripts/angular/time_entries/**/*.js",
+      "app/assets/javascripts/angular/timelines/**/*.js",
+      "app/assets/javascripts/angular/ui_components/**/*.js",
       "app/assets/javascripts/angular/work_packages/**/*.js",
 
       "app/assets/javascripts/lib/jquery.trap.js",

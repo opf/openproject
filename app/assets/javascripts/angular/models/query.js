@@ -72,7 +72,8 @@ angular.module('openproject.models')
           'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty(),
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -90,7 +91,8 @@ angular.module('openproject.models')
           'sort': this.getEncodedSortation(),
           'display_sums': this.displaySums,
           'name': this.name,
-          'is_public': this.isPublic
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -218,6 +220,19 @@ angular.module('openproject.models')
     },
 
     /**
+     * @name isGlobal
+     * @function
+     *
+     * @description
+     * Returns true if the query is a global query, meaning a query that is not
+     * scoped to a project.
+     * @returns {boolean} default
+     */
+    isGlobal: function() {
+      return !this.project_id;
+    },
+
+    /**
      * @name setFilters
      * @function
      *
@@ -299,6 +314,7 @@ angular.module('openproject.models')
     },
 
     deactivateFilter: function(filter) {
+      this.dirty = true;
       filter.deactivated = true;
     },
 

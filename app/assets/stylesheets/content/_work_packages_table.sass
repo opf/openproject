@@ -32,6 +32,26 @@
   to
     opacity: 0
 
+$work-packages-table--header-height: 40px
+$work-packages-table--footer-height: 34px
+
+.work-packages-table--container
+  position:     relative
+  height:       100%
+  padding-top:    $work-packages-table--header-height
+  overflow:
+    x: auto
+    y: hidden
+
+  &.-with-footer
+    padding-bottom: $work-packages-table--footer-height
+
+.work-packages-table--results-container
+  height:       100%
+  overflow:
+    x: hidden
+    y: auto
+
 #work-packages-table
   tr.issue
     &.ng-enter, &.ng-move
@@ -44,7 +64,7 @@
 
 table.workpackages-table
   border-collapse: collapse
-  width: 100%
+  width:  100%
   margin: 0
 
   col
@@ -52,54 +72,91 @@ table.workpackages-table
     &.hover
       background:   #f8f8f8
 
-  thead th
-    text-transform: uppercase
-    font-size: 14px
-    text-align: left
-    line-height: 34px
-    padding: 0 8px
-    &.icon-table
-      font-size: 20px
-    &.active-column
-      background: #f8f8f8
-    a
-      text-decoration: none
-      color: $global_font_color
-      &:hover, &:active
-        text-decoration: none
-        color: $global_font_color
-  thead tr
-    border-bottom: 1px solid #dddddd
-    &:hover
-      background: none
+  thead
+    tr
+      &:hover
+        background: none
+    th
+      text-transform: uppercase
+      font-size: 14px
+      text-align: left
+      line-height: 34px
+      padding: 0
 
-  tr
-    border-bottom: 1px solid #dddddd
-    &:hover
-      background: #e4f7fb
-  tr td
-    text-align: left
-    line-height: 34px
-    &.icon-table
-      font-size: 20px
-    &.checkbox
-      width: 20px
-    &.info
-      width: 20px
+      &.icon-table
+        font-size: 20px
+      &.active-column
+        background: #f8f8f8
       a
         text-decoration: none
         color: $global_font_color
+        &:hover, &:active
+          text-decoration: none
+          color: $global_font_color
 
-  td
-    max-width: 300px
-    overflow:  hidden
-    text-overflow: ellipsis
+  tfoot
+    tr
+      border:
+        top:    0
+        bottom: 0
+      height:   0
+    td
+      height:   0
+      padding:
+        top:    0
+        bottom: 0
 
-  p
-    padding: 0 8px
-    margin: 0
-  p:hover
-    background: #fff598
+  tbody
+    tr
+      border-bottom: 1px solid #dddddd
+      &:hover
+        background: #e4f7fb
+
+    td
+      min-width: 150px
+      max-width: 300px
+      overflow:  hidden
+      text-overflow: ellipsis
+      text-align: left
+      line-height: 34px
+
+      &.icon-table
+        font-size: 20px
+      &.checkbox
+        min-width: 0
+        width: 20px
+      &.id
+        min-width: 0
+        width: 50px
+      &.info
+        min-width: 0
+        width: 20px
+        a
+          text-decoration: none
+          color: $global_font_color
+
+    p
+      padding: 0 8px
+      margin: 0
+
+  .work-packages-table--footer-outer
+    position:     absolute
+    bottom:       0
+    line-height:  $work-packages-table--footer-height
+    z-index:      1
+
+  .work-packages-table--header-outer,
+  .sort-header-outer
+    position:     absolute
+    top:          0
+    padding:      0 8px
+    line-height:  $work-packages-table--header-height
+    overflow:     hidden
+    z-index:      1
+
+    &:hover,
+    &.hover
+      background:   #f8f8f8
 
   .sort-header
     white-space: nowrap
@@ -115,3 +172,41 @@ table.workpackages-table
     & > .dropdown-indicator
       width: 1em
       text-align: right
+
+.work-packages-table--header-background
+  position:     absolute
+  top:          0
+  width:        100%
+  height:       $work-packages-table--header-height
+  background:   white
+  border-bottom: 1px solid #dddddd
+  box-shadow:   0px 5px 15px -5px #dddddd
+  z-index:      0
+
+.work-packages-table--footer-background
+  position:     absolute
+  bottom:       0
+  width:        100%
+  height:       $work-packages-table--footer-height
+  background:   #f6f7f8
+  z-index:      0
+
+.work-packages-table--no-results-container
+  position:     absolute
+  top:          $work-packages-table--header-height
+  left:         0
+  right:        10px
+  background:   #fff
+  border:       1px solid #ddd
+  border-radius: $button_border_radius
+  padding:      20px
+
+.work-packages-table--no-results-title
+  // properties to reset h2
+  border:         0
+  font-weight:    normal
+  text-transform: none
+  color:          black
+
+.work-packages-table--no-results-description
+  color:          black

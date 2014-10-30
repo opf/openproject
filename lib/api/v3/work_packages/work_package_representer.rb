@@ -47,7 +47,7 @@ module API
           super(model)
         end
 
-        property :_type, exec_context: :decorator
+        property :_type, exec_context: :decorator, writeable: false
 
         link :self do
           {
@@ -132,7 +132,7 @@ module API
           }
         end
 
-        link :watch do
+        link :watchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers",
             method: :post,
@@ -143,7 +143,7 @@ module API
             !represented.model.watcher_users.include?(@current_user)
         end
 
-        link :unwatch do
+        link :unwatchChanges do
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.id}/watchers/#{@current_user.id}",
             method: :delete,
@@ -168,6 +168,22 @@ module API
           } if current_user_allowed_to(:manage_work_package_relations, represented.model)
         end
 
+        link :addChild do
+          {
+            href: new_project_work_package_path(represented.model.project, work_package: {parent_id: represented.model}),
+            type: 'text/html',
+            title: "Add child of #{represented.subject}"
+          } if current_user_allowed_to(:add_work_packages, represented.model)
+        end
+
+        link :changeParent do
+          {
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}",
+            method: :patch,
+            title: "Change parent of #{represented.subject}"
+          } if current_user_allowed_to(:manage_subtasks, represented.model)
+        end
+
         link :addComment do
           {
               href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",
@@ -183,6 +199,14 @@ module API
           } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
+        link :version do
+          {
+            href: version_path(represented.model.fixed_version),
+            type: 'text/html',
+            title: "#{represented.model.fixed_version.to_s_for_project(represented.model.project)}"
+          } if represented.model.fixed_version && @current_user.allowed_to?({controller: "versions", action: "show"}, represented.model.fixed_version.project, global: false)
+        end
+
         links :children do
           visible_children.map do |child|
             { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
@@ -190,6 +214,7 @@ module API
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true
+        property :lock_version
         property :subject, render_nil: true
         property :type, render_nil: true
         property :description, render_nil: true
@@ -200,14 +225,18 @@ module API
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true
         property :estimated_time, render_nil: true
-        property :percentage_done, render_nil: true
+        property :percentage_done,
+                 render_nil: true,
+                 exec_context: :decorator,
+                 setter: -> (value, *) { represented.percentage_done = value },
+                 writeable: false
         property :version_id, getter: -> (*) { model.fixed_version.try(:id) }, render_nil: true
         property :version_name,  getter: -> (*) { model.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { model.project.id }
         property :project_name, getter: -> (*) { model.project.try(:name) }
-        property :parent_id
-        property :created_at, getter: -> (*) { model.created_at.utc.iso8601}, render_nil: true
-        property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601}, render_nil: true
+        property :parent_id, writeable: true
+        property :created_at, getter: -> (*) { model.created_at.utc.iso8601 }, render_nil: true
+        property :updated_at, getter: -> (*) { model.updated_at.utc.iso8601 }, render_nil: true
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
@@ -248,6 +277,10 @@ module API
 
         def visible_children
           @visible_children ||= represented.model.children.find_all { |child| child.visible? }
+        end
+
+        def percentage_done
+          represented.percentage_done unless Setting.work_package_done_ratio == 'disabled'
         end
       end
     end

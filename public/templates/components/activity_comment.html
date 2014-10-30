@@ -8,11 +8,13 @@
               name="add_comment_text"
               ng-model="activity.comment"
               required
-              placeholder="{{ title }}">
+              placeholder="{{ title }}"
+              ng-disabled="processingComment">
     </textarea>
     <button class="button"
             ng-click="createComment()"
-            ng-disabled="commentForm.$invalid"><i class="icon-yes icon-left"></i>{{ buttonTitle }}
+            ng-disabled="commentForm.$invalid || processingComment">
+      <i class="icon-yes icon-left"></i>{{ buttonTitle }}
     </button>
   </form>
 </div>

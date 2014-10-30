@@ -28,7 +28,14 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilters', ['FiltersHelper', 'I18n', function(FiltersHelper, I18n) {
+.constant('ADD_FILTER_SELECT_INDEX', -1)
+
+.directive('queryFilters', [
+    '$timeout',
+    'FiltersHelper',
+    'I18n',
+    'ADD_FILTER_SELECT_INDEX',
+    function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
 
   return {
     restrict: 'E',
@@ -39,6 +46,8 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope) {
           scope.I18n = I18n;
           scope.localisedFilterName = FiltersHelper.localisedFilterName;
+          scope.focusElementIndex;
+
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {
               scope.query.addFilter(filterName);
@@ -46,6 +55,30 @@ angular.module('openproject.workPackages.directives')
             }
           });
 
+          scope.deactivateFilter = function(filter) {
+            var index = scope.query.getActiveFilters().indexOf(filter);
+
+            scope.query.deactivateFilter(filter);
+
+            updateFilterFocus(index);
+          };
+
+          function updateFilterFocus(index) {
+            var activeFilterCount = scope.query.getActiveFilters().length;
+
+            if (activeFilterCount == 0) {
+              scope.focusElementIndex = ADD_FILTER_SELECT_INDEX;
+            } else {
+              var filterIndex = (index < activeFilterCount) ? index : activeFilterCount - 1;
+              var filter = scope.query.getActiveFilters()[filterIndex];
+
+              scope.focusElementIndex = scope.query.filters.indexOf(filter);
+            }
+
+            $timeout(function() {
+              scope.$broadcast('updateFocus');
+            });
+          }
         }
       };
     }

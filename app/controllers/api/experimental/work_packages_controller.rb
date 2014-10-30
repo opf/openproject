@@ -44,14 +44,12 @@ module Api
       include SortHelper
       include ExtendedHTTP
 
-
-      # before_filter :authorize # TODO specify authorization
-      before_filter :authorize_request, only: [:column_data]
-      before_filter :find_optional_project, only: [:index, :column_sums]
-      before_filter :load_query, only: [:index, :column_sums]
-      before_filter :assign_work_packages, only: [:index]
+      before_filter :find_optional_project
+      before_filter :load_query, only: [:index,
+                                        :column_sums]
 
       def index
+        @work_packages = current_work_packages(@project)
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
@@ -64,7 +62,6 @@ module Api
 
         setup_context_menu_actions
 
-        # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
         end
@@ -95,7 +92,7 @@ module Api
       private
 
       def setup_context_menu_actions
-        @can = Api::Experimental::Concerns::Can.new(User.current)
+        @can = WorkPackagePolicy.new(User.current)
       end
 
       def columns_total_sums(column_names, work_packages)
@@ -125,20 +122,6 @@ module Api
         @query ||= init_query
       rescue ActiveRecord::RecordNotFound
         render_404
-      end
-
-      def authorize_request
-        # TODO: need to give this action a global role i think. tried making load_column_data role in reminde.rb
-        #       but couldn't get it working.
-        # authorize_global unless performed?
-      end
-
-      def find_optional_project
-        @project = Project.find(params[:project_id]) if params[:project_id]
-      end
-
-      def assign_work_packages
-        @work_packages = current_work_packages(@project) unless performed?
       end
 
       def current_work_packages(projects)
@@ -192,24 +175,7 @@ module Api
       def query_as_json(query, user)
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
-        links = {}
-        links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-
-        if !query.new_record?
-          links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-          links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-          links[:depublicize] = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
-
-          if ((query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
-              user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
-
-            links[:star]        = query_route_from_grape("star", query)
-            links[:unstar]      = query_route_from_grape("unstar", query)
-          end
-        end
-
-        json_query[:_links] = links
+        json_query[:_links] = allowed_links_on_query(query, user)
         json_query
       end
 

@@ -36,6 +36,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - release/4.0
 env:
   # Frontend
   - "TEST_SUITE=karma"
@@ -51,7 +52,7 @@ script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
-  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1366x768x16"
+  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
   - "nvm use 0.10"
   - "travis_retry npm -g install bower@~1.3.8"

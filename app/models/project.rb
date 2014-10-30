@@ -214,6 +214,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def copy_allowed?
+    User.current.allowed_to?(:copy_projects, self) && (self.parent.nil? || User.current.allowed_to?(:add_subprojects, self.parent))
+  end
+
   def self.selectable_projects
     Project.visible.select {|p| User.current.member_of? p }.sort_by(&:to_s)
   end

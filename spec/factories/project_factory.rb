@@ -29,12 +29,17 @@
 
 FactoryGirl.define do
   factory :project do
+    ignore do
+      no_types false
+    end
+
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
     enabled_module_names Redmine::AccessControl.available_project_modules
 
-    callback(:before_create) do |project|
-      unless ::Type.find(:first, conditions: { is_standard: true })
+    callback(:before_create) do |project, evaluator|
+      unless evaluator.no_types ||
+             ::Type.where(is_standard: true).count > 0
         project.types << FactoryGirl.build(:type_standard)
       end
     end

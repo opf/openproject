@@ -45,7 +45,10 @@ angular.module('openproject.services')
   'ProjectService',
   'WorkPackagesTableHelper',
   'I18n',
-  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
+  'queryMenuItemFactory',
+  '$rootScope',
+  'QUERY_MENU_ITEM_TYPE',
+  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
@@ -296,7 +299,7 @@ angular.module('openproject.services')
                 retrieveAvailableValues = UserService.getUsers(projectIdentifier);
                 break;
               case 'version':
-                retrieveAvailableValues = VersionService.getProjectVersions(projectIdentifier);
+                retrieveAvailableValues = VersionService.getVersions(projectIdentifier);
                 break;
               case 'role':
                 retrieveAvailableValues = RoleService.getRoles();
@@ -350,6 +353,12 @@ angular.module('openproject.services')
         query.save(response.data.query);
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
+        // The starred-state does not get saved via the API. So we manually
+        // set it, if the old query was starred.
+        if (query.starred) {
+          QueryService.starQuery();
+        }
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
@@ -363,7 +372,32 @@ angular.module('openproject.services')
       });
     },
 
-    toggleQueryStarred: function() {
+    getQueryPath: function(query) {
+      if (query.project_id) {
+        return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      } else {
+        return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      }
+    },
+
+    addOrRemoveMenuItem: function(query) {
+      if (!query) return;
+
+      if(query.starred) {
+        queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
+        $rootScope.$broadcast('$stateChangeSuccess', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      } else {
+        $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      }
+    },
+
+    toggleQueryStarred: function(query) {
       if(query.starred) {
         return QueryService.unstarQuery();
       } else {
@@ -375,10 +409,23 @@ angular.module('openproject.services')
       var url = PathHelper.apiQueryStarPath(query.id);
       var theQuery = query;
 
-      return QueryService.doPatch(url, function(response){
+      var success = function(response){
         theQuery.star();
+        QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
-      });
+      };
+
+      var failure = function(response){
+        var msg = undefined;
+
+        if(response.data.errors) {
+          msg = response.data.errors.join(", ");
+        }
+
+        return QueryService.failure(msg)(response);
+      };
+
+      return QueryService.doPatch(url, success, failure);
     },
 
     unstarQuery: function() {
@@ -387,6 +434,7 @@ angular.module('openproject.services')
 
       return QueryService.doPatch(url, function(response){
         theQuery.unstar();
+        QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
       });
     },
@@ -409,9 +457,7 @@ angular.module('openproject.services')
       success = success || function(response){
         return response.data;
       };
-      failure = failure || function(response){
-        return angular.extend(response, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
-      };
+      failure = failure || QueryService.failure();
 
       return $http({
         method: method,
@@ -419,6 +465,13 @@ angular.module('openproject.services')
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(success, failure);
+    },
+
+    failure: function(msg){
+      msg = msg || I18n.t('js.notice_bad_request');
+      return function(response){
+        return angular.extend(response, { status: { text: msg, isError: true }} );
+      }
     }
   };
 

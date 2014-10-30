@@ -192,6 +192,5 @@
       jQuery(this).parents(accessibleRowSelector).addClass('keyboard_hover');
     });
   });
-  
-})(jQuery);
 
+})(jQuery);

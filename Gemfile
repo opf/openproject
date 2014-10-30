@@ -26,22 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
-  abort <<-Message
-
-  *****************************************************
-  *                                                   *
-  *   OpenProject requires bundler version >= 1.5.0   *
-  *                                                   *
-  *   Please install bundler with:                    *
-  *                                                   *
-  *   gem install bundler                             *
-  *                                                   *
-  *****************************************************
-
-  Message
-end
-
 source 'https://rubygems.org'
 
 gem "rails", "= 4.0.9"
@@ -111,7 +95,7 @@ gem 'sass-rails',       '5.0.0.beta1'
 gem 'sass',             '~> 3.3.6'
 gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.0.pre.1'
+gem 'livingstyleguide', '~> 1.2.0'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -158,7 +142,7 @@ group :test do
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
-  gem 'selenium-webdriver', '~> 2.42.0'
+  gem 'selenium-webdriver', '~> 2.43.0'
   gem 'timecop', "~> 0.6.1"
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
@@ -193,9 +177,8 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.7.0'
-gem 'representable', git: 'https://github.com/finnlabs/representable'
-gem 'roar',   '~> 0.12.6'
+gem 'grape', '~> 0.9.0'
+gem 'roar',   '~> 0.12.9'
 gem 'reform', '~> 1.0.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on

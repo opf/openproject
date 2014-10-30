@@ -50,12 +50,13 @@
     font-weight:  bold
     border:       none
 
-div
-  .report-category-actions
-    margin-top: -28px
-    font-size: 17px // like h3
-    width: 100%
-    text-align: right
+.report-category-actions
+  margin-top: -28px
+  font-size: 17px // like h3
+  width: 100%
+  text-align: right
+
+// Legacy Form
 
 #work_package-form
   @extend %form-style
@@ -125,204 +126,50 @@ div
 
 // Detail Panel Content
 
-span.subtitle
+.subtitle
   margin: 0px 0 0 0
   padding: 0 0 10px 0
   display: block
   font-size: 12px
   font-size: 0.75rem
 
-div
-  &.select-type
-    font-size: 20px
-    font-size: 1.25rem
-    line-height: 26px
-    float: left
-    color: $content_link_color
-  &.detail-panel-description
-    float: left
-    margin: 0
-    line-height: 18px
-  &.panel-toggler
-    float: left
-    width: 100%
-    color: #777777
-    fieldset
-      border-top: 1px solid #ddd
-      border-left: 0px
-      border-right: 0px
-      border-bottom: 0px
-      cursor: pointer
-      width: 100%
-    legend
-      padding: 0 20px
-    span
-      background: #ffffff
-      padding: 0
-      font-size: 12px
-      font-size: 0.75rem
-    i
-      background: #ffffff
-      padding: 0 10px 0 0px
-
-  &#detail-panel-watchers
-    width: 100%
-    padding-top: 30px
-    ul
-      margin: 15px 0
-      padding: 0 0 15px 0
-      list-style-type: none
-      li
-        clear: both
-        margin-bottom: 10px
-
-    .user-field-user-link
-      float: left
-    .detail-panel-watchers-delete-watcher-icon
-      padding: 0 8px
-      color: $button_font_color
-    fieldset
-      border: 0
-    #detail-panel-watchers-add-watcher
-      clear: left
-
-  &.detail-panel-attributes
-    float: left
-    margin: 15px 0 0 0
-    width: 100%
-
-    ul
-      list-style-type: none
-      +display(flex)
-      +flex-wrap(wrap)
-      margin: 10px 0 0 0
-      padding: 0
-
-      li
-        margin: 0 0 25px 0
-        padding: 0
-        +flex-grow(1)
-        min-width: 33%
-        max-width: 33%
-
-  &.detail-panel-attributes-toggler
-    float: left
-    margin: 10px 0 0 0
-    width: 100%
-    text-align: center
-    border-bottom: 1px solid #ddd
-
-.work-package-attributes--label
-  font-weight: bold
-  margin: 0 0 7px 0
-  padding: 0 4px 0 0
-
-.work-package-attributes--value-container
-  padding: 0 4px 0 0
-  display: block
-
-.work-package-attributes--value
-  &.-dynamic,
-  &.-version,
-  &.-category,
-  &.-text,
-    +ellipsis
-
-span.role
-  font-size: 11px
-  font-size: 0.6875rem
-  font-style: italic
-  color: #777777
-  line-height: 20px
-
-div.detail-panel-latest-activity
+.select-type
+  font-size: 20px
+  font-size: 1.25rem
+  line-height: 26px
   float: left
-  margin: 10px 0 0 0
+  color: $content_link_color
+
+.detail-panel-description
+  float: left
+  margin: 0
   line-height: 18px
+
+
+.comments-form
+  float: left
   width: 100%
-  h3
-    margin: 0 0 10px 0
-    padding: 0
-    font-size: 14px
-    font-size: 0.875rem
-    font-weight: bold
-  ul
-    margin: 0
-    padding: 0
-    list-style-type: none
-    li
-      margin: 0 0 20px 0
-      padding: 0
-
-div.work-package-details-tab
-  img
-    &.avatar
-      float: left
-      margin: -2px 10px 0 0
-    &.avatar-mini
-      float: left
-      margin: -3px 7px 0 0
-
-span
-  &.user
-    display: block
-    line-height: 16px
-  &.date
-    display: block
-    font-size: 12px
-  &.comment
-    display: block
-    margin: 10px 0 0 46px
-    padding: 0 100px 0 0
-    color: #777777
-    font-style: italic
-
-div
-  &.comments-number
-    padding: 0
-    float: right
-    text-align: right
-    display: block
-  &.comments-icons
-    padding: 0
-    text-align: right
-    display: block
-    i
-      padding: 5px 0 0 5px
-      display: inline-block
-
-.comment ul
-  list-style-type: disc !important
-  margin: 10px 0 0 12px !important
-  li
-    padding: 0 !important
-    margin: 0 !important
-
-div
-  &.comments-form
-    float: left
+  margin: 10px 0 100px 0
+  textarea
+    border: 1px solid #dddddd
+    padding: 8px
+    border-radius: 2px
+    font-size: 13px
+    font-size: 0.8125rem
+    box-sizing: border-box
     width: 100%
-    margin: 10px 0 100px 0
-    textarea
-      border: 1px solid #dddddd
-      padding: 8px
-      border-radius: 2px
-      font-size: 13px
-      font-size: 0.8125rem
-      box-sizing: border-box
-      width: 100%
-    button
-      float: right
-      font-size: 13px
-      font-size: 0.8125rem
-      background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
-      border: 1px solid #CCCCCC
-      border-radius: 2px
-      color: #222222
-      margin: 10px 0 0 0px
-      padding: 4px 10px 2px
-      cursor: pointer
-      height: 32px
+  button
+    float: right
+    font-size: 13px
+    font-size: 0.8125rem
+    background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
+    border: 1px solid #CCCCCC
+    border-radius: 2px
+    color: #222222
+    margin: 10px 0 0 0px
+    padding: 4px 10px 2px
+    cursor: pointer
+    height: 32px
 
 i
   &.icon-left
@@ -346,13 +193,16 @@ i
   position: relative
   width: 100%
 
+$work-package-details--tab-height: 40px
+
 .tabrow
+  box-sizing: border-box
   text-align: left
   list-style: none
   margin: 0 0 0 10px
-  padding: 4px 0 15px 0
-  line-height: 41px
-  height: 45px
+  padding:     4px 0 0 0
+  line-height: $work-package-details--tab-height - 6px
+  height:      $work-package-details--tab-height
   overflow: hidden
   font-size: 14px
   position: relative
@@ -376,12 +226,3 @@ i
     border-bottom: 2px solid $content_link_color
     a
       color: $content_link_color
-
-.work-package-details-activities-activity:not(:last-child)
-  margin-bottom: 10px
-
-.work-package-details-activities-activity-contents
-  padding: 10px 0
-  textarea
-    width: 100%
-    resize: none

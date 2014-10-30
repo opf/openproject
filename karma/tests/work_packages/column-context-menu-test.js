@@ -29,13 +29,15 @@
 /*jshint expr: true*/
 
 describe('columnContextMenu', function() {
-  var container, contextMenu, $rootScope, scope;
+  var container, contextMenu, $rootScope, scope, stateParams;
+  stateParams = {};
 
   beforeEach(module('ng-context-menu',
                     'openproject.workPackages',
                     'openproject.workPackages.controllers',
                     'openproject.models',
                     'openproject.api',
+                    'openproject.layout',
                     'openproject.services',
                     'templates'));
 
@@ -44,6 +46,7 @@ describe('columnContextMenu', function() {
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 

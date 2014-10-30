@@ -65,6 +65,7 @@ module API
 
         property :id, getter: -> (*) { model.id }, render_nil: true
         property :login, render_nil: true
+        property :subtype, getter: -> (*) { model.type }, render_nil: true
         property :firstname, as: :firstName, render_nil: true
         property :lastname, as: :lastName, render_nil: true
         property :name, getter: -> (*) { model.try(:name) }, render_nil: true

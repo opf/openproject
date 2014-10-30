@@ -34,12 +34,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:representer)  { described_class.new(model, current_user: current_user) }
 
-  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
+  let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user) }
   let(:work_package) { FactoryGirl.build(:work_package,
       id: 42,
       created_at: DateTime.now,
       updated_at: DateTime.now,
-      category:   category
+      category:   category,
+      done_ratio: 50
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -75,13 +76,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
 
-      it { is_expected.to have_json_path('versionId') }
-      it { is_expected.to have_json_path('versionName') }
+
 
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
 
       it { is_expected.to have_json_path('isClosed') }
+
+      describe 'version' do
+        it { is_expected.to have_json_path('versionId') }
+        it { is_expected.to have_json_path('versionName') }
+      end
+
+      describe 'lock version' do
+        it { is_expected.to have_json_path('lockVersion') }
+
+        it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
+
+        it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+      end
     end
 
     describe 'estimatedTime' do
@@ -89,6 +102,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('estimatedTime/units') }
       it { is_expected.to have_json_path('estimatedTime/value') }
+    end
+
+    describe 'percentageDone' do
+      describe 'work package done ratio setting behavior' do
+        context 'setting enabled' do
+          it { expect(parse_json(subject)['percentageDone']).to eq(50) }
+        end
+
+        context 'setting disabled' do
+          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+
+          it { expect(parse_json(subject)['percentageDone']).to be_nil }
+        end
+      end
     end
 
     describe '_links' do
@@ -99,14 +126,38 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         expect(subject).to have_json_path('_links/self/title')
       end
 
+      describe 'version' do
+        context 'no version set' do
+          it { is_expected.to_not have_json_path('versionViewable') }
+        end
+
+        context 'version set' do
+          let!(:version) { FactoryGirl.create :version, project: project }
+          before do
+            work_package.fixed_version = version
+          end
+
+          it { is_expected.to have_json_path('_links/version/href') }
+
+          context ' but is not accessible due to permissions' do
+            before do
+              current_user.stub(:allowed_to?).and_call_original
+              current_user.stub(:allowed_to?).with({controller: "versions", action: "show"}, project, global: false).and_return(false)
+            end
+
+            it { is_expected.to_not have_json_path('_links/version/href') }
+          end
+        end
+      end
+
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/watch/href')
+            expect(subject).to have_json_path('_links/watchChanges/href')
           end
 
           it 'should not have a link to unwatch' do
-            expect(subject).to_not have_json_path('_links/unwatch/href')
+            expect(subject).to_not have_json_path('_links/unwatchChanges/href')
           end
         end
 
@@ -116,11 +167,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/unwatch/href')
+            expect(subject).to have_json_path('_links/unwatchChanges/href')
           end
 
           it 'should not have a link to watch' do
-            expect(subject).to_not have_json_path('_links/watch/href')
+            expect(subject).to_not have_json_path('_links/watchChanges/href')
           end
         end
       end
@@ -129,11 +180,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:current_user) { FactoryGirl.create :user }
 
         it 'should not have a link to unwatch' do
-          expect(subject).to_not have_json_path('_links/unwatch/href')
+          expect(subject).to_not have_json_path('_links/unwatchChanges/href')
         end
 
         it 'should not have a link to watch' do
-          expect(subject).to_not have_json_path('_links/watch/href')
+          expect(subject).to_not have_json_path('_links/watchChanges/href')
         end
       end
 
@@ -182,6 +233,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add relation' do
           expect(subject).to_not have_json_path('_links/addRelation/href')
+        end
+      end
+
+      context 'when the user has the permission to add work packages' do
+        before do
+          role.permissions.push(:add_work_packages) and role.save
+        end
+        it 'should have a link to add child' do
+          expect(subject).to have_json_path('_links/addChild/href')
+        end
+      end
+
+      context 'when the user does not have the permission to add work packages' do
+        before do
+          role.permissions.delete(:add_work_packages) and role.save
+        end
+        it 'should not have a link to add child' do
+          expect(subject).to_not have_json_path('_links/addChild/href')
         end
       end
 
@@ -249,6 +318,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it_behaves_like 'action link' do
           let(:action) { 'move' }
           let(:permission) { :move_work_packages }
+        end
+      end
+
+      describe 'changeParent' do
+        it_behaves_like 'action link' do
+          let(:action) { 'changeParent' }
+          let(:permission) { :manage_subtasks }
         end
       end
     end

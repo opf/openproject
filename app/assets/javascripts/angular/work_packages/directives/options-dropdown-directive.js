@@ -94,7 +94,9 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.showShareModal = function(event){
-        showExistingQueryModal.call(shareModal, event);
+        if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
+          showExistingQueryModal.call(shareModal, event);
+        }
       }
 
       scope.showSettingsModal = function(event){
@@ -124,6 +126,11 @@ angular.module('openproject.workPackages.directives')
       scope.toggleDisplaySums = function(){
         scope.$emit('hideAllDropdowns');
         scope.query.displaySums = !scope.query.displaySums;
+
+        // This eventually calls the resize event handler defined in the
+        // WorkPackagesTable directive and ensures that the sum row at the
+        // table footer is properly displayed.
+        angular.element($window).trigger('resize');
       };
 
       function preventNewQueryAction(event){

@@ -131,7 +131,7 @@ OpenProject::Application.routes.draw do
         get :column_data, on: :collection
         get :column_sums, on: :collection
       end
-      resources :queries, only: [:show, :create, :update, :destroy] do
+      resources :queries, only: [:create, :update, :destroy] do
         get :available_columns, on: :collection
         get :custom_field_filters, on: :collection
         get :grouped, on: :collection
@@ -141,7 +141,7 @@ OpenProject::Application.routes.draw do
         resources :work_packages, only: [:index] do
           get :column_sums, on: :collection
         end
-        resources :queries, only: [:show, :create, :update, :destroy] do
+        resources :queries, only: [:create, :update, :destroy] do
           get :available_columns, on: :collection
           get :custom_field_filters, on: :collection
           get :grouped, on: :collection
@@ -151,6 +151,7 @@ OpenProject::Application.routes.draw do
         resources :users, only: [:index]
       end
 
+      resources :versions, only: [:index]
       resources :groups, only: [:index]
       resources :roles, only: [:index]
       resources :users, only: [:index]

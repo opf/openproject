@@ -30,9 +30,9 @@
 
 describe('QueryService', function() {
 
-  var QueryService, query, queryData;
+  var QueryService, query, queryData, stateParams = {};
 
-  beforeEach(module('openproject.services',
+  beforeEach(module('openproject.layout',
                     'openproject.models',
                     'openproject.api',
                     'openproject.services'));
@@ -42,6 +42,7 @@ describe('QueryService', function() {
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
+    $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
 

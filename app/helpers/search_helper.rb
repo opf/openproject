@@ -39,7 +39,6 @@ module SearchHelper
         result << '...'
         break
       end
-      words = words.mb_chars
       if i.even?
         result << h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
       else

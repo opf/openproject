@@ -50,6 +50,16 @@ describe 'Select work package row', :type => :feature do
     work_packages_page.visit_index
   end
 
+  after do
+    # This is here to ensure the page is loaded completely before the next spec
+    # is run. As the filters are loaded late in the page, all Ajax requests
+    # have been answered by then.  Without this, requests still running from
+    # the last spec, might expect data that has already been removed as
+    # preparation for the current spec.
+    find("#work-packages-filter-toggle-button").click
+    expect(page).to have_selector('.filter label', text: 'Status')
+  end
+
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior=:left)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
@@ -305,6 +315,12 @@ describe 'Select work package row', :type => :feature do
     describe 'opening work package details' do
       before do
         select_work_package_row(1, :double)
+      end
+      after do
+        # ensure work package queried by double clicking the row is fully
+        # loaded before starting the next spec.
+        expect(page).to have_selector('.work-packages--details h2', text: work_package_3.subject,
+                                                                    visible: false)
       end
 
       it_behaves_like 'work package row selected' do

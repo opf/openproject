@@ -106,9 +106,6 @@ tr.issue
   td
     &.subject
       text-align: left
-    &.done_ratio table.progress
-      margin-left: auto
-      margin-right: auto
   &.idnt td.subject a
     background: image-url("bullet_arrow_right.png") no-repeat 0 50%
     padding-left: 16px
@@ -194,8 +191,9 @@ tr
         text-align: center
       &.age
         text-align: right
-  span.expander
+  div.expander
     cursor: pointer
+    float: left
   &.open span .expand, &.closed span .collapse
     display: none
   &.changeset td
@@ -289,9 +287,10 @@ tr.group
     color: #aaa
     font-size: 80%
     font-weight: normal
-    display: none
-  &:hover a.toggle-all
     display: inline
+    visibility: hidden
+  &:hover a.toggle-all
+    visibility: visible
 
 a.toggle-all:hover
   text-decoration: none
@@ -650,8 +649,8 @@ ul.properties
 textarea#custom_field_possible_values
   width: 99%
 
-.pagination
+.legacy-pagination
   font-size: 90%
 
-p.pagination
+p.legacy-pagination
   margin-top: 8px

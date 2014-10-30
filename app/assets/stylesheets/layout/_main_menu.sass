@@ -63,10 +63,12 @@ $toggler-width: 40px
   @include default-transition
 
   %absolute-layout-mode &
-    position: absolute
+    position: relative
     height:   100%
-    +allow-vertical-scrolling
-
+    #menu-sidebar
+      height:   100%
+      +allow-vertical-scrolling
+      -ms-overflow-style: -ms-autohiding-scrollbar
   ul
     margin: 0
     padding: 0

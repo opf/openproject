@@ -31,8 +31,8 @@ module Api::Experimental::Concerns::ColumnData
     columns.map do |column|
       { name: column.name,
         title: column.caption,
-        sortable: column.sortable,
-        groupable: column.groupable,
+        sortable: column.sortable?,
+        groupable: column.groupable?,
         custom_field: column.is_a?(QueryCustomFieldColumn) &&
                       column.custom_field.as_json(only: [:id, :field_format]),
         meta_data: get_column_meta(column)

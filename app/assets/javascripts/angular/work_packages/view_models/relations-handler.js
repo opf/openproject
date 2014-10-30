@@ -28,11 +28,14 @@
 
 angular.module('openproject.viewModels')
 
+.constant('MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', 3)
+
 .factory('CommonRelationsHandler', [
     '$timeout',
     'WorkPackageService',
     'ApiHelper',
-    function($timeout, WorkPackageService, ApiHelper) {
+    'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS',
+    function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -84,27 +87,41 @@ angular.module('openproject.viewModels')
     },
 
     applyCustomExtensions: function() {
-      // Massive hack alert - Using old prototype autocomplete ///////////
       if(this.canAddRelation) {
         var workPackage = this.workPackage;
         var relationsId = this.relationsId;
+        var handler = this;
 
-        $timeout(function() {
-          var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
-          new Ajax.Autocompleter('relation_to_id-' + relationsId,
-                                 'related_issue_candidates-' + relationsId,
-                                 url,
-                                 { minChars: 1,
-                                   frequency: 0.5,
-                                   paramName: 'q',
-                                   updateElement: function(value) {
-                                     document.getElementById('relation_to_id-' + relationsId).value = value.id;
-                                   },
-                                   parameters: 'scope=all'
-                                   });
-        });
+        $timeout(function() { handler.addAutocompleter(MAX_AUTOCOMPLETER_ADDITION_ITERATIONS, workPackage, relationsId); });
       }
-      ////////////////////////////////////////////////////////////////////
+    },
+
+    addAutocompleter: function(retries, workPackage, relationsId) {
+      if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
+        // Massive hack alert - Using old prototype autocomplete ///////////
+        var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
+        new Ajax.Autocompleter('relation_to_id-' + relationsId,
+                               'related_issue_candidates-' + relationsId,
+                               url,
+                               { minChars: 1,
+                                 frequency: 0.5,
+                                 paramName: 'q',
+                                 updateElement: function(value) {
+                                   // Have to use the duplicate assignment here to update the field
+                                   // * to the user
+                                   // * to the angular scope
+                                   // Doing just one will not suffice.
+                                   angular.element('#relation_to_id-' + relationsId).val(value.id)
+                                                                                    .scope().relationToAddId = value.id;
+                                 },
+                                 parameters: 'scope=all'
+                                 });
+          ////////////////////////////////////////////////////////////////////
+      } else if (retries > 0) {
+        var handler = this;
+
+        $timeout(function() { handler.addAutocompleter(--retries, workPackage, relationsId); });
+      }
     },
 
     getRelatedWorkPackage: function(workPackage, relation) {
@@ -130,22 +147,25 @@ angular.module('openproject.viewModels')
         handler.type = "child";
         handler.applyCustomExtensions = undefined;
 
-        handler.canAddRelation = function() { return true };
+        handler.canAddRelation = function() { return !!this.workPackage.links.addChild };
         handler.canDeleteRelation = function() {
           return !!this.workPackage.links.update;
         };
         handler.addRelation = function() {
-            window.location = PathHelper.staticWorkPackageNewWithParentPath(
-                this.workPackage.props.projectId, this.workPackage.props.id
-            );
+          window.location = this.workPackage.links.addChild.href
         };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.removeRelation = function(scope) {
             var index = this.relations.indexOf(scope.relation);
             var handler = this;
+            var params = {
+              lockVersion: scope.relation.props.lockVersion,
+              parentId: null
+            };
 
-            WorkPackageService.updateWorkPackage(scope.relation, {parentId: null}).then(function(response){
+            WorkPackageService.updateWorkPackage(scope.relation, params).then(function(response){
                 handler.relations.splice(index, 1);
+                scope.workPackage.props.lockVersion = response.props.lockVersion;
                 scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);
@@ -168,11 +188,16 @@ angular.module('openproject.viewModels')
         handler.isSingletonRelation = true;
         handler.relationsId = relationsId;
 
-        handler.canAddRelation = function() { return !!this.workPackage.links.update; };
-        handler.canDeleteRelation = function() { return !!this.workPackage.links.update; };
+        handler.canAddRelation = function() { return !!this.workPackage.links.changeParent; };
+        handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
         handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
         handler.addRelation = function(scope) {
-            WorkPackageService.updateWorkPackage(this.workPackage, {parentId: scope.relationToAddId}).then(function(workPackage) {
+            var params = {
+              lockVersion: scope.workPackage.props.lockVersion,
+              parentId: scope.relationToAddId
+            };
+
+            WorkPackageService.updateWorkPackage(this.workPackage, params).then(function(workPackage) {
                 scope.relationToAddId = '';
                 scope.updateFocus(-1);
                 scope.$emit('workPackageRefreshRequired', '');
@@ -183,9 +208,14 @@ angular.module('openproject.viewModels')
         handler.removeRelation = function(scope) {
             var index = this.relations.indexOf(scope.relation);
             var handler = this;
+            var params = {
+              lockVersion: scope.workPackage.props.lockVersion,
+              parentId: null
+            };
 
-            WorkPackageService.updateWorkPackage(scope.workPackage, {parentId: null}).then(function(response){
+            WorkPackageService.updateWorkPackage(scope.workPackage, params).then(function(response){
                 handler.relations.splice(index, 1);
+                scope.workPackage.props.lockVersion = response.props.lockVersion;
                 scope.updateFocus(index);
             }, function(error) {
                 ApiHelper.handleError(scope, error);

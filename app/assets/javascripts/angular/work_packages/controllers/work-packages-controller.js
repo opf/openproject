@@ -39,8 +39,8 @@ angular.module('openproject.workPackages.controllers')
   $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
 
-  if ($stateParams.projectPath.indexOf('/projects') === 0) {
-    $scope.projectIdentifier = $stateParams.projectPath.replace('/projects/', '');
+  if ($stateParams.projectPath.indexOf(PathHelper.staticBase + '/projects') === 0) {
+    $scope.projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
   }
 
   $scope.query_id = $stateParams.query_id;

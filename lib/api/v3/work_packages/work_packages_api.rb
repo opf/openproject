@@ -40,12 +40,16 @@ module API
 
             helpers do
               attr_reader :work_package
+
+              def decorate_work_package(work_package)
+                model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user)
+                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
+              end
             end
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              model = ::API::V3::WorkPackages::WorkPackageModel.new(@work_package)
-              @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
+              decorate_work_package(@work_package)
             end
 
             get do
@@ -54,13 +58,14 @@ module API
             end
 
             patch do
-              authorize(:edit_work_packages, context: @work_package.project)
+              @representer.represented.lock_version = nil # enforces availibility validation of lock_version
+
               @representer.from_json(env['api.request.input'])
-              @representer.represented.sync
-              if @representer.represented.model.valid? && @representer.represented.save
+              if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
+                decorate_work_package(@work_package.reload)
                 @representer
               else
-                fail Errors::Validation.new(@representer.represented.model)
+                fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
               end
             end
 
@@ -74,8 +79,7 @@ module API
 
                     representer
                   else
-                    errors = work_package.errors.full_messages.join(", ")
-                    fail Errors::Validation.new(work_package, description: errors)
+                    fail ::API::Errors::Validation.new(work_package)
                   end
                 end
               end

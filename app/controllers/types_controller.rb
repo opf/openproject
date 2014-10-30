@@ -32,13 +32,10 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_login
-  before_filter :require_admin, :except => [:index, :show]
+  before_filter :require_admin
 
   def index
     @types = ::Type.page(params[:page]).per_page(per_page_param)
-
-    render :action => "index", :layout => false if request.xhr?
   end
 
   def type

@@ -26,6 +26,7 @@
                   <!-- Operator -->
                   <td style="width:150px;">
                     <select require
+                            focus="$index == focusElementIndex"
                             class="select-small"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
@@ -33,7 +34,7 @@
                             style="vertical-align: top;"
                             ng-disabled="isLoading">
 
-                      <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator">{{ I18n.t('js.' + option[1]) }}</option>
+                      <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator" label="{{ I18n.t('js.' + option[1]) }}">{{ I18n.t('js.' + option[1]) }}</option>
                     </select>
                   </td>
 
@@ -132,7 +133,7 @@
 
                   <!-- Delete filter -->
                   <td>
-                    <accessible-by-keyboard execute="query.deactivateFilter(filter)">
+                    <accessible-by-keyboard execute="deactivateFilter(filter)">
                       <icon-wrapper icon-name="delete2"
                                     icon-title="{{I18n.t('js.button_delete')}}"/>
                     </accessible-by-keyboard>
@@ -151,6 +152,7 @@
             <label for="add_filter_select">{{ I18n.t('js.work_packages.label_filter_add') }}:</label>
             <select class="select-small"
                     id="add_filter_select"
+                    focus="focusElementIndex == -1"
                     ng-model="filterToBeAdded"
                     ng-options="filterName as localisedFilterName(query.availableWorkPackageFilters[filterName])
                                 for filterName

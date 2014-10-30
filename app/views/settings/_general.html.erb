@@ -39,8 +39,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= setting_text_field :attachment_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 
-<p><%= setting_text_field :per_page_options, :size => 20 %><br />
-<em><%= l(:text_comma_separated) %></em></p>
+<p>
+  <%= setting_text_field :per_page_options, :size => 20 %><br>
+  <em><%= l(:text_comma_separated) %></em><br>
+  <em><%= l(:text_notice_too_many_values_are_inperformant) %></em>
+</p>
 
 <p><%= setting_text_field :activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
 

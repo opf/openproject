@@ -36,7 +36,7 @@ describe 'Query selection', :type => :feature do
                                                  member_through_role: role }
 
   let(:filter_name) { 'done_ratio' }
-  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name).to_sym }
+  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name.to_sym) }
   let!(:query) do
     query = FactoryGirl.build(:query, project: project, is_public: true)
     query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: ">=", values: [10]) ]
@@ -51,11 +51,14 @@ describe 'Query selection', :type => :feature do
 
   context 'when a query is selected' do
     before do
-      work_packages_page.visit_index
       work_packages_page.select_query query
+      # ensure the page is loaded before expecting anything
+      find('.filter-fields select option', text: /\AAssignee\Z/,
+                                           visible: false)
     end
 
     it 'should show the filter', js: true do
+      find("#work-packages-filter-toggle-button").click
       expect(work_packages_page.selected_filter(filter_name)).to have_content(i18n_filter_name)
     end
   end

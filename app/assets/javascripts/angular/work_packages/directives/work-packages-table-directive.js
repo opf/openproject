@@ -31,9 +31,11 @@ angular.module('openproject.workPackages.directives')
 .directive('workPackagesTable', [
   'I18n',
   'WorkPackagesTableService',
+  '$window',
+  '$timeout',
   'flags',
   'PathHelper',
-  function(I18n, WorkPackagesTableService, flags, PathHelper){
+  function(I18n, WorkPackagesTableService, $window, $timeout, flags, PathHelper){
 
   return {
     restrict: 'E',
@@ -70,6 +72,92 @@ angular.module('openproject.workPackages.directives')
 
       scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
         scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
+      });
+
+      function getTable() {
+        return element.find('table');
+      }
+
+      function getInnerContainer() {
+        return element.find('.work-packages-table--results-container');
+      }
+
+      function getBackgrounds() {
+        return element.find('.work-packages-table--header-background,' +
+          '.work-packages-table--footer-background');
+      }
+
+      function getHeadersFooters() {
+        return element.find(
+          '.sort-header-outer,' +
+          '.work-packages-table--header-outer,' +
+          '.work-packages-table--footer-outer'
+        );
+      }
+
+      function setTableContainerWidths() {
+        // adjust overall containers
+        var tableWidth = getTable().width(),
+            scrollBarWidth = 16;
+
+        // account for a possible scrollbar
+        if (tableWidth > document.documentElement.clientWidth - scrollBarWidth) {
+          tableWidth += scrollBarWidth;
+        }
+        if (tableWidth > element.width()) {
+          // force containers to the width of the table
+          getInnerContainer().width(tableWidth);
+          getBackgrounds().width(tableWidth);
+        } else {
+          // ensure table stretches to container sizes
+          getInnerContainer().css('width', '100%');
+          getBackgrounds().css('width', '100%');
+        }
+      }
+
+      function setHeaderFooterWidths() {
+        getHeadersFooters().each(function() {
+          var parentWidth = angular.element(this).parent().width();
+          angular.element(this).css('width', parentWidth + 'px');
+        });
+      }
+
+      function invalidateWidths() {
+        getInnerContainer().css('width', 'auto');
+        getBackgrounds().css('width', 'auto');
+        getHeadersFooters().each(function() {
+          angular.element(this).css('width', 'auto');
+        });
+      }
+
+      var setTableWidths = function() {
+        $timeout(function() {
+          invalidateWidths();
+          setTableContainerWidths();
+          setHeaderFooterWidths();
+        })
+      };
+
+      $timeout(setTableWidths);
+      angular.element($window).on('resize', _.debounce(setTableWidths, 50));
+      scope.$on('$stateChangeSuccess', function() {
+        $timeout(setTableWidths, 200);
+      });
+      scope.$on('openproject.layout.navigationToggled', function() {
+        $timeout(setTableWidths, 200);
+      });
+
+      scope.$watchCollection('columns', function() {
+        // force Browser rerender
+        element.hide().show(0);
+
+        angular.element($window).trigger('resize');
+      });
+      scope.$watchCollection('rows', function() {
+        // force Browser rerender
+        element.hide().show(0);
+
+        angular.element($window).trigger('resize');
       });
 
       element.on('hover', 'th', function() {

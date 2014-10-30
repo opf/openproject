@@ -54,6 +54,8 @@ class Version < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
 
+  scope :systemwide, -> { where(sharing: 'system') }
+
   safe_attributes 'name',
     'description',
     'effective_date',
@@ -173,6 +175,14 @@ class Version < ActiveRecord::Base
 
   def to_s_with_project
     "#{project} - #{name}"
+  end
+
+  def to_s_for_project(other_project)
+    if other_project == project
+      name
+    else
+      to_s_with_project
+    end
   end
 
   # Versions are sorted by effective_date and "Project Name - Version name"

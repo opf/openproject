@@ -109,7 +109,11 @@ angular.module('openproject.timeEntries', [
 ]);
 angular.module('openproject.timeEntries.controllers', []);
 
-angular.module('openproject.layout', []);
+angular.module('openproject.layout', [
+  'openproject.layout.controllers',
+  'ui.router'
+]);
+angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
@@ -159,9 +163,14 @@ openprojectApp
   }])
   .run([
     '$http',
+    '$rootScope',
+    '$window',
     'flags',
-    function($http, flags) {
+    function($http, $rootScope, $window, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
+
+    $rootScope.showNavigation =
+      $window.sessionStorage.getItem('openproject:navigation-toggle') !== 'collapsed';
 
     flags.set($http.get('/javascripts/feature-flags.json'));
   }])
