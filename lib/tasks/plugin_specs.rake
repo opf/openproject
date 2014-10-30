@@ -27,7 +27,7 @@
 #++
 
 #  Run all core and plugins specs via
-#  rake spec_all 
+#  rake spec_all
 #
 #  Run plugins specs via
 #  rake spec_plugins
@@ -47,7 +47,7 @@ begin
 
   namespace :spec do
     desc "Run core and plugin specs"
-    RSpec::Core::RakeTask.new(:all => :environment) do |t|
+    RSpec::Core::RakeTask.new(:all => [:environment, 'assets:webpack']) do |t|
       pattern = []
       dirs = get_plugins_to_test
       dirs << File.join(Rails.root).to_s
@@ -60,7 +60,7 @@ begin
     end
 
     desc "Run plugin specs"
-    RSpec::Core::RakeTask.new(:plugins => :environment) do |t|
+    RSpec::Core::RakeTask.new(:plugins => [:environment, 'assets:webpack']) do |t|
       pattern = []
       get_plugins_to_test.each do |dir|
         if File.directory?( dir )
