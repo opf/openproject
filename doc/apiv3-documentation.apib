@@ -430,12 +430,12 @@ Updates an activity's comment and, on success, returns the updated activity.
     
 # Group Previewing
 
-Throughout OpenProject textile is used to support formatting of user input.
-Using the apropriate rendering endpoint it is possible to render custom textile inputs into HTML and thus
-receive a preview of the rendered textile.
+Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
+Using the apropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
+receive a preview of the rendered text.
 
-The request to the endpoint should have a MIME-Type of `text/plain`.
-The request body is the actual textile string that shall be rendered as HTML string.
+The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
+The request body is the actual string that shall be rendered as HTML string.
 
 ## Textile [/render/textile{?context}]
 
@@ -479,6 +479,23 @@ The request body is the actual textile string that shall be rendered as HTML str
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRenderContext",
                 "message": "Could not render textile string in the given context."
             }
+
+## Plain Text [/render/plain]
+
++ Model
+    + Body
+    
+            <p>Hello world! This *is* plain text!</p>
+
+## Preview plain document [POST]
+
++ Request (text/plain)
+
+            Hello world! This *is* plain text!
+
++ Response 200 (text/html)
+
+    [Plain Text][]
 
 # Group Priorities
 
