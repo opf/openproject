@@ -1023,7 +1023,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}{?sendnotification}]
+## WorkPackage [/work_packages/{id}{?notify}]
 
 + Model
     + Body
@@ -1388,7 +1388,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Parameters
     + id (required, integer, `1`) ... Work package id
     
-    + sendnotification = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
+    + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
     Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
     not just the current user.
 
