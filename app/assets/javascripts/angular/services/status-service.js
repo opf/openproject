@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('StatusService', ['$http', 'PathHelper', function($http, PathHelper) {
+module.exports = function($http, PathHelper) {
 
   var StatusService = {
     getStatuses: function(projectIdentifier) {
@@ -52,4 +50,4 @@ angular.module('openproject.services')
   };
 
   return StatusService;
-}]);
+}

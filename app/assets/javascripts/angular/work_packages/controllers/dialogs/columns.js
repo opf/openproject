@@ -26,25 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('columnsModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'ColumnsModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/columns.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('ColumnsModalController', ['$scope',
-  '$filter',
-  'columnsModal',
-  'QueryService',
-  'WorkPackageService',
-  'WorkPackagesTableService',
-  '$rootScope',
-  function($scope, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, $rootScope) {
+module.exports = function($scope, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, $rootScope) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
@@ -107,4 +89,4 @@ angular.module('openproject.workPackages.controllers')
 
     columnsModal.deactivate();
   };
-}]);
+}

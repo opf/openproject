@@ -38,7 +38,7 @@ describe('queryMenuItemFactory', function() {
                     'openproject.models',
                     'openproject.api',
                     function($provide) {
-    configurationService = new Object();
+    var configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 

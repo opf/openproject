@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('User', [function() {
+module.exports = function() {
   identifier = 'users';
 
   User = {
@@ -52,4 +50,4 @@ angular.module('openproject.timelines.models')
   User.identifier = identifier;
 
   return User;
-}]);
+}

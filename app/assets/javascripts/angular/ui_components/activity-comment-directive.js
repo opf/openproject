@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('activityComment', ['I18n', 'ActivityService', 'ConfigurationService', function(I18n, ActivityService, ConfigurationService) {
+module.exports = function(I18n, ActivityService, ConfigurationService) {
   return {
     restrict: 'E',
     replace: true,
@@ -61,4 +59,4 @@ angular.module('openproject.uiComponents')
       };
     }
   };
-}]);
+}

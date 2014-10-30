@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('TypeService', ['$http', 'PathHelper', function($http, PathHelper) {
+module.exports = function($http, PathHelper) {
 
   var TypeService = {
     getTypes: function(projectIdentifier) {
@@ -53,4 +51,4 @@ angular.module('openproject.services')
   };
 
   return TypeService;
-}]);
+}

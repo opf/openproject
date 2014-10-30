@@ -97,7 +97,7 @@ describe('WorkPackageDetailsController', function() {
   beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
   beforeEach(module('templates', function($provide) {
-    configurationService = new Object();
+    var configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -129,9 +129,6 @@ describe('WorkPackageDetailsController', function() {
           commentsSortedInDescendingOrder: function() {
             return false;
           }
-        },
-        WorkPackagesDetailsHelper: {
-          attachmentsTitle: function() { return ''; }
         },
         workPackage: buildWorkPackageWithId(workPackageId),
       });

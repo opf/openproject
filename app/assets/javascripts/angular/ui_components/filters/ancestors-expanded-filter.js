@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-  .filter('ancestorsExpanded', function() {
+module.exports = function() {
     return function(ancestors) {
       if(!ancestors) return true;
 
@@ -47,4 +45,4 @@ angular.module('openproject.uiComponents')
         return a && b;
       });
     };
-  });
+}

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('attachmentTitleCell', ['PathHelper', function(PathHelper){
+module.exports = function(PathHelper) {
   return {
     restrict: 'A',
     replace: false,
@@ -40,4 +38,4 @@ angular.module('openproject.workPackages.directives')
       scope.attachmentPath = PathHelper.staticAttachmentPath(scope.attachment.props.id, scope.attachment.props.fileName);
     }
   };
-}]);
+}

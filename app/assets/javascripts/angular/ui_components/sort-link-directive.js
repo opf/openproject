@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('sortLink', ['I18n', 'SortService', function(I18n, SortService) {
+module.exports = function(I18n, SortService) {
   return {
     restrict: 'E',
     transclude: true,
@@ -87,4 +85,4 @@ angular.module('openproject.uiComponents')
       };
     }
   };
-}]);
+}

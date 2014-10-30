@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('attachmentsTable', ['I18n', function(I18n){
+module.exports = function(I18n) {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_attachments_table.html',
@@ -39,4 +37,4 @@ angular.module('openproject.workPackages.directives')
       scope.I18n = I18n;
     }
   };
-}]);
+}

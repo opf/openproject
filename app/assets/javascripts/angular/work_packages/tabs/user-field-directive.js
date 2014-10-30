@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.tabs')
-
-.directive('userField', ['PathHelper', function(PathHelper) {
+module.exports = function(PathHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -45,4 +43,4 @@ angular.module('openproject.workPackages.tabs')
       scope.userPath = PathHelper.staticUserPath;
     }
   };
-}]);
+}

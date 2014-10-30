@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('focus', ['FocusHelper', function(FocusHelper) {
+module.exports = function(FocusHelper) {
 
   function isSelect2Element(attrs) {
     var select2attributes = Object.keys(attrs).filter(function(attribute) {
@@ -60,4 +58,4 @@ angular.module('openproject.uiComponents')
       });
     }
   };
-}]);
+}

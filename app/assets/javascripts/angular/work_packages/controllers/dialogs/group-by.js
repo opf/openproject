@@ -26,24 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('groupingModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'GroupByModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/group_by.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('GroupByModalController', [
-  '$scope',
-  '$filter',
-  'groupingModal',
-  'QueryService',
-  'WorkPackagesTableService',
-  function($scope, $filter, groupingModal, QueryService, WorkPackagesTableService) {
+module.exports = function($scope, $filter, groupingModal, QueryService, WorkPackagesTableService) {
 
   this.name    = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
@@ -87,4 +70,4 @@ angular.module('openproject.workPackages.controllers')
     }
   });
 
-}]);
+}

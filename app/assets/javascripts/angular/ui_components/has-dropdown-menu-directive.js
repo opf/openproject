@@ -26,13 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('hasDropdownMenu', [
-  '$injector',
-  '$window',
-  '$parse',
-  function($injector, $window, $parse) {
+module.exports = function($injector, $window, $parse) {
 
   function getCssPositionProperties(dropdown, trigger) {
     var hOffset = 0,
@@ -173,4 +167,4 @@ angular.module('openproject.uiComponents')
       win.bind(triggerOnEvent, handleWindowClickEvent);
     }
   };
-}]);
+}

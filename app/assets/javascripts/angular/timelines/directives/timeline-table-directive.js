@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineTable', ['TimelineTableHelper', function(TimelineTableHelper) {
+module.exports = function(TimelineTableHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -54,4 +52,4 @@ angular.module('openproject.timelines.directives')
       };
     }
   };
-}]);
+}

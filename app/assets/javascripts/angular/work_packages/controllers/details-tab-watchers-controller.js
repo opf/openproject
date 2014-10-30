@@ -26,17 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.constant('ADD_WATCHER_SELECT_INDEX', -1)
-
-.controller('DetailsTabWatchersController',
-            ['$scope',
-             '$filter',
-             '$timeout',
-             'I18n',
-             'ADD_WATCHER_SELECT_INDEX',
-             function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_INDEX) {
+module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_INDEX) {
   $scope.I18n = I18n;
   $scope.focusElementIndex;
 
@@ -153,4 +143,4 @@ angular.module('openproject.workPackages.controllers')
   $scope.watcher = { selected: null };
 
   $scope.$watch('watcher.selected', addWatcher);
-}]);
+}

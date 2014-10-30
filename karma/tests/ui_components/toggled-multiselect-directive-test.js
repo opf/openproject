@@ -33,7 +33,7 @@ describe('toggledMultiselect Directive', function() {
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      configurationService = new Object();
+      var configurationService = new Object();
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 

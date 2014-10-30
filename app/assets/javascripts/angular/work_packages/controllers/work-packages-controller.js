@@ -26,14 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.controller('WorkPackagesController', [
-    '$scope',
-    '$state',
-    '$stateParams',
-    'QueryService',
-    function($scope, $state, $stateParams, QueryService) {
+module.exports = function($scope, $state, $stateParams, QueryService) {
 
   // Setup
   $scope.$state = $state;
@@ -63,4 +56,4 @@ angular.module('openproject.workPackages.controllers')
   $scope.getActivationActionLabel = function(activate) {
     return (activate) ? I18n.t('js.label_activate') : '';
   };
-}]);
+}

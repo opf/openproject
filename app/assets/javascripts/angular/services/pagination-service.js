@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', function(DEFAULT_PAGINATION_OPTIONS) {
+module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
     perPage: DEFAULT_PAGINATION_OPTIONS.perPage,
@@ -83,4 +81,4 @@ angular.module('openproject.services')
   };
 
   return PaginationService;
-}]);
+}

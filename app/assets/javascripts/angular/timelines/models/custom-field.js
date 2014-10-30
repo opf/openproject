@@ -53,9 +53,7 @@
 /*jshint browser:true, devel:true*/
 /*global angular:false, Timeline:true*/
 
-angular.module('openproject.timelines.models')
-
-.factory('CustomField', [function() {
+module.exports = function() {
 
   var CustomField = {
     identifier: 'custom_fields',
@@ -73,4 +71,4 @@ angular.module('openproject.timelines.models')
   };
 
   return CustomField;
-}]);
+}

@@ -27,9 +27,7 @@
 //++
 
 // TODO forward rails routes
-angular.module('openproject.helpers')
-
-.service('PathHelper', [function() {
+module.exports = function() {
   PathHelper = {
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
@@ -266,4 +264,4 @@ angular.module('openproject.helpers')
   };
 
   return PathHelper;
-}]);
+}

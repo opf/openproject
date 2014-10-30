@@ -26,30 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.constant('TEXT_TYPE', 'text')
-.constant('VERSION_TYPE', 'version')
-.constant('CATEGORY_TYPE', 'category')
-.constant('USER_TYPE', 'user')
-.constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-
-.controller('DetailsTabOverviewController', [
-  '$scope',
-  'I18n',
-  'ConfigurationService',
-  'TEXT_TYPE',
-  'VERSION_TYPE',
-  'CATEGORY_TYPE',
-  'USER_TYPE',
-  'USER_FIELDS',
-  'CustomFieldHelper',
-  'WorkPackagesHelper',
-  'PathHelper',
-  'UserService',
-  'HookService',
-  '$q',
-  function($scope,
+module.exports = function($scope,
            I18n,
            ConfigurationService,
            TEXT_TYPE,
@@ -239,4 +216,4 @@ angular.module('openproject.workPackages.controllers')
   };
 
 
-}]);
+}

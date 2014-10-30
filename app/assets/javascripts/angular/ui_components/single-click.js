@@ -27,16 +27,9 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.constant('DOUBLE_CLICK_DELAY', 300)
 
 // Thanks to http://stackoverflow.com/a/20445344
-.directive('singleClick', [
-  'DOUBLE_CLICK_DELAY',
-  '$parse',
-  '$timeout',
-  function(DOUBLE_CLICK_DELAY, $parse, $timeout) {
+module.exports = function(DOUBLE_CLICK_DELAY, $parse, $timeout) {
 
   return {
     restrict: 'A',
@@ -60,4 +53,4 @@ angular.module('openproject.uiComponents')
       }
     }
   };
-}]);
+}

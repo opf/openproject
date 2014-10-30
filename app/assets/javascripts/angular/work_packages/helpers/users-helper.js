@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.constant('ACTIVE_USER_STATUSES', [1, 2])
-
-.factory('UsersHelper', ['ACTIVE_USER_STATUSES', function(ACTIVE_USER_STATUSES) {
+module.exports = function(ACTIVE_USER_STATUSES) {
   var UsersHelper = {
 
     isActive: function(user){
@@ -40,4 +36,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return UsersHelper;
-}]);
+}

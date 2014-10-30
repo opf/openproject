@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-
-.factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
+module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   var defaultSortDirection = 'asc';
 
   var Sortation = function(sortation) {
@@ -36,7 +34,7 @@ angular.module('openproject.models')
       if (sortation.length > 0) {
         // Convert sortation element from API meta format
         this.sortElements = sortation.map(function(sortElement) {
-          return {field: sortElement.first(), direction: sortElement.last()};
+          return {field: _.first(sortElement), direction: _.last(sortElement)};
         });
       } else {
         this.sortElements = this.decodeEncodedSortation(DEFAULT_SORT_CRITERIA);
@@ -128,4 +126,4 @@ angular.module('openproject.models')
   };
 
   return Sortation;
-}]);
+}

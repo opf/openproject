@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('HookService', [function() {
+module.exports = function() {
   var hooks = { };
 
   HookService = {
@@ -59,4 +57,4 @@ angular.module('openproject.services')
   };
 
   return HookService;
-}]);
+}

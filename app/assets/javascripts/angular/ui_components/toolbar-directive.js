@@ -27,12 +27,10 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-  .directive('toolbar', function() {
+module.exports = function() {
     return {
       restrict: 'EA',
       link: function(scope, element, attributes) {
       }
     };
-  });
+}
