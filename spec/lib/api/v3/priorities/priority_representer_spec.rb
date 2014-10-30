@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityRepresenter do
   let(:priority) { FactoryGirl.build(:priority) }
-  let(:model) { ::API::V3::Priorities::PriorityModel.new(priority) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(priority) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

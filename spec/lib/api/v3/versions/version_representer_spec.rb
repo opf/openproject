@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter do
   let(:version) { FactoryGirl.build(:version) }
-  let(:model) { ::API::V3::Versions::VersionModel.new(version) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(version) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
