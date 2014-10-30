@@ -26,26 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
-  abort <<-Message
-
-  *****************************************************
-  *                                                   *
-  *   OpenProject requires bundler version >= 1.5.0   *
-  *                                                   *
-  *   Please install bundler with:                    *
-  *                                                   *
-  *   gem install bundler                             *
-  *                                                   *
-  *****************************************************
-
-  Message
-end
-
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.17"
-gem "sprockets", "2.2.2.backport2"
+gem "rails", "~> 3.2.19"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -53,6 +36,7 @@ gem "rdoc", ">= 2.4.2"
 gem 'globalize'
 gem 'omniauth'
 gem 'request_store'
+gem 'gravatar_image_tag', '~> 1.2.0'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
@@ -106,28 +90,28 @@ group :production do
   gem 'dalli'
 end
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-end
-
-# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
-gem 'therubyracer', :group => :therubyracer
+gem 'sprockets',        '2.2.2.backport2'
+gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
+gem 'non-stupid-digest-assets'
+gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
+gem 'sass',             '~> 3.3.6'
+gem 'bourbon',          '~> 4.0'
+gem 'uglifier',         '>= 1.0.3', require: false
+gem 'livingstyleguide', '~> 1.2.0'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-# branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
-# a "magic comment" in the translations.js.erb and somehow breaks i18n-js
-# using the commit before this comment
-gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
+gem 'i18n-js', '~> 3.0.0.rc6'
 
 # small wrapper around the command line
 gem 'cocaine'
 
+# required by Procfile, for deployment on heroku or packaging with packager.io.
+# also, better than thin since we can control worker concurrency.
+gem 'unicorn'
 
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
@@ -139,26 +123,31 @@ gem 'i18n', '>=0.6.8'
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
-
 group :test do
+  gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
   gem 'rack_session_access'
-  gem 'database_cleaner'
+  # restrict because in version 1.3 a lot of tests using acts as journalized
+  # fail stating: "Column 'user_id' cannot be null". I don't understand the
+  # connection with database cleaner here but setting it to 1.2 fixes the
+  # issue.
+  gem 'database_cleaner', '~> 1.2.0'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
-  gem 'rspec', '~> 2.14'
+  gem 'rspec', '~> 2.99.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.14", :group => :development
+  gem "rspec-rails", "~> 2.99.0", :group => :development
+  gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
-  gem 'capybara'
+  gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 2.43.0'
   gem 'timecop', "~> 0.6.1"
 
-  gem 'rb-readline' # ruby on CI needs this
+  gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
@@ -175,15 +164,24 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.0.0'
+  gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'thin'
+  gem 'faker'
+  gem 'quiet_assets'
+end
+
+group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
   gem 'pry-doc'
-  gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'thin'
-  gem 'faker'
 end
+
+# API gems
+gem 'grape', '~> 0.9.0'
+gem 'roar',   '~> 0.12.9'
+gem 'reform', '~> 1.0.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
@@ -226,4 +224,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
-

@@ -29,19 +29,6 @@
 
 module WatchersHelper
 
-  # Deprecated method. Use watcher_link instead
-  #
-  # This method will be removed in ChiliProject 3.0 or later
-  def watcher_tag(object, user, options={:replace => 'watcher'})
-    ActiveSupport::Deprecation.warn "The WatchersHelper#watcher_tag is deprecated and will be removed in ChiliProject 3.0. Please use WatchersHelper#watcher_link instead. Please also note the differences between the APIs.", caller
-
-    options[:id] ||= options[:replace] if options[:replace].is_a? String
-
-    options[:replace] = Array(options[:replace]).map { |id| "##{id}" }
-
-    watcher_link(object, user, options)
-  end
-
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
@@ -73,18 +60,18 @@ module WatchersHelper
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watchers(true).collect do |watch|
+    lis = object.watcher_users.sort.collect do |user|
+      watcher = object.watchers(true).find{|u| u.user_id == user.id }
       content_tag :li do
-        avatar(watch.user, :size => "16") +
-          link_to_user(watch.user, :class => 'user') +
+        avatar(user, :class => 'avatar-mini') +
+          link_to_user(user, :class => 'user') +
           if remove_allowed
             ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
-                                                 l(:button_delete_watcher, name: watch.user.name)),
-                             watcher_path(watch),
+                                                 l(:button_delete_watcher, name: user.name)),
+                             watcher_path(watcher),
                              :method => :delete,
                              :remote => true,
-                             :style => "vertical-align: middle",
-                             :title => l(:button_delete_watcher, name: watch.user.name),
+                             :title => l(:button_delete_watcher, name: user.name),
                              :class => "delete no-decoration-on-hover")
           else
             ''.html_safe

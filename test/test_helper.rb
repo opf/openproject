@@ -63,7 +63,6 @@ RSpec.configure do |config|
   config.include Shoulda::Context::Assertions
   # included in order to use #fixture_file_upload
   config.include ActionDispatch::TestProcess
-
   # config.include RSpec::Rails::ModelExampleGroup, file_path: ''
 
   config.include RSpec::Rails::ControllerExampleGroup, example_group: { file_path: %r(test/functional) }

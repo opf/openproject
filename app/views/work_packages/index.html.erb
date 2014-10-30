@@ -27,71 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= include_gon %>
-
-
-<% breadcrumb_paths(l(:label_work_package_plural)) %>
-<% if !query.new_record? && query.editable_by?(User.current) %>
-  <% content_for :action_menu_specific do %>
-    <%= li_unless_nil link_to(l(:button_edit), {:controller => '/queries', :action => 'edit', :id => query}, :class => 'icon icon-edit') %>
-    <%= li_unless_nil link_to(l(:button_delete), {:controller => '/queries', :action => 'destroy', :id => query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-delete') %>
-  <% end %>
-  <% unless project.nil? %>
-    <% content_for :action_menu_more do %>
-      <% if query.is_public? ? (current_user.allowed_to?(:manage_public_queries, project) || current_user.admin?) : current_user.allowed_to?(:save_queries, project, :global => true) %>
-        <% if query_menu_item = query.query_menu_item %>
-          <%= li_unless_nil link_to(l(:button_configure_menu_entry),edit_query_menu_item_path(project, query, query_menu_item)) %>
-          <%= li_unless_nil link_to(l(:button_delete_menu_entry), query_menu_item_path(project, query, query_menu_item), :method => :delete) %>
-        <% else %>
-          <%= li_unless_nil(link_to(l(:button_add_menu_entry), query_menu_items_path(project, query), :method => :create)) %>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-<h2><%= query.new_record? ? l(:label_work_package_plural) : h(query.name) %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
-
-<div id="work-packages-index" ng-controller="WorkPackagesController">
-  <div class="title-bar">
-    <div class="title-bar-extras">
-
-      <%= error_messages_for 'query' %>
-
-
-      <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
-
-      <% if visible_queries.any? %>
-        <div id='work-packages-query-selection'>
-          <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
-
-          <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
-
-        </div>
-      <% end %>
-
-      <%= render partial: 'query_form', locals: { project: project, query: query } %>
-
-
-    </div><!-- .title-bar-extras -->
-  </div><!-- .title-bar -->
-
-  <% if query.valid? %>
-    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
-
-    <%= other_formats_links do |f| %>
-      <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-      <%= f.link_to 'CSV', :url => { :project_id => project } %>
-      <%= f.link_to 'PDF', :url => { :project_id => project } %>
-      <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
-                                                                    :show_descriptions => true,
-                                                                    :format => 'pdf' } %>
-      <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
-    <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
-  <% end %>
-</div>
-
+<% html_title(l('activerecord.attributes.project.work_packages')) -%>
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
@@ -102,5 +38,3 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, {:query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_work_package_plural)) %>
   <%= auto_discovery_link_tag(:atom, {:controller => '/journals', :action => 'index', :query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
 <% end %>
-
-<%= context_menu work_packages_context_menu_path %>

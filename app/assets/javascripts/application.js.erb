@@ -11,18 +11,25 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-migrate/jquery-migrate
 //= require jquery-ujs
 //= require jquery-ui
-//= require jquery-ui/ui/i18n/jquery-ui-i18n
+//= require jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js
+//= require jquery-ui/ui/i18n/jquery.ui.datepicker-de.js
+//= require lodash
+//= require momentjs
+//= require momentjs/lang/en-gb.js
+//= require momentjs/lang/de.js
+//= require moment-timezone/moment-timezone.js
+//= require moment-timezone/moment-timezone-data.js
 
 //= require jquery.atwho/dist/js/jquery.atwho.js
-//= require Caret.js/src/jquery.caret
+//= require Caret.js/src/jquery.caret.js
 //= require jquery_noconflict
 //= require prototype
 //= require effects
 //= require dragdrop
 //= require controls
-//= require i18n
 //= require i18n/translations
 
 //= require lib/jquery.colorcontrast
@@ -35,7 +42,6 @@
 //= require openproject
 //= require breadcrumb
 //= require findDomElement
-//= require context_menu
 //= require jstoolbar
 //= require ajaxappender
 //= require settings
@@ -50,16 +56,7 @@
 //= require versions
 //= require_tree ./specific
 
-//= require angular
-//= require angular-animate
-//= require angular-ui-select2
-//= require angular-ui-date/src/date
-
-//= require openproject-ui_components/app/assets/javascripts/angular/ui-components-app
-//= require ./angular/openproject-app
-//= require_tree ./angular
-
-
+//= require ./openproject-app.bundle
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -125,7 +122,7 @@ jQuery(document).ready(function ($) {
     $.datepicker.setDefaults(defaults);
   }
 
-  $('#show_more_wp_properties').live('click', function(el){
+  $(document).on('click', '#show_more_wp_properties', function(el){
     $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
     Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
     enable_textarea_auto_completion(jQuery("#work_package_description"));
@@ -136,19 +133,19 @@ jQuery(document).ready(function ($) {
 });
 
 function checkAll (id, checked) {
-	var els = Element.descendants(id);
-	for (var i = 0; i < els.length; i++) {
-    if (els[i].disabled==false) {
+  var els = Element.descendants(id);
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].disabled === false) {
       els[i].checked = checked;
     }
-	}
+  }
 }
 
 function toggleCheckboxesBySelector(selector) {
-	boxes = $$(selector);
-	var all_checked = true;
-	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-	for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+  boxes = $$(selector);
+  var all_checked = true;
+  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked === false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
 function setCheckboxesBySelector(checked, selector) {
@@ -158,22 +155,16 @@ function setCheckboxesBySelector(checked, selector) {
   });
 }
 
-function showAndScrollTo(id, focus) {
-	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
-	Element.scrollTo(id);
-}
-
 // TODO de-implement once table component has been used
 function setGroupRowStatus(el) {
   var collapseExpandButton = jQuery(el);
   var row = jQuery(el).closest("tr");
-  var isOpen = row.hasClass("open")
-  var toggleAllLink = row.find(".toggle-all")
+  var isOpen = row.hasClass("open");
+  var toggleAllLink = row.find(".toggle-all");
   var toggleAllLinkText = isOpen ? I18n.t('js.label_collapse_all') : I18n.t('js.label_expand_all');
 
-  collapseExpandButton.toggleClass("icon-minus")
-  collapseExpandButton.toggleClass("icon-plus")
+  collapseExpandButton.toggleClass("icon-minus");
+  collapseExpandButton.toggleClass("icon-plus");
   toggleAllLink.text(toggleAllLinkText);
 }
 
@@ -209,16 +200,16 @@ function toggleAllRowGroups(el) {
 }
 
 function hideFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	fieldset.down('>div').hide();
+  var fieldset = Element.up(el, 'fieldset');
+  fieldset.toggleClassName('collapsed');
+  fieldset.down('>div').hide();
 }
 
 var fileFieldCount = 1;
 
 function addFileField() {
   fileFieldCount++;
-  if (fileFieldCount >= 10) return false
+  if (fileFieldCount >= 10) return false;
   var clone = $('attachment_template').cloneNode(true);
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
@@ -244,10 +235,10 @@ function promptToRemote(text, param, url) {
 
 function collapseScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
-	   if (els[i].hasClassName('open')) {
-	       collapseScmEntry(els[i].id);
-	   }
+  for (var i = 0; i < els.length; i++) {
+     if (els[i].hasClassName('open')) {
+         collapseScmEntry(els[i].id);
+     }
        Element.hide(els[i]);
     }
     $(id).removeClassName('open');
@@ -255,7 +246,7 @@ function collapseScmEntry(id) {
 
 function expandScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
+  for (var i = 0; i < els.length; i++) {
        Element.show(els[i]);
        if (els[i].hasClassName('loaded') && !els[i].hasClassName('collapsed')) {
             expandScmEntry(els[i].id);
@@ -289,12 +280,12 @@ function scmEntryLoaded(id) {
 }
 
 function randomKey(size) {
-	var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
-	var key = '';
-	for (i = 0; i < size; i++) {
-  	key += chars[Math.floor(Math.random() * chars.length)];
-	}
-	return key;
+  var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+  var key = '';
+  for (i = 0; i < size; i++) {
+    key += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return key;
 }
 
 // Automatic project identifier generation
@@ -303,7 +294,7 @@ var projectIdentifierDefault;
 var projectIdentifierMaxLength;
 
 function generateProjectIdentifier() {
-  var identifier = $('project_name').getValue() // project name
+  var identifier = $('project_name').getValue(); // project name
   var diacriticsMap = [
       {'base':'a', 'letters':/[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
       {'base':'aa','letters':/[\uA733\uA732]/g},
@@ -372,7 +363,7 @@ function observeProjectName() {
 
 function observeProjectIdentifier() {
   var f = function() {
-    if($('project_identifier').getValue() != '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
+    if($('project_identifier').getValue() !== '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;
@@ -438,6 +429,45 @@ function observeProjectModules() {
   jQuery('#project_enabled_module_names_work_package_tracking').change(f);
 }
 
+var WarnLeavingUnsaved = function(message) {
+  this.message = message;
+  var changedForms = false;
+  var isEmbed = window != window.parent;
+  var obj = this;
+
+  this.unload = function() {
+    if(changedForms && !isEmbed) {
+      return message;
+    }
+  };
+
+  this.getChanged = function() {
+    return changedForms;
+  };
+
+  this.setChanged = function() {
+    changedForms = true;
+  };
+
+  this.setUnchanged = function() {
+    changedForms = false;
+  };
+
+  this.init = function() {
+    jQuery(document).on('change', 'textarea', function() {
+      obj.setChanged();
+    });
+
+    jQuery(document).on('submit', 'form', function() {
+      obj.setUnchanged();
+    });
+
+    jQuery(window).bind('beforeunload', this.unload);
+  };
+
+  this.init();
+};
+
 /*
  * 1 - registers a callback which copies the csrf token into the
  * X-CSRF-Token header with each ajax request.  Necessary to
@@ -468,7 +498,7 @@ document.observe("dom:loaded", function() {
       }
     },
     onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+      if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
         Element.hide('ajax-indicator');
       }
       addClickEventToAllErrorMessages();
@@ -486,7 +516,7 @@ function addClickEventToAllErrorMessages() {
     $(a).observe('click', function(event) {
       var field;
       field = $($(a).readAttribute('href').substr(1));
-      if (field == null) {
+      if (field === null) {
         // Cut off '_id' (necessary for select boxes)
         field = $($(a).readAttribute('href').substr(1).concat('_id'));
       }
@@ -509,10 +539,10 @@ $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();
   var input_focus = $$('.autofocus').first();
-  if (error_focus != undefined) {
+  if (error_focus !== undefined) {
     error_focus.focus();
   }
-  else if (input_focus != undefined){
+  else if (input_focus !== undefined){
     input_focus.focus();
     if (input_focus.tagName === "INPUT") {
       input_focus.select();
@@ -674,27 +704,24 @@ jQuery(document).ready(function($) {
     });
   });
 
-	// file table thumbnails
-	$("table a.has-thumb").hover(function() {
-		$(this).removeAttr("title").toggleClass("active");
+  // file table thumbnails
+  $("table a.has-thumb").hover(function() {
+    $(this).removeAttr("title").toggleClass("active");
 
-		// grab the image dimensions to position it properly
-		var thumbImg = $(this).find("img");
-		var thumbImgLeft = -(thumbImg.outerWidth() );
-		var thumbImgTop = -(thumbImg.height() / 2 );
-		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+    // grab the image dimensions to position it properly
+    var thumbImg = $(this).find("img");
+    var thumbImgLeft = -(thumbImg.outerWidth() );
+    var thumbImgTop = -(thumbImg.height() / 2 );
+    thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
 
-	}, function() {
-		$(this).toggleClass("active").find("img").hide();
-	});
+  }, function() {
+    $(this).toggleClass("active").find("img").hide();
+  });
 
-	// show/hide the files table
-	$(".attachments h4").click(function() {
-	  $(this).toggleClass("closed").next().slideToggle(animationRate);
-	});
-
-	// deal with potentially problematic super-long titles
-	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
+  // show/hide the files table
+  $(".attachments h4").click(function() {
+    $(this).toggleClass("closed").next().slideToggle(animationRate);
+  });
 
 $(window).resize(function() {
     // wait 200 milliseconds for no further resize event
@@ -707,17 +734,7 @@ $(window).resize(function() {
 });
 
   $.fn.mySlide = function(callback) {
-    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-      // no animations, just toggle
-      this.toggle();
-       if (typeof callback === 'function') {
-         callback.apply(this);
-       }
-      // this forces IE to redraw the menu area, un-bollocksing things
-      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-    } else {
-      this.slideToggle(animationRate,callback);
-    }
+    this.slideToggle(animationRate,callback);
 
     return this;
   };
@@ -928,11 +945,11 @@ var I18nForms = (function ($) {
         element = $(element);
         update_interaction_elements(element);
       });
-    }
+    };
 
     return {
       init : init
-    }
+    };
   })();
 
 
@@ -1056,12 +1073,12 @@ var I18nForms = (function ($) {
 
       init = function() {
         num = 0;
-      }
+      };
 
       set_next_number_in_name = function(elements) {
         replace_number_in_name(elements, num);
         num += 1;
-      }
+      };
 
       replace_number_in_name = function (element, rep_number) {
         element.each(function (index, e) {
@@ -1147,16 +1164,8 @@ var I18nForms = (function ($) {
   };
 }(jQuery));
 
-jQuery(document).ready(I18nForms.init);
-
-var activateError = function() {
-  var errorHeader = jQuery('.errorExplanation h2[role="alert"]');
-
-  errorHeader.show();
-}
-
-var activateFlash = function() {
-  var flashMessages = jQuery('.flash');
+var activateFlash = function(selector) {
+  var flashMessages = jQuery(selector);
 
   // Ignore flash messages of class 'ignored-by-flash-activation' because those
   // messages are completely handled via JavaScript (see types_checkboxes.js for
@@ -1169,15 +1178,39 @@ var activateFlash = function() {
       flashMessage.show();
     }
   });
-}
+};
 
-jQuery(document).ready(initMainMenuExpandStatus);
-jQuery(document).ready(activateError);
-jQuery(document).ready(function () {
-  activateFlash();
+var activateFlashNotice = function () {
+  var notice = '.flash';
 
-  jQuery(document).ajaxComplete(activateFlash);
-});
+  activateFlash(notice);
+};
+
+var activateFlashError = function () {
+  var error = '.errorExplanation[role="alert"]';
+
+  activateFlash(error);
+};
+
+var focusFirstErroneousField = function() {
+  var firstErrorSpan = jQuery('span.errorSpan').first();
+  var erroneousInput = firstErrorSpan.find('*').filter(":input");
+
+  erroneousInput.focus();
+};
+
+var setupServerResponse = function() {
+  I18nForms.init();
+  initMainMenuExpandStatus();
+  focusFirstErroneousField();
+  activateFlashNotice();
+  activateFlashError();
+
+  jQuery(document).ajaxComplete(activateFlashNotice);
+  jQuery(document).ajaxComplete(activateFlashError);
+};
+
+jQuery(document).ready(setupServerResponse);
 
 var SubmitConfirm = (function($) {
   var init;

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementPrioritiesController do
+describe Api::V2::PlanningElementPrioritiesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before { allow(User).to receive(:current).and_return current_user }
@@ -66,4 +66,3 @@ describe Api::V2::PlanningElementPrioritiesController do
     end
   end
 end
-

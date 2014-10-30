@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
-describe Project do
+describe Project, :type => :model do
   include BecomeMember
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -166,6 +166,38 @@ describe Project do
     it 'creates a wiki menu item named like the default start page' do
       expect(project.wiki.wiki_menu_items).to be_one
       expect(project.wiki.wiki_menu_items.first.title).to eq(project.wiki.start_page)
+    end
+  end
+
+  describe 'copy_allowed?' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
+    let(:role_copy_projects) { FactoryGirl.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
+    let(:parent_project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:project, parent: parent_project) }
+    let!(:subproject_member) { FactoryGirl.create(:member,
+                                                  user: user,
+                                                  project: project,
+                                                  roles: [role_copy_projects]) }
+    before do
+      allow(User).to receive(:current).and_return(user)
+    end
+
+    context 'with permission to add subprojects' do
+      let!(:member_add_subproject) { FactoryGirl.create(:member,
+                                                        user: user,
+                                                        project: parent_project,
+                                                        roles: [role_add_subproject]) }
+
+      it 'should allow copy' do
+        expect(project.copy_allowed?).to eq(true)
+      end
+    end
+
+    context 'with permission to add subprojects' do
+      it 'should not allow copy' do
+        expect(project.copy_allowed?).to eq(false)
+      end
     end
   end
 end

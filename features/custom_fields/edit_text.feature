@@ -48,7 +48,7 @@ Feature: Editing text custom fields
     Then there should be the following localizations:
       | locale  | default_value   | name              |
       | en      | default         | My Custom Field   |
-      | de      | Standard        | nil               |
+      | de      | Standard        | My Custom Field   |
 
   @javascript
   Scenario: Changing a localization which is not present for any other attribute to a locale existing in another attribute deletes the localization completely
@@ -77,7 +77,7 @@ Feature: Editing text custom fields
     And I follow "My Custom Field"
     Then there should be the following localizations:
       | locale  | name            | default_value  |
-      | en      | nil             | default        |
+      | en      | My Custom Field | default        |
       | de      | My Custom Field | nil            |
 
 

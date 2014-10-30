@@ -32,10 +32,20 @@ class WorkPackageCustomField < CustomField
   has_and_belongs_to_many :types, :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}", :foreign_key => "custom_field_id"
   has_many :work_packages, :through => :work_package_custom_values
 
+  scope :visible_by_user, lambda { |user|
+    unless user.admin?
+      joins("LEFT OUTER JOIN custom_fields_projects AS cfp ON (custom_fields.id = cfp.custom_field_id) " \
+            "LEFT OUTER JOIN projects AS p ON (cfp.project_id = p.id) " \
+            "LEFT OUTER JOIN members AS m ON (p.id = m.project_id)")
+      .where("p.is_public = #{ActiveRecord::Base.connection.quoted_true} " \
+             "OR custom_fields.is_for_all = #{ActiveRecord::Base.connection.quoted_true} " \
+             "OR m.user_id = ?", user.id)
+    end
+  }
+
   def type_name
     # TODO
     # this needs to be renamed to label_work_package_plural
     :label_work_package_plural
   end
 end
-

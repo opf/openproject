@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::AutoCompletesController do
+describe WorkPackages::AutoCompletesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
@@ -37,14 +37,20 @@ describe WorkPackages::AutoCompletesController do
                                     project: project,
                                     principal: user,
                                     roles: [role]) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            subject: "Can't print recipes",
-                                            project: project) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            subject: "Error 281 when updating a recipe",
-                                            project: project) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            project: project) }
+  let(:work_package_1) do
+    FactoryGirl.create(:work_package, subject: "Can't print recipes",
+                                      project: project)
+  end
+
+  let(:work_package_2) do
+    FactoryGirl.create(:work_package, subject: 'Error when updating a recipe',
+                                      project: project)
+  end
+
+  let(:work_package_3) do
+    FactoryGirl.create(:work_package, subject: 'Lorem ipsum',
+                                      project: project)
+  end
 
   before do
     member
@@ -56,44 +62,44 @@ describe WorkPackages::AutoCompletesController do
     work_package_3
   end
 
-  shared_examples_for "successful response" do
+  shared_examples_for 'successful response' do
     subject { response }
 
-    it { should be_success }
+    it { is_expected.to be_success }
   end
 
-  shared_examples_for "contains expected values" do
+  shared_examples_for 'contains expected values' do
     subject { assigns(:work_packages) }
 
-    it { should include(*expected_values) }
+    it { is_expected.to include(*expected_values) }
   end
 
   describe :work_packages do
-    describe "search is case insensitive" do
+    describe 'search is case insensitive' do
       let(:expected_values) { [work_package_1, work_package_2] }
 
       before { get :index,
                    project_id: project.id,
                    q: 'ReCiPe' }
 
-      it_behaves_like "successful response"
+      it_behaves_like 'successful response'
 
-      it_behaves_like "contains expected values"
+      it_behaves_like 'contains expected values'
     end
 
-    describe "returns work package for given id" do
+    describe 'returns work package for given id' do
       let(:expected_values) { work_package_1 }
 
       before { get :index,
                    project_id: project.id,
                    q: work_package_1.id }
 
-      it_behaves_like "successful response"
+      it_behaves_like 'successful response'
 
-      it_behaves_like "contains expected values"
+      it_behaves_like 'contains expected values'
     end
 
-    describe "returns work package for given id" do
+    describe 'returns work package for given id' do
       # this relies on all expected work packages to have ids that contain the given string
       # we do not want to have work_package_3 so we take it's id + 1 to create a string
       # we are sure to not be part of work_package_3's id.
@@ -103,7 +109,7 @@ describe WorkPackages::AutoCompletesController do
         id = work_package_3.id + 1
 
         while taken_ids.include?(id.to_s) || work_package_3.id.to_s.include?(id.to_s)
-         id = id + 1
+          id = id + 1
         end
 
         id.to_s
@@ -130,20 +136,20 @@ describe WorkPackages::AutoCompletesController do
             q: ids
       end
 
-      it_behaves_like  "successful response"
+      it_behaves_like  'successful response'
 
-      it_behaves_like "contains expected values"
+      it_behaves_like 'contains expected values'
 
       context :uniq do
         let(:assigned) { assigns(:work_packages) }
 
         subject { assigned.size }
 
-        it { should eq(assigned.uniq.size) }
+        it { is_expected.to eq(assigned.uniq.size) }
       end
     end
 
-    describe "returns work package for given id" do
+    describe 'returns work package for given id' do
       render_views
       let(:work_package_4) { FactoryGirl.create(:work_package,
                                                 subject: "<script>alert('danger!');</script>",
@@ -155,10 +161,10 @@ describe WorkPackages::AutoCompletesController do
                    q: work_package_4.id,
                    format: :json }
 
-      it_behaves_like "successful response"
-      it_behaves_like "contains expected values"
+      it_behaves_like 'successful response'
+      it_behaves_like 'contains expected values'
 
-      it "should escape html" do
+      it 'should escape html' do
         expect(response.body).not_to include '<script>'
       end
     end
@@ -170,8 +176,10 @@ describe WorkPackages::AutoCompletesController do
                                           project: project_2,
                                           principal: user,
                                           roles: [role]) }
-      let(:work_package_4) { FactoryGirl.create(:work_package,
-                                                project: project_2) }
+      let(:work_package_4) do
+        FactoryGirl.create(:work_package, subject: 'Foo Bar Baz',
+                                          project: project_2)
+      end
 
       before do
         member_2
@@ -179,7 +187,7 @@ describe WorkPackages::AutoCompletesController do
         work_package_4
       end
 
-      context "with scope all and cross project relations" do
+      context 'with scope all and cross project relations' do
         let(:expected_values) { work_package_4 }
 
         before do
@@ -191,12 +199,12 @@ describe WorkPackages::AutoCompletesController do
               scope: 'all'
         end
 
-        it_behaves_like  "successful response"
+        it_behaves_like 'successful response'
 
-        it_behaves_like "contains expected values"
+        it_behaves_like 'contains expected values'
       end
 
-      context "with scope all but w/o cross project relations" do
+      context 'with scope all but w/o cross project relations' do
         before do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
@@ -206,11 +214,11 @@ describe WorkPackages::AutoCompletesController do
               scope: 'all'
         end
 
-        it_behaves_like  "successful response"
+        it_behaves_like 'successful response'
 
         subject { assigns(:work_packages) }
 
-        it { should eq([]) }
+        it { is_expected.to eq([]) }
       end
     end
   end

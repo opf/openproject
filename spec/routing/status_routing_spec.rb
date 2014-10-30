@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController do
+describe StatusesController, :type => :routing do
 
   describe "index" do
     it { expect(get("/statuses")).to      route_to( :controller => 'statuses', :action => 'index')}
@@ -52,8 +52,10 @@ describe StatusesController do
   end
 
   describe "update_work_package_done_ratio" do
-    it { expect(get("/statuses/update_work_package_done_ratio")).to route_to(:controller => 'statuses', :action =>"update_work_package_done_ratio")}
+    it do
+      expect(post('/statuses/update_work_package_done_ratio')).to route_to(
+        controller: 'statuses',
+        action: 'update_work_package_done_ratio')
+    end
   end
 end
-
-

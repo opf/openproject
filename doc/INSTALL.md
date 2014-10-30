@@ -52,11 +52,9 @@ These are generic (and condensed) installation instructions for the **current de
 
         bundle install
 
-2. Install JavaScript dependencies with [npm] and [Bower]:
+2. Install JavaScript dependencies with [npm]:
 
-        npm -g install bower
         npm install
-        bower install
 
 ### Configure Rails
 
@@ -70,14 +68,12 @@ These are generic (and condensed) installation instructions for the **current de
 2. Copy `config/configuration.yml.example` to `config/configuration.yml`:
 
         cp configuration.yml.example configuration.yml
+        cd ..
 
    Edit `configuration.yml` according to your preferred settings for email, etc. (see [`config/CONFIGURATION.md`](CONFIGURATION.md) for a full list of configuration options).
 
 3. Create databases, schemas and populate with seed data:
 
-        bundle exec rake db:setup
-
-        # - OR - in multiple steps:
         # bundle exec rake db:create:all
         # bundle exec rake db:migrate
         # bundle exec rake db:seed
@@ -88,7 +84,15 @@ These are generic (and condensed) installation instructions for the **current de
 
 ### Run!
 
-1. Start Rails:
+1. In development, bundle JavaScript assets using Webpack:
+
+        ./node_modules/webpack/bin/webpack.js
+
+   Pass the `-w` flag to keep Webpack watching for changes.
+
+   In production, this step is executed as part of `rake assets:precompile` task.
+
+2. Start Rails:
 
         bundle exec rails server
 

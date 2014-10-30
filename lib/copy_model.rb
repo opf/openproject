@@ -45,7 +45,7 @@ module CopyModel
     end
 
     # Copies the instance's associations based on the +from_model+.
-    # The associations CAN be copied when the instance responds to 
+    # The associations CAN be copied when the instance responds to
     # something called 'copy_association_name'.
     #
     # For example: If we have a method called #copy_work_packages,
@@ -59,7 +59,7 @@ module CopyModel
     #   model.copy_associations(1, :only => ['members', 'versions'])  # => copies members and versions
     def copy_associations(from_model, options={})
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
-      to_be_copied = options[:only].to_a unless options[:only].nil?
+      to_be_copied = Array(options[:only]) unless options[:only].nil?
 
       to_be_copied = to_be_copied.map(&:to_s).sort do |a,b|
         (self.copy_precedence.map(&:to_s).index(a) || -1) <=> (self.copy_precedence.map(&:to_s).index(b) || -1)

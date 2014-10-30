@@ -267,7 +267,7 @@ class VerificationTest < ActionController::TestCase
   def test_second_redirect
     assert_nothing_raised { get :two_redirects }
   end
-  
+
   def test_guarded_http_method_respects_overwritten_request_method
     # Overwrite http method on application level like Rails supports via sending a _method parameter
     @request.stub(:request_method).and_return('POST')

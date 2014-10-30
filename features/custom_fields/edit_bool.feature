@@ -57,7 +57,7 @@ Feature: Editing a bool custom field
     And I fill in "custom_field_translations_attributes_0_name" with "Long name which forces an error"
     And I press "Save"
     Then the "custom_field_translations_attributes_0_name" field should contain "Long name which forces an error"
-    And I should see "Name is too long" within "#errorExplanation"
+    And I should see "Name is the wrong length" within "#errorExplanation"
 
   Scenario: Entering an already taken name displays an error
     Given the following issue custom fields are defined:

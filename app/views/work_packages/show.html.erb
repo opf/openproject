@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class = "details">
   <div class="profile-wrap">
-    <%= avatar(work_package.author, :size => "40") %>
+    <%= avatar(work_package.author) %>
   </div>
 
   <p class="author">
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
 
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
-  
+
   <% if work_package.description? %>
     <hr />
     <div class="description work_package_part">
@@ -58,8 +58,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
       </div>
       <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
-      <div class="wiki wikicontent" data-user="<%= work_package.author %>">
-        <%= textilizable work_package, :description, :attachments => work_package.attachments %>
+      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
+        <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
   <% end %>
@@ -126,8 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
-<div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{work_packages_context_menu_path}')" %>
 
 <% #include calendar js files in case they are needed for edit
   include_calendar_headers_tags -%>

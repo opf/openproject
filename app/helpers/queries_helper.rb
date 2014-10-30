@@ -37,50 +37,6 @@ module QueriesHelper
     (column.is_a? QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
   end
 
-  def column_header(column)
-    column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
-                                                        :default_order => column.default_order,
-                                                        :lang => column_locale(column))
-                    : content_tag('th', h(column.caption), :lang => column_locale(column))
-  end
-
-  def column_content(column, issue)
-    value = column.value(issue)
-
-    case value.class.name
-    when 'String'
-      if column.name == :subject
-        link_to(h(value), work_package_path(issue))
-      else
-        h(value)
-      end
-    when 'Time'
-      format_time(value)
-    when 'Date'
-      format_date(value)
-    when 'Fixnum', 'Float'
-      if column.name == :done_ratio
-        progress_bar(value, :width => '80px')
-      else
-        h(value.to_s)
-      end
-    when 'User'
-      link_to_user value
-    when 'Project'
-      link_to_project value
-    when 'Version'
-      link_to(h(value), :controller => '/versions', :action => 'show', :id => value)
-    when 'TrueClass'
-      l(:general_text_Yes)
-    when 'FalseClass'
-      l(:general_text_No)
-    when 'Issue', 'PlanningElement'
-      link_to_work_package(value, :subject => false)
-    else
-      h(value)
-    end
-  end
-
   def add_filter_from_params
     @query.filters = []
     @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
@@ -93,6 +49,7 @@ module QueriesHelper
       cond << " OR project_id = #{@project.id}" if @project
       @query = Query.find(params[:query_id], :conditions => cond)
       @query.project = @project
+      add_filter_from_params if params[:accept_empty_query_fields]
       session[:query] = {:id => @query.id, :project_id => @query.project_id}
       sort_clear
     else

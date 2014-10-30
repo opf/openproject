@@ -1,0 +1,82 @@
+.pagination
+  +display(flex)
+  +justify-content(space-between)
+  width: 100%
+
+.pagination--pages
+  +flex-grow(2)
+  +flex-shrink(2)
+  margin: 10px 5px 0 0
+
+.pagination--options
+  +flex-grow(1)
+  +flex-shrink(1)
+  margin: 10px 0 0 5px
+
+.pagination--items
+  list-style-type: none
+  +display(flex)
+  margin: 0
+  padding: 0
+  font-size: 90%
+
+  .pagination--pages &
+    +justify-content(flex-start)
+
+  .pagination--options &
+    +justify-content(flex-end)
+
+.pagination--item
+  min-width: 17px
+  margin: 0 5px 0 0
+  white-space: nowrap
+
+  &.-prev,
+  &.-next
+    min-width: 25px
+
+  &.-current
+    background: #ffffff
+    border: 1px solid #ffffff
+    padding: 3px 3px
+    font-style: italic
+    text-align: center
+
+  a
+    margin: 0
+    display: block
+    min-width: 17px
+    text-align: center
+    padding: 3px 3px
+    background: #f8f8f8
+    border-radius: 2px
+    border: 1px solid #cccccc
+    color: $global_font_color
+    font-weight: normal
+    cursor: pointer
+    text-decoration: none
+    &:hover
+      background: #eaeaea
+
+.pagination--space
+  width: 17px
+  background: #ffffff
+  border: 1px solid #ffffff
+  font-style: italic
+  padding: 3px 0px
+
+.pagination--label
+  +flex(1)
+  padding: 3px 0px
+  white-space: nowrap
+  text-align: right
+  overflow: hidden
+  text-overflow: ellipsis
+
+.pagination--range
+  +flex(1)
+  margin: 0 0 0 5px
+  padding: 3px 0px
+  display: block
+  overflow: hidden
+  text-overflow: ellipsis

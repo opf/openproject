@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/project_associations/available_projects.api.rabl' do
+describe 'api/v2/project_associations/available_projects.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -68,11 +68,11 @@ describe 'api/v2/project_associations/available_projects.api.rabl' do
                         created_on: '2011-01-06T11:35:00Z',
                         updated_on: '2011-01-07T11:35:00Z'
                        }.to_json
-      should be_json_eql(expected_json).at_path('projects/0')
+      is_expected.to be_json_eql(expected_json).at_path('projects/0')
     end
 
     it ' should check for disabled projects' do
-      pending
+      skip
     end
 
 

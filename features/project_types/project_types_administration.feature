@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature:
+Feature: Administering Project Types
   As a ChiliProject Admin
   I want to be able to do basic CRUD operations on project types
 
@@ -151,4 +151,3 @@ Feature:
 
      Then I should see a notice flash stating "Successful deletion."
       And I should not see "Extraordinary Project"
-

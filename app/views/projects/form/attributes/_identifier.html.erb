@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <script type="text/javascript" charset="utf-8">
       projectIdentifierMaxLength = <%= Project::IDENTIFIER_MAX_LENGTH %>;
       projectIdentifierDefault = '<%= project.identifier %>';
-      projectIdentifierLocked = <%= !project.identifier.blank? %>;
+      projectIdentifierLocked = <%= !project.identifier.blank? && params[:action] != "create" %>;
       observeProjectIdentifier();
       observeProjectName();
     </script>

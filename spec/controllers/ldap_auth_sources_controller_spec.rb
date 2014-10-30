@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe LdapAuthSourcesController do
+describe LdapAuthSourcesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -41,8 +41,8 @@ describe LdapAuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).not_to be_nil }
-    it { should respond_with :success }
-    it { should render_template :new }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :new }
 
     it "initializes a new AuthSource" do
       expect(assigns(:auth_source).class).to eq LdapAuthSource

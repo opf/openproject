@@ -30,23 +30,24 @@
 
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
-
+  mount API::Root => '/'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
-  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
   match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
-  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
-    get '/account/lost_password', :action => 'lost_password'
+    match '/account/lost_password', action: 'lost_password', via: [:get, :post]
+    match '/account/register', action: 'register', via: [:get, :post]
 
     # omniauth routes
     match '/auth/:provider/callback', :action => 'omniauth_login',
@@ -59,6 +60,17 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :api do
+    # Handles all routes of the now removed api v1.
+    # Always returns a 410.
+    # This does not care if the route actually existed to
+    # avoid maintaining knowledge of the now removed api.
+    match '/v1/*rest', via: [:get, :post, :put, :delete],
+                       to: proc {
+                         [410,
+                          { 'Content-Type' => 'text/plain' },
+                          ["OpenProject API v1 has been removed.\n" \
+                           'See https://www.openproject.org/news/65']]
+                       }
 
     namespace :v2 do
 
@@ -85,6 +97,7 @@ OpenProject::Application.routes.draw do
           get :available_projects, :on => :collection
         end
         resources :statuses, :only => [:index, :show]
+        resources :versions, only: [:index]
         resources :users, only: [:index]
 
         member do
@@ -113,29 +126,32 @@ OpenProject::Application.routes.draw do
 
     end
 
-    namespace :v3 do
+    namespace :experimental do
       resources :work_packages, only: [:index] do
         get :column_data, on: :collection
         get :column_sums, on: :collection
       end
-      resources :queries, only: [:show] do
+      resources :queries, only: [:create, :update, :destroy] do
         get :available_columns, on: :collection
         get :custom_field_filters, on: :collection
+        get :grouped, on: :collection
       end
 
       resources :projects, only: [:show, :index] do
         resources :work_packages, only: [:index] do
           get :column_sums, on: :collection
         end
-        resources :queries, only: [:show] do
+        resources :queries, only: [:create, :update, :destroy] do
           get :available_columns, on: :collection
           get :custom_field_filters, on: :collection
+          get :grouped, on: :collection
         end
         resources :versions, only: [:index]
         get :sub_projects
         resources :users, only: [:index]
       end
 
+      resources :versions, only: [:index]
       resources :groups, only: [:index]
       resources :roles, only: [:index]
       resources :users, only: [:index]
@@ -145,7 +161,10 @@ OpenProject::Application.routes.draw do
   match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
-  resources :types
+  resources :types do
+    post 'move/:id', action: 'move', on: :collection
+  end
+
   resources :statuses, :except => :show do
     collection do
       post 'update_work_package_done_ratio'
@@ -232,6 +251,9 @@ OpenProject::Application.routes.draw do
     # this could probably be rewritten with a resource :as => 'roadmap'
     match '/roadmap' => 'versions#index', :via => :get
 
+    # :id is the project id, complete route is /projects/types/:id
+    post '/types/:id' => 'projects#types', on: :collection
+
     resources :news, :only => [:index, :new, :create]
 
     namespace :time_entries do
@@ -279,6 +301,9 @@ OpenProject::Application.routes.draw do
         match '/report/:detail' => 'work_packages/reports#report_details', :via => :get
         match '/report' => 'work_packages/reports#report', :via => :get
       end
+
+      # states managed by client-side routing on work_package#index
+      get '/*state' => 'work_packages#index', on: :member, id: /\d+/
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -331,6 +356,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  get "/admin" => 'admin#index'
+
   #TODO: evaluate whether this can be turned into a namespace
   scope "admin" do
     match "/projects" => 'admin#projects', :via => :get
@@ -364,9 +391,22 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  # We should fix this crappy routing (split up and rename controller methods)
+  get '/settings' => 'settings#index'
+  scope 'settings', controller: 'settings' do
+    match 'edit', action: 'edit', via: [:get, :post]
+    match 'plugin/:id', action: 'plugin', via: [:get, :post]
+  end
+
+  # We should fix this crappy routing (split up and rename controller methods)
+  get '/workflows' => 'workflows#index'
+  scope 'workflows', controller: 'workflows' do
+    match 'edit', action: 'edit', via: [:get, :post]
+    match 'copy', action: 'copy', via: [:get, :post]
+  end
+
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
-    match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
     resource :bulk, :controller => 'bulk', :only => [:edit, :update, :destroy]
   end
@@ -392,6 +432,12 @@ OpenProject::Application.routes.draw do
 
     post :preview, on: :collection
     post :preview, on: :member
+
+    get 'quoted/:id', action: 'quoted', on: :collection
+
+    get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
+    # states managed by client-side routing on work_package#index
+    get '/*state' => 'work_packages#index', on: :member, id: /\d+/
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
@@ -472,6 +518,9 @@ OpenProject::Application.routes.draw do
   end
 
   scope :controller => 'my' do
+    post '/my/add_block', action: 'add_block'
+    post '/my/remove_block', action: 'remove_block'
+    get '/my/page_layout', action: 'page_layout'
     get '/my/password', :action => 'password'
     post '/my/change_password', :action => 'change_password'
     match '/my/first_login', :action => 'first_login', :via => [:get, :put]
@@ -513,6 +562,12 @@ OpenProject::Application.routes.draw do
   end
 
   resources :reported_project_statuses, :controller => 'reported_project_statuses'
+
+  # This route should probably be removed, but it's used at least by one cuke and we don't
+  # want to break it.
+  # This route intentionally occurs after the admin/roles/new route, so that one takes
+  # precedence when creating routes (possibly via helpers).
+  get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
 
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'

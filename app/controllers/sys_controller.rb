@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'open_project/repository_authentication'
+
 class SysController < ActionController::Base
   before_filter :check_enabled
+  before_filter :require_basic_auth, :only => [ :repo_auth ]
 
   def projects
     p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
@@ -70,6 +73,19 @@ class SysController < ActionController::Base
     render :nothing => true, :status => 404
   end
 
+  def repo_auth
+    @project = Project.find_by_identifier(params[:repository])
+
+    if ( %w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
+        @authenticated_user.allowed_to?(:browse_repository, @project) ) ||
+        @authenticated_user.allowed_to?(:commit_access, @project)
+      render :text => "Access granted"
+      return
+    end
+
+    render :text => "Not allowed", :status => 403 # default to deny
+  end
+
   protected
 
   def check_enabled
@@ -78,5 +94,38 @@ class SysController < ActionController::Base
       render :text => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
       return false
     end
+  end
+
+  private
+
+  def require_basic_auth
+    authenticate_with_http_basic do |username, password|
+      @authenticated_user = cached_user_login(username, password)
+      return true if @authenticated_user
+    end
+
+    response.headers["WWW-Authenticate"] = 'Basic realm="Repository Authentication"'
+    render :text => "Authorization required", :status => 401
+    false
+  end
+
+  def user_login(username, password)
+    User.try_to_login(username, password)
+  end
+
+  def cached_user_login(username, password)
+    unless Setting.repository_authentication_caching_enabled?
+      return user_login(username, password)
+    end
+    user = nil
+    user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
+                                :expires_in => OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
+      user = user_login(username, password)
+      user ? user.id.to_s : '-1'
+    end
+
+    return nil if user_id.blank? or user_id == '-1'
+
+    user || User.find_by_id(user_id.to_i)
   end
 end

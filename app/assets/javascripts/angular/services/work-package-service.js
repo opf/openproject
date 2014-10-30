@@ -26,13 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.constant('DEFAULT_FILTER_PARAMS', {'fields[]': 'status_id', 'operators[status_id]': 'o'})
-
-.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', 'DEFAULT_FILTER_PARAMS', function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
+module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+  var workPackage;
 
   var WorkPackageService = {
+    getWorkPackage: function(id) {
+      var resource = HALAPIResource.setup("work_packages/" + id);
+      return resource.fetch().then(function (wp) {
+        workPackage = wp;
+        return workPackage;
+      });
+    },
+
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
 
@@ -41,20 +46,25 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    getWorkPackagesFromUrlQueryParams: function(projectIdentifier, location) {
-      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = {};
-      angular.extend(params, location.search());
-
-      return WorkPackageService.doQuery(url, params);
-    },
-
     getWorkPackages: function(projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = angular.extend(query.toParams(), {
-        page: paginationOptions.page,
-        per_page: paginationOptions.perPage
-      });
+      var params = {};
+
+      if(query) {
+        angular.extend(params, query.toUpdateParams());
+      }
+
+      if(paginationOptions) {
+        angular.extend(params, {
+          page: paginationOptions.page,
+          per_page: paginationOptions.perPage
+        });
+      } else {
+        angular.extend(params, {
+          page: DEFAULT_PAGINATION_OPTIONS.page,
+          per_page: DEFAULT_PAGINATION_OPTIONS.perPage,
+        });
+      }
 
       return WorkPackageService.doQuery(url, params);
     },
@@ -115,6 +125,41 @@ angular.module('openproject.services')
         });
     },
 
+    updateWorkPackage: function(workPackage, data) {
+      var options = { ajax: {
+        method: "PATCH",
+        headers: {
+          Accept: "application/hal+json"
+        },
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8"
+      }, force: true};
+      return workPackage.links.update.fetch(options).then(function(workPackage) {
+        return workPackage;
+      })
+    },
+
+    addWorkPackageRelation: function(workPackage, toId, relationType) {
+      var options = { ajax: {
+        method: "POST",
+        data: JSON.stringify({
+          to_id: toId,
+          relation_type: relationType
+        }),
+        contentType: "application/json; charset=utf-8"
+      } };
+      return workPackage.links.addRelation.fetch(options).then(function(relation){
+        return relation;
+      });
+    },
+
+    removeWorkPackageRelation: function(relation) {
+      var options = { ajax: { method: "DELETE" } };
+      return relation.links.remove.fetch(options).then(function(response){
+        return response;
+      });
+    },
+
     doQuery: function(url, params) {
       return $http({
         method: 'GET',
@@ -122,10 +167,49 @@ angular.module('openproject.services')
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response){
-        return response.data;
-      });
+                return response.data;
+              },
+              function(failedResponse) {
+                $rootScope.$emit('flashMessage', {
+                  isError: true,
+                  isPermanent: true,
+                  text: I18n.t('js.work_packages.query.errors.unretrievable_query')
+                });
+              }
+      );
+    },
+
+    performBulkDelete: function(ids, defaultHandling) {
+      if (defaultHandling && !$window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'))) {
+        return;
+      }
+
+      var params = {
+        'ids[]': ids
+      };
+      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
+
+      if (defaultHandling) {
+        promise.success(function(data, status) {
+                // TODO wire up to API and process API response
+                $rootScope.$emit('flashMessage', {
+                  isError: false,
+                  text: I18n.t('js.work_packages.message_successful_bulk_delete')
+                });
+                $rootScope.$emit('workPackagesRefreshRequired');
+              })
+              .error(function(data, status) {
+                // TODO wire up to API and processs API response
+                $rootScope.$emit('flashMessage', {
+                  isError: true,
+                  text: I18n.t('js.work_packages.message_error_during_bulk_delete')
+                });
+              });
+      }
+
+      return promise;
     }
   };
 
   return WorkPackageService;
-}]);
+}

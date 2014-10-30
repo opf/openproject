@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PermittedParams do
+describe PermittedParams, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:admin) { FactoryGirl.build(:admin) }
 
@@ -688,7 +688,7 @@ describe PermittedParams do
     let(:params_key) { (defined? hash_key) ? hash_key : attribute }
     let(:params) { ActionController::Parameters.new(params_key => hash) }
 
-    subject { PermittedParams.new(params, user).send(attribute) } 
+    subject { PermittedParams.new(params, user).send(attribute) }
   end
 
   shared_examples_for 'allows params' do
@@ -702,7 +702,7 @@ describe PermittedParams do
 
     it { expect(subject).not_to eq(hash) }
   end
-  
+
   shared_examples_for 'allows move params' do
     let(:hash) { { "move_to" => "lower" } }
 

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-
-.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
+module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
 
   Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -36,7 +34,19 @@ angular.module('openproject.models')
     this.filters = [];
     this.groupBy = this.groupBy || '';
 
-    if(queryData) this.setFilters(queryData.filters);
+    if(queryData.filters){
+      if(options && options.rawFilters) {
+        this.setRawFilters(queryData.filters);
+      } else {
+        this.setFilters(queryData.filters);
+      }
+    }
+
+    if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+
+    if(!this.columns) {
+      this.setColumns(INITIALLY_SELECTED_COLUMNS);
+    }
   };
 
   Query.prototype = {
@@ -53,27 +63,86 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode(),
-          'display_sums': this.displaySums
+          'sort': this.getEncodedSortation(),
+          'display_sums': this.displaySums,
+          'name': this.name,
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty(),
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
       );
     },
 
-    serialiseForAngular: function(){
-      var params = this.toParams();
-      var serialised = '';
-      angular.forEach(params, function(value, key){
-        if(typeof value == "string" || typeof value == "boolean"){
-          serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
-        } else if(Array.isArray(value)){
-          angular.forEach(value, function(v){
-            serialised = serialised + "&" + key + "=" + encodeURIComponent(v);
-          });
-        }
-      });
-      return serialised.slice(1, serialised.length);
+    toUpdateParams: function() {
+      return angular.extend.apply(this, [
+        {
+          'id': this.id,
+          'query_id': this.id,
+          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+          'c[]': this.getParamColumns(),
+          'group_by': this.groupBy,
+          'sort': this.getEncodedSortation(),
+          'display_sums': this.displaySums,
+          'name': this.name,
+          'is_public': this.isPublic,
+          'accept_empty_query_fields': this.isDirty()
+        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+          return filter.toParams();
+        }))
+      );
+    },
+
+    save: function(data){
+      // Note: query has already been updated, only the id needs to be set
+      this.id = data.id;
+      this.dirty = false;
+      return this;
+    },
+
+    star: function() {
+      this.starred = true;
+    },
+
+    unstar: function() {
+      this.starred = false;
+    },
+
+    update: function(queryData) {
+      angular.extend(this, queryData);
+
+      if(queryData.filters){
+        this.filters = [];
+        this.setRawFilters(queryData.filters);
+      }
+      if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
+      this.dirty = true;
+
+      return this;
+    },
+
+    getQueryString: function(){
+      return UrlParamsHelper.buildQueryString(this.toParams());
+    },
+
+    getSortation: function(){
+      return this.sortation;
+    },
+
+    setSortation: function(sortCriteria){
+      this.sortation = new Sortation(sortCriteria);
+    },
+
+    setGroupBy: function(groupBy) {
+      this.groupBy = groupBy;
+    },
+
+    updateSortElements: function(sortElements){
+      this.sortation.setSortElements(sortElements);
+    },
+
+    setName: function(name) {
+      this.name = name;
     },
 
     /**
@@ -118,6 +187,59 @@ angular.module('openproject.models')
       }
     },
 
+    setRawFilters: function(filters) {
+      if (filters){
+        var self = this;
+
+        this.filters = filters.map(function(filterData){
+          return new Filter(filterData);
+        });
+      }
+    },
+
+    setColumns: function(columns) {
+      this.columns = columns;
+    },
+
+    /**
+     * @name isDefault
+     * @function
+     *
+     * @description
+     * Returns true if the query is a default query
+     * @returns {boolean} default
+     */
+    isDefault: function() {
+      return this.name === '_';
+    },
+
+    /**
+     * @name isGlobal
+     * @function
+     *
+     * @description
+     * Returns true if the query is a global query, meaning a query that is not
+     * scoped to a project.
+     * @returns {boolean} default
+     */
+    isGlobal: function() {
+      return !this.project_id;
+    },
+
+    /**
+     * @name setFilters
+     * @function
+     *
+     * @description
+     * (Re-)sets the query filters to a single filter for status: open
+
+     * @returns {undefined}
+     */
+    setDefaultFilter: function() {
+      var statusOpenFilterData = this.getExtendedFilterData({name: 'status_id', operator: 'o'});
+      this.filters = [new Filter(statusOpenFilterData)];
+    },
+
     /**
      * @name getExtendedFilterData
      * @function
@@ -140,15 +262,26 @@ angular.module('openproject.models')
       });
     },
 
+    getSelectedColumns: function(){
+      return this.columns;
+    },
+
     getParamColumns: function(){
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
       });
-      // To be able to group the work packages we need to add in the group by column if it is not already in the selected columns
-      if(selectedColumns.indexOf(this.groupBy) == -1){
-        selectedColumns.push(this.groupBy);
-      }
+
       return selectedColumns;
+    },
+
+    getEncodedSortation: function() {
+      return !!this.sortation ? this.sortation.encode() : null;
+    },
+
+    getColumnNames: function() {
+      return this.columns.map(function(column) {
+        return column.name;
+      });
     },
 
     getFilterByName: function(filterName) {
@@ -174,8 +307,9 @@ angular.module('openproject.models')
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filter, loading) {
-      if (!loading) filter.deactivated = true;
+    deactivateFilter: function(filter) {
+      this.dirty = true;
+      filter.deactivated = true;
     },
 
     getFilterType: function(filterName) {
@@ -215,16 +349,19 @@ angular.module('openproject.models')
       });
     },
 
-    // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
-    //       just uses the queries filters. Therefor we have to set it to null.
-    hasChanged: function(){
-      this.id = null;
+    isNew: function() {
+      return !this.id;
     },
 
-    setSortation: function(sortation){
-      this.sortation = sortation;
-    }
+    isDirty: function() {
+      return this.isNew() || this.dirty;
+    },
+
+    hasName: function() {
+      return !!this.name && !this.isDefault();
+    },
+
   };
 
   return Query;
-}]);
+}

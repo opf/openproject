@@ -86,7 +86,7 @@ activity_days_default:
   format: int
   default: 30
 per_page_options:
-  default: '10, 20, 50, 100, 500, 1000'
+  default: '10, 20, 50, 100'
 mail_from:
   default: openproject@example.net
 bcc_recipients:
@@ -133,6 +133,8 @@ sys_api_enabled:
   default: 0
 sys_api_key:
   default: ''
+repository_authentication_caching_enabled:
+  default: 1
 commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:

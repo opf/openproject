@@ -8,7 +8,7 @@
                 multiple="multiple"
                 name="available_columns[]"
                 ng-model="markedAvailableColumns"
-                ng-options="column.name as column.title for column in availableColumns"
+                ng-options="column.name as column.title for column in availableUnusedColumns"
                 size="10"
                 style="width:150px">
         </select>
@@ -18,13 +18,13 @@
         <input id="add_selected_columns"
                type="button"
                value="→"
-               ng-click="moveColumns(markedAvailableColumns, availableColumns, columns, true)"
+               ng-click="showColumns(markedAvailableColumns)"
                title="{{ I18n.t('js.label_add_columns') }}"
                ng-disabled="loading"><br>
         <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_remove_columns') }}</label>
         <input type="button"
                value="←"
-               ng-click="moveColumns(markedSelectedColumns, columns, availableColumns)"
+               ng-click="hideColumns(markedSelectedColumns)"
                title="{{ I18n.t('js.label_remove_columns') }}"
                ng-disabled="loading">
       </td>

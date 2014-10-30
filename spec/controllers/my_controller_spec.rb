@@ -47,6 +47,17 @@ describe MyController, :type => :controller do
       end
     end
 
+    describe 'with disabled password login' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        post :change_password
+      end
+
+      it 'is not found' do
+        expect(response.status).to eq 404
+      end
+    end
+
     describe 'with wrong confirmation' do
       before do
         post :change_password, :password => 'adminADMIN!',
@@ -124,6 +135,40 @@ describe MyController, :type => :controller do
       it "renders editable custom fields" do
         expect(response.body).to have_content(custom_field.name)
       end
+
+      it "renders the 'Change password' menu entry" do
+        expect(response.body).to have_selector('#menu-sidebar li a', text: 'Change password')
+      end
+    end
+  end
+
+  describe 'account with disabled password login' do
+    before do
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      as_logged_in_user user do
+        get :account
+      end
+    end
+
+    render_views
+
+    it "does not render 'Change password' menu entry" do
+      expect(response.body).not_to have_selector('#menu-sidebar li a', text: 'Change password')
+    end
+  end
+
+  describe "index" do
+    render_views
+
+    before do
+      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
+      get :index
+    end
+
+    it "should show the number of reported packages" do
+      label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+      expect(response.body).to have_selector("h3", :text => /#{label}.*42/)
     end
   end
 end

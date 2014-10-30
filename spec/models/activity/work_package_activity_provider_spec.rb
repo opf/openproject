@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Activity::WorkPackageActivityProvider do
+describe Activity::WorkPackageActivityProvider, :type => :model do
   let(:event_scope)               { 'work_packages' }
   let(:work_package_edit_event)   { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
@@ -44,24 +44,34 @@ describe Activity::WorkPackageActivityProvider do
                                            role: role }
 
   describe '#event_type' do
-    describe 'latest event' do
-      let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
+    describe 'latest events' do
 
       context 'when a work package has been created' do
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
         before { work_package.save! }
 
-        it { should == work_package_edit_event }
+        it { is_expected.to eq(work_package_edit_event) }
+      end
 
-        context 'and has been closed' do
-          before do
-            allow(User).to receive(:current).and_return(user)
+      context 'should be selected and ordered correctly' do
+        let!(:work_packages) {(1..20).map {(FactoryGirl.create :work_package, :author => user).id.to_s} }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {limit: 10}).map {|a| a.journable_id.to_s} }
+        it { is_expected.to eq(work_packages.reverse.first(10)) }
+      end
 
-            work_package.status = status_closed
-            work_package.save!
-          end
+      context 'when a work package has been created and then closed' do
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 }).first.try :event_type }
 
-          it { should == work_package_closed_event }
+        before do
+          allow(User).to receive(:current).and_return(user)
+
+          work_package.save!
+
+          work_package.status = status_closed
+          work_package.save!
         end
+
+        it { is_expected.to eq(work_package_closed_event) }
       end
     end
   end

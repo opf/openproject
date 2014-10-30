@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectType do
+describe ProjectType, :type => :model do
   describe '- Relations ' do
     describe '#projects' do
       it 'can read projects w/ the help of the has_many association' do
@@ -76,10 +76,6 @@ describe ProjectType do
   end
 
   describe '- Validations ' do
-    before do
-      ApplicationHelper.set_language_if_valid 'en'
-    end
-
     let(:attributes) {
       {:name               => 'Project Type No. 1',
        :allows_association => true}

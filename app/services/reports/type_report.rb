@@ -50,4 +50,3 @@ class Reports::TypeReport < Reports::Report
   end
 
 end
-

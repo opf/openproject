@@ -23,14 +23,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 ################################################################################
 # This concern provides a general implementation of preview functionality      #
 # found in different controllers.                                              #
-#                                                                              # 
+#                                                                              #
 # Nevertheless, this concern expects the controller to implement the function  #
 # #parse_preview_data. #parse_preview_data must return a list of (wiki) texts, #
 # attachments required to render the texts, and the object. Attachments and    #

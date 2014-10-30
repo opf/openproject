@@ -63,28 +63,31 @@ Feature: User Status
 
   @javascript
   Scenario: Users can be filtered by status
+    # had to append the 'within ".list tbody"' in order to avoid the "I should
+    # (not) see "admin"' step to find the "OpenProject Admin" string for the
+    # logged in user as well as the "Administrator" string in the table header.
     Given the user "bobby" had too many recently failed logins
     And I filter the users list by status "active (1)"
-    Then I should not see "bobby"
-    And I should see "admin"
-    And I should not see "Anonymous"
+    Then I should not see "bobby" within ".list tbody"
+    And I should see "admin" within ".list tbody"
+    And I should not see "Anonymous" within ".list tbody"
     And I filter the users list by status "locked temporarily (1)"
-    Then I should see "bobby"
-    And I should not see "admin"
-    And I should not see "Anonymous"
+    Then I should see "bobby" within ".list tbody"
+    And I should not see "admin" within ".list tbody"
+    And I should not see "Anonymous" within ".list tbody"
     When the user "bobby" is locked
     And I filter the users list by status "locked permanently (1)"
-    Then I should see "bobby"
-    And I should not see "admin"
-    And I should not see "Anonymous"
+    Then I should see "bobby" within ".list tbody"
+    And I should not see "admin" within ".list tbody"
+    And I should not see "Anonymous" within ".list tbody"
     And I filter the users list by status "locked temporarily (1)"
-    Then I should see "bobby"
-    And I should not see "admin"
-    And I should not see "Anonymous"
+    Then I should see "bobby" within ".list tbody"
+    And I should not see "admin" within ".list tbody"
+    And I should not see "Anonymous" within ".list tbody"
     And I filter the users list by status "all (2)"
-    Then I should see "bobby"
-    And I should see "admin"
-    And I should not see "Anonymous"
+    Then I should see "bobby" within ".list tbody"
+    And I should see "admin" within ".list tbody"
+    And I should not see "Anonymous" within ".list tbody"
 
   @javascript
   Scenario: User can be unlocked on the index page

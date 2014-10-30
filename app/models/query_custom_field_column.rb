@@ -52,4 +52,3 @@ class QueryCustomFieldColumn < QueryColumn
     cv && @cf.cast_value(cv.value)
   end
 end
-

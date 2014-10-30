@@ -38,8 +38,8 @@ class WorkPackagesController < ApplicationController
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
 
-    if query && query.persisted? && current = query.query_menu_item.try(:name)
-      current.to_sym
+    if query && query.persisted? && current = query.query_menu_item.try(:unique_name)
+      current
     else
       :work_packages
     end
@@ -49,6 +49,7 @@ class WorkPackagesController < ApplicationController
   include PaginationHelper
   include SortHelper
   include OpenProject::Concerns::Preview
+  include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show, :create, :update
 
@@ -59,6 +60,14 @@ class WorkPackagesController < ApplicationController
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
+
+  # The order in here is actually important for the angular client.
+  # The first 6 are always to be displayed.
+  # Beware that 'percentageDone' may be removed if the related setting is
+  # disabled.
+  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
+                                     :date, :percentageDone, :priority,
+                                     :category, :estimatedTime, :versionName, :spentTime].freeze
 
   def show
     respond_to do |format|
@@ -154,7 +163,8 @@ class WorkPackagesController < ApplicationController
                  :project => project,
                  :priorities => priorities,
                  :time_entry => time_entry,
-                 :user => current_user }
+                 :user => current_user,
+                 :back_url => params[:back_url] }
 
     respond_to do |format|
       format.html do
@@ -167,10 +177,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    configure_update_notification(send_notifications?)
-
     safe_params = permitted_params.update_work_package(:project => project)
-    updated = work_package.update_by!(current_user, safe_params)
+
+    update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
+
+    updated = update_service.update
 
     render_attachment_warning_if_needed(work_package)
 
@@ -178,7 +189,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      show
+      redirect_back_or_default(work_package_path(work_package), true, false)
     else
       edit
     end
@@ -204,9 +215,12 @@ class WorkPackagesController < ApplicationController
 
     respond_to do |format|
       format.html do
+        gon.settings = client_preferences
+        gon.settings[:work_package_attributes] = hook_overview_attributes
+
         render :index, :locals => { :query => @query,
                                     :project => @project },
-                       :layout => !request.xhr?
+                       :layout => 'angular' # !request.xhr?
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
@@ -412,10 +426,6 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def configure_update_notification(state = true)
-    JournalObserver.instance.send_notification = state
-  end
-
   def send_notifications?
     params[:send_notification] == '0' ? false : true
   end
@@ -450,5 +460,28 @@ class WorkPackagesController < ApplicationController
 
   def parse_preview_data
     parse_preview_data_helper :work_package, [:notes, :description]
+  end
+
+  def enabled_default_work_package_properties
+    @enabled_default_work_package_properties ||= begin
+                                                   # Need to dup here because
+                                                   # otherwise the contant
+                                                   # would be altered which is
+                                                   # retained between requests.
+                                                   # Changes to the constant
+                                                   # would therefore be kept by
+                                                   # the process.
+                                                   properties = DEFAULT_WORK_PACKAGE_PROPERTIES.dup
+                                                   properties.delete(:percentageDone) if Setting.work_package_done_ratio == 'disabled'
+                                                   properties
+                                                 end
+  end
+
+  def hook_overview_attributes(initial_attributes = enabled_default_work_package_properties)
+    attributes = initial_attributes
+    call_hook(:work_packages_overview_attributes,
+              project: @project,
+              attributes: attributes)
+    attributes.uniq
   end
 end

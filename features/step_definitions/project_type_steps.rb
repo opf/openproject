@@ -47,4 +47,3 @@ When /^I follow the edit link of the project type "([^"]*)"$/ do |project_type_n
 
   click_link(type.name, :href => href)
 end
-

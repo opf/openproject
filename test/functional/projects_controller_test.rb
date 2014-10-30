@@ -433,7 +433,7 @@ describe ProjectsController do
 
   it 'jump_should_redirect_to_active_tab' do
     get :show, :id => 1, :jump => 'work_packages'
-    assert_redirected_to controller: :work_packages, action: :index, project_id: 'ecookbook', set_filter: 1
+    assert_redirected_to controller: :work_packages, action: :index, project_id: 'ecookbook'
   end
 
   it 'jump_should_not_redirect_to_inactive_tab' do

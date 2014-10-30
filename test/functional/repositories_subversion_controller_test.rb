@@ -173,7 +173,7 @@ describe RepositoriesController, 'subversion' do
       @repository.fetch_changesets
       @repository.reload
       get :entry, :project_id => PRJ_ID, :path => 'subversion_test/zzz.c'
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
+      assert_tag :tag => 'div', :attributes => { :id => /errorExplanation/ },
                                 :content => /The entry or revision was not found in the repository/
     end
 

@@ -72,33 +72,33 @@
 #
 # == Links
 #
-# To make a hypertext link, put the link text in "quotation 
+# To make a hypertext link, put the link text in "quotation
 # marks" followed immediately by a colon and the URL of the link.
-# 
-# Optional: text in (parentheses) following the link text, 
-# but before the closing quotation mark, will become a Title 
+#
+# Optional: text in (parentheses) following the link text,
+# but before the closing quotation mark, will become a Title
 # attribute for the link, visible as a tool tip when a cursor is above it.
-# 
+#
 # Example:
 #
 #  "This is a link (This is a title) ":http://www.textism.com
-# 
+#
 # Will become:
-# 
+#
 #  <a href="http://www.textism.com" title="This is a title">This is a link</a>
 #
 # == Images
 #
 # To insert an image, put the URL for the image inside exclamation marks.
 #
-# Optional: text that immediately follows the URL in (parentheses) will 
-# be used as the Alt text for the image. Images on the web should always 
-# have descriptive Alt text for the benefit of readers using non-graphical 
+# Optional: text that immediately follows the URL in (parentheses) will
+# be used as the Alt text for the image. Images on the web should always
+# have descriptive Alt text for the benefit of readers using non-graphical
 # browsers.
 #
-# Optional: place a colon followed by a URL immediately after the 
+# Optional: place a colon followed by a URL immediately after the
 # closing ! to make the image into a link.
-# 
+#
 # Example:
 #
 #  !http://www.textism.com/common/textist.gif(Textist)!
@@ -117,13 +117,13 @@
 #
 # == Defining Acronyms
 #
-# HTML allows authors to define acronyms via the tag. The definition appears as a 
-# tool tip when a cursor hovers over the acronym. A crucial aid to clear writing, 
+# HTML allows authors to define acronyms via the tag. The definition appears as a
+# tool tip when a cursor hovers over the acronym. A crucial aid to clear writing,
 # this should be used at least once for each acronym in documents where they appear.
 #
-# To quickly define an acronym in Textile, place the full text in (parentheses) 
+# To quickly define an acronym in Textile, place the full text in (parentheses)
 # immediately following the acronym.
-# 
+#
 # Example:
 #
 #  ACLU(American Civil Liberties Union)
@@ -146,7 +146,7 @@
 #     (background:#ddd;color:red). |{}| | | |
 #
 # == Using RedCloth
-# 
+#
 # RedCloth is simply an extension of the String class, which can handle
 # Textile formatting.  Use it like a String and output HTML with its
 # RedCloth#to_html method.
@@ -268,14 +268,14 @@ class RedCloth3 < String
         rules = DEFAULT_RULES if rules.empty?
         # make our working copy
         text = self.dup
-        
+
         @urlrefs = {}
         @shelf = []
         textile_rules = [:block_textile_table, :block_textile_lists,
                          :block_textile_prefix, :inline_textile_image, :inline_textile_link,
                          :inline_textile_code, :inline_textile_span, :glyphs_textile]
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
-                          :block_markdown_bq, :block_markdown_lists, 
+                          :block_markdown_bq, :block_markdown_lists,
                           :inline_markdown_reflink, :inline_markdown_link]
         @rules = rules.collect do |rule|
             case rule
@@ -289,8 +289,8 @@ class RedCloth3 < String
         end.flatten
 
         # standard clean up
-        incoming_entities text 
-        clean_white_space text 
+        incoming_entities text
+        clean_white_space text
 
         # start processor
         @pre_list = []
@@ -299,7 +299,7 @@ class RedCloth3 < String
         escape_html_tags text
         # need to do this before #hard_break and #blocks
         block_textile_quotes text unless @lite_mode
-        hard_break text 
+        hard_break text
         unless @lite_mode
             refs text
             blocks text
@@ -326,10 +326,10 @@ class RedCloth3 < String
     #
     TEXTILE_TAGS =
 
-        [[128, 8364], [129, 0], [130, 8218], [131, 402], [132, 8222], [133, 8230], 
-         [134, 8224], [135, 8225], [136, 710], [137, 8240], [138, 352], [139, 8249], 
-         [140, 338], [141, 0], [142, 0], [143, 0], [144, 0], [145, 8216], [146, 8217], 
-         [147, 8220], [148, 8221], [149, 8226], [150, 8211], [151, 8212], [152, 732], 
+        [[128, 8364], [129, 0], [130, 8218], [131, 402], [132, 8222], [133, 8230],
+         [134, 8224], [135, 8225], [136, 710], [137, 8240], [138, 352], [139, 8249],
+         [140, 338], [141, 0], [142, 0], [143, 0], [144, 0], [145, 8216], [146, 8217],
+         [147, 8220], [148, 8221], [149, 8226], [150, 8211], [151, 8212], [152, 732],
          [153, 8482], [154, 353], [155, 8250], [156, 339], [157, 0], [158, 0], [159, 376]].
 
         collect! do |a, b|
@@ -357,7 +357,7 @@ class RedCloth3 < String
 
     # Text markup tags, don't conflict with block tags
     SIMPLE_HTML_TAGS = [
-        'tt', 'b', 'i', 'big', 'small', 'em', 'strong', 'dfn', 'code', 
+        'tt', 'b', 'i', 'big', 'small', 'em', 'strong', 'dfn', 'code',
         'samp', 'kbd', 'var', 'cite', 'abbr', 'acronym', 'a', 'img', 'br',
         'br', 'map', 'q', 'sub', 'sup', 'span', 'bdo'
     ]
@@ -373,9 +373,9 @@ class RedCloth3 < String
         ['+', 'ins', :limit],
         ['^', 'sup', :limit],
         ['~', 'sub', :limit]
-    ] 
+    ]
     QTAGS_JOIN = QTAGS.map {|rc, ht, rtype| Regexp::quote rc}.join('|')
-    
+
     QTAGS.collect! do |rc, ht, rtype|
         rcq = Regexp::quote rc
         re =
@@ -395,7 +395,7 @@ class RedCloth3 < String
                 (#{C})
                 (?::(\S+))?
                 (\w|[^\s\-].*?[^\s\-])
-                #{rcq}/xm 
+                #{rcq}/xm
             end
         [rc, ht, re, rtype]
     end
@@ -464,7 +464,7 @@ class RedCloth3 < String
 
     # Parses Textile attribute lists and builds an HTML attribute string
     def pba( text_in, element = "" )
-        
+
         return '' unless text_in
 
         style = []
@@ -482,7 +482,7 @@ class RedCloth3 < String
 
         cls = $1 if
             text.sub!( /\(([^()]+?)\)/, '' )
-                        
+
         style << "padding-left:#{ $1.length }em;" if
             text.sub!( /([(]+)/, '' )
 
@@ -491,7 +491,7 @@ class RedCloth3 < String
         style << "text-align:#{ h_align( $& ) };" if text =~ A_HLGN
 
         cls, id = $1, $2 if cls =~ /^(.*?)#(.*)$/
-        
+
         atts = ''
         atts << " style=\"#{ style.join }\"" unless style.empty?
         atts << " class=\"#{ cls }\"" unless cls.to_s.empty?
@@ -499,14 +499,14 @@ class RedCloth3 < String
         atts << " id=\"#{ id }\"" if id
         atts << " colspan=\"#{ colspan }\"" if colspan
         atts << " rowspan=\"#{ rowspan }\"" if rowspan
-        
+
         atts
     end
 
     TABLE_RE = /^(?:table(_?#{S}#{A}#{C})\. ?\n)?^(#{A}#{C}\.? ?\|.*?\|)(\n\n|\Z)/m
-    
+
     # Parses a Textile table block, building HTML from the result.
-    def block_textile_table( text ) 
+    def block_textile_table( text )
         text.gsub!( TABLE_RE ) do |matches|
 
             tatts, fullrow = $~[1..2]
@@ -526,7 +526,7 @@ class RedCloth3 < String
                     catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
                     catts = shelve( catts ) if catts
-                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
+                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>"
                 end
                 ratts = shelve( ratts ) if ratts
                 rows << "\t\t<tr#{ ratts }>\n#{ cells.join( "\n" ) }\n\t\t</tr>"
@@ -539,13 +539,13 @@ class RedCloth3 < String
     LISTS_CONTENT_RE = /^([#*]+)(#{A}#{C}) (.*)$/m
 
     # Parses Textile lists and generates HTML
-    def block_textile_lists( text ) 
+    def block_textile_lists( text )
         text.gsub!( LISTS_RE ) do |match|
             lines = match.split( /\n/ )
             last_line = -1
             depth = []
             lines.each_with_index do |line, line_id|
-                if line =~ LISTS_CONTENT_RE 
+                if line =~ LISTS_CONTENT_RE
                     tl,atts,content = $~[1..3]
                     if depth.last
                         if depth.last.length > tl.length
@@ -581,17 +581,17 @@ class RedCloth3 < String
             lines.join( "\n" )
         end
     end
-    
+
     QUOTES_RE = /(^>+([^\n]*?)(\n|$))+/m
     QUOTES_CONTENT_RE = /^([> ]+)(.*)$/m
-    
+
     def block_textile_quotes( text )
       text.gsub!( QUOTES_RE ) do |match|
         lines = match.split( /\n/ )
         quotes = ''
         indent = 0
         lines.each do |line|
-          line =~ QUOTES_CONTENT_RE 
+          line =~ QUOTES_CONTENT_RE
           bq,content = $1, $2
           l = bq.count('>')
           if l != indent
@@ -612,7 +612,7 @@ class RedCloth3 < String
         @
         (?=\W)/x
 
-    def inline_textile_code( text ) 
+    def inline_textile_code( text )
         text.gsub!( CODE_RE ) do |m|
             before,lang,code,after = $~[1..4]
             lang = " lang=\"#{ lang }\"" if lang
@@ -620,7 +620,7 @@ class RedCloth3 < String
         end
     end
 
-    def lT( text ) 
+    def lT( text )
         text =~ /\#$/ ? 'o' : 'u'
     end
 
@@ -655,7 +655,7 @@ class RedCloth3 < String
                         end
                     end
 
-                    block_applied = 0 
+                    block_applied = 0
                     @rules.each do |rule_name|
                         block_applied += 1 if ( rule_name.to_s.match /^block_/ and method( rule_name ).call( blk ) )
                     end
@@ -702,7 +702,7 @@ class RedCloth3 < String
 
     BLOCK_RE = /^(([a-z]+)(\d*))(#{A}#{C})\.(?::(\S+))? (.*)$/m
 
-    def block_textile_prefix( text ) 
+    def block_textile_prefix( text )
         if text =~ BLOCK_RE
             tag,tagpre,num,atts,cite,content = $~[1..6]
             atts = pba( atts )
@@ -712,12 +712,12 @@ class RedCloth3 < String
             if respond_to? "textile_#{ tag }", true
               replacement = method( "textile_#{ tag }" ).call( tag, atts, cite, content )
             elsif respond_to? "textile_#{ tagpre }_", true
-              replacement = method( "textile_#{ tagpre }_" ).call( tagpre, num, atts, cite, content )  
+              replacement = method( "textile_#{ tagpre }_" ).call( tagpre, num, atts, cite, content )
             end
             text.gsub!( $& ) { replacement } if replacement
         end
     end
-    
+
     SETEXT_RE = /\A(.+?)\n([=-])[=-]* *$/m
     def block_markdown_setext( text )
         if text =~ SETEXT_RE
@@ -769,10 +769,10 @@ class RedCloth3 < String
     def block_markdown_lists( text )
     end
 
-    def inline_textile_span( text ) 
+    def inline_textile_span( text )
         QTAGS.each do |qtag_rc, ht, qtag_re, rtype|
             text.gsub!( qtag_re ) do |m|
-             
+
                 case rtype
                 when :limit
                     sta,oqs,qtag,content,oqa = $~[1..6]
@@ -805,14 +805,14 @@ class RedCloth3 < String
             (                          # $url
             (\/|[a-zA-Z]+:\/\/|www\.|mailto:)  # $proto
             [\w\/]\S+?
-            )               
+            )
             (\/)?                      # $slash
             ([^\w\=\/;\(\)]*?)         # $post
             )
             (?=<|\s|$)
-        /x 
+        /x
 #"
-    def inline_textile_link( text ) 
+    def inline_textile_link( text )
         text.gsub!( LINK_RE ) do |m|
           all,pre,atts,text,title,url,proto,slash,post = $~[1..9]
           if text.include?('<br />')
@@ -820,7 +820,7 @@ class RedCloth3 < String
           else
             url, url_title = check_refs( url )
             title ||= url_title
-            
+
             # Idea below : an URL with unbalanced parethesis and
             # ending by ')' is put into external parenthesis
             if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
@@ -831,9 +831,9 @@ class RedCloth3 < String
             atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
             atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
-            
+
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
-            
+
             "#{ pre }<a#{ atts }#{ external }>#{ text }</a>#{ post }"
           end
         end
@@ -844,9 +844,9 @@ class RedCloth3 < String
             [ ]?                # opt. space
             (?:\n[ ]*)?         # one optional newline followed by spaces
             \[(.*?)\]           # $id
-        /x 
+        /x
 
-    def inline_markdown_reflink( text ) 
+    def inline_markdown_reflink( text )
         text.gsub!( MARKDOWN_REFLINK_RE ) do |m|
             text, id = $~[1..2]
 
@@ -855,11 +855,11 @@ class RedCloth3 < String
             else
                 url, title = check_refs( id )
             end
-            
+
             atts = " href=\"#{ url }\""
             atts << " title=\"#{ title }\"" if title
             atts = shelve( atts )
-            
+
             "<a#{ atts }>#{ text }</a>"
         end
     end
@@ -876,16 +876,16 @@ class RedCloth3 < String
             \3                  # matching quote
             )?                  # title is optional
             \)
-        /x 
+        /x
 
-    def inline_markdown_link( text ) 
+    def inline_markdown_link( text )
         text.gsub!( MARKDOWN_LINK_RE ) do |m|
             text, url, quote, title = $~[1..4]
 
             atts = " href=\"#{ url }\""
             atts << " title=\"#{ title }\"" if title
             atts = shelve( atts )
-            
+
             "<a#{ atts }>#{ text }</a>"
         end
     end
@@ -899,14 +899,14 @@ class RedCloth3 < String
         end
     end
 
-    def refs_textile( text ) 
+    def refs_textile( text )
         text.gsub!( TEXTILE_REFS_RE ) do |m|
             flag, url = $~[2..3]
             @urlrefs[flag.downcase] = [url, nil]
             nil
         end
     end
-    
+
     def refs_markdown( text )
         text.gsub!( MARKDOWN_REFS_RE ) do |m|
             flag, url = $~[2..3]
@@ -916,7 +916,7 @@ class RedCloth3 < String
         end
     end
 
-    def check_refs( text ) 
+    def check_refs( text )
         ret = @urlrefs[text.downcase] if text
         ret || [text, nil]
     end
@@ -932,16 +932,16 @@ class RedCloth3 < String
             (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?   # optional title
             \!                   # closing
             (?::#{ HYPERLINK })? # optional href
-        /x 
+        /x
 
-    def inline_textile_image( text ) 
+    def inline_textile_image( text )
         text.gsub!( IMAGE_RE )  do |m|
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )
             atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
-            atts << " alt=\"#{ title }\"" 
+            atts << " alt=\"#{ title }\""
             # size = @getimagesize($url);
             # if($size) $atts.= " $size[3]";
 
@@ -952,8 +952,8 @@ class RedCloth3 < String
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href
             out << "<img#{ shelve( atts ) } />"
             out << "</a>#{ href_a1 }#{ href_a2 }" if href
-            
-            if algn 
+
+            if algn
                 algn = h_align( algn )
                 if stln == "<p>"
                     out = "<p style=\"float:#{ algn }\">#{ out }"
@@ -968,18 +968,18 @@ class RedCloth3 < String
         end
     end
 
-    def shelve( val ) 
+    def shelve( val )
         @shelf << val
         " :redsh##{ @shelf.length }:"
     end
-    
-    def retrieve( text ) 
+
+    def retrieve( text )
         @shelf.each_with_index do |r, i|
             text.gsub!( " :redsh##{ i + 1 }:", r )
         end
     end
 
-    def incoming_entities( text ) 
+    def incoming_entities( text )
         ## turn any incoming ampersands into a dummy character for now.
         ## This uses a negative lookahead for alphanumerics followed by a semicolon,
         ## implying an incoming html entity, to be skipped
@@ -987,14 +987,14 @@ class RedCloth3 < String
         text.gsub!( /&(?![#a-z0-9]+;)/i, "x%x%" )
     end
 
-    def no_textile( text ) 
+    def no_textile( text )
         text.gsub!( /(^|\s)==([^=]+.*?)==(\s|$)?/,
             '\1<notextile>\2</notextile>\3' )
         text.gsub!( /^ *==([^=]+.*?)==/m,
             '\1<notextile>\2</notextile>\3' )
     end
 
-    def clean_white_space( text ) 
+    def clean_white_space( text )
         # normalize line breaks
         text.gsub!( /\r\n/, "\n" )
         text.gsub!( /\r/, "\n" )
@@ -1020,11 +1020,11 @@ class RedCloth3 < String
         end
     end
 
-    def footnote_ref( text ) 
+    def footnote_ref( text )
         text.gsub!( /\b\[([0-9]+?)\](\s)?/,
             '<sup><a href="#fn\1">\1</a></sup>\2' )
     end
-    
+
     OFFTAGS = /(code|pre|kbd|notextile)/
     OFFTAG_MATCH = /(?:(<\/#{ OFFTAGS }>)|(<#{ OFFTAGS }[^>]*>))(.*?)(?=<\/?#{ OFFTAGS }\W|\Z)/mi
     OFFTAG_OPEN = /<#{ OFFTAGS }/
@@ -1046,7 +1046,7 @@ class RedCloth3 < String
                     elsif line =~ OFFTAG_CLOSE
                         codepre -= 1
                         codepre = 0 if codepre < 0
-                    end 
+                    end
                 elsif codepre.zero?
                     glyphs_textile( line, level + 1 )
                 else
@@ -1093,7 +1093,7 @@ class RedCloth3 < String
                     end
                     codepre -= 1 unless codepre.zero?
                     used_offtags = {} if codepre.zero?
-                end 
+                end
                 line
             end
         end
@@ -1107,7 +1107,7 @@ class RedCloth3 < String
         end
     end
 
-    def inline( text ) 
+    def inline( text )
         [/^inline_/, /^glyphs_/].each do |meth_re|
             @rules.each do |rule_name|
                 method( rule_name ).call( text ) if rule_name.to_s.match( meth_re )
@@ -1115,11 +1115,11 @@ class RedCloth3 < String
         end
     end
 
-    def h_align( text ) 
+    def h_align( text )
         H_ALGN_VALS[text]
     end
 
-    def v_align( text ) 
+    def v_align( text )
         V_ALGN_VALS[text]
     end
 
@@ -1133,7 +1133,7 @@ class RedCloth3 < String
         'img' => ['src', 'alt', 'title'],
         'br' => [],
         'i' => nil,
-        'u' => nil, 
+        'u' => nil,
         'b' => nil,
         'pre' => nil,
         'kbd' => nil,
@@ -1158,7 +1158,7 @@ class RedCloth3 < String
         'h3' => nil,
         'h4' => nil,
         'h5' => nil,
-        'h6' => nil, 
+        'h6' => nil,
         'blockquote' => ['cite']
     }
 
@@ -1186,11 +1186,10 @@ class RedCloth3 < String
             end
         end
     end
-    
+
     ALLOWED_TAGS = %w(redpre pre code notextile)
-    
+
     def escape_html_tags(text)
       text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end
 end
-

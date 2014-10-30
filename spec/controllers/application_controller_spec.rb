@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationController do
+describe ApplicationController, :type => :controller do
   let(:user) { FactoryGirl.create(:user, :lastname => "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
@@ -79,5 +79,58 @@ describe ApplicationController do
         end
       end
     end
+  end
+
+  describe 'unverified request' do
+    shared_examples 'handle_unverified_request resets session' do
+      it 'deletes the autologin cookie' do
+        cookies[OpenProject::Configuration['autologin_cookie_name']] = 'some value'
+        allow(@controller).to receive(:render_error)
+
+        @controller.send :handle_unverified_request
+
+        expect(cookies[OpenProject::Configuration['autologin_cookie_name']]).to be_nil
+      end
+
+      it 'logs out the user' do
+        @controller.send(:logged_user=, FactoryGirl.create(:user))
+        allow(@controller).to receive(:render_error)
+
+        @controller.send :handle_unverified_request
+
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
+      end
+    end
+
+    context 'for non-API resources' do
+      before do
+        allow(@controller).to receive(:api_request?).and_return(false)
+      end
+
+      it_behaves_like 'handle_unverified_request resets session'
+
+      it 'should give 422' do
+        expect(@controller).to receive(:render_error) do |options|
+          expect(options[:status]).to eql(422)
+        end
+
+        @controller.send :handle_unverified_request
+      end
+    end
+
+    context 'for API resources' do
+      before do
+        allow(@controller).to receive(:api_request?).and_return(true)
+      end
+
+      it_behaves_like 'handle_unverified_request resets session'
+
+      it 'should not render an error' do
+        expect(@controller).to_not receive(:render_error)
+
+        @controller.send :handle_unverified_request
+      end
+    end
+
   end
 end

@@ -80,7 +80,6 @@ OpenProject::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( default.css
                                   accessibility.css accessibility.js
-                                  activate_error_messages.js
                                   admin_users.js
                                   autocompleter.js
                                   calendar/lang/*.js

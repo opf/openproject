@@ -26,32 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = {};
+  var availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {},
+      availableGroupedQueries;
+
+  var totalEntries;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
+        name: queryData.name,
         project_id: queryData.project_id,
         displaySums: queryData.display_sums,
         groupSums: queryData.group_sums,
         sums: queryData.sums,
         columns: selectedColumns,
-        groupBy: queryData.group_by
+        groupBy: queryData.group_by,
+        isPublic: queryData.is_public,
+        exportFormats: exportFormats,
+        starred: queryData.starred,
+        links: queryData._links
       });
-      query.setSortation(new Sortation(queryData.sort_criteria));
+      query.setSortation(queryData.sort_criteria);
 
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          query.setFilters(queryData.filters);
+          if (query.isDefault()) {
+            query.setDefaultFilter();
+          }
+          if(queryData.filters && queryData.filters.length) {
+            query.setFilters(queryData.filters);
+          }
 
           return query;
         })
@@ -60,16 +73,142 @@ angular.module('openproject.services')
       return query;
     },
 
+    updateQuery: function(values, afterUpdate) {
+      var queryData = {
+      };
+      if(!!values.display_sums) {
+        queryData.displaySums = values.display_sums;
+      }
+      if(!!values.columns) {
+        queryData.columns = values.columns;
+      }
+      if(!!values.group_by) {
+        queryData.groupBy = values.group_by;
+      }
+      if(!!values.sort_criteria) {
+        queryData.sortCriteria = values.sort_criteria;
+      }
+      query.update(queryData);
+
+      QueryService.getAvailableFilters(query.project_id)
+        .then(function(availableFilters) {
+          query.setAvailableWorkPackageFilters(availableFilters);
+          if(queryData.filters && queryData.filters.length) {
+            query.setFilters(queryData.filters);
+          }
+
+          return query;
+        })
+        .then(afterUpdate);
+
+      return query;
+    },
+
     getQuery: function() {
       return query;
     },
 
+    clearQuery: function() {
+      query = null;
+    },
+
+    getQueryName: function() {
+      if (query && query.hasName()) {
+        return query.name;
+      }
+    },
+
+    setTotalEntries: function(numberOfEntries) {
+      totalEntries = numberOfEntries;
+    },
+
+    getTotalEntries: function() {
+      return totalEntries;
+    },
+
+    getAvailableUnusedColumns: function() {
+      return availableUnusedColumns;
+    },
+
+    hideColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
+    },
+
+    showColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
+    },
+
+    getAvailableGroupedQueries: function() {
+      return availableGroupedQueries;
+    },
+
     // data loading
 
-    getAvailableColumns: function(projectIdentifier) {
+    loadAvailableGroupedQueries: function(projectIdentifier) {
+      if (availableGroupedQueries) {
+        return $q.when(availableGroupedQueries);
+      }
+
+      return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
+    },
+
+    fetchAvailableGroupedQueries: function(projectIdentifier) {
+      var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
+
+      return QueryService.doQuery(url)
+        .then(function(groupedQueriesResults) {
+          availableGroupedQueries = groupedQueriesResults;
+          return availableGroupedQueries;
+        });
+    },
+
+    loadAvailableUnusedColumns: function(projectIdentifier) {
+      return QueryService.loadAvailableColumns(projectIdentifier)
+        .then(function(available_columns) {
+          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+          return availableUnusedColumns;
+        });
+    },
+
+    loadAvailableColumns: function(projectIdentifier) {
+      // TODO: Once we have a single page app we need to differentiate between different project columns
+      if(availableColumns.length) {
+        return $q.when(availableColumns);
+      }
+
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doGet(url, function(response){
+        availableColumns = response.data.available_columns;
+        return availableColumns;
+      });
+    },
+
+    getGroupBy: function() {
+      return query.groupBy;
+    },
+
+    setGroupBy: function(groupBy) {
+      query.setGroupBy(groupBy);
+    },
+
+    getSelectedColumns: function() {
+      return this.getQuery().getSelectedColumns();
+    },
+
+    setSelectedColumns: function(selectedColumnNames) {
+      var currentColumns = this.getSelectedColumns();
+
+      this.hideColumns(currentColumns.map(function(column) { return column.name; }));
+      this.showColumns(selectedColumnNames);
+    },
+
+    updateSortElements: function(sortation) {
+      return query.updateSortElements(sortation);
+    },
+
+    getSortation: function() {
+      return query.getSortation();
     },
 
     getAvailableFilters: function(projectIdentifier){
@@ -115,7 +254,7 @@ angular.module('openproject.services')
               } else {
                 return { id: value, name: value };
               }
-            })
+            });
             return $q.when(QueryService.storeAvailableFilterValues(modelName, values));
           }
 
@@ -138,7 +277,7 @@ angular.module('openproject.services')
                 retrieveAvailableValues = UserService.getUsers(projectIdentifier);
                 break;
               case 'version':
-                retrieveAvailableValues = VersionService.getProjectVersions(projectIdentifier);
+                retrieveAvailableValues = VersionService.getVersions(projectIdentifier);
                 break;
               case 'role':
                 retrieveAvailableValues = RoleService.getRoles();
@@ -172,17 +311,147 @@ angular.module('openproject.services')
       return availableFilters[projectIdentifier];
     },
 
-    doQuery: function(url, params) {
+    // synchronization
+
+    saveQuery: function() {
+      var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
+
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
+      });
+    },
+
+    saveQueryAs: function(name) {
+      query.setName(name);
+      var url = query.project_id ? PathHelper.apiProjectQueriesPath(query.project_id) : PathHelper.apiQueriesPath();
+
+      return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
+        query.save(response.data.query);
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
+        // The starred-state does not get saved via the API. So we manually
+        // set it, if the old query was starred.
+        if (query.starred) {
+          QueryService.starQuery();
+        }
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
+      });
+    },
+
+    deleteQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
+      });
+    },
+
+    getQueryPath: function(query) {
+      if (query.project_id) {
+        return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      } else {
+        return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+      }
+    },
+
+    addOrRemoveMenuItem: function(query) {
+      if (!query) return;
+
+      if(query.starred) {
+        queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
+        $rootScope.$broadcast('$stateChangeSuccess', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      } else {
+        $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
+      }
+    },
+
+    toggleQueryStarred: function(query) {
+      if(query.starred) {
+        return QueryService.unstarQuery();
+      } else {
+        return QueryService.starQuery();
+      }
+    },
+
+    starQuery: function() {
+      var url = PathHelper.apiQueryStarPath(query.id);
+      var theQuery = query;
+
+      var success = function(response){
+        theQuery.star();
+        QueryService.addOrRemoveMenuItem(theQuery);
+        return response.data;
+      };
+
+      var failure = function(response){
+        var msg = undefined;
+
+        if(response.data.errors) {
+          msg = response.data.errors.join(", ");
+        }
+
+        return QueryService.failure(msg)(response);
+      };
+
+      return QueryService.doPatch(url, success, failure);
+    },
+
+    unstarQuery: function() {
+      var url = PathHelper.apiQueryUnstarPath(query.id);
+      var theQuery = query;
+
+      return QueryService.doPatch(url, function(response){
+        theQuery.unstar();
+        QueryService.addOrRemoveMenuItem(theQuery);
+        return response.data;
+      });
+    },
+
+    updateHighlightName: function() {
+      // TODO Implement an API endpoint for updating the names or add an appropriate endpoint that returns query names for all highlighted queries
+      return this.unstarQuery().then(this.starQuery);
+    },
+
+    doGet: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'GET', success, failure);
+    },
+
+    doPatch: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'PATCH', success, failure);
+    },
+
+    doQuery: function(url, params, method, success, failure) {
+      method = method || 'GET';
+      success = success || function(response){
+        return response.data;
+      };
+      failure = failure || QueryService.failure();
+
       return $http({
-        method: 'GET',
+        method: method,
         url: url,
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
+      }).then(success, failure);
+    },
+
+    failure: function(msg){
+      msg = msg || I18n.t('js.notice_bad_request');
+      return function(response){
+        return angular.extend(response, { status: { text: msg, isError: true }} );
+      }
     }
   };
 
   return QueryService;
-}]);
+}

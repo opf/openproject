@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 function enable_textarea_auto_completion(textareas) {
   textareas.each(function(){
-    var url = jQuery(this).data('wp_autocomplete_url')
+    var url = jQuery(this).data('wp_autocomplete_url');
     if (url !== undefined) {
       jQuery(this).atwho({
         at: '#',

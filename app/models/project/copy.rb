@@ -209,13 +209,12 @@ module Project::Copy
       end
     end
 
-      # Copies members from +project+
+    # Copies members from +project+
     def copy_members(project)
       # Copy users first, then groups to handle members with inherited and given roles
       members_to_copy = []
       members_to_copy += project.memberships.select {|m| m.principal.is_a?(User)}
       members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
-
       members_to_copy.each do |member|
         new_member = Member.new
         new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), :without_protection => true)
@@ -226,6 +225,13 @@ module Project::Copy
         new_member.role_ids = role_ids
         new_member.project = self
         self.memberships << new_member
+      end
+
+      # Update the omitted attributes for the copied memberships
+      self.memberships.each do |new_member|
+        member = project.memberships.find_by_user_id(new_member.user_id)
+        Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
+        new_member.save
       end
     end
 
@@ -245,6 +251,15 @@ module Project::Copy
       project.boards.each do |board|
         new_board = Board.new
         new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
+        topics = board.topics.where("parent_id is NULL")
+        topics.each do |topic|
+          new_topic = Message.new
+          new_topic.attributes = topic.attributes.dup.except("id", "board_id", "author_id", "replies_count", "last_reply_id", "created_on", "updated_on")
+          new_topic.board = new_board
+          new_topic.author_id = topic.author_id
+          new_board.topics << new_topic
+        end
+
         new_board.project = self
         self.boards << new_board
       end

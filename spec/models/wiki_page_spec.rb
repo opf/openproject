@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage do
+describe WikiPage, :type => :model do
   let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
   let!(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki, title: wiki.wiki_menu_items.first.title) }
@@ -60,7 +60,7 @@ describe WikiPage do
 
       it 'ensures there is still a wiki menu item' do
         expect(wiki.wiki_menu_items).to be_one
-        expect(wiki.wiki_menu_items.first.is_main_item?).to be_true
+        expect(wiki.wiki_menu_items.first.is_main_item?).to be_truthy
       end
     end
 

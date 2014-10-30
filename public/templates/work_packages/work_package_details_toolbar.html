@@ -1,0 +1,25 @@
+<div class="work-packages--details-toolbar">
+  <button class="button" ng-click="editWorkPackage()"><i class="icon-left icon-edit"></i>{{ I18n.t('js.button_edit') }}</button>
+  <button class="button dropdown-relative"
+          ng-disabled="!(actionsAvailable || pluginActionsAvailable)"
+          with-dropdown
+          dropdown-id="moreDropdown">
+    {{ I18n.t('js.button_more') }}
+    <i class="icon-pulldown-arrow1 icon-edit"></i>
+  </button>
+<div>
+
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdown-up" id="moreDropdown">
+  <ul class="dropdown-menu" ng-if="actionsAvailable">
+    <li ng-repeat="(action, properties) in permittedActions"
+        ng-click="triggerMoreMenuAction(action, properties.link)"
+        class="{{action}}">
+      <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+      properly. Thus, don't remove the hrefs or the empty URLs! -->
+      <a href=""
+         ng-class="['icon-context'].concat(properties.css)"
+         ng-bind="I18n.t('js.button_' + action)">
+      </a>
+    </li>
+  </ul>
+</div>

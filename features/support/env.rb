@@ -34,6 +34,7 @@
 # files.
 
 require 'cucumber/rails'
+require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
 
 # json-spec is used to specifiy our json-apis
@@ -103,6 +104,11 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+# Remove any modal dialog remaining from the scenarios which finish in an unclean state
+Before do |scenario|
+  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+end
 
 # Capybara.register_driver :selenium do |app|
 #     Capybara::Selenium::Driver.new(app, :browser => :chrome)

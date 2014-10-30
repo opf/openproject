@@ -31,7 +31,7 @@ module Api
     module Pagination
       module PaginationSpecHelper
         def paginating_index_action(model, scope)
-          describe :index do
+          describe :index, :type => :controller do
             let(:params) { { "page" => "1",
                              "page_limit" =>
                              "10", "q" => "blubs",
@@ -54,4 +54,3 @@ module Api
     end
   end
 end
-

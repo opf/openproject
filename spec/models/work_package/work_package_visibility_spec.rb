@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "WorkPackage-Visibility" do
+describe "WorkPackage-Visibility", :type => :model do
 
   let(:admin)    {FactoryGirl.create(:admin)}
   let(:anonymous){FactoryGirl.create(:anonymous)}
@@ -81,4 +81,3 @@ describe "WorkPackage-Visibility" do
   end
 
 end
-

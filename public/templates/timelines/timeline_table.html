@@ -50,7 +50,7 @@
           </span>
 
           <span>
-            <a href="" modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObjectType === 'Project'}">{{row.text}}</a>
+            <a href="{{row.url}}" modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObjectType === 'Project'}">{{ row.text | characters:40 }}</a>
           </span>
 
           <div ng-show="row.lastVisible" class="tl-invisible" style="height: 15px; width: 15px;"></div>

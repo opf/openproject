@@ -28,9 +28,11 @@
 #++
 
 class UserMailer < ActionMailer::Base
-  helper :application,  # for textilizable
+  helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
+
+  include OpenProject::LocaleHelper
 
   # wrap in a lambda to allow changing at run-time
   default :from => Proc.new { Setting.mail_from }
@@ -65,9 +67,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def work_package_updated(user, journal, author=User.current)
-    # Delayed job do not preserve the closure of the job that is delayed. Thus,
-    # if the method is called within a delayed job, it does contain the default
-    # user (anonymous) and not the original user that called the method.
+    # Delayed job does not preserve the closure of the job that is delayed.
+    # Thus, if the method is called within a delayed job, it does contain the
+    # default user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
     # original user to be available. Otherwise, it cannot fulfill its duty.
@@ -108,6 +110,40 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = t(:mail_subject_lost_password, :value => Setting.app_title)
       mail :to => user.mail, :subject => subject
+    end
+  end
+
+  def copy_project_failed(user, source_project, target_project_name)
+    @source_project = source_project
+    @target_project_name = target_project_name
+
+    open_project_headers 'Source-Project' => source_project.identifier,
+                         'Author'         => user.login
+
+    message_id source_project, user
+
+    with_locale_for(user) do
+      subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
+
+      mail to: user.mail, subject: subject
+    end
+  end
+
+  def copy_project_succeeded(user, source_project, target_project, errors)
+    @source_project = source_project
+    @target_project = target_project
+    @errors = errors
+
+    open_project_headers 'Source-Project' => source_project.identifier,
+                         'Target-Project' => target_project.identifier,
+                         'Author'         => user.login
+
+    message_id target_project, user
+
+    with_locale_for(user) do
+      subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
+
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -356,11 +392,6 @@ private
 
   def references(object, user)
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
-  end
-
-  def with_locale_for(user, &block)
-    locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
-    I18n.with_locale(locale, &block)
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication

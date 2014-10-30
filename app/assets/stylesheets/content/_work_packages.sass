@@ -1,0 +1,228 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import content/forms
+
+.work-packages--details-content
+  font-size:  13px
+  font-size:  0.8125rem
+
+  h2
+    margin:       0
+    padding:      0 0 4px 0
+    font-size:    20px
+    font-size:    1.25rem
+    line-height:  26px
+    font-weight:  normal
+    border:       none
+    text-transform: none
+    color:        #333
+  h3
+    margin:       0 0 10px 0
+    padding:      0
+    font-size:    14px
+    font-size:    0.875rem
+    font-weight:  bold
+    border:       none
+
+.report-category-actions
+  margin-top: -28px
+  font-size: 17px // like h3
+  width: 100%
+  text-align: right
+
+// Legacy Form
+
+#work_package-form
+  @extend %form-style
+  .attributes
+    margin-bottom: 30px
+    overflow: auto
+
+  #watchers_form
+    position: relative
+    padding-left: 160px
+    margin-bottom: 30px
+    font-size: 14px
+    line-height: 30px
+
+    .watcher_label
+      @include label-style
+      width: 152px
+      margin-left: -160px
+
+    .floating
+      float: none
+      display: inline-block
+
+  #attachments
+    padding-left: 0
+    padding-right: 0
+
+  .handle_attachments, #attachments
+    > label
+      @include label-style
+      height: 30px
+      display: block
+    margin-bottom: 30px
+
+    #attachments_fields
+      display: inline-block
+
+    .attachment_field
+      display: block
+      margin-bottom: 10px
+      height: 32px
+      > input
+        @include input-style
+        border: none
+        &:hover, &:focus
+          border: none
+      label
+        @include label-style
+        width: auto
+        height: 32px
+        input
+          margin-left: 50px
+    .add_another_file
+      padding-left: 10px
+
+  fieldset
+    margin-bottom: 20px
+    padding: 30px 20px
+
+  legend.change_properties
+    padding-right: 20px
+  #show_more_wp_properties
+    float: left
+    margin-left: 115px
+    margin-top: -48px
+    background-color: $content_form_bg_color
+
+// Detail Panel Content
+
+.subtitle
+  margin: 0px 0 0 0
+  padding: 0 0 10px 0
+  display: block
+  font-size: 12px
+  font-size: 0.75rem
+
+.select-type
+  font-size: 20px
+  font-size: 1.25rem
+  line-height: 26px
+  float: left
+  color: $content_link_color
+
+.detail-panel-description
+  float: left
+  margin: 0
+  line-height: 18px
+
+
+.comments-form
+  float: left
+  width: 100%
+  margin: 10px 0 100px 0
+  textarea
+    border: 1px solid #dddddd
+    padding: 8px
+    border-radius: 2px
+    font-size: 13px
+    font-size: 0.8125rem
+    box-sizing: border-box
+    width: 100%
+  button
+    float: right
+    font-size: 13px
+    font-size: 0.8125rem
+    background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
+    border: 1px solid #CCCCCC
+    border-radius: 2px
+    color: #222222
+    margin: 10px 0 0 0px
+    padding: 4px 10px 2px
+    cursor: pointer
+    height: 32px
+
+i
+  &.icon-left
+    padding: 0 5px 0 0
+  &.icon-right
+    vertical-align: -2px
+    padding: 0 0px 0 4px
+  &.star
+    font-size: 17px
+    padding: 0 2px 0 0px
+    vertical-align: -3px
+    color: #ccc
+    margin: 0 0 0 -2px
+    cursor: pointer
+    &:hover, &.active
+      color: #f8d033
+    &.active:hover
+      color: #ccc
+
+#tabs
+  position: relative
+  width: 100%
+
+$work-package-details--tab-height: 40px
+
+.tabrow
+  box-sizing: border-box
+  text-align: left
+  list-style: none
+  margin: 0 0 0 10px
+  padding:     4px 0 0 0
+  line-height: $work-package-details--tab-height - 6px
+  height:      $work-package-details--tab-height
+  overflow: hidden
+  font-size: 14px
+  position: relative
+  width: 97.5%
+  li
+    background: #ffffff
+    display: inline-block
+    position: relative
+    margin: 0
+    padding: 0
+    text-align: center
+    width: 18.6%
+    cursor: pointer
+  a
+    color: #333
+    text-decoration: none
+    &:hover
+      text-decoration: none
+  li.selected
+    color: #999
+    border-bottom: 2px solid $content_link_color
+    a
+      color: $content_link_color

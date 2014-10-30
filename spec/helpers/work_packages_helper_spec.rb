@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesHelper do
+describe WorkPackagesHelper, :type => :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
@@ -183,6 +183,15 @@ describe WorkPackagesHelper do
         expect(helper.link_to_work_package(stub_work_package, :subject_only => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
       end
     end
+
+    describe "with the status displayed" do
+      it 'should return a link with the status name contained in the text' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id} #{stub_work_package.status}$")
+        expect(helper.link_to_work_package(stub_work_package, :status => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+    end
   end
 
   describe :work_package_index_link do
@@ -208,6 +217,34 @@ describe WorkPackagesHelper do
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
       expect(field).to have_css(".spent-time", :text => '-')
+    end
+  end
+
+  # Testing private method here.
+  # Only doing so because this method is an exception.
+  # All other show... methods are public.
+  # TODO: check wether the method can be made public.
+  describe :work_package_show_custom_fields do
+    let(:stub_custom_field) do
+      stub_custom_field = FactoryGirl.build_stubbed(:custom_field,
+                                                    name: 'My Custom Field')
+    end
+
+    let(:stub_custom_value) do
+      FactoryGirl.build_stubbed(:work_package_custom_value, customized: stub_work_package,
+                                                            custom_field: stub_custom_field,
+                                                            value: '5')
+    end
+
+    it 'should show the field name unchanged' do
+      allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
+
+      attributes = helper.send(:work_package_show_custom_fields, stub_work_package)
+
+      expect(attributes.length).to eql(1)
+
+      expected_css_class = ".work_package_attribute_header.custom_field.cf_#{stub_custom_field.id}"
+      expect(attributes[0].field).to have_css(expected_css_class, :text => stub_custom_field.name)
     end
   end
 
@@ -410,8 +447,8 @@ describe WorkPackagesHelper do
 
     it "should return a select with every available status as an option" do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                       .with(stub_user, true)
-                       .and_return([status1, status2])
+                              .with(stub_user)
+                              .and_return([status1, status2])
 
       stub_work_package.status = status1
 
@@ -428,8 +465,8 @@ describe WorkPackagesHelper do
 
     it "should return a label and the name of the current status if no new status is available" do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                       .with(stub_user, true)
-                       .and_return([])
+                              .with(stub_user)
+                              .and_return([])
 
       stub_work_package.status = status1
 

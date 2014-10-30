@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
@@ -54,7 +54,7 @@ describe WorkPackage do
     describe :save do
       subject { work_package.save }
 
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     describe :estimated_hours do
@@ -65,7 +65,7 @@ describe WorkPackage do
 
       subject { work_package.estimated_hours }
 
-      it { should eq(1.5) }
+      it { is_expected.to eq(1.5) }
     end
 
     describe "minimal" do
@@ -81,7 +81,7 @@ describe WorkPackage do
       context :save do
         subject { work_package_minimal.save }
 
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
 
       context :description do
@@ -92,7 +92,7 @@ describe WorkPackage do
 
         subject { work_package_minimal.description }
 
-        it { should be_nil }
+        it { is_expected.to be_nil }
       end
     end
 
@@ -107,7 +107,7 @@ describe WorkPackage do
         subject { FactoryGirl.create(:work_package,
                                      assigned_to: group).assigned_to }
 
-        it { should eq(group) }
+        it { is_expected.to eq(group) }
       end
     end
   end
@@ -126,7 +126,7 @@ describe WorkPackage do
 
         subject { work_package.save }
 
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
 
       describe "must not be set on work package" do
@@ -137,7 +137,7 @@ describe WorkPackage do
         context :save do
           subject { work_package.save }
 
-          it { should be_false }
+          it { is_expected.to be_falsey }
         end
 
         context :errors do
@@ -145,7 +145,7 @@ describe WorkPackage do
 
           subject { work_package.errors[:type_id] }
 
-          it { should_not be_empty }
+          it { is_expected.not_to be_empty }
         end
       end
     end
@@ -164,7 +164,7 @@ describe WorkPackage do
 
     subject { work_package.assigned_to }
 
-    it { should eq(category.assigned_to) }
+    it { is_expected.to eq(category.assigned_to) }
   end
 
   describe :assignable_assignees do
@@ -176,7 +176,7 @@ describe WorkPackage do
       subject { stub_work_package.assignable_assignees }
 
       it 'should return all users the project deems to be possible assignees' do
-        should include(user)
+        is_expected.to include(user)
       end
     end
 
@@ -190,7 +190,7 @@ describe WorkPackage do
       end
 
       subject { work_package.assignable_assignees }
-      it { should include(group) }
+      it { is_expected.to include(group) }
     end
 
     context "without work_package_group_assignment" do
@@ -203,7 +203,7 @@ describe WorkPackage do
       end
 
       subject { work_package.assignable_assignees }
-      it { should_not include(group) }
+      it { is_expected.not_to include(group) }
     end
 
     context "multiple users" do
@@ -213,7 +213,7 @@ describe WorkPackage do
 
       subject { stub_work_package.assignable_assignees.uniq }
 
-      it { should eq(stub_work_package.assignable_assignees) }
+      it { is_expected.to eq(stub_work_package.assignable_assignees) }
     end
   end
 
@@ -228,8 +228,8 @@ describe WorkPackage do
 
     subject { work_package.assignable_responsibles }
 
-    it { should_not include(group) }
-    it { should include(user) }
+    it { is_expected.not_to include(group) }
+    it { is_expected.to include(user) }
   end
 
   describe :assignable_versions do
@@ -282,7 +282,7 @@ describe WorkPackage do
 
         subject { work_package.assignable_versions.collect(&:status).uniq }
 
-        it { should include('open') }
+        it { is_expected.to include('open') }
       end
 
       shared_examples_for "invalid version" do
@@ -290,7 +290,7 @@ describe WorkPackage do
 
         subject { work_package.errors[:fixed_version_id] }
 
-        it { should_not be_empty }
+        it { is_expected.not_to be_empty }
       end
 
       context "closed version" do
@@ -310,7 +310,7 @@ describe WorkPackage do
 
         before { work_package.save }
 
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
     end
 
@@ -346,7 +346,7 @@ describe WorkPackage do
 
           subject { work_package.save }
 
-          it { should be_true }
+          it { is_expected.to be_truthy }
         end
 
         context "status changed" do
@@ -377,7 +377,7 @@ describe WorkPackage do
 
             subject { work_package.save }
 
-            it { should be_true }
+            it { is_expected.to be_truthy }
           end
 
           context "in closed version" do
@@ -390,7 +390,7 @@ describe WorkPackage do
 
             subject { work_package.errors[:base] }
 
-            it { should_not be_empty }
+            it { is_expected.not_to be_empty }
           end
 
           context "from closed version" do
@@ -418,7 +418,7 @@ describe WorkPackage do
     shared_examples_for "moved work package" do
       subject { work_package.project }
 
-      it { should eq(target_project) }
+      it { is_expected.to eq(target_project) }
     end
 
     describe :time_entries do
@@ -443,13 +443,13 @@ describe WorkPackage do
       context "time entry 1" do
         subject { work_package.time_entries }
 
-        it { should include(time_entry_1) }
+        it { is_expected.to include(time_entry_1) }
       end
 
       context "time entry 2" do
         subject { work_package.time_entries }
 
-        it { should include(time_entry_2) }
+        it { is_expected.to include(time_entry_2) }
       end
 
       it_behaves_like "moved work package"
@@ -480,7 +480,7 @@ describe WorkPackage do
         describe "category moved" do
           subject { work_package.category_id }
 
-          it { should eq(target_category.id) }
+          it { is_expected.to eq(target_category.id) }
         end
 
         it_behaves_like "moved work package"
@@ -492,7 +492,7 @@ describe WorkPackage do
         describe "category discarded" do
           subject { work_package.category_id }
 
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         it_behaves_like "moved work package"
@@ -516,7 +516,7 @@ describe WorkPackage do
       context "unshared version" do
         subject { work_package.fixed_version }
 
-        it { should be_nil }
+        it { is_expected.to be_nil }
       end
 
       context "system wide shared version" do
@@ -524,7 +524,7 @@ describe WorkPackage do
 
         subject { work_package.fixed_version }
 
-        it { should eq(version) }
+        it { is_expected.to eq(version) }
       end
 
       context "move work package in project hierarchy" do
@@ -534,7 +534,7 @@ describe WorkPackage do
         context "unshared version" do
           subject { work_package.fixed_version }
 
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         context "shared version" do
@@ -542,7 +542,7 @@ describe WorkPackage do
 
           subject { work_package.fixed_version }
 
-          it { should eq(version) }
+          it { is_expected.to eq(version) }
         end
       end
     end
@@ -554,7 +554,7 @@ describe WorkPackage do
 
       subject { work_package.move_to_project(target_project) }
 
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -576,13 +576,13 @@ describe WorkPackage do
     context "work package" do
       subject { WorkPackage.find_by_id(work_package.id) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "time entries" do
       subject { TimeEntry.find_by_work_package_id(work_package.id) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
   end
 
@@ -613,13 +613,13 @@ describe WorkPackage do
         context "work package 1" do
           subject { work_package_1.done_ratio }
 
-          it { should eq(0) }
+          it { is_expected.to eq(0) }
         end
 
         context "work package 2" do
           subject { work_package_2.done_ratio }
 
-          it { should eq(30) }
+          it { is_expected.to eq(30) }
         end
       end
 
@@ -629,13 +629,13 @@ describe WorkPackage do
         context "work package 1" do
           subject { work_package_1.done_ratio }
 
-          it { should eq(50) }
+          it { is_expected.to eq(50) }
         end
 
         context "work package 2" do
           subject { work_package_2.done_ratio }
 
-          it { should eq(0) }
+          it { is_expected.to eq(0) }
         end
       end
     end
@@ -713,13 +713,13 @@ describe WorkPackage do
       context :size do
         subject { groups.size }
 
-        it { should eq(2) }
+        it { is_expected.to eq(2) }
       end
 
       context :total do
         subject { groups.inject(0) {|sum, group| sum + group['total'].to_i} }
 
-        it { should eq(2) }
+        it { is_expected.to eq(2) }
       end
     end
 
@@ -796,28 +796,50 @@ describe WorkPackage do
     context :limit do
       subject { WorkPackage.recently_updated.limit(1).first }
 
-      it { should eq(work_package_2) }
+      it { is_expected.to eq(work_package_2) }
     end
   end
 
   describe :on_active_project do
     let(:project_archived) { FactoryGirl.create(:project,
                                                 status: Project::STATUS_ARCHIVED) }
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let!(:work_package) { FactoryGirl.create(:work_package) }
     let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
                                                                 project: project_archived) }
 
-    before { work_package }
 
     subject { WorkPackage.on_active_project.length }
 
     context "one work package in active projects" do
-      it { should eq(1) }
+      it { is_expected.to eq(1) }
 
       context "and one work package in archived projects" do
         before { work_package_in_archived_project }
 
-        it { should eq(1) }
+        it { is_expected.to eq(1) }
+      end
+    end
+  end
+
+  describe :with_author do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:project_archived) { FactoryGirl.create(:project,
+                                                status: Project::STATUS_ARCHIVED) }
+    let!(:work_package) { FactoryGirl.create(:work_package, :author => user) }
+    let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
+                                                                :project => project_archived,
+                                                                :author => user) }
+
+
+    subject { WorkPackage.with_author(user).length }
+
+    context "one work package in active projects" do
+      it { is_expected.to eq(1) }
+
+      context "and one work package in archived projects" do
+        before { work_package_in_archived_project }
+
+        it { is_expected.to eq(2) }
       end
     end
   end
@@ -849,13 +871,13 @@ describe WorkPackage do
     shared_examples_for "includes expected users" do
       subject { work_package.recipients }
 
-      it { should include(*expected_users) }
+      it { is_expected.to include(*expected_users) }
     end
 
     shared_examples_for "includes not expected users" do
       subject { work_package.recipients }
 
-      it { should_not include(*expected_users) }
+      it { is_expected.not_to include(*expected_users) }
     end
 
     describe "includes project recipients" do
@@ -864,7 +886,7 @@ describe WorkPackage do
       context "pre-condition" do
         subject { project.recipients }
 
-        it { should_not be_empty }
+        it { is_expected.not_to be_empty }
       end
 
       let(:expected_users) { project.recipients }
@@ -878,7 +900,7 @@ describe WorkPackage do
       context "pre-condition" do
         subject { work_package.author }
 
-        it { should_not be_nil }
+        it { is_expected.not_to be_nil }
       end
 
       let(:expected_users) { work_package.author.mail }
@@ -892,7 +914,7 @@ describe WorkPackage do
       context "pre-condition" do
         subject { work_package.assigned_to }
 
-        it { should_not be_nil }
+        it { is_expected.not_to be_nil }
       end
 
       let(:expected_users) { work_package.assigned_to.mail }
@@ -1063,7 +1085,7 @@ describe WorkPackage do
     let(:instance) { FactoryGirl.create(:work_package) }
 
     it "should return true" do
-      expect(instance.update_by!(user, {})).to be_true
+      expect(instance.update_by!(user, {})).to be_truthy
     end
 
     it "should set the values" do
@@ -1104,7 +1126,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance).to have(1).time_entries
+      expect(instance.time_entries.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1123,7 +1145,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance).to have(1).time_entries
+      expect(instance.time_entries.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1137,7 +1159,7 @@ describe WorkPackage do
 
       instance.update_by!(user, :time_entry => time_attributes)
 
-      expect(instance).to have(0).time_entries
+      expect(instance.time_entries.size).to eq(0)
     end
   end
 
@@ -1155,7 +1177,7 @@ describe WorkPackage do
       subject { WorkPackage.allowed_target_projects_on_move.count }
 
       it "sees all active projects" do
-        should eq Project.active.count
+        is_expected.to eq Project.active.count
       end
     end
 
@@ -1171,7 +1193,7 @@ describe WorkPackage do
       subject { WorkPackage.allowed_target_projects_on_move.count }
 
       it "sees all active projects" do
-        should eq Project.active.count
+        is_expected.to eq Project.active.count
       end
     end
   end
@@ -1239,7 +1261,7 @@ describe WorkPackage do
           end
 
           it "should have a validation error" do
-            expect(instance).to have(1).error_on(:due_date)
+            expect(instance.error_on(:due_date).size).to eq(1)
           end
         end
 
@@ -1453,4 +1475,3 @@ describe WorkPackage do
     end
   end
 end
-

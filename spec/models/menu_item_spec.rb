@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MenuItem do
+describe MenuItem, :type => :model do
   describe 'validations' do
     let(:item) { FactoryGirl.build :menu_item }
 
@@ -66,7 +66,7 @@ describe MenuItem do
 
     example 'all children when deleting the parent' do
       menu_item.destroy
-      expect(MenuItem.exists?(child_item.id)).to be_false
+      expect(MenuItem.exists?(child_item.id)).to be_falsey
     end
   end
 end

@@ -1,0 +1,656 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.  ++
+//++
+
+/***** Tables ****
+
+table
+  &.list
+    border: 1px solid #e4e4e4
+    border-collapse: collapse
+    width: 100%
+    margin-bottom: 4px
+    th
+      background-color: #E6E6E6
+      padding: 4px
+      white-space: nowrap
+    td
+      vertical-align: top
+      &.id
+        width: 2%
+        text-align: center
+      &.checkbox
+        width: 15px
+        padding: 2px 0 0 0
+        input
+          padding: 0px
+      &.buttons
+        width: 15%
+        white-space: nowrap
+        text-align: right
+        a
+          padding-right: 0.6em
+    caption
+      text-align: left
+      padding: 0.5em 0.5em 0.5em 0
+  &.work-package-data-table
+    margin-top: 5px
+    &.hidden
+      display: none
+    td
+      text-align: left
+      padding: 3px 6px
+
+tr
+  &.project
+    td.name a
+      white-space: nowrap
+    &.idnt td.name span
+      background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+      padding-left: 16px
+    &.idnt-1 td.name
+      padding-left: 0.5em
+    &.idnt-2 td.name
+      padding-left: 2em
+    &.idnt-3 td.name
+      padding-left: 3.5em
+    &.idnt-4 td.name
+      padding-left: 5em
+    &.idnt-5 td.name
+      padding-left: 6.5em
+    &.idnt-6 td.name
+      padding-left: 8em
+    &.idnt-7 td.name
+      padding-left: 9.5em
+    &.idnt-8 td.name
+      padding-left: 11em
+    &.idnt-9 td.name
+      padding-left: 12.5em
+  &.issue
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+      background-color: #f6f7f8
+    td
+      &.category
+        white-space: normal
+
+td.assigned_to
+  white-space: normal
+
+tr.issue
+  td
+    &.subject
+      text-align: left
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.issue
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+/* Work Package hierarchy layout
+
+tr
+  &.work-package
+    text-align: center
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+    td.subject
+      white-space: normal
+  &.issue td.category
+    white-space: normal
+
+td.assigned_to
+  white-space: normal
+
+tr.work-package
+  td
+    &.subject
+      text-align: left
+    &.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.work-package
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+tr
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+  div.expander
+    cursor: pointer
+    float: left
+  &.open span .expand, &.closed span .collapse
+    display: none
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+table
+  &.files tr.file td
+    text-align: center
+    &.filename
+      text-align: left
+      padding-left: 24px
+    &.digest
+      font-size: 80%
+  &.members td.roles, &.memberships td.roles
+    width: 45%
+
+tr
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+    &.shared td.name
+      background: image-url("link.png") no-repeat 0% 70%
+    td
+      &.date, &.status, &.sharing
+        text-align: left
+        white-space: nowrap
+  &.user
+    td
+      width: 13%
+      &.email
+        width: 18%
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+  &.wiki-page-version td
+    &.updated_on, &.author
+      text-align: center
+  &.time-entry
+    text-align: center
+    white-space: nowrap
+    td
+      &.subject, &.comments
+        text-align: left
+        white-space: normal
+
+td.hours
+  text-align: right
+  font-weight: bold
+  padding-right: 0.5em
+  .hours-dec
+    font-size: 0.9em
+
+table
+  &.plugins
+    td
+      vertical-align: middle
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+        display: block
+        margin-bottom: 6px
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+  &.list tbody tr.group
+    td
+      padding: 0.8em 0 0.5em 0.3em
+      font-weight: bold
+      border-bottom: 1px solid #ccc
+    span.count
+      color: #aaa
+      font-size: 80%
+
+tr.group
+  a.toggle-all
+    color: #aaa
+    font-size: 80%
+    font-weight: normal
+    display: inline
+    visibility: hidden
+  &:hover a.toggle-all
+    visibility: visible
+
+a.toggle-all:hover
+  text-decoration: none
+
+table
+  &.list
+    tbody tr:hover, tr.keyboard_hover
+      background-color: #ffff99 !important
+    tbody tr.group:hover, tr.group.keyboard_hover
+      background-color: inherit !important
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+  &.attributes
+    width: 100%
+    th
+      vertical-align: top
+      text-align: left
+    td
+      vertical-align: top
+
+td.center, th.center
+  text-align: center
+
+#watchers
+  ul
+    margin: 0
+    padding: 0
+  select
+    width: 200px
+    display: block
+    float: left
+    margin-right: 10px
+  a.delete
+    opacity: 0.4
+    &:hover
+      opacity: 1
+
+.highlight
+  background-color: #FCFD8D
+  &.token-1
+    background-color: #faa
+  &.token-2
+    background-color: #afa
+  &.token-3
+    background-color: #aaf
+
+.box
+  padding: 6px
+  margin-bottom: 10px
+  line-height: 1.5em
+  border: 1px solid #e4e4e4
+
+div.square
+  border: 1px solid #999
+  float: left
+  margin: .3em .4em 0 .4em
+  overflow: hidden
+  width: .6em
+  height: .6em
+
+.contextual
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: 8px
+  padding-left: 10px
+  input, select
+    font-size: 0.9em
+
+.message .contextual
+  margin-top: 0
+
+.splitcontentleft
+  float: left
+  width: 49%
+
+.splitcontentright
+  float: right
+  width: 49%
+
+form
+  display: inline
+
+input, select
+  vertical-align: middle
+  margin-top: 1px
+  margin-bottom: 1px
+
+fieldset
+  border: 1px solid #e4e4e4
+  margin: 0
+
+hr
+  width: 100%
+  height: 1px
+  background: #ccc
+  border: 0
+
+blockquote
+  font-style: italic
+  border-left: 3px solid #e0e0e0
+  padding-left: 0.6em
+  margin-left: 2.4em
+  blockquote
+    margin-left: 0
+
+.news label.timestamp
+  border-bottom: 1px dotted
+  cursor: help
+
+textarea.wiki-edit
+  width: 99%
+
+li p
+  margin-top: 0
+
+p
+  &.breadcrumb
+    font-size: 0.9em
+    margin: 4px 0 4px 0
+  &.subtitle
+    font-size: 0.9em
+    margin: -6px 0 12px 0
+    font-style: italic
+  &.footnote
+    font-size: 0.9em
+    margin-top: 0px
+    margin-bottom: 0px
+
+div.issue div.subject
+  div div
+    padding-left: 16px
+  p
+    margin: 0
+    margin-bottom: 0.1em
+    font-size: 90%
+    color: #999
+  > div > p
+    margin-top: 0.5em
+
+#issue_tree
+  table.issues
+    border: 0
+  td.checkbox
+    display: none
+
+th.hidden
+  display: none
+
+.buttons
+  margin-bottom: 1.4em
+  margin-top: 1em
+
+div
+  &#work_package-changesets
+    float: right
+    width: 45%
+    margin: 1em 0 1em 1em
+    background: #fff
+    padding-left: 1em
+    h3
+      margin-top: 0
+    div.changeset
+      padding: 4px
+      border-bottom: 1px solid #ddd
+    p
+      margin-top: 0
+      margin-bottom: 1em
+  &#activity dl
+    margin-left: 2em
+
+#search-results
+  margin-left: 2em
+
+div#activity dd, #search-results dd
+  margin-bottom: 1em
+  padding-left: 18px
+  font-size: 0.9em
+
+div#activity
+  dt
+    &.me .time
+      border-bottom: 1px solid #999
+    .time
+      color: #777
+      font-size: 80%
+  dd .description
+    font-style: italic
+
+#search-results dd .description
+  font-style: italic
+
+div#activity span.project:after, #search-results span.project:after
+  content: " -"
+
+div#activity dd span.description
+  display: block
+  color: #808080
+
+#search-results dd
+  span.description
+    display: block
+    color: #808080
+  margin-bottom: 1em
+  padding-left: 20px
+  margin-left: 0px
+
+div#search-results-counts
+  float: right
+  ul
+    margin-top: 0.5em
+  li
+    list-style-type: none
+    float: left
+    margin-left: 1em
+
+.search-pagination
+  text-align: center
+  a
+    padding: 0 5px
+
+#project-search-container .select2-container
+  display: block
+
+div
+  &#roadmap
+    .related-issues
+      border: 0
+      margin-bottom: 1em
+      td.checkbox
+        display: none
+    .wiki
+      h1
+        &:first-child
+          display: none
+        font-size: 120%
+      h2
+        font-size: 110%
+  &#version-summary
+    float: right
+    width: 380px
+    margin-left: 16px
+    margin-bottom: 16px
+    background-color: #fff
+    fieldset
+      margin-bottom: 1em
+    .total-hours
+      text-align: right
+
+.top-page
+  width: 100%
+  border-bottom: 1px solid #bbbbbb
+  margin: 0 0 10px
+  h2
+    padding-right: 0px !important
+    border: none
+    margin: 0
+    text-align: left
+    display: block
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
+  ul
+    margin: 0
+    text-align: right
+    white-space: nowrap
+
+table#time-report
+  td.hours
+    text-align: right
+    padding-right: 0.5em
+  th
+    &.period, &.total
+      text-align: right
+      padding-right: 0.5em
+  tbody tr
+    font-style: italic
+    color: #333
+    &.last-level
+      font-style: normal
+      color: #555
+    &.total
+      font-style: normal
+      font-weight: bold
+      color: #555
+      background-color: #EEEEEE
+  .hours-dec
+    font-size: 0.9em
+
+form .attributes
+  margin-bottom: 8px
+  overflow: auto
+  p
+    padding-top: 1px
+    padding-bottom: 2px
+  select
+    min-width: 50%
+
+ul.projects
+  margin: 0
+  padding-left: 1em
+  &.root
+    margin: 0
+    padding: 0
+  ul
+    border: none
+    &.projects
+      border-left: 3px solid #e0e0e0
+  li
+    &.root
+      list-style-type: none
+      margin-bottom: 1em
+    &.child
+      list-style-type: none
+      margin-top: 1em
+  div.root a.project
+    font-weight: bold
+    font-size: 16px
+    margin: 0 0 10px 0
+
+#type_project_ids
+  ul
+    margin: 0
+    padding-left: 1em
+  li
+    list-style-type: none
+
+ul.properties
+  padding: 0
+  font-size: 0.9em
+  color: #333
+  li
+    list-style-type: none
+    span
+      font-style: italic
+
+.total-hours
+  font-size: 110%
+  font-weight: bold
+  span.hours-int
+    font-size: 120%
+
+.autoscroll
+  overflow-x: auto
+  padding: 1px
+  margin-bottom: 1.2em
+
+#user_firstname, #user_lastname, #user_mail, #my_account_form select
+  width: 90%
+
+#workflow_copy_form select
+  width: 200px
+
+textarea#custom_field_possible_values
+  width: 99%
+
+.legacy-pagination
+  font-size: 90%
+
+p.legacy-pagination
+  margin-top: 8px

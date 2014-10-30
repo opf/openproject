@@ -38,7 +38,7 @@ end
 
 Then /^I should not see membership to the project "(.+)"$/ do |project|
   project = Project.like(project).first
-  begin 
+  begin
     page.find(:css, "#tab-content-memberships .memberships")
     steps %Q{ Then I should not see "#{project.name}" within "#tab-content-memberships .memberships" }
   rescue Capybara::ElementNotFound

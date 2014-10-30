@@ -1,4 +1,2 @@
-LineLength:
-  Max: 99
-HashSyntax:
-  Enabled: false
+inherit_from:
+  - ./.hound.yml

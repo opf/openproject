@@ -95,12 +95,12 @@ describe ApplicationHelper, type: :helper do
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;'
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   it 'should auto_mailto' do
     assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
-      textilizable('test@foo.bar')
+      format_text('test@foo.bar')
   end
 
   it 'should inline_images' do
@@ -113,7 +113,7 @@ describe ApplicationHelper, type: :helper do
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   it 'should inline_images_inside_tags' do
@@ -125,8 +125,8 @@ Centered image:
 p=. !bar.gif!
 RAW
 
-    assert textilizable(raw).include?('<img src="foo.png" alt="" />')
-    assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
+    assert format_text(raw).include?('<img src="foo.png" alt="" />')
+    assert format_text(raw).include?('<img src="bar.gif" alt="" />')
   end
 
   it 'should attached_images' do
@@ -138,7 +138,7 @@ RAW
       # link image
       '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => [@attachment]) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :attachments => [@attachment]) }
   end
 
   it 'should textile_external_links' do
@@ -157,7 +157,7 @@ RAW
       # escaping
       '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   it 'should textile_relative_to_full_links_in_a_controller' do
@@ -167,7 +167,7 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :only_path => false) }
+    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :only_path => false) }
   end
 
   it 'should textile_relative_to_full_links_in_the_mailer' do
@@ -185,7 +185,7 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :only_path => false) }
+    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :only_path => false) }
   end
 
   it 'should cross_project_redmine_links' do
@@ -210,7 +210,7 @@ RAW
       :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
 
 
-    # textilizable "sees" the text is parses from the_other_project (and not @project)
+    # format_text "sees" the text is parses from the_other_project (and not @project)
     the_other_project = FactoryGirl.create :valid_project
 
     to_test = {
@@ -227,7 +227,7 @@ RAW
       "#{identifier}:source:/some/file"       => source_link,
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :project => the_other_project), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :project => the_other_project), "#{text} failed" }
   end
 
   it 'should redmine_links_git_commit' do
@@ -252,7 +252,7 @@ RAW
                       :comments => 'test commit')
     assert( c.save )
     @project.reload
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   it 'should attachment_links' do
@@ -260,7 +260,7 @@ RAW
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => [@attachment]), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :attachments => [@attachment]), "#{text} failed" }
   end
 
   it 'should html_tags' do
@@ -284,7 +284,7 @@ RAW
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
-    to_test.each { |text, result| assert_equal result, textilizable(text) }
+    to_test.each { |text, result| assert_equal result, format_text(text) }
   end
 
   it 'should allowed_html_tags' do
@@ -293,7 +293,7 @@ RAW
       "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
       "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
-    to_test.each { |text, result| assert_equal result, textilizable(text) }
+    to_test.each { |text, result| assert_equal result, format_text(text) }
   end
 
   it 'should pre_tags' do
@@ -315,7 +315,7 @@ RAW
 <p>After</p>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should syntax_highlight' do
@@ -330,7 +330,7 @@ RAW
 </code></pre>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should wiki_links_in_tables' do
@@ -345,7 +345,7 @@ EXPECTED
                  "</tr><tr><td>Cell 21</td><td><a href=\"/projects/#{@project.identifier}/wiki/Last_page\" class=\"wiki-page\">Last page</a></td></tr>"
     }
 
-    to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
+    to_test.each { |text, result| assert_equal "<table>#{result}</table>", format_text(text).gsub(/[\t\n]/, '') }
   end
 
   it 'should text_formatting' do
@@ -355,12 +355,12 @@ EXPECTED
                'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   it 'should wiki_horizontal_rule' do
-    assert_equal '<hr />', textilizable('---')
-    assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
+    assert_equal '<hr />', format_text('---')
+    assert_equal '<p>Dashes: ---</p>', format_text('Dashes: ---')
   end
 
   it 'should footnotes' do
@@ -375,14 +375,14 @@ RAW
 <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should headings' do
     raw = 'h1. Some heading'
     expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
 
-    assert_equal expected, textilizable(raw)
+    assert_equal expected, format_text(raw)
   end
 
   it 'should table_of_content' do
@@ -444,7 +444,7 @@ RAW
                   '</li>' +
                '</ul>'
 
-    assert textilizable(raw).gsub("\n", "").include?(expected), textilizable(raw)
+    assert format_text(raw).gsub("\n", "").include?(expected), format_text(raw)
   end
 
   it 'should table_of_content_should_contain_included_page_headings' do
@@ -468,13 +468,13 @@ RAW
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
 
-    assert textilizable(raw).gsub("\n", "").include?(expected), textilizable(raw)
+    assert format_text(raw).gsub("\n", "").include?(expected), format_text(raw)
   end
 
   it 'should default_formatter' do
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'
-    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
+    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', format_text(text)
     Setting.text_formatting = 'textile'
   end
 
@@ -522,7 +522,7 @@ RAW
                  link_to_project(@project, :action => 'settings')
     assert_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
                  link_to_project(@project, :action => 'settings', :tab => 'members')
-    assert_equal %(<a href="http://test.host/projects/#{p_id}?jump=blah">#{p_name}</a>),
+    assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
                  link_to_project(@project, {:only_path => false, :jump => 'blah'})
     assert_equal %(<a href="/projects/#{p_id}/settings" class="project">#{p_name}</a>),
                  link_to_project(@project, {:action => 'settings'}, :class => "project")

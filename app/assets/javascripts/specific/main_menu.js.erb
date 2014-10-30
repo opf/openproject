@@ -76,7 +76,24 @@ jQuery(document).ready(function($) {
       return false;
     });
 
-  $('#main-menu li > a').not('ul ul a').wrap('<div class="main-item-wrapper"/>');
+  // wrap main items
+  var mainItems = $('#main-menu li > a').not('ul ul a');
+
+  function getMainItemWrapper(index) {
+    var item = mainItems[index];
+    var elementId = item.id;
+
+    var wrapperElement = $('<div class="main-item-wrapper"/>')
+
+    // inherit element id
+    if(elementId) {
+      wrapperElement.attr('id', elementId + '-wrapper')
+    }
+
+    return wrapperElement;
+  }
+
+  mainItems.wrap(getMainItemWrapper)
 
   $('#main-menu li:has(ul) .main-item-wrapper > a').not('ul ul a')
     // 1. unbind the current click functions
@@ -85,40 +102,5 @@ jQuery(document).ready(function($) {
     .wrapInner('<span class="ellipsis"/>')
     // 3. reinsert the <span class="toggler"> so that it sits outside of the above
     .after(toggler);
-
-  // project menu
-
-  // Users of some old IEs are out of luck ATM. A userData implementation
-  // could be provided though, that would be great!
-  var remember_menu_state;
-
-  if (typeof window.sessionStorage !== 'undefined') {
-    remember_menu_state = function (match) {
-      if (typeof match === 'undefined') {
-        return sessionStorage.getItem('openproject:navigation-toggle');
-      } else {
-        return sessionStorage.setItem('openproject:navigation-toggle',
-                                      match.length > 0 ? 'collapsed' : 'expanded');
-      }
-    };
-  }
-  else {
-    remember_menu_state = function (match) {
-      return false;
-    };
-  }
-
-  var toggle_navigation = function() {
-    $('#wrapper').toggleClass('hidden-navigation');
-    $('#content, #breadcrumb').toggleClass('hidden-navigation');
-    $('#toggle-project-menu').removeAttr("style").toggleClass('show');
-    remember_menu_state($('#toggle-project-menu.show'));
-  };
-
-  // register toggler, and toggle for the first time if remembered to be closed.
-  jQuery('#toggle-project-menu .navigation-toggler').click(toggle_navigation);
-  if ($('#main-menu').length > 0 && remember_menu_state() === "collapsed") {
-    toggle_navigation();
-  }
 
 });

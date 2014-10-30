@@ -46,7 +46,7 @@ Feature: Project creation with support for project type
   Scenario: The admin may create a project with a project type
     Given I am already admin
      When I go to the admin page
-      And I follow "Projects"
+      And I follow the first link matching "Projects"
       And I follow "New project"
      Then I fill in "Fancy Pants" for "Name"
       And I fill in "fancy-pants" for "Identifier"

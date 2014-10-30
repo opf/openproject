@@ -1,3 +1,5 @@
 <% unless Rails.env.production? %>
-  <%= link_to "Omniauth Developer", :controller => '/auth', :action => 'developer' %>
+  <a href="<%= url_for controller: '/auth', action: 'developer' %>" class="auth-provider auth-provider-developer">
+    <span class="auth-provider-name">Omniauth Developer</span>
+  </a>
 <% end %>

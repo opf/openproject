@@ -30,7 +30,7 @@
 require 'spec_helper'
 require 'support/shared/previews'
 
-describe WorkPackagesController do
+describe WorkPackagesController, :type => :controller do
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -129,6 +129,7 @@ describe WorkPackagesController do
     let(:work_packages) { double("work packages").as_null_object }
 
     before do
+      allow(User.current).to receive(:allowed_to?).and_return(false)
       expect(User.current).to receive(:allowed_to?)
                   .with({ :controller => "work_packages",
                           :action => "index" },
@@ -147,7 +148,29 @@ describe WorkPackagesController do
         query.stub_chain(:results, :work_package_count_by_group).and_return([])
         query.stub_chain(:results, :column_total_sums).and_return([])
         query.stub_chain(:results, :column_group_sums).and_return([])
-        query.stub(:as_json).and_return("")
+        allow(query).to receive(:as_json).and_return("")
+      end
+
+      describe 'settings passed to front-end client' do
+        describe 'visible attributes' do
+          let(:call_action) { get('index', :project_id => project.id) }
+
+          context 'all attributes visible' do
+            before { call_action }
+
+            it { expect(assigns(:enabled_default_work_package_properties)).to match_array(WorkPackagesController::DEFAULT_WORK_PACKAGE_PROPERTIES) }
+          end
+
+          context 'done ratio is disabled' do
+            before do
+              allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+
+              call_action
+            end
+
+            it { expect(assigns(:enabled_default_work_package_properties)).not_to include(:percentageDone) }
+          end
+        end
       end
 
       describe 'html' do
@@ -308,7 +331,7 @@ describe WorkPackagesController do
   describe 'index with a broken project reference' do
     before { get('index', :project_id => 'project_that_doesnt_exist') }
 
-    it { should respond_with :not_found }
+    it { is_expected.to respond_with :not_found }
   end
 
 
@@ -501,8 +524,8 @@ describe WorkPackagesController do
       # default activity counts as blank as long as everything else is blank too
       put 'update', params.call(work_package.id, default_activity.id)
 
-      expect(response.status).to eq(200)
-      expect(response.body).to have_content("Successful update")
+      expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+      expect(response).to redirect_to(work_package_path(work_package))
     end
 
     it 'should still give an error for a non-blank time entry' do
@@ -514,7 +537,7 @@ describe WorkPackagesController do
   end
 
   describe 'update.html' do
-    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+    let(:wp_params) { { 'wp_attribute' => double('wp_attribute') } }
     let(:params) { { :id => stub_work_package.id, :work_package => wp_params } }
     let(:call_action) { put 'update', params }
 
@@ -525,6 +548,9 @@ describe WorkPackagesController do
                                           .at_most(:twice)
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
+
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project)
+                                                     .and_return(true);
       end
 
       describe 'w/ having a successful save' do
@@ -534,10 +560,10 @@ describe WorkPackagesController do
                            .and_return(true)
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -574,10 +600,10 @@ describe WorkPackagesController do
                            .and_return([double('unsaved_attachment')])
         end
 
-        it 'should respond with 200 OK' do
+        it 'should redirect to the show action' do
           call_action
 
-          expect(response.response_code).to eq(200)
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -865,8 +891,8 @@ describe WorkPackagesController do
       context "description" do
         subject { get :quoted, id: planning_element.id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
 
       context "journal" do
@@ -874,8 +900,8 @@ describe WorkPackagesController do
 
         subject { get :quoted, id: planning_element.id, journal_id: journal_id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
     end
   end
@@ -938,7 +964,7 @@ describe WorkPackagesController do
 
           subject { new_work_package.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
 
           it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
@@ -956,13 +982,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/new', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/new', formats: ["html"]) }
         end
 
         describe :error do
           subject { new_work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end
@@ -991,6 +1017,8 @@ describe WorkPackagesController do
         allow(controller).to receive(:work_package).and_return(work_package)
         expect(controller).to receive(:authorize).and_return(true)
 
+        expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, project).and_return(true)
+
         allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
         allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
@@ -1007,13 +1035,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/edit', formats: ["html"]) }
         end
 
         describe :error do
           subject { work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end
@@ -1051,6 +1079,56 @@ describe WorkPackagesController do
       it { expect(response).to render_template('common/preview',
                                                format: ["html"],
                                                layout: false ) }
+    end
+  end
+
+  describe 'Update permissions' do
+    let(:project) { FactoryGirl.create(:project) }
+
+    let(:description) { "Muh hahahah!!!" }
+    let(:notes) { "Work package note" }
+    let(:wp_params) { { id: work_package.id, work_package: { description: description, notes: notes } } }
+
+    shared_context 'update work package' do
+      let(:user) { FactoryGirl.create(:user,
+                                      member_in_project: project,
+                                      member_through_role: role) }
+      let!(:work_package) { FactoryGirl.create(:work_package,
+                                               project_id: project.id,
+                                               author: user) }
+      let!(:original_description) { work_package.description }
+
+      before do
+        User.stub(:current).and_return user
+
+        put 'update', wp_params
+
+        work_package.reload
+      end
+    end
+
+    describe '#14964 User w/o permission able to update work package attributes' do
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:view_work_packages,
+                                                    :add_work_package_notes]) }
+
+      include_context 'update work package'
+
+      it { expect(work_package.description).to eq(original_description) }
+
+      it { expect(work_package.journals.last.notes).to eq(notes) }
+    end
+
+    describe 'notes update w/o privileges' do
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:view_work_packages,
+                                                    :edit_work_packages]) }
+
+      include_context 'update work package'
+
+      it { expect(work_package.description).to eq(description) }
+
+      it { expect(work_package.journals.last.notes).to be_empty }
     end
   end
 end

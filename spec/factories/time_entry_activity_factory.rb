@@ -31,5 +31,3 @@ FactoryGirl.define do
     sequence(:name) { |n| "Time Entry Activity No. #{n}" }
   end
 end
-
-

@@ -55,10 +55,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% Setting.available_languages.each do |lang| %>
     <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
-      <%= label_tag l(:setting_emails_header) %>
+      <%= label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
       <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
 
-      <%= label_tag l(:setting_emails_footer) %>
+      <%= label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
       <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
     </div>
   <% end %>

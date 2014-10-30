@@ -228,8 +228,8 @@ describe RepositoriesController, 'git' do
     it 'annotate_binary_file' do
       get :annotate, :project_id => 3, :path => 'images/edit.png'
       assert_response 500
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                              :content => /cannot be annotated/
+      assert_tag :tag => 'div', :attributes => { :id => /errorExplanation/ },
+                                :content => /cannot be annotated/
     end
 
     it 'revision' do

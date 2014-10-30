@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalsController do
+describe JournalsController, :type => :routing do
   it "should connect GET /journals/:id/edit to journals#edit" do
     expect(get("/journals/1/edit")).to route_to( :controller => 'journals',
                                              :action => 'edit',

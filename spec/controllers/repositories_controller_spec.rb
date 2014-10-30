@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RepositoriesController do
+describe RepositoriesController, :type => :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user, :member_in_project => project,
                                           :member_through_role => role) }

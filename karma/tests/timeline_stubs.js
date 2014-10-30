@@ -35,8 +35,6 @@ var modalHelperInstance = {
 
 jQuery.fn.slider = {};
 
-var Raphael = {};
-
 var possibleData = {
   projects: [{
       "id":1,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Member do
+describe Member, :type => :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role) }
   let(:second_role) { FactoryGirl.create(:role) }
@@ -140,16 +140,19 @@ describe Member do
     context 'when a member role remains' do
       before do
         # Add second role, so we can check it remains
+        #
+        # Order is important here to ensure we destroy the existing
+        # member_role and not the one added by adding second_role.
+        member_role = member.member_roles(true).first
+
         member.add_and_save_role(second_role)
 
-        member_role = member.member_roles(true).first
         member.remove_member_role_and_destroy_member_if_last(member_role)
       end
 
       it('member should not be destroyed') { expect(member.destroyed?).to eq(false) }
       context(:roles) do
-        it { expect(member.roles(true).length).to eq(1) }
-        it { expect(member.roles(true).first.id).to eq(second_role.id) }
+        it { expect(member.roles(true)).to eq [second_role] }
       end
     end
 

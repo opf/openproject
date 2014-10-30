@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
 // Karma configuration
 // Generated on Sun Apr 06 2014 00:15:29 GMT+0200 (CEST)
 
@@ -20,68 +48,22 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "vendor/assets/components/jquery/jquery.js",
-      "vendor/assets/components/angular/angular.js",
+      "vendor/assets/components/jquery/dist/jquery.js",
+      "vendor/assets/components/lodash/dist/lodash.js",
+      "vendor/assets/components/momentjs/moment.js",
+      "vendor/assets/components/moment-timezone/moment-timezone.js",
+      'vendor/assets/components/select2/select2.js',
+      "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
+
+      'app/assets/javascripts/angular/openproject-app.js',
       "vendor/assets/components/angular-mocks/angular-mocks.js",
-      "vendor/assets/components/angular-ui-select2/src/select2.js",
 
-      "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
-      "app/assets/javascripts/angular/openproject-app.js",
-      "app/assets/javascripts/angular/helpers/components/i18n.js",
-      "app/assets/javascripts/angular/config/work-packages-config.js",
+      "app/assets/javascripts/lib/jquery.trap.js",
 
-      "app/assets/javascripts/angular/helpers/components/custom-field-helper.js",
-      'app/assets/javascripts/angular/helpers/components/path-helper.js',
-      'app/assets/javascripts/angular/helpers/filters-helper.js',
-      'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
-      'app/assets/javascripts/angular/helpers/work-package-loading-helper.js',
-      'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
-      'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
-      'app/assets/javascripts/angular/helpers/function-decorators.js',
-
-      'app/assets/javascripts/angular/filters/work-packages-filters.js',
-
-      "app/assets/javascripts/angular/models/filter.js",
-      "app/assets/javascripts/angular/models/query.js",
-      "app/assets/javascripts/angular/models/sortation.js",
-      "app/assets/javascripts/angular/models/timelines/color.js",
-      "app/assets/javascripts/angular/models/timelines/custom-field.js",
-      "app/assets/javascripts/angular/models/timelines/timeline.js",
-      "app/assets/javascripts/angular/models/timelines/color.js",
-      "app/assets/javascripts/angular/models/timelines/custom-field.js",
-      "app/assets/javascripts/angular/models/timelines/historical_planning_element.js",
-      "app/assets/javascripts/angular/models/timelines/mixins/constants.js",
-      "app/assets/javascripts/angular/models/timelines/mixins/ui.js",
-      "app/assets/javascripts/angular/models/timelines/planning_element.js",
-      "app/assets/javascripts/angular/models/timelines/planning_element_type.js",
-      "app/assets/javascripts/angular/models/timelines/project.js",
-      "app/assets/javascripts/angular/models/timelines/project_association.js",
-      "app/assets/javascripts/angular/models/timelines/project_type.js",
-      "app/assets/javascripts/angular/models/timelines/reporting.js",
-      "app/assets/javascripts/angular/models/timelines/status.js",
-      "app/assets/javascripts/angular/models/timelines/tree_node.js",
-      "app/assets/javascripts/angular/models/timelines/user.js",
-      "app/assets/javascripts/angular/directives/components/*.js",
-
-      'app/assets/javascripts/angular/services/status-service.js',
-      'app/assets/javascripts/angular/services/type-service.js',
-      'app/assets/javascripts/angular/services/priority-service.js',
-      'app/assets/javascripts/angular/services/user-service.js',
-      'app/assets/javascripts/angular/services/version-service.js',
-      'app/assets/javascripts/angular/services/role-service.js',
-      'app/assets/javascripts/angular/services/group-service.js',
-      'app/assets/javascripts/angular/services/pagination-service.js',
-      'app/assets/javascripts/angular/services/project-service.js',
-      'app/assets/javascripts/angular/services/work-package-service.js',
-      'app/assets/javascripts/angular/services/query-service.js',
-      'app/assets/javascripts/angular/services/pagination-service.js',
-
-      "app/assets/javascripts/angular/directives/work_packages/*.js",
-      "app/assets/javascripts/angular/directives/timelines/*.js",
-
-      "app/assets/javascripts/angular/controllers/timelines-controller.js",
-      "app/assets/javascripts/angular/controllers/work-packages-controller.js",
-
+      'app/assets/javascripts/autocompleter.js',
+      'app/assets/javascripts/members_select_boxes.js',
+      'app/assets/javascripts/openproject.js',
+      'app/assets/javascripts/timelines_select_boxes.js',
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -90,8 +72,11 @@ module.exports = function(config) {
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
 
+      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
+
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
+      'karma/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
@@ -106,6 +91,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/javascripts/*.js': ['coverage'],
+      'app/assets/javascripts/angular/**/*.js': ['webpack'], // coverage disabled
       'public/templates/**/*.html': ['ng-html2js']
     },
 
@@ -113,7 +100,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'junit'],
+    reporters: ['progress', 'coverage', 'junit'],
 
 
     // web server port
@@ -148,9 +135,24 @@ module.exports = function(config) {
       outputFile: 'karma/reports/test-results.xml'
     },
 
+    coverageReporter: {
+      reporters: [
+        { type: 'html', dir:'coverage/' },
+        { type: 'cobertura' }
+      ]
+    },
+
     ngHtml2JsPreprocessor: {
       stripPrefix:  'public',
       moduleName:   'templates'
+    },
+
+    webpack: require('./webpack.config.js'),
+
+    webpackServer: {
+      stats: {
+        colors: true
+      }
     }
   });
 };

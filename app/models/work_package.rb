@@ -102,6 +102,11 @@ class WorkPackage < ActiveRecord::Base
       :conditions => ::Query.merge_conditions(query.statement)
     }
   }
+
+  scope :with_author, lambda { |author|
+    {:conditions => {:author_id => author.id}}
+  }
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   after_initialize :set_default_values
@@ -145,7 +150,7 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachments_changed
+  acts_as_attachable :after_remove => :attachments_changed, :order => "#{Attachment.table_name}.filename"
 
   after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
@@ -695,13 +700,6 @@ class WorkPackage < ActiveRecord::Base
       return false
     end
     work_package
-  end
-
-  # Override of acts_as_watchable#possible_watcher_users
-  # Restricts the result to project members for private as well as public projects
-  def possible_watcher_users
-    users = project.users
-    users.select {|user| possible_watcher?(user)}
   end
 
   # check if user is allowed to edit WorkPackage Journals.

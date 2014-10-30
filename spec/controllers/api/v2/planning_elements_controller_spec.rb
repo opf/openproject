@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementsController do
+describe Api::V2::PlanningElementsController, :type => :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -91,6 +91,18 @@ describe Api::V2::PlanningElementsController do
         member = FactoryGirl.build(:member, :user => current_user, :project => project)
         member.roles = [role]
         member.save!
+      end
+    end
+  end
+
+  def work_packages_to_structs(work_packages)
+    work_packages.map do |model|
+      Struct::WorkPackage.new.tap do |s|
+        model.attributes.each do |attribute, value|
+          s.send(:"#{attribute}=", value)
+        end
+        s.child_ids = []
+        s.custom_values = []
       end
     end
   end
@@ -166,6 +178,44 @@ describe Api::V2::PlanningElementsController do
               expect(response).to render_template('planning_elements/index', :formats => ["api"])
             end
           end
+
+          describe 'w/ 2 planning elements within a specific project and one PE requested' do
+            context 'with rewire_parents=false' do
+              let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
+              let!(:wp_child)  { FactoryGirl.create(:work_package, project_id: project.id,
+                                                                   parent_id: wp_parent.id) }
+
+              context 'with rewire_parents=false' do
+                before do
+                  get 'index', project_id: project.id,
+                               ids: wp_child.id.to_s,
+                               rewire_parents: 'false',
+                               format: 'xml'
+                end
+
+                it "includes the child's parent_id" do
+                  expect(assigns(:planning_elements)[0].parent_id).to eq wp_parent.id
+                end
+              end
+
+              context 'without rewire_parents' do
+                # This is unbelievably inconsistent. When requesting this without a project_id,
+                # the rewiring is not done at all, so the parent_id can be seen with and
+                # without rewiring disabled.
+                # Passing a project_id here, so we can test this with rewiring enabled.
+                before do
+                  get 'index', project_id: project.id,
+                               ids: wp_child.id.to_s,
+                               format: 'xml'
+                end
+
+                it "doesn't include child's parent_id" do
+                  expect(assigns(:planning_elements)[0].parent_id).to eq nil
+                end
+              end
+            end
+          end
+
         end
       end
 
@@ -226,6 +276,51 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
+      describe 'w/ cross-project relations' do
+        before do
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        let!(:project1) { FactoryGirl.create(:project, :identifier => 'project-1') }
+        let!(:project2) { FactoryGirl.create(:project, :identifier => 'project-2') }
+        let!(:ticket_a) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_b) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_a.id) }
+        let!(:ticket_c) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_b.id) }
+        let!(:ticket_d) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_e) { FactoryGirl.create(:work_package, :project_id => project2.id, :parent_id => ticket_d.id) }
+        let!(:ticket_f) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_e.id) }
+
+        become_admin { [project1, project2] }
+
+        context 'without rewire_parents' do  # equivalent to rewire_parents=true
+          it 'rewires ancestors correctly' do
+            get 'index', project_id: project1.id, :format => 'xml'
+
+            # the controller returns structs. We therefore have to filter for those
+            ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+
+            expect(ticket_f_struct.parent_id).to eq(ticket_d.id)
+          end
+        end
+
+        context 'with rewire_parents=false' do
+          before do
+            get 'index', project_id: project1.id, format: 'xml', rewire_parents: 'false'
+          end
+
+          it "doesn't rewire ancestors" do
+            # the controller returns structs. We therefore have to filter for those
+            ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+
+            expect(ticket_f_struct.parent_id).to eq(ticket_e.id)
+          end
+
+          it 'filters out invisible work packages' do
+            expect(assigns(:planning_elements).map(&:id)).to_not include(ticket_e.id)
+          end
+        end
+      end
+
       describe 'changed since' do
         let!(:work_package) do
           work_package = Timecop.travel(5.hours.ago) do
@@ -277,6 +372,54 @@ describe Api::V2::PlanningElementsController do
       end
     end
 
+    describe 'ids' do
+      let(:project_a) { FactoryGirl.create(:project) }
+      let(:project_b) { FactoryGirl.create(:project) }
+      let(:project_c) { FactoryGirl.create(:project) }
+      let!(:work_package_a) { FactoryGirl.create(:work_package,
+                                                 project: project_a) }
+      let!(:work_package_b) { FactoryGirl.create(:work_package,
+                                                 project: project_b) }
+      let!(:work_package_c) { FactoryGirl.create(:work_package,
+                                                 project: project_c) }
+      let(:project_ids) { [project_a, project_b, project_c].collect(&:id).join(',') }
+      let(:wp_ids) { [work_package_a, work_package_b].collect(&:id) }
+
+      become_admin { [project_a, project_b, work_package_c.project] }
+
+      describe 'empty ids' do
+        before { get 'index', project_id: project_ids, ids: '', format: 'xml' }
+
+        it { expect(assigns(:planning_elements)).to be_empty }
+      end
+
+      shared_examples_for "valid ids request" do
+        before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
+
+        subject { assigns(:planning_elements).collect(&:id) }
+
+        it { expect(subject).to include(*wp_ids) }
+
+        it { expect(subject).not_to include(*invalid_wp_ids) }
+      end
+
+      describe 'known ids' do
+        context 'single id' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id] }
+            let(:invalid_wp_ids) { [work_package_b.id, work_package_c.id] }
+          end
+        end
+
+        context 'multiple ids' do
+          it_behaves_like "valid ids request" do
+            let(:wp_ids) { [work_package_a.id, work_package_b.id] }
+            let(:invalid_wp_ids) { [work_package_c.id] }
+          end
+        end
+      end
+    end
+
     describe 'w/ list of projects' do
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
@@ -318,16 +461,13 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/ 3 planning elements within the project' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap do |s|
-                  s.child_ids = []
-                  s.custom_values = []
-                end
-              end
+              ]
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               get 'index', :project_id => project.id, :format => 'xml'
             end
 
@@ -393,16 +533,14 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/ 1 planning element in project_a and 2 in project_b' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project_a.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap do |s|
-                  s.child_ids = []
-                  s.custom_values = []
-                end
-              end
+              ]
+
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, :project_id => project_c.id)

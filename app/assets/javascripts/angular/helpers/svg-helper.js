@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.helpers')
-
-.factory('SvgHelper', [function() {
+module.exports = function() {
 
   var SvgHelper = function(node) {
     this.root = this.provideNode('svg').attr({
@@ -108,6 +106,24 @@ angular.module('openproject.helpers')
     return node;
   };
 
+  SvgHelper.prototype.gradient = function(id, stops) {
+    var svg = this.root;
+    var svgNS = svg.namespaceURI;
+    var gradient  = document.createElementNS(svgNS, 'linearGradient');
+    gradient.setAttribute('id', id);
+    for (var i=0; i < stops.length; i++){
+      var attrs = stops[i];
+      var stop = document.createElementNS(svgNS, 'stop');
+      for (var attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) stop.setAttribute(attr, attrs[attr]);
+      }
+      gradient.appendChild(stop);
+    }
+
+    var defs = svg.querySelector('defs') || svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
+    return defs.appendChild(gradient);
+  };
+
   jQuery.each([SVGSVGElement, SVGRectElement, SVGPathElement,
       SVGTextElement], function (i, klass) {
     klass.prototype.attr = function(attributeHash) {
@@ -160,4 +176,4 @@ angular.module('openproject.helpers')
 
 
   return SvgHelper;
-}]);
+}

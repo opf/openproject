@@ -32,7 +32,7 @@ require 'rexml/document'
 module OpenProject
   module VERSION #:nodoc:
 
-    MAJOR = 3
+    MAJOR = 4
     MINOR = 1
     PATCH = 0
     TINY  = PATCH # Redmine compat
@@ -49,7 +49,7 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      'pre1'
+      ''
     end
 
     def self.revision

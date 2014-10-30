@@ -67,7 +67,7 @@ module NavigationHelpers
       project = Project.find_by_name(project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
-    
+
     when /^the lost password page$/
           '/account/lost_password'
 

@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
              complete: "Form.Element.focus('watcher_user_id');",
              html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
   <p>
-    <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+    <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
 
     <%= submit_tag l(:button_add) %>
     <%= toggle_link l(:button_cancel), 'new-watcher-form' %>

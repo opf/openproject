@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<body class="<%= body_css_classes %>" ng-app="openproject">
+<body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>">
 <noscript>
   <div class="top-shelf icon icon-warning">
     <h1><%=l(:noscript_heading)%></h1>
@@ -67,7 +67,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% main_menu = render_main_menu(@project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 
-<div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
+<div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
+  ng-class="{ 'hidden-navigation': !showNavigation }">
   <% if show_decoration %>
     <div id="top-menu">
       <div id="header">
@@ -92,10 +93,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
     <% if (side_displayed && show_decoration) %>
-      <div id="main-menu">
+      <div id="main-menu" ng-controller="MainMenuController as mainMenu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-        <div id="toggle-project-menu">
-          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler icon4 icon-double-arrow-left"></a>
+        <div id="toggle-project-menu"
+          ng-class="{ 'show': !showNavigation }">
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>"
+            ng-click="mainMenu.toggleNavigation()"
+            class="navigation-toggler icon4 icon-double-arrow-left"></a>
         </div>
         <div id="menu-sidebar">
           <%= main_menu %>
@@ -110,7 +114,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
 
     <% if show_decoration %>
-      <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
+      <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"
+        ng-class="{ 'hidden-navigation': !showNavigation }">
         <h1>
           <%= you_are_here_info %>
           <%= full_breadcrumb %>
@@ -118,10 +123,12 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
 
-    <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content">
+    <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content"
+      ng-class="{ 'hidden-navigation': !showNavigation }">
 
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
+      <flash-message></flash-message>
 
       <!-- Action menu -->
       <%= render :partial => 'layouts/action_menu' %>
@@ -130,8 +137,13 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>
     </div>
+    <div style="clear:both;">&nbsp;</div>
   </div>
 
+
+  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+
+</div>
   <% if (show_decoration) %>
     <div id="footer">
       <div class="footer-content">
@@ -139,10 +151,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% end %>
-
-  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-
-</div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

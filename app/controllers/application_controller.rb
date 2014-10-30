@@ -56,10 +56,54 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   protect_from_forgery
+  # CSRF protection prevents two things. It prevents an attacker from using a
+  # user's session to execute requests. It also prevents an attacker to log in
+  # a user with the attacker's account. API requests each contain their own
+  # authentication token, e.g. as key parameter or header, so they don't have
+  # to be protected by CSRF protection as long as they don't create a session
+  #
+  # We can't reliably determine here whether a request is an API
+  # request as this happens in our way too complex find_current_user method
+  # that is only executed after this method. E.g we might have to check that
+  # no session is active and that no autologin cookie is set.
+  #
+  # Thus, we always reset any active session and the autologin cookie to make
+  # sure find_current user doesn't find a user based on an active session.
+  #
+  # Nevertheless, API requests should not be aborted, which they would be
+  # if we raised an error here. Still, users should see an error message
+  # when sending a form with a wrong CSRF token (e.g. after session expiration).
+  # Thus, we show an error message unless the request probably is an API
+  # request.
   def handle_unverified_request
     super
+    cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
-    cookies.delete(:autologin)
+
+    # Don't render an error message for requests that appear to be API requests.
+    #
+    # The api_request? method uses the format parameter or a header
+    # to determine whether a request is an API request. Unfortunately, having
+    # an API request doesn't mean we don't use a session for authentication.
+    # Also, attackers can send CSRF requests with arbitrary headers using
+    # browser plugins. For more information on this, see:
+    # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails/
+    #
+    # Resetting the session above is enough for preventing an attacking from
+    # using a user's session to execute requests with the user's account.
+    #
+    # It's not enough to prevent login CSRF, so we have to explicitly deny requests
+    # with invalid CSRF token for all requests that create a session with a logged in
+    # user. This is implemented as a before filter on AccountController that disallows
+    # all requests classified as API calls by api_request (via disable_api). It's
+    # important that disable_api and handle_unverified_request both use the same method
+    # to determine whether a request is an API request to ensure that a request either
+    # has a valid CSRF token and is not classified as API request, so no error is raised
+    # here OR a request has an invalid CSRF token and is classified as API request, no error
+    # is raised here, but is denied by disable_api.
+    #
+    # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
+    render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
   before_filter :user_setup,
@@ -70,8 +114,6 @@ class ApplicationController < ActionController::Base
                 :check_session_lifetime,
                 :stop_if_feeds_disabled,
                 :set_cache_buster
-
-  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -246,17 +288,17 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    allowed = User.current.allowed_to?({ controller: ctrl, action: action },
-                                       @project || @projects, :global => global)
-    if allowed
-      true
-    else
+    context = @project || @projects
+    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+
+    unless is_authorized
       if @project && @project.archived?
         render_403 :message => :notice_not_authorized_archived_project
       else
         deny_access
       end
     end
+    is_authorized
   end
 
   # Authorize the user for the requested action outside a project
@@ -409,17 +451,17 @@ class ApplicationController < ActionController::Base
     params[:back_url] || request.env['HTTP_REFERER']
   end
 
-  def redirect_back_or_default(default, escape = true)
-    back_url = if escape
+  def redirect_back_or_default(default, escape = true, use_escaped = true)
+    escaped_back_url = if escape
                  URI.escape(CGI.unescape(params[:back_url].to_s))
                else
                  params[:back_url]
                end
 
     # if we have a back_url it must not contain two consecutive dots
-    if back_url.present? && !back_url.match(/\.\./)
+    if escaped_back_url.present? && !escaped_back_url.match(/\.\./)
       begin
-        uri = URI.parse(back_url)
+        uri = URI.parse(escaped_back_url)
 
         # do not redirect user to another host (even protocol relative urls have the host set)
         # whenever a host is set it must match the request's host
@@ -432,7 +474,11 @@ class ApplicationController < ActionController::Base
         uri_subdir_allowed = relative_url_root.blank? || uri.path.match(/\A#{relative_url_root}/)
 
         if uri_local_to_host && uri_path_allowed && uri_subdir_allowed
-          redirect_to(back_url)
+          if use_escaped
+            redirect_to(escaped_back_url)
+          else
+            redirect_to(back_url)
+          end
           return
         end
       rescue URI::InvalidURIError
@@ -509,14 +555,6 @@ class ApplicationController < ActionController::Base
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
     request.xhr? ? false : 'base'
-  end
-
-  def invalid_authenticity_token
-    if api_request?
-      logger.error 'Form authenticity token is missing or is invalid. ' \
-                   'API calls must include a proper Content-type header (text/xml or text/json).'
-    end
-    render_error 'Invalid form authenticity token.'
   end
 
   def render_feed(items, options = {})
@@ -656,6 +694,9 @@ class ApplicationController < ActionController::Base
   end
 
   def disable_api
+    # Changing this to not use api_request? to determine whether a request is an API
+    # request can have security implications regarding CSRF. See handle_unverified_request
+    # for more information.
     if api_request?
       head 410
       return false

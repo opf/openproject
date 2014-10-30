@@ -184,4 +184,3 @@ def get_filtered_json(params)
                                                 at_time: params[:at_time])
   end
 end
-

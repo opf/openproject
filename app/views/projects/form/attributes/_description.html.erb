@@ -27,6 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p><%= form.text_area :description, :rows => 5, :class => 'wiki-edit',
-                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
+<p>
+  <%= form.text_area :description, :rows => 5, :class => 'wiki-edit',
+                     :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                     :'ng-non-bindable' => '' %>
+</p>
 <%= wikitoolbar_for 'project_description' %>

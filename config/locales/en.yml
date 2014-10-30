@@ -51,6 +51,7 @@ en:
     error_self_registration_disabled: >
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
+    login_with_auth_provider: "or sign in with your existing account"
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -129,7 +130,7 @@ en:
         admin: "Administrator"
         auth_source: "Authentication mode"
         language: "Language"
-        last_login_on: "Last connection"
+        last_login_on: "Last login"
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
@@ -170,7 +171,7 @@ en:
         created_at: Created
       work_package:
         done_ratio: "% done"
-        fixed_version: "Target version"
+        fixed_version: "Version"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -195,6 +196,7 @@ en:
         exclusion: "is reserved"
         greater_than: "must be greater than %{count}"
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
         inclusion: "is not included in the list"
         invalid: "is invalid"
@@ -278,6 +280,7 @@ en:
       wiki: "Wiki"
       wiki_page: "Wiki page"
       workflow: "Workflow"
+      work_package: "Work package"
 
   errors:
     header_invalid_fields: "There were problems with the following fields:"
@@ -358,7 +361,7 @@ en:
   button_list: "List"
   button_lock: "Lock"
   button_log_time: "Log time"
-  button_login: "Login"
+  button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
   button_quote: "Quote"
@@ -383,6 +386,15 @@ en:
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
+
+  copy_project:
+    started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by Mail as soon as \"%{target_project_name}\" is available."
+    failed: "Cannot copy project %{source_project_name}"
+    succeeded: "Created project %{target_project_name}"
+    errors: "Error"
+    text:
+      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
+      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
 
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
@@ -443,31 +455,49 @@ en:
       x_seconds:
         one: "1 second"
         other: "%{count} seconds"
+    units:
+      hour:
+        one: "hour"
+        other: "hours"
 
+  default_activity_management: "Management"
   default_activity_design: "Design"
   default_activity_development: "Development"
-  default_status_closed: "Closed"
-  default_status_feedback: "Feedback"
-  default_status_in_progress: "In Progress"
-  default_status_new: "New"
-  default_status_rejected: "Rejected"
-  default_status_resolved: "Resolved"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
+  default_activity_testing: "Testing"
+  default_activity_Support: "Support"
+  default_activity_Other: "Other"
+  default_status_new: "new"
+  default_status_specified: "specified"
+  default_status_confirmed: "confirmed"
+  default_status_to_be_scheduled: "to be scheduled"
+  default_status_scheduled: "scheduled"
+  default_status_in_progress: "in progress"
+  default_status_tested: "tested"
+  default_status_on_hold: "on hold"
+  default_status_rejected: "rejected"
+  default_status_closed: "closed"
   default_priority_low: "Low"
   default_priority_normal: "Normal"
-  default_priority_urgent: "Urgent"
+  default_priority_high: "High"
+  default_priority_immediate: "Immediate"
+  default_project_type_customer: "Customer Project"
+  default_project_type_internal: "Internal Project"
+  default_reported_project_status_green: "Green"
+  default_reported_project_status_amber: "Amber"
+  default_reported_project_status_red: "Red"
   default_role_anonymous: "Anonymous"
   default_role_developer: "Developer"
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
-  default_role_reporter: "Reporter"
+  default_role_reader: "Reader"
+  default_role_member: "Member"
   default_type: "Work Package"
+  default_type_task: "Task"
+  default_type_deliverable: "Deliverable"
+  default_type_milestone: "Milestone"
+  default_type_phase: "Phase"
   default_type_bug: "Bug"
   default_type_feature: "Feature"
-  default_type_support: "Support"
-  default_type_phase: "Phase"
-  default_type_milestone: "Milestone"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -531,6 +561,7 @@ en:
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "Unable to delete work package status"
+  error_unable_delete_default_status: "Unable to delete default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
@@ -564,6 +595,10 @@ en:
 
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
+
+  instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
+  instructions_after_logout: "You can sign in again by clicking %{signin}."
+  instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
   label_account: "Account"
   label_activity: "Activity"
@@ -625,6 +660,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -698,6 +734,7 @@ en:
   label_group_new: "New group"
   label_group_plural: "Groups"
   label_help: "Help"
+  label_here: here
   label_hide: "Hide"
   label_history: "History"
   label_home: "Home"
@@ -735,7 +772,7 @@ en:
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
   label_last_changes: "last %{count} changes"
-  label_last_login: "Last connection"
+  label_last_login: "Last login"
   label_last_month: "last month"
   label_last_n_days: "last %{count} days"
   label_last_week: "last week"
@@ -796,6 +833,7 @@ en:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
+  label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
   label_optional_description: "Description"
@@ -803,7 +841,7 @@ en:
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
-  label_password_lost: "Lost password"
+  label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
   label_password_rule_special: "Special Characters"
@@ -837,7 +875,7 @@ en:
   label_query_plural: "Custom queries"
   label_query_menu_item: "Query menu item"
   label_read: "Read..."
-  label_register: "Register"
+  label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
   label_registration_activation_by_email: "account activation by email"
@@ -1010,6 +1048,9 @@ en:
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
 
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -1073,6 +1114,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
+  notice_logged_out: "You have been logged out."
   error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
 
   # Default format for numbers
@@ -1240,6 +1282,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
@@ -1317,6 +1360,7 @@ en:
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
   text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
@@ -1573,16 +1617,22 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
+    authorization_rejected: "You are not allowed to sign in."
 
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
 
+  note: Note
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
+  warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
+
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >

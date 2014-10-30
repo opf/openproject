@@ -28,10 +28,12 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AuthSourcesController do
+describe AuthSourcesController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -41,8 +43,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { should respond_with :success }
-    it { should render_template :index }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :index }
   end
 
   describe "new" do
@@ -51,8 +53,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).not_to be_nil }
-    it { should respond_with :success }
-    it { should render_template :new }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :new }
 
     it "initializes a new AuthSource" do
       expect(assigns(:auth_source).class).to eq(AuthSource)
@@ -65,9 +67,9 @@ describe AuthSourcesController do
       post :create, :auth_source => {:name => 'Test'}
     end
 
-    it { should respond_with :redirect }
-    it { should redirect_to auth_sources_path }
-    it { should set_the_flash.to /success/i }
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to auth_sources_path }
+    it { is_expected.to set_the_flash.to /success/i }
   end
 
   describe "edit" do
@@ -77,8 +79,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { should respond_with :success }
-    it { should render_template :edit }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :edit }
   end
 
   describe "update" do
@@ -87,9 +89,9 @@ describe AuthSourcesController do
       post :update, id: @auth_source.id, auth_source: {name: 'TestUpdate'}
     end
 
-    it { should respond_with :redirect }
-    it { should redirect_to auth_sources_path }
-    it { should set_the_flash.to /update/i }
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to auth_sources_path }
+    it { is_expected.to set_the_flash.to /update/i }
   end
 
   describe "destroy" do
@@ -102,9 +104,9 @@ describe AuthSourcesController do
         post :destroy, id: @auth_source.id
       end
 
-      it { should respond_with :redirect }
-      it { should redirect_to auth_sources_path }
-      it { should set_the_flash.to /deletion/i }
+      it { is_expected.to respond_with :redirect }
+      it { is_expected.to redirect_to auth_sources_path }
+      it { is_expected.to set_the_flash.to /deletion/i }
     end
 
     context "with users" do
@@ -113,10 +115,52 @@ describe AuthSourcesController do
         post :destroy, id: @auth_source.id
       end
 
-      it { should respond_with :redirect }
+      it { is_expected.to respond_with :redirect }
       it "doesn not destroy the AuthSource" do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end
+    end
+  end
+
+  context 'with password login disabled' do
+    before do
+      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+    end
+
+    it 'cannot find index' do
+      get :index
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find new' do
+      get :new
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find create' do
+      post :create, auth_source: { name: 'Test' }
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find edit' do
+      get :edit, id: 42
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find update' do
+      post :update, id: 42, auth_source: { name: 'TestUpdate' }
+
+      expect(response.status).to eq 404
+    end
+
+    it 'cannot find destroy' do
+      post :destroy, id: 42
+
+      expect(response.status).to eq 404
     end
   end
 end

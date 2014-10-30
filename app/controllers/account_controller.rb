@@ -27,19 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'concerns/omniauth_login'
-
 class AccountController < ApplicationController
   include CustomFieldsHelper
-  include OmniauthLogin
+  include Concerns::OmniauthLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
 
+  # This prevents login CSRF
+  # See AccountController#handle_unverified_request for more information.
+  before_filter :disable_api
+
   # Login request and validation
   def login
-    if User.current.logged?
+    user = User.current
+
+    if user.logged?
       redirect_to home_url
+    elsif Concerns::OmniauthLogin.direct_login?
+      direct_login(user)
     elsif request.post?
       authenticate_user
     end
@@ -48,12 +54,18 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     logout_user
-    redirect_to home_url
+    if Setting.login_required? && Concerns::OmniauthLogin.direct_login?
+      flash.now[:notice] = I18n.t :notice_logged_out
+      render :exit, locals: { instructions: :after_logout }
+    else
+      redirect_to home_url
+    end
   end
 
   # Enable user to choose a new password
   def lost_password
-    redirect_to(home_url) && return unless Setting.lost_password?
+    return redirect_to(home_url) unless allow_lost_password_recovery?
+
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
@@ -98,9 +110,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    unless Setting.self_registration? || pending_auth_source_registration?
-      return self_registration_disabled
-    end
+    return self_registration_disabled unless allow_registration?
 
     if request.get?
       session[:auth_source_registration] = nil
@@ -111,7 +121,7 @@ class AccountController < ApplicationController
       @user.register
       if session[:auth_source_registration]
         # on-the-fly registration via omniauth or via auth source
-        if session[:auth_source_registration][:omniauth]
+        if pending_omniauth_registration?
           register_via_omniauth(@user, session, permitted_params)
         else
           register_and_login_via_authsource(@user, session, permitted_params)
@@ -119,16 +129,30 @@ class AccountController < ApplicationController
       else
         @user.attributes = permitted_params.user
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
 
-        register_user_according_to_setting(@user)
+        register_user_according_to_setting @user
       end
     end
   end
 
+  def allow_registration?
+    allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
+
+    get = request.get? && allow
+    post = request.post? && (session[:auth_source_registration] || allow)
+
+    get || post
+  end
+
+  def allow_lost_password_recovery?
+    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+  end
+
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    return redirect_to(home_url) unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
@@ -145,6 +169,8 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
+    return render_404 if OpenProject::Configuration.disable_password_login?
+
     @user = User.find_by_login(params[:username])
     @username = @user.login
 
@@ -172,6 +198,23 @@ class AccountController < ApplicationController
 
   private
 
+  def direct_login(user)
+    if flash.empty?
+      ps = {}.tap do |p|
+        p[:origin] = params[:back_url] if params[:back_url]
+      end
+
+      redirect_to Concerns::OmniauthLogin.direct_login_provider_url(ps)
+    else
+      if Setting.login_required?
+        error = user.active? || flash[:error]
+        instructions = error ? :after_error : :after_registration
+
+        render :exit, locals: { instructions: instructions }
+      end
+    end
+  end
+
   def logout_user
     if User.current.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
@@ -181,7 +224,11 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    password_authentication(params[:username], params[:password])
+    if OpenProject::Configuration.disable_password_login?
+      render_404
+    else
+      password_authentication(params[:username], params[:password])
+    end
   end
 
   def password_authentication(username, password)
@@ -222,6 +269,7 @@ class AccountController < ApplicationController
     if params[:autologin] && Setting.autologin?
       set_autologin_cookie(user)
     end
+
     call_hook(:controller_account_success_authentication_after, {:user => user })
 
     redirect_after_login(user)
@@ -249,7 +297,11 @@ class AccountController < ApplicationController
   end
 
   def pending_auth_source_registration?
-    session[:auth_source_registration] && !session[:auth_source_registration][:omniauth]
+    session[:auth_source_registration] && !pending_omniauth_registration?
+  end
+
+  def pending_omniauth_registration?
+    Hash(session[:auth_source_registration])[:omniauth]
   end
 
   def register_and_login_via_authsource(user, session, permitted_params)
@@ -292,21 +344,21 @@ class AccountController < ApplicationController
   end
 
   # Register a user depending on Setting.self_registration
-  def register_user_according_to_setting(user, &block)
+  def register_user_according_to_setting(user, opts = {}, &block)
     case Setting.self_registration
     when '1'
-      register_by_email_activation(user, &block)
+      register_by_email_activation(user, opts, &block)
     when '3'
-      register_automatically(user, &block)
+      register_automatically(user, opts, &block)
     else
-      register_manually_by_administrator(user, &block)
+      register_manually_by_administrator(user, opts, &block)
     end
   end
 
   # Register a user for email activation.
   #
   # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, &block)
+  def register_by_email_activation(user, opts = {})
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       UserMailer.user_signed_up(token).deliver
@@ -320,13 +372,15 @@ class AccountController < ApplicationController
   # Automatically register a user
   #
   # Pass a block for behavior when a user fails to save
-  def register_automatically(user, &block)
+  def register_automatically(user, opts = {})
     # Automatic activation
     user.activate
     user.last_login_on = Time.now
 
     if user.save
       self.logged_user = user
+      opts[:after_login].call user if opts[:after_login]
+
       flash[:notice] = l(:notice_account_registered_and_logged_in)
       redirect_after_login(user)
     else
@@ -337,7 +391,7 @@ class AccountController < ApplicationController
   # Manual activation by the administrator
   #
   # Pass a block for behavior when a user fails to save
-  def register_manually_by_administrator(user, &block)
+  def register_manually_by_administrator(user, opts = {})
     if user.save
       # Sends an email to the administrators
       admins = User.admin.active

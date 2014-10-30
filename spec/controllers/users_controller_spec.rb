@@ -27,8 +27,9 @@
 #++
 
 require 'spec_helper'
+require 'work_package'
 
-describe UsersController do
+describe UsersController, :type => :controller do
   before do
     User.delete_all
   end
@@ -246,6 +247,40 @@ describe UsersController do
   end
 
   describe "index" do
+    describe 'new user button' do
+      render_views
+
+      context 'with password login enabled' do
+        before do
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+
+          as_logged_in_user admin do
+            get :index
+          end
+        end
+
+        it 'is shown' do
+          expect(response.body).to have_selector('a', text: I18n.t('label_user_new'))
+        end
+      end
+
+      context 'with password login disabled' do
+        before do
+          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+
+          as_logged_in_user admin do
+            get :index
+          end
+        end
+
+        # you must not be able to create new users if password login is disabled
+        # as users are managed externally
+        it 'is hidden' do
+          expect(response.body).not_to have_selector('a', text: I18n.t('label_user_new'))
+        end
+      end
+    end
+
     describe "with session lifetime" do
       # TODO move this section to a proper place because we test a
       # before_filter from the application controller
@@ -346,6 +381,68 @@ describe UsersController do
     end
   end
 
+  describe '#new' do
+    context 'with password login enabled' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+
+        as_logged_in_user admin do
+          get :new
+        end
+      end
+
+      it 'should return HTTP 200' do
+        expect(response.status).to eq 200
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+
+        as_logged_in_user admin do
+          get :new
+        end
+      end
+
+      # you must not be able to create new users if password login is disabled
+      it 'should return HTTP 404' do
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
+  describe '#create' do
+    context 'with password login enabled' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+
+        as_logged_in_user admin do
+          post :create
+        end
+      end
+
+      it 'should return HTTP 400 due to missing parameters' do
+        expect(response.status).to eq 400
+      end
+    end
+
+    context 'with password login disabled' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+
+        as_logged_in_user admin do
+          post :create
+        end
+      end
+
+      # you must not be able to create new users if password login is disabled
+      it 'should return HTTP 404' do
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
   describe "update" do
     context "fields" do
       let(:user) { FactoryGirl.create(:user, :firstname => 'Firstname',
@@ -373,17 +470,17 @@ describe UsersController do
 
       it 'should be assigned their new values' do
         user_from_db = User.find(user.id)
-        expect(user_from_db.admin).to be_false
+        expect(user_from_db.admin).to be_falsey
         expect(user_from_db.firstname).to eql('Changed')
         expect(user_from_db.login).to eql('changedlogin')
         expect(user_from_db.mail_notification).to eql('only_assigned')
         expect(user_from_db.force_password_change).to eql(true)
-        expect(user_from_db.pref[:hide_mail]).to be_true
+        expect(user_from_db.pref[:hide_mail]).to be_truthy
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
       end
 
       it 'should not send an email' do
-        expect(ActionMailer::Base.deliveries.empty?).to be_true
+        expect(ActionMailer::Base.deliveries.empty?).to be_truthy
       end
     end
 
@@ -412,7 +509,7 @@ describe UsersController do
         end
 
         expect(user.reload.auth_source).to be_nil
-        expect(user.check_password?('newpassPASS!')).to be_true
+        expect(user.check_password?('newpassPASS!')).to be_truthy
       end
     end
   end
@@ -501,9 +598,27 @@ describe UsersController do
                                                                     type_id: work_package.type_id,
                                                                     project_id: work_package.project_id)) }
 
-      before { allow(User).to receive(:current).and_return(user.reload) }
+      before do
+        allow(User).to receive(:current).and_return(user.reload)
+        allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
 
-      it { get :show, id: user.id }
+        get :show, id: user.id
+      end
+
+      it "should include the number of reported work packages" do
+        label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+        expect(response.body).to have_selector("p", :text => /#{label}.*42/)
+      end
+
+      it "should have @events_by_day grouped by day" do
+        expect(assigns(:events_by_day).keys.first.class).to eq(Date)
+      end
+
+      it 'should have more than one event for today' do
+        expect(assigns(:events_by_day).first.size).to be > 1
+      end
+
     end
   end
 end

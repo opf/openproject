@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.models')
-
-.factory('Sortation', ['DEFAULT_SORT_CRITERIA', function(DEFAULT_SORT_CRITERIA) {
+module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   var defaultSortDirection = 'asc';
 
   var Sortation = function(sortation) {
@@ -36,7 +34,7 @@ angular.module('openproject.models')
       if (sortation.length > 0) {
         // Convert sortation element from API meta format
         this.sortElements = sortation.map(function(sortElement) {
-          return {field: sortElement.first(), direction: sortElement.last()};
+          return {field: _.first(sortElement), direction: _.last(sortElement)};
         });
       } else {
         this.sortElements = this.decodeEncodedSortation(DEFAULT_SORT_CRITERIA);
@@ -81,6 +79,24 @@ angular.module('openproject.models')
     this.removeSortElement(sortElement.field);
 
     this.sortElements.unshift(sortElement);
+
+    this.capSortElements();
+  };
+
+  Sortation.prototype.setSortElements = function(sortElements) {
+    var elements = this.sortElements;
+    elements.length = 0;
+    angular.forEach(sortElements, function(element){
+      elements.push(element);
+    });
+
+    this.capSortElements();
+  };
+
+  Sortation.prototype.capSortElements = function() {
+    if(this.sortElements.length > MAX_SORT_ELEMENTS) {
+      this.sortElements.length = MAX_SORT_ELEMENTS;
+    }
   };
 
   Sortation.prototype.getTargetSortationOfHeader = function(headerName) {
@@ -110,4 +126,4 @@ angular.module('openproject.models')
   };
 
   return Sortation;
-}]);
+}

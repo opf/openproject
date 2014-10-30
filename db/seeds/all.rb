@@ -35,8 +35,8 @@
 # not fixing stuff!
 Project
 
-PlanningElementTypeColor.ms_project_colors.map(&:save)
-default_color = PlanningElementTypeColor.find_by_name('pjSilver')
+PlanningElementTypeColor.colors.map(&:save)
+default_color = PlanningElementTypeColor.find_by_name('Grey-light')
 
 Type.find_or_create_by_is_standard(true, name: 'none',
                                          position: 0,
@@ -73,9 +73,11 @@ if User.admin.empty?
   user.admin = true
   user.login = "admin"
   user.password = "admin"
+  # force password change on first login
+  user.force_password_change = true
   user.firstname = "OpenProject"
   user.lastname = "Admin"
-  user.mail = "admin@example.net"
+  user.mail = ENV.fetch('ADMIN_EMAIL') { "admin@example.net" }
   user.mail_notification = User::USER_MAIL_OPTION_NON.first
   user.language = "en"
   user.status = 1

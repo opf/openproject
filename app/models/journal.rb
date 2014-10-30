@@ -93,7 +93,7 @@ class Journal < ActiveRecord::Base
   end
 
   def editable_by?(user)
-    journable.journal_editable_by?(user)
+    (journable.journal_editable_by?(user) && self.user == user) || user.admin?
   end
 
   def details

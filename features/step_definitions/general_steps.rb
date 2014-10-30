@@ -252,26 +252,35 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
 end
 
 Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
-  steps %Q{
-    When I select \"#{column_name}\" from \"available_columns\"
-    When I press \"→\"
-  }
+  within('#s2id_selected_columns_new') do
+    find('input.select2-input').click
+  end
+
+  s2_result = find('ul.select2-results li', text: column_name)
+  s2_result.click
 end
 
 Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |column_name|
-  steps %Q{
-    When I select \"#{column_name}\" from \"selected_columns\"
-    When I press \"←\"
-  }
+  pending
 end
 
 Given /^I select to see [cC]olumn(?:s)?$/ do |table|
-  params = "?set_filter=1&" + table.raw.collect(&:first).collect do |name|
-    page.source =~ /<option value="(.*?)">#{name}<\/option>/
-    column_name = $1 || name.gsub(" ", "_").downcase
-    "query[column_names][]=#{column_name}"
-  end.join("&")
-  visit(current_path + params)
+  result = []
+  table.raw.each do |_perm|
+    perm = _perm.first
+    unless perm.blank?
+      result.push(perm)
+    end
+  end
+
+  result.each do |column_name|
+    within('#s2id_selected_columns_new') do
+      find('input.select2-input').click
+    end
+
+    s2_result = find('ul.select2-results li', text: column_name)
+    s2_result.click
+  end
 end
 
 Given /^I start debugging$/ do

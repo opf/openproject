@@ -131,7 +131,8 @@ module Redmine
                                     query: query,
                                     user: user)
 
-            query = query.order(journals_table[:id]).take(options[:limit]) if options[:limit]
+            query = query.order(journals_table[:id].desc)
+            query = query.take(options[:limit]) if options[:limit]
 
             projection = Redmine::Acts::ActivityProvider.event_projection(journals_table)
             projection << provider.event_query_projection(activity) if provider.respond_to?(:event_query_projection)

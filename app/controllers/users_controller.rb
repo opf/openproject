@@ -44,6 +44,9 @@ class UsersController < ApplicationController
   before_filter :authorize_for_user, :only => [:destroy]
   before_filter :check_if_deletion_allowed, :only => [:deletion_info,
                                                       :destroy]
+
+  before_filter :block_if_password_login_disabled, :only => [:new, :create]
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -93,7 +96,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.group_by(&:event_datetime)
+    @events_by_day = events.group_by{|e| e.event_datetime.to_date }
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
@@ -351,5 +354,9 @@ class UsersController < ApplicationController
     else
       'admin'
     end
+  end
+
+  def block_if_password_login_disabled
+    render_404 if OpenProject::Configuration.disable_password_login?
   end
 end

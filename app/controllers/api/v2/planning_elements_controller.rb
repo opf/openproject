@@ -35,12 +35,12 @@ module Api
       helper :timelines, :planning_elements
 
       include ::Api::V2::ApiController
+      include ::Api::V2::Concerns::MultipleProjects
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
       before_filter :parse_changed_since, only: [:index]
-      before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
@@ -123,26 +123,10 @@ module Api
 
       protected
 
-      def filter_authorized_projects
-        # authorize
-        # Ignoring projects, where user has no view_work_packages permission.
-        permission = params[:controller].sub api_version, ''
-        @projects = @projects.select do |project|
-          User.current.allowed_to?({:controller => permission,
-                                    :action     => params[:action]},
-                                    project)
-        end
-      end
-
       def load_multiple_projects(ids, identifiers)
         @projects = []
         @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
         @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-      end
-
-      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
-        (@projects.map(&:id) & ids).size == ids.size &&
-        (@projects.map(&:identifier) & identifiers).size == identifiers.size
       end
 
       def find_single_project
@@ -178,6 +162,8 @@ module Api
       # Filters
       def find_all_projects_by_project_id
         if !params[:project_id] and params[:ids] then
+          # WTF. Why do we completely skip rewiring in this case and always provide parent_ids?
+          # This is totally inconistent.
           identifiers = params[:ids].split(/,/).map(&:strip)
           @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
         elsif params[:project_id] !~ /,/
@@ -198,19 +184,47 @@ module Api
           @planning_elements = convert_to_struct(current_work_packages(projects))
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
-          rewire_ancestors
+
+          # Allow disabling rewiring - this exposes parent IDs of work packages invisible
+          # to the user.
+          # When requesting single work packages via IDs, the rewiring fails as it assumes
+          # that all visible work packages are loaded, which they might not be. For a work
+          # package with a parent visible to the user, but not included in the requested IDs,
+          # the parent_id would thus be nil.
+          # Disabling rewiring allows fetching work packages with their parent_ids
+          # even when the parents are not included in the list of requested work packages.
+          rewire_ancestors unless params[:rewire_parents] == 'false'
         end
 
       end
 
-      def convert_object_to_struct(model)
-        OpenStruct.new(model.attributes)
+      Struct.new("WorkPackage", *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
+      Struct.new("CustomValue", *CustomValue.column_names.map(&:to_sym))
+
+      def convert_wp_to_struct(work_package)
+        struct = Struct::WorkPackage.new
+
+        fill_struct_with_attributes(struct, work_package)
+      end
+
+      def convert_custom_value_to_struct(custom_value)
+        struct = Struct::CustomValue.new
+
+        fill_struct_with_attributes(struct, custom_value)
+      end
+
+      def fill_struct_with_attributes(struct, model)
+        model.attributes.each do |attribute, value|
+          struct.send(:"#{attribute}=", value)
+        end
+
+        struct
       end
 
       def convert_wp_object_to_struct(model)
-        result = convert_object_to_struct(model)
+        result = convert_wp_to_struct(model)
         result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
-            convert_object_to_struct(model)
+          convert_custom_value_to_struct(model)
         end
         result
       end
@@ -242,6 +256,9 @@ module Api
                                    .changed_since(@since)
                                    .includes(:status, :project, :type, :custom_values)
 
+        wp_ids = parse_work_package_ids
+        work_packages = work_packages.where(id: wp_ids) if wp_ids
+
         if params[:f]
           #we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
@@ -268,7 +285,10 @@ module Api
       helper_method :include_journals?
 
       def include_journals?
-        params[:include].tap { |i| i.present? && i.include?("journals") }
+        # .tap and the following block here were useless as the block's return value is ignored.
+        # Keeping this code to show its original intention, but not fixing it to not
+        # break things for clients that might not properly use the parameter.
+        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods
@@ -304,7 +324,7 @@ module Api
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
             # the greatest lower boundary is the first ancestor not filtered
             pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by{|ancestor| ancestor.lft }.last.id
           end
@@ -323,6 +343,10 @@ module Api
 
       def parse_changed_since
         @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
+      end
+
+      def parse_work_package_ids
+        params[:ids] ? params[:ids].split(',') : nil
       end
     end
   end

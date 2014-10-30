@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/reportings/show.api.rabl' do
+describe 'api/v2/reportings/show.api.rabl', :type => :view do
 
   before do
     params[:format] = 'json'
@@ -70,7 +70,7 @@ describe 'api/v2/reportings/show.api.rabl' do
                         reported_project_status_comment: "Sample Comment"
                       }.to_json
 
-      should be_json_eql(expected_json).at_path('reporting')
+      is_expected.to be_json_eql(expected_json).at_path('reporting')
     end
 
 
@@ -93,10 +93,9 @@ describe 'api/v2/reportings/show.api.rabl' do
     it 'renders the reported project-status' do
       expected_json = { name: "beste" }.to_json
 
-      should be_json_eql(expected_json).at_path('reporting/reported_project_status')
+      is_expected.to be_json_eql(expected_json).at_path('reporting/reported_project_status')
     end
 
   end
 
 end
-

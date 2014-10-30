@@ -93,12 +93,17 @@ module Redmine::MenuManager::MenuHelper
       query_menu_items.each do |query_menu_item|
         # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
         url = { :controller => '/work_packages', :action => 'index', :params => {:query_id => query_menu_item.navigatable_id} }
-        menu.push query_menu_item.name,
+        menu.push query_menu_item.unique_name,
                   url,
                   :param => :project_id,
                   :caption => query_menu_item.title,
                   :parent => :work_packages,
-                  :html    => {:class => 'icon2 icon-pin'}
+                  :html    => {
+                    :class => 'icon2 icon-pin query-menu-item',
+                    "data-ui-route" => '',
+                    'query-menu-item' => 'query-menu-item',
+                    'object-id' => query_menu_item.navigatable_id
+                  }
       end
     end
   end

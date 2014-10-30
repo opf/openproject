@@ -37,6 +37,40 @@ $button_gray_font_color: #222222
   @each $vendor in $vendors
     #{$vendor}transition: all 200ms ease-in-out 0s
 
+@mixin default-headline-h1
+  color:              $headline_h1_font-color
+  font-size:          $headline_h1_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  padding:          0 0 8px 0
+  margin:        0
+
+@mixin default-headline-h2
+  color:              $headline_h2_font-color
+  font-size:          $headline_h2_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  text-transform:    uppercase
+  padding:          0 0 8px 0
+  margin:        0
+
+@mixin default-headline-h3
+  color:              $headline_h3_font-color
+  font-size:          $headline_h3_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  border-bottom:    1px solid #dddddd
+  padding:          0 0 8px 0
+  margin:          0 0 20px 0
+
+@mixin default-headline-h4
+  color:              $headline_h4_font-color
+  font-size:          $headline_h4_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  padding:          0 0 5px 0
+  margin:          0 0 20px 0
+
 @mixin default-font-normal($color, $font-size: 13px)
   color:              $color
   font-size:          $font-size
@@ -46,8 +80,8 @@ $button_gray_font_color: #222222
 @mixin default-font-bold($color, $font-size: 13px)
   color:              $color
   font-size:          $font-size
-  font-family:        $font_family_bold
-  font-weight:        normal
+  font-family:        $font_family_normal
+  font-weight:        bold
 
 @mixin main-menu-font
   font-style:         normal
@@ -68,18 +102,18 @@ $button_gray_font_color: #222222
   border-radius: $radius
 
 @mixin button-highlight-background
-  border: 1px solid #06799F
-  background: #0b8db8
-  background: -moz-linear-gradient(top,  #0b8db8 0%, #06799f 100%)
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0b8db8), color-stop(100%,#06799f))
-  background: -webkit-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: -o-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: -ms-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: linear-gradient(to bottom,  #0b8db8 0%,#06799f 100%)
+  border: 1px solid $button_highlight_border_color
+  background: $button_highlight_background_color
+  background: $button_highlight_background_gradient_moz
+  background: $button_highlight_background_gradient_webkit
+  background: $button_highlight_background_gradient_webkit_l
+  background: $button_highlight_background_gradient_o
+  background: $button_highlight_background_gradient_ms
+  background: $button_highlight_background_gradient
 
-  &:hover
-    border: 1px solid #3493B3
-    background: #3493B3
+  &:enabled:hover
+    border: 1px solid $button_highlight_background_hover_color
+    background: $button_highlight_border_hover_color
 
 @mixin button-background
   border: 1px solid #ccc
@@ -91,7 +125,7 @@ $button_gray_font_color: #222222
   background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
   background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
 
-  &:hover
+  &:enabled:hover
     border: 1px solid #777777
     background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 40%, #ddd 100%)
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(40%,#eeeeee), color-stop(100%,#ddd))
@@ -100,6 +134,12 @@ $button_gray_font_color: #222222
     background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
     background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
 
+@mixin button-active-background
+  border: 1px solid #CCCCCC
+  background: #EEEEEE
+  box-shadow: 0px 2px 4px #CCCCCC inset
+
+  &:hover
 
 @mixin button-common
   @include border-radius($button_border_radius)
@@ -110,16 +150,23 @@ $button_gray_font_color: #222222
   cursor: pointer
 
 @mixin button-normal-size
-  padding: 4px 10px
+  padding: 3px 8px 2px
 
 @mixin button-big-size
   padding: 7px 16px 5px
+
+@mixin button-disableable
+  @include transition(opacity .5s ease-out)
+  &:disabled
+    opacity: 0.5
+    cursor:  default
 
 @mixin button-highlight
   color: $button_highlight_font_color
   @include button-common
   @include button-normal-size
   @include button-highlight-background
+  @include button-disableable
   color: $button_highlight_font_hover_color
   &:hover
     text-decoration: none
@@ -129,9 +176,21 @@ $button_gray_font_color: #222222
   @include button-common
   @include button-normal-size
   @include button-background
+  @include button-disableable
   color: $button_font_hover_color
   &:hover
     text-decoration: none
+
+@mixin button-active
+  color: $button_active_font_color
+  @include button-common
+  @include button-normal-size
+  @include button-active-background
+  @include button-disableable
+
+  &:hover
+    text-decoration: none
+
 
 @mixin content-box
   margin-top: 20px
@@ -172,9 +231,45 @@ $button_gray_font_color: #222222
   ul
     margin-bottom: 20px
 
+// Make sure an element doesn't collapse due to floated elements inside
+@mixin prevent-float-collapse
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+
 @mixin text-shortener
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
+
+@mixin allow-vertical-scrolling
+  overflow-x: hidden
+  overflow-y: auto
+
+// Based on Bourbon mixin: http://bourbon.io/docs/#font-face
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $svg-font-id: $font-family)
+  @font-face
+    font-family: $font-family
+    font-weight: $weight
+    font-style:  $style
+    src: font-url('#{$file-path}.eot')
+    src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'), font-url('#{$file-path}.woff') format('woff'), font-url('#{$file-path}.ttf') format('truetype'), font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
+    text-rendering: optimizeLegibility
+
+  // Always use SVG fonts (rather than WOFF/TTF) in WebKit-based browers
+  // FIXME: we only want to target Chrome on Windows
+  @media screen and (-webkit-min-device-pixel-ratio:0)
+    @font-face
+      font-family: $font-family
+      font-weight: $weight
+      font-style:  $style
+      src: font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
+    // Select dropdowns show strange characters on Chrome on Windows with the fix above
+    // Temporarily use another font for them.
+    // See https://www.openproject.org/work_packages/7479
+    select
+      font-family: sans-serif !important

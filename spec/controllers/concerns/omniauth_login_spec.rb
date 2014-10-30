@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController do
+describe AccountController, :type => :controller do
   after do
     User.current = nil
   end
@@ -78,6 +78,64 @@ describe AccountController do
         end
       end
 
+      describe 'strategy attribute mapping override' do
+        let(:omniauth_strategy) { double('Google Strategy') }
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new(
+            provider: 'google',
+            uid: 'foo',
+            info: { email: 'whattheheck@example.com',
+                    first_name: 'what',
+                    last_name: 'theheck'
+            },
+            extra: { raw_info: {
+              real_uid: 'bar@example.org',
+              first_name: 'foo',
+              last_name: 'bar'
+            } }
+          )
+        end
+
+        before do
+          request.env['omniauth.auth'] = omniauth_hash
+          request.env['omniauth.strategy'] = omniauth_strategy
+        end
+
+        context 'available' do
+          it 'merges the strategy mapping' do
+            allow(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes) do |auth|
+              raw_info = auth[:extra][:raw_info]
+              {
+                login: raw_info[:real_uid],
+                firstname: raw_info[:first_name],
+                lastname: raw_info[:last_name]
+              }
+            end
+
+            expect(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes)
+
+            post :omniauth_login
+
+            user = User.find_by_login('bar@example.org')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('foo')
+            expect(user.lastname).to eql('bar')
+          end
+        end
+
+        context 'unavailable' do
+          it 'keeps the default mapping' do
+
+            post :omniauth_login
+
+            user = User.find_by_login('whattheheck@example.com')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('what')
+            expect(user.lastname).to eql('theheck')
+          end
+        end
+      end
+
       context 'not providing all required fields' do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
@@ -96,6 +154,12 @@ describe AccountController do
         end
 
         it 'registers user via post' do
+          expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |user, auth_hash|
+            new_user = User.find_by_login('login@bar.com')
+            expect(user).to eq new_user
+            expect(auth_hash).to include(omniauth_hash)
+          end
+
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
             timestamp: Time.new)
@@ -181,6 +245,7 @@ describe AccountController do
           provider: 'google',
           uid: '123545',
           info: { name: 'foo',
+                  last_name: 'bar',
                   email: 'foo@bar.com'
           }
         )
@@ -196,11 +261,148 @@ describe AccountController do
       end
 
       context 'with an active account' do
-        it 'should sign in the user after successful external authentication' do
+        before do
           user.save!
+        end
+
+        it 'should sign in the user after successful external authentication' do
           post :omniauth_login
 
           expect(response).to redirect_to my_page_path
+        end
+
+        it 'should log a successful login' do
+          post_at = Time.now.utc
+          post :omniauth_login
+
+          user.reload
+          expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
+        end
+
+        describe 'authorization' do
+          let(:config) do
+            Struct.new(:google_name, :global_email).new 'foo', 'foo@bar.com'
+          end
+
+          before do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+
+            # Let's set up a couple of authorization callbacks to see if the mechanism
+            # works as intended.
+
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :google do |dec, auth|
+              if auth.info.name == config.google_name
+                dec.approve
+              else
+                dec.reject "#{auth.info.name} can fuck right off"
+              end
+            end
+
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, auth|
+              if auth.info.email == config.global_email
+                dec.approve
+              else
+                dec.reject "I only want to see #{config[:global_email]} here."
+              end
+            end
+
+            # ineffective callback
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _|
+              dec.reject 'Though shalt not pass!'
+            end
+
+            # free for all callback
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, _|
+              dec.approve
+            end
+          end
+
+          after do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+          end
+
+          it 'works' do
+            expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u, auth|
+              expect(u).to eq user
+              expect(auth).to eq omniauth_hash
+            end
+
+            post :omniauth_login
+
+            expect(response).to redirect_to my_page_path
+          end
+
+          context 'with wrong email address' do
+            before do
+              config.global_email = 'other@mail.com'
+            end
+
+            it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+
+            it 'is rejected against any other provider too' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              omniauth_hash.provider = 'any other'
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+          end
+
+          context 'with the wrong name' do
+            render_views
+
+            before do
+              config.google_name = 'hans'
+            end
+
+            it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'foo can fuck right off'
+            end
+
+            it 'is approved against any other provider' do
+              expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
+                new_user = User.find_by_identity_url 'some other:123545'
+
+                expect(u).to eq new_user
+              end
+
+              omniauth_hash.provider = 'some other'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to my_first_login_path
+              # authorization is successful which results in the registration
+              # of a new user in this case because we changed the provider
+              # and there isn't a user with that identity URL yet ...
+            end
+
+            # ... and to confirm that, here's what happens when the authorization fails
+            it 'is rejected against any other provider with the wrong email' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+
+              omniauth_hash.provider = 'yet another'
+              config.global_email = 'yarrrr@joro.es'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see yarrrr@joro.es here.'
+            end
+          end
         end
       end
 
@@ -267,7 +469,7 @@ describe AccountController do
       end
 
       it 'should not sign in the user' do
-        expect(controller.send(:current_user).logged?).to be_false
+        expect(controller.send(:current_user).logged?).to be_falsey
       end
 
       it 'does not set registration information in the session' do

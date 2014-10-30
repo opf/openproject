@@ -42,7 +42,7 @@ FactoryGirl.define do
       end
 
       factory :wiki_menu_item_with_parent do
-        after :build do |wiki_menu_item|
+        callback(:after_build) do |wiki_menu_item|
           parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
           wiki_menu_item.wiki.wiki_menu_items << parent
           wiki_menu_item.parent = parent
@@ -53,7 +53,10 @@ FactoryGirl.define do
     factory :query_menu_item, :class => MenuItems::QueryMenuItem do
       query
 
-      sequence(:title) {|n| "Query Title #{n}" }
+      name { query.normalized_name }
+      title { query.name }
+
+      navigatable_id { query.id }
     end
   end
 end

@@ -86,13 +86,13 @@ module Redmine
         end
 
         def possible_watcher_users
-          User.not_builtin.tap do |users|
-            if respond_to?(:visible?)
-              users.select! {|user| possible_watcher?(user)}
-            else
-              warn watching_permitted_to_all_users_message
-            end
-          end
+          # TODO: There might be addable users which are not in the current
+          #       project. But its hard (performance wise) to find them
+          #       correctly. So we only search for users in the project scope.
+          #       Also, the watchable might not be allowed to be seen by all
+          #       users in the project.
+          #       This implementation is so wrong, it makes me sad.
+          project.users
         end
 
         # Returns an array of users that are proposed as watchers

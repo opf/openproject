@@ -33,12 +33,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= setting_check_box :autofetch_changesets %></p>
 
 <p><%= setting_check_box :sys_api_enabled,
-				 :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></p>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></p>
 
 <p><%= setting_text_field :sys_api_key, :size => 30,
-																				:id => 'settings_sys_api_key',
-																				:disabled => !Setting.sys_api_enabled?,
-																				:label => :setting_mail_handler_api_key %>
+                                        :id => 'settings_sys_api_key',
+                                        :disabled => !Setting.sys_api_enabled?,
+                                        :label => :setting_mail_handler_api_key %>
   <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
 </p>
 
@@ -48,6 +48,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <em><%= l(:text_comma_separated) %></em></p>
 
 <p><%= setting_text_field :repository_log_display_limit, :size => 6 %></p>
+
+<p><%= setting_check_box :repository_authentication_caching_enabled %></p>
 </div>
 
 <fieldset class="box tabular settings"><legend><%= l(:text_work_packages_ref_in_commit_messages) %></legend>

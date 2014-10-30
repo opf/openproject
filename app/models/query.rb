@@ -53,6 +53,7 @@ class Query < ActiveRecord::Base
 
 
   @@available_columns = [
+    QueryColumn.new(:id, :sortable => "#{WorkPackage.table_name}.id", :groupable => false),
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:type, :sortable => "#{Type.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc'),
@@ -165,6 +166,10 @@ class Query < ActiveRecord::Base
   def label_for(field)
     label = available_work_package_filters[field][:name] if work_package_filter_available?(field)
     label ||= field.gsub(/\_id\z/, "")
+  end
+
+  def normalized_name
+    name.parameterize.underscore
   end
 
   def available_columns
@@ -371,7 +376,6 @@ class Query < ActiveRecord::Base
           groups = Group.find_all_by_id(values)
         end
         groups ||= []
-
         members_of_groups = groups.inject([]) {|user_ids, group|
           if group && group.user_ids.present?
             user_ids << group.user_ids
@@ -382,20 +386,23 @@ class Query < ActiveRecord::Base
         sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, WorkPackage.table_name, "assigned_to_id", false) + ')'
 
       elsif field == "assigned_to_role" # named field
+        roles = Role.givable
         if operator == "*" # Any Role
-          roles = Role.givable
           operator = '=' # Override the operator since we want to find by assigned_to
         elsif operator == "!*" # No role
-          roles = Role.givable
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          roles = Role.givable.find_all_by_id(values)
+          roles = roles.find_all_by_id(values)
         end
         roles ||= []
 
         members_of_roles = roles.inject([]) {|user_ids, role|
           if role && role.members
-            user_ids << role.members.collect(&:user_id)
+            user_ids << if project_id
+                            role.members.reject{|m| m.project_id != project_id}.collect(&:user_id)
+                        else
+                            role.members.collect(&:user_id)
+                        end
           end
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
@@ -438,6 +445,11 @@ class Query < ActiveRecord::Base
     query.find :all
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
+  end
+
+  # Note: Convenience method to allow the angular front end to deal with query menu items in a non implementation-specific way
+  def starred
+    !!query_menu_item
   end
 
   private

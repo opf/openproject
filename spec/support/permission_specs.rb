@@ -43,13 +43,13 @@ module PermissionSpecs
         it "should allow calling #{controller_action} when having the permission #{permission} permission" do
           become_member_with_permissions(project, current_user, permission)
 
-          expect(controller.send(:authorize, controller_name, action_name)).to be_true
+          expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
         end
 
         it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
           become_member_with_permissions(project, current_user)
 
-          expect(controller.send(:authorize, controller_name, action_name)).to be_false
+          expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
         end
       end
 
@@ -64,4 +64,3 @@ module PermissionSpecs
     end
   end
 end
-

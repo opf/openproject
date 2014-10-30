@@ -74,6 +74,10 @@ Then(/^I should see a modal window$/) do
   steps 'Then I should see a modal window with selector "#modalDiv"'
 end
 
+Then(/^I should not see a modal window$/) do
+  page.should_not have_selector("#modalDiv")
+end
+
 Then(/^(.*) in the modal$/) do |step|
   step(step + ' in the iframe "modalIframe"')
 end

@@ -40,13 +40,14 @@ li.select2-result.select2-visible-selected-parent {
 }
 
 .timeline {
-  clear: both;
+  clear: right; /* we only want to clear the 'float: right' of the .tl-toolbar */
   overflow: auto;
   border: 1px solid black;
 }
 
 .timeline svg {
   display: block;
+  overflow: hidden;
 }
 
 .tl-under-construction {
@@ -379,6 +380,8 @@ a.tl-discreet-link:hover, input.icon:hover {
 .tl-column {
   left: 100px;
   display: inline-block;
+  line-height: 18px;
+  padding-bottom: 8px;
 }
 
 #content .tl-word-ellipsis {
@@ -585,8 +588,4 @@ a:hover.tl-project, a.tl-project, .tl-project {
 
 dt.timelines\2F planning-element {
   background-image: url(<%= asset_path 'webalys/new_planning_element.png' %>);
-}
-
-#history .journal {
-  background: none;
 }

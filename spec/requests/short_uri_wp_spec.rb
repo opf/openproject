@@ -28,13 +28,19 @@
 
 require 'spec_helper'
 
-describe "routes for old issue uris" do
+describe "routes for old issue uris", :type => :request do
+  # These are routing specs and should be moved to
+  # spec/routing.
+  # As redirect_to is not supported by routing specs they have
+  # to be marked as type request. However, this breaks when
+  # moving them to spec/routing.
   describe "for index action" do
     before do
+
       get("/wp")
     end
 
-    it { expect(response).to redirect_to("/work_packages/") }
+    it { expect(response).to redirect_to("/work_packages") }
   end
 
   describe "with specific id" do
@@ -45,4 +51,3 @@ describe "routes for old issue uris" do
     it { expect(response).to redirect_to("/work_packages/1234") }
   end
 end
-

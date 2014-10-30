@@ -33,40 +33,34 @@ class CopyProjectsController < ApplicationController
   before_filter :disable_api
   before_filter :find_project
   before_filter :authorize, :only => [ :copy, :copy_project ]
+  before_filter :prepare_for_copy_project, :only => [ :copy, :copy_project ]
 
   def copy
-    @source_project = @project
-    UserMailer.with_deliveries(params[:notifications] == '1') do
-      @project = Project.new
-      @project.safe_attributes = params[:project]
-      @project.enabled_module_names = params[:enabled_modules]
-      if @project.save && validate_parent_id
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        if @project.copy_associations(@source_project, :only => params[:only])
-          flash[:notice] = l(:notice_successful_create)
-        end
-        # Project was created
-        # But some objects might not have been copied due to validation failures
-        errors = (@project.compiled_errors.flatten + [@project.errors]).map(&:full_messages).flatten
-        flash[:error] = errors if errors.present?
-        redirect_to :controller => '/projects', :action => 'settings', :id => @project
-      else
-        # Project was not created
-        flash[:error] = @project.errors.full_messages
-        redirect_to :back
-      end
+    target_project_name = params[:project][:name]
+    @copy_project = Project.new
+    @copy_project.safe_attributes = params[:project]
+    if @copy_project.valid?
+      modules = params[:project][:enabled_module_names] || params[:enabled_modules]
+      copy_project_job = CopyProjectJob.new(User.current,
+                                            @project,
+                                            params[:project],
+                                            modules,
+                                            params[:only],
+                                            params[:notifications] == '1')
+
+      Delayed::Job.enqueue copy_project_job
+      flash[:notice] = I18n.t('copy_project.started',
+                              source_project_name: @project.name,
+                              target_project_name: target_project_name)
+      redirect_to :back
+    else
+      from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
+      render :action => "copy_from_#{from}"
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :back
   end
 
   def copy_project
     from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
-    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @types = Type.all
-    @root_projects = Project.find(:all,
-                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  :order => 'name')
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
@@ -78,20 +72,13 @@ class CopyProjectsController < ApplicationController
     redirect_to :back
   end
 
-  protected
+  private
 
-  # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id
-    return true if User.current.admin?
-    parent_id = params[:project] && params[:project][:parent_id]
-    if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
-      unless @project.allowed_parents.include?(parent)
-        @project.errors.add :parent_id, :invalid
-        return false
-      end
-    end
-    true
+  def prepare_for_copy_project
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @types = Type.all
+    @root_projects = Project.find(:all,
+                                  :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
+                                  :order => 'name')
   end
 end

@@ -26,13 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('VersionService', ['$http', 'PathHelper', function($http, PathHelper) {
+module.exports = function($http, PathHelper) {
 
   var VersionService = {
-    getProjectVersions: function(projectIdentifier) {
-      var url = PathHelper.apiProjectVersionsPath(projectIdentifier);
+    getVersions: function(projectIdentifier) {
+      var url;
+
+      if(projectIdentifier) {
+        url = PathHelper.apiProjectVersionsPath(projectIdentifier);
+      } else {
+        url = PathHelper.apiVersionsPath();
+      }
 
       return VersionService.doQuery(url);
     },
@@ -40,10 +44,10 @@ angular.module('openproject.services')
     doQuery: function(url, params) {
       return $http.get(url, { params: params })
         .then(function(response){
-          return response.data.versions;
+          return _.sortBy(response.data.versions, 'name');
         });
     }
   };
 
   return VersionService;
-}]);
+}

@@ -33,11 +33,13 @@ describe OpenProject::Configuration do
     let(:config) { Hash.new }
 
     before do
-      expect(YAML).to receive(:load_file).and_return({
-        'default' => {},
-        'test' => { 'somesetting' => 'foo' }
-      })
-      expect(File).to receive(:file?).with('file').and_return(true)
+      File.should_receive(:file?).with('file').and_return(true)
+      File.should_receive(:read).and_return("
+        default:
+
+        test:
+          somesetting: foo
+      ")
 
       OpenProject::Configuration.send(:load_config_from_file, 'file', 'test', config)
     end

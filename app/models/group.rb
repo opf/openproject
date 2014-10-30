@@ -39,7 +39,7 @@ class Group < Principal
 
 
   before_destroy :remove_references_before_destroy
-  
+
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
   validate :uniqueness_of_groupname
@@ -109,8 +109,8 @@ class Group < Principal
     Journal::WorkPackageJournal.update_all({ :assigned_to_id => deleted_user.id },
                                            { :assigned_to_id => id })
   end
-  
-  
+
+
   def uniqueness_of_groupname
     groups_with_name = Group.where("lastname = ? AND id <> ?", groupname, id ? id : 0).count
     if groups_with_name > 0

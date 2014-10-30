@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.helpers')
-
-.service('WorkPackageLoadingHelper', ['$timeout', function($timeout) {
+module.exports = function($timeout) {
   var currentRun;
 
   return {
@@ -63,4 +61,4 @@ angular.module('openproject.helpers')
         }, errorCallback);
     }
   };
-}]);
+}

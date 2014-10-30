@@ -42,28 +42,28 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
   it 'should macro_hello_world' do
     text = "{{hello_world}}"
-    assert textilizable(text).match(/Hello world!/)
+    assert format_text(text).match(/Hello world!/)
     # escaping
     text = "!{{hello_world}}"
-    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+    assert_equal '<p>{{hello_world}}</p>', format_text(text)
   end
 
   it 'should macro_include' do
     @project = Project.find(1)
     # include a page of the current project wiki
     text = "{{include(Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
+    assert format_text(text).match(/This is a link to a ticket/)
 
     @project = nil
     # include a page of a specific project wiki
     text = "{{include(ecookbook:Another page)}}"
-    assert textilizable(text).match(/This is a link to a ticket/)
+    assert format_text(text).match(/This is a link to a ticket/)
 
     text = "{{include(ecookbook:)}}"
-    assert textilizable(text).match(/CookBook documentation/)
+    assert format_text(text).match(/CookBook documentation/)
 
     text = "{{include(unknowidentifier:somepage)}}"
-    assert textilizable(text).match(/Page not found/)
+    assert format_text(text).match(/Page not found/)
   end
 
   it 'should macro_child_pages' do
@@ -74,12 +74,12 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
     @project = Project.find(1)
     # child pages of the current wiki page
-    assert_equal expected, textilizable("{{child_pages}}", :object => WikiPage.find(2).content)
+    assert_equal expected, format_text("{{child_pages}}", :object => WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, textilizable("{{child_pages(Another_page)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(Another_page)}}", :object => WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page)}}", :object => WikiPage.find(1).content)
   end
 
   it 'should macro_child_pages_with_option' do
@@ -92,11 +92,11 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
     @project = Project.find(1)
     # child pages of the current wiki page
-    assert_equal expected, textilizable("{{child_pages(parent=1)}}", :object => WikiPage.find(2).content)
+    assert_equal expected, format_text("{{child_pages(parent=1)}}", :object => WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, textilizable("{{child_pages(Another_page, parent=1)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(Another_page, parent=1)}}", :object => WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
   end
 end

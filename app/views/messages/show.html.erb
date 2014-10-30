@@ -50,14 +50,15 @@ See doc/COPYRIGHT.rdoc for more details.
               :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 <% end %>
 
-<h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<div class="top-page">
+  <%= render :partial => 'layouts/action_menu_specific' %>
+  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
+</div>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
-<div class="wiki">
-<%= textilizable(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
+<div class="wiki" ng-non-bindable>
+<%= format_text(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
 </div>
 <%= link_to_attachments @topic, :author => false %>
 </div>
@@ -68,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <h4>
-      <%= avatar(message.author, :size => "24") %>
+      <%= avatar(message.author) %>
       <%= link_to h(message.subject), topic_path(@topic,
                                                  :r => message,
                                                  :anchor => "message-#{message.id}") %>
@@ -96,8 +97,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
-    <div class="wiki">
-      <%= textilizable message, :content, :attachments => message.attachments %>
+    <div class="wiki" ng-non-bindable>
+      <%= format_text message, :content, :attachments => message.attachments %>
     </div>
     <%= link_to_attachments message, :author => false %>
   </div>

@@ -1,0 +1,60 @@
+<div class="relation">
+  <h3>
+    <accessible-by-keyboard execute="toggleExpand()">
+      <i class="icon-pull-content" ng-class="stateClass"></i> {{ title }}
+      <span ng-if="!handler.isSingletonRelation">({{ handler.getCount() }})</span>
+    </accessible-by-keyboard>
+  </h3>
+  <div class="content" ng-show="expand">
+    <div class="workpackages">
+      <div ng-if="handler.relations">
+        <table class="detail-pane-table relations-table">
+          <thead>
+            <tr>
+              <td title="{{ I18n.t('js.work_packages.properties.subject')}}">{{ I18n.t('js.work_packages.properties.subject') }}</td>
+              <td title="{{ I18n.t('js.work_packages.properties.status')}}">{{ I18n.t('js.work_packages.properties.status') }}</td>
+              <td title="{{ I18n.t('js.work_packages.properties.assignee')}}">{{ I18n.t('js.work_packages.properties.assignee') }}</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr related-work-package-table-row
+                ng-repeat="relation in handler.relations">
+              <td focus="isFocused($index)">
+                <a title="{{ fullIdentifier }}" class="work_package" ng-class="state" href="{{ workPackagePath(relatedWorkPackage.props.id) }}">
+                  {{ fullIdentifier }}
+                </a>
+              </td>
+              <td title="{{ relatedWorkPackage.props.status }}">{{ relatedWorkPackage.props.status }}</td>
+              <td>
+                <a ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype != 'Group'" title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
+                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+                </a>
+                <span ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype == 'Group'">
+                  {{ relatedWorkPackage.embedded.assignee.props.name }}
+                </span>
+                <empty-element ng-if="!relatedWorkPackage.embedded.assignee"></empty-element>
+              </td>
+              <td>
+                <accessible-by-keyboard ng-if="handler.canDeleteRelation(relation)"
+                                        execute="handler.removeRelation(this)">
+                  <icon-wrapper icon-name="delete"
+                                icon-title="{{ I18n.t('js.relations.delete') }}">
+                  </icon-wrapper>
+                </accessible-by-keyboard>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div ng-if="handler.isEmpty()">
+        {{ I18n.t('js.relations.empty') }}
+      </div>
+    </div>
+    <div class="add-relation" ng-if="handler.canAddRelation()" ng-switch="handler.type" focus="isFocused(-1)">
+      <add-work-package-child ng-switch-when="child"></add-work-package-child>
+      <add-work-package-relation ng-switch-default></add-work-package-relation>
+    </div>
+  </div>
+</div>
