@@ -41,7 +41,7 @@ exports.config = {
 
   mochaOpts: {
     timeout:  40000,
-    reporter: 'spec'
+    reporter: 'mocha-jenkins-reporter'
   },
 
   baseUrl: 'http://localhost:8080'
