@@ -27,8 +27,6 @@ Read more: http://stateless.co/hal_specification.html
     - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
     - `_embedded` - contains all embedded objects
-    - `_count` - number of records fetched in the response
-    - `_total` - number of available records
 
 HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
 partially represented (e.g. some properties can be left out).
@@ -36,55 +34,9 @@ However in this API you have the guarantee that whenever a resource is **embedde
 
 # API response structure
 
-All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
-contains its members in its `_embedded` section.
-
-## Simple objects
-
-For example:
-
-    {
-        "id": 1,
-        "name": "My awesome project",
-        ...
-
-        "_type": "Project",
-        "_links": {
-            "self": { "href": "/projects/1", "title": "My awesome project" },
-            "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
-            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
-        },
-        "_embedded": {
-            ...
-        }
-    }
-
-## Collection objects
-
-For example:
-
-    {
-        "_links":
-        {
-            "self": { href: "/api/v3/projects" }
-        },
-        "_type": "Projects",
-        "_embedded":
-        {
-            "projects": [
-                {
-                    "self": { "href": "/projects/1" }
-                    "_type": "Project",
-                    // ... etc ...
-                },
-                {
-                    "self": { "href": "/projects/2" }
-                    "_type": "Project",
-                    // ... etc ...
-                }
-            ]
-        }
-    }
+All API responses contain a single HAL+JSON object, even collections of objects are technically represented by 
+a single HAL+JSON object that itself contains its members. More details on collections can be found
+in the [Basic Objects Section](#basic-objects).
 
 # Authentication
 
@@ -102,6 +54,10 @@ However for the future we plan to add authentication modes that are more suitabl
 - `DELETE` - Delete a resource
 
 # Group Basic Objects
+
+# Collections
+
+TODO: describe collection structure
 
 # Errors
 
