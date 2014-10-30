@@ -81,7 +81,24 @@ For example:
         }
     }
 
-# Error objects
+# Authentication
+
+For now the API only supports **session-based authentication**. This means you have to login to OpenProject via
+the Web-Interface to be authenticated in the API. This method is well-suited for clients acting within the browser,
+like the Angular-Client built into OpenProject.
+
+However for the future we plan to add authentication modes that are more suitable for **external clients** too.
+
+# Allowed HTTP methods
+
+- `GET` - Get a single resource or collection of resources
+- `POST` - Create a new resource or perform
+- `PATCH` - Update a resource
+- `DELETE` - Delete a resource
+
+# Group Basic Objects
+
+# Errors
 
 In case of an error, the API will respond with an apropriate HTTP status code.
 For responses with an HTTP status of `4xx` and `5xx` the body will always contain a single error object.
@@ -171,20 +188,38 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
-# Authentication
+# Formatable Text
 
-For now the API only supports **session-based authentication**. This means you have to login to OpenProject via
-the Web-Interface to be authenticated in the API. This method is well-suited for clients acting within the browser,
-like the Angular-Client built into OpenProject.
+OpenProject supports text formatting in Textile. Other text formats *may* be introduced in the future.
+Properties that contain formatable text have a special representation in this API. In this specification their
+type is indicated as `Formatable`. Their representation contains the following properties:
 
-However for the future we plan to add authentication modes that are more suitable for **external clients** too.
+| Property | Description                                        | Type   | Example                            | Supported operations |
+|:--------:| -------------------------------------------------- | ------ | ---------------------------------- | -------------------- |
+| format   | Indicates the formatting language of the raw text  | String | textile                            | READ                 |
+| raw      | The raw text, as entered by the user               | String | `I *am* formatted!`                | READ / WRITE         |
+| html     | The text converted to HTML according to the format | String | `I <strong>am</strong> formatted!` | READ                 |
 
-# Allowed HTTP methods
+`format` can as of today have one of the following values:
 
-- `GET` - Get a single resource or collection of resources
-- `POST` - Create a new resource or perform
-- `PATCH` - Update a resource
-- `DELETE` - Delete a resource
+* `plain` - no formatting at all
+* `textile` - formatting using Textile
+
+More formats might be added in the future.
+
+Note that `raw` is the only property supporting the **write** operation. A property of type *Formatable* that
+is marked as **read and write**, will only accept changes to the `raw` property. Changes to `format` and `html` will be **silently ignored**.
+It is thus sufficient to solely provide the `raw` property for changes.
+
+If the *Formatable* is marked as **read only**, the `raw` attribute also becomes **read only**.
+
+#### Example
+
+    {
+        "format": "textile",
+        "raw": "I *am* formatted!",
+        "html": "I <strong>am</strong> formatted!"
+    }
 
 # Group Activities
 
@@ -193,10 +228,8 @@ However for the future we plan to add authentication modes that are more suitabl
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Activity id | Integer | Must be a positive integer | 12 | READ |
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| textileComment | | String | | Lorem *ipsum*. | READ / WRITE |
-| htmlComment | | String | | Lorem <strong>ipsum</strong>. | READ |
-| textileDetails | | Array | | ["Priority changed from High to Low"] | READ |
-| htmlDetails | | Array | | ["<strong>Priority changed from High to Low</strong>"] | READ |
+| comment | | Formatable | | | READ / WRITE |
+| details | | Array of Formatable | | | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 Activity can be either _type Activity or _type Activity::Comment.
@@ -223,14 +256,18 @@ Activity can be either _type Activity or _type Activity::Comment.
                     }
                 },
                 "id": 1,
-                "textileDetails": [
-                    "Lorem ipsum dolor sit amet."
+                "details": [
+                    {
+                        "format": "textile",
+                        "raw": "Lorem ipsum dolor sit amet.",
+                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                    }
                 ],
-                "htmlDetails": [
-                    "<strong>Lorem ipsum dolor sit amet.</strong>"
-                ],
-                "htmlComment": "<p>Lorem ipsum dolor sit amet.</p>",
-                "textileComment": "Lorem ipsum dolor sit amet.",
+                "comment": {
+                    "format": "textile",
+                    "raw": "Lorem ipsum dolor sit amet.",
+                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                },
                 "createdAt": "2014-05-21T08:51:20Z",
                 "version": 31
             }
@@ -254,7 +291,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Request (application/json)
 
         {
-          "textileComment": "The updated comment"
+          "comment": { "raw": "The updated comment" }
         }
 
 + Response 200 (application/hal+json)
@@ -958,8 +995,7 @@ The request body is the actual textile string that shall be rendered as HTML str
 | lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
 | subject | Work package subject | String | not null; 1 <= length <= 255 | Refactor projecs module | READ / WRITE |
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
-| htmlDescription | Work package description rendered as HTML | String | | <p>Projects module should be refactored...</p> | READ |
-| textileDescription | Work package description as raw textile string | String | | Projects module should be refactored... | READ / WRITE |
+| description | The work package description | Formatable | | | READ / WRITE |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
 | status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
@@ -1070,8 +1106,11 @@ The request body is the actual textile string that shall be rendered as HTML str
                 "id": 1528,
                 "subject": "Develop API",
                 "type": "Feature",
-                "htmlDescription": "<p>Develop super cool OpenProject API.</p>",
-                "textileDescription": "Develop super cool OpenProject API.",
+                "description": {
+                    "format": "textile",
+                    "raw": "Develop super cool OpenProject API.",
+                    "html": "<p>Develop super cool OpenProject API.</p>"
+                },
                 "status": "New",
                 "isClosed": false,
                 "priority": "Normal",
@@ -1187,153 +1226,21 @@ The request body is the actual textile string that shall be rendered as HTML str
                                 }
                             },
                             "id": 5970,
-                            "htmlComment": "",
-                            "textileComment": "",
-                            "textileDetails": [
-                                "Type set to Feature",
-                                "Project set to Seeded Project",
-                                "Subject set to Develop API",
-                                "Description set (/journals/5970/diff/description)",
-                                "Due date set to 08/30/2014",
-                                "Category set to API",
-                                "Status set to New",
-                                "Assignee set to Emmie Okuneva",
-                                "Priority set to Normal",
-                                "Version set to 1.0",
-                                "Author set to OpenProject Admin",
-                                "% done changed from 0 to 20",
-                                "Estimated time set to 3.00",
-                                "Start date set to 08/29/2014",
-                                "Parent set to nisi eligendi officiis eos delectus quis voluptas dolores",
-                                "Responsible set to Laron Leuschke",
-                                "velit molestiae set to dolor sit amet"
-                            ],
-                            "htmlDetails": [
-                                "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>",
-                                "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>",
-                                "<strong>Subject</strong> set to <i title=\"Develop API\">Develop API</i>",
-                                "<strong>Description</strong> set (<a href=\"/journals/5970/diff/description\" class=\"description-details\">Details</a>)",
-                                "<strong>Due date</strong> set to <i title=\"08/30/2014\">08/30/2014</i>",
-                                "<strong>Category</strong> set to <i title=\"API\">API</i>",
-                                "<strong>Status</strong> set to <i title=\"New\">New</i>",
-                                "<strong>Assignee</strong> set to <i title=\"Emmie Okuneva\">Emmie Okuneva</i>",
-                                "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
-                                "<strong>Version</strong> set to <i title=\"1.0\">1.0</i>",
-                                "<strong>Author</strong> set to <i title=\"OpenProject Admin\">OpenProject Admin</i>",
-                                "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"20\">20</i>",
-                                "<strong>Estimated time</strong> set to <i title=\"3.00\">3.00</i>",
-                                "<strong>Start date</strong> set to <i title=\"08/29/2014\">08/29/2014</i>",
-                                "<strong>Parent</strong> set to <i title=\"nisi eligendi officiis eos delectus quis voluptas dolores\">nisi eligendi officiis eos delectus quis voluptas dolores</i>",
-                                "<strong>Responsible</strong> set to <i title=\"Laron Leuschke\">Laron Leuschke</i>",
-                                "<strong>velit molestiae</strong> set to <i title=\"dolor sit amet\">dolor sit amet</i>"
+                            "comment": { "format": "textile", "raw": "", "html": ""},
+                            "details": [
+                                {
+                                    "format": "textile",
+                                    "raw": "Type set to Feature",
+                                    "html": "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>"
+                                },
+                                {
+                                    "format": "textile",
+                                    "raw": "Project set to Seeded Project",
+                                    "html": "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>"
+                                }
                             ],
                             "version": 1,
                             "createdAt": "2014-08-29T12:40:53Z"
-                        },
-                        {
-                            "_type": "Activity::Comment",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/activities/5972",
-                                    "title": "5972"
-                                },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                },
-                                "update": {
-                                    "href": "/api/v3/activities/5972",
-                                    "method": "patch",
-                                    "title": "5972"
-                                }
-                            },
-                            "id": 5972,
-                            "htmlComment": "<p><em>Updated automatically by changing values within child work package <a href=\"/work_packages/1529\" class=\"issue work_package status-1 priority-2 child created-by-me\" title=\"Write API documentation (New)\">#1529</a></em></p>",
-                            "textileComment": "_Updated automatically by changing values within child work package #1529_\n",
-                            "textileDetails": [
-                                "Due date deleted (08/30/2014)",
-                                "% done changed from 20 to 0",
-                                "Estimated time deleted (3.00)",
-                                "Start date deleted (08/29/2014)"
-                            ],
-                            "htmlDetails": [
-                                "<strong>Due date</strong> deleted (<strike><i title=\"08/30/2014\">08/30/2014</i></strike>)",
-                                "<strong>% done</strong> changed from <i title=\"20\">20</i> to <i title=\"0\">0</i>",
-                                "<strong>Estimated time</strong> deleted (<strike><i title=\"3.00\">3.00</i></strike>)",
-                                "<strong>Start date</strong> deleted (<strike><i title=\"08/29/2014\">08/29/2014</i></strike>)"
-                            ],
-                            "version": 2,
-                            "createdAt": "2014-08-29T12:42:09Z"
-                        },
-                        {
-                            "_type": "Activity",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/activities/5975",
-                                    "title": "5975"
-                                },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                },
-                                "update": {
-                                    "href": "/api/v3/activities/5975",
-                                    "method": "patch",
-                                    "title": "5975"
-                                }
-                            },
-                            "id": 5975,
-                            "htmlComment": "",
-                            "textileComment": "",
-                            "textileDetails": [
-                                "File OpenProject_Requirements.xlsx added"
-                            ],
-                            "htmlDetails": [
-                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/91/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
-                            ],
-                            "version": 3,
-                            "createdAt": "2014-08-29T12:43:49Z"
-                        },
-                        {
-                            "_type": "Activity",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/activities/5977",
-                                    "title": "5977"
-                                },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                },
-                                "update": {
-                                    "href": "/api/v3/activities/5977",
-                                    "method": "patch",
-                                    "title": "5977"
-                                }
-                            },
-                            "id": 5977,
-                            "htmlComment": "",
-                            "textileComment": "",
-                            "textileDetails": [
-                                "File OpenProject_Requirements.xlsx added"
-                            ],
-                            "htmlDetails": [
-                                "<strong>File</strong> <a href=\"http://localhost:3000/attachments/92/OpenProject_Requirements.xlsx\">OpenProject_Requirements.xlsx</a> added"
-                            ],
-                            "version": 4,
-                            "createdAt": "2014-08-29T12:44:41Z"
                         }
                     ],
                     "watchers": [
@@ -1630,7 +1537,7 @@ updated activity.
 + Request (application/json)
 
         {
-          "textileComment": "I think this is awesome!"
+          "comment": { "raw": "I think this is awesome!" }
         }
 
 + Response 201 (application/hal+json)
