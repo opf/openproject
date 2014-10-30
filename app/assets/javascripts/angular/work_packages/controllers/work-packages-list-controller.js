@@ -26,24 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.controller('WorkPackagesListController', [
-    '$scope',
-    '$rootScope',
-    '$state',
-    '$location',
-    'latestTab',
-    'I18n',
-    'WorkPackagesTableService',
-    'WorkPackageService',
-    'ProjectService',
-    'QueryService',
-    'PaginationService',
-    'AuthorisationService',
-    'UrlParamsHelper',
-    'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $state, $location, latestTab,
+module.exports = function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, UrlParamsHelper,
@@ -302,4 +285,4 @@ angular.module('openproject.workPackages.controllers')
       $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
     }
   };
-}]);
+}

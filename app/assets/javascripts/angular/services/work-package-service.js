@@ -26,21 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.constant('DEFAULT_FILTER_PARAMS', {'fields[]': 'status_id', 'operators[status_id]': 'o'})
-
-.service('WorkPackageService', [
-  '$http',
-  'PathHelper',
-  'WorkPackagesHelper',
-  'HALAPIResource',
-  'DEFAULT_FILTER_PARAMS',
-  'DEFAULT_PAGINATION_OPTIONS',
-  '$rootScope',
-  '$window',
-  'WorkPackagesTableService',
-  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
   var workPackage;
 
   var WorkPackageService = {
@@ -226,4 +212,4 @@ angular.module('openproject.services')
   };
 
   return WorkPackageService;
-}]);
+}

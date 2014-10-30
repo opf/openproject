@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-  .directive('dropdown', function() {
+module.exports = function() {
     return {
       restrict: 'EA',
       scope: {},
@@ -37,4 +35,4 @@ angular.module('openproject.uiComponents')
         // TODO: implement me
       }
     };
-  });
+}

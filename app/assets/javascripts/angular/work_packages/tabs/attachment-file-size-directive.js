@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('attachmentFileSize', [function(){
+module.exports = function() {
   return {
     restrict: 'A',
     replace: false,
@@ -45,4 +43,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

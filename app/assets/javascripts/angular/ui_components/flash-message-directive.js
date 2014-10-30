@@ -27,13 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('flashMessage', [
-  '$rootScope',
-  '$timeout',
-  'ConfigurationService',
-  function($rootScope, $timeout, ConfigurationService) {
+module.exports = function($rootScope, $timeout, ConfigurationService) {
 
   return {
     restrict: 'E',
@@ -62,4 +56,4 @@ angular.module('openproject.uiComponents')
       });
     }
   };
-}]);
+}

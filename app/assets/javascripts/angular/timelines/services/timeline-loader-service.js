@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.services')
-
-.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', 'CustomField', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, Timeline, User, CustomField) {
+module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, Timeline, User, CustomField) {
 
   /**
    * QueueingLoader
@@ -1172,4 +1170,4 @@ angular.module('openproject.timelines.services')
   };
 
   return TimelineLoaderService;
-}]);
+}

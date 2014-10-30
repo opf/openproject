@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter', 'CustomFieldHelper', function(TimezoneService, currencyFilter, CustomFieldHelper) {
+module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
@@ -217,4 +215,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return WorkPackagesHelper;
-}]);
+}

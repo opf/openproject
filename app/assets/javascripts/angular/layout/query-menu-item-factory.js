@@ -26,10 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.layout')
-
-.constant('QUERY_MENU_ITEM_TYPE', 'query-menu-item')
-
 /**
  * queryMenuItemFactory
  *
@@ -38,14 +34,7 @@ angular.module('openproject.layout')
  * selected state and provides an event-based way to destroy the menu item, signalled
  * by the 'openproject.layout.removeMenuItem' event.
  */
-.factory('queryMenuItemFactory', [
-  'menuItemFactory',
-  '$state',
-  '$stateParams',
-  '$animate',
-  '$timeout',
-  'QUERY_MENU_ITEM_TYPE',
-  function(menuItemFactory, $state, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
+module.exports = function(menuItemFactory, $state, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -82,22 +71,4 @@ angular.module('openproject.layout')
       });
     }
   });
-}])
-
-/**
- * queryMenuItem directive
- *
- * Patches query menu items generated on the server-side by applying the link function provided
- * by the queryMenuItemFactory.
- * The link function makes the query menu item's 'selected' class reflect the application state
- * and provides an event-based mechanism to remove the item on the fly.
- */
-.directive('queryMenuItem', [
-  'queryMenuItemFactory',
-  function(queryMenuItemFactory) {
-  return {
-    restrict: 'A',
-    scope: true,
-    link: queryMenuItemFactory.link
-  };
-}]);
+}

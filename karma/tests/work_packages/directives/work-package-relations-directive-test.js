@@ -39,12 +39,12 @@ describe('Work Package Relations Directive', function() {
                                  'ngSanitize'));
 
   beforeEach(module('templates', function($provide) {
-    configurationService = new Object();
+    var configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', configurationService);
+    $provide.constant('ConfigurationService', function() { return configurationService });
   }));
 
   beforeEach(inject(function($rootScope,

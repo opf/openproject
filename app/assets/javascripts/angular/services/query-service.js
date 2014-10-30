@@ -26,29 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('QueryService', [
-  'Query',
-  'Sortation',
-  '$http',
-  'PathHelper',
-  '$q',
-  'AVAILABLE_WORK_PACKAGE_FILTERS',
-  'StatusService',
-  'TypeService',
-  'PriorityService',
-  'UserService',
-  'VersionService',
-  'RoleService',
-  'GroupService',
-  'ProjectService',
-  'WorkPackagesTableHelper',
-  'I18n',
-  'queryMenuItemFactory',
-  '$rootScope',
-  'QUERY_MENU_ITEM_TYPE',
-  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
+module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
@@ -476,4 +454,4 @@ angular.module('openproject.services')
   };
 
   return QueryService;
-}]);
+}

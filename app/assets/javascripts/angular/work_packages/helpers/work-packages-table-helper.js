@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-
-.factory('WorkPackagesTableHelper', ['WorkPackagesHelper', function(WorkPackagesHelper) {
+module.exports = function(WorkPackagesHelper) {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
     buildRows: function(workPackages, groupBy) {
@@ -36,7 +34,7 @@ angular.module('openproject.workPackages.helpers')
       var currentGroup, allGroups = [], groupIndex = -1;
 
       angular.forEach(workPackages, function(workPackage, i) {
-        while(ancestors.length > 0 && workPackage.parent_id !== ancestors.last().object.id) {
+        while(ancestors.length > 0 && workPackage.parent_id !== _.last(ancestors).object.id) {
           // this helper method only reflects hierarchies if nested work packages follow one another
           ancestors.pop();
         }
@@ -46,7 +44,7 @@ angular.module('openproject.workPackages.helpers')
 
         var row = {
           level: ancestors.length,
-          parent: ancestors.last(),
+          parent: _.last(ancestors),
           ancestors: ancestors.slice(0),
           object: workPackage
         };
@@ -178,4 +176,4 @@ angular.module('openproject.workPackages.helpers')
   };
 
   return WorkPackagesTableHelper;
-}]);
+}

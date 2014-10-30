@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('PlanningElement', [function() {
+module.exports = function() {
 
   PlanningElement = {
     objectType: 'PlanningElement',
@@ -814,4 +812,4 @@ angular.module('openproject.timelines.models')
   };
 
   return PlanningElement;
-}]);
+}

@@ -60,7 +60,7 @@ module Concerns::OmniauthLogin
     else
       if user.active?
         user.log_successful_login
-        OpenProject::OmniAuth::Authorization.after_login! user, auth_hash
+        OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
       end
       login_user_if_active(user)
     end
@@ -84,7 +84,9 @@ module Concerns::OmniauthLogin
 
     fill_user_fields_from_omniauth user, auth_hash
 
-    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash } }
+    opts = {
+      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash, self }
+    }
 
     # Create on the fly
     register_user_according_to_setting(user, opts) do
@@ -106,7 +108,9 @@ module Concerns::OmniauthLogin
     fill_user_fields_from_omniauth(user, auth)
     user.update_attributes(permitted_params.user_register_via_omniauth)
 
-    opts = { after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth } }
+    opts = {
+      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth, self }
+    }
     register_user_according_to_setting user, opts
   end
 
@@ -118,13 +122,22 @@ module Concerns::OmniauthLogin
 
   def omniauth_hash_to_user_attributes(auth)
     info = auth[:info]
-    {
+
+    attribute_map = {
       login:        info[:email],
       mail:         info[:email],
       firstname:    info[:first_name] || info[:name],
       lastname:     info[:last_name],
       identity_url: identity_url_from_omniauth(auth)
     }
+
+    # Allow strategies to override mapping
+    strategy = request.env['omniauth.strategy']
+    if strategy.respond_to?(:omniauth_hash_to_user_attributes)
+      attribute_map.merge(strategy.omniauth_hash_to_user_attributes(auth))
+    else
+      attribute_map
+    end
   end
 
   def identity_url_from_omniauth(auth)

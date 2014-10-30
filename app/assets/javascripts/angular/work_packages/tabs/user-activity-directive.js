@@ -26,18 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.tabs')
-
-.directive('userActivity', [
-    '$uiViewScroll',
-    '$timeout',
-    '$location',
-    'I18n',
-    'PathHelper',
-    'ActivityService',
-    'UsersHelper',
-    'ConfigurationService',
-    function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, ConfigurationService) {
+module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, ConfigurationService) {
   return {
     restrict: 'E',
     replace: true,
@@ -119,4 +108,4 @@ angular.module('openproject.workPackages.tabs')
       }
     }
   };
-}]);
+}

@@ -26,13 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('UserService', [
-  'HALAPIResource',
-  '$http',
-  'PathHelper',
-  function(HALAPIResource, $http, PathHelper) {
+module.exports = function(HALAPIResource, $http, PathHelper) {
 
   var registeredUserIds = [], cachedUsers = {};
 
@@ -66,4 +60,4 @@ angular.module('openproject.services')
   };
 
   return UserService;
-}]);
+}

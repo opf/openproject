@@ -26,23 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('sortingModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'SortingModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/sorting.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('SortingModalController', ['sortingModal',
-  '$scope',
-  '$filter',
-  'QueryService',
-  'I18n',
-  function(sortingModal, $scope, $filter, QueryService, I18n) {
+module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
@@ -141,4 +125,4 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.$watch('sortElements', pruneBlankSortElements, true);
 
-}]);
+}

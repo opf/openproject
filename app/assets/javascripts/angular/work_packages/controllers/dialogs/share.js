@@ -26,25 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('shareModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'ShareModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/share.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('ShareModalController', [
-  '$scope',
-  'shareModal',
-  'QueryService',
-  'AuthorisationService',
-  'queryMenuItemFactory',
-  'PathHelper',
-  function($scope, shareModal, QueryService, AuthorisationService, queryMenuItemFactory, PathHelper) {
+module.exports = function($scope, shareModal, QueryService, AuthorisationService, queryMenuItemFactory, PathHelper) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -83,4 +65,4 @@ angular.module('openproject.workPackages.controllers')
         }
       });
   };
-}]);
+}

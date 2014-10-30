@@ -78,6 +78,64 @@ describe AccountController, :type => :controller do
         end
       end
 
+      describe 'strategy attribute mapping override' do
+        let(:omniauth_strategy) { double('Google Strategy') }
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new(
+            provider: 'google',
+            uid: 'foo',
+            info: { email: 'whattheheck@example.com',
+                    first_name: 'what',
+                    last_name: 'theheck'
+            },
+            extra: { raw_info: {
+              real_uid: 'bar@example.org',
+              first_name: 'foo',
+              last_name: 'bar'
+            } }
+          )
+        end
+
+        before do
+          request.env['omniauth.auth'] = omniauth_hash
+          request.env['omniauth.strategy'] = omniauth_strategy
+        end
+
+        context 'available' do
+          it 'merges the strategy mapping' do
+            allow(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes) do |auth|
+              raw_info = auth[:extra][:raw_info]
+              {
+                login: raw_info[:real_uid],
+                firstname: raw_info[:first_name],
+                lastname: raw_info[:last_name]
+              }
+            end
+
+            expect(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes)
+
+            post :omniauth_login
+
+            user = User.find_by_login('bar@example.org')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('foo')
+            expect(user.lastname).to eql('bar')
+          end
+        end
+
+        context 'unavailable' do
+          it 'keeps the default mapping' do
+
+            post :omniauth_login
+
+            user = User.find_by_login('whattheheck@example.com')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('what')
+            expect(user.lastname).to eql('theheck')
+          end
+        end
+      end
+
       context 'not providing all required fields' do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(

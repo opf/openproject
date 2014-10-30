@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('RoleService', ['$http', 'PathHelper', function($http, PathHelper) {
+module.exports = function($http, PathHelper) {
 
   var RoleService = {
     getRoles: function() {
@@ -46,4 +44,4 @@ angular.module('openproject.services')
   };
 
   return RoleService;
-}]);
+}

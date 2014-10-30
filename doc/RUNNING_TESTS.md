@@ -29,7 +29,75 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Testing OpenProject
 
-## Cucumber
+OpenProject uses automated tests throughout the stack.
+
+## Frontend tests
+
+To run JavaScript frontend tests, first ensure you have all necessary
+dependencies installed via npm (i.e. `npm install`).
+
+You can run all frontend tests with the standard npm command:
+
+    npm test
+
+### Running unit tests with Karma
+
+If you want a single test run, you can use `npm run`:
+
+    npm run karma
+
+By default tests will be run with PhantomJS and Firefox. To start a server or
+for more options, such as another browser, invoke the karma executable directly:
+
+    ./node_modules/karma/bin/karma start
+    ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
+
+### Running end-to-end tests with Protractor
+
+If you want to run all tests with Protractor, you can use `npm run`:
+
+    npm run protractor
+
+This is a wrapper around a [Gulp][gulp] task. You can also:
+
+    gulp tests:protractor
+
+The task takes care of:
+
+  * bundling assets using Webpack.
+  * running an [Express][express] server that serves the frontend application,
+    in addition to mock API endpoints.
+  * running a Selenium Webdriver server.
+
+If you want to follow these steps manually for any reason:
+
+1. Ensure you have the the latest Selenium WebDriver:
+
+        npm install -g protractor
+        webdriver-manager update
+
+2. You can start the frontend application
+
+        gulp express
+
+3. You can then proceed to start both the Selenium server and Protractor:
+
+        webdriver-manager start
+        ./node_modules/protractor/bin/protractor protractor/conf.js
+
+
+## Rails backend and integration tests
+
+### RSpec
+
+You can run the specs with the following commands:
+
+* `bundle exec rake spec` Run all core specs with a random seed
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
+
+TODO: how to run plugins specs.
+
+### Cucumber [DEPRECATED]
 
 The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
@@ -51,7 +119,7 @@ executing scenarios by name, e.g. `"cucumber:all[-n 'Adding an issue link']"`.
 Like with spaces in `cucumber:custom` arguments, task name and arguments
 have to be enclosed in quotation marks.
 
-### Shortcuts
+#### Shortcuts
 
 Here are two bash functions which allow using shorter commands for running
 cucumber features:
@@ -69,7 +137,7 @@ directly in the same process, so this reduces the time until the features are
 running a bit (5-10 seconds) due to the Rails environment only being loaded
 once.
 
-### JavaScript and Firebug
+#### JavaScript and Firebug
 
 To activate selenium as test driver to test javascript on web pages, you can add
 @javascript above the scenario like the following example shows:
@@ -82,31 +150,7 @@ You can always start a debugger using the step "And I start debugging".
 If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
-
-## Running tests with Karma
-
-To run JavaScript tests, first ensure you have Karma and all necessary
-dependencies installed via npm (i.e. `npm install`). If you want a single test
-run, use the standard npm command:
-
-    npm test
-
-By default tests will be run with PhantomJS and Firefox. To start a server or for
-more options (such as another Browsers), invoke the Karma command directly. e.g.
-
-    ./node_modules/karma/bin/karma start
-    ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
-
-## RSpec
-
-You can run the specs with the following commands:
-
-* `bundle exec rake spec` Run all core specs with a random seed
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
-
-TODO: how to run plugins specs.
-
-## Test Unit
+### Test Unit [DEPRECATED]
 
 You can run a single test with the following command:
 
@@ -127,3 +171,6 @@ You let test unit display test names instead of anonymous dots with the followin
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+
+[gulp]:http://gulpjs.com/
+[express]:http://expressjs.com/

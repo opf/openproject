@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackageTotalSums', [
-  'WorkPackageService',
-  function(WorkPackageService) {
+module.exports = function(WorkPackageService) {
 
   return {
     restrict: 'A',
@@ -69,4 +65,4 @@ angular.module('openproject.workPackages.directives')
       }, true);
     }
   };
-}]);
+}

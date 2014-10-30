@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.helpers')
-
-.constant('CUSTOM_FIELD_PREFIX', 'cf_')
-.service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', function(CUSTOM_FIELD_PREFIX, I18n) {
+module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
 
   CustomFieldHelper = {
     isCustomFieldKey: function(key) {
@@ -74,4 +71,4 @@ angular.module('openproject.helpers')
   };
 
   return CustomFieldHelper;
-}]);
+}

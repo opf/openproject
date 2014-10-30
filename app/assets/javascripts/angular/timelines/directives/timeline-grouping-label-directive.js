@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
-
-.directive('timelineGroupingLabel', [function() {
+module.exports = function() {
   return {
     restrict: 'A',
     scope: true,
@@ -39,4 +37,4 @@ angular.module('openproject.timelines.directives')
     }
   };
   // TODO restrict to 'E' once https://github.com/angular/angular.js/issues/1459 is solved
-}]);
+}

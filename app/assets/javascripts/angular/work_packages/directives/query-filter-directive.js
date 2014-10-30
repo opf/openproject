@@ -26,16 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('queryFilter', [
-    'WorkPackageLoadingHelper',
-    'QueryService',
-    'PaginationService',
-    'I18n',
-    '$timeout',
-    '$animate',
-    function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout, $animate) {
+module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout, $animate) {
 
   var updateResultsJob;
 
@@ -103,4 +94,4 @@ angular.module('openproject.workPackages.directives')
       }
     }
   };
-}]);
+}

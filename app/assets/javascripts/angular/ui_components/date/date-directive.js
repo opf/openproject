@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('date', ['TimezoneService', function(TimezoneService) {
+module.exports = function(TimezoneService) {
   return {
     restrict: 'EA',
     replace: true,
@@ -42,34 +39,4 @@ angular.module('openproject.uiComponents')
       }
     }
   };
-}])
-
-.directive('time', ['TimezoneService', function(TimezoneService) {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { timeValue: '=', hideTitle: '@' },
-    template: '<span title="{{ timeTitle }}">{{time}}</span>',
-    link: function(scope, element, attrs) {
-      scope.time = TimezoneService.formattedTime(scope.timeValue);
-      if (!scope.hideTitle) {
-        scope.timeTitle = scope.time;
-      }
-    }
-  };
-}])
-
-.directive('dateTime', function($compile) {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { dateTimeValue: '=' },
-    template: '<span title="{{ date }} {{ time }}"><date date-value="dateTimeValue" hide-title="true"></date> <time time-value="dateTimeValue" hide-title="true"></time></span>',
-    link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
-      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
-
-      $compile(element.contents())(scope);
-    }
-  };
-});
+}
