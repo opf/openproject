@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "ruby '2.1.3'" > Gemfile.local
+echo "ruby '2.1.4'" > Gemfile.local
 
 cp -f packaging/conf/configuration.yml config/configuration.yml
 sed -i "s|config.serve_static_assets = false|config.serve_static_assets = true|" config/environments/production.rb
