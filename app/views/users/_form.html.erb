@@ -84,19 +84,22 @@ See doc/COPYRIGHT.rdoc for more details.
                             "1",
                             assign_random_password_enabled) %>
         </p>
-        <p>
-          <%= f.password_field :password,
-                               :required => true,
-                               :size => 25,
-                               :disabled => assign_random_password_enabled %><br />
-          <%= password_complexity_requirements %>
-        </p>
-        <p>
-          <%= f.password_field :password_confirmation,
-                               :required => true,
-                               :size => 25,
-                               :disabled => assign_random_password_enabled %>
-        </p>
+
+        <% unless OpenProject::Configuration.disable_password_choice? %>
+          <p>
+            <%= f.password_field :password,
+                                 :required => true,
+                                 :size => 25,
+                                 :disabled => assign_random_password_enabled %><br />
+            <%= password_complexity_requirements %>
+          </p>
+          <p>
+            <%= f.password_field :password_confirmation,
+                                 :required => true,
+                                 :size => 25,
+                                 :disabled => assign_random_password_enabled %>
+          </p>
+        <% end %>
         <p>
           <%= f.check_box :force_password_change,
                           :disabled => assign_random_password_enabled %>

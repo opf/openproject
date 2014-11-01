@@ -36,9 +36,21 @@ module OpenProject
       ##
       # Activating this leaves omniauth as the only way to authenticate.
       def disable_password_login?
-        value = self['disable_password_login']
+        true? self['disable_password_login']
+      end
 
-        ['true', true].include? value # former to accommodate ENV
+      ##
+      # If this is true a user's password cannot be chosen when editing a user.
+      # The only way to change the password is to generate a random one which is sent
+      # to the user who then has to change it immediately.
+      def disable_password_choice?
+        true? self['disable_password_choice']
+      end
+
+      private
+
+      def true?(value)
+        ['true', true].include? value # check string to accommodate ENV override
       end
     end
   end
