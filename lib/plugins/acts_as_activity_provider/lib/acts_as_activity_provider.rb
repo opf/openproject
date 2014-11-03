@@ -35,7 +35,7 @@ module Redmine
 
       module ClassMethods
         def acts_as_activity_provider(options = {})
-          unless self.included_modules.include?(Redmine::Acts::ActivityProvider::InstanceMethods)
+          unless included_modules.include?(Redmine::Acts::ActivityProvider::InstanceMethods)
             cattr_accessor :activity_provider_options
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
@@ -45,10 +45,10 @@ module Redmine
 
           # One model can provide different event types
           # We store these options in activity_provider_options hash
-          event_type = options.delete(:type) || self.name.underscore.pluralize
+          event_type = options.delete(:type) || name.underscore.pluralize
 
           options[:activities] = options.delete(:activities) || [:activity]
-          options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
+          options[:permission] = "view_#{name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           self.activity_provider_options[event_type] = options
         end
       end
@@ -86,14 +86,14 @@ module Redmine
         module ClassMethods
           # Returns events of type event_type visible by user that occured between from and to
           def find_events(event_type, user, from, to, options)
-            raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
+            raise "#{name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
             result = []
 
             provider_options = activity_provider_options[event_type].dup
 
             provider_options[:activities].each do |activity|
-              result << find_events_for_class(self.new, activity, provider_options, user, from, to, options)
+              result << find_events_for_class(new, activity, provider_options, user, from, to, options)
             end
 
             result.flatten!
@@ -115,7 +115,6 @@ module Redmine
             query = query.where(journals_table[:created_at].lteq(to)) if to
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
-
 
             provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
 
@@ -171,7 +170,7 @@ module Redmine
             if perm && perm.project_module
               m = Arel::Table.new(:enabled_modules)
               subquery = m.where(m[:name].eq(perm.project_module))
-                          .project(m[:project_id])
+                         .project(m[:project_id])
 
               query = query.where(projects_table[:id].in(subquery))
             end

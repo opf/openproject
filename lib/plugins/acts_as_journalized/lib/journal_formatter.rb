@@ -84,7 +84,7 @@ module JournalFormatter
     hash[klass] = {}
   end
 
-  def render_detail(detail, options = { })
+  def render_detail(detail, options = {})
     merge_options = { no_html: false, only_path: true }.merge(options)
 
     if detail.respond_to? :to_ary
@@ -108,7 +108,7 @@ module JournalFormatter
     # the schema "association_name[n]" or "association_name_[n]" where n is an integer representing an id.
     # Using regexp we are able to handle those fields with the rest.
     formatter_type = data.class.to_s.to_sym
-    formatter = JournalFormatter.registered_fields[formatter_type].keys.detect{ |k| formatter_key.match(k) }
+    formatter = JournalFormatter.registered_fields[formatter_type].keys.detect { |k| formatter_key.match(k) }
 
     return nil if formatter.nil?
 

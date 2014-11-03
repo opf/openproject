@@ -34,7 +34,7 @@ module OpenProject
 
       def add_content(name, footer_element)
         self.content = {} if content.nil?
-        self.content[name] = footer_element
+        content[name] = footer_element
       end
     end
   end

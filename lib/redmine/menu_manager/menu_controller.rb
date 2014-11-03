@@ -33,7 +33,7 @@ module Redmine::MenuManager::MenuController
   end
 
   module ClassMethods
-    @@menu_items = Hash.new {|hash, key| hash[key] = {default: key, actions: {}}}
+    @@menu_items = Hash.new { |hash, key| hash[key] = { default: key, actions: {} } }
     mattr_accessor :menu_items
 
     # Set the menu item name for a controller or specific actions
@@ -47,20 +47,20 @@ module Redmine::MenuManager::MenuController
     def menu_item(id, options = {})
       if actions = options[:only]
         actions = [] << actions unless actions.is_a?(Array)
-        actions.each {|a| menu_items[controller_name.to_sym][:actions][a.to_sym] = id}
+        actions.each { |a| menu_items[controller_name.to_sym][:actions][a.to_sym] = id }
       else
         menu_items[controller_name.to_sym][:default] = id
       end
     end
 
     def current_menu_item(actions = :default, &block)
-      raise ArgumentError "#current_menu_item requires a block" unless block_given?
+      raise ArgumentError '#current_menu_item requires a block' unless block_given?
 
       if actions == :default
         menu_items[controller_name.to_sym][:default] = block
       else
         actions = [] << actions unless actions.is_a?(Array)
-        actions.each {|a| menu_items[controller_name.to_sym][:actions][a.to_sym] = block}
+        actions.each { |a| menu_items[controller_name.to_sym][:actions][a.to_sym] = block }
       end
     end
   end
@@ -74,14 +74,14 @@ module Redmine::MenuManager::MenuController
     return @current_menu_item if @current_menu_item_determined
 
     @current_menu_item = menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
-                             menu_items[controller_name.to_sym][:default]
+                         menu_items[controller_name.to_sym][:default]
 
     @current_menu_item = if @current_menu_item.is_a?(Symbol)
                            @current_menu_item
                          elsif @current_menu_item.is_a?(Proc)
                            @current_menu_item.call(self)
                          else
-                           raise ArgumentError "Invalid"
+                           raise ArgumentError 'Invalid'
                          end
 
     @current_menu_item_determined = true
@@ -92,9 +92,9 @@ module Redmine::MenuManager::MenuController
   # Redirects user to the menu item of the given project
   # Returns false if user is not authorized
   def redirect_to_project_menu_item(project, name)
-    item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name.to_s == name.to_s}
+    item = Redmine::MenuManager.items(:project_menu).detect { |i| i.name.to_s == name.to_s }
     if item && User.current.allowed_to?(item.url, project) && (item.condition.nil? || item.condition.call(project))
-      redirect_to({item.param => project}.merge(item.url))
+      redirect_to({ item.param => project }.merge(item.url))
       return true
     end
     false

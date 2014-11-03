@@ -31,9 +31,9 @@ class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::Princip
     granted = super
 
     granted || if candidate.is_a?(Member)
-                 candidate.roles.any?{ |r| r.allowed_to?(action) }
+                 candidate.roles.any? { |r| r.allowed_to?(action) }
                elsif candidate.is_a?(Role)
-                  candidate.allowed_to?(action)
+                 candidate.allowed_to?(action)
                end
   end
 

@@ -32,17 +32,17 @@ require 'net/pop'
 module Redmine
   module POP3
     class << self
-      def check(pop_options={}, options={})
+      def check(pop_options = {}, options = {})
         host = pop_options[:host] || '127.0.0.1'
         port = pop_options[:port] || '110'
         apop = (pop_options[:apop].to_s == '1')
         delete_unprocessed = (pop_options[:delete_unprocessed].to_s == '1')
 
-        pop = Net::POP3.APOP(apop).new(host,port)
+        pop = Net::POP3.APOP(apop).new(host, port)
         logger.debug "Connecting to #{host}..." if logger && logger.debug?
         pop.start(pop_options[:username], pop_options[:password]) do |pop_session|
           if pop_session.mails.empty?
-            logger.debug "No email to process" if logger && logger.debug?
+            logger.debug 'No email to process' if logger && logger.debug?
           else
             logger.debug "#{pop_session.mails.size} email(s) to process..." if logger && logger.debug?
             pop_session.each_mail do |msg|

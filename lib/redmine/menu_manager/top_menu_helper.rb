@@ -29,9 +29,8 @@
 require 'concerns/omniauth_login'
 
 module Redmine::MenuManager::TopMenuHelper
-
   def render_top_menu_left
-    content_tag :ul, id: "account-nav-left", class: "menu_root account-nav" do
+    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
       [render_main_top_menu_nodes,
        render_projects_top_menu_node,
        render_module_top_menu_node].join.html_safe
@@ -39,8 +38,8 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_right
-    content_tag :ul, id: "account-nav-right", class: "menu_root account-nav" do
-      [ render_help_top_menu_node,
+    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav' do
+      [render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
     end
   end
@@ -48,16 +47,16 @@ module Redmine::MenuManager::TopMenuHelper
   private
 
   def render_projects_top_menu_node
-    return "" if User.current.anonymous? and Setting.login_required?
+    return '' if User.current.anonymous? and Setting.login_required?
 
-    return "" if User.current.anonymous? and User.current.number_of_known_projects.zero?
+    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
     heading = link_to l(:label_project_plural),
                       { controller: '/projects',
                         action: 'index' },
                       title: l(:label_project_plural),
                       accesskey: OpenProject::AccessKeys.key_for(:project_search),
-                      class: "icon5 icon-unit"
+                      class: 'icon5 icon-unit'
 
     if User.current.impaired?
       content_tag :li do
@@ -65,15 +64,15 @@ module Redmine::MenuManager::TopMenuHelper
       end
     else
       render_drop_down_menu_node heading do
-        content_tag :ul, style: "display:none" do
+        content_tag :ul, style: 'display:none' do
           ret = content_tag :li do
-            link_to l(:label_project_view_all), {controller: '/projects',
-                                                action: 'index'},
-                                                class: 'icon4 icon-list-view2'
+            link_to l(:label_project_view_all), { controller: '/projects',
+                                                  action: 'index' },
+                    class: 'icon4 icon-list-view2'
           end
 
-          ret += content_tag :li, id: "project-search-container" do
-            hidden_field_tag("", "", class: 'select2-select')
+          ret += content_tag :li, id: 'project-search-container' do
+            hidden_field_tag('', '', class: 'select2-select')
           end
 
           ret
@@ -133,9 +132,9 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), "#", title: l(:label_modules), class: 'icon5 icon-version'),
+    render_drop_down_menu_node link_to(l(:label_modules), '#', title: l(:label_modules), class: 'icon5 icon-version'),
                                items,
-                               id: "more-menu"
+                               id: 'more-menu'
   end
 
   def render_help_top_menu_node(item = help_menu_item)
@@ -145,7 +144,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_main_top_menu_nodes(items = main_top_menu_items)
     items.collect do |item|
       render_menu_node(item)
-    end.join(" ")
+    end.join(' ')
   end
 
   # Menu items for the main top menu

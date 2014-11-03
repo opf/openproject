@@ -86,8 +86,8 @@ module Redmine::Acts::Journalized
       def prepare_journaled_options_with_creation(options)
         result = prepare_journaled_options_without_creation(options)
 
-        self.vestal_journals_options[:only] = Array(options.delete(:only)).map(&:to_s).uniq if options[:only]
-        self.vestal_journals_options[:except] = Array(options.delete(:except)).map(&:to_s).uniq if options[:except]
+        vestal_journals_options[:only] = Array(options.delete(:only)).map(&:to_s).uniq if options[:only]
+        vestal_journals_options[:except] = Array(options.delete(:except)).map(&:to_s).uniq if options[:except]
 
         result
       end
@@ -108,11 +108,11 @@ module Redmine::Acts::Journalized
 
           # Set the current attributes as initial attributes
           # This works as a fallback if no prior change is found
-          initial_changes[name] = self.send(name)
+          initial_changes[name] = send(name)
 
           # Try to find the real initial values
-          unless self.journals.empty?
-            self.journals[1..-1].each do |journal|
+          unless journals.empty?
+            journals[1..-1].each do |journal|
               unless journal.changed_data[name].nil?
                 # Found the first change in journals
                 # Copy the first value as initial change value
@@ -156,34 +156,35 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Returns an array of column names that should be included in the changes of created
-        # journals. If <tt>vestal_journals_options[:only]</tt> is specified, only those columns
-        # will be journaled. Otherwise, if <tt>vestal_journals_options[:except]</tt> is specified,
-        # all columns will be journaled other than those specified. Without either option, the
-        # default is to journal all columns. At any rate, the four "automagic" timestamp columns
-        # maintained by Rails are never journaled.
-        def journaled_columns
-          case
-          when vestal_journals_options[:only] then self.class.column_names & vestal_journals_options[:only]
-            when vestal_journals_options[:except] then self.class.column_names - vestal_journals_options[:except]
-            else self.class.column_names
-          end - %w(created_at updated_at)
-        end
 
-        # Returns the activity type. Should be overridden in the journalized class to offer
-        # multiple types
-        def activity_type
-          self.class.name.underscore.pluralize
-        end
+      # Returns an array of column names that should be included in the changes of created
+      # journals. If <tt>vestal_journals_options[:only]</tt> is specified, only those columns
+      # will be journaled. Otherwise, if <tt>vestal_journals_options[:except]</tt> is specified,
+      # all columns will be journaled other than those specified. Without either option, the
+      # default is to journal all columns. At any rate, the four "automagic" timestamp columns
+      # maintained by Rails are never journaled.
+      def journaled_columns
+        case
+        when vestal_journals_options[:only] then self.class.column_names & vestal_journals_options[:only]
+          when vestal_journals_options[:except] then self.class.column_names - vestal_journals_options[:except]
+          else self.class.column_names
+        end - %w(created_at updated_at)
+      end
 
-        # Specifies the attributes used during journal creation. This is separated into its own
-        # method so that it can be overridden by the VestalVersions::Users feature.
-        def journal_attributes
-          attributes = { journaled_id: self.id, activity_type: activity_type,
-            changed_data: journal_changes, version: last_version + 1,
-            notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
-          }.merge(extra_journal_attributes || {})
-        end
+      # Returns the activity type. Should be overridden in the journalized class to offer
+      # multiple types
+      def activity_type
+        self.class.name.underscore.pluralize
+      end
+
+      # Specifies the attributes used during journal creation. This is separated into its own
+      # method so that it can be overridden by the VestalVersions::Users feature.
+      def journal_attributes
+        attributes = { journaled_id: id, activity_type: activity_type,
+                       changed_data: journal_changes, version: last_version + 1,
+                       notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
+        }.merge(extra_journal_attributes || {})
+      end
     end
   end
 end

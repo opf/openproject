@@ -34,20 +34,19 @@ module Redmine
   module Scm
     module Adapters
       class FilesystemAdapter < AbstractAdapter
-
         class << self
           def client_available
             true
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil,
-                       path_encoding=nil)
+        def initialize(url, _root_url = nil, _login = nil, _password = nil,
+                       path_encoding = nil)
           @url = with_trailling_slash(url)
           @path_encoding = path_encoding || 'UTF-8'
         end
 
-        def format_path_ends(path, leading=true, trailling=true)
+        def format_path_ends(path, leading = true, trailling = true)
           path = leading ? with_leading_slash(path) :
             without_leading_slash(path)
           trailling ? with_trailling_slash(path) :
@@ -55,15 +54,15 @@ module Redmine
         end
 
         def info
-          info = Info.new({root_url: target(),
-                            lastrev: nil
-                          })
+          info = Info.new(root_url: target,
+                          lastrev: nil
+                          )
           info
         rescue CommandFailed
           return nil
         end
 
-        def entries(path="", identifier=nil)
+        def entries(path = '', _identifier = nil)
           entries = Entries.new
           trgt_utf8 = target(path)
           trgt = scm_encode(@path_encoding, 'UTF-8', trgt_utf8)
@@ -71,25 +70,25 @@ module Redmine
             e_utf8 = scm_encode('UTF-8', @path_encoding, e1)
             next if e_utf8.blank?
             relative_path_utf8 = format_path_ends(
-                (format_path_ends(path,false,true) + e_utf8),false,false)
+                (format_path_ends(path, false, true) + e_utf8), false, false)
             t1_utf8 = target(relative_path_utf8)
             t1 = scm_encode(@path_encoding, 'UTF-8', t1_utf8)
             relative_path = scm_encode(@path_encoding, 'UTF-8', relative_path_utf8)
             e1 = scm_encode(@path_encoding, 'UTF-8', e_utf8)
             if File.exist?(t1) and # paranoid test
-                  %w{file directory}.include?(File.ftype(t1)) and # avoid special types
-                  not File.basename(e1).match(/\A\.+\z/) # avoid . and ..
-              p1         = File.readable?(t1) ? relative_path : ""
+               %w{file directory}.include?(File.ftype(t1)) and # avoid special types
+               not File.basename(e1).match(/\A\.+\z/) # avoid . and ..
+              p1         = File.readable?(t1) ? relative_path : ''
               utf_8_path = scm_encode('UTF-8', @path_encoding, p1)
               entries <<
-                Entry.new({ name: scm_encode('UTF-8', @path_encoding, File.basename(e1)),
+                Entry.new(name: scm_encode('UTF-8', @path_encoding, File.basename(e1)),
                           # below : list unreadable files, but dont link them.
                           path: utf_8_path,
                           kind: (File.directory?(t1) ? 'dir' : 'file'),
                           size: (File.directory?(t1) ? nil : [File.size(t1)].pack('l').unpack('L').first),
                           lastrev:
-                              Revision.new({time: (File.mtime(t1)) })
-                        })
+                              Revision.new(time: (File.mtime(t1)))
+                        )
             end
           end
           entries.sort_by_name
@@ -98,9 +97,9 @@ module Redmine
           raise CommandFailed.new(err.message)
         end
 
-        def cat(path, identifier=nil)
+        def cat(path, _identifier = nil)
           p = scm_encode(@path_encoding, 'UTF-8', target(path))
-          File.new(p, "rb").read
+          File.new(p, 'rb').read
         rescue  => err
           logger.error "scm: filesystem: error: #{err.message}"
           raise CommandFailed.new(err.message)
@@ -110,12 +109,12 @@ module Redmine
 
         # AbstractAdapter::target is implicitly made to quote paths.
         # Here we do not shell-out, so we do not want quotes.
-        def target(path=nil)
+        def target(path = nil)
           # Prevent the use of ..
           if path and !path.match(/(^|\/)\.\.(\/|$)/)
-            return "#{self.url}#{without_leading_slash(path)}"
+            return "#{url}#{without_leading_slash(path)}"
           end
-          return self.url
+          url
         end
       end
     end

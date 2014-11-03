@@ -29,18 +29,17 @@
 
 module Redmine
   module Search
-
     mattr_accessor :available_search_types
 
     @@available_search_types = []
 
     class << self
-      def map(&block)
+      def map(&_block)
         yield self
       end
 
       # Registers a search provider
-      def register(search_type, options={})
+      def register(search_type, _options = {})
         search_type = search_type.to_s
         @@available_search_types << search_type unless @@available_search_types.include?(search_type)
       end
@@ -52,7 +51,7 @@ module Redmine
       end
 
       module ClassMethods
-        @@default_search_scopes = Hash.new {|hash, key| hash[key] = {default: nil, actions: {}}}
+        @@default_search_scopes = Hash.new { |hash, key| hash[key] = { default: nil, actions: {} } }
         mattr_accessor :default_search_scopes
 
         # Set the default search scope for a controller or specific actions
@@ -63,7 +62,7 @@ module Redmine
         def default_search_scope(id, options = {})
           if actions = options[:only]
             actions = [] << actions unless actions.is_a?(Array)
-            actions.each {|a| default_search_scopes[controller_name.to_sym][:actions][a.to_sym] = id.to_s}
+            actions.each { |a| default_search_scopes[controller_name.to_sym][:actions][a.to_sym] = id.to_s }
           else
             default_search_scopes[controller_name.to_sym][:default] = id.to_s
           end

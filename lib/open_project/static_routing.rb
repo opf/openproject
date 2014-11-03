@@ -59,7 +59,7 @@ module OpenProject
 
       def self.host
         host = Setting.host_name
-        host.gsub(/\/.*$/, "") if host # remove path in case it got into the host
+        host.gsub(/\/.*$/, '') if host # remove path in case it got into the host
       end
     end
 

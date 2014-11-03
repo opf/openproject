@@ -41,7 +41,7 @@ module ActiveRecord
         # * <tt>order</tt> - makes it possible to sort the children according to this SQL snippet.
         # * <tt>counter_cache</tt> - keeps a count in a +children_count+ column if set to +true+ (default: +false+).
         def acts_as_tree(options = {})
-          configuration = { foreign_key: "parent_id", dependent: :destroy, order: nil, counter_cache: nil }
+          configuration = { foreign_key: 'parent_id', dependent: :destroy, order: nil, counter_cache: nil }
           configuration.update(options) if options.is_a?(Hash)
 
           belongs_to :parent, class_name: name, foreign_key: configuration[:foreign_key], counter_cache: configuration[:counter_cache]
@@ -51,11 +51,11 @@ module ActiveRecord
             include ActiveRecord::Acts::Tree::InstanceMethods
 
             def self.roots
-              find(:all, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? "nil" : %Q{"#{configuration[:order]}"}})
+              find(:all, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
             end
 
             def self.root
-              find(:first, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? "nil" : %Q{"#{configuration[:order]}"}})
+              find(:first, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
             end
           EOV
         end

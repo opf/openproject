@@ -30,7 +30,6 @@ module API
   module V3
     module WorkPackages
       class WorkPackagesAPI < Grape::API
-
         resources :work_packages do
 
           params do
@@ -75,7 +74,7 @@ module API
                 def save_work_package(work_package)
                   if work_package.save
                     model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user })
+                    representer = ::API::V3::Activities::ActivityRepresenter.new(model,  current_user: current_user)
 
                     representer
                   else
@@ -134,7 +133,6 @@ module API
           end
 
         end
-
       end
     end
   end

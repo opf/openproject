@@ -32,7 +32,6 @@ module API
   module V3
     module Queries
       class QueriesAPI < Grape::API
-
         resources :queries do
 
           params do
@@ -79,7 +78,6 @@ module API
           end
 
         end
-
       end
     end
   end

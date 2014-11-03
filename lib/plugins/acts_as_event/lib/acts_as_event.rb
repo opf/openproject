@@ -35,14 +35,14 @@ module Redmine
 
       module ClassMethods
         def acts_as_event(options = {})
-          return if self.included_modules.include?(Redmine::Acts::Event::InstanceMethods)
+          return if included_modules.include?(Redmine::Acts::Event::InstanceMethods)
           default_options = { datetime: :created_at,
                               title: :title,
                               description: :description,
                               author: :author,
-                              url: {controller: '/welcome'},
-                              name: Proc.new { ::I18n.t(self.name.underscore, scope: 'events') },
-                              type: self.name.underscore.dasherize }
+                              url: { controller: '/welcome' },
+                              name: Proc.new { ::I18n.t(name.underscore, scope: 'events') },
+                              type: name.underscore.dasherize }
 
           cattr_accessor :event_options
           self.event_options = default_options.merge(options)
@@ -96,7 +96,7 @@ module Redmine
         def recipients
           notified = []
           notified = project.notified_users if project
-          notified.reject! {|user| !visible?(user)}
+          notified.reject! { |user| !visible?(user) }
           notified.collect(&:mail)
         end
 

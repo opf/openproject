@@ -51,8 +51,8 @@ module Redmine
         #   options:
         #     route_prefix: overrides the route calculation which would normally use the models name.
 
-        def acts_as_watchable(options = {})
-          return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
+        def acts_as_watchable(_options = {})
+          return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
             has_many :watchers, as: :watchable, dependent: :delete_all
             has_many :watcher_users, through: :watchers, source: :user, validate: false
@@ -97,25 +97,25 @@ module Redmine
 
         # Returns an array of users that are proposed as watchers
         def addable_watcher_users
-          possible_watcher_users - self.watcher_users
+          possible_watcher_users - watcher_users
         end
 
         # Adds user as a watcher
         def add_watcher(user)
-          self.watchers << Watcher.new(user: user, watchable: self)
+          watchers << Watcher.new(user: user, watchable: self)
         end
 
         # Removes user from the watchers list
         def remove_watcher(user)
           return nil unless user && user.is_a?(User)
-          watchers_to_delete = self.watchers.find_all{|watcher| watcher.user == user}
+          watchers_to_delete = watchers.find_all { |watcher| watcher.user == user }
           watchers_to_delete.each(&:delete)
-          self.watchers(true)
+          watchers(true)
           watchers_to_delete.count
         end
 
         # Adds/removes watcher
-        def set_watcher(user, watching=true)
+        def set_watcher(user, watching = true)
           watching ? add_watcher(user) : remove_watcher(user)
         end
 
@@ -130,14 +130,14 @@ module Redmine
         # Returns true if object is watched by +user+
         def watched_by?(user)
           !!(user &&
-             (self.watchers.loaded? && self.watchers.map(&:user_id).any?{ |uid| uid == user.id } ||
-              self.watcher_user_ids.any?{|uid| uid == user.id }))
+             (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
+              watcher_user_ids.any? { |uid| uid == user.id }))
         end
 
         # Returns an array of watchers' email addresses
         def watcher_recipients
           notified = watcher_users.active.where(['mail_notification != ?', 'none'])
-          notified.select! {|user| possible_watcher?(user)}
+          notified.select! { |user| possible_watcher?(user) }
 
           notified.collect(&:mail).compact
         end

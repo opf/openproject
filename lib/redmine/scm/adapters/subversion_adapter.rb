@@ -34,9 +34,8 @@ module Redmine
   module Scm
     module Adapters
       class SubversionAdapter < AbstractAdapter
-
         # SVN executable name
-        SVN_BIN = OpenProject::Configuration['scm_subversion_command'] || "svn"
+        SVN_BIN = OpenProject::Configuration['scm_subversion_command'] || 'svn'
 
         class << self
           def client_command
@@ -82,14 +81,14 @@ module Redmine
             end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
-              #root_url = doc.elements["info/entry/repository/root"].text
-              info = Info.new({root_url: doc['info']['entry']['repository']['root']['__content__'],
-                               lastrev: Revision.new({
+              # root_url = doc.elements["info/entry/repository/root"].text
+              info = Info.new(root_url: doc['info']['entry']['repository']['root']['__content__'],
+                              lastrev: Revision.new(
                                  identifier: doc['info']['entry']['commit']['revision'],
                                  time: Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
-                                 author: (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
-                               })
-                             })
+                                 author: (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : '')
+                               )
+                             )
             rescue
             end
           end
@@ -101,9 +100,9 @@ module Redmine
 
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
-        def entries(path=nil, identifier=nil)
+        def entries(path = nil, identifier = nil)
           path ||= ''
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
           entries = Entries.new
           cmd = "#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
@@ -121,18 +120,18 @@ module Redmine
                 # means that we don't have read access to it)
                 next if entry['kind'] == 'dir' && commit_date.nil?
                 name = entry['name']['__content__']
-                entries << Entry.new({name: URI.unescape(name),
-                            path: ((path.empty? ? "" : "#{path}/") + name),
-                            kind: entry['kind'],
-                            size: ((s = entry['size']) ? s['__content__'].to_i : nil),
-                            lastrev: Revision.new({
+                entries << Entry.new(name: URI.unescape(name),
+                                     path: ((path.empty? ? '' : "#{path}/") + name),
+                                     kind: entry['kind'],
+                                     size: ((s = entry['size']) ? s['__content__'].to_i : nil),
+                                     lastrev: Revision.new(
                               identifier: commit['revision'],
                               time: Time.parse(commit_date['__content__'].to_s).localtime,
                               author: ((a = commit['author']) ? a['__content__'] : nil)
-                              })
-                            })
+                              )
+                            )
               end
-            rescue Exception => e
+            rescue => e
               logger.error("Error parsing svn output: #{e.message}")
               logger.error("Output was:\n #{output}")
             end
@@ -142,11 +141,11 @@ module Redmine
           entries.sort_by_name
         end
 
-        def properties(path, identifier=nil)
+        def properties(path, identifier = nil)
           # proplist xml output supported in svn 1.5.0 and higher
           return nil unless self.class.client_version_above?([1, 5, 0])
 
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
           cmd = "#{self.class.sq_bin} proplist --verbose --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           properties = {}
@@ -158,7 +157,7 @@ module Redmine
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
-                properties[ property['name'] ] = property['__content__'].to_s
+                properties[property['name']] = property['__content__'].to_s
               end
             rescue
             end
@@ -167,14 +166,14 @@ module Redmine
           properties
         end
 
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
+        def revisions(path = nil, identifier_from = nil, identifier_to = nil, options = {})
           path ||= ''
-          identifier_from = (identifier_from && identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
+          identifier_from = (identifier_from && identifier_from.to_i > 0) ? identifier_from.to_i : 'HEAD'
           identifier_to = (identifier_to && identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
           cmd = "#{self.class.sq_bin} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
-          cmd << " --verbose " if  options[:with_paths]
+          cmd << ' --verbose ' if  options[:with_paths]
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
           cmd << ' ' + target(path)
           shellout(cmd) do |io|
@@ -187,20 +186,20 @@ module Redmine
               each_xml_element(doc['log'], 'logentry') do |logentry|
                 paths = []
                 each_xml_element(logentry['paths'], 'path') do |path|
-                  paths << {action: path['action'],
-                            path: path['__content__'],
-                            from_path: path['copyfrom-path'],
-                            from_revision: path['copyfrom-rev']
+                  paths << { action: path['action'],
+                             path: path['__content__'],
+                             from_path: path['copyfrom-path'],
+                             from_revision: path['copyfrom-rev']
                             }
                 end if logentry['paths'] && logentry['paths']['path']
-                paths.sort! { |x,y| x[:path] <=> y[:path] }
+                paths.sort! { |x, y| x[:path] <=> y[:path] }
 
-                revisions << Revision.new({identifier: logentry['revision'],
-                              author: (logentry['author'] ? logentry['author']['__content__'] : ""),
-                              time: Time.parse(logentry['date']['__content__'].to_s).localtime,
-                              message: logentry['msg']['__content__'],
-                              paths: paths
-                            })
+                revisions << Revision.new(identifier: logentry['revision'],
+                                          author: (logentry['author'] ? logentry['author']['__content__'] : ''),
+                                          time: Time.parse(logentry['date']['__content__'].to_s).localtime,
+                                          message: logentry['msg']['__content__'],
+                                          paths: paths
+                            )
               end
             rescue
             end
@@ -209,7 +208,7 @@ module Redmine
           revisions
         end
 
-        def diff(path, identifier_from, identifier_to=nil, type="inline")
+        def diff(path, identifier_from, identifier_to = nil, _type = 'inline')
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
 
@@ -230,8 +229,8 @@ module Redmine
           diff
         end
 
-        def cat(path, identifier=nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+        def cat(path, identifier = nil)
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
           cmd = "#{self.class.sq_bin} cat #{target(path)}@#{identifier}"
           cmd << credentials_string
           cat = nil
@@ -243,8 +242,8 @@ module Redmine
           cat
         end
 
-        def annotate(path, identifier=nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+        def annotate(path, identifier = nil)
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
           cmd = "#{self.class.sq_bin} blame #{target(path)}@#{identifier}"
           cmd << credentials_string
           blame = Annotate.new
@@ -264,7 +263,7 @@ module Redmine
           str = ''
           str << " --username #{shell_quote(@login)}" unless @login.blank?
           str << " --password #{shell_quote(@password)}" unless @login.blank? || @password.blank?
-          str << " --no-auth-cache --non-interactive"
+          str << ' --no-auth-cache --non-interactive'
           str
         end
 

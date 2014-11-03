@@ -64,7 +64,6 @@ module API
         property :assigned_to_id,   type: Integer
         property :fixed_version_id, type: Integer
 
-
         def description
           format_text(model, :description)
         end
@@ -140,24 +139,24 @@ module API
         end
 
         def activities
-          model.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
+          model.journals.map { |journal| ::API::V3::Activities::ActivityModel.new(journal) }
         end
 
         def attachments
           model.attachments
-            .map{ |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
+            .map { |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
         end
 
         def watchers
           model.watcher_users
             .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-            .map{ |u| ::API::V3::Users::UserModel.new(u) }
+            .map { |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         def relations
           relations = model.relations
           visible_relations = relations.find_all { |relation| relation.other_work_package(model).visible? }
-          visible_relations.map{ |relation| RelationModel.new(relation) }
+          visible_relations.map { |relation| RelationModel.new(relation) }
         end
 
         def is_closed

@@ -30,7 +30,6 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
   # unloadable
 
   def render(key, values, options = { no_html: false })
-
     label, old_value, value = format_details(key, values, options)
 
     unless options[:no_html]
@@ -51,7 +50,7 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
   end
 
   def format_values(values, key, options)
-    field = key.to_s.gsub(/\_id\z/, "").to_sym
+    field = key.to_s.gsub(/\_id\z/, '').to_sym
     klass = class_from_field(field)
 
     values.map do |value|

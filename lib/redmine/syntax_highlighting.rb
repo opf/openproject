@@ -29,7 +29,6 @@
 
 module Redmine
   module SyntaxHighlighting
-
     class << self
       attr_reader :highlighter
       delegate :highlight_by_filename, :highlight_by_language, to: :highlighter

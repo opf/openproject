@@ -82,7 +82,7 @@ module OpenProject::Concerns::Preview
 
     attachments = previewed_object_attachments(obj)
 
-    return texts, attachments, obj
+    [texts, attachments, obj]
   end
 
   private

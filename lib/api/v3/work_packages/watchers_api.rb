@@ -30,7 +30,6 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < Grape::API
-
         get '/available_watchers' do
           available_watchers = @work_package.possible_watcher_users
           build_representer(
@@ -56,7 +55,7 @@ module API
             user = User.find params[:user_id]
 
             Services::CreateWatcher.new(@work_package, user).run(
-              -> (result) { status(200) unless result[:created]},
+              -> (result) { status(200) unless result[:created] },
               -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
             )
 

@@ -80,7 +80,7 @@ module Redmine::Acts::Journalized
 
       condition = (from_number == to_number) ? to_number : Range.new(*[from_number, to_number].sort)
       all(
-        conditions: {version: condition},
+        conditions: { version: condition },
         order: "#{Journal.table_name}.version #{(from_number > to_number) ? 'DESC' : 'ASC'}"
       )
     end

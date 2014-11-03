@@ -43,12 +43,11 @@ class ScenarioDisabler
   end
 
   def self.disabled?(scenario)
-    #we have to check whether the scenario actually has a feature because there can also be scenario outlines
-    #as described in https://github.com/cucumber/cucumber/wiki/Scenario-Outlines and the variables definition is
-    #also matched as a scenario
+    # we have to check whether the scenario actually has a feature because there can also be scenario outlines
+    # as described in https://github.com/cucumber/cucumber/wiki/Scenario-Outlines and the variables definition is
+    # also matched as a scenario
     @disabled_scenarios.present? && scenario.respond_to?(:feature) && @disabled_scenarios.any? do |disabled_scenario|
       disabled_scenario[:feature] == scenario.feature.name && disabled_scenario[:scenario] == scenario.name
     end
   end
-
 end

@@ -41,51 +41,47 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the first child in
   # the current list of children for the receiver node.
   def prepend(child)
-    raise "Child already added" if @children_hash.has_key?(child.name)
+    raise 'Child already added' if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children = [child] + @children
     child.parent = self
-    return child
-
+    child
   end
 
   # Adds the specified child node to the receiver node.  The child node's
   # parent is set to be the receiver.  The child is added at the position
   # into the current list of children for the receiver node.
   def add_at(child, position)
-    raise "Child already added" if @children_hash.has_key?(child.name)
+    raise 'Child already added' if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children = @children.insert(position, child)
     child.parent = self
-    return child
-
+    child
   end
 
   def add_last(child)
-    raise "Child already added" if @children_hash.has_key?(child.name)
+    raise 'Child already added' if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children <<  child
     @last_items_count += 1
     child.parent = self
-    return child
-
+    child
   end
 
   # Adds the specified child node to the receiver node.  The child node's
   # parent is set to be the receiver.  The child is added as the last child in
   # the current list of children for the receiver node.
   def add(child)
-    raise "Child already added" if @children_hash.has_key?(child.name)
+    raise 'Child already added' if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     position = @children.size - @last_items_count
     @children.insert(position, child)
     child.parent = self
-    return child
-
+    child
   end
 
   # Wrapp remove! making sure to decrement the last_items counter if
@@ -95,10 +91,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
     super
   end
 
-
   # Will return the position (zero-based) of the current child in
   # it's parent
   def position
-    self.parent.children.index(self)
+    parent.children.index(self)
   end
 end

@@ -29,7 +29,6 @@
 
 module Redmine
   class Notifiable < Struct.new(:name, :parent)
-
     def to_s
       name
     end

@@ -27,14 +27,14 @@
 #++
 
 #-- encoding: UTF-8
-$LOAD_PATH.unshift File.expand_path("../lib/", __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib/', __FILE__)
 
-require "acts_as_journalized"
+require 'acts_as_journalized'
 ActiveRecord::Base.send(:include, Redmine::Acts::Journalized)
 
 Rails.configuration.to_prepare do
   # Model
-  require "journal"
+  require 'journal'
 
   # this is for compatibility with current trunk
   # once the plugin is part of the core, this will not be needed

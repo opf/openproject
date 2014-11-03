@@ -50,17 +50,17 @@ module Redmine
       end
     end
 
-    def l_or_humanize(s, options={})
+    def l_or_humanize(s, options = {})
       k = "#{options[:prefix]}#{s}".to_sym
       ::I18n.t(k, default: s.to_s.humanize)
     end
 
     def l_hours(hours)
       hours = hours.to_f
-      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), value: ("%.2f" % hours.to_f))
+      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), value: ('%.2f' % hours.to_f))
     end
 
-    def ll(lang, str, value=nil)
+    def ll(lang, str, value = nil)
       ::I18n.t(str.to_s, value: value, locale: lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
@@ -76,7 +76,7 @@ module Redmine
       return nil unless time
       zone = User.current.time_zone
       local_date = (zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)).to_date
-      return local_date.strftime(format)
+      local_date.strftime(format)
     end
 
     def format_time(time, include_date = true)
@@ -84,7 +84,7 @@ module Redmine
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.to_time.localtime : time)
-      (include_date ? "#{format_date(local)} " : "") +
+      (include_date ? "#{format_date(local)} " : '') +
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
@@ -103,14 +103,14 @@ module Redmine
     def all_languages
       @@all_languages ||= begin
         Dir.glob(Rails.root.join('config/locales/*.yml'))
-          .map { |f| File.basename(f).split('.').first }
-          .reject! { |l| /\Ajs-/.match(l.to_s) }
-          .map(&:to_sym)
+        .map { |f| File.basename(f).split('.').first }
+        .reject! { |l| /\Ajs-/.match(l.to_s) }
+        .map(&:to_sym)
       end
     end
 
     def find_language(lang)
-      @@languages_lookup = valid_languages.inject({}) {|k, v| k[v.to_s.downcase] = v; k }
+      @@languages_lookup = valid_languages.inject({}) { |k, v| k[v.to_s.downcase] = v; k }
       @@languages_lookup[lang.to_s.downcase]
     end
 
@@ -129,7 +129,7 @@ module Redmine
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= (
         general_attributes = ::I18n.t('attributes', locale: locale)
-        ::I18n.t("activerecord.attributes", locale: locale).inject(general_attributes) do |attr_t, model_t|
+        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
         end)
       @cached_attribute_translations[locale]

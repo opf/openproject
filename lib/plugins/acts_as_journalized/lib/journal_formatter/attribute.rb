@@ -40,6 +40,6 @@ class JournalFormatter::Attribute < JournalFormatter::Base
   end
 
   def format_values(values)
-    values.map{ |v| v.try(:to_s) }
+    values.map { |v| v.try(:to_s) }
   end
 end

@@ -38,7 +38,7 @@ module Redmine
       class AbstractAdapter #:nodoc:
         class << self
           def client_command
-            ""
+            ''
           end
 
           # Returns the version of the scm client
@@ -58,7 +58,7 @@ module Redmine
           # or equals the given one
           # If option is :unknown is set to true, it will return
           # true if the client version is unknown
-          def client_version_above?(v, options={})
+          def client_version_above?(v, options = {})
             ((client_version <=> v) >= 0) || (client_version.empty? && options[:unknown])
           end
 
@@ -75,11 +75,11 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil,
-                       path_encoding=nil)
+        def initialize(url, root_url = nil, login = nil, password = nil,
+                       _path_encoding = nil)
           @url = url
           @login = login if login && !login.empty?
-          @password = (password || "") if @login
+          @password = (password || '') if @login
           @root_url = root_url.blank? ? retrieve_root_url : root_url
         end
 
@@ -105,13 +105,13 @@ module Redmine
 
         # get info about the svn repository
         def info
-          return nil
+          nil
         end
 
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
-        def entry(path=nil, identifier=nil)
-          parts = path.to_s.split(%r{[\/\\]}).select {|n| !n.blank?}
+        def entry(path = nil, identifier = nil)
+          parts = path.to_s.split(%r{[\/\\]}).select { |n| !n.blank? }
           search_path = parts[0..-2].join('/')
           search_name = parts[-1]
           if search_path.blank? && search_name.blank?
@@ -120,52 +120,52 @@ module Redmine
           else
             # Search for the entry in the parent directory
             es = entries(search_path, identifier)
-            es ? es.detect {|e| e.name == search_name} : nil
+            es ? es.detect { |e| e.name == search_name } : nil
           end
         end
 
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
-        def entries(path=nil, identifier=nil)
-          return nil
+        def entries(_path = nil, _identifier = nil)
+          nil
         end
 
         def branches
-          return nil
+          nil
         end
 
         def tags
-          return nil
+          nil
         end
 
         def default_branch
-          return nil
+          nil
         end
 
-        def properties(path, identifier=nil)
-          return nil
+        def properties(_path, _identifier = nil)
+          nil
         end
 
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
-          return nil
+        def revisions(_path = nil, _identifier_from = nil, _identifier_to = nil, _options = {})
+          nil
         end
 
-        def diff(path, identifier_from, identifier_to=nil)
-          return nil
+        def diff(_path, _identifier_from, _identifier_to = nil)
+          nil
         end
 
-        def cat(path, identifier=nil)
-          return nil
+        def cat(_path, _identifier = nil)
+          nil
         end
 
         def with_leading_slash(path)
           path ||= ''
-          (path[0,1]!="/") ? "/#{path}" : path
+          (path[0, 1] != '/') ? "/#{path}" : path
         end
 
         def with_trailling_slash(path)
           path ||= ''
-          (path[-1,1] == "/") ? path : "#{path}/"
+          (path[-1, 1] == '/') ? path : "#{path}/"
         end
 
         def without_leading_slash(path)
@@ -175,14 +175,15 @@ module Redmine
 
         def without_trailling_slash(path)
           path ||= ''
-          (path[-1,1] == "/") ? path[0..-2] : path
+          (path[-1, 1] == '/') ? path[0..-2] : path
         end
 
         def shell_quote(str)
           self.class.shell_quote(str)
         end
 
-      private
+        private
+
         def retrieve_root_url
           info = self.info
           info ? info.root_url : nil
@@ -214,9 +215,9 @@ module Redmine
           end
           begin
             if RUBY_VERSION < '1.9'
-              mode = "r+"
+              mode = 'r+'
             else
-              mode = "r+:ASCII-8BIT"
+              mode = 'r+:ASCII-8BIT'
             end
             IO.popen(cmd, mode) do |io|
               io.close_write
@@ -254,7 +255,7 @@ module Redmine
 
       class Entries < Array
         def sort_by_name
-          sort {|x,y|
+          sort {|x, y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
@@ -264,13 +265,13 @@ module Redmine
         end
 
         def revisions
-          revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
+          revisions ||= Revisions.new(collect(&:lastrev).compact)
         end
       end
 
       class Info
         attr_accessor :root_url, :lastrev
-        def initialize(attributes={})
+        def initialize(attributes = {})
           self.root_url = attributes[:root_url] if attributes[:root_url]
           self.lastrev = attributes[:lastrev]
         end
@@ -278,7 +279,7 @@ module Redmine
 
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
-        def initialize(attributes={})
+        def initialize(attributes = {})
           self.name = attributes[:name] if attributes[:name]
           self.path = attributes[:path] if attributes[:path]
           self.kind = attributes[:kind] if attributes[:kind]
@@ -287,11 +288,11 @@ module Redmine
         end
 
         def is_file?
-          'file' == self.kind
+          'file' == kind
         end
 
         def is_dir?
-          'dir' == self.kind
+          'dir' == kind
         end
 
         def is_text?
@@ -301,7 +302,7 @@ module Redmine
 
       class Revisions < Array
         def latest
-          sort {|x,y|
+          sort {|x, y|
             unless x.time.nil? or y.time.nil?
               x.time <=> y.time
             else
@@ -315,13 +316,13 @@ module Redmine
         attr_accessor :scmid, :name, :author, :time, :message, :paths, :revision, :branch
         attr_writer :identifier
 
-        def initialize(attributes={})
+        def initialize(attributes = {})
           self.identifier = attributes[:identifier]
           self.scmid = attributes[:scmid]
-          self.name = attributes[:name] || self.identifier
+          self.name = attributes[:name] || identifier
           self.author = attributes[:author]
           self.time = attributes[:time]
-          self.message = attributes[:message] || ""
+          self.message = attributes[:message] || ''
           self.paths = attributes[:paths]
           self.revision = attributes[:revision]
           self.branch = attributes[:branch]

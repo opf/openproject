@@ -28,14 +28,12 @@
 #++
 
 module ChiliProject
-
   # This module provides some information about the currently used database
   # adapter. It can be used to write code specific to certain database
   # vendors which, while not not encouraged, is sometimes necessary due to
   # syntax differences.
 
   module Database
-
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
@@ -54,8 +52,8 @@ module ChiliProject
 
     # returns the identifier of the currently used database type
     def self.name
-      supported_adapters.find(proc{ [:unknown, //] }) { |adapter, regex|
-        self.adapter_name =~ regex
+      supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
+        adapter_name =~ regex
       }[0]
     end
 
@@ -63,7 +61,7 @@ module ChiliProject
     # ChiliProject::Database.mysql? returns true, if we have a MySQL DB
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
-        define_method(:"#{adapter.to_s}?"){ send(:name) == adapter }
+        define_method(:"#{adapter.to_s}?") { send(:name) == adapter }
       end
     end
 
@@ -71,7 +69,7 @@ module ChiliProject
     # Set the +raw+ argument to true to return the unmangled string
     # from the database.
     def self.version(raw = false)
-      case self.name
+      case name
       when :mysql
         version = ActiveRecord::Base.connection.select_value('SELECT VERSION()')
       when :postgresql
@@ -89,6 +87,5 @@ module ChiliProject
         end
       end
     end
-
   end
 end

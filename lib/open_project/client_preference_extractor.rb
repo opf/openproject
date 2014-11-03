@@ -42,7 +42,7 @@ module OpenProject
       }
     end
 
-    def user_preferences(user=User.current)
+    def user_preferences(user = User.current)
       pref = user.pref.clone
 
       map_timezone_to_tz!(pref)

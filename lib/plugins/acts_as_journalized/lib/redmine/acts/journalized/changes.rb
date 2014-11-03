@@ -100,34 +100,35 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Before a new journal is created, the newly-changed attributes are appended onto a hash
-        # of previously-changed attributes. Typically the previous changes will be empty, except in
-        # the case that a control block is used where journals are to be merged. See
-        # VestalVersions::Control for more information.
-        def merge_journal_changes
-          journal_changes.append_changes!(incremental_journal_changes)
-        end
 
-        # Stores the cumulative changes that are eventually used for journal creation.
-        def journal_changes
-          @journal_changes ||= {}
-        end
+      # Before a new journal is created, the newly-changed attributes are appended onto a hash
+      # of previously-changed attributes. Typically the previous changes will be empty, except in
+      # the case that a control block is used where journals are to be merged. See
+      # VestalVersions::Control for more information.
+      def merge_journal_changes
+        journal_changes.append_changes!(incremental_journal_changes)
+      end
 
-        # Stores the incremental changes that are appended to the cumulative changes before journal
-        # creation. Incremental changes are reset when the record is saved because they represent
-        # a subset of the dirty attribute changes, which are reset upon save.
-        def incremental_journal_changes
-          changed.inject({}) do |h, attr|
-            h[attr] = attribute_change(attr) unless !attribute_change(attr).nil? &&
-              attribute_change(attr)[0].blank? && attribute_change(attr)[1].blank?
-            h
-          end.slice(*journaled_columns)
-        end
+      # Stores the cumulative changes that are eventually used for journal creation.
+      def journal_changes
+        @journal_changes ||= {}
+      end
 
-        # Simply resets the cumulative changes after journal creation.
-        def reset_journal_changes
-          @journal_changes = nil
-        end
+      # Stores the incremental changes that are appended to the cumulative changes before journal
+      # creation. Incremental changes are reset when the record is saved because they represent
+      # a subset of the dirty attribute changes, which are reset upon save.
+      def incremental_journal_changes
+        changed.inject({}) do |h, attr|
+          h[attr] = attribute_change(attr) unless !attribute_change(attr).nil? &&
+                                                  attribute_change(attr)[0].blank? && attribute_change(attr)[1].blank?
+          h
+        end.slice(*journaled_columns)
+      end
+
+      # Simply resets the cumulative changes after journal creation.
+      def reset_journal_changes
+        @journal_changes = nil
+      end
     end
 
     # Instance methods included into Hash for dealing with manipulation of hashes in the specific
@@ -158,7 +159,7 @@ module Redmine::Acts::Journalized
         changes.inject(self) do |new_changes, (attribute, change)|
           new_change = [new_changes.fetch(attribute, change).first, change.last]
           new_changes.merge(attribute => new_change)
-        end.reject do |attribute, change|
+        end.reject do |_attribute, change|
           change.first == change.last
         end
       end
@@ -183,7 +184,7 @@ module Redmine::Acts::Journalized
       # Reverses the array values of a hash of changes. Useful for rejournal both backward and
       # forward through a record's history of changes.
       def reverse_changes
-        inject({}){|nc,(a,c)| nc.merge!(a => c.reverse) }
+        inject({}) { |nc, (a, c)| nc.merge!(a => c.reverse) }
       end
 
       # Destructively reverses the array values of a hash of changes.

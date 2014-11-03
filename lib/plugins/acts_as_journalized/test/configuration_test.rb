@@ -54,7 +54,7 @@ class ConfigurationTest < Test::Unit::TestCase
     end
 
     should 'have symbol keys' do
-      assert @configuration.keys.all?{|k| k.is_a?(Symbol) }
+      assert @configuration.keys.all? { |k| k.is_a?(Symbol) }
     end
 
     should 'store values identical to those given' do

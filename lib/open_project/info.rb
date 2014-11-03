@@ -31,10 +31,13 @@ module OpenProject
   module Info
     class << self
       def app_name; Setting.software_name end
+
       def url; Setting.software_url end
+
       def help_url
-        "https://www.openproject.org/support"
+        'https://www.openproject.org/support'
       end
+
       def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end
 
       # Creates the url string to a specific Redmine issue

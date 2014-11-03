@@ -47,7 +47,7 @@ module Redmine
           EOF
         end
 
-        def initial_page_content(page)
+        def initial_page_content(_page)
           "h1. #{@page.pretty_title}"
         end
 

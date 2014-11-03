@@ -41,33 +41,33 @@ module Redmine
 
         def initialize(*args)
           super
-          self.hard_breaks=true
-          self.no_span_caps=true
-          self.filter_styles=true
+          self.hard_breaks = true
+          self.no_span_caps = true
+          self.filter_styles = true
         end
 
-        def to_html(*rules)
+        def to_html(*_rules)
           @toc = []
           super(*RULES).to_s
         end
 
-      private
+        private
 
         # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
         # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
-        def hard_break( text )
-          text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
+        def hard_break(text)
+          text.gsub!(/(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, '\\1<br />') if hard_breaks
         end
 
         # Patch to add code highlighting support to RedCloth
-        def smooth_offtags( text )
+        def smooth_offtags(text)
           unless @pre_list.empty?
             ## replace <pre> content
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
               if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
                 content = "<code class=\"#{$1} syntaxhl\">" +
-                  Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
+                          Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
               end
               content
             end
@@ -105,11 +105,11 @@ module Redmine
             else
               # Idea below : an URL with unbalanced parethesis and
               # ending by ')' is put into external parenthesis
-              if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
-                url=url[0..-2] # discard closing parenth from url
-                post = ")"+post # add closing parenth to post
+              if  url[-1] == ?) and ((url.count('(') - url.count(')')) < 0)
+                url = url[0..-2] # discard closing parenth from url
+                post = ')' + post # add closing parenth to post
               end
-              tag = content_tag('a', proto + url, href: "#{proto=="www."?"http://www.":proto}#{url}", class: 'external')
+              tag = content_tag('a', proto + url, href: "#{proto == 'www.' ? 'http://www.' : proto}#{url}", class: 'external')
               %(#{leading}#{tag}#{post})
             end
           end
@@ -122,7 +122,7 @@ module Redmine
             if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
               mail
             else
-              content_tag('a', mail, href: "mailto:#{mail}", class: "email")
+              content_tag('a', mail, href: "mailto:#{mail}", class: 'email')
             end
           end
         end

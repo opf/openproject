@@ -36,7 +36,7 @@ module Redmine
 
     attr_accessor :name, :order, :label, :edit_as, :class_names
 
-    def initialize(name, options={})
+    def initialize(name, options = {})
       self.name = name
       self.label = options[:label]
       self.order = options[:order]
@@ -49,14 +49,13 @@ module Redmine
     end
 
     def format_as_date(value)
-      begin; format_date(value.to_date); rescue; value end
-    end
+      format_date(value.to_date); rescue; value     end
 
     def format_as_bool(value)
-      l(value == "1" ? :general_text_Yes : :general_text_No)
+      l(value == '1' ? :general_text_Yes : :general_text_No)
     end
 
-    ['string','text','int','float','list'].each do |name|
+    ['string', 'text', 'int', 'float', 'list'].each do |name|
       define_method("format_as_#{name}") {|value|
         return value
       }
@@ -64,17 +63,17 @@ module Redmine
 
     ['user', 'version'].each do |name|
       define_method("format_as_#{name}") {|value|
-        return value.blank? ? "" : name.classify.constantize.find_by_id(value.to_i).to_s
+        return value.blank? ? '' : name.classify.constantize.find_by_id(value.to_i).to_s
       }
     end
 
     class << self
-      def map(&block)
+      def map(&_block)
         yield self
       end
 
       # Registers a custom field format
-      def register(custom_field_format, options={})
+      def register(custom_field_format, _options = {})
         @@available[custom_field_format.name] = custom_field_format unless @@available.keys.include?(custom_field_format.name)
       end
 
@@ -92,18 +91,18 @@ module Redmine
       end
 
       # Return an array of custom field formats which can be used in select_tag
-      def as_select(class_name=nil)
+      def as_select(class_name = nil)
         fields = @@available.values
-        fields = fields.select {|field| field.class_names.nil? || field.class_names.include?(class_name)}
-        fields.sort {|a,b|
+        fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
+        fields.sort {|a, b|
           a.order <=> b.order
         }.collect {|custom_field_format|
-          [ label_for(custom_field_format.name), custom_field_format.name ]
+          [label_for(custom_field_format.name), custom_field_format.name]
         }
       end
 
       def format_value(value, field_format)
-        return "" unless value && !value.empty?
+        return '' unless value && !value.empty?
 
         if format_type = find_by_name(field_format)
           format_type.format(value)

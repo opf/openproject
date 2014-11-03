@@ -45,7 +45,7 @@ class ConditionsTest < Test::Unit::TestCase
 
     should 'have proc values' do
       User.prepare_journaled_options(if: :true)
-      assert User.vestal_journals_options[:if].all?{|i| i.is_a?(Proc) }
+      assert User.vestal_journals_options[:if].all? { |i| i.is_a?(Proc) }
     end
 
     teardown do
@@ -68,7 +68,7 @@ class ConditionsTest < Test::Unit::TestCase
 
     should 'have proc values' do
       User.prepare_journaled_options(unless: :true)
-      assert User.vestal_journals_options[:unless].all?{|i| i.is_a?(Proc) }
+      assert User.vestal_journals_options[:unless].all? { |i| i.is_a?(Proc) }
     end
 
     teardown do
@@ -80,6 +80,7 @@ class ConditionsTest < Test::Unit::TestCase
     setup do
       User.class_eval do
         def true; true; end
+
         def false; false; end
       end
 

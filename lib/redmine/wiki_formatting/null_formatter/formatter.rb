@@ -40,7 +40,7 @@ module Redmine
           @text = text
         end
 
-        def to_html(*args)
+        def to_html(*_args)
           simple_format(auto_link(CGI::escapeHTML(@text)))
         end
       end

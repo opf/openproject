@@ -33,16 +33,16 @@ module OpenProject
         Redmine::WikiFormatting::Macros.register do
           # Builtin macros
 
-          desc "Sample macro."
+          desc 'Sample macro.'
 
           macro :hello_world do |obj, args|
-            "Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}")
+            "Hello world! Object: #{obj.class.name}, " + (args.empty? ? 'Called with no argument.' : "Arguments: #{args.join(', ')}")
           end
         end
 
         Redmine::WikiFormatting::Macros.register do
-          desc "Displays a list of all available macros, including description if available."
-          macro :macro_list do |obj, args|
+          desc 'Displays a list of all available macros, including description if available.'
+          macro :macro_list do |_obj, _args|
             out = ''
             available_macros = Redmine::WikiFormatting::Macros.available_macros
 
@@ -56,9 +56,9 @@ module OpenProject
 
         Redmine::WikiFormatting::Macros.register do
           desc "Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:\n\n" +
-                 "  !{{child_pages}} -- can be used from a wiki page only\n" +
-                 "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
-                 "  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo"
+            "  !{{child_pages}} -- can be used from a wiki page only\n" +
+            "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
+            '  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo'
 
           macro :child_pages do |obj, args|
             args, options = extract_macro_options(args, :parent)
@@ -79,7 +79,7 @@ module OpenProject
 
         Redmine::WikiFormatting::Macros.register do
           desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
-          macro :include do |obj, args|
+          macro :include do |_obj, args|
             page = Wiki.find_page(args.first.to_s, project: @project)
             raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
             @included_wiki_pages ||= []

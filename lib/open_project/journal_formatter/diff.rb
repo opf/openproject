@@ -31,7 +31,7 @@ require_dependency 'journal_formatter/base'
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   # unloadable
 
-  def render(key, values, options = { })
+  def render(key, values, options = {})
     merge_options = { only_path: true,
                       no_html: false }.merge(options)
 
@@ -71,17 +71,17 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-    url_attr = default_attributes(options).merge({ controller: '/journals',
-                                                   action: 'diff',
-                                                   id: @journal.id,
-                                                   field: key.downcase })
+    url_attr = default_attributes(options).merge(controller: '/journals',
+                                                 action: 'diff',
+                                                 id: @journal.id,
+                                                 field: key.downcase)
 
     if options[:no_html]
       url_for url_attr
     else
       link_to(l(:label_details),
-                url_attr,
-                class: 'description-details')
+              url_attr,
+              class: 'description-details')
     end
   end
 

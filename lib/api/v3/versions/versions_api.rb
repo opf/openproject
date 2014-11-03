@@ -31,7 +31,6 @@ module API
   module V3
     module Versions
       class VersionsAPI < Grape::API
-
         resources :versions do
           before do
             @versions = @project.shared_versions.all
@@ -42,7 +41,6 @@ module API
             VersionCollectionRepresenter.new(@versions, project: @project)
           end
         end
-
       end
     end
   end

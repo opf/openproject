@@ -34,9 +34,9 @@ module Redmine
       attr_reader :user, :project, :scope
 
       # Needs to be unloaded in development mode
-      @@constantized_providers = Hash.new {|h,k| h[k] = Redmine::Activity.providers[k].collect {|t| t.constantize } }
+      @@constantized_providers = Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].collect(&:constantize) }
 
-      def initialize(user, options={})
+      def initialize(user, options = {})
         options.assert_valid_keys(:project, :with_subprojects, :author)
         @user = user
         @project = options[:project]
@@ -52,12 +52,12 @@ module Redmine
         @event_types = Redmine::Activity.available_event_types
         if @project
           @event_types = @event_types.select do |o|
-            @project.self_and_descendants.detect do |p|
+            @project.self_and_descendants.detect do |_p|
               permissions = constantized_providers(o).collect do |p|
                 p.activity_provider_options[o].try(:[], :permission)
               end.compact
               return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
-              permissions.all? {|p| @user.allowed_to?(p, @project) }
+              permissions.all? { |p| @user.allowed_to?(p, @project) }
             end
           end
         end
@@ -65,8 +65,8 @@ module Redmine
       end
 
       # Yields to filter the activity scope
-      def scope_select(&block)
-        @scope = @scope.select {|t| yield t }
+      def scope_select(&_block)
+        @scope = @scope.select { |t| yield t }
       end
 
       # Sets the scope
@@ -89,7 +89,7 @@ module Redmine
 
       # Returns an array of events for the given date range
       # sorted in reverse chronological order
-      def events(from = nil, to = nil, options={})
+      def events(from = nil, to = nil, options = {})
         e = []
         @options[:limit] = options[:limit]
 
@@ -107,7 +107,7 @@ module Redmine
           e.project = projects.find { |p| p.id == e.project_id } if e.project_id
         end
 
-        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
+        e.sort! { |a, b| b.event_datetime <=> a.event_datetime }
         e
       end
 
