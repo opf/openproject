@@ -33,14 +33,14 @@ module TimelinesHelper
   def icon_for_color(color, options = {})
     return unless color
 
-    options = options.merge(class: "timelines-phase " + options[:class].to_s,
+    options = options.merge(class: 'timelines-phase ' + options[:class].to_s,
                             style: "background-color: #{color.hexcode};" + options[:style].to_s)
 
-    content_tag(:span, " ", options)
+    content_tag(:span, ' ', options)
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.planning_elements.find(:all, order: "COALESCE(parent_id, id), parent_id")
+    available_parents = planning_element.project.planning_elements.find(:all, order: 'COALESCE(parent_id, id), parent_id')
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
@@ -48,13 +48,13 @@ module TimelinesHelper
       [texts.join(right_pointing_arrow), pe.id]
     end
 
-    available_options.unshift(['',''])
+    available_options.unshift(['', ''])
 
     form.select :parent_id, available_options
   end
 
   def right_pointing_arrow
-    " ▸ "
+    ' ▸ '
   end
 
   def format_date(date, options = nil)
@@ -97,7 +97,7 @@ module TimelinesHelper
 
   # TODO Refactoring
   def header_tags
-    %Q{
+    %{
       <style type='text/css'>
         #content table.issues td.center,
         #content table th.center {
@@ -244,7 +244,7 @@ module TimelinesHelper
   end
 
   def filter_select_i18n_array_with_index_and_none(array, i18n_prefix)
-    result = self.none_option
+    result = none_option
     index = -1
     result += array.map do |t|
       index += 1
@@ -253,7 +253,7 @@ module TimelinesHelper
   end
 
   def filter_select_with_none(collection, text, value)
-    result = self.none_option
+    result = none_option
     result += filter_select(collection, text, value)
   end
 
@@ -263,7 +263,7 @@ module TimelinesHelper
     end
   end
 
-  def resolve_with_none_option(const, collection)
+  def resolve_with_none_option(_const, collection)
     collection
   end
 
@@ -274,16 +274,16 @@ module TimelinesHelper
         id: t
       }
     end
-    collection.unshift({
-      name: l("timelines.filter.noneElement"),
+    collection.unshift(
+      name: l('timelines.filter.noneElement'),
       id: -1
-    })
+    )
   end
 
   def internationalized_columns_select_object(collection)
     collection.map do |t|
       {
-        name: l("timelines.filter.column." + t),
+        name: l('timelines.filter.column.' + t),
         id: t
       }
     end
@@ -291,7 +291,7 @@ module TimelinesHelper
 
   def internationalized_columns_select(collection)
     collection.map do |t|
-      [l("timelines.filter.column." + t), t]
+      [l('timelines.filter.column.' + t), t]
     end
   end
 
@@ -299,9 +299,9 @@ module TimelinesHelper
 
   include Gon::GonHelpers
 
-  def visible_timeline_paths(visible_timelines=[])
+  def visible_timeline_paths(_visible_timelines = [])
     @visible_timelines.inject({}) do |timeline_paths, timeline|
-      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+      timeline_paths.merge(timeline.id => { path: project_timeline_path(@project, timeline) })
     end
   end
 

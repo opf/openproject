@@ -30,10 +30,10 @@
 module IssuesHelper
   include ApplicationHelper
 
-  def issue_list(issues, &block)
+  def issue_list(issues, &_block)
     ancestors = []
     issues.each do |issue|
-      while (ancestors.any? && !issue.is_descendant_of?(ancestors.last))
+      while ancestors.any? && !issue.is_descendant_of?(ancestors.last)
         ancestors.pop
       end
       yield issue, ancestors.size
@@ -71,15 +71,15 @@ module IssuesHelper
     s = '<form><table class="list issues">'
     issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
-             content_tag('td',
-                         "<label>#{l(:description_select_work_package) + " #" + child.id.to_s}" +
-                         check_box_tag('ids[]', child.id, false, id: nil) + '</label>',
-                         class: 'checkbox') +
-             content_tag('td', link_to_issue(child, truncate: 60), class: 'subject') +
-             content_tag('td', h(child.status)) +
-             content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, width: '80px', legend: "#{child.done_ratio}%")),
-             class: "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
+                       content_tag('td',
+                                   "<label>#{l(:description_select_work_package) + ' #' + child.id.to_s}" +
+                                   check_box_tag('ids[]', child.id, false, id: nil) + '</label>',
+                                   class: 'checkbox') +
+                       content_tag('td', link_to_issue(child, truncate: 60), class: 'subject') +
+                       content_tag('td', h(child.status)) +
+                       content_tag('td', link_to_user(child.assigned_to)) +
+                       content_tag('td', progress_bar(child.done_ratio, width: '80px', legend: "#{child.done_ratio}%")),
+                       class: "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
     s << '</form></table>'
     s
@@ -107,12 +107,12 @@ module IssuesHelper
   def visible_queries
     unless @visible_queries
       # User can see public queries and his own queries
-      visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+      visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
       # Project specific queries and global queries
-      visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
       @visible_queries = Query.find(:all,
                                     select: 'id, name, is_public',
-                                    order: "name ASC",
+                                    order: 'name ASC',
                                     conditions: visible.conditions)
     end
     @visible_queries
@@ -120,8 +120,8 @@ module IssuesHelper
 
   def grouped_query_options
     {
-      l(:label_my_queries)   => visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]},
-      l(:label_query_plural) => visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+      l(:label_my_queries)   => visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] },
+      l(:label_query_plural) => visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
     }
   end
 
@@ -149,7 +149,7 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_work_package_filters.collect{|field| [ field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
+    [['', '']] + query.available_work_package_filters.collect { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end

@@ -42,13 +42,13 @@ module JournalsHelper
   end
 
   def render_journal(model, journal, options = {})
-    return "" if journal.initial?
+    return '' if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { id: "change-#{journal.id}", class: work_package_css_classes(journal.journable) }
+    content_tag 'div', journal_content,  id: "change-#{journal.id}", class: work_package_css_classes(journal.journable)
   end
 
   # This renders a journal entry with a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
+  def render_journal_details(journal, header_label = :label_updated_time_by, model = nil, options = {})
     header = <<-HTML
       <div class="profile-wrap">
         #{avatar(journal.user)}
@@ -61,10 +61,10 @@ module JournalsHelper
     HTML
 
     if journal.details.any?
-      details = content_tag "ul", class: "details journal-attributes" do
+      details = content_tag 'ul', class: 'details journal-attributes' do
         journal.details.collect do |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
-            content_tag("li", d.html_safe)
+            content_tag('li', d.html_safe)
           end
         end.compact.join(' ').html_safe
       end
@@ -74,10 +74,10 @@ module JournalsHelper
               '' :
               render_notes(model, journal, options)
 
-    content_tag("div", "#{header}#{details}#{notes}".html_safe, id: "change-#{journal.id}", class: "journal")
+    content_tag('div', "#{header}#{details}#{notes}".html_safe, id: "change-#{journal.id}", class: 'journal')
   end
 
-  def render_notes(model, journal, options={})
+  def render_notes(model, journal, options = {})
     editable = journal.editable_by?(User.current) if User.current.logged?
 
     unless journal.notes.blank?
@@ -88,40 +88,40 @@ module JournalsHelper
           # it assumes that there is a quoted action on the controller
           # currently rendering the view
           # the quote link should somehow be supplied
-          controller_name = controller.class.to_s.underscore.gsub(/_controller\z/,"").to_sym
+          controller_name = controller.class.to_s.underscore.gsub(/_controller\z/, '').to_sym
           l << link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
-                                                { controller: controller_name,
-                                                  action: 'quoted',
-                                                  id: model,
-                                                  journal_id: journal },
-                                                  title: l(:button_quote),
-                                                  class: 'quote-link no-decoration-on-hover')
+                       { controller: controller_name,
+                         action: 'quoted',
+                         id: model,
+                         journal_id: journal },
+                       title: l(:button_quote),
+                       class: 'quote-link no-decoration-on-hover')
         end
         if editable
           l << link_to_in_place_notes_editor(icon_wrapper('icon-context icon-edit', l(:button_edit)), "journal-#{journal.id}-notes",
-                { controller: '/journals', action: 'edit', id: journal },
-                  class: 'no-decoration-on-hover',
-                  title: l(:button_edit))
+                                             { controller: '/journals', action: 'edit', id: journal },
+                                             class: 'no-decoration-on-hover',
+                                             title: l(:button_edit))
         end
       end
     end
 
     content = ''
-    content << content_tag('div', links.join(' '),{ class: 'contextual' }, false) unless links.empty?
+    content << content_tag('div', links.join(' '), { class: 'contextual' }, false) unless links.empty?
     attachments = model.try(:attachments) || []
     content << content_tag('div',
                            format_text(journal, :notes, attachments: attachments),
                            class: 'wikicontent',
                            :'ng-non-bindable' => '',
-                           "data-user" => journal.journable.author)
+                           'data-user' => journal.journable.author)
 
-    css_classes = "wiki journal-notes"
-    css_classes << " editable" if editable
+    css_classes = 'wiki journal-notes'
+    css_classes << ' editable' if editable
 
     content_tag('div', content, { id: "journal-#{journal.id}-notes", class: css_classes }, false)
   end
 
-  def link_to_in_place_notes_editor(text, field_id, url, options={})
+  def link_to_in_place_notes_editor(text, _field_id, url, options = {})
     onclick = "new Ajax.Request('#{url_for(url)}', {asynchronous:true, evalScripts:true, method:'get'}); return false;"
     link_to text, '#', options.merge(onclick: onclick)
   end

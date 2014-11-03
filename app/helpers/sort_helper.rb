@@ -81,20 +81,19 @@
 
 module SortHelper
   class SortCriteria
-
     def initialize
       @criteria = []
     end
 
     def available_criteria=(criteria)
       unless criteria.is_a?(Hash)
-        criteria = criteria.inject({}) {|h,k| h[k] = k; h}
+        criteria = criteria.inject({}) { |h, k| h[k] = k; h }
       end
       @available_criteria = criteria
     end
 
     def from_param(param)
-      @criteria = param.to_s.split(',').collect {|s| s.split(':')[0..1]}
+      @criteria = param.to_s.split(',').collect { |s| s.split(':')[0..1] }
       normalize!
     end
 
@@ -104,20 +103,20 @@ module SortHelper
     end
 
     def to_param
-      @criteria.collect {|k,o| k + (o ? '' : ':desc')}.join(',')
+      @criteria.collect { |k, o| k + (o ? '' : ':desc') }.join(',')
     end
 
     def to_sql
-      sql = @criteria.collect do |k,o|
+      sql = @criteria.collect do |k, o|
         if s = @available_criteria[k]
-          (o ? Array(s) : Array(s).collect {|c| append_desc(c)}).join(', ')
+          (o ? Array(s) : Array(s).collect { |c| append_desc(c) }).join(', ')
         end
       end.compact.join(', ')
       sql.blank? ? nil : sql
     end
 
     def add!(key, asc)
-      @criteria.delete_if {|k,o| k == key}
+      @criteria.delete_if { |k, _o| k == key }
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
@@ -144,8 +143,8 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.collect {|s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true]}
-      @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
+      @criteria = @criteria.collect { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
+      @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) } if @available_criteria
       @criteria.slice!(3)
       self
     end
@@ -204,7 +203,7 @@ module SortHelper
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
-  def sort_clause()
+  def sort_clause
     @sort_criteria.to_sql
   end
 
@@ -231,10 +230,10 @@ module SortHelper
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
     url_options = params.merge(sort_options)
 
-     # Add project_id to url_options
+    # Add project_id to url_options
     url_options = url_options.merge(project_id: params[:project_id]) if params.has_key?(:project_id)
 
-    link_to_content_update(h(caption), url_options, html_options.merge({ class: css }))
+    link_to_content_update(h(caption), url_options, html_options.merge(class: css))
   end
 
   # Returns a table header <th> tag with a sort link for the named column

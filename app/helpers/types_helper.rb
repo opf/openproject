@@ -28,7 +28,6 @@
 #++
 
 module TypesHelper
-
   def icon_for_type(type)
     return unless type
 
@@ -40,10 +39,10 @@ module TypesHelper
     if type.color.present?
       color = type.color.hexcode
     else
-      color = "#CCC"
+      color = '#CCC'
     end
 
-    content_tag(:span, " ",
+    content_tag(:span, ' ',
                 class: css_class,
                 style: "background-color: #{color}")
   end

@@ -66,7 +66,7 @@ module RepositoriesHelper
       else
         change
       end
-   end.compact
+              end.compact
 
     tree = { }
     changes.each do |change|

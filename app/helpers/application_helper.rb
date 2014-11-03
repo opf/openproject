@@ -40,7 +40,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
-    User.current.allowed_to?({controller: controller, action: action}, @project)
+    User.current.allowed_to?({ controller: controller, action: action }, @project)
   end
 
   # Display a link if user is authorized
@@ -75,11 +75,11 @@ module ApplicationHelper
   end
 
   # Show a sorted linkified (if active) comma-joined list of users
-  def list_users(users, options={})
-    users.sort.collect{|u| link_to_user(u, options)}.join(", ")
+  def list_users(users, options = {})
+    users.sort.collect { |u| link_to_user(u, options) }.join(', ')
   end
 
-  #returns a class name based on the user's status
+  # returns a class name based on the user's status
   def user_status_class(user)
     'status_' + user.status_name
   end
@@ -95,10 +95,10 @@ module ApplicationHelper
     link_to(name, '#', { onclick: onclick }.merge(html_options))
   end
 
-  def delete_link(url, options={})
+  def delete_link(url, options = {})
     options = {
       method: :delete,
-      data: {confirm: l(:text_are_you_sure)},
+      data: { confirm: l(:text_are_you_sure) },
       class: 'icon icon-delete'
     }.merge(options)
 
@@ -107,10 +107,10 @@ module ApplicationHelper
 
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
-    tag(:input, html_options.merge({
-        type: "image", src: image_path(name),
-        onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};"
-        }))
+    tag(:input, html_options.merge(
+        type: 'image', src: image_path(name),
+        onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') + "#{function};"
+        ))
   end
 
   def prompt_to_remote(name, text, param, url, html_options = {})
@@ -127,7 +127,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />").html_safe
+    h(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, '<br />').html_safe
   end
 
   def format_version_name(version)
@@ -140,14 +140,14 @@ module ApplicationHelper
     end
   end
 
-  def render_page_hierarchy(pages, node=nil, options={})
+  def render_page_hierarchy(pages, node = nil, options = {})
     return '' unless pages[node]
 
     content_tag :ul, class: 'pages-hierarchy' do
       pages[node].collect do |page|
         content_tag :li do
           concat link_to(page.pretty_title, project_wiki_path(page.project, page),
-            title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
+                         title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end
       end.join.html_safe
@@ -157,7 +157,7 @@ module ApplicationHelper
   def error_messages_for(*params)
     objects, options = extract_objects_from_params(params)
 
-    error_messages = objects.map{ |o| o.errors.full_messages }.flatten
+    error_messages = objects.map { |o| o.errors.full_messages }.flatten
 
     unless error_messages.empty?
       render partial: 'common/validation_error', locals: { error_messages: error_messages,
@@ -187,7 +187,7 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
+    flash.map { |k, v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
@@ -200,7 +200,7 @@ module ApplicationHelper
 
   def render_flash_message(type, message, html_options = {})
     css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
-    html_options = { class: css_classes, role: "alert" }.merge(html_options)
+    html_options = { class: css_classes, role: 'alert' }.merge(html_options)
     if User.current.impaired?
       content_tag('div', content_tag('a', join_flash_messages(message), href: 'javascript:;'), html_options)
     else
@@ -211,13 +211,13 @@ module ApplicationHelper
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?
-      render partial: 'common/tabs', locals: {tabs: tabs}
+      render partial: 'common/tabs', locals: { tabs: tabs }
     else
-      content_tag 'p', l(:label_no_data), class: "nodata"
+      content_tag 'p', l(:label_no_data), class: 'nodata'
     end
   end
 
-  def project_tree_options_for_select(projects, options = {}, &block)
+  def project_tree_options_for_select(projects, options = {}, &_block)
     Project.project_level_list(projects).map do |element|
 
       tag_options = {
@@ -248,22 +248,22 @@ module ApplicationHelper
     Project.project_tree(projects, &block)
   end
 
-  def project_nested_ul(projects, &block)
+  def project_nested_ul(projects, &_block)
     s = ''
     if projects.any?
       ancestors = []
-      Project.project_tree(projects) do |project, level|
-        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
+      Project.project_tree(projects) do |project, _level|
+        if ancestors.empty? || project.is_descendant_of?(ancestors.last)
           s << "<ul>\n"
         else
           ancestors.pop
-          s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
+          s << '</li>'
+          while ancestors.any? && !project.is_descendant_of?(ancestors.last)
             ancestors.pop
             s << "</ul></li>\n"
           end
         end
-        s << "<li>"
+        s << '<li>'
         s << yield(project).to_s
         ancestors << project
       end
@@ -274,13 +274,13 @@ module ApplicationHelper
 
   def principals_check_box_tags(name, principals)
     labeled_check_box_tags(name, principals,
-                                 { title: :user_status_i18n,
-                                   class: :user_status_class })
+                           title: :user_status_i18n,
+                           class: :user_status_class)
   end
 
   def labeled_check_box_tags(name, collection, options = {})
     collection.sort.collect do |object|
-      id = name.gsub(/[\[\]]+/,"_") + object.id.to_s
+      id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
       object_options = options.inject({}) do |h, (k, v)|
         h[k] = v.is_a?(Symbol) ?
@@ -292,7 +292,7 @@ module ApplicationHelper
 
       content_tag :div do
         check_box_tag(name, object.id, false, id: id) +
-        label_tag(id, object, object_options)
+          label_tag(id, object, object_options)
       end
     end.join.html_safe
   end
@@ -301,16 +301,16 @@ module ApplicationHelper
     text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>').html_safe
   end
 
-  def authoring(created, author, options={})
+  def authoring(created, author, options = {})
     l(options[:label] || :label_added_time_by, author: link_to_user(author), age: time_tag(created)).html_safe
   end
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
-    if @project and @project.module_enabled?("activity")
-      link_to(text, {controller: '/activities', action: 'index', project_id: @project, from: time.to_date}, title: format_time(time))
+    if @project and @project.module_enabled?('activity')
+      link_to(text, { controller: '/activities', action: 'index', project_id: @project, from: time.to_date }, title: format_time(time))
     else
-      content_tag('label', text, title: format_time(time), class: "timestamp")
+      content_tag('label', text, title: format_time(time), class: 'timestamp')
     end
   end
 
@@ -322,16 +322,15 @@ module ApplicationHelper
     path.to_s
   end
 
-
   def reorder_links(name, url, options = {})
     method = options[:method] || :post
 
     content_tag(:span,
-      link_to(image_tag('2uparrow.png',   alt: l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), method: method, title: l(:label_sort_highest)) +
-      link_to(image_tag('1uparrow.png',   alt: l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  method: method, title: l(:label_sort_higher)) +
-      link_to(image_tag('1downarrow.png', alt: l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   method: method, title: l(:label_sort_lower)) +
-      link_to(image_tag('2downarrow.png', alt: l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  method: method, title: l(:label_sort_lowest)),
-      class: "reorder-icons"
+                link_to(image_tag('2uparrow.png',   alt: l(:label_sort_highest)), url.merge("#{name}[move_to]" => 'highest'), method: method, title: l(:label_sort_highest)) +
+                link_to(image_tag('1uparrow.png',   alt: l(:label_sort_higher)),  url.merge("#{name}[move_to]" => 'higher'),  method: method, title: l(:label_sort_higher)) +
+                link_to(image_tag('1downarrow.png', alt: l(:label_sort_lower)),   url.merge("#{name}[move_to]" => 'lower'),   method: method, title: l(:label_sort_lower)) +
+                link_to(image_tag('2downarrow.png', alt: l(:label_sort_lowest)),  url.merge("#{name}[move_to]" => 'lowest'),  method: method, title: l(:label_sort_lowest)),
+                class: 'reorder-icons'
     )
   end
 
@@ -355,12 +354,12 @@ module ApplicationHelper
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
-        b << link_to_project(root, {jump: current_menu_item}, class: 'root')
+        b << link_to_project(root, { jump: current_menu_item }, class: 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.collect {|p| link_to_project(p, {jump: current_menu_item}, class: 'ancestor') }
+        b += ancestors.collect { |p| link_to_project(p, { jump: current_menu_item }, class: 'ancestor') }
       end
       b << h(@project)
       b.join(' &#187; ')
@@ -380,7 +379,7 @@ module ApplicationHelper
       title += @html_title
     end
 
-    title.select {|t| !t.blank? }.join(' - ').html_safe
+    title.select { |t| !t.blank? }.join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
@@ -400,25 +399,25 @@ module ApplicationHelper
 
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
-    text.to_s.
-      gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
-      gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
-      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />').  # 1 newline   -> br
-      html_safe
+    text.to_s
+      .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
+      .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
+      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+      .html_safe
   end
 
-  def lang_options_for_select(blank=true)
-    auto = if (blank && (valid_languages - all_languages) == (all_languages - valid_languages))
-            [["(auto)", ""]]
+  def lang_options_for_select(blank = true)
+    auto = if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
+             [['(auto)', '']]
            else
-            []
+             []
           end
-    auto + valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+    auto + valid_languages.collect { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
   end
 
-  def all_lang_options_for_select(blank=true)
-    (blank ? [["(auto)", ""]] : []) +
-      all_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+  def all_lang_options_for_select(blank = true)
+    (blank ? [['(auto)', '']] : []) +
+      all_languages.collect { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -445,8 +444,8 @@ module ApplicationHelper
 
   def check_all_links(form_name)
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
-    " | " +
-    link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
+      ' | ' +
+      link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
   # Generates the HTML for a progress bar
@@ -460,7 +459,7 @@ module ApplicationHelper
   #   A hash containing the following keys:
   #   * width: (default '100px') the css-width for the progress bar
   #   * legend: (default: '') the text displayed alond with the progress bar
-  def progress_bar(pcts, options={})
+  def progress_bar(pcts, options = {})
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
     done   = (pcts[1] || closed) - closed
@@ -470,14 +469,14 @@ module ApplicationHelper
     content_tag :span do
       content_tag :span, class: 'progress-bar', style: "width: #{width}" do
         content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%") +
-        content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
+          content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
       end.<<(content_tag :span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
     end
   end
 
-  def checked_image(checked=true)
+  def checked_image(checked = true)
     if checked
-      icon_wrapper('icon-context icon-yes',l(:label_checked))
+      icon_wrapper('icon-context icon-yes', l(:label_checked))
     end
   end
 
@@ -509,16 +508,16 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
-    tags += javascript_tag(%Q{
+    tags += javascript_tag(%{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
-        loginUrl: '#{url_for controller: "/account", action: "login"}'
+        loginUrl: '#{url_for controller: '/account', action: 'login'}'
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag(%Q{
+      tags += javascript_tag(%{
         jQuery(document).ready(function(){
           warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}');
           jQuery(document).ajaxComplete(function(){
@@ -529,7 +528,7 @@ module ApplicationHelper
     end
 
     if User.current.impaired? and accessibility_js_enabled?
-      tags += javascript_include_tag("accessibility.js")
+      tags += javascript_include_tag('accessibility.js')
     end
 
     tags.html_safe
@@ -539,7 +538,7 @@ module ApplicationHelper
   #
   # @param [optional, String] content the content of the ROBOTS tag.
   #   defaults to no index, follow, and no archive
-  def robot_exclusion_tag(content="NOINDEX,FOLLOW,NOARCHIVE")
+  def robot_exclusion_tag(content = 'NOINDEX,FOLLOW,NOARCHIVE')
     "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
@@ -587,7 +586,7 @@ module ApplicationHelper
   def footer_content
     elements = []
     elements << I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name,
-                                                          OpenProject::Info.url))
+                                                       OpenProject::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value
@@ -597,7 +596,7 @@ module ApplicationHelper
       end
     end
     elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
-    elements.join(", ").html_safe
+    elements.join(', ').html_safe
   end
 
   private
@@ -605,7 +604,7 @@ module ApplicationHelper
   def wiki_helper
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper
-    return self
+    self
   end
 
   def link_to_content_update(text, url_params = {}, html_options = {})
@@ -617,8 +616,8 @@ module ApplicationHelper
     # use 0..0, so this doesn't fail if rules is an empty string
     rules[0] = rules[0..0].upcase
 
-    s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
-    s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
+    s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
+    s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
   end
 
@@ -626,5 +625,4 @@ module ApplicationHelper
     content =  content_tag(:span, '', class: icon_class)
     content += content_tag(:span, label, class: 'hidden-for-sighted')
   end
-
 end

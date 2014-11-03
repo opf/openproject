@@ -36,8 +36,8 @@ module UsersHelper
                                   User.active.not_blocked.count
     # use non-numerical values as index to prevent clash with normal user
     # statuses
-    status_symbols = {all: :all}
-    status_symbols.merge!(User::STATUSES.reject{|n,i| n == :builtin})
+    status_symbols = { all: :all }
+    status_symbols.merge!(User::STATUSES.reject { |n, _i| n == :builtin })
     status_symbols[:blocked] = :blocked
 
     statuses = status_symbols.map do |name, index|
@@ -52,7 +52,7 @@ module UsersHelper
   end
 
   # Format user status, including brute force prevention status
-  def full_user_status(user, include_num_failed_logins=false)
+  def full_user_status(user, include_num_failed_logins = false)
     user_status = ''
     unless [User::STATUSES[:active], User::STATUSES[:builtin]].include?(user.status)
       user_status = translate_user_status(user.status_name)
@@ -79,15 +79,15 @@ module UsersHelper
   end
 
   STATUS_CHANGE_ACTIONS = {
-      # status, blocked    => [[button_title, button_name], ...]
-      [:active, false]     => [[:lock, 'lock']],
-      [:active, true]      => [[:reset_failed_logins, 'unlock'],
-                               [:lock, 'lock']],
-      [:locked, false]     => [[:unlock, 'unlock']],
-      [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
-      [:registered, false] => [[:activate, 'activate']],
-      [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
-    }
+    # status, blocked    => [[button_title, button_name], ...]
+    [:active, false]     => [[:lock, 'lock']],
+    [:active, true]      => [[:reset_failed_logins, 'unlock'],
+                             [:lock, 'lock']],
+    [:locked, false]     => [[:unlock, 'unlock']],
+    [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
+    [:registered, false] => [[:activate, 'activate']],
+    [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
+  }
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)
@@ -127,21 +127,21 @@ module UsersHelper
   def options_for_membership_project_select(user, projects)
     options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
     options << project_tree_options_for_select(projects) do |p|
-      {disabled: (user.projects.include?(p))}
+      { disabled: (user.projects.include?(p)) }
     end
     options
   end
 
   def user_mail_notification_options(user)
-    user.valid_notification_options.collect {|o| [l(o.last), o.first]}
+    user.valid_notification_options.collect { |o| [l(o.last), o.first] }
   end
 
   def user_settings_tabs
-    tabs = [{name: 'general', partial: 'users/general', label: :label_general},
-            {name: 'memberships', partial: 'users/memberships', label: :label_project_plural}
-            ]
+    tabs = [{ name: 'general', partial: 'users/general', label: :label_general },
+            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural }
+           ]
     if Group.all.any?
-      tabs.insert 1, {name: 'groups', partial: 'users/groups', label: :label_group_plural}
+      tabs.insert 1, name: 'groups', partial: 'users/groups', label: :label_group_plural
     end
     tabs
   end

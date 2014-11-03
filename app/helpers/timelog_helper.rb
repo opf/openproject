@@ -33,8 +33,8 @@ module TimelogHelper
 
   def render_timelog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {project_id: nil, work_package_id: nil})
-    links << link_to(h(@project), {project_id: @project, work_package_id: nil}) if @project
+    links << link_to(l(:label_project_all), project_id: nil, work_package_id: nil)
+    links << link_to(h(@project), project_id: @project, work_package_id: nil) if @project
     if @issue
       if @issue.visible?
         links << link_to_work_package(@issue, subject: false)
@@ -48,7 +48,7 @@ module TimelogHelper
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity
   # is active.
-  def activity_collection_for_select_options(time_entry=nil, project=nil)
+  def activity_collection_for_select_options(time_entry = nil, project = nil)
     project ||= @project
     if project.nil?
       activities = TimeEntryActivity.shared.active
@@ -58,9 +58,9 @@ module TimelogHelper
 
     collection = []
     if time_entry && time_entry.activity && !time_entry.activity.active?
-      collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ]
+      collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", '']
     else
-      collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
+      collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless activities.detect(&:is_default)
     end
     activities.each { |a| collection << [a.name, a.id] }
     collection
@@ -68,9 +68,9 @@ module TimelogHelper
 
   def select_hours(data, criteria, value)
     if value.to_s.empty?
-      data.select {|row| row[criteria].blank? }
+      data.select { |row| row[criteria].blank? }
     else
-      data.select {|row| row[criteria].to_s == value.to_s}
+      data.select { |row| row[criteria].to_s == value.to_s }
     end
   end
 
@@ -93,7 +93,7 @@ module TimelogHelper
                         [l(:label_last_month), 'last_month'],
                         [l(:label_last_n_days, 30), '30_days'],
                         [l(:label_this_year), 'current_year']],
-                        value)
+                       value)
   end
 
   def entries_to_csv(entries)
@@ -110,7 +110,7 @@ module TimelogHelper
                  TimeEntry.human_attribute_name(:subject),
                  TimeEntry.human_attribute_name(:hours),
                  TimeEntry.human_attribute_name(:comments)
-                 ]
+                ]
       # Export custom fields
       headers += custom_fields.collect(&:name)
 
@@ -126,8 +126,8 @@ module TimelogHelper
                   (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
-                  ]
-        fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
+                 ]
+        fields += custom_fields.collect { |f| show_value(entry.custom_value_for(f)) }
 
         csv << encode_csv_columns(fields)
       end
@@ -159,25 +159,25 @@ module TimelogHelper
       end
       headers += periods
       headers << l(:label_total)
-      csv << headers.collect {|c| to_utf8_for_timelogs(c) }
+      csv << headers.collect { |c| to_utf8_for_timelogs(c) }
       # Content
       report_criteria_to_csv(csv, criterias, periods, hours)
       # Total row
-      row = [ l(:label_total) ] + [''] * (criterias.size - 1)
+      row = [l(:label_total)] + [''] * (criterias.size - 1)
       total = 0
       periods.each do |period|
         sum = sum_hours(select_hours(hours, @columns, period.to_s))
         total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
+        row << (sum > 0 ? '%.2f' % sum : '')
       end
-      row << "%.2f" %total
+      row << '%.2f' % total
       csv << row
     end
     export
   end
 
-  def report_criteria_to_csv(csv, criterias, periods, hours, level=0)
-    hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value|
+  def report_criteria_to_csv(csv, criterias, periods, hours, level = 0)
+    hours.collect { |h| h[criterias[level]].to_s }.uniq.each do |value|
       hours_for_value = select_hours(hours, criterias[level], value)
       next if hours_for_value.empty?
       row = [''] * level
@@ -187,9 +187,9 @@ module TimelogHelper
       periods.each do |period|
         sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s))
         total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
+        row << (sum > 0 ? '%.2f' % sum : '')
       end
-      row << "%.2f" %total
+      row << '%.2f' % total
       csv << row
 
       if criterias.length > level + 1
@@ -199,8 +199,7 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    begin; s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s; end
-  end
+    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s  end
 
   def polymorphic_time_entries_path(object)
     polymorphic_path([object, :time_entries])
@@ -226,10 +225,10 @@ module TimelogHelper
       when 'yesterday'
         @from = @to = Date.today - 1
       when 'current_week'
-        @from = Date.today - (Date.today.cwday - 1)%7
+        @from = Date.today - (Date.today.cwday - 1) % 7
         @to = @from + 6
       when 'last_week'
-        @from = Date.today - 7 - (Date.today.cwday - 1)%7
+        @from = Date.today - 7 - (Date.today.cwday - 1) % 7
         @to = @from + 6
       when '7_days'
         @from = Date.today - 7

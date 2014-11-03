@@ -38,7 +38,7 @@ module PaginationHelper
     html = ''.html_safe
 
     if paginator.total_entries > 0
-      html << will_paginate(paginator, merged_options.merge({ container: false }) )
+      html << will_paginate(paginator, merged_options.merge(container: false))
 
       html << content_tag(:span, "(#{paginator.offset + 1} - #{paginator.offset + paginator.length}/#{paginator.total_entries})", class: 'range')
 
@@ -48,11 +48,11 @@ module PaginationHelper
     end
 
     merged_options[:container] ?
-      content_tag(:p, html, class: "legacy-pagination") :
+      content_tag(:p, html, class: 'legacy-pagination') :
       html
   end
 
-  def per_page_links(selected=nil, options = params)
+  def per_page_links(selected = nil, options = params)
     links = Setting.per_page_options_array.collect do |n|
       n == selected ?
               content_tag(:span, n, class: 'current') :
@@ -81,10 +81,10 @@ module PaginationHelper
            elsif options[:offset] && options[:limit]
 
              begin
-              # + 1 as page is not 0 but 1 based
-              options[:offset].to_i/per_page_param(options) + 1
-             rescue ZeroDivisionError
-               1
+               # + 1 as page is not 0 but 1 based
+               options[:offset].to_i / per_page_param(options) + 1
+              rescue ZeroDivisionError
+                1
              end
 
            else

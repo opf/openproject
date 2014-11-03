@@ -29,7 +29,7 @@
 
 module PlanningElementsHelper
   def render_planning_element(api, planning_element)
-    api.planning_element(planning_element.destroyed? ? {destroyed: true} : {}) do
+    api.planning_element(planning_element.destroyed? ? { destroyed: true } : {}) do
       api.id(planning_element.id)
 
       api.project(id: planning_element.project.id,
@@ -82,7 +82,7 @@ module PlanningElementsHelper
       api.updated_at(planning_element.updated_at.utc) if planning_element.updated_at
 
       render partial: '/api/v2/custom_fields/deprecated_values.api',
-        locals: {values: planning_element.custom_field_values}
+             locals: { values: planning_element.custom_field_values }
     end
   end
 

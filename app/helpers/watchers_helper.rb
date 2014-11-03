@@ -28,7 +28,6 @@
 #++
 
 module WatchersHelper
-
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
@@ -43,7 +42,7 @@ module WatchersHelper
     html_options = options
     path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", object_type: object.class.to_s.underscore.pluralize,
                                                             object_id: object.id,
-                                                            replace: options.delete('replace') )
+                                                            replace: options.delete('replace'))
     html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-watch-1' : ' icon icon-not-watch')
 
     method = watched ?
@@ -61,21 +60,21 @@ module WatchersHelper
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
     lis = object.watcher_users.sort.collect do |user|
-      watcher = object.watchers(true).find{|u| u.user_id == user.id }
+      watcher = object.watchers(true).find { |u| u.user_id == user.id }
       content_tag :li do
         avatar(user, class: 'avatar-mini') +
-          link_to_user(user, class: 'user') +
-          if remove_allowed
-            ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
-                                                 l(:button_delete_watcher, name: user.name)),
-                             watcher_path(watcher),
-                             method: :delete,
-                             remote: true,
-                             title: l(:button_delete_watcher, name: user.name),
-                             class: "delete no-decoration-on-hover")
-          else
-            ''.html_safe
-          end
+        link_to_user(user, class: 'user') +
+        if remove_allowed
+          ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
+                                               l(:button_delete_watcher, name: user.name)),
+                                  watcher_path(watcher),
+                                  method: :delete,
+                                  remote: true,
+                                  title: l(:button_delete_watcher, name: user.name),
+                                  class: 'delete no-decoration-on-hover')
+        else
+          ''.html_safe
+        end
       end
     end
     lis.empty? ? ''.html_safe : content_tag(:ul, lis.reduce(:+))

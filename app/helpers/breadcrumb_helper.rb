@@ -29,7 +29,7 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    breadcrumb_list(link_to(icon_wrapper("icon2 icon-home2", I18n.t(:label_home)), home_path),
+    breadcrumb_list(link_to(icon_wrapper('icon2 icon-home2', I18n.t(:label_home)), home_path),
                     link_to_project_ancestors(@project),
                     *breadcrumb_paths)
   end
@@ -70,9 +70,9 @@ module BreadcrumbHelper
       ancestors << project
       ancestors.collect do |p|
         if p == project
-          link_to_project(p, {only_path: false}, {title: p, class: 'breadcrumb-project-title nocut'}).html_safe
+          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
         else
-          link_to_project(p, {jump: current_menu_item}, {title: p}).html_safe
+          link_to_project(p, { jump: current_menu_item }, title: p).html_safe
         end
       end
     end

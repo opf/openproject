@@ -30,7 +30,7 @@
 module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
-    re_tokens = tokens.collect {|t| Regexp.escape(t)}
+    re_tokens = tokens.collect { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = ''
     text.split(regexp).each_with_index do |words, i|
@@ -60,9 +60,9 @@ module SearchHelper
 
   def has_tokens?(text, tokens)
     return false unless text && tokens && !tokens.empty?
-    re_tokens = tokens.collect {|t| Regexp.escape(t)}
+    re_tokens = tokens.collect { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
-    !! regexp.match(text)
+    !!regexp.match(text)
   end
 
   def last_journal(event)
@@ -74,7 +74,7 @@ module SearchHelper
   def notes_anchor(event)
     version = event.version.to_i
 
-    (version > 1) ? "note-#{version - 1}" : ""
+    (version > 1) ? "note-#{version - 1}" : ''
   end
 
   def with_notes_anchor(event, tokens)
@@ -94,14 +94,14 @@ module SearchHelper
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, 'current_project'] unless @project.nil?
-    label_tag("scope", l(:description_project_scope), class: "hidden-for-sighted") +
-    select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
+    label_tag('scope', l(:description_project_scope), class: 'hidden-for-sighted') +
+      select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
   def render_results_by_type(results_by_type)
     links = []
     # Sorts types by results count
-    results_by_type.keys.sort {|a, b| results_by_type[b] <=> results_by_type[a]}.each do |t|
+    results_by_type.keys.sort { |a, b| results_by_type[b] <=> results_by_type[a] }.each do |t|
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"
@@ -117,7 +117,7 @@ module SearchHelper
       }
       links << link_to(h(text), target)
     end
-    ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>').html_safe unless links.empty?
+    ('<ul>' + links.map { |link| content_tag('li', link) }.join(' ') + '</ul>').html_safe unless links.empty?
   end
 
   def current_scope
