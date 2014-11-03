@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 OpenProject::Application.routes.draw do
   root to: 'welcome#index', as: 'home'
   mount API::Root => '/'
@@ -37,11 +36,11 @@ OpenProject::Application.routes.draw do
   match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
-  match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+  match '/issues/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
   match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
-  match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+  match '/wp/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope controller: 'account' do
     get '/account/force_password_change', action: 'force_password_change'
@@ -51,8 +50,8 @@ OpenProject::Application.routes.draw do
 
     # omniauth routes
     match '/auth/:provider/callback', action: 'omniauth_login',
-                                     as: 'omniauth_login',
-                                     via: [:get, :post]
+                                      as: 'omniauth_login',
+                                      via: [:get, :post]
     get '/auth/failure', action: 'omniauth_failure'
 
     match '/login', action: 'login',  as: 'signin', via: [:get, :post]
@@ -171,7 +170,7 @@ OpenProject::Application.routes.draw do
     end
   end
   resources :custom_fields, except: :show
-  match "(projects/:project_id)/search" => 'search#index', as: "search"
+  match '(projects/:project_id)/search' => 'search#index', as: 'search'
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -180,20 +179,20 @@ OpenProject::Application.routes.draw do
   end
 
   # REVIEW: review those wiki routes
-  scope "projects/:project_id/wiki/:id" do
+  scope 'projects/:project_id/wiki/:id' do
     resource :wiki_menu_item, only: [:edit, :update]
   end
 
-  scope "projects/:project_id/query/:query_id" do
+  scope 'projects/:project_id/query/:query_id' do
     resources :query_menu_items, except: [:show]
   end
 
-  get   'projects/:project_id/wiki/new' => 'wiki#new', as: 'wiki_new'
-  post  'projects/:project_id/wiki/new' => 'wiki#create', as: 'wiki_create'
-  get   'projects/:project_id/wiki/:id/new' => 'wiki#new_child', as: 'wiki_new_child'
-  get   'projects/:project_id/wiki/:id/toc' => 'wiki#index', as: 'wiki_page_toc'
-  post  'projects/:project_id/wiki/preview' => 'wiki#preview', as: 'preview_wiki'
-  post  'projects/:id/wiki' => 'wikis#edit'
+  get 'projects/:project_id/wiki/new' => 'wiki#new', as: 'wiki_new'
+  post 'projects/:project_id/wiki/new' => 'wiki#create', as: 'wiki_create'
+  get 'projects/:project_id/wiki/:id/new' => 'wiki#new_child', as: 'wiki_new_child'
+  get 'projects/:project_id/wiki/:id/toc' => 'wiki#index', as: 'wiki_page_toc'
+  post 'projects/:project_id/wiki/preview' => 'wiki#preview', as: 'preview_wiki'
+  post 'projects/:id/wiki' => 'wikis#edit'
   match 'projects/:id/wiki/destroy' => 'wikis#destroy'
 
   # generic route for adding/removing watchers.
@@ -209,7 +208,7 @@ OpenProject::Application.routes.draw do
   resources :watchers, only: [:destroy]
 
   # TODO: remove
-  scope "issues" do
+  scope 'issues' do
     match 'changes' => 'journals#index', as: 'changes'
   end
 
@@ -225,9 +224,9 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', action: 'settings', as: :settings
 
-      match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", via: :get, as: :copy_from,
+      match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
             constraints: { coming_from: /(admin|settings)/ }
-      match "copy" => "copy_projects#copy", via: :post
+      match 'copy' => 'copy_projects#copy', via: :post
       put :modules
       put :archive
       put :unarchive
@@ -278,7 +277,7 @@ OpenProject::Application.routes.draw do
         get :history
         post :protect
         post :add_attachment
-        get  :list_attachments
+        get :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
         post :preview
@@ -288,7 +287,7 @@ OpenProject::Application.routes.draw do
     # it is necessary to define the show action later
     # than any other route as it otherwise would
     # work as a catchall for everything under /wiki
-    get 'wiki' => "wiki#show"
+    get 'wiki' => 'wiki#show'
 
     namespace :work_packages do
       resources :calendar, controller: 'calendars', only: [:index]
@@ -323,14 +322,14 @@ OpenProject::Application.routes.draw do
     end
 
     resource :repository, only: [:destroy] do
-      get :edit #needed as show is configured manually with a wildcard
+      get :edit # needed as show is configured manually with a wildcard
       post :edit
       get :committers
       post :committers
       get :graph
       get :revisions
 
-      get "/statistics", action: :stats, as: 'stats'
+      get '/statistics', action: :stats, as: 'stats'
 
       get '(/revisions/:rev)/diff.:format', action: :diff
       get '(/revisions/:rev)/diff(/*path)', action: :diff,
@@ -356,24 +355,24 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get "/admin" => 'admin#index'
+  get '/admin' => 'admin#index'
 
-  #TODO: evaluate whether this can be turned into a namespace
-  scope "admin" do
-    match "/projects" => 'admin#projects', via: :get
+  # TODO: evaluate whether this can be turned into a namespace
+  scope 'admin' do
+    match '/projects' => 'admin#projects', via: :get
 
     resources :enumerations
 
     resources :groups do
       member do
         get :autocomplete_for_user
-        #this should be put into it's own resource
-        match "/members" => 'groups#add_users', via: :post, as: 'members_of'
-        match "/members/:user_id" => 'groups#remove_user', via: :delete, as: 'member_of'
-        #this should be put into it's own resource
-        match "/memberships/:membership_id" => 'groups#edit_membership', via: :put, as: 'membership_of'
-        match "/memberships/:membership_id" => 'groups#destroy_membership', via: :delete, as: 'membership_of'
-        match "/memberships" => 'groups#create_memberships', via: :post, as: 'memberships_of'
+        # this should be put into it's own resource
+        match '/members' => 'groups#add_users', via: :post, as: 'members_of'
+        match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
+        # this should be put into it's own resource
+        match '/memberships/:membership_id' => 'groups#edit_membership', via: :put, as: 'membership_of'
+        match '/memberships/:membership_id' => 'groups#destroy_membership', via: :delete, as: 'membership_of'
+        match '/memberships' => 'groups#create_memberships', via: :post, as: 'memberships_of'
       end
     end
 
@@ -449,10 +448,9 @@ OpenProject::Application.routes.draw do
   # Misc journal routes. TODO: move into resources
   match '/journals/:id/diff/:field' => 'journals#diff', via: :get, as: 'journal_diff'
 
-
   namespace :time_entries do
     resource :report, controller: 'reports',
-      only: [:show]
+                      only: [:show]
   end
 
   resources :time_entries, controller: 'timelog'
@@ -492,7 +490,6 @@ OpenProject::Application.routes.draw do
     post :preview, on: :collection
   end
 
-
   resources :attachments, only: [:show, :destroy], format: false do
     member do
       scope via: :get,  constraints: { id: /\d+/, filename: /[^\/]*/ } do
@@ -503,8 +500,8 @@ OpenProject::Application.routes.draw do
   end
   # redirect for backwards compatibility
   scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
-    match "/attachments/download/:id/:filename" => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
-    match "/attachments/download/:id" => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), format: false
+    match '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
+    match '/attachments/download/:id' => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), format: false
   end
 
   scope controller: 'sys' do
@@ -513,7 +510,7 @@ OpenProject::Application.routes.draw do
   end
 
   # alternate routes for the current user
-  scope "my" do
+  scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
   end
 
@@ -530,11 +527,11 @@ OpenProject::Application.routes.draw do
   get 'authentication' => 'authentication#index'
 
   resources :colors, controller: 'planning_element_type_colors' do
-     member do
-       get :confirm_destroy
-       get :move
-       post :move
-     end
+    member do
+      get :confirm_destroy
+      get :move
+      post :move
+    end
   end
 
   resources :project_types, controller: 'project_types' do
