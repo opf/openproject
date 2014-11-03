@@ -32,12 +32,12 @@ require_relative '../../db/migrate/migration_utils/utils'
 namespace :migrations do
   namespace :timelines do
     desc "Fixes missing 'none' type in timelines configuration"
-    task :fix_missing_none_type_in_timelines_config => :environment do |task|
+    task fix_missing_none_type_in_timelines_config: :environment do |_task|
       standard_type = Type.find_by_is_standard(true)
 
       if standard_type.nil?
-        raise "No standard type exists! You have to run the production seed "\
-              "beforehand."
+        raise 'No standard type exists! You have to run the production seed '\
+              'beforehand.'
       end
 
       migrator_class = create_migrator_class
@@ -70,7 +70,7 @@ namespace :migrations do
             update_column_values('timelines',
                                  ['options'],
                                  update_options(add_none_type_id),
-                                nil)
+                                 nil)
           end
         end
 

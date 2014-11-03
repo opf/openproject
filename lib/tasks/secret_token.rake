@@ -40,4 +40,4 @@ EOF
 end
 
 desc 'Generates a secret token file.'
-task :generate_secret_token => ['config/secret_token.yml']
+task generate_secret_token: ['config/secret_token.yml']

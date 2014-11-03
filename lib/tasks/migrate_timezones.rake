@@ -31,24 +31,23 @@ namespace :migrations do
   desc "Use FROM environment variable to define a timezone to migrate from.
   Examples: LOCAL (PostgreSQL), SYSTEM (MySQL), 'Europe/Berlin' (PostgreSQL), Europe/Berlin (MySQL)
   (Note the quotes in the different examples)"
-  task :change_timestamps_to_utc => :environment do |task|
+  task change_timestamps_to_utc: :environment do |_task|
     def postgres?
-      @postgres ||= ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+      @postgres ||= ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
     end
 
     def mysql?
-      @mysql ||= ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+      @mysql ||= ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
     end
 
-    raise "Error: Adapting Timestamps from system timezone to UTC is only supported for " +
-      "postgres and mysql yet." unless postgres? || mysql?
+    raise 'Error: Adapting Timestamps from system timezone to UTC is only supported for ' +
+      'postgres and mysql yet.' unless postgres? || mysql?
 
     def readOldTimezone
       if postgres?
         @old_timezone = ActiveRecord::Base.connection.select_all(
                     "SELECT current_setting('timezone') AS timezone").first['timezone']
       end
-
     end
 
     def setFromTimezone

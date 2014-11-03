@@ -32,91 +32,90 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the gems:* tasks
 
-unless ARGV.any? {|a| a =~ /\Agems/} # Don't load anything when running the gems:* tasks
+  begin
+    require 'shellwords'
+    require 'cucumber'
+    require 'cucumber/rake/task'
 
-begin
-  require 'shellwords'
-  require 'cucumber'
-  require 'cucumber/rake/task'
-
-  namespace :cucumber do
-    Cucumber::Rake::Task.new({:ok => ['db:test:prepare', 'assets:webpack']}, 'Run features that should pass') do |t|
-      t.fork = true # You may get faster startup if you set this to false
-    end
-
-    task :statsetup do
-      require 'rails/code_statistics'
-      ::STATS_DIRECTORIES << %w(Cucumber\ features features) if File.exist?('features')
-      ::CodeStatistics::TEST_TYPES << "Cucumber features" if File.exist?('features')
-    end
-
-    def get_plugin_features(prefix = nil)
-      features = []
-      Rails.application.config.plugins_to_test_paths.each do |dir|
-        feature_dir = Shellwords.escape(File.join(dir, 'features'))
-        if File.directory?(feature_dir)
-          features << prefix unless prefix.nil?
-          features << feature_dir
-        end
+    namespace :cucumber do
+      Cucumber::Rake::Task.new({ ok: ['db:test:prepare', 'assets:webpack'] }, 'Run features that should pass') do |t|
+        t.fork = true # You may get faster startup if you set this to false
       end
-      features
-    end
 
-    def define_cucumber_task(name, description, arguments=[])
-      desc description
-      task name, arguments => ['db:test:prepare', 'assets:webpack'] do |t, args|
-        if name == :custom
-          if not args[:features]
-            raise 'Please provide :features argument, e.g. rake cucumber:custom[features/my_feature.feature]'
-          end
-          features = args[:features].split(/\s+/)
-        else
-          features = get_plugin_features
-          if name == :all
-            features += [File.join(Rails.root, 'features')]
+      task :statsetup do
+        require 'rails/code_statistics'
+        ::STATS_DIRECTORIES << %w(Cucumber\ features features) if File.exist?('features')
+        ::CodeStatistics::TEST_TYPES << 'Cucumber features' if File.exist?('features')
+      end
+
+      def get_plugin_features(prefix = nil)
+        features = []
+        Rails.application.config.plugins_to_test_paths.each do |dir|
+          feature_dir = Shellwords.escape(File.join(dir, 'features'))
+          if File.directory?(feature_dir)
+            features << prefix unless prefix.nil?
+            features << feature_dir
           end
         end
-
-        Cucumber::Rake::Task.new({:cucumber_run => ['db:test:prepare', 'assets:webpack']}, 'Run features that should pass') do |t|
-          opts = (ENV['CUCUMBER_OPTS'] ? ENV['CUCUMBER_OPTS'].split(/\s+/) : [])
-          ENV.delete('CUCUMBER_OPTS')
-          opts += args[:options].split(/\s+/) if args[:options]
-
-          # load feature support files from Rails root
-          support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
-          support_files += get_plugin_features(prefix='-r')
-
-          t.cucumber_opts = opts + support_files + features
-
-          # If we are not in the test environment, the test gems are not loaded
-          # by Bundler.require in application.rb, so we need to fork.
-          t.fork = Rails.env != 'test'
-        end
-        Rake::Task['cucumber_run'].invoke
+        features
       end
+
+      def define_cucumber_task(name, description, arguments = [])
+        desc description
+        task name, arguments => ['db:test:prepare', 'assets:webpack'] do |_t, args|
+          if name == :custom
+            if not args[:features]
+              raise 'Please provide :features argument, e.g. rake cucumber:custom[features/my_feature.feature]'
+            end
+            features = args[:features].split(/\s+/)
+          else
+            features = get_plugin_features
+            if name == :all
+              features += [File.join(Rails.root, 'features')]
+            end
+          end
+
+          Cucumber::Rake::Task.new({ cucumber_run: ['db:test:prepare', 'assets:webpack'] }, 'Run features that should pass') do |t|
+            opts = (ENV['CUCUMBER_OPTS'] ? ENV['CUCUMBER_OPTS'].split(/\s+/) : [])
+            ENV.delete('CUCUMBER_OPTS')
+            opts += args[:options].split(/\s+/) if args[:options]
+
+            # load feature support files from Rails root
+            support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
+            support_files += get_plugin_features(prefix = '-r')
+
+            t.cucumber_opts = opts + support_files + features
+
+            # If we are not in the test environment, the test gems are not loaded
+            # by Bundler.require in application.rb, so we need to fork.
+            t.fork = Rails.env != 'test'
+          end
+          Rake::Task['cucumber_run'].invoke
+        end
+      end
+
+      define_cucumber_task(:plugins, 'Run plugin features', [:options])
+      define_cucumber_task(:all, 'Run core and plugin features', [:options])
+      define_cucumber_task(:custom, 'Run features selected via features argument', [:features])
     end
 
-    define_cucumber_task(:plugins, 'Run plugin features', [:options])
-    define_cucumber_task(:all, 'Run core and plugin features', [:options])
-    define_cucumber_task(:custom, 'Run features selected via features argument', [:features])
+    desc 'Alias for cucumber:ok'
+    task cucumber: 'cucumber:ok'
+
+    task default: :cucumber
+
+    # In case we don't have ActiveRecord, append a no-op task that we can depend upon.
+    task 'db:test:prepare' do
+    end
+
+    task stats: 'cucumber:statsetup'
+  rescue LoadError
+    desc 'cucumber rake task not available (cucumber not installed)'
+    task :cucumber do
+      abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
+    end
   end
-
-  desc 'Alias for cucumber:ok'
-  task :cucumber => 'cucumber:ok'
-
-  task :default => :cucumber
-
-  # In case we don't have ActiveRecord, append a no-op task that we can depend upon.
-  task 'db:test:prepare' do
-  end
-
-  task :stats => 'cucumber:statsetup'
-rescue LoadError
-  desc 'cucumber rake task not available (cucumber not installed)'
-  task :cucumber do
-    abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
-  end
-end
 
 end
