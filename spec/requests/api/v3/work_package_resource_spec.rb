@@ -332,20 +332,21 @@ h4. things we like
             it_behaves_like 'read-only violation', 'dueDate'
           end
 
-          context 'created_at' do
-            let(:params) { valid_params.merge(createdAt: DateTime.now.utc.iso8601) }
-
+          context 'created and updated' do
+            let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
             include_context 'patch request'
 
-            it_behaves_like 'read-only violation', 'createdAt'
-          end
+            context 'created_at' do
+              let(:params) { valid_params.merge(createdAt: tomorrow) }
 
-          context 'updated_at' do
-            let(:params) { valid_params.merge(updatedAt: DateTime.now.utc.iso8601) }
+              it_behaves_like 'read-only violation', 'createdAt'
+            end
 
-            include_context 'patch request'
+            context 'updated_at' do
+              let(:params) { valid_params.merge(updatedAt: tomorrow) }
 
-            it_behaves_like 'read-only violation', 'updatedAt'
+              it_behaves_like 'read-only violation', 'updatedAt'
+            end
           end
 
           context 'project id' do
