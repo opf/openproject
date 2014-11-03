@@ -118,18 +118,18 @@ Redmine::AccessControl.map do |map|
                                                                               :column_sums],
                                         # This is api/v2/planning_element_types
                                         :'planning_element_types' => [:index,
-                                                                      :show] 
+                                                                      :show]
     map.permission :export_work_packages, work_packages: [:index, :all]
     map.permission :add_work_packages,  issues: [:new, :create, :update_form],
                                         :'issues/previews' => :create,
-                                        work_packages: [:new, :new_type, :preview, :create] 
+                                        work_packages: [:new, :new_type, :preview, :create]
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, require: :loggedin
     map.permission :edit_work_packages,  issues: [:edit, :update, :update_form],
                                          :'work_packages/bulk' => [:edit, :update],
                                          work_packages: [:edit, :update, :new_type, :preview, :quoted],
                                          journals: :preview,
                                          planning_elements: [:new, :create, :edit, :update],
-                                         planning_element_journals: [ [:create], {require: :member} ] 
+                                         planning_element_journals: [ [:create], {require: :member} ]
     map.permission :add_work_package_notes, work_packages: [:edit, :update], journals: [:new]
     map.permission :edit_work_package_notes, {journals: [:edit, :update]}, require: :loggedin
     map.permission :edit_own_work_package_notes, {journals: [:edit, :update]}, require: :loggedin
