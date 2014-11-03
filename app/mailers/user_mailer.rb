@@ -59,14 +59,14 @@ class UserMailer < ActionMailer::Base
     message_id @issue, user
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{ @issue.to_s }]"
+      subject = "[#{@issue.project.name} - #{ @issue }]"
       subject << " (#{@issue.status.name})" if @issue.status
       subject << " #{@issue.subject}"
       mail to: user.mail, subject: subject
     end
   end
 
-  def work_package_updated(user, journal, author=User.current)
+  def work_package_updated(user, journal, author = User.current)
     # Delayed job does not preserve the closure of the job that is delayed.
     # Thus, if the method is called within a delayed job, it does contain the
     # default user (anonymous) and not the original user that called the method.
@@ -305,7 +305,7 @@ class UserMailer < ActionMailer::Base
   end
 
   # Activates/deactivates email deliveries during +block+
-  def self.with_deliveries(temporary_state = true, &block)
+  def self.with_deliveries(temporary_state = true, &_block)
     old_state = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = temporary_state
     yield
@@ -318,22 +318,22 @@ class UserMailer < ActionMailer::Base
     # as far as we don't send multiple emails for the same object
     journable = (object.is_a? Journal) ? object.journable : object
 
-    timestamp = self.mail_timestamp(object)
-    hash = "openproject"\
-           "."\
+    timestamp = mail_timestamp(object)
+    hash = 'openproject'\
+           '.'\
            "#{journable.class.name.demodulize.underscore}"\
-           "-"\
+           '-'\
            "#{user.id}"\
-           "-"\
+           '-'\
            "#{journable.id}"\
-           "."\
-           "#{timestamp.strftime("%Y%m%d%H%M%S")}"
+           '.'\
+           "#{timestamp.strftime('%Y%m%d%H%M%S')}"
     host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     "#{hash}@#{host}"
   end
 
-protected
+  protected
 
   # Option 1 to take out an html part: Leave the part out
   # while creating the mail. Since rails internally uses three
@@ -349,13 +349,13 @@ protected
   def collect_responses_and_parts_order(headers)
     responses, parts_order = super(headers)
     if Setting.plain_text_mail?
-      responses.delete_if { |response| response[:content_type]=="text/html" }
-      parts_order.delete_if { |part| part == "text/html"} unless parts_order.nil?
+      responses.delete_if { |response| response[:content_type] == 'text/html' }
+      parts_order.delete_if { |part| part == 'text/html' } unless parts_order.nil?
     end
     [responses, parts_order]
   end
 
-private
+  private
 
   def self.mail_timestamp(object)
     if object.respond_to? :created_at
@@ -434,7 +434,7 @@ class RemoveSelfNotificationsInterceptor
     user_pref = User.current.pref.reload if User.current.pref.persisted?
 
     if user_pref && user_pref[:no_self_notified]
-      mail.to = mail.to.reject {|address| address == user_mail} if mail.to.present?
+      mail.to = mail.to.reject { |address| address == user_mail } if mail.to.present?
     end
   end
 end
@@ -447,7 +447,6 @@ class DoNotSendMailsWithoutReceiverInterceptor
     mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end
-
 
 # helper object for `rake redmine:send_reminders`
 
@@ -468,7 +467,7 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
     issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
-                                          conditions: s.conditions
+                                                conditions: s.conditions
                                    ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
