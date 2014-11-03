@@ -36,9 +36,9 @@ module ExtendedHTTP
   # This is especially useful for successful create actions.
   def see_other(options = {})
     if options.is_a?(Hash)
-      redirect_to options.merge(status::see_other)
+      redirect_to options.merge(status: :see_other)
     else
-      redirect_to options, status::see_other
+      redirect_to options, status: :see_other
     end
   end
 
