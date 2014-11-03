@@ -31,9 +31,7 @@ describe ::API::V3::CostObjects::CostObjectRepresenter do
                                         created_on: 1.day.ago,
                                         updated_on: Date.today) }
 
-  let(:representer)  { described_class.new(model) }
-
-  let(:model) { ::API::V3::CostObjects::CostObjectModel.new(cost_object) }
+  let(:representer)  { described_class.new(cost_object) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

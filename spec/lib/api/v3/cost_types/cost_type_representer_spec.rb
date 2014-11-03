@@ -36,9 +36,7 @@ describe ::API::V3::CostTypes::CostTypeRepresenter do
                                         user: user,
                                         comments: "Entry 1") }
 
-  let(:representer)  { described_class.new(model, work_package: work_package) }
-
-  let(:model) { ::API::V3::CostTypes::CostTypeModel.new(cost_type) }
+  let(:representer)  { described_class.new(cost_type, work_package: work_package) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
