@@ -28,7 +28,6 @@
 #++
 
 class Type < ActiveRecord::Base
-
   extend Pagination::Model
 
   include ActiveModel::ForbiddenAttributesProtection
@@ -54,11 +53,11 @@ class Type < ActiveRecord::Base
 
   acts_as_list
 
-  validates_presence_of   :name
+  validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of     :name,
-                          maximum: 255,
-                          unless: lambda { |e| e.name.blank? }
+  validates_length_of :name,
+                      maximum: 255,
+                      unless: lambda { |e| e.name.blank? }
 
   validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
 
@@ -110,16 +109,16 @@ class Type < ActiveRecord::Base
     transition_exists?(status_id_a, status_id_b, roles.collect(&:id))
   end
 
-private
+  private
 
   def check_integrity
-    raise "Can't delete type" if WorkPackage.find(:first, conditions: ["type_id=?", self.id])
+    raise "Can't delete type" if WorkPackage.find(:first, conditions: ['type_id=?', id])
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)
     workflows.where(old_status_id: status_id_a,
                     new_status_id: status_id_b,
                     role_id: role_ids)
-             .any?
+      .any?
   end
 end

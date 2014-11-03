@@ -50,25 +50,27 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, conditions: {status: 'open'}
-  scope :visible, lambda {|*args| { include: :project,
-                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
+  scope :open, conditions: { status: 'open' }
+  scope :visible, lambda {|*args|
+    { include: :project,
+      conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) }
+  }
 
   scope :systemwide, -> { where(sharing: 'system') }
 
   safe_attributes 'name',
-    'description',
-    'effective_date',
-    'due_date',
-    'start_date',
-    'wiki_page_title',
-    'status',
-    'sharing',
-    'custom_field_values'
+                  'description',
+                  'effective_date',
+                  'due_date',
+                  'start_date',
+                  'wiki_page_title',
+                  'status',
+                  'sharing',
+                  'custom_field_values'
 
   # Returns true if +user+ or current user is allowed to view the version
-  def visible?(user=User.current)
-    user.allowed_to?(:view_work_packages, self.project)
+  def visible?(user = User.current)
+    user.allowed_to?(:view_work_packages, project)
   end
 
   # When a version started.
@@ -114,7 +116,7 @@ class Version < ActiveRecord::Base
     if completed_percent == 100
       return false
     elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
+      done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
       return done_date <= Date.today
     else
       false # No issues so it's not late
@@ -156,12 +158,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", self.id, false]).includes(:status).size
+    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, false]).includes(:status).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", self.id, true]).includes(:status).size
+    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, true]).includes(:status).size
   end
 
   def wiki_page
@@ -188,12 +190,12 @@ class Version < ActiveRecord::Base
   # Versions are sorted by effective_date and "Project Name - Version name"
   # Those with no effective_date are at the end, sorted by "Project Name - Version name"
   def <=>(version)
-    if self.effective_date
+    if effective_date
       if version.effective_date
-        if self.effective_date == version.effective_date
-          "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+        if effective_date == version.effective_date
+          "#{project.name} - #{name}" <=> "#{version.project.name} - #{version.name}"
         else
-          self.effective_date <=> version.effective_date
+          effective_date <=> version.effective_date
         end
       else
         -1
@@ -202,7 +204,7 @@ class Version < ActiveRecord::Base
       if version.effective_date
         1
       else
-        "#{self.project.name} - #{self.name}" <=> "#{version.project.name} - #{version.name}"
+        "#{project.name} - #{name}" <=> "#{version.project.name} - #{version.name}"
       end
     end
   end
@@ -231,7 +233,7 @@ class Version < ActiveRecord::Base
   private
 
   def validate_start_date_before_effective_date
-    if self.effective_date && self.start_date && self.effective_date < self.start_date
+    if effective_date && start_date && effective_date < start_date
       errors.add :effective_date, :greater_than_start_date
     end
   end
@@ -240,8 +242,8 @@ class Version < ActiveRecord::Base
   def update_issues_from_sharing_change
     if sharing_changed?
       if VERSION_SHARINGS.index(sharing_was).nil? ||
-          VERSION_SHARINGS.index(sharing).nil? ||
-          VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
+         VERSION_SHARINGS.index(sharing).nil? ||
+         VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
         WorkPackage.update_versions_from_sharing_change self
       end
     end
@@ -274,9 +276,9 @@ class Version < ActiveRecord::Base
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
 
-        done = fixed_issues.where(["#{Status.table_name}.is_closed = ?", !open]).
-                           includes(:status).
-                           sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
+        done = fixed_issues.where(["#{Status.table_name}.is_closed = ?", !open])
+               .includes(:status)
+               .sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress

@@ -102,12 +102,12 @@ class Enumeration < ActiveRecord::Base
   end
 
   def in_use?
-    self.objects_count != 0
+    objects_count != 0
   end
 
   # Is this enumeration overriding a system level enumeration?
   def is_override?
-    !self.parent.nil?
+    !parent.nil?
   end
 
   alias :destroy_without_reassign :destroy
@@ -116,7 +116,7 @@ class Enumeration < ActiveRecord::Base
   # If a enumeration is specified, objects are reassigned
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Enumeration)
-      self.transfer_relations(reassign_to)
+      transfer_relations(reassign_to)
     end
     destroy_without_reassign
   end
@@ -129,7 +129,7 @@ class Enumeration < ActiveRecord::Base
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
-    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
+    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new, previous)
       return false
     else
       return true
@@ -139,21 +139,22 @@ class Enumeration < ActiveRecord::Base
   # Does the +new+ Hash have the same custom values as the previous Enumeration?
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
-      if custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
+      if custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
         return false
       end
     end
 
-    return true
+    true
   end
 
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)
-    new = (new == "1" ? true : false)
-    return new == previous
+    new = (new == '1' ? true : false)
+    new == previous
   end
 
-private
+  private
+
   # This is not a performant method.
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
@@ -172,7 +173,6 @@ private
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end
-
 end
 
 # Force load the subclasses in development mode

@@ -56,7 +56,7 @@ class MemberRole < ActiveRecord::Base
   def destroy(*args)
     unless caller.first =~ /has_many_association\.rb:[0-9]+:in `[^`]+delete_records'/
       raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
-            "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
+        "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
     else
       super
     end

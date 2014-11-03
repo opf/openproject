@@ -28,7 +28,6 @@
 #++
 
 class PermittedParams < Struct.new(:params, :current_user)
-
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
@@ -59,7 +58,6 @@ class PermittedParams < Struct.new(:params, :current_user)
   # strong_params
   #
   # include ActiveModel::ForbiddenAttributesProtection
-
 
   def self.permit(key, *params)
     raise(ArgumentError, "no permitted params are configured for #{key}") unless permitted_attributes.has_key?(key)
@@ -165,7 +163,7 @@ class PermittedParams < Struct.new(:params, :current_user)
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
-    p[:sort_criteria] = params.require(:query).permit(sort_criteria: {'0' => [], '1' => [], '2' => []})
+    p[:sort_criteria] = params.require(:query).permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -193,7 +191,7 @@ class PermittedParams < Struct.new(:params, :current_user)
 
   def user_register_via_omniauth
     permitted_params = params.require(:user) \
-                             .permit(:login, :firstname, :lastname, :mail, :language)
+                       .permit(:login, :firstname, :lastname, :mail, :language)
     permitted_params.merge!(custom_field_values(:user))
 
     permitted_params
@@ -213,14 +211,14 @@ class PermittedParams < Struct.new(:params, :current_user)
 
       allowed_params = self.class.permitted_attributes[:user] + \
                        additional_params + \
-                       [ :admin, :login ]
+                       [:admin, :login]
 
       permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params.merge!(custom_field_values(:user))
 
       permitted_params
     else
-      params.require(:user).permit()
+      params.require(:user).permit
     end
   end
 
@@ -267,11 +265,11 @@ class PermittedParams < Struct.new(:params, :current_user)
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject!{ |k, v| k.to_i < 1 || !v.is_a?(String) }
+    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
 
     values.empty? ?
       {} :
-      { "custom_field_values" => values }
+      { 'custom_field_values' => values }
   end
 
   def permitted_attributes(key, additions = {})
@@ -307,7 +305,7 @@ class PermittedParams < Struct.new(:params, :current_user)
       color: [
         :name,
         :hexcode,
-        :move_to ],
+        :move_to],
       custom_field: [
         :editable,
         :field_format,
@@ -364,8 +362,8 @@ class PermittedParams < Struct.new(:params, :current_user)
         :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"] &&
-             args[:params]["work_package"].has_key?("watcher_user_ids") &&
+          if args[:params]['work_package'] &&
+             args[:params]['work_package'].has_key?('watcher_user_ids') &&
              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { watcher_user_ids: [] }
@@ -373,8 +371,8 @@ class PermittedParams < Struct.new(:params, :current_user)
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"] &&
-             args[:params]["work_package"].has_key?("time_entry") &&
+          if args[:params]['work_package'] &&
+             args[:params]['work_package'].has_key?('time_entry') &&
              args[:current_user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
@@ -382,7 +380,7 @@ class PermittedParams < Struct.new(:params, :current_user)
         end,
         # attributes unique to :new_work_package
         :notes,
-        :lock_version ],
+        :lock_version],
       planning_element: [
         # attributes common with :new_work_package above
         :assigned_to_id,
@@ -402,8 +400,8 @@ class PermittedParams < Struct.new(:params, :current_user)
         :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["planning_element"] &&
-             args[:params]["planning_element"].has_key?("watcher_user_ids") &&
+          if args[:params]['planning_element'] &&
+             args[:params]['planning_element'].has_key?('watcher_user_ids') &&
              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { watcher_user_ids: [] }
@@ -411,8 +409,8 @@ class PermittedParams < Struct.new(:params, :current_user)
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["planning_element"] &&
-             args[:params]["planning_element"].has_key?("time_entry") &&
+          if args[:params]['planning_element'] &&
+             args[:params]['planning_element'].has_key?('time_entry') &&
              args[:current_user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
@@ -421,18 +419,18 @@ class PermittedParams < Struct.new(:params, :current_user)
         # attributes unique to planning_element
         :note,
         :planning_element_status_comment,
-        custom_fields: [ #json
+        custom_fields: [ # json
           :id,
           :value,
           custom_field: [ # xml
             :id,
-            :value ]]],
+            :value]]],
       planning_element_type: [
         :name,
         :in_aggregation,
         :is_milestone,
         :is_default,
-        :color_id ],
+        :color_id],
       project_type: [
         :name,
         :allows_association,
@@ -453,7 +451,7 @@ class PermittedParams < Struct.new(:params, :current_user)
         :default_done_ratio,
         :is_closed,
         :is_default,
-        :move_to ],
+        :move_to],
       type: [
         :name,
         :is_in_roadmap,
@@ -462,27 +460,28 @@ class PermittedParams < Struct.new(:params, :current_user)
         :is_default,
         :color_id,
         project_ids: [],
-        custom_field_ids: [] ],
+        custom_field_ids: []],
       user: [
         :firstname,
         :lastname,
         :mail,
         :mail_notification,
         :language,
-        :custom_fields ],
+        :custom_fields],
       wiki_page: [
         :title,
         :parent_id,
-        :redirect_existing_links ],
+        :redirect_existing_links],
       wiki_content: [
         :comments,
         :text,
-        :lock_version ],
-      move_to: [ :move_to ]
+        :lock_version],
+      move_to: [:move_to]
     }
   end
 
   private
+
   ## Add attributes as permitted attributes (only to be used by the plugins plugin)
   #
   # attributes should be given as a Hash in the form

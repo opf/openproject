@@ -35,14 +35,14 @@ class Changeset < ActiveRecord::Base
 
   acts_as_journalized
 
-  acts_as_event title: Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+  acts_as_event title: Proc.new { |o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments)) },
                 description: :long_comments,
                 datetime: :committed_on,
-                url: Proc.new {|o| {controller: '/repositories', action: 'revision', id: o.repository.project, rev: o.identifier}},
-                author: Proc.new {|o| o.author}
+                url: Proc.new { |o| { controller: '/repositories', action: 'revision', id: o.repository.project, rev: o.identifier } },
+                author: Proc.new(&:author)
 
   acts_as_searchable columns: 'comments',
-                     include: {repository: :project},
+                     include: { repository: :project },
                      project_key: "#{Repository.table_name}.project_id",
                      date_column: 'committed_on'
 
@@ -52,8 +52,10 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, lambda {|*args| { include: { repository: :project },
-                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_changesets) } }
+  scope :visible, lambda {|*args|
+    { include: { repository: :project },
+      conditions: Project.allowed_to_condition(args.first || User.current, :view_changesets) }
+  }
 
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)
@@ -126,12 +128,12 @@ class Changeset < ActiveRecord::Base
   def scan_comment_for_work_package_ids
     return if comments.blank?
     # keywords used to reference work packages
-    ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
+    ref_keywords = Setting.commit_ref_keywords.downcase.split(',').collect(&:strip)
     ref_keywords_any = ref_keywords.delete('*')
     # keywords used to fix work packages
-    fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
+    fix_keywords = Setting.commit_fix_keywords.downcase.split(',').collect(&:strip)
 
-    kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
+    kw_regexp = (ref_keywords + fix_keywords).collect { |kw| Regexp.escape(kw) }.join('|')
 
     referenced_work_packages = []
 
@@ -171,12 +173,12 @@ class Changeset < ActiveRecord::Base
 
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, conditions: ['id < ? AND repository_id = ?', self.id, self.repository_id], order: 'id DESC')
+    @previous ||= Changeset.find(:first, conditions: ['id < ? AND repository_id = ?', id, repository_id], order: 'id DESC')
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, conditions: ['id > ? AND repository_id = ?', self.id, self.repository_id], order: 'id ASC')
+    @next ||= Changeset.find(:first, conditions: ['id > ? AND repository_id = ?', id, repository_id], order: 'id ASC')
   end
 
   # Creates a new Change from it's common parameters
@@ -221,7 +223,7 @@ class Changeset < ActiveRecord::Base
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            { changeset: self, issue: work_package })
+                            changeset: self, issue: work_package)
     unless work_package.save(validate: false)
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}") if logger
     end
@@ -254,7 +256,7 @@ class Changeset < ActiveRecord::Base
     comments =~ /\A(.+?)\r?\n(.*)\z/m
     @short_comments = $1 || comments
     @long_comments = $2.to_s.strip
-    return @short_comments, @long_comments
+    [@short_comments, @long_comments]
   end
 
   public
@@ -267,44 +269,44 @@ class Changeset < ActiveRecord::Base
   private
 
   def sanitize_attributes
-    self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
-    self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
+    self.committer = self.class.to_utf8(committer, repository.repo_log_encoding)
+    self.comments  = self.class.normalize_comments(comments, repository.repo_log_encoding)
   end
 
   def assign_openproject_user_from_comitter
-    self.user = repository.find_committer_user(self.committer)
-    add_journal(self.user || User.anonymous, self.comments)
+    self.user = repository.find_committer_user(committer)
+    add_journal(user || User.anonymous, comments)
   end
 
   # TODO: refactor to a standard helper method
   def self.to_utf8(str, encoding)
     return str if str.nil?
-    str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+    str.force_encoding('ASCII-8BIT') if str.respond_to?(:force_encoding)
     if str.empty?
-      str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
+      str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
       return str
     end
-    normalized_encoding = encoding.blank? ? "UTF-8" : encoding
+    normalized_encoding = encoding.blank? ? 'UTF-8' : encoding
     if str.respond_to?(:force_encoding)
-      if normalized_encoding.upcase != "UTF-8"
+      if normalized_encoding.upcase != 'UTF-8'
         str.force_encoding(normalized_encoding)
-        str = str.encode("UTF-8", invalid: :replace,
-              undef: :replace, replace: '?')
+        str = str.encode('UTF-8', invalid: :replace,
+                                  undef: :replace, replace: '?')
       else
-        str.force_encoding("UTF-8")
+        str.force_encoding('UTF-8')
         unless str.valid_encoding?
-          str = str.encode("US-ASCII", invalid: :replace,
-                undef: :replace, replace: '?').encode("UTF-8")
+          str = str.encode('US-ASCII', invalid: :replace,
+                                       undef: :replace, replace: '?').encode('UTF-8')
         end
       end
     else
 
-      txtar = ""
+      txtar = ''
       begin
         txtar += str.encode('UTF-8', normalized_encoding)
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
         txtar += $!.success
-        str = '?' + $!.failed[1,$!.failed.length]
+        str = '?' + $!.failed[1, $!.failed.length]
         retry
       rescue
         txtar += $!.success

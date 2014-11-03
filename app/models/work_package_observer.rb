@@ -31,7 +31,7 @@ class WorkPackageObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(issue)
-    if self.send_notification
+    if send_notification
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
@@ -44,7 +44,7 @@ class WorkPackageObserver < ActiveRecord::Observer
   # Wrap send_notification so it defaults to true, when it's nil
   def send_notification
     return true if @send_notification.nil?
-    return @send_notification
+    @send_notification
   end
 
   private

@@ -58,9 +58,9 @@ class Project < ActiveRecord::Base
   has_many :member_principals, class_name: 'Member',
                                include: :principal,
                                conditions: "#{Principal.table_name}.type='Group' OR " +
-                                              "(#{Principal.table_name}.type='User' AND " +
-                                              "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
-                                              "#{Principal.table_name}.status=#{User::STATUSES[:registered]}))"
+                                 "(#{Principal.table_name}.type='User' AND " +
+                                 "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
+                                 "#{Principal.table_name}.status=#{User::STATUSES[:registered]}))"
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
 
@@ -73,7 +73,7 @@ class Project < ActiveRecord::Base
   has_many :queries, dependent: :delete_all
   has_many :news, dependent: :destroy, include: :author
   has_many :categories, dependent: :delete_all, order: "#{Category.table_name}.name"
-  has_many :boards, dependent: :destroy, order: "position ASC"
+  has_many :boards, dependent: :destroy, order: 'position ASC'
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
@@ -88,25 +88,25 @@ class Project < ActiveRecord::Base
 
   acts_as_customizable
   acts_as_searchable columns: ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], project_key: 'id', permission: nil
-  acts_as_event title: Proc.new {|o| "#{Project.model_name.human}: #{o.name}"},
-                url: Proc.new {|o| {controller: '/projects', action: 'show', id: o}},
+  acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
+                url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
                 datetime: :created_on
 
   attr_protected :status
 
   validates_presence_of :name, :identifier
-  #TODO: we temporarily disable this validation because it leads to failed tests
-  #it implicitly assumes a db:seed-created standard type to be present and currently
-  #neither development nor deployment setups are prepared for this
-  #validates_presence_of :types
+  # TODO: we temporarily disable this validation because it leads to failed tests
+  # it implicitly assumes a db:seed-created standard type to be present and currently
+  # neither development nor deployment setups are prepared for this
+  # validates_presence_of :types
   validates_uniqueness_of :identifier
   validates_associated :repository, :wiki
   validates_length_of :name, maximum: 255
   validates_length_of :homepage, maximum: 255
   validates_length_of :identifier, in: 1..IDENTIFIER_MAX_LENGTH
   # downcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, with: /\A(?!\d+$)[a-z0-9\-_]*\z/, if: Proc.new { |p| p.identifier_changed? }
+  validates_format_of :identifier, with: /\A(?!\d+$)[a-z0-9\-_]*\z/, if: Proc.new(&:identifier_changed?)
   # reserved words
   validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
 
@@ -114,37 +114,37 @@ class Project < ActiveRecord::Base
   before_destroy :destroy_all_work_packages
 
   scope :has_module, lambda { |mod| { conditions: ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  scope :active, lambda { |*args| where(status: STATUS_ACTIVE) }
-  scope :public, lambda { |*args| where(is_public: true) }
+  scope :active, lambda { |*_args| where(status: STATUS_ACTIVE) }
+  scope :public, lambda { |*_args| where(is_public: true) }
   scope :visible, lambda { { conditions: Project.visible_by(User.current) } }
 
   # timelines stuff
 
   scope :selectable_projects
 
-  belongs_to :project_type, class_name: "::ProjectType"
+  belongs_to :project_type, class_name: '::ProjectType'
 
-  belongs_to :responsible,  class_name: "User"
+  belongs_to :responsible,  class_name: 'User'
 
-  has_many :timelines,  class_name: "::Timeline",
+  has_many :timelines,  class_name: '::Timeline',
                         dependent:  :destroy
 
-  has_many :reportings_via_source, class_name:  "::Reporting",
+  has_many :reportings_via_source, class_name:  '::Reporting',
                                    foreign_key: 'project_id',
                                    dependent:   :delete_all
 
-  has_many :reportings_via_target, class_name:  "::Reporting",
+  has_many :reportings_via_target, class_name:  '::Reporting',
                                    foreign_key: 'reporting_to_project_id',
                                    dependent:   :delete_all
 
   has_many :reporting_to_projects, through: :reportings_via_source,
                                    source:  :reporting_to_project
 
-  has_many :project_a_associations, class_name:  "::ProjectAssociation",
+  has_many :project_a_associations, class_name:  '::ProjectAssociation',
                                     foreign_key: 'project_a_id',
                                     dependent:   :delete_all
 
-  has_many :project_b_associations, class_name:  "::ProjectAssociation",
+  has_many :project_b_associations, class_name:  '::ProjectAssociation',
                                     foreign_key: 'project_b_id',
                                     dependent:   :delete_all
 
@@ -157,29 +157,29 @@ class Project < ActiveRecord::Base
   include TimelinesCollectionProxy
 
   collection_proxy :project_associations, for: [:project_a_associations,
-                                                   :project_b_associations] do
+                                                :project_b_associations] do
     def visible(user = User.current)
       all.select { |assoc| assoc.visible?(user) }
     end
   end
 
   collection_proxy :associated_projects, for: [:associated_a_projects,
-                                                  :associated_b_projects] do
+                                               :associated_b_projects] do
     def visible(user = User.current)
       all.select { |other| other.visible?(user) }
     end
   end
 
   collection_proxy :reportings, for: [:reportings_via_source,
-                                         :reportings_via_target],
-                                         leave_public: true
+                                      :reportings_via_target],
+                                leave_public: true
 
-  def associated_project_candidates(user = User.current)
+  def associated_project_candidates(_user = User.current)
     # TODO: Check if admins shouldn't see all projects here
     projects = Project.visible.all
     projects.delete(self)
     projects -= associated_projects
-    projects.select{|p| p.allows_association?}
+    projects.select(&:allows_association?)
   end
 
   def associated_project_candidates_by_type(user = User.current)
@@ -187,14 +187,14 @@ class Project < ActiveRecord::Base
     associated_project_candidates(user).group_by(&:project_type)
   end
 
-  def project_associations_by_type(user = User.current)
+  def project_associations_by_type(_user = User.current)
     # TODO: values need sorting by project tree
     project_associations.visible.group_by do |a|
       a.project(self).project_type
     end
   end
 
-  def reporting_to_project_candidates(user = User.current)
+  def reporting_to_project_candidates(_user = User.current)
     # TODO: Check if admins shouldn't see all projects here
     projects = Project.visible.all
     projects.delete(self)
@@ -207,19 +207,19 @@ class Project < ActiveRecord::Base
   end
 
   def allows_association?
-    if self.project_type.present?
-      self.project_type.allows_association
+    if project_type.present?
+      project_type.allows_association
     else
       true
     end
   end
 
   def copy_allowed?
-    User.current.allowed_to?(:copy_projects, self) && (self.parent.nil? || User.current.allowed_to?(:add_subprojects, self.parent))
+    User.current.allowed_to?(:copy_projects, self) && (parent.nil? || User.current.allowed_to?(:add_subprojects, parent))
   end
 
   def self.selectable_projects
-    Project.visible.select {|p| User.current.member_of? p }.sort_by(&:to_s)
+    Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
   end
 
   def self.search_scope(query)
@@ -273,8 +273,8 @@ class Project < ActiveRecord::Base
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
-  def self.latest(user=nil, count=5)
-    find(:all, limit: count, conditions: visible_by(user), order: "created_on DESC")
+  def self.latest(user = nil, count = 5)
+    find(:all, limit: count, conditions: visible_by(user), order: 'created_on DESC')
   end
 
   def self.latest_for(user, options = {})
@@ -295,12 +295,12 @@ class Project < ActiveRecord::Base
   # Examples:
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user=nil)
+  def self.visible_by(user = nil)
     user ||= User.current
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
+      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect(&:project_id).join(',')}))"
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
@@ -312,7 +312,7 @@ class Project < ActiveRecord::Base
   # * :project => limit the condition to project
   # * :with_subprojects => limit the condition to project and its subprojects
   # * :member => limit the condition to the user projects
-  def self.allowed_to_condition(user, permission, options={})
+  def self.allowed_to_condition(user, permission, options = {})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
       unless perm.project_module.nil?
@@ -345,7 +345,7 @@ class Project < ActiveRecord::Base
         end
       end
       if statement_by_role.empty?
-        "1=0"
+        '1=0'
       else
         "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
       end
@@ -353,7 +353,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns the Systemwide and project specific activities
-  def activities(include_inactive=false)
+  def activities(include_inactive = false)
     if include_inactive
       return all_activities
     else
@@ -367,7 +367,7 @@ class Project < ActiveRecord::Base
   # does not successfully save.
   def update_or_create_time_entry_activity(id, activity_hash)
     if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
-      self.create_time_entry_activity_if_needed(activity_hash)
+      create_time_entry_activity_if_needed(activity_hash)
     else
       activity = project.time_entry_activities.find_by_id(id.to_i)
       activity.update_attributes(activity_hash) if activity
@@ -386,12 +386,12 @@ class Project < ActiveRecord::Base
       activity['position'] = parent_activity.position
 
       if Enumeration.overridding_change?(activity, parent_activity)
-        project_activity = self.time_entry_activities.create(activity)
+        project_activity = time_entry_activities.create(activity)
 
         if project_activity.new_record?
-          raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
+          raise ActiveRecord::Rollback, 'Overridding TimeEntryActivity was not successfully saved'
         else
-          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
+          time_entries.update_all("activity_id = #{project_activity.id}", ['activity_id = ?', parent_activity.id])
         end
       end
     end
@@ -430,20 +430,20 @@ class Project < ActiveRecord::Base
   end
 
   def active?
-    self.status == STATUS_ACTIVE
+    status == STATUS_ACTIVE
   end
 
   def archived?
-    self.status == STATUS_ARCHIVED
+    status == STATUS_ARCHIVED
   end
 
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
-    v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
+    v_ids = self_and_descendants.collect(&:version_ids).flatten
     if v_ids.any? && WorkPackage.find(:first, include: :project,
-                                        conditions: ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
+                                              conditions: ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
                                                         " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
       return false
     end
@@ -456,7 +456,7 @@ class Project < ActiveRecord::Base
   # Unarchives the project
   # All its ancestors must be active
   def unarchive
-    return false if ancestors.detect {|a| !a.active?}
+    return false if ancestors.detect { |a| !a.active? }
     update_attribute :status, STATUS_ACTIVE
   end
 
@@ -512,7 +512,7 @@ class Project < ActiveRecord::Base
     elsif p.nil? || (p.active? && move_possible?(p))
       # Insert the project so that target's children or root projects stay alphabetically sorted
       sibs = (p.nil? ? self.class.roots : p.children)
-      to_be_inserted_before = sibs.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
+      to_be_inserted_before = sibs.detect { |c| c.name.to_s.downcase > name.to_s.downcase }
       if to_be_inserted_before
         move_to_left_of(to_be_inserted_before)
       elsif p.nil?
@@ -546,7 +546,7 @@ class Project < ActiveRecord::Base
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.find(:all, conditions: {status: %w(open locked)}).each do |version|
+      versions.find(:all, conditions: { status: %w(open locked) }).each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -572,7 +572,7 @@ class Project < ActiveRecord::Base
                                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
                                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
+                                          '))')
     end
   end
 
@@ -595,7 +595,7 @@ class Project < ActiveRecord::Base
   end
 
   def destroy_all_work_packages
-    self.work_packages.each do |wp|
+    work_packages.each do |wp|
       begin
         wp.reload
         wp.destroy
@@ -616,13 +616,13 @@ class Project < ActiveRecord::Base
 
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
-    notified_users.collect {|user| user.mail}
+    notified_users.collect(&:mail)
   end
 
   # Returns the users that should be notified on project events
   def notified_users
     # TODO: User part should be extracted to User#notify_about?
-    members.select {|m| m.mail_notification? || m.user.mail_notification == 'all'}.collect {|m| m.user}
+    members.select { |m| m.mail_notification? || m.user.mail_notification == 'all' }.collect(&:user)
   end
 
   # Returns an array of all custom fields enabled for project issues
@@ -634,7 +634,7 @@ class Project < ActiveRecord::Base
       WorkPackageCustomField.for_all(options) + (
         if options.include? :include
           WorkPackageCustomField.joins(:projects)
-            .where(projects: {id: self.id})
+            .where(projects: { id: id })
             .includes(options[:include]) # use #preload instead of #includes if join gets too big
         else
           work_package_custom_fields
@@ -663,7 +663,7 @@ class Project < ActiveRecord::Base
     when description.present?
       description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
     else
-      ""
+      ''
     end
   end
 
@@ -678,18 +678,18 @@ class Project < ActiveRecord::Base
   # The earliest start date of a project, based on it's issues and versions
   def start_date
     [
-     work_packages.minimum('start_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect(&:start_date)
+      work_packages.minimum('start_date'),
+      shared_versions.collect(&:effective_date),
+      shared_versions.collect(&:start_date)
     ].flatten.compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
     [
-     work_packages.maximum('due_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
+      work_packages.maximum('due_date'),
+      shared_versions.collect(&:effective_date),
+      shared_versions.collect { |v| v.fixed_issues.maximum('due_date') }
     ].flatten.compact.max
   end
 
@@ -699,7 +699,7 @@ class Project < ActiveRecord::Base
 
   # Returns the percent completed for this project, based on the
   # progress on it's versions.
-  def completed_percent(options={include_subprojects: false})
+  def completed_percent(options = { include_subprojects: false })
     if options.delete(:include_subprojects)
       total = self_and_descendants.collect(&:completed_percent).sum
 
@@ -729,13 +729,13 @@ class Project < ActiveRecord::Base
 
   def module_enabled?(module_name)
     module_name = module_name.to_s
-    enabled_modules.detect {|m| m.name == module_name}
+    enabled_modules.detect { |m| m.name == module_name }
   end
 
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
       module_names = module_names.collect(&:to_s).reject(&:blank?)
-      self.enabled_modules = module_names.collect {|name| enabled_modules.detect {|mod| mod.name == name} || EnabledModule.new(name: name)}
+      self.enabled_modules = module_names.collect { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
     else
       enabled_modules.clear
     end
@@ -747,21 +747,21 @@ class Project < ActiveRecord::Base
   end
 
   safe_attributes 'name',
-    'description',
-    'summary',
-    'homepage',
-    'is_public',
-    'identifier',
-    'custom_field_values',
-    'custom_fields',
-    'type_ids',
-    'work_package_custom_field_ids',
-    'project_type_id',
-    'type_ids',
-    'responsible_id'
+                  'description',
+                  'summary',
+                  'homepage',
+                  'is_public',
+                  'identifier',
+                  'custom_field_values',
+                  'custom_fields',
+                  'type_ids',
+                  'work_package_custom_field_ids',
+                  'project_type_id',
+                  'type_ids',
+                  'responsible_id'
 
   safe_attributes 'enabled_module_names',
-    if: lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
+                  if: lambda { |project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   # Returns an array of projects that are in this project's hierarchy
   #
@@ -849,7 +849,7 @@ class Project < ActiveRecord::Base
   end
 
   def add_issue(attributes = {})
-    ActiveSupport::Deprecation.warn "Project.add_issue is deprecated. Use Project.add_work_package instead."
+    ActiveSupport::Deprecation.warn 'Project.add_issue is deprecated. Use Project.add_work_package instead.'
     add_work_package attributes
   end
 
@@ -860,9 +860,9 @@ class Project < ActiveRecord::Base
       type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
 
       i.type = if type_attribute
-                    project.types.find(type_attribute)
-                  else
-                    project.types.first
+                 project.types.find(type_attribute)
+               else
+                 project.types.first
                   end
 
       i.attributes = attributes
@@ -883,7 +883,7 @@ class Project < ActiveRecord::Base
 
   # Returns all the active Systemwide and project specific activities
   def active_activities
-    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
+    overridden_activity_ids = time_entry_activities.collect(&:parent_id)
 
     if overridden_activity_ids.empty?
       return TimeEntryActivity.shared.active
@@ -895,7 +895,7 @@ class Project < ActiveRecord::Base
   # Returns all the Systemwide and project specific activities
   # (inactive and active)
   def all_activities
-    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
+    overridden_activity_ids = time_entry_activities.collect(&:parent_id)
 
     if overridden_activity_ids.empty?
       return TimeEntryActivity.shared
@@ -905,17 +905,17 @@ class Project < ActiveRecord::Base
   end
 
   # Returns the systemwide active activities merged with the project specific overrides
-  def system_activities_and_project_overrides(include_inactive=false)
+  def system_activities_and_project_overrides(include_inactive = false)
     if include_inactive
-      return TimeEntryActivity.shared.
-        find(:all,
-             conditions: ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities
+      return TimeEntryActivity.shared
+        .find(:all,
+              conditions: ['id NOT IN (?)', time_entry_activities.collect(&:parent_id)]) +
+        time_entry_activities
     else
-      return TimeEntryActivity.shared.active.
-        find(:all,
-             conditions: ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities.active
+      return TimeEntryActivity.shared.active
+        .find(:all,
+              conditions: ['id NOT IN (?)', time_entry_activities.collect(&:parent_id)]) +
+        time_entry_activities.active
     end
   end
 
@@ -930,7 +930,6 @@ class Project < ActiveRecord::Base
   protected
 
   def self.possible_assignees_condition
-
     condition = Setting.work_package_group_assignment? ?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
@@ -943,9 +942,8 @@ class Project < ActiveRecord::Base
   end
 
   def self.possible_responsibles_condition
-
     condition = ["(#{Principal.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?)",
-      'User', User::STATUSES[:active], true]
+                 'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
   end

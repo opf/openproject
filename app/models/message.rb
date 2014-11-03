@@ -40,21 +40,21 @@ class Message < ActiveRecord::Base
 
   acts_as_journalized
 
-  acts_as_event title: Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+  acts_as_event title: Proc.new { |o| "#{o.board.name}: #{o.subject}" },
                 description: :content,
                 datetime: :created_on,
-                type: Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+                type: Proc.new { |o| o.parent_id.nil? ? 'message' : 'reply' },
                 url: (Proc.new do |o|
                         msg = o
                         if msg.parent_id.nil?
-                          {id: msg.id}
+                          { id: msg.id }
                         else
-                          {id: msg.parent_id, r: msg.id, anchor: "message-#{msg.id}"}
+                          { id: msg.parent_id, r: msg.id, anchor: "message-#{msg.id}" }
                         end.reverse_merge controller: '/messages', action: 'show', board_id: msg.board_id
                       end)
 
   acts_as_searchable columns: ['subject', 'content'],
-                     include: {board: :project},
+                     include: { board: :project },
                      project_key: 'project_id',
                      date_column: "#{table_name}.created_on"
 
@@ -70,16 +70,18 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, lambda {|*args| { include: {board: :project},
-                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_messages) } }
+  scope :visible, lambda {|*args|
+    { include: { board: :project },
+      conditions: Project.allowed_to_condition(args.first || User.current, :view_messages) }
+  }
 
   safe_attributes 'subject', 'content', 'board_id'
   safe_attributes 'locked', 'sticky',
-    if: lambda {|message, user|
-      user.allowed_to?(:edit_messages, message.project)
-    }
+                  if: lambda {|message, user|
+                    user.allowed_to?(:edit_messages, message.project)
+                  }
 
-  def visible?(user=User.current)
+  def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
 
@@ -102,14 +104,14 @@ class Message < ActiveRecord::Base
 
   def update_last_reply_in_parent
     if parent
-      parent.reload.update_attribute(:last_reply_id, self.id)
+      parent.reload.update_attribute(:last_reply_id, id)
     end
     board.reset_counters!
   end
 
   def update_ancestors
     if board_id_changed?
-      Message.update_all("board_id = #{board_id}", ["id = ? OR parent_id = ?", root.id, root.id])
+      Message.update_all("board_id = #{board_id}", ['id = ? OR parent_id = ?', root.id, root.id])
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end
@@ -132,17 +134,17 @@ class Message < ActiveRecord::Base
   end
 
   def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (self.author == usr && usr.allowed_to?(:edit_own_messages, project)))
+    usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (author == usr && usr.allowed_to?(:edit_own_messages, project)))
   end
 
   def destroyable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (self.author == usr && usr.allowed_to?(:delete_own_messages, project)))
+    usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
 
   private
 
   def add_author_as_watcher
-    Watcher.create(watchable: self.root, user: author)
+    Watcher.create(watchable: root, user: author)
     # update watchers and watcher_users
     watchers(true)
     watcher_users(true)

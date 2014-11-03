@@ -42,7 +42,7 @@ class Query < ActiveRecord::Base
   serialize :column_names
   serialize :sort_criteria, Array
 
-  attr_protected :project_id #, :user_id
+  attr_protected :project_id # , :user_id
 
   validates :name, presence: true
   validates_length_of :name, maximum: 255
@@ -50,7 +50,6 @@ class Query < ActiveRecord::Base
   validate :validate_work_package_filters
 
   after_initialize :remember_project_scope
-
 
   @@available_columns = [
     QueryColumn.new(:id, sortable: "#{WorkPackage.table_name}.id", groupable: false),
@@ -81,7 +80,7 @@ class Query < ActiveRecord::Base
   end
 
   def add_default_filter
-    self.filters = [ Queries::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
+    self.filters = [Queries::WorkPackages::Filter.new('status_id', operator: 'o', values: [''])] if filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
@@ -90,14 +89,14 @@ class Query < ActiveRecord::Base
   end
 
   def validate_work_package_filters
-    self.filters.each do |filter|
+    filters.each do |filter|
       unless filter.valid?
         messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
         cf_id = custom_field_id filter
 
         if cf_id && CustomField.find(cf_id)
           attribute_name = CustomField.find(cf_id).name
-          errors.add :base, attribute_name + I18n.t({default: " %{message}",message:   messages})
+          errors.add :base, attribute_name + I18n.t(default: ' %{message}', message:   messages)
         else
           attribute_name = WorkPackage.human_attribute_name(filter.field)
           errors.add :base, errors.full_message(attribute_name, messages)
@@ -109,11 +108,10 @@ class Query < ActiveRecord::Base
   def editable_by?(user)
     return false unless user
     # Admin can edit them all and regular users can edit their private queries
-    return true if user.admin? || (!is_public && self.user_id == user.id)
+    return true if user.admin? || (!is_public && user_id == user.id)
     # Members can not edit public queries that are for all project (only admin is allowed to)
     is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
-
 
   def add_filter(field, operator, values)
     return unless work_package_filter_available?(field)
@@ -122,14 +120,14 @@ class Query < ActiveRecord::Base
       filter.operator = operator
       filter.values = values
     else
-      self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
+      filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
 
   def add_short_filter(field, expression)
     return unless expression
     parms = expression.scan(/\A(o|c|!\*|!|\*)?(.*)\z/).first
-    add_filter field, (parms[0] || "="), [parms[1] || ""]
+    add_filter field, (parms[0] || '='), [parms[1] || '']
   end
 
   # Add multiple filters using +add_filter+
@@ -144,28 +142,28 @@ class Query < ActiveRecord::Base
   end
 
   def has_filter?(field)
-    filters.present? && filters.any? {|filter| filter.field.to_s == field.to_s}
+    filters.present? && filters.any? { |filter| filter.field.to_s == field.to_s }
   end
 
   def filter_for(field)
-    (filters || []).detect {|filter| filter.field.to_s == field.to_s}
+    (filters || []).detect { |filter| filter.field.to_s == field.to_s }
   end
 
   # Deprecated
   def operator_for(field)
-    warn "#operator_for is deprecated. Query the filter object directly, instead."
+    warn '#operator_for is deprecated. Query the filter object directly, instead.'
     filter_for(field).try :operator
   end
 
   # Deprecated
   def values_for(field)
-    warn "#values_for is deprecated. Query the filter object directly, instead."
+    warn '#values_for is deprecated. Query the filter object directly, instead.'
     filter_for(field).try :values
   end
 
   def label_for(field)
     label = available_work_package_filters[field][:name] if work_package_filter_available?(field)
-    label ||= field.gsub(/\_id\z/, "")
+    label ||= field.gsub(/\_id\z/, '')
   end
 
   def normalized_name
@@ -178,9 +176,9 @@ class Query < ActiveRecord::Base
     @available_columns += (project ?
                             project.all_work_package_custom_fields :
                             WorkPackageCustomField.find(:all)
-                           ).collect {|cf| ::QueryCustomFieldColumn.new(cf) }
+                           ).collect { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
-      @available_columns.select! {|column| column.name != :done_ratio }.length
+      @available_columns.select! { |column| column.name != :done_ratio }.length
     end
     @available_columns
   end
@@ -190,20 +188,20 @@ class Query < ActiveRecord::Base
   end
 
   def self.add_available_column(column)
-    self.available_columns << (column) if column.is_a?(QueryColumn)
+    available_columns << (column) if column.is_a?(QueryColumn)
   end
 
   # Returns an array of columns that can be used to group the results
   def groupable_columns
-    available_columns.select {|c| c.groupable}
+    available_columns.select(&:groupable)
   end
 
   # Returns a Hash of columns and the key for sorting
   def sortable_columns
-    {'id' => "#{WorkPackage.table_name}.id"}.merge(available_columns.inject({}) {|h, column|
-                                               h[column.name.to_s] = column.sortable
-                                               h
-                                             })
+    { 'id' => "#{WorkPackage.table_name}.id" }.merge(available_columns.inject({}) {|h, column|
+                                                       h[column.name.to_s] = column.sortable
+                                                       h
+                                                     })
   end
 
   def columns
@@ -214,15 +212,15 @@ class Query < ActiveRecord::Base
       end
     else
       # preserve the column_names order
-      column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact
+      column_names.collect { |name| available_columns.find { |col| col.name == name } }.compact
     end
   end
 
   def column_names=(names)
     if names.present?
       names = names.inject([]) { |out, e| out += e.to_s.split(',') }
-      names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
-      names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
+      names = names.select { |n| n.is_a?(Symbol) || !n.blank? }
+      names = names.collect { |n| n.is_a?(Symbol) ? n : n.to_sym }
       # Set column_names to nil if default columns
       if names.map(&:to_s) == Setting.work_package_list_default_columns
         names = nil
@@ -242,9 +240,9 @@ class Query < ActiveRecord::Base
   def sort_criteria=(arg)
     c = []
     if arg.is_a?(Hash)
-      arg = arg.keys.sort.collect {|k| arg[k]}
+      arg = arg.keys.sort.collect { |k| arg[k] }
     end
-    c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
+    c = arg.select { |k, _o| !k.to_s.blank? }.slice(0, 3).collect { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
     write_attribute(:sort_criteria, c)
   end
 
@@ -264,7 +262,7 @@ class Query < ActiveRecord::Base
   def group_by_sort_order
     if grouped? && (column = group_by_column)
       column.sortable.is_a?(Array) ?
-        column.sortable.collect {|s| "#{s} #{column.default_order}"}.join(',') :
+        column.sortable.collect { |s| "#{s} #{column.default_order}" }.join(',') :
         "#{column.sortable} #{column.default_order}"
     end
   end
@@ -283,7 +281,7 @@ class Query < ActiveRecord::Base
   end
 
   def group_by_column
-    groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
+    groupable_columns.detect { |c| c.groupable && c.name.to_s == group_by }
   end
 
   def group_by_statement
@@ -322,19 +320,19 @@ class Query < ActiveRecord::Base
     filters_clauses = []
     filters.each do |filter|
       field = filter.field.to_s
-      next if field == "subproject_id"
+      next if field == 'subproject_id'
 
       operator = filter.operator
       values = filter.values ? filter.values.clone : [''] # HACK - some operators don't require values, but they are needed for building the statement
 
       # "me" value substitution
       if @@user_filters.include? field
-        if values.delete("me")
+        if values.delete('me')
           if User.current.logged?
             values.push(User.current.id.to_s)
             values += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
           else
-            values.push("0")
+            values.push('0')
           end
         end
       end
@@ -360,16 +358,16 @@ class Query < ActiveRecord::Base
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
-          project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
+          project_ids = User.current.projects_by_role.collect { |r, p| p if r.permissions.include? :view_work_package_watchers }.flatten.compact.collect(&:id).uniq
           sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"
         end
-      elsif field == "member_of_group" # named field
+      elsif field == 'member_of_group' # named field
         if operator == '*' # Any group
           groups = Group.all
           operator = '=' # Override the operator since we want to find by assigned_to
-        elsif operator == "!*"
+        elsif operator == '!*'
           groups = Group.all
           operator = '!' # Override the operator since we want to find by assigned_to
         else
@@ -383,13 +381,13 @@ class Query < ActiveRecord::Base
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
 
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, WorkPackage.table_name, "assigned_to_id", false) + ')'
+        sql << '(' + sql_for_field('assigned_to_id', operator, members_of_groups, WorkPackage.table_name, 'assigned_to_id', false) + ')'
 
-      elsif field == "assigned_to_role" # named field
+      elsif field == 'assigned_to_role' # named field
         roles = Role.givable
-        if operator == "*" # Any Role
+        if operator == '*' # Any Role
           operator = '=' # Override the operator since we want to find by assigned_to
-        elsif operator == "!*" # No role
+        elsif operator == '!*' # No role
           operator = '!' # Override the operator since we want to find by assigned_to
         else
           roles = roles.find_all_by_id(values)
@@ -399,15 +397,15 @@ class Query < ActiveRecord::Base
         members_of_roles = roles.inject([]) {|user_ids, role|
           if role && role.members
             user_ids << if project_id
-                            role.members.reject{|m| m.project_id != project_id}.collect(&:user_id)
+                          role.members.reject { |m| m.project_id != project_id }.collect(&:user_id)
                         else
-                            role.members.collect(&:user_id)
+                          role.members.collect(&:user_id)
                         end
           end
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
 
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, WorkPackage.table_name, "assigned_to_id", false) + ')'
+        sql << '(' + sql_for_field('assigned_to_id', operator, members_of_roles, WorkPackage.table_name, 'assigned_to_id', false) + ')'
       else
         # regular field
         db_table = WorkPackage.table_name
@@ -423,24 +421,24 @@ class Query < ActiveRecord::Base
 
   # Returns the result set
   # Valid options are :order, :include, :conditions
-  def results(options={})
+  def results(options = {})
     Results.new(self, options)
   end
 
   # Returns the journals
   # Valid options are :order, :offset, :limit
-  def work_package_journals(options={})
+  def work_package_journals(options = {})
     query = Journal.includes(:user)
-                   .where(journable_type: WorkPackage.to_s)
-                   .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
-                   .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
-                   .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
-                   .joins("INNER JOIN types ON work_packages.type_id = types.id")
-                   .joins("INNER JOIN statuses ON work_packages.status_id = statuses.id")
-                   .where(statement)
-                   .order(options[:order])
-                   .limit(options[:limit])
-                   .offset(options[:offset])
+            .where(journable_type: WorkPackage.to_s)
+            .joins('INNER JOIN work_packages ON work_packages.id = journals.journable_id')
+            .joins('INNER JOIN projects ON work_packages.project_id = projects.id')
+            .joins('INNER JOIN users AS authors ON work_packages.author_id = authors.id')
+            .joins('INNER JOIN types ON work_packages.type_id = types.id')
+            .joins('INNER JOIN statuses ON work_packages.status_id = statuses.id')
+            .where(statement)
+            .order(options[:order])
+            .limit(options[:limit])
+            .offset(options[:offset])
 
     query.find :all
   rescue ::ActiveRecord::StatementInvalid => e
@@ -461,79 +459,78 @@ class Query < ActiveRecord::Base
   end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
-  def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
+  def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter = false)
     sql = ''
     case operator
-    when "="
-      if value.present? then
-        if (value.include?("-1")) then
+    when '='
+      if value.present?
+        if value.include?('-1')
           sql = "#{db_table}.#{db_field} IS NULL OR "
         end
 
-        sql += "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+        sql += "#{db_table}.#{db_field} IN (" + value.collect { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
       else
         # empty set of allowed values produces no result
-        sql = "0=1"
+        sql = '0=1'
       end
-    when "!"
+    when '!'
       if value.present?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
       else
         # empty set of forbidden values allows all results
-        sql = "1=1"
+        sql = '1=1'
       end
-    when "!*"
+    when '!*'
       sql = "#{db_table}.#{db_field} IS NULL"
       sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
-    when "*"
+    when '*'
       sql = "#{db_table}.#{db_field} IS NOT NULL"
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
-    when ">="
+    when '>='
       if is_custom_filter
         sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) >= #{value.first.to_f}"
       else
         sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
       end
-    when "<="
+    when '<='
       if is_custom_filter
         sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{value.first.to_f}"
       else
         sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
       end
-    when "o"
-      sql = "#{Status.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
-    when "c"
-      sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
-    when ">t-"
+    when 'o'
+      sql = "#{Status.table_name}.is_closed=#{connection.quoted_false}" if field == 'status_id'
+    when 'c'
+      sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == 'status_id'
+    when '>t-'
       sql = date_range_clause(db_table, db_field, - value.first.to_i, 0)
-    when "<t-"
+    when '<t-'
       sql = date_range_clause(db_table, db_field, nil, - value.first.to_i)
-    when "t-"
+    when 't-'
       sql = date_range_clause(db_table, db_field, - value.first.to_i, - value.first.to_i)
-    when ">t+"
+    when '>t+'
       sql = date_range_clause(db_table, db_field, value.first.to_i, nil)
-    when "<t+"
+    when '<t+'
       sql = date_range_clause(db_table, db_field, 0, value.first.to_i)
-    when "t+"
+    when 't+'
       sql = date_range_clause(db_table, db_field, value.first.to_i, value.first.to_i)
-    when "t"
+    when 't'
       sql = date_range_clause(db_table, db_field, 0, 0)
-    when "w"
+    when 'w'
       from = l(:general_first_day_of_week) == '7' ?
       # week starts on sunday
       ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
         # week starts on monday (Rails default)
         Time.now.at_beginning_of_week
       sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
-    when "~"
+    when '~'
       sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
-    when "!~"
+    when '!~'
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     end
 
-    return sql
+    sql
   end
-
 
   # Returns a SQL clause for a date or datetime field.
   def date_range_clause(table, field, from, to)

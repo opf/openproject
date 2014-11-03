@@ -37,7 +37,6 @@ class Group < Principal
 
   acts_as_customizable
 
-
   before_destroy :remove_references_before_destroy
 
   alias_attribute(:groupname, :lastname)
@@ -79,12 +78,12 @@ class Group < Principal
   def user_removed(user)
     members.each do |member|
       MemberRole.find(:all,
-        include: :member,
-        conditions:
-          ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
-            user.id, member.member_role_ids]).each do |member_role|
-              member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
-            end
+                      include: :member,
+                      conditions:
+                        ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
+                         user.id, member.member_role_ids]).each do |member_role|
+        member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
+      end
     end
   end
 
@@ -94,12 +93,11 @@ class Group < Principal
     self.users << users
   end
 
-
   private
 
   # Removes references that are not handled by associations
   def remove_references_before_destroy
-    return if self.id.nil?
+    return if id.nil?
 
     deleted_user = DeletedUser.first
 
@@ -110,9 +108,8 @@ class Group < Principal
                                            { assigned_to_id: id })
   end
 
-
   def uniqueness_of_groupname
-    groups_with_name = Group.where("lastname = ? AND id <> ?", groupname, id ? id : 0).count
+    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id ? id : 0).count
     if groups_with_name > 0
       errors.add :groupname, :taken
     end

@@ -28,12 +28,11 @@
 #++
 
 class ReportedProjectStatus < Enumeration
-
   extend Pagination::Model
 
   unloadable
 
-  has_many :reportings, class_name:  "Reporting",
+  has_many :reportings, class_name:  'Reporting',
                         foreign_key: 'reported_project_status_id'
 
   OptionName = :enumeration_reported_project_statuses

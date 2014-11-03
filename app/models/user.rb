@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require "digest/sha1"
+require 'digest/sha1'
 
 class User < Principal
   include ActiveModel::ForbiddenAttributesProtection
@@ -49,15 +49,15 @@ class User < Principal
     username: [:login]
   }
 
-  def self.user_format_structure_to_format(key, delimiter = " ")
-    USER_FORMATS_STRUCTURE[key].map{|elem| "\#{#{elem.to_s}}"}.join(delimiter)
+  def self.user_format_structure_to_format(key, delimiter = ' ')
+    USER_FORMATS_STRUCTURE[key].map { |elem| "\#{#{elem}}" }.join(delimiter)
   end
 
   USER_FORMATS = {
-    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname, " "),
+    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname, ' '),
     firstname:               User.user_format_structure_to_format(:firstname),
-    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname, " "),
-    lastname_coma_firstname: User.user_format_structure_to_format(:lastname_coma_firstname, ", "),
+    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname, ' '),
+    lastname_coma_firstname: User.user_format_structure_to_format(:lastname_coma_firstname, ', '),
     username:                User.user_format_structure_to_format(:username)
   }
 
@@ -79,10 +79,10 @@ class User < Principal
 
   has_many :group_users
   has_many :groups, through: :group_users,
-                    after_add: Proc.new {|user, group| group.user_added(user)},
-                    after_remove: Proc.new {|user, group| group.user_removed(user)}
+                    after_add: Proc.new { |user, group| group.user_added(user) },
+                    after_remove: Proc.new { |user, group| group.user_removed(user) }
   has_many :categories, foreign_key: 'assigned_to_id',
-                              dependent: :nullify
+                        dependent: :nullify
   has_many :assigned_issues, foreign_key: 'assigned_to_id',
                              class_name: 'WorkPackage',
                              dependent: :nullify
@@ -109,7 +109,7 @@ class User < Principal
   # note: it doesn't fail in development mode
   # see: https://github.com/rails/rails/issues/3847
   has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [ :project, :roles ], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
+  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
   has_many :projects, through: :memberships
 
   # Active non-anonymous users scope
@@ -171,12 +171,12 @@ class User < Principal
   scope :admin, conditions: { admin: true }
 
   def sanitize_mail_notification_setting
-    self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
+    self.mail_notification = Setting.default_notification_option if mail_notification.blank?
     true
   end
 
   def current_password
-    self.passwords.first
+    passwords.first
   end
 
   def password_expired?
@@ -186,7 +186,7 @@ class User < Principal
   # create new password if password was set
   def update_password
     if password && auth_source_id.blank?
-      new_password = passwords.build()
+      new_password = passwords.build
       new_password.plain_password = password
       new_password.save
 
@@ -237,9 +237,9 @@ class User < Principal
     return nil if password.to_s.empty?
     user = find_by_login(login)
     user = if user
-      try_authentication_for_existing_user(user, password)
-    else
-      try_authentication_and_create_user(login, password)
+             try_authentication_for_existing_user(user, password)
+           else
+             try_authentication_and_create_user(login, password)
     end
     unless prevent_brute_force_attack(user, login).nil?
       user.log_successful_login if user && !user.new_record?
@@ -313,19 +313,19 @@ class User < Principal
   end
 
   def status_name
-    STATUSES.keys[self.status].to_s
+    STATUSES.keys[status].to_s
   end
 
   def active?
-    self.status == STATUSES[:active]
+    status == STATUSES[:active]
   end
 
   def registered?
-    self.status == STATUSES[:registered]
+    status == STATUSES[:registered]
   end
 
   def locked?
-    self.status == STATUSES[:locked]
+    status == STATUSES[:locked]
   end
 
   def activate
@@ -355,7 +355,7 @@ class User < Principal
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   def check_password?(clear_password)
     if auth_source_id.present?
-      auth_source.authenticate(self.login, clear_password)
+      auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
       current_password.same_as_plain_password?(clear_password)
@@ -367,12 +367,12 @@ class User < Principal
     return false if uses_external_authentication? ||
                     OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
-    return auth_source.allow_password_changes?
+    auth_source.allow_password_changes?
   end
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    return identity_url.present?
+    identity_url.present?
   end
 
   #
@@ -384,7 +384,7 @@ class User < Principal
   # a short time.
   def random_password!
     self.password = OpenProject::Passwords::Generator.random_password
-    self.password_confirmation = self.password
+    self.password_confirmation = password
     self.force_password_change = true
     self
   end
@@ -395,8 +395,8 @@ class User < Principal
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0  # disabled
-    return (last_failed_login_within_block_time? and
-            self.failed_login_count >= block_threshold)
+    (last_failed_login_within_block_time? and
+            failed_login_count >= block_threshold)
   end
 
   def log_failed_login
@@ -414,16 +414,16 @@ class User < Principal
   end
 
   def time_zone
-    @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
+    @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
   end
 
   def impaired=(value)
-    self.pref.update_attribute(:impaired, !!value)
+    pref.update_attribute(:impaired, !!value)
     !!value
   end
 
   def impaired
-    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!self.pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!pref.impaired
   end
 
   def impaired?
@@ -431,24 +431,24 @@ class User < Principal
   end
 
   def wants_comments_in_reverse_order?
-    self.pref[:comments_sorting] == 'desc'
+    pref[:comments_sorting] == 'desc'
   end
 
   # Return user's RSS key (a 40 chars long string), used to access feeds
   def rss_key
-    token = self.rss_token || Token.create(user: self, action: 'feeds')
+    token = rss_token || Token.create(user: self, action: 'feeds')
     token.value
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
-    token = self.api_token || self.create_api_token(action: 'api')
+    token = api_token || create_api_token(action: 'api')
     token.value
   end
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
-    @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
+    @notified_projects_ids ||= memberships.select(&:mail_notification?).collect(&:project_id)
   end
 
   def notified_project_ids=(ids)
@@ -463,11 +463,11 @@ class User < Principal
   end
 
   # Only users that belong to more than 1 project can select projects for which they are notified
-  def self.valid_notification_options(user=nil)
+  def self.valid_notification_options(user = nil)
     # Note that @user.membership.size would fail since AR ignores
     # :include association option when doing a count
     if user.nil? || user.memberships.length < 1
-      MAIL_NOTIFICATION_OPTIONS.reject {|option| option.first == 'selected'}
+      MAIL_NOTIFICATION_OPTIONS.reject { |option| option.first == 'selected' }
     else
       MAIL_NOTIFICATION_OPTIONS
     end
@@ -496,7 +496,7 @@ class User < Principal
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
-    find(:first, conditions: ["LOWER(mail) = ?", mail.to_s.downcase])
+    find(:first, conditions: ['LOWER(mail) = ?', mail.to_s.downcase])
   end
 
   def self.find_all_by_mails(mails)
@@ -531,7 +531,7 @@ class User < Principal
     return roles unless project && project.active?
     if logged?
       # Find project membership
-      membership = memberships.detect {|m| m.project_id == project.id}
+      membership = memberships.detect { |m| m.project_id == project.id }
       if membership
         roles = membership.roles
       else
@@ -563,13 +563,13 @@ class User < Principal
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    @projects_by_role = Hash.new {|h,k| h[k]=[]}
+    @projects_by_role = Hash.new { |h, k| h[k] = [] }
     memberships.each do |membership|
       membership.roles.each do |role|
         @projects_by_role[role] << membership.project if membership.project
       end
     end
-    @projects_by_role.each do |role, projects|
+    @projects_by_role.each do |_role, projects|
       projects.uniq!
     end
 
@@ -596,8 +596,8 @@ class User < Principal
   # * a group of projects : returns true if user is allowed on every project
   # * nil with options[:global] set : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def allowed_to?(action, context, options={})
-    if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?("/")
+  def allowed_to?(action, context, options = {})
+    if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?('/')
       action = action.dup
       action[:controller] = action[:controller][1..-1]
     end
@@ -607,7 +607,7 @@ class User < Principal
     elsif context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
       context.present? && context.all? do |project|
-        allowed_to?(action,project,options)
+        allowed_to?(action, project, options)
       end
     elsif options[:global]
       allowed_to_globally?(action, options)
@@ -757,25 +757,25 @@ class User < Principal
 
   # Password requirement validation based on settings
   def password_meets_requirements
-      # Passwords are stored hashed as UserPasswords,
-      # self.password is only set when it was changed after the last
-      # save. Otherwise, password is nil.
-      unless password.nil? or anonymous?
-        password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
-        password_errors.each { |error| errors.add(:password, error)}
+    # Passwords are stored hashed as UserPasswords,
+    # self.password is only set when it was changed after the last
+    # save. Otherwise, password is nil.
+    unless password.nil? or anonymous?
+      password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
+      password_errors.each { |error| errors.add(:password, error) }
 
-        if former_passwords_include?(self.password)
-          errors.add(:password,
-                     I18n.t(:reused,
-                            count: Setting[:password_count_former_banned].to_i,
-                            scope: [:activerecord,
-                                       :errors,
-                                       :models,
-                                       :user,
-                                       :attributes,
-                                       :password]))
-        end
+      if former_passwords_include?(password)
+        errors.add(:password,
+                   I18n.t(:reused,
+                          count: Setting[:password_count_former_banned].to_i,
+                          scope: [:activerecord,
+                                  :errors,
+                                  :models,
+                                  :user,
+                                  :attributes,
+                                  :password]))
       end
+    end
   end
 
   private
@@ -790,8 +790,8 @@ class User < Principal
     @registered_allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
   end
 
-  def candidates_for_project_allowance project
-    @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
+  def candidates_for_project_allowance(project)
+    @registered_allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
   end
 
   def former_passwords_include?(password)
@@ -799,17 +799,17 @@ class User < Principal
     ban_count = Setting[:password_count_former_banned].to_i
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
-    passwords[0, ban_count].any?{ |f| f.same_as_plain_password?(password) }
+    passwords[0, ban_count].any? { |f| f.same_as_plain_password?(password) }
   end
 
   def clean_up_former_passwords
     # minimum 1 to keep the actual user password
     keep_count = [1, Setting[:password_count_former_banned].to_i].max
-    (passwords[keep_count..-1] || []).each { |p| p.destroy }
+    (passwords[keep_count..-1] || []).each(&:destroy)
   end
 
   def remove_from_filter
-    timelines_filter = ["planning_element_responsibles", "planning_element_assignee", "project_responsibles"]
+    timelines_filter = ['planning_element_responsibles', 'planning_element_assignee', 'project_responsibles']
     substitute = DeletedUser.first
 
     timelines = Timeline.all(conditions: ['options LIKE ?', "%#{id}%"])
@@ -817,7 +817,7 @@ class User < Principal
     timelines.each do |timeline|
       timelines_filter.each do |field|
         fieldOptions = timeline.options[field]
-        if fieldOptions && index = fieldOptions.index(id.to_s) then
+        if fieldOptions && index = fieldOptions.index(id.to_s)
           timeline.options_will_change!
           fieldOptions[index] = substitute.id.to_s
         end
@@ -881,8 +881,8 @@ class User < Principal
   #
   def last_failed_login_within_block_time?
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
-    self.last_failed_login_on and
-      Time.now - self.last_failed_login_on < block_duration
+    last_failed_login_on and
+      Time.now - last_failed_login_on < block_duration
   end
 
   def log_failed_login_count
@@ -903,7 +903,6 @@ class User < Principal
 end
 
 class AnonymousUser < User
-
   validate :validate_unique_anonymous_user, on: :create
 
   # There should be only one AnonymousUser in the database
@@ -917,16 +916,21 @@ class AnonymousUser < User
 
   # Overrides a few properties
   def logged?; false end
+
   def admin; false end
-  def name(*args); I18n.t(:label_user_anonymous) end
+
+  def name(*_args); I18n.t(:label_user_anonymous) end
+
   def mail; nil end
+
   def time_zone; nil end
+
   def rss_key; nil end
+
   def destroy; false end
 end
 
 class DeletedUser < User
-
   validate :validate_unique_deleted_user, on: :create
 
   # There should be only one DeletedUser in the database
@@ -935,15 +939,21 @@ class DeletedUser < User
   end
 
   def self.first
-    find_or_create_by_type_and_status(self.to_s, STATUSES[:builtin])
+    find_or_create_by_type_and_status(to_s, STATUSES[:builtin])
   end
 
   # Overrides a few properties
   def logged?; false end
+
   def admin; false end
-  def name(*args); I18n.t('user.deleted') end
+
+  def name(*_args); I18n.t('user.deleted') end
+
   def mail; nil end
+
   def time_zone; nil end
+
   def rss_key; nil end
+
   def destroy; false end
 end

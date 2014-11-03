@@ -28,11 +28,10 @@
 #++
 
 class Activity::NewsActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
-  def extend_event_query(query, activity)
+  def extend_event_query(_query, _activity)
   end
 
   def event_query_projection(activity)
@@ -44,19 +43,19 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
 
   protected
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     event['title']
   end
 
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     'news'
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.news_path(url_helper_parameter(event))
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.news_url(url_helper_parameter(event))
   end
 

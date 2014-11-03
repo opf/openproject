@@ -31,7 +31,7 @@ class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(journal)
-    if journal.journable_type == "WorkPackage" and !journal.initial? and send_notification
+    if journal.journable_type == 'WorkPackage' and !journal.initial? and send_notification
       after_create_issue_journal(journal)
     end
     clear_notification
@@ -39,9 +39,9 @@ class JournalObserver < ActiveRecord::Observer
 
   def after_create_issue_journal(journal)
     if Setting.notified_events.include?('work_package_updated') ||
-        (Setting.notified_events.include?('work_package_note_added') && journal.notes.present?) ||
-        (Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)) ||
-        (Setting.notified_events.include?('work_package_priority_updated') && journal.changed_data.has_key?(:priority_id))
+       (Setting.notified_events.include?('work_package_note_added') && journal.notes.present?) ||
+       (Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)) ||
+       (Setting.notified_events.include?('work_package_priority_updated') && journal.changed_data.has_key?(:priority_id))
       issue = journal.journable
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
@@ -54,7 +54,7 @@ class JournalObserver < ActiveRecord::Observer
   # Wrap send_notification so it defaults to true, when it's nil
   def send_notification
     return true if @send_notification.nil?
-    return @send_notification
+    @send_notification
   end
 
   private
@@ -63,5 +63,4 @@ class JournalObserver < ActiveRecord::Observer
   def clear_notification
     @send_notification = true
   end
-
 end

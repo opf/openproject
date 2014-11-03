@@ -48,19 +48,19 @@ class LdapAuthSource < AuthSource
       return attrs.except(:dn)
     end
   rescue  Net::LDAP::LdapError => error
-    raise "LdapError: " + error.message
+    raise 'LdapError: ' + error.message
   end
 
   # test the connection to the LDAP
   def test_connection
-    ldap_con = initialize_ldap_con(self.account, self.account_password)
-    ldap_con.open { }
+    ldap_con = initialize_ldap_con(account, account_password)
+    ldap_con.open {}
   rescue  Net::LDAP::LdapError => text
-    raise "LdapError: " + text.to_s
+    raise 'LdapError: ' + text.to_s
   end
 
   def auth_method_name
-    "LDAP"
+    'LDAP'
   end
 
   private
@@ -72,9 +72,9 @@ class LdapAuthSource < AuthSource
   end
 
   def initialize_ldap_con(ldap_user, ldap_password)
-    options = { host: self.host,
-                port: self.port,
-                encryption: (self.tls ? :simple_tls : nil)
+    options = { host: host,
+                port: port,
+                encryption: (tls ? :simple_tls : nil)
               }
     options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
@@ -82,11 +82,11 @@ class LdapAuthSource < AuthSource
 
   def get_user_attributes_from_ldap_entry(entry)
     {
-     dn: entry.dn,
-     firstname: LdapAuthSource.get_attr(entry, self.attr_firstname),
-     lastname: LdapAuthSource.get_attr(entry, self.attr_lastname),
-     mail: LdapAuthSource.get_attr(entry, self.attr_mail),
-     auth_source_id: self.id
+      dn: entry.dn,
+      firstname: LdapAuthSource.get_attr(entry, attr_firstname),
+      lastname: LdapAuthSource.get_attr(entry, attr_lastname),
+      mail: LdapAuthSource.get_attr(entry, attr_mail),
+      auth_source_id: id
     }
   end
 
@@ -94,7 +94,7 @@ class LdapAuthSource < AuthSource
   # include the user attributes if on-the-fly registration is enabled
   def search_attributes
     if onthefly_register?
-      ['dn', self.attr_firstname, self.attr_lastname, self.attr_mail]
+      ['dn', attr_firstname, attr_lastname, attr_mail]
     else
       ['dn']
     end
@@ -109,19 +109,19 @@ class LdapAuthSource < AuthSource
 
   # Get the user's dn and any attributes for them, given their login
   def get_user_dn(login)
-    ldap_con = initialize_ldap_con(self.account, self.account_password)
-    login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
-    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
+    ldap_con = initialize_ldap_con(account, account_password)
+    login_filter = Net::LDAP::Filter.eq(attr_login, login)
+    object_filter = Net::LDAP::Filter.eq('objectClass', '*')
     attrs = {}
 
-    ldap_con.search( base: self.base_dn,
-                     filter: object_filter & login_filter,
-                     attributes: search_attributes) do |entry|
+    ldap_con.search(base: base_dn,
+                    filter: object_filter & login_filter,
+                    attributes: search_attributes) do |entry|
 
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else
-        attrs = {dn: entry.dn}
+        attrs = { dn: entry.dn }
       end
 
       logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?
@@ -137,6 +137,6 @@ class LdapAuthSource < AuthSource
   end
 
   def set_default_port
-    self.port = 389 if self.port.to_i == 0
+    self.port = 389 if port.to_i == 0
   end
 end

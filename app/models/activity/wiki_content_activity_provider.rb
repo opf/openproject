@@ -28,7 +28,6 @@
 #++
 
 class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits
 
@@ -37,32 +36,32 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
     query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
   end
 
-  def event_query_projection(activity)
+  def event_query_projection(_activity)
     [
-      projection_statement(wikis_table , :project_id, 'project_id'),
+      projection_statement(wikis_table, :project_id, 'project_id'),
       projection_statement(wiki_pages_table, :title, 'wiki_title')
     ]
   end
 
-  def projects_reference_table(activity)
+  def projects_reference_table(_activity)
     wikis_table
   end
 
   protected
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     'wiki-page'
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.project_wiki_path(*url_helper_parameter(event))
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.project_wiki_url(*url_helper_parameter(event))
   end
 
@@ -77,6 +76,6 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    [ event['project_id'], event['wiki_title'], { version: event['version'] } ]
+    [event['project_id'], event['wiki_title'], { version: event['version'] }]
   end
 end

@@ -42,7 +42,7 @@ class Watcher < ActiveRecord::Base
   validate :validate_user_allowed_to_watch
 
   # Unwatch things that users are no longer allowed to view
-  def self.prune(options={})
+  def self.prune(options = {})
     if options.has_key?(:user)
       prune_single_user(options[:user], options)
     else
@@ -70,10 +70,10 @@ class Watcher < ActiveRecord::Base
 
   private
 
-  def self.prune_single_user(user, options={})
+  def self.prune_single_user(user, options = {})
     return unless user.is_a?(User)
     pruned = 0
-    find(:all, conditions: {user_id: user.id}).each do |watcher|
+    find(:all, conditions: { user_id: user.id }).each do |watcher|
       next if watcher.watchable.nil?
 
       if options.has_key?(:project)

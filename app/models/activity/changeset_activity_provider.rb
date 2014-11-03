@@ -28,10 +28,8 @@
 #++
 
 class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'changesets',
                             permission: :view_changesets
-
 
   def extend_event_query(query, activity)
     query.join(repositories_table).on(activity_journals_table(activity)[:repository_id].eq(repositories_table[:id]))
@@ -47,17 +45,17 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def projects_reference_table(activity)
+  def projects_reference_table(_activity)
     repositories_table
   end
 
   protected
 
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     'changeset'
   end
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     revision = format_revision(event)
 
     short_comment = split_comment(event['comments']).first
@@ -66,21 +64,21 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     title << (short_comment.blank? ? '' : (': ' + short_comment))
   end
 
-  def event_description(event, activity)
+  def event_description(event, _activity)
     split_comment(event['comments']).last
   end
 
-  def event_datetime(event, activity)
+  def event_datetime(event, _activity)
     committed_on = event['committed_on']
     committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
                                                 : committed_on
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.revisions_project_repository_path(url_helper_parameter(event))
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.revisions_project_repository_url(url_helper_parameter(event))
   end
 

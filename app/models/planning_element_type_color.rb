@@ -50,20 +50,20 @@ class PlanningElementTypeColor < ActiveRecord::Base
 
   def self.colors
     [
-      self.find_or_initialize_by_name_and_hexcode('Black',      '#000000'),
-      self.find_or_initialize_by_name_and_hexcode('White',      '#FFFFFF'),
-      self.find_or_initialize_by_name_and_hexcode('Blue',       '#3399CC'),
-      self.find_or_initialize_by_name_and_hexcode('Mint',       '#66CCCC'),
-      self.find_or_initialize_by_name_and_hexcode('Lime',       '#66CC99'),
-      self.find_or_initialize_by_name_and_hexcode('Green-neon', '#00CC33'),
-      self.find_or_initialize_by_name_and_hexcode('Green',      '#339933'),
-      self.find_or_initialize_by_name_and_hexcode('Orange',     '#FFCC00'),
-      self.find_or_initialize_by_name_and_hexcode('Red',        '#CC3333'),
-      self.find_or_initialize_by_name_and_hexcode('Red-bright', '#FF3300'),
-      self.find_or_initialize_by_name_and_hexcode('Yellow',     '#FFFF00'),
-      self.find_or_initialize_by_name_and_hexcode('Purple',     '#CC0066'),
-      self.find_or_initialize_by_name_and_hexcode('Grey-dark',  '#666666'),
-      self.find_or_initialize_by_name_and_hexcode('Grey-light', '#DDDDDD')
+      find_or_initialize_by_name_and_hexcode('Black',      '#000000'),
+      find_or_initialize_by_name_and_hexcode('White',      '#FFFFFF'),
+      find_or_initialize_by_name_and_hexcode('Blue',       '#3399CC'),
+      find_or_initialize_by_name_and_hexcode('Mint',       '#66CCCC'),
+      find_or_initialize_by_name_and_hexcode('Lime',       '#66CC99'),
+      find_or_initialize_by_name_and_hexcode('Green-neon', '#00CC33'),
+      find_or_initialize_by_name_and_hexcode('Green',      '#339933'),
+      find_or_initialize_by_name_and_hexcode('Orange',     '#FFCC00'),
+      find_or_initialize_by_name_and_hexcode('Red',        '#CC3333'),
+      find_or_initialize_by_name_and_hexcode('Red-bright', '#FF3300'),
+      find_or_initialize_by_name_and_hexcode('Yellow',     '#FFFF00'),
+      find_or_initialize_by_name_and_hexcode('Purple',     '#CC0066'),
+      find_or_initialize_by_name_and_hexcode('Grey-dark',  '#666666'),
+      find_or_initialize_by_name_and_hexcode('Grey-light', '#DDDDDD')
     ]
   end
 

@@ -84,8 +84,8 @@ module WorkPackage::AskBeforeDestruction
     def cleanup_each_associated_class(work_packages, user, to_do)
       ret = false
 
-      self.transaction do
-        associated_to_ask_before_destruction_of(work_packages).each do |klass, method|
+      transaction do
+        associated_to_ask_before_destruction_of(work_packages).each do |_klass, method|
           ret = method.call(work_packages, user, to_do)
         end
 

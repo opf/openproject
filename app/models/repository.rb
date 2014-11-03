@@ -76,8 +76,8 @@ class Repository < ActiveRecord::Base
   end
 
   def scm
-    @scm ||= self.scm_adapter.new(url, root_url,
-                                  login, password, path_encoding)
+    @scm ||= scm_adapter.new(url, root_url,
+                             login, password, path_encoding)
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
     @scm
   end
@@ -102,11 +102,11 @@ class Repository < ActiveRecord::Base
     false
   end
 
-  def entry(path=nil, identifier=nil)
+  def entry(path = nil, identifier = nil)
     scm.entry(path, identifier)
   end
 
-  def entries(path=nil, identifier=nil)
+  def entries(path = nil, identifier = nil)
     scm.entries(path, identifier)
   end
 
@@ -122,11 +122,11 @@ class Repository < ActiveRecord::Base
     scm.default_branch
   end
 
-  def properties(path, identifier=nil)
+  def properties(path, identifier = nil)
     scm.properties(path, identifier)
   end
 
-  def cat(path, identifier=nil)
+  def cat(path, identifier = nil)
     scm.cat(path, identifier)
   end
 
@@ -134,8 +134,8 @@ class Repository < ActiveRecord::Base
     scm.diff(path, rev, rev_to)
   end
 
-  def diff_format_revisions(cs, cs_to, sep=':')
-    text = ""
+  def diff_format_revisions(cs, cs_to, sep = ':')
+    text = ''
     text << cs_to.format_identifier + sep if cs_to
     text << cs.format_identifier if cs
     text
@@ -150,7 +150,7 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, conditions: (name.match(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, conditions: (name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%']))
   end
 
   def latest_changeset
@@ -159,21 +159,21 @@ class Repository < ActiveRecord::Base
 
   # Returns the latest changesets for +path+
   # Default behaviour is to search in cached changesets
-  def latest_changesets(path, rev, limit=10)
+  def latest_changesets(path, _rev, limit = 10)
     if path.blank?
       changesets.find(:all, include: :user,
                             order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
                             limit: limit)
     else
-      changes.find(:all, include: {changeset: :user},
-                         conditions: ["path = ?", path.with_leading_slash],
+      changes.find(:all, include: { changeset: :user },
+                         conditions: ['path = ?', path.with_leading_slash],
                          order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
                          limit: limit).collect(&:changeset)
     end
   end
 
   def scan_changesets_for_work_package_ids
-    self.changesets.each(&:scan_comment_for_work_package_ids)
+    changesets.each(&:scan_comment_for_work_package_ids)
   end
 
   # Returns an array of committers usernames and associated user_id
@@ -188,7 +188,7 @@ class Repository < ActiveRecord::Base
         new_user_id = h[committer]
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
-          Changeset.update_all("user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }", ["repository_id = ? AND committer = ?", id, committer])
+          Changeset.update_all("user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }", ['repository_id = ? AND committer = ?', id, committer])
         end
       end
       @committers = nil
@@ -208,7 +208,7 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, conditions: {committer: committer}, include: :user)
+      c = changesets.find(:first, conditions: { committer: committer }, include: :user)
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
@@ -252,7 +252,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.available_scm
-    subclasses.collect {|klass| [klass.scm_name, klass.name]}
+    subclasses.collect { |klass| [klass.scm_name, klass.name] }
   end
 
   def self.factory(klass_name, *args)
@@ -267,9 +267,9 @@ class Repository < ActiveRecord::Base
   end
 
   def self.scm_command
-    ret = ""
+    ret = ''
     begin
-      ret = self.scm_adapter_class.client_command if self.scm_adapter_class
+      ret = scm_adapter_class.client_command if scm_adapter_class
     rescue Redmine::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get command: #{e.message}"
     end
@@ -277,9 +277,9 @@ class Repository < ActiveRecord::Base
   end
 
   def self.scm_version_string
-    ret = ""
+    ret = ''
     begin
-      ret = self.scm_adapter_class.client_version_string if self.scm_adapter_class
+      ret = scm_adapter_class.client_version_string if scm_adapter_class
     rescue Redmine::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get version string: #{e.message}"
     end
@@ -289,7 +289,7 @@ class Repository < ActiveRecord::Base
   def self.scm_available
     ret = false
     begin
-      ret = self.scm_adapter_class.client_available if self.scm_adapter_class
+      ret = scm_adapter_class.client_available if scm_adapter_class
     rescue Redmine::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get scm available: #{e.message}"
     end

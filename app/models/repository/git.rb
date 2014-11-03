@@ -34,8 +34,8 @@ class Repository::Git < Repository
   validates_presence_of :url
 
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Path to repository",
-    }
+    'url'          => 'Path to repository',
+  }
   def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
@@ -63,7 +63,7 @@ class Repository::Git < Repository
 
   # Returns the readable identifier for the given git changeset
   def self.format_changeset_identifier(changeset)
-    self.format_revision(changeset.revision)
+    format_revision(changeset.revision)
   end
 
   def self.format_revision(revision)
@@ -97,17 +97,17 @@ class Repository::Git < Repository
     c = changesets.find(:first, order: 'committed_on DESC')
     since = (c ? c.committed_on - 7.days : nil)
 
-    revisions = scm.revisions('', nil, nil, {all: true, since: since, reverse: true})
+    revisions = scm.revisions('', nil, nil, all: true, since: since, reverse: true)
     return if revisions.nil? || revisions.empty?
 
     recent_changesets = changesets.find(:all, conditions: ['committed_on >= ?', since])
 
     # Clean out revisions that are no longer in git
-    recent_changesets.each {|c| c.destroy unless revisions.detect {|r| r.scmid.to_s == c.scmid.to_s }}
+    recent_changesets.each { |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } }
 
     # Subtract revisions that redmine already knows about
-    recent_revisions = recent_changesets.map{|c| c.scmid}
-    revisions.reject!{|r| recent_revisions.include?(r.scmid)}
+    recent_revisions = recent_changesets.map(&:scmid)
+    revisions.reject! { |r| recent_revisions.include?(r.scmid) }
 
     # Save the remaining ones to the database
     unless revisions.nil?
@@ -134,15 +134,15 @@ class Repository::Git < Repository
     end
   end
 
-  def latest_changesets(path,rev,limit=10)
+  def latest_changesets(path, rev, limit = 10)
     revisions = scm.revisions(path, nil, rev, limit: limit, all: false)
     return [] if revisions.nil? || revisions.empty?
 
     changesets.find(
       :all,
       conditions: [
-        "scmid IN (?)",
-        revisions.map!{|c| c.scmid}
+        'scmid IN (?)',
+        revisions.map!(&:scmid)
       ],
       order: 'committed_on DESC'
     )

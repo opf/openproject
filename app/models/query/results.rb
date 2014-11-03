@@ -28,7 +28,6 @@
 #++
 
 class ::Query::Results
-
   include Sums
   include Redmine::I18n
 
@@ -59,11 +58,11 @@ class ::Query::Results
                                 include: [:status, :project],
                                 conditions: query.statement)
         rescue ActiveRecord::RecordNotFound
-          r = {nil => work_package_count}
+          r = { nil => work_package_count }
         end
         c = query.group_by_column
         if c.is_a?(QueryCustomFieldColumn)
-          r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
+          r = r.keys.inject({}) { |h, k| h[c.custom_field.cast_value(k)] = r[k]; h }
         end
       end
       r
@@ -77,13 +76,13 @@ class ::Query::Results
   end
 
   def work_packages
-    order_option = [query.group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
+    order_option = [query.group_by_sort_order, options[:order]].reject(&:blank?).join(',')
     order_option = nil if order_option.blank?
 
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
-               .includes([:status, :project] + (options[:include] || []).uniq)
-               .joins((query.group_by_column ? query.group_by_column.join : nil))
-               .order(order_option)
+      .includes([:status, :project] + (options[:include] || []).uniq)
+      .joins((query.group_by_column ? query.group_by_column.join : nil))
+      .order(order_option)
   end
 
   def versions

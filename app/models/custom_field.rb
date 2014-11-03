@@ -41,7 +41,7 @@ class CustomField < ActiveRecord::Base
                                 reject_if: :blank_attributes
 
   def translations_attributes_with_globalized=(attr)
-    ret = self.translations_attributes_without_globalized=(attr)
+    ret = self.translations_attributes_without_globalized = (attr)
 
     # enable globalize to access newly set attributes
     translations.loaded
@@ -77,9 +77,7 @@ class CustomField < ActiveRecord::Base
 
   validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length}, unless: Proc.new { |cf| cf.max_length.blank?}
-
-
+  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length }, unless: Proc.new { |cf| cf.max_length.blank? }
 
   def initialize(attributes = nil, options = {})
     super
@@ -95,7 +93,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def validate_presence_of_possible_values
-    if self.field_format == "list"
+    if field_format == 'list'
       errors.add(:possible_values, :blank) if self.possible_values.blank?
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
     end
@@ -103,7 +101,7 @@ class CustomField < ActiveRecord::Base
 
   # validate default value in every translation available
   def validate_default_value_in_translations
-    required_field = self.is_required
+    required_field = is_required
     self.is_required = false
     translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
     translated_locales.each do |locale|
@@ -117,15 +115,15 @@ class CustomField < ActiveRecord::Base
 
   # check presence of name and check the length of name value
   def validate_name
-    if self.translations.empty?
-      errors.add(:name, :blank) if self.name.nil?
+    if translations.empty?
+      errors.add(:name, :blank) if name.nil?
     else
-      fallback_name = self.translations.find{|el| el.name != nil}
-      self.translations.each do | translation |
+      fallback_name = translations.find { |el| !el.name.nil? }
+      translations.each do | translation |
         if translation.name.nil? && fallback_name.nil?
           errors.add(:name, :blank)
         else
-          if ( translation.name.nil? && fallback_name.name.length > 30 ) || ( !translation.name.nil? && translation.name.length > 30 )
+          if (translation.name.nil? && fallback_name.name.length > 30) || (!translation.name.nil? && translation.name.length > 30)
             errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', count: 30))
           end
 
@@ -135,15 +133,15 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def possible_values_options(obj=nil)
+  def possible_values_options(obj = nil)
     case field_format
     when 'user', 'version'
       if obj.respond_to?(:project) && obj.project
         case field_format
         when 'user'
-          obj.project.users.sort.collect {|u| [u.to_s, u.id.to_s]}
+          obj.project.users.sort.collect { |u| [u.to_s, u.id.to_s] }
         when 'version'
-          obj.project.versions.sort.collect {|u| [u.to_s, u.id.to_s]}
+          obj.project.versions.sort.collect { |u| [u.to_s, u.id.to_s] }
         end
       else
         []
@@ -160,7 +158,7 @@ class CustomField < ActiveRecord::Base
   # Options may be a user, or options suitable for ActiveRecord#read_attribute.
   # read_attribute is localized - to get values for a specific locale pass the following options hash
   # :locale => <locale (-> :en, :de, ...)>
-  def possible_values(obj=nil)
+  def possible_values(obj = nil)
     case field_format
     when 'user'
       possible_values_options(obj).collect(&:last)
@@ -173,7 +171,7 @@ class CustomField < ActiveRecord::Base
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select{ |v| !v.blank? }
+      value = arg.compact.collect(&:strip).select { |v| !v.blank? }
 
       write_attribute(:possible_values, value, {})
     else
@@ -234,13 +232,13 @@ class CustomField < ActiveRecord::Base
   end
 
   def self.customized_class
-    self.name =~ /\A(.+)CustomField\z/
+    name =~ /\A(.+)CustomField\z/
     begin; $1.constantize; rescue nil; end
   end
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    options.merge!({conditions: ["is_for_all=?", true], order: 'position'})
+    options.merge!(conditions: ['is_for_all=?', true], order: 'position')
     find :all, options
   end
 
@@ -260,14 +258,14 @@ class CustomField < ActiveRecord::Base
 
   def attribute_locale(attribute, value)
     locales_for_value = translations.select { |t| t.send(attribute) == value }
-                                    .collect(&:locale)
-                                    .uniq
+                        .collect(&:locale)
+                        .uniq
 
     locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
   end
 
   def blank_attributes(attributes)
-    value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)
+    value_keys = attributes.reject { |_k, v| v.blank? }.keys.map(&:to_sym)
 
     !value_keys.include?(:locale) || (value_keys & translated_attribute_names).size == 0
   end
@@ -281,12 +279,11 @@ class CustomField::Translation < Globalize::ActiveRecord::Translation
 
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+      value = arg.compact.collect(&:strip).select { |v| !v.blank? }
 
       write_attribute(:possible_values, value)
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
     end
   end
-
 end

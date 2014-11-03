@@ -28,7 +28,6 @@
 #++
 
 class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'time_entries',
                             permission: :view_time_entries
 
@@ -54,13 +53,13 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
   protected
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
                                                              : work_package_title(event)
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     'time-entry'
   end
 
@@ -72,11 +71,11 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
                                                              event['is_standard'])
   end
 
-  def event_description(event, activity)
+  def event_description(event, _activity)
     event['time_entry_description']
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     unless event['work_package_id'].blank?
       url_helpers.work_package_time_entries_path(event['work_package_id'])
     else
@@ -84,7 +83,7 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
     end
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     unless event['work_package_id'].blank?
       url_helpers.work_package_time_entries_url(event['work_package_id'])
     else

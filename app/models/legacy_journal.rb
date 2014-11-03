@@ -52,7 +52,7 @@ class LegacyJournal < ActiveRecord::Base
   belongs_to :journaled, class_name: 'Journal'
   belongs_to :user
 
-  #attr_protected :user_id
+  # attr_protected :user_id
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -63,7 +63,7 @@ class LegacyJournal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope "changing", conditions: ["version > 1"]
+  scope 'changing', conditions: ['version > 1']
 
   # let all child classes have Journal as it's model name
   # used to not having to create another route for every subclass of Journal
@@ -114,7 +114,7 @@ class LegacyJournal < ActiveRecord::Base
   end
 
   def details
-    attributes["changed_data"] || {}
+    attributes['changed_data'] || {}
   end
 
   alias_method :changed_data, :details
@@ -147,5 +147,4 @@ class LegacyJournal < ActiveRecord::Base
   rescue NoMethodError => e
     e.name == method ? super : raise(e)
   end
-
 end

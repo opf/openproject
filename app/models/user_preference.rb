@@ -75,7 +75,7 @@ class UserPreference < ActiveRecord::Base
     others[:warn_on_leaving_unsaved] = value
   end
 
-private
+  private
 
   def init_other_preferences
     self.others ||= {}

@@ -52,6 +52,6 @@ class Change < ActiveRecord::Base
   end
 
   def init_path
-    self.path ||= ""
+    self.path ||= ''
   end
 end

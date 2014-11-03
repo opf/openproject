@@ -31,9 +31,9 @@ class MenuItems::WikiMenuItem < MenuItem
   belongs_to :wiki, foreign_key: 'navigatable_id'
 
   scope :main_items, lambda { |wiki_id|
-    {conditions: {navigatable_id: wiki_id, parent_id: nil},
-    include: :children,
-     order: 'id ASC'}
+    { conditions: { navigatable_id: wiki_id, parent_id: nil },
+      include: :children,
+      order: 'id ASC' }
   }
 
   def item_class

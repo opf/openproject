@@ -27,14 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require "digest/md5"
+require 'digest/md5'
 
 class Attachment < ActiveRecord::Base
   ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ]
 
   belongs_to :container, polymorphic: true
 
-  belongs_to :author, class_name: "User", foreign_key: "author_id"
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   attr_protected :author_id
 
@@ -61,7 +61,7 @@ class Attachment < ActiveRecord::Base
                    Rails.root.join('files').to_s
 
   def filesize_below_allowed_maximum
-    if self.filesize > Setting.attachment_max_size.to_i.kilobytes
+    if filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, count: Setting.attachment_max_size.to_i.kilobytes)
     end
   end
@@ -74,7 +74,7 @@ class Attachment < ActiveRecord::Base
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
-          self.filename.force_encoding("UTF-8") if filename.respond_to?(:force_encoding)
+          filename.force_encoding('UTF-8') if filename.respond_to?(:force_encoding)
         end
         self.filesize = @temp_file.size
       end
@@ -97,16 +97,16 @@ class Attachment < ActiveRecord::Base
   # and computes its MD5 hash
   def copy_file_to_destination
     if @temp_file && (@temp_file.size > 0)
-      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
+      logger.info("Saving attachment '#{diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
-      File.open(diskfile, "wb") do |f|
+      File.open(diskfile, 'wb') do |f|
         # @temp_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.is_a? String
           f.write(@temp_file)
           md5.update(@temp_file)
         else
-          buffer = ""
+          buffer = ''
           while (buffer = @temp_file.read(8192))
             f.write(buffer)
             md5.update(buffer)
@@ -125,7 +125,7 @@ class Attachment < ActiveRecord::Base
 
   # Returns file's location on disk
   def diskfile
-    "#{@@storage_path}/#{self.disk_filename}"
+    "#{@@storage_path}/#{disk_filename}"
   end
 
   def increment_download
@@ -133,19 +133,19 @@ class Attachment < ActiveRecord::Base
   end
 
   def project
-    #not every container has a project (example: LandingPage)
-    container.respond_to?(:project)? container.project : nil
+    # not every container has a project (example: LandingPage)
+    container.respond_to?(:project) ? container.project : nil
   end
 
   def content_disposition
     inlineable? ? 'inline' : 'attachment'
   end
 
-  def visible?(user=User.current)
+  def visible?(user = User.current)
     container.attachments_visible?(user)
   end
 
-  def deletable?(user=User.current)
+  def deletable?(user = User.current)
     container.attachments_deletable?(user)
   end
 
@@ -170,7 +170,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_diff?
-    is_text? && self.filename =~ /\.(patch|diff)\z/i
+    is_text? && filename =~ /\.(patch|diff)\z/i
   end
 
   # Returns true if the file is readable
@@ -206,14 +206,14 @@ class Attachment < ActiveRecord::Base
         end
       end
     end
-    {files: attached, unsaved: obj.unsaved_attachments}
+    { files: attached, unsaved: obj.unsaved_attachments }
   end
 
   def self.content_type_for(file_path)
     Redmine::MimeType.narrow_type(file_path, OpenProject::ContentTypeDetector.new(file_path).detect)
   end
 
-private
+  private
 
   def sanitize_filename(value)
     # get only the filename, not the whole path
@@ -222,12 +222,12 @@ private
     # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
     # Finally, replace all non alphanumeric, hyphens or periods with underscore
-    @filename = just_filename.gsub(/[^\w\.\-]/,'_')
+    @filename = just_filename.gsub(/[^\w\.\-]/, '_')
   end
 
   # Returns an ASCII or hashed filename
   def self.disk_filename(filename)
-    timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
+    timestamp = DateTime.now.strftime('%y%m%d%H%M%S')
     ascii = ''
     if filename =~ %r{\A[a-zA-Z0-9_\.\-]*\z}
       ascii = filename

@@ -35,10 +35,9 @@ module WorkPackage::TimeEntries
   end
 
   module ClassMethods
-
     protected
 
-    def cleanup_time_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy'} )
+    def cleanup_time_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy' })
       return false unless to_do.present?
 
       case to_do[:action]
@@ -49,8 +48,8 @@ module WorkPackage::TimeEntries
         WorkPackage.update_time_entries(work_packages, 'work_package_id = NULL')
       when 'reassign'
         reassign_to = WorkPackage.includes(:project)
-                                 .where(Project.allowed_to_condition(user, :edit_time_entries))
-                                 .find_by_id(to_do[:reassign_to_id])
+                      .where(Project.allowed_to_condition(user, :edit_time_entries))
+                      .find_by_id(to_do[:reassign_to_id])
 
         if reassign_to.nil?
           Array(work_packages).each do |wp|

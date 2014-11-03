@@ -28,63 +28,62 @@
 #++
 
 class Setting < ActiveRecord::Base
-
   DATE_FORMATS = [
-  '%Y-%m-%d',
-  '%d/%m/%Y',
-  '%d.%m.%Y',
-  '%d-%m-%Y',
-  '%m/%d/%Y',
-  '%d %b %Y',
-  '%d %B %Y',
-  '%b %d, %Y',
-  '%B %d, %Y'
-    ]
+    '%Y-%m-%d',
+    '%d/%m/%Y',
+    '%d.%m.%Y',
+    '%d-%m-%Y',
+    '%m/%d/%Y',
+    '%d %b %Y',
+    '%d %B %Y',
+    '%b %d, %Y',
+    '%B %d, %Y'
+  ]
 
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
-    ]
+  ]
 
   ENCODINGS = %w(US-ASCII
-                  windows-1250
-                  windows-1251
-                  windows-1252
-                  windows-1253
-                  windows-1254
-                  windows-1255
-                  windows-1256
-                  windows-1257
-                  windows-1258
-                  windows-31j
-                  ISO-2022-JP
-                  ISO-2022-KR
-                  ISO-8859-1
-                  ISO-8859-2
-                  ISO-8859-3
-                  ISO-8859-4
-                  ISO-8859-5
-                  ISO-8859-6
-                  ISO-8859-7
-                  ISO-8859-8
-                  ISO-8859-9
-                  ISO-8859-13
-                  ISO-8859-15
-                  KOI8-R
-                  UTF-8
-                  UTF-16
-                  UTF-16BE
-                  UTF-16LE
-                  EUC-JP
-                  Shift_JIS
-                  CP932
-                  GB18030
-                  GBK
-                  ISCII91
-                  EUC-KR
-                  Big5
-                  Big5-HKSCS
-                  TIS-620)
+                 windows-1250
+                 windows-1251
+                 windows-1252
+                 windows-1253
+                 windows-1254
+                 windows-1255
+                 windows-1256
+                 windows-1257
+                 windows-1258
+                 windows-31j
+                 ISO-2022-JP
+                 ISO-2022-KR
+                 ISO-8859-1
+                 ISO-8859-2
+                 ISO-8859-3
+                 ISO-8859-4
+                 ISO-8859-5
+                 ISO-8859-6
+                 ISO-8859-7
+                 ISO-8859-8
+                 ISO-8859-9
+                 ISO-8859-13
+                 ISO-8859-15
+                 KOI8-R
+                 UTF-8
+                 UTF-16
+                 UTF-16BE
+                 UTF-16LE
+                 EUC-JP
+                 Shift_JIS
+                 CP932
+                 GB18030
+                 GBK
+                 ISCII91
+                 EUC-KR
+                 Big5
+                 Big5-HKSCS
+                 TIS-620)
 
   cattr_accessor :available_settings
 
@@ -124,12 +123,12 @@ class Setting < ActiveRecord::Base
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
   # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, params|
-    self.create_setting_accessors(name)
+  @@available_settings.each do |name, _params|
+    create_setting_accessors(name)
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, in: lambda { |setting| @@available_settings.keys } # lambda, because @available_settings changes at runtime
+  validates_inclusion_of :name, in: lambda { |_setting| @@available_settings.keys } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
 
   def value
@@ -147,14 +146,14 @@ class Setting < ActiveRecord::Base
 
   # Returns the value of the setting named name
   def self.[](name)
-    Marshal.load(Rails.cache.fetch(self.cache_key(name)) {Marshal.dump(find_or_default(name).value)})
+    Marshal.load(Rails.cache.fetch(cache_key(name)) { Marshal.dump(find_or_default(name).value) })
   end
 
   def self.[]=(name, v)
     setting = find_or_default(name)
     # remember the old setting and mark it as read-only
     old_setting = setting.dup.freeze
-    setting.value = (v ? v : "")
+    setting.value = (v ? v : '')
     Rails.cache.delete(cache_key(name))
     if setting.save
       # fire callbacks for name and pass as much information as possible
@@ -186,25 +185,26 @@ class Setting < ActiveRecord::Base
 
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
-    per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
+    per_page_options.split(%r{[\s,]}).collect(&:to_i).select { |n| n > 0 }.sort
   end
 
   # Deprecation Warning: This method is no longer available. There is no
   # replacement.
   def self.check_cache
-    ActiveSupport::Deprecation.warn "The Setting.check_cache method is " +
-      "deprecated and will be removed in the future. There should be no " +
-      "replacement for this functionality needed."
+    ActiveSupport::Deprecation.warn 'The Setting.check_cache method is ' +
+      'deprecated and will be removed in the future. There should be no ' +
+      'replacement for this functionality needed.'
   end
 
   # Clears all of the Setting caches
   def self.clear_cache
-    ActiveSupport::Deprecation.warn "The Setting.clear_cache method is " +
-      "deprecated and will be removed in the future. There should be no " +
-      "replacement for this functionality needed."
+    ActiveSupport::Deprecation.warn 'The Setting.clear_cache method is ' +
+      'deprecated and will be removed in the future. There should be no ' +
+      'replacement for this functionality needed.'
   end
 
-private
+  private
+
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
@@ -218,7 +218,7 @@ private
 
   def self.cache_key(name)
     RequestStore.store[:settings_updated_on] ||= Setting.maximum(:updated_on)
-    most_recent_settings_change = ( RequestStore.store[:settings_updated_on] || Time.now.utc).to_i
+    most_recent_settings_change = (RequestStore.store[:settings_updated_on] || Time.now.utc).to_i
     base_cache_key(name, most_recent_settings_change)
   end
 

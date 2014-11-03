@@ -31,7 +31,7 @@ module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
   included do
-    #add class-methods (validations, scope) here
+    # add class-methods (validations, scope) here
   end
 
   def reschedule_after(date)
@@ -58,7 +58,7 @@ module WorkPackage::SchedulingRules
   #   Start Date: 2/26/09, Due Date: -      ,  duration => 1
   #   Start Date: -      , Due Date: 2/26/09,  duration => 1
   def duration
-    if (start_date && due_date)
+    if start_date && due_date
       due_date - start_date + 1
     else
       1
