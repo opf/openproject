@@ -28,17 +28,16 @@
 #++
 
 class Reports::ResponsibleReport < Reports::Report
-
   def self.report_type
-    "responsible"
+    'responsible'
   end
 
   def field
-    @field ||= "responsible_id"
+    @field ||= 'responsible_id'
   end
 
   def rows
-    @rows ||= @project.members.collect { |m| m.user }.sort
+    @rows ||= @project.members.collect(&:user).sort
   end
 
   def data
@@ -48,5 +47,4 @@ class Reports::ResponsibleReport < Reports::Report
   def title
     @title ||= WorkPackage.human_attribute_name(:responsible)
   end
-
 end

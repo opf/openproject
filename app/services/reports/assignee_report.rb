@@ -28,17 +28,16 @@
 #++
 
 class Reports::AssigneeReport < Reports::Report
-
   def self.report_type
-    "assigned_to"
+    'assigned_to'
   end
 
   def field
-    @field ||= "assigned_to_id"
+    @field ||= 'assigned_to_id'
   end
 
   def rows
-    @rows ||= @project.members.collect { |m| m.user }.sort
+    @rows ||= @project.members.collect(&:user).sort
   end
 
   def data
@@ -48,5 +47,4 @@ class Reports::AssigneeReport < Reports::Report
   def title
     @title ||= WorkPackage.human_attribute_name(:assigned_to)
   end
-
 end

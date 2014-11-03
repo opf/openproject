@@ -28,13 +28,12 @@
 #++
 
 class Reports::TypeReport < Reports::Report
-
   def self.report_type
-    "type"
+    'type'
   end
 
   def field
-    @field || "type_id"
+    @field || 'type_id'
   end
 
   def rows
@@ -48,5 +47,4 @@ class Reports::TypeReport < Reports::Report
   def title
     @title = WorkPackage.human_attribute_name(:type)
   end
-
 end

@@ -37,7 +37,7 @@ class AuthorizationService
   #   context - single project or array of projects - default nil
   #   global - global - default false
   #   user - user - default current user
-  def initialize(permission, context: nil , global: false, user: User.current)
+  def initialize(permission, context: nil, global: false, user: User.current)
     @permission = permission
     @context = context
     @global = global
