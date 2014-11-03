@@ -221,7 +221,7 @@ module API
         property :description, exec_context: :decorator, render_nil: true, writeable: false
         property :raw_description,
                  getter: -> (*) { description },
-                 setter: -> (value, *) { description = value },
+                 setter: -> (value, *) { self.description = value },
                  render_nil: true
         property :status, render_nil: true
         property :is_closed, getter: -> (*) { closed? }
@@ -238,7 +238,10 @@ module API
                  exec_context: :decorator,
                  setter: -> (value, *) { done_ratio = value },
                  writeable: false
-        property :version_id, getter: -> (*) { fixed_version.try(:id) }, render_nil: true
+        property :version_id,
+                 getter: -> (*) { fixed_version.try(:id) },
+                 setter: -> (value, *) { self.fixed_version_id = value },
+                 render_nil: true
         property :version_name,  getter: -> (*) { fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { project.id }
         property :project_name, getter: -> (*) { project.try(:name) }
