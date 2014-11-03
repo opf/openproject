@@ -315,11 +315,11 @@ h4. things we like
       end
 
       describe 'update with read-only attributes' do
-        include_context 'patch request'
-
         describe 'single read-only violation' do
           context 'start date' do
             let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
+
+            include_context 'patch request'
 
             it_behaves_like 'read-only violation', 'startDate'
           end
@@ -327,11 +327,15 @@ h4. things we like
           context 'due date' do
             let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
 
+            include_context 'patch request'
+
             it_behaves_like 'read-only violation', 'dueDate'
           end
 
           context 'created_at' do
             let(:params) { valid_params.merge(createdAt: DateTime.now.utc.iso8601) }
+
+            include_context 'patch request'
 
             it_behaves_like 'read-only violation', 'createdAt'
           end
@@ -339,17 +343,30 @@ h4. things we like
           context 'updated_at' do
             let(:params) { valid_params.merge(updatedAt: DateTime.now.utc.iso8601) }
 
+            include_context 'patch request'
+
             it_behaves_like 'read-only violation', 'updatedAt'
           end
 
           context 'project id' do
-            let(:params) { valid_params.merge(projectId: 1) }
+            let(:another_project) { FactoryGirl.create(:project) }
+            let!(:another_membership) { FactoryGirl.create(:member,
+                                                           user: current_user,
+                                                           project: another_project,
+                                                           roles: [role]) }
+            let(:params) { valid_params.merge(projectId: another_project.id) }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(422) }
 
             it_behaves_like 'read-only violation', 'projectId'
           end
 
           context 'fixed version id' do
-            let(:params) { valid_params.merge(versionId: 1) }
+            let(:params) { valid_params.merge(versionId: -1) }
+
+            include_context 'patch request'
 
             it_behaves_like 'read-only violation', 'fixedVersionId'
           end
@@ -359,6 +376,8 @@ h4. things we like
           let(:params) do
             valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
           end
+
+          include_context 'patch request'
 
           it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
 
