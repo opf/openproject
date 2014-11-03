@@ -3,15 +3,17 @@
 The installation of the OpenProject software can be done manually or via official software-packages build by the packager.io service. Using these software packages is highly recommended to reduce the pain of installation and configuration errors. Besides the installation via package manager is done via configuration wizard which is very helpful to get everything up and running right from the beginning.
 
 ## Stack used by packager.io packages
+
 * Unicorn (application server) – this component hosts the actual application. Depending on the settings chosen, there are at least two unicorn processes running in parallel on the app server machine.
 * Apache 2 (web server) – this component provides the external interface, handles SSL termination (if SSL is used) and distributes/forwards web requests to the unicorn processes.
 * MySQL (database management system) – this component is used to store and retrieve data.
 Ruby 2.1.3 (MRI) and necessary libraries to run the OpenProject source code.
 
 # Run Installation
+
 The installation procedure assumes the following prerequisites to be met:
 
-* A server running either *Debian 7.6 (amd64)* or *Fedora 20 (amd64)* to perform the installation on.
+* A server running either _Debian 7.6 (amd64)_ or _Fedora 20 (amd64)_ to perform the installation on.
 * A mail server that is accessible via SMTP that can be used for sending notification emails. OpenProject supports authentication, yet does not provide support for SMTP via SSL/TLS.
 
 If you intend to use SSL for OpenProject:
@@ -87,7 +89,7 @@ During the installation process a lot of settings were set to get the applicatio
     sudo openproject config:set SESSION_STORE="active_record_store"
     sudo service openproject start
 
-Attention: Be aware that you should only set or change settings which are directly related to the openproject application/instance itself (see the list above). For example settings related to the apache web server can also be set via the config:set option but this can end up in an undesired state of the openproject application. If you want to change these settings use the reconfigure option. This will bring up the installation wizard again. See the “Reconfigure via wizard” section for more details on that.
+_Attention:_ Be aware that you should only set or change settings which are directly related to the openproject application/instance itself (see the list above). For example settings related to the apache web server can also be set via the config:set option but this can end up in an undesired state of the openproject application. If you want to change these settings use the reconfigure option. This will bring up the installation wizard again. See the “Reconfigure via wizard” section for more details on that.
 
 ## Run commands like rake tasks or rails console
 
@@ -113,13 +115,14 @@ The command above will bring up the installation wizard again. Please be aware t
 # Upgrade to a newer version
 
 Upgrading the OpenProject is as easy as installing a newer OpenProject package and running the openproject configure command.
-Debian
+
+## Debian
 
     sudo apt-get update
     sudo apt-get install --only-upgrade openproject
     sudo openproject configure
 
-Fedora
+## Fedora
 
     sudo yum update
     sudo yum install openproject
