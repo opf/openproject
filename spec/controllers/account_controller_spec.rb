@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AccountController, :type => :controller do
+describe AccountController, type: :controller do
   render_views
 
   after do
@@ -42,7 +42,7 @@ describe AccountController, :type => :controller do
     describe 'User logging in with back_url' do
 
       it 'should redirect to a relative path' do
-        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/'
+        post :login , username: admin.login, password: 'adminADMIN!', back_url: '/'
         expect(response).to redirect_to root_path
       end
 
@@ -191,7 +191,7 @@ describe AccountController, :type => :controller do
   end
 
   describe 'Login for user with forced password change' do
-    let(:admin) { FactoryGirl.create(:admin, :force_password_change => true) }
+    let(:admin) { FactoryGirl.create(:admin, force_password_change: true) }
 
     before do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
@@ -199,10 +199,10 @@ describe AccountController, :type => :controller do
 
     describe "User who is not allowed to change password can't login" do
       before do
-        post 'change_password', :username => admin.login,
-                                :password => 'adminADMIN!',
-                                :new_password => 'adminADMIN!New',
-                                :new_password_confirmation => 'adminADMIN!New'
+        post 'change_password', username: admin.login,
+                                password: 'adminADMIN!',
+                                new_password: 'adminADMIN!New',
+                                new_password_confirmation: 'adminADMIN!New'
       end
 
       it 'should redirect to the login page' do
@@ -212,7 +212,7 @@ describe AccountController, :type => :controller do
 
     describe 'User who is not allowed to change password, is not redirected to the login page' do
       before do
-        post 'login', :username => admin.login, :password => 'adminADMIN!'
+        post 'login', username: admin.login, password: 'adminADMIN!'
       end
 
       it 'should redirect ot the login page' do
@@ -293,13 +293,13 @@ describe AccountController, :type => :controller do
 
       context 'with password login enabled' do
         before do
-          post :register, :user => {
-            :login => 'register',
-            :password => 'adminADMIN!',
-            :password_confirmation => 'adminADMIN!',
-            :firstname => 'John',
-            :lastname => 'Doe',
-            :mail => 'register@example.com'
+          post :register, user: {
+            login: 'register',
+            password: 'adminADMIN!',
+            password_confirmation: 'adminADMIN!',
+            firstname: 'John',
+            lastname: 'Doe',
+            mail: 'register@example.com'
           }
         end
 
@@ -307,11 +307,11 @@ describe AccountController, :type => :controller do
           is_expected.to respond_with :redirect
           expect(assigns[:user]).not_to be_nil
           is_expected.to redirect_to(my_first_login_path)
-          expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
+          expect(User.last(conditions: { login: 'register' })).not_to be_nil
         end
 
         it 'set the user status to active' do
-          user = User.last(:conditions => { :login => 'register' })
+          user = User.last(conditions: { login: 'register' })
           expect(user).not_to be_nil
           expect(user.status).to eq(User::STATUSES[:active])
         end
@@ -336,13 +336,13 @@ describe AccountController, :type => :controller do
       context 'with password login enabled' do
         before do
           Token.delete_all
-          post :register, :user => {
-            :login => 'register',
-            :password => 'adminADMIN!',
-            :password_confirmation => 'adminADMIN!',
-            :firstname => 'John',
-            :lastname => 'Doe',
-            :mail => 'register@example.com'
+          post :register, user: {
+            login: 'register',
+            password: 'adminADMIN!',
+            password_confirmation: 'adminADMIN!',
+            firstname: 'John',
+            lastname: 'Doe',
+            mail: 'register@example.com'
           }
         end
 
@@ -372,12 +372,12 @@ describe AccountController, :type => :controller do
 
     context 'with manual activation' do
       let(:user_hash) do
-        { :login => 'register',
-          :password => 'adminADMIN!',
-          :password_confirmation => 'adminADMIN!',
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :mail => 'register@example.com' }
+        { login: 'register',
+          password: 'adminADMIN!',
+          password_confirmation: 'adminADMIN!',
+          firstname: 'John',
+          lastname: 'Doe',
+          mail: 'register@example.com' }
       end
 
       before do
@@ -386,7 +386,7 @@ describe AccountController, :type => :controller do
 
       context 'without back_url' do
         before do
-          post :register, :user => user_hash
+          post :register, user: user_hash
         end
 
         it 'redirects to the login page' do
@@ -400,7 +400,7 @@ describe AccountController, :type => :controller do
 
       context 'with back_url' do
         before do
-          post :register, :user => user_hash, :back_url => 'https://example.net/some_back_url'
+          post :register, user: user_hash, back_url: 'https://example.net/some_back_url'
         end
 
         it 'preserves the back url' do
@@ -424,13 +424,13 @@ describe AccountController, :type => :controller do
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
-        post :register, :user => {
-          :login => 'register',
-          :password => 'adminADMIN!',
-          :password_confirmation => 'adminADMIN!',
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :mail => 'register@example.com'
+        post :register, user: {
+          login: 'register',
+          password: 'adminADMIN!',
+          password_confirmation: 'adminADMIN!',
+          firstname: 'John',
+          lastname: 'Doe',
+          mail: 'register@example.com'
         }
       end
 
@@ -450,14 +450,14 @@ describe AccountController, :type => :controller do
 
       context 'with password login enabled' do
         before do
-          post :login, :username => 'foo', :password => 'bar'
+          post :login, username: 'foo', password: 'bar'
         end
 
         it 'registers the user on-the-fly' do
           is_expected.to respond_with :success
           expect(response).to render_template :register
 
-          post :register, :user => { firstname: 'Foo',
+          post :register, user: { firstname: 'Foo',
                                      lastname: 'Smith',
                                      mail: 'foo@bar.com' }
           expect(response).to redirect_to '/my/account'
@@ -477,7 +477,7 @@ describe AccountController, :type => :controller do
 
         describe 'login' do
           before do
-            post :login, :username => 'foo', :password => 'bar'
+            post :login, username: 'foo', password: 'bar'
           end
 
           it 'is not found' do
@@ -487,7 +487,7 @@ describe AccountController, :type => :controller do
 
         describe 'registration' do
           before do
-            post :register, :user => { firstname: 'Foo',
+            post :register, user: { firstname: 'Foo',
                                        lastname: 'Smith',
                                        mail: 'foo@bar.com' }
           end

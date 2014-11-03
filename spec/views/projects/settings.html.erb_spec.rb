@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'projects/settings', :type => :view do
+describe 'projects/settings', type: :view do
   let(:project) { FactoryGirl.create(:project) }
 
   describe 'project copy permission' do

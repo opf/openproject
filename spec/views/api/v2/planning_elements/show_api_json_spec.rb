@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
+describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
   before do
     allow(view).to receive(:include_journals?).and_return(false)
@@ -39,36 +39,36 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
 
   subject {response.body}
 
-  let(:project) { FactoryGirl.create(:project, :id => 4711,
-                                     :identifier => 'test_project',
-                                     :name => 'Test Project') }
+  let(:project) { FactoryGirl.create(:project, id: 4711,
+                                     identifier: 'test_project',
+                                     name: 'Test Project') }
   let(:planning_element) { FactoryGirl.build(:work_package,
-                                             :id => 1,
-                                             :project_id => project.id,
-                                             :subject => 'WorkPackage #1',
-                                             :description => 'Description of this planning element',
+                                             id: 1,
+                                             project_id: project.id,
+                                             subject: 'WorkPackage #1',
+                                             description: 'Description of this planning element',
 
-                                             :start_date => Date.parse('2011-12-06'),
-                                             :due_date   => Date.parse('2011-12-13'),
+                                             start_date: Date.parse('2011-12-06'),
+                                             due_date:   Date.parse('2011-12-13'),
 
-                                             :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                             :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+                                             created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                             updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
   describe 'with an assigned planning element' do
 
     let(:custom_field) do
       FactoryGirl.create :issue_custom_field,
-        :name => "Belag",
-        :field_format => "text",
-        :projects => [planning_element.project],
-        :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+        name: "Belag",
+        field_format: "text",
+        projects: [planning_element.project],
+        types: [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
     end
 
     before do
       custom_value = CustomValue.new(
-        :custom_field => custom_field,
-        :value => "Wurst")
+        custom_field: custom_field,
+        value: "Wurst")
       planning_element.custom_values << custom_value
 
       assign(:planning_element, planning_element)
@@ -126,12 +126,12 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
     let(:project) { FactoryGirl.create(:project) }
 
     let(:parent_element)   { FactoryGirl.create(:work_package,
-                                                :id         => 1337,
-                                                :subject       => 'Parent Element',
-                                                :project_id => project.id) }
+                                                id:         1337,
+                                                subject:       'Parent Element',
+                                                project_id: project.id) }
     let(:planning_element) {  FactoryGirl.build(:work_package,
-                                                :parent_id  => parent_element.id,
-                                                :project_id => project.id) }
+                                                parent_id:  parent_element.id,
+                                                project_id: project.id) }
 
     before do
       assign(:planning_element, planning_element)
@@ -147,21 +147,21 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
   describe 'with a planning element having children' do
     let(:project) { FactoryGirl.create(:project) }
     let(:planning_element) { FactoryGirl.create(:work_package,
-                                                :subject => "Parent Package",
-                                                :id => 1338,
-                                                :project => project) }
+                                                subject: "Parent Package",
+                                                id: 1338,
+                                                project: project) }
 
     before do
       FactoryGirl.create(:work_package,
-                         :project_id => project.id,
-                         :parent_id  => planning_element.id,
-                         :id         => 1339,
-                         :subject    => 'Child #1')
+                         project_id: project.id,
+                         parent_id:  planning_element.id,
+                         id:         1339,
+                         subject:    'Child #1')
       FactoryGirl.create(:work_package,
-                         :project_id => project.id,
-                         :parent_id  => planning_element.id,
-                         :id         => 1340,
-                         :subject    => 'Child #2')
+                         project_id: project.id,
+                         parent_id:  planning_element.id,
+                         id:         1340,
+                         subject:    'Child #2')
 
       planning_element.reload
 
@@ -181,11 +181,11 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
 
   describe 'with a planning element having a responsible' do
     let(:responsible)      { FactoryGirl.create(:user,
-                                                :id => 1341,
-                                                :firstname => 'Paul',
-                                                :lastname => 'McCartney') }
+                                                id: 1341,
+                                                firstname: 'Paul',
+                                                lastname: 'McCartney') }
     let(:planning_element) { FactoryGirl.build(:work_package,
-                                               :responsible_id => responsible.id) }
+                                               responsible_id: responsible.id) }
 
     before do
       assign(:planning_element, planning_element)
@@ -200,7 +200,7 @@ describe 'api/v2/planning_elements/show.api.rabl', :type => :view do
 
   describe 'with a planning element having an author' do
     let(:author)            { FactoryGirl.create(:user) }
-    let(:planning_element)  { FactoryGirl.build(:work_package, :author => author) }
+    let(:planning_element)  { FactoryGirl.build(:work_package, author: author) }
 
     before do
       assign(:planning_element, planning_element)

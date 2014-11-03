@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Copy, :type => :model do
+describe Project::Copy, type: :model do
   describe :copy do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) { Project.new }
@@ -123,15 +123,15 @@ describe Project::Copy, :type => :model do
     end
 
     describe :copy_work_packages do
-      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
-      let(:work_package2) { FactoryGirl.create(:work_package, :project => project) }
-      let(:version) { FactoryGirl.create(:version, :project => project) }
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+      let(:version) { FactoryGirl.create(:version, project: project) }
 
       describe :relation do
         before do
           wp = work_package
           wp2 = work_package2
-          FactoryGirl.create(:relation, :from => wp, :to => wp2)
+          FactoryGirl.create(:relation, from: wp, to: wp2)
           [wp, wp2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
@@ -166,7 +166,7 @@ describe Project::Copy, :type => :model do
       describe :category do
         before do
           wp = work_package
-          wp.category = FactoryGirl.create(:category, :project => project)
+          wp.category = FactoryGirl.create(:category, project: project)
           wp.save
 
           project.work_packages << wp.reload
@@ -229,7 +229,7 @@ describe Project::Copy, :type => :model do
 
     describe :copy_timelines do
       before do
-        timeline = FactoryGirl.create(:timeline, :project => project)
+        timeline = FactoryGirl.create(:timeline, project: project)
         # set options to nil, is known to have been buggy
         timeline.send :write_attribute, :options, nil
 
@@ -244,7 +244,7 @@ describe Project::Copy, :type => :model do
 
     describe :copy_queries do
       before do
-        FactoryGirl.create(:query, :project => project)
+        FactoryGirl.create(:query, project: project)
 
         copy.send(:copy_queries, project)
         copy.save

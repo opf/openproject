@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin routes', :type => :routing do
+describe 'admin routes', type: :routing do
   it '/admin routes to admin#index' do
     expect(get('/admin')).to route_to('admin#index')
   end

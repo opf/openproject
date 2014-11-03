@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController, :type => :controller do
+describe WorkPackages::MovesController, type: :controller do
 
   let(:user) { FactoryGirl.create(:user)}
   let(:role) { FactoryGirl.create :role,
@@ -40,13 +40,13 @@ describe WorkPackages::MovesController, :type => :controller do
   let(:priority) { FactoryGirl.create :priority }
   let(:target_priority) { FactoryGirl.create :priority }
   let(:project) { FactoryGirl.create(:project,
-                                     :is_public => false,
-                                     :types => [type, type_2]) }
+                                     is_public: false,
+                                     types: [type, type_2]) }
   let(:work_package) { FactoryGirl.create(:work_package,
-                                          :project_id => project.id,
-                                          :type => type,
-                                          :author => user,
-                                          :priority => priority) }
+                                          project_id: project.id,
+                                          type: type,
+                                          author: user,
+                                          priority: priority) }
 
   let(:current_user) { FactoryGirl.create(:user) }
 
@@ -63,7 +63,7 @@ describe WorkPackages::MovesController, :type => :controller do
         become_non_member
 
         it 'renders a 404 page' do
-          get 'new', :id => '1337'
+          get 'new', id: '1337'
 
           expect(response.response_code).to be === 404
         end
@@ -73,7 +73,7 @@ describe WorkPackages::MovesController, :type => :controller do
         become_member_with_view_planning_element_permissions
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          get 'new', :id => '1337'
+          get 'new', id: '1337'
 
           expect(response.response_code).to be === 404
         end
@@ -87,7 +87,7 @@ describe WorkPackages::MovesController, :type => :controller do
         become_non_member
 
         it 'renders a 403 Forbidden page' do
-          get 'new', :work_package_id => work_package.id
+          get 'new', work_package_id: work_package.id
 
           expect(response.response_code).to eq(403)
         end
@@ -97,11 +97,11 @@ describe WorkPackages::MovesController, :type => :controller do
         become_member_with_move_work_package_permissions
 
         before do
-          get 'new', :work_package_id => work_package.id
+          get 'new', work_package_id: work_package.id
         end
 
         it 'renders the new builder template' do
-          expect(response).to render_template('work_packages/moves/new', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('work_packages/moves/new', formats: ["html"], layout: :base)
         end
       end
     end
@@ -111,25 +111,25 @@ describe WorkPackages::MovesController, :type => :controller do
     become_member_with_move_work_package_permissions
 
     let!(:member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
-    let(:target_project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:target_project) { FactoryGirl.create(:project, is_public: false) }
     let(:work_package_2) { FactoryGirl.create(:work_package,
-                                              :project_id => project.id,
-                                              :type => type_2,
-                                              :priority => priority) }
+                                              project_id: project.id,
+                                              type: type_2,
+                                              priority: priority) }
 
     describe 'an issue to another project' do
       context "w/o following" do
         subject do
           post :create,
-               :work_package_id => work_package.id,
-               :new_project_id => target_project.id,
-               :type_id => '',
-               :author_id => user.id,
-               :assigned_to_id => '',
-               :responsible_id => '',
-               :status_id => '',
-               :start_date => '',
-               :due_date => ''
+               work_package_id: work_package.id,
+               new_project_id: target_project.id,
+               type_id: '',
+               author_id: user.id,
+               assigned_to_id: '',
+               responsible_id: '',
+               status_id: '',
+               start_date: '',
+               due_date: ''
         end
 
         it "redirects to the project's work packages page" do
@@ -141,15 +141,15 @@ describe WorkPackages::MovesController, :type => :controller do
       context "with following" do
         subject do
           post :create,
-               :work_package_id => work_package.id,
-               :new_project_id => target_project.id,
-               :new_type_id => target_project.types.first.id, # FIXME (see #1868) the validation on the work_package requires a proper target-type, other cases are not tested here
-               :assigned_to_id => '',
-               :responsible_id => '',
-               :status_id => '',
-               :start_date => '',
-               :due_date => '',
-               :follow => '1'
+               work_package_id: work_package.id,
+               new_project_id: target_project.id,
+               new_type_id: target_project.types.first.id, # FIXME (see #1868) the validation on the work_package requires a proper target-type, other cases are not tested here
+               assigned_to_id: '',
+               responsible_id: '',
+               status_id: '',
+               start_date: '',
+               due_date: '',
+               follow: '1'
         end
 
         it "redirects to the work package page" do
@@ -168,8 +168,8 @@ describe WorkPackages::MovesController, :type => :controller do
           target_project.save
 
           post :create,
-               :ids => [work_package.id, work_package_2.id],
-               :new_project_id => target_project.id
+               ids: [work_package.id, work_package_2.id],
+               new_project_id: target_project.id
 
           work_package.reload
           work_package_2.reload
@@ -189,8 +189,8 @@ describe WorkPackages::MovesController, :type => :controller do
       context "to another type" do
         before do
           post :create,
-               :ids => [work_package.id, work_package_2.id],
-               :new_type_id => type_2.id
+               ids: [work_package.id, work_package_2.id],
+               new_type_id: type_2.id
 
           work_package.reload
           work_package_2.reload
@@ -205,8 +205,8 @@ describe WorkPackages::MovesController, :type => :controller do
       context "with another priority" do
         before do
           post :create,
-               :ids => [work_package.id, work_package_2.id],
-               :priority_id => target_priority.id
+               ids: [work_package.id, work_package_2.id],
+               priority_id: target_priority.id
 
           work_package.reload
           work_package_2.reload
@@ -258,15 +258,15 @@ describe WorkPackages::MovesController, :type => :controller do
         context "follows to another project" do
           before do
             post :create,
-                 :ids => [work_package.id],
-                 :copy => '',
-                 :new_project_id => target_project.id,
-                 :new_type_id => target_project.types.first.id, #FIXME see #1868
-                 :follow => ''
+                 ids: [work_package.id],
+                 copy: '',
+                 new_project_id: target_project.id,
+                 new_type_id: target_project.types.first.id, #FIXME see #1868
+                 follow: ''
           end
 
           it "redirects to the work package copy" do
-            copy = WorkPackage.first(:order => 'id desc')
+            copy = WorkPackage.first(order: 'id desc')
             is_expected.to redirect_to(work_package_path(copy))
           end
         end
@@ -274,12 +274,12 @@ describe WorkPackages::MovesController, :type => :controller do
         context "w/o changing the work package's attribute" do
           before do
             post :create,
-                 :ids => [work_package.id],
-                 :copy => '',
-                 :new_project_id => target_project.id
+                 ids: [work_package.id],
+                 copy: '',
+                 new_project_id: target_project.id
           end
 
-          subject { WorkPackage.first(:order => 'id desc', :conditions => {:project_id => project.id}) }
+          subject { WorkPackage.first(order: 'id desc', conditions: {project_id: project.id}) }
 
           it "did not change the type" do
             expect(subject.type_id).to eq(work_package.type_id)
@@ -305,18 +305,18 @@ describe WorkPackages::MovesController, :type => :controller do
 
           before do
             post :create,
-                 :ids => [work_package.id, work_package_2.id],
-                 :copy => '',
-                 :new_project_id => target_project.id,
-                 :new_type_id => target_project.types.first.id, #FIXME see #1868
-                 :assigned_to_id => target_user.id,
-                 :responsible_id => target_user.id,
-                 :status_id => [target_status],
-                 :start_date => start_date,
-                 :due_date => due_date
+                 ids: [work_package.id, work_package_2.id],
+                 copy: '',
+                 new_project_id: target_project.id,
+                 new_type_id: target_project.types.first.id, #FIXME see #1868
+                 assigned_to_id: target_user.id,
+                 responsible_id: target_user.id,
+                 status_id: [target_status],
+                 start_date: start_date,
+                 due_date: due_date
           end
 
-          subject { WorkPackage.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => target_project.id}) }
+          subject { WorkPackage.all(limit: 2, order: 'id desc', conditions: {project_id: target_project.id}) }
 
           it "copied two work packages" do
             expect(subject.count).to eq(2)

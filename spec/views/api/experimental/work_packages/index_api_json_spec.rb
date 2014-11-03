@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/work_packages/index.api.rabl', :type => :view do
+describe 'api/experimental/work_packages/index.api.rabl', type: :view do
 
   def self.stub_can(permissions)
     default_permissions = [:edit, :log_time, :move, :copy, :delete, :duplicate]

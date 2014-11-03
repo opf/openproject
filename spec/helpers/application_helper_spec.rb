@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper, :type => :helper do
+describe ApplicationHelper, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
 
@@ -57,7 +57,7 @@ describe ApplicationHelper, :type => :helper do
         OpenProject::Footer.content = nil
       end
 
-      it { expect(footer_content).to eq(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
+      it { expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
     end
 
     context "string as additional footer content" do
@@ -66,7 +66,7 @@ describe ApplicationHelper, :type => :helper do
         OpenProject::Footer.add_content("openproject","footer")
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
       it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
     end
 
@@ -92,24 +92,24 @@ describe ApplicationHelper, :type => :helper do
   describe ".link_to_if_authorized" do
     let(:project) { FactoryGirl.create :valid_project }
     let(:project_member) { FactoryGirl.create :user,
-                                              :member_in_project => project,
-                                              :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
+                                              member_in_project: project,
+                                              member_through_role: FactoryGirl.create(:role,
+                                                                                         permissions: [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
     let(:issue) { FactoryGirl.create :work_package,
-                                     :project => project,
-                                     :author => project_member,
-                                     :type => project.types.first }
+                                     project: project,
+                                     author: project_member,
+                                     type: project.types.first }
 
 
     context "if user is authorized" do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('link_content', {
-                                          :controller => 'issues',
-                                          :action => 'show',
-                                          :id => issue },
-                                        :class => 'fancy_css_class')
+                                          controller: 'issues',
+                                          action: 'show',
+                                          id: issue },
+                                        class: 'fancy_css_class')
       end
 
       subject { @response }
@@ -123,10 +123,10 @@ describe ApplicationHelper, :type => :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
         @response = link_to_if_authorized('link_content', {
-                                          :controller => 'issues',
-                                          :action => 'show',
-                                          :id => issue },
-                                        :class => 'fancy_css_class')
+                                          controller: 'issues',
+                                          action: 'show',
+                                          id: issue },
+                                        class: 'fancy_css_class')
       end
 
       subject { @response }
@@ -138,9 +138,9 @@ describe ApplicationHelper, :type => :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized("By controller/action",
-                                         { :controller => 'issues',
-                                           :action => 'edit',
-                                           :id => issue.id })
+                                         { controller: 'issues',
+                                           action: 'edit',
+                                           id: issue.id })
       end
 
       subject { @response }
@@ -152,7 +152,7 @@ describe ApplicationHelper, :type => :helper do
   describe "other_formats_links" do
     context "link given" do
       before do
-        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+        @links = other_formats_links{|f| f.link_to 'Atom', url: {controller: :projects, action: :index} }
       end
       it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>")}
     end
@@ -160,7 +160,7 @@ describe ApplicationHelper, :type => :helper do
     context "link given but disabled" do
       before do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
-        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+        @links = other_formats_links{|f| f.link_to 'Atom', url: {controller: :projects, action: :index} }
       end
       it { expect(@links).to be_nil}
     end

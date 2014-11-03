@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe VersionsController, :type => :controller do
+describe VersionsController, type: :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:public_project) }
-  let(:version1) {FactoryGirl.create(:version, :project => project, :effective_date => nil)}
-  let(:version2) {FactoryGirl.create(:version, :project => project)}
-  let(:version3) {FactoryGirl.create(:version, :project => project, :effective_date => (Date.today - 14.days))}
+  let(:version1) {FactoryGirl.create(:version, project: project, effective_date: nil)}
+  let(:version2) {FactoryGirl.create(:version, project: project)}
+  let(:version3) {FactoryGirl.create(:version, project: project, effective_date: (Date.today - 14.days))}
 
   describe "#index" do
     render_views
@@ -47,7 +47,7 @@ describe VersionsController, :type => :controller do
     context "without additional params" do
       before do
         allow(User).to receive(:current).and_return(user)
-        get :index, :project_id => project.id
+        get :index, project_id: project.id
       end
 
       it { expect(response).to be_success }
@@ -68,7 +68,7 @@ describe VersionsController, :type => :controller do
     context "with showing completed versions" do
       before do
         allow(User).to receive(:current).and_return(user)
-        get :index, :project_id => project, :completed => '1'
+        get :index, project_id: project, completed: '1'
       end
 
       it { expect(response).to be_success }
@@ -87,13 +87,13 @@ describe VersionsController, :type => :controller do
     end
 
     context "with showing subprojects versions" do
-      let(:sub_project) { FactoryGirl.create(:public_project, :parent_id => project.id) }
-      let(:version4) {FactoryGirl.create(:version, :project => sub_project)}
+      let(:sub_project) { FactoryGirl.create(:public_project, parent_id: project.id) }
+      let(:version4) {FactoryGirl.create(:version, project: sub_project)}
 
       before do
         allow(User).to receive(:current).and_return(user)
         version4
-        get :index, :project_id => project, :with_subprojects => '1'
+        get :index, project_id: project, with_subprojects: '1'
       end
 
       it { expect(response).to be_success }
@@ -118,12 +118,12 @@ describe VersionsController, :type => :controller do
     before do
       allow(User).to receive(:current).and_return(user)
       version2
-      get :show, :id => version2.id
+      get :show, id: version2.id
     end
 
     it { expect(response).to be_success }
     it { expect(response).to render_template("show") }
-    it { assert_tag :tag => 'h2', :content => version2.name }
+    it { assert_tag tag: 'h2', content: version2.name }
 
     subject { assigns(:version) }
     it { is_expected.to eq(version2) }
@@ -133,10 +133,10 @@ describe VersionsController, :type => :controller do
     context "with vaild attributes" do
       before do
         allow(User).to receive(:current).and_return(user)
-        post :create, :project_id => project.id, :version => {:name => 'test_add_version'}
+        post :create, project_id: project.id, version: {name: 'test_add_version'}
       end
 
-      it { expect(response).to redirect_to(settings_project_path(project, :tab => 'versions'))}
+      it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))}
       it "generates the new version" do
         version = Version.find_by_name('test_add_version')
         expect(version).not_to be_nil
@@ -147,7 +147,7 @@ describe VersionsController, :type => :controller do
     context "from issue form" do
       before do
         allow(User).to receive(:current).and_return(user)
-        post :create, :project_id => project.id, :version => {:name => 'test_add_version_from_issue_form'}, :format => :js
+        post :create, project_id: project.id, version: {name: 'test_add_version_from_issue_form'}, format: :js
       end
 
       it "generates the new version" do
@@ -169,7 +169,7 @@ describe VersionsController, :type => :controller do
 
       it "escapes potentially harmful html" do
         harmful = "test <script>alert('pwned');</script>"
-        post :create, :project_id => project.id, :version => {:name => harmful}, :format => :js
+        post :create, project_id: project.id, version: {name: harmful}, format: :js
 
         expect(response.body).to_not include("<script>alert('pwned');</script>")
       end
@@ -182,7 +182,7 @@ describe VersionsController, :type => :controller do
     before do
       allow(User).to receive(:current).and_return(user)
       version2
-      get :edit, :id => version2.id
+      get :edit, id: version2.id
     end
 
     context "when resource is found" do
@@ -197,10 +197,10 @@ describe VersionsController, :type => :controller do
       version1.update_attribute :status, 'open'
       version2.update_attribute :status, 'open'
       version3.update_attribute :status, 'open'
-      put :close_completed, :project_id => project.id
+      put :close_completed, project_id: project.id
     end
 
-    it { expect(response).to redirect_to(settings_project_path(project, :tab => 'versions')) }
+    it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
     it { expect(Version.find_by_status('closed')).to eq(version3) }
   end
 
@@ -208,12 +208,12 @@ describe VersionsController, :type => :controller do
     context "with valid params" do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, :id => version1.id,
-                     :version => { :name => 'New version name',
-                                   :effective_date => Date.today.strftime("%Y-%m-%d")}
+        put :update, id: version1.id,
+                     version: { name: 'New version name',
+                                   effective_date: Date.today.strftime("%Y-%m-%d")}
       end
 
-      it { expect(response).to redirect_to(settings_project_path(project, :tab => 'versions')) }
+      it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
       it { expect(Version.find_by_name("New version name")).to eq(version1) }
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
@@ -222,10 +222,10 @@ describe VersionsController, :type => :controller do
              with a redirect url" do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, :id => version1.id,
-                     :version => { :name => 'New version name',
-                                   :effective_date => Date.today.strftime("%Y-%m-%d")},
-                     :back_url => home_path
+        put :update, id: version1.id,
+                     version: { name: 'New version name',
+                                   effective_date: Date.today.strftime("%Y-%m-%d")},
+                     back_url: home_path
       end
 
       it { expect(response).to redirect_to(home_path) }
@@ -234,9 +234,9 @@ describe VersionsController, :type => :controller do
     context "with invalid params" do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, :id => version1.id,
-                     :version => { :name => '',
-                                   :effective_date => Date.today.strftime("%Y-%m-%d")}
+        put :update, id: version1.id,
+                     version: { name: '',
+                                   effective_date: Date.today.strftime("%Y-%m-%d")}
       end
 
       it { expect(response).to be_success }
@@ -248,11 +248,11 @@ describe VersionsController, :type => :controller do
     before do
       allow(User).to receive(:current).and_return(user)
       @deleted = version3.id
-      delete :destroy, :id => @deleted
+      delete :destroy, id: @deleted
     end
 
     it "redirects to projects versions and the version is deleted" do
-      expect(response).to redirect_to(settings_project_path(project, :tab => 'versions'))
+      expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
 
@@ -265,7 +265,7 @@ describe VersionsController, :type => :controller do
 
     context "status by version" do
       before do
-        get :status_by, :id => version2.id, :format => :js
+        get :status_by, id: version2.id, format: :js
       end
 
       it { expect(response).to be_success }
@@ -274,7 +274,7 @@ describe VersionsController, :type => :controller do
 
     context "status by version with status_by" do
       before do
-        get :status_by, :id => version2.id, :format => :js, :status_by => 'status'
+        get :status_by, id: version2.id, format: :js, status_by: 'status'
       end
 
       it { expect(response).to be_success }

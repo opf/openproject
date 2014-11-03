@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource', :type => :request do
+describe 'API v3 Work package resource', type: :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -63,7 +63,7 @@ h4. things we like
 {{timeline(#{timeline.id})}}
   }}
 
-  let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
+  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:watcher) do

@@ -32,14 +32,14 @@ describe "Journalized Objects" do
   before(:each) do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
-    @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
+    @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
     allow(User).to receive(:current).and_return(@current)
   end
 
 
   it 'should work with work packages' do
-    @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
-    @work_package ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @status_open ||= FactoryGirl.create(:status, name: "Open", is_default: true)
+    @work_package ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
 
     initial_journal = @work_package.journals.first
     recreated_journal = @work_package.recreate_initial_journal!
@@ -48,7 +48,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with news' do
-    @news ||= FactoryGirl.create(:news, :project => @project, :author => @current, :title => "Test", :summary => "Test", :description => "Test")
+    @news ||= FactoryGirl.create(:news, project: @project, author: @current, title: "Test", summary: "Test", description: "Test")
 
     initial_journal = @news.journals.first
     recreated_journal = @news.recreate_initial_journal!
@@ -58,7 +58,7 @@ describe "Journalized Objects" do
 
 
   it 'should work with wiki content' do
-    @wiki_content ||= FactoryGirl.create(:wiki_content, :author => @current)
+    @wiki_content ||= FactoryGirl.create(:wiki_content, author: @current)
 
     initial_journal = @wiki_content.journals.first
     recreated_journal = @wiki_content.recreate_initial_journal!
@@ -67,7 +67,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with messages' do
-    @message ||= FactoryGirl.create(:message, :content => "Test", :subject => "Test", :author => @current)
+    @message ||= FactoryGirl.create(:message, content: "Test", subject: "Test", author: @current)
 
     initial_journal = @message.journals.first
     recreated_journal = @message.recreate_initial_journal!
@@ -76,10 +76,10 @@ describe "Journalized Objects" do
   end
 
   it 'should work with time entries' do
-    @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
-    @work_package ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @status_open ||= FactoryGirl.create(:status, name: "Open", is_default: true)
+    @work_package ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
 
-    @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @work_package, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
+    @time_entry ||= FactoryGirl.create(:time_entry, work_package: @work_package, project: @project, spent_on: Time.now, hours: 5, user: @current, activity: FactoryGirl.create(:time_entry_activity))
 
     initial_journal = @time_entry.journals.first
     recreated_journal = @time_entry.recreate_initial_journal!
@@ -88,7 +88,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with attachments' do
-    @attachment ||= FactoryGirl.create(:attachment, :container => FactoryGirl.create(:work_package), :author => @current)
+    @attachment ||= FactoryGirl.create(:attachment, container: FactoryGirl.create(:work_package), author: @current)
 
     initial_journal = @attachment.journals.first
     recreated_journal = @attachment.recreate_initial_journal!
@@ -98,9 +98,9 @@ describe "Journalized Objects" do
 
   it 'should work with changesets' do
     Setting.enabled_scm = ["Subversion"]
-    @repository ||= Repository.factory("Subversion", :url => "http://svn.test.com")
+    @repository ||= Repository.factory("Subversion", url: "http://svn.test.com")
     @repository.save!
-    @changeset ||= FactoryGirl.create(:changeset, :committer => @current.login, :repository => @repository)
+    @changeset ||= FactoryGirl.create(:changeset, committer: @current.login, repository: @repository)
 
     initial_journal = @changeset.journals.first
     recreated_journal = @changeset.recreate_initial_journal!

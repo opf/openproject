@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeletedUser, :type => :model do
+describe DeletedUser, type: :model do
   before do
     User.delete_all
   end

@@ -31,7 +31,7 @@ require 'features/custom_fields/custom_fields_page'
 require 'features/projects/project_settings_page'
 require 'features/work_packages/work_packages_page'
 
-describe 'Custom field accessibility', :type => :feature do
+describe 'Custom field accessibility', type: :feature do
   describe 'language tag' do
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field,
                                             name_locales: { en: 'Field1', de: 'Feld1' },

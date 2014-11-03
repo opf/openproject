@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe 'users/edit', :type => :view do
+describe 'users/edit', type: :view do
   let(:current_user) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
-    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
-                                           :identity_url => 'test_provider:veryuniqueid' }
+    let(:user)  { FactoryGirl.build :user, id: 1,  # id is required to create route to edit
+                                           identity_url: 'test_provider:veryuniqueid' }
 
     before do
       assign(:user, user)

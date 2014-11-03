@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::UsersController, :type => :controller do
+describe Api::V2::UsersController, type: :controller do
 
   shared_context "As an admin" do
     let(:current_user) { FactoryGirl.create(:admin) }
@@ -93,7 +93,7 @@ describe Api::V2::UsersController, :type => :controller do
       context 'as a normal user' do
         include_context "As a normal user"
 
-        before { get 'index', ids: ids, :format => 'json' }
+        before { get 'index', ids: ids, format: 'json' }
 
         it_behaves_like "valid user API call" do
           let(:user_count) { 4 }
@@ -122,7 +122,7 @@ describe Api::V2::UsersController, :type => :controller do
       let (:user_1) {FactoryGirl.create(:user)}
       let (:user_2) {FactoryGirl.create(:user)}
 
-      before { get 'index', ids: "#{user_1.id},#{user_2.id}", :format => 'json' }
+      before { get 'index', ids: "#{user_1.id},#{user_2.id}", format: 'json' }
 
       subject { assigns(:users) }
 

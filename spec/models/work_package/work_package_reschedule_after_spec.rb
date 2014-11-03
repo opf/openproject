@@ -30,11 +30,11 @@ require 'spec_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.
-describe WorkPackage, "#reschedule_after", :type => :model do
+describe WorkPackage, "#reschedule_after", type: :model do
   let(:project) { FactoryGirl.build(:project_with_types) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
-  let(:work_package2) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
-  let(:work_package3) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
+  let(:work_package2) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
+  let(:work_package3) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
 
   [:work_package].each do |subclass|
 

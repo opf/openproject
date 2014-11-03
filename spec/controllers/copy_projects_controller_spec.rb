@@ -28,11 +28,11 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe CopyProjectsController, :type => :controller do
+describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:redirect_path) { "source_project_settings" }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
+  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:copy_project_params){
     {
       "description" => "Some pretty description",
@@ -56,7 +56,7 @@ describe CopyProjectsController, :type => :controller do
 
   describe "copy_from_settings uses correct project to copy from" do
     before do
-      get 'copy_project', :id => project.id, :coming_from => :settings
+      get 'copy_project', id: project.id, coming_from: :settings
     end
 
     it { expect(assigns(:project)).to eq(project) }
@@ -75,8 +75,8 @@ describe CopyProjectsController, :type => :controller do
   describe "copy_from_settings without name and identifier" do
     before {
       post 'copy',
-           :id => project.id,
-           :project => copy_project_params
+           id: project.id,
+           project: copy_project_params
     }
 
     it { expect(response).to render_template('copy_from_settings') }
@@ -87,7 +87,7 @@ describe CopyProjectsController, :type => :controller do
 
   describe 'copy_from_settings permissions' do
     def fetch
-      get 'copy_project', :id => project.id, :coming_from => :settings
+      get 'copy_project', id: project.id, coming_from: :settings
     end
 
     it_should_behave_like "a controller action which needs project permissions"
@@ -99,8 +99,8 @@ describe CopyProjectsController, :type => :controller do
 
   def copy_project(project)
     post 'copy',
-         :id => project.id,
-         :project => copy_project_params.merge({ :identifier => "copy", :name => "copy" })
+         id: project.id,
+         project: copy_project_params.merge({ identifier: "copy", name: "copy" })
   end
 
   describe 'copy creates a new project' do
@@ -127,8 +127,8 @@ describe CopyProjectsController, :type => :controller do
   describe 'copy permissions' do
     def fetch
       post 'copy',
-           :id => project.id,
-           :project => copy_project_params.merge({ :identifier => "copy", :name => "copy" })
+           id: project.id,
+           project: copy_project_params.merge({ identifier: "copy", name: "copy" })
     end
 
     def expect_redirect_to
@@ -136,7 +136,7 @@ describe CopyProjectsController, :type => :controller do
     end
 
     let(:permission) { [:copy_projects, :add_project] }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:project) { FactoryGirl.create(:project, is_public: false) }
 
     it_should_behave_like "a controller action which needs project permissions"
   end

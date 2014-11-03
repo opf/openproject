@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::TimelinesController, :type => :controller do
+describe Api::V2::TimelinesController, type: :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -47,8 +47,8 @@ describe Api::V2::TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_timelines, :edit_timelines, :delete_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:view_timelines, :edit_timelines, :delete_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -58,8 +58,8 @@ describe Api::V2::TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:view_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -69,8 +69,8 @@ describe Api::V2::TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:edit_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:edit_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -80,8 +80,8 @@ describe Api::V2::TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:delete_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:delete_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -107,20 +107,20 @@ describe Api::V2::TimelinesController, :type => :controller do
       become_admin
 
       it 'renders a 404 Not Found page' do
-        fetch :project_id => '4711'
+        fetch project_id: '4711'
 
         expect(response.response_code).to eq(404)
       end
     end
 
     describe 'w/ a known project' do
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+      let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
       describe 'w/o being a member or administrator' do
         become_non_member
 
         it 'renders a 403 Forbidden page' do
-          fetch :project_id => project.identifier
+          fetch project_id: project.identifier
 
           expect(response.response_code).to eq(403)
         end
@@ -134,7 +134,7 @@ describe Api::V2::TimelinesController, :type => :controller do
     describe 'w/o a valid timelines id' do
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          fetch :id => '4711'
+          fetch id: '4711'
 
           expect(response.response_code).to eq(404)
         end
@@ -142,20 +142,20 @@ describe Api::V2::TimelinesController, :type => :controller do
 
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          fetch :project_id => '4711', :id => '1337'
+          fetch project_id: '4711', id: '1337'
 
           expect(response.response_code).to eq(404)
         end
       end
 
       describe 'w/ a known project' do
-        let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+        let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
         describe 'w/o being a member or administrator' do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            fetch :project_id => project.id, :id => '1337'
+            fetch project_id: project.id, id: '1337'
 
             expect(response.response_code).to be === 403
           end
@@ -166,7 +166,7 @@ describe Api::V2::TimelinesController, :type => :controller do
 
           it 'raises ActiveRecord::RecordNotFound errors' do
             expect {
-              fetch :project_id => project.id, :id => '1337'
+              fetch project_id: project.id, id: '1337'
             }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
@@ -174,23 +174,23 @@ describe Api::V2::TimelinesController, :type => :controller do
     end
 
     describe 'w/ a valid timelines id' do
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          fetch :id => timeline.id
+          fetch id: timeline.id
 
           expect(response.response_code).to eq(404)
         end
       end
 
       describe 'w/ a different project' do
-        let(:other_project)  { FactoryGirl.create(:project, :identifier => 'other') }
+        let(:other_project)  { FactoryGirl.create(:project, identifier: 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            fetch :project_id => other_project.identifier,:id => timeline.id
+            fetch project_id: other_project.identifier,id: timeline.id
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -200,7 +200,7 @@ describe Api::V2::TimelinesController, :type => :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            fetch :project_id => project.id, :id => timeline.id
+            fetch project_id: project.id, id: timeline.id
 
             expect(response.response_code).to eq(403)
           end
@@ -210,7 +210,7 @@ describe Api::V2::TimelinesController, :type => :controller do
           become_member_with_all_permissions
 
           it 'assigns the timeline' do
-            fetch :project_id => project.id, :id => timeline.id
+            fetch project_id: project.id, id: timeline.id
             expect(assigns(:timeline)).to eq(timeline)
           end
         end

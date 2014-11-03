@@ -100,10 +100,10 @@ end
 describe "Copying Models" do
   before do
     # supress warnings
-      I18n.backend.store_translations :en, :activerecord => {
-                                             :attributes => {
-                                               :copy_dummy => {
-                                                 :relation5 => 'Relation5'
+      I18n.backend.store_translations :en, activerecord: {
+                                             attributes: {
+                                               copy_dummy: {
+                                                 relation5: 'Relation5'
                                            }}}
   end
   let(:dummy) { CopyDummy.new }

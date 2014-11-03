@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe :custom_fields do
     let(:type) { FactoryGirl.create(:type_standard) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }

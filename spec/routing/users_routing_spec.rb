@@ -28,16 +28,16 @@
 
 require 'spec_helper'
 
-describe UsersController, :type => :routing do
+describe UsersController, type: :routing do
   describe "routing" do
     describe "users" do
-      it { expect(get('/users/1/deletion_info')).to route_to(:controller => 'users',
-                                                         :action => 'deletion_info',
-                                                         :id => '1') }
+      it { expect(get('/users/1/deletion_info')).to route_to(controller: 'users',
+                                                         action: 'deletion_info',
+                                                         id: '1') }
 
-      it { expect(delete('/users/1')).to route_to(:controller => 'users',
-                                              :action => 'destroy',
-                                              :id => '1') }
+      it { expect(delete('/users/1')).to route_to(controller: 'users',
+                                              action: 'destroy',
+                                              id: '1') }
     end
 
     describe "my" do
@@ -47,8 +47,8 @@ describe UsersController, :type => :routing do
         allow(User).to receive(:current).and_return(user)
       end
 
-      it { expect(get('/my/deletion_info')).to route_to(:controller => 'users',
-                                                    :action => 'deletion_info') }
+      it { expect(get('/my/deletion_info')).to route_to(controller: 'users',
+                                                    action: 'deletion_info') }
     end
   end
 end

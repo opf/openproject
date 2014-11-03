@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
+describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
   let(:admin) { FactoryGirl.create(:admin) }
 
   describe "available assignees" do

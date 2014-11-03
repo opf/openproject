@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe :journal do
     let(:type) { FactoryGirl.create :type }
     let(:project) { FactoryGirl.create :project,
@@ -125,9 +125,9 @@ describe WorkPackage, :type => :model do
 
     context "on work package change" do
       let(:parent_work_package) { FactoryGirl.create(:work_package,
-                                                     :project_id => project.id,
-                                                     :type => type,
-                                                     :priority => priority) }
+                                                     project_id: project.id,
+                                                     type: type,
+                                                     priority: priority) }
       let(:type_2) { FactoryGirl.create :type }
       let(:status_2) { FactoryGirl.create :status }
       let(:priority_2) { FactoryGirl.create :priority }

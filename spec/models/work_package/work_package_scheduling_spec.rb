@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe :overdue do
     let(:work_package) { FactoryGirl.create(:work_package,
                                             due_date: due_date) }

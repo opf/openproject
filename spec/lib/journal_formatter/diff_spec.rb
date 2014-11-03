@@ -49,28 +49,28 @@ describe OpenProject::JournalFormatter::Diff do
   let(:instance) { klass.new(journal) }
   let(:key) { "description" }
 
-  let(:url) {  url_helper.journal_diff_path(:id => journal.id,
-                                            :field => key.downcase)}
-  let(:full_url) { url_helper.journal_diff_url(:id => journal.id,
-                                               :field => key.downcase,
-                                               :protocol => Setting.protocol,
-                                               :host => Setting.host_name) }
-  let(:link) { link_to(I18n.t(:label_details), url, :class => 'description-details') }
-  let(:full_url_link) { link_to(I18n.t(:label_details), full_url, :class => 'description-details') }
+  let(:url) {  url_helper.journal_diff_path(id: journal.id,
+                                            field: key.downcase)}
+  let(:full_url) { url_helper.journal_diff_url(id: journal.id,
+                                               field: key.downcase,
+                                               protocol: Setting.protocol,
+                                               host: Setting.host_name) }
+  let(:link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
+  let(:full_url_link) { link_to(I18n.t(:label_details), full_url, class: 'description-details') }
 
   describe :render do
     describe "WITH the first value beeing nil, and the second a string" do
       let(:expected) { I18n.t(:text_journal_set_with_diff,
-                              :label => "<strong>#{key.camelize}</strong>",
-                              :link => link) }
+                              label: "<strong>#{key.camelize}</strong>",
+                              link: link) }
 
       it { expect(instance.render(key, [nil, "new value"])).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string" do
       let(:expected) { I18n.t(:text_journal_changed_with_diff,
-                              :label => "<strong>#{key.camelize}</strong>",
-                              :link => link) }
+                              label: "<strong>#{key.camelize}</strong>",
+                              link: link) }
 
       it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
     end
@@ -79,8 +79,8 @@ describe OpenProject::JournalFormatter::Diff do
               WITH de as locale" do
 
       let(:expected) { I18n.t(:text_journal_changed_with_diff,
-                              :label => "<strong>Beschreibung</strong>",
-                              :link => link) }
+                              label: "<strong>Beschreibung</strong>",
+                              link: link) }
 
       before do
         I18n.locale = :de
@@ -95,8 +95,8 @@ describe OpenProject::JournalFormatter::Diff do
 
     describe "WITH the first value beeing a string, and the second nil" do
       let(:expected) { I18n.t(:text_journal_deleted_with_diff,
-                              :label => "<strong>#{key.camelize}</strong>",
-                              :link => link) }
+                              label: "<strong>#{key.camelize}</strong>",
+                              link: link) }
 
       it { expect(instance.render(key, ["old_value", nil])).to eq(expected) }
     end
@@ -104,36 +104,36 @@ describe OpenProject::JournalFormatter::Diff do
     describe "WITH the first value beeing nil, and the second a string
               WITH specifying not to output html" do
       let(:expected) { I18n.t(:text_journal_set_with_diff,
-                              :label => key.camelize,
-                              :link => url) }
+                              label: key.camelize,
+                              link: url) }
 
-      it { expect(instance.render(key, [nil, "new value"], :no_html => true)).to eq(expected) }
+      it { expect(instance.render(key, [nil, "new value"], no_html: true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string
               WITH specifying not to output html" do
       let(:expected) { I18n.t(:text_journal_changed_with_diff,
-                              :label => key.camelize,
-                              :link => url) }
+                              label: key.camelize,
+                              link: url) }
 
-      it { expect(instance.render(key, ["old value", "new value"], :no_html => true)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], no_html: true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string
               WITH specifying to output a full url" do
       let(:expected) { I18n.t(:text_journal_changed_with_diff,
-                              :label => "<strong>#{key.camelize}</strong>",
-                              :link => full_url_link) }
+                              label: "<strong>#{key.camelize}</strong>",
+                              link: full_url_link) }
 
-      it { expect(instance.render(key, ["old value", "new value"], :only_path => false)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], only_path: false)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second nil" do
       let(:expected) { I18n.t(:text_journal_deleted_with_diff,
-                              :label => key.camelize,
-                              :link => url) }
+                              label: key.camelize,
+                              link: url) }
 
-      it { expect(instance.render(key, ["old_value", nil], :no_html => true)).to eq(expected) }
+      it { expect(instance.render(key, ["old_value", nil], no_html: true)).to eq(expected) }
     end
   end
 end

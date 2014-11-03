@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BoardsController, :type => :controller do
+describe BoardsController, type: :controller do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:project) }
   let!(:board) { FactoryGirl.build(:board,
@@ -39,8 +39,8 @@ describe BoardsController, :type => :controller do
   end
 
   describe :create do
-    let(:params) { {:board => board_params} }
-    let(:board_params) { {:name => 'my board', :description => 'awesome board'} }
+    let(:params) { {board: board_params} }
+    let(:board_params) { {name: 'my board', description: 'awesome board'} }
 
     before do
       expect(@controller).to receive(:authorize)
@@ -63,7 +63,7 @@ describe BoardsController, :type => :controller do
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to :controller => '/projects', :action => 'settings', :id => project, :tab => 'boards'
+        expect(response).to redirect_to controller: '/projects', action: 'settings', id: project, tab: 'boards'
       end
 
       it 'have a successful creation flash' do
@@ -118,8 +118,8 @@ describe BoardsController, :type => :controller do
   end
 
   describe :update do
-    let!(:board) { FactoryGirl.create(:board, :name => 'Board name',
-                                              :description => 'Board description') }
+    let!(:board) { FactoryGirl.create(:board, name: 'Board name',
+                                              description: 'Board description') }
 
     before do
       expect(@controller).to receive(:authorize)
@@ -131,15 +131,15 @@ describe BoardsController, :type => :controller do
         as_logged_in_user user do
           put :update, id: board.id,
                         project_id: board.project_id,
-                        board: {:name => 'New name', :description => 'New description'}
+                        board: {name: 'New name', description: 'New description'}
         end
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to :controller => '/projects',
-                                    :action => 'settings',
-                                    :id => board.project,
-                                    :tab => 'boards'
+        expect(response).to redirect_to controller: '/projects',
+                                    action: 'settings',
+                                    id: board.project,
+                                    tab: 'boards'
       end
 
       it 'have a successful update flash' do
@@ -159,7 +159,7 @@ describe BoardsController, :type => :controller do
         as_logged_in_user user do
           post :update, id: board.id,
                         project_id: board.project_id,
-                        board: {:name => '', :description => 'New description'}
+                        board: {name: '', description: 'New description'}
         end
       end
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MenuItem, :type => :model do
+describe MenuItem, type: :model do
   describe 'validations' do
     let(:item) { FactoryGirl.build :menu_item }
 

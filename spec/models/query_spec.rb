@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query, :type => :model do
+describe Query, type: :model do
   let(:query) { FactoryGirl.build(:query) }
 
   describe 'available_columns' do

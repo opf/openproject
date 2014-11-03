@@ -43,14 +43,14 @@ describe OpenProject::TextFormatting do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
     let(:project_member) { FactoryGirl.create :user,
-                                              :member_in_project => project,
-                                              :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
+                                              member_in_project: project,
+                                              member_through_role: FactoryGirl.create(:role,
+                                                                                         permissions: [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
     let(:issue) { FactoryGirl.create :work_package,
-                                     :project => project,
-                                     :author => project_member,
-                                     :type => project.types.first }
+                                     project: project,
+                                     author: project_member,
+                                     type: project.types.first }
 
     before do
       @project = project
@@ -67,19 +67,19 @@ describe OpenProject::TextFormatting do
     end
 
     context "Changeset links" do
-      let(:repository) { FactoryGirl.create :repository, :project => project }
+      let(:repository) { FactoryGirl.create :repository, project: project }
       let(:changeset1) { FactoryGirl.create :changeset,
-                                            :repository => repository,
-                                            :comments => 'My very first commit' }
+                                            repository: repository,
+                                            comments: 'My very first commit' }
       let(:changeset2) { FactoryGirl.create :changeset,
-                                            :repository => repository,
-                                            :comments => 'This commit fixes #1, #2 and references #1 & #3' }
+                                            repository: repository,
+                                            comments: 'This commit fixes #1, #2 and references #1 & #3' }
       let(:changeset_link) { link_to("r#{changeset1.revision}",
-                                     {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset1.revision},
-                                     :class => 'changeset', :title => 'My very first commit') }
+                                     {controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision},
+                                     class: 'changeset', title: 'My very first commit') }
       let(:changeset_link2) { link_to("r#{changeset2.revision}",
-                                      {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset2.revision},
-                                      :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3') }
+                                      {controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision},
+                                      class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3') }
 
       before do
         project.repository = repository
@@ -118,11 +118,11 @@ describe OpenProject::TextFormatting do
 
     context "Version link" do
       let!(:version) { FactoryGirl.create :version,
-                                         :name => '1.0',
-                                         :project => project }
+                                         name: '1.0',
+                                         project: project }
       let(:version_link) { link_to('1.0',
-                                   {:controller => 'versions', :action => 'show', :id => version.id},
-                                   :class => 'version') }
+                                   {controller: 'versions', action: 'show', id: version.id},
+                                   class: 'version') }
 
       context "Link with version id" do
         subject { format_text("version##{version.id}") }
@@ -161,11 +161,11 @@ describe OpenProject::TextFormatting do
     end
 
     context "Message links" do
-      let(:board) { FactoryGirl.create :board, :project => project }
-      let(:message1) { FactoryGirl.create :message, :board => board }
+      let(:board) { FactoryGirl.create :board, project: project }
+      let(:message1) { FactoryGirl.create :message, board: board }
       let(:message2) { FactoryGirl.create :message,
-                                          :board => board,
-                                          :parent => message1 }
+                                          board: board,
+                                          parent: message1 }
 
       before do
         message1.reload
@@ -174,20 +174,20 @@ describe OpenProject::TextFormatting do
       context "Plain message" do
         subject { format_text("message##{message1.id}") }
 
-        it { is_expected.to eq("<p>#{link_to(message1.subject, topic_path(message1), :class => 'message')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(message1.subject, topic_path(message1), class: 'message')}</p>") }
       end
 
       context "Message with parent" do
         subject { format_text("message##{message2.id}") }
 
-        it { is_expected.to eq("<p>#{link_to(message2.subject, topic_path(message1, :anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(message2.subject, topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message')}</p>") }
       end
     end
 
     context "Issue links" do
       let(:issue_link) { link_to("##{issue.id}",
                          work_package_path(issue),
-                         :class => 'issue work_package status-3 priority-1 created-by-me', :title => "#{issue.subject} (#{issue.status})") }
+                         class: 'issue work_package status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})") }
 
       context "Plain issue link" do
         subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
@@ -209,9 +209,9 @@ describe OpenProject::TextFormatting do
 
       context "Cyclic Description Links" do
         let(:issue2) { FactoryGirl.create :work_package,
-                                         :project => project,
-                                         :author => project_member,
-                                         :type => project.types.first }
+                                         project: project,
+                                         author: project_member,
+                                         type: project.types.first }
 
         before do
           issue2.description = "####{issue.id}"
@@ -237,25 +237,25 @@ describe OpenProject::TextFormatting do
     end
 
     context "Project links" do
-      let(:subproject) { FactoryGirl.create :valid_project, :parent => project, :is_public => true }
-      let(:project_url) { {:controller => 'projects', :action => 'show', :id => subproject.identifier} }
+      let(:subproject) { FactoryGirl.create :valid_project, parent: project, is_public: true }
+      let(:project_url) { {controller: 'projects', action: 'show', id: subproject.identifier} }
 
       context "Plain project link" do
         subject { format_text("project##{subproject.id}") }
 
-        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
       end
 
       context "Plain project link via identifier" do
         subject { format_text("project:#{subproject.identifier}") }
 
-        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
       end
 
       context "Plain project link via name" do
         subject { format_text("project:\"#{subproject.name}\"") }
 
-        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
       end
     end
 
@@ -267,23 +267,23 @@ describe OpenProject::TextFormatting do
 
     context "Wiki links" do
       let(:project_2) { FactoryGirl.create :valid_project,
-                                           :identifier => 'onlinestore' }
+                                           identifier: 'onlinestore' }
       let(:wiki_1) { FactoryGirl.create :wiki,
-                                        :start_page => "CookBook documentation",
-                                        :project => project }
+                                        start_page: "CookBook documentation",
+                                        project: project }
       let(:wiki_page_1_1) { FactoryGirl.create :wiki_page_with_content,
-                                               :wiki => wiki_1,
-                                               :title => "CookBook_documentation" }
+                                               wiki: wiki_1,
+                                               title: "CookBook_documentation" }
       let(:wiki_page_1_2) { FactoryGirl.create :wiki_page_with_content,
-                                               :wiki => wiki_1,
-                                               :title => "Another page" }
+                                               wiki: wiki_1,
+                                               title: "Another page" }
 
       before do
         project_2.reload
 
         wiki_page_2_1 = FactoryGirl.create :wiki_page_with_content,
-                                           :wiki => project_2.wiki,
-                                           :title => "Start_page"
+                                           wiki: project_2.wiki,
+                                           title: "Start_page"
 
         project_2.wiki.pages << wiki_page_2_1
         project_2.wiki.start_page = "Start Page"
@@ -393,27 +393,27 @@ describe OpenProject::TextFormatting do
     end
 
     context "Redmine links" do
-      let(:repository) { FactoryGirl.create :repository, :project => project }
-      let(:source_url) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file'} }
-      let(:source_url_with_ext) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file.ext'} }
+      let(:repository) { FactoryGirl.create :repository, project: project }
+      let(:source_url) { {controller: 'repositories', action: 'entry', project_id: identifier, path: 'some/file'} }
+      let(:source_url_with_ext) { {controller: 'repositories', action: 'entry', project_id: identifier, path: 'some/file.ext'} }
 
       before do
         project.repository = repository
 
         @to_test = {
           # source
-          'source:/some/file'           => link_to('source:/some/file', source_url, :class => 'source'),
-          'source:/some/file.'          => link_to('source:/some/file', source_url, :class => 'source') + ".",
-          'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
-          'source:/some/file. '         => link_to('source:/some/file', source_url, :class => 'source') + ".",
-          'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
-          'source:/some/file, '         => link_to('source:/some/file', source_url, :class => 'source') + ",",
-          'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(:rev => 52), :class => 'source'),
-          'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(:rev => 52), :class => 'source'),
-          'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(:anchor => 'L110'), :class => 'source'),
-          'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(:anchor => 'L110'), :class => 'source'),
-          'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
-          'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
+          'source:/some/file'           => link_to('source:/some/file', source_url, class: 'source'),
+          'source:/some/file.'          => link_to('source:/some/file', source_url, class: 'source') + ".",
+          'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + ".",
+          'source:/some/file. '         => link_to('source:/some/file', source_url, class: 'source') + ".",
+          'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + ".",
+          'source:/some/file, '         => link_to('source:/some/file', source_url, class: 'source') + ",",
+          'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(rev: 52), class: 'source'),
+          'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(rev: 52), class: 'source'),
+          'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(anchor: 'L110'), class: 'source'),
+          'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(anchor: 'L110'), class: 'source'),
+          'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(rev: 52, anchor: 'L110'), class: 'source'),
+          'export:/some/file'           => link_to('export:/some/file', source_url.merge(format: 'raw'), class: 'source download'),
           # escaping
           '!source:/some/file'          => 'source:/some/file',
           # invalid expressions
@@ -430,11 +430,11 @@ describe OpenProject::TextFormatting do
 
     context "Pre content should not parse wiki and redmine links" do
       let(:wiki) { FactoryGirl.create :wiki,
-                                      :start_page => "CookBook documentation",
-                                      :project => project }
+                                      start_page: "CookBook documentation",
+                                      project: project }
       let(:wiki_page) { FactoryGirl.create :wiki_page_with_content,
-                                           :wiki => wiki,
-                                           :title => "CookBook_documentation" }
+                                           wiki: wiki,
+                                           title: "CookBook_documentation" }
       let(:raw) { <<-RAW
 [[CookBook documentation]]
 

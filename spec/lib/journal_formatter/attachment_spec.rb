@@ -38,7 +38,7 @@ describe OpenProject::JournalFormatter::Attachment do
   include Rails.application.routes.url_helpers
 
   def self.default_url_options
-    { :only_path => true }
+    { only_path: true }
   end
 
   Struct.new("TestJournal", :id)
@@ -51,7 +51,7 @@ describe OpenProject::JournalFormatter::Attachment do
   end
   let(:user) { FactoryGirl.create(:user) }
   let(:attachment) { FactoryGirl.create(:attachment,
-                                    :author => user) }
+                                    author: user) }
   let(:key) { "attachments_#{attachment.id}" }
 
   describe :render do
@@ -69,13 +69,13 @@ describe OpenProject::JournalFormatter::Attachment do
       #it { instance.render(key, [nil, attachment.id.to_s]).should == expected }
       #
       # Setting value by hand is just a workaround until rspec bug is fixed
-      it { expect(instance.render(key, [nil, attachment.id.to_s])).to eq(I18n.t(:text_journal_added, :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", :value => "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>")) }
+      it { expect(instance.render(key, [nil, attachment.id.to_s])).to eq(I18n.t(:text_journal_added, label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", value: "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>")) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil" do
       let(:expected) { I18n.t(:text_journal_deleted,
-                              :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
-                              :old => "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>") }
+                              label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+                              old: "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>") }
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end
@@ -83,19 +83,19 @@ describe OpenProject::JournalFormatter::Attachment do
     describe "WITH the first value beeing nil, and the second an id as a string
               WITH specifying not to output html" do
       let(:expected) { I18n.t(:text_journal_added,
-                              :label => I18n.t(:'activerecord.models.attachment'),
-                              :value => attachment.id) }
+                              label: I18n.t(:'activerecord.models.attachment'),
+                              value: attachment.id) }
 
-      it { expect(instance.render(key, [nil, attachment.id.to_s], :no_html => true)).to eq(expected) }
+      it { expect(instance.render(key, [nil, attachment.id.to_s], no_html: true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil,
               WITH specifying not to output html" do
       let(:expected) { I18n.t(:text_journal_deleted,
-                              :label => I18n.t(:'activerecord.models.attachment'),
-                              :old => attachment.id) }
+                              label: I18n.t(:'activerecord.models.attachment'),
+                              old: attachment.id) }
 
-      it { expect(instance.render(key, [attachment.id.to_s, nil], :no_html => true)).to eq(expected) }
+      it { expect(instance.render(key, [attachment.id.to_s, nil], no_html: true)).to eq(expected) }
     end
   end
 end

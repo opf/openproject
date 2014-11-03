@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../spec_helper', __FILE__)
 
-describe "API v2", :type => :request do
+describe "API v2", type: :request do
 
   let(:admin) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }

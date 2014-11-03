@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Activities::ActivitiesAPI, :type => :request do
+describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
 
   let(:admin) { FactoryGirl.create(:admin) }

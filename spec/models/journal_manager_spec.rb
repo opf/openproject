@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalManager, :type => :model do
+describe JournalManager, type: :model do
   describe '#self.changed?' do
     let(:journable) do
       FactoryGirl.create(:work_package, description: old).tap do |journable|

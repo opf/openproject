@@ -28,17 +28,17 @@
 
 require 'spec_helper'
 
-describe WorkPackagesHelper, :type => :helper do
+describe WorkPackagesHelper, type: :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
-  let(:form) { double('form', :select => "").as_null_object }
+  let(:form) { double('form', select: "").as_null_object }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
   def inside_form &block
     ret = ''
 
-    form_for(stub_work_package, :as => 'work_package', :url => work_package_path(stub_work_package)) do |f|
+    form_for(stub_work_package, as: 'work_package', url: work_package_path(stub_work_package)) do |f|
       ret = yield f
     end
 
@@ -69,15 +69,15 @@ describe WorkPackagesHelper, :type => :helper do
       allow(controller).to receive(:ancestors).and_return(ancestors)
 
       ancestors.each_with_index do |ancestor, index|
-        expect(helper.ancestors_links[index]).to have_selector("a[href='#{work_package_path(ancestor.id)}']", :text => "##{ancestor.id}")
+        expect(helper.ancestors_links[index]).to have_selector("a[href='#{work_package_path(ancestor.id)}']", text: "##{ancestor.id}")
 
       end
     end
   end
 
   describe :link_to_work_package do
-    let(:open_status) { FactoryGirl.build_stubbed(:status, :is_closed => false) }
-    let(:closed_status) { FactoryGirl.build_stubbed(:status, :is_closed => true) }
+    let(:open_status) { FactoryGirl.build_stubbed(:status, is_closed: false) }
+    let(:closed_status) { FactoryGirl.build_stubbed(:status, is_closed: true) }
 
     before do
       stub_work_package.status = open_status
@@ -86,14 +86,14 @@ describe WorkPackagesHelper, :type => :helper do
     describe "without parameters" do
       it 'should return a link to the work package with the id as the text' do
         link_text = Regexp.new("^##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
 
       it 'should return a link to the work package with type and id as the text if type is set' do
         stub_work_package.type = stub_type
 
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
 
       it 'should additionally return the subject' do
@@ -104,7 +104,7 @@ describe WorkPackagesHelper, :type => :helper do
       it 'should prepend an invisible closed information if the work package is closed' do
         stub_work_package.status = closed_status
 
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a span.hidden-for-sighted", :text => "closed")
+        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a span.hidden-for-sighted", text: "closed")
       end
     end
 
@@ -113,7 +113,7 @@ describe WorkPackagesHelper, :type => :helper do
         stub_work_package.type = stub_type
 
         link_text = Regexp.new("^#{stub_type.to_s} ##{stub_work_package.id}: #{stub_work_package.subject}$")
-        expect(helper.link_to_work_package(stub_work_package, :all_link => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package, all_link: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
 
@@ -122,20 +122,20 @@ describe WorkPackagesHelper, :type => :helper do
         stub_work_package.subject = "12345678"
 
         text = Regexp.new("1234...$")
-        expect(helper.link_to_work_package(stub_work_package, :truncate => 7)).to have_text(text)
+        expect(helper.link_to_work_package(stub_work_package, truncate: 7)).to have_text(text)
       end
 
       it 'should not truncate the subject if the subject is shorter than the specified amount' do
         stub_work_package.subject = "1234567"
 
         text = Regexp.new("1234567$")
-        expect(helper.link_to_work_package(stub_work_package, :truncate => 7)).to have_text(text)
+        expect(helper.link_to_work_package(stub_work_package, truncate: 7)).to have_text(text)
       end
     end
 
     describe "when omitting the subject" do
       it 'should omit the subject' do
-        expect(helper.link_to_work_package(stub_work_package, :subject => false)).not_to have_text(stub_work_package.subject)
+        expect(helper.link_to_work_package(stub_work_package, subject: false)).not_to have_text(stub_work_package.subject)
       end
     end
 
@@ -144,7 +144,7 @@ describe WorkPackagesHelper, :type => :helper do
         stub_work_package.type = stub_type
 
         link_text = Regexp.new("^##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package, :type => false)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package, type: false)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
 
@@ -156,7 +156,7 @@ describe WorkPackagesHelper, :type => :helper do
       end
 
       it 'should prepend the project if parameter set to true' do
-        expect(helper.link_to_work_package(stub_work_package, :project => true)).to have_text(text)
+        expect(helper.link_to_work_package(stub_work_package, project: true)).to have_text(text)
       end
 
       it 'should not have the project name if the parameter is missing/false' do
@@ -169,18 +169,18 @@ describe WorkPackagesHelper, :type => :helper do
         stub_work_package.type = stub_type
 
         link_text = Regexp.new("^##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package, :id_only => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package, id_only: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
 
       it 'should not have the subject as text' do
-        expect(helper.link_to_work_package(stub_work_package, :id_only => true)).not_to have_text(stub_work_package.subject)
+        expect(helper.link_to_work_package(stub_work_package, id_only: true)).not_to have_text(stub_work_package.subject)
       end
     end
 
     describe "when only wanting the subject" do
       it 'should return a link with the subject as text' do
         link_text = Regexp.new("^#{stub_work_package.subject}$")
-        expect(helper.link_to_work_package(stub_work_package, :subject_only => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package, subject_only: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
 
@@ -189,14 +189,14 @@ describe WorkPackagesHelper, :type => :helper do
         stub_work_package.type = stub_type
 
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id} #{stub_work_package.status}$")
-        expect(helper.link_to_work_package(stub_work_package, :status => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+        expect(helper.link_to_work_package(stub_work_package, status: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
   end
 
   describe :work_package_index_link do
     it "should return a link to issue_index (work_packages index later)" do
-      expect(helper.work_package_index_link).to have_selector("a[href='#{work_packages_path}']", :text => I18n.t(:label_work_package_plural))
+      expect(helper.work_package_index_link).to have_selector("a[href='#{work_packages_path}']", text: I18n.t(:label_work_package_plural))
     end
   end
 
@@ -208,7 +208,7 @@ describe WorkPackagesHelper, :type => :helper do
 
       expected_href = work_package_time_entries_path(stub_work_package)
 
-      expect(field).to have_css(".spent-time a[@href='#{ expected_href }']", :text => '5.0')
+      expect(field).to have_css(".spent-time a[@href='#{ expected_href }']", text: '5.0')
     end
 
     it "should show a '-' if spent time is 0" do
@@ -216,7 +216,7 @@ describe WorkPackagesHelper, :type => :helper do
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
-      expect(field).to have_css(".spent-time", :text => '-')
+      expect(field).to have_css(".spent-time", text: '-')
     end
   end
 
@@ -244,7 +244,7 @@ describe WorkPackagesHelper, :type => :helper do
       expect(attributes.length).to eql(1)
 
       expected_css_class = ".work_package_attribute_header.custom_field.cf_#{stub_custom_field.id}"
-      expect(attributes[0].field).to have_css(expected_css_class, :text => stub_custom_field.name)
+      expect(attributes[0].field).to have_css(expected_css_class, text: stub_custom_field.name)
     end
   end
 
@@ -261,11 +261,11 @@ describe WorkPackagesHelper, :type => :helper do
     it "should return nothing if the project has no categories assigned" do
       allow(stub_project).to receive(:categories).and_return([])
 
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project)).to be_nil
+      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project)).to be_nil
     end
 
     it "should have a :category symbol as the attribute" do
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).attribute).to eq(:category)
+      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).attribute).to eq(:category)
     end
 
     it "should render a select with the project's issue category" do
@@ -273,9 +273,9 @@ describe WorkPackagesHelper, :type => :helper do
 
       expect(form).to receive(:select).with(:category_id,
                                         [[stub_category.name, stub_category.id]],
-                                        :include_blank => true).and_return(select)
+                                        include_blank: true).and_return(select)
 
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).field).to eq(select)
+      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to eq(select)
     end
 
     it "should add an additional remote link to create new categories if allowed" do
@@ -287,7 +287,7 @@ describe WorkPackagesHelper, :type => :helper do
             .with(*([anything()] * 3), project_categories_path(stub_project), anything())
             .and_return(remote)
 
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).field).to include(remote)
+      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to include(remote)
     end
   end
 
@@ -296,15 +296,15 @@ describe WorkPackagesHelper, :type => :helper do
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package,
-                                                        :status => status,
-                                                        :priority => priority) }
+                                                        status: status,
+                                                        priority: priority) }
 
     it "should always have the work_package class" do
       expect(helper.work_package_css_classes(stub_work_package)).to include("work_package")
     end
 
     it "should return the position of the work_package's status" do
-      status = double('status', :is_closed? => false)
+      status = double('status', is_closed?: false)
 
       allow(stub_work_package).to receive(:status).and_return(status)
       allow(status).to receive(:position).and_return(5)
@@ -370,7 +370,7 @@ describe WorkPackagesHelper, :type => :helper do
     end
 
     it "should have a created-by-me class if the work_package is a created by the current user" do
-      stub_user = double('user', :logged? => true, :id => 5)
+      stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:author_id).and_return(5)
 
@@ -378,7 +378,7 @@ describe WorkPackagesHelper, :type => :helper do
     end
 
     it "should not have a created-by-me class if the work_package is not created by the current user" do
-      stub_user = double('user', :logged? => true, :id => 5)
+      stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:author_id).and_return(4)
 
@@ -390,7 +390,7 @@ describe WorkPackagesHelper, :type => :helper do
     end
 
     it "should have a assigned-to-me class if the work_package is a created by the current user" do
-      stub_user = double('user', :logged? => true, :id => 5)
+      stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:assigned_to_id).and_return(5)
 
@@ -398,7 +398,7 @@ describe WorkPackagesHelper, :type => :helper do
     end
 
     it "should not have a assigned-to-me class if the work_package is not created by the current user" do
-      stub_user = double('user', :logged? => true, :id => 5)
+      stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:assigned_to_id).and_return(4)
 
@@ -453,7 +453,7 @@ describe WorkPackagesHelper, :type => :helper do
       stub_work_package.status = status1
 
       attribute = inside_form do |f|
-        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
+        helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
       end
 
       status1_selector = "select#work_package_status_id option[@value='#{status1.id}'][@selected='selected']"
@@ -471,7 +471,7 @@ describe WorkPackagesHelper, :type => :helper do
       stub_work_package.status = status1
 
       attribute = inside_form do |f|
-        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
+        helper.work_package_form_status_attribute(f, stub_work_package, user: stub_user)
       end
 
       expect(attribute.field).to have_text(WorkPackage.human_attribute_name(:status))

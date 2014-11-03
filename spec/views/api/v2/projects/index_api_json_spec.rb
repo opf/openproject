@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe '/api/v2/projects/index.api.rabl', :type => :view do
+describe '/api/v2/projects/index.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -49,9 +49,9 @@ describe '/api/v2/projects/index.api.rabl', :type => :view do
   describe 'with some projects available' do
     let(:projects) {
       [
-        FactoryGirl.build(:project, :name => 'P1'),
-        FactoryGirl.build(:project, :name => 'P2'),
-        FactoryGirl.build(:project, :name => 'P3')
+        FactoryGirl.build(:project, name: 'P1'),
+        FactoryGirl.build(:project, name: 'P2'),
+        FactoryGirl.build(:project, name: 'P3')
       ]
     }
 

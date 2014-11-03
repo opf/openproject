@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "routes for old issue uris", :type => :request do
+describe "routes for old issue uris", type: :request do
   # These are routing specs and should be moved to
   # spec/routing.
   # As redirect_to is not supported by routing specs they have

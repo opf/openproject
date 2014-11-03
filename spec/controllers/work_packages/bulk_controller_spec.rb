@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController, :type => :controller do
+describe WorkPackages::BulkController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user)}
   let(:custom_field_value) { '125' }

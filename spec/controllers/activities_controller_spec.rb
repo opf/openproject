@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ActivitiesController, :type => :controller do
+describe ActivitiesController, type: :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
 
@@ -68,12 +68,12 @@ describe ActivitiesController, :type => :controller do
 
         it do
           assert_tag tag: "h3",
-                     :content => /#{3.day.ago.to_date.day}/,
+                     content: /#{3.day.ago.to_date.day}/,
                      sibling: { tag: "dl",
                                 child: { tag: "dt",
-                                         attributes: { :class => /work_package/ },
+                                         attributes: { class: /work_package/ },
                                          child: { tag: "a",
-                                         :content => /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+                                         content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 

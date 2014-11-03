@@ -32,12 +32,12 @@ FIXTURES_PATH = File.dirname(__FILE__) + '/../../test/fixtures/mail_handler'
 
 DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_messages, :add_project, :edit_project, :select_project_modules, :manage_members, :manage_versions, :manage_categories, :view_work_packages, :add_work_packages, :edit_work_packages, :manage_work_package_relations, :manage_subtasks, :add_work_package_notes, :move_work_packages, :delete_work_packages, :view_work_package_watchers, :add_work_package_watchers, :delete_work_package_watchers, :manage_public_queries, :save_queries, :view_gantt, :view_calendar, :log_time, :view_time_entries, :edit_time_entries, :delete_time_entries, :manage_news, :comment_news, :view_documents, :manage_documents, :view_wiki_pages, :export_wiki_pages, :view_wiki_edits, :edit_wiki_pages, :delete_wiki_pages_attachments, :protect_wiki_pages, :delete_wiki_pages, :rename_wiki_pages, :add_messages, :edit_messages, :delete_messages, :manage_boards, :view_files, :manage_files, :browse_repository, :manage_repository, :view_changesets, :manage_project_activities, :export_work_packages]
 
-describe MailHandler, :type => :model do
+describe MailHandler, type: :model do
   #TODO: (a big one) the test setup to get a general project one can work with should be improved a lot
   # let(:user)    { FactoryGirl.build(:user, :mail => "JSmith@somenet.foo", :mail_notification => "all", :lastname => "Smith", :firstname => "John", :login => "jsmith") }
   # let(:user2)   { FactoryGirl.build(:user, :mail => "dlopper@somenet.foo", :mail_notification => "all", :lastname => "Lopper", :firstname => "Dave", :login => "dlopper") }
    let(:anno_user) { User.anonymous }
-   let(:project) { FactoryGirl.create(:valid_project, :identifier => "onlinestore", :name => "OnlineStore", :is_public => false) }
+   let(:project) { FactoryGirl.create(:valid_project, identifier: "onlinestore", name: "OnlineStore", is_public: false) }
   # let(:role)    { FactoryGirl.create(:role, :permissions => DEVELOPER_PERMISSIONS, :name => "Developer") }
 
   # let(:member)  { FactoryGirl.build(:member, :project => project,
@@ -51,7 +51,7 @@ describe MailHandler, :type => :model do
   # let(:workflow)        {project.types.third.workflows.first}
   # let(:type_support) {project.types.second}
   # let(:type_feature) {project.types.third}
-   let(:priority_low)    {FactoryGirl.create(:priority_low, :is_default => true)}
+   let(:priority_low)    {FactoryGirl.create(:priority_low, is_default: true)}
   # let(:priority_high)   {FactoryGirl.create(:priority_high)}
   # let(:priority_urgent) {FactoryGirl.create(:priority_urgent)}
   # let(:version_a)       {FactoryGirl.create(:version, :name => 'alpha', :description => "Private Alpha", :project => project)}
@@ -284,7 +284,7 @@ describe MailHandler, :type => :model do
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true
     expect {
-      work_package = submit_email('ticket_by_unknown_user.eml', {:issue => {:project => 'onlinestore'}, :unknown_user => 'create'})
+      work_package = submit_email('ticket_by_unknown_user.eml', {issue: {project: 'onlinestore'}, unknown_user: 'create'})
       work_package_created(work_package)
       expect(work_package.author.active?).to be_truthy
       expect(work_package.author.mail).to eq('john.doe@somenet.foo')
@@ -294,7 +294,7 @@ describe MailHandler, :type => :model do
       #account information
       email = ActionMailer::Base.deliveries.first
       expect(email).not_to be_nil
-      expect(email.subject).to eq(I18n.t('mail_subject_register', :value => Setting.app_title))
+      expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
       login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
       password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
 

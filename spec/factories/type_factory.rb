@@ -32,13 +32,13 @@ FactoryGirl.define do
     name { |a| "Type No. #{a.position}" }
   end
 
-  factory :type_standard, :class => Type do
+  factory :type_standard, class: Type do
     name "None"
     is_standard true
     is_default true
   end
 
-  factory :type_bug, :class => Type do
+  factory :type_bug, class: Type do
     name "Bug"
     position 1
 
@@ -63,7 +63,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :type_with_workflow, :class => Type do
+  factory :type_with_workflow, class: Type do
     sequence(:name) { |n| "Type #{n}" }
     sequence(:position) { |n| n }
     callback(:after_build) do |t|

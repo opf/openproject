@@ -29,17 +29,17 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group, :type => :model do
+describe Group, type: :model do
   include BecomeMember
 
   let(:group) { FactoryGirl.build(:group) }
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:status) { FactoryGirl.create(:status) }
-  let(:package) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                   :author => user,
-                                                   :project => project,
-                                                   :status => status) }
+  let(:package) { FactoryGirl.build(:work_package, type: project.types.first,
+                                                   author: user,
+                                                   project: project,
+                                                   status: status) }
 
   describe :destroy do
     describe 'work packages assigned to the group' do

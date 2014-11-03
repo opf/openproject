@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CopyProjectJob, :type => :model do
+describe CopyProjectJob, type: :model do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: [:copy_projects]) }

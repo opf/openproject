@@ -28,13 +28,13 @@
 
 FactoryGirl.define do
   factory :attachment do
-    container :factory => :work_package
-    author :factory => :user
+    container factory: :work_package
+    author factory: :user
     sequence(:filename) { |n| "test#{n}.test" }
     sequence(:disk_filename) { |n| "test#{n}.test" }
 
     factory :wiki_attachment do
-      container :factory => :wiki_page_with_content
+      container factory: :wiki_page_with_content
     end
   end
 end

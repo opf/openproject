@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'work_packages/auto_completes/index.html.erb', :type => :view do
+describe 'work_packages/auto_completes/index.html.erb', type: :view do
   let(:work_package) { FactoryGirl.build( :work_package,
-                                          :subject => '<script>alert("do not alert this");</script>') }
+                                          subject: '<script>alert("do not alert this");</script>') }
 
   it 'escapes work package subject in auto-completion' do
     assign :work_packages, [work_package]

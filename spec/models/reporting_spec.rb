@@ -28,13 +28,13 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Reporting, :type => :model do
+describe Reporting, type: :model do
   describe '- Relations ' do
     describe '#project' do
       it 'can read the project w/ the help of the belongs_to association' do
         project   = FactoryGirl.create(:project)
         reporting = FactoryGirl.create(:reporting,
-                                   :project_id => project.id)
+                                   project_id: project.id)
 
         reporting.reload
 
@@ -44,7 +44,7 @@ describe Reporting, :type => :model do
       it 'can read the reporting_to_project w/ the help of the belongs_to association' do
         project   = FactoryGirl.create(:project)
         reporting = FactoryGirl.create(:reporting,
-                                   :reporting_to_project_id => project.id)
+                                   reporting_to_project_id: project.id)
 
         reporting.reload
 
@@ -54,7 +54,7 @@ describe Reporting, :type => :model do
       it 'can read the reported_project_status w/ the help of the belongs_to association' do
         reported_project_status = FactoryGirl.create(:reported_project_status)
         reporting               = FactoryGirl.create(:reporting,
-                                                 :reported_project_status_id => reported_project_status.id)
+                                                 reported_project_status_id: reported_project_status.id)
 
         reporting.reload
 
@@ -65,22 +65,22 @@ describe Reporting, :type => :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {:project_id => 1,
-       :reporting_to_project_id => 2}
+      {project_id: 1,
+       reporting_to_project_id: 2}
     }
 
     before {
-      FactoryGirl.create(:project, :id => 1)
-      FactoryGirl.create(:project, :id => 2)
+      FactoryGirl.create(:project, id: 1)
+      FactoryGirl.create(:project, id: 2)
     }
 
-    it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
+    it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
 
     describe 'project' do
       it 'is invalid w/o a project' do
         attributes[:project_id] = nil
         reporting = Reporting.new
-        reporting.send(:assign_attributes, attributes, :without_protection => true)
+        reporting.send(:assign_attributes, attributes, without_protection: true)
 
         expect(reporting).not_to be_valid
 
@@ -93,7 +93,7 @@ describe Reporting, :type => :model do
       it 'is invalid w/o a reporting_to_project' do
         attributes[:reporting_to_project_id] = nil
         reporting = Reporting.new
-        reporting.send(:assign_attributes, attributes, :without_protection => true)
+        reporting.send(:assign_attributes, attributes, without_protection: true)
 
         expect(reporting).not_to be_valid
 

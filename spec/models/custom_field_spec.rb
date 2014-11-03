@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField, :type => :model do
+describe CustomField, type: :model do
   before { CustomField.destroy_all }
 
   let(:field)  { FactoryGirl.build :custom_field }
@@ -122,7 +122,7 @@ describe CustomField, :type => :model do
       it { expect(field.translations.size).to eq(1) }
       it { expect(field.name(:de)).to eq("Feld") }
       it { expect(field.default_value(:de)).to eq("zwei") }
-      it { expect(field.possible_values(:locale => :de)).to eq(["eins", "zwei", "drei"]) }
+      it { expect(field.possible_values(locale: :de)).to eq(["eins", "zwei", "drei"]) }
     end
 
     describe "WHEN providing a hash with only a locale" do
@@ -220,8 +220,8 @@ describe CustomField, :type => :model do
         I18n.locale = :en
       end
 
-      it { expect(field.possible_values(:locale => :en)).to eq(["one", "two", "three"]) }
-      it { expect(field.possible_values(:locale => :de)).to eq(["eins", "zwei", "drei"]) }
+      it { expect(field.possible_values(locale: :en)).to eq(["one", "two", "three"]) }
+      it { expect(field.possible_values(locale: :de)).to eq(["eins", "zwei", "drei"]) }
     end
   end
 

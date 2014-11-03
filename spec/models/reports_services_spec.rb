@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Reports::ReportsService, :type => :model do
+describe Reports::ReportsService, type: :model do
 
   let(:project) {FactoryGirl.create(:project)}
 

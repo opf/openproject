@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController, :type => :controller do
+describe AccountController, type: :controller do
   after do
     User.current = nil
   end
@@ -74,7 +74,7 @@ describe AccountController, :type => :controller do
 
         it 'redirects to the first login page with a back_url' do
           expect(response).to redirect_to(
-            my_first_login_path(:back_url => 'https://example.net/some_back_url'))
+            my_first_login_path(back_url: 'https://example.net/some_back_url'))
         end
       end
 
@@ -164,10 +164,10 @@ describe AccountController, :type => :controller do
             omniauth: true,
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
-          post :register, :user => { :login => 'login@bar.com',
-                                     :firstname => 'Foo',
-                                     :lastname => 'Smith',
-                                     :mail => 'foo@bar.com' }
+          post :register, user: { login: 'login@bar.com',
+                                     firstname: 'Foo',
+                                     lastname: 'Smith',
+                                     mail: 'foo@bar.com' }
           expect(response).to redirect_to my_first_login_path
 
           user = User.find_by_login('login@bar.com')
@@ -186,7 +186,7 @@ describe AccountController, :type => :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, :user => { firstname: 'Foo',
+            post :register, user: { firstname: 'Foo',
                                        lastname: 'Smith',
                                        mail: 'foo@bar.com' }
 
@@ -196,7 +196,7 @@ describe AccountController, :type => :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, :user => { firstname: 'Foo',
+            post :register, user: { firstname: 'Foo',
                                        # lastname intentionally not provided
                                        mail: 'foo@bar.com' }
 

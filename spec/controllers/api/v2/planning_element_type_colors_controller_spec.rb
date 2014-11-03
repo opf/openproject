@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
+describe Api::V2::PlanningElementTypeColorsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -37,19 +37,19 @@ describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
 
   describe 'index.xml' do
     def fetch
-      get 'index', :format => 'xml'
+      get 'index', format: 'xml'
     end
     it_should_behave_like "a controller action with unrestricted access"
 
     describe 'with no colors available' do
       it 'assigns an empty colors array' do
-        get 'index', :format => 'xml'
+        get 'index', format: 'xml'
         expect(assigns(:colors)).to eq([])
       end
 
       it 'renders the index builder template' do
-        get 'index', :format => 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', :formats => ["api"])
+        get 'index', format: 'xml'
+        expect(response).to render_template('planning_element_type_colors/index', formats: ["api"])
       end
     end
 
@@ -63,13 +63,13 @@ describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
       end
 
       it 'assigns an array with all colors' do
-        get 'index', :format => 'xml'
+        get 'index', format: 'xml'
         expect(assigns(:colors)).to eq(@created_colors)
       end
 
       it 'renders the index template' do
-        get 'index', :format => 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', :formats => ["api"])
+        get 'index', format: 'xml'
+        expect(response).to render_template('planning_element_type_colors/index', formats: ["api"])
       end
     end
   end
@@ -78,13 +78,13 @@ describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
     describe 'with unknown color' do
       if false # would like to write it this way
         it 'returns status code 404' do
-          get 'show', :id => '1337', :format => 'xml'
+          get 'show', id: '1337', format: 'xml'
 
           expect(response.status).to eq('404 Not Found')
         end
 
         it 'returns an empty body' do
-          get 'show', :id => '1337', :format => 'xml'
+          get 'show', id: '1337', format: 'xml'
 
           expect(response.body).to be_empty
         end
@@ -92,7 +92,7 @@ describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
       else # but have to write it that way
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :id => '1337', :format => 'xml'
+            get 'show', id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -100,23 +100,23 @@ describe Api::V2::PlanningElementTypeColorsController, :type => :controller do
 
     describe 'with an available color' do
       before do
-        @available_color = FactoryGirl.create(:color, :id => '1337')
+        @available_color = FactoryGirl.create(:color, id: '1337')
       end
 
       def fetch
-        get "show", :id => '1337', :format => 'xml'
+        get "show", id: '1337', format: 'xml'
       end
       it_should_behave_like "a controller action with unrestricted access"
 
 
       it 'assigns the available color' do
-        get 'show', :id => '1337', :format => 'xml'
+        get 'show', id: '1337', format: 'xml'
         expect(assigns(:color)).to eq(@available_color)
       end
 
       it 'renders the show template' do
-        get 'show', :id => '1337', :format => 'xml'
-        expect(response).to render_template('planning_element_type_colors/show', :formats => ["api"])
+        get 'show', id: '1337', format: 'xml'
+        expect(response).to render_template('planning_element_type_colors/show', formats: ["api"])
       end
     end
   end

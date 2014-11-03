@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, :type => :model do
+describe ::Query::Results, type: :model do
   let(:query) { FactoryGirl.build :query }
   let(:query_results) do
     ::Query::Results.new query, include: [:assigned_to, :type, :priority, :category, :fixed_version],

@@ -107,7 +107,7 @@ describe OpenProject::Configuration do
       expect(OpenProject::Configuration).to receive(:load_config_from_file) do |filename, env, config|
         config.merge!({ 'somesetting' => 'foo' })
       end
-      OpenProject::Configuration.load(:env => 'test')
+      OpenProject::Configuration.load(env: 'test')
     end
 
     it 'should return the overriden the setting within the block' do
@@ -136,7 +136,7 @@ describe OpenProject::Configuration do
     context 'with delivery_method' do
       before do
         OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                        :disable_deprecation_message => true)
+                                        disable_deprecation_message: true)
       end
 
       it 'should adopt the delivery method' do
@@ -154,7 +154,7 @@ describe OpenProject::Configuration do
       before do
         settings['email_delivery'].delete('delivery_method')
         OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                        :disable_deprecation_message => true)
+                                        disable_deprecation_message: true)
       end
 
       it 'should convert smtp settings' do
@@ -180,8 +180,8 @@ describe OpenProject::Configuration do
     it 'should enable deliveries and configure ActionMailer smtp delivery' do
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      expect(action_mailer).to receive(:smtp_settings=).with({:address => 'smtp.example.net',
-                                                          :port => '25'})
+      expect(action_mailer).to receive(:smtp_settings=).with({address: 'smtp.example.net',
+                                                          port: '25'})
       OpenProject::Configuration.send(:configure_action_mailer, config)
     end
   end

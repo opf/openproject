@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account/register', :type => :view do
+describe 'account/register', type: :view do
   before do
     assign(:user, user)
     render

@@ -28,12 +28,12 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::ReportedProjectStatusesController, :type => :controller do
+describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do
     FactoryGirl.create(:reported_project_status,
-                   :id => '1337')
+                   id: '1337')
   end
 
   before do
@@ -47,7 +47,7 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with unknown project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'index', :project_type_id => '0', :format => 'xml'
+            get 'index', project_type_id: '0', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -55,13 +55,13 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with valid project_type' do
         describe 'with no reported_project_statuses available' do
           it 'assigns an empty reported_project_statuses array' do
-            get 'index', :project_type_id => project_type.id, :format => 'xml'
+            get 'index', project_type_id: project_type.id, format: 'xml'
             expect(assigns(:reported_project_statuses)).to eq([])
           end
 
           it 'renders the index builder template' do
-            get 'index', :project_type_id => project_type.id, :format => 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
+            get 'index', project_type_id: project_type.id, format: 'xml'
+            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
           end
         end
 
@@ -74,14 +74,14 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
             ]
             # Creating one ReportedProjectStatus that is inactive and should not
             # show up the assigned values below
-            FactoryGirl.create(:reported_project_status, :active => false)
+            FactoryGirl.create(:reported_project_status, active: false)
 
             # Assign all existing ReportedProjectStatus to a ProjectStatus via the
             # AvailableProjectStatus model
             ReportedProjectStatus.all.each do |reported_status|
               FactoryGirl.create(:available_project_status,
-                             :project_type_id => project_type.id,
-                             :reported_project_status_id => reported_status.id)
+                             project_type_id: project_type.id,
+                             reported_project_status_id: reported_status.id)
             end
 
             # Creating an additional ReportedProjectStatus, that should not show
@@ -90,13 +90,13 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
           end
 
           it 'assigns an array with all reported_project_statuses' do
-            get 'index', :project_type_id => project_type.id, :format => 'xml'
+            get 'index', project_type_id: project_type.id, format: 'xml'
             expect(assigns(:reported_project_statuses)).to eq(@created_reported_project_statuses)
           end
 
           it 'renders the index template' do
-            get 'index', :project_type_id => project_type.id, :format => 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
+            get 'index', project_type_id: project_type.id, format: 'xml'
+            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
           end
         end
       end
@@ -107,7 +107,7 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :project_type_id => '0', :id => '1337', :format => 'xml'
+            get 'show', project_type_id: '0', id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -115,7 +115,7 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
+            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -123,18 +123,18 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with inactive reported_project_status' do
         let :available_reported_project_status do
           FactoryGirl.create(:reported_project_status,
-                         :id => '1337',
-                         :active => false)
+                         id: '1337',
+                         active: false)
         end
         before do
           FactoryGirl.create(:available_project_status,
-                         :project_type_id => project_type.id,
-                         :reported_project_status_id => available_reported_project_status.id)
+                         project_type_id: project_type.id,
+                         reported_project_status_id: available_reported_project_status.id)
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
+            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -143,7 +143,7 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
         it 'raises ActiveRecord::RecordNotFound errors' do
           available_reported_project_status
           expect {
-            get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
+            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -151,18 +151,18 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with an available reported_project_status' do
         before do
           FactoryGirl.create(:available_project_status,
-                         :project_type_id => project_type.id,
-                         :reported_project_status_id => available_reported_project_status.id)
+                         project_type_id: project_type.id,
+                         reported_project_status_id: available_reported_project_status.id)
         end
 
         it 'assigns the available reported_project_status' do
-          get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
+          get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
           expect(assigns(:reported_project_status)).to eq(available_reported_project_status)
         end
 
         it 'renders the show template' do
-          get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', :formats => ["api"])
+          get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ["api"])
         end
       end
     end
@@ -172,13 +172,13 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
     describe 'index.xml' do
       describe 'with no reported_project_statuses available' do
         it 'assigns an empty reported_project_statuses array' do
-          get 'index', :format => 'xml'
+          get 'index', format: 'xml'
           expect(assigns(:reported_project_statuses)).to eq([])
         end
 
         it 'renders the index builder template' do
-          get 'index', :format => 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
+          get 'index', format: 'xml'
+          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
         end
       end
 
@@ -189,17 +189,17 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
             FactoryGirl.create(:reported_project_status),
             FactoryGirl.create(:reported_project_status)
           ]
-          FactoryGirl.create(:reported_project_status, :active => false)
+          FactoryGirl.create(:reported_project_status, active: false)
         end
 
         it 'assigns an array with all reported_project_statuses' do
-          get 'index', :format => 'xml'
+          get 'index', format: 'xml'
           expect(assigns(:reported_project_statuses)).to eq(@created_reported_project_statuses)
         end
 
         it 'renders the index template' do
-          get 'index', :format => 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
+          get 'index', format: 'xml'
+          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
         end
       end
     end
@@ -208,7 +208,7 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :id => '1337', :format => 'xml'
+            get 'show', id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -216,13 +216,13 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with inactive reported_project_status' do
         before do
           @available_reported_project_status = FactoryGirl.create(:reported_project_status,
-                                                              :id => '1337',
-                                                              :active => false)
+                                                              id: '1337',
+                                                              active: false)
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', :id => '1337', :format => 'xml'
+            get 'show', id: '1337', format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -230,17 +230,17 @@ describe Api::V2::ReportedProjectStatusesController, :type => :controller do
       describe 'with an available reported_project_status' do
         before do
           @available_reported_project_status = FactoryGirl.create(:reported_project_status,
-                                                              :id => '1337')
+                                                              id: '1337')
         end
 
         it 'assigns the available reported_project_status' do
-          get 'show', :id => '1337', :format => 'xml'
+          get 'show', id: '1337', format: 'xml'
           expect(assigns(:reported_project_status)).to eq(@available_reported_project_status)
         end
 
         it 'renders the show template' do
-          get 'show', :id => '1337', :format => 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', :formats => ["api"])
+          get 'show', id: '1337', format: 'xml'
+          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ["api"])
         end
       end
     end

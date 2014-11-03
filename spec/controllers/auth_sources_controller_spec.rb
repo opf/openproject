@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AuthSourcesController, :type => :controller do
+describe AuthSourcesController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -64,7 +64,7 @@ describe AuthSourcesController, :type => :controller do
 
   describe "create" do
     before do
-      post :create, :auth_source => {:name => 'Test'}
+      post :create, auth_source: {name: 'Test'}
     end
 
     it { is_expected.to respond_with :redirect }
@@ -74,7 +74,7 @@ describe AuthSourcesController, :type => :controller do
 
   describe "edit" do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
       get :edit, id: @auth_source.id
     end
 
@@ -85,7 +85,7 @@ describe AuthSourcesController, :type => :controller do
 
   describe "update" do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
       post :update, id: @auth_source.id, auth_source: {name: 'TestUpdate'}
     end
 
@@ -96,7 +96,7 @@ describe AuthSourcesController, :type => :controller do
 
   describe "destroy" do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
     end
 
     context "without users" do
@@ -111,7 +111,7 @@ describe AuthSourcesController, :type => :controller do
 
     context "with users" do
       before do
-        User.generate!(:auth_source => @auth_source)
+        User.generate!(auth_source: @auth_source)
         post :destroy, id: @auth_source.id
       end
 

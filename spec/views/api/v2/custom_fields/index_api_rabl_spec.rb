@@ -28,23 +28,23 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/custom_fields/index.api.rabl', :type => :view do
+describe 'api/v2/custom_fields/index.api.rabl', type: :view do
   before do
     params[:format] = 'xml'
   end
 
   let(:custom_field_1) do
     FactoryGirl.create :issue_custom_field,
-      :name => "Brot",
-      :field_format => "text",
-      :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+      name: "Brot",
+      field_format: "text",
+      types: [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
   end
 
   let(:custom_field_2) do
     FactoryGirl.create :issue_custom_field,
-      :name => "Belag",
-      :field_format => "text",
-      :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+      name: "Belag",
+      field_format: "text",
+      types: [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
   end
 
   describe 'with two custom fields' do

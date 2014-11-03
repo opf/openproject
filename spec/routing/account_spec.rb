@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account routes', :type => :routing do
+describe 'account routes', type: :routing do
   it '/account/lost_password GET routes to account#lost_password' do
     expect(get('/account/lost_password')).to route_to('account#lost_password')
   end

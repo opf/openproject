@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController, :type => :controller do
+describe StatusesController, type: :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 

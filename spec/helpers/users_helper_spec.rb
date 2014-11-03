@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UsersHelper, :type => :helper do
+describe UsersHelper, type: :helper do
   include UsersHelper
 
   def build_user(status, blocked)
@@ -41,24 +41,24 @@ describe UsersHelper, :type => :helper do
 
   describe 'full_user_status' do
     test_cases = {
-      [:active, false] => I18n.t(:active, :scope => :user),
+      [:active, false] => I18n.t(:active, scope: :user),
       [:active, true] => I18n.t(:blocked_num_failed_logins,
-                                :count => 3,
-                                :scope => :user),
-      [:locked, false] => I18n.t(:locked, :scope => :user),
+                                count: 3,
+                                scope: :user),
+      [:locked, false] => I18n.t(:locked, scope: :user),
       [:locked, true] => I18n.t(:status_user_and_brute_force,
-                            :user => I18n.t(:locked, :scope => :user),
-                            :brute_force => I18n.t(:blocked_num_failed_logins,
-                                                   :count => 3,
-                                                   :scope => :user),
-                            :scope => :user),
-      [:registered, false] => I18n.t(:registered, :scope => :user),
+                            user: I18n.t(:locked, scope: :user),
+                            brute_force: I18n.t(:blocked_num_failed_logins,
+                                                   count: 3,
+                                                   scope: :user),
+                            scope: :user),
+      [:registered, false] => I18n.t(:registered, scope: :user),
       [:registered, true] => I18n.t(:status_user_and_brute_force,
-                              :user => I18n.t(:registered, :scope => :user),
-                              :brute_force => I18n.t(:blocked_num_failed_logins,
-                                                     :count => 3,
-                                                     :scope => :user),
-                              :scope => :user)
+                              user: I18n.t(:registered, scope: :user),
+                              brute_force: I18n.t(:blocked_num_failed_logins,
+                                                     count: 3,
+                                                     scope: :user),
+                              scope: :user)
     }
 
     test_cases.each do |(status, blocked), expectation|
@@ -86,7 +86,7 @@ describe UsersHelper, :type => :helper do
 
     test_cases.each do |(status, blocked), expectation_symbol|
       describe "with status #{status} and blocked #{blocked}" do
-        expectation = I18n.t(expectation_symbol, :scope => :user)
+        expectation = I18n.t(expectation_symbol, scope: :user)
         before do
           user = build_user(status, blocked)
           @buttons = change_user_status_buttons(user)
@@ -112,8 +112,8 @@ describe UsersHelper, :type => :helper do
       end
 
       it "should contain 'Lock' and 'Reset Failed logins'" do
-        expect(@buttons).to include(I18n.t(:lock, :scope => :user))
-        expect(@buttons).to include(I18n.t(:reset_failed_logins, :scope => :user))
+        expect(@buttons).to include(I18n.t(:lock, scope: :user))
+        expect(@buttons).to include(I18n.t(:reset_failed_logins, scope: :user))
       end
     end
   end

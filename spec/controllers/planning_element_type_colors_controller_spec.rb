@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PlanningElementTypeColorsController, :type => :controller do
+describe PlanningElementTypeColorsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -51,7 +51,7 @@ describe PlanningElementTypeColorsController, :type => :controller do
 
   describe "create.html" do
     def fetch
-      post 'create', :color => FactoryGirl.build(:color).attributes
+      post 'create', color: FactoryGirl.build(:color).attributes
     end
     def expect_redirect_to
       Regexp.new(colors_path)
@@ -61,16 +61,16 @@ describe PlanningElementTypeColorsController, :type => :controller do
 
   describe "edit.html" do
     def fetch
-      @available_color = FactoryGirl.create(:color, :id => '1337')
-      get 'edit', :id => '1337'
+      @available_color = FactoryGirl.create(:color, id: '1337')
+      get 'edit', id: '1337'
     end
     it_should_behave_like "a controller action with require_admin"
   end
 
   describe "update.html" do
     def fetch
-      @available_color = FactoryGirl.create(:color, :id => '1337')
-      put 'update', :id => '1337', :color => { 'name' => 'blubs' }
+      @available_color = FactoryGirl.create(:color, id: '1337')
+      put 'update', id: '1337', color: { 'name' => 'blubs' }
     end
     def expect_redirect_to
       colors_path
@@ -80,8 +80,8 @@ describe PlanningElementTypeColorsController, :type => :controller do
 
   describe "move.html" do
     def fetch
-      @available_color = FactoryGirl.create(:color, :id => '1337')
-      post 'move', :id => '1337', :color => {:move_to => 'highest'}
+      @available_color = FactoryGirl.create(:color, id: '1337')
+      post 'move', id: '1337', color: {move_to: 'highest'}
     end
     def expect_redirect_to
       colors_path
@@ -91,16 +91,16 @@ describe PlanningElementTypeColorsController, :type => :controller do
 
   describe "confirm_destroy.html" do
     def fetch
-      @available_color = FactoryGirl.create(:color, :id => '1337')
-      get 'confirm_destroy', :id => '1337'
+      @available_color = FactoryGirl.create(:color, id: '1337')
+      get 'confirm_destroy', id: '1337'
     end
     it_should_behave_like "a controller action with require_admin"
   end
 
   describe "destroy.html" do
     def fetch
-      @available_color = FactoryGirl.create(:color, :id => '1337')
-      post 'destroy', :id => '1337'
+      @available_color = FactoryGirl.create(:color, id: '1337')
+      post 'destroy', id: '1337'
     end
     def expect_redirect_to
       colors_path

@@ -29,10 +29,10 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Query resource', :type => :request do
+describe 'API v3 Query resource', type: :request do
   include Rack::Test::Methods
 
-  let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
+  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
   let(:current_user) { FactoryGirl.create(:user) }
   let(:manage_public_queries_role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
   let(:save_queries_role) { FactoryGirl.create(:role, permissions: [:save_queries]) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'acts_as_searchable', :type => :model do
+describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember
 
   let(:wp_subject) { "the quick brown fox jumps over the lazy dog" }
@@ -71,7 +71,7 @@ describe WorkPackage, 'acts_as_searchable', :type => :model do
       end
 
       it "should return the work package if the offset is before the work packages created at value" do
-        expect(WorkPackage.search(wp_subject.split, nil, :offset => offset).first).to include(work_package)
+        expect(WorkPackage.search(wp_subject.split, nil, offset: offset).first).to include(work_package)
       end
     end
   end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'settings routes', :type => :routing do
+describe 'settings routes', type: :routing do
   it { expect(get('/settings')).to route_to('settings#index') }
   it { expect(get('/settings/edit')).to route_to('settings#edit') }
   it { expect(post('/settings/edit')).to route_to('settings#edit') }

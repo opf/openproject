@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe '/api/v2/projects/level_list.api.rabl', :type => :view do
+describe '/api/v2/projects/level_list.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -48,14 +48,14 @@ describe '/api/v2/projects/level_list.api.rabl', :type => :view do
 
   describe 'with some projects available' do
     let(:projects) do
-      p1 = FactoryGirl.build(:project, :name => 'P1')
+      p1 = FactoryGirl.build(:project, name: 'P1')
 
       # a result from Project.project_level_list
       [{ project: p1,
          level: 0 },
-       { project: FactoryGirl.build(:project, :name => 'P2', :parent => p1),
+       { project: FactoryGirl.build(:project, name: 'P2', parent: p1),
          level: 1 },
-       { project: FactoryGirl.build(:project, :name => 'P3'),
+       { project: FactoryGirl.build(:project, name: 'P3'),
          level: 0 }]
     end
 

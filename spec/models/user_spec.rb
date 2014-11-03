@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe User, :type => :model do
+describe User, type: :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
-  let(:member) { FactoryGirl.build(:member, :project => project,
-                                        :roles => [role],
-                                        :principal => user) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:member) { FactoryGirl.build(:member, project: project,
+                                        roles: [role],
+                                        principal: user) }
   let(:status) { FactoryGirl.create(:status) }
-  let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                      :author => user,
-                                      :project => project,
-                                      :status => status) }
+  let(:issue) { FactoryGirl.build(:work_package, type: project.types.first,
+                                      author: user,
+                                      project: project,
+                                      status: status) }
 
 
 
@@ -117,8 +117,8 @@ describe User, :type => :model do
   describe :blocked do
     let!(:blocked_user) do
       FactoryGirl.create(:user,
-                         :failed_login_count => 3,
-                         :last_failed_login_on => Time.now)
+                         failed_login_count: 3,
+                         last_failed_login_on: Time.now)
     end
 
     before do
@@ -192,8 +192,8 @@ describe User, :type => :model do
     end
 
     describe "WHEN the user is watching" do
-      let(:watcher) { Watcher.new(:watchable => issue,
-                                  :user => user) }
+      let(:watcher) { Watcher.new(watchable: issue,
+                                  user: user) }
 
       before do
         issue.save!
@@ -216,7 +216,7 @@ describe User, :type => :model do
 
   describe '#uses_external_authentication?' do
     context 'with identity_url' do
-      let(:user) { FactoryGirl.build(:user, :identity_url => 'test_provider:veryuniqueid') }
+      let(:user) { FactoryGirl.build(:user, identity_url: 'test_provider:veryuniqueid') }
 
       it 'should return true' do
         expect(user.uses_external_authentication?).to be_truthy
@@ -224,7 +224,7 @@ describe User, :type => :model do
     end
 
     context 'without identity_url' do
-      let(:user) { FactoryGirl.build(:user, :identity_url => nil) }
+      let(:user) { FactoryGirl.build(:user, identity_url: nil) }
 
       it 'should return false' do
         expect(user.uses_external_authentication?).to be_falsey
@@ -234,14 +234,14 @@ describe User, :type => :model do
 
   describe 'user create with empty password' do
     before do
-      @u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+      @u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
       @u.login = "new_user"
       @u.password, @u.password_confirmation = "", ""
       @u.save
     end
 
     it { expect(@u.valid?).to be_falsey }
-    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
+    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', count: Setting.password_min_length.to_i) }
   end
 
   describe '#random_password' do
@@ -289,7 +289,7 @@ describe User, :type => :model do
     context 'with an external auth source' do
       let(:auth_source) { FactoryGirl.build(:auth_source) }
       let(:user_with_external_auth_source) do
-        user = FactoryGirl.build(:user, :login => 'user')
+        user = FactoryGirl.build(:user, login: 'user')
         allow(user).to receive(:auth_source).and_return(auth_source)
         user
       end
@@ -349,7 +349,7 @@ describe User, :type => :model do
   end
 
   describe ".default_admin_account_deleted_or_changed?" do
-    let(:default_admin) { FactoryGirl.build(:user, :login => 'admin', :password => 'admin', :password_confirmation => 'admin', :admin => true) }
+    let(:default_admin) { FactoryGirl.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
 
     before do
       Setting.password_min_length = 5

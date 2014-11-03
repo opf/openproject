@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'roles routes', :type => :routing do
+describe 'roles routes', type: :routing do
 
   describe 'new' do
     it do

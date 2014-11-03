@@ -27,9 +27,9 @@
 #++
 
 FactoryGirl.define do
-  factory :default_enumeration, :class => Enumeration do
+  factory :default_enumeration, class: Enumeration do
     initialize_with do
-      Enumeration.find(:first, :conditions => {:type => 'Enumeration', :is_default => true}) || Enumeration.new
+      Enumeration.find(:first, conditions: {type: 'Enumeration', is_default: true}) || Enumeration.new
     end
 
     active true
@@ -38,7 +38,7 @@ FactoryGirl.define do
     name "Default Enumeration"
   end
 
-  factory :activity, :class => TimeEntryActivity do
+  factory :activity, class: TimeEntryActivity do
     sequence(:name) { |i| "Activity #{i}" }
     active true
     is_default false
@@ -51,7 +51,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :priority, :class => IssuePriority do
+  factory :priority, class: IssuePriority do
     sequence(:name) { |i| "Priority #{i}" }
     active true
 

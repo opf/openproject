@@ -51,7 +51,7 @@ FactoryGirl.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryGirl.build(:role, :permissions => [:view_work_packages, :edit_work_packages])
+        role = evaluator.member_through_role || FactoryGirl.build(:role, permissions: [:view_work_packages, :edit_work_packages])
         projects.each do |project|
           project.add_member! user, role if project
         end
@@ -68,7 +68,7 @@ FactoryGirl.define do
     end
 
 
-    factory :deleted_user, :class => DeletedUser do
+    factory :deleted_user, class: DeletedUser do
       status User::STATUSES[:builtin]
     end
 
@@ -82,7 +82,7 @@ FactoryGirl.define do
       status User::STATUSES[:locked]
     end
   end
-  factory :anonymous, :class => AnonymousUser do
+  factory :anonymous, class: AnonymousUser do
     status User::STATUSES[:builtin]
     initialize_with { User.anonymous }
   end

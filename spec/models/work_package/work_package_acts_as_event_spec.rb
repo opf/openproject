@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe 'acts_as_event' do
     let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
 

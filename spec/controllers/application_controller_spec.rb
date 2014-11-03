@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ApplicationController, :type => :controller do
-  let(:user) { FactoryGirl.create(:user, :lastname => "Crazy! Name with \r\n Newline") }
+describe ApplicationController, type: :controller do
+  let(:user) { FactoryGirl.create(:user, lastname: "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
   controller do

@@ -124,14 +124,14 @@ h2. Plan for this month
     it 'should have units in de if the language is de' do
       I18n.with_locale(:de) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => value.to_i))
+                                                           count: value.to_i))
       end
     end
 
     it 'should have units in en if the language is en' do
       I18n.with_locale(:en) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => value.to_i))
+                                                           count: value.to_i))
       end
     end
 
@@ -140,7 +140,7 @@ h2. Plan for this month
 
       I18n.with_locale(:en) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => 2)) # we want plural on 0
+                                                           count: 2)) # we want plural on 0
       end
     end
   end

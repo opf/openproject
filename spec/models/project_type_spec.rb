@@ -28,12 +28,12 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectType, :type => :model do
+describe ProjectType, type: :model do
   describe '- Relations ' do
     describe '#projects' do
       it 'can read projects w/ the help of the has_many association' do
         project_type = FactoryGirl.create(:project_type)
-        project      = FactoryGirl.create(:project, :project_type_id => project_type.id)
+        project      = FactoryGirl.create(:project, project_type_id: project_type.id)
 
         project_type.reload
 
@@ -48,8 +48,8 @@ describe ProjectType, :type => :model do
         reported_project_status  = FactoryGirl.create(:reported_project_status)
         available_project_status =
           FactoryGirl.create(:available_project_status,
-                         :reported_project_status_id => reported_project_status.id,
-                         :project_type_id            => project_type.id)
+                         reported_project_status_id: reported_project_status.id,
+                         project_type_id:            project_type.id)
 
         project_type.reload
 
@@ -64,8 +64,8 @@ describe ProjectType, :type => :model do
         reported_project_status = FactoryGirl.create(:reported_project_status)
         available_project_status =
           FactoryGirl.create(:available_project_status,
-                         :reported_project_status_id => reported_project_status.id,
-                         :project_type_id            => project_type.id)
+                         reported_project_status_id: reported_project_status.id,
+                         project_type_id:            project_type.id)
 
         project_type.reload
 
@@ -77,8 +77,8 @@ describe ProjectType, :type => :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {:name               => 'Project Type No. 1',
-       :allows_association => true}
+      {name:               'Project Type No. 1',
+       allows_association: true}
     }
 
     describe 'name' do

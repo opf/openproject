@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principal, :type => :model do
+describe Principal, type: :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:group) { FactoryGirl.build(:group) }
 
@@ -127,7 +127,7 @@ describe Principal, :type => :model do
     let(:group2) { FactoryGirl.create(:group) }
     let(:non_member_user) { FactoryGirl.create(:user) }
     let(:non_member_group) { FactoryGirl.create(:group) }
-    let(:admin) { FactoryGirl.create(:user, :admin => true) }
+    let(:admin) { FactoryGirl.create(:user, admin: true) }
 
     before do
       [user, group].each { |p| p.save! }

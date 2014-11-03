@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/projects/show.api.rabl', :type => :view do
+describe 'api/v2/projects/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -41,14 +41,14 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
   describe 'with an assigned project' do
 
     let(:sample_type){FactoryGirl.build(:project_type, id: 1, name: "SampleType")}
-    let(:sample_project) { FactoryGirl.build(:project, :id => 1,
-                                      :project_type => sample_type,
-                                      :project_type_id => 1,
-                                      :identifier => 'project_1',
-                                      :name => 'Project #1',
-                                      :description => 'sample description',
-                                      :created_on => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                      :updated_on => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+    let(:sample_project) { FactoryGirl.build(:project, id: 1,
+                                      project_type: sample_type,
+                                      project_type_id: 1,
+                                      identifier: 'project_1',
+                                      name: 'Project #1',
+                                      description: 'sample description',
+                                      created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                      updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
     before do
@@ -86,7 +86,7 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:public_project, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:public_project, name: 'Parent', identifier: 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -106,7 +106,7 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
 
   describe 'with a project having an invisible parent project' do
 
-    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent', :is_public => false) }
+    let(:parent_project) { FactoryGirl.create(:project, name: 'Parent', identifier: 'parent', is_public: false) }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -126,12 +126,12 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
 
   describe 'with a project having an invisible parent project and a visible grand-parent' do
     let(:grand_parent_project) { FactoryGirl.create(:public_project,
-                                                    :name => 'Grand-Parent',
-                                                    :identifier => 'granny') }
+                                                    name: 'Grand-Parent',
+                                                    identifier: 'granny') }
     let(:parent_project)       { FactoryGirl.create(:project,
-                                                    :name => 'Parent',
-                                                    :identifier => 'parent',
-                                                    :is_public => false).tap { |p| p.move_to_child_of(grand_parent_project.id) } }
+                                                    name: 'Parent',
+                                                    identifier: 'parent',
+                                                    is_public: false).tap { |p| p.move_to_child_of(grand_parent_project.id) } }
     let(:project)              { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -152,11 +152,11 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
 
   describe 'with a project having a responsible' do
     let(:responsible) { FactoryGirl.create(:user,
-                                           :firstname => 'Project',
-                                           :lastname => 'Manager') }
+                                           firstname: 'Project',
+                                           lastname: 'Manager') }
 
     let(:project) { FactoryGirl.create(:project,
-                                       :responsible_id => responsible.id) }
+                                       responsible_id: responsible.id) }
 
     before do
       assign(:project, project)
@@ -173,9 +173,9 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
   end
 
   describe 'with a project having a project type' do
-    let(:project_type) { FactoryGirl.build(:project_type, :id => 100, :name => 'Sample ProjectType') }
+    let(:project_type) { FactoryGirl.build(:project_type, id: 100, name: 'Sample ProjectType') }
 
-    let(:project) { FactoryGirl.build(:project, :project_type_id => project_type.tap { |p| p.save! }.id) }
+    let(:project) { FactoryGirl.build(:project, project_type_id: project_type.tap { |p| p.save! }.id) }
 
     before do
       assign(:project, project)
@@ -197,9 +197,9 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
 
     before do
       types = [
-          FactoryGirl.create(:type, name: "SampleType", is_milestone: true, :color_id => color.id),
-          FactoryGirl.create(:type, :color_id => color.id),
-          FactoryGirl.create(:type, :color_id => color.id)
+          FactoryGirl.create(:type, name: "SampleType", is_milestone: true, color_id: color.id),
+          FactoryGirl.create(:type, color_id: color.id),
+          FactoryGirl.create(:type, color_id: color.id)
       ]
       project.types = types
       project.save
@@ -230,16 +230,16 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
 
     before do
       FactoryGirl.create(:project_association,
-                         :project_a_id => project.id,
-                         :project_b_id => FactoryGirl.create(:project, name: "Associated Project #1", identifier: "assoc_1", is_public: true).id)
+                         project_a_id: project.id,
+                         project_b_id: FactoryGirl.create(:project, name: "Associated Project #1", identifier: "assoc_1", is_public: true).id)
       FactoryGirl.create(:project_association,
-                         :project_b_id => project.id,
-                         :project_a_id => FactoryGirl.create(:project, name: "Associated Project #2", identifier: "assoc_2", is_public: true).id)
+                         project_b_id: project.id,
+                         project_a_id: FactoryGirl.create(:project, name: "Associated Project #2", identifier: "assoc_2", is_public: true).id)
 
       # Adding invisible association to make sure, that it is not included in the output
       FactoryGirl.create(:project_association,
-                         :project_a_id => project.id,
-                         :project_b_id => FactoryGirl.create(:project, :is_public => false).id)
+                         project_a_id: project.id,
+                         project_b_id: FactoryGirl.create(:project, is_public: false).id)
     end
 
     before do
@@ -267,16 +267,16 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
     let(:project) { FactoryGirl.create(:project) }
     let(:custom_field) do
       FactoryGirl.create :issue_custom_field,
-        :name => "Belag",
-        :field_format => "text",
-        :projects => [project],
-        :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+        name: "Belag",
+        field_format: "text",
+        projects: [project],
+        types: [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
     end
 
     before do
       custom_value = CustomValue.new(
-        :custom_field => custom_field,
-        :value => "Wurst")
+        custom_field: custom_field,
+        value: "Wurst")
       project.custom_values << custom_value
 
       assign(:project, project)

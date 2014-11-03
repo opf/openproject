@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/projects/show.api.rabl', :type => :view do
+describe 'api/experimental/projects/show.api.rabl', type: :view do
   let(:principal) { FactoryGirl.build(:principal) }
   let(:members)   { FactoryGirl.build_list(:member, 3, principal: principal) }
   let(:types)     { FactoryGirl.build_list(:type,   2) }

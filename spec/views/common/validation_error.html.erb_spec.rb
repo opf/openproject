@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "common/_validation_error", :type => :view do
+describe "common/_validation_error", type: :view do
   let(:error_message) { ["Something went completely wrong!"] }
 
   before do

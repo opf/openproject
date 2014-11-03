@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe MembersController, :type => :controller do
+describe MembersController, type: :controller do
   let(:admin) {FactoryGirl.create(:admin)}
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
-  let(:member) { FactoryGirl.create(:member, :project => project,
-                                             :user => user,
-                                             :roles => [role]) }
+  let(:member) { FactoryGirl.create(:member, project: project,
+                                             user: user,
+                                             roles: [role]) }
 
   before do
     allow(User).to receive(:current).and_return(admin)
@@ -51,10 +51,10 @@ describe MembersController, :type => :controller do
 
     it "should work for multiple users" do
       post :create,
-        :project_id => project_2.identifier,
-        :member => {
-          :user_ids => [admin.id, user.id],
-          :role_ids => [role.id]
+        project_id: project_2.identifier,
+        member: {
+          user_ids: [admin.id, user.id],
+          role_ids: [role.id]
         }
 
       expect(response.response_code).to be < 400
@@ -77,9 +77,9 @@ describe MembersController, :type => :controller do
     let(:role_2) { FactoryGirl.create(:role) }
     let(:member_2) { FactoryGirl.create(
       :member,
-      :project => project_2,
-      :user => admin,
-      :roles => [role_1])
+      project: project_2,
+      user: admin,
+      roles: [role_1])
     }
 
     before do
@@ -88,10 +88,10 @@ describe MembersController, :type => :controller do
 
     it "should, however, allow roles to be updated through mass assignment" do
       put 'update',
-        :project_id => project.identifier,
-        :id => member_2.id,
-        :member => {
-          :role_ids => [role_1.id, role_2.id]
+        project_id: project.identifier,
+        id: member_2.id,
+        member: {
+          role_ids: [role_1.id, role_2.id]
         }
 
       expect(Member.find(member_2.id).roles).to include(role_1, role_2)
@@ -115,14 +115,14 @@ describe MembersController, :type => :controller do
       end
 
       it "should be success" do
-        post :autocomplete_for_member, params, :format => :xhr
+        post :autocomplete_for_member, params, format: :xhr
         expect(response).to be_success
       end
     end
 
     describe "WHEN the user is not authorized" do
       it "should be forbidden" do
-        post :autocomplete_for_member, params, :format => :xhr
+        post :autocomplete_for_member, params, format: :xhr
         expect(response.response_code).to eq(403)
       end
     end
@@ -133,20 +133,20 @@ describe MembersController, :type => :controller do
     let(:user2) { FactoryGirl.create(:user) }
     let(:user3) { FactoryGirl.create(:user) }
     let(:user4) { FactoryGirl.create(:user) }
-    let(:valid_params) { { :format => "js",
-                         :project_id => project.id,
-                         :member => {:role_ids => [role.id],
-                                     :user_ids => [user2.id, user3.id, user4.id]}}
+    let(:valid_params) { { format: "js",
+                         project_id: project.id,
+                         member: {role_ids: [role.id],
+                                     user_ids: [user2.id, user3.id, user4.id]}}
                         }
-    let(:invalid_params) { { :format => "js",
-                           :project_id => project.id,
-                           :member => {:role_ids => [],
-                                       :user_ids => [user2.id, user3.id, user4.id]}}
+    let(:invalid_params) { { format: "js",
+                           project_id: project.id,
+                           member: {role_ids: [],
+                                       user_ids: [user2.id, user3.id, user4.id]}}
                           }
 
     context "post :create" do
       context "single member" do
-        let(:action) { post :create, :project_id => project.id, :member => {:role_ids => [role.id], :user_id => user2.id} }
+        let(:action) { post :create, project_id: project.id, member: {role_ids: [role.id], user_id: user2.id} }
 
         it "should add a member" do
           expect{action}.to change {Member.count}.by(1)
@@ -156,7 +156,7 @@ describe MembersController, :type => :controller do
       end
 
       context "multiple members" do
-        let(:action) { post :create, :project_id => project.id, :member => {:role_ids => [role.id], :user_ids => [user2.id, user3.id, user4.id] } }
+        let(:action) { post :create, project_id: project.id, member: {role_ids: [role.id], user_ids: [user2.id, user3.id, user4.id] } }
 
         it "should add all members" do
           expect{action}.to change {Member.count}.by(3)
@@ -203,7 +203,7 @@ describe MembersController, :type => :controller do
   end
 
   describe :destroy do
-    let(:action) { post :destroy, :id => member.id }
+    let(:action) { post :destroy, id: member.id }
     before do
       member
     end
@@ -216,7 +216,7 @@ describe MembersController, :type => :controller do
   end
 
   describe :update do
-    let(:action) { post :update, :id => member.id, :member => {:role_ids => [role2.id], :user_id => user.id} }
+    let(:action) { post :update, id: member.id, member: {role_ids: [role2.id], user_id: user.id} }
     let(:role2) { FactoryGirl.create(:role) }
 
     before do

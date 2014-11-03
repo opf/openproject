@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CalendarsController, :type => :controller do
+describe WorkPackages::CalendarsController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role,
                                   permissions: [:view_calendar]) }

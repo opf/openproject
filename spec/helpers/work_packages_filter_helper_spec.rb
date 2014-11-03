@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe WorkPackagesFilterHelper, :type => :helper do
+describe WorkPackagesFilterHelper, type: :helper do
   let(:project) { FactoryGirl.create(:project) }
-  let(:version) { FactoryGirl.create(:version, :project => project) }
+  let(:version) { FactoryGirl.create(:version, project: project) }
 
   describe :general_path_helpers do
 

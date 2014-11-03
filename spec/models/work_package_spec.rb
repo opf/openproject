@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
@@ -825,10 +825,10 @@ describe WorkPackage, :type => :model do
     let(:user) { FactoryGirl.create(:user) }
     let(:project_archived) { FactoryGirl.create(:project,
                                                 status: Project::STATUS_ARCHIVED) }
-    let!(:work_package) { FactoryGirl.create(:work_package, :author => user) }
+    let!(:work_package) { FactoryGirl.create(:work_package, author: user) }
     let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
-                                                                :project => project_archived,
-                                                                :author => user) }
+                                                                project: project_archived,
+                                                                author: user) }
 
 
     subject { WorkPackage.with_author(user).length }
@@ -964,32 +964,32 @@ describe WorkPackage, :type => :model do
     let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:project) do
-      FactoryGirl.create(:project, :types => [type]).tap { |p| p.add_member(user, role).save }
+      FactoryGirl.create(:project, types: [type]).tap { |p| p.add_member(user, role).save }
     end
-    let(:workflow_a) { FactoryGirl.create(:workflow, :role_id => role.id,
-                                                     :type_id => type.id,
-                                                     :old_status_id => statuses[0].id,
-                                                     :new_status_id => statuses[1].id,
-                                                     :author => false,
-                                                     :assignee => false)}
-    let(:workflow_b) { FactoryGirl.create(:workflow, :role_id => role.id,
-                                                     :type_id => type.id,
-                                                     :old_status_id => statuses[0].id,
-                                                     :new_status_id => statuses[2].id,
-                                                     :author => true,
-                                                     :assignee => false)}
-    let(:workflow_c) { FactoryGirl.create(:workflow, :role_id => role.id,
-                                                     :type_id => type.id,
-                                                     :old_status_id => statuses[0].id,
-                                                     :new_status_id => statuses[3].id,
-                                                     :author => false,
-                                                     :assignee => true)}
-    let(:workflow_d) { FactoryGirl.create(:workflow, :role_id => role.id,
-                                                     :type_id => type.id,
-                                                     :old_status_id => statuses[0].id,
-                                                     :new_status_id => statuses[4].id,
-                                                     :author => true,
-                                                     :assignee => true)}
+    let(:workflow_a) { FactoryGirl.create(:workflow, role_id: role.id,
+                                                     type_id: type.id,
+                                                     old_status_id: statuses[0].id,
+                                                     new_status_id: statuses[1].id,
+                                                     author: false,
+                                                     assignee: false)}
+    let(:workflow_b) { FactoryGirl.create(:workflow, role_id: role.id,
+                                                     type_id: type.id,
+                                                     old_status_id: statuses[0].id,
+                                                     new_status_id: statuses[2].id,
+                                                     author: true,
+                                                     assignee: false)}
+    let(:workflow_c) { FactoryGirl.create(:workflow, role_id: role.id,
+                                                     type_id: type.id,
+                                                     old_status_id: statuses[0].id,
+                                                     new_status_id: statuses[3].id,
+                                                     author: false,
+                                                     assignee: true)}
+    let(:workflow_d) { FactoryGirl.create(:workflow, role_id: role.id,
+                                                     type_id: type.id,
+                                                     old_status_id: statuses[0].id,
+                                                     new_status_id: statuses[4].id,
+                                                     author: true,
+                                                     assignee: true)}
     let(:workflows) { [workflow_a, workflow_b, workflow_c, workflow_d] }
 
     it "should respect workflows w/o author and w/o assignee" do
@@ -1018,44 +1018,44 @@ describe WorkPackage, :type => :model do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type_id => type.id,
-                                        :status => status,
-                                        :priority => priority,
-                                        :project => project)
+      work_package = WorkPackage.create(type_id: type.id,
+                                        status: status,
+                                        priority: priority,
+                                        project: project)
       expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1]])
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type_id => type.id,
-                                        :status => status,
-                                        :priority => priority,
-                                        :project => project,
-                                        :author => user)
+      work_package = WorkPackage.create(type_id: type.id,
+                                        status: status,
+                                        priority: priority,
+                                        project: project,
+                                        author: user)
       expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2]])
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type_id => type.id,
-                                        :status => status,
-                                        :subject => "test",
-                                        :priority => priority,
-                                        :project => project,
-                                        :assigned_to => user,
-                                        :author => other_user)
+      work_package = WorkPackage.create(type_id: type.id,
+                                        status: status,
+                                        subject: "test",
+                                        priority: priority,
+                                        project: project,
+                                        assigned_to: user,
+                                        author: other_user)
       expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[3]])
     end
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type_id => type.id,
-                                        :status => status,
-                                        :subject => "test",
-                                        :priority => priority,
-                                        :project => project,
-                                        :author => user,
-                                        :assigned_to => user)
+      work_package = WorkPackage.create(type_id: type.id,
+                                        status: status,
+                                        subject: "test",
+                                        priority: priority,
+                                        project: project,
+                                        author: user,
+                                        assigned_to: user)
       expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]])
     end
 
@@ -1089,13 +1089,13 @@ describe WorkPackage, :type => :model do
     end
 
     it "should set the values" do
-      instance.update_by!(user, { :subject => "New subject" })
+      instance.update_by!(user, { subject: "New subject" })
 
       expect(instance.subject).to eq("New subject")
     end
 
     it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-      instance.update_by!(user, { :notes => "blubs" })
+      instance.update_by!(user, { notes: "blubs" })
 
       expect(instance.journals.last.notes).to eq("blubs")
     end
@@ -1108,7 +1108,7 @@ describe WorkPackage, :type => :model do
               .with(raw_attachments)
               .and_return(attachment)
 
-      instance.update_by!(user, { :attachments => raw_attachments })
+      instance.update_by!(user, { attachments: raw_attachments })
     end
 
     it "should only attach the attachment when saving was successful" do
@@ -1116,13 +1116,13 @@ describe WorkPackage, :type => :model do
 
       expect(Attachment).not_to receive(:attach_files)
 
-      instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
+      instance.update_by!(user, { subject: "", attachments: raw_attachments })
     end
 
     it "should add a time entry" do
       activity = FactoryGirl.create(:time_entry_activity)
 
-      instance.update_by!(user, { :time_entry => { "hours" => "5",
+      instance.update_by!(user, { time_entry: { "hours" => "5",
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
@@ -1140,8 +1140,8 @@ describe WorkPackage, :type => :model do
     it "should not persist the time entry if the work package update fails" do
       activity = FactoryGirl.create(:time_entry_activity)
 
-      instance.update_by!(user, { :subject => '',
-                                 :time_entry => { "hours" => "5",
+      instance.update_by!(user, { subject: '',
+                                 time_entry: { "hours" => "5",
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
@@ -1157,7 +1157,7 @@ describe WorkPackage, :type => :model do
                           "activity_id" => "",
                           "comments" => "" }
 
-      instance.update_by!(user, :time_entry => time_attributes)
+      instance.update_by!(user, time_entry: time_attributes)
 
       expect(instance.time_entries.size).to eq(0)
     end
@@ -1276,9 +1276,9 @@ describe WorkPackage, :type => :model do
 
       @type ||= FactoryGirl.create(:type_feature)
 
-      @status_resolved ||= FactoryGirl.create(:status, :name => "Resolved", :is_default => false)
-      @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
-      @status_rejected ||= FactoryGirl.create(:status, :name => "Rejected", :is_default => false)
+      @status_resolved ||= FactoryGirl.create(:status, name: "Resolved", is_default: false)
+      @status_open ||= FactoryGirl.create(:status, name: "Open", is_default: true)
+      @status_rejected ||= FactoryGirl.create(:status, name: "Rejected", is_default: false)
 
       role = FactoryGirl.create(:role)
       FactoryGirl.create(:workflow,
@@ -1292,18 +1292,18 @@ describe WorkPackage, :type => :model do
                          role: role,
                          type_id: @type.id)
 
-      @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
+      @priority_low ||= FactoryGirl.create(:priority_low, is_default: true)
       @priority_high ||= FactoryGirl.create(:priority_high)
       @project ||= FactoryGirl.create(:project_with_types)
 
-      @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
+      @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
       allow(User).to receive(:current).and_return(@current)
       @project.add_member!(@current, role)
 
-      @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
+      @user2 = FactoryGirl.create(:user, login: "user2", mail: "user2@users.com")
 
 
-      @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+      @issue ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
     end
 
     describe 'ignore blank to blank transitions' do
@@ -1375,9 +1375,9 @@ describe WorkPackage, :type => :model do
   describe :inherit_done_ratio_from_leaves do
     describe 'with done ratio disabled' do
       let(:project) { FactoryGirl.create(:project) }
-      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
-      let(:child) { FactoryGirl.create(:work_package, :parent => work_package,
-                                                      :project => project)}
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:child) { FactoryGirl.create(:work_package, parent: work_package,
+                                                      project: project)}
       let(:closed_status) { FactoryGirl.create(:closed_status) }
       let!(:workflow) { FactoryGirl.create(:workflow,
                                            old_status: child.status,
@@ -1408,7 +1408,7 @@ describe WorkPackage, :type => :model do
   describe "parent work package" do
     describe "with parent_id for a not existing work package" do
       let(:project) { FactoryGirl.create(:project) }
-      let(:invalid_work_package) { FactoryGirl.build(:work_package, :project => project, :parent_id => 1) }
+      let(:invalid_work_package) { FactoryGirl.build(:work_package, project: project, parent_id: 1) }
 
       it 'should raise an error' do
         expect(invalid_work_package).not_to be_valid
@@ -1418,8 +1418,8 @@ describe WorkPackage, :type => :model do
 
   describe 'custom fields' do
     it 'should not duplicate error messages when invalid' do
-      cf1 = FactoryGirl.create(:work_package_custom_field, :is_required => true)
-      cf2 = FactoryGirl.create(:work_package_custom_field, :is_required => true)
+      cf1 = FactoryGirl.create(:work_package_custom_field, is_required: true)
+      cf2 = FactoryGirl.create(:work_package_custom_field, is_required: true)
 
       # create work_package with one required custom field
       work_package = FactoryGirl.create :work_package

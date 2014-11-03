@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Version, :type => :model do
+describe Version, type: :model do
 
   subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
 

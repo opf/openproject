@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_types/show.api.rabl', :type => :view do
+describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -37,17 +37,17 @@ describe 'api/v2/planning_element_types/show.api.rabl', :type => :view do
   describe 'with an assigned planning element type' do
     let(:planning_element_type) do
       FactoryGirl.build(:type,
-                        :id => 1,
-                        :name => 'Awesometastic Planning Element Type',
+                        id: 1,
+                        name: 'Awesometastic Planning Element Type',
 
-                        :in_aggregation => false,
-                        :is_milestone => true,
-                        :is_default => true,
+                        in_aggregation: false,
+                        is_milestone: true,
+                        is_default: true,
 
-                        :position => 100,
+                        position: 100,
 
-                        :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                        :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+                        created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                        updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
     end
 
     before do
@@ -62,13 +62,13 @@ describe 'api/v2/planning_element_types/show.api.rabl', :type => :view do
     end
 
     it 'should render all detail-information for the planning-element-type' do
-      expected_json =  {:name => 'Awesometastic Planning Element Type',
+      expected_json =  {name: 'Awesometastic Planning Element Type',
 
-                        :in_aggregation => false,
-                        :is_milestone => true,
-                        :is_default => true,
+                        in_aggregation: false,
+                        is_milestone: true,
+                        is_default: true,
 
-                        :position => 100,
+                        position: 100,
       }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('planning_element_type')

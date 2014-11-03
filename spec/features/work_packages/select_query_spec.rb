@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Query selection', :type => :feature do
+describe 'Query selection', type: :feature do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
-  let(:role) { FactoryGirl.create :role, :permissions => [:view_work_packages] }
+  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
   let(:current_user) { FactoryGirl.create :user, member_in_project: project,
                                                  member_through_role: role }
 

@@ -30,11 +30,11 @@ require 'spec_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.build(:project_with_types) }
-  let(:work_package) { FactoryGirl.build(:work_package, :project => project) }
-  let(:work_package2) { FactoryGirl.build(:work_package, :project => project) }
-  let(:work_package3) { FactoryGirl.build(:work_package, :project => project) }
+  let(:work_package) { FactoryGirl.build(:work_package, project: project) }
+  let(:work_package2) { FactoryGirl.build(:work_package, project: project) }
+  let(:work_package3) { FactoryGirl.build(:work_package, project: project) }
 
   [:work_package].each do |subclass|
 

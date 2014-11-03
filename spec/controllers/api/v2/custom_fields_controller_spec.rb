@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::CustomFieldsController, :type => :controller do
+describe Api::V2::CustomFieldsController, type: :controller do
   describe '#index' do
     let!(:custom_field) { FactoryGirl.create(:custom_field) }
     let!(:wp_custom_field_1) { FactoryGirl.create(:work_package_custom_field) }

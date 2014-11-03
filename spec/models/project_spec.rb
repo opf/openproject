@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
-describe Project, :type => :model do
+describe Project, type: :model do
   include BecomeMember
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -50,18 +50,18 @@ describe Project, :type => :model do
     end
 
     it "is active when :status equals STATUS_ACTIVE" do
-      project = FactoryGirl.create :project, :status => 42
+      project = FactoryGirl.create :project, status: 42
       expect(project).to be_active
     end
 
     it "is not active when :status doesn't equal STATUS_ACTIVE" do
-      project = FactoryGirl.create :project, :status => 99
+      project = FactoryGirl.create :project, status: 99
       expect(project).not_to be_active
     end
   end
 
   describe "associated_project_candidates" do
-    let(:project_type) { FactoryGirl.create(:project_type, :allows_association => true) }
+    let(:project_type) { FactoryGirl.create(:project_type, allows_association: true) }
 
     before do
       FactoryGirl.create(:type_standard)
@@ -98,7 +98,7 @@ describe Project, :type => :model do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      expect(project.add_work_package(:type => specific_type).type).to eq(specific_type)
+      expect(project.add_work_package(type: specific_type).type).to eq(specific_type)
     end
 
     it "should raise an error if the provided type is not one of the project's types" do
@@ -106,18 +106,18 @@ describe Project, :type => :model do
       project
       specific_type = FactoryGirl.create(:type)
 
-      expect { project.add_work_package(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
+      expect { project.add_work_package(type: specific_type) }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it "returned work_package should have type set to provided type_id" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      expect(project.add_work_package(:type_id => specific_type.id).type).to eq(specific_type)
+      expect(project.add_work_package(type_id: specific_type.id).type).to eq(specific_type)
     end
 
     it "should set all the other attributes" do
-      attributes = { :blubs => double('blubs') }
+      attributes = { blubs: double('blubs') }
 
       new_work_package = FactoryGirl.build_stubbed(:work_package)
       expect(new_work_package).to receive(:attributes=).with(attributes)

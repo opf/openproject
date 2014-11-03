@@ -29,24 +29,24 @@
 require 'spec_helper'
 
 module OpenProjectRepositoryAuthenticationSpecs
-  describe SysController, :type => :controller do
-    let(:commit_role) { FactoryGirl.create(:role, :permissions => [:commit_access,
+  describe SysController, type: :controller do
+    let(:commit_role) { FactoryGirl.create(:role, permissions: [:commit_access,
                                                                   :browse_repository]) }
-    let(:browse_role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
-    let(:guest_role) { FactoryGirl.create(:role, :permissions => []) }
+    let(:browse_role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+    let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
     let(:valid_user_password) { "Top Secret Password" }
-    let(:valid_user) { FactoryGirl.create(:user, :login => "johndoe",
-                                                 :password => valid_user_password,
-                                                 :password_confirmation => valid_user_password)}
+    let(:valid_user) { FactoryGirl.create(:user, login: "johndoe",
+                                                 password: valid_user_password,
+                                                 password_confirmation: valid_user_password)}
 
     before(:each) do
-      FactoryGirl.create(:non_member, :permissions => [:browse_repository])
+      FactoryGirl.create(:non_member, permissions: [:browse_repository])
       DeletedUser.first # creating it first in order to avoid problems with should_receive
 
-      random_project = FactoryGirl.create(:project, :is_public => false)
-      @member = FactoryGirl.create(:member, :user => valid_user,
-                                            :roles => [browse_role],
-                                            :project => random_project)
+      random_project = FactoryGirl.create(:project, is_public: false)
+      @member = FactoryGirl.create(:member, user: valid_user,
+                                            roles: [browse_role],
+                                            project: random_project)
       allow(Setting).to receive(:sys_api_key).and_return("12345678")
       allow(Setting).to receive(:sys_api_enabled?).and_return(true)
       allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
@@ -56,7 +56,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post "repo_auth", { :key => @key, :repository => "without-access", :method => "GET" }
+        post "repo_auth", { key: @key, repository: "without-access", method: "GET" }
       end
 
       it "should respond 403 not allowed" do
@@ -68,20 +68,20 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for valid login and user has browse repository permission (role reporter) for project" do
       before(:each) do
         @key = Setting.sys_api_key
-        @project = FactoryGirl.create(:project, :is_public => false)
-        @member = FactoryGirl.create(:member, :user => valid_user,
-                                              :roles => [browse_role],
-                                              :project => @project)
+        @project = FactoryGirl.create(:project, is_public: false)
+        @member = FactoryGirl.create(:member, user: valid_user,
+                                              roles: [browse_role],
+                                              project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
       end
 
       it "should respond 200 okay dokay for GET" do
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "GET" }
         expect(response.code).to eq("200")
       end
 
       it "should respond 403 not allowed for POST" do
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "POST" }
         expect(response.code).to eq("403")
       end
     end
@@ -89,21 +89,21 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for valid login and user has commit access permission (role developer) for project" do
       before(:each) do
         @key = Setting.sys_api_key
-        @project = FactoryGirl.create(:project, :is_public => false)
-        @member = FactoryGirl.create(:member, :user => valid_user,
-                                              :roles => [commit_role],
-                                              :project => @project )
+        @project = FactoryGirl.create(:project, is_public: false)
+        @member = FactoryGirl.create(:member, user: valid_user,
+                                              roles: [commit_role],
+                                              project: @project )
         valid_user.save
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
       end
 
       it "should respond 200 okay dokay for GET" do
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "GET" }
         expect(response.code).to eq("200")
       end
 
       it "should respond 200 okay dokay for POST" do
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "POST" }
         expect(response.code).to eq("200")
       end
     end
@@ -111,12 +111,12 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for invalid login and user has role manager for project" do
       before(:each) do
         @key = Setting.sys_api_key
-        @project = FactoryGirl.create(:project, :is_public => false )
-        @member = FactoryGirl.create(:member, :user => valid_user,
-                                              :roles => [commit_role],
-                                              :project => @project)
+        @project = FactoryGirl.create(:project, is_public: false )
+        @member = FactoryGirl.create(:member, user: valid_user,
+                                              roles: [commit_role],
+                                              project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password + "made invalid")
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "GET" }
       end
 
       it "should respond 401 auth required" do
@@ -127,9 +127,9 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for valid login and user is not member for project" do
       before(:each) do
         @key = Setting.sys_api_key
-        @project = FactoryGirl.create(:project, :is_public => false)
+        @project = FactoryGirl.create(:project, is_public: false)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "GET" }
       end
 
       it "should respond 403 not allowed" do
@@ -140,15 +140,15 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for valid login and project is public" do
       before(:each) do
         @key = Setting.sys_api_key
-        @project = FactoryGirl.create(:project, :is_public => true)
+        @project = FactoryGirl.create(:project, is_public: true)
 
-        random_project = FactoryGirl.create(:project, :is_public => false)
-        @member = FactoryGirl.create(:member, :user => valid_user,
-                                              :roles => [browse_role],
-                                              :project => random_project)
+        random_project = FactoryGirl.create(:project, is_public: false)
+        @member = FactoryGirl.create(:member, user: valid_user,
+                                              roles: [browse_role],
+                                              project: random_project)
 
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+        post "repo_auth", { key: @key, repository: @project.identifier, method: "GET" }
       end
 
       it "should respond 200 OK" do
@@ -159,7 +159,7 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, "for invalid credentials" do
       before(:each) do
         @key = Setting.sys_api_key
-        post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
+        post "repo_auth", { key: @key, repository: "any-repo", method: "GET" }
       end
 
       it "should respond 401 auth required" do
@@ -175,14 +175,14 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       it "should respond 403 for valid username/password" do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
+        post "repo_auth", { key: @key, repository: "any-repo", method: "GET" }
         expect(response.code).to eq("403")
         expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
       end
 
       it "should respond 403 for invalid username/password" do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("invalid", "invalid")
-        post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
+        post "repo_auth", { key: @key, repository: "any-repo", method: "GET" }
         expect(response.code).to eq("403")
         expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
       end
@@ -228,7 +228,7 @@ module OpenProjectRepositoryAuthenticationSpecs
           Marshal.dump(Setting.send(:find_or_default, name).value)
         end
         #Rails.cache.should_receive(:fetch).with(anything).and_call_original
-        expect(Rails.cache).to receive(:fetch).with(cache_key, :expires_in => cache_expiry) \
+        expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
                                           .and_return(Marshal.dump(valid_user.id.to_s))
         controller.send(:cached_user_login, valid_user.login, valid_user_password)
       end

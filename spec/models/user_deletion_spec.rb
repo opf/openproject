@@ -28,23 +28,23 @@
 
 require 'spec_helper'
 
-describe User, 'deletion', :type => :model do
+describe User, 'deletion', type: :model do
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:user) { FactoryGirl.build(:user, :member_in_project => project) }
+  let(:user) { FactoryGirl.build(:user, member_in_project: project) }
   let(:user2) { FactoryGirl.build(:user) }
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:status) { FactoryGirl.create(:status) }
-  let(:issue) { FactoryGirl.create(:work_package, :type => project.types.first,
-                                                  :author => user,
-                                                  :project => project,
-                                                  :status => status,
-                                                  :assigned_to => user) }
-  let(:issue2) { FactoryGirl.create(:work_package, :type => project.types.first,
-                                                   :author => user2,
-                                                   :project => project,
-                                                   :status => status,
-                                                   :assigned_to => user2) }
+  let(:issue) { FactoryGirl.create(:work_package, type: project.types.first,
+                                                  author: user,
+                                                  project: project,
+                                                  status: status,
+                                                  assigned_to: user) }
+  let(:issue2) { FactoryGirl.create(:work_package, type: project.types.first,
+                                                   author: user2,
+                                                   project: project,
+                                                   status: status,
+                                                   assigned_to: user2) }
 
   let(:substitute_user) { DeletedUser.first }
 
@@ -182,9 +182,9 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has an issue created and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                                 :project => project,
-                                                                 :status => status) }
+    let(:associated_instance) { FactoryGirl.build(:work_package, type: project.types.first,
+                                                                 project: project,
+                                                                 status: status) }
     let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to, :responsible] }
 
@@ -192,9 +192,9 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has an issue updated and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                                 :project => project,
-                                                                 :status => status) }
+    let(:associated_instance) { FactoryGirl.build(:work_package, type: project.types.first,
+                                                                 project: project,
+                                                                 status: status) }
     let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to, :responsible] }
 
@@ -285,10 +285,10 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has created a time entry" do
-    let(:associated_instance) { FactoryGirl.build(:time_entry, :project => project,
-                                                           :work_package => issue,
-                                                           :hours => 2,
-                                                           :activity => FactoryGirl.create(:time_entry_activity)) }
+    let(:associated_instance) { FactoryGirl.build(:time_entry, project: project,
+                                                           work_package: issue,
+                                                           hours: 2,
+                                                           activity: FactoryGirl.create(:time_entry_activity)) }
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -296,10 +296,10 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has worked on time_entry" do
-    let(:associated_instance) { FactoryGirl.build(:time_entry, :project => project,
-                                                           :work_package => issue,
-                                                           :hours => 2,
-                                                           :activity => FactoryGirl.create(:time_entry_activity)) }
+    let(:associated_instance) { FactoryGirl.build(:time_entry, project: project,
+                                                           work_package: issue,
+                                                           hours: 2,
+                                                           activity: FactoryGirl.create(:time_entry_activity)) }
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -307,10 +307,10 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has commented" do
-    let(:news) { FactoryGirl.create(:news, :author => user) }
+    let(:news) { FactoryGirl.create(:news, author: user) }
 
-    let(:associated_instance) { Comment.new(:commented => news,
-                                            :comments => "lorem") }
+    let(:associated_instance) { Comment.new(commented: news,
+                                            comments: "lorem") }
 
     let(:associated_class) { Comment }
     let(:associations) { [:author] }
@@ -330,9 +330,9 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user is watching something" do
-    let(:watched) { FactoryGirl.create(:work_package, :project => project) }
-    let(:watch) { Watcher.new(:user => user,
-                              :watchable => watched) }
+    let(:watched) { FactoryGirl.create(:work_package, project: project) }
+    let(:watch) { Watcher.new(user: user,
+                              watchable: watched) }
 
     before do
       watch.save!
@@ -344,9 +344,9 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has a token created" do
-    let(:token) { Token.new(:user => user,
-                            :action => "feeds",
-                            :value => "loremipsum") }
+    let(:token) { Token.new(user: user,
+                            action: "feeds",
+                            value: "loremipsum") }
 
     before do
       token.save!
@@ -358,7 +358,7 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has created a private query" do
-    let(:query) { FactoryGirl.build(:private_query, :user => user) }
+    let(:query) { FactoryGirl.build(:private_query, user: user) }
 
     before do
       query.save!
@@ -380,8 +380,8 @@ describe User, 'deletion', :type => :model do
 
   describe "WHEN the user has created a changeset" do
     let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) { FactoryGirl.build(:changeset, :repository_id => repository.id,
-                                                          :committer => user.login) }
+    let(:associated_instance) { FactoryGirl.build(:changeset, repository_id: repository.id,
+                                                          committer: user.login) }
 
     let(:associated_class) { Changeset }
     let(:associations) { [:user] }
@@ -395,8 +395,8 @@ describe User, 'deletion', :type => :model do
 
   describe "WHEN the user has updated a changeset" do
     let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) { FactoryGirl.build(:changeset, :repository_id => repository.id,
-                                                          :committer => user2.login) }
+    let(:associated_instance) { FactoryGirl.build(:changeset, repository_id: repository.id,
+                                                          committer: user2.login) }
 
     let(:associated_class) { Changeset }
     let(:associations) { [:user] }
@@ -443,8 +443,8 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user is assigned an issue category" do
-    let(:category) { FactoryGirl.build(:category, :assigned_to => user,
-                                                          :project => project) }
+    let(:category) { FactoryGirl.build(:category, assigned_to: user,
+                                                          project: project) }
 
     before do
       category.save!
@@ -457,7 +457,7 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user is used in a timelines filter" do
-    let(:timeline) { FactoryGirl.build(:timeline, :project_id => project.id, :name => 'Testline') }
+    let(:timeline) { FactoryGirl.build(:timeline, project_id: project.id, name: 'Testline') }
 
     before do
       timeline.options["planning_element_responsibles"] = [user.id.to_s]

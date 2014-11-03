@@ -69,7 +69,7 @@ module OpenProject
           theme = Theme.new_theme do |theme|
             theme.identifier = :new_theme
           end
-          expect(ThemeFinder.registered_themes).to include :new_theme => theme
+          expect(ThemeFinder.registered_themes).to include new_theme: theme
         end
       end
 
@@ -85,7 +85,7 @@ module OpenProject
           theme = Theme.new_theme do |theme|
             theme.identifier = :new_theme
           end
-          expect(ThemeFinder.registered_themes).to include :new_theme => theme
+          expect(ThemeFinder.registered_themes).to include new_theme: theme
         end
 
         context 'asset precompilation' do
@@ -160,7 +160,7 @@ module OpenProject
           end
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.forget_theme(theme)
-          expect(ThemeFinder.registered_themes).to_not include :new_theme => theme
+          expect(ThemeFinder.registered_themes).to_not include new_theme: theme
         end
       end
 
@@ -190,7 +190,7 @@ module OpenProject
           end
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.clear_themes
-          expect(ThemeFinder.registered_themes).to_not include :new_theme => theme
+          expect(ThemeFinder.registered_themes).to_not include new_theme: theme
         end
       end
 

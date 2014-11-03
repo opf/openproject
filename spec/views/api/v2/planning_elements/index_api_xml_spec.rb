@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
+describe 'api/v2/planning_elements/index.api.rabl', type: :view do
   before do
     params[:format] = 'xml'
   end
@@ -41,7 +41,7 @@ describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
     subject {response.body}
 
     it 'renders an empty planning_elements document' do
-      is_expected.to have_selector('planning_elements', :count => 1)
+      is_expected.to have_selector('planning_elements', count: 1)
       is_expected.to have_selector('planning_elements[type=array]') do
         without_tag 'planning_element'
       end
@@ -64,8 +64,8 @@ describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
     subject {Nokogiri.XML(response.body)}
 
     it 'renders a planning_elements document with the size 3 of array' do
-      is_expected.to have_selector('planning_elements', :count => 1)
-      is_expected.to have_selector('planning_elements planning_element', :count => 3)
+      is_expected.to have_selector('planning_elements', count: 1)
+      is_expected.to have_selector('planning_elements planning_element', count: 3)
     end
 
     it 'renders the subject' do

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe OpenProject::Acts::Watchable::Routes do
   let(:request) { Struct.new(:type, :id) do
                     def path_parameters
-                      { :object_id => id,
-                        :object_type => type }
+                      { object_id: id,
+                        object_type: type }
                     end
                   end.new(type, id) }
 

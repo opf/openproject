@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/statuses/show.api.rabl', :type => :view do
+describe 'api/v2/statuses/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -36,12 +36,12 @@ describe 'api/v2/statuses/show.api.rabl', :type => :view do
 
   describe 'with an assigned status' do
     let(:status) { FactoryGirl.build(:status,
-                                     :id => 1,
-                                     :name => 'Almost Done',
-                                     :position => 100,
-                                     :default_done_ratio => 90,
-                                     :is_closed => false,
-                                     :is_default => true )}
+                                     id: 1,
+                                     name: 'Almost Done',
+                                     position: 100,
+                                     default_done_ratio: 90,
+                                     is_closed: false,
+                                     is_default: true )}
 
     before do
       assign(:status, status)

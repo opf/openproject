@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'settings/_authentication', :type => :view do
+describe 'settings/_authentication', type: :view do
   context 'with password login enabled' do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
@@ -40,7 +40,7 @@ describe 'settings/_authentication', :type => :view do
     end
 
     it 'shows automated user blocking options' do
-      expect(rendered).to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+      expect(rendered).to have_text I18n.t(:brute_force_prevention, scope: [:settings])
     end
   end
 
@@ -55,7 +55,7 @@ describe 'settings/_authentication', :type => :view do
     end
 
     it 'does not show automated user blocking options' do
-      expect(rendered).not_to have_text I18n.t(:brute_force_prevention, :scope => [:settings])
+      expect(rendered).not_to have_text I18n.t(:brute_force_prevention, scope: [:settings])
     end
   end
 end

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_type_colors/show.api.rabl', :type => :view do
+describe 'api/v2/planning_element_type_colors/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -36,13 +36,13 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl', :type => :view do
 
   describe 'with an assigned color' do
     let(:color) { FactoryGirl.build(:color,
-                                    :id       => 1,
-                                    :name     => 'Awesometastic color',
-                                    :hexcode  => '#FFFFFF',
-                                    :position => 10,
+                                    id:       1,
+                                    name:     'Awesometastic color',
+                                    hexcode:  '#FFFFFF',
+                                    position: 10,
 
-                                    :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                    :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+                                    created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                    updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
     before do

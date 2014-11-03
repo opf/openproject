@@ -28,17 +28,17 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController, :type => :routing do
+describe WorkPackagesController, type: :routing do
 
   it "should connect GET /work_packages to work_packages#index" do
-    expect(get("/work_packages")).to route_to( :controller => 'work_packages',
-                                           :action => 'index')
+    expect(get("/work_packages")).to route_to( controller: 'work_packages',
+                                           action: 'index')
   end
 
   it "should connect GET /projects/blubs/work_packages to work_packages#index" do
-    expect(get("/projects/blubs/work_packages")).to route_to( :controller => 'work_packages',
-                                                          :project_id => 'blubs',
-                                                          :action => 'index')
+    expect(get("/projects/blubs/work_packages")).to route_to( controller: 'work_packages',
+                                                          project_id: 'blubs',
+                                                          action: 'index')
   end
 
   it "should connect GET /work_packages/:id/overview to work_packages#index" do
@@ -68,61 +68,61 @@ describe WorkPackagesController, :type => :routing do
   end
 
   it "should connect GET /work_packages/:id to work_packages#show" do
-    expect(get("/work_packages/1")).to route_to( :controller => 'work_packages',
-                                             :action => 'show',
-                                             :id => '1' )
+    expect(get("/work_packages/1")).to route_to( controller: 'work_packages',
+                                             action: 'show',
+                                             id: '1' )
   end
 
   it "should connect GET /projects/:project_id/work_packages/new to work_packages#new" do
-    expect(get("/projects/1/work_packages/new")).to route_to( :controller => 'work_packages',
-                                                          :action => 'new',
-                                                          :project_id => '1' )
+    expect(get("/projects/1/work_packages/new")).to route_to( controller: 'work_packages',
+                                                          action: 'new',
+                                                          project_id: '1' )
   end
 
   it "should connect GET /projects/:project_id/work_packages/new_type to work_packages#new_type" do
-    expect(get("/projects/1/work_packages/new_type")).to route_to( :controller => 'work_packages',
-                                                                  :action => 'new_type',
-                                                                  :project_id => '1' )
+    expect(get("/projects/1/work_packages/new_type")).to route_to( controller: 'work_packages',
+                                                                  action: 'new_type',
+                                                                  project_id: '1' )
   end
 
   it "should connect GET /work_packages/1/new_type to work_packages#new_type" do
-    expect(get("/work_packages/1/new_type")).to route_to( :controller => 'work_packages',
-                                                      :action => 'new_type',
-                                                      :id => '1' )
+    expect(get("/work_packages/1/new_type")).to route_to( controller: 'work_packages',
+                                                      action: 'new_type',
+                                                      id: '1' )
   end
 
   it "should connect GET /work_packages/:id/edit to work_packages#edit" do
-    expect(get("/work_packages/1/edit")).to route_to( :controller => 'work_packages',
-                                                  :action => 'edit',
-                                                  :id => '1' )
+    expect(get("/work_packages/1/edit")).to route_to( controller: 'work_packages',
+                                                  action: 'edit',
+                                                  id: '1' )
   end
 
   it "should connect POST /projects/:project_id/work_packages to work_packages#new" do
-    expect(post("/projects/1/work_packages")).to route_to( :controller => 'work_packages',
-                                                       :action => 'create',
-                                                       :project_id => '1' )
+    expect(post("/projects/1/work_packages")).to route_to( controller: 'work_packages',
+                                                       action: 'create',
+                                                       project_id: '1' )
   end
 
   it "should connect GET /work_packages/:work_package_id/moves/new to work_packages/moves#new" do
-    expect(get("/work_packages/1/move/new")).to route_to( :controller => 'work_packages/moves',
-                                                      :action => 'new',
-                                                      :work_package_id => '1' )
+    expect(get("/work_packages/1/move/new")).to route_to( controller: 'work_packages/moves',
+                                                      action: 'new',
+                                                      work_package_id: '1' )
   end
 
   it "should connect POST /work_packages/:work_package_id/moves to work_packages/moves#create" do
-    expect(post("/work_packages/1/move/")).to route_to( :controller => 'work_packages/moves',
-                                                    :action => 'create',
-                                                    :work_package_id => '1' )
+    expect(post("/work_packages/1/move/")).to route_to( controller: 'work_packages/moves',
+                                                    action: 'create',
+                                                    work_package_id: '1' )
   end
 
   it "should connect GET /work_packages/moves/new?ids=1,2,3 to work_packages/moves#new" do
-    expect(get("/work_packages/move/new?ids=1,2,3")).to route_to( :controller => 'work_packages/moves',
-                                                              :action => 'new' )
+    expect(get("/work_packages/move/new?ids=1,2,3")).to route_to( controller: 'work_packages/moves',
+                                                              action: 'new' )
   end
 
   it "should connect POST /work_packages/moves to work_packages/moves#create" do
-    expect(post("/work_packages/move?ids=1,2,3")).to route_to( :controller => 'work_packages/moves',
-                                                            :action => 'create' )
+    expect(post("/work_packages/move?ids=1,2,3")).to route_to( controller: 'work_packages/moves',
+                                                            action: 'create' )
   end
 
   it do
@@ -132,8 +132,8 @@ describe WorkPackagesController, :type => :routing do
   end
 
   it "should connect PUT /work_packages/1 to work_packages#update" do
-    expect(put("/work_packages/1")).to route_to( :controller => 'work_packages',
-                                             :action => 'update',
-                                             :id => '1' )
+    expect(put("/work_packages/1")).to route_to( controller: 'work_packages',
+                                             action: 'update',
+                                             id: '1' )
   end
 end

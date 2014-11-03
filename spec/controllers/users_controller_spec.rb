@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController, :type => :controller do
+describe UsersController, type: :controller do
   before do
     User.delete_all
   end
@@ -85,10 +85,10 @@ describe UsersController, :type => :controller do
         end
       end
 
-      it { expect(response).to redirect_to({ :controller => 'account',
-                                         :action => 'login',
-                                         :back_url => @controller.url_for({ :controller => 'users',
-                                                                            :action => 'deletion_info' }) }) }
+      it { expect(response).to redirect_to({ controller: 'account',
+                                         action: 'login',
+                                         back_url: @controller.url_for({ controller: 'users',
+                                                                            action: 'deletion_info' }) }) }
     end
 
     describe "WHEN the current user is admin
@@ -138,7 +138,7 @@ describe UsersController, :type => :controller do
         end
       end
 
-      it { expect(response).to redirect_to({ :controller => 'account', :action => 'login' }) }
+      it { expect(response).to redirect_to({ controller: 'account', action: 'login' }) }
       it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
@@ -189,7 +189,7 @@ describe UsersController, :type => :controller do
         end
       end
 
-      it { expect(response).to redirect_to({ :controller => 'users', :action => 'index' }) }
+      it { expect(response).to redirect_to({ controller: 'users', action: 'index' }) }
       it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
@@ -214,18 +214,18 @@ describe UsersController, :type => :controller do
   describe :change_status do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
-        FactoryGirl.create(:user, :status => User::STATUSES[:registered],
-                                  :language => 'de')
+        FactoryGirl.create(:user, status: User::STATUSES[:registered],
+                                  language: 'de')
       end
 
       before do
         ActionMailer::Base.deliveries.clear
-        with_settings(:available_languages => [:en, :de],
-                      :bcc_recipients => '1') do
+        with_settings(available_languages: [:en, :de],
+                      bcc_recipients: '1') do
           as_logged_in_user admin do
-            post :change_status, :id => registered_user.id,
-                                 :user => {:status => User::STATUSES[:active]},
-                                 :activate => '1'
+            post :change_status, id: registered_user.id,
+                                 user: {status: User::STATUSES[:active]},
+                                 activate: '1'
           end
         end
       end
@@ -240,7 +240,7 @@ describe UsersController, :type => :controller do
         assert_equal [registered_user.mail], mail.to
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
-                                                   :locale => 'de'))
+                                                   locale: 'de'))
         end
       end
     end
@@ -299,9 +299,9 @@ describe UsersController, :type => :controller do
 
       shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
         it "logs out the user and redirects with a warning that he has been locked out" do
-          expect(response.redirect_url).to eq(signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+          expect(response.redirect_url).to eq(signin_url + "?back_url=" + CGI::escape(@controller.url_for(controller: "users", action: "index")))
           expect(User.current).not_to eq(admin)
-          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl))
+          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
         end
       end
 
@@ -445,22 +445,22 @@ describe UsersController, :type => :controller do
 
   describe "update" do
     context "fields" do
-      let(:user) { FactoryGirl.create(:user, :firstname => 'Firstname',
-                                             :admin => true,
-                                             :login => 'testlogin',
-                                             :mail_notification => 'all',
-                                             :force_password_change => false)}
+      let(:user) { FactoryGirl.create(:user, firstname: 'Firstname',
+                                             admin: true,
+                                             login: 'testlogin',
+                                             mail_notification: 'all',
+                                             force_password_change: false)}
 
       before do
         ActionMailer::Base.deliveries.clear
 
         as_logged_in_user(admin) do
-          put :update, :id => user.id, :user => {:admin => false,
-                                                 :firstname => 'Changed',
-                                                 :login => 'changedlogin',
-                                                 :mail_notification => 'only_assigned',
-                                                 :force_password_change => true},
-                                       :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
+          put :update, id: user.id, user: {admin: false,
+                                                 firstname: 'Changed',
+                                                 login: 'changedlogin',
+                                                 mail_notification: 'only_assigned',
+                                                 force_password_change: true},
+                                       pref: {hide_mail: '1', comments_sorting: 'desc'}
        end
       end
 
@@ -485,11 +485,11 @@ describe UsersController, :type => :controller do
     end
 
     context "with external authentication" do
-      let(:user) { FactoryGirl.create(:user, :identity_url => 'some:identity')}
+      let(:user) { FactoryGirl.create(:user, identity_url: 'some:identity')}
 
       before do
         as_logged_in_user(admin) do
-          put :update, :id => user.id, :user => {:force_password_change => 'true'}
+          put :update, id: user.id, user: {force_password_change: 'true'}
         end
         user.reload
       end
@@ -505,7 +505,7 @@ describe UsersController, :type => :controller do
       it "switchting to internal authentication on a password change" do
         user.auth_source = ldap_auth_source
         as_logged_in_user admin do
-          put :update, :id => user.id, :user => {:auth_source_id => '', :password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}
+          put :update, id: user.id, user: {auth_source_id: '', password: 'newpassPASS!', password_confirmation: 'newpassPASS!'}
         end
 
         expect(user.reload.auth_source).to be_nil
@@ -522,12 +522,12 @@ describe UsersController, :type => :controller do
       # i.e. it should successfully add a user to a project's members
       as_logged_in_user admin do
         post :edit_membership,
-          :id => user.id,
-          :membership => {
-            :project_id => project.id,
-            :role_ids => [role.id]
+          id: user.id,
+          membership: {
+            project_id: project.id,
+            role_ids: [role.id]
           },
-          :format => "js"
+          format: "js"
       end
 
       expect(response.status).to eql(200)
@@ -542,7 +542,7 @@ describe UsersController, :type => :controller do
   describe "Anonymous should not be able to create a user" do
 
     it "should redirect to the login page" do
-      post :create, :user => { :login => 'psmith', :firstname => 'Paul', :lastname => 'Smith'}, :password => "psmithPSMITH09", :password_confirmation => "psmithPSMITH09"
+      post :create, user: { login: 'psmith', firstname: 'Paul', lastname: 'Smith'}, password: "psmithPSMITH09", password_confirmation: "psmithPSMITH09"
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
 
@@ -552,7 +552,7 @@ describe UsersController, :type => :controller do
     describe "general" do
       before do
         as_logged_in_user user do
-          get :show, :id => user.id
+          get :show, id: user.id
         end
       end
 
@@ -608,7 +608,7 @@ describe UsersController, :type => :controller do
       it "should include the number of reported work packages" do
         label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
-        expect(response.body).to have_selector("p", :text => /#{label}.*42/)
+        expect(response.body).to have_selector("p", text: /#{label}.*42/)
       end
 
       it "should have @events_by_day grouped by day" do

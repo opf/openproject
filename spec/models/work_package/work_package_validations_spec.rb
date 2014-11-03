@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
 
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
@@ -84,7 +84,7 @@ describe WorkPackage, :type => :model do
     let(:successor)  {FactoryGirl.create(:work_package, author: user, project: project, start_date: "31/01/13")}
 
     it "validate, that the start date of a work-package is no sooner than the start_dates of preceding work_packages" do
-      relation = Relation.new(:from => predecessor, :to => successor, :relation_type => Relation::TYPE_PRECEDES)
+      relation = Relation.new(from: predecessor, to: successor, relation_type: Relation::TYPE_PRECEDES)
       relation.save!
 
 
@@ -139,7 +139,7 @@ describe WorkPackage, :type => :model do
       let (:work_package) {FactoryGirl.create(:work_package, project: old_project, type: old_type)}
 
       let (:new_type)     {FactoryGirl.create(:type, name: "new")}
-      let (:new_project)  {FactoryGirl.create(:project, :types => [new_type])}
+      let (:new_project)  {FactoryGirl.create(:project, types: [new_type])}
 
 
       it "validate, that the newly selected type is available for the project the wp lives in" do

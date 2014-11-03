@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe 'my/page', :type => :view do
+describe 'my/page', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
-  let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
-  let(:issue)      { FactoryGirl.create :work_package, :project => project, :author => user }
+  let(:user)       { FactoryGirl.create :admin, member_in_project: project }
+  let(:issue)      { FactoryGirl.create :work_package, project: project, author: user }
   let(:time_entry) { FactoryGirl.create :time_entry,
-                                        :project => project,
-                                        :user => user,
-                                        :work_package => issue,
-                                        :hours => 1}
+                                        project: project,
+                                        user: user,
+                                        work_package: issue,
+                                        hours: 1}
 
   describe 'timelog block' do
     before do
@@ -51,7 +51,7 @@ describe 'my/page', :type => :view do
       render
 
       expect(response).to have_selector("tr.time-entry td.subject a[href='#{work_package_path(issue)}']",
-                                        :text => "#{issue.type.name} ##{issue.id}")
+                                        text: "#{issue.type.name} ##{issue.id}")
     end
   end
 

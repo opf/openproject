@@ -27,5 +27,5 @@
 #++
 
 class Tableless < ActiveRecord::Base
-  has_no_table :database => :pretend_success
+  has_no_table database: :pretend_success
 end

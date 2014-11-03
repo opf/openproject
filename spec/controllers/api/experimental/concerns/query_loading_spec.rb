@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'QueryLoading', :type => :controller do
+describe 'QueryLoading', type: :controller do
   include Api::Experimental::Concerns::QueryLoading
   include QueriesHelper
 

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesController, :type => :controller do
+describe TimelinesController, type: :controller do
   # ===========================================================
   # Helpers
   def self.become_admin
@@ -47,8 +47,8 @@ describe TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_timelines, :edit_timelines, :delete_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:view_timelines, :edit_timelines, :delete_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -58,8 +58,8 @@ describe TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:view_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -69,8 +69,8 @@ describe TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:edit_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:edit_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -80,8 +80,8 @@ describe TimelinesController, :type => :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:delete_timelines])
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      role   = FactoryGirl.create(:role, permissions: [:delete_timelines])
+      member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
     end
@@ -107,20 +107,20 @@ describe TimelinesController, :type => :controller do
       become_admin
 
       it 'renders a 404 Not Found page' do
-        fetch :project_id => '4711'
+        fetch project_id: '4711'
 
         expect(response.response_code).to eq(404)
       end
     end
 
     describe 'w/ a known project' do
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+      let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
       describe 'w/o being a member or administrator' do
         become_non_member
 
         it 'renders a 403 Forbidden page' do
-          fetch :project_id => project.identifier
+          fetch project_id: project.identifier
 
           expect(response.response_code).to eq(403)
         end
@@ -134,7 +134,7 @@ describe TimelinesController, :type => :controller do
     describe 'w/o a valid timelines id' do
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          fetch :id => '4711'
+          fetch id: '4711'
 
           expect(response.response_code).to eq(404)
         end
@@ -142,20 +142,20 @@ describe TimelinesController, :type => :controller do
 
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          fetch :project_id => '4711', :id => '1337'
+          fetch project_id: '4711', id: '1337'
 
           expect(response.response_code).to eq(404)
         end
       end
 
       describe 'w/ a known project' do
-        let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+        let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
         describe 'w/o being a member or administrator' do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            fetch :project_id => project.id, :id => '1337'
+            fetch project_id: project.id, id: '1337'
 
             expect(response.response_code).to be === 403
           end
@@ -166,7 +166,7 @@ describe TimelinesController, :type => :controller do
 
           it 'raises ActiveRecord::RecordNotFound errors' do
             expect {
-              fetch :project_id => project.id, :id => '1337'
+              fetch project_id: project.id, id: '1337'
             }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
@@ -174,23 +174,23 @@ describe TimelinesController, :type => :controller do
     end
 
     describe 'w/ a valid timelines id' do
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          fetch :id => timeline.id
+          fetch id: timeline.id
 
           expect(response.response_code).to eq(404)
         end
       end
 
       describe 'w/ a different project' do
-        let(:other_project)  { FactoryGirl.create(:project, :identifier => 'other') }
+        let(:other_project)  { FactoryGirl.create(:project, identifier: 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            fetch :project_id => other_project.identifier,:id => timeline.id
+            fetch project_id: other_project.identifier,id: timeline.id
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -200,7 +200,7 @@ describe TimelinesController, :type => :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            fetch :project_id => project.id, :id => timeline.id
+            fetch project_id: project.id, id: timeline.id
 
             expect(response.response_code).to eq(403)
           end
@@ -210,7 +210,7 @@ describe TimelinesController, :type => :controller do
           become_member_with_all_permissions
 
           it 'assigns the timeline' do
-            fetch :project_id => project.id, :id => timeline.id
+            fetch project_id: project.id, id: timeline.id
             expect(assigns(:timeline)).to eq(timeline)
           end
         end
@@ -226,33 +226,33 @@ describe TimelinesController, :type => :controller do
     it_should_behave_like 'all actions related to all timelines within a project'
 
     describe 'w/ a known project' do
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+      let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
       describe 'w/ the current user having view_timelines permissions' do
         become_member_with_all_permissions
 
         describe 'w/o any timelines within the project' do
           it 'redirects to /new' do
-            fetch :project_id => project.identifier
-            expect(response).to redirect_to :action => 'new',
-                                        :project_id => project.identifier
+            fetch project_id: project.identifier
+            expect(response).to redirect_to action: 'new',
+                                        project_id: project.identifier
           end
         end
 
         describe 'w/ 3 timelines within the project' do
           before do
             @created_timelines = [
-              FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b'),
-              FactoryGirl.create(:timelines, :project_id => project.id, :name => 'c'),
-              FactoryGirl.create(:timelines, :project_id => project.id, :name => 'a')
+              FactoryGirl.create(:timelines, project_id: project.id, name: 'b'),
+              FactoryGirl.create(:timelines, project_id: project.id, name: 'c'),
+              FactoryGirl.create(:timelines, project_id: project.id, name: 'a')
             ]
           end
 
           it 'redirects to first (in alphabetical order) timeline' do
-            fetch :project_id => project.identifier
-            expect(response).to redirect_to :action => 'show',
-                                        :id => @created_timelines.last.id,
-                                        :project_id => project.identifier
+            fetch project_id: project.identifier
+            expect(response).to redirect_to action: 'show',
+                                        id: @created_timelines.last.id,
+                                        project_id: project.identifier
 
           end
         end
@@ -270,15 +270,15 @@ describe TimelinesController, :type => :controller do
     describe 'w/ a known project' do
       become_member_with_edit_permissions
 
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+      let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
       it 'renders the new template' do
-        fetch :project_id => project.id
-        expect(response).to render_template('timelines/new', :formats => ["html"], :layout => :base)
+        fetch project_id: project.id
+        expect(response).to render_template('timelines/new', formats: ["html"], layout: :base)
       end
 
       it 'assigns a new timeline instance for the current project' do
-        fetch :project_id => project.id
+        fetch project_id: project.id
 
         expect(assigns[:timeline]).to be_new_record
         expect(assigns[:timeline].project).to eq(project)
@@ -296,25 +296,25 @@ describe TimelinesController, :type => :controller do
     describe 'w/ a known project' do
       become_member_with_edit_permissions
 
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+      let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
       describe 'w/ proper parameters' do
         it 'create a new timelines instance' do
-          fetch :project_id => project.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, timeline: {name: 'bb'}
 
           project.timelines.reload
           expect(project.timelines.first.name).to eq('bb')
         end
 
         it 'redirects to show' do
-          fetch :project_id => project.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, timeline: {name: 'bb'}
 
           timeline = project.timelines.reload.first
           expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful creation' do
-          fetch :project_id => project.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, timeline: {name: 'bb'}
 
           expect(flash[:notice]).to match(/success/i)
         end
@@ -322,19 +322,19 @@ describe TimelinesController, :type => :controller do
 
       describe 'w/o proper parameters' do
         it 'does not save the new timelines instance' do
-          fetch :project_id => project.id, :timeline => {:name => ''}
+          fetch project_id: project.id, timeline: {name: ''}
 
           expect(project.timelines.reload).to be_empty
         end
 
         it 'renders the create action' do
-          fetch :project_id => project.id, :timeline => {:name => ''}
+          fetch project_id: project.id, timeline: {name: ''}
 
-          expect(response).to render_template('timelines/new', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('timelines/new', formats: ["html"], layout: :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
-          fetch :project_id => project.id, :timeline => {:name => ''}
+          fetch project_id: project.id, timeline: {name: ''}
 
           t = assigns[:timeline]
           expect(t).to be_new_record
@@ -351,11 +351,11 @@ describe TimelinesController, :type => :controller do
     it_should_behave_like 'all actions related to an existing timeline'
 
     describe 'w/ everything set up' do
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
       let(:other_timelines) {
-        [FactoryGirl.create(:timelines, :project_id => project.id, :name => 'c'),
-         FactoryGirl.create(:timelines, :project_id => project.id, :name => 'a')]
+        [FactoryGirl.create(:timelines, project_id: project.id, name: 'c'),
+         FactoryGirl.create(:timelines, project_id: project.id, name: 'a')]
       }
 
       become_member_with_view_permissions
@@ -363,7 +363,7 @@ describe TimelinesController, :type => :controller do
       it 'assigns the visible_timelines array' do
         visible_timelines = [timeline] + other_timelines
 
-        fetch :project_id => project.id, :id => timeline.id
+        fetch project_id: project.id, id: timeline.id
         expect(assigns(:visible_timelines)).to match_array(visible_timelines)
       end
 
@@ -372,14 +372,14 @@ describe TimelinesController, :type => :controller do
           visible_timelines = [timeline] + other_timelines
           visible_timelines = visible_timelines.sort_by(&:name)
 
-          fetch :project_id => project.id, :id => timeline.id
+          fetch project_id: project.id, id: timeline.id
           expect(assigns(:visible_timelines)).to eq(visible_timelines)
         end
       end
 
       it 'renders the show template' do
-        fetch :project_id => project.id, :id => timeline.id
-        expect(response).to render_template('timelines/show', :formats => ["html"], :layout => :base)
+        fetch project_id: project.id, id: timeline.id
+        expect(response).to render_template('timelines/show', formats: ["html"], layout: :base)
       end
     end
   end
@@ -394,12 +394,12 @@ describe TimelinesController, :type => :controller do
     describe 'w/ everything set up' do
       become_member_with_edit_permissions
 
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       it 'renders the edit template' do
-        fetch :project_id => project.id, :id => timeline.id
-        expect(response).to render_template('timelines/edit', :formats => ["html"], :layout => :base)
+        fetch project_id: project.id, id: timeline.id
+        expect(response).to render_template('timelines/edit', formats: ["html"], layout: :base)
       end
     end
   end
@@ -414,25 +414,25 @@ describe TimelinesController, :type => :controller do
     describe 'w/ everything set up' do
       become_member_with_edit_permissions
 
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       describe 'w/ proper parameters' do
         it 'updates the existing timelines instance' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
 
           timeline.reload
           expect(timeline.name).to eq('bb')
         end
 
         it 'redirects to show' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
 
           expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful update' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
 
           expect(flash[:notice]).to match(/success/i)
         end
@@ -440,20 +440,20 @@ describe TimelinesController, :type => :controller do
 
       describe 'w/o proper parameters' do
         it 'does not save the edited timelines instance' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
 
           timeline.reload
           expect(timeline.name).to eq('b')
         end
 
         it 'renders the edit action' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
 
-          expect(response).to render_template('timelines/edit', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('timelines/edit', formats: ["html"], layout: :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
-          fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
+          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
 
           t = assigns[:timeline]
           expect(t).to be_changed
@@ -472,13 +472,13 @@ describe TimelinesController, :type => :controller do
     describe 'w/ everything set up' do
       become_member_with_delete_permissions
 
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       it 'renders the confirm_destroy action' do
-        fetch :project_id => project.id, :id => timeline.id
+        fetch project_id: project.id, id: timeline.id
 
-        expect(response).to render_template('timelines/confirm_destroy', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('timelines/confirm_destroy', formats: ["html"], layout: :base)
       end
     end
   end
@@ -493,23 +493,23 @@ describe TimelinesController, :type => :controller do
     describe 'w/ everything set up' do
       become_member_with_delete_permissions
 
-      let(:project)  { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:timeline) { FactoryGirl.create(:timelines, :project_id => project.id, :name => 'b') }
+      let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
+      let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
 
       it 'deletes the existing timelines instance' do
-        fetch :project_id => project.id, :id => timeline.id
+        fetch project_id: project.id, id: timeline.id
 
         expect { timeline.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'redirects to index' do
-        fetch :project_id => project.id, :id => timeline.id
+        fetch project_id: project.id, id: timeline.id
 
         expect(response).to redirect_to project_timelines_path project
       end
 
       it 'notifies the user about the successful deletion' do
-        fetch :project_id => project.id, :id => timeline.id
+        fetch project_id: project.id, id: timeline.id
 
         expect(flash[:notice]).to match(/success/i)
       end

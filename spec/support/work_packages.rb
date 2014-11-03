@@ -46,9 +46,9 @@ def become_member_with_permissions(permissions)
   let(:current_user) { FactoryGirl.create(:user) }
 
   before do
-    role = FactoryGirl.create(:role, :permissions => permissions)
+    role = FactoryGirl.create(:role, permissions: permissions)
 
-    member = FactoryGirl.build(:member, :user => current_user, :project => project)
+    member = FactoryGirl.build(:member, user: current_user, project: project)
     member.roles = [role]
     member.save!
   end

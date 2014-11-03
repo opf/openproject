@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe AvatarHelper, :type => :helper do
+describe AvatarHelper, type: :helper do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   def expected_image_tag(digest, options = {})
@@ -90,31 +90,31 @@ describe AvatarHelper, :type => :helper do
     it "should return a gravatar image tag with ssl if the request was ssl required" do
       digest = Digest::MD5.hexdigest(user.mail)
 
-      with_settings :gravatar_enabled => '1', protocol: 'https' do
-        expect(helper.avatar(user)).to eq(expected_image_tag(digest, :ssl => true))
+      with_settings gravatar_enabled: '1', protocol: 'https' do
+        expect(helper.avatar(user)).to eq(expected_image_tag(digest, ssl: true))
       end
     end
 
     it "should return an empty string if a non parsable (e-mail) string is provided" do
-      with_settings :gravatar_enabled => '1' do
+      with_settings gravatar_enabled: '1' do
         expect(helper.avatar('just the name')).to eq('')
       end
     end
 
     it "should return an empty string if nil is provided" do
-      with_settings :gravatar_enabled => '1' do
+      with_settings gravatar_enabled: '1' do
         expect(helper.avatar(nil)).to eq('')
       end
     end
 
     it "should return an empty string if gravatar is disabled" do
-      with_settings :gravatar_enabled => '0' do
+      with_settings gravatar_enabled: '0' do
         expect(helper.avatar(user)).to eq('')
       end
     end
 
     it "should return a gravatar image tag if a parsable e-mail string is provided" do
-       with_settings :gravatar_enabled => '1' do
+       with_settings gravatar_enabled: '1' do
          mail = "<e-mail@mail.de>"
          digest = Digest::MD5.hexdigest("e-mail@mail.de")
 
@@ -135,31 +135,31 @@ describe AvatarHelper, :type => :helper do
     it "should return a gravatar image tag with ssl if the request was ssl required" do
       digest = Digest::MD5.hexdigest(user.mail)
 
-      with_settings :gravatar_enabled => '1', protocol: 'https' do
-        expect(helper.avatar_url(user)).to eq(expected_url(digest, :ssl => true))
+      with_settings gravatar_enabled: '1', protocol: 'https' do
+        expect(helper.avatar_url(user)).to eq(expected_url(digest, ssl: true))
       end
     end
 
     it "should return an empty string if a non parsable (e-mail) string is provided" do
-      with_settings :gravatar_enabled => '1' do
+      with_settings gravatar_enabled: '1' do
         expect(helper.avatar_url('just the name')).to eq('')
       end
     end
 
     it "should return an empty string if nil is provided" do
-      with_settings :gravatar_enabled => '1' do
+      with_settings gravatar_enabled: '1' do
         expect(helper.avatar_url(nil)).to eq('')
       end
     end
 
     it "should return an empty string if gravatar is disabled" do
-      with_settings :gravatar_enabled => '0' do
+      with_settings gravatar_enabled: '0' do
         expect(helper.avatar_url(user)).to eq('')
       end
     end
 
     it "should return a gravatar image tag if a parsable e-mail string is provided" do
-       with_settings :gravatar_enabled => '1' do
+       with_settings gravatar_enabled: '1' do
          mail = "<e-mail@mail.de>"
          digest = Digest::MD5.hexdigest("e-mail@mail.de")
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Changeset, :type => :model do
+describe Changeset, type: :model do
   let(:email) { "bob@bobbit.org" }
   let(:repo) { FactoryGirl.create(:repository) }
   let(:changeset) { FactoryGirl.build(:changeset,

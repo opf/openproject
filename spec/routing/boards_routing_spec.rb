@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BoardsController, :type => :routing do
+describe BoardsController, type: :routing do
   it "should connect GET /projects/:project/boards/:board/move to boards#move" do
     expect(get("/projects/1/boards/1/move")).to route_to(controller: 'boards',
                                                      action: 'move',

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe :copy do
     let(:user) { FactoryGirl.create(:user) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
@@ -52,7 +52,7 @@ describe WorkPackage, :type => :model do
     end
 
     describe "to the same project" do
-      let(:copy) { work_package.move_to_project(source_project, nil, :copy => true) }
+      let(:copy) { work_package.move_to_project(source_project, nil, copy: true) }
 
       it_behaves_like "copied work package"
 

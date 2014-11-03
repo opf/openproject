@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MyController, :type => :controller do
+describe MyController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   before(:each) do
     allow(User).to receive(:current).and_return(user)
@@ -60,9 +60,9 @@ describe MyController, :type => :controller do
 
     describe 'with wrong confirmation' do
       before do
-        post :change_password, :password => 'adminADMIN!',
-                               :new_password => 'adminADMIN!New',
-                               :new_password_confirmation => 'adminADMIN!Other'
+        post :change_password, password: 'adminADMIN!',
+                               new_password: 'adminADMIN!New',
+                               new_password_confirmation: 'adminADMIN!Other'
       end
       it 'should show an error message' do
         assert_response :success
@@ -76,9 +76,9 @@ describe MyController, :type => :controller do
       render_views
       before do
         @current_password = user.current_password.id
-        post :change_password, :password => 'wrongpassword',
-                               :new_password => 'adminADMIN!New',
-                               :new_password_confirmation => 'adminADMIN!New'
+        post :change_password, password: 'wrongpassword',
+                               new_password: 'adminADMIN!New',
+                               new_password_confirmation: 'adminADMIN!New'
       end
 
       it 'should show an error message' do
@@ -94,9 +94,9 @@ describe MyController, :type => :controller do
 
     describe 'with good password and good confirmation' do
       before do
-        post :change_password, :password => 'adminADMIN!',
-                               :new_password => 'adminADMIN!New',
-                               :new_password_confirmation => 'adminADMIN!New'
+        post :change_password, password: 'adminADMIN!',
+                               new_password: 'adminADMIN!New',
+                               new_password_confirmation: 'adminADMIN!New'
       end
 
       it 'should redirect to the my account page' do
@@ -168,7 +168,7 @@ describe MyController, :type => :controller do
     it "should show the number of reported packages" do
       label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
-      expect(response.body).to have_selector("h3", :text => /#{label}.*42/)
+      expect(response.body).to have_selector("h3", text: /#{label}.*42/)
     end
   end
 end

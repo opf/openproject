@@ -28,28 +28,28 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/project_associations/show.api.rabl', :type => :view do
+describe 'api/v2/project_associations/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) { FactoryGirl.create(:project, :id => 1234,
-                                         :identifier => 'test_project_a',
-                                         :name => 'Test Project A') }
-    let(:project_b) { FactoryGirl.create(:project, :id => 1235,
-                                         :identifier => 'test_project_b',
-                                         :name => 'Test Project B') }
+    let(:project_a) { FactoryGirl.create(:project, id: 1234,
+                                         identifier: 'test_project_a',
+                                         name: 'Test Project A') }
+    let(:project_b) { FactoryGirl.create(:project, id: 1235,
+                                         identifier: 'test_project_b',
+                                         name: 'Test Project B') }
 
     let(:project_association) { FactoryGirl.build(:project_association,
-                                                  :id => 1,
-                                                  :project_a_id => project_a.id,
-                                                  :project_b_id => project_b.id,
-                                                  :description => 'association description #1',
+                                                  id: 1,
+                                                  project_a_id: project_a.id,
+                                                  project_b_id: project_b.id,
+                                                  description: 'association description #1',
 
-                                                  :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                                  :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+                                                  created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                                  updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
 

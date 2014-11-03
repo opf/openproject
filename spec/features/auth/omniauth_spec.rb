@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Omniauth authentication', :type => :feature do
+describe 'Omniauth authentication', type: :feature do
 
   before do
     @omniauth_test_mode = OmniAuth.config.test_mode

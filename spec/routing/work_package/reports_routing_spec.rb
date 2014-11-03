@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController, :type => :routing do
+describe WorkPackagesController, type: :routing do
 
   it "should connect GET /project/1/work_packages/report to work_package/report#report" do
     expect(get("/projects/1/work_packages/report")).to route_to( controller: 'work_packages/reports',

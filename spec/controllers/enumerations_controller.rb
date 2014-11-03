@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe EnumerationsController, :type => :controller do
+describe EnumerationsController, type: :controller do
   before { allow(controller).to receive(:require_admin).and_return(true) }
 
   describe :destroy do

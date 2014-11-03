@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::QueriesController, :type => :controller do
+describe Api::Experimental::QueriesController, type: :controller do
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)

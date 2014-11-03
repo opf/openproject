@@ -27,7 +27,7 @@
 #++
 
 FactoryGirl.define do
-  factory(:timeline, :class => Timeline) do
+  factory(:timeline, class: Timeline) do
 
     options({
       'exist'                     => "",
@@ -44,7 +44,7 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
-  factory(:timeline_with_history, :parent => :timeline) do
+  factory(:timeline_with_history, parent: :timeline) do
 
     sequence(:name) { |n| "Timeline No. #{n} with History" }
 

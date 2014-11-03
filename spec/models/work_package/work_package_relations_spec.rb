@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe :relation do
     let(:closed_state) { FactoryGirl.create(:status,
                                             is_closed: true) }
