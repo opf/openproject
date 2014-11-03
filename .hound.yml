@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/schema.rb
+    - lib/plugins/rfpdf/**/*
 
 AccessorMethodName:
   Enabled: false
