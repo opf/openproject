@@ -32,7 +32,7 @@ module Redmine
 
     class << self
       attr_reader :highlighter
-      delegate :highlight_by_filename, :highlight_by_language, :to => :highlighter
+      delegate :highlight_by_filename, :highlight_by_language, to: :highlighter
 
       def highlighter=(name)
         if name.is_a?(Module)
@@ -60,7 +60,7 @@ module Redmine
         # Highlights +text+ using +language+ syntax
         # Should not return outer pre tag
         def highlight_by_language(text, language)
-          ::CodeRay.scan(text, language).html(:line_numbers => :inline, :wrap => :span)
+          ::CodeRay.scan(text, language).html(line_numbers: :inline, wrap: :span)
         end
       end
     end

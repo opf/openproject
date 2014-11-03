@@ -40,7 +40,7 @@ class JournalFormatter::Base
     @journal = journal
   end
 
-  def render(key, values, options = { :no_html => false })
+  def render(key, values, options = { no_html: false })
 
     label, old_value, value = format_details(key, values)
 
@@ -80,16 +80,16 @@ class JournalFormatter::Base
     unless value.blank?
       unless old_value.blank?
 
-        l(:text_journal_changed, :label => label, :old => old_value, :new => value)
+        l(:text_journal_changed, label: label, old: old_value, new: value)
 
       else
 
-        l(:text_journal_set_to, :label => label, :value => value)
+        l(:text_journal_set_to, label: label, value: value)
 
       end
     else
 
-      l(:text_journal_deleted, :label => label, :old => old_value)
+      l(:text_journal_deleted, label: label, old: old_value)
 
     end
 
@@ -98,11 +98,11 @@ class JournalFormatter::Base
   def render_binary_detail_text(label, value, old_value)
     if value.blank?
 
-      l(:text_journal_deleted, :label => label, :old => old_value)
+      l(:text_journal_deleted, label: label, old: old_value)
 
     else
 
-      l(:text_journal_added, :label => label, :value => value)
+      l(:text_journal_added, label: label, value: value)
 
     end
   end

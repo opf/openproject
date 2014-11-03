@@ -225,7 +225,7 @@ module Redmine #:nodoc:
     #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
     def requires_redmine_plugin(plugin_name, arg)
-      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg = { version_or_higher: arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
       plugin = Plugin.find(plugin_name)

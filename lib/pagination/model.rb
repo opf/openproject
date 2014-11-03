@@ -39,8 +39,8 @@ module Pagination::Model
   def self.extended(base)
     base.scope :like, lambda { |q|
       s = "%#{q.to_s.strip.downcase}%"
-      { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-      :order => "name" }
+      { conditions: ["LOWER(name) LIKE :s", {s: s}],
+      order: "name" }
     }
 
     base.instance_eval do
@@ -50,7 +50,7 @@ module Pagination::Model
         limit = options.fetch(:page_limit) || 10
         page = options.fetch(:page) || 1
 
-        scope.paginate({ :per_page => limit, :page => page })
+        scope.paginate({ per_page: limit, page: page })
       end
 
       # ignores options passed in from the controller, overwrite to use 'em

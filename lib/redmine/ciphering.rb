@@ -76,7 +76,7 @@ module Redmine
           all.each do |object|
             clear = object.send(attribute)
             object.send "#{attribute}=", clear
-            raise(ActiveRecord::Rollback) unless object.save(:validate => false)
+            raise(ActiveRecord::Rollback) unless object.save(validate: false)
           end
         end ? true : false
       end
@@ -86,7 +86,7 @@ module Redmine
           all.each do |object|
             clear = object.send(attribute)
             object[attribute] = clear
-            raise(ActiveRecord::Rollback) unless object.save(:validate => false)
+            raise(ActiveRecord::Rollback) unless object.save(validate: false)
           end
         end
       end ? true : false

@@ -38,8 +38,8 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Type.find(:first, :conditions => {is_standard: false}) &&
+          !Role.find(:first, conditions: {builtin: 0}) &&
+            !Type.find(:first, conditions: {is_standard: false}) &&
             !Status.find(:first) &&
             !Enumeration.find(:first)
         end
@@ -52,14 +52,14 @@ module Redmine
 
           Role.transaction do
             # Roles
-            manager = Role.create! :name => l(:default_role_manager),
-                                   :position => 3
+            manager = Role.create! name: l(:default_role_manager),
+                                   position: 3
             manager.permissions = manager.setable_permissions.collect {|p| p.name}
             manager.save!
 
-            member = Role.create!  :name => l(:default_role_member),
-                                      :position => 4,
-                                      :permissions => [:view_work_packages,
+            member = Role.create!  name: l(:default_role_member),
+                                      position: 4,
+                                      permissions: [:view_work_packages,
                                                       :export_work_packages,
                                                       :add_work_packages,
                                                       :move_work_packages,
@@ -105,9 +105,9 @@ module Redmine
                                                       :commit_access,
                                                       :view_commit_author_statistics]
 
-            reader = Role.create!  :name => l(:default_role_reader),
-                                      :position => 5,
-                                      :permissions => [:view_work_packages,
+            reader = Role.create!  name: l(:default_role_reader),
+                                      position: 5,
+                                      permissions: [:view_work_packages,
                                                       :add_work_package_notes,
                                                       :edit_own_work_package_notes,
                                                       :save_queries,
@@ -127,16 +127,16 @@ module Redmine
                                                       :browse_repository,
                                                       :view_changesets]
 
-            Role.non_member.update_attributes :name => l(:default_role_non_member),
-                                              :permissions => [:view_work_packages,
+            Role.non_member.update_attributes name: l(:default_role_non_member),
+                                              permissions: [:view_work_packages,
                                                            :view_calendar,
                                                            :comment_news,
                                                            :browse_repository,
                                                            :view_changesets,
                                                            :view_wiki_pages]
 
-            Role.anonymous.update_attributes :name => l(:default_role_anonymous),
-                                             :permissions => [:view_work_packages,
+            Role.anonymous.update_attributes name: l(:default_role_anonymous),
+                                             permissions: [:view_work_packages,
                                                            :browse_repository,
                                                            :view_changesets,
                                                            :view_wiki_pages]
@@ -150,67 +150,67 @@ module Redmine
             end).flatten]
 
             # Types
-            task = Type.create! :name           => l(:default_type_task),
-                         :color_id       => colors[:Mint],
-                         :is_default     => false,
-                         :is_in_roadmap  => true,
-                         :in_aggregation => true,
-                         :is_milestone   => false,
-                         :position       => 1
+            task = Type.create! name:           l(:default_type_task),
+                         color_id:       colors[:Mint],
+                         is_default:     false,
+                         is_in_roadmap:  true,
+                         in_aggregation: true,
+                         is_milestone:   false,
+                         position:       1
 
-            deliverable = Type.create! :name           => l(:default_type_deliverable),
-                         :is_default     => false,
-                         :color_id       => colors[:Orange],
-                         :is_in_roadmap  => true,
-                         :in_aggregation => true,
-                         :is_milestone   => false,
-                         :position       => 2
+            deliverable = Type.create! name:           l(:default_type_deliverable),
+                         is_default:     false,
+                         color_id:       colors[:Orange],
+                         is_in_roadmap:  true,
+                         in_aggregation: true,
+                         is_milestone:   false,
+                         position:       2
 
-            milestone = Type.create! :name           => l(:default_type_milestone),
-                         :is_default     => true,
-                         :color_id       => colors[:Purple],
-                         :is_in_roadmap  => false,
-                         :in_aggregation => true,
-                         :is_milestone   => true,
-                         :position       => 3
+            milestone = Type.create! name:           l(:default_type_milestone),
+                         is_default:     true,
+                         color_id:       colors[:Purple],
+                         is_in_roadmap:  false,
+                         in_aggregation: true,
+                         is_milestone:   true,
+                         position:       3
 
-            phase = Type.create! :name           => l(:default_type_phase),
-                         :is_default     => true,
-                         :color_id       => colors[:Lime],
-                         :is_in_roadmap  => false,
-                         :in_aggregation => true,
-                         :is_milestone   => false,
-                         :position       => 4
+            phase = Type.create! name:           l(:default_type_phase),
+                         is_default:     true,
+                         color_id:       colors[:Lime],
+                         is_in_roadmap:  false,
+                         in_aggregation: true,
+                         is_milestone:   false,
+                         position:       4
 
-            bug = Type.create! :name           => l(:default_type_bug),
-                         :is_default     => false,
-                         :color_id       => colors[:'Red-bright'],
-                         :is_in_roadmap  => true,
-                         :in_aggregation => true,
-                         :is_milestone   => false,
-                         :position       => 5
+            bug = Type.create! name:           l(:default_type_bug),
+                         is_default:     false,
+                         color_id:       colors[:'Red-bright'],
+                         is_in_roadmap:  true,
+                         in_aggregation: true,
+                         is_milestone:   false,
+                         position:       5
 
-            feature = Type.create! :name           => l(:default_type_feature),
-                         :is_default     => false,
-                         :color_id       => colors[:Blue],
-                         :is_in_roadmap  => true,
-                         :in_aggregation => true,
-                         :is_milestone   => false,
-                         :position       => 6
+            feature = Type.create! name:           l(:default_type_feature),
+                         is_default:     false,
+                         color_id:       colors[:Blue],
+                         is_in_roadmap:  true,
+                         in_aggregation: true,
+                         is_milestone:   false,
+                         position:       6
 
             none = Type.standard_type
 
             # Issue statuses
-            new      = Status.create!(:name => l(:default_status_new), :is_closed => false, :is_default => true, :position => 1)
-            specified  = Status.create!(:name => l(:default_status_specified), :is_closed => false, :is_default => false, :position => 2)
-            confirmed  = Status.create!(:name => l(:default_status_confirmed), :is_closed => false, :is_default => false, :position => 3)
-            to_be_scheduled  = Status.create!(:name => l(:default_status_to_be_scheduled), :is_closed => false, :is_default => false, :position => 4)
-            scheduled  = Status.create!(:name => l(:default_status_scheduled), :is_closed => false, :is_default => false, :position => 5)
-            in_progress  = Status.create!(:name => l(:default_status_in_progress), :is_closed => false, :is_default => false, :position => 6)
-            tested  = Status.create!(:name => l(:default_status_tested), :is_closed => false, :is_default => false, :position => 7)
-            on_hold  = Status.create!(:name => l(:default_status_on_hold), :is_closed => false, :is_default => false, :position => 8)
-            rejected  = Status.create!(:name => l(:default_status_rejected), :is_closed => true, :is_default => false, :position => 9)
-            closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 10)
+            new      = Status.create!(name: l(:default_status_new), is_closed: false, is_default: true, position: 1)
+            specified  = Status.create!(name: l(:default_status_specified), is_closed: false, is_default: false, position: 2)
+            confirmed  = Status.create!(name: l(:default_status_confirmed), is_closed: false, is_default: false, position: 3)
+            to_be_scheduled  = Status.create!(name: l(:default_status_to_be_scheduled), is_closed: false, is_default: false, position: 4)
+            scheduled  = Status.create!(name: l(:default_status_scheduled), is_closed: false, is_default: false, position: 5)
+            in_progress  = Status.create!(name: l(:default_status_in_progress), is_closed: false, is_default: false, position: 6)
+            tested  = Status.create!(name: l(:default_status_tested), is_closed: false, is_default: false, position: 7)
+            on_hold  = Status.create!(name: l(:default_status_on_hold), is_closed: false, is_default: false, position: 8)
+            rejected  = Status.create!(name: l(:default_status_rejected), is_closed: true, is_default: false, position: 9)
+            closed    = Status.create!(name: l(:default_status_closed), is_closed: true, is_default: false, position: 10)
 
             # Workflow
             statuses_for_task = [new, in_progress, on_hold, rejected, closed]
@@ -226,7 +226,7 @@ module Redmine
               (eval "statuses_for_".concat(t)).each { |os|
                 (eval "statuses_for_".concat(t)).each { |ns|
                   [manager.id, member.id].each { |role_id|
-                    Workflow.create!(:type_id => (eval t).id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                    Workflow.create!(type_id: (eval t).id, role_id: role_id, old_status_id: os.id, new_status_id: ns.id) unless os == ns
                   }
                 }
               }
@@ -234,26 +234,26 @@ module Redmine
 
             # Enumerations
 
-            IssuePriority.create!(:name => l(:default_priority_low), :position => 1)
-            IssuePriority.create!(:name => l(:default_priority_normal), :position => 2, :is_default => true)
-            IssuePriority.create!(:name => l(:default_priority_high), :position => 3)
-            IssuePriority.create!(:name => l(:default_priority_immediate), :position => 5)
+            IssuePriority.create!(name: l(:default_priority_low), position: 1)
+            IssuePriority.create!(name: l(:default_priority_normal), position: 2, is_default: true)
+            IssuePriority.create!(name: l(:default_priority_high), position: 3)
+            IssuePriority.create!(name: l(:default_priority_immediate), position: 5)
 
-            TimeEntryActivity.create!(:name => l(:default_activity_management), :position => 1, :is_default => true)
-            TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 2)
-            TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 3)
-            TimeEntryActivity.create!(:name => l(:default_activity_testing), :position => 4)
-            TimeEntryActivity.create!(:name => l(:default_activity_Support), :position => 5)
-            TimeEntryActivity.create!(:name => l(:default_activity_Other), :position => 6)
+            TimeEntryActivity.create!(name: l(:default_activity_management), position: 1, is_default: true)
+            TimeEntryActivity.create!(name: l(:default_activity_design), position: 2)
+            TimeEntryActivity.create!(name: l(:default_activity_development), position: 3)
+            TimeEntryActivity.create!(name: l(:default_activity_testing), position: 4)
+            TimeEntryActivity.create!(name: l(:default_activity_Support), position: 5)
+            TimeEntryActivity.create!(name: l(:default_activity_Other), position: 6)
 
-            ReportedProjectStatus.create!(:name => l(:default_reported_project_status_green), :is_default => true)
-            ReportedProjectStatus.create!(:name => l(:default_reported_project_status_amber), :is_default => false)
-            ReportedProjectStatus.create!(:name => l(:default_reported_project_status_red), :is_default => false)
+            ReportedProjectStatus.create!(name: l(:default_reported_project_status_green), is_default: true)
+            ReportedProjectStatus.create!(name: l(:default_reported_project_status_amber), is_default: false)
+            ReportedProjectStatus.create!(name: l(:default_reported_project_status_red), is_default: false)
 
             # Project types
 
-            ProjectType.create!(:name => l(:default_project_type_customer))
-            ProjectType.create!(:name => l(:default_project_type_internal))
+            ProjectType.create!(name: l(:default_project_type_customer))
+            ProjectType.create!(name: l(:default_project_type_internal))
 
             reported_status_ids = ReportedProjectStatus.find(:all).map { |rps| rps.id }
             ProjectType.find(:all).each { |project|

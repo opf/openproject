@@ -40,9 +40,9 @@ module ChiliProject
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
       @adapters ||= ({
-        :mysql => /mysql/i,
-        :postgresql => /postgres/i,
-        :sqlite => /sqlite/i
+        mysql: /mysql/i,
+        postgresql: /postgres/i,
+        sqlite: /sqlite/i
       })
     end
 

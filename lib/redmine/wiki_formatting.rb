@@ -38,7 +38,7 @@ module Redmine
 
       def register(name, formatter, helper)
         raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_s]
-        @@formatters[name.to_s] = {:formatter => formatter, :helper => helper}
+        @@formatters[name.to_s] = {formatter: formatter, helper: helper}
       end
 
       def formatter_for(name)

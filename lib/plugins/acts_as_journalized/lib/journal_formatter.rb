@@ -71,12 +71,12 @@ module JournalFormatter
   end
 
   def self.default_formatters
-    { :plaintext => JournalFormatter::Plaintext,
-      :datetime => JournalFormatter::Datetime,
-      :named_association => JournalFormatter::NamedAssociation,
-      :fraction => JournalFormatter::Fraction,
-      :decimal => JournalFormatter::Decimal,
-      :id => JournalFormatter::Id }
+    { plaintext: JournalFormatter::Plaintext,
+      datetime: JournalFormatter::Datetime,
+      named_association: JournalFormatter::NamedAssociation,
+      fraction: JournalFormatter::Fraction,
+      decimal: JournalFormatter::Decimal,
+      id: JournalFormatter::Id }
   end
 
   self.formatters = default_formatters
@@ -85,7 +85,7 @@ module JournalFormatter
   end
 
   def render_detail(detail, options = { })
-    merge_options = { :no_html => false, :only_path => true }.merge(options)
+    merge_options = { no_html: false, only_path: true }.merge(options)
 
     if detail.respond_to? :to_ary
       key = detail.first

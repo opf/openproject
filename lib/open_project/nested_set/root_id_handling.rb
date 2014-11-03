@@ -50,7 +50,7 @@ module OpenProject::NestedSet
     def self.included(base)
       base.class_eval do
         after_save :manage_root_id
-        acts_as_nested_set :scope => 'root_id', :dependent => :destroy
+        acts_as_nested_set scope: 'root_id', dependent: :destroy
 
         # callback from awesome_nested_set
         # we call it by hand as we have to set the scope first

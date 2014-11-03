@@ -54,12 +54,12 @@ module Redmine
         def acts_as_watchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
-            has_many :watchers, :as => :watchable, :dependent => :delete_all
-            has_many :watcher_users, :through => :watchers, :source => :user, :validate => false
+            has_many :watchers, as: :watchable, dependent: :delete_all
+            has_many :watcher_users, through: :watchers, source: :user, validate: false
 
             scope :watched_by, lambda { |user_id|
-              { :include => :watchers,
-                :conditions => ["#{Watcher.table_name}.user_id = ?", user_id] }
+              { include: :watchers,
+                conditions: ["#{Watcher.table_name}.user_id = ?", user_id] }
             }
             attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
           end
@@ -102,7 +102,7 @@ module Redmine
 
         # Adds user as a watcher
         def add_watcher(user)
-          self.watchers << Watcher.new(:user => user, :watchable => self)
+          self.watchers << Watcher.new(user: user, watchable: self)
         end
 
         # Removes user from the watchers list

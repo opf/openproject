@@ -83,11 +83,11 @@ module Redmine
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               #root_url = doc.elements["info/entry/repository/root"].text
-              info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
-                               :lastrev => Revision.new({
-                                 :identifier => doc['info']['entry']['commit']['revision'],
-                                 :time => Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
-                                 :author => (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
+              info = Info.new({root_url: doc['info']['entry']['repository']['root']['__content__'],
+                               lastrev: Revision.new({
+                                 identifier: doc['info']['entry']['commit']['revision'],
+                                 time: Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
+                                 author: (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
                                })
                              })
             rescue
@@ -121,14 +121,14 @@ module Redmine
                 # means that we don't have read access to it)
                 next if entry['kind'] == 'dir' && commit_date.nil?
                 name = entry['name']['__content__']
-                entries << Entry.new({:name => URI.unescape(name),
-                            :path => ((path.empty? ? "" : "#{path}/") + name),
-                            :kind => entry['kind'],
-                            :size => ((s = entry['size']) ? s['__content__'].to_i : nil),
-                            :lastrev => Revision.new({
-                              :identifier => commit['revision'],
-                              :time => Time.parse(commit_date['__content__'].to_s).localtime,
-                              :author => ((a = commit['author']) ? a['__content__'] : nil)
+                entries << Entry.new({name: URI.unescape(name),
+                            path: ((path.empty? ? "" : "#{path}/") + name),
+                            kind: entry['kind'],
+                            size: ((s = entry['size']) ? s['__content__'].to_i : nil),
+                            lastrev: Revision.new({
+                              identifier: commit['revision'],
+                              time: Time.parse(commit_date['__content__'].to_s).localtime,
+                              author: ((a = commit['author']) ? a['__content__'] : nil)
                               })
                             })
               end
@@ -187,19 +187,19 @@ module Redmine
               each_xml_element(doc['log'], 'logentry') do |logentry|
                 paths = []
                 each_xml_element(logentry['paths'], 'path') do |path|
-                  paths << {:action => path['action'],
-                            :path => path['__content__'],
-                            :from_path => path['copyfrom-path'],
-                            :from_revision => path['copyfrom-rev']
+                  paths << {action: path['action'],
+                            path: path['__content__'],
+                            from_path: path['copyfrom-path'],
+                            from_revision: path['copyfrom-rev']
                             }
                 end if logentry['paths'] && logentry['paths']['path']
                 paths.sort! { |x,y| x[:path] <=> y[:path] }
 
-                revisions << Revision.new({:identifier => logentry['revision'],
-                              :author => (logentry['author'] ? logentry['author']['__content__'] : ""),
-                              :time => Time.parse(logentry['date']['__content__'].to_s).localtime,
-                              :message => logentry['msg']['__content__'],
-                              :paths => paths
+                revisions << Revision.new({identifier: logentry['revision'],
+                              author: (logentry['author'] ? logentry['author']['__content__'] : ""),
+                              time: Time.parse(logentry['date']['__content__'].to_s).localtime,
+                              message: logentry['msg']['__content__'],
+                              paths: paths
                             })
               end
             rescue
@@ -251,7 +251,7 @@ module Redmine
           shellout(cmd) do |io|
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
-              blame.add_line($3.rstrip, Revision.new(:identifier => $1.to_i, :author => $2.strip))
+              blame.add_line($3.rstrip, Revision.new(identifier: $1.to_i, author: $2.strip))
             end
           end
           return nil if $? && $?.exitstatus != 0

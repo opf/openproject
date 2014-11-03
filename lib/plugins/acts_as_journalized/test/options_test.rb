@@ -32,8 +32,8 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class OptionsTest < Test::Unit::TestCase
   context 'Configuration options' do
     setup do
-      @options = {:dependent => :destroy}
-      @configuration = {:class_name => 'MyCustomVersion'}
+      @options = {dependent: :destroy}
+      @configuration = {class_name: 'MyCustomVersion'}
 
       VestalVersions::Configuration.options.clear
       @configuration.each{|k,v| VestalVersions::Configuration.send("#{k}=", v) }

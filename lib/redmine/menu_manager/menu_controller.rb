@@ -33,7 +33,7 @@ module Redmine::MenuManager::MenuController
   end
 
   module ClassMethods
-    @@menu_items = Hash.new {|hash, key| hash[key] = {:default => key, :actions => {}}}
+    @@menu_items = Hash.new {|hash, key| hash[key] = {default: key, actions: {}}}
     mattr_accessor :menu_items
 
     # Set the menu item name for a controller or specific actions

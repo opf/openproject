@@ -116,7 +116,7 @@ module Redmine
           search_name = parts[-1]
           if search_path.blank? && search_name.blank?
             # Root entry
-            Entry.new(:path => '', :kind => 'dir')
+            Entry.new(path: '', kind: 'dir')
           else
             # Search for the entry in the parent directory
             es = entries(search_path, identifier)

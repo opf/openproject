@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class ControlTest < Test::Unit::TestCase
   context 'Within a skip_journal block,' do
     setup do
-      @user = User.create(:name => 'Steve Richert')
+      @user = User.create(name: 'Steve Richert')
       @count = @user.journals.count
     end
 
@@ -65,7 +65,7 @@ class ControlTest < Test::Unit::TestCase
 
   context 'Within a merge_journal block,' do
     setup do
-      @user = User.create(:name => 'Steve Richert')
+      @user = User.create(name: 'Steve Richert')
       @count = @user.journals.count
     end
 
@@ -99,7 +99,7 @@ class ControlTest < Test::Unit::TestCase
   context 'Within a append_journal block' do
     context '(when no journals exist),' do
       setup do
-        @user = User.create(:name => 'Steve Richert')
+        @user = User.create(name: 'Steve Richert')
         @count = @user.journals.count
       end
 
@@ -132,7 +132,7 @@ class ControlTest < Test::Unit::TestCase
 
     context '(when journals exist),' do
       setup do
-        @user = User.create(:name => 'Steve Richert')
+        @user = User.create(name: 'Steve Richert')
         @user.update_attribute(:last_name, 'Jobs')
         @user.update_attribute(:last_name, 'Richert')
         @last_journal = @user.journals.last

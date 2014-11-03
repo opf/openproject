@@ -149,7 +149,7 @@ module OpenProject::Plugins
           app.config.paths['config/routes'].unshift File.join(config.root, "config", "routes.rb")
         end
 
-        initializer "#{engine_name}.remove_duplicate_routes", :after => "add_routing_paths" do |app|
+        initializer "#{engine_name}.remove_duplicate_routes", after: "add_routing_paths" do |app|
           # removes duplicate entry from app.routes_reloader
           # As we prepend the plugin's routes to the load_path up front and rails
           # adds all engines' config/routes.rb later, we have double loaded the routes
@@ -162,7 +162,7 @@ module OpenProject::Plugins
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", :after => "factory_girl.set_factory_paths" do |app|
+        initializer "#{engine_name}.register_factories", after: "factory_girl.set_factory_paths" do |app|
           FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
         end
 

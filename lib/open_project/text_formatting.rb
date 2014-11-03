@@ -79,7 +79,7 @@ module OpenProject
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
       only_path = options.delete(:only_path) == false ? false : true
 
-      text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr, :edit => edit) { |macro, args| exec_macro(macro, obj, args, :view => self, :edit => edit) }
+      text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, object: obj, attribute: attr, edit: edit) { |macro, args| exec_macro(macro, obj, args, view: self, edit: edit) }
 
       #TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
@@ -172,7 +172,7 @@ module OpenProject
           attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
           # search for the picture in attachments
           if found = attachments.detect { |att| att.filename.downcase == filename }
-            image_url = url_for :only_path => only_path, :controller => '/attachments', :action => 'download', :id => found
+            image_url = url_for only_path: only_path, controller: '/attachments', action: 'download', id: found
             desc = found.description.to_s.gsub('"', '')
             if !desc.blank? && alttext.blank?
               alt = " title=\"#{desc}\" alt=\"#{desc}\""
@@ -219,9 +219,9 @@ module OpenProject
               when :anchor; "##{title}"   # used for single-file wiki export
               else
                 wiki_page_id = page.present? ? Wiki.titleize(page) : nil
-                url_for(:only_path => only_path, :controller => '/wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
+                url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
-            link_to(h(title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
+            link_to(h(title || page), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
             # project or wiki doesn't exist
             all
@@ -275,41 +275,41 @@ module OpenProject
           if prefix.nil? && sep == 'r'
             # project.changesets.visible raises an SQL error because of a double join on repositories
             if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-              link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.revision},
-                                        :class => 'changeset',
-                                        :title => truncate_single_line(changeset.comments, :length => 100))
+              link = link_to(h("#{project_prefix}r#{identifier}"), {only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision},
+                                        class: 'changeset',
+                                        title: truncate_single_line(changeset.comments, length: 100))
             end
           elsif sep == '#'
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
-                link = link_to("##{oid}", work_package_path(:id => oid, :only_path => only_path),
-                                          :class => work_package_css_classes(work_package),
-                                          :title => "#{truncate(work_package.subject, :length => 100)} (#{work_package.status.try(:name)})")
+              if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+                link = link_to("##{oid}", work_package_path(id: oid, only_path: only_path),
+                                          class: work_package_css_classes(work_package),
+                                          title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
               end
             when 'version'
               if version = Version.visible.find_by_id(oid)
-                link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
-                                                :class => 'version'
+                link = link_to h(version.name), {only_path: only_path, controller: '/versions', action: 'show', id: version},
+                                                class: 'version'
               end
             when 'message'
-              if message = Message.visible.find_by_id(oid, :include => :parent)
-                link = link_to_message(message, {:only_path => only_path}, :class => 'message')
+              if message = Message.visible.find_by_id(oid, include: :parent)
+                link = link_to_message(message, {only_path: only_path}, class: 'message')
               end
             when 'project'
               if p = Project.visible.find_by_id(oid)
-                link = link_to_project(p, {:only_path => only_path}, :class => 'project')
+                link = link_to_project(p, {only_path: only_path}, class: 'project')
               end
             end
           elsif sep == '##'
             oid = identifier.to_i
-            if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+            if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
               link = work_package_quick_info(work_package)
             end
           elsif sep == '###'
             oid = identifier.to_i
-            work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+            work_package = WorkPackage.visible.find_by_id(oid, include: :status)
             if work_package && obj && !(attr == :description && obj.id == work_package.id)
               link = work_package_quick_info_with_description(work_package)
             end
@@ -319,35 +319,35 @@ module OpenProject
             case prefix
             when 'version'
               if project && version = project.versions.visible.find_by_name(name)
-                link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
-                                                :class => 'version'
+                link = link_to h(version.name), {only_path: only_path, controller: '/versions', action: 'show', id: version},
+                                                class: 'version'
               end
             when 'commit'
-              if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
-                link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.identifier},
-                                             :class => 'changeset',
-                                             :title => truncate_single_line(h(changeset.comments), :length => 100)
+              if project && project.repository && (changeset = Changeset.visible.find(:first, conditions: ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
+                link = link_to h("#{project_prefix}#{name}"), {only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier},
+                                             class: 'changeset',
+                                             title: truncate_single_line(h(changeset.comments), length: 100)
               end
             when 'source', 'export'
               if project && project.repository && User.current.allowed_to?(:browse_repository, project)
                 name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
                 path, rev, anchor = $1, $3, $5
-                link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :project_id => project,
-                                                        :path => path.to_s,
-                                                        :rev => rev,
-                                                        :anchor => anchor,
-                                                        :format => (prefix == 'export' ? 'raw' : nil)},
-                                                       :class => (prefix == 'export' ? 'source download' : 'source')
+                link = link_to h("#{project_prefix}#{prefix}:#{name}"), {controller: '/repositories', action: 'entry', project_id: project,
+                                                        path: path.to_s,
+                                                        rev: rev,
+                                                        anchor: anchor,
+                                                        format: (prefix == 'export' ? 'raw' : nil)},
+                                                       class: (prefix == 'export' ? 'source download' : 'source')
               end
             when 'attachment'
               attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
               if attachments && attachment = attachments.detect {|a| a.filename == name }
-                link = link_to h(attachment.filename), {:only_path => only_path, :controller => '/attachments', :action => 'download', :id => attachment},
-                                                       :class => 'attachment'
+                link = link_to h(attachment.filename), {only_path: only_path, controller: '/attachments', action: 'download', id: attachment},
+                                                       class: 'attachment'
               end
             when 'project'
-              if p = Project.visible.find(:first, :conditions => ["identifier = :s OR LOWER(name) = :s", {:s => name.downcase}])
-                link = link_to_project(p, {:only_path => only_path}, :class => 'project')
+              if p = Project.visible.find(:first, conditions: ["identifier = :s OR LOWER(name) = :s", {s: name.downcase}])
+                link = link_to_project(p, {only_path: only_path}, class: 'project')
               end
             end
           end

@@ -109,9 +109,9 @@ module Redmine
       # change this default as needed
       def self.default_url_options
         {
-          :host => OpenProject::StaticRouting::UrlHelpers.host,
-          :only_path => true,
-          :script_name => OpenProject::Configuration.rails_relative_url_root
+          host: OpenProject::StaticRouting::UrlHelpers.host,
+          only_path: true,
+          script_name: OpenProject::Configuration.rails_relative_url_root
         }
       end
 
@@ -124,9 +124,9 @@ module Redmine
       def self.render_on(hook, options={})
         define_method hook do |context|
           if context[:hook_caller].respond_to?(:render)
-            context[:hook_caller].send(:render, {:locals => context}.merge(options))
+            context[:hook_caller].send(:render, {locals: context}.merge(options))
           elsif context[:controller].is_a?(ActionController::Base)
-            context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+            context[:controller].send(:render_to_string, {locals: context}.merge(options))
           else
             raise "Cannot render #{self.name} hook from #{context[:hook_caller].class.name}"
           end
@@ -165,10 +165,10 @@ module Redmine
     module Helper
       def call_hook(hook, context={})
         if is_a?(ActionController::Base)
-          default_context = {:controller => self, :project => @project, :request => request, :hook_caller => self}
+          default_context = {controller: self, project: @project, request: request, hook_caller: self}
           Redmine::Hook.call_hook(hook, default_context.merge(context))
         else
-          default_context = { :project => @project, :hook_caller => self }
+          default_context = { project: @project, hook_caller: self }
           default_context[:controller] = controller if respond_to?(:controller)
           default_context[:request] = request if respond_to?(:request)
           Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe

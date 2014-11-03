@@ -130,7 +130,7 @@ module Redmine::Acts::Journalized
         attributes_setter = ActiveRecord::Base.instance_method(:assign_attributes)
         attributes_setter = attributes_setter.bind(fill_object)
 
-        attributes_setter.call(initial_changes, :without_protection => true)
+        attributes_setter.call(initial_changes, without_protection: true)
 
         # Call the journal creating method
         changed_data = fill_object.send(:merge_journal_changes)
@@ -179,9 +179,9 @@ module Redmine::Acts::Journalized
         # Specifies the attributes used during journal creation. This is separated into its own
         # method so that it can be overridden by the VestalVersions::Users feature.
         def journal_attributes
-          attributes = { :journaled_id => self.id, :activity_type => activity_type,
-            :changed_data => journal_changes, :version => last_version + 1,
-            :notes => journal_notes, :user_id => (journal_user.try(:id) || User.current.try(:id))
+          attributes = { journaled_id: self.id, activity_type: activity_type,
+            changed_data: journal_changes, version: last_version + 1,
+            notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
           }.merge(extra_journal_attributes || {})
         end
     end

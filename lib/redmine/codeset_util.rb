@@ -33,8 +33,8 @@ module Redmine
       return str if str.nil?
       str.force_encoding('UTF-8')
       if ! str.valid_encoding?
-        str = str.encode("US-ASCII", :invalid => :replace,
-              :undef => :replace, :replace => '?').encode("UTF-8")
+        str = str.encode("US-ASCII", invalid: :replace,
+              undef: :replace, replace: '?').encode("UTF-8")
       end
       str
     end
@@ -49,13 +49,13 @@ module Redmine
       enc = encoding.blank? ? "UTF-8" : encoding
       if enc.upcase != "UTF-8"
         str.force_encoding(enc)
-        str = str.encode("UTF-8", :invalid => :replace,
-              :undef => :replace, :replace => '?')
+        str = str.encode("UTF-8", invalid: :replace,
+              undef: :replace, replace: '?')
       else
         str.force_encoding("UTF-8")
         if ! str.valid_encoding?
-          str = str.encode("US-ASCII", :invalid => :replace,
-                :undef => :replace, :replace => '?').encode("UTF-8")
+          str = str.encode("US-ASCII", invalid: :replace,
+                undef: :replace, replace: '?').encode("UTF-8")
         end
       end
       str
@@ -89,8 +89,8 @@ module Redmine
       str ||= ''
       str.force_encoding('UTF-8')
       if encoding.upcase != 'UTF-8'
-        str = str.encode(encoding, :invalid => :replace,
-                         :undef => :replace, :replace => '?')
+        str = str.encode(encoding, invalid: :replace,
+                         undef: :replace, replace: '?')
       else
         str = self.replace_invalid_utf8(str)
       end

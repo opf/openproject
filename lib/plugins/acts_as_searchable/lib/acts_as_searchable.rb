@@ -79,7 +79,7 @@ module Redmine
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
-            find_options = {:include => searchable_options[:include]}
+            find_options = {include: searchable_options[:include]}
             find_options[:order] = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
 
             limit_options = {}
@@ -95,9 +95,9 @@ module Redmine
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
               searchable_custom_field_ids = CustomField.find(:all,
-                                                             :select => 'id',
-                                                             :conditions => { :type => "#{self.name}CustomField",
-                                                                              :searchable => true }).collect(&:id)
+                                                             select: 'id',
+                                                             conditions: { type: "#{self.name}CustomField",
+                                                                              searchable: true }).collect(&:id)
               if searchable_custom_field_ids.any?
                 custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
                   " WHERE customized_type='#{self.name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +
@@ -118,8 +118,8 @@ module Redmine
             results = []
             results_count = 0
 
-            with_scope(:find => {:conditions => project_conditions.join(' AND ')}) do
-              with_scope(:find => find_options) do
+            with_scope(find: {conditions: project_conditions.join(' AND ')}) do
+              with_scope(find: find_options) do
                 results_count = count(:all)
                 results = find(:all, limit_options)
               end

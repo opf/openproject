@@ -109,7 +109,7 @@ module Redmine
                 url=url[0..-2] # discard closing parenth from url
                 post = ")"+post # add closing parenth to post
               end
-              tag = content_tag('a', proto + url, :href => "#{proto=="www."?"http://www.":proto}#{url}", :class => 'external')
+              tag = content_tag('a', proto + url, href: "#{proto=="www."?"http://www.":proto}#{url}", class: 'external')
               %(#{leading}#{tag}#{post})
             end
           end
@@ -122,7 +122,7 @@ module Redmine
             if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
               mail
             else
-              content_tag('a', mail, :href => "mailto:#{mail}", :class => "email")
+              content_tag('a', mail, href: "mailto:#{mail}", class: "email")
             end
           end
         end

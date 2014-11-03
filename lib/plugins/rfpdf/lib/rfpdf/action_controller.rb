@@ -2,7 +2,7 @@
 module RFPDF
   module ActionController
 
-    DEFAULT_RFPDF_OPTIONS = {:inline=>true}
+    DEFAULT_RFPDF_OPTIONS = {inline:true}
 
       def self.included(base)
         base.extend ClassMethods

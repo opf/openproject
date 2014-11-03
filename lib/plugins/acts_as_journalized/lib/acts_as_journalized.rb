@@ -163,15 +163,15 @@ module Redmine
           def journalized_event_hash(options)
             unless options.has_key? :url
               options[:url] = Proc.new do |data|
-                { :controller => plural_name,
-                  :action => 'show',
-                  :id => data.journal.journable_id,
-                  :anchor => ("note-#{data.journal.anchor}" unless data.journal.initial?) }
+                { controller: plural_name,
+                  action: 'show',
+                  id: data.journal.journable_id,
+                  anchor: ("note-#{data.journal.anchor}" unless data.journal.initial?) }
               end
             end
             options[:type] ||= self.name.underscore.dasherize # Make sure the name of the journalized model and not the name of the journal is used for events
             options[:author] ||= :user
-            { :description => :notes }.reverse_merge options
+            { description: :notes }.reverse_merge options
           end
       end
 

@@ -29,8 +29,8 @@
 class OpenProject::PluginGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :plugin_name, :type => :string, :default => "openproject-new-plugin"
-  argument :root_folder, :type => :string, :default => "vendor/gems"
+  argument :plugin_name, type: :string, default: "openproject-new-plugin"
+  argument :root_folder, type: :string, default: "vendor/gems"
 
   # every public method is run when the generator is invoked
   def generate_plugin
@@ -56,7 +56,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
 
   def plugin_dir
     @plugin_dir ||= begin
-      directory('', plugin_path, :recursive => false)
+      directory('', plugin_path, recursive: false)
     end
   end
 

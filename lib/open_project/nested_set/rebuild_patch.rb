@@ -44,9 +44,9 @@ module OpenProject::NestedSet::RebuildPatch
   def self.included(base)
     base.class_eval do
       scope :invalid_left_and_rights,
-            :joins => "LEFT OUTER JOIN #{quoted_table_name} AS parent ON " +
+            joins: "LEFT OUTER JOIN #{quoted_table_name} AS parent ON " +
               "#{quoted_table_name}.#{quoted_parent_column_name} = parent.#{primary_key}",
-            :conditions =>
+            conditions:
               "#{quoted_table_name}.#{quoted_left_column_name} IS NULL OR " +
               "#{quoted_table_name}.#{quoted_right_column_name} IS NULL OR " +
               "#{quoted_table_name}.#{quoted_left_column_name} >= " +
@@ -62,12 +62,12 @@ module OpenProject::NestedSet::RebuildPatch
 
         scope_string = scope_string.size > 0 ? scope_string + " AND " : ""
 
-        { :joins => "LEFT OUTER JOIN #{quoted_table_name} AS duplicates ON " +
+        { joins: "LEFT OUTER JOIN #{quoted_table_name} AS duplicates ON " +
             scope_string +
             "#{quoted_table_name}.#{primary_key} != duplicates.#{primary_key} AND " +
             "(#{quoted_table_name}.#{quoted_left_column_name} = duplicates.#{quoted_left_column_name} OR " +
             "#{quoted_table_name}.#{quoted_right_column_name} = duplicates.#{quoted_right_column_name})",
-          :conditions => "duplicates.#{primary_key} IS NOT NULL" }
+          conditions: "duplicates.#{primary_key} IS NOT NULL" }
       }
 
       scope :invalid_roots, lambda {
@@ -77,15 +77,15 @@ module OpenProject::NestedSet::RebuildPatch
 
         scope_string = scope_string.size > 0 ? scope_string + " AND " : ""
 
-        { :joins => "LEFT OUTER JOIN #{quoted_table_name} AS other ON " +
+        { joins: "LEFT OUTER JOIN #{quoted_table_name} AS other ON " +
             "#{quoted_table_name}.#{primary_key} != other.#{primary_key} AND " +
             "#{quoted_table_name}.#{parent_column_name} IS NULL AND " +
             "other.#{parent_column_name} IS NULL AND " +
             scope_string +
             "#{quoted_table_name}.#{quoted_left_column_name} <= other.#{quoted_right_column_name} AND " +
             "#{quoted_table_name}.#{quoted_right_column_name} >= other.#{quoted_left_column_name}",
-          :conditions => "other.#{primary_key} IS NOT NULL",
-          :order => quoted_left_column_name }
+          conditions: "other.#{primary_key} IS NOT NULL",
+          order: quoted_left_column_name }
       }
 
       extend(ClassMethods)
@@ -137,8 +137,8 @@ module OpenProject::NestedSet::RebuildPatch
         # set left
         node[left_column_name] = indices[scope.call(node)] += 1
         # find
-        children = all(:conditions => ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node],
-                       :order => [quoted_left_column_name,
+        children = all(conditions: ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node],
+                       order: [quoted_left_column_name,
                                   quoted_right_column_name,
                                   acts_as_nested_set_options[:order]].compact.join(", "))
 
@@ -152,7 +152,7 @@ module OpenProject::NestedSet::RebuildPatch
           hash
         end
 
-        update_all(changes, { :id => node.id }) unless changes.empty?
+        update_all(changes, { id: node.id }) unless changes.empty?
       end
 
       # Find root node(s)
@@ -162,8 +162,8 @@ module OpenProject::NestedSet::RebuildPatch
                    elsif roots.present?
                      [roots]
                    else
-                     all(:conditions => "#{quoted_parent_column_name} IS NULL",
-                         :order => [quoted_left_column_name,
+                     all(conditions: "#{quoted_parent_column_name} IS NULL",
+                         order: [quoted_left_column_name,
                                     quoted_right_column_name,
                                     acts_as_nested_set_options[:order]].compact.join(", "))
                    end

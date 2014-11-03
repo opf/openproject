@@ -52,7 +52,7 @@ module Redmine
       end
 
       module ClassMethods
-        @@default_search_scopes = Hash.new {|hash, key| hash[key] = {:default => nil, :actions => {}}}
+        @@default_search_scopes = Hash.new {|hash, key| hash[key] = {default: nil, actions: {}}}
         mattr_accessor :default_search_scopes
 
         # Set the default search scope for a controller or specific actions

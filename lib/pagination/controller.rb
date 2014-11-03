@@ -196,7 +196,7 @@ module Pagination::Controller
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
                                                        search_call,
-                                                       { :page => page, :page_limit => size }
+                                                       { page: page, page_limit: size }
                                                       )
 
           @more = @paginated_items.total_pages > page
@@ -210,10 +210,10 @@ module Pagination::Controller
     def default_response_block
       Proc.new {
         respond_to do |format|
-          format.json { render :json => { :results =>
-            { :items => @paginated_items.collect {|item| { :id => item.id, :name => item.name } },
-              :total => @total ? @total : @paginated_items.size,
-              :more  => @more ? @more : 0 }
+          format.json { render json: { results:
+            { items: @paginated_items.collect {|item| { id: item.id, name: item.name } },
+              total: @total ? @total : @paginated_items.size,
+              more:  @more ? @more : 0 }
           } }
         end
       }

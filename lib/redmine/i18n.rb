@@ -41,9 +41,9 @@ module Redmine
         if args.last.is_a?(Hash)
           ::I18n.t(*args)
         elsif args.last.is_a?(String)
-          ::I18n.t(args.first, :value => args.last)
+          ::I18n.t(args.first, value: args.last)
         else
-          ::I18n.t(args.first, :count => args.last)
+          ::I18n.t(args.first, count: args.last)
         end
       else
         raise "Translation string with multiple values: #{args.first}"
@@ -52,16 +52,16 @@ module Redmine
 
     def l_or_humanize(s, options={})
       k = "#{options[:prefix]}#{s}".to_sym
-      ::I18n.t(k, :default => s.to_s.humanize)
+      ::I18n.t(k, default: s.to_s.humanize)
     end
 
     def l_hours(hours)
       hours = hours.to_f
-      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), :value => ("%.2f" % hours.to_f))
+      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), value: ("%.2f" % hours.to_f))
     end
 
     def ll(lang, str, value=nil)
-      ::I18n.t(str.to_s, :value => value, :locale => lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
+      ::I18n.t(str.to_s, value: value, locale: lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
     def format_date(date)
@@ -85,7 +85,7 @@ module Redmine
       zone = User.current.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.to_time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") +
-        (Setting.time_format.blank? ? ::I18n.l(local, :format => :time) : local.strftime(Setting.time_format))
+        (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
     def day_name(day)
@@ -128,8 +128,8 @@ module Redmine
     def all_attribute_translations(locale = current_locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= (
-        general_attributes = ::I18n.t('attributes', :locale => locale)
-        ::I18n.t("activerecord.attributes", :locale => locale).inject(general_attributes) do |attr_t, model_t|
+        general_attributes = ::I18n.t('attributes', locale: locale)
+        ::I18n.t("activerecord.attributes", locale: locale).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
         end)
       @cached_attribute_translations[locale]

@@ -36,8 +36,8 @@ class ConfigurationTest < Test::Unit::TestCase
 
       @options = {
         'class_name' => 'CustomVersion',
-        :extend => Extension,
-        :as => :parent
+        extend: Extension,
+        as: :parent
       }
 
       VestalVersions.configure do |config|

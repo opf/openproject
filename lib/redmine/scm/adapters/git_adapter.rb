@@ -82,7 +82,7 @@ module Redmine
 
         def info
           begin
-            Info.new(:root_url => url, :lastrev => lastrev('',nil))
+            Info.new(root_url: url, lastrev: lastrev('',nil))
           rescue
             nil
           end
@@ -139,11 +139,11 @@ module Redmine
                 full_path = p.empty? ? name : "#{p}/#{name}"
                 n      = scm_encode('UTF-8', @path_encoding, name)
                 full_p = scm_encode('UTF-8', @path_encoding, full_path)
-                entries << Entry.new({:name => n,
-                 :path => full_p,
-                 :kind => (type == "tree") ? 'dir' : 'file',
-                 :size => (type == "tree") ? nil : size,
-                 :lastrev => @flag_report_last_commit ? lastrev(full_path, identifier) : Revision.new
+                entries << Entry.new({name: n,
+                 path: full_p,
+                 kind: (type == "tree") ? 'dir' : 'file',
+                 size: (type == "tree") ? nil : size,
+                 lastrev: @flag_report_last_commit ? lastrev(full_path, identifier) : Revision.new
                 }) unless entries.detect{|entry| entry.name == name}
               end
             end
@@ -166,12 +166,12 @@ module Redmine
               time = Time.parse(lines[4].match('CommitDate:\s+(.*)$')[1])
 
               Revision.new({
-                :identifier => id,
-                :scmid => id,
-                :author => author,
-                :time => time,
-                :message => nil,
-                :paths => nil
+                identifier: id,
+                scmid: id,
+                author: author,
+                time: time,
+                message: nil,
+                paths: nil
                 })
           rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
@@ -206,12 +206,12 @@ module Redmine
                 if (parsing_descr == 1 || parsing_descr == 2)
                   parsing_descr = 0
                   revision = Revision.new({
-                    :identifier => changeset[:commit],
-                    :scmid => changeset[:commit],
-                    :author => changeset[:author],
-                    :time => Time.parse(changeset[:date]),
-                    :message => changeset[:description],
-                    :paths => files
+                    identifier: changeset[:commit],
+                    scmid: changeset[:commit],
+                    author: changeset[:author],
+                    time: Time.parse(changeset[:date]),
+                    message: changeset[:description],
+                    paths: files
                   })
                   if block_given?
                     yield revision
@@ -239,14 +239,14 @@ module Redmine
                 fileaction    = $1
                 filepath      = $2
                 p = scm_encode('UTF-8', @path_encoding, filepath)
-                files << {:action => fileaction, :path => p}
+                files << {action: fileaction, path: p}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
                   && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $3
                 p = scm_encode('UTF-8', @path_encoding, filepath)
-                files << {:action => fileaction, :path => p}
+                files << {action: fileaction, path: p}
               elsif (parsing_descr == 1) && line.chomp.to_s == ""
                 parsing_descr = 2
               elsif (parsing_descr == 1)
@@ -256,12 +256,12 @@ module Redmine
 
             if changeset[:commit]
               revision = Revision.new({
-                :identifier => changeset[:commit],
-                :scmid => changeset[:commit],
-                :author => changeset[:author],
-                :time => Time.parse(changeset[:date]),
-                :message => changeset[:description],
-                :paths => files
+                identifier: changeset[:commit],
+                scmid: changeset[:commit],
+                author: changeset[:author],
+                time: Time.parse(changeset[:date]),
+                message: changeset[:description],
+                paths: files
               })
 
               if block_given?
@@ -320,8 +320,8 @@ module Redmine
               authors_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
               blame.add_line($1, Revision.new(
-                                    :identifier => identifier,
-                                    :author => authors_by_commit[identifier]))
+                                    identifier: identifier,
+                                    author: authors_by_commit[identifier]))
               identifier = ''
               author = ''
             end

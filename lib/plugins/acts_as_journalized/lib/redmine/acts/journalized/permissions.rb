@@ -61,7 +61,7 @@ module Redmine::Acts::Journalized
           :"edit_#{self.class.to_s.pluralize.underscore}"
         end
         p = @project || (project if respond_to? :project)
-        options = { :global => p.present? }
+        options = { global: p.present? }
         user.allowed_to? permission, p, options
       end
     end

@@ -58,8 +58,8 @@ module OpenProject
         end
         unless password_long_enough(password)
           errors << I18n.t(:too_short,
-                           :scope => [:activerecord, :errors, :messages],
-                           :count => OpenProject::Passwords::Evaluator.min_length)
+                           scope: [:activerecord, :errors, :messages],
+                           count: OpenProject::Passwords::Evaluator.min_length)
         end
         errors
       end
@@ -106,20 +106,20 @@ module OpenProject
 
         rules = active_rules.map do |rule|
           I18n.t(rule.to_sym,
-                 :scope => [:activerecord, :errors, :models, :user, :attributes, :password])
+                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
         end
 
         I18n.t(:weak,
-          :scope => [:activerecord, :errors, :models, :user, :attributes, :password],
-          :rules => rules.join(", "),
-          :min_count => min_adhered_rules,
-          :all_count => active_rules.size)
+          scope: [:activerecord, :errors, :models, :user, :attributes, :password],
+          rules: rules.join(", "),
+          min_count: min_adhered_rules,
+          all_count: active_rules.size)
       end
 
       # Returns a text describing the minimum length of a password.
       def self.min_length_description
         I18n.t(:text_caracters_minimum,
-               :count => OpenProject::Passwords::Evaluator.min_length)
+               count: OpenProject::Passwords::Evaluator.min_length)
       end
 
     private

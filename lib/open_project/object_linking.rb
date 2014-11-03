@@ -62,13 +62,13 @@ module OpenProject
       only_path = options.delete(:only_path) { true }
 
       link_to h(text),
-              {:controller => '/attachments',
-               :action => action,
-               :id => attachment,
-               :filename => attachment.filename,
-               :host => Setting.host_name,
-               :protocol => Setting.protocol,
-               :only_path => only_path },
+              {controller: '/attachments',
+               action: action,
+               id: attachment,
+               filename: attachment.filename,
+               host: Setting.host_name,
+               protocol: Setting.protocol,
+               only_path: only_path },
               options
     end
 
@@ -79,17 +79,17 @@ module OpenProject
       text = options.delete(:text) || format_revision(revision)
       rev = revision.respond_to?(:identifier) ? revision.identifier : revision
 
-      link_to(h(text), {:controller => '/repositories', :action => 'revision', :project_id => project, :rev => rev},
-              :title => l(:label_revision_id, format_revision(revision)))
+      link_to(h(text), {controller: '/repositories', action: 'revision', project_id: project, rev: rev},
+              title: l(:label_revision_id, format_revision(revision)))
     end
 
     # Generates a link to a message
     def link_to_message(message, options={}, html_options = nil)
       link_to(
-        h(truncate(message.subject, :length => 60)),
+        h(truncate(message.subject, length: 60)),
         topic_path(message.root,
-                   { :r => (message.parent_id && message.id),
-                     :anchor => (message.parent_id ? "message-#{message.id}" : nil)
+                   { r: (message.parent_id && message.id),
+                     anchor: (message.parent_id ? "message-#{message.id}" : nil)
                    }.merge(options)),
         html_options
       )
