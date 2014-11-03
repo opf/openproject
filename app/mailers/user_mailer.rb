@@ -35,15 +35,15 @@ class UserMailer < ActionMailer::Base
   include OpenProject::LocaleHelper
 
   # wrap in a lambda to allow changing at run-time
-  default :from => Proc.new { Setting.mail_from }
+  default from: Proc.new { Setting.mail_from }
 
   def test_mail(user)
-    @welcome_url = url_for(:controller => '/welcome')
+    @welcome_url = url_for(controller: '/welcome')
 
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail :to => "\"#{user.name}\" <#{user.mail}>", :subject => 'OpenProject Test'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'OpenProject Test'
     end
   end
 
@@ -62,7 +62,7 @@ class UserMailer < ActionMailer::Base
       subject = "[#{@issue.project.name} - #{ @issue.to_s }]"
       subject << " (#{@issue.status.name})" if @issue.status
       subject << " #{@issue.subject}"
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -92,7 +92,7 @@ class UserMailer < ActionMailer::Base
       subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
       subject << @issue.subject
 
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -100,16 +100,16 @@ class UserMailer < ActionMailer::Base
     return unless token.user # token's can have no user
 
     @token = token
-    @reset_password_url = url_for(:controller => '/account',
-                                  :action     => :lost_password,
-                                  :token      => @token.value)
+    @reset_password_url = url_for(controller: '/account',
+                                  action:     :lost_password,
+                                  token:      @token.value)
 
     open_project_headers 'Type' => 'Account'
 
     user = @token.user
     with_locale_for(user) do
-      subject = t(:mail_subject_lost_password, :value => Setting.app_title)
-      mail :to => user.mail, :subject => subject
+      subject = t(:mail_subject_lost_password, value: Setting.app_title)
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -158,7 +158,7 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -166,16 +166,16 @@ class UserMailer < ActionMailer::Base
     return unless token.user
 
     @token = token
-    @activation_url = url_for(:controller => '/account',
-                              :action     => :activate,
-                              :token      => @token.value)
+    @activation_url = url_for(controller: '/account',
+                              action:     :activate,
+                              token:      @token.value)
 
     open_project_headers 'Type' => 'Account'
 
     user = token.user
     with_locale_for(user) do
-      subject = t(:mail_subject_register, :value => Setting.app_title)
-      mail :to => user.mail, :subject => subject
+      subject = t(:mail_subject_register, value: Setting.app_title)
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -191,7 +191,7 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -205,19 +205,19 @@ class UserMailer < ActionMailer::Base
     message_id @wiki_content, user
 
     with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => @wiki_content.page.pretty_title)}"
-      mail :to => user.mail, :subject => subject
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.pretty_title)}"
+      mail to: user.mail, subject: subject
     end
   end
 
   def wiki_content_updated(user, wiki_content)
     @wiki_content  = wiki_content
-    @wiki_diff_url = url_for(:controller => '/wiki',
-                             :action     => :diff,
-                             :project_id => wiki_content.project,
-                             :id         => wiki_content.page.title,
+    @wiki_diff_url = url_for(controller: '/wiki',
+                             action:     :diff,
+                             project_id: wiki_content.project,
+                             id:         wiki_content.page.title,
                              # using wiki_content.version + 1 because at this point the journal is not saved yet
-                             :version    => wiki_content.version + 1)
+                             version:    wiki_content.version + 1)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
@@ -226,14 +226,14 @@ class UserMailer < ActionMailer::Base
     message_id @wiki_content, user
 
     with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => @wiki_content.page.pretty_title)}"
-      mail :to => user.mail, :subject => subject
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.pretty_title)}"
+      mail to: user.mail, subject: subject
     end
   end
 
   def message_posted(user, message)
     @message     = message
-    @message_url = topic_url(@message.root, :r => @message.id, :anchor => "message-#{@message.id}")
+    @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
     open_project_headers 'Project'      => @message.project.identifier,
                          'Wiki-Page-Id' => @message.parent_id || @message.id,
@@ -244,7 +244,7 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail :to => user.mail, :subject => subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -254,8 +254,8 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Type' => 'Account'
 
     with_locale_for(user) do
-      subject = t(:mail_subject_register, :value => Setting.app_title)
-      mail :to => user.mail, :subject => subject
+      subject = t(:mail_subject_register, value: Setting.app_title)
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -266,23 +266,23 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Type' => 'Account'
 
     with_locale_for(user) do
-      subject = t(:mail_subject_register, :value => Setting.app_title)
-      mail :to => user.mail, :subject => subject
+      subject = t(:mail_subject_register, value: Setting.app_title)
+      mail to: user.mail, subject: subject
     end
   end
 
   def account_activation_requested(admin, user)
     @user           = user
-    @activation_url = url_for(:controller => '/users',
-                              :action     => :index,
-                              :status     => User::STATUSES[:registered],
-                              :sort       => 'created_at:desc')
+    @activation_url = url_for(controller: '/users',
+                              action:     :index,
+                              status:     User::STATUSES[:registered],
+                              sort:       'created_at:desc')
 
     open_project_headers 'Type' => 'Account'
 
     with_locale_for(admin) do
-      subject = t(:mail_subject_account_activation_request, :value => Setting.app_title)
-      mail :to => admin.mail, :subject => subject
+      subject = t(:mail_subject_account_activation_request, value: Setting.app_title)
+      mail to: admin.mail, subject: subject
     end
   end
 
@@ -290,17 +290,17 @@ class UserMailer < ActionMailer::Base
     @issues = issues
     @days   = days
 
-    @assigned_issues_url = url_for(:controller     => :work_packages,
-                                   :action         => :index,
-                                   :set_filter     => 1,
-                                   :assigned_to_id => user.id,
-                                   :sort           => 'due_date:asc')
+    @assigned_issues_url = url_for(controller:     :work_packages,
+                                   action:         :index,
+                                   set_filter:     1,
+                                   assigned_to_id: user.id,
+                                   sort:           'due_date:asc')
 
     open_project_headers 'Type' => 'Issue'
 
     with_locale_for(user) do
-      subject = t(:mail_subject_reminder, :count => @issues.size, :days => @days)
-      mail :to => user.mail, :subject => subject
+      subject = t(:mail_subject_reminder, count: @issues.size, days: @days)
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -378,7 +378,7 @@ private
   end
 
   def self.default_url_options
-    options = super.merge :host => host, :protocol => protocol
+    options = super.merge host: host, protocol: protocol
     unless OpenProject::Configuration.rails_relative_url_root.blank?
       options[:script_name] = OpenProject::Configuration.rails_relative_url_root
     end
@@ -467,8 +467,8 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = WorkPackage.find(:all, :include => [:status, :assigned_to, :project, :type],
-                                          :conditions => s.conditions
+    issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
+                                          conditions: s.conditions
                                    ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
