@@ -60,15 +60,10 @@ module API
         property :sort_criteria, render_nil: true
         property :group_by, render_nil: true
         property :display_sums, getter: -> (*) { display_sums.to_s }, render_nil: true
-        property :is_starred, getter: -> (*) { is_starred.to_s }, exec_context: :decorator
+        property :is_starred, getter: -> (*) { (!query_menu_item.nil?).to_s }
 
         def _type
           'Query'
-        end
-
-        def is_starred
-          return true if !represented.query_menu_item.nil?
-          false
         end
       end
     end
