@@ -97,11 +97,11 @@ end
 
 def update_localization(container, language, value)
   new_value = container.find(:css, "input[type=text], textarea")
-  new_locale = container.find(:css, ".locale_selector", :visible => false)
+  new_locale = container.find(:css, ".locale_selector", visible: false)
 
   new_value.set(value.gsub("\\n", "\n"))
 
-  locale_name = new_locale.all(:css, "option", :visible => false).detect{|o| o.value == locale_for_language(language)}
+  locale_name = new_locale.all(:css, "option", visible: false).detect{|o| o.value == locale_for_language(language)}
   new_locale.select(locale_name.text) if locale_name
 end
 
@@ -114,7 +114,7 @@ Then /^there should be the following localizations:$/ do |table|
 
   page.should have_selector(:xpath, '(//*[contains(@name, "translations_attributes") and not(contains(@disabled,"disabled"))])[1]')
 
-  attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])", :visible => false)
+  attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])", visible: false)
 
   name_regexp = /\[(\d)+\]\[(\w+)\]$/
 
@@ -152,7 +152,7 @@ end
 Then /^the delete link for the (.+) localization of the "(.+)" attribute should not be visible$/ do |locale, attribute_name|
   attribute_span = span_for_localization locale, attribute_name
 
-  attribute_span.find(:css, "a.destroy_locale", :visible => false).should_not be_visible
+  attribute_span.find(:css, "a.destroy_locale", visible: false).should_not be_visible
 end
 
 def span_for_localization language, attribute
@@ -161,7 +161,7 @@ def span_for_localization language, attribute
   attribute_spans = page.all(:css, "span.#{attribute}_translation")
 
   attribute_spans.detect do |attribute_span|
-    attribute_span.find(:css, ".locale_selector", :visible => false)["value"] == locale &&
+    attribute_span.find(:css, ".locale_selector", visible: false)["value"] == locale &&
     attribute_span.visible?
   end
 end

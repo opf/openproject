@@ -95,7 +95,7 @@ end
 #
 Given /^I set passwords to expire after ([0-9]+) days$/ do |days|
   visit '/settings?tab=authentication'
-  fill_in('settings_password_days_valid', :with => days.to_s)
+  fill_in('settings_password_days_valid', with: days.to_s)
   step 'I save the settings'
 
   Support::ClearCache.clear_after

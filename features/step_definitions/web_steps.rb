@@ -84,7 +84,7 @@ end
 
 When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
   #Click all elements that you want, in this case we click all as
-  elements = page.all('a', :text => text)
+  elements = page.all('a', text: text)
   ctrl_click(elements)
 end
 
@@ -115,11 +115,11 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
+  fill_in(field, with: value)
 end
 
 When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
-  fill_in(field, :with => value)
+  fill_in(field, with: value)
 end
 
 # Use this to fill in an entire form with data from a table. Example:
@@ -151,7 +151,7 @@ end
 
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
-    select(value, :from => field)
+    select(value, from: field)
   rescue Capybara::ElementNotFound
     container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
     container.find(".select2-choice").click
@@ -237,12 +237,12 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
-  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_true
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
-  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_false
 end
 
@@ -295,7 +295,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
               timeout.to_f :
               5.0
 
-  wait_until(timeout, :i_know_im_immoral => true) do
+  wait_until(timeout, i_know_im_immoral: true) do
     ajax_done.call
   end
 end
@@ -307,10 +307,10 @@ Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |di
 
   if disabled
     # disabled fields can not be found via find_field
-    field_id = find('label', :text => fieldname)["for"]
-    should have_css("##{field_id}", :visible => visibility)
+    field_id = find('label', text: fieldname)["for"]
+    should have_css("##{field_id}", visible: visibility)
   else
-    should have_field(fieldname, :visible => visibility)
+    should have_field(fieldname, visible: visibility)
   end
 end
 

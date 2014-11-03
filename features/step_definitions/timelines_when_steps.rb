@@ -44,7 +44,7 @@ When (/^I hide empty projects for the timeline "([^"]*?)" of the project called 
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 
-  page.should have_selector("#timeline_options_exclude_empty", :visible => false)
+  page.should have_selector("#timeline_options_exclude_empty", visible: false)
 
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
@@ -56,7 +56,7 @@ When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*
   }
   planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
-  page.should have_selector("#timeline_options_vertical_planning_elements", :visible => false)
+  page.should have_selector("#timeline_options_vertical_planning_elements", visible: false)
 
   page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
   page.execute_script("jQuery('#content form').submit()")
@@ -98,7 +98,7 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
   }
   grouping_project = Project.find_by_name(grouping_project_name)
 
-  page.should have_selector("#timeline_options_grouping_one_enabled", :visible => false)
+  page.should have_selector("#timeline_options_grouping_one_enabled", visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
@@ -156,7 +156,7 @@ When (/^I show only projects which have responsible set to "(.*?)"$/) do |respon
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_project_responsibles", :visible => false)
+  page.should have_selector("#timeline_options_project_responsibles", visible: false)
 
   responsible = User.find_by_login(responsible)
   page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
@@ -168,7 +168,7 @@ When (/^I show only projects which have a planning element which lies between "(
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_planning_element_time_types", :visible => false)
+  page.should have_selector("#timeline_options_planning_element_time_types", visible: false)
 
   type = Type.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{type.id}')")
@@ -184,7 +184,7 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   }
   project_type = ProjectType.find_by_name(project_type_name)
 
-  page.should have_selector("#timeline_options_grouping_two_enabled", :visible => false)
+  page.should have_selector("#timeline_options_grouping_two_enabled", visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
@@ -204,7 +204,7 @@ When (/^I set the columns shown in the timeline to:$/) do |table|
   results = result.join(",");
 
   #we need to wait for our submit form to load ...
-  page.should have_selector("#timeline_options_columns_", :visible => false)
+  page.should have_selector("#timeline_options_columns_", visible: false)
 
   page.execute_script("jQuery('#timeline_options_columns_').val('#{results}')")
 
@@ -225,7 +225,7 @@ When (/^I set the first level grouping criteria to:$/) do |table|
   results = result.join(",");
 
   #we need to wait for our submit form to load ...
-  page.should have_selector("#timeline_options_grouping_one_enabled", :visible => false)
+  page.should have_selector("#timeline_options_grouping_one_enabled", visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{results}')")
@@ -238,7 +238,7 @@ When (/^I set the sortation of the first level grouping criteria to explicit ord
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_grouping_one_sort", :visible => false)
+  page.should have_selector("#timeline_options_grouping_one_sort", visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
@@ -253,7 +253,7 @@ When (/^I wait (\d+) seconds?$/) do |seconds|
 end
 
 When (/^I set duedate to "([^"]*)"$/) do |value|
-  fill_in 'planning_element_due_date', :with => value
+  fill_in 'planning_element_due_date', with: value
 end
 
 When (/^I wait for timeline to load table$/) do
@@ -261,28 +261,28 @@ When (/^I wait for timeline to load table$/) do
 end
 
 When (/^I move "([^"]*)" to the top$/) do |name|
-  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to top')
   link.click
 end
 
 When (/^I move "([^"]*)" to the bottom$/) do |name|
-  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to bottom')
   link.click
 end
 
 When (/^I move "([^"]*)" up by one$/) do |name|
-  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move up')
   link.click
 end
 
 When (/^I move "([^"]*)" down by one$/) do |name|
-  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move down')
   link.click

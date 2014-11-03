@@ -83,7 +83,7 @@ And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |pa
 end
 
 And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|
-  wp = WorkPackage.where(:subject => work_package_name).first
+  wp = WorkPackage.where(subject: work_package_name).first
   expect(wp.due_date).to eql Date.parse(due_date)
 end
 

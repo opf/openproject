@@ -92,19 +92,19 @@ end
 When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  fill_in(field_name, :with => work_package.id)
+  fill_in(field_name, with: work_package.id)
 end
 
 Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |field_name, wp_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  should have_field(field_name, :with => work_package.id.to_s)
+  should have_field(field_name, with: work_package.id.to_s)
 end
 
 Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  should have_css("tr.work-package", :text => work_package.to_s)
+  should have_css("tr.work-package", text: work_package.to_s)
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
@@ -113,18 +113,18 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   table_attributes.each do |key, value|
-    label = find('td.work_package_attribute_header', :text => key)
-    should have_css("td.#{label[:class].split(' ').last}", :text => value)
+    label = find('td.work_package_attribute_header', text: key)
+    should have_css("td.#{label[:class].split(' ').last}", text: value)
   end
 
   if table.rows_hash["Type"] || table.rows_hash["Subject"]
     expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}", Regexp::IGNORECASE)
 
-    should have_css("h2", :text => expected_header)
+    should have_css("h2", text: expected_header)
   end
 
   if table.rows_hash["Description"]
-    should have_css(".description", :text => table.rows_hash["Description"])
+    should have_css(".description", text: table.rows_hash["Description"])
   end
 end
 

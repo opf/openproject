@@ -41,16 +41,16 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
 end
 
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name, table = Cucumber::Ast::Table.new([])|
-  FactoryGirl.create(:role, :name => name) unless Role.find_by_name(name)
+  FactoryGirl.create(:role, name: name) unless Role.find_by_name(name)
 end
 
 Given /^there is a [rR]ole "([^\"]*)" with the following permissions:?$/ do |name, table|
-  FactoryGirl.create(:role, :name => name, :permissions => table.raw.flatten) unless Role.find_by_name(name)
+  FactoryGirl.create(:role, name: name, permissions: table.raw.flatten) unless Role.find_by_name(name)
 end
 
 Given /^there are the following roles:$/ do |table|
   table.raw.flatten.each do |name|
-    FactoryGirl.create(:role, :name => name) unless Role.find_by_name(name)
+    FactoryGirl.create(:role, name: name) unless Role.find_by_name(name)
   end
 end
 

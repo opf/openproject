@@ -47,8 +47,8 @@ Capybara.register_driver :selenium_with_firebug do |app|
   profile['intl.accept_languages'] = 'en,en-us'
 
   Capybara::Selenium::Driver.new(app,
-                                 :browser => :firefox,
-                                 :profile => profile)
+                                 browser: :firefox,
+                                 profile: profile)
 end
 
 Before '@firebug' do

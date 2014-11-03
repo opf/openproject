@@ -32,8 +32,8 @@ Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:
 
   p.wiki = Wiki.create unless p.wiki
 
-  page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
-  content = FactoryGirl.create(:wiki_content, :page => page)
+  page = FactoryGirl.create(:wiki_page, wiki: p.wiki)
+  content = FactoryGirl.create(:wiki_content, page: page)
 
   send_table_to_object(page, table)
 end
@@ -51,11 +51,11 @@ end
 
 Given /^the project "(.*?)" has a child wiki page of "(.*?)" with the following:$/ do |project_name, parent_page_title, table|
   wiki = Project.find_by_name(project_name).wiki
-  wikipage = FactoryGirl.build(:wiki_page, :wiki => wiki)
+  wikipage = FactoryGirl.build(:wiki_page, wiki: wiki)
 
   send_table_to_object(wikipage, table)
 
-  FactoryGirl.create(:wiki_content, :page => wikipage)
+  FactoryGirl.create(:wiki_content, page: wikipage)
 
   parent_page = WikiPage.find_by_wiki_id_and_title(wiki.id, parent_page_title)
   wikipage.parent_id = parent_page.id

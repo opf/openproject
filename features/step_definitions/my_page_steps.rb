@@ -36,7 +36,7 @@ When /^I select "(.+)" from the available widgets drop down$/ do |widget_name|
 end
 
 Then /^I should see the dropdown of available widgets$/ do
-  page.has_select?('block-select', :options => ['Watched Issues', 'Issues assigned to me'])
+  page.has_select?('block-select', options: ['Watched Issues', 'Issues assigned to me'])
 end
 
 Then(/^I should see the widget "([^"]*)"$/) do |arg|

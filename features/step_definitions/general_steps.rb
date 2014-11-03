@@ -44,7 +44,7 @@ end
 
 Given /^I am logged in$/ do
   @user = FactoryGirl.create :user
-  page.set_rack_session(:user_id => @user.id)
+  page.set_rack_session(user_id: @user.id)
 end
 
 When(/^I log out in the background$/) do
@@ -70,13 +70,13 @@ end
 Given /^(?:|I )am already [aA]dmin$/ do
   admin = User.find_by_admin(true)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => admin.id)
+  page.set_rack_session(user_id: admin.id)
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
   user = User.find_by_login(login)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => user.id)
+  page.set_rack_session(user_id: user.id)
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
@@ -162,11 +162,11 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
     t.activity.project = p
     t.activity.save!
     send_table_to_object(t, table,
-      :user => Proc.new do |o,v|
+      user: Proc.new do |o,v|
         o.user = User.find_by_login(v)
         o.save!
       end,
-      :spent_on => Proc.new do |object, value|
+      spent_on: Proc.new do |object, value|
         # This works for definitions like "2 years ago"
         number, time_unit, tempus = value.split
         time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
@@ -199,7 +199,7 @@ Given /^there are the following types:$/ do |table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
-    type = Type.new :name => t['name'] if type.nil?
+    type = Type.new name: t['name'] if type.nil?
     type.position       = t['position'] ? t['position'] : i
     type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
@@ -214,7 +214,7 @@ Given /^there are the following issue status:$/ do |table|
 
   table.hashes.each_with_index do |t, i|
     status = Status.find_by_name(t['name'])
-    status = Status.new :name => t['name'] if status.nil?
+    status = Status.new name: t['name'] if status.nil?
     status.is_closed = t['is_closed'] == 'true' ? true : false
     status.is_default = t['is_default'] == 'true' ? true : false
     status.position = t['position'] ? t['position'] : i
@@ -228,15 +228,15 @@ Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |typ
   type = Type.find_by_name(type_name)
   type.workflows = []
 
-  Status.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
-    type.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
+  Status.all(order: "id ASC").collect(&:id).combination(2).each do |c|
+    type.workflows.build(old_status_id: c[0], new_status_id: c[1], role: role)
   end
   type.save!
 end
 
 
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = WorkPackage.find(:last, :conditions => ["subject = '#{issue}'"])
+  i = WorkPackage.find(:last, conditions: ["subject = '#{issue}'"])
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate
@@ -244,7 +244,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t.spent_on = DateTime.now
     t.work_package = i
     send_table_to_object(t, table,
-      {:user => Proc.new do |o,v|
+      {user: Proc.new do |o,v|
         o.user = User.find_by_login(v)
         o.save!
       end})
@@ -310,7 +310,7 @@ end
 When /^(?:|I )login with autologin enabled as (.+?)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
-  page.driver.post signin_path(:username => username, :password => password, :autologin => 1)
+  page.driver.post signin_path(username: username, password: password, autologin: 1)
 end
 
 When "I logout" do
@@ -354,7 +354,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
-    type = Type.new :name => t['name'] if type.nil?
+    type = Type.new name: t['name'] if type.nil?
     type.position = t['position'] ? t['position'] : i
     type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.save!
@@ -390,7 +390,7 @@ end
 def modify_user(u, table)
   as_admin do
     send_table_to_object(u, table,
-      :default_rate => Proc.new do |user, value|
+      default_rate: Proc.new do |user, value|
         user.save!
         DefaultHourlyRate.new.tap do |r|
           r.valid_from = 3.years.ago.to_date
@@ -398,8 +398,8 @@ def modify_user(u, table)
           r.user_id    = user.id
         end.save!
       end,
-      :name => Proc.new {|user, value| user.login = name; user.save!},
-      :hourly_rate => Proc.new do |user, value|
+      name: Proc.new {|user, value| user.login = name; user.save!},
+      hourly_rate: Proc.new do |user, value|
         user.save!
         HourlyRate.new.tap do |r|
           r.valid_from = (2.years.ago + HourlyRate.count.days).to_date
@@ -418,11 +418,11 @@ end
 # Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.collect(&:name).include? key.to_s
-    cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
+    cv = CustomValue.find(:first, conditions: ["customized_id = '#{object.id}'"])
     cv ||= CustomValue.new
     cv.customized_type = "WorkPackage"
     cv.customized_id = object.id
-    cv.custom_field_id = WorkPackageCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
+    cv.custom_field_id = WorkPackageCustomField.first(joins: :translations, conditions: ["custom_field_translations.name = ?", key]).id
     cv.value = value
     cv.save!
   end

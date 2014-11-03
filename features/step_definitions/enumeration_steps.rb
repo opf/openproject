@@ -32,9 +32,9 @@ When(/^I create a new enumeration with the following:$/) do |table|
 
   type = activity_type_from_string(attributes['type'])
 
-  visit new_enumeration_path(:type => type)
+  visit new_enumeration_path(type: type)
 
-  fill_in 'enumeration_name', :with => attributes['name']
+  fill_in 'enumeration_name', with: attributes['name']
 
   click_button(I18n.t(:button_create))
 end
@@ -48,7 +48,7 @@ Then(/^I should see the enumeration:$/) do |table|
   # h3 that contains the heading for the activity we are interested in
   # and then the td within the directly following table
   should have_selector("h3:contains('#{i18n_for_activity_type(type)}') + table td",
-                       :text => attributes['name'])
+                       text: attributes['name'])
 end
 
 def activity_type_from_string(string)

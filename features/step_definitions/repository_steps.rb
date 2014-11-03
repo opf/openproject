@@ -32,7 +32,7 @@ Given(/^the project "(.*?)" has a repository$/) do |project_name|
   project = Project.find(project_name)
 
   repo = FactoryGirl.build(:repository,
-                           :project => project)
+                           project: project)
 
   Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
 

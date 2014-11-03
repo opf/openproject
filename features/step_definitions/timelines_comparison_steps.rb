@@ -28,7 +28,7 @@
 #++
 
 def get_timeline_row_by_name(name)
-  find("a", :text => name).find(:xpath, "./ancestor::tr")
+  find("a", text: name).find(:xpath, "./ancestor::tr")
 end
 
 def get_timeline_cell(name, valueName)
@@ -101,7 +101,7 @@ When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_vertical_planning_elements", :visible => false)
+  page.should have_selector("#timeline_options_vertical_planning_elements", visible: false)
   page.execute_script("jQuery('#timeline_options_comparison_relative').attr('checked', 'checked')")
   page.execute_script("jQuery('#timeline_options_compare_to_relative').val('#{time}')")
   page.execute_script("jQuery('#timeline_options_compare_to_relative_unit').val(0)")

@@ -38,7 +38,7 @@ end
 Then /^the project member "(.+?)" should not be in edit mode$/ do |user_login|
   member = member_for_login user_login
 
-  page.find("#member-#{member.id}-roles-form", :visible => false).should_not be_visible
+  page.find("#member-#{member.id}-roles-form", visible: false).should_not be_visible
 end
 
 Then /^the project member "(.+?)" should have the role "(.+?)"$/ do |user_login, role_name|

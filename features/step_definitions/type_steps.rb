@@ -35,7 +35,7 @@ RouteMap.register(Type, "/types")
 
 Given /^the following types are enabled for the project called "(.*?)":$/ do |project_name, type_name_table|
   types = type_name_table.raw.flatten.map do |type_name|
-    Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
+    Type.find_by_name(type_name) || FactoryGirl.create(:type, name: type_name)
   end
 
   project = Project.find_by_identifier(project_name)
@@ -44,5 +44,5 @@ Given /^the following types are enabled for the project called "(.*?)":$/ do |pr
 end
 
 Then /^I should not see the "([^"]*)" type$/ do |name|
-  page.all(:css, '.timelines-pet-name', :text => name).should be_empty
+  page.all(:css, '.timelines-pet-name', text: name).should be_empty
 end

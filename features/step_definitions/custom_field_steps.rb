@@ -37,8 +37,8 @@ Given /^the following (user|issue|work package) custom fields are defined:$/ do 
 
   as_admin do
     table.hashes.each_with_index do |r, i|
-      attr_hash = { :name => r['name'],
-                    :field_format => r['type']}
+      attr_hash = { name: r['name'],
+                    field_format: r['type']}
 
       attr_hash[:possible_values] = r['possible_values'].split(",").collect(&:strip) if r['possible_values']
       attr_hash[:is_required] = (r[:required] == 'true') if r[:required]
@@ -57,7 +57,7 @@ Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |
   user = User.find_by_login(login)
   custom_field = UserCustomField.find_by_name(field_name)
 
-  user.custom_values.build(:custom_field => custom_field, :value => value)
+  user.custom_values.build(custom_field: custom_field, value: value)
   user.save!
 end
 
@@ -70,7 +70,7 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   if custom_value
     custom_value.value = value
   else
-    wp.custom_values.build(:custom_field => custom_field, :value => value)
+    wp.custom_values.build(custom_field: custom_field, value: value)
   end
 
   wp.save!

@@ -30,7 +30,7 @@
 Given /^there is 1 group with the following:$/ do |table|
   group = FactoryGirl.build(:group)
 
-  send_table_to_object group, table, { :name => Proc.new { |group, name| group.lastname = name } }
+  send_table_to_object group, table, { name: Proc.new { |group, name| group.lastname = name } }
 end
 
 Given /^the group "(.+)" is a "(.+)" in the project "(.+)"$/ do |group_name, role_name, project_identifier|
@@ -63,11 +63,11 @@ When /^I add the user "(.+)" to the group$/ do |user_login|
 end
 
 Given /^We have the group "(.*?)"/ do |name|
-   group = FactoryGirl.create(:group, :lastname => name)
+   group = FactoryGirl.create(:group, lastname: name)
  end
 
 Given /^there is a group named "(.*?)" with the following members:$/ do |name, table|
-  group = FactoryGirl.create(:group, :lastname => name)
+  group = FactoryGirl.create(:group, lastname: name)
 
   table.raw.flatten.each do |login|
     group.users << User.find_by_login!(login)

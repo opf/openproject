@@ -45,5 +45,5 @@ When /^I follow the edit link of the project type "([^"]*)"$/ do |project_type_n
 
   href = Rails.application.routes.url_helpers.edit_project_type_path(type)
 
-  click_link(type.name, :href => href)
+  click_link(type.name, href: href)
 end

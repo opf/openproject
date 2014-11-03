@@ -28,7 +28,7 @@
 #++
 
 Given(/^there is a board "(.*?)" for project "(.*?)"$/) do |board_name, project_identifier|
-  FactoryGirl.create :board, :project => get_project(project_identifier), :name => board_name
+  FactoryGirl.create :board, project: get_project(project_identifier), name: board_name
 end
 
 Given(/^the board "(.*?)" has the following messages:$/) do |board_name, table|

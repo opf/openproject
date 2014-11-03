@@ -94,16 +94,16 @@ end
 Given /^there is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name, project_name|
   project = Project.find_by_name(project_name)
 
-  timeline = FactoryGirl.create(:timeline, :project_id => project.id, :name => timeline_name)
+  timeline = FactoryGirl.create(:timeline, project_id: project.id, name: timeline_name)
   timeline.options = {"initial_outline_expansion"=>["6"], "timeframe_end"=>"", "timeframe_start"=>"", "zoom_factor"=>["-1"], "exist"=>""}
   timeline.save!
 end
 
 Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
   project_type = ProjectType.find_by_name(project_type_name)
-  projects = Project.where(:project_type_id => project_type.id)
+  projects = Project.where(project_type_id: project_type.id)
   types = type_name_table.raw.flatten.map do |type_name|
-    Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
+    Type.find_by_name(type_name) || FactoryGirl.create(:type, name: type_name)
   end
 
   projects.each do |project|
@@ -147,6 +147,6 @@ def create_work_packages_from_table table, project
       User.current = type_attributes['author']
     end
 
-    FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
+    FactoryGirl.create(:work_package, type_attributes.merge(project_id: project.id))
   end
 end

@@ -99,7 +99,7 @@ Then(/^I should not see "(.*?)" in the row of the work package "(.*?)"$/) do |co
 end
 
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
-  find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
+  find(".tl-indent-#{indent}", text: project_name).should_not be_nil
 end
 
 Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, project_name_two|
@@ -146,7 +146,7 @@ Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negati
 end
 
 Then(/^I should see that "([^"]*)" is( not)? a milestone and( not)? shown in aggregation$/) do |name, not_milestone, not_in_aggregation|
-  row = page.find(:css, ".timelines-pet-name", :text => Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
+  row = page.find(:css, ".timelines-pet-name", text: Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
 
   nodes = row.all(:css, '.timelines-pet-is_milestone span.icon-yes')
   if not_milestone
@@ -166,7 +166,7 @@ end
 Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do |title, negation|
   should_be_visible = !negation
 
-  table_row = page.all(:css, "table.list tbody tr td", :text => title).first.find(:xpath, "./ancestor::tr")
+  table_row = page.all(:css, "table.list tbody tr td", text: title).first.find(:xpath, "./ancestor::tr")
   nodes = table_row.all(:css, '.timelines-pt-allows_association span.icon-yes')
   if should_be_visible
     nodes.should_not be_empty
@@ -176,34 +176,34 @@ Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do 
 end
 
 Then(/^I should see that "([^"]*)" is a color$/) do |name|
-  cell = page.all(:css, ".timelines-color-name", :text => name)
+  cell = page.all(:css, ".timelines-color-name", text: name)
   cell.should_not be_empty
 end
 
 Then(/^I should not see the "([^"]*)" color$/) do |name|
-  cell = page.all(:css, ".timelines-color-name", :text => name)
+  cell = page.all(:css, ".timelines-color-name", text: name)
   cell.should be_empty
 end
 
 Then(/^"([^"]*)" should be the first element in the list$/) do |name|
-  should have_selector("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
+  should have_selector("table.list tbody tr td", text: Regexp.new("^#{name}$"))
 end
 
 Then(/^"([^"]*)" should be the last element in the list$/) do |name|
-  has_css?("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
+  has_css?("table.list tbody tr td", text: Regexp.new("^#{name}$"))
 end
 
 Then(/^I should see an? (notice|warning|error) flash stating "([^"]*)"$/) do |class_name, message|
-  page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", :text => message).should_not be_empty
+  page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", text: message).should_not be_empty
 end
 
 Then(/^I should see a planning element named "([^"]*)"$/) do |name|
-  cells = page.all(:css, "table td.timelines-pe-name *", :text => name)
+  cells = page.all(:css, "table td.timelines-pe-name *", text: name)
   cells.should_not be_empty
 end
 
 Then(/^I should( not)? see "([^"]*)" below "([^"]*)"$/) do |negation, text, heading|
-  cells = page.all(:css, "h1, h2, h3, h4, h5, h6", :text => heading)
+  cells = page.all(:css, "h1, h2, h3, h4, h5, h6", text: heading)
   cells.should_not be_empty
 
   container = cells.first.find(:xpath, "./ancestor::*[@class='container']")

@@ -42,11 +42,11 @@ When(/^I should see the following inline diff(?: on (.+?)):$/) do |page, table|
   table.rows_hash.each do |key, value|
     case key
     when "new"
-      find "ins.diffmod", :text => value
+      find "ins.diffmod", text: value
     when "old"
-      find "del.diffmod", :text => value
+      find "del.diffmod", text: value
     when "unchanged"
-      find ".text-diff", :text => value
+      find ".text-diff", text: value
     else
       raise ArgumentError, "#{ key } is not supported. 'new', 'old', 'unchanged' is."
     end
