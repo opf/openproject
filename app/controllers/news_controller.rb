@@ -47,9 +47,9 @@ class NewsController < ApplicationController
     scope = @project ? @project.news.visible : News.visible
 
     @newss = scope.includes(:author, :project)
-                  .order("#{News.table_name}.created_on DESC")
-                  .page(params[:page])
-                  .per_page(per_page_param)
+             .order("#{News.table_name}.created_on DESC")
+             .page(params[:page])
+             .per_page(per_page_param)
 
     respond_to do |format|
       format.html { render layout: !request.xhr? }

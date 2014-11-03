@@ -36,12 +36,12 @@ class MyController < ApplicationController
   menu_item :password, only: [:password]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
-             'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
-             'issuesreportedbyme' => :label_reported_work_packages,
-             'issueswatched' => :label_watched_work_packages,
-             'news' => :label_news_latest,
-             'calendar' => :label_calendar,
-             'timelog' => :label_spent_time
+                     'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
+                     'issuesreportedbyme' => :label_reported_work_packages,
+                     'issueswatched' => :label_watched_work_packages,
+                     'news' => :label_news_latest,
+                     'calendar' => :label_calendar,
+                     'timelog' => :label_spent_time
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
@@ -54,7 +54,6 @@ class MyController < ApplicationController
   def self.available_blocks
     @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)
   end
-
 
   # Show user's page
   def index
@@ -156,7 +155,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = get_current_layout
     @block_options = []
-    MyController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize]}
+    MyController.available_blocks.each { |k, v| @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize] }
   end
 
   # Add a block to user's page
@@ -168,12 +167,12 @@ class MyController < ApplicationController
     @user = User.current
     layout = get_current_layout
     # remove if already present in a group
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right).each { |f| (layout[f] ||= []).delete block }
     # add it on top
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
     @user.pref.save
-    render partial: "block", locals: {user: @user, block_name: block}
+    render partial: 'block', locals: { user: @user, block_name: block }
   end
 
   # Remove a block to user's page
@@ -183,7 +182,7 @@ class MyController < ApplicationController
     @user = User.current
     # remove block in all groups
     layout = get_current_layout
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right).each { |f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
     @user.pref.save
     render nothing: true
@@ -216,6 +215,7 @@ class MyController < ApplicationController
   end
 
   private
+
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?
       flash[:error] = l(:notice_can_t_change_password)

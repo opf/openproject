@@ -33,7 +33,7 @@ class SearchController < ApplicationController
   include MessagesHelper
 
   def index
-    @question = params[:q] || ""
+    @question = params[:q] || ''
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)
     @titles_only = !params[:titles_only].nil?
@@ -64,41 +64,41 @@ class SearchController < ApplicationController
       # don't search projects
       @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
+      @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
     end
 
-    @scope = @object_types.select {|t| params[t]}
+    @scope = @object_types.select { |t| params[t] }
     @scope = @object_types if @scope.empty?
 
     # extract tokens from the question
     # eg. hello "bye bye" => ["hello", "bye bye"]
     @tokens = scan_query_tokens @question
     # tokens must be at least 2 characters long
-    @tokens = @tokens.uniq.select {|w| w.length > 1 }
+    @tokens = @tokens.uniq.select { |w| w.length > 1 }
 
     if @tokens.any?
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
 
       @results = []
-      @results_by_type = Hash.new {|h,k| h[k] = 0}
+      @results_by_type = Hash.new { |h, k| h[k] = 0 }
 
       limit = 10
       @scope.each do |s|
         r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
-          all_words: @all_words,
-          titles_only: @titles_only,
-          limit: (limit+1),
-          offset: offset,
-          before: params[:previous].nil?)
+                                                          all_words: @all_words,
+                                                          titles_only: @titles_only,
+                                                          limit: (limit + 1),
+                                                          offset: offset,
+                                                          before: params[:previous].nil?)
         @results += r
         @results_by_type[s] += c
       end
-      @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
+      @results = @results.sort { |a, b| b.event_datetime <=> a.event_datetime }
       if params[:previous].nil?
         @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
         if @results.size > limit
-          @pagination_next_date = @results[limit-1].event_datetime
+          @pagination_next_date = @results[limit - 1].event_datetime
           @results = @results[0, limit]
         end
       else
@@ -109,12 +109,13 @@ class SearchController < ApplicationController
         end
       end
     else
-      @question = ""
+      @question = ''
     end
     render layout: false if request.xhr?
   end
 
-private
+  private
+
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
@@ -124,7 +125,7 @@ private
   end
 
   def scan_query_tokens(query)
-    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect { |m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '') }
   end
 
   def scan_work_package_reference(query, &blk)

@@ -36,6 +36,7 @@ class EnumerationsController < ApplicationController
   include CustomFieldsHelper
 
   def index; end
+
   def edit; end
 
   def new
@@ -90,7 +91,7 @@ class EnumerationsController < ApplicationController
     @enumerations = @enumeration.class.find(:all) - [@enumeration]
   end
 
-protected
+  protected
 
   def default_breadcrumb
     l(:label_enumerations)
@@ -106,12 +107,10 @@ protected
   # which are no enumerations to prevent remote code execution attacks.
   # params: type (string)
   def enumeration_class(type)
-    begin
-      klass = type.to_s.constantize
-      raise NameError unless klass.ancestors.include? Enumeration
-      klass
-    rescue NameError
-      nil
-    end
+    klass = type.to_s.constantize
+    raise NameError unless klass.ancestors.include? Enumeration
+    klass
+  rescue NameError
+    nil
   end
 end

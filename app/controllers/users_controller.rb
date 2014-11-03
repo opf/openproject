@@ -33,17 +33,17 @@ class UsersController < ApplicationController
   before_filter :disable_api
   before_filter :require_admin, except: [:show, :deletion_info, :destroy]
   before_filter :find_user, only: [:show,
-                                      :edit,
-                                      :update,
-                                      :change_status,
-                                      :edit_membership,
-                                      :destroy_membership,
-                                      :destroy,
-                                      :deletion_info]
+                                   :edit,
+                                   :update,
+                                   :change_status,
+                                   :edit_membership,
+                                   :destroy_membership,
+                                   :destroy,
+                                   :deletion_info]
   before_filter :require_login, only: [:deletion_info] # should also contain destroy but post data can not be redirected
   before_filter :authorize_for_user, only: [:destroy]
   before_filter :check_if_deletion_allowed, only: [:deletion_info,
-                                                      :destroy]
+                                                   :destroy]
 
   before_filter :block_if_password_login_disabled, only: [:new, :create]
 
@@ -70,18 +70,18 @@ class UsersController < ApplicationController
     else
       @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
       scope = scope.not_blocked if @status == User::STATUSES[:active]
-      c << ["status = ?", @status]
+      c << ['status = ?', @status]
     end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
-      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
+      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name, name]
     end
 
     @users = scope.order(sort_clause)
-                  .where(c.conditions)
-                  .page(page_param)
-                  .per_page(per_page_param)
+             .where(c.conditions)
+             .page(page_param)
+             .per_page(per_page_param)
 
     respond_to do |format|
       format.html {
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(conditions: Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
-    @events_by_day = events.group_by{|e| e.event_datetime.to_date }
+    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
     @auth_sources = AuthSource.find(:all)
   end
 
-  verify method: :post, only: :create, render: {nothing: true, status: :method_not_allowed }
+  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
   def create
     @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
@@ -165,7 +165,7 @@ class UsersController < ApplicationController
     @membership ||= Member.new
   end
 
-  verify method: :put, only: :update, render: {nothing: true, status: :method_not_allowed }
+  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   def update
     @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
                                                              @user.change_password_allowed?)
@@ -249,16 +249,16 @@ class UsersController < ApplicationController
         format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
         format.js {
           render(:update) {|page|
-            page.replace_html "tab-content-memberships", partial: 'users/memberships'
-            page.insert_html :top, "tab-content-memberships", partial: "members/common_notice", locals: {message: l(:notice_successful_update)}
+            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
+            page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_update) }
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
         }
       else
         format.js {
           render(:update) {|page|
-            page.replace_html "tab-content-memberships", partial: 'users/memberships'
-            page.insert_html :top, "tab-content-memberships", partial: "members/member_errors", locals: {member: @membership}
+            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
+            page.insert_html :top, 'tab-content-memberships', partial: 'members/member_errors', locals: { member: @membership }
           }
         }
       end
@@ -298,8 +298,8 @@ class UsersController < ApplicationController
       format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
       format.js {
         render(:update) { |page|
-          page.replace_html "tab-content-memberships", partial: 'users/memberships'
-          page.insert_html :top, "tab-content-memberships", partial: "members/common_notice", locals: {message: l(:notice_successful_delete)}
+          page.replace_html 'tab-content-memberships', partial: 'users/memberships'
+          page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_delete) }
         }
       }
     end

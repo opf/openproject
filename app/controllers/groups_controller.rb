@@ -32,9 +32,8 @@ class GroupsController < ApplicationController
 
   before_filter :require_admin
   before_filter :find_group, only: [:destroy, :autocomplete_for_user,
-                                       :show, :create_memberships, :destroy_membership,
-                                       :edit_membership]
-
+                                    :show, :create_memberships, :destroy_membership,
+                                    :edit_membership]
 
   # GET /groups
   # GET /groups.xml
@@ -69,7 +68,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id], include: [ :users, :memberships ])
+    @group = Group.find(params[:id], include: [:users, :memberships])
   end
 
   # POST /groups
@@ -83,7 +82,7 @@ class GroupsController < ApplicationController
         format.html { redirect_to(groups_path) }
         format.xml  { render xml: @group, status: :created, location: @group }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -100,7 +99,7 @@ class GroupsController < ApplicationController
         format.html { redirect_to(groups_path) }
         format.xml  { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -118,7 +117,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.find(params[:id], include: :users )
+    @group = Group.find(params[:id], include: :users)
     @users = User.find_all_by_id(params[:user_ids], include: :memberships)
     @group.users << @users
     respond_to do |format|

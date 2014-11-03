@@ -46,7 +46,7 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.each do |work_package|
       work_package.reload
 
-      call_hook(:controller_work_packages_move_before_save, { params: params, work_package: work_package, target_project: @target_project, copy: !!@copy })
+      call_hook(:controller_work_packages_move_before_save,  params: params, work_package: work_package, target_project: @target_project, copy: !!@copy)
 
       permitted_params = params.permit(:copy,
                                        :assigned_to_id,
@@ -57,12 +57,12 @@ class WorkPackages::MovesController < ApplicationController
                                        :follow,
                                        :new_type_id,
                                        :new_project_id,
-                                       ids:[],
-                                       status_id:[])
+                                       ids: [],
+                                       status_id: [])
 
-      if r = work_package.move_to_project(@target_project, new_type, { copy: @copy,
-                                                                       attributes: permitted_params,
-                                                                       journal_note: @notes })
+      if r = work_package.move_to_project(@target_project, new_type,  copy: @copy,
+                                                                      attributes: permitted_params,
+                                                                      journal_note: @notes)
         moved_work_packages << r
       else
         unsaved_work_package_ids << work_package.id
@@ -79,8 +79,7 @@ class WorkPackages::MovesController < ApplicationController
     else
       redirect_to project_work_packages_path(@project)
     end
-    return
-  end
+      end
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
@@ -103,12 +102,11 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.sort!
     @copy = params.has_key? :copy
     @allowed_projects = WorkPackage.allowed_target_projects_on_move
-    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id].to_s} if params[:new_project_id]
+    @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
   end
-
 end

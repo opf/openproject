@@ -28,7 +28,6 @@
 #++
 
 class ProjectTypesController < ApplicationController
-
   unloadable
   helper :timelines
 
@@ -66,7 +65,7 @@ class ProjectTypesController < ApplicationController
 
   def show
     @project_type = ProjectType.find(params[:id])
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 

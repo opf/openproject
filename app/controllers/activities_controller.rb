@@ -56,7 +56,7 @@ class ActivitiesController < ApplicationController
     if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html {
-          @events_by_day = events.group_by {|e| e.event_datetime.to_date}
+          @events_by_day = events.group_by { |e| e.event_datetime.to_date }
           render layout: false if request.xhr?
         }
         format.atom {
@@ -88,7 +88,7 @@ class ActivitiesController < ApplicationController
   end
 
   def verify_activities_module_activated
-    render_403 if @project && !@project.module_enabled?("activity")
+    render_403 if @project && !@project.module_enabled?('activity')
   end
 
   # Do not show events, which are associated with projects where activities are disabled.
@@ -103,7 +103,7 @@ class ActivitiesController < ApplicationController
 
   def set_activity_scope
     if params[:apply]
-      @activity.scope_select {|t| !params["show_#{t}"].nil?}
+      @activity.scope_select { |t| !params["show_#{t}"].nil? }
     elsif session[:activity]
       @activity.scope = session[:activity]
     else

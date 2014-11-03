@@ -51,13 +51,13 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies = @topic.children.includes(:author, :attachments, {board: :project})
-                              .order("#{Message.table_name}.created_on ASC")
-                              .page(page)
-                              .per_page(per_page_param)
+    @replies = @topic.children.includes(:author, :attachments, board: :project)
+               .order("#{Message.table_name}.created_on ASC")
+               .page(page)
+               .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}")
-    render action: "show", layout: !request.xhr?
+    render action: 'show', layout: !request.xhr?
   end
 
   # new topic
@@ -80,7 +80,7 @@ class MessagesController < ApplicationController
     @message.attach_files(params[:attachments])
 
     if @message.save
-      call_hook(:controller_messages_new_after_save, { params: params, message: @message})
+      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -99,7 +99,7 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save, { params: params, message: @reply})
+      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
@@ -144,7 +144,7 @@ class MessagesController < ApplicationController
     subject = @message.subject.gsub('"', '\"')
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
-    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\\n> ") + "\\n\\n"
+    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, '\\n> ') + '\\n\\n'
     render(:update) { |page|
       page << "$('message_subject').value = \"#{subject}\";"
       page.<< "$('message_content').value = \"#{content}\";"

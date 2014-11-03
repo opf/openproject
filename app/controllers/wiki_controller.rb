@@ -48,20 +48,20 @@ class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, only: [:edit_parent_page,
-                                               :update_parent_page,
-                                               :rename,
-                                               :protect,
-                                               :history,
-                                               :diff,
-                                               :annotate,
-                                               :add_attachment,
-                                               :list_attachments,
-                                               :destroy]
+                                            :update_parent_page,
+                                            :rename,
+                                            :protect,
+                                            :history,
+                                            :diff,
+                                            :annotate,
+                                            :add_attachment,
+                                            :list_attachments,
+                                            :destroy]
   before_filter :build_wiki_page_and_content, only: [:new, :create]
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
-  verify method: :get,  only: [:new, :new_child], render: {nothing: true, status: :method_not_allowed}
-  verify method: :post, only: :create,            render: {nothing: true, status: :method_not_allowed}
+  verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }
+  verify method: :post, only: :create,            render: { nothing: true, status: :method_not_allowed }
 
   include AttachmentsHelper
   include PaginationHelper
@@ -70,11 +70,11 @@ class WikiController < ApplicationController
   attr_reader :page, :related_page
 
   current_menu_item :index do |controller|
-    controller.current_menu_item_sym :related_page, "_toc"
+    controller.current_menu_item_sym :related_page, '_toc'
   end
 
   current_menu_item :new_child do |controller|
-    controller.current_menu_item_sym :page, "_new_page"
+    controller.current_menu_item_sym :page, '_new_page'
   end
 
   current_menu_item do |controller|
@@ -92,7 +92,7 @@ class WikiController < ApplicationController
   # List of page, by last update
   def date_index
     load_pages_for_index
-    @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+    @pages_by_date = @pages.group_by { |p| p.updated_on.to_date }
   end
 
   def new
@@ -174,7 +174,7 @@ class WikiController < ApplicationController
     @content.lock_version = @page.content.lock_version
   end
 
-  verify method: :put, only: :update, render: {nothing: true, status: :method_not_allowed }
+  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
     @page = @wiki.find_or_new_page(params[:id])
@@ -195,12 +195,12 @@ class WikiController < ApplicationController
     end
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
-    @content.add_journal User.current, params["content"]["comments"]
+    @content.add_journal User.current, params['content']['comments']
     # if page is new @page.save will also save content, but not if page isn't a new record
-    if (@page.new_record? ? @page.save : @content.save)
+    if @page.new_record? ? @page.save : @content.save
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save, { params: params, page: @page})
+      call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
       redirect_to_show
     else
       render action: 'edit'
@@ -249,10 +249,10 @@ class WikiController < ApplicationController
   # show page history
   def history
     # don't load text
-    @versions = @page.content.versions.select("id, user_id, notes, created_at, version")
-                                      .order('version DESC')
-                                      .page(params[:page])
-                                      .per_page(per_page_param)
+    @versions = @page.content.versions.select('id, user_id, notes, created_at, version')
+                .order('version DESC')
+                .page(params[:page])
+                .per_page(per_page_param)
 
     render layout: !request.xhr?
   end
@@ -310,7 +310,7 @@ class WikiController < ApplicationController
     if User.current.allowed_to?(:export_wiki_pages, @project)
       @pages = @wiki.pages.find :all, order: 'title'
       export = render_to_string action: 'export_multiple', layout: false
-      send_data(export, type: 'text/html', filename: "wiki.html")
+      send_data(export, type: 'text/html', filename: 'wiki.html')
     else
       redirect_to action: 'show', project_id: @project, id: nil
     end
@@ -325,13 +325,13 @@ class WikiController < ApplicationController
 
   def list_attachments
     respond_to do |format|
-      format.json { render 'common/list_attachments', locals: {attachments: @page.attachments} }
+      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
       format.html {}
     end
   end
 
-  def current_menu_item_sym page, symbol_postfix = ""
-    menu_item = self.send(page).try(:nearest_menu_item)
+  def current_menu_item_sym(page, symbol_postfix = '')
+    menu_item = send(page).try(:nearest_menu_item)
 
     menu_item.present? ?
       :"#{menu_item.item_class}#{symbol_postfix}" :
@@ -350,7 +350,7 @@ class WikiController < ApplicationController
 
     text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
 
-    return text, attachments, previewed
+    [text, attachments, previewed]
   end
 
   private
@@ -390,7 +390,7 @@ class WikiController < ApplicationController
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.all(order: 'title', include: {wiki: :project})
+    @pages = @wiki.pages.with_updated_on.all(order: 'title', include: { wiki: :project })
   end
 
   def default_breadcrumb

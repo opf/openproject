@@ -36,15 +36,15 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role.order('builtin, position')
-                 .page(page_param)
-                 .per_page(per_page_param)
+             .page(page_param)
+             .per_page(per_page_param)
 
-    render action: "index", layout: false if request.xhr?
+    render action: 'index', layout: false if request.xhr?
   end
 
   def new
     # Prefills the form with 'Non member' role permissions
-    @role = Role.new(permitted_params.role? || {permissions: Role.non_member.permissions})
+    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
 
     @permissions = @role.setable_permissions
     @roles = Role.find :all, order: 'builtin, position'
@@ -114,7 +114,7 @@ class RolesController < ApplicationController
     size = params[:page_limit].to_i
     page = params[:page].to_i
 
-    @roles = Role.paginated_search(params[:q], { page: page, page_limit: size })
+    @roles = Role.paginated_search(params[:q],  page: page, page_limit: size)
     # we always get all the items on a page, so just check if we just got the last
     @more = @roles.total_pages > page
     @total = @roles.total_entries
@@ -122,6 +122,5 @@ class RolesController < ApplicationController
     respond_to do |format|
       format.json
     end
-
   end
 end

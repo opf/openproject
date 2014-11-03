@@ -43,7 +43,6 @@ require 'cgi'
 # on each request.
 require_dependency 'principal'
 
-
 class ApplicationController < ActionController::Base
   class_attribute :_model_object
   class_attribute :_model_scope
@@ -124,7 +123,7 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
-  def default_url_options(options = {})
+  def default_url_options(_options = {})
     { layout: params['layout'] }
   end
 
@@ -248,7 +247,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        controller = "/#{params[:controller].to_s}" unless params[:controller].to_s.starts_with?('/')
+        controller = "/#{params[:controller]}" unless params[:controller].to_s.starts_with?('/')
         url = url_for(controller: controller,
                       action: params[:action],
                       id: params[:id],
@@ -413,7 +412,7 @@ class ApplicationController < ActionController::Base
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                                .find_all_by_id(params[:work_package_id] || params[:ids])
+                     .find_all_by_id(params[:work_package_id] || params[:ids])
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -453,9 +452,9 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default, escape = true, use_escaped = true)
     escaped_back_url = if escape
-                 URI.escape(CGI.unescape(params[:back_url].to_s))
-               else
-                 params[:back_url]
+                         URI.escape(CGI.unescape(params[:back_url].to_s))
+                       else
+                         params[:back_url]
                end
 
     # if we have a back_url it must not contain two consecutive dots
@@ -588,8 +587,8 @@ class ApplicationController < ActionController::Base
           tmp.push([val, q])
         end
       end
-      tmp = tmp.sort_by { |val, q| -q }
-      tmp.map! { |val, q| val }
+      tmp = tmp.sort_by { |_val, q| -q }
+      tmp.map! { |val, _q| val }
     end
     return tmp
   rescue
@@ -737,8 +736,8 @@ class ApplicationController < ActionController::Base
 
   def session_expired?
     !api_request? && current_user.logged? &&
-    (session_ttl_enabled? && (session[:updated_at].nil? ||
-                             (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
+      (session_ttl_enabled? && (session[:updated_at].nil? ||
+                               (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
   end
 
   def session_ttl_enabled?

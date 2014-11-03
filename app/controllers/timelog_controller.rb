@@ -71,7 +71,7 @@ class TimelogController < ApplicationController
         @total_hours = TimeEntry.visible.sum(:hours, include: [:project, :work_package], conditions: cond.conditions).to_f
         set_entries(cond)
 
-        gon.rabl "app/views/timelog/index.rabl"
+        gon.rabl 'app/views/timelog/index.rabl'
         gon.project_id = @project.id if @project
         gon.work_package_id = @issue.id if @issue
         gon.sort_column = 'spent_on'
@@ -84,22 +84,22 @@ class TimelogController < ApplicationController
       format.json {
         set_entries(cond)
 
-        gon.rabl "app/views/timelog/index.rabl"
+        gon.rabl 'app/views/timelog/index.rabl'
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 include: [:project, :activity, :user, {work_package: :type}],
-                                 conditions: cond.conditions,
-                                 order: "#{TimeEntry.table_name}.created_on DESC",
-                                 limit: Setting.feeds_limit.to_i)
+                                         include: [:project, :activity, :user, { work_package: :type }],
+                                         conditions: cond.conditions,
+                                         order: "#{TimeEntry.table_name}.created_on DESC",
+                                         limit: Setting.feeds_limit.to_i)
         render_feed(entries, title: l(:label_spent_time))
       }
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  include: [:project, :activity, :user, {work_package: [:type, :assigned_to, :priority]}],
-                                  conditions: cond.conditions,
-                                  order: sort_clause)
+                                          include: [:project, :activity, :user, { work_package: [:type, :assigned_to, :priority] }],
+                                          conditions: cond.conditions,
+                                          order: sort_clause)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(
@@ -121,7 +121,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
+    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
     render action: 'edit'
   end
@@ -130,7 +130,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
+    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -149,13 +149,13 @@ class TimelogController < ApplicationController
   def edit
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
+    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
   end
 
   def update
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
+    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -178,7 +178,7 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
         }
-        format.json { render json: { text:l(:notice_successful_delete) } }
+        format.json { render json: { text: l(:notice_successful_delete) } }
       end
     else
       respond_to do |format|
@@ -186,7 +186,7 @@ class TimelogController < ApplicationController
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         }
-        format.json { render json: { isError:true, text:l(:notice_unable_delete_time_entry) } }
+        format.json { render json: { isError: true, text: l(:notice_unable_delete_time_entry) } }
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -196,16 +196,16 @@ class TimelogController < ApplicationController
   private
 
   def total_entry_count(cond)
-    TimeEntry.visible.includes(:project, :activity, :user, {work_package: :type})
-                     .where(cond.conditions).count
+    TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+      .where(cond.conditions).count
   end
 
   def set_entries(cond)
-    @entries = TimeEntry.visible.includes(:project, :activity, :user, {work_package: :type})
-                                .where(cond.conditions)
-                                .order(sort_clause)
-                                .page(params[:page])
-                                .per_page(per_page_param)
+    @entries = TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+               .where(cond.conditions)
+               .order(sort_clause)
+               .page(params[:page])
+               .per_page(per_page_param)
   end
 
   def find_time_entry

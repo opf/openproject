@@ -79,7 +79,7 @@ class ProjectAssociationsController < ApplicationController
     @project_association = @project.project_associations.find(params[:id])
     check_visibility
 
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 
@@ -99,7 +99,7 @@ class ProjectAssociationsController < ApplicationController
     @project_association.description =  params[:project_association][:description]
 
     check_visibility # since projects may not be edited by mass-assignement,
-                     # this check should be superfluous ... but who knows?!?
+    # this check should be superfluous ... but who knows?!?
 
     if @project_association.projects.include?(@project) and @project_association.save
       flash[:notice] = l(:notice_successful_update)

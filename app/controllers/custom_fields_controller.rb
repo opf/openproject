@@ -36,7 +36,7 @@ class CustomFieldsController < ApplicationController
   before_filter :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
-    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
+    @custom_fields_by_type = CustomField.find(:all).group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
@@ -83,7 +83,7 @@ class CustomFieldsController < ApplicationController
     @custom_field_params = permitted_params.custom_field
     return unless @custom_field_params['translations_attributes']
 
-    @custom_field_params['translations_attributes'].each do |index, attributes|
+    @custom_field_params['translations_attributes'].each do |_index, attributes|
       attributes.each do |key, value|
         attributes[key] = nil if value.blank?
       end

@@ -36,7 +36,7 @@ class MembersController < ApplicationController
   include Pagination::Controller
   paginate_model User
   search_for User, :search_in_project
-  search_options_for User, lambda { |_| {project: @project} }
+  search_options_for User, lambda { |_| { project: @project } }
 
   @@scripts = ['hideOnLoad', 'init_members_cb']
 
@@ -50,28 +50,28 @@ class MembersController < ApplicationController
       @project.members << members
     end
     respond_to do |format|
-      if members.present? && members.all? {|m| m.valid? }
+      if members.present? && members.all?(&:valid?)
         flash.now.notice = l(:notice_successful_create)
 
         format.html { redirect_to settings_project_path(@project, tab: 'members') }
 
         format.js do
-          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+          @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
           render(:update) do |page|
-            page.replace_html "tab-content-members", partial: 'projects/settings/members'
-            page.insert_html :top, "tab-content-members", render_flash_messages
+            page.replace_html 'tab-content-members', partial: 'projects/settings/members'
+            page.insert_html :top, 'tab-content-members', render_flash_messages
 
             page << MembersController.tab_scripts
           end
         end
       else
         format.js do
-          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+          @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
           render(:update) do |page|
             if params[:member]
-              page.insert_html :top, "tab-content-members", partial: "members/member_errors", locals: { member: members.first }
+              page.insert_html :top, 'tab-content-members', partial: 'members/member_errors', locals: { member: members.first }
             else
-              page.insert_html :top, "tab-content-members", partial: "members/common_error", locals: { message: l(:error_check_user_and_role) }
+              page.insert_html :top, 'tab-content-members', partial: 'members/common_error', locals: { message: l(:error_check_user_and_role) }
             end
           end
         end
@@ -88,16 +88,16 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] }
       format.js do
-        @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+        @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
 
         render(:update) do |page|
           if params[:membership]
             @user = member.user
-            page.replace_html "tab-content-memberships", partial: 'users/memberships'
+            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
           else
-            page.replace_html "tab-content-members", partial: 'projects/settings/members'
+            page.replace_html 'tab-content-members', partial: 'projects/settings/members'
           end
-          page.insert_html :top, "tab-content-members", render_flash_messages
+          page.insert_html :top, 'tab-content-members', render_flash_messages
           page << MembersController.tab_scripts
           page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
         end
@@ -113,10 +113,10 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project }
       format.js do
-        @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+        @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
         render(:update) do |page|
-          page.replace_html "tab-content-members", partial: 'projects/settings/members'
-          page.insert_html :top, "tab-content-members", render_flash_messages
+          page.replace_html 'tab-content-members', partial: 'projects/settings/members'
+          page.insert_html :top, 'tab-content-members', render_flash_messages
           page << MembersController.tab_scripts
         end
       end
@@ -130,7 +130,7 @@ class MembersController < ApplicationController
     if page
       page = page.to_i
       @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]),
-                        { page: page, page_limit: size })
+                                              page: page, page_limit: size)
       # we always get all the items on a page, so just check if we just got the last
       @more = @principals.total_pages > page
       @total = @principals.total_entries
@@ -142,14 +142,14 @@ class MembersController < ApplicationController
       format.json
       format.html {
         if request.xhr?
-          partial = "members/autocomplete_for_member"
+          partial = 'members/autocomplete_for_member'
         else
-          partial = "members/member_form"
+          partial = 'members/member_form'
         end
         render partial: partial,
                locals: { project: @project,
-                            principals: @principals,
-                            roles: Role.find_all_givable }
+                         principals: @principals,
+                         roles: Role.find_all_givable }
       }
     end
   end
@@ -193,7 +193,7 @@ class MembersController < ApplicationController
   def transform_array_of_comma_seperated_ids(array)
     return array unless array.present?
     each_comma_seperated(array) do |elem|
-      elem.to_s.split(",").map(&:to_i)
+      elem.to_s.split(',').map(&:to_i)
     end
   end
 
@@ -213,7 +213,7 @@ class MembersController < ApplicationController
     attrs.merge! permitted_params.membership.dup if params[:membership].present?
 
     if attrs.include? :role_ids
-      role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
+      role_ids = attrs.delete(:role_ids).map(&:to_i).select { |i| i > 0 }
       @member.assign_roles(role_ids)
     end
     @member.update_attributes(attrs)

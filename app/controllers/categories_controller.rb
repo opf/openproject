@@ -57,7 +57,7 @@ class CategoriesController < ApplicationController
       respond_to do |format|
         format.html { render action: :new }
         format.js do
-          render(:update) {|page| page.alert(@category.errors.full_messages.join('\n')) }
+          render(:update) { |page| page.alert(@category.errors.full_messages.join('\n')) }
         end
       end
     end
@@ -93,7 +93,8 @@ class CategoriesController < ApplicationController
     @categories = @project.categories - [@category]
   end
 
-private
+  private
+
   # Wrap ApplicationController's find_model_object method to set
   # @category instead of just @category
   def find_model_object

@@ -31,7 +31,7 @@ require 'open_project/repository_authentication'
 
 class SysController < ActionController::Base
   before_filter :check_enabled
-  before_filter :require_basic_auth, only: [ :repo_auth ]
+  before_filter :require_basic_auth, only: [:repo_auth]
 
   def projects
     p = Project.active.has_module(:repository).find(:all, include: :repository, order: 'identifier')
@@ -76,14 +76,14 @@ class SysController < ActionController::Base
   def repo_auth
     @project = Project.find_by_identifier(params[:repository])
 
-    if ( %w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
-        @authenticated_user.allowed_to?(:browse_repository, @project) ) ||
-        @authenticated_user.allowed_to?(:commit_access, @project)
-      render text: "Access granted"
+    if (%w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
+        @authenticated_user.allowed_to?(:browse_repository, @project)) ||
+       @authenticated_user.allowed_to?(:commit_access, @project)
+      render text: 'Access granted'
       return
     end
 
-    render text: "Not allowed", status: 403 # default to deny
+    render text: 'Not allowed', status: 403 # default to deny
   end
 
   protected
@@ -104,8 +104,8 @@ class SysController < ActionController::Base
       return true if @authenticated_user
     end
 
-    response.headers["WWW-Authenticate"] = 'Basic realm="Repository Authentication"'
-    render text: "Authorization required", status: 401
+    response.headers['WWW-Authenticate'] = 'Basic realm="Repository Authentication"'
+    render text: 'Authorization required', status: 401
     false
   end
 

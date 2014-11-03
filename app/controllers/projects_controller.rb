@@ -35,10 +35,10 @@ class ProjectsController < ApplicationController
   helper :timelines
 
   before_filter :disable_api
-  before_filter :find_project, except: [ :index, :level_list, :new, :create ]
-  before_filter :authorize, only: [ :show, :settings, :edit, :update, :modules, :types ]
+  before_filter :find_project, except: [:index, :level_list, :new, :create]
+  before_filter :authorize, only: [:show, :settings, :edit, :update, :modules, :types]
   before_filter :authorize_global, only: [:new, :create]
-  before_filter :require_admin, only: [ :archive, :unarchive, :destroy ]
+  before_filter :require_admin, only: [:archive, :unarchive, :destroy]
   before_filter :jump_to_project_menu_item, only: :show
   before_filter :load_project_settings, only: :settings
   before_filter :determine_base
@@ -98,24 +98,23 @@ class ProjectsController < ApplicationController
         format.html { render action: 'new' }
       end
     end
-
   end
 
   # Show @project
   def show
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.find(:all, limit: 5, include: [ :author, :project ], order: "#{News.table_name}.created_on DESC")
+    @news = @project.news.find(:all, limit: 5, include: [:author, :project], order: "#{News.table_name}.created_on DESC")
     @types = @project.rolled_up_types
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
     @open_issues_by_type = WorkPackage.visible.count(group: :type,
-                                            include: [:project, :status, :type],
-                                            conditions: ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
+                                                     include: [:project, :status, :type],
+                                                     conditions: ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
     @total_issues_by_type = WorkPackage.visible.count(group: :type,
-                                            include: [:project, :status, :type],
-                                            conditions: cond)
+                                                      include: [:project, :status, :type],
+                                                      conditions: cond)
 
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, include: :project, conditions: cond).to_f
@@ -156,24 +155,24 @@ class ProjectsController < ApplicationController
     flash[:notice] = []
 
     unless params.has_key? :project
-      params[:project] = { "type_ids" => [Type.standard_type.id] }
+      params[:project] = { 'type_ids' => [Type.standard_type.id] }
       flash[:notice] << l(:notice_automatic_set_of_standard_type)
     end
 
-    params[:project].assert_valid_keys("type_ids")
+    params[:project].assert_valid_keys('type_ids')
 
-    selected_type_ids = params[:project][:type_ids].map { |t| t.to_i }
+    selected_type_ids = params[:project][:type_ids].map(&:to_i)
 
     if types_missing?(selected_type_ids)
       flash.delete :notice
       flash[:error] = I18n.t(:error_types_in_use_by_work_packages,
-                             types: missing_types(selected_type_ids).collect(&:name).join(", "))
+                             types: missing_types(selected_type_ids).collect(&:name).join(', '))
     elsif @project.update_attributes(params[:project])
       flash[:notice] << l('notice_successful_update')
     else
       flash[:error] = l('timelines.cannot_update_planning_element_types')
     end
-    redirect_to action: "settings", tab: "types"
+    redirect_to action: 'settings', tab: 'types'
   end
 
   def modules
@@ -210,14 +209,14 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
-
   def destroy_info
     @project_to_destroy = @project
 
     hide_project_in_layout
   end
 
-private
+  private
+
   def find_optional_project
     return true unless params[:id]
     @project = Project.find(params[:id])
@@ -295,5 +294,4 @@ private
     end
     true
   end
-
 end

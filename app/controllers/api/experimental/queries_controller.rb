@@ -26,8 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
-
 module Api::Experimental
   class QueriesController < ApplicationController
     unloadable
@@ -69,8 +67,8 @@ module Api::Experimental
     end
 
     def grouped
-      @user_queries = visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]}
-      @queries = visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+      @user_queries = visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] }
+      @queries = visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
 
       respond_to do |format|
         format.api
@@ -158,8 +156,8 @@ module Api::Experimental
       end
 
       allowed = actions.map(&:to_sym)
-                       .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
-                       .reduce(:&)
+                .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
+                .reduce(:&)
 
       deny_access unless allowed
     end
@@ -167,12 +165,12 @@ module Api::Experimental
     def visible_queries
       unless @visible_queries
         # User can see public queries and his own queries
-        visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+        visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
         # Project specific queries and global queries
-        visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+        visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
         @visible_queries = Query.find(:all,
                                       select: 'id, name, is_public',
-                                      order: "name ASC",
+                                      order: 'name ASC',
                                       conditions: visible.conditions)
       end
       @visible_queries

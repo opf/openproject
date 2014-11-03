@@ -73,26 +73,26 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :show, locals: { work_package: work_package,
-                                   project: project,
-                                   priorities: priorities,
-                                   user: current_user,
-                                   ancestors: ancestors,
-                                   descendants: descendants,
-                                   changesets: changesets,
-                                   relations: relations,
-                                   journals: journals }
+                                project: project,
+                                priorities: priorities,
+                                user: current_user,
+                                ancestors: ancestors,
+                                descendants: descendants,
+                                changesets: changesets,
+                                relations: relations,
+                                journals: journals }
       end
 
       format.js do
         render :show, partial: 'show', locals: { work_package: work_package,
-                                                       project: project,
-                                                       priorities: priorities,
-                                                       user: current_user,
-                                                       ancestors: ancestors,
-                                                       descendants: descendants,
-                                                       changesets: changesets,
-                                                       relations: relations,
-                                                       journals: journals }
+                                                 project: project,
+                                                 priorities: priorities,
+                                                 user: current_user,
+                                                 ancestors: ancestors,
+                                                 descendants: descendants,
+                                                 changesets: changesets,
+                                                 relations: relations,
+                                                 journals: journals }
       end
 
       format.pdf do
@@ -107,18 +107,20 @@ class WorkPackagesController < ApplicationController
         render template: 'journals/index',
                layout: false,
                content_type: 'application/atom+xml',
-               locals: { title: "#{Setting.app_title} - #{work_package.to_s}",
-                            journals: journals }
+               locals: { title: "#{Setting.app_title} - #{work_package}",
+                         journals: journals }
       end
     end
   end
 
   def new
     respond_to do |format|
-      format.html { render locals: { work_package: work_package,
-                                        project: project,
-                                        priorities: priorities,
-                                        user: current_user } }
+      format.html {
+        render locals: { work_package: work_package,
+                         project: project,
+                         priorities: priorities,
+                         user: current_user }
+      }
     end
   end
 
@@ -127,15 +129,17 @@ class WorkPackagesController < ApplicationController
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.js { render locals: { work_package: work_package,
-                                      project: project,
-                                      priorities: priorities,
-                                      user: current_user } }
+      format.js {
+        render locals: { work_package: work_package,
+                         project: project,
+                         priorities: priorities,
+                         user: current_user }
+      }
     end
   end
 
   def create
-    call_hook(:controller_work_package_new_before_save, { params: params, work_package: work_package })
+    call_hook(:controller_work_package_new_before_save,  params: params, work_package: work_package)
 
     WorkPackageObserver.instance.send_notification = send_notifications?
 
@@ -144,15 +148,17 @@ class WorkPackagesController < ApplicationController
     if work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
 
-      call_hook(:controller_work_package_new_after_save, { params: params, work_package: work_package })
+      call_hook(:controller_work_package_new_after_save,  params: params, work_package: work_package)
 
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html { render action: 'new', locals: { work_package: work_package,
-                                                            project: project,
-                                                            priorities: priorities,
-                                                            user: current_user } }
+        format.html {
+          render action: 'new', locals: { work_package: work_package,
+                                          project: project,
+                                          priorities: priorities,
+                                          user: current_user }
+        }
       end
     end
   end
@@ -171,7 +177,7 @@ class WorkPackagesController < ApplicationController
         render :edit, locals: locals
       end
       format.js do
-        render partial: "edit", locals: locals
+        render partial: 'edit', locals: locals
       end
     end
   end
@@ -200,10 +206,10 @@ class WorkPackagesController < ApplicationController
     journals_since = work_package.journals.after(work_package.lock_version)
     if journals_since.any?
       changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-      error_message << " " << l(:notice_locking_conflict_additional_information, users: changes.join(', '))
+      error_message << ' ' << l(:notice_locking_conflict_additional_information, users: changes.join(', '))
     end
 
-    error_message << " " << l(:notice_locking_conflict_reload_page)
+    error_message << ' ' << l(:notice_locking_conflict_reload_page)
 
     work_package.errors.add :base, error_message
 
@@ -219,7 +225,7 @@ class WorkPackagesController < ApplicationController
         gon.settings[:work_package_attributes] = hook_overview_attributes
 
         render :index, locals: { query: @query,
-                                    project: @project },
+                                 project: @project },
                        layout: 'angular' # !request.xhr?
       end
       format.csv do
@@ -289,7 +295,7 @@ class WorkPackagesController < ApplicationController
     @existing_work_package ||= begin
 
       wp = WorkPackage.includes(:project)
-                      .find_by_id(params[:id])
+           .find_by_id(params[:id])
 
       wp && wp.visible?(current_user) ?
         wp :
@@ -324,8 +330,8 @@ class WorkPackagesController < ApplicationController
 
   def journals
     @journals ||= work_package.journals.changing
-                                       .includes(:user)
-                                       .order("#{Journal.table_name}.created_at ASC")
+                  .includes(:user)
+                  .order("#{Journal.table_name}.created_at ASC")
     @journals.reverse! if current_user.wants_comments_in_reverse_order?
     @journals
   end
@@ -346,14 +352,13 @@ class WorkPackagesController < ApplicationController
                                                                :priority,
                                                                :fixed_version,
                                                                :project)
-
   end
 
   def changesets
     @changesets ||= begin
       changes = work_package.changesets.visible
-                                       .includes({ repository: {project: :enabled_modules} }, :user)
-                                       .all
+                .includes({ repository: { project: :enabled_modules } }, :user)
+                .all
 
       changes.reverse! if current_user.wants_comments_in_reverse_order?
 
@@ -363,14 +368,14 @@ class WorkPackagesController < ApplicationController
 
   def relations
     @relations ||= work_package.relations.includes(from: [:status,
-                                                                   :priority,
-                                                                   :type,
-                                                                   { project: :enabled_modules }],
+                                                          :priority,
+                                                          :type,
+                                                          { project: :enabled_modules }],
                                                    to: [:status,
-                                                                 :priority,
-                                                                 :type,
-                                                                 { project: :enabled_modules }])
-                                         .select{ |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
+                                                        :priority,
+                                                        :type,
+                                                        { project: :enabled_modules }])
+                   .select { |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
   end
 
   def priorities
@@ -398,8 +403,8 @@ class WorkPackagesController < ApplicationController
       permitted = permitted_params.update_work_package(project: project)
     end
 
-    if permitted.has_key?("time_entry")
-      attributes = permitted["time_entry"]
+    if permitted.has_key?('time_entry')
+      attributes = permitted['time_entry']
     end
 
     work_package.add_time_entry(attributes)
@@ -419,7 +424,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if EXPORT_FORMATS.include?(params[:format]) &&
-      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -448,13 +453,13 @@ class WorkPackagesController < ApplicationController
     sort_update(@query.sortable_columns)
 
     @results = @query.results(include: [:assigned_to, :type, :priority, :category, :fixed_version],
-                             order: sort_clause)
+                              order: sort_clause)
     @work_packages = if @query.valid?
-                      @results.work_packages.page(page_param)
-                                            .per_page(per_page_param)
-                                            .all
-                    else
-                      []
+                       @results.work_packages.page(page_param)
+                       .per_page(per_page_param)
+                       .all
+                     else
+                       []
                     end
   end
 

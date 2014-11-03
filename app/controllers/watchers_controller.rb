@@ -55,7 +55,7 @@ class WatchersController < ApplicationController
       format.html { redirect_to :back }
       format.js do
         render :update do |page|
-          page.replace_html 'watchers', partial: 'watchers/watchers', locals: {watched: @watched}
+          page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
         end
       end
     end
@@ -72,13 +72,14 @@ class WatchersController < ApplicationController
       format.html { redirect_to :back }
       format.js do
         render :update do |page|
-          page.replace_html 'watchers', partial: 'watchers/watchers', locals: {watched: @watched}
+          page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
         end
       end
     end
   end
 
-private
+  private
+
   def find_watched_by_object
     klass = params[:object_type].singularize.camelcase.constantize
     return false unless klass.respond_to?('watched_by') and
@@ -91,7 +92,7 @@ private
 
   def find_watched_by_id
     return false unless params[:id].to_s =~ /\A\d+\z/
-    @watch = Watcher.find(params[:id], include: { watchable: [:project] } )
+    @watch = Watcher.find(params[:id], include: { watchable: [:project] })
     @watched = @watch.watchable
   end
 

@@ -38,17 +38,17 @@ class TimeEntries::ReportsController < ApplicationController
 
   def show
     @criterias = params[:criterias] || []
-    @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
+    @criterias = @criterias.select { |criteria| @available_criterias.has_key? criteria }
     @criterias.uniq!
-    @criterias = @criterias[0,3]
+    @criterias = @criterias[0, 3]
 
     @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
 
     retrieve_date_range
 
     unless @criterias.empty?
-      sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
-      sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
+      sql_select = @criterias.collect { |criteria| @available_criterias[criteria][:sql] + ' AS ' + criteria }.join(', ')
+      sql_group_by = @criterias.collect { |criteria| @available_criterias[criteria][:sql] }.join(', ')
       sql_condition = ''
 
       if @project.nil?
@@ -62,8 +62,8 @@ class TimeEntries::ReportsController < ApplicationController
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
       sql << " FROM #{TimeEntry.table_name}"
       sql << time_report_joins
-      sql << " WHERE"
-      sql << " (%s) AND" % sql_condition
+      sql << ' WHERE'
+      sql << ' (%s) AND' % sql_condition
       sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
 
@@ -82,7 +82,7 @@ class TimeEntries::ReportsController < ApplicationController
         end
       end
 
-      @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
+      @total_hours = @hours.inject(0) { |s, k| s = s + k['hours'].to_f }
 
       @periods = []
       # Date#at_beginning_of_ not supported in Rails 1.2.x
@@ -115,52 +115,52 @@ class TimeEntries::ReportsController < ApplicationController
   private
 
   def load_available_criterias
-    @available_criterias = { 'project' => {sql: "#{TimeEntry.table_name}.project_id",
-                                          klass: Project,
-                                          label: Project.model_name.human},
-                             'version' => {sql: "#{WorkPackage.table_name}.fixed_version_id",
-                                          klass: Version,
-                                          label: Version.model_name.human},
-                             'category' => {sql: "#{WorkPackage.table_name}.category_id",
-                                            klass: Category,
-                                            label: Category.model_name.human},
-                             'member' => {sql: "#{TimeEntry.table_name}.user_id",
-                                         klass: User,
-                                         label: Member.model_name.human},
-                             'type' => {sql: "#{WorkPackage.table_name}.type_id",
-                                          klass: Type,
-                                          label: Type.model_name.human},
-                             'activity' => {sql: "#{TimeEntry.table_name}.activity_id",
-                                           klass: TimeEntryActivity,
-                                           label: :label_activity},
-                             'work_package' => {sql: "#{TimeEntry.table_name}.work_package_id",
-                                            klass: WorkPackage,
-                                            label: WorkPackage.model_name.human}
+    @available_criterias = { 'project' => { sql: "#{TimeEntry.table_name}.project_id",
+                                            klass: Project,
+                                            label: Project.model_name.human },
+                             'version' => { sql: "#{WorkPackage.table_name}.fixed_version_id",
+                                            klass: Version,
+                                            label: Version.model_name.human },
+                             'category' => { sql: "#{WorkPackage.table_name}.category_id",
+                                             klass: Category,
+                                             label: Category.model_name.human },
+                             'member' => { sql: "#{TimeEntry.table_name}.user_id",
+                                           klass: User,
+                                           label: Member.model_name.human },
+                             'type' => { sql: "#{WorkPackage.table_name}.type_id",
+                                         klass: Type,
+                                         label: Type.model_name.human },
+                             'activity' => { sql: "#{TimeEntry.table_name}.activity_id",
+                                             klass: TimeEntryActivity,
+                                             label: :label_activity },
+                             'work_package' => { sql: "#{TimeEntry.table_name}.work_package_id",
+                                                 klass: WorkPackage,
+                                                 label: WorkPackage.model_name.human }
                            }
 
     # Add list and boolean custom fields as available criterias
     custom_fields = (@project.nil? ? WorkPackageCustomField.for_all : @project.all_work_package_custom_fields)
-    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
-                                             format: cf.field_format,
-                                             label: cf.name}
+    custom_fields.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
+                                              format: cf.field_format,
+                                              label: cf.name }
     end if @project
 
     # Add list and boolean time entry custom fields
-    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
-                                             format: cf.field_format,
-                                             label: cf.name}
+    TimeEntryCustomField.find(:all).select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
+                                              format: cf.field_format,
+                                              label: cf.name }
     end
 
     # Add list and boolean time entry activity custom fields
-    TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
-                                             format: cf.field_format,
-                                             label: cf.name}
+    TimeEntryActivityCustomField.find(:all).select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
+                                              format: cf.field_format,
+                                              label: cf.name }
     end
 
-    call_hook(:controller_timelog_available_criterias, { available_criterias: @available_criterias, project: @project })
+    call_hook(:controller_timelog_available_criterias,  available_criterias: @available_criterias, project: @project)
     @available_criterias
   end
 
@@ -169,7 +169,7 @@ class TimeEntries::ReportsController < ApplicationController
     sql << " LEFT JOIN #{WorkPackage.table_name} ON #{TimeEntry.table_name}.work_package_id = #{WorkPackage.table_name}.id"
     sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
     # TODO: rename hook
-    call_hook(:controller_timelog_time_report_joins, {sql: sql} )
+    call_hook(:controller_timelog_time_report_joins, sql: sql)
     sql
   end
 

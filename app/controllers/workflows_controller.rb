@@ -43,7 +43,7 @@ class WorkflowsController < ApplicationController
     @type = Type.find_by_id(params[:type_id])
 
     if request.post?
-      Workflow.destroy_all( ["role_id=? and type_id=?", @role.id, @type.id])
+      Workflow.destroy_all(['role_id=? and type_id=?', @role.id, @type.id])
       (params[:status] || []).each { |status_id, transitions|
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
@@ -65,16 +65,15 @@ class WorkflowsController < ApplicationController
     @statuses ||= Status.all
 
     if @type && @role && @statuses.any?
-      workflows = Workflow.all(conditions: {role_id: @role.id, type_id: @type.id})
+      workflows = Workflow.all(conditions: { role_id: @role.id, type_id: @type.id })
       @workflows = {}
-      @workflows['always'] = workflows.select {|w| !w.author && !w.assignee}
-      @workflows['author'] = workflows.select {|w| w.author}
-      @workflows['assignee'] = workflows.select {|w| w.assignee}
+      @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
+      @workflows['author'] = workflows.select(&:author)
+      @workflows['assignee'] = workflows.select(&:assignee)
     end
   end
 
   def copy
-
     if params[:source_type_id].blank? || params[:source_type_id] == 'any'
       @source_type = nil
     else

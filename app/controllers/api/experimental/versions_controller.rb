@@ -29,7 +29,6 @@
 
 module Api
   module Experimental
-
     class VersionsController < ApplicationController
       before_filter :find_optional_project
 

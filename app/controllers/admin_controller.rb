@@ -46,17 +46,17 @@ class AdminController < ApplicationController
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
 
     @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+    c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
-      c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
+      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
     @projects = Project.find :all, order: 'lft',
                                    conditions: c.conditions
 
-    render action: "projects", layout: false if request.xhr?
+    render action: 'projects', layout: false if request.xhr?
   end
 
   def plugins
@@ -70,7 +70,7 @@ class AdminController < ApplicationController
       begin
         Redmine::DefaultData::Loader::load(params[:lang])
         flash[:notice] = l(:notice_default_data_loaded)
-      rescue Exception => e
+      rescue => e
         flash[:error] = l(:error_can_t_load_default_data, e.message)
       end
     end
@@ -84,7 +84,7 @@ class AdminController < ApplicationController
     begin
       @test = UserMailer.test_mail(User.current).deliver
       flash[:notice] = l(:notice_email_sent, User.current.mail)
-    rescue Exception => e
+    rescue => e
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
@@ -92,8 +92,8 @@ class AdminController < ApplicationController
   end
 
   def force_user_language
-    available_languages = Setting.find_by_name("available_languages").value
-    User.find(:all, conditions: ["language not in (?)", available_languages]).each do |u|
+    available_languages = Setting.find_by_name('available_languages').value
+    User.find(:all, conditions: ['language not in (?)', available_languages]).each do |u|
       u.language = Setting.default_language
       u.save
     end

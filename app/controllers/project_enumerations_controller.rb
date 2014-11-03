@@ -50,5 +50,4 @@ class ProjectEnumerationsController < ApplicationController
     flash[:notice] = l(:notice_successful_update)
     redirect_to controller: '/projects', action: 'settings', tab: 'activities', id: @project
   end
-
 end

@@ -48,7 +48,7 @@ class PlanningElementTypeColorsController < ApplicationController
 
   def show
     @color = PlanningElementTypeColor.find(params[:id])
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 
@@ -67,7 +67,7 @@ class PlanningElementTypeColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = l('timelines.color_could_not_be_saved')
-      render action: "new"
+      render action: 'new'
     end
   end
 
