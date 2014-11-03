@@ -56,6 +56,12 @@ module Redmine
         perm ? perm.actions : []
       end
 
+      def allowed_symbols(hash)
+        pair = "#{hash[:controller]}/#{hash[:action]}"
+
+        permissions.select{ |p| p.actions.include?(pair) }.map(&:name)
+      end
+
       def public_permissions
         @public_permissions ||= @permissions.select {|p| p.public?}
       end

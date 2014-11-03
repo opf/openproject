@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,32 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Base
-  def initialize(user)
-    @user = user
-  end
+require 'spec_helper'
+require_relative 'shared/concatenation'
 
-  def granted_for_global? candidate, action, options
-    false
-  end
+describe Authorization::Condition::AndConcatenation do
+  let(:first_condition) { double('first_condition') }
+  let(:second_condition) { double('second_condition') }
+  let(:scope) { double('scope') }
 
-  def denied_for_global? candidate, action, options
-    false
-  end
+  let(:instance) { Authorization::Condition::AndConcatenation.new(scope, first_condition, second_condition) }
 
-  def granted_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def denied_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def global_granting_candidates
-    []
-  end
-
-  def project_granting_candidates project
-    []
-  end
+  it_should_behave_like 'has first and second condition'
+  it_should_behave_like 'concatenates arel', :and
 end

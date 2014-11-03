@@ -36,6 +36,11 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
   end
+  let(:anonymous_role_with_permissions) do
+    role = FactoryGirl.create(:anonymous_role)
+    role.update_attribute(:permissions, [:view_project])
+    role.save!
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -67,7 +72,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
       describe 'with only the standard type available' do
         it 'assigns an type array including the standard type' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          expect(assigns(:types)).to eq(project.types)
+          expect(assigns(:types)).to match_array(project.types)
         end
 
         it 'renders the index builder template' do
@@ -172,11 +177,14 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
   end
 
   describe 'without project scope' do
+
     describe 'index.xml' do
       let(:current_user) { non_admin_user }
       let(:permission) { :view_work_packages }
 
       def fetch
+        anonymous_role_with_permissions
+
         get 'index', :format => 'xml'
       end
       it_should_behave_like 'a controller action which needs project permissions'
@@ -232,6 +240,8 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         end
 
         def fetch
+          anonymous_role_with_permissions
+
           get 'show', :id => '1337', :format => 'xml'
         end
         it_should_behave_like 'a controller action which needs project permissions'

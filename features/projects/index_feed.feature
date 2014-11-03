@@ -31,12 +31,10 @@ Feature: Projects index feed
     Given there is 1 project with the following:
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
-    And there is a role "CanViewProject"
-    And the role "CanViewProject" may have the following rights:
-      | view_project   |
+    And there is a role "Member"
     And there is 1 user with the following:
       | login | bob |
-    And the user "bob" is a "CanViewProject" in the project "omicronpersei8"
+    And the user "bob" is a "Member" in the project "omicronpersei8"
     And I am already logged in as "bob"
 
    Scenario: Atom feed enabled

@@ -26,33 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::PrincipalAllowanceEvaluator::Base
-  def granted_for_global?(candidate, action, options)
-    granted = super
+require 'spec_helper'
+require Rails.root + 'spec/models/shared/authorization'
 
-    granted || if candidate.is_a?(Member)
-                 candidate.roles.any?{ |r| r.allowed_to?(action) }
-               elsif candidate.is_a?(Role)
-                  candidate.allowed_to?(action)
-               end
+describe WikiPage, "authorization" do
+  include Spec::Models::Shared::Authorization
+
+  let(:project) { FactoryGirl.create(:project) }
+  let(:wiki) do
+    project.reload
+    project.wiki
   end
+  let(:created_wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:role) { FactoryGirl.build(:role, :permissions => [ ]) }
+  let(:member) { FactoryGirl.build(:member, :project => project,
+                                            :roles => [role],
+                                            :principal => user) }
 
-  def granted_for_project?(role, action, project, options)
-    return false unless role.is_a?(Role)
-    granted = super
-
-    granted || (project.is_public? || role.member?) && role.allowed_to?(action)
-  end
-
-  def global_granting_candidates
-    role = @user.logged? ?
-             Role.non_member :
-             Role.anonymous
-
-    @user.memberships + [role]
-  end
-
-  def project_granting_candidates(project)
-    @user.roles_for_project project
-  end
+  it_should_behave_like "needs authorization for viewing", klass: WikiPage,
+                                                           instance: :created_wiki_page,
+                                                           permission: :view_wiki_pages,
+                                                           role: :role,
+                                                           member: :member,
+                                                           user: :user
 end

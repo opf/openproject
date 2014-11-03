@@ -40,7 +40,7 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        @types = (@project.nil?) ? Type.all : @project.types
+        @types = (@project.nil?) ? Type.includes(:color).all : @project.types.includes(:color)
 
         respond_to do |format|
           format.api

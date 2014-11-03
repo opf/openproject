@@ -71,7 +71,7 @@ module Api
       protected
 
       def require_permissions
-        deny_access unless @project.visible?
+        deny_access unless @project.visible?(current_user)
       end
 
       private

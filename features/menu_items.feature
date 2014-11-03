@@ -35,8 +35,8 @@ Feature: Menu items
       | calendar |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_calendar  |
-      | view_work_packages  |
+      | view_calendar      |
+      | view_work_packages |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "Awesome Project"

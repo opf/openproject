@@ -34,7 +34,7 @@ Feature: Navigating to the timeline page
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines                  |
+          | view_timelines |
 
       And there is a project named "ecookbook"
       And I am working in project "ecookbook"

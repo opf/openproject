@@ -59,6 +59,10 @@ class Role < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
+  def self.permitted(permission)
+    where(action_match_condition(permission))
+  end
+
   def permissions
     read_attribute(:permissions) || []
   end
@@ -171,6 +175,29 @@ class Role < ActiveRecord::Base
   end
 
 private
+
+  def self.action_match_condition(action)
+    if action.present?
+      action_array = Array(action)
+
+      action_condition = action_array.inject(Arel::Nodes::Equality.new(1, 0)) do |condition, action|
+        condition.or(neutral_or_action_match_condition(action))
+      end
+
+      self.arel_table.grouping(action_condition)
+    end
+  end
+
+  def self.neutral_or_action_match_condition(action)
+    public_permissions = Redmine::AccessControl.public_permissions.collect { |p| p.name }
+
+    if public_permissions.include? action
+      Arel::Nodes::Equality.new(1, 1)
+    else
+      self.arel_table[:permissions].matches("%#{action}%")
+    end
+  end
+
   def allowed_permissions
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end

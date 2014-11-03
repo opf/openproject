@@ -41,17 +41,13 @@ describe WorkPackage, :type => :model do
   end
 
   describe '#possible_watcher_users' do
-    subject { work_package.possible_watcher_users }
+    subject { work_package.possible_watcher_users.map(&:id) }
 
     let!(:admin){ FactoryGirl.create(:admin) }
     let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
 
     shared_context 'non member role has the permission to view work packages' do
-      let(:non_member_role) { Role.find_by_name('Non member') }
-
-      before do
-        non_member_role.add_permission! :view_work_packages
-      end
+      let(:non_member_role) { FactoryGirl.create(:non_member, permissions: [:view_work_packages]) }
     end
 
     shared_context 'anonymous role has the permission to view work packages' do
@@ -59,24 +55,28 @@ describe WorkPackage, :type => :model do
     end
 
     context 'when it is a public project' do
+      before do
+        project.update_attributes is_public: true
+      end
+
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      xit { is_expected.to include(project_member) }
-      it { is_expected.not_to include(admin) }
+      xit { is_expected.to include(project_member.id) }
+      it { is_expected.not_to include(admin.id) }
 
       context 'and the non member role has the permission to view work packages' do
         include_context 'non member role has the permission to view work packages'
 
-        it { is_expected.not_to include(non_member_user) }
+        it { is_expected.not_to include(non_member_user.id) }
       end
 
       context 'and the anonymous role has the permission to view work packages' do
         include_context 'anonymous role has the permission to view work packages'
 
-        it { is_expected.not_to include(anonymous_user) }
+        it { is_expected.not_to include(anonymous_user.id) }
       end
     end
 
@@ -94,11 +94,11 @@ describe WorkPackage, :type => :model do
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      xit { is_expected.to include(project_member) }
+      xit { is_expected.to include(project_member.id) }
 
-      it { is_expected.not_to include(admin) }
-      it { is_expected.not_to include(non_member_user) }
-      it { is_expected.not_to include(anonymous_user) }
+      it { is_expected.not_to include(admin.id) }
+      it { is_expected.not_to include(non_member_user.id) }
+      it { is_expected.not_to include(anonymous_user.id) }
     end
   end
 
@@ -123,6 +123,7 @@ describe WorkPackage, :type => :model do
     context 'when the permission to view work packages has been removed' do
       # an existing watcher shouldn't be removed
       before do
+        watching_user
         role.remove_permission! :view_work_packages
         work_package.reload
       end

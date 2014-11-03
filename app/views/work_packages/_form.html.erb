@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <hr class="form_separator" />
   <div id="watchers_form">
     <label class="watcher_label"><%= l(:label_work_package_watchers) %></label>
-    <% work_package.project.users.sort.each do |user| -%>
+    <% work_package.possible_watcher_users.each do |user| -%>
       <label class="floating"><%= check_box_tag 'work_package[watcher_user_ids][]', user.id, work_package.watched_by?(user) %> <%=h user %></label>
     <% end -%>
   </div>

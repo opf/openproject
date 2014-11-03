@@ -45,9 +45,12 @@ describe Activity::WorkPackageActivityProvider, :type => :model do
 
   describe '#event_type' do
     describe 'latest events' do
-
       context 'when a work package has been created' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
+        let(:subject) do
+          events = Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {})
+          events.last.try :event_type
+        end
+
         before { work_package.save! }
 
         it { is_expected.to eq(work_package_edit_event) }
@@ -60,7 +63,10 @@ describe Activity::WorkPackageActivityProvider, :type => :model do
       end
 
       context 'when a work package has been created and then closed' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 }).first.try :event_type }
+        let(:subject) do
+          events = Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 })
+          events.first.try :event_type
+        end
 
         before do
           allow(User).to receive(:current).and_return(user)

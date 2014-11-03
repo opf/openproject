@@ -68,9 +68,8 @@ class WorkPackage < ActiveRecord::Base
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkPackage.visible_condition(args.first ||
-                                                                                 User.current) } }
+
+  needs_authorization view: :view_work_packages
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
@@ -111,7 +110,7 @@ class WorkPackage < ActiveRecord::Base
 
   after_initialize :set_default_values
 
-  acts_as_watchable
+  acts_as_watchable :permission => :view_work_packages
 
   before_save :store_former_parent_id
 
@@ -248,7 +247,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_work_packages, options)
+    Project.allowed_to_condition(user, :view_work_packages)
   end
 
   def self.done_ratio_disabled?
@@ -261,11 +260,6 @@ class WorkPackage < ActiveRecord::Base
 
   def self.use_field_for_done_ratio?
     Setting.work_package_done_ratio == 'field'
-  end
-
-  # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg, options = {})

@@ -94,8 +94,11 @@ describe ApplicationHelper, :type => :helper do
     let(:project_member) { FactoryGirl.create :user,
                                               :member_in_project => project,
                                               :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
-                                                                                         :browse_repository, :view_changesets, :view_wiki_pages]) }
+                                                                                         :permissions => [:view_work_packages,
+                                                                                                          :edit_work_packages,
+                                                                                                          :browse_repository,
+                                                                                                          :view_changesets,
+                                                                                                          :view_wiki_pages]) }
     let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,

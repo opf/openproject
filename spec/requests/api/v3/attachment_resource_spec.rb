@@ -32,6 +32,7 @@ require 'rack/test'
 describe 'API v3 Attachment resource', :type => :request do
   include Rack::Test::Methods
 
+  let(:anonymous) { FactoryGirl.create(:anonymous) }
   let(:current_user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
@@ -76,6 +77,10 @@ describe 'API v3 Attachment resource', :type => :request do
     end
 
     it_behaves_like 'handling anonymous user', 'Attachment', '/api/v3/attachments/%s' do
+      before do
+        allow(User).to receive(:current).and_return anonymous
+      end
+
       let(:id) { attachment.id }
     end
   end

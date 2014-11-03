@@ -32,6 +32,7 @@ class Project < ActiveRecord::Base
   extend Pagination::Model
 
   include Project::Copy
+  include Project::AllowedScope
 
   # Project statuses
   STATUS_ACTIVE     = 1
@@ -46,14 +47,6 @@ class Project < ActiveRecord::Base
   # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
-  has_many :possible_assignee_members,
-           :class_name => 'Member',
-           :include => [:principal, :roles],
-           :conditions => Proc.new { self.class.possible_assignees_condition }
-  has_many :possible_responsible_members,
-           :class_name => 'Member',
-           :include => [:principal, :roles],
-           :conditions => Proc.new { self.class.possible_responsibles_condition }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
@@ -116,7 +109,9 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
   scope :public, lambda { |*args| where(:is_public => true) }
-  scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+
+  needs_authorization view: :view_project,
+                      project_association: self
 
   # timelines stuff
 
@@ -200,10 +195,6 @@ class Project < ActiveRecord::Base
     projects.delete(self)
     projects -= reporting_to_projects
     projects
-  end
-
-  def visible?(user = User.current)
-    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end
 
   def allows_association?
@@ -291,65 +282,15 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
-  #
-  # Examples:
-  #     Projects.visible_by(admin)        => "projects.status = 1"
-  #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
   def self.visible_by(user=nil)
-    user ||= User.current
-    if user && user.admin?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-    elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
-    else
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-    end
+    allowed_to_condition(user, nil)
   end
 
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
-  #
-  # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
-  def self.allowed_to_condition(user, permission, options={})
-    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-    if perm = Redmine::AccessControl.permission(permission)
-      unless perm.project_module.nil?
-        # If the permission belongs to a project module, make sure the module is enabled
-        base_statement << " AND #{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
-      end
-    end
-    if options[:project]
-      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
-      base_statement = "(#{project_statement}) AND (#{base_statement})"
-    end
+  def self.allowed_to_condition(user, permission)
+    projects = self.arel_table
 
-    if user.admin?
-      base_statement
-    else
-      statement_by_role = {}
-      if user.logged?
-        if Role.non_member.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.non_member] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
-        end
-        user.projects_by_role.each do |role, projects|
-          if role.allowed_to?(permission)
-            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
-          end
-        end
-      else
-        if Role.anonymous.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.anonymous] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
-        end
-      end
-      if statement_by_role.empty?
-        "1=0"
-      else
-        "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
-      end
-    end
+    projects[:id].in(Project.allowed(user, permission).select(projects[:id]).arel).to_sql
   end
 
   # Returns the Systemwide and project specific activities
@@ -605,13 +546,17 @@ class Project < ActiveRecord::Base
   end
 
   # Users/groups a work_package can be assigned to
-  def possible_assignees
-    possible_assignee_members.map(&:principal).compact.sort
+  def possible_assignees(only_name: false)
+    accepted_types = Setting.work_package_group_assignment? ?
+                            [Group.to_s, User.to_s] :
+                            [User.to_s]
+
+    possible_principals(accepted_types, only_name: only_name)
   end
 
   # Users who can become responsible for a work_package
-  def possible_responsibles
-    possible_responsible_members.map(&:principal).compact.sort
+  def possible_responsibles(only_name: false)
+    possible_principals([User.to_s], only_name: only_name)
   end
 
   # Returns the mail adresses of users that should be always notified on project events
@@ -948,5 +893,20 @@ class Project < ActiveRecord::Base
       'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
+  end
+
+  def possible_principals(accepted_types, only_name: false)
+    principals = members_with_assignable_roles.where(users: { type: accepted_types })
+
+    principals = principals.select_only_name_attributes if only_name
+
+    principals
+  end
+
+  def members_with_assignable_roles
+    Authorization.principals(project: self)
+                 .where(roles: { assignable: true },
+                        members: { project_id: self.id })
+                 .order_by_name
   end
 end

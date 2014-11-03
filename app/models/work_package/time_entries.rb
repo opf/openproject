@@ -49,7 +49,7 @@ module WorkPackage::TimeEntries
         WorkPackage.update_time_entries(work_packages, 'work_package_id = NULL')
       when 'reassign'
         reassign_to = WorkPackage.includes(:project)
-                                 .where(Project.allowed_to_condition(user, :edit_time_entries))
+                                 .merge(Project.allowed(user, :edit_time_entries))
                                  .find_by_id(to_do[:reassign_to_id])
 
         if reassign_to.nil?

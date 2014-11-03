@@ -62,10 +62,16 @@ describe API::V3::WorkPackages::WorkPackagesAPI do
       describe "users" do
         let(:user) { FactoryGirl.build_stubbed(:user) }
         let(:user2) { FactoryGirl.build_stubbed(:user) }
+        let(:possible_responsibles) { double('users_relation', all: users_list) }
+
+        before do
+          allow(work_package.project).to receive(:possible_responsibles).and_return(possible_responsibles)
+        end
 
         context "single user" do
+          let(:users_list) { [user] }
+
           before do
-            allow(work_package.project).to receive(:possible_responsibles).and_return([user])
 
             allow(user).to receive(:created_on).and_return(user.created_at)
             allow(user).to receive(:updated_on).and_return(user.created_at)
@@ -77,9 +83,9 @@ describe API::V3::WorkPackages::WorkPackagesAPI do
         end
 
         context "multiple users" do
-          before do
-            allow(work_package.project).to receive(:possible_responsibles).and_return([user, user2])
+          let(:users_list) { [user, user2] }
 
+          before do
             allow(user).to receive(:created_on).and_return(user.created_at)
             allow(user).to receive(:updated_on).and_return(user.created_at)
 

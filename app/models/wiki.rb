@@ -51,9 +51,7 @@ class Wiki < ActiveRecord::Base
 
   after_create :create_menu_item_for_start_page
 
-  def visible?(user=User.current)
-    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
-  end
+  needs_authorization view: :view_wiki_pages
 
   # Returns the wiki page that acts as the sidebar content
   # or nil if no such page exists
