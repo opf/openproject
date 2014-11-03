@@ -110,18 +110,18 @@ module OpenProject::Costs
 
       link :log_costs do
         {
-          href: new_work_packages_cost_entry_path(represented.model),
+          href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if costs_enabled && current_user_allowed_to(:log_costs, represented.model)
+        } if costs_enabled && current_user_allowed_to(:log_costs, represented)
       end
 
       property :cost_object,
-               exec_context: :decorator,
                embedded: true,
-               class: ::API::V3::CostObjects::CostObjectModel,
+               exec_context: :decorator,
+               class: ::CostObject,
                decorator: ::API::V3::CostObjects::CostObjectRepresenter,
-               if: -> (*) { costs_enabled && !represented.model.cost_object.nil? }
+               if: -> (*) { costs_enabled && !represented.cost_object.nil? }
 
       property :spent_hours,
                exec_context: :decorator,
@@ -136,17 +136,13 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (*) { costs_enabled }
 
-      send(:define_method, :cost_object) do
-        ::API::V3::CostObjects::CostObjectModel.new(represented.model.cost_object)
-      end
-
       send(:define_method, :spent_hours) do
         self.attributes_helper.time_entries_sum
       end
 
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
-        current_user_allowed_to(:view_time_entries, represented.model) ||
-          current_user_allowed_to(:view_own_time_entries, represented.model)
+        current_user_allowed_to(:view_time_entries, represented) ||
+          current_user_allowed_to(:view_own_time_entries, represented)
       end
 
       send(:define_method, :overall_costs) do
@@ -155,16 +151,19 @@ module OpenProject::Costs
 
       send(:define_method, :summarized_cost_entries) do
         self.attributes_helper.summarized_cost_entries
-            .map { |s| ::API::V3::CostTypes::CostTypeModel.new(s[0], units: s[1][:units]) }
-            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c, work_package: represented.model) }
+            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c[0], c[1], work_package: represented) }
       end
 
       send(:define_method, :attributes_helper) do
-        @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented.model)
+        @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented)
       end
 
       send(:define_method, :costs_enabled) do
-        represented.model.project && represented.model.project.module_enabled?(:costs_module)
+        represented.project && represented.project.module_enabled?(:costs_module)
+      end
+
+      send(:define_method, :cost_object) do
+        represented.cost_object
       end
     end
 
