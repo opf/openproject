@@ -37,12 +37,12 @@ module Sprockets
     # NOTE: repercussions of this hack are unknown.
     module LegacyAssetUrlHelper
       ASSET_PUBLIC_DIRECTORIES.replace({
-        :audio      => '/assets',
-        :font       => '/assets',
-        :image      => '/assets',
-        :javascript => '/assets',
-        :stylesheet => '/assets',
-        :video      => '/assets'
+        audio:      '/assets',
+        font:       '/assets',
+        image:      '/assets',
+        javascript: '/assets',
+        stylesheet: '/assets',
+        video:      '/assets'
       })
     end
   end
@@ -57,7 +57,7 @@ module ActiveRecord
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
       begin
-        options_with_raise = {:raise => true, :default => false}.merge options
+        options_with_raise = {raise: true, default: false}.merge options
         attr = attr.to_s.gsub(/_id\z/, '')
         super(attr, options_with_raise)
       rescue I18n::MissingTranslationData => e
@@ -90,19 +90,19 @@ module ActiveModel
             @base.custom_values.each do |value|
               full_messages += value.errors.map do |_, message|
                 I18n.t(:"errors.format", {
-                  :default   => "%{attribute} %{message}",
-                  :attribute => value.custom_field.name,
-                  :message   => message
+                  default:   "%{attribute} %{message}",
+                  attribute: value.custom_field.name,
+                  message:   message
                 })
               end
             end
           else
             attr_name = attribute.to_s.gsub('.', '_').humanize
-            attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
+            attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
             full_messages << I18n.t(:"errors.format", {
-              :default   => "%{attribute} %{message}",
-              :attribute => attr_name,
-              :message   => message
+              default:   "%{attribute} %{message}",
+              attribute: attr_name,
+              message:   message
             })
           end
         end
@@ -178,8 +178,8 @@ module ActionView
             content_tag :li do
               content_tag :a,
                           ERB::Util.html_escape(msg),
-                          :href => "#" + identifier,
-                          :class => "afocus"
+                          href: "#" + identifier,
+                          class: "afocus"
             end
           end
         end
@@ -193,11 +193,11 @@ module ActionView
         to_date = to_date.to_date if to_date.respond_to?(:to_date)
         distance_in_days = (to_date - from_date).abs
 
-        I18n.with_options :locale => options[:locale], :scope => :'datetime.distance_in_words' do |locale|
+        I18n.with_options locale: options[:locale], scope: :'datetime.distance_in_words' do |locale|
           case distance_in_days
-            when 0..60     then locale.t :x_days,             :count => distance_in_days.round
-            when 61..720   then locale.t :about_x_months,     :count => (distance_in_days / 30).round
-            else                locale.t :over_x_years,       :count => (distance_in_days / 365).floor
+            when 0..60     then locale.t :x_days,             count: distance_in_days.round
+            when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
+            else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
           end
         end
       end
