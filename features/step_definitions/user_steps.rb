@@ -49,8 +49,8 @@ end
 
 When /^I assign the user "([^\"]*)" a random password$/ do |user|
   step "I edit the user \"#{user}\""
-  step "I check the assign random password to user field"
-  step "I save the user"
+  step 'I check the assign random password to user field'
+  step 'I save the user'
 end
 
 When /^I check the assign random password to user field$/ do
@@ -115,7 +115,7 @@ Given /^there are the following users:$/ do |table|
 end
 
 Given /^there is a user named "([^\"]+)"$/ do |user|
-  steps %Q{
+  steps %{
     Given there are the following users:
     | #{user} |
   }
@@ -124,7 +124,7 @@ end
 Then /^there should be a user with the following:$/ do |table|
   expected = table.rows_hash
 
-  user = User.find_by_login(expected["login"])
+  user = User.find_by_login(expected['login'])
 
   user.should_not be_nil
 

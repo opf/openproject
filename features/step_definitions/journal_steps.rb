@@ -28,7 +28,7 @@
 #++
 
 Then /I should see a journal with the following:$/ do |table|
-  if table.rows_hash["Notes"]
-    should have_css(".journal", text: table.rows_hash["Notes"])
+  if table.rows_hash['Notes']
+    should have_css('.journal', text: table.rows_hash['Notes'])
   end
 end

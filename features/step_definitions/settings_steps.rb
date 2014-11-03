@@ -28,7 +28,7 @@
 #++
 
 Given /^the rest api is enabled$/ do
-  Setting.rest_api_enabled = "1"
+  Setting.rest_api_enabled = '1'
 
   Support::Cleanup.to_clean Support::ClearCache.clear
 end
@@ -39,21 +39,21 @@ Given /^the following languages are available:$/ do |table|
   Support::Cleanup.to_clean Support::ClearCache.clear
 end
 
-#Given /^the "(.+?)" setting is set to (true|false)$/ do |name, trueish|
+# Given /^the "(.+?)" setting is set to (true|false)$/ do |name, trueish|
 #  Setting[name.to_sym] = (trueish == "true" ? "1" : "0")
-#end
+# end
 
 Given /^the "(.+?)" setting is set to (.+)$/ do |name, value|
   value = case value
-          when "true"
-            "1"
-          when "false"
-            "0"
+          when 'true'
+            '1'
+          when 'false'
+            '0'
           else
             value
           end
 
-  value = value.to_i if Setting.available_settings[name]["format"] == "int"
+  value = value.to_i if Setting.available_settings[name]['format'] == 'int'
 
   Setting[name.to_sym] = value
 
@@ -61,7 +61,7 @@ Given /^the "(.+?)" setting is set to (.+)$/ do |name, value|
 end
 
 Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
-  Setting.send((name + "?").to_sym).should == (trueish == "true")
+  Setting.send((name + '?').to_sym).should == (trueish == 'true')
 end
 
 Given /^I save the settings$/ do

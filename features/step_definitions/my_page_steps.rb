@@ -43,14 +43,14 @@ Then(/^I should see the widget "([^"]*)"$/) do |arg|
   page.find("#widget_#{arg}").should_not be_nil
 end
 
-Then /^"(.+)" should( not)? be disabled in the my page available widgets drop down$/ do |widget_name , neg|
-  option_name = MyController.available_blocks.detect{|k, v| I18n.t(v) == widget_name}.first.dasherize
+Then /^"(.+)" should( not)? be disabled in the my page available widgets drop down$/ do |widget_name, neg|
+  option_name = MyController.available_blocks.detect { |_k, v| I18n.t(v) == widget_name }.first.dasherize
 
   unless neg
-  steps %Q{Then the "block-select" drop-down should have the following options disabled:
-            | #{option_name} |}
+    steps %{Then the "block-select" drop-down should have the following options disabled:
+              | #{option_name} |}
   else
-    steps %Q{Then the "block-select" drop-down should have the following options enabled:
+    steps %{Then the "block-select" drop-down should have the following options enabled:
             | #{option_name} |}
   end
 

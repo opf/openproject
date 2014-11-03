@@ -28,7 +28,7 @@
 #++
 
 Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|
-  steps %Q{
+  steps %{
     Then I should #{negative}see "#{name}"
   }
 end
@@ -52,14 +52,14 @@ end
 
 Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, select_id|
   # that makes capybara wait for the ajax request
-  find(:xpath, "//body")
+  find(:xpath, '//body')
   # if you wanna see ugly things, look at the following line
   (page.evaluate_script("$('#{select_id}').value") =~ /^#{value}$/).should be_present
 end
 
 Then /^"([^"]*)" should (not )?be selectable from "([^"]*)"$/ do |value, negative, select_id|
-  #more page.evaluate ugliness
-  find(:xpath, "//body")
+  # more page.evaluate ugliness
+  find(:xpath, '//body')
   bool = negative ? false : true
   (page.evaluate_script("$('#{select_id}').select('option[value=#{value}]').first.disabled") =~ /^#{bool}$/).should be_present
 end
@@ -69,8 +69,8 @@ When /^I hover over "([^"]+)"$/ do |selector|
 end
 
 # This moves the mouse to the OP header logo
-When /^I stop hovering over "([^"]*)"$/ do |selector|
-  page.driver.browser.action.move_to(page.find("#logo").native).perform
+When /^I stop hovering over "([^"]*)"$/ do |_selector|
+  page.driver.browser.action.move_to(page.find('#logo').native).perform
 end
 
 When /^I press the "([^"]*)" key on element "([^"]*)"$/ do |key, element|
@@ -79,5 +79,5 @@ end
 
 When /^I focus the element "([^"]*)"$/ do |element|
   # moving to an element triggers focus on it as well
-  step %Q{I hover over "#{element}"}
+  step %{I hover over "#{element}"}
 end

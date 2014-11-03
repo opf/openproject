@@ -29,8 +29,8 @@
 
 require 'uri'
 require 'cgi'
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'paths'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'selectors'))
 
 module WithinHelpers
   def press_key_on_element(key, element)
@@ -50,24 +50,24 @@ module WithinHelpers
   def ctrl_click(elements)
     builder = page.driver.browser.action
 
-    #Hold control key down
+    # Hold control key down
     builder.key_down(:control)
 
-    #Note that you can retrieve the elements using capybara's
+    # Note that you can retrieve the elements using capybara's
     #  standard methods. When passing them to the builder
     #  make sure to do .native
     Array(elements).each do |e|
       builder.click(e.native)
     end
 
-    #Release control key
+    # Release control key
     builder.key_up(:control)
 
-    #Do the action setup
+    # Do the action setup
     builder.perform
   end
 
-  def with_scope(locator, options={})
+  def with_scope(locator, options = {})
     locator ? within(*selector_for(locator), options) { yield } : yield
   end
 end
@@ -83,7 +83,7 @@ When /^(.*) \[i18n\]$/ do |actual_step|
 end
 
 When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
-  #Click all elements that you want, in this case we click all as
+  # Click all elements that you want, in this case we click all as
   elements = page.all('a', text: text)
   ctrl_click(elements)
 end
@@ -137,7 +137,7 @@ When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
     field = find_field(name)
 
-    if field.tag_name == "select"
+    if field.tag_name == 'select'
       step(%{I select "#{value}" from "#{name}"})
     else
       step(%{I fill in "#{name}" with "#{value}"})
@@ -146,7 +146,7 @@ When /^(?:|I )fill in the following:$/ do |fields|
 end
 
 When (/^I do some ajax$/) do
-  click_link("Apply")
+  click_link('Apply')
 end
 
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
@@ -154,7 +154,7 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
     select(value, from: field)
   rescue Capybara::ElementNotFound
     container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
-    container.find(".select2-choice").click
+    container.find('.select2-choice').click
     find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
   end
 end
@@ -255,7 +255,7 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
   expected_params = {}
-  expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')}
+  expected_pairs.rows_hash.each_pair { |k, v| expected_params[k] = v.split(',') }
 
   actual_params.should == expected_params
 end
@@ -269,8 +269,8 @@ end
 When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: to finish)?)?$/ do |timeout|
   ajax_done = lambda do
     is_done = false
-    while (!is_done) do
-      is_done = page.evaluate_script(%Q{
+    while !is_done
+      is_done = page.evaluate_script(%{
         (function (){
           var done = true;
 
@@ -303,11 +303,11 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
   # Checking for a disabled field will only work for field with labels where the label
   # has a correctly filled "for" attribute
-  visibility = visible && visible.include?("invisible") ? false : true
+  visibility = visible && visible.include?('invisible') ? false : true
 
   if disabled
     # disabled fields can not be found via find_field
-    field_id = find('label', text: fieldname)["for"]
+    field_id = find('label', text: fieldname)['for']
     should have_css("##{field_id}", visible: visibility)
   else
     should have_field(fieldname, visible: visibility)
@@ -334,18 +334,18 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
 end
 
 Then /^there should be the disabled "(.+)" element$/ do |element|
-  page.find(element)[:disabled].should == "true"
+  page.find(element)[:disabled].should == 'true'
 end
 
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
-  if Capybara.current_driver.to_s.include?("selenium")
+  if Capybara.current_driver.to_s.include?('selenium')
     page.driver.browser.switch_to.alert.send(method.to_s)
   end
 end
 
 Then(/^(.*) in the new window$/) do |step|
-  new_window=page.driver.browser.window_handles.last
+  new_window = page.driver.browser.window_handles.last
   page.within_window new_window do
     step(step)
   end
@@ -359,7 +359,7 @@ Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
 end
 
 When /^(?:|I )click the toolbar button named "(.*?)"$/ do |action_name|
-  find(".toolbar-container").click_button action_name
+  find('.toolbar-container').click_button action_name
 end
 
 When /^(?:|I )choose "(.*?)" from the toolbar "(.*?)" dropdown$/ do |action_name, dropdown_id|
@@ -380,14 +380,14 @@ When /^(?:|I )click on the first anchor matching "([^"]*)"$/ do |anchor|
   find(:xpath, "(//a[text()='#{anchor}'])[1]").click
 end
 
-def find_lowest_containing_element text, selector
+def find_lowest_containing_element(text, selector)
   elements = []
 
   node_criteria = "[contains(normalize-space(.), \"#{text}\") and not(self::script) and not(child::*[contains(normalize-space(.), \"#{text}\")])]"
 
   if selector
     search_string = Nokogiri::CSS.xpath_for(selector).first + "//*#{node_criteria}"
-    search_string += " | " + Nokogiri::CSS.xpath_for(selector).first + "#{node_criteria}"
+    search_string += ' | ' + Nokogiri::CSS.xpath_for(selector).first + "#{node_criteria}"
   else
     search_string = "//*#{node_criteria}"
   end
@@ -418,7 +418,7 @@ end
 # Needs Selenium!
 Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
   negative = !!negative
-  if Capybara.current_driver.to_s.include?("selenium")
+  if Capybara.current_driver.to_s.include?('selenium')
     begin
       page.driver.browser.switch_to.alert
       expect(negative).to eq(false)
@@ -429,7 +429,7 @@ Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
 end
 
 Then(/^I should see a confirm dialog$/) do
-  page.should have_selector("#confirm_dialog")
+  page.should have_selector('#confirm_dialog')
 end
 
 Then /^I confirm the JS confirm dialog$/ do

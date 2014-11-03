@@ -32,40 +32,40 @@ When (/^I click on the Planning Element with name "(.*?)"$/) do |planning_elemen
 end
 
 When (/^I click on the Edit Link$/) do
-  click_link("Update")
+  click_link('Update')
 end
 
 When (/^I click on the Save Link$/) do
-  click_link("Save")
+  click_link('Save')
 end
 
 When (/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
-  steps %Q{
+  steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 
-  page.should have_selector("#timeline_options_exclude_empty", visible: false)
+  page.should have_selector('#timeline_options_exclude_empty', visible: false)
 
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
 end
 
 When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
-  steps %Q{
+  steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
   planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
-  page.should have_selector("#timeline_options_vertical_planning_elements", visible: false)
+  page.should have_selector('#timeline_options_vertical_planning_elements', visible: false)
 
   page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
 
 When(/^I filter for work packages with custom boolean field "(.*?)" set to "(.*?)"$/) do |field_name, value|
-   steps %Q{
-    When I edit the settings of the current timeline
-  }
+  steps %{
+   When I edit the settings of the current timeline
+ }
 
   custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
 
@@ -74,9 +74,9 @@ When(/^I filter for work packages with custom boolean field "(.*?)" set to "(.*?
 end
 
 When(/^I filter for work packages with custom list field "(.*?)" set to "(.*?)"$/) do |field_name, value|
-   steps %Q{
-    When I edit the settings of the current timeline
-  }
+  steps %{
+   When I edit the settings of the current timeline
+ }
 
   custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
 
@@ -87,18 +87,18 @@ end
 When (/^I edit the settings of the current timeline$/) do
   timeline_name = @timeline_name
   project_name = @project.name
-  steps %Q{
+  steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 end
 
 When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
-  steps %Q{
+  steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
   grouping_project = Project.find_by_name(grouping_project_name)
 
-  page.should have_selector("#timeline_options_grouping_one_enabled", visible: false)
+  page.should have_selector('#timeline_options_grouping_one_enabled', visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
@@ -106,18 +106,18 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
 end
 
 When (/^I enable the hide other group option$/) do
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_hide_other_group")
+  page.should have_selector('#timeline_options_hide_other_group')
 
   page.execute_script("jQuery('#timeline_options_hide_other_group').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
 end
 
 When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
@@ -129,7 +129,7 @@ When (/^I show only work packages which have the responsible "(.*?)"$/) do |resp
 end
 
 When (/^I show only work packages which have no responsible$/) do
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
@@ -140,7 +140,7 @@ When (/^I show only work packages which have no responsible$/) do
 end
 
 When (/^I show only work packages which have the type "(.*?)"$/) do |type|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
@@ -152,11 +152,11 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
 end
 
 When (/^I show only projects which have responsible set to "(.*?)"$/) do |responsible|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_project_responsibles", visible: false)
+  page.should have_selector('#timeline_options_project_responsibles', visible: false)
 
   responsible = User.find_by_login(responsible)
   page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
@@ -164,11 +164,11 @@ When (/^I show only projects which have responsible set to "(.*?)"$/) do |respon
 end
 
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_planning_element_time_types", visible: false)
+  page.should have_selector('#timeline_options_planning_element_time_types', visible: false)
 
   type = Type.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{type.id}')")
@@ -179,19 +179,19 @@ When (/^I show only projects which have a planning element which lies between "(
 end
 
 When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
-  steps %Q{
+  steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
   project_type = ProjectType.find_by_name(project_type_name)
 
-  page.should have_selector("#timeline_options_grouping_two_enabled", visible: false)
+  page.should have_selector('#timeline_options_grouping_two_enabled', visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
 When (/^I set the columns shown in the timeline to:$/) do |table|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
   result = []
@@ -201,10 +201,10 @@ When (/^I set the columns shown in the timeline to:$/) do |table|
       result.push(perm)
     end
   end
-  results = result.join(",");
+  results = result.join(',')
 
-  #we need to wait for our submit form to load ...
-  page.should have_selector("#timeline_options_columns_", visible: false)
+  # we need to wait for our submit form to load ...
+  page.should have_selector('#timeline_options_columns_', visible: false)
 
   page.execute_script("jQuery('#timeline_options_columns_').val('#{results}')")
 
@@ -212,7 +212,7 @@ When (/^I set the columns shown in the timeline to:$/) do |table|
 end
 
 When (/^I set the first level grouping criteria to:$/) do |table|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
   result = []
@@ -222,10 +222,10 @@ When (/^I set the first level grouping criteria to:$/) do |table|
       result.push(Project.find_by_name(perm).id)
     end
   end
-  results = result.join(",");
+  results = result.join(',')
 
-  #we need to wait for our submit form to load ...
-  page.should have_selector("#timeline_options_grouping_one_enabled", visible: false)
+  # we need to wait for our submit form to load ...
+  page.should have_selector('#timeline_options_grouping_one_enabled', visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{results}')")
@@ -234,11 +234,11 @@ When (/^I set the first level grouping criteria to:$/) do |table|
 end
 
 When (/^I set the sortation of the first level grouping criteria to explicit order$/) do
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_grouping_one_sort", visible: false)
+  page.should have_selector('#timeline_options_grouping_one_sort', visible: false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
@@ -261,28 +261,28 @@ When (/^I wait for timeline to load table$/) do
 end
 
 When (/^I move "([^"]*)" to the top$/) do |name|
-  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to top')
   link.click
 end
 
 When (/^I move "([^"]*)" to the bottom$/) do |name|
-  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move to bottom')
   link.click
 end
 
 When (/^I move "([^"]*)" up by one$/) do |name|
-  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move up')
   link.click
 end
 
 When (/^I move "([^"]*)" down by one$/) do |name|
-  cell = find(:css, "table.list td", text: Regexp.new("^#{name}$"))
+  cell = find(:css, 'table.list td', text: Regexp.new("^#{name}$"))
   row = cell.find(:xpath, './ancestor::tr')
   link = row.find_link('Move down')
   link.click
@@ -292,11 +292,11 @@ When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timel
   timeline = Timeline.find_by_name(timeline_name)
 
   text = "{{timeline(#{timeline.id})}}"
-  step %Q{I fill in "#{text}" for "#{container}"}
+  step %{I fill in "#{text}" for "#{container}"}
 end
 
 When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
   color = PlanningElementTypeColor.find_by_name(color_name)
 
-  step %Q{#{step_name} within "#color-#{color.id} td:first-child"}
+  step %{#{step_name} within "#color-#{color.id} td:first-child"}
 end

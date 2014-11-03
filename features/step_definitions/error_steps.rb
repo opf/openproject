@@ -36,7 +36,7 @@ Then /^there should( not)? be an(?:y)? error message$/ do |no_message|
 end
 
 Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
-  page.all(:css, ".errorExplanation li, .errorExplanation li *", text: message).should_not be_empty
+  page.all(:css, '.errorExplanation li, .errorExplanation li *', text: message).should_not be_empty
 end
 
 Then /^there should( not)? be a flash (error|notice) message$/ do |no_message, kind_of_message|

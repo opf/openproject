@@ -30,14 +30,14 @@
 Capybara.register_driver :selenium_with_firebug do |app|
   Capybara::Selenium::Driver
   profile = Selenium::WebDriver::Firefox::Profile.new
-  profile.add_extension(File.expand_path("../firebug-1.11.4.xpi", __FILE__))
-  profile.add_extension(File.expand_path("../firepath-0.9.7-fx.xpi", __FILE__))
+  profile.add_extension(File.expand_path('../firebug-1.11.4.xpi', __FILE__))
+  profile.add_extension(File.expand_path('../firepath-0.9.7-fx.xpi', __FILE__))
 
   # Prevent "Welcome!" tab
-  profile["extensions.firebug.currentVersion"] = "999"
+  profile['extensions.firebug.currentVersion'] = '999'
 
   # Enable for all sites.
-  profile["extensions.firebug.allPagesActivation"] = "on"
+  profile['extensions.firebug.allPagesActivation'] = 'on'
 
   # Enable all features.
   ['console', 'net', 'script'].each do |feature|

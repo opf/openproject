@@ -40,7 +40,7 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   end
 end
 
-Given /^there is a [rR]ole "([^\"]*)"$/ do |name, table = Cucumber::Ast::Table.new([])|
+Given /^there is a [rR]ole "([^\"]*)"$/ do |name, _table = Cucumber::Ast::Table.new([])|
   FactoryGirl.create(:role, name: name) unless Role.find_by_name(name)
 end
 
@@ -64,7 +64,7 @@ Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, tab
     table.raw.each do |_perm|
       perm = _perm.first
       unless perm.blank?
-        perm = perm.gsub(" ", "_").underscore.to_sym
+        perm = perm.gsub(' ', '_').underscore.to_sym
         if available_perms.include?(:"#{perm}")
           r.permissions << perm
         end
@@ -85,5 +85,5 @@ Given /^the [rR]ole "(.+?)" has no (?:[Pp]ermissions|[Rr]ights)$/ do |role_name|
 end
 
 Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
-  step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
+  step %{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end

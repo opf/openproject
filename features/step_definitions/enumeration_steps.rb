@@ -52,8 +52,8 @@ Then(/^I should see the enumeration:$/) do |table|
 end
 
 def activity_type_from_string(string)
-  case string.gsub(/\s/,"_").camelcase
-  when "Activity", "TimeEntryActivity"
+  case string.gsub(/\s/, '_').camelcase
+  when 'Activity', 'TimeEntryActivity'
     TimeEntryActivity
   else
     raise "Don't know this enumeration yet"

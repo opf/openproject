@@ -28,7 +28,7 @@
 #++
 
 def get_timeline_row_by_name(name)
-  find("a", text: name).find(:xpath, "./ancestor::tr")
+  find('a', text: name).find(:xpath, './ancestor::tr')
 end
 
 def get_timeline_cell(name, valueName)
@@ -41,14 +41,14 @@ end
 def get_timelines_row_number_by_name(name)
   result = -1
 
-  th = find("table.tl-main-table").find(:xpath, "./thead/tr/th[text()='#{name}']")
-  ths = find("table.tl-main-table").all(:xpath, "./thead/tr/th")
+  th = find('table.tl-main-table').find(:xpath, "./thead/tr/th[text()='#{name}']")
+  ths = find('table.tl-main-table').all(:xpath, './thead/tr/th')
 
   for i in 0..ths.length do
-     if  ths[i] == th then
+    if  ths[i] == th
       result = i
       break
-     end
+    end
   end
 
   result
@@ -57,9 +57,9 @@ end
 Given(/^there are the following work packages were added "(.*?)"(?: in project "([^"]*)")?:$/) do |time, project_name, table|
   project = get_project(project_name)
 
-  #TODO provide better time support with some gem that can parse this:
+  # TODO provide better time support with some gem that can parse this:
   case time
-  when "three weeks ago"
+  when 'three weeks ago'
     target_time = 3.weeks.ago
   else
     target_time = Time.now
@@ -72,13 +72,13 @@ end
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
-  #TODO provide better time support with some gem that can parse this:
+  # TODO provide better time support with some gem that can parse this:
   case time
-  when "one week ago"
+  when 'one week ago'
     target_time = 1.weeks.ago
-  when "two weeks ago"
+  when 'two weeks ago'
     target_time = 2.weeks.ago
-  when "three weeks ago"
+  when 'three weeks ago'
     target_time = 3.weeks.ago
   else
     target_time = Time.now
@@ -97,11 +97,11 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
 end
 
 When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
-  steps %Q{
+  steps %{
     When I edit the settings of the current timeline
   }
 
-  page.should have_selector("#timeline_options_vertical_planning_elements", visible: false)
+  page.should have_selector('#timeline_options_vertical_planning_elements', visible: false)
   page.execute_script("jQuery('#timeline_options_comparison_relative').attr('checked', 'checked')")
   page.execute_script("jQuery('#timeline_options_compare_to_relative').val('#{time}')")
   page.execute_script("jQuery('#timeline_options_compare_to_relative_unit').val(0)")
@@ -110,18 +110,18 @@ end
 
 Then(/^I should see the work package "(.*?)" has not moved$/) do |name|
   row = get_timeline_row_by_name(name)
-  row.should_not have_selector(".tl-icon-changed");
+  row.should_not have_selector('.tl-icon-changed')
 end
 
 Then(/^I should see the work package "(.*?)" has moved$/) do |name|
   row = get_timeline_row_by_name(name)
-  row.should have_selector(".tl-icon-changed");
+  row.should have_selector('.tl-icon-changed')
 end
 
 Then(/^I should see the work package "(.*?)" has not changed "(.*?)"$/) do |name, column_name|
-  expect(get_timeline_cell(name, column_name)).to have_no_css(".tl-icon-changed")
+  expect(get_timeline_cell(name, column_name)).to have_no_css('.tl-icon-changed')
 end
 
 Then(/^I should see the work package "(.*?)" has changed "(.*?)"$/) do |name, column_name|
-  expect(get_timeline_cell(name, column_name)).to have_css(".tl-icon-changed")
+  expect(get_timeline_cell(name, column_name)).to have_css('.tl-icon-changed')
 end

@@ -33,7 +33,7 @@ Then /^I should see (\d+) ([^\" ]+)?$/ do |number, name|
 end
 
 Then /^I should not see(?: (\d+))? ([^\" ]+)$/ do |number, name|
-  options = number ? {count: number.to_i} : {}
+  options = number ? { count: number.to_i } : {}
   page.should have_no_css(".#{name.singularize}", options)
 end
 
@@ -64,7 +64,7 @@ Then(/^I should see the following fields:$/) do |table|
         raise Capybara::ExpectationNotMet, "expected to find field \"#{field}\" but there were no matches."
       end
 
-      if found.tag_name == "select" && value.present?
+      if found.tag_name == 'select' && value.present?
         should have_select(field, selected: value)
       else
         found.value.should == value
@@ -76,5 +76,5 @@ Then(/^I should see the following fields:$/) do |table|
 end
 
 Then(/^"([^"]*)" should be the first row in table$/) do |name|
-  should have_selector("table.list tbody tr td", text: Regexp.new("#{name}"))
+  should have_selector('table.list tbody tr td', text: Regexp.new("#{name}"))
 end

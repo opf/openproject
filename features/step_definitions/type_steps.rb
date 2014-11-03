@@ -31,7 +31,7 @@
 
 InstanceFinder.register(Type, Proc.new { |name| Type.find_by_name(name) })
 
-RouteMap.register(Type, "/types")
+RouteMap.register(Type, '/types')
 
 Given /^the following types are enabled for the project called "(.*?)":$/ do |project_name, type_name_table|
   types = type_name_table.raw.flatten.map do |type_name|
