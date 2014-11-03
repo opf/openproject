@@ -36,9 +36,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('TreeNode', [function() {
+module.exports = function() {
 
   TreeNode = {
     payload: undefined,
@@ -339,4 +337,4 @@ angular.module('openproject.timelines.models')
   };
 
   return TreeNode;
-}]);
+}

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('slideToggle', [function() {
+module.exports = function() {
   return {
     restrict: 'A',
     scope: {
@@ -45,4 +43,4 @@ angular.module('openproject.uiComponents')
       });
     }
   };
-}]);
+}

@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.workPackages.tabs')
-
-.directive('addWorkPackageRelation', [function() {
+module.exports = function() {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
@@ -37,4 +35,4 @@ angular.module('openproject.workPackages.tabs')
       scope.relationToAddId = null;
     }
   };
-}]);
+}

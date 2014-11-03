@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackageDynamicAttribute', ['$compile', function($compile){
+module.exports = function($compile){
   return {
     restrict: 'EA',
     scope: {
@@ -42,4 +40,4 @@ angular.module('openproject.workPackages.directives')
       $compile(element.contents())(scope);
     }
   };
-}]);
+}

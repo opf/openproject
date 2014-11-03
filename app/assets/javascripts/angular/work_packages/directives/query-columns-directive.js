@@ -26,14 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('queryColumns', [
-  'WorkPackagesTableHelper',
-  'WorkPackagesTableService',
-  'WorkPackageService',
-  'QueryService',
-  function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
+module.exports = function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
@@ -64,7 +57,7 @@ angular.module('openproject.workPackages.directives')
           };
 
           scope.moveSelectedColumnBy = function(by) {
-            var nameOfColumnToBeMoved = scope.markedSelectedColumns.first();
+            var nameOfColumnToBeMoved = _.first(scope.markedSelectedColumns);
             WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
           };
 
@@ -82,4 +75,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

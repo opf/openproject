@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('modalLoading', ['I18n', function(I18n){
-
+module.exports = function(I18n) {
   return {
     restrict: 'E',
     templateUrl: '/templates/components/modal_loading.html',
@@ -38,4 +35,4 @@ angular.module('openproject.uiComponents')
       scope.I18n = I18n;
     }
   };
-}]);
+}

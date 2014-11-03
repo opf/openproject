@@ -37,7 +37,7 @@ describe('WorkPackagesListController', function() {
 
   beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout', 'openproject.services'));
   beforeEach(module('templates', function($provide) {
-    configurationService = new Object();
+    var configurationService = new Object();
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 

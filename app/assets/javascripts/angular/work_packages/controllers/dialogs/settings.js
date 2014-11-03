@@ -26,25 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-
-.factory('settingsModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'SettingsModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/settings.html',
-    afterFocusOn: '#work-packages-settings-button'
-  });
-}])
-
-.controller('SettingsModalController', [
-  '$scope',
-  'settingsModal',
-  'QueryService',
-  'AuthorisationService',
-  '$rootScope',
-  'QUERY_MENU_ITEM_TYPE',
-  function($scope, settingsModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE) {
+module.exports = function($scope, settingsModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query = QueryService.getQuery();
 
@@ -74,4 +56,4 @@ angular.module('openproject.workPackages.controllers')
         }
       });
     };
-}]);
+}

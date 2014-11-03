@@ -45,6 +45,7 @@
 /backup
 /.project
 /.loadpath
+/app/assets/javascripts/openproject-app.bundle.js*
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml

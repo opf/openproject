@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('ProjectType', [function() {
+module.exports = function() {
 
   ProjectType = {
     identifier: 'project_types',
@@ -57,4 +55,4 @@ angular.module('openproject.timelines.models')
   };
 
   return ProjectType;
-}]);
+}

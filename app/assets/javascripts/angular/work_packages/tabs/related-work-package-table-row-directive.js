@@ -27,13 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.workPackages.tabs')
-
-.directive('relatedWorkPackageTableRow', [
-    'I18n',
-    'PathHelper',
-    'WorkPackagesHelper',
-    function(I18n, PathHelper, WorkPackagesHelper) {
+module.exports = function(I18n, PathHelper, WorkPackagesHelper) {
   return {
     restrict: 'A',
     link: function(scope) {
@@ -48,4 +42,4 @@ angular.module('openproject.workPackages.tabs')
       });
     }
   };
-}]);
+}

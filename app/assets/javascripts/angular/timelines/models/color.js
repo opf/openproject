@@ -37,9 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-angular.module('openproject.timelines.models')
-
-.factory('Color', [function() {
+module.exports = function() {
   Color = {
     identifier: 'colors',
     all: function(timeline) {
@@ -56,4 +54,4 @@ angular.module('openproject.timelines.models')
   };
 
   return Color;
-}]);
+}

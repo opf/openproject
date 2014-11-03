@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.helpers')
-
-.service('UrlParamsHelper', ['I18n', 'PaginationService', function(I18n, PaginationService) {
+module.exports = function(I18n, PaginationService) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -173,4 +171,4 @@ angular.module('openproject.helpers')
   };
 
   return UrlParamsHelper;
-}]);
+}

@@ -26,14 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.workPackages.tabs')
-
-.directive('workPackageRelations', [
-    'I18n',
-    'WorkPackagesHelper',
-    '$timeout',
-    function(I18n, WorkPackagesHelper, $timeout) {
+module.exports = function(I18n, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
@@ -95,4 +88,4 @@ angular.module('openproject.workPackages.tabs')
       };
     }
   };
-}]);
+}

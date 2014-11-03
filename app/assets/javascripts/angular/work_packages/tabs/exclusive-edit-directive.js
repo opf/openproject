@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.tabs')
-
-.directive('exclusiveEdit', function() {
+module.exports = function() {
   return {
     restrict: 'EA',
     replace: true,
@@ -57,4 +55,4 @@ angular.module('openproject.workPackages.tabs')
       };
     }
   };
-})
+}

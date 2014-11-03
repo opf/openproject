@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('zoomSlider', ['I18n', function(I18n) {
+module.exports = function(I18n) {
 
   function makeSliderAccessible(slider) {
     var defaultLabel = angular.element('<span class="hidden-for-sighted">');
@@ -76,4 +74,4 @@ angular.module('openproject.uiComponents')
 
     }
   };
-}]);
+}

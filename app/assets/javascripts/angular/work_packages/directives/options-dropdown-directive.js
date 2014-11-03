@@ -26,22 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('optionsDropdown', ['I18n',
-  'columnsModal',
-  'exportModal',
-  'saveModal',
-  'settingsModal',
-  'shareModal',
-  'sortingModal',
-  'groupingModal',
-  'QueryService',
-  'AuthorisationService',
-  '$window',
-  '$state',
-  '$timeout',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state, $timeout){
+module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state, $timeout){
 
   return {
     restrict: 'AE',
@@ -177,4 +162,4 @@ angular.module('openproject.workPackages.directives')
       }
     }
   };
-}]);
+}

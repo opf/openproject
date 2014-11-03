@@ -45,7 +45,7 @@ describe('activityCommentDirective', function() {
                     'openproject.workPackages.services'));
 
   beforeEach(module('templates', function($provide) {
-    configurationService = {
+    var configurationService = {
       commentsSortedInDescendingOrder: function() { return []; }
     };
 

@@ -26,16 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.constant('ADD_FILTER_SELECT_INDEX', -1)
-
-.directive('queryFilters', [
-    '$timeout',
-    'FiltersHelper',
-    'I18n',
-    'ADD_FILTER_SELECT_INDEX',
-    function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
+module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX) {
 
   return {
     restrict: 'E',
@@ -83,4 +74,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

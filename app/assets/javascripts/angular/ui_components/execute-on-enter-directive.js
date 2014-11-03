@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.constant('ENTER_KEY', 13)
-.directive('executeOnEnter', ['ENTER_KEY', function(ENTER_KEY) {
+module.exports = function(ENTER_KEY) {
   return {
     restrict: 'A',
     scope: { executeOnEnter: '&', defaultEventHandling: '=' },
@@ -46,4 +43,4 @@ angular.module('openproject.uiComponents')
       });
     }
   };
-}]);
+}

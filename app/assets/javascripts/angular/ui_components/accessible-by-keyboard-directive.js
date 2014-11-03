@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.uiComponents')
-
-.directive('accessibleByKeyboard', [function() {
+module.exports = function() {
   return {
     restrict: 'E',
     transclude: true,
@@ -44,4 +42,4 @@ angular.module('openproject.uiComponents')
       scope.defaultEventHandling = !attrs.execute;
     }
   };
-}]);
+}

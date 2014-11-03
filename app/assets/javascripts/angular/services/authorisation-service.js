@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('AuthorisationService', function(){
+module.exports = function() {
   var links = {};
 
   var AuthorisationService = {
@@ -47,4 +45,4 @@ angular.module('openproject.services')
   };
 
   return AuthorisationService;
-});
+}

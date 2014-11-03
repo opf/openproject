@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-
-.service('TimezoneService', ['ConfigurationService', 'I18n', function(ConfigurationService, I18n) {
+module.exports = function(ConfigurationService, I18n) {
   TimezoneService = {
     parseDate: function(date) {
       var d = moment.utc(date);
@@ -71,4 +69,4 @@ angular.module('openproject.services')
   };
 
   return TimezoneService;
-}]);
+}

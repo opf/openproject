@@ -27,14 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-  .constant('ESC_KEY', 27)
-
-  .directive('withDropdown', ['$rootScope',
-                              '$window',
-                              'ESC_KEY',
-                              'FocusHelper', function ($rootScope, $window, ESC_KEY, FocusHelper) {
+module.exports = function ($rootScope, $window, ESC_KEY, FocusHelper) {
 
     function position(dropdown, trigger) {
       var hOffset = 0,
@@ -130,4 +123,4 @@ angular.module('openproject.uiComponents')
         });
       }
     };
-  }]);
+  }

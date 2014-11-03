@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('attachmentUserCell', ['PathHelper', function(PathHelper){
+module.exports = function(PathHelper) {
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/tabs/_attachment_user_cell.html',
@@ -44,4 +42,4 @@ angular.module('openproject.workPackages.directives')
         });
     }
   };
-}]);
+}

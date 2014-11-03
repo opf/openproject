@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('editableComment', [function(){
+module.exports = function() {
   return {
     restrict: 'A',
     scope: {
@@ -40,4 +38,4 @@ angular.module('openproject.workPackages.directives')
 
     }
   };
-}]);
+}

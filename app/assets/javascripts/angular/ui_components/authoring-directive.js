@@ -27,9 +27,7 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
-
-.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
+module.exports = function(I18n, PathHelper, TimezoneService) {
   return {
     restrict: 'E',
     replace: true,
@@ -52,4 +50,4 @@ angular.module('openproject.uiComponents')
       }
     }
   };
-}]);
+}

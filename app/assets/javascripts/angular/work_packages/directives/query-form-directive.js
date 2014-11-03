@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('queryForm', [function() {
+module.exports = function() {
 
   return {
     restrict: 'EA',
@@ -107,4 +105,4 @@ angular.module('openproject.workPackages.directives')
       };
     }
   };
-}]);
+}

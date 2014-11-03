@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timeEntries.controllers')
-
-.controller('TimeEntriesController', ['$scope', '$http', 'PathHelper', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, SortService, PaginationService) {
+module.exports = function($scope, $http, PathHelper, SortService, PaginationService) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
   $scope.totalEntryCount = gon.total_count;
@@ -78,4 +76,4 @@ angular.module('openproject.timeEntries.controllers')
            });
     }
   };
-}]);
+}

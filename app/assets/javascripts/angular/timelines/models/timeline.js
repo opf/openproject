@@ -27,9 +27,7 @@
 //++
 
 
-angular.module('openproject.timelines.models')
-
-.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', 'CustomField', 'CustomFieldHelper', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
+module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
   Timeline = {};
 
@@ -705,4 +703,4 @@ angular.module('openproject.timelines.models')
 
 
   return Timeline;
-}]);
+}
