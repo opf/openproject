@@ -36,7 +36,7 @@ module API
       class WorkPackageRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::Utilities::UrlHelper
         include OpenProject::TextFormatting
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
