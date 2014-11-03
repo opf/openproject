@@ -45,7 +45,7 @@ module Redmine
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
           # Trigger validation only if custom values were changed
           validates_associated :custom_values, on: :update,
-                               if: -> (customized) { customized.custom_field_values_changed? }
+                                               if: -> (customized) { customized.custom_field_values_changed? }
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
