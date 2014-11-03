@@ -69,7 +69,9 @@ module API
         end
 
         def user_allowed_to_edit_parent
-          errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks) if parent_changed?
+          if parent_changed?
+            errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks)
+          end
         end
 
         def lock_version_set
@@ -87,7 +89,9 @@ module API
         end
 
         def user_allowed_to_access_parent
-          errors.add(:parent_id, error_message('parent_id.does_not_exist')) if parent_changed? && !parent_visible?
+          if parent_changed? && !parent_visible?
+            errors.add(:parent_id, error_message('parent_id.does_not_exist'))
+          end
         end
 
         def parent_changed?

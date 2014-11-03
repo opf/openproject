@@ -146,15 +146,15 @@ module WorkPackagesHelper
 
              ActionController::Base.helpers.link_to(link_text.html_safe,
                                                     work_package_path(package),
-                                                    :title => title,
-                                                    :class => css_class)
+                                                    title: title,
+                                                    class: css_class)
            else
              link_text = [hidden_link, link].reject(&:empty?).join('')
 
              html_link = ActionController::Base.helpers.link_to(link_text.html_safe,
                                                                 work_package_path(package),
-                                                                :title => title,
-                                                                :class => css_class)
+                                                                title: title,
+                                                                class: css_class)
 
              [[prefix, html_link].reject(&:empty?).join(' - '),
               suffix].reject(&:empty?).join(': ')

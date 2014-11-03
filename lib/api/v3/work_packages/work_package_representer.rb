@@ -229,14 +229,16 @@ module API
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
-                 getter: -> (*) { { units: I18n.t(:'datetime.units.hour', count: estimated_hours.to_i),
-                                    value: estimated_hours } },
-                 setter: -> (value, *) { estimated_hours = ActiveSupport::JSON.decode(value)['value'] },
+                 getter: -> (*) {
+                                  { units: I18n.t(:'datetime.units.hour', count: estimated_hours.to_i),
+                                    value: estimated_hours }
+                                },
+                 setter: -> (value, *) { self.estimated_hours = ActiveSupport::JSON.decode(value)['value'] },
                  render_nil: true
         property :percentage_done,
                  render_nil: true,
                  exec_context: :decorator,
-                 setter: -> (value, *) { done_ratio = value },
+                 setter: -> (value, *) { self.done_ratio = value },
                  writeable: false
         property :version_id,
                  getter: -> (*) { fixed_version.try(:id) },
@@ -270,7 +272,7 @@ module API
         end
 
         def activities
-          represented.journals.map{ |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
+          represented.journals.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
         end
 
         def watchers
@@ -280,8 +282,8 @@ module API
 
         def relations
           relations = represented.relations
-          visible_relations = relations.find_all { |relation| relation.other_work_package(represented).visible? }
-          visible_relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented, current_user: @current_user) }
+          visible_relations = relations.select { |relation| relation.other_work_package(represented).visible? }
+          visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: @current_user) }
         end
 
         def custom_properties
@@ -294,7 +296,7 @@ module API
         end
 
         def visible_children
-          @visible_children ||= represented.children.find_all { |child| child.visible? }
+          @visible_children ||= represented.children.select { |child| child.visible? }
         end
 
         def percentage_done

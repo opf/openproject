@@ -71,9 +71,10 @@ module API
 
         property :id, render_nil: true
         property :notes, as: :comment, exec_context: :decorator, render_nil: true
-        property :raw_notes, as: :rawComment,
+        property :raw_notes,
+                 as: :rawComment,
                  getter: -> (*) { notes },
-                 setter: -> (value, *) { notes = value },
+                 setter: -> (value, *) { self.notes = value },
                  render_nil: true
         property :details, exec_context: :decorator, render_nil: true
         property :html_details, exec_context: :decorator, render_nil: true

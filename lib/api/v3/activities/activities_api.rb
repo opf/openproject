@@ -39,7 +39,7 @@ module API
 
             before do
               @activity = Journal.find(params[:id])
-              @representer =  ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
+              @representer = ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
             end
 
             get do
