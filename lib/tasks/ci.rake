@@ -69,7 +69,7 @@ namespace :ci do
       }.merge(db_info)
 
       File.open("config/database.yml", 'w') do |f|
-        YAML.dump({"test" => database_yml}, f)
+        YAML.dump({"test" => database_yml, 'development' => database_yml}, f)
       end
 
       # Create and migrate the database
