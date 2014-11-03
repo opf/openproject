@@ -33,11 +33,11 @@ module TimelogHelper
 
   def render_timelog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :work_package_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
+    links << link_to(l(:label_project_all), {project_id: nil, work_package_id: nil})
+    links << link_to(h(@project), {project_id: @project, work_package_id: nil}) if @project
     if @issue
       if @issue.visible?
-        links << link_to_work_package(@issue, :subject => false)
+        links << link_to_work_package(@issue, subject: false)
       else
         links << "##{@issue.id}".html_safe
       end
@@ -99,7 +99,7 @@ module TimelogHelper
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),
                  TimeEntry.human_attribute_name(:user),
@@ -151,7 +151,7 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # Column headers
       headers = criterias.collect do |criteria|
         label = @available_criterias[criteria][:label]
@@ -270,6 +270,6 @@ module TimelogHelper
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
-    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
+    deny_access unless User.current.allowed_to?(:view_time_entries, @project, global: true)
   end
 end

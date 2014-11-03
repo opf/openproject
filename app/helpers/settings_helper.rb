@@ -29,15 +29,15 @@
 
 module SettingsHelper
   def administration_settings_tabs
-    [{:name => 'general', :partial => 'settings/general', :label => :label_general},
-     {:name => 'display', :partial => 'settings/display', :label => :label_display},
-     {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
-     {:name => 'users', :partial => 'settings/users', :label => :label_user_plural },
-     {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
-     {:name => 'work_packages', :partial => 'settings/work_packages', :label => :label_work_package_tracking},
-     {:name => 'notifications', :partial => 'settings/notifications', :label => Proc.new { User.human_attribute_name(:mail_notification) } },
-     {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
-     {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
+    [{name: 'general', partial: 'settings/general', label: :label_general},
+     {name: 'display', partial: 'settings/display', label: :label_display},
+     {name: 'authentication', partial: 'settings/authentication', label: :label_authentication},
+     {name: 'users', partial: 'settings/users', label: :label_user_plural },
+     {name: 'projects', partial: 'settings/projects', label: :label_project_plural},
+     {name: 'work_packages', partial: 'settings/work_packages', label: :label_work_package_tracking},
+     {name: 'notifications', partial: 'settings/notifications', label: Proc.new { User.human_attribute_name(:mail_notification) } },
+     {name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails},
+     {name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural}
     ]
   end
 
@@ -63,7 +63,7 @@ module SettingsHelper
 
         content_tag('label',
           check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + text.to_s,
-          :class => 'block'
+          class: 'block'
         )
       end.join.html_safe
   end
@@ -84,7 +84,7 @@ module SettingsHelper
           '<tr>' +
             '<td>' + h(text) + '</td>' +
             settings.collect do |setting|
-              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), :id => "#{setting}_#{value}" ) + '</td>'
+              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), id: "#{setting}_#{value}" ) + '</td>'
             end.join +
           '</tr>'
         end.join +
@@ -104,13 +104,13 @@ module SettingsHelper
 
   def setting_check_box(setting, options={})
     setting_label(setting, options) +
-      tag(:input, :type => "hidden", :name => "settings[#{setting}]", :value => 0, :id => "settings_#{setting}_hidden") +
+      tag(:input, type: "hidden", name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
       check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
   end
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", I18n.t(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''.html_safe
+    label != false ? content_tag("label", I18n.t(label || "setting_#{setting}"), for: "settings_#{setting}" ) : ''.html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option
@@ -119,7 +119,7 @@ module SettingsHelper
                        check_box_tag('settings[notified_events][]',
                                      notifiable.name,
                                      Setting.notified_events.include?(notifiable.name)) +
-                         l_or_humanize(notifiable.name, :prefix => 'label_'),
-                       :class => notifiable.parent.present? ? "parent" : '')
+                         l_or_humanize(notifiable.name, prefix: 'label_'),
+                       class: notifiable.parent.present? ? "parent" : '')
   end
 end

@@ -36,7 +36,7 @@ module JournalsHelper
   def self.included(base)
     base.class_eval do
       if respond_to? :before_filter
-        before_filter :find_optional_journal, :only => [:edit]
+        before_filter :find_optional_journal, only: [:edit]
       end
     end
   end
@@ -44,7 +44,7 @@ module JournalsHelper
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => work_package_css_classes(journal.journable) }
+    content_tag "div", journal_content, { id: "change-#{journal.id}", class: work_package_css_classes(journal.journable) }
   end
 
   # This renders a journal entry with a header and details
@@ -54,16 +54,16 @@ module JournalsHelper
         #{avatar(journal.user)}
       </div>
       <h4>
-        <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
-        #{authoring journal.created_at, journal.user, :label => header_label}
-        #{content_tag('a', '', :name => "note-#{journal.anchor}")}
+        <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", anchor: "note-#{journal.anchor}"}</div>
+        #{authoring journal.created_at, journal.user, label: header_label}
+        #{content_tag('a', '', name: "note-#{journal.anchor}")}
       </h4>
     HTML
 
     if journal.details.any?
-      details = content_tag "ul", :class => "details journal-attributes" do
+      details = content_tag "ul", class: "details journal-attributes" do
         journal.details.collect do |detail|
-          if d = journal.render_detail(detail, :cache => options[:cache])
+          if d = journal.render_detail(detail, cache: options[:cache])
             content_tag("li", d.html_safe)
           end
         end.compact.join(' ').html_safe
@@ -74,7 +74,7 @@ module JournalsHelper
               '' :
               render_notes(model, journal, options)
 
-    content_tag("div", "#{header}#{details}#{notes}".html_safe, :id => "change-#{journal.id}", :class => "journal")
+    content_tag("div", "#{header}#{details}#{notes}".html_safe, id: "change-#{journal.id}", class: "journal")
   end
 
   def render_notes(model, journal, options={})
@@ -90,40 +90,40 @@ module JournalsHelper
           # the quote link should somehow be supplied
           controller_name = controller.class.to_s.underscore.gsub(/_controller\z/,"").to_sym
           l << link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
-                                                { :controller => controller_name,
-                                                  :action => 'quoted',
-                                                  :id => model,
-                                                  :journal_id => journal },
-                                                  :title => l(:button_quote),
-                                                  :class => 'quote-link no-decoration-on-hover')
+                                                { controller: controller_name,
+                                                  action: 'quoted',
+                                                  id: model,
+                                                  journal_id: journal },
+                                                  title: l(:button_quote),
+                                                  class: 'quote-link no-decoration-on-hover')
         end
         if editable
           l << link_to_in_place_notes_editor(icon_wrapper('icon-context icon-edit', l(:button_edit)), "journal-#{journal.id}-notes",
-                { :controller => '/journals', :action => 'edit', :id => journal },
-                  :class => 'no-decoration-on-hover',
-                  :title => l(:button_edit))
+                { controller: '/journals', action: 'edit', id: journal },
+                  class: 'no-decoration-on-hover',
+                  title: l(:button_edit))
         end
       end
     end
 
     content = ''
-    content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
+    content << content_tag('div', links.join(' '),{ class: 'contextual' }, false) unless links.empty?
     attachments = model.try(:attachments) || []
     content << content_tag('div',
-                           format_text(journal, :notes, :attachments => attachments),
-                           :class => 'wikicontent',
+                           format_text(journal, :notes, attachments: attachments),
+                           class: 'wikicontent',
                            :'ng-non-bindable' => '',
                            "data-user" => journal.journable.author)
 
     css_classes = "wiki journal-notes"
     css_classes << " editable" if editable
 
-    content_tag('div', content, { :id => "journal-#{journal.id}-notes", :class => css_classes }, false)
+    content_tag('div', content, { id: "journal-#{journal.id}-notes", class: css_classes }, false)
   end
 
   def link_to_in_place_notes_editor(text, field_id, url, options={})
     onclick = "new Ajax.Request('#{url_for(url)}', {asynchronous:true, evalScripts:true, method:'get'}); return false;"
-    link_to text, '#', options.merge(:onclick => onclick)
+    link_to text, '#', options.merge(onclick: onclick)
   end
 
   # This may conveniently be used by controllers to find journals referred to in the current request

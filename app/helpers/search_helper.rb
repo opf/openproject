@@ -43,7 +43,7 @@ module SearchHelper
         result << h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
       else
         t = (tokens.index(words.downcase) || 0) % 4
-        result << content_tag('span', h(words), :class => "highlight token-#{t}")
+        result << content_tag('span', h(words), class: "highlight token-#{t}")
       end
     end
     result.html_safe
@@ -86,7 +86,7 @@ module SearchHelper
   end
 
   def type_label(t)
-    l("label_#{t.singularize}_plural", :default => t.to_s.humanize)
+    l("label_#{t.singularize}_plural", default: t.to_s.humanize)
   end
 
   def project_select_tag
@@ -94,7 +94,7 @@ module SearchHelper
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, 'current_project'] unless @project.nil?
-    label_tag("scope", l(:description_project_scope), :class => "hidden-for-sighted") +
+    label_tag("scope", l(:description_project_scope), class: "hidden-for-sighted") +
     select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
@@ -106,13 +106,13 @@ module SearchHelper
       next if c == 0
       text = "#{type_label(t)} (#{c})"
       target = {
-        :controller => 'search',
-        :project_id => (@project.identifier if @project),
-        :action => 'index',
-        :q => params[:q],
-        :titles_only => params[:title_only],
-        :all_words => params[:all_words],
-        :scope => current_scope,
+        controller: 'search',
+        project_id: (@project.identifier if @project),
+        action: 'index',
+        q: params[:q],
+        titles_only: params[:title_only],
+        all_words: params[:all_words],
+        scope: current_scope,
         t => 1
       }
       links << link_to(h(text), target)
@@ -126,11 +126,11 @@ module SearchHelper
 
   def link_to_previous_search_page(pagination_previous_date)
     link_to_content_update(l(:label_previous),
-                           params.merge(:previous => 1, :offset => pagination_previous_date.to_r.to_s), :class => 'navigate-left')
+                           params.merge(previous: 1, offset: pagination_previous_date.to_r.to_s), class: 'navigate-left')
   end
 
   def link_to_next_search_page(pagination_next_date)
     link_to_content_update(l(:label_next),
-                           params.merge(:previous => nil, :offset => pagination_next_date.to_r.to_s), :class => 'navigate-right')
+                           params.merge(previous: nil, offset: pagination_next_date.to_r.to_s), class: 'navigate-right')
   end
 end

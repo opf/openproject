@@ -47,10 +47,10 @@ module QueriesHelper
     if !params[:query_id].blank?
       cond = "project_id IS NULL"
       cond << " OR project_id = #{@project.id}" if @project
-      @query = Query.find(params[:query_id], :conditions => cond)
+      @query = Query.find(params[:query_id], conditions: cond)
       @query.project = @project
       add_filter_from_params if params[:accept_empty_query_fields]
-      session[:query] = {:id => @query.id, :project_id => @query.project_id}
+      session[:query] = {id: @query.id, project_id: @query.project_id}
       sort_clear
     else
       if api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
@@ -67,10 +67,10 @@ module QueriesHelper
         @query.group_by = params[:group_by]
         @query.display_sums = params[:display_sums].present? && params[:display_sums] == "true"
         @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
-        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :display_sums => @query.display_sums, :column_names => @query.column_names}
+        session[:query] = {project_id: @query.project_id, filters: @query.filters, group_by: @query.group_by, display_sums: @query.display_sums, column_names: @query.column_names}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
-        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by], :display_sums => session[:query][:display_sums], :column_names => session[:query][:column_names])
+        @query ||= Query.new(name: "_", project: @project, filters: session[:query][:filters], group_by: session[:query][:group_by], display_sums: session[:query][:display_sums], column_names: session[:query][:column_names])
         @query.project = @project
       end
     end

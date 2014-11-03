@@ -48,12 +48,12 @@ module RepositoriesHelper
       properties.keys.sort.each do |property|
         content << content_tag('li', raw("<b>#{h property}</b>: <span>#{h properties[property]}</span>"))
       end
-      content_tag('ul', content.html_safe, :class => 'properties')
+      content_tag('ul', content.html_safe, class: 'properties')
     end
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.find(:all, :limit => 1000, :order => 'path').collect do |change|
+    changes = @changeset.changes.find(:all, limit: 1000, order: 'path').collect do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -97,28 +97,28 @@ module RepositoriesHelper
       if s = tree[file][:s]
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
-        text = link_to(h(text), :controller => '/repositories',
-                             :action => 'show',
-                             :project_id => @project,
-                             :path => path_param,
-                             :rev => @changeset.identifier)
+        text = link_to(h(text), controller: '/repositories',
+                             action: 'show',
+                             project_id: @project,
+                             path: path_param,
+                             rev: @changeset.identifier)
         output << "<li class='#{style}'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = without_leading_slash(to_path_param(@repository.relative_path(c.path)))
-        text = link_to(h(text), :controller => '/repositories',
-                             :action => 'entry',
-                             :project_id => @project,
-                             :path => path_param,
-                             :rev => @changeset.identifier) unless c.action == 'D'
+        text = link_to(h(text), controller: '/repositories',
+                             action: 'entry',
+                             project_id: @project,
+                             path: path_param,
+                             rev: @changeset.identifier) unless c.action == 'D'
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
-        text << raw(' (' + link_to(l(:label_diff), :controller => '/repositories',
-                                       :action => 'diff',
-                                       :project_id => @project,
-                                       :path => path_param,
-                                       :rev => @changeset.identifier) + ') ') if c.action == 'M'
-        text << raw(' ' + content_tag('span', h(c.from_path), :class => 'copied-from')) unless c.from_path.blank?
+        text << raw(' (' + link_to(l(:label_diff), controller: '/repositories',
+                                       action: 'diff',
+                                       project_id: @project,
+                                       path: path_param,
+                                       rev: @changeset.identifier) + ') ') if c.action == 'M'
+        text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
         output << "<li class='#{style}'>#{text}</li>"
       end
     end
@@ -162,13 +162,13 @@ module RepositoriesHelper
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
       if ! str.valid_encoding?
-        str = str.encode("US-ASCII", :invalid => :replace,
-              :undef => :replace, :replace => '?').encode("UTF-8")
+        str = str.encode("US-ASCII", invalid: :replace,
+              undef: :replace, replace: '?').encode("UTF-8")
       end
     else
       # removes invalid UTF8 sequences
       begin
-        (str + '  ').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")[0..-3]
+        (str + '  ').encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")[0..-3]
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       end
     end
@@ -193,15 +193,15 @@ module RepositoriesHelper
     end
     select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
-               :disabled => (repository && !repository.new_record?),
-               :onchange => remote_function(
-                  :url => {
-                      :controller => '/repositories',
-                      :action => 'edit',
-                      :id => @project
+               disabled: (repository && !repository.new_record?),
+               onchange: remote_function(
+                  url: {
+                      controller: '/repositories',
+                      action: 'edit',
+                      id: @project
                         },
-               :method => :get,
-               :with => "Form.serialize(this.form)")
+               method: :get,
+               with: "Form.serialize(this.form)")
                )
   end
 
@@ -214,28 +214,28 @@ module RepositoriesHelper
   end
 
   def subversion_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
+      content_tag('p', form.text_field(:url, size: 60, required: true, disabled: (repository && !repository.root_url.blank?)) +
                        '<br />(file:///, http://, https://, svn://, svn+[tunnelscheme]://)'.html_safe) +
-      content_tag('p', form.text_field(:login, :size => 30)) +
-      content_tag('p', form.password_field(:password, :size => 30, :name => 'ignore',
-                                           :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
-                                           :onfocus => "this.value=''; this.name='repository[password]';",
-                                           :onchange => "this.name='repository[password]';"))
+      content_tag('p', form.text_field(:login, size: 30)) +
+      content_tag('p', form.password_field(:password, size: 30, name: 'ignore',
+                                           value: ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
+                                           onfocus: "this.value=''; this.name='repository[password]';",
+                                           onchange: "this.name='repository[password]';"))
   end
 
   def git_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
+      content_tag('p', form.text_field(:url, label: :label_git_path, size: 60, required: true, disabled: (repository && !repository.root_url.blank?)) +
                   '<br />'.html_safe + l(:text_git_repo_example)) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
-                        :label => l(:label_path_encoding)) +
+                        label: l(:label_path_encoding)) +
                         '<br />'.html_safe + l(:text_default_encoding))
   end
 
   def filesystem_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => :label_filesystem_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?))) +
+    content_tag('p', form.text_field(:url, label: :label_filesystem_path, size: 60, required: true, disabled: (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(:path_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => (l(:label_path_encoding)) +
+                                 label: (l(:label_path_encoding)) +
                                  '<br />' + l(:text_default_encoding)).html_safe)
 
   end

@@ -33,14 +33,14 @@ module TimelinesHelper
   def icon_for_color(color, options = {})
     return unless color
 
-    options = options.merge(:class => "timelines-phase " + options[:class].to_s,
-                            :style => "background-color: #{color.hexcode};" + options[:style].to_s)
+    options = options.merge(class: "timelines-phase " + options[:class].to_s,
+                            style: "background-color: #{color.hexcode};" + options[:style].to_s)
 
     content_tag(:span, " ", options)
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.planning_elements.find(:all, :order => "COALESCE(parent_id, id), parent_id")
+    available_parents = planning_element.project.planning_elements.find(:all, order: "COALESCE(parent_id, id), parent_id")
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
@@ -270,21 +270,21 @@ module TimelinesHelper
   def list_to_select_object_with_none(collection)
     collection = collection.map do |t|
       {
-        :name => t,
-        :id => t
+        name: t,
+        id: t
       }
     end
     collection.unshift({
-      :name => l("timelines.filter.noneElement"),
-      :id => -1
+      name: l("timelines.filter.noneElement"),
+      id: -1
     })
   end
 
   def internationalized_columns_select_object(collection)
     collection.map do |t|
       {
-        :name => l("timelines.filter.column." + t),
-        :id => t
+        name: l("timelines.filter.column." + t),
+        id: t
       }
     end
   end

@@ -59,6 +59,6 @@ module CalendarsHelper
   def link_to_month(date_to_show, options = {})
     date = date_to_show.to_date
     name = ::I18n.l date, format: options.delete(:display_year) ? '%B %Y' : '%B'
-    link_to_content_update(name, params.merge(:year => date.year, :month => date.month), options)
+    link_to_content_update(name, params.merge(year: date.year, month: date.month), options)
   end
 end

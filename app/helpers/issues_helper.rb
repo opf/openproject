@@ -73,13 +73,13 @@ module IssuesHelper
       s << content_tag('tr',
              content_tag('td',
                          "<label>#{l(:description_select_work_package) + " #" + child.id.to_s}" +
-                         check_box_tag('ids[]', child.id, false, :id => nil) + '</label>',
-                         :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
+                         check_box_tag('ids[]', child.id, false, id: nil) + '</label>',
+                         class: 'checkbox') +
+             content_tag('td', link_to_issue(child, truncate: 60), class: 'subject') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px', :legend => "#{child.done_ratio}%")),
-             :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
+             content_tag('td', progress_bar(child.done_ratio, width: '80px', legend: "#{child.done_ratio}%")),
+             class: "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
     s << '</form></table>'
     s
@@ -111,9 +111,9 @@ module IssuesHelper
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
       @visible_queries = Query.find(:all,
-                                    :select => 'id, name, is_public',
-                                    :order => "name ASC",
-                                    :conditions => visible.conditions)
+                                    select: 'id, name, is_public',
+                                    order: "name ASC",
+                                    conditions: visible.conditions)
     end
     @visible_queries
   end
@@ -139,8 +139,8 @@ module IssuesHelper
     return if issue.leaf?
     api.array :children do
       issue.children.each do |child|
-        api.issue(:id => child.id) do
-          api.type(:id => child.type_id, :name => child.type.name) unless child.type.nil?
+        api.issue(id: child.id) do
+          api.type(id: child.type_id, name: child.type.name) unless child.type.nil?
           api.subject child.subject
           render_api_issue_children(child, api)
         end

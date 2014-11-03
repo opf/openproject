@@ -44,7 +44,7 @@ module TypesHelper
     end
 
     content_tag(:span, " ",
-                :class => css_class,
-                :style => "background-color: #{color}")
+                class: css_class,
+                style: "background-color: #{color}")
   end
 end

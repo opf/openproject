@@ -40,7 +40,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
-    User.current.allowed_to?({:controller => controller, :action => action}, @project)
+    User.current.allowed_to?({controller: controller, action: action}, @project)
   end
 
   # Display a link if user is authorized
@@ -97,9 +97,9 @@ module ApplicationHelper
 
   def delete_link(url, options={})
     options = {
-      :method => :delete,
-      :data => {:confirm => l(:text_are_you_sure)},
-      :class => 'icon icon-delete'
+      method: :delete,
+      data: {confirm: l(:text_are_you_sure)},
+      class: 'icon icon-delete'
     }.merge(options)
 
     link_to l(:button_delete), url, options
@@ -108,8 +108,8 @@ module ApplicationHelper
   def image_to_function(name, function, html_options = {})
     html_options.symbolize_keys!
     tag(:input, html_options.merge({
-        :type => "image", :src => image_path(name),
-        :onclick => (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};"
+        type: "image", src: image_path(name),
+        onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};"
         }))
   end
 
@@ -119,7 +119,7 @@ module ApplicationHelper
   end
 
   def format_activity_title(text)
-    h(truncate_single_line(text, :length => 100))
+    h(truncate_single_line(text, length: 100))
   end
 
   def format_activity_day(date)
@@ -127,7 +127,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />").html_safe
+    h(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />").html_safe
   end
 
   def format_version_name(version)
@@ -200,9 +200,9 @@ module ApplicationHelper
 
   def render_flash_message(type, message, html_options = {})
     css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
-    html_options = { :class => css_classes, role: "alert" }.merge(html_options)
+    html_options = { class: css_classes, role: "alert" }.merge(html_options)
     if User.current.impaired?
-      content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
+      content_tag('div', content_tag('a', join_flash_messages(message), href: 'javascript:;'), html_options)
     else
       content_tag('div', join_flash_messages(message), html_options)
     end
@@ -211,9 +211,9 @@ module ApplicationHelper
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?
-      render :partial => 'common/tabs', :locals => {:tabs => tabs}
+      render partial: 'common/tabs', locals: {tabs: tabs}
     else
-      content_tag 'p', l(:label_no_data), :class => "nodata"
+      content_tag 'p', l(:label_no_data), class: "nodata"
     end
   end
 
@@ -221,8 +221,8 @@ module ApplicationHelper
     Project.project_level_list(projects).map do |element|
 
       tag_options = {
-        :value => h(element[:project].id),
-        :title => h(element[:project].name),
+        value: h(element[:project].id),
+        title: h(element[:project].name),
       }
 
       if options[:selected] == element[:project] ||
@@ -274,8 +274,8 @@ module ApplicationHelper
 
   def principals_check_box_tags(name, principals)
     labeled_check_box_tags(name, principals,
-                                 { :title => :user_status_i18n,
-                                   :class => :user_status_class })
+                                 { title: :user_status_i18n,
+                                   class: :user_status_class })
   end
 
   def labeled_check_box_tags(name, collection, options = {})
@@ -291,7 +291,7 @@ module ApplicationHelper
       end
 
       content_tag :div do
-        check_box_tag(name, object.id, false, :id => id) +
+        check_box_tag(name, object.id, false, id: id) +
         label_tag(id, object, object_options)
       end
     end.join.html_safe
@@ -302,15 +302,15 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created)).html_safe
+    l(options[:label] || :label_added_time_by, author: link_to_user(author), age: time_tag(created)).html_safe
   end
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project and @project.module_enabled?("activity")
-      link_to(text, {:controller => '/activities', :action => 'index', :project_id => @project, :from => time.to_date}, :title => format_time(time))
+      link_to(text, {controller: '/activities', action: 'index', project_id: @project, from: time.to_date}, title: format_time(time))
     else
-      content_tag('label', text, :title => format_time(time), :class => "timestamp")
+      content_tag('label', text, title: format_time(time), class: "timestamp")
     end
   end
 
@@ -327,18 +327,18 @@ module ApplicationHelper
     method = options[:method] || :post
 
     content_tag(:span,
-      link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => method, :title => l(:label_sort_highest)) +
-      link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => method, :title => l(:label_sort_higher)) +
-      link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => method, :title => l(:label_sort_lower)) +
-      link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => method, :title => l(:label_sort_lowest)),
-      :class => "reorder-icons"
+      link_to(image_tag('2uparrow.png',   alt: l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), method: method, title: l(:label_sort_highest)) +
+      link_to(image_tag('1uparrow.png',   alt: l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  method: method, title: l(:label_sort_higher)) +
+      link_to(image_tag('1downarrow.png', alt: l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   method: method, title: l(:label_sort_lower)) +
+      link_to(image_tag('2downarrow.png', alt: l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  method: method, title: l(:label_sort_lowest)),
+      class: "reorder-icons"
     )
   end
 
   def other_formats_links(&block)
     formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
     unless formats.nil? || formats.strip.empty?
-      content_tag 'p', :class => 'other-formats' do
+      content_tag 'p', class: 'other-formats' do
         (l(:label_export_to) + formats).html_safe
       end
     end
@@ -355,12 +355,12 @@ module ApplicationHelper
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
-        b << link_to_project(root, {:jump => current_menu_item}, :class => 'root')
+        b << link_to_project(root, {jump: current_menu_item}, class: 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor') }
+        b += ancestors.collect {|p| link_to_project(p, {jump: current_menu_item}, class: 'ancestor') }
       end
       b << h(@project)
       b.join(' &#187; ')
@@ -422,7 +422,7 @@ module ApplicationHelper
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
-    options.reverse_merge!(:builder => TabularFormBuilder, :lang => current_language, :html => {})
+    options.reverse_merge!(builder: TabularFormBuilder, lang: current_language, html: {})
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
     form_for(record, options, &block)
   end
@@ -512,7 +512,7 @@ module ApplicationHelper
     tags += javascript_tag(%Q{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
-        loginUrl: '#{url_for :controller => "/account", :action => "login"}'
+        loginUrl: '#{url_for controller: "/account", action: "login"}'
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
@@ -586,13 +586,13 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
-    elements << I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name,
+    elements << I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name,
                                                           OpenProject::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value
         if content
-          elements << content_tag(:span, content, :class => "footer_#{name}")
+          elements << content_tag(:span, content, class: "footer_#{name}")
         end
       end
     end
@@ -623,8 +623,8 @@ module ApplicationHelper
   end
 
   def icon_wrapper(icon_class, label)
-    content =  content_tag(:span, '', :class => icon_class)
-    content += content_tag(:span, label, :class => 'hidden-for-sighted')
+    content =  content_tag(:span, '', class: icon_class)
+    content += content_tag(:span, label, class: 'hidden-for-sighted')
   end
 
 end

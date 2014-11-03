@@ -38,19 +38,19 @@ module VersionsHelper
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin
       # Total issue count
-      WorkPackage.count(:group => criteria,
-                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
+      WorkPackage.count(group: criteria,
+                  conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
       # Open issues count
-      WorkPackage.count(:group => criteria,
-                  :include => :status,
-                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
+      WorkPackage.count(group: criteria,
+                  include: :status,
+                  conditions: ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end
-    counts = h.keys.compact.sort.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
+    counts = h.keys.compact.sort.collect {|k| {group: k, total: h[k][0], open: h[k][1], closed: (h[k][0] - h[k][1])}}
     max = counts.collect {|c| c[:total]}.max
 
-    render :partial => 'work_package_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
+    render partial: 'work_package_counts', locals: {version: version, criteria: criteria, counts: counts, max: max}
   end
 
   def status_by_options_for_select(value)

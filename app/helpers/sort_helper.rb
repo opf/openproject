@@ -228,13 +228,13 @@ module SortHelper
     end
     caption = column.to_s.humanize unless caption
 
-    sort_options = { :sort => @sort_criteria.add(column.to_s, order).to_param }
+    sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
     url_options = params.merge(sort_options)
 
      # Add project_id to url_options
-    url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
+    url_options = url_options.merge(project_id: params[:project_id]) if params.has_key?(:project_id)
 
-    link_to_content_update(h(caption), url_options, html_options.merge({ :class => css }))
+    link_to_content_update(h(caption), url_options, html_options.merge({ class: css }))
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -262,6 +262,6 @@ module SortHelper
       options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     end
 
-    content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
+    content_tag('th', sort_link(column, caption, default_order, lang: lang), options)
   end
 end
