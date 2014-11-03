@@ -30,15 +30,15 @@
 class CustomField < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  has_many :custom_values, :dependent => :delete_all
-  acts_as_list :scope => 'type = \'#{self.class}\''
+  has_many :custom_values, dependent: :delete_all
+  acts_as_list scope: 'type = \'#{self.class}\''
   translates :name,
              :default_value,
              :possible_values
 
   accepts_nested_attributes_for :translations,
-                                :allow_destroy => true,
-                                :reject_if => :blank_attributes
+                                allow_destroy: true,
+                                reject_if: :blank_attributes
 
   def translations_attributes_with_globalized=(attr)
     ret = self.translations_attributes_without_globalized=(attr)
@@ -60,14 +60,14 @@ class CustomField < ActiveRecord::Base
   validate :uniqueness_of_name_with_scope
 
   def uniqueness_of_name_with_scope
-    taken_names = CustomField.where(:type => type)
+    taken_names = CustomField.where(type: type)
     taken_names = taken_names.where('id != ?', id) if id
-    taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
+    taken_names = taken_names.map { |cf| cf.read_attribute(:name, locale: I18n.locale) }
 
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
+  validates_inclusion_of :field_format, in: Redmine::CustomFieldFormat.available_formats
 
   validate :validate_presence_of_possible_values
 
@@ -108,7 +108,7 @@ class CustomField < ActiveRecord::Base
     translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
     translated_locales.each do |locale|
       I18n.with_locale(locale) do
-        v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
+        v = CustomValue.new(custom_field: self, value: default_value, customized: nil)
         errors.add(:default_value, :invalid) unless v.valid?
       end
     end
@@ -126,7 +126,7 @@ class CustomField < ActiveRecord::Base
           errors.add(:name, :blank)
         else
           if ( translation.name.nil? && fallback_name.name.length > 30 ) || ( !translation.name.nil? && translation.name.length > 30 )
-            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', :count => 30))
+            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', count: 30))
           end
 
           translation.name = fallback_name.name if translation.name.nil?
@@ -150,7 +150,7 @@ class CustomField < ActiveRecord::Base
       end
     else
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
-      attribute = possible_values(:locale => locale)
+      attribute = possible_values(locale: locale)
       attribute
     end
   end
@@ -240,7 +240,7 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    options.merge!({:conditions => ["is_for_all=?", true], :order => 'position'})
+    options.merge!({conditions: ["is_for_all=?", true], order: 'position'})
     find :all, options
   end
 

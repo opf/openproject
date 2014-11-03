@@ -32,11 +32,11 @@ class Message < ActiveRecord::Base
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :board
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
                      after_remove: :attachments_changed
-  belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
+  belongs_to :last_reply, class_name: 'Message', foreign_key: 'last_reply_id'
 
   acts_as_journalized
 
@@ -47,35 +47,35 @@ class Message < ActiveRecord::Base
                 url: (Proc.new do |o|
                         msg = o
                         if msg.parent_id.nil?
-                          {:id => msg.id}
+                          {id: msg.id}
                         else
-                          {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
-                        end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
+                          {id: msg.parent_id, r: msg.id, anchor: "message-#{msg.id}"}
+                        end.reverse_merge controller: '/messages', action: 'show', board_id: msg.board_id
                       end)
 
-  acts_as_searchable :columns => ['subject', 'content'],
-                     :include => {:board => :project},
-                     :project_key => 'project_id',
-                     :date_column => "#{table_name}.created_on"
+  acts_as_searchable columns: ['subject', 'content'],
+                     include: {board: :project},
+                     project_key: 'project_id',
+                     date_column: "#{table_name}.created_on"
 
   acts_as_watchable
 
   attr_protected :author_id
 
   validates_presence_of :board, :subject, :content
-  validates_length_of :subject, :maximum => 255
+  validates_length_of :subject, maximum: 255
 
   after_create :add_author_as_watcher
   after_create :update_last_reply_in_parent
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, lambda {|*args| { :include => {:board => :project},
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_messages) } }
+  scope :visible, lambda {|*args| { include: {board: :project},
+                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_messages) } }
 
   safe_attributes 'subject', 'content', 'board_id'
   safe_attributes 'locked', 'sticky',
-    :if => lambda {|message, user|
+    if: lambda {|message, user|
       user.allowed_to?(:edit_messages, message.project)
     }
 
@@ -83,7 +83,7 @@ class Message < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
 
-  validate :validate_unlocked_root, :on => :create
+  validate :validate_unlocked_root, on: :create
 
   before_save :set_sticked_on_date
 
@@ -142,7 +142,7 @@ class Message < ActiveRecord::Base
   private
 
   def add_author_as_watcher
-    Watcher.create(:watchable => self.root, :user => author)
+    Watcher.create(watchable: self.root, user: author)
     # update watchers and watcher_users
     watchers(true)
     watcher_users(true)

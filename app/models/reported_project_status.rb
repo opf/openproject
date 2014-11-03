@@ -33,8 +33,8 @@ class ReportedProjectStatus < Enumeration
 
   unloadable
 
-  has_many :reportings, :class_name  => "Reporting",
-                        :foreign_key => 'reported_project_status_id'
+  has_many :reportings, class_name:  "Reporting",
+                        foreign_key: 'reported_project_status_id'
 
   OptionName = :enumeration_reported_project_statuses
 
@@ -47,6 +47,6 @@ class ReportedProjectStatus < Enumeration
   end
 
   def transfer_relations(to)
-    reportings.update_all(:reported_project_status_id => to.id)
+    reportings.update_all(reported_project_status_id: to.id)
   end
 end

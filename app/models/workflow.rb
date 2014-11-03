@@ -29,8 +29,8 @@
 
 class Workflow < ActiveRecord::Base
   belongs_to :role
-  belongs_to :old_status, :class_name => 'Status', :foreign_key => 'old_status_id'
-  belongs_to :new_status, :class_name => 'Status', :foreign_key => 'new_status_id'
+  belongs_to :old_status, class_name: 'Status', foreign_key: 'old_status_id'
+  belongs_to :new_status, class_name: 'Status', foreign_key: 'new_status_id'
 
   #attr_protected :role_id
 
@@ -39,8 +39,8 @@ class Workflow < ActiveRecord::Base
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
     counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
-    roles = Role.find(:all, :order => 'builtin, position')
-    types = Type.find(:all, :order => 'position')
+    roles = Role.find(:all, order: 'builtin, position')
+    types = Type.find(:all, order: 'position')
 
     result = []
     types.each do |type|
@@ -58,8 +58,8 @@ class Workflow < ActiveRecord::Base
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user=User.current)
     Workflow.find(:all,
-                  :include => :new_status,
-                  :conditions => {:role_id => user.roles_for_project(project).collect(&:id)}).
+                  include: :new_status,
+                  conditions: {role_id: user.roles_for_project(project).collect(&:id)}).
       collect(&:new_status).
       compact.
       uniq.
@@ -102,7 +102,7 @@ class Workflow < ActiveRecord::Base
       false
     else
       transaction do
-        delete_all :type_id => target_type.id, :role_id => target_role.id
+        delete_all type_id: target_type.id, role_id: target_role.id
         connection.insert <<-SQL
           INSERT INTO #{Workflow.table_name} (type_id, role_id, old_status_id, new_status_id, author, assignee)
           SELECT #{target_type.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee

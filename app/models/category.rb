@@ -30,14 +30,14 @@
 class Category < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
-  has_many :work_packages, :foreign_key => 'category_id', :dependent => :nullify
+  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
+  has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
 
   attr_protected :project_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:project_id]
-  validates_length_of :name, :maximum => 30
+  validates_uniqueness_of :name, scope: [:project_id]
+  validates_length_of :name, maximum: 30
 
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|

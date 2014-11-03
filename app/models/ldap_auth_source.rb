@@ -31,10 +31,10 @@ require 'net/ldap'
 
 class LdapAuthSource < AuthSource
   validates_presence_of :host, :port, :attr_login
-  validates_length_of :name, :host, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
-  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
-  validates_numericality_of :port, :only_integer => true
+  validates_length_of :name, :host, maximum: 60, allow_nil: true
+  validates_length_of :account, :account_password, :base_dn, maximum: 255, allow_nil: true
+  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, maximum: 30, allow_nil: true
+  validates_numericality_of :port, only_integer: true
 
   before_validation :strip_ldap_attributes
   after_initialize :set_default_port
@@ -72,21 +72,21 @@ class LdapAuthSource < AuthSource
   end
 
   def initialize_ldap_con(ldap_user, ldap_password)
-    options = { :host => self.host,
-                :port => self.port,
-                :encryption => (self.tls ? :simple_tls : nil)
+    options = { host: self.host,
+                port: self.port,
+                encryption: (self.tls ? :simple_tls : nil)
               }
-    options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+    options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
   end
 
   def get_user_attributes_from_ldap_entry(entry)
     {
-     :dn => entry.dn,
-     :firstname => LdapAuthSource.get_attr(entry, self.attr_firstname),
-     :lastname => LdapAuthSource.get_attr(entry, self.attr_lastname),
-     :mail => LdapAuthSource.get_attr(entry, self.attr_mail),
-     :auth_source_id => self.id
+     dn: entry.dn,
+     firstname: LdapAuthSource.get_attr(entry, self.attr_firstname),
+     lastname: LdapAuthSource.get_attr(entry, self.attr_lastname),
+     mail: LdapAuthSource.get_attr(entry, self.attr_mail),
+     auth_source_id: self.id
     }
   end
 
@@ -114,14 +114,14 @@ class LdapAuthSource < AuthSource
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
     attrs = {}
 
-    ldap_con.search( :base => self.base_dn,
-                     :filter => object_filter & login_filter,
-                     :attributes=> search_attributes) do |entry|
+    ldap_con.search( base: self.base_dn,
+                     filter: object_filter & login_filter,
+                     attributes: search_attributes) do |entry|
 
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else
-        attrs = {:dn => entry.dn}
+        attrs = {dn: entry.dn}
       end
 
       logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?

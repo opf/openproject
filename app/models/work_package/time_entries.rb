@@ -38,7 +38,7 @@ module WorkPackage::TimeEntries
 
     protected
 
-    def cleanup_time_entries_before_destruction_of(work_packages, user, to_do = { :action => 'destroy'} )
+    def cleanup_time_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy'} )
       return false unless to_do.present?
 
       case to_do[:action]

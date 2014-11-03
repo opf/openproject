@@ -31,7 +31,7 @@ class Repository < ActiveRecord::Base
   include Redmine::Ciphering
 
   belongs_to :project
-  has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
+  has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
 
   before_save :sanitize_urls
 
@@ -41,11 +41,11 @@ class Repository < ActiveRecord::Base
 
   attr_protected :project_id
 
-  validates_length_of :password, :maximum => 255, :allow_nil => true
-  validate :validate_enabled_scm, :on => :create
+  validates_length_of :password, maximum: 255, allow_nil: true
+  validate :validate_enabled_scm, on: :create
 
   def changes
-    Change.where(:changeset_id => changesets).joins(:changeset)
+    Change.where(changeset_id: changesets).joins(:changeset)
   end
 
   # Checks if the SCM is enabled when creating a repository
@@ -150,7 +150,7 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, :conditions => (name.match(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, conditions: (name.match(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
   end
 
   def latest_changeset
@@ -161,14 +161,14 @@ class Repository < ActiveRecord::Base
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, rev, limit=10)
     if path.blank?
-      changesets.find(:all, :include => :user,
-                            :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                            :limit => limit)
+      changesets.find(:all, include: :user,
+                            order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+                            limit: limit)
     else
-      changes.find(:all, :include => {:changeset => :user},
-                         :conditions => ["path = ?", path.with_leading_slash],
-                         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                         :limit => limit).collect(&:changeset)
+      changes.find(:all, include: {changeset: :user},
+                         conditions: ["path = ?", path.with_leading_slash],
+                         order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+                         limit: limit).collect(&:changeset)
     end
   end
 
@@ -208,7 +208,7 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
+      c = changesets.find(:first, conditions: {committer: committer}, include: :user)
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
@@ -231,7 +231,7 @@ class Repository < ActiveRecord::Base
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
-    Project.active.has_module(:repository).find(:all, :include => :repository).each do |project|
+    Project.active.has_module(:repository).find(:all, include: :repository).each do |project|
       if project.repository
         begin
           project.repository.fetch_changesets

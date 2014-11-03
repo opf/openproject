@@ -47,12 +47,12 @@ class Timeline < ActiveRecord::Base
 
   self.table_name = 'timelines'
 
-  default_scope :order => 'name ASC'
+  default_scope order: 'name ASC'
 
-  belongs_to :project, :class_name => "Project"
+  belongs_to :project, class_name: "Project"
 
   validates_presence_of :name, :project
-  validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
+  validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
   validate :validate_option_dates
   validate :validate_option_numeric
 
@@ -221,7 +221,7 @@ class Timeline < ActiveRecord::Base
     # that are reporting into the project that this timeline is
     # referencing.
 
-    Type.find(:all, :order => :name)
+    Type.find(:all, order: :name)
   end
 
   def available_planning_element_status
@@ -258,7 +258,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def available_project_status
-    ReportedProjectStatus.find(:all, :order => :name)
+    ReportedProjectStatus.find(:all, order: :name)
   end
 
   def selected_project_status

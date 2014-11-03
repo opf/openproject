@@ -127,7 +127,7 @@ module Project::Copy
     def copy_categories(project)
       project.categories.each do |category|
         new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except("id", "project_id"), :without_protection => true)
+        new_category.send(:assign_attributes, category.attributes.dup.except("id", "project_id"), without_protection: true)
         self.categories << new_category
       end
     end
@@ -217,7 +217,7 @@ module Project::Copy
       members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
       members_to_copy.each do |member|
         new_member = Member.new
-        new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), :without_protection => true)
+        new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), without_protection: true)
         # only copy non inherited roles
         # inherited roles will be added when copying the group membership
         role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)

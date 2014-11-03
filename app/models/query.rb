@@ -37,7 +37,7 @@ class Query < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
-  has_one :query_menu_item, :class_name => 'MenuItems::QueryMenuItem', :dependent => :delete, :order => 'name', :foreign_key => 'navigatable_id'
+  has_one :query_menu_item, class_name: 'MenuItems::QueryMenuItem', dependent: :delete, order: 'name', foreign_key: 'navigatable_id'
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
@@ -45,7 +45,7 @@ class Query < ActiveRecord::Base
   attr_protected :project_id #, :user_id
 
   validates :name, presence: true
-  validates_length_of :name, :maximum => 255
+  validates_length_of :name, maximum: 255
 
   validate :validate_work_package_filters
 
@@ -53,25 +53,25 @@ class Query < ActiveRecord::Base
 
 
   @@available_columns = [
-    QueryColumn.new(:id, :sortable => "#{WorkPackage.table_name}.id", :groupable => false),
-    QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
-    QueryColumn.new(:type, :sortable => "#{Type.table_name}.position", :groupable => true),
-    QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc'),
-    QueryColumn.new(:status, :sortable => "#{Status.table_name}.position", :groupable => true),
-    QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
-    QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
+    QueryColumn.new(:id, sortable: "#{WorkPackage.table_name}.id", groupable: false),
+    QueryColumn.new(:project, sortable: "#{Project.table_name}.name", groupable: true),
+    QueryColumn.new(:type, sortable: "#{Type.table_name}.position", groupable: true),
+    QueryColumn.new(:parent, sortable: ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], default_order: 'desc'),
+    QueryColumn.new(:status, sortable: "#{Status.table_name}.position", groupable: true),
+    QueryColumn.new(:priority, sortable: "#{IssuePriority.table_name}.position", default_order: 'desc', groupable: true),
+    QueryColumn.new(:subject, sortable: "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
-    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], groupable: "#{WorkPackage.table_name}.responsible_id", :join => "LEFT OUTER JOIN users as responsible ON (#{WorkPackage.table_name}.responsible_id = responsible.id)"),
-    QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{Category.table_name}.name", :groupable => true),
-    QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
+    QueryColumn.new(:assigned_to, sortable: ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], groupable: true),
+    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], groupable: "#{WorkPackage.table_name}.responsible_id", join: "LEFT OUTER JOIN users as responsible ON (#{WorkPackage.table_name}.responsible_id = responsible.id)"),
+    QueryColumn.new(:updated_at, sortable: "#{WorkPackage.table_name}.updated_at", default_order: 'desc'),
+    QueryColumn.new(:category, sortable: "#{Category.table_name}.name", groupable: true),
+    QueryColumn.new(:fixed_version, sortable: ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], default_order: 'desc', groupable: true),
     # Put empty start_dates and due_dates in the far future rather than in the far past
-    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
-    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours, :sortable => "#{WorkPackage.table_name}.estimated_hours"),
-    QueryColumn.new(:done_ratio, :sortable => "#{WorkPackage.table_name}.done_ratio", :groupable => true),
-    QueryColumn.new(:created_at, :sortable => "#{WorkPackage.table_name}.created_at", :default_order => 'desc'),
+    QueryColumn.new(:start_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
+    QueryColumn.new(:due_date, sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.due_date"]),
+    QueryColumn.new(:estimated_hours, sortable: "#{WorkPackage.table_name}.estimated_hours"),
+    QueryColumn.new(:done_ratio, sortable: "#{WorkPackage.table_name}.done_ratio", groupable: true),
+    QueryColumn.new(:created_at, sortable: "#{WorkPackage.table_name}.created_at", default_order: 'desc'),
   ]
   cattr_reader :available_columns
 
@@ -97,7 +97,7 @@ class Query < ActiveRecord::Base
 
         if cf_id && CustomField.find(cf_id)
           attribute_name = CustomField.find(cf_id).name
-          errors.add :base, attribute_name + I18n.t({:default => " %{message}",:message   => messages})
+          errors.add :base, attribute_name + I18n.t({default: " %{message}",message:   messages})
         else
           attribute_name = WorkPackage.human_attribute_name(filter.field)
           errors.add :base, errors.full_message(attribute_name, messages)

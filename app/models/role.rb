@@ -35,21 +35,21 @@ class Role < ActiveRecord::Base
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
-  scope :givable, { :conditions => "builtin = 0", :order => 'position' }
+  scope :givable, { conditions: "builtin = 0", order: 'position' }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first == true
-    { :conditions => "#{compare} builtin = 0" }
+    { conditions: "#{compare} builtin = 0" }
   }
 
   before_destroy :check_deletable
-  has_many :workflows, :dependent => :delete_all do
+  has_many :workflows, dependent: :delete_all do
     def copy(source_role)
       Workflow.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
-  has_many :member_roles, :dependent => :destroy
-  has_many :members, :through => :member_roles
+  has_many :member_roles, dependent: :destroy
+  has_many :members, through: :member_roles
   acts_as_list
 
   serialize :permissions, Array
@@ -57,7 +57,7 @@ class Role < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, maximum: 30
 
   def permissions
     read_attribute(:permissions) || []
@@ -131,15 +131,15 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    find(:all, :conditions => {:builtin => 0}, :order => 'position')
+    find(:all, conditions: {builtin: 0}, order: 'position')
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.non_member
-    non_member_role = find(:first, :conditions => {:builtin => BUILTIN_NON_MEMBER})
+    non_member_role = find(:first, conditions: {builtin: BUILTIN_NON_MEMBER})
     if non_member_role.nil?
-      non_member_role = create(:name => 'Non member', :position => 0) do |role|
+      non_member_role = create(name: 'Non member', position: 0) do |role|
         role.builtin = BUILTIN_NON_MEMBER
       end
       raise 'Unable to create the non-member role.' if non_member_role.new_record?
@@ -150,9 +150,9 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS})
+    anonymous_role = find(:first, conditions: {builtin: BUILTIN_ANONYMOUS})
     if anonymous_role.nil?
-      anonymous_role = create(:name => 'Anonymous', :position => 0) do |role|
+      anonymous_role = create(name: 'Anonymous', position: 0) do |role|
         role.builtin = BUILTIN_ANONYMOUS
       end
       raise 'Unable to create the anonymous role.' if anonymous_role.new_record?

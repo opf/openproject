@@ -30,7 +30,7 @@
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   belongs_to :user
-  has_many :changes, :dependent => :delete_all
+  has_many :changes, dependent: :delete_all
   has_and_belongs_to_many :work_packages
 
   acts_as_journalized
@@ -38,22 +38,22 @@ class Changeset < ActiveRecord::Base
   acts_as_event title: Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
                 description: :long_comments,
                 datetime: :committed_on,
-                url: Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}},
+                url: Proc.new {|o| {controller: '/repositories', action: 'revision', id: o.repository.project, rev: o.identifier}},
                 author: Proc.new {|o| o.author}
 
-  acts_as_searchable :columns => 'comments',
-                     :include => {:repository => :project},
-                     :project_key => "#{Repository.table_name}.project_id",
-                     :date_column => 'committed_on'
+  acts_as_searchable columns: 'comments',
+                     include: {repository: :project},
+                     project_key: "#{Repository.table_name}.project_id",
+                     date_column: 'committed_on'
 
   attr_protected :user_id
 
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
-  validates_uniqueness_of :revision, :scope => :repository_id
-  validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
+  validates_uniqueness_of :revision, scope: :repository_id
+  validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, lambda {|*args| { :include => { :repository => :project },
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_changesets) } }
+  scope :visible, lambda {|*args| { include: { repository: :project },
+                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_changesets) } }
 
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)
@@ -171,21 +171,21 @@ class Changeset < ActiveRecord::Base
 
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
+    @previous ||= Changeset.find(:first, conditions: ['id < ? AND repository_id = ?', self.id, self.repository_id], order: 'id DESC')
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
+    @next ||= Changeset.find(:first, conditions: ['id > ? AND repository_id = ?', self.id, self.repository_id], order: 'id ASC')
   end
 
   # Creates a new Change from it's common parameters
   def create_change(change)
-    Change.create(:changeset => self,
-                  :action => change[:action],
-                  :path => change[:path],
-                  :from_path => change[:from_path],
-                  :from_revision => change[:from_revision])
+    Change.create(changeset: self,
+                  action: change[:action],
+                  path: change[:path],
+                  from_path: change[:from_path],
+                  from_revision: change[:from_revision])
   end
 
   private
@@ -194,7 +194,7 @@ class Changeset < ActiveRecord::Base
   # i.e. a work_package that belong to the repository project, a subproject or a parent project
   def find_referenced_work_package_by_id(id)
     return nil if id.blank?
-    work_package = WorkPackage.find_by_id(id.to_i, :include => :project)
+    work_package = WorkPackage.find_by_id(id.to_i, include: :project)
     if work_package
       unless work_package.project && (project == work_package.project || project.is_ancestor_of?(work_package.project) || project.is_descendant_of?(work_package.project))
         work_package = nil
@@ -221,8 +221,8 @@ class Changeset < ActiveRecord::Base
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            { :changeset => self, :issue => work_package })
-    unless work_package.save(:validate => false)
+                            { changeset: self, issue: work_package })
+    unless work_package.save(validate: false)
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}") if logger
     end
     work_package
@@ -230,11 +230,11 @@ class Changeset < ActiveRecord::Base
 
   def log_time(work_package, hours)
     time_entry = TimeEntry.new(
-      :user => user,
-      :hours => hours,
-      :work_package => work_package,
-      :spent_on => commit_date,
-      :comments => l(:text_time_logged_by_changeset, :value => text_tag, :locale => Setting.default_language)
+      user: user,
+      hours: hours,
+      work_package: work_package,
+      spent_on: commit_date,
+      comments: l(:text_time_logged_by_changeset, value: text_tag, locale: Setting.default_language)
       )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
 
@@ -288,13 +288,13 @@ class Changeset < ActiveRecord::Base
     if str.respond_to?(:force_encoding)
       if normalized_encoding.upcase != "UTF-8"
         str.force_encoding(normalized_encoding)
-        str = str.encode("UTF-8", :invalid => :replace,
-              :undef => :replace, :replace => '?')
+        str = str.encode("UTF-8", invalid: :replace,
+              undef: :replace, replace: '?')
       else
         str.force_encoding("UTF-8")
         unless str.valid_encoding?
-          str = str.encode("US-ASCII", :invalid => :replace,
-                :undef => :replace, :replace => '?').encode("UTF-8")
+          str = str.encode("US-ASCII", invalid: :replace,
+                undef: :replace, replace: '?').encode("UTF-8")
         end
       end
     else

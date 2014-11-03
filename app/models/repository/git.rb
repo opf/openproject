@@ -80,9 +80,9 @@ class Repository::Git < Repository
 
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?
-    e = changesets.find(:first, :conditions => ['revision = ?', name.to_s])
+    e = changesets.find(:first, conditions: ['revision = ?', name.to_s])
     return e if e
-    changesets.find(:first, :conditions => ['scmid LIKE ?', "#{name}%"])
+    changesets.find(:first, conditions: ['scmid LIKE ?', "#{name}%"])
   end
 
   # With SCM's that have a sequential commit numbering, redmine is able to be
@@ -94,13 +94,13 @@ class Repository::Git < Repository
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
-    c = changesets.find(:first, :order => 'committed_on DESC')
+    c = changesets.find(:first, order: 'committed_on DESC')
     since = (c ? c.committed_on - 7.days : nil)
 
-    revisions = scm.revisions('', nil, nil, {:all => true, :since => since, :reverse => true})
+    revisions = scm.revisions('', nil, nil, {all: true, since: since, reverse: true})
     return if revisions.nil? || revisions.empty?
 
-    recent_changesets = changesets.find(:all, :conditions => ['committed_on >= ?', since])
+    recent_changesets = changesets.find(:all, conditions: ['committed_on >= ?', since])
 
     # Clean out revisions that are no longer in git
     recent_changesets.each {|c| c.destroy unless revisions.detect {|r| r.scmid.to_s == c.scmid.to_s }}
@@ -114,19 +114,19 @@ class Repository::Git < Repository
       revisions.each do |rev|
         transaction do
           changeset = Changeset.new(
-              :repository => self,
-              :revision   => rev.identifier,
-              :scmid      => rev.scmid,
-              :committer  => rev.author,
-              :committed_on => rev.time,
-              :comments   => rev.message)
+              repository: self,
+              revision:   rev.identifier,
+              scmid:      rev.scmid,
+              committer:  rev.author,
+              committed_on: rev.time,
+              comments:   rev.message)
 
           if changeset.save
             rev.paths.each do |file|
               Change.create(
-                  :changeset => changeset,
-                  :action    => file[:action],
-                  :path      => file[:path])
+                  changeset: changeset,
+                  action:    file[:action],
+                  path:      file[:path])
             end
           end
         end
@@ -135,16 +135,16 @@ class Repository::Git < Repository
   end
 
   def latest_changesets(path,rev,limit=10)
-    revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
+    revisions = scm.revisions(path, nil, rev, limit: limit, all: false)
     return [] if revisions.nil? || revisions.empty?
 
     changesets.find(
       :all,
-      :conditions => [
+      conditions: [
         "scmid IN (?)",
         revisions.map!{|c| c.scmid}
       ],
-      :order => 'committed_on DESC'
+      order: 'committed_on DESC'
     )
   end
 end

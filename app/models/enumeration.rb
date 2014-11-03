@@ -30,24 +30,24 @@
 class Enumeration < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  default_scope :order => "#{Enumeration.table_name}.position ASC"
+  default_scope order: "#{Enumeration.table_name}.position ASC"
 
   belongs_to :project
 
-  acts_as_list :scope => 'type = \'#{type}\''
+  acts_as_list scope: 'type = \'#{type}\''
   acts_as_customizable
-  acts_as_tree :order => 'position ASC'
+  acts_as_tree order: 'position ASC'
 
   before_destroy :check_integrity
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:type, :project_id]
-  validates_length_of :name, :maximum => 30
+  validates_uniqueness_of :name, scope: [:type, :project_id]
+  validates_length_of :name, maximum: 30
 
-  scope :shared, :conditions => { :project_id => nil }
-  scope :active, :conditions => { :active => true }
+  scope :shared, conditions: { project_id: nil }
+  scope :active, conditions: { active: true }
 
-  before_save :unmark_old_default_value, :if => :became_default_value?
+  before_save :unmark_old_default_value, if: :became_default_value?
 
   # let all child classes have Enumeration as it's model name
   # used to not having to create another route for every subclass of Enumeration
@@ -65,10 +65,10 @@ class Enumeration < ActiveRecord::Base
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
     if self.descends_from_active_record?
-      find(:first, :conditions => { :is_default => true, :type => 'Enumeration' })
+      find(:first, conditions: { is_default: true, type: 'Enumeration' })
     else
       # STI classes are
-      find(:first, :conditions => { :is_default => true })
+      find(:first, conditions: { is_default: true })
     end
   end
 
@@ -93,7 +93,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   def unmark_old_default_value
-    Enumeration.where(:type => type).update_all(:is_default => false)
+    Enumeration.where(type: type).update_all(is_default: false)
   end
 
   # Overloaded on concrete classes

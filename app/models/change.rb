@@ -33,7 +33,7 @@ class Change < ActiveRecord::Base
   validates_presence_of :changeset_id, :action, :path
   before_save :init_path
 
-  delegate :repository_encoding, :to => :changeset, :allow_nil => true, :prefix => true
+  delegate :repository_encoding, to: :changeset, allow_nil: true, prefix: true
 
   attr_protected :changeset_id
 

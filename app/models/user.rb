@@ -35,18 +35,18 @@ class User < Principal
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
   STATUSES = {
-    :builtin => 0,
-    :active => 1,
-    :registered => 2,
-    :locked => 3
+    builtin: 0,
+    active: 1,
+    registered: 2,
+    locked: 3
   }
 
   USER_FORMATS_STRUCTURE = {
-    :firstname_lastname => [:firstname, :lastname],
-    :firstname => [:firstname],
-    :lastname_firstname => [:lastname, :firstname],
-    :lastname_coma_firstname => [:lastname, :firstname],
-    :username => [:login]
+    firstname_lastname: [:firstname, :lastname],
+    firstname: [:firstname],
+    lastname_firstname: [:lastname, :firstname],
+    lastname_coma_firstname: [:lastname, :firstname],
+    username: [:login]
   }
 
   def self.user_format_structure_to_format(key, delimiter = " ")
@@ -54,11 +54,11 @@ class User < Principal
   end
 
   USER_FORMATS = {
-    :firstname_lastname =>      User.user_format_structure_to_format(:firstname_lastname, " "),
-    :firstname =>               User.user_format_structure_to_format(:firstname),
-    :lastname_firstname =>      User.user_format_structure_to_format(:lastname_firstname, " "),
-    :lastname_coma_firstname => User.user_format_structure_to_format(:lastname_coma_firstname, ", "),
-    :username =>                User.user_format_structure_to_format(:username)
+    firstname_lastname:      User.user_format_structure_to_format(:firstname_lastname, " "),
+    firstname:               User.user_format_structure_to_format(:firstname),
+    lastname_firstname:      User.user_format_structure_to_format(:lastname_firstname, " "),
+    lastname_coma_firstname: User.user_format_structure_to_format(:lastname_coma_firstname, ", "),
+    username:                User.user_format_structure_to_format(:username)
   }
 
   USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
@@ -78,43 +78,43 @@ class User < Principal
   ]
 
   has_many :group_users
-  has_many :groups, :through => :group_users,
-                    :after_add => Proc.new {|user, group| group.user_added(user)},
-                    :after_remove => Proc.new {|user, group| group.user_removed(user)}
-  has_many :categories, :foreign_key => 'assigned_to_id',
-                              :dependent => :nullify
-  has_many :assigned_issues, :foreign_key => 'assigned_to_id',
-                             :class_name => 'WorkPackage',
-                             :dependent => :nullify
-  has_many :responsible_for_issues, :foreign_key => 'responsible_id',
-                                    :class_name => 'WorkPackage',
-                                    :dependent => :nullify
-  has_many :responsible_for_projects, :foreign_key => 'responsible_id',
-                                      :class_name => 'Project',
-                                      :dependent => :nullify
-  has_many :watches, :class_name => 'Watcher',
-                     :dependent => :delete_all
-  has_many :changesets, :dependent => :nullify
-  has_many :passwords, :class_name => 'UserPassword',
-                       :order => 'id DESC',
-                       :readonly => true,
-                       :dependent => :destroy,
-                       :inverse_of => :user
-  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
-  has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
+  has_many :groups, through: :group_users,
+                    after_add: Proc.new {|user, group| group.user_added(user)},
+                    after_remove: Proc.new {|user, group| group.user_removed(user)}
+  has_many :categories, foreign_key: 'assigned_to_id',
+                              dependent: :nullify
+  has_many :assigned_issues, foreign_key: 'assigned_to_id',
+                             class_name: 'WorkPackage',
+                             dependent: :nullify
+  has_many :responsible_for_issues, foreign_key: 'responsible_id',
+                                    class_name: 'WorkPackage',
+                                    dependent: :nullify
+  has_many :responsible_for_projects, foreign_key: 'responsible_id',
+                                      class_name: 'Project',
+                                      dependent: :nullify
+  has_many :watches, class_name: 'Watcher',
+                     dependent: :delete_all
+  has_many :changesets, dependent: :nullify
+  has_many :passwords, class_name: 'UserPassword',
+                       order: 'id DESC',
+                       readonly: true,
+                       dependent: :destroy,
+                       inverse_of: :user
+  has_one :preference, dependent: :destroy, class_name: 'UserPreference'
+  has_one :rss_token, dependent: :destroy, class_name: 'Token', conditions: "action='feeds'"
+  has_one :api_token, dependent: :destroy, class_name: 'Token', conditions: "action='api'"
   belongs_to :auth_source
 
   # TODO: this is from Principal. the inheritance doesn't work correctly
   # note: it doesn't fail in development mode
   # see: https://github.com/rails/rails/issues/3847
-  has_many :members, :foreign_key => 'user_id', :dependent => :destroy
-  has_many :memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
-  has_many :projects, :through => :memberships
+  has_many :members, foreign_key: 'user_id', dependent: :destroy
+  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [ :project, :roles ], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
+  has_many :projects, through: :memberships
 
   # Active non-anonymous users scope
   scope :not_builtin,
-        :conditions => "#{User.table_name}.status <> #{STATUSES[:builtin]}"
+        conditions: "#{User.table_name}.status <> #{STATUSES[:builtin]}"
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -139,18 +139,18 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
+                        unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
-  validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
-  validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
+  validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
+  validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
   # Login must contain letters, numbers, underscores only
-  validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
-  validates_length_of :login, :maximum => 256
-  validates_length_of :firstname, :lastname, :maximum => 30
-  validates_format_of :mail, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :allow_blank => true
-  validates_length_of :mail, :maximum => 60, :allow_nil => true
-  validates_confirmation_of :password, :allow_nil => true
-  validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
+  validates_format_of :login, with: /\A[a-z0-9_\-@\.]*\z/i
+  validates_length_of :login, maximum: 256
+  validates_length_of :firstname, :lastname, maximum: 30
+  validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
+  validates_length_of :mail, maximum: 60, allow_nil: true
+  validates_confirmation_of :password, allow_nil: true
+  validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.collect(&:first), allow_blank: true
 
   validate :password_meets_requirements
 
@@ -162,13 +162,13 @@ class User < Principal
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { :conditions => ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    { conditions: ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
   scope :not_in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { :conditions => ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    { conditions: ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
-  scope :admin, :conditions => { :admin => true }
+  scope :admin, conditions: { admin: true }
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
@@ -436,13 +436,13 @@ class User < Principal
 
   # Return user's RSS key (a 40 chars long string), used to access feeds
   def rss_key
-    token = self.rss_token || Token.create(:user => self, :action => 'feeds')
+    token = self.rss_token || Token.create(user: self, action: 'feeds')
     token.value
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
-    token = self.api_token || self.create_api_token(:action => 'api')
+    token = self.api_token || self.create_api_token(action: 'api')
     token.value
   end
 
@@ -479,9 +479,9 @@ class User < Principal
     # force string comparison to be case sensitive on MySQL
     type_cast = (ChiliProject::Database.mysql?) ? 'BINARY' : ''
     # First look for an exact match
-    user = first(:conditions => ["#{type_cast} login = ?", login])
+    user = first(conditions: ["#{type_cast} login = ?", login])
     # Fail over to case-insensitive if none was found
-    user ||= first(:conditions => ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
+    user ||= first(conditions: ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
   end
 
   def self.find_by_rss_key(key)
@@ -496,11 +496,11 @@ class User < Principal
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
-    find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
+    find(:first, conditions: ["LOWER(mail) = ?", mail.to_s.downcase])
   end
 
   def self.find_all_by_mails(mails)
-    find(:all, :conditions => ['LOWER(mail) IN (?)', mails])
+    find(:all, conditions: ['LOWER(mail) IN (?)', mails])
   end
 
   def to_s
@@ -767,8 +767,8 @@ class User < Principal
         if former_passwords_include?(self.password)
           errors.add(:password,
                      I18n.t(:reused,
-                            :count => Setting[:password_count_former_banned].to_i,
-                            :scope => [:activerecord,
+                            count: Setting[:password_count_former_banned].to_i,
+                            scope: [:activerecord,
                                        :errors,
                                        :models,
                                        :user,
@@ -812,7 +812,7 @@ class User < Principal
     timelines_filter = ["planning_element_responsibles", "planning_element_assignee", "project_responsibles"]
     substitute = DeletedUser.first
 
-    timelines = Timeline.all(:conditions => ['options LIKE ?', "%#{id}%"])
+    timelines = Timeline.all(conditions: ['options LIKE ?', "%#{id}%"])
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
@@ -904,7 +904,7 @@ end
 
 class AnonymousUser < User
 
-  validate :validate_unique_anonymous_user, :on => :create
+  validate :validate_unique_anonymous_user, on: :create
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
@@ -927,7 +927,7 @@ end
 
 class DeletedUser < User
 
-  validate :validate_unique_deleted_user, :on => :create
+  validate :validate_unique_deleted_user, on: :create
 
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user

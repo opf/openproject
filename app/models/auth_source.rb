@@ -35,7 +35,7 @@ class AuthSource < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 60
+  validates_length_of :name, maximum: 60
 
   def authenticate(login, password)
   end
@@ -66,7 +66,7 @@ class AuthSource < ActiveRecord::Base
 
   # Try to authenticate a user not yet registered against available sources
   def self.authenticate(login, password)
-    AuthSource.find(:all, :conditions => ["onthefly_register=?", true]).each do |source|
+    AuthSource.find(:all, conditions: ["onthefly_register=?", true]).each do |source|
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?
         attrs = source.authenticate(login, password)

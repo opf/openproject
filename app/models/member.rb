@@ -31,13 +31,13 @@ class Member < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :user
-  belongs_to :principal, :foreign_key => 'user_id'
-  has_many :member_roles, :dependent => :destroy, :autosave => true
-  has_many :roles, :through => :member_roles
+  belongs_to :principal, foreign_key: 'user_id'
+  has_many :member_roles, dependent: :destroy, autosave: true
+  has_many :roles, through: :member_roles
   belongs_to :project
 
   validates_presence_of :project
-  validates_uniqueness_of :user_id, :scope => :project_id
+  validates_uniqueness_of :user_id, scope: :project_id
 
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
@@ -121,7 +121,7 @@ class Member < ActiveRecord::Base
 
   # Find or initialize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
-    @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
+    @membership = id.present? ? Member.find(id) : Member.new(principal: principal)
     # interface refactoring needed
     # not critical atm because only admins can invoke it (see users and groups controllers)
     @membership.force_attributes = new_attributes
@@ -201,7 +201,7 @@ class Member < ActiveRecord::Base
   # Unwatch things that the user is no longer allowed to view inside project
   def unwatch_from_permission_change
     if user
-      Watcher.prune(:user => user, :project => project)
+      Watcher.prune(user: user, project: project)
     end
   end
 end

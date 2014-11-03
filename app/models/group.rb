@@ -31,9 +31,9 @@ class Group < Principal
   include ActiveModel::ForbiddenAttributesProtection
 
   has_many :group_users
-  has_many :users, :through => :group_users,
-                   :after_add => :user_added,
-                   :after_remove => :user_removed
+  has_many :users, through: :group_users,
+                   after_add: :user_added,
+                   after_remove: :user_removed
 
   acts_as_customizable
 
@@ -43,7 +43,7 @@ class Group < Principal
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
   validate :uniqueness_of_groupname
-  validates_length_of :groupname, :maximum => 30
+  validates_length_of :groupname, maximum: 30
 
   def to_s
     lastname.to_s
@@ -79,8 +79,8 @@ class Group < Principal
   def user_removed(user)
     members.each do |member|
       MemberRole.find(:all,
-        :include => :member,
-        :conditions =>
+        include: :member,
+        conditions:
           ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
             user.id, member.member_role_ids]).each do |member_role|
               member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
@@ -103,11 +103,11 @@ class Group < Principal
 
     deleted_user = DeletedUser.first
 
-    WorkPackage.update_all({ :assigned_to_id => deleted_user.id },
-                           { :assigned_to_id => id })
+    WorkPackage.update_all({ assigned_to_id: deleted_user.id },
+                           { assigned_to_id: id })
 
-    Journal::WorkPackageJournal.update_all({ :assigned_to_id => deleted_user.id },
-                                           { :assigned_to_id => id })
+    Journal::WorkPackageJournal.update_all({ assigned_to_id: deleted_user.id },
+                                           { assigned_to_id: id })
   end
 
 

@@ -32,7 +32,7 @@ require 'redmine/scm/adapters/subversion_adapter'
 class Repository::Subversion < Repository
   attr_protected :root_url
   validates_presence_of :url
-  validates_format_of :url, :with => /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
+  validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
 
   def self.scm_adapter_class
     Redmine::Scm::Adapters::SubversionAdapter
@@ -51,8 +51,8 @@ class Repository::Subversion < Repository
   end
 
   def latest_changesets(path, rev, limit=10)
-    revisions = scm.revisions(path, rev, nil, :limit => limit)
-    revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
+    revisions = scm.revisions(path, rev, nil, limit: limit)
+    revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), order: "committed_on DESC", include: :user) : []
   end
 
   # Returns a path relative to the url of the repository
@@ -73,14 +73,14 @@ class Repository::Subversion < Repository
         while (identifier_from <= scm_revision)
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min
-          revisions = scm.revisions('', identifier_to, identifier_from, :with_paths => true)
+          revisions = scm.revisions('', identifier_to, identifier_from, with_paths: true)
           revisions.reverse_each do |revision|
             transaction do
-              changeset = Changeset.create(:repository => self,
-                                           :revision => revision.identifier,
-                                           :committer => revision.author,
-                                           :committed_on => revision.time,
-                                           :comments => revision.message)
+              changeset = Changeset.create(repository: self,
+                                           revision: revision.identifier,
+                                           committer: revision.author,
+                                           committed_on: revision.time,
+                                           comments: revision.message)
 
               revision.paths.each do |change|
                 changeset.create_change(change)

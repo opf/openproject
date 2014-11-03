@@ -58,7 +58,7 @@ class SystemUser < User
 
   include DisableCustomizable
 
-  validate :validate_unique_system_user, :on => :create
+  validate :validate_unique_system_user, on: :create
 
   # There should be only one SystemUser in the database
   def validate_unique_system_user

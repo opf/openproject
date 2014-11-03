@@ -28,8 +28,8 @@
 #++
 
 class Relation < ActiveRecord::Base
-  belongs_to :from, :class_name => 'WorkPackage', :foreign_key => 'from_id'
-  belongs_to :to, :class_name => 'WorkPackage', :foreign_key => 'to_id'
+  belongs_to :from, class_name: 'WorkPackage', foreign_key: 'from_id'
+  belongs_to :to, class_name: 'WorkPackage', foreign_key: 'to_id'
 
   scope :of_work_package, ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
@@ -41,19 +41,19 @@ class Relation < ActiveRecord::Base
   TYPE_PRECEDES     = "precedes"
   TYPE_FOLLOWS      = "follows"
 
-  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1, :sym => TYPE_RELATES },
-            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2, :sym => TYPE_DUPLICATED },
-            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :sym => TYPE_DUPLICATES, :reverse => TYPE_DUPLICATES },
-            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4, :sym => TYPE_BLOCKED },
-            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :sym => TYPE_BLOCKS, :reverse => TYPE_BLOCKS },
-            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6, :sym => TYPE_FOLLOWS },
-            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES }
+  TYPES = { TYPE_RELATES =>     { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: TYPE_RELATES },
+            TYPE_DUPLICATES =>  { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: TYPE_DUPLICATED },
+            TYPE_DUPLICATED =>  { name: :label_duplicated_by, sym_name: :label_duplicates, order: 3, sym: TYPE_DUPLICATES, reverse: TYPE_DUPLICATES },
+            TYPE_BLOCKS =>      { name: :label_blocks, sym_name: :label_blocked_by, order: 4, sym: TYPE_BLOCKED },
+            TYPE_BLOCKED =>     { name: :label_blocked_by, sym_name: :label_blocks, order: 5, sym: TYPE_BLOCKS, reverse: TYPE_BLOCKS },
+            TYPE_PRECEDES =>    { name: :label_precedes, sym_name: :label_follows, order: 6, sym: TYPE_FOLLOWS },
+            TYPE_FOLLOWS =>     { name: :label_follows, sym_name: :label_precedes, order: 7, sym: TYPE_PRECEDES, reverse: TYPE_PRECEDES }
           }.freeze
 
   validates_presence_of :from, :to, :relation_type
-  validates_inclusion_of :relation_type, :in => TYPES.keys
-  validates_numericality_of :delay, :allow_nil => true
-  validates_uniqueness_of :to_id, :scope => :from_id
+  validates_inclusion_of :relation_type, in: TYPES.keys
+  validates_numericality_of :delay, allow_nil: true
+  validates_uniqueness_of :to_id, scope: :from_id
 
   validate :validate_sanity_of_relation
 

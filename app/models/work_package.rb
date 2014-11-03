@@ -49,33 +49,33 @@ class WorkPackage < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :type
-  belongs_to :status, :class_name => 'Status', :foreign_key => 'status_id'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
-  belongs_to :responsible, :class_name => "User", :foreign_key => "responsible_id"
-  belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
-  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'Category', :foreign_key => 'category_id'
+  belongs_to :status, class_name: 'Status', foreign_key: 'status_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
+  belongs_to :responsible, class_name: "User", foreign_key: "responsible_id"
+  belongs_to :fixed_version, class_name: 'Version', foreign_key: 'fixed_version_id'
+  belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
+  belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
 
-  has_many :time_entries, :dependent => :delete_all
-  has_many :relations_from, :class_name => 'Relation', :foreign_key => 'from_id', :dependent => :delete_all
-  has_many :relations_to, :class_name => 'Relation', :foreign_key => 'to_id', :dependent => :delete_all
+  has_many :time_entries, dependent: :delete_all
+  has_many :relations_from, class_name: 'Relation', foreign_key: 'from_id', dependent: :delete_all
+  has_many :relations_to, class_name: 'Relation', foreign_key: 'to_id', dependent: :delete_all
   has_and_belongs_to_many :changesets,
-                          :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+                          order: "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   attr_protected :project_id, :author_id, :lft, :rgt
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkPackage.visible_condition(args.first ||
+  scope :recently_updated, order: "#{WorkPackage.table_name}.updated_at DESC"
+  scope :visible, lambda {|*args| { include: :project,
+                                    conditions: WorkPackage.visible_condition(args.first ||
                                                                                  User.current) } }
 
-  scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
+  scope :in_status, lambda {|*args| where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
   scope :for_projects, lambda { |projects|
-    {:conditions => {:project_id => projects}}
+    {conditions: {project_id: projects}}
   }
 
   scope :changed_since, lambda { |changed_since|
@@ -83,28 +83,28 @@ class WorkPackage < ActiveRecord::Base
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  scope :open, :conditions => ["#{Status.table_name}.is_closed = ?", false], :include => :status
+  scope :open, conditions: ["#{Status.table_name}.is_closed = ?", false], include: :status
 
-  scope :with_limit, lambda { |limit| { :limit => limit} }
+  scope :with_limit, lambda { |limit| { limit: limit} }
 
   scope :on_active_project, lambda { {
-    :include => [:status, :project, :type],
-    :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
+    include: [:status, :project, :type],
+    conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
 
   scope :without_version, lambda {
     {
-      :conditions => { :fixed_version_id => nil}
+      conditions: { fixed_version_id: nil}
     }
   }
 
   scope :with_query, lambda {|query|
     {
-      :conditions => ::Query.merge_conditions(query.statement)
+      conditions: ::Query.merge_conditions(query.statement)
     }
   }
 
   scope :with_author, lambda { |author|
-    {:conditions => {:author_id => author.id}}
+    {conditions: {author_id: author.id}}
   }
 
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -133,11 +133,11 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_customizable
 
-  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :include => [:project, :journals],
-                     :date_column => "#{quoted_table_name}.created_at",
+  acts_as_searchable columns: ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
+                     include: [:project, :journals],
+                     date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
-                     :order_column => "#{table_name}.id"
+                     order_column: "#{table_name}.id"
 
   ##################### WARNING #####################
   # Do not change the order of acts_as_attachable   #
@@ -150,7 +150,7 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachments_changed, :order => "#{Attachment.table_name}.filename"
+  acts_as_attachable after_remove: :attachments_changed, order: "#{Attachment.table_name}.filename"
 
   after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
@@ -168,7 +168,7 @@ class WorkPackage < ActiveRecord::Base
                        :project,
                        :priority
 
-  acts_as_journalized :except => ["root_id"]
+  acts_as_journalized except: ["root_id"]
 
   # This one is here only to ease reading
   module JournalizedProcs
@@ -244,7 +244,7 @@ class WorkPackage < ActiveRecord::Base
   # after the wp is created.
   # As after_create is run before after_save, and journal creation is triggered by an
   # after_save hook, we rely on after_save and a specific version here.
-  after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
+  after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version == 0 }
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
@@ -269,7 +269,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def copy_from(arg, options = {})
-    merged_options = { :exclude => ["id",
+    merged_options = { exclude: ["id",
                                     "root_id",
                                     "parent_id",
                                     "lft",
@@ -340,8 +340,8 @@ class WorkPackage < ActiveRecord::Base
 
   def add_time_entry(attributes={})
     attributes.reverse_merge!({
-        :project => project,
-        :work_package => self
+        project: project,
+        work_package: self
       })
     time_entries.build(attributes)
   end
@@ -565,11 +565,11 @@ class WorkPackage < ActiveRecord::Base
         attachments = Attachment.attach_files(self, params[:attachments])
 
         # TODO: Rename hook
-        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { params: params, issue: self, time_entry: @time_entry, journal: current_journal})
         begin
           if save
             # TODO: Rename hook
-            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { params: params, issue: self, time_entry: @time_entry, journal: current_journal})
           else
             raise ActiveRecord::Rollback
           end
@@ -581,7 +581,7 @@ class WorkPackage < ActiveRecord::Base
 
           if journals_since.any?
             changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+            error_message << " " << l(:notice_locking_conflict_additional_information, users: changes.join(', '))
           end
 
           error_message << " " << l(:notice_locking_conflict_reload_page)
@@ -687,7 +687,7 @@ class WorkPackage < ActiveRecord::Base
         create_and_save_journal_note work_package, options[:journal_note]
       else
         # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
+        TimeEntry.update_all("project_id = #{new_project.id}", {work_package_id: id})
 
         work_package.children.each do |child|
           unless child.move_to_project_without_transaction(new_project)
@@ -706,8 +706,8 @@ class WorkPackage < ActiveRecord::Base
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
     project = self.project
-    allowed = user.allowed_to? :edit_work_package_notes, project, { :global => project.present? }
-    allowed = user.allowed_to? :edit_own_work_package_notes, project, { :global => project.present? } unless allowed
+    allowed = user.allowed_to? :edit_work_package_notes, project, { global: project.present? }
+    allowed = user.allowed_to? :edit_own_work_package_notes, project, { global: project.present? } unless allowed
     return allowed
   end
 
@@ -757,10 +757,10 @@ class WorkPackage < ActiveRecord::Base
 
     # ancestors will be recursively updated
     if p.changed?
-      p.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', :child => "##{id}")
+      p.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', child: "##{id}")
 
       # Ancestors will be updated by parent's after_save hook.
-      p.save(:validate => false)
+      p.save(validate: false)
     end
   end
 
@@ -826,7 +826,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def reload_lock_and_timestamps
-    reload(:select => [:lock_version, :created_at, :updated_at])
+    reload(select: [:lock_version, :created_at, :updated_at])
   end
 
   # Returns an array of projects that current user can move issues to
@@ -864,13 +864,13 @@ class WorkPackage < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'lock_version',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project) }
+    if: lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project) }
 
   safe_attributes 'status_id',
     'assigned_to_id',
     'fixed_version_id',
     'done_ratio',
-    :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
+    if: lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
   def <=>(issue)
     if issue.nil?
@@ -898,45 +898,45 @@ class WorkPackage < ActiveRecord::Base
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by :project => project,
-                       :field => 'type_id',
-                       :joins => Type.table_name
+    count_and_group_by project: project,
+                       field: 'type_id',
+                       joins: Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by :project => project,
-                       :field => 'fixed_version_id',
-                       :joins => Version.table_name
+    count_and_group_by project: project,
+                       field: 'fixed_version_id',
+                       joins: Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by :project => project,
-                       :field => 'priority_id',
-                       :joins => IssuePriority.table_name
+    count_and_group_by project: project,
+                       field: 'priority_id',
+                       joins: IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by :project => project,
-                       :field => 'category_id',
-                       :joins => Category.table_name
+    count_and_group_by project: project,
+                       field: 'category_id',
+                       joins: Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by :project => project,
-                       :field => 'assigned_to_id',
-                       :joins => User.table_name
+    count_and_group_by project: project,
+                       field: 'assigned_to_id',
+                       joins: User.table_name
   end
 
   def self.by_responsible(project)
-    count_and_group_by :project => project,
-                       :field => 'responsible_id',
-                       :joins => User.table_name
+    count_and_group_by project: project,
+                       field: 'responsible_id',
+                       joins: User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by :project => project,
-                       :field => 'author_id',
-                       :joins => User.table_name
+    count_and_group_by project: project,
+                       field: 'author_id',
+                       joins: User.table_name
   end
 
   def self.by_subproject(project)
@@ -966,8 +966,8 @@ class WorkPackage < ActiveRecord::Base
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)
 
-    attributes.reverse_merge!({ :user => user,
-                                :spent_on => Date.today })
+    attributes.reverse_merge!({ user: user,
+                                spent_on: Date.today })
 
     time_entries.build(attributes)
   end
@@ -981,7 +981,7 @@ class WorkPackage < ActiveRecord::Base
     key = "activity_id"
     id = attributes[key]
     default_id = if id && !id.blank?
-      Enumeration.exists? :id => id, :is_default => true, :type => 'TimeEntryActivity'
+      Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
     else
       true
     end
@@ -1004,11 +1004,11 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    WorkPackage.all(:conditions => merge_conditions("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
+    WorkPackage.all(conditions: merge_conditions("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
                                                 " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
                                                 " AND #{Version.table_name}.sharing <> 'system'",
                                                 conditions),
-              :include => [:project, :fixed_version]
+              include: [:project, :fixed_version]
               ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)

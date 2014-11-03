@@ -28,7 +28,7 @@
 #++
 
 class UserPassword < ActiveRecord::Base
-  belongs_to :user, :inverse_of => :passwords
+  belongs_to :user, inverse_of: :passwords
 
   # passwords must never be modified, so doing this on create should be enough
   before_create :salt_and_hash_password!

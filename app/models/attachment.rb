@@ -32,16 +32,16 @@ require "digest/md5"
 class Attachment < ActiveRecord::Base
   ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ]
 
-  belongs_to :container, :polymorphic => true
+  belongs_to :container, polymorphic: true
 
-  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
+  belongs_to :author, class_name: "User", foreign_key: "author_id"
 
   attr_protected :author_id
 
   validates_presence_of :container, :filename, :author, :content_type
-  validates_length_of :filename, :maximum => 255
-  validates_length_of :description, :maximum => 255
-  validates_length_of :disk_filename, :maximum => 255
+  validates_length_of :filename, maximum: 255
+  validates_length_of :description, maximum: 255
+  validates_length_of :disk_filename, maximum: 255
 
   validate :filesize_below_allowed_maximum
 
@@ -53,7 +53,7 @@ class Attachment < ActiveRecord::Base
   acts_as_journalized
   acts_as_event title: :filename,
                 url: (Proc.new do |o|
-                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                        { controller: '/attachments', action: 'download', id: o.id, filename: o.filename }
                       end)
 
   cattr_accessor :storage_path
@@ -62,7 +62,7 @@ class Attachment < ActiveRecord::Base
 
   def filesize_below_allowed_maximum
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
-      errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
+      errors.add(:base, :too_long, count: Setting.attachment_max_size.to_i.kilobytes)
     end
   end
 
@@ -193,10 +193,10 @@ class Attachment < ActiveRecord::Base
       attachments.each_value do |attachment|
         file = attachment['file']
         next unless file && file.size > 0
-        a = Attachment.create(:container => obj,
-                              :file => file,
-                              :description => attachment['description'].to_s.strip,
-                              :author => User.current)
+        a = Attachment.create(container: obj,
+                              file: file,
+                              description: attachment['description'].to_s.strip,
+                              author: User.current)
 
         if a.new_record?
           obj.unsaved_attachments ||= []
@@ -206,7 +206,7 @@ class Attachment < ActiveRecord::Base
         end
       end
     end
-    {:files => attached, :unsaved => obj.unsaved_attachments}
+    {files: attached, unsaved: obj.unsaved_attachments}
   end
 
   def self.content_type_for(file_path)

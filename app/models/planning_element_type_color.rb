@@ -33,11 +33,11 @@ class PlanningElementTypeColor < ActiveRecord::Base
   self.table_name = 'planning_element_type_colors'
 
   acts_as_list
-  default_scope :order => 'position ASC'
+  default_scope order: 'position ASC'
 
-  has_many :planning_element_types, :class_name  => 'Type',
-                                    :foreign_key => 'color_id',
-                                    :dependent   => :nullify
+  has_many :planning_element_types, class_name:  'Type',
+                                    foreign_key: 'color_id',
+                                    dependent:   :nullify
 
   include ActiveModel::ForbiddenAttributesProtection
 
@@ -45,8 +45,8 @@ class PlanningElementTypeColor < ActiveRecord::Base
 
   validates_presence_of :name, :hexcode
 
-  validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
-  validates_format_of :hexcode, :with => /\A#[0-9A-F]{6}\z/, :unless => lambda { |e| e.hexcode.blank? }
+  validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
+  validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
 
   def self.colors
     [

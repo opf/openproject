@@ -165,7 +165,7 @@ class PermittedParams < Struct.new(:params, :current_user)
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
-    p[:sort_criteria] = params.require(:query).permit(:sort_criteria => {'0' => [], '1' => [], '2' => []})
+    p[:sort_criteria] = params.require(:query).permit(sort_criteria: {'0' => [], '1' => [], '2' => []})
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -203,7 +203,7 @@ class PermittedParams < Struct.new(:params, :current_user)
     # Found group_ids in safe_attributes and added them here as I
     # didn't know the consequences of removing these.
     # They were not allowed on create.
-    user_create_as_admin(external_authentication, change_password_allowed, [:group_ids => []])
+    user_create_as_admin(external_authentication, change_password_allowed, [group_ids: []])
   end
 
   def user_create_as_admin(external_authentication, change_password_allowed, additional_params = [])
@@ -275,7 +275,7 @@ class PermittedParams < Struct.new(:params, :current_user)
   end
 
   def permitted_attributes(key, additions = {})
-    merged_args = { :params => params, :current_user => current_user }.merge(additions)
+    merged_args = { params: params, current_user: current_user }.merge(additions)
 
     self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
@@ -288,7 +288,7 @@ class PermittedParams < Struct.new(:params, :current_user)
 
   def self.permitted_attributes
     @whitelisted_params ||= {
-      :auth_source => [
+      auth_source: [
         :name,
         :host,
         :port,
@@ -301,14 +301,14 @@ class PermittedParams < Struct.new(:params, :current_user)
         :attr_firstname,
         :attr_lastname,
         :attr_mail],
-      :board => [
+      board: [
         :name,
         :description],
-      :color => [
+      color: [
         :name,
         :hexcode,
         :move_to ],
-      :custom_field => [
+      custom_field: [
         :editable,
         :field_format,
         :is_filter,
@@ -322,30 +322,30 @@ class PermittedParams < Struct.new(:params, :current_user)
         :regexp,
         :searchable,
         :visible,
-        :translations_attributes => [
+        translations_attributes: [
           :_destroy,
           :default_value,
           :id,
           :locale,
           :name,
           :possible_values],
-        :type_ids => []],
-      :enumeration => [
+        type_ids: []],
+      enumeration: [
         :active,
         :is_default,
         :move_to,
         :name,
         :reassign_to_id],
-      :group => [
+      group: [
         :lastname],
-      :group_membership => [
+      group_membership: [
         :membership_id,
-        :membership => [
+        membership: [
           :project_id,
-          :role_ids => []]],
-      :member => [
-        :role_ids => []],
-      :new_work_package => [
+          role_ids: []]],
+      member: [
+        role_ids: []],
+      new_work_package: [
         # attributes common with :planning_element below
         :assigned_to_id,
         { attachments: [:file, :description] },
@@ -368,7 +368,7 @@ class PermittedParams < Struct.new(:params, :current_user)
              args[:params]["work_package"].has_key?("watcher_user_ids") &&
              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
-            { :watcher_user_ids => [] }
+            { watcher_user_ids: [] }
           end
         end,
         Proc.new do |args|
@@ -383,7 +383,7 @@ class PermittedParams < Struct.new(:params, :current_user)
         # attributes unique to :new_work_package
         :notes,
         :lock_version ],
-      :planning_element => [
+      planning_element: [
         # attributes common with :new_work_package above
         :assigned_to_id,
         { attachments: [:file, :description] },
@@ -406,7 +406,7 @@ class PermittedParams < Struct.new(:params, :current_user)
              args[:params]["planning_element"].has_key?("watcher_user_ids") &&
              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
-            { :watcher_user_ids => [] }
+            { watcher_user_ids: [] }
           end
         end,
         Proc.new do |args|
@@ -421,64 +421,64 @@ class PermittedParams < Struct.new(:params, :current_user)
         # attributes unique to planning_element
         :note,
         :planning_element_status_comment,
-        :custom_fields => [ #json
+        custom_fields: [ #json
           :id,
           :value,
-          :custom_field => [ # xml
+          custom_field: [ # xml
             :id,
             :value ]]],
-      :planning_element_type => [
+      planning_element_type: [
         :name,
         :in_aggregation,
         :is_milestone,
         :is_default,
         :color_id ],
-      :project_type => [
+      project_type: [
         :name,
         :allows_association,
-        :type_ids => [],
-        :reported_project_status_ids => []],
-      :query => [
+        type_ids: [],
+        reported_project_status_ids: []],
+      query: [
         :name,
         :display_sums,
         :is_public,
         :group_by],
-      :role => [
+      role: [
         :name,
         :assignable,
         :move_to,
-        :permissions => []],
-      :status => [
+        permissions: []],
+      status: [
         :name,
         :default_done_ratio,
         :is_closed,
         :is_default,
         :move_to ],
-      :type => [
+      type: [
         :name,
         :is_in_roadmap,
         :in_aggregation,
         :is_milestone,
         :is_default,
         :color_id,
-        :project_ids => [],
-        :custom_field_ids => [] ],
-      :user => [
+        project_ids: [],
+        custom_field_ids: [] ],
+      user: [
         :firstname,
         :lastname,
         :mail,
         :mail_notification,
         :language,
         :custom_fields ],
-      :wiki_page => [
+      wiki_page: [
         :title,
         :parent_id,
         :redirect_existing_links ],
-      :wiki_content => [
+      wiki_content: [
         :comments,
         :text,
         :lock_version ],
-      :move_to => [ :move_to ]
+      move_to: [ :move_to ]
     }
   end
 

@@ -40,7 +40,7 @@ class Journal < ActiveRecord::Base
   attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journable_id, :journable_type]
+  validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -52,7 +52,7 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope "changing", :conditions => ["version > 1"]
+  scope "changing", conditions: ["version > 1"]
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes

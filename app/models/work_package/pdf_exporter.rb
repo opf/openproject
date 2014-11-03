@@ -268,14 +268,14 @@ module WorkPackage::PdfExporter
     pdf.SetFontStyle('B',9)
     pdf.RDMCell(190,5, l(:label_history), "B")
     pdf.Ln
-    for journal in work_package.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    for journal in work_package.journals.find(:all, include: [:user], order: "#{Journal.table_name}.created_at ASC")
       next if journal.initial?
       pdf.SetFontStyle('B',8)
       pdf.RDMCell(190,5, format_time(journal.created_at) + " - " + journal.user.name)
       pdf.Ln
       pdf.SetFontStyle('I',8)
       for detail in journal.details
-        pdf.RDMMultiCell(190,5, "- " + journal.render_detail(detail, :no_html => true, :only_path => false))
+        pdf.RDMMultiCell(190,5, "- " + journal.render_detail(detail, no_html: true, only_path: false))
         pdf.Ln
       end
       if journal.notes?

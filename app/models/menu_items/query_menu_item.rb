@@ -28,7 +28,7 @@
 #++
 
 class MenuItems::QueryMenuItem < MenuItem
-  belongs_to :query, :foreign_key => 'navigatable_id'
+  belongs_to :query, foreign_key: 'navigatable_id'
 
   def unique_name
     "#{name}-#{id}".to_sym

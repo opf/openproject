@@ -33,7 +33,7 @@ class Version < ActiveRecord::Base
 
   after_update :update_issues_from_sharing_change
   belongs_to :project
-  has_many :fixed_issues, :class_name => 'WorkPackage', :foreign_key => 'fixed_version_id', :dependent => :nullify
+  has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed)
@@ -42,17 +42,17 @@ class Version < ActiveRecord::Base
   attr_protected :project_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:project_id]
-  validates_length_of :name, :maximum => 60
-  validates_format_of :effective_date, :with => /\A\d{4}-\d{2}-\d{2}\z/, :message => :not_a_date, :allow_nil => true
-  validates_format_of :start_date, :with => /\A\d{4}-\d{2}-\d{2}\z/, :message => :not_a_date, :allow_nil => true
-  validates_inclusion_of :status, :in => VERSION_STATUSES
-  validates_inclusion_of :sharing, :in => VERSION_SHARINGS
+  validates_uniqueness_of :name, scope: [:project_id]
+  validates_length_of :name, maximum: 60
+  validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
+  validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
+  validates_inclusion_of :status, in: VERSION_STATUSES
+  validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, :conditions => {:status => 'open'}
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
+  scope :open, conditions: {status: 'open'}
+  scope :visible, lambda {|*args| { include: :project,
+                                    conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
 
   scope :systemwide, -> { where(sharing: 'system') }
 
@@ -94,7 +94,7 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, :include => :work_package, :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.sum(:hours, include: :work_package, conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
   end
 
   def closed?

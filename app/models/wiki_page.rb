@@ -34,25 +34,25 @@ class WikiPage < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :wiki
-  has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
-  acts_as_attachable :delete_permission => :delete_wiki_pages_attachments
-  acts_as_tree :dependent => :nullify, :order => 'title'
+  has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
+  acts_as_attachable delete_permission: :delete_wiki_pages_attachments
+  acts_as_tree dependent: :nullify, order: 'title'
 
   acts_as_watchable
   acts_as_event title: Proc.new {|o| "#{Wiki.model_name.human}: #{o.title}"},
                 description: :text,
                 datetime: :created_on,
-                url: Proc.new {|o| {:controller => '/wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
+                url: Proc.new {|o| {controller: '/wiki', action: 'show', project_id: o.wiki.project, id: o.title}}
 
-  acts_as_searchable :columns => ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
-                     :include => [{:wiki => :project}, :content],
-                     :project_key => "#{Wiki.table_name}.project_id"
+  acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
+                     include: [{wiki: :project}, :content],
+                     project_key: "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
 
   validates_presence_of :title
-  validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/
-  validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
+  validates_format_of :title, with: /\A[^,\.\/\?\;\|\s]*\z/
+  validates_uniqueness_of :title, scope: :wiki_id, case_sensitive: false
   validates_associated :content
 
   validate :validate_consistency_of_parent_title
@@ -65,8 +65,8 @@ class WikiPage < ActiveRecord::Base
 
   # eager load information about last updates, without loading text
   scope :with_updated_on, {
-    :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
+    select: "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+    joins: "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
   }
 
   scope :main_pages, lambda {|wiki_id|
@@ -112,7 +112,7 @@ class WikiPage < ActiveRecord::Base
       # Remove redirects for the new title
       wiki.redirects.find_all_by_title(title).each(&:destroy)
       # Create a redirect to the new title
-      wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
+      wiki.redirects << WikiRedirect.new(title: @previous_title, redirects_to: title) unless redirect_existing_links == "0"
 
       # Change title of dependent wiki menu item
       dependent_item = MenuItems::WikiMenuItem.find_by_navigatable_id_and_title(self.wiki.id, @previous_title)
