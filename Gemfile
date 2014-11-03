@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.19"
+gem "rails", "~> 3.2.20"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -90,7 +90,7 @@ group :production do
   gem 'dalli'
 end
 
-gem 'sprockets',        '2.2.2.backport2'
+gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
