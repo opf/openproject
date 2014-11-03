@@ -11,6 +11,9 @@ ActionFilter:
 Alias:
   Enabled: false
 
+AndOr:
+  Enabled: false
+
 ArrayJoin:
   Enabled: false
 
