@@ -106,7 +106,8 @@ class Project < ActiveRecord::Base
   validates_length_of :homepage, maximum: 255
   validates_length_of :identifier, in: 1..IDENTIFIER_MAX_LENGTH
   # downcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, with: /\A(?!\d+$)[a-z0-9\-_]*\z/, if: Proc.new(&:identifier_changed?)
+  validates_format_of :identifier, with: /\A(?!\d+$)[a-z0-9\-_]*\z/,
+                                   if: -> (p) { p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
 

@@ -39,7 +39,7 @@ class Changeset < ActiveRecord::Base
                 description: :long_comments,
                 datetime: :committed_on,
                 url: Proc.new { |o| { controller: '/repositories', action: 'revision', id: o.repository.project, rev: o.identifier } },
-                author: Proc.new(&:author)
+                author: Proc.new { |o| o.author }
 
   acts_as_searchable columns: 'comments',
                      include: { repository: :project },
