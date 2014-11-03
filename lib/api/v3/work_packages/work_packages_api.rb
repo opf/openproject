@@ -59,11 +59,12 @@ module API
               @representer.represented.lock_version = nil # enforces availibility validation of lock_version
 
               @representer.from_json(env['api.request.input'])
-              if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
+              contract = WorkPackageContract.new(@representer.represented, current_user)
+              if contract.validate && @representer.represented.save
                 decorate_work_package(@work_package.reload)
                 @representer
               else
-                fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
+                fail ::API::Errors::ErrorBase.create(contract.errors)
               end
             end
 

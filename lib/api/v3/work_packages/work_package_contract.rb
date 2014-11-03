@@ -33,19 +33,32 @@ require 'reform/form/coercion'
 module API
   module V3
     module WorkPackages
-      class WorkPackageModel < Reform::Form
-        include Coercion
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::TextFormatting
-        include OpenProject::StaticRouting::UrlHelpers
-        include WorkPackagesHelper
+      class WorkPackageContract < Reform::Contract
+        WRITEABLE_ATTRIBUTES = ['lock_version', 'subject', 'parent_id', 'description'].freeze
+
+        def initialize(object, user)
+          super(object)
+
+          @user = user
+          @can = WorkPackagePolicy.new(user)
+        end
+
+        property :subject
+        property :project
+        property :type
+        property :author
+        property :status
+
+        validates :subject, presence: true, length: { maximum: 255 }
+        validates :project, presence: true
+        validates :type, presence: true
+        validates :author, presence: true
+        validates :status, presence: true
 
         validate :user_allowed_to_edit
         validate :user_allowed_to_edit_parent
         validate :lock_version_set
         validate :readonly_attributes_unchanged
-        validates_presence_of :subject, :project_id, :type, :author, :status
-        validates_length_of :subject, maximum: 255
         validate :milestone_constraint
         validate :user_allowed_to_access_parent
 
@@ -60,25 +73,11 @@ module API
         end
 
         def lock_version_set
-          errors.add :error_conflict, '' if lock_version.nil?
+          errors.add :error_conflict, '' if model.lock_version.nil?
         end
 
         def readonly_attributes_unchanged
-          changed_attributes = readonly_attributes.each_with_object([]) do |a, l|
-            attribute_model = (a.is_a? Hash) ? a.values[0] : a
-            attribute_form = (a.is_a? Hash) ? a.keys[0] : a
-
-            if model.respond_to?(attribute_model)
-              new = send(attribute_form)
-              current = model.send(attribute_model)
-
-              new = new.id if !new.nil? && new.respond_to?(:id)
-              current = current.id if !current.nil? && current.respond_to?(:id)
-              new = new[:value] if new.is_a?(Hash) && new.has_key?(:value)
-
-              l << attribute_model if new != current
-            end
-          end
+          changed_attributes = model.changed - WRITEABLE_ATTRIBUTES
 
           errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
         end
@@ -92,25 +91,15 @@ module API
         end
 
         def parent_changed?
-          parent_id != model.parent_id
+          model.changed.include? 'parent_id'
         end
 
         def parent_visible?
-          !parent_id || ::WorkPackage.visible(@user).exists?(parent_id)
+          !model.parent_id || ::WorkPackage.visible(@user).exists?(model.parent_id)
         end
 
         def error_message(path)
           I18n.t("activerecord.errors.models.work_package.attributes.#{path}")
-        end
-
-        def readonly_attributes
-          all_attributes - [:lock_version, :subject, :parent_id, :raw_description] \
-                         + [ { percentage_done: :done_ratio },
-                             { estimated_time: :estimated_hours } ]
-        end
-
-        def all_attributes
-          send(:fields).methods(false).grep(/[^=]$/)
         end
       end
     end
