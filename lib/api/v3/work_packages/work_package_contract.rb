@@ -43,24 +43,10 @@ module API
           @can = WorkPackagePolicy.new(user)
         end
 
-        property :subject
-        property :project
-        property :type
-        property :author
-        property :status
-
-        validates :subject, presence: true, length: { maximum: 255 }
-        validates :project, presence: true
-        validates :type, presence: true
-        validates :author, presence: true
-        validates :status, presence: true
-
         validate :user_allowed_to_edit
         validate :user_allowed_to_edit_parent
         validate :lock_version_set
         validate :readonly_attributes_unchanged
-        validate :milestone_constraint
-        validate :user_allowed_to_access_parent
 
         private
 
