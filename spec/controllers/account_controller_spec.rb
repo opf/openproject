@@ -42,29 +42,29 @@ describe AccountController, type: :controller do
     describe 'User logging in with back_url' do
 
       it 'should redirect to a relative path' do
-        post :login , username: admin.login, password: 'adminADMIN!', back_url: '/'
+        post :login, username: admin.login, password: 'adminADMIN!', back_url: '/'
         expect(response).to redirect_to root_path
       end
 
       it 'should redirect to an absolute path given the same host' do
         # note: test.host is the hostname during tests
-        post :login , username: admin.login,
-                      password: 'adminADMIN!',
-                      back_url: 'http://test.host/work_packages/show/1'
+        post :login, username: admin.login,
+                     password: 'adminADMIN!',
+                     back_url: 'http://test.host/work_packages/show/1'
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
       it 'should not redirect to another host' do
-        post :login , username: admin.login,
-                      password: 'adminADMIN!',
-                      back_url: 'http://test.foo/work_packages/show/1'
+        post :login, username: admin.login,
+                     password: 'adminADMIN!',
+                     back_url: 'http://test.foo/work_packages/show/1'
         expect(response).to redirect_to my_page_path
       end
 
       it 'should not redirect to another host with a protocol relative url' do
-        post :login , username: admin.login,
-                      password: 'adminADMIN!',
-                      back_url: '//test.foo/fake'
+        post :login, username: admin.login,
+                     password: 'adminADMIN!',
+                     back_url: '//test.foo/fake'
         expect(response).to redirect_to my_page_path
       end
 
@@ -75,7 +75,7 @@ describe AccountController, type: :controller do
                                                                lastname: 'Smith',
                                                                mail: 'foo@bar.com',
                                                                auth_source_id: 66)
-        post :login , username: 'foo', password: 'bar'
+        post :login, username: 'foo', password: 'bar'
 
         expect(response).to redirect_to my_first_login_path
         user = User.find_by_login('foo')
@@ -95,44 +95,44 @@ describe AccountController, type: :controller do
         end
 
         it 'should redirect to the same subdirectory with an absolute path' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: 'http://test.host/openproject/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: 'http://test.host/openproject/work_packages/show/1'
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
         it 'should redirect to the same subdirectory with a relative path' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: '/openproject/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: '/openproject/work_packages/show/1'
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
         it 'should not redirect to another subdirectory with an absolute path' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: 'http://test.host/foo/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: 'http://test.host/foo/work_packages/show/1'
           expect(response).to redirect_to my_page_path
         end
 
         it 'should not redirect to another subdirectory with a relative path' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: '/foo/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: '/foo/work_packages/show/1'
           expect(response).to redirect_to my_page_path
         end
 
         it 'should not redirect to another subdirectory by going up the path hierarchy' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: 'http://test.host/openproject/../foo/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: 'http://test.host/openproject/../foo/work_packages/show/1'
           expect(response).to redirect_to my_page_path
         end
 
         it 'should not redirect to another subdirectory with a protocol relative path' do
-          post :login , username: admin.login,
-                        password: 'adminADMIN!',
-                        back_url: '//test.host/foo/work_packages/show/1'
+          post :login, username: admin.login,
+                       password: 'adminADMIN!',
+                       back_url: '//test.host/foo/work_packages/show/1'
           expect(response).to redirect_to my_page_path
         end
       end
@@ -458,8 +458,8 @@ describe AccountController, type: :controller do
           expect(response).to render_template :register
 
           post :register, user: { firstname: 'Foo',
-                                     lastname: 'Smith',
-                                     mail: 'foo@bar.com' }
+                                  lastname: 'Smith',
+                                  mail: 'foo@bar.com' }
           expect(response).to redirect_to '/my/account'
 
           user = User.find_by_login('foo')
@@ -488,8 +488,8 @@ describe AccountController, type: :controller do
         describe 'registration' do
           before do
             post :register, user: { firstname: 'Foo',
-                                       lastname: 'Smith',
-                                       mail: 'foo@bar.com' }
+                                    lastname: 'Smith',
+                                    mail: 'foo@bar.com' }
           end
 
           it_behaves_like 'registration disabled'
@@ -497,6 +497,5 @@ describe AccountController, type: :controller do
       end
     end
   end
-
 
 end

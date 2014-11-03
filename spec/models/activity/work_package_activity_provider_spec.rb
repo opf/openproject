@@ -36,12 +36,14 @@ describe Activity::WorkPackageActivityProvider, type: :model do
   let(:user)          { FactoryGirl.create :admin }
   let(:role)          { FactoryGirl.create :role }
   let(:status_closed) { FactoryGirl.create :closed_status }
-  let(:work_package)  { FactoryGirl.build  :work_package }
-  let!(:workflow)     { FactoryGirl.create :workflow,
-                                           old_status: work_package.status,
-                                           new_status: status_closed,
-                                           type_id: work_package.type_id,
-                                           role: role }
+  let(:work_package)  { FactoryGirl.build :work_package }
+  let!(:workflow)     {
+    FactoryGirl.create :workflow,
+                       old_status: work_package.status,
+                       new_status: status_closed,
+                       type_id: work_package.type_id,
+                       role: role
+  }
 
   describe '#event_type' do
     describe 'latest events' do
@@ -54,13 +56,13 @@ describe Activity::WorkPackageActivityProvider, type: :model do
       end
 
       context 'should be selected and ordered correctly' do
-        let!(:work_packages) {(1..20).map {(FactoryGirl.create :work_package, author: user).id.to_s} }
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {limit: 10}).map {|a| a.journable_id.to_s} }
+        let!(:work_packages) { (1..20).map { (FactoryGirl.create :work_package, author: user).id.to_s } }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, limit: 10).map { |a| a.journable_id.to_s } }
         it { is_expected.to eq(work_packages.reverse.first(10)) }
       end
 
       context 'when a work package has been created and then closed' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { limit: 10 }).first.try :event_type }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow,  limit: 10).first.try :event_type }
 
         before do
           allow(User).to receive(:current).and_return(user)

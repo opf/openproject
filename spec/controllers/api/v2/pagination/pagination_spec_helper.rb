@@ -34,7 +34,7 @@ module Api
           describe :index, type: :controller do
             let(:params) { { "page" => "1",
                              "page_limit" =>
-                             "10", "q" => "blubs",
+                             "q" => "blubs",
                              "format" => "json" } }
 
             before do

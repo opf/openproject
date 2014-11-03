@@ -30,21 +30,23 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package,
-                                          project: project) }
+  let(:work_package) {
+    FactoryGirl.create(:work_package,
+                       project: project)
+  }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
 
   let(:non_member_user) { FactoryGirl.create(:user) }
   let(:project_member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let!(:watching_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role).tap {|user| Watcher.create(watchable: work_package, user: user)}
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role).tap { |user| Watcher.create(watchable: work_package, user: user) }
   end
 
   describe '#possible_watcher_users' do
     subject { work_package.possible_watcher_users }
 
-    let!(:admin){ FactoryGirl.create(:admin) }
-    let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
+    let!(:admin) { FactoryGirl.create(:admin) }
+    let!(:anonymous_user) { FactoryGirl.create(:anonymous) }
 
     shared_context 'non member role has the permission to view work packages' do
       let(:non_member_role) { Role.find_by_name('Non member') }
@@ -60,7 +62,7 @@ describe WorkPackage, type: :model do
 
     context 'when it is a public project' do
       it 'contains project members who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
+        users_allowed_to_view_work_packages = project.users.select { |u| u.allowed_to?(:view_work_packages, project) }
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
@@ -90,7 +92,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'contains project members who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
+        users_allowed_to_view_work_packages = project.users.select { |u| u.allowed_to?(:view_work_packages, project) }
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 

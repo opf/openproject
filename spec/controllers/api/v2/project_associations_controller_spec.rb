@@ -60,7 +60,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
       end
       let(:permission) { :view_project_associations }
 
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'w/ the current user being a member' do
         describe 'w/o any project_associations within the project' do
@@ -71,7 +71,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ["api"])
+            expect(response).to render_template('project_associations/index', formats: ['api'])
           end
         end
 
@@ -79,11 +79,11 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
           before do
             @created_project_associations = [
               FactoryGirl.create(:project_association, project_a_id: project.id,
-                                                             project_b_id: FactoryGirl.create(:public_project).id),
+                                                       project_b_id: FactoryGirl.create(:public_project).id),
               FactoryGirl.create(:project_association, project_a_id: project.id,
-                                                             project_b_id: FactoryGirl.create(:public_project).id),
+                                                       project_b_id: FactoryGirl.create(:public_project).id),
               FactoryGirl.create(:project_association, project_b_id: project.id,
-                                                             project_a_id: FactoryGirl.create(:public_project).id)
+                                                       project_a_id: FactoryGirl.create(:public_project).id)
             ]
           end
 
@@ -94,7 +94,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ["api"])
+            expect(response).to render_template('project_associations/index', formats: ['api'])
           end
         end
       end
@@ -150,7 +150,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
         end
         let(:permission) { :view_project_associations }
 
-        it_should_behave_like "a controller action which needs project permissions"
+        it_should_behave_like 'a controller action which needs project permissions'
 
         describe 'w/ the current user being a member' do
           it 'assigns the project_association' do
@@ -160,7 +160,7 @@ describe Api::V2::ProjectAssociationsController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_id: project.id, id: project_association.id, format: 'xml'
-            expect(response).to render_template('project_associations/index', formats: ["api"])
+            expect(response).to render_template('project_associations/index', formats: ['api'])
           end
         end
       end

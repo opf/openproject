@@ -42,6 +42,6 @@ describe Api::V2::PlanningElementJournalsController, type: :controller do
     end
     let(:permission) { :view_work_packages }
 
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 end

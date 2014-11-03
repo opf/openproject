@@ -68,14 +68,18 @@ describe SystemUser, type: :model do
     let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
     let(:user) { FactoryGirl.build(:user) }
     let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-    let(:member) { FactoryGirl.build(:member, project: project,
-                                              roles: [role],
-                                              principal: user) }
+    let(:member) {
+      FactoryGirl.build(:member, project: project,
+                                 roles: [role],
+                                 principal: user)
+    }
     let(:status) { FactoryGirl.create(:status) }
-    let(:issue) { FactoryGirl.build(:work_package, type: project.types.first,
-                                                   author: user,
-                                                   project: project,
-                                                   status: status) }
+    let(:issue) {
+      FactoryGirl.build(:work_package, type: project.types.first,
+                                       author: user,
+                                       project: project,
+                                       status: status)
+    }
 
     before do
       issue.save!

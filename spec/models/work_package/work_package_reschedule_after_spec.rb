@@ -30,7 +30,7 @@ require 'spec_helper'
 
 # TODO: this spec is for now targeting each WorkPackage subclass
 # independently. Once only WorkPackage exist, this can safely be consolidated.
-describe WorkPackage, "#reschedule_after", type: :model do
+describe WorkPackage, '#reschedule_after', type: :model do
   let(:project) { FactoryGirl.build(:project_with_types) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
   let(:work_package2) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
@@ -53,7 +53,7 @@ describe WorkPackage, "#reschedule_after", type: :model do
         gchild
       end
 
-      describe "for a single node having start and due date" do
+      describe 'for a single node having start and due date' do
         before do
           instance.start_date = Date.today
           instance.due_date = Date.today + 7.days
@@ -61,16 +61,16 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
-        it "should set the set the due date plus the duration" do
+        it 'should set the set the due date plus the duration' do
           expect(instance.due_date).to eq(Date.today + 10.days)
         end
       end
 
-      describe "for a single node having neither start nor due date" do
+      describe 'for a single node having neither start nor due date' do
         before do
           instance.start_date = nil
           instance.due_date = nil
@@ -78,16 +78,16 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
-        it "should set the set the due date plus the duration" do
+        it 'should set the set the due date plus the duration' do
           expect(instance.due_date).to eq(Date.today + 3.days)
         end
       end
 
-      describe "for a single node having only a due date" do
+      describe 'for a single node having only a due date' do
         before do
           instance.start_date = nil
           instance.due_date = Date.today + 7.days
@@ -95,16 +95,16 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           expect(instance.start_date).to eq(Date.today + 3.days)
         end
 
-        it "should set the set the due date plus the duration" do
+        it 'should set the set the due date plus the duration' do
           expect(instance.due_date).to eq(Date.today + 3.days)
         end
       end
 
-      describe "with a child" do
+      describe 'with a child' do
         before do
           child.start_date = Date.today
           child.due_date = Date.today + 7.days
@@ -114,7 +114,7 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           instance.reload
           expect(instance.start_date).to eq(Date.today + 3.days)
         end
@@ -150,7 +150,7 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           instance.reload
           expect(instance.start_date).to eq(Date.today + 3.days)
         end
@@ -171,7 +171,7 @@ describe WorkPackage, "#reschedule_after", type: :model do
         end
       end
 
-      describe "with child and grandchild" do
+      describe 'with child and grandchild' do
 
         before do
           child.save
@@ -184,7 +184,7 @@ describe WorkPackage, "#reschedule_after", type: :model do
           instance.reschedule_after(Date.today + 3.days)
         end
 
-        it "should set the start_date to the provided date" do
+        it 'should set the start_date to the provided date' do
           instance.reload
           expect(instance.start_date).to eq(Date.today + 3.days)
         end

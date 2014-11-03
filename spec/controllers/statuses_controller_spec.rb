@@ -47,7 +47,7 @@ describe StatusesController, type: :controller do
 
     it { is_expected.to be_redirect }
 
-    it { is_expected.to redirect_to({ action: :index }) }
+    it { is_expected.to redirect_to(action: :index) }
   end
 
   shared_examples_for :statuses do
@@ -86,8 +86,10 @@ describe StatusesController, type: :controller do
     let(:template) { 'edit' }
 
     context :default do
-      let!(:status_default) { FactoryGirl.create(:status,
-                                                 is_default: true) }
+      let!(:status_default) {
+        FactoryGirl.create(:status,
+                           is_default: true)
+      }
 
       before { get :edit, id: status_default.id }
 
@@ -131,8 +133,8 @@ describe StatusesController, type: :controller do
       status
 
       put :update,
-           id: status.id,
-           status: { name: name }
+          id: status.id,
+          status: { name: name }
     end
 
     it_behaves_like :statuses
@@ -149,7 +151,7 @@ describe StatusesController, type: :controller do
       it { is_expected.to be_nil }
     end
 
-    context "unused" do
+    context 'unused' do
       before do
         status
 
@@ -161,9 +163,11 @@ describe StatusesController, type: :controller do
       it_behaves_like :redirect
     end
 
-    context "used" do
-      let(:work_package) { FactoryGirl.create(:work_package,
-                                              status: status) }
+    context 'used' do
+      let(:work_package) {
+        FactoryGirl.create(:work_package,
+                           status: status)
+      }
 
       before do
         work_package
@@ -176,9 +180,11 @@ describe StatusesController, type: :controller do
       it_behaves_like :redirect
     end
 
-    context "default" do
-      let!(:status_default) { FactoryGirl.create(:status,
-                                                 is_default: true) }
+    context 'default' do
+      let!(:status_default) {
+        FactoryGirl.create(:status,
+                           is_default: true)
+      }
 
       before do
         delete :destroy, id: status_default.id
@@ -188,7 +194,7 @@ describe StatusesController, type: :controller do
 
       it_behaves_like :redirect
 
-      it "shows the right flash message" do
+      it 'shows the right flash message' do
         expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
       end
     end

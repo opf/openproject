@@ -30,11 +30,11 @@ class CategoriesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
-  def initialize(project=nil)
+  def initialize(project = nil)
     @project = project
   end
 
   def visit_settings
-    visit(settings_project_path(@project) + "/categories")
+    visit(settings_project_path(@project) + '/categories')
   end
 end

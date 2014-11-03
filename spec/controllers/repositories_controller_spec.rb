@@ -30,8 +30,10 @@ require 'spec_helper'
 
 describe RepositoriesController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project,
-                                          member_through_role: role) }
+  let(:user) {
+    FactoryGirl.create(:user, member_in_project: project,
+                              member_through_role: role)
+  }
   let(:repository) { FactoryGirl.create(:repository, project: project) }
 
   before do
@@ -46,8 +48,10 @@ describe RepositoriesController, type: :controller do
     end
 
     context 'requested by an authorized user' do
-      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                              :view_commit_author_statistics]) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                :view_commit_author_statistics])
+      }
 
       it 'should be successful' do
         expect(response).to be_success
@@ -73,8 +77,10 @@ describe RepositoriesController, type: :controller do
     end
 
     describe 'requested by a user with view_commit_author_statistics permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                              :view_commit_author_statistics]) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                :view_commit_author_statistics])
+      }
 
       it 'show the commits per author graph' do
         expect(assigns(:show_commits_per_author)).to eq(true)

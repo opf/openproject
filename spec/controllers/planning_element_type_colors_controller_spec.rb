@@ -35,76 +35,80 @@ describe PlanningElementTypeColorsController, type: :controller do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe "index.html" do
+  describe 'index.html' do
     def fetch
-      get "index"
+      get 'index'
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "new.html" do
+  describe 'new.html' do
     def fetch
       get 'new'
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "create.html" do
+  describe 'create.html' do
     def fetch
       post 'create', color: FactoryGirl.build(:color).attributes
     end
+
     def expect_redirect_to
       Regexp.new(colors_path)
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "edit.html" do
+  describe 'edit.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
       get 'edit', id: '1337'
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "update.html" do
+  describe 'update.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
       put 'update', id: '1337', color: { 'name' => 'blubs' }
     end
+
     def expect_redirect_to
       colors_path
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "move.html" do
+  describe 'move.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      post 'move', id: '1337', color: {move_to: 'highest'}
+      post 'move', id: '1337', color: { move_to: 'highest' }
     end
+
     def expect_redirect_to
       colors_path
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "confirm_destroy.html" do
+  describe 'confirm_destroy.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
       get 'confirm_destroy', id: '1337'
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 
-  describe "destroy.html" do
+  describe 'destroy.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
       post 'destroy', id: '1337'
     end
+
     def expect_redirect_to
       colors_path
     end
-    it_should_behave_like "a controller action with require_admin"
+    it_should_behave_like 'a controller action with require_admin'
   end
 end

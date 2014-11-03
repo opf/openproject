@@ -30,22 +30,22 @@ require 'spec_helper'
 
 describe 'search/index', type: :helper do
   let(:project) { FactoryGirl.create(:project) }
-  let(:scope) { "foobar" }
+  let(:scope) { 'foobar' }
 
   before do
-    allow(helper).to receive(:params).and_return({
-      q: "foobar",
-      all_words: "1",
+    allow(helper).to receive(:params).and_return(
+      q: 'foobar',
+      all_words: '1',
       scope: scope
-    })
+    )
     assign(:project, project)
   end
 
   it 'renders correct result-by-type links' do
-    results_by_type = {"work_packages"=>1, "wiki_pages"=>1}
+    results_by_type = { 'work_packages' => 1, 'wiki_pages' => 1 }
     response = helper.render_results_by_type(results_by_type)
 
-    expect(response).to have_selector("a", count: results_by_type.size)
+    expect(response).to have_selector('a', count: results_by_type.size)
     expect(response).to include("/projects/#{project.identifier}/search")
     expect(response).to include("scope=#{scope}")
   end

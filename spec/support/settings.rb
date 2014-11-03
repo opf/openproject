@@ -29,7 +29,7 @@
 ##
 # Runs block with settings specified in options.
 # The original settings are restored afterwards.
-def with_settings(options, &block)
+def with_settings(options, &_block)
   saved_settings = options.keys.inject({}) do |h, k|
     h[k] = Setting[k].is_a?(Symbol) ?
               Setting[k] :

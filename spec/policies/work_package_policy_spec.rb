@@ -46,19 +46,19 @@ describe WorkPackagePolicy, type: :controller do
 
     it 'is true for edit if the user has the edit_work_package permission in the project' do
       allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-                                          .and_return true
+        .and_return true
       expect(subject.allowed?(work_package, :edit)).to be_true
     end
 
     it 'is true for edit if the user has the add_work_package_notes permission in the project' do
       allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-                                          .and_return true
+        .and_return true
       expect(subject.allowed?(work_package, :edit)).to be_true
     end
 
     it 'is true if the user has the manage_subtasks permission in the project' do
       allow(user).to receive(:allowed_to?).with(:manage_subtasks, project)
-                                          .and_return true
+        .and_return true
       expect(subject.allowed?(work_package, :manage_subtasks)).to be_truthy
     end
   end

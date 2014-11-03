@@ -30,11 +30,15 @@ require 'spec_helper'
 
 describe TypesController, type: :controller do
 
-  let(:project) { FactoryGirl.create(:project,
-                                     work_package_custom_fields: [custom_field_2]) }
-  let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
-                                            field_format: 'string',
-                                            is_for_all: true) }
+  let(:project) {
+    FactoryGirl.create(:project,
+                       work_package_custom_fields: [custom_field_2])
+  }
+  let(:custom_field_1) {
+    FactoryGirl.create(:work_package_custom_field,
+                       field_format: 'string',
+                       is_for_all: true)
+  }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
@@ -103,30 +107,31 @@ describe TypesController, type: :controller do
     end
   end
 
-  context "with an authorized account" do
+  context 'with an authorized account' do
     let(:current_user) { FactoryGirl.create(:admin) }
 
     before do
       allow(User).to receive(:current).and_return(current_user)
     end
 
-    describe "GET index" do
+    describe 'GET index' do
       before { get 'index' }
       it { expect(response).to be_success }
       it { expect(response).to render_template 'index' }
     end
 
-    describe "GET new" do
+    describe 'GET new' do
       before { get 'new' }
       it { expect(response).to be_success }
       it { expect(response).to render_template 'new' }
     end
 
-    describe "POST create" do
-      describe "WITH valid params" do
-        let(:params) { { 'type' => { name: 'New type',
-                                     project_ids: {'1' => project.id},
-                                     custom_field_ids: {'1' => custom_field_1.id, '2' => custom_field_2.id}
+    describe 'POST create' do
+      describe 'WITH valid params' do
+        let(:params) {
+          { 'type' => { name: 'New type',
+                        project_ids: { '1' => project.id },
+                        custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id }
                                     } } }
 
         before do
@@ -137,11 +142,12 @@ describe TypesController, type: :controller do
         it { expect(response).to redirect_to(types_path) }
       end
 
-      describe "WITH an empty name" do
+      describe 'WITH an empty name' do
         render_views
-        let(:params) { { 'type' => { name: '',
-                                     project_ids: {'1' => project.id},
-                                     custom_field_ids: {'1' => custom_field_1.id, '2' => custom_field_2.id}
+        let(:params) {
+          { 'type' => { name: '',
+                        project_ids: { '1' => project.id },
+                        custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id }
                                    } } }
 
         before do
@@ -154,16 +160,19 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe "WITH workflow copy" do
+      describe 'WITH workflow copy' do
         let!(:existing_type) { FactoryGirl.create(:type, name: 'Existing type') }
-        let!(:workflow) { FactoryGirl.create(:workflow,
-                                             old_status: status_0,
-                                             new_status: status_1,
-                                             type_id: existing_type.id) }
-        let(:params) { { 'type' => { name: 'New type',
-                                     project_ids: {'1' => project.id},
-                                     custom_field_ids: {'1' => custom_field_1.id, '2' => custom_field_2.id} },
-                         'copy_workflow_from' => existing_type.id
+        let!(:workflow) {
+          FactoryGirl.create(:workflow,
+                             old_status: status_0,
+                             new_status: status_1,
+                             type_id: existing_type.id)
+        }
+        let(:params) {
+          { 'type' => { name: 'New type',
+                        project_ids: { '1' => project.id },
+                        custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id } },
+            'copy_workflow_from' => existing_type.id
         } }
 
         before do
@@ -178,7 +187,7 @@ describe TypesController, type: :controller do
       end
     end
 
-    describe "GET edit" do
+    describe 'GET edit' do
       render_views
       let(:type) { FactoryGirl.create(:type, name: 'My type', is_milestone: true, projects: [project]) }
 
@@ -193,11 +202,11 @@ describe TypesController, type: :controller do
       it { expect(response.body).to have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
     end
 
-    describe "POST update" do
+    describe 'POST update' do
       let(:project2) { FactoryGirl.create(:project) }
       let(:type) { FactoryGirl.create(:type, name: 'My type', is_milestone: true, projects: [project, project2]) }
 
-      describe "WITH type rename" do
+      describe 'WITH type rename' do
         let(:params) { { 'id' => type.id, 'type' => { name: 'My type renamed' } } }
 
         before do
@@ -211,7 +220,7 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe "WITH projects removed" do
+      describe 'WITH projects removed' do
         let(:params) { { 'id' => type.id, 'type' => { project_ids: [''] } } }
 
         before do
@@ -226,7 +235,7 @@ describe TypesController, type: :controller do
       end
     end
 
-    describe "POST move" do
+    describe 'POST move' do
       let!(:type) { FactoryGirl.create(:type, name: 'My type', position: '1') }
       let!(:type2) { FactoryGirl.create(:type, name: 'My type 2', position: '2') }
       let(:params) { { 'id' => type.id, 'type' => { move_to: 'lower' } } }
@@ -242,12 +251,12 @@ describe TypesController, type: :controller do
       end
     end
 
-    describe "DELETE destroy" do
+    describe 'DELETE destroy' do
       let(:type) { FactoryGirl.create(:type, name: 'My type') }
       let(:type2) { FactoryGirl.create(:type, name: 'My type 2', projects: [project]) }
       let(:type3) { FactoryGirl.create(:type, name: 'My type 3', is_standard: true) }
 
-      describe "successful detroy" do
+      describe 'successful detroy' do
         let(:params) { { 'id' => type.id } }
 
         before do
@@ -264,14 +273,18 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe "detroy type in use should fail" do
-        let(:project2) { FactoryGirl.create(:project,
-                                            work_package_custom_fields: [custom_field_2],
-                                            types: [type2]) }
-        let!(:work_package) { FactoryGirl.create(:work_package,
-                                                 author: current_user,
-                                                 type: type2,
-                                                 project: project2) }
+      describe 'detroy type in use should fail' do
+        let(:project2) {
+          FactoryGirl.create(:project,
+                             work_package_custom_fields: [custom_field_2],
+                             types: [type2])
+        }
+        let!(:work_package) {
+          FactoryGirl.create(:work_package,
+                             author: current_user,
+                             type: type2,
+                             project: project2)
+        }
         let(:params) { { 'id' => type2.id } }
 
         before do
@@ -288,7 +301,7 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe "destroy standard type should fail" do
+      describe 'destroy standard type should fail' do
         let(:params) { { 'id' => type3.id } }
 
         before do

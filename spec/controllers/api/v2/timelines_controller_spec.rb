@@ -39,7 +39,7 @@ describe Api::V2::TimelinesController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      current_user.memberships.select {|m| m.project_id == project.id}.each(&:destroy)
+      current_user.memberships.select { |m| m.project_id == project.id }.each(&:destroy)
     end
   end
 
@@ -86,7 +86,6 @@ describe Api::V2::TimelinesController, type: :controller do
       member.save!
     end
   end
-
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -190,7 +189,7 @@ describe Api::V2::TimelinesController, type: :controller do
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            fetch project_id: other_project.identifier,id: timeline.id
+            fetch project_id: other_project.identifier, id: timeline.id
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end

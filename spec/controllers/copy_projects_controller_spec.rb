@@ -30,18 +30,18 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:redirect_path) { "source_project_settings" }
+  let(:redirect_path) { 'source_project_settings' }
   let(:permission) { :copy_projects }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
-  let(:copy_project_params){
+  let(:copy_project_params) {
     {
-      "description" => "Some pretty description",
-      "responsible_id"=>current_user.id,
-      "project_type_id" => "",
-      "homepage" => "",
-      "enabled_module_names" => ["work_package_tracking", "boards", ""],
-      "is_public" => project.is_public,
-      "type_ids" => project.types.collect(&:id)
+      'description' => 'Some pretty description',
+      'responsible_id' => current_user.id,
+      'project_type_id' => '',
+      'homepage' => '',
+      'enabled_module_names' => ['work_package_tracking', 'boards', ''],
+      'is_public' => project.is_public,
+      'type_ids' => project.types.collect(&:id)
     }
   }
 
@@ -54,7 +54,7 @@ describe CopyProjectsController, type: :controller do
     request.env['HTTP_REFERER'] = redirect_path
   end
 
-  describe "copy_from_settings uses correct project to copy from" do
+  describe 'copy_from_settings uses correct project to copy from' do
     before do
       get 'copy_project', id: project.id, coming_from: :settings
     end
@@ -66,13 +66,13 @@ describe CopyProjectsController, type: :controller do
     it { expect(response).to render_template('copy_from_settings') }
   end
 
-  describe "copy_from_settings without valid project" do
+  describe 'copy_from_settings without valid project' do
     before { get 'copy_project' }
 
     it { expect(response.code).to eq('404') }
   end
 
-  describe "copy_from_settings without name and identifier" do
+  describe 'copy_from_settings without name and identifier' do
     before {
       post 'copy',
            id: project.id,
@@ -80,7 +80,7 @@ describe CopyProjectsController, type: :controller do
     }
 
     it { expect(response).to render_template('copy_from_settings') }
-    it "should display error validation messages" do
+    it 'should display error validation messages' do
       expect(assigns(:copy_project).errors).to_not be_empty
     end
   end
@@ -90,7 +90,7 @@ describe CopyProjectsController, type: :controller do
       get 'copy_project', id: project.id, coming_from: :settings
     end
 
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   shared_examples_for 'successful copy' do
@@ -100,7 +100,7 @@ describe CopyProjectsController, type: :controller do
   def copy_project(project)
     post 'copy',
          id: project.id,
-         project: copy_project_params.merge({ identifier: "copy", name: "copy" })
+         project: copy_project_params.merge(identifier: 'copy', name: 'copy')
   end
 
   describe 'copy creates a new project' do
@@ -113,12 +113,12 @@ describe CopyProjectsController, type: :controller do
     it { expect(Project.count).to eq(2) }
 
     it 'copied project should have enabled modules specified in params' do
-      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(["work_package_tracking", "boards"])
+      expect(Project.all.last.enabled_modules.map(&:name)).to match_array(['work_package_tracking', 'boards'])
     end
 
     it_behaves_like 'successful copy' do
       let(:source_project) { project }
-      let(:target_project_name) { "copy" }
+      let(:target_project_name) { 'copy' }
     end
 
     it { expect(response).to redirect_to(redirect_path) }
@@ -128,7 +128,7 @@ describe CopyProjectsController, type: :controller do
     def fetch
       post 'copy',
            id: project.id,
-           project: copy_project_params.merge({ identifier: "copy", name: "copy" })
+           project: copy_project_params.merge(identifier: 'copy', name: 'copy')
     end
 
     def expect_redirect_to
@@ -138,13 +138,13 @@ describe CopyProjectsController, type: :controller do
     let(:permission) { [:copy_projects, :add_project] }
     let(:project) { FactoryGirl.create(:project, is_public: false) }
 
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'copy sends eMail' do
     context 'on success' do
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_succeeded).and_return(double('mailer', deliver: true))
 
         copy_project(project)
       end
@@ -156,7 +156,7 @@ describe CopyProjectsController, type: :controller do
       end
 
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true))
+        expect(UserMailer).to receive(:copy_project_failed).and_return(double('mailer', deliver: true))
 
         copy_project(project)
       end

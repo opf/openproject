@@ -38,9 +38,9 @@ class CopyDummy < Tableless
 
   not_to_copy :safe_attribute_that_should_not_be_copied
 
-  safe_attributes "safe_attribute1",
-                  "safe_attribute2",
-                  "safe_attribute_that_should_not_be_copied"
+  safe_attributes 'safe_attribute1',
+                  'safe_attribute2',
+                  'safe_attribute_that_should_not_be_copied'
 
   column :safe_attribute1, :string
   column :safe_attribute2, :string
@@ -75,8 +75,8 @@ class CopyDummy < Tableless
   end
 
   # used to test error handling
-  def copy_relation5(other)
-    raise "Could not be copied!"
+  def copy_relation5(_other)
+    raise 'Could not be copied!'
   end
 
   def call_order
@@ -97,21 +97,21 @@ end
 class Relation4 < Tableless
 end
 
-describe "Copying Models" do
+describe 'Copying Models' do
   before do
     # supress warnings
-      I18n.backend.store_translations :en, activerecord: {
-                                             attributes: {
-                                               copy_dummy: {
-                                                 relation5: 'Relation5'
-                                           }}}
+    I18n.backend.store_translations :en, activerecord: {
+      attributes: {
+        copy_dummy: {
+          relation5: 'Relation5'
+        } } }
   end
   let(:dummy) { CopyDummy.new }
 
-  describe "copying attributes" do
-    it "should copy safe attributes" do
-      dummy.safe_attribute1 = "foo"
-      dummy.safe_attribute2 = "bar"
+  describe 'copying attributes' do
+    it 'should copy safe attributes' do
+      dummy.safe_attribute1 = 'foo'
+      dummy.safe_attribute2 = 'bar'
 
       copy = CopyDummy.copy(dummy)
 
@@ -119,9 +119,9 @@ describe "Copying Models" do
       expect(dummy.safe_attribute2).to eq(copy.safe_attribute2)
     end
 
-    it "should not copy unsafe attributes" do
-      dummy.unsafe_attribute = "foo"
-      dummy.safe_attribute1 = "foo"
+    it 'should not copy unsafe attributes' do
+      dummy.unsafe_attribute = 'foo'
+      dummy.safe_attribute1 = 'foo'
 
       copy = CopyDummy.copy(dummy)
 
@@ -129,9 +129,9 @@ describe "Copying Models" do
       expect(dummy.unsafe_attribute).not_to eq(copy.unsafe_attribute)
     end
 
-    it "should not copy safe attributes that are flagged as not_to_copy" do
-      dummy.safe_attribute_that_should_not_be_copied = "foo"
-      dummy.safe_attribute1 = "foo"
+    it 'should not copy safe attributes that are flagged as not_to_copy' do
+      dummy.safe_attribute_that_should_not_be_copied = 'foo'
+      dummy.safe_attribute1 = 'foo'
 
       copy = CopyDummy.copy(dummy)
 
@@ -140,8 +140,8 @@ describe "Copying Models" do
     end
   end
 
-  describe "copying associations" do
-    it "should copy associations, for which there are methods in our model" do
+  describe 'copying associations' do
+    it 'should copy associations, for which there are methods in our model' do
       dummy.relation1 = Relation1.new
       dummy.relation2 = Relation2.new
 
@@ -153,7 +153,7 @@ describe "Copying Models" do
       expect(copy.relation2).not_to eq(nil)
     end
 
-    it "should not copy associations, for which there are no methods in our model" do
+    it 'should not copy associations, for which there are no methods in our model' do
       dummy.relation1 = Relation1.new
       dummy.relation3 = Relation3.new
 
@@ -165,7 +165,7 @@ describe "Copying Models" do
       expect(copy.relation3).to eq(nil)
     end
 
-    it "should copy stuff within order (ordered by #copy_precedence)" do
+    it 'should copy stuff within order (ordered by #copy_precedence)' do
       dummy.relation1 = Relation1.new
       dummy.relation2 = Relation2.new
       dummy.relation4 = Relation4.new
@@ -178,7 +178,7 @@ describe "Copying Models" do
       expect(copy.call_order).to eq(copy.copy_precedence)
     end
 
-    it "should produce some errors when failing to copy associations" do
+    it 'should produce some errors when failing to copy associations' do
       copy = CopyDummy.new
       copy.copy_associations(dummy)
 

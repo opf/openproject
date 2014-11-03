@@ -34,7 +34,7 @@ describe '/api/v2/users/index.api.rabl', type: :view do
     params[:format] = 'json'
   end
 
-  subject {response.body}
+  subject { response.body }
 
   describe 'with no project available' do
     it 'renders an empty projects document' do
@@ -46,12 +46,11 @@ describe '/api/v2/users/index.api.rabl', type: :view do
     end
   end
 
-
   describe 'with some projects available' do
     let(:users) {
       [
-          FactoryGirl.build(:user, firstname: 'Peter', lastname: "Test"),
-          FactoryGirl.build(:user, firstname: 'Mary', lastname: "Test"),
+        FactoryGirl.build(:user, firstname: 'Peter', lastname: 'Test'),
+        FactoryGirl.build(:user, firstname: 'Mary', lastname: 'Test'),
       ]
     }
 
@@ -69,12 +68,10 @@ describe '/api/v2/users/index.api.rabl', type: :view do
 
     it 'renders both users' do
 
-      is_expected.to be_json_eql({firstname:'Peter', lastname:'Test', name: "Peter Test"}.to_json).at_path("users/0")
-      is_expected.to be_json_eql({firstname:'Mary', lastname:'Test', name: "Mary Test"}.to_json).at_path("users/1")
-
+      is_expected.to be_json_eql({ firstname: 'Peter', lastname: 'Test', name: 'Peter Test' }.to_json).at_path('users/0')
+      is_expected.to be_json_eql({ firstname: 'Mary', lastname: 'Test', name: 'Mary Test' }.to_json).at_path('users/1')
 
     end
-
 
   end
 end

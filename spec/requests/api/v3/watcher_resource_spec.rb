@@ -53,7 +53,7 @@ describe 'API v3 Watcher resource', type: :request do
     let(:new_watcher) { available_watcher }
 
     before do
-      post post_path, %{{"user_id": #{new_watcher.id}}},  { 'CONTENT_TYPE' => 'application/json' }
+      post post_path, %{{"user_id": #{new_watcher.id}}},   'CONTENT_TYPE' => 'application/json'
     end
 
     context 'authorized user' do
@@ -82,7 +82,7 @@ describe 'API v3 Watcher resource', type: :request do
       end
 
       context 'when work package doesn\'t exist' do
-        let(:post_path) { "/api/v3/work_packages/9999/watchers" }
+        let(:post_path) { '/api/v3/work_packages/9999/watchers' }
 
         it_behaves_like 'not found', 9999, 'WorkPackage'
       end

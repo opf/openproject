@@ -61,9 +61,11 @@ describe 'Deletion', type: :feature do
   end
 
   describe 'with work package' do
-    let!(:work_package) { FactoryGirl.create :work_package,
-                                             project: category.project,
-                                             category: category }
+    let!(:work_package) {
+      FactoryGirl.create :work_package,
+                         project: category.project,
+                         category: category
+    }
 
     include_context 'delete category'
 

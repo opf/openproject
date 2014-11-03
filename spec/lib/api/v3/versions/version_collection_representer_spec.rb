@@ -31,9 +31,10 @@ require 'spec_helper'
 describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:project)  { FactoryGirl.build(:project, id: 666) }
   let(:versions) { FactoryGirl.build_list(:version, 3) }
-  let(:models)   { versions.map { |version|
-    ::API::V3::Versions::VersionModel.new(version)
-  } }
+  let(:models)   {
+    versions.map { |version|
+      ::API::V3::Versions::VersionModel.new(version)
+    } }
   let(:representer) { described_class.new(models, project: project) }
 
   describe '#initialize' do

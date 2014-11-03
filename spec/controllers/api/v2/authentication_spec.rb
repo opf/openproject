@@ -36,7 +36,7 @@ describe Api::V2::AuthenticationController, type: :controller do
       get 'index', format: 'xml'
     end
 
-    it_should_behave_like "a controller action with require_login"
+    it_should_behave_like 'a controller action with require_login'
 
     describe 'REST API disabled' do
       before do
@@ -68,7 +68,7 @@ describe Api::V2::AuthenticationController, type: :controller do
     end
   end
 
-  describe "session" do
+  describe 'session' do
     let(:api_key) { user.api_key }
     let(:user) { FactoryGirl.create(:admin) }
     let(:ttl) { 42 }

@@ -56,7 +56,7 @@ describe 'API v3 User resource', type: :request do
       end
 
       context 'requesting nonexistent user' do
-        let(:get_path) { "/api/v3/users/9999" }
+        let(:get_path) { '/api/v3/users/9999' }
 
         it_behaves_like 'not found', 9999, 'User'
       end

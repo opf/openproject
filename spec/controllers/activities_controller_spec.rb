@@ -47,15 +47,17 @@ describe ActivitiesController, type: :controller do
 
     describe 'global' do
       let(:work_package) { FactoryGirl.create(:work_package) }
-      let!(:journal) { FactoryGirl.create(:work_package_journal,
-                                          journable_id: work_package.id,
-                                          created_at: 3.days.ago.to_date.to_s(:db),
-                                          version: Journal.maximum(:version) + 1,
-                                          data: FactoryGirl.build(:journal_work_package_journal,
-                                                                  subject: work_package.subject,
-                                                                  status_id: work_package.status_id,
-                                                                  type_id: work_package.type_id,
-                                                                  project_id: work_package.project_id)) }
+      let!(:journal) {
+        FactoryGirl.create(:work_package_journal,
+                           journable_id: work_package.id,
+                           created_at: 3.days.ago.to_date.to_s(:db),
+                           version: Journal.maximum(:version) + 1,
+                           data: FactoryGirl.build(:journal_work_package_journal,
+                                                   subject: work_package.subject,
+                                                   status_id: work_package.status_id,
+                                                   type_id: work_package.type_id,
+                                                   project_id: work_package.project_id))
+      }
 
       before { get 'index' }
 
@@ -67,13 +69,13 @@ describe ActivitiesController, type: :controller do
         render_views
 
         it do
-          assert_tag tag: "h3",
+          assert_tag tag: 'h3',
                      content: /#{3.day.ago.to_date.day}/,
-                     sibling: { tag: "dl",
-                                child: { tag: "dt",
+                     sibling: { tag: 'dl',
+                                child: { tag: 'dt',
                                          attributes: { class: /work_package/ },
-                                         child: { tag: "a",
-                                         content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+                                         child: { tag: 'a',
+                                                  content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 
@@ -87,8 +89,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'with activated activity module' do
-      let(:project) { FactoryGirl.create(:project,
-                                         enabled_module_names: %w[activity wiki]) }
+      let(:project) {
+        FactoryGirl.create(:project,
+                           enabled_module_names: %w[activity wiki])
+      }
 
       it 'renders activity' do
         get 'index', project_id: project.id
@@ -98,8 +102,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'without activated activity module' do
-      let(:project) { FactoryGirl.create(:project,
-                                         enabled_module_names: %w[wiki]) }
+      let(:project) {
+        FactoryGirl.create(:project,
+                           enabled_module_names: %w[wiki])
+      }
 
       it 'renders 403' do
         get 'index', project_id: project.id
@@ -119,9 +125,11 @@ describe ActivitiesController, type: :controller do
       let(:project) { FactoryGirl.create(:project) }
 
       context :work_package do
-        let!(:wp_1) { FactoryGirl.create(:work_package,
-                                         project: project,
-                                         author: user) }
+        let!(:wp_1) {
+          FactoryGirl.create(:work_package,
+                             project: project,
+                             author: user)
+        }
 
         describe 'global' do
           render_views
@@ -136,38 +144,50 @@ describe ActivitiesController, type: :controller do
         end
 
         describe 'list' do
-          let!(:wp_2) { FactoryGirl.create(:work_package,
-                                           project: project,
-                                           author: user) }
+          let!(:wp_2) {
+            FactoryGirl.create(:work_package,
+                               project: project,
+                               author: user)
+          }
 
-          let(:params) { { project_id: project.id,
-                           format: :atom } }
+          let(:params) {
+            { project_id: project.id,
+              format: :atom }
+          }
 
           include_context 'index with params'
 
           it { expect(assigns(:items).count).to eq(2) }
 
-          it { expect(response).to render_template("common/feed") }
+          it { expect(response).to render_template('common/feed') }
         end
       end
 
       context :boards do
-        let(:board) { FactoryGirl.create(:board,
-                                         project: project) }
-        let!(:message_1) { FactoryGirl.create(:message,
-                                              board: board) }
-        let!(:message_2) { FactoryGirl.create(:message,
-                                              board: board) }
-        let(:params) { { project_id: project.id,
-                         apply: true,
-                         show_messages: 1,
-                         format: :atom } }
+        let(:board) {
+          FactoryGirl.create(:board,
+                             project: project)
+        }
+        let!(:message_1) {
+          FactoryGirl.create(:message,
+                             board: board)
+        }
+        let!(:message_2) {
+          FactoryGirl.create(:message,
+                             board: board)
+        }
+        let(:params) {
+          { project_id: project.id,
+            apply: true,
+            show_messages: 1,
+            format: :atom }
+        }
 
         include_context 'index with params'
 
         it { expect(assigns(:items).count).to eq(2) }
 
-        it { expect(response).to render_template("common/feed") }
+        it { expect(response).to render_template('common/feed') }
       end
     end
 

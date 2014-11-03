@@ -35,19 +35,19 @@ describe 'search/index', type: :view do
 
   before do
     assign :project, project
-    assign :object_types, ["work_packages"]
-    assign :scope, ["work_packages", "changesets"]
+    assign :object_types, ['work_packages']
+    assign :scope, ['work_packages', 'changesets']
     assign :results, [work_package]
-    assign :results_by_type, {"work_packages" => 1}
-    assign :question, "foo"
-    assign :tokens, ["bar"]
+    assign :results_by_type, 'work_packages' => 1
+    assign :question, 'foo'
+    assign :tokens, ['bar']
   end
 
   it 'selects the current project' do
     render
 
     # the current project should be selected as the scope
-    expect(response).to have_selector("option[selected]", text: project.name)
+    expect(response).to have_selector('option[selected]', text: project.name)
 
     # The grouped result link should retain the scope
     expect(response).to have_xpath("//a[contains(@href,'current_project')]", text: /work packages.*/i)

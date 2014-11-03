@@ -31,12 +31,16 @@ require 'spec_helper'
 describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember
 
-  let(:wp_subject) { "the quick brown fox jumps over the lazy dog" }
-  let(:project) { FactoryGirl.create(:project,
-                                     is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package,
-                                          subject: wp_subject,
-                                          project: project) }
+  let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
+  let(:project) {
+    FactoryGirl.create(:project,
+                       is_public: false)
+  }
+  let(:work_package) {
+    FactoryGirl.create(:work_package,
+                       subject: wp_subject,
+                       project: project)
+  }
   let(:user) { FactoryGirl.create(:user) }
 
   describe :search do
@@ -50,7 +54,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it "should return the work package" do
+      it 'should return the work package' do
         expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
       end
     end
@@ -61,7 +65,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
               w/ searching with an offset" do
       # this offset recreates the way the time is transformed in the controller
       # This will have to be cleaned up
-      let(:offset) { (work_package.created_at - 1.minute).strftime("%Y%m%d%H%M%S").to_time }
+      let(:offset) { (work_package.created_at - 1.minute).strftime('%Y%m%d%H%M%S').to_time }
 
       before do
         work_package
@@ -70,7 +74,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it "should return the work package if the offset is before the work packages created at value" do
+      it 'should return the work package if the offset is before the work packages created at value' do
         expect(WorkPackage.search(wp_subject.split, nil, offset: offset).first).to include(work_package)
       end
     end

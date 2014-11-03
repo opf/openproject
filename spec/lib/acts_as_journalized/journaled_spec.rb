@@ -28,17 +28,16 @@
 
 require 'spec_helper'
 
-describe "Journalized Objects" do
+describe 'Journalized Objects' do
   before(:each) do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
-    @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
+    @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
     allow(User).to receive(:current).and_return(@current)
   end
 
-
   it 'should work with work packages' do
-    @status_open ||= FactoryGirl.create(:status, name: "Open", is_default: true)
+    @status_open ||= FactoryGirl.create(:status, name: 'Open', is_default: true)
     @work_package ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
 
     initial_journal = @work_package.journals.first
@@ -48,14 +47,13 @@ describe "Journalized Objects" do
   end
 
   it 'should work with news' do
-    @news ||= FactoryGirl.create(:news, project: @project, author: @current, title: "Test", summary: "Test", description: "Test")
+    @news ||= FactoryGirl.create(:news, project: @project, author: @current, title: 'Test', summary: 'Test', description: 'Test')
 
     initial_journal = @news.journals.first
     recreated_journal = @news.recreate_initial_journal!
 
     expect(initial_journal).to be_identical(recreated_journal)
   end
-
 
   it 'should work with wiki content' do
     @wiki_content ||= FactoryGirl.create(:wiki_content, author: @current)
@@ -67,7 +65,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with messages' do
-    @message ||= FactoryGirl.create(:message, content: "Test", subject: "Test", author: @current)
+    @message ||= FactoryGirl.create(:message, content: 'Test', subject: 'Test', author: @current)
 
     initial_journal = @message.journals.first
     recreated_journal = @message.recreate_initial_journal!
@@ -76,7 +74,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with time entries' do
-    @status_open ||= FactoryGirl.create(:status, name: "Open", is_default: true)
+    @status_open ||= FactoryGirl.create(:status, name: 'Open', is_default: true)
     @work_package ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
 
     @time_entry ||= FactoryGirl.create(:time_entry, work_package: @work_package, project: @project, spent_on: Time.now, hours: 5, user: @current, activity: FactoryGirl.create(:time_entry_activity))
@@ -97,8 +95,8 @@ describe "Journalized Objects" do
   end
 
   it 'should work with changesets' do
-    Setting.enabled_scm = ["Subversion"]
-    @repository ||= Repository.factory("Subversion", url: "http://svn.test.com")
+    Setting.enabled_scm = ['Subversion']
+    @repository ||= Repository.factory('Subversion', url: 'http://svn.test.com')
     @repository.save!
     @changeset ||= FactoryGirl.create(:changeset, committer: @current.login, repository: @repository)
 
@@ -113,13 +111,17 @@ describe "Journalized Objects" do
       let!(:user) { FactoryGirl.create(:user) }
       let!(:project) { FactoryGirl.create(:project_with_types) }
       let!(:role) { FactoryGirl.create(:role, permissions: [:edit_work_packages]) }
-      let!(:member) { FactoryGirl.create(:member, project: project,
-                                                 roles: [role],
-                                                 principal: user) }
-      let!(:work_package) { FactoryGirl.build(:work_package, type: project.types.first,
-                                                             author: user,
-                                                             project: project,
-                                                             description: '') }
+      let!(:member) {
+        FactoryGirl.create(:member, project: project,
+                                    roles: [role],
+                                    principal: user)
+      }
+      let!(:work_package) {
+        FactoryGirl.build(:work_package, type: project.types.first,
+                                         author: user,
+                                         project: project,
+                                         description: '')
+      }
 
       subject { work_package.journal_editable_by?(user) }
 

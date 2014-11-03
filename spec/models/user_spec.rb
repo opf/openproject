@@ -32,16 +32,18 @@ describe User, type: :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:member) { FactoryGirl.build(:member, project: project,
-                                        roles: [role],
-                                        principal: user) }
+  let(:member) {
+    FactoryGirl.build(:member, project: project,
+                               roles: [role],
+                               principal: user)
+  }
   let(:status) { FactoryGirl.create(:status) }
-  let(:issue) { FactoryGirl.build(:work_package, type: project.types.first,
-                                      author: user,
-                                      project: project,
-                                      status: status) }
-
-
+  let(:issue) {
+    FactoryGirl.build(:work_package, type: project.types.first,
+                                     author: user,
+                                     project: project,
+                                     status: status)
+  }
 
   describe 'a user with a long login (<= 256 chars)' do
     it 'is valid' do
@@ -75,13 +77,12 @@ describe User, type: :model do
 
   end
 
-
   describe :assigned_issues do
     before do
       user.save!
     end
 
-    describe "WHEN the user has an issue assigned" do
+    describe 'WHEN the user has an issue assigned' do
       before do
         member.save!
 
@@ -92,7 +93,7 @@ describe User, type: :model do
       it { expect(user.assigned_issues).to eq([issue]) }
     end
 
-    describe "WHEN the user has no issue assigned" do
+    describe 'WHEN the user has no issue assigned' do
       before do
         member.save!
 
@@ -191,9 +192,11 @@ describe User, type: :model do
       user.save!
     end
 
-    describe "WHEN the user is watching" do
-      let(:watcher) { Watcher.new(watchable: issue,
-                                  user: user) }
+    describe 'WHEN the user is watching' do
+      let(:watcher) {
+        Watcher.new(watchable: issue,
+                    user: user)
+      }
 
       before do
         issue.save!
@@ -234,9 +237,9 @@ describe User, type: :model do
 
   describe 'user create with empty password' do
     before do
-      @u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
-      @u.login = "new_user"
-      @u.password, @u.password_confirmation = "", ""
+      @u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
+      @u.login = 'new_user'
+      @u.password, @u.password_confirmation = '', ''
       @u.save
     end
 
@@ -254,7 +257,7 @@ describe User, type: :model do
 
     it { expect(@u.password).not_to be_blank }
     it { expect(@u.password_confirmation).not_to be_blank }
-    it { expect(@u.force_password_change).to be_truthy}
+    it { expect(@u.force_password_change).to be_truthy }
   end
 
   describe :try_authentication_for_existing_user do
@@ -300,8 +303,8 @@ describe User, type: :model do
         end
 
         it 'should succeed' do
-          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password')).
-            to eq(user_with_external_auth_source)
+          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
+            .to eq(user_with_external_auth_source)
         end
       end
 
@@ -311,8 +314,8 @@ describe User, type: :model do
         end
 
         it 'should fail when the authentication fails' do
-          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password')).
-            to eq(nil)
+          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
+            .to eq(nil)
         end
       end
     end
@@ -348,21 +351,21 @@ describe User, type: :model do
     end
   end
 
-  describe ".default_admin_account_deleted_or_changed?" do
+  describe '.default_admin_account_deleted_or_changed?' do
     let(:default_admin) { FactoryGirl.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
 
     before do
       Setting.password_min_length = 5
     end
 
-    context "default admin account exists with default password" do
+    context 'default admin account exists with default password' do
       before do
         default_admin.save
       end
       it { expect(User.default_admin_account_changed?).to be_falsey }
     end
 
-    context "default admin account exists with changed password" do
+    context 'default admin account exists with changed password' do
       before do
         default_admin.update_attribute :password, 'dafaultAdminPwd'
         default_admin.update_attribute :password_confirmation, 'dafaultAdminPwd'
@@ -372,7 +375,7 @@ describe User, type: :model do
       it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
-    context "default admin account was deleted" do
+    context 'default admin account was deleted' do
       before do
         default_admin.save
         default_admin.delete
@@ -381,7 +384,7 @@ describe User, type: :model do
       it { expect(User.default_admin_account_changed?).to be_truthy }
     end
 
-    context "default admin account was disabled" do
+    context 'default admin account was disabled' do
       before do
         default_admin.status = User::STATUSES[:locked]
         default_admin.save
@@ -391,12 +394,12 @@ describe User, type: :model do
     end
   end
 
-  describe ".find_by_rss_key" do
+  describe '.find_by_rss_key' do
     before do
       @rss_key = user.rss_key
     end
 
-    context "feeds enabled" do
+    context 'feeds enabled' do
       before do
         allow(Setting).to receive(:feeds_enabled?).and_return(true)
       end
@@ -404,7 +407,7 @@ describe User, type: :model do
       it { expect(User.find_by_rss_key(@rss_key)).to eq(user) }
     end
 
-    context "feeds disabled" do
+    context 'feeds disabled' do
       before do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
       end
@@ -414,8 +417,8 @@ describe User, type: :model do
   end
 
   describe '#impaired?' do
-    let(:anonymous) { FactoryGirl.create(:anonymous)}
-    let(:user) { FactoryGirl.create(:user)}
+    let(:anonymous) { FactoryGirl.create(:anonymous) }
+    let(:user) { FactoryGirl.create(:user) }
 
     context 'anonymous user with accessibility mode disabled for anonymous users' do
       before do

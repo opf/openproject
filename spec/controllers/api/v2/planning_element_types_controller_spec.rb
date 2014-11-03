@@ -54,7 +54,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
       def fetch
         get 'index', project_id: project.identifier, format: 'xml'
       end
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'with unknown project' do
         it 'returns 404' do
@@ -72,7 +72,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ["api"])
+          expect(response).to render_template('planning_element_types/index', formats: ['api'])
         end
       end
 
@@ -105,7 +105,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ["api"])
+          expect(response).to render_template('planning_element_types/index', formats: ['api'])
         end
       end
     end
@@ -165,7 +165,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', project_id: project.identifier, id: '1337', format: 'xml'
-          expect(response).to render_template('planning_element_types/show', formats: ["api"])
+          expect(response).to render_template('planning_element_types/show', formats: ['api'])
         end
       end
     end
@@ -189,7 +189,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ["api"])
+          expect(response).to render_template('planning_element_types/index', formats: ['api'])
         end
       end
 
@@ -209,7 +209,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('planning_element_types/index', formats: ["api"])
+          expect(response).to render_template('planning_element_types/index', formats: ['api'])
         end
       end
     end
@@ -243,7 +243,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: '1337', format: 'xml'
-          expect(response).to render_template('planning_element_types/show', formats: ["api"])
+          expect(response).to render_template('planning_element_types/show', formats: ['api'])
         end
       end
     end

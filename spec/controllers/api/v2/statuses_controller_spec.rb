@@ -31,14 +31,14 @@ require File.expand_path('../../../../spec_helper', __FILE__)
 describe Api::V2::StatusesController, type: :controller do
 
   let(:valid_user) { FactoryGirl.create(:user) }
-  let(:status)     {FactoryGirl.create(:status)}
+  let(:status)     { FactoryGirl.create(:status) }
 
   before do
     allow(User).to receive(:current).and_return valid_user
   end
 
   describe 'looking up a singular status' do
-    let(:closed){FactoryGirl.create(:status, name: "Closed")}
+    let(:closed) { FactoryGirl.create(:status, name: 'Closed') }
 
     it 'that does not exist should raise an error' do
       get 'show', id: '0', format: 'json'
@@ -52,11 +52,11 @@ describe Api::V2::StatusesController, type: :controller do
   end
 
   describe 'looking up statuses' do
-    let!(:open) {FactoryGirl.create(:status, name: "Open")}
-    let!(:in_progress) {FactoryGirl.create(:status, name: "In Progress")}
-    let!(:closed){FactoryGirl.create(:status, name: "Closed")}
+    let!(:open) { FactoryGirl.create(:status, name: 'Open') }
+    let!(:in_progress) { FactoryGirl.create(:status, name: 'In Progress') }
+    let!(:closed) { FactoryGirl.create(:status, name: 'Closed') }
 
-    it "should return all statuses" do
+    it 'should return all statuses' do
       get 'index', format: 'json'
 
       expect(assigns(:statuses)).to include open, in_progress, closed

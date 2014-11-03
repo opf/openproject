@@ -37,19 +37,19 @@ describe Project, type: :model do
   let(:user) { FactoryGirl.create(:user) }
 
   describe Project::STATUS_ACTIVE do
-    it "equals 1" do
+    it 'equals 1' do
       # spec that STATUS_ACTIVE has the correct value
       expect(Project::STATUS_ACTIVE).to eq(1)
     end
   end
 
-  describe "#active?" do
+  describe '#active?' do
     before do
       # stub out the actual value of the constant
       stub_const('Project::STATUS_ACTIVE', 42)
     end
 
-    it "is active when :status equals STATUS_ACTIVE" do
+    it 'is active when :status equals STATUS_ACTIVE' do
       project = FactoryGirl.create :project, status: 42
       expect(project).to be_active
     end
@@ -60,14 +60,14 @@ describe Project, type: :model do
     end
   end
 
-  describe "associated_project_candidates" do
+  describe 'associated_project_candidates' do
     let(:project_type) { FactoryGirl.create(:project_type, allows_association: true) }
 
     before do
       FactoryGirl.create(:type_standard)
     end
 
-    it "should not include the project" do
+    it 'should not include the project' do
       project.project_type = project_type
       project.save!
 
@@ -75,18 +75,18 @@ describe Project, type: :model do
     end
   end
 
-  describe "add_work_package" do
+  describe 'add_work_package' do
     let(:project) { FactoryGirl.create(:project_with_types) }
 
-    it "should return a new work_package" do
+    it 'should return a new work_package' do
       expect(project.add_work_package).to be_a(WorkPackage)
     end
 
-    it "should not be saved" do
+    it 'should not be saved' do
       expect(project.add_work_package).to be_new_record
     end
 
-    it "returned work_package should have project set to self" do
+    it 'returned work_package should have project set to self' do
       expect(project.add_work_package.project).to eq(project)
     end
 
@@ -94,7 +94,7 @@ describe Project, type: :model do
       expect(project.add_work_package.type).to eq(project.types.first)
     end
 
-    it "returned work_package should have type set to provided type" do
+    it 'returned work_package should have type set to provided type' do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
@@ -109,14 +109,14 @@ describe Project, type: :model do
       expect { project.add_work_package(type: specific_type) }.to raise_error ActiveRecord::RecordNotFound
     end
 
-    it "returned work_package should have type set to provided type_id" do
+    it 'returned work_package should have type set to provided type_id' do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
       expect(project.add_work_package(type_id: specific_type.id).type).to eq(specific_type)
     end
 
-    it "should set all the other attributes" do
+    it 'should set all the other attributes' do
       attributes = { blubs: double('blubs') }
 
       new_work_package = FactoryGirl.build_stubbed(:work_package)
@@ -175,19 +175,23 @@ describe Project, type: :model do
     let(:role_copy_projects) { FactoryGirl.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
     let(:parent_project) { FactoryGirl.create(:project) }
     let(:project) { FactoryGirl.create(:project, parent: parent_project) }
-    let!(:subproject_member) { FactoryGirl.create(:member,
-                                                  user: user,
-                                                  project: project,
-                                                  roles: [role_copy_projects]) }
+    let!(:subproject_member) {
+      FactoryGirl.create(:member,
+                         user: user,
+                         project: project,
+                         roles: [role_copy_projects])
+    }
     before do
       allow(User).to receive(:current).and_return(user)
     end
 
     context 'with permission to add subprojects' do
-      let!(:member_add_subproject) { FactoryGirl.create(:member,
-                                                        user: user,
-                                                        project: parent_project,
-                                                        roles: [role_add_subproject]) }
+      let!(:member_add_subproject) {
+        FactoryGirl.create(:member,
+                           user: user,
+                           project: parent_project,
+                           roles: [role_add_subproject])
+      }
 
       it 'should allow copy' do
         expect(project.copy_allowed?).to eq(true)

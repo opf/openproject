@@ -120,7 +120,7 @@ describe Api::V2::VersionsController, type: :controller do
           describe 'shared versions' do
             include_context 'request versions'
 
-            subject { assigns(:versions).detect{ |v| v.id == shared_version.id }.shared_with }
+            subject { assigns(:versions).detect { |v| v.id == shared_version.id }.shared_with }
 
             it { expect(subject).to include(project.id, child_project.id) }
           end

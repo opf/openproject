@@ -45,7 +45,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ["api"])
+          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
         end
       end
 
@@ -67,7 +67,7 @@ describe Api::V2::ProjectsController, type: :controller do
           @invisible_projects = [
             FactoryGirl.create(:project, is_public: false),
             FactoryGirl.create(:project, is_public: true,
-                               status: Project::STATUS_ARCHIVED)
+                                         status: Project::STATUS_ARCHIVED)
           ]
         end
 
@@ -78,7 +78,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ["api"])
+          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
         end
       end
     end
@@ -89,7 +89,7 @@ describe Api::V2::ProjectsController, type: :controller do
         def fetch
           get 'show', id: project.identifier, format: 'xml'
         end
-        it_should_behave_like "a controller action with unrestricted access"
+        it_should_behave_like 'a controller action with unrestricted access'
       end
 
       describe 'private project' do
@@ -100,9 +100,8 @@ describe Api::V2::ProjectsController, type: :controller do
         def fetch
           get 'show', id: project.identifier, format: 'xml'
         end
-        it_should_behave_like "a controller action which needs project permissions"
+        it_should_behave_like 'a controller action which needs project permissions'
       end
-
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -122,7 +121,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/projects/show', formats: ["api"])
+          expect(response).to render_template('api/v2/projects/show', formats: ['api'])
         end
       end
     end

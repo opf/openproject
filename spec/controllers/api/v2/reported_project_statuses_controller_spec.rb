@@ -33,7 +33,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do
     FactoryGirl.create(:reported_project_status,
-                   id: '1337')
+                       id: '1337')
   end
 
   before do
@@ -61,7 +61,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
           it 'renders the index builder template' do
             get 'index', project_type_id: project_type.id, format: 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
+            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
           end
         end
 
@@ -80,8 +80,8 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
             # AvailableProjectStatus model
             ReportedProjectStatus.all.each do |reported_status|
               FactoryGirl.create(:available_project_status,
-                             project_type_id: project_type.id,
-                             reported_project_status_id: reported_status.id)
+                                 project_type_id: project_type.id,
+                                 reported_project_status_id: reported_status.id)
             end
 
             # Creating an additional ReportedProjectStatus, that should not show
@@ -96,7 +96,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
           it 'renders the index template' do
             get 'index', project_type_id: project_type.id, format: 'xml'
-            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
+            expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
           end
         end
       end
@@ -123,13 +123,13 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with inactive reported_project_status' do
         let :available_reported_project_status do
           FactoryGirl.create(:reported_project_status,
-                         id: '1337',
-                         active: false)
+                             id: '1337',
+                             active: false)
         end
         before do
           FactoryGirl.create(:available_project_status,
-                         project_type_id: project_type.id,
-                         reported_project_status_id: available_reported_project_status.id)
+                             project_type_id: project_type.id,
+                             reported_project_status_id: available_reported_project_status.id)
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -151,8 +151,8 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with an available reported_project_status' do
         before do
           FactoryGirl.create(:available_project_status,
-                         project_type_id: project_type.id,
-                         reported_project_status_id: available_reported_project_status.id)
+                             project_type_id: project_type.id,
+                             reported_project_status_id: available_reported_project_status.id)
         end
 
         it 'assigns the available reported_project_status' do
@@ -162,7 +162,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ["api"])
+          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ['api'])
         end
       end
     end
@@ -178,7 +178,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
+          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
         end
       end
 
@@ -199,7 +199,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ["api"])
+          expect(response).to render_template('api/v2/reported_project_statuses/index', formats: ['api'])
         end
       end
     end
@@ -216,8 +216,8 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with inactive reported_project_status' do
         before do
           @available_reported_project_status = FactoryGirl.create(:reported_project_status,
-                                                              id: '1337',
-                                                              active: false)
+                                                                  id: '1337',
+                                                                  active: false)
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -230,7 +230,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with an available reported_project_status' do
         before do
           @available_reported_project_status = FactoryGirl.create(:reported_project_status,
-                                                              id: '1337')
+                                                                  id: '1337')
         end
 
         it 'assigns the available reported_project_status' do
@@ -240,7 +240,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: '1337', format: 'xml'
-          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ["api"])
+          expect(response).to render_template('api/v2/reported_project_statuses/show', formats: ['api'])
         end
       end
     end

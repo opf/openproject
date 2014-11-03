@@ -32,7 +32,7 @@ describe ::Query::Results, type: :model do
   let(:query) { FactoryGirl.build :query }
   let(:query_results) do
     ::Query::Results.new query, include: [:assigned_to, :type, :priority, :category, :fixed_version],
-                                order: "work_packages.root_id DESC, work_packages.lft ASC"
+                                order: 'work_packages.root_id DESC, work_packages.lft ASC'
   end
 
   describe '#work_package_count_by_group' do
@@ -48,43 +48,61 @@ describe ::Query::Results, type: :model do
   describe '#work_packages' do
     let!(:project_1) { FactoryGirl.create :project }
     let!(:project_2) { FactoryGirl.create :project }
-    let!(:role_pm) { FactoryGirl.create(:role,
-                                        name: 'Manager',
-                                        permissions: [
-                                                       :view_work_packages,
-                                                       :edit_work_packages,
-                                                       :create_work_packages,
-                                                       :delete_work_packages
-                                        ])}
-    let!(:role_dev) { FactoryGirl.create(:role,
-                                         name: 'Developer',
-                                         permissions: [:view_work_packages])}
-    let!(:user_1) { FactoryGirl.create(:user,
-                                       member_in_project: project_1,
-                                       member_through_role: [role_dev, role_pm]) }
-    let!(:member) { FactoryGirl.create(:member,
-                                       project: project_2,
-                                       principal: user_1,
-                                       roles: [role_pm]) }
-    let!(:user_2) { FactoryGirl.create(:user,
-                                       member_in_project: project_2,
-                                       member_through_role: role_dev) }
+    let!(:role_pm) {
+      FactoryGirl.create(:role,
+                         name: 'Manager',
+                         permissions: [
+                           :view_work_packages,
+                           :edit_work_packages,
+                           :create_work_packages,
+                           :delete_work_packages
+                         ])
+    }
+    let!(:role_dev) {
+      FactoryGirl.create(:role,
+                         name: 'Developer',
+                         permissions: [:view_work_packages])
+    }
+    let!(:user_1) {
+      FactoryGirl.create(:user,
+                         member_in_project: project_1,
+                         member_through_role: [role_dev, role_pm])
+    }
+    let!(:member) {
+      FactoryGirl.create(:member,
+                         project: project_2,
+                         principal: user_1,
+                         roles: [role_pm])
+    }
+    let!(:user_2) {
+      FactoryGirl.create(:user,
+                         member_in_project: project_2,
+                         member_through_role: role_dev)
+    }
 
-    let!(:wp_p1) { (1..3).collect { FactoryGirl.create(:work_package,
-                                                       project: project_1,
-                                                       assigned_to_id: user_1.id) } }
-    let!(:wp_p2) { FactoryGirl.create(:work_package,
-                                      project: project_2,
-                                      assigned_to_id: user_2.id) }
-    let!(:wp2_p2) { FactoryGirl.create(:work_package,
-                                       project: project_2,
-                                       assigned_to_id: user_1.id) }
+    let!(:wp_p1) {
+      (1..3).collect {
+        FactoryGirl.create(:work_package,
+                           project: project_1,
+                           assigned_to_id: user_1.id)
+      }
+    }
+    let!(:wp_p2) {
+      FactoryGirl.create(:work_package,
+                         project: project_2,
+                         assigned_to_id: user_2.id)
+    }
+    let!(:wp2_p2) {
+      FactoryGirl.create(:work_package,
+                         project: project_2,
+                         assigned_to_id: user_1.id)
+    }
 
     before do
       allow(User).to receive(:current).and_return(user_2)
       allow(project_2.descendants).to receive(:active).and_return([])
 
-      query.add_filter("assigned_to_role", "=", ["#{role_dev.id}"])
+      query.add_filter('assigned_to_role', '=', ["#{role_dev.id}"])
     end
 
     context 'when a project is set' do

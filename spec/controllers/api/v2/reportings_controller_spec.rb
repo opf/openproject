@@ -59,7 +59,7 @@ describe Api::V2::ReportingsController, type: :controller do
         get 'index', project_id: project.identifier, format: 'xml'
       end
       let(:permission) { :view_reportings }
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'w/o any reportings within the project' do
         it 'assigns an empty reportings array' do
@@ -69,7 +69,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ["api"])
+          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
         end
       end
 
@@ -89,7 +89,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ["api"])
+          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
         end
 
         describe 'w/ ?only=via_source' do
@@ -155,7 +155,7 @@ describe Api::V2::ReportingsController, type: :controller do
           get 'show', project_id: project.id, id: reporting.id, format: 'xml'
         end
         let(:permission) { :view_reportings }
-        it_should_behave_like "a controller action which needs project permissions"
+        it_should_behave_like 'a controller action which needs project permissions'
 
         it 'assigns the reporting' do
           get 'show', project_id: project.id, id: reporting.id, format: 'xml'
@@ -164,7 +164,7 @@ describe Api::V2::ReportingsController, type: :controller do
 
         it 'renders the index builder template' do
           get 'index', project_id: project.id, id: reporting.id, format: 'xml'
-          expect(response).to render_template('api/v2/reportings/index', formats: ["api"])
+          expect(response).to render_template('api/v2/reportings/index', formats: ['api'])
         end
       end
     end

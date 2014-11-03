@@ -45,7 +45,6 @@ describe '/api/v2/projects/level_list.api.rabl', type: :view do
     end
   end
 
-
   describe 'with some projects available' do
     let(:projects) do
       p1 = FactoryGirl.build(:project, name: 'P1')

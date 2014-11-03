@@ -142,7 +142,7 @@ describe AccountController, type: :controller do
             provider: 'google',
             uid: '123545',
             info: { name: 'foo', email: 'foo@bar.com' }
-            # first_name and last_name not set
+          # first_name and last_name not set
           )
         end
 
@@ -165,9 +165,9 @@ describe AccountController, type: :controller do
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
           post :register, user: { login: 'login@bar.com',
-                                     firstname: 'Foo',
-                                     lastname: 'Smith',
-                                     mail: 'foo@bar.com' }
+                                  firstname: 'Foo',
+                                  lastname: 'Smith',
+                                  mail: 'foo@bar.com' }
           expect(response).to redirect_to my_first_login_path
 
           user = User.find_by_login('login@bar.com')
@@ -187,8 +187,8 @@ describe AccountController, type: :controller do
 
           it 'does not register the user when providing all the missing fields' do
             post :register, user: { firstname: 'Foo',
-                                       lastname: 'Smith',
-                                       mail: 'foo@bar.com' }
+                                    lastname: 'Smith',
+                                    mail: 'foo@bar.com' }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
@@ -197,8 +197,8 @@ describe AccountController, type: :controller do
 
           it 'does not register the user when providing all the missing fields' do
             post :register, user: { firstname: 'Foo',
-                                       # lastname intentionally not provided
-                                       mail: 'foo@bar.com' }
+                                    # lastname intentionally not provided
+                                    mail: 'foo@bar.com' }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))

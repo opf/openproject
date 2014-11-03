@@ -31,19 +31,19 @@ require 'open_project/passwords'
 
 describe OpenProject::Passwords::Generator do
   describe :random_password do
-    it "should create a valid password" do
+    it 'should create a valid password' do
       with_settings password_active_rules: ['lowercase', 'uppercase', 'numeric', 'special'],
                     password_min_adhered_rules: 3,
                     password_min_length: 4 do
-       pwd = OpenProject::Passwords::Generator.random_password
-       expect(OpenProject::Passwords::Evaluator.conforming?(pwd)).to eq(true)
-     end
-   end
+        pwd = OpenProject::Passwords::Generator.random_password
+        expect(OpenProject::Passwords::Evaluator.conforming?(pwd)).to eq(true)
+      end
+    end
   end
 end
 
 describe OpenProject::Passwords::Evaluator do
-  it "should correctly evaluate passwords" do
+  it 'should correctly evaluate passwords' do
     with_settings password_active_rules: ['lowercase', 'uppercase', 'numeric'],
                   password_min_adhered_rules: 3,
                   password_min_length: 4 do

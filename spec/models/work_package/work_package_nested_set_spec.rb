@@ -43,44 +43,44 @@ describe WorkPackage, type: :model do
       let(:parent) { send(:"#{subclass}2") }
       let(:parent2) { send(:"#{subclass}3") }
 
-      shared_examples_for "root" do
+      shared_examples_for 'root' do
         it "should set root_id to the id of the #{subclass}" do
           expect(instance.root_id).to eq(instance.id)
         end
 
-        it "should set lft to 1" do
+        it 'should set lft to 1' do
           expect(instance.lft).to eq(1)
         end
 
-        it "should set rgt to 2" do
+        it 'should set rgt to 2' do
           expect(instance.rgt).to eq(2)
         end
       end
 
-      shared_examples_for "first child" do
+      shared_examples_for 'first child' do
         it "should set root_id to the id of the parent #{subclass}" do
           expect(instance.root_id).to eq(parent.id)
         end
 
-        it "should set lft to 2" do
+        it 'should set lft to 2' do
           expect(instance.lft).to eq(2)
         end
 
-        it "should set rgt to 3" do
+        it 'should set rgt to 3' do
           expect(instance.rgt).to eq(3)
         end
       end
 
-      describe "creating a new instance without a parent" do
+      describe 'creating a new instance without a parent' do
 
         before do
           instance.save!
         end
 
-        it_should_behave_like "root"
+        it_should_behave_like 'root'
       end
 
-      describe "creating a new instance with a parent" do
+      describe 'creating a new instance with a parent' do
 
         before do
           parent.save!
@@ -89,10 +89,10 @@ describe WorkPackage, type: :model do
           instance.save!
         end
 
-        it_should_behave_like "first child"
+        it_should_behave_like 'first child'
       end
 
-      describe "an existant instance receives a parent" do
+      describe 'an existant instance receives a parent' do
 
         before do
           parent.save!
@@ -101,10 +101,10 @@ describe WorkPackage, type: :model do
           instance.save!
         end
 
-        it_should_behave_like "first child"
+        it_should_behave_like 'first child'
       end
 
-      describe "an existant instance becomes a root" do
+      describe 'an existant instance becomes a root' do
 
         before do
           parent.save!
@@ -114,14 +114,14 @@ describe WorkPackage, type: :model do
           instance.save!
         end
 
-        it_should_behave_like "root"
+        it_should_behave_like 'root'
 
-        it "should set parent_id to nil" do
+        it 'should set parent_id to nil' do
           expect(instance.parent_id).to eq(nil)
         end
       end
 
-      describe "an existant instance receives a new parent (new tree)" do
+      describe 'an existant instance receives a new parent (new tree)' do
 
         before do
           parent.save!
@@ -133,9 +133,9 @@ describe WorkPackage, type: :model do
           instance.save!
         end
 
-        it_should_behave_like "first child"
+        it_should_behave_like 'first child'
 
-        it "should set parent_id to new parent" do
+        it 'should set parent_id to new parent' do
           expect(instance.parent_id).to eq(parent.id)
         end
       end
@@ -187,7 +187,7 @@ describe WorkPackage, type: :model do
         end
       end
 
-      describe "an existant instance receives a new parent (same tree)" do
+      describe 'an existant instance receives a new parent (same tree)' do
 
         before do
           parent.save!
@@ -199,10 +199,10 @@ describe WorkPackage, type: :model do
           instance.save!
         end
 
-        it_should_behave_like "first child"
+        it_should_behave_like 'first child'
       end
 
-      describe "an existant instance with children receives a new parent (itself)" do
+      describe 'an existant instance with children receives a new parent (itself)' do
         let(:child) { send(:"#{subclass}3") }
 
         before do
@@ -239,12 +239,12 @@ describe WorkPackage, type: :model do
           expect(child.root_id).to eq(instance.id)
         end
 
-        it "the child should have a lft of 2" do
+        it 'the child should have a lft of 2' do
           child.reload
           expect(child.lft).to eq(2)
         end
 
-        it "the child should have a rgt of 3" do
+        it 'the child should have a rgt of 3' do
           child.reload
           expect(child.rgt).to eq(3)
         end

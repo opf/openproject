@@ -92,7 +92,7 @@ describe 'Omniauth authentication', type: :feature do
       end
 
       it 'should go directly to the developer sign in and then redirect to the back url' do
-        url = "http://www.example.com/my/account"
+        url = 'http://www.example.com/my/account'
 
         visit url
         # requires login, redirects to developer login which is why we see the login form now

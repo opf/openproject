@@ -31,11 +31,15 @@ require File.expand_path('../../../../spec_helper', __FILE__)
 describe Api::Experimental::WorkPackagesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type_standard) }
-  let(:project_1) { FactoryGirl.create(:project,
-                                       types: [type]) }
-  let(:project_2) { FactoryGirl.create(:project,
-                                       types: [type],
-                                       is_public: false) }
+  let(:project_1) {
+    FactoryGirl.create(:project,
+                       types: [type])
+  }
+  let(:project_2) {
+    FactoryGirl.create(:project,
+                       types: [type],
+                       is_public: false)
+  }
   let(:role) do
     FactoryGirl.create(:role, permissions: [:view_work_packages,
                                             :add_work_packages,
@@ -45,21 +49,27 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
                                             :log_time])
   end
   let(:status_1) { FactoryGirl.create(:status) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_1) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_1) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_2) }
+  let(:work_package_1) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_1)
+  }
+  let(:work_package_2) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_1)
+  }
+  let(:work_package_3) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_2)
+  }
 
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project_1,
@@ -94,7 +104,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         allow(Query).to receive(:new).and_call_original
         expected_query = Query.new
         expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
-                                      .and_return(expected_query)
+          .and_return(expected_query)
 
         get 'index', format: 'json'
 
@@ -106,7 +116,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
           allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
           expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
-                                        .and_return(expected_query)
+            .and_return(expected_query)
 
           get 'index', format: 'json', filter_param => double('anything', to_i: 1).as_null_object
 
@@ -247,7 +257,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
 
       it 'assigns column metadata' do
         get :column_data, format: 'json', ids: [1, 2],
-          column_names: %w(subject status estimated_hours done_ratio)
+                          column_names: %w(subject status estimated_hours done_ratio)
 
         expect(assigns(:columns_meta)).to have_key('group_sums')
         expect(assigns(:columns_meta)).to have_key('total_sums')

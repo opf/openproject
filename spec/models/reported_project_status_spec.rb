@@ -34,7 +34,7 @@ describe ReportedProjectStatus, type: :model do
       it 'can read reportings w/ the help of the has_many association' do
         reported_project_status = FactoryGirl.create(:reported_project_status)
         reporting               = FactoryGirl.create(:reporting,
-                                                 reported_project_status_id: reported_project_status.id)
+                                                     reported_project_status_id: reported_project_status.id)
 
         reported_project_status.reload
 

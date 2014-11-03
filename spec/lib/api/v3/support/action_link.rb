@@ -30,8 +30,10 @@ require 'spec_helper'
 
 shared_examples_for 'action link' do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project,
-                                         member_through_role: role) }
+  let(:user) {
+    FactoryGirl.create(:user, member_in_project: project,
+                              member_through_role: role)
+  }
 
   before { allow(User).to receive(:current).and_return(user) }
 
@@ -39,7 +41,7 @@ shared_examples_for 'action link' do
 
   describe 'with permission' do
     before do
-      role.permissions << permission;
+      role.permissions << permission
       role.save!
     end
 

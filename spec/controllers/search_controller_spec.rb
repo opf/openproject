@@ -29,10 +29,14 @@
 require 'spec_helper'
 
 describe SearchController, type: :controller do
-  let!(:project) { FactoryGirl.create(:project,
-                                      name: 'eCookbook') }
-  let(:user) { FactoryGirl.create(:user,
-                                  member_in_project: project) }
+  let!(:project) {
+    FactoryGirl.create(:project,
+                       name: 'eCookbook')
+  }
+  let(:user) {
+    FactoryGirl.create(:user,
+                       member_in_project: project)
+  }
 
   shared_examples_for 'successful search' do
     it { expect(response).to be_success }
@@ -48,7 +52,7 @@ describe SearchController, type: :controller do
     it_behaves_like 'successful search'
 
     context 'search parameter' do
-      subject { get :index, q: "cook" }
+      subject { get :index, q: 'cook' }
 
       it_behaves_like 'successful search'
 
@@ -67,19 +71,23 @@ describe SearchController, type: :controller do
 
     it_behaves_like 'successful search'
 
-    it { expect(assigns(:project).id).to be(project.id)}
+    it { expect(assigns(:project).id).to be(project.id) }
   end
 
   describe 'work package search' do
-    let!(:work_package_1) { FactoryGirl.create(:work_package,
-                                               subject: "This is a test issue",
-                                               project: project) }
-    let!(:work_package_2) { FactoryGirl.create(:work_package,
-                                               subject: "Issue test 2",
-                                               project: project,
-                                               status: FactoryGirl.create(:closed_status)) }
+    let!(:work_package_1) {
+      FactoryGirl.create(:work_package,
+                         subject: 'This is a test issue',
+                         project: project)
+    }
+    let!(:work_package_2) {
+      FactoryGirl.create(:work_package,
+                         subject: 'Issue test 2',
+                         project: project,
+                         status: FactoryGirl.create(:closed_status))
+    }
 
-    before { get :index, q: "issue", issues: 1 }
+    before { get :index, q: 'issue', issues: 1 }
 
     it_behaves_like 'successful search'
 
@@ -94,27 +102,31 @@ describe SearchController, type: :controller do
       describe :view do
         render_views
 
-        it "marks closed work packages" do
-          assert_select "dt.work_package-closed" do
-            assert_select "a", text: Regexp.new(work_package_2.status.name)
+        it 'marks closed work packages' do
+          assert_select 'dt.work_package-closed' do
+            assert_select 'a', text: Regexp.new(work_package_2.status.name)
           end
         end
       end
     end
 
     context 'with first note' do
-      let!(:note_1) { FactoryGirl.create :work_package_journal,
-                                         journable_id: work_package_1.id,
-                                         notes: 'Test note 1',
-                                         version: 2 }
+      let!(:note_1) {
+        FactoryGirl.create :work_package_journal,
+                           journable_id: work_package_1.id,
+                           notes: 'Test note 1',
+                           version: 2
+      }
 
       before { Journal.any_instance.stub(predecessor: note_1) }
 
       context 'and second note' do
-        let!(:note_2) { FactoryGirl.create :work_package_journal,
-                                           journable_id: work_package_1.id,
-                                           notes: 'Special note 2',
-                                           version: 3 }
+        let!(:note_2) {
+          FactoryGirl.create :work_package_journal,
+                             journable_id: work_package_1.id,
+                             notes: 'Special note 2',
+                             version: 3
+        }
 
         describe 'second note predecessor' do
           subject { note_2.send :predecessor }

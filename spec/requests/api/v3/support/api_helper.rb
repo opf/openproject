@@ -26,11 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for "safeguarded API" do
+shared_examples_for 'safeguarded API' do
   it { expect(response.response_code).to eq(403) }
 end
 
-shared_examples_for "valid activity request" do
+shared_examples_for 'valid activity request' do
   let(:status_code) { 200 }
 
   before { allow(User).to receive(:current).and_return(admin) }
@@ -40,13 +40,13 @@ shared_examples_for "valid activity request" do
   describe 'response body' do
     subject { JSON.parse(response.body) }
 
-    it { expect(subject['_type']).to eq("Activity::Comment") }
+    it { expect(subject['_type']).to eq('Activity::Comment') }
 
     it { expect(subject['rawComment']).to eq(comment) }
   end
 end
 
-shared_examples_for "invalid activity request" do
+shared_examples_for 'invalid activity request' do
   before { allow(User).to receive(:current).and_return(admin) }
 
   it { expect(response.response_code).to eq(422) }

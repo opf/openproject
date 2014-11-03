@@ -33,21 +33,31 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Custom field accessibility', type: :feature do
   describe 'language tag' do
-    let(:custom_field) { FactoryGirl.create(:work_package_custom_field,
-                                            name_locales: { en: 'Field1', de: 'Feld1' },
-                                            field_format: 'text',
-                                            is_required: true) }
-    let(:type) { FactoryGirl.create(:type_standard,
-                                    custom_fields: [custom_field]) }
-    let(:project) { FactoryGirl.create :project,
-                                       types: [type],
-                                       work_package_custom_fields: [custom_field] }
-    let(:role) { FactoryGirl.create :role,
-                                    permissions: [:view_work_packages, :edit_project] }
-    let(:current_user) { FactoryGirl.create :admin, member_in_project: project,
-                                                    member_through_role: role }
+    let(:custom_field) {
+      FactoryGirl.create(:work_package_custom_field,
+                         name_locales: { en: 'Field1', de: 'Feld1' },
+                         field_format: 'text',
+                         is_required: true)
+    }
+    let(:type) {
+      FactoryGirl.create(:type_standard,
+                         custom_fields: [custom_field])
+    }
+    let(:project) {
+      FactoryGirl.create :project,
+                         types: [type],
+                         work_package_custom_fields: [custom_field]
+    }
+    let(:role) {
+      FactoryGirl.create :role,
+                         permissions: [:view_work_packages, :edit_project]
+    }
+    let(:current_user) {
+      FactoryGirl.create :admin, member_in_project: project,
+                                 member_through_role: role
+    }
 
-    shared_examples_for "Element has lang tag" do
+    shared_examples_for 'Element has lang tag' do
       let(:lang_tag_locale) { defined?(element_locale) ? element_locale : locale }
 
       it { expect(element['lang']).to eq(lang_tag_locale) }
@@ -59,7 +69,7 @@ describe 'Custom field accessibility', type: :feature do
       let(:custom_fields_page) { CustomFieldsPage.new }
       let(:element) { custom_fields_page.name_attributes }
 
-      shared_context "custom field new page" do
+      shared_context 'custom field new page' do
         let(:available_languages) { [locale] }
 
         before do
@@ -71,25 +81,25 @@ describe 'Custom field accessibility', type: :feature do
         end
       end
 
-      context "en" do
-        let(:locale) { "en" }
+      context 'en' do
+        let(:locale) { 'en' }
 
-        include_context "custom field new page"
+        include_context 'custom field new page'
 
         it_behaves_like 'Element has lang tag'
       end
 
-      context "de" do
-        let(:locale) { "de" }
+      context 'de' do
+        let(:locale) { 'de' }
 
-        include_context "custom field new page"
+        include_context 'custom field new page'
 
         it_behaves_like 'Element has lang tag'
       end
 
       describe 'Locale change' do
-        shared_context "custom field new page with changed name locale" do
-          include_context "custom field new page" do
+        shared_context 'custom field new page with changed name locale' do
+          include_context 'custom field new page' do
             let(:available_languages) { ['en', 'de'] }
           end
 
@@ -99,20 +109,20 @@ describe 'Custom field accessibility', type: :feature do
         describe 'Name locale change' do
           let(:element_selector) { "#custom_field_name_attributes select.locale_selector option[value='#{element_locale}']" }
 
-          context "en" do
+          context 'en' do
             let(:locale) { 'en' }
             let(:element_locale) { 'de' }
 
-            include_context "custom field new page with changed name locale"
+            include_context 'custom field new page with changed name locale'
 
             it_behaves_like 'Element has lang tag'
           end
 
-          context "de" do
+          context 'de' do
             let(:locale) { 'de' }
             let(:element_locale) { 'en' }
 
-            include_context "custom field new page with changed name locale"
+            include_context 'custom field new page with changed name locale'
 
             it_behaves_like 'Element has lang tag'
           end
@@ -122,20 +132,20 @@ describe 'Custom field accessibility', type: :feature do
           let(:element) { custom_fields_page.default_value_attributes }
           let(:element_selector) { "#custom_field_default_value_attributes select.locale_selector option[value='#{element_locale}']" }
 
-          context "en" do
+          context 'en' do
             let(:locale) { 'en' }
             let(:element_locale) { 'de' }
 
-            include_context "custom field new page with changed name locale"
+            include_context 'custom field new page with changed name locale'
 
             it_behaves_like 'Element has lang tag'
           end
 
-          context "de" do
+          context 'de' do
             let(:locale) { 'de' }
             let(:element_locale) { 'en' }
 
-            include_context "custom field new page with changed name locale"
+            include_context 'custom field new page with changed name locale'
 
             it_behaves_like 'Element has lang tag'
           end
@@ -147,7 +157,7 @@ describe 'Custom field accessibility', type: :feature do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }
       let(:element) { project_settings_page.fieldset_label }
 
-      shared_context "project settings page" do
+      shared_context 'project settings page' do
         before do
           allow(I18n).to receive(:locale).and_return locale
 
@@ -155,18 +165,18 @@ describe 'Custom field accessibility', type: :feature do
         end
       end
 
-      context "en" do
-        let(:locale) { "en" }
+      context 'en' do
+        let(:locale) { 'en' }
 
-        include_context "project settings page"
+        include_context 'project settings page'
 
         it_behaves_like 'Element has lang tag'
       end
 
-      context "de" do
-        let(:locale) { "en" }
+      context 'de' do
+        let(:locale) { 'en' }
 
-        include_context "project settings page"
+        include_context 'project settings page'
 
         it_behaves_like 'Element has lang tag'
       end
@@ -174,13 +184,15 @@ describe 'Custom field accessibility', type: :feature do
 
     describe 'Work Package' do
       let(:work_packages_page) { WorkPackagesPage.new(project) }
-      let!(:work_package) { FactoryGirl.create(:work_package,
-                                               project: project,
-                                               type: type,
-                                               custom_values: { custom_field.id => 'value' }) }
+      let!(:work_package) {
+        FactoryGirl.create(:work_package,
+                           project: project,
+                           type: type,
+                           custom_values: { custom_field.id => 'value' })
+      }
 
       describe 'index', js: true do
-        shared_context "index page with query" do
+        shared_context 'index page with query' do
           let!(:query) do
             query = FactoryGirl.build(:query, project: project)
             query.column_names = ["cf_#{custom_field.id}"]
@@ -197,7 +209,7 @@ describe 'Custom field accessibility', type: :feature do
           end
         end
 
-        shared_examples_for "localized table header" do
+        shared_examples_for 'localized table header' do
           it_behaves_like 'Element has lang tag' do
             let(:element) { find('th a', text: custom_field.name) }
           end
@@ -207,18 +219,18 @@ describe 'Custom field accessibility', type: :feature do
           end
         end
 
-        context "en" do
+        context 'en' do
           let(:locale) { 'en' }
 
-          include_context "index page with query"
+          include_context 'index page with query'
 
           skip # it_behaves_like "localized table header"
         end
 
-        context "de" do
+        context 'de' do
           let(:locale) { 'de' }
 
-          include_context "index page with query"
+          include_context 'index page with query'
 
           skip # it_behaves_like "localized table header"
         end
@@ -227,7 +239,7 @@ describe 'Custom field accessibility', type: :feature do
       let(:value) { 'Wert' }
 
       describe 'show' do
-        shared_context "work package show view" do
+        shared_context 'work package show view' do
           before { work_packages_page.visit_show work_package.id }
         end
 
@@ -243,7 +255,7 @@ describe 'Custom field accessibility', type: :feature do
           it_behaves_like 'Element has lang tag'
         end
 
-        context "de" do
+        context 'de' do
           let(:locale) { 'de' }
           let(:element_locale) { 'en' }
 
@@ -254,7 +266,7 @@ describe 'Custom field accessibility', type: :feature do
           it_behaves_like 'attribute value lang'
         end
 
-        context "en" do
+        context 'en' do
           let(:locale) { 'en' }
           let(:element_locale) { 'en' }
 
@@ -266,11 +278,13 @@ describe 'Custom field accessibility', type: :feature do
         end
 
         describe 'mixed language for custom field name and default value' do
-          let(:cf_with_mixed_lang) { FactoryGirl.create(:work_package_custom_field,
-                                                        name_locales: { en: 'Field2', de: nil },
-                                                        default_locales: { en: nil, de: value  },
-                                                        field_format: 'text',
-                                                        is_required: false) }
+          let(:cf_with_mixed_lang) {
+            FactoryGirl.create(:work_package_custom_field,
+                               name_locales: { en: 'Field2', de: nil },
+                               default_locales: { en: nil, de: value  },
+                               field_format: 'text',
+                               is_required: false)
+          }
           let(:custom_field) { cf_with_mixed_lang }
 
           before do
@@ -282,16 +296,16 @@ describe 'Custom field accessibility', type: :feature do
 
           after { Globalize.fallbacks = [:en] }
 
-          shared_context "work package show view" do
+          shared_context 'work package show view' do
             before do
               allow(I18n).to receive(:locale).and_return locale
 
-              work_packages_page.visit_show work_package.id;
+              work_packages_page.visit_show work_package.id
             end
           end
 
           context 'attribute header' do
-            context "de" do
+            context 'de' do
               let(:locale) { 'de' }
               let(:element_locale) { 'en' }
 
@@ -300,7 +314,7 @@ describe 'Custom field accessibility', type: :feature do
               it_behaves_like 'attribute header lang'
             end
 
-            context "en" do
+            context 'en' do
               let(:locale) { 'en' }
               let(:element_locale) { 'en' }
 
@@ -311,7 +325,7 @@ describe 'Custom field accessibility', type: :feature do
           end
 
           context 'attribute value' do
-            context "de" do
+            context 'de' do
               let(:locale) { 'de' }
               let(:element_locale) { 'de' }
 
@@ -320,7 +334,7 @@ describe 'Custom field accessibility', type: :feature do
               it_behaves_like 'attribute value lang'
             end
 
-            context "en" do
+            context 'en' do
               let(:locale) { 'en' }
               let(:element_locale) { 'de' }
 
@@ -333,7 +347,7 @@ describe 'Custom field accessibility', type: :feature do
       end
 
       describe 'edit' do
-        shared_context "work package edit view" do
+        shared_context 'work package edit view' do
           before { work_packages_page.visit_edit work_package.id }
         end
 
@@ -349,7 +363,7 @@ describe 'Custom field accessibility', type: :feature do
           it_behaves_like 'Element has lang tag'
         end
 
-        context "de" do
+        context 'de' do
           let(:locale) { 'de' }
           let(:element_locale) { 'en' }
 
@@ -360,7 +374,7 @@ describe 'Custom field accessibility', type: :feature do
           it_behaves_like 'attribute value lang'
         end
 
-        context "en" do
+        context 'en' do
           let(:locale) { 'en' }
           let(:element_locale) { 'en' }
 
@@ -371,12 +385,14 @@ describe 'Custom field accessibility', type: :feature do
           it_behaves_like 'attribute value lang'
         end
 
-        describe "default value language is different" do
-          let(:cf_with_mixed_lang) { FactoryGirl.create(:work_package_custom_field,
-                                                        name_locales: { en: 'Field2', de: nil },
-                                                        default_locales: { en: nil, de: value  },
-                                                        field_format: 'text',
-                                                        is_required: false) }
+        describe 'default value language is different' do
+          let(:cf_with_mixed_lang) {
+            FactoryGirl.create(:work_package_custom_field,
+                               name_locales: { en: 'Field2', de: nil },
+                               default_locales: { en: nil, de: value  },
+                               field_format: 'text',
+                               is_required: false)
+          }
           let(:custom_field) { cf_with_mixed_lang }
 
           before do
@@ -389,7 +405,7 @@ describe 'Custom field accessibility', type: :feature do
           after { Globalize.fallbacks = [:en] }
 
           context 'attribute value' do
-            context "en" do
+            context 'en' do
               let(:locale) { 'en' }
               let(:element_locale) { 'en' }
 

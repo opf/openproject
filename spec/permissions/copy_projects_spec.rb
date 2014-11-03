@@ -29,7 +29,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 require File.expand_path('../../support/permission_specs', __FILE__)
 
-describe CopyProjectsController, "copy_projects permission", type: :controller do
+describe CopyProjectsController, 'copy_projects permission', type: :controller do
   include PermissionSpecs
 
   check_permission_required_for('copy_projects#copy',         :copy_projects)

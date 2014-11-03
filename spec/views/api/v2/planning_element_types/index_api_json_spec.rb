@@ -36,7 +36,6 @@ describe 'api/v2/planning_element_types/index.api.rabl', type: :view do
 
   describe 'with no planning element types available' do
 
-
     it 'renders an empty planning_element_types document' do
       assign(:types, [])
       render
@@ -59,7 +58,7 @@ describe 'api/v2/planning_element_types/index.api.rabl', type: :view do
       render
     end
 
-    subject{response.body}
+    subject { response.body }
 
     it 'renders 3 planning_element_types' do
       is_expected.to have_json_size(3).at_path('planning_element_types')

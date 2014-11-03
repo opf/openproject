@@ -32,18 +32,24 @@ describe JournalsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_package]) }
-  let(:member) { FactoryGirl.build(:member, project: project,
-                                            roles: [role],
-                                            principal: user) }
-  let(:work_package) { FactoryGirl.build(:work_package, type: project.types.first,
-                                                        author: user,
-                                                        project: project,
-                                                        description: '') }
-  let(:journal) { FactoryGirl.create(:work_package_journal,
-                  journable: work_package,
-                  user: user) }
+  let(:member) {
+    FactoryGirl.build(:member, project: project,
+                               roles: [role],
+                               principal: user)
+  }
+  let(:work_package) {
+    FactoryGirl.build(:work_package, type: project.types.first,
+                                     author: user,
+                                     project: project,
+                                     description: '')
+  }
+  let(:journal) {
+    FactoryGirl.create(:work_package_journal,
+                       journable: work_package,
+                       user: user)
+  }
 
-  describe "GET diff" do
+  describe 'GET diff' do
     render_views
 
     before do

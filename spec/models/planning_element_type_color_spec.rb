@@ -58,8 +58,8 @@ describe PlanningElementTypeColor, type: :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {name:    'Color No. 1',
-       hexcode: '#FFFFFF'}
+      { name:    'Color No. 1',
+        hexcode: '#FFFFFF' }
     }
 
     describe 'name' do
@@ -74,13 +74,13 @@ describe PlanningElementTypeColor, type: :model do
       end
 
       it 'is invalid w/ a name longer than 255 characters' do
-        attributes[:name] = "A" * 500
+        attributes[:name] = 'A' * 500
         color = PlanningElementTypeColor.new(attributes)
 
         expect(color).not_to be_valid
 
         expect(color.errors[:name]).to be_present
-        expect(color.errors[:name]).to eq(["is too long (maximum is 255 characters)"])
+        expect(color.errors[:name]).to eq(['is too long (maximum is 255 characters)'])
       end
     end
 

@@ -31,12 +31,16 @@ require 'spec_helper'
 describe WorkPackages::AutoCompletesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:view_work_packages]) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:view_work_packages])
+  }
+  let(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
   let(:work_package_1) do
     FactoryGirl.create(:work_package, subject: "Can't print recipes",
                                       project: project)
@@ -78,9 +82,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'search is case insensitive' do
       let(:expected_values) { [work_package_1, work_package_2] }
 
-      before { get :index,
-                   project_id: project.id,
-                   q: 'ReCiPe' }
+      before {
+        get :index,
+            project_id: project.id,
+            q: 'ReCiPe'
+      }
 
       it_behaves_like 'successful response'
 
@@ -90,9 +96,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'returns work package for given id' do
       let(:expected_values) { work_package_1 }
 
-      before { get :index,
-                   project_id: project.id,
-                   q: work_package_1.id }
+      before {
+        get :index,
+            project_id: project.id,
+            q: work_package_1.id
+      }
 
       it_behaves_like 'successful response'
 
@@ -136,7 +144,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
             q: ids
       end
 
-      it_behaves_like  'successful response'
+      it_behaves_like 'successful response'
 
       it_behaves_like 'contains expected values'
 
@@ -151,15 +159,19 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
     describe 'returns work package for given id' do
       render_views
-      let(:work_package_4) { FactoryGirl.create(:work_package,
-                                                subject: "<script>alert('danger!');</script>",
-                                                project: project) }
+      let(:work_package_4) {
+        FactoryGirl.create(:work_package,
+                           subject: "<script>alert('danger!');</script>",
+                           project: project)
+      }
       let(:expected_values) { work_package_4 }
 
-      before { get :index,
-                   project_id: project.id,
-                   q: work_package_4.id,
-                   format: :json }
+      before {
+        get :index,
+            project_id: project.id,
+            q: work_package_4.id,
+            format: :json
+      }
 
       it_behaves_like 'successful response'
       it_behaves_like 'contains expected values'
@@ -170,12 +182,16 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     end
 
     describe :cross_project_work_package_relations do
-      let(:project_2) { FactoryGirl.create(:project,
-                                           parent: project) }
-      let(:member_2) { FactoryGirl.create(:member,
-                                          project: project_2,
-                                          principal: user,
-                                          roles: [role]) }
+      let(:project_2) {
+        FactoryGirl.create(:project,
+                           parent: project)
+      }
+      let(:member_2) {
+        FactoryGirl.create(:member,
+                           project: project_2,
+                           principal: user,
+                           roles: [role])
+      }
       let(:work_package_4) do
         FactoryGirl.create(:work_package, subject: 'Foo Bar Baz',
                                           project: project_2)

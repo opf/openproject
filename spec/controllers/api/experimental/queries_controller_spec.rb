@@ -247,10 +247,12 @@ describe Api::Experimental::QueriesController, type: :controller do
 
         describe 'public state' do
           let(:role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
-          let!(:membership) { FactoryGirl.create(:member,
-                                                 user: user,
-                                                 project: query.project,
-                                                 role_ids: [role.id]) }
+          let!(:membership) {
+            FactoryGirl.create(:member,
+                               user: user,
+                               project: query.project,
+                               role_ids: [role.id])
+          }
 
           before { allow(User).to receive(:current).and_return(user) }
 
@@ -264,15 +266,15 @@ describe Api::Experimental::QueriesController, type: :controller do
 
           describe 'w/o other changes' do
             let(:change_public_state_only_params) do
-             { 'f' => ['status_id'],
-               'is_public' => 'true',
-               'name' => query.name,
-               'op' => { 'status_id' => 'o' },
-               'v' => { 'status_id' => [''] },
-               'query_id' => query.id,
-               'id' => query.id,
-               'project_id' => project.id,
-               'format' => 'json' }
+              { 'f' => ['status_id'],
+                'is_public' => 'true',
+                'name' => query.name,
+                'op' => { 'status_id' => 'o' },
+                'v' => { 'status_id' => [''] },
+                'query_id' => query.id,
+                'id' => query.id,
+                'project_id' => project.id,
+                'format' => 'json' }
             end
 
             context 'publicize' do
@@ -294,7 +296,7 @@ describe Api::Experimental::QueriesController, type: :controller do
 
             context 'depublicize' do
               let(:query) { FactoryGirl.create(:query, project: project, is_public: true) }
-              let(:valid_params) { change_public_state_only_params.merge({ 'is_public' => 'false' }) }
+              let(:valid_params) { change_public_state_only_params.merge('is_public' => 'false') }
 
               context 'allowed policy' do
                 include_context 'expects policy to be followed', :depublicize

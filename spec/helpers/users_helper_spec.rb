@@ -47,18 +47,18 @@ describe UsersHelper, type: :helper do
                                 scope: :user),
       [:locked, false] => I18n.t(:locked, scope: :user),
       [:locked, true] => I18n.t(:status_user_and_brute_force,
-                            user: I18n.t(:locked, scope: :user),
-                            brute_force: I18n.t(:blocked_num_failed_logins,
-                                                   count: 3,
-                                                   scope: :user),
-                            scope: :user),
+                                user: I18n.t(:locked, scope: :user),
+                                brute_force: I18n.t(:blocked_num_failed_logins,
+                                                    count: 3,
+                                                    scope: :user),
+                                scope: :user),
       [:registered, false] => I18n.t(:registered, scope: :user),
       [:registered, true] => I18n.t(:status_user_and_brute_force,
-                              user: I18n.t(:registered, scope: :user),
-                              brute_force: I18n.t(:blocked_num_failed_logins,
-                                                     count: 3,
-                                                     scope: :user),
-                              scope: :user)
+                                    user: I18n.t(:registered, scope: :user),
+                                    brute_force: I18n.t(:blocked_num_failed_logins,
+                                                        count: 3,
+                                                        scope: :user),
+                                    scope: :user)
     }
 
     test_cases.each do |(status, blocked), expectation|
@@ -77,11 +77,11 @@ describe UsersHelper, type: :helper do
 
   describe 'change_user_status_buttons' do
     test_cases = {
-        [:active, false] => :lock,
-        [:locked, false] => :unlock,
-        [:locked, true] => :unlock_and_reset_failed_logins,
-        [:registered, false] => :activate,
-        [:registered, true] => :activate_and_reset_failed_logins
+      [:active, false] => :lock,
+      [:locked, false] => :unlock,
+      [:locked, true] => :unlock_and_reset_failed_logins,
+      [:registered, false] => :activate,
+      [:registered, true] => :activate_and_reset_failed_logins
     }
 
     test_cases.each do |(status, blocked), expectation_symbol|
@@ -95,19 +95,19 @@ describe UsersHelper, type: :helper do
           expect(@buttons).to include(expectation)
         end
 
-        it "should contain a single button" do
+        it 'should contain a single button' do
           expect(@buttons.scan('<input').count).to eq(1)
         end
       end
     end
 
-    describe "with status active and blocked True" do
+    describe 'with status active and blocked True' do
       before do
         user = build_user(:active, true)
         @buttons = change_user_status_buttons(user)
       end
 
-      it  "should return inputs (buttons)" do
+      it 'should return inputs (buttons)' do
         expect(@buttons.scan('<input').count).to eq(2)
       end
 

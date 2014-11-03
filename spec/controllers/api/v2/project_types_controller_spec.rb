@@ -39,7 +39,7 @@ describe Api::V2::ProjectTypesController, type: :controller do
     def fetch
       get 'index', format: 'xml'
     end
-    it_should_behave_like "a controller action with unrestricted access"
+    it_should_behave_like 'a controller action with unrestricted access'
 
     describe 'with no project types available' do
       it 'assigns an empty project_types array' do
@@ -49,7 +49,7 @@ describe Api::V2::ProjectTypesController, type: :controller do
 
       it 'renders the index builder template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('api/v2/project_types/index', formats:["api"])
+        expect(response).to render_template('api/v2/project_types/index', formats: ['api'])
       end
     end
 
@@ -69,7 +69,7 @@ describe Api::V2::ProjectTypesController, type: :controller do
 
       it 'renders the index template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('api/v2/project_types/index', formats:["api"])
+        expect(response).to render_template('api/v2/project_types/index', formats: ['api'])
       end
     end
   end
@@ -89,10 +89,9 @@ describe Api::V2::ProjectTypesController, type: :controller do
       end
 
       def fetch
-        get "show", id: '1337', format: 'xml'
+        get 'show', id: '1337', format: 'xml'
       end
-      it_should_behave_like "a controller action with unrestricted access"
-
+      it_should_behave_like 'a controller action with unrestricted access'
 
       it 'assigns the available project type' do
         get 'show', id: '1337', format: 'xml'
@@ -101,7 +100,7 @@ describe Api::V2::ProjectTypesController, type: :controller do
 
       it 'renders the show template' do
         get 'show', id: '1337', format: 'xml'
-        expect(response).to render_template('api/v2/project_types/show', formats:["api"])
+        expect(response).to render_template('api/v2/project_types/show', formats: ['api'])
       end
     end
   end

@@ -44,7 +44,7 @@ describe WorkPackagesController, type: :controller do
   let(:stub_project) { FactoryGirl.build_stubbed(:project, identifier: 'test_project', is_public: false) }
   let(:stub_issue) { FactoryGirl.build_stubbed(:work_package, project_id: stub_project.id) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
-  let(:stub_work_package) { double("work_package", id: 1337, project: stub_project).as_null_object }
+  let(:stub_work_package) { double('work_package', id: 1337, project: stub_project).as_null_object }
 
   let(:current_user) { FactoryGirl.create(:user) }
 
@@ -74,17 +74,16 @@ describe WorkPackagesController, type: :controller do
   end
 
   def self.requires_export_permission(&block)
-
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
 
       before do
         expect(User.current).to receive(:allowed_to?)
-                    .with(:export_work_packages,
-                          project,
-                          global: true)
-                    .and_return(true)
+          .with(:export_work_packages,
+                project,
+                global: true)
+          .and_return(true)
       end
 
       instance_eval(&block)
@@ -96,10 +95,10 @@ describe WorkPackagesController, type: :controller do
         params[:project_id] = project.id
 
         expect(User.current).to receive(:allowed_to?)
-                    .with(:export_work_packages,
-                          project,
-                          global: false)
-                    .and_return(true)
+          .with(:export_work_packages,
+                project,
+                global: false)
+          .and_return(true)
       end
 
       instance_eval(&block)
@@ -110,10 +109,10 @@ describe WorkPackagesController, type: :controller do
 
       before do
         expect(User.current).to receive(:allowed_to?)
-                    .with(:export_work_packages,
-                          project,
-                          global: true)
-                    .and_return(false)
+          .with(:export_work_packages,
+                project,
+                global: true)
+          .and_return(false)
 
         call_action
       end
@@ -126,16 +125,16 @@ describe WorkPackagesController, type: :controller do
 
   describe 'index' do
     let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
-    let(:work_packages) { double("work packages").as_null_object }
+    let(:work_packages) { double('work packages').as_null_object }
 
     before do
       allow(User.current).to receive(:allowed_to?).and_return(false)
       expect(User.current).to receive(:allowed_to?)
-                  .with({ controller: "work_packages",
-                          action: "index" },
-                        project,
-                        global: true)
-                  .and_return(true)
+        .with({ controller: 'work_packages',
+                action: 'index' },
+              project,
+              global: true)
+        .and_return(true)
     end
 
     describe 'with valid query' do
@@ -148,7 +147,7 @@ describe WorkPackagesController, type: :controller do
         query.stub_chain(:results, :work_package_count_by_group).and_return([])
         query.stub_chain(:results, :column_total_sums).and_return([])
         query.stub_chain(:results, :column_group_sums).and_return([])
-        allow(query).to receive(:as_json).and_return("")
+        allow(query).to receive(:as_json).and_return('')
       end
 
       describe 'settings passed to front-end client' do
@@ -177,26 +176,26 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', project_id: project.id) }
         before { call_action }
 
-        describe "w/o a project" do
+        describe 'w/o a project' do
           let(:project) { nil }
           let(:call_action) { get('index') }
 
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ["html"],
-                                                                   layout: :base)
+            expect(response).to render_template('work_packages/index', formats: ['html'],
+                                                                       layout: :base)
           end
         end
 
-        context "w/ a project" do
+        context 'w/ a project' do
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ["html"],
-                                                                   layout: :base)
+            expect(response).to render_template('work_packages/index', formats: ['html'],
+                                                                       layout: :base)
           end
         end
 
         context 'when a query has been previously selected' do
           let(:query) do
-            FactoryGirl.build_stubbed(:query).tap {|q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: ">=", values: [10]) ]}
+            FactoryGirl.build_stubbed(:query).tap { |q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: '>=', values: [10])] }
           end
 
           before { allow(session).to receive(:query).and_return query }
@@ -217,14 +216,14 @@ describe WorkPackagesController, type: :controller do
             mock_csv = double('csv export')
 
             expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, project)
-                                                      .and_return(mock_csv)
+              .and_return(mock_csv)
 
             expect(controller).to receive(:send_data).with(mock_csv,
-                                                       type: 'text/csv; charset=utf-8; header=present',
-                                                       filename: 'export.csv') do |*args|
+                                                           type: 'text/csv; charset=utf-8; header=present',
+                                                           filename: 'export.csv') do |*_args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
-              controller.render text: "success"
+              controller.render text: 'success'
             end
           end
 
@@ -245,11 +244,11 @@ describe WorkPackagesController, type: :controller do
             expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
 
             expect(controller).to receive(:send_data).with(mock_pdf,
-                                                       type: 'application/pdf',
-                                                       filename: 'export.pdf') do |*args|
+                                                           type: 'application/pdf',
+                                                           filename: 'export.pdf') do |*_args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
-              controller.render text: "success"
+              controller.render text: 'success'
             end
           end
 
@@ -265,10 +264,10 @@ describe WorkPackagesController, type: :controller do
 
         requires_export_permission do
           before do
-            expect(controller).to receive(:render_feed).with(work_packages, anything()) do |*args|
+            expect(controller).to receive(:render_feed).with(work_packages, anything) do |*_args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
-              controller.render text: "success"
+              controller.render text: 'success'
             end
           end
 
@@ -281,8 +280,8 @@ describe WorkPackagesController, type: :controller do
 
     describe 'with invalid query' do
       context 'when a non-existant query has been previously selected' do
-        let(:call_action) { get('index', project_id: project.id, query_id: "hokusbogus") }
-                before { call_action }
+        let(:call_action) { get('index', project_id: project.id, query_id: 'hokusbogus') }
+        before { call_action }
 
         it 'renders a 404' do
           expect(response.response_code).to be === 404
@@ -313,7 +312,7 @@ describe WorkPackagesController, type: :controller do
     end
     let(:current_user) { FactoryGirl.create(:admin) }
 
-    it "performs a successful export" do
+    it 'performs a successful export' do
       wp = work_package
 
       expect {
@@ -334,7 +333,6 @@ describe WorkPackagesController, type: :controller do
     it { is_expected.to respond_with :not_found }
   end
 
-
   describe 'show.html' do
     let(:call_action) { get('show', id: '1337') }
 
@@ -342,12 +340,11 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/show', formats: ["html"],
-                                                              layout: :base)
+        expect(response).to render_template('work_packages/show', formats: ['html'],
+                                                                  layout: :base)
       end
     end
   end
-
 
   describe 'show.pdf' do
     let(:call_action) { get('show', format: 'pdf', id: '1337') }
@@ -359,11 +356,11 @@ describe WorkPackagesController, type: :controller do
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
         expect(WorkPackage::Exporter).to receive(:work_package_to_pdf).and_return(pdf)
         expect(controller).to receive(:send_data).with(pdf,
-                                                   type: 'application/pdf',
-                                                   filename: expected_name) do |*args|
+                                                       type: 'application/pdf',
+                                                       filename: expected_name) do |*_args|
           # We need to render something because otherwise
           # the controller will and he will not find a suitable template
-          controller.render text: "success"
+          controller.render text: 'success'
         end
         call_action
       end
@@ -377,13 +374,12 @@ describe WorkPackagesController, type: :controller do
       it 'render the journal/index template' do
         call_action
 
-        expect(response).to render_template('journals/index', formats: ["atom"],
-                                                          layout: false,
-                                                          content_type: 'application/atom+xml')
+        expect(response).to render_template('journals/index', formats: ['atom'],
+                                                              layout: false,
+                                                              content_type: 'application/atom+xml')
       end
     end
   end
-
 
   describe 'new.html' do
     let(:call_action) { get('new', format: 'html', project_id: 5) }
@@ -395,7 +391,7 @@ describe WorkPackagesController, type: :controller do
 
       it 'renders the new builder template' do
 
-        expect(response).to render_template('work_packages/new', formats: ["html"])
+        expect(response).to render_template('work_packages/new', formats: ['html'])
       end
 
       it 'should respond with 200 OK' do
@@ -403,7 +399,6 @@ describe WorkPackagesController, type: :controller do
       end
     end
   end
-
 
   describe 'new_type.js' do
     let(:wp_params) { { wp_attribute: double('wp_attribute') } }
@@ -412,15 +407,15 @@ describe WorkPackagesController, type: :controller do
     requires_permission_in_project do
       before do
         expect(controller.send(:permitted_params)).to receive(:update_work_package)
-                                          .with(project: stub_project)
-                                          .and_return(wp_params)
+          .with(project: stub_project)
+          .and_return(wp_params)
         expect(stub_work_package).to receive(:update_by).with(current_user, wp_params).and_return(true)
 
         call_action
       end
 
       it 'renders the new builder template' do
-        expect(response).to render_template('work_packages/new_type', formats: ["html"])
+        expect(response).to render_template('work_packages/new_type', formats: ['html'])
       end
 
       it 'should respond with 200 OK' do
@@ -429,10 +424,11 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-
   describe 'create.html' do
-    let(:params) { { project_id: stub_work_package.project.id,
-                     work_package: { } } }
+    let(:params) {
+      { project_id: stub_work_package.project.id,
+        work_package: {} }
+    }
 
     let(:call_action) { post 'create', params }
 
@@ -476,7 +472,7 @@ describe WorkPackagesController, type: :controller do
         end
 
         it 'renders the new template' do
-          expect(response).to render_template('work_packages/new', formats: ["html"])
+          expect(response).to render_template('work_packages/new', formats: ['html'])
         end
       end
     end
@@ -489,7 +485,7 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/edit', formats: ["html"], layout: :base)
+        expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
       end
     end
   end
@@ -532,7 +528,7 @@ describe WorkPackagesController, type: :controller do
       put 'update', params.call(work_package.id, activity.id)
 
       expect(response.status).to eq(200) # shouldn't this be 400 or similar?
-      expect(response.body).to have_content("Log time is invalid")
+      expect(response.body).to have_content('Log time is invalid')
     end
   end
 
@@ -545,19 +541,19 @@ describe WorkPackagesController, type: :controller do
       before do
         allow(controller).to receive(:work_package).and_return(stub_work_package)
         expect(controller.send(:permitted_params)).to receive(:update_work_package)
-                                          .at_most(:twice)
-                                          .with(project: stub_work_package.project)
-                                          .and_return(wp_params)
+          .at_most(:twice)
+          .with(project: stub_work_package.project)
+          .and_return(wp_params)
 
         expect(current_user).to receive(:allowed_to?).with(:edit_work_packages, stub_work_package.project)
-                                                     .and_return(true);
+          .and_return(true)
       end
 
       describe 'w/ having a successful save' do
         before do
           expect(stub_work_package).to receive(:update_by!)
-                           .with(current_user, wp_params)
-                           .and_return(true)
+            .with(current_user, wp_params)
+            .and_return(true)
         end
 
         it 'should redirect to the show action' do
@@ -578,14 +574,14 @@ describe WorkPackagesController, type: :controller do
       describe 'w/ having an unsuccessful save' do
         before do
           expect(stub_work_package).to receive(:update_by!)
-                           .with(current_user, wp_params)
-                           .and_return(false)
+            .with(current_user, wp_params)
+            .and_return(false)
         end
 
         it 'render the edit action' do
           call_action
 
-          expect(response).to render_template('work_packages/edit', formats: ["html"], layout: :base)
+          expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
         end
       end
 
@@ -594,10 +590,10 @@ describe WorkPackagesController, type: :controller do
 
         before do
           expect(stub_work_package).to receive(:update_by!)
-                           .with(current_user, wp_params)
-                           .and_return(true)
+            .with(current_user, wp_params)
+            .and_return(true)
           allow(stub_work_package).to receive(:unsaved_attachments)
-                           .and_return([double('unsaved_attachment')])
+            .and_return([double('unsaved_attachment')])
         end
 
         it 'should redirect to the show action' do
@@ -658,8 +654,8 @@ describe WorkPackagesController, type: :controller do
 
           allow(controller).to receive(:current_user).and_return(stub_user)
           expect(controller.send(:permitted_params)).to receive(:new_work_package)
-                                            .with(project: stub_project)
-                                            .and_return(wp_params)
+            .with(project: stub_project)
+            .and_return(wp_params)
 
           expect(stub_project).to receive(:add_work_package) { |args|
 
@@ -695,7 +691,7 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe 'when providing neither id nor project_id (error)' do
-      it "should return nil" do
+      it 'should return nil' do
         controller.params = {}
 
         expect(controller.work_package).to be_nil
@@ -713,7 +709,7 @@ describe WorkPackagesController, type: :controller do
 
   describe :journals do
     it "should return all the work_package's journals except the first one" do
-      planning_element.description = "blubs"
+      planning_element.description = 'blubs'
 
       planning_element.save
       planning_element.reload
@@ -723,30 +719,33 @@ describe WorkPackagesController, type: :controller do
       expect(controller.journals).to eq([planning_element.journals.last])
     end
 
-    it "should be empty if the work_package has only one journal" do
+    it 'should be empty if the work_package has only one journal' do
       allow(controller).to receive(:work_package).and_return(planning_element)
 
       expect(controller.journals).to be_empty
     end
 
+    describe 'order of journal entries' do
+      let!(:planning_element_note1) {
+        FactoryGirl.create(:work_package_journal,
+                           journable_id: planning_element.id,
+                           version: 2,
+                           notes: 'lala')
+      }
 
-    describe "order of journal entries" do
-      let!(:planning_element_note1) { FactoryGirl.create(:work_package_journal,
-                                                  journable_id: planning_element.id,
-                                                  version: 2,
-                                                  notes: 'lala')}
-
-      let!(:planning_element_note2) { FactoryGirl.create(:work_package_journal,
-                                                  journable_id: planning_element.id,
-                                                  version: 3,
-                                                  notes: 'lala2')}
+      let!(:planning_element_note2) {
+        FactoryGirl.create(:work_package_journal,
+                           journable_id: planning_element.id,
+                           version: 3,
+                           notes: 'lala2')
+      }
 
       before do
         allow(controller).to receive(:current_user).and_return(stub_user)
         allow(controller).to receive(:work_package).and_return(planning_element)
       end
 
-      it "chronological by default" do
+      it 'chronological by default' do
         expect(controller.journals).to eq([planning_element_note1, planning_element_note2])
       end
 
@@ -786,8 +785,10 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe :relations do
-    let(:relation) { FactoryGirl.build_stubbed(:relation, from: stub_issue,
-                                                                to: stub_planning_element) }
+    let(:relation) {
+      FactoryGirl.build_stubbed(:relation, from: stub_issue,
+                                           to: stub_planning_element)
+    }
     let(:relations) { [relation] }
 
     before do
@@ -802,7 +803,7 @@ describe WorkPackagesController, type: :controller do
       expect(controller.relations).to eq(relations)
     end
 
-    it "should not return relations invisible to the user" do
+    it 'should not return relations invisible to the user' do
       allow(stub_planning_element).to receive(:visible?).and_return(false)
 
       expect(controller.relations).to eq([])
@@ -816,21 +817,23 @@ describe WorkPackagesController, type: :controller do
 
     become_member_with_view_planning_element_permissions
 
-    describe "when work_package is an issue" do
+    describe 'when work_package is an issue' do
       let(:ancestor_issue) { FactoryGirl.create(:work_package, project: project) }
       let(:issue) { FactoryGirl.create(:work_package, project: project, parent_id: ancestor_issue.id) }
 
-      it "should return the work_packages ancestors" do
+      it 'should return the work_packages ancestors' do
         allow(controller).to receive(:work_package).and_return(issue)
 
         expect(controller.ancestors).to eq([ancestor_issue])
       end
     end
 
-    describe "when work_package is a planning element" do
-      let(:descendant_planning_element) { FactoryGirl.create(:work_package, project: project,
-                                                                                parent_id: planning_element.id) }
-      it "should return the work_packages ancestors" do
+    describe 'when work_package is a planning element' do
+      let(:descendant_planning_element) {
+        FactoryGirl.create(:work_package, project: project,
+                                          parent_id: planning_element.id)
+      }
+      it 'should return the work_packages ancestors' do
         allow(controller).to receive(:work_package).and_return(descendant_planning_element)
 
         expect(controller.ancestors).to eq([planning_element])
@@ -843,13 +846,13 @@ describe WorkPackagesController, type: :controller do
       allow(controller).to receive(:work_package).and_return(planning_element)
     end
 
-    it "should be empty" do
+    it 'should be empty' do
       expect(controller.descendants).to be_empty
     end
   end
 
   describe :priorities do
-    it "should return all defined priorities" do
+    it 'should return all defined priorities' do
       expected = double('priorities')
 
       allow(IssuePriority).to receive(:active).and_return(expected)
@@ -859,7 +862,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe :allowed_statuses do
-    it "should return all statuses allowed by the issue" do
+    it 'should return all statuses allowed by the issue' do
       expected = double('statuses')
 
       allow(controller).to receive(:work_package).and_return(stub_issue)
@@ -875,7 +878,7 @@ describe WorkPackagesController, type: :controller do
       allow(controller).to receive(:work_package).and_return(stub_planning_element)
     end
 
-    it "should return a time entry" do
+    it 'should return a time entry' do
       expected = double('time_entry')
 
       allow(stub_planning_element).to receive(:add_time_entry).and_return(expected)
@@ -884,18 +887,18 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe "quotation" do
+  describe 'quotation' do
     let(:call_action) { get :quoted }
 
     requires_permission_in_project do
-      context "description" do
+      context 'description' do
         subject { get :quoted, id: planning_element.id }
 
         it { is_expected.to be_success }
         it { is_expected.to render_template('edit') }
       end
 
-      context "journal" do
+      context 'journal' do
         let(:journal_id) { planning_element.journals.first.id }
 
         subject { get :quoted, id: planning_element.id, journal_id: journal_id }
@@ -906,26 +909,30 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  let(:filename) { "test1.test" }
+  let(:filename) { 'test1.test' }
 
   describe :create do
     let(:type) { FactoryGirl.create :type }
-    let(:project) { FactoryGirl.create :project,
-                                       types: [type] }
+    let(:project) {
+      FactoryGirl.create :project,
+                         types: [type]
+    }
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
 
     context :copy do
       let(:current_user) { FactoryGirl.create(:admin) }
       let(:params) { { copy_from: planning_element.id, project_id: project.id } }
-      let(:except) { ["id",
-                      "root_id",
-                      "parent_id",
-                      "lft",
-                      "rgt",
-                      "type",
-                      "created_at",
-                      "updated_at"] }
+      let(:except) {
+        ['id',
+         'root_id',
+         'parent_id',
+         'lft',
+         'rgt',
+         'type',
+         'created_at',
+         'updated_at']
+      }
 
       before { post 'create', params }
 
@@ -938,14 +945,18 @@ describe WorkPackagesController, type: :controller do
     end
 
     context :attachments do
-      let(:new_work_package) { FactoryGirl.build(:work_package,
-                                                 project: project,
-                                                 type: type,
-                                                 description: "Description",
-                                                 priority: priority) }
-      let(:params) { { project_id: project.id,
-                       attachments: { file: { file: filename,
-                                              description: '' } } } }
+      let(:new_work_package) {
+        FactoryGirl.build(:work_package,
+                          project: project,
+                          type: type,
+                          description: 'Description',
+                          priority: priority)
+      }
+      let(:params) {
+        { project_id: project.id,
+          attachments: { file: { file: filename,
+                                 description: '' } } }
+      }
 
       before do
         allow(controller).to receive(:work_package).and_return(new_work_package)
@@ -956,7 +967,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       # see ticket #2009 on OpenProject.org
-      context "new attachment on new work package" do
+      context 'new attachment on new work package' do
         before { post 'create', params }
 
         describe :journal do
@@ -970,7 +981,7 @@ describe WorkPackagesController, type: :controller do
         end
       end
 
-      context "invalid attachment" do
+      context 'invalid attachment' do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
@@ -982,7 +993,7 @@ describe WorkPackagesController, type: :controller do
         describe :view do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/new', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/new', formats: ['html']) }
         end
 
         describe :error do
@@ -998,20 +1009,26 @@ describe WorkPackagesController, type: :controller do
 
   describe :update do
     let(:type) { FactoryGirl.create :type }
-    let(:project) { FactoryGirl.create :project,
-                                       types: [type] }
+    let(:project) {
+      FactoryGirl.create :project,
+                         types: [type]
+    }
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
 
     context :attachments do
-      let(:work_package) { FactoryGirl.build(:work_package,
-                                             project: project,
-                                             type: type,
-                                             description: "Description",
-                                             priority: priority) }
-      let(:params) { { id: work_package.id,
-                       work_package: { attachments: { '1' =>  { file: filename,
-                                                                description: '' } } } } }
+      let(:work_package) {
+        FactoryGirl.build(:work_package,
+                          project: project,
+                          type: type,
+                          description: 'Description',
+                          priority: priority)
+      }
+      let(:params) {
+        { id: work_package.id,
+          work_package: { attachments: { '1' =>  { file: filename,
+                                                   description: '' } } } }
+      }
 
       before do
         allow(controller).to receive(:work_package).and_return(work_package)
@@ -1023,7 +1040,7 @@ describe WorkPackagesController, type: :controller do
         allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
-      context "invalid attachment" do
+      context 'invalid attachment' do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
@@ -1035,7 +1052,7 @@ describe WorkPackagesController, type: :controller do
         describe :view do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/edit', formats: ['html']) }
         end
 
         describe :error do
@@ -1051,15 +1068,21 @@ describe WorkPackagesController, type: :controller do
 
   describe 'preview' do
     let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role,
-                                    permissions: [:add_work_packages]) }
-    let(:user) { FactoryGirl.create(:user,
-                                    member_in_project: project,
-                                    member_through_role: role) }
-    let(:description) { "Work package description" }
-    let(:notes) { "Work package note" }
-    let(:preview_params) { { work_package: { description: description,
-                                             notes: notes } } }
+    let(:role) {
+      FactoryGirl.create(:role,
+                         permissions: [:add_work_packages])
+    }
+    let(:user) {
+      FactoryGirl.create(:user,
+                         member_in_project: project,
+                         member_through_role: role)
+    }
+    let(:description) { 'Work package description' }
+    let(:notes) { 'Work package note' }
+    let(:preview_params) {
+      { work_package: { description: description,
+                        notes: notes } }
+    }
 
     before { allow(User).to receive(:current).and_return(user) }
 
@@ -1069,33 +1092,41 @@ describe WorkPackagesController, type: :controller do
 
     it_behaves_like 'authorizes object access' do
       let(:work_package) { FactoryGirl.create(:work_package) }
-      let(:preview_params) { { id: work_package.id,
-                               work_package: { } } }
+      let(:preview_params) {
+        { id: work_package.id,
+          work_package: {} }
+      }
     end
 
     describe 'preview.js' do
       before { xhr :put, :preview, preview_params }
 
-      it { expect(response).to render_template('common/preview',
-                                               format: ["html"],
-                                               layout: false ) }
+      it {
+        expect(response).to render_template('common/preview',
+                                            format: ['html'],
+                                            layout: false)
+      }
     end
   end
 
   describe 'Update permissions' do
     let(:project) { FactoryGirl.create(:project) }
 
-    let(:description) { "Muh hahahah!!!" }
-    let(:notes) { "Work package note" }
+    let(:description) { 'Muh hahahah!!!' }
+    let(:notes) { 'Work package note' }
     let(:wp_params) { { id: work_package.id, work_package: { description: description, notes: notes } } }
 
     shared_context 'update work package' do
-      let(:user) { FactoryGirl.create(:user,
-                                      member_in_project: project,
-                                      member_through_role: role) }
-      let!(:work_package) { FactoryGirl.create(:work_package,
-                                               project_id: project.id,
-                                               author: user) }
+      let(:user) {
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: role)
+      }
+      let!(:work_package) {
+        FactoryGirl.create(:work_package,
+                           project_id: project.id,
+                           author: user)
+      }
       let!(:original_description) { work_package.description }
 
       before do
@@ -1108,9 +1139,11 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe '#14964 User w/o permission able to update work package attributes' do
-      let(:role) { FactoryGirl.create(:role,
-                                      permissions: [:view_work_packages,
-                                                    :add_work_package_notes]) }
+      let(:role) {
+        FactoryGirl.create(:role,
+                           permissions: [:view_work_packages,
+                                         :add_work_package_notes])
+      }
 
       include_context 'update work package'
 
@@ -1120,9 +1153,11 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe 'notes update w/o privileges' do
-      let(:role) { FactoryGirl.create(:role,
-                                      permissions: [:view_work_packages,
-                                                    :edit_work_packages]) }
+      let(:role) {
+        FactoryGirl.create(:role,
+                           permissions: [:view_work_packages,
+                                         :edit_work_packages])
+      }
 
       include_context 'update work package'
 

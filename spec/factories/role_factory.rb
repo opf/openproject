@@ -29,18 +29,18 @@
 FactoryGirl.define do
   factory :role do
     permissions []
-    sequence(:name) { |n| "role_#{n}"}
+    sequence(:name) { |n| "role_#{n}" }
     assignable true
 
     factory :non_member do
-      name "Non member"
+      name 'Non member'
       builtin Role::BUILTIN_NON_MEMBER
       assignable false
       initialize_with { Role.find_or_create_by_name(name) }
     end
 
     factory :anonymous_role do
-      name "Anonymous"
+      name 'Anonymous'
       builtin Role::BUILTIN_ANONYMOUS
       assignable false
       initialize_with { Role.find_or_create_by_name(name) }

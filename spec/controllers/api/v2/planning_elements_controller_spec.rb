@@ -42,7 +42,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
       projects = block ? instance_eval(&block) : [project]
 
       projects.each do |p|
-        current_user.memberships.select {|m| m.project_id == p.id}.each(&:destroy)
+        current_user.memberships.select { |m| m.project_id == p.id }.each(&:destroy)
       end
     end
   end
@@ -87,7 +87,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       projects = block ? instance_eval(&block) : [project]
 
-      projects.each do |p|
+      projects.each do |_p|
         member = FactoryGirl.build(:member, user: current_user, project: project)
         member.roles = [role]
         member.save!
@@ -147,7 +147,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           before do
-            get 'index', ids: "", format: 'xml'
+            get 'index', ids: '', format: 'xml'
           end
 
           describe 'w/o any planning elements within the project' do
@@ -156,7 +156,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
 
@@ -167,7 +167,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id)
               ]
-              get 'index', ids: @created_planning_elements.map(&:id).join(","), format: 'xml'
+              get 'index', ids: @created_planning_elements.map(&:id).join(','), format: 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
@@ -175,15 +175,17 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
 
           describe 'w/ 2 planning elements within a specific project and one PE requested' do
             context 'with rewire_parents=false' do
               let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
-              let!(:wp_child)  { FactoryGirl.create(:work_package, project_id: project.id,
-                                                                   parent_id: wp_parent.id) }
+              let!(:wp_child)  {
+                FactoryGirl.create(:work_package, project_id: project.id,
+                                                  parent_id: wp_parent.id)
+              }
 
               context 'with rewire_parents=false' do
                 before do
@@ -242,7 +244,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_admin { [project_a, project_b] }
 
           it 'renders only existing work packages' do
-            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(","), format: 'xml'
+            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(','), format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
@@ -253,13 +255,13 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member { [project_c] }
 
           it 'renders only accessable work packages' do
-            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id].join(","), format: 'xml'
+            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id].join(','), format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
 
           it 'renders only accessable work packages' do
-            get 'index', ids: [@project_c_wps[0].id, @project_c_wps[1].id].join(","), format: 'xml'
+            get 'index', ids: [@project_c_wps[0].id, @project_c_wps[1].id].join(','), format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([])
           end
@@ -269,7 +271,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions { [project_a, project_b, project_c] }
 
           it 'renders all work packages' do
-            get 'index', ids: (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(","), format: 'xml'
+            get 'index', ids: (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(','), format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array(@project_a_wps + @project_b_wps + @project_c_wps)
           end
@@ -329,7 +331,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             wp
           end
 
-          work_package.subject = "Changed now!"
+          work_package.subject = 'Changed now!'
           work_package.save!
           work_package
         end
@@ -376,12 +378,18 @@ describe Api::V2::PlanningElementsController, type: :controller do
       let(:project_a) { FactoryGirl.create(:project) }
       let(:project_b) { FactoryGirl.create(:project) }
       let(:project_c) { FactoryGirl.create(:project) }
-      let!(:work_package_a) { FactoryGirl.create(:work_package,
-                                                 project: project_a) }
-      let!(:work_package_b) { FactoryGirl.create(:work_package,
-                                                 project: project_b) }
-      let!(:work_package_c) { FactoryGirl.create(:work_package,
-                                                 project: project_c) }
+      let!(:work_package_a) {
+        FactoryGirl.create(:work_package,
+                           project: project_a)
+      }
+      let!(:work_package_b) {
+        FactoryGirl.create(:work_package,
+                           project: project_b)
+      }
+      let!(:work_package_c) {
+        FactoryGirl.create(:work_package,
+                           project: project_c)
+      }
       let(:project_ids) { [project_a, project_b, project_c].collect(&:id).join(',') }
       let(:wp_ids) { [work_package_a, work_package_b].collect(&:id) }
 
@@ -393,7 +401,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
         it { expect(assigns(:planning_elements)).to be_empty }
       end
 
-      shared_examples_for "valid ids request" do
+      shared_examples_for 'valid ids request' do
         before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
 
         subject { assigns(:planning_elements).collect(&:id) }
@@ -405,14 +413,14 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'known ids' do
         context 'single id' do
-          it_behaves_like "valid ids request" do
+          it_behaves_like 'valid ids request' do
             let(:wp_ids) { [work_package_a.id] }
             let(:invalid_wp_ids) { [work_package_b.id, work_package_c.id] }
           end
         end
 
         context 'multiple ids' do
-          it_behaves_like "valid ids request" do
+          it_behaves_like 'valid ids request' do
             let(:wp_ids) { [work_package_a.id, work_package_b.id] }
             let(:invalid_wp_ids) { [work_package_c.id] }
           end
@@ -455,7 +463,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
 
@@ -476,7 +484,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
         end
@@ -504,13 +512,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
             get 'index', project_id: 'project_a,project_b', format: 'xml'
           end
 
-
           it 'assigns an empty planning_elements array' do
             expect(assigns(:planning_elements)).to eq([])
           end
 
           it 'renders the index builder template' do
-            expect(response).to render_template('planning_elements/index', formats: ["api"])
+            expect(response).to render_template('planning_elements/index', formats: ['api'])
           end
         end
 
@@ -527,7 +534,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
 
@@ -552,7 +559,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ["api"])
+              expect(response).to render_template('planning_elements/index', formats: ['api'])
             end
           end
         end
@@ -582,18 +589,18 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
       let(:permission) { :edit_work_packages }
 
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action which needs project permissions'
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :issue_custom_field,
-          name: "Verse",
-          field_format: "text",
-          projects: [project],
-          types: [type]
+                           name: 'Verse',
+                           field_format: 'text',
+                           projects: [project],
+                           types: [type]
       end
 
       let(:planning_element) do
@@ -606,13 +613,13 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       it 'creates a new planning element with the given custom field value' do
         post 'create',
-          project_id: project.identifier,
-          format: 'xml',
-          planning_element: planning_element.attributes.merge(custom_fields: [
-            { id: custom_field.id, value: "Wurst" }])
+             project_id: project.identifier,
+             format: 'xml',
+             planning_element: planning_element.attributes.merge(custom_fields: [
+               { id: custom_field.id, value: 'Wurst' }])
         expect(response.response_code).to eq(303)
 
-        id = response.headers["Location"].scan(/\d+/).last.to_i
+        id = response.headers['Location'].scan(/\d+/).last.to_i
 
         wp = WorkPackage.find_by_id id
         expect(wp).not_to be_nil
@@ -622,7 +629,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
         end
 
         expect(custom_value).not_to be_nil
-        expect(custom_value.value).to eq("Wurst")
+        expect(custom_value.value).to eq('Wurst')
       end
     end
   end
@@ -707,7 +714,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
           it 'renders the show builder template' do
             get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
-            expect(response).to render_template('planning_elements/show', formats: ["api"])
+            expect(response).to render_template('planning_elements/show', formats: ['api'])
           end
         end
       end
@@ -717,28 +724,28 @@ describe Api::V2::PlanningElementsController, type: :controller do
       render_views
 
       let(:project) { FactoryGirl.create(:project) }
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,
-          projects: [project],
-          types: [type]
+                           projects: [project],
+                           types: [type]
       end
 
       let(:planning_element) do
         FactoryGirl.create :work_package,
-          type: type,
-          project: project,
-          custom_values: [
-            CustomValue.new(custom_field: custom_field, value: "Mett")]
+                           type: type,
+                           project: project,
+                           custom_values: [
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
       end
 
-      it "should render the custom field values" do
+      it 'should render the custom field values' do
         get 'show', project_id: project.identifier, id: planning_element.id, format: 'json'
 
         expect(response).to be_success
         expect(response.header['Content-Type']).to include 'application/json'
-        expect(response.body).to include "Mett"
+        expect(response.body).to include 'Mett'
       end
     end
   end
@@ -750,20 +757,23 @@ describe Api::V2::PlanningElementsController, type: :controller do
     become_admin
 
     describe 'permissions' do
-      let(:planning_element) { FactoryGirl.create(:work_package,
-                                                  project_id: project.id) }
+      let(:planning_element) {
+        FactoryGirl.create(:work_package,
+                           project_id: project.id)
+      }
 
       def fetch
         post 'update', project_id:       project.identifier,
                        id:               planning_element.id,
-                       planning_element: { name: "blubs" },
+                       planning_element: { name: 'blubs' },
                        format: 'xml'
       end
+
       def expect_no_content
         true
       end
       let(:permission) { :edit_work_packages }
-      it_should_behave_like "a controller action which needs project permissions"
+      it_should_behave_like 'a controller action which needs project permissions'
     end
 
     describe 'empty' do
@@ -778,7 +788,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     end
 
     describe 'notes' do
-      let(:note) { "A note set by API" }
+      let(:note) { 'A note set by API' }
 
       before do
         put :update,
@@ -802,32 +812,32 @@ describe Api::V2::PlanningElementsController, type: :controller do
     end
 
     describe 'with custom fields' do
-      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+      let(:type) { Type.find_by_name('None') || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field,
-          projects: [project],
-          types: [type]
+                           projects: [project],
+                           types: [type]
       end
 
       let(:planning_element) do
         FactoryGirl.create :work_package,
-          type: type,
-          project: project,
-          custom_values: [
-            CustomValue.new(custom_field: custom_field, value: "Mett")]
+                           type: type,
+                           project: project,
+                           custom_values: [
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
       end
 
       it 'updates the custom field value' do
         put 'update',
-          project_id: project.identifier,
-          format: 'xml',
-          id: planning_element.id,
-          planning_element: {
-            custom_fields: [
-              { id: custom_field.id, value: "Wurst" }
-            ]
-          }
+            project_id: project.identifier,
+            format: 'xml',
+            id: planning_element.id,
+            planning_element: {
+              custom_fields: [
+                { id: custom_field.id, value: 'Wurst' }
+              ]
+            }
         expect(response.response_code).to eq(204)
 
         wp = WorkPackage.find planning_element.id
@@ -836,8 +846,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
         end
 
         expect(custom_value).not_to be_nil
-        expect(custom_value.value).not_to eq("Mett")
-        expect(custom_value.value).to eq("Wurst")
+        expect(custom_value.value).not_to eq('Mett')
+        expect(custom_value.value).to eq('Wurst')
       end
     end
 
@@ -845,7 +855,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     # It should be possible to update a planning element's status by transmitting the
     # field 'status_id'. The test tries to change a planning element's status from
     # status A to B.
-    describe "status" do
+    describe 'status' do
       let(:status_a) { FactoryGirl.create :status }
       let(:status_b) { FactoryGirl.create :status }
       let(:planning_element) { FactoryGirl.create :work_package, status: status_a }
@@ -865,10 +875,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
 
       context 'valid workflow exists' do
-        let!(:workflow) { FactoryGirl.create(:workflow,
-                                             old_status: status_a,
-                                             new_status: status_b,
-                                             type_id: planning_element.type_id) }
+        let!(:workflow) {
+          FactoryGirl.create(:workflow,
+                             old_status: status_a,
+                             new_status: status_b,
+                             type_id: planning_element.type_id)
+        }
 
         before { planning_element.project.add_member!(current_user, workflow.role) }
 
@@ -967,7 +979,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           it 'renders the destroy builder template' do
             get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
 
-            expect(response).to render_template('planning_elements/destroy', formats: ["api"])
+            expect(response).to render_template('planning_elements/destroy', formats: ['api'])
           end
 
           it 'deletes the record' do

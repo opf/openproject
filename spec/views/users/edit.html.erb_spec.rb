@@ -32,8 +32,10 @@ describe 'users/edit', type: :view do
   let(:current_user) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
-    let(:user)  { FactoryGirl.build :user, id: 1,  # id is required to create route to edit
-                                           identity_url: 'test_provider:veryuniqueid' }
+    let(:user)  {
+      FactoryGirl.build :user, id: 1,  # id is required to create route to edit
+                               identity_url: 'test_provider:veryuniqueid'
+    }
 
     before do
       assign(:user, user)
@@ -78,7 +80,7 @@ describe 'users/edit', type: :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)]}
+        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources

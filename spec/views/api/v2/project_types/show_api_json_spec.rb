@@ -35,20 +35,21 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned project type' do
-    let(:project_type) { FactoryGirl.build(:project_type, id: 1,
-                                           name: 'Awesometastic Project Type',
-                                           allows_association: false,
-                                           position: 100,
-                                           created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                           updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
-
+    let(:project_type) {
+      FactoryGirl.build(:project_type, id: 1,
+                                       name: 'Awesometastic Project Type',
+                                       allows_association: false,
+                                       position: 100,
+                                       created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                       updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    }
 
     before do
       assign(:project_type, project_type)
       render
     end
 
-    subject {response.body}
+    subject { response.body }
 
     it 'renders a project_type document' do
       expect(response).to have_json_path('project_type')
@@ -61,7 +62,6 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
 
       expect(response).to be_json_eql(expected_json).at_path('project_type')
     end
-
 
   end
 end

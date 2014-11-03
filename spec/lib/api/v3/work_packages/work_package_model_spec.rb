@@ -38,7 +38,7 @@ describe ::API::V3::WorkPackages::WorkPackageModel do
   context 'with a formatted description' do
     let(:attributes) {
       {
-       description: <<-DESC
+        description: <<-DESC
 h2. Plan for this month
 
 # Important bug fixes
@@ -95,12 +95,16 @@ h2. Plan for this month
       end
 
       describe 'relations' do
-        let!(:relation) { FactoryGirl.create(:relation,
-                                             from: work_package,
-                                             to: work_package_2) }
-        let!(:forbidden_relation) { FactoryGirl.create(:relation,
-                                                       from: work_package,
-                                                       to: forbidden_work_package) }
+        let!(:relation) {
+          FactoryGirl.create(:relation,
+                             from: work_package,
+                             to: work_package_2)
+        }
+        let!(:forbidden_relation) {
+          FactoryGirl.create(:relation,
+                             from: work_package,
+                             to: forbidden_work_package)
+        }
 
         it { expect(model.relations.count).to eq(1) }
 

@@ -29,14 +29,14 @@
 require 'rubygems'
 if ENV['CI'] == 'true'
   # we are running on a CI server, report coverage to code climate
-  require "codeclimate-test-reporter"
+  require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 require 'rspec/autorun'
@@ -45,10 +45,10 @@ require 'capybara/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/features/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/lib/api/v3/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/requests/api/v3/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -102,7 +102,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
@@ -144,7 +144,6 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
 end
 
 module OpenProject::RSpecLazinessWarn
-
   def self.warn_if_user_current_set(example)
     # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
     # which might break other tests and at least leaves this user in the db after the test is run.
@@ -154,10 +153,10 @@ module OpenProject::RSpecLazinessWarn
       # might otherwise not be capable to show all the warnings.
       # Thus we only take the callers that are part of the user code.
       file_roots = Rails::Application::Railties.engines.map { |e| e.root.to_s } << Rails.root.to_s
-      abbreviated_stacktrace = example.metadata[:caller].select { |s| file_roots.any?{ |root| s.include?(root) } }
+      abbreviated_stacktrace = example.metadata[:caller].select { |s| file_roots.any? { |root| s.include?(root) } }
 
       # we only want to show the more verbose warning once
-      if self.warned
+      if warned
         warn <<-DOC
 
               ============================================================================================
@@ -199,11 +198,9 @@ module OpenProject::RSpecLazinessWarn
     end
   end
 
-
   protected
 
   class << self
     attr_accessor :warned
   end
-
 end

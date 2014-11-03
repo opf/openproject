@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, "rebuilding nested set", type: :model do
+describe WorkPackage, 'rebuilding nested set', type: :model do
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }
@@ -57,7 +57,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
   let(:gchild_2_1_1) { issue_factory(child_2_1) }
 
   describe :valid? do
-    describe "WITH one root issue" do
+    describe 'WITH one root issue' do
       before do
         root_1
       end
@@ -65,7 +65,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
       it { expect(WorkPackage).to be_valid }
     end
 
-    describe "WITH two one node trees" do
+    describe 'WITH two one node trees' do
       before do
         root_1
         root_2
@@ -74,7 +74,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
       it { expect(WorkPackage).to be_valid }
     end
 
-    describe "WITH a two issue deep tree" do
+    describe 'WITH a two issue deep tree' do
       before do
         child_1_1
       end
@@ -82,7 +82,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
       it { expect(WorkPackage).to be_valid }
     end
 
-    describe "WITH a three issue deep tree" do
+    describe 'WITH a three issue deep tree' do
       before do
         gchild_1_1_1
       end
@@ -544,8 +544,8 @@ describe WorkPackage, "rebuilding nested set", type: :model do
       it { expect(WorkPackage).to be_valid }
     end
 
-   describe "WITH a two issues deep tree
-              WITH the child's right beeing equal to the root's right" do
+    describe "WITH a two issues deep tree
+               WITH the child's right beeing equal to the root's right" do
 
       before do
         child_1_1
@@ -628,7 +628,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
         root_1
         child_2_1
 
-        WorkPackage.update_all({ rgt: child_2_1.rgt, root_id: root_2.id}, { id: root_1.id })
+        WorkPackage.update_all({ rgt: child_2_1.rgt, root_id: root_2.id }, { id: root_1.id })
 
         WorkPackage.selectively_rebuild_silently!
       end
@@ -755,8 +755,8 @@ describe WorkPackage, "rebuilding nested set", type: :model do
       it { expect(WorkPackage.invalid_duplicates_in_columns.map(&:id)).to match_array([root_1.id, child_1_1.id]) }
     end
 
-   describe "WITH a two issues deep tree
-              WITH the child's right beeing equal to the root's right" do
+    describe "WITH a two issues deep tree
+               WITH the child's right beeing equal to the root's right" do
 
       before do
         child_1_1
@@ -853,7 +853,7 @@ describe WorkPackage, "rebuilding nested set", type: :model do
         root_1
         child_2_1
 
-        WorkPackage.update_all({ rgt: child_2_1.rgt, root_id: root_2.id}, { id: root_1.id })
+        WorkPackage.update_all({ rgt: child_2_1.rgt, root_id: root_2.id }, { id: root_1.id })
       end
 
       it { expect(WorkPackage.invalid_roots.map(&:id)).to match_array([root_1.id, root_2.id]) }
@@ -934,7 +934,6 @@ describe WorkPackage, "rebuilding nested set", type: :model do
 
       it { expect(WorkPackage.invalid_root_ids.map(&:id)).to match_array([child_1_1.id]) }
     end
-
 
     describe "WITH a three issue deep tree
               WITH the root_id of the child pointing to another tree

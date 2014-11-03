@@ -36,7 +36,7 @@ FactoryGirl.define do
     firstname 'Bob'
     lastname 'Bobbit'
     sequence(:login) { |n| "bob#{n}" }
-    sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
+    sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
 
@@ -67,7 +67,6 @@ FactoryGirl.define do
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
     end
 
-
     factory :deleted_user, class: DeletedUser do
       status User::STATUSES[:builtin]
     end
@@ -76,7 +75,7 @@ FactoryGirl.define do
       firstname 'Locked'
       lastname 'User'
       sequence(:login) { |n| "bob#{n}" }
-      sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
+      sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
       password 'adminADMIN!'
       password_confirmation 'adminADMIN!'
       status User::STATUSES[:locked]

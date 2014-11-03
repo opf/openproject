@@ -52,7 +52,6 @@ describe 'api/v2/project_types/index.api.rabl', type: :view do
       ]
     end
 
-
     it 'renders a project_types document with the size 3 of type array' do
       assign(:project_types, project_types)
       render

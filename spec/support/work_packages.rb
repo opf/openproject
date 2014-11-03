@@ -37,7 +37,7 @@ def become_non_member(&block)
     projects = block ? instance_eval(&block) : [project]
 
     projects.each do |p|
-      current_user.memberships.select {|m| m.project_id == p.id}.each(&:destroy)
+      current_user.memberships.select { |m| m.project_id == p.id }.each(&:destroy)
     end
   end
 end

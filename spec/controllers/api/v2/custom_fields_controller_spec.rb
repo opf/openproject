@@ -37,14 +37,20 @@ describe Api::V2::CustomFieldsController, type: :controller do
     let!(:wp_custom_field_for_all) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
     let!(:wp_custom_field_public) { FactoryGirl.create(:work_package_custom_field) }
     let(:wp_custom_fields) { [wp_custom_field_1, wp_custom_field_2] }
-    let(:project) { FactoryGirl.create(:project,
-                                       is_public: false,
-                                       work_package_custom_fields: wp_custom_fields) }
-    let(:project_2) { FactoryGirl.create(:project,
-                                         is_public: false,
-                                         work_package_custom_fields: wp_custom_fields) }
-    let!(:public_project) { FactoryGirl.create(:public_project,
-                                               work_package_custom_fields: [wp_custom_field_public]) }
+    let(:project) {
+      FactoryGirl.create(:project,
+                         is_public: false,
+                         work_package_custom_fields: wp_custom_fields)
+    }
+    let(:project_2) {
+      FactoryGirl.create(:project,
+                         is_public: false,
+                         work_package_custom_fields: wp_custom_fields)
+    }
+    let!(:public_project) {
+      FactoryGirl.create(:public_project,
+                         work_package_custom_fields: [wp_custom_field_public])
+    }
 
     shared_examples_for 'valid workflow index request' do
       it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
@@ -73,7 +79,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
     end
 
     describe 'authorized access' do
-      context "w/o project" do
+      context 'w/o project' do
         let(:current_user) { FactoryGirl.create(:user) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -81,7 +87,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
         it_behaves_like 'a user w/o a project'
       end
 
-      context "with project" do
+      context 'with project' do
         let(:current_user) { FactoryGirl.create(:user, member_in_projects: [project, project_2]) }
 
         before do
@@ -109,7 +115,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
         it { expect(subject).not_to include(wp_custom_field_3) }
       end
 
-      context "as admin with project" do
+      context 'as admin with project' do
         let(:current_user) { FactoryGirl.create(:admin) }
 
         before do

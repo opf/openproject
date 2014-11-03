@@ -37,13 +37,13 @@ describe MenuItems::QueryMenuItem, type: :model do
   describe 'it should destroy all items when destroying' do
     before(:each) do
       query_item = FactoryGirl.create(:query_menu_item,
-                                        query:   query,
-                                        name:    "Query Item",
-                                        title:   "Query Item")
+                                      query:   query,
+                                      name:    'Query Item',
+                                      title:   'Query Item')
       another_query_item = FactoryGirl.create(:query_menu_item,
-                                                query:   another_query,
-                                                name:    "Another Query Item",
-                                                title:   "Another Query Item")
+                                              query:   another_query,
+                                              name:    'Another Query Item',
+                                              title:   'Another Query Item')
     end
 
     it 'the associated query' do

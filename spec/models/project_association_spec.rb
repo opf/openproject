@@ -36,8 +36,8 @@ describe ProjectAssociation, type: :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     project_a_id: project_a.id,
-                                     project_b_id: project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.project_a).to eq(project_a)
       end
@@ -47,8 +47,8 @@ describe ProjectAssociation, type: :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     project_a_id: project_a.id,
-                                     project_b_id: project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.project_b).to eq(project_b)
       end
@@ -58,8 +58,8 @@ describe ProjectAssociation, type: :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     project_a_id: project_a.id,
-                                     project_b_id: project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.projects).to include(project_a)
         expect(association.projects).to include(project_b)
@@ -69,8 +69,8 @@ describe ProjectAssociation, type: :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {project_a_id: 1,
-       project_b_id: 2}
+      { project_a_id: 1,
+        project_b_id: 2 }
     }
 
     before {
@@ -80,7 +80,7 @@ describe ProjectAssociation, type: :model do
 
     it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
 
-    it "should be invalid for a self referential association" do
+    it 'should be invalid for a self referential association' do
       attributes[:project_b_id] = attributes[:project_a_id]
 
       project_association = ProjectAssociation.new do |a|
@@ -90,9 +90,9 @@ describe ProjectAssociation, type: :model do
       expect(project_association).not_to be_valid
 
       expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, scope: [:activerecord,
-                                                                                         :errors,
-                                                                                         :models,
-                                                                                         :project_association])])
+                                                                                           :errors,
+                                                                                           :models,
+                                                                                           :project_association])])
     end
 
     describe 'project_a' do

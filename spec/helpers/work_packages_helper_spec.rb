@@ -32,10 +32,10 @@ describe WorkPackagesHelper, type: :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
-  let(:form) { double('form', select: "").as_null_object }
+  let(:form) { double('form', select: '').as_null_object }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
-  def inside_form &block
+  def inside_form(&_block)
     ret = ''
 
     form_for(stub_work_package, as: 'work_package', url: work_package_path(stub_work_package)) do |f|
@@ -83,7 +83,7 @@ describe WorkPackagesHelper, type: :helper do
       stub_work_package.status = open_status
     end
 
-    describe "without parameters" do
+    describe 'without parameters' do
       it 'should return a link to the work package with the id as the text' do
         link_text = Regexp.new("^##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
@@ -104,42 +104,42 @@ describe WorkPackagesHelper, type: :helper do
       it 'should prepend an invisible closed information if the work package is closed' do
         stub_work_package.status = closed_status
 
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector("a span.hidden-for-sighted", text: "closed")
+        expect(helper.link_to_work_package(stub_work_package)).to have_selector('a span.hidden-for-sighted', text: 'closed')
       end
     end
 
-    describe "with the all_link option provided" do
+    describe 'with the all_link option provided' do
       it 'should return a link to the work package with the type, id, and subject as the text' do
         stub_work_package.type = stub_type
 
-        link_text = Regexp.new("^#{stub_type.to_s} ##{stub_work_package.id}: #{stub_work_package.subject}$")
+        link_text = Regexp.new("^#{stub_type} ##{stub_work_package.id}: #{stub_work_package.subject}$")
         expect(helper.link_to_work_package(stub_work_package, all_link: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
 
-    describe "when truncating" do
+    describe 'when truncating' do
       it 'should truncate the subject if the subject is longer than the specified amount' do
-        stub_work_package.subject = "12345678"
+        stub_work_package.subject = '12345678'
 
-        text = Regexp.new("1234...$")
+        text = Regexp.new('1234...$')
         expect(helper.link_to_work_package(stub_work_package, truncate: 7)).to have_text(text)
       end
 
       it 'should not truncate the subject if the subject is shorter than the specified amount' do
-        stub_work_package.subject = "1234567"
+        stub_work_package.subject = '1234567'
 
-        text = Regexp.new("1234567$")
+        text = Regexp.new('1234567$')
         expect(helper.link_to_work_package(stub_work_package, truncate: 7)).to have_text(text)
       end
     end
 
-    describe "when omitting the subject" do
+    describe 'when omitting the subject' do
       it 'should omit the subject' do
         expect(helper.link_to_work_package(stub_work_package, subject: false)).not_to have_text(stub_work_package.subject)
       end
     end
 
-    describe "when omitting the type" do
+    describe 'when omitting the type' do
       it 'should omit the type' do
         stub_work_package.type = stub_type
 
@@ -148,7 +148,7 @@ describe WorkPackagesHelper, type: :helper do
       end
     end
 
-    describe "with a project" do
+    describe 'with a project' do
       let(:text) { Regexp.new("^#{stub_project.name} -") }
 
       before do
@@ -164,7 +164,7 @@ describe WorkPackagesHelper, type: :helper do
       end
     end
 
-    describe "when only wanting the id" do
+    describe 'when only wanting the id' do
       it 'should return a link with the id as text only even if the work package has a type' do
         stub_work_package.type = stub_type
 
@@ -177,14 +177,14 @@ describe WorkPackagesHelper, type: :helper do
       end
     end
 
-    describe "when only wanting the subject" do
+    describe 'when only wanting the subject' do
       it 'should return a link with the subject as text' do
         link_text = Regexp.new("^#{stub_work_package.subject}$")
         expect(helper.link_to_work_package(stub_work_package, subject_only: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
       end
     end
 
-    describe "with the status displayed" do
+    describe 'with the status displayed' do
       it 'should return a link with the status name contained in the text' do
         stub_work_package.type = stub_type
 
@@ -195,13 +195,13 @@ describe WorkPackagesHelper, type: :helper do
   end
 
   describe :work_package_index_link do
-    it "should return a link to issue_index (work_packages index later)" do
+    it 'should return a link to issue_index (work_packages index later)' do
       expect(helper.work_package_index_link).to have_selector("a[href='#{work_packages_path}']", text: I18n.t(:label_work_package_plural))
     end
   end
 
   describe :work_package_show_spent_time_attribute do
-    it "should show a spent time link pointing to the time entries of the work package" do
+    it 'should show a spent time link pointing to the time entries of the work package' do
       allow(stub_work_package).to receive(:spent_hours).and_return(5.0)
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
@@ -216,7 +216,7 @@ describe WorkPackagesHelper, type: :helper do
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
-      expect(field).to have_css(".spent-time", text: '-')
+      expect(field).to have_css('.spent-time', text: '-')
     end
   end
 
@@ -258,13 +258,13 @@ describe WorkPackagesHelper, type: :helper do
       allow(stub_project).to receive(:categories).and_return([stub_category])
     end
 
-    it "should return nothing if the project has no categories assigned" do
+    it 'should return nothing if the project has no categories assigned' do
       allow(stub_project).to receive(:categories).and_return([])
 
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project)).to be_nil
     end
 
-    it "should have a :category symbol as the attribute" do
+    it 'should have a :category symbol as the attribute' do
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).attribute).to eq(:category)
     end
 
@@ -272,35 +272,37 @@ describe WorkPackagesHelper, type: :helper do
       select = double('select')
 
       expect(form).to receive(:select).with(:category_id,
-                                        [[stub_category.name, stub_category.id]],
-                                        include_blank: true).and_return(select)
+                                            [[stub_category.name, stub_category.id]],
+                                            include_blank: true).and_return(select)
 
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to eq(select)
     end
 
-    it "should add an additional remote link to create new categories if allowed" do
-      remote = "remote"
+    it 'should add an additional remote link to create new categories if allowed' do
+      remote = 'remote'
 
       allow(helper).to receive(:authorize_for).and_return(true)
 
       expect(helper).to receive(:prompt_to_remote)
-            .with(*([anything()] * 3), project_categories_path(stub_project), anything())
-            .and_return(remote)
+        .with(*([anything] * 3), project_categories_path(stub_project), anything)
+        .and_return(remote)
 
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to include(remote)
     end
   end
 
   describe :work_package_css_classes do
-    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:status)}}
+    let(:statuses) { (1..5).map { |_i| FactoryGirl.build_stubbed(:status) } }
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
-    let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package,
-                                                        status: status,
-                                                        priority: priority) }
+    let(:stub_work_package) {
+      FactoryGirl.build_stubbed(:work_package,
+                                status: status,
+                                priority: priority)
+    }
 
-    it "should always have the work_package class" do
-      expect(helper.work_package_css_classes(stub_work_package)).to include("work_package")
+    it 'should always have the work_package class' do
+      expect(helper.work_package_css_classes(stub_work_package)).to include('work_package')
     end
 
     it "should return the position of the work_package's status" do
@@ -309,7 +311,7 @@ describe WorkPackagesHelper, type: :helper do
       allow(stub_work_package).to receive(:status).and_return(status)
       allow(status).to receive(:position).and_return(5)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("status-5")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('status-5')
     end
 
     it "should return the position of the work_package's priority" do
@@ -318,100 +320,100 @@ describe WorkPackagesHelper, type: :helper do
       allow(stub_work_package).to receive(:priority).and_return(priority)
       allow(priority).to receive(:position).and_return(5)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("priority-5")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('priority-5')
     end
 
-    it "should have a closed class if the work_package is closed" do
+    it 'should have a closed class if the work_package is closed' do
       allow(stub_work_package).to receive(:closed?).and_return(true)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("closed")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('closed')
     end
 
-    it "should not have a closed class if the work_package is not closed" do
+    it 'should not have a closed class if the work_package is not closed' do
       allow(stub_work_package).to receive(:closed?).and_return(false)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("closed")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('closed')
     end
 
-    it "should have an overdue class if the work_package is overdue" do
+    it 'should have an overdue class if the work_package is overdue' do
       allow(stub_work_package).to receive(:overdue?).and_return(true)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("overdue")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('overdue')
     end
 
-    it "should not have an overdue class if the work_package is not overdue" do
+    it 'should not have an overdue class if the work_package is not overdue' do
       allow(stub_work_package).to receive(:overdue?).and_return(false)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("overdue")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('overdue')
     end
 
-    it "should have a child class if the work_package is a child" do
+    it 'should have a child class if the work_package is a child' do
       allow(stub_work_package).to receive(:child?).and_return(true)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("child")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('child')
     end
 
-    it "should not have a child class if the work_package is not a child" do
+    it 'should not have a child class if the work_package is not a child' do
       allow(stub_work_package).to receive(:child?).and_return(false)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("child")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('child')
     end
 
-    it "should have a parent class if the work_package is a parent" do
+    it 'should have a parent class if the work_package is a parent' do
       allow(stub_work_package).to receive(:leaf?).and_return(false)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("parent")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('parent')
     end
 
-    it "should not have a parent class if the work_package is not a parent" do
+    it 'should not have a parent class if the work_package is not a parent' do
       allow(stub_work_package).to receive(:leaf?).and_return(true)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("parent")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('parent')
     end
 
-    it "should have a created-by-me class if the work_package is a created by the current user" do
+    it 'should have a created-by-me class if the work_package is a created by the current user' do
       stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:author_id).and_return(5)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("created-by-me")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('created-by-me')
     end
 
-    it "should not have a created-by-me class if the work_package is not created by the current user" do
+    it 'should not have a created-by-me class if the work_package is not created by the current user' do
       stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:author_id).and_return(4)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("created-by-me")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('created-by-me')
     end
 
-    it "should not have a created-by-me class if the work_package is the current user is not logged in" do
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("created-by-me")
+    it 'should not have a created-by-me class if the work_package is the current user is not logged in' do
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('created-by-me')
     end
 
-    it "should have a assigned-to-me class if the work_package is a created by the current user" do
+    it 'should have a assigned-to-me class if the work_package is a created by the current user' do
       stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:assigned_to_id).and_return(5)
 
-      expect(helper.work_package_css_classes(stub_work_package)).to include("assigned-to-me")
+      expect(helper.work_package_css_classes(stub_work_package)).to include('assigned-to-me')
     end
 
-    it "should not have a assigned-to-me class if the work_package is not created by the current user" do
+    it 'should not have a assigned-to-me class if the work_package is not created by the current user' do
       stub_user = double('user', logged?: true, id: 5)
       allow(User).to receive(:current).and_return(stub_user)
       allow(stub_work_package).to receive(:assigned_to_id).and_return(4)
 
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("assigned-to-me")
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('assigned-to-me')
     end
 
-    it "should not have a assigned-to-me class if the work_package is the current user is not logged in" do
-      expect(helper.work_package_css_classes(stub_work_package)).not_to include("assigned-to-me")
+    it 'should not have a assigned-to-me class if the work_package is the current user is not logged in' do
+      expect(helper.work_package_css_classes(stub_work_package)).not_to include('assigned-to-me')
     end
   end
 
   describe :work_package_form_estimated_hours_attribute do
-    it "should output the estimated hours value with a precision of 2" do
+    it 'should output the estimated hours value with a precision of 2' do
       stub_work_package.estimated_hours = 3
 
       attribute = inside_form do |f|
@@ -424,7 +426,7 @@ describe WorkPackagesHelper, type: :helper do
 
   describe :work_package_form_custom_values_attribute do
     let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
-    let(:expected) { "field contents" }
+    let(:expected) { 'field contents' }
 
     before do
       allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
@@ -432,11 +434,11 @@ describe WorkPackagesHelper, type: :helper do
       expect(helper).to receive(:custom_field_tag_with_label).with(:work_package, stub_custom_value).and_return(expected)
     end
 
-    it "should return an array for an element for every value" do
+    it 'should return an array for an element for every value' do
       expect(helper.work_package_form_custom_values_attribute(form, stub_work_package, {}).size).to eq(1)
     end
 
-    it "should return the result inside the field" do
+    it 'should return the result inside the field' do
       expect(helper.work_package_form_custom_values_attribute(form, stub_work_package, {}).first.field).to eq(expected)
     end
   end
@@ -445,10 +447,10 @@ describe WorkPackagesHelper, type: :helper do
     let(:status1) { FactoryGirl.build_stubbed(:status) }
     let(:status2) { FactoryGirl.build_stubbed(:status) }
 
-    it "should return a select with every available status as an option" do
+    it 'should return a select with every available status as an option' do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                              .with(stub_user)
-                              .and_return([status1, status2])
+        .with(stub_user)
+        .and_return([status1, status2])
 
       stub_work_package.status = status1
 
@@ -463,10 +465,10 @@ describe WorkPackagesHelper, type: :helper do
       expect(attribute.field).to have_selector(status2_selector)
     end
 
-    it "should return a label and the name of the current status if no new status is available" do
+    it 'should return a label and the name of the current status if no new status is available' do
       allow(stub_work_package).to receive(:new_statuses_allowed_to)
-                              .with(stub_user)
-                              .and_return([])
+        .with(stub_user)
+        .and_return([])
 
       stub_work_package.status = status1
 

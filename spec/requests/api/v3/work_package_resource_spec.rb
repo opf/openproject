@@ -36,12 +36,17 @@ describe 'API v3 Work package resource', type: :request do
   let(:closed_status) { FactoryGirl.create(:closed_status) }
 
   let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
-  let!(:other_wp)    { FactoryGirl.create(:work_package, project_id: project.id,
-    status: closed_status) }
-  let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id,
-    description: description
-  )}
-  let(:description) {%{
+  let!(:other_wp)    {
+    FactoryGirl.create(:work_package, project_id: project.id,
+                                      status: closed_status)
+  }
+  let(:work_package) {
+    FactoryGirl.create(:work_package, project_id: project.id,
+                                      description: description
+  )
+  }
+  let(:description) {
+    %{
 {{>toc}}
 
 h1. OpenProject Masterplan for 2015
@@ -80,40 +85,40 @@ h4. things we like
     let(:get_path) { "/api/v3/work_packages/#{work_package.id}" }
     let(:expected_response) do
       {
-        "_type" => 'WorkPackage',
-        "_links" => {
-          "self" => {
-            "href" => "http://localhost:3000/api/v3/work_packages/#{work_package.id}",
-            "title" => work_package.subject
+        '_type' => 'WorkPackage',
+        '_links' => {
+          'self' => {
+            'href' => "http://localhost:3000/api/v3/work_packages/#{work_package.id}",
+            'title' => work_package.subject
           }
         },
-        "id" => work_package.id,
-        "subject" => work_package.subject,
-        "type" => work_package.type.name,
-        "description" => work_package.description,
-        "status" => work_package.status.name,
-        "priority" => work_package.priority.name,
-        "startDate" => work_package.start_date,
-        "dueDate" => work_package.due_date,
-        "estimatedTime" => JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
-        "percentageDone" => work_package.done_ratio,
-        "versionId" => work_package.fixed_version_id,
-        "versionName" => work_package.fixed_version.try(:name),
-        "projectId" => work_package.project_id,
-        "projectName" => work_package.project.name,
-        "responsibleId" => work_package.responsible_id,
-        "responsibleName" => work_package.responsible.try(:name),
-        "responsibleLogin" => work_package.responsible.try(:login),
-        "responsibleMail" => work_package.responsible.try(:mail),
-        "assigneeId" => work_package.assigned_to_id,
-        "assigneeName" => work_package.assigned_to.try(:name),
-        "assigneeLogin" => work_package.assigned_to.try(:login),
-        "assigneeMail" => work_package.assigned_to.try(:mail),
-        "authorName" => work_package.author.name,
-        "authorLogin" => work_package.author.login,
-        "authorMail" => work_package.author.mail,
-        "createdAt" => work_package.created_at.utc.iso8601,
-        "updatedAt" => work_package.updated_at.utc.iso8601
+        'id' => work_package.id,
+        'subject' => work_package.subject,
+        'type' => work_package.type.name,
+        'description' => work_package.description,
+        'status' => work_package.status.name,
+        'priority' => work_package.priority.name,
+        'startDate' => work_package.start_date,
+        'dueDate' => work_package.due_date,
+        'estimatedTime' => JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
+        'percentageDone' => work_package.done_ratio,
+        'versionId' => work_package.fixed_version_id,
+        'versionName' => work_package.fixed_version.try(:name),
+        'projectId' => work_package.project_id,
+        'projectName' => work_package.project.name,
+        'responsibleId' => work_package.responsible_id,
+        'responsibleName' => work_package.responsible.try(:name),
+        'responsibleLogin' => work_package.responsible.try(:login),
+        'responsibleMail' => work_package.responsible.try(:mail),
+        'assigneeId' => work_package.assigned_to_id,
+        'assigneeName' => work_package.assigned_to.try(:name),
+        'assigneeLogin' => work_package.assigned_to.try(:login),
+        'assigneeMail' => work_package.assigned_to.try(:mail),
+        'authorName' => work_package.author.name,
+        'authorLogin' => work_package.author.login,
+        'authorMail' => work_package.author.mail,
+        'createdAt' => work_package.created_at.utc.iso8601,
+        'updatedAt' => work_package.updated_at.utc.iso8601
       }
     end
 
@@ -159,7 +164,7 @@ h4. things we like
       end
 
       context 'requesting nonexistent work package' do
-        let(:get_path) { "/api/v3/work_packages/909090" }
+        let(:get_path) { '/api/v3/work_packages/909090' }
 
         it_behaves_like 'not found', 909090, 'WorkPackage'
       end
@@ -200,7 +205,7 @@ h4. things we like
     shared_context 'patch request' do
       before(:each) do
         allow(User).to receive(:current).and_return current_user
-        patch patch_path, params.to_json, { 'CONTENT_TYPE' => 'application/json' }
+        patch patch_path, params.to_json,  'CONTENT_TYPE' => 'application/json'
       end
     end
 
@@ -244,7 +249,7 @@ h4. things we like
           end
 
           context 'empty id' do
-            let(:params) { valid_params.merge( parentId: nil) }
+            let(:params) { valid_params.merge(parentId: nil) }
 
             it { expect(response.status).to eq(200) }
 
@@ -331,7 +336,7 @@ h4. things we like
         context 'multiple invalid attributes' do
           let(:params) do
             valid_params.tap { |h| h[:subject] = '' }
-                        .merge(parentId: '-123')
+              .merge(parentId: '-123')
           end
 
           before { role.add_permission!(:manage_subtasks) }

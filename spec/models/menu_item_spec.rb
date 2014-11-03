@@ -62,7 +62,7 @@ describe MenuItem, type: :model do
 
   context 'it should destroy' do
     let!(:menu_item) { FactoryGirl.create(:menu_item) }
-    let!(:child_item) { FactoryGirl.create(:menu_item, parent_id: menu_item.id ) }
+    let!(:child_item) { FactoryGirl.create(:menu_item, parent_id: menu_item.id) }
 
     example 'all children when deleting the parent' do
       menu_item.destroy

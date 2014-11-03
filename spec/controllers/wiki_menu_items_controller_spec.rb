@@ -71,7 +71,7 @@ describe WikiMenuItemsController, type: :controller do
       context 'and it is a grand child page the parent of which is not a main item' do
         before do
           # ensure the parent page of grand_child_page is not a main item
-          child_page_wiki_menu_item.tap {|page| page.parent = top_level_wiki_menu_item}.save
+          child_page_wiki_menu_item.tap { |page| page.parent = top_level_wiki_menu_item }.save
           get :edit, project_id: project.id, id: grand_child_page.title
         end
 
@@ -137,7 +137,7 @@ describe WikiMenuItemsController, type: :controller do
       end
 
       it 'transfers the menu item options to the selected wiki page' do
-        expect(new_menu_item.options).to eq({ index_page: true, new_wiki_page: true })
+        expect(new_menu_item.options).to eq(index_page: true, new_wiki_page: true)
       end
     end
 

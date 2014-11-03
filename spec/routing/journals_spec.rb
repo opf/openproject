@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe JournalsController, type: :routing do
-  it "should connect GET /journals/:id/edit to journals#edit" do
-    expect(get("/journals/1/edit")).to route_to( controller: 'journals',
-                                             action: 'edit',
-                                             id: '1' )
+  it 'should connect GET /journals/:id/edit to journals#edit' do
+    expect(get('/journals/1/edit')).to route_to(controller: 'journals',
+                                                action: 'edit',
+                                                id: '1')
   end
 
-  it "should connect PUT /journals/:id to journals#update" do
-    expect(put("/journals/1")).to route_to( controller: 'journals',
-                                        action: 'update',
-                                        id: '1' )
+  it 'should connect PUT /journals/:id to journals#update' do
+    expect(put('/journals/1')).to route_to(controller: 'journals',
+                                           action: 'update',
+                                           id: '1')
   end
 
-  it "should connect GET /journals/:id/preview to journals#preview" do
-    expect(get("/journals/1/preview")).to route_to( controller: 'journals',
-                                                action: 'preview',
-                                                id: '1' )
+  it 'should connect GET /journals/:id/preview to journals#preview' do
+    expect(get('/journals/1/preview')).to route_to(controller: 'journals',
+                                                   action: 'preview',
+                                                   id: '1')
   end
 end

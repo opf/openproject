@@ -77,10 +77,12 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'created/updated at' do
-    let(:wp) { FactoryGirl.build(:work_package,
-                                 created_at: DateTime.now,
-                                 updated_at: (DateTime.now + 1.day)) }
-    let(:work_packages) { [ wp ] }
+    let(:wp) {
+      FactoryGirl.build(:work_package,
+                        created_at: DateTime.now,
+                        updated_at: (DateTime.now + 1.day))
+    }
+    let(:work_packages) { [wp] }
     let(:column_names) { [] }
     let(:custom_field_column_names) { [] }
 
@@ -89,17 +91,19 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with 3 work packages but no columns' do
-    let(:work_packages) { [
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now),
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now),
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now)
-    ] }
+    let(:work_packages) {
+      [
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now),
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now),
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now)
+      ]
+    }
     let(:column_names)       { [] }
     let(:custom_field_column_names) { [] }
 
@@ -110,14 +114,16 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with 2 work packages and columns' do
-    let(:work_packages) { [
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now),
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now)
-    ] }
+    let(:work_packages) {
+      [
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now),
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now)
+      ]
+    }
     let(:column_names)       { %w(subject description due_date) }
     let(:custom_field_column_names) { [] }
 
@@ -131,11 +137,13 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with project column' do
-    let(:work_packages) { [
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: DateTime.now)
-    ] }
+    let(:work_packages) {
+      [
+        FactoryGirl.build(:work_package,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now)
+      ]
+    }
     let(:column_names) { %w(subject project) }
     let(:custom_field_column_names) { [] }
 
@@ -192,7 +200,7 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
       it { is_expected.to have_json_path('work_packages/0/_actions') }
       it { is_expected.to have_json_type(Array).at_path('work_packages/0/_actions') }
       it { is_expected.to have_json_size(6).at_path('work_packages/0/_actions') }
-      it { is_expected.to have_json_path('work_packages/0/_actions/' ) }
+      it { is_expected.to have_json_path('work_packages/0/_actions/') }
 
       specify {
         expect(parse_json(subject, 'work_packages/0/_actions/3')).to match(%r{copy})

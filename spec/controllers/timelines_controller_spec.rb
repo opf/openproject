@@ -39,7 +39,7 @@ describe TimelinesController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      current_user.memberships.select {|m| m.project_id == project.id}.each(&:destroy)
+      current_user.memberships.select { |m| m.project_id == project.id }.each(&:destroy)
     end
   end
 
@@ -86,7 +86,6 @@ describe TimelinesController, type: :controller do
       member.save!
     end
   end
-
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -190,7 +189,7 @@ describe TimelinesController, type: :controller do
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            fetch project_id: other_project.identifier,id: timeline.id
+            fetch project_id: other_project.identifier, id: timeline.id
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -218,7 +217,6 @@ describe TimelinesController, type: :controller do
     end
   end
 
-
   describe 'index.html' do
     def fetch(options = {})
       get 'index', options
@@ -235,7 +233,7 @@ describe TimelinesController, type: :controller do
           it 'redirects to /new' do
             fetch project_id: project.identifier
             expect(response).to redirect_to action: 'new',
-                                        project_id: project.identifier
+                                            project_id: project.identifier
           end
         end
 
@@ -251,8 +249,8 @@ describe TimelinesController, type: :controller do
           it 'redirects to first (in alphabetical order) timeline' do
             fetch project_id: project.identifier
             expect(response).to redirect_to action: 'show',
-                                        id: @created_timelines.last.id,
-                                        project_id: project.identifier
+                                            id: @created_timelines.last.id,
+                                            project_id: project.identifier
 
           end
         end
@@ -274,7 +272,7 @@ describe TimelinesController, type: :controller do
 
       it 'renders the new template' do
         fetch project_id: project.id
-        expect(response).to render_template('timelines/new', formats: ["html"], layout: :base)
+        expect(response).to render_template('timelines/new', formats: ['html'], layout: :base)
       end
 
       it 'assigns a new timeline instance for the current project' do
@@ -300,21 +298,21 @@ describe TimelinesController, type: :controller do
 
       describe 'w/ proper parameters' do
         it 'create a new timelines instance' do
-          fetch project_id: project.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, timeline: { name: 'bb' }
 
           project.timelines.reload
           expect(project.timelines.first.name).to eq('bb')
         end
 
         it 'redirects to show' do
-          fetch project_id: project.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, timeline: { name: 'bb' }
 
           timeline = project.timelines.reload.first
           expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful creation' do
-          fetch project_id: project.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, timeline: { name: 'bb' }
 
           expect(flash[:notice]).to match(/success/i)
         end
@@ -322,19 +320,19 @@ describe TimelinesController, type: :controller do
 
       describe 'w/o proper parameters' do
         it 'does not save the new timelines instance' do
-          fetch project_id: project.id, timeline: {name: ''}
+          fetch project_id: project.id, timeline: { name: '' }
 
           expect(project.timelines.reload).to be_empty
         end
 
         it 'renders the create action' do
-          fetch project_id: project.id, timeline: {name: ''}
+          fetch project_id: project.id, timeline: { name: '' }
 
-          expect(response).to render_template('timelines/new', formats: ["html"], layout: :base)
+          expect(response).to render_template('timelines/new', formats: ['html'], layout: :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
-          fetch project_id: project.id, timeline: {name: ''}
+          fetch project_id: project.id, timeline: { name: '' }
 
           t = assigns[:timeline]
           expect(t).to be_new_record
@@ -345,7 +343,7 @@ describe TimelinesController, type: :controller do
 
   describe 'show.html' do
     def fetch(options = {})
-      get "show", options
+      get 'show', options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -379,14 +377,14 @@ describe TimelinesController, type: :controller do
 
       it 'renders the show template' do
         fetch project_id: project.id, id: timeline.id
-        expect(response).to render_template('timelines/show', formats: ["html"], layout: :base)
+        expect(response).to render_template('timelines/show', formats: ['html'], layout: :base)
       end
     end
   end
 
   describe 'edit.html' do
     def fetch(options = {})
-      get "edit", options
+      get 'edit', options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -399,14 +397,14 @@ describe TimelinesController, type: :controller do
 
       it 'renders the edit template' do
         fetch project_id: project.id, id: timeline.id
-        expect(response).to render_template('timelines/edit', formats: ["html"], layout: :base)
+        expect(response).to render_template('timelines/edit', formats: ['html'], layout: :base)
       end
     end
   end
 
   describe 'update.html' do
     def fetch(options = {})
-      post "update", options
+      post 'update', options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -419,20 +417,20 @@ describe TimelinesController, type: :controller do
 
       describe 'w/ proper parameters' do
         it 'updates the existing timelines instance' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: 'bb' }
 
           timeline.reload
           expect(timeline.name).to eq('bb')
         end
 
         it 'redirects to show' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: 'bb' }
 
           expect(response).to redirect_to(project_timeline_path(project, timeline))
         end
 
         it 'notifies the user about the successful update' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: 'bb'}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: 'bb' }
 
           expect(flash[:notice]).to match(/success/i)
         end
@@ -440,20 +438,20 @@ describe TimelinesController, type: :controller do
 
       describe 'w/o proper parameters' do
         it 'does not save the edited timelines instance' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: '' }
 
           timeline.reload
           expect(timeline.name).to eq('b')
         end
 
         it 'renders the edit action' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: '' }
 
-          expect(response).to render_template('timelines/edit', formats: ["html"], layout: :base)
+          expect(response).to render_template('timelines/edit', formats: ['html'], layout: :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
-          fetch project_id: project.id, id: timeline.id, timeline: {name: ''}
+          fetch project_id: project.id, id: timeline.id, timeline: { name: '' }
 
           t = assigns[:timeline]
           expect(t).to be_changed
@@ -464,7 +462,7 @@ describe TimelinesController, type: :controller do
 
   describe 'confirm_destroy.html' do
     def fetch(options = {})
-      get "confirm_destroy", options
+      get 'confirm_destroy', options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -478,14 +476,14 @@ describe TimelinesController, type: :controller do
       it 'renders the confirm_destroy action' do
         fetch project_id: project.id, id: timeline.id
 
-        expect(response).to render_template('timelines/confirm_destroy', formats: ["html"], layout: :base)
+        expect(response).to render_template('timelines/confirm_destroy', formats: ['html'], layout: :base)
       end
     end
   end
 
   describe 'destroy.html' do
     def fetch(options = {})
-      post "destroy", options
+      post 'destroy', options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'

@@ -31,7 +31,7 @@ require 'spec_helper'
 describe MenuItems::WikiMenuItem, type: :model do
   before(:each) do
     @project = FactoryGirl.create(:project, enabled_module_names: %w[activity])
-    @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
+    @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
 
     allow(User).to receive(:current).and_return(@current)
   end
@@ -69,20 +69,20 @@ describe MenuItems::WikiMenuItem, type: :model do
       @project.reload
 
       @menu_item_1 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
-                                    name:    'Item 1',
-                                    title:   'Item 1')
+                                                         name:    'Item 1',
+                                                         title:   'Item 1')
 
       @menu_item_2 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
-                                    name:    'Item 2',
-                                    parent_id:    @menu_item_1.id,
-                                    title:   'Item 2')
+                                                         name:    'Item 2',
+                                                         parent_id:    @menu_item_1.id,
+                                                         title:   'Item 2')
     end
 
     it 'all children when deleting the parent' do
       @menu_item_1.destroy
 
-      expect {MenuItems::WikiMenuItem.find(@menu_item_1.id)}.to raise_error(ActiveRecord::RecordNotFound)
-      expect {MenuItems::WikiMenuItem.find(@menu_item_2.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { MenuItems::WikiMenuItem.find(@menu_item_1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { MenuItems::WikiMenuItem.find(@menu_item_2.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     describe 'all items when destroying' do

@@ -50,11 +50,15 @@ describe Api::V2::PlanningElementPrioritiesController, type: :controller do
 
     describe 'w/o priorities' do
       let!(:priority_0) { FactoryGirl.create(:priority) }
-      let!(:priority_1) { FactoryGirl.create(:priority,
-                                             position: 1) }
-      let!(:priority_2) { FactoryGirl.create(:priority,
-                                             position: 2,
-                                             is_default: true) }
+      let!(:priority_1) {
+        FactoryGirl.create(:priority,
+                           position: 1)
+      }
+      let!(:priority_2) {
+        FactoryGirl.create(:priority,
+                           position: 2,
+                           is_default: true)
+      }
 
       before { get :index, format: :xml }
 

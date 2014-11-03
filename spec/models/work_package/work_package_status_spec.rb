@@ -31,8 +31,10 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe 'status' do
     let(:status) { FactoryGirl.create(:status) }
-    let!(:work_package) { FactoryGirl.create(:work_package,
-                                             status_id: status.id) }
+    let!(:work_package) {
+      FactoryGirl.create(:work_package,
+                         status_id: status.id)
+    }
 
     it 'can read planning_elements w/ the help of the has_many association' do
       expect(WorkPackage.where(status_id: status.id).count).to eq(1)
@@ -42,33 +44,47 @@ describe WorkPackage, type: :model do
     describe 'transition' do
       let(:user) { FactoryGirl.create(:user) }
       let(:type) { FactoryGirl.create(:type) }
-      let(:project) { FactoryGirl.create(:project,
-                                         types: [type]) }
-      let(:role) { FactoryGirl.create(:role,
-                                      permissions: [:edit_work_packages]) }
-      let(:invalid_role) { FactoryGirl.create(:role,
-                                              permissions: [:edit_work_packages]) }
-      let!(:member) { FactoryGirl.create(:member,
-                                         project: project,
-                                         principal: user,
-                                         roles: [role]) }
+      let(:project) {
+        FactoryGirl.create(:project,
+                           types: [type])
+      }
+      let(:role) {
+        FactoryGirl.create(:role,
+                           permissions: [:edit_work_packages])
+      }
+      let(:invalid_role) {
+        FactoryGirl.create(:role,
+                           permissions: [:edit_work_packages])
+      }
+      let!(:member) {
+        FactoryGirl.create(:member,
+                           project: project,
+                           principal: user,
+                           roles: [role])
+      }
       let(:status_2) { FactoryGirl.create(:status) }
-      let!(:work_package) { FactoryGirl.create(:work_package,
-                                               project_id: project.id,
-                                               type_id: type.id,
-                                               status_id: status.id) }
-      let(:valid_user_workflow) { FactoryGirl.create(:workflow,
-                                                     type_id: type.id,
-                                                     old_status: status,
-                                                     new_status: status_2,
-                                                     role: role) }
-      let(:invalid_user_workflow) { FactoryGirl.create(:workflow,
-                                                       type_id: type.id,
-                                                       old_status: status,
-                                                       new_status: status_2,
-                                                       role: invalid_role) }
+      let!(:work_package) {
+        FactoryGirl.create(:work_package,
+                           project_id: project.id,
+                           type_id: type.id,
+                           status_id: status.id)
+      }
+      let(:valid_user_workflow) {
+        FactoryGirl.create(:workflow,
+                           type_id: type.id,
+                           old_status: status,
+                           new_status: status_2,
+                           role: role)
+      }
+      let(:invalid_user_workflow) {
+        FactoryGirl.create(:workflow,
+                           type_id: type.id,
+                           old_status: status,
+                           new_status: status_2,
+                           role: invalid_role)
+      }
 
-      shared_examples_for "work package status transition" do
+      shared_examples_for 'work package status transition' do
         describe 'valid' do
           before do
             valid_user_workflow
@@ -99,7 +115,7 @@ describe WorkPackage, type: :model do
       describe 'non-admin user' do
         before { allow(User).to receive(:current).and_return user }
 
-        it_behaves_like "work package status transition" do
+        it_behaves_like 'work package status transition' do
           let(:invalid_result) { false }
         end
       end
@@ -109,7 +125,7 @@ describe WorkPackage, type: :model do
 
         before { allow(User).to receive(:current).and_return admin }
 
-        it_behaves_like "work package status transition" do
+        it_behaves_like 'work package status transition' do
           let(:invalid_result) { true }
         end
       end

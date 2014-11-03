@@ -39,7 +39,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
     def fetch
       get 'index', format: 'xml'
     end
-    it_should_behave_like "a controller action with unrestricted access"
+    it_should_behave_like 'a controller action with unrestricted access'
 
     describe 'with no colors available' do
       it 'assigns an empty colors array' do
@@ -49,7 +49,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the index builder template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', formats: ["api"])
+        expect(response).to render_template('planning_element_type_colors/index', formats: ['api'])
       end
     end
 
@@ -69,7 +69,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the index template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', formats: ["api"])
+        expect(response).to render_template('planning_element_type_colors/index', formats: ['api'])
       end
     end
   end
@@ -104,10 +104,9 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
       end
 
       def fetch
-        get "show", id: '1337', format: 'xml'
+        get 'show', id: '1337', format: 'xml'
       end
-      it_should_behave_like "a controller action with unrestricted access"
-
+      it_should_behave_like 'a controller action with unrestricted access'
 
       it 'assigns the available color' do
         get 'show', id: '1337', format: 'xml'
@@ -116,7 +115,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the show template' do
         get 'show', id: '1337', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/show', formats: ["api"])
+        expect(response).to render_template('planning_element_type_colors/show', formats: ['api'])
       end
     end
   end

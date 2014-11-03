@@ -46,9 +46,11 @@ describe 'api/experimental/projects/index.api.rabl', type: :view do
   end
 
   describe 'with 2 projects available' do
-    let(:projects) { [
-      FactoryGirl.build(:project), FactoryGirl.build(:project)
-    ] }
+    let(:projects) {
+      [
+        FactoryGirl.build(:project), FactoryGirl.build(:project)
+      ]
+    }
 
     it { is_expected.to have_json_path('projects') }
     it { is_expected.to have_json_size(2).at_path('projects') }

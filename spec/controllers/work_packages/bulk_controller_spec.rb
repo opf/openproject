@@ -30,58 +30,80 @@ require 'spec_helper'
 
 describe WorkPackages::BulkController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user)}
+  let(:user2) { FactoryGirl.create(:user) }
   let(:custom_field_value) { '125' }
-  let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
-                                            field_format: 'string',
-                                            is_for_all: true) }
+  let(:custom_field_1) {
+    FactoryGirl.create(:work_package_custom_field,
+                       field_format: 'string',
+                       is_for_all: true)
+  }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
   let(:status) { FactoryGirl.create(:status) }
-  let(:type) { FactoryGirl.create(:type_standard,
-                                  custom_fields: [custom_field_1, custom_field_2]) }
-  let(:project_1) { FactoryGirl.create(:project,
-                                       types: [type],
-                                       work_package_custom_fields: [custom_field_2]) }
-  let(:project_2) { FactoryGirl.create(:project,
-                                       types: [type]) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:edit_work_packages,
-                                                :view_work_packages,
-                                                :manage_subtasks]) }
-  let(:member1_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user,
-                                      roles: [role]) }
-  let(:member2_p1) { FactoryGirl.create(:member,
-                                      project: project_1,
-                                      principal: user2,
-                                      roles: [role]) }
-  let(:member1_p2) { FactoryGirl.create(:member,
-                                      project: project_2,
-                                      principal: user,
-                                      roles: [role]) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            assigned_to: user,
-                                            responsible: user2,
-                                            type: type,
-                                            status: status,
-                                            custom_field_values: { custom_field_1.id => custom_field_value },
-                                            project: project_1) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            assigned_to: user,
-                                            responsible: user2,
-                                            type: type,
-                                            status: status,
-                                            custom_field_values: { custom_field_1.id => custom_field_value },
-                                            project: project_1) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status,
-                                            custom_field_values: { custom_field_1.id => custom_field_value },
-                                            project: project_2) }
+  let(:type) {
+    FactoryGirl.create(:type_standard,
+                       custom_fields: [custom_field_1, custom_field_2])
+  }
+  let(:project_1) {
+    FactoryGirl.create(:project,
+                       types: [type],
+                       work_package_custom_fields: [custom_field_2])
+  }
+  let(:project_2) {
+    FactoryGirl.create(:project,
+                       types: [type])
+  }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:edit_work_packages,
+                                     :view_work_packages,
+                                     :manage_subtasks])
+  }
+  let(:member1_p1) {
+    FactoryGirl.create(:member,
+                       project: project_1,
+                       principal: user,
+                       roles: [role])
+  }
+  let(:member2_p1) {
+    FactoryGirl.create(:member,
+                       project: project_1,
+                       principal: user2,
+                       roles: [role])
+  }
+  let(:member1_p2) {
+    FactoryGirl.create(:member,
+                       project: project_2,
+                       principal: user,
+                       roles: [role])
+  }
+  let(:work_package_1) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       assigned_to: user,
+                       responsible: user2,
+                       type: type,
+                       status: status,
+                       custom_field_values: { custom_field_1.id => custom_field_value },
+                       project: project_1)
+  }
+  let(:work_package_2) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       assigned_to: user,
+                       responsible: user2,
+                       type: type,
+                       status: status,
+                       custom_field_values: { custom_field_1.id => custom_field_value },
+                       project: project_1)
+  }
+  let(:work_package_3) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status,
+                       custom_field_values: { custom_field_1.id => custom_field_value },
+                       project: project_2)
+  }
 
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
 
@@ -102,7 +124,7 @@ describe WorkPackages::BulkController, type: :controller do
       it { is_expected.to render_template('edit') }
     end
 
-    context "same project" do
+    context 'same project' do
       before { get :edit, ids: [work_package_1.id, work_package_2.id] }
 
       it_behaves_like :response
@@ -128,7 +150,7 @@ describe WorkPackages::BulkController, type: :controller do
       end
     end
 
-    context "different projects" do
+    context 'different projects' do
       before do
         member1_p2
 
@@ -164,10 +186,10 @@ describe WorkPackages::BulkController, type: :controller do
     let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
     let(:priority) { FactoryGirl.create(:priority_immediate) }
     let(:group_id) { '' }
-    let(:responsible_id) {''}
+    let(:responsible_id) { '' }
 
     describe :redirect do
-      context "in host" do
+      context 'in host' do
         let(:url) { '/work_packages' }
 
         before { put :update, ids: work_package_ids, back_url: url }
@@ -179,7 +201,7 @@ describe WorkPackages::BulkController, type: :controller do
         it { is_expected.to redirect_to(url) }
       end
 
-      context "of host" do
+      context 'of host' do
         let(:url) { 'http://google.com' }
 
         before { put :update, ids: work_package_ids, back_url: url }
@@ -198,14 +220,18 @@ describe WorkPackages::BulkController, type: :controller do
       let!(:role_with_permission_to_add_watchers) { FactoryGirl.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
       let!(:other_user) { FactoryGirl.create :user }
 
-      let!(:other_member_1) { FactoryGirl.create(:member,
-                                                 project: project_1,
-                                                 principal: other_user,
-                                                 roles: [role_with_permission_to_add_watchers] ) }
-      let!(:other_member_2) { FactoryGirl.create(:member,
-                                                 project: project_2,
-                                                 principal: other_user,
-                                                 roles: [role]) }
+      let!(:other_member_1) {
+        FactoryGirl.create(:member,
+                           project: project_1,
+                           principal: other_user,
+                           roles: [role_with_permission_to_add_watchers])
+      }
+      let!(:other_member_2) {
+        FactoryGirl.create(:member,
+                           project: project_2,
+                           principal: other_user,
+                           roles: [role])
+      }
 
       let(:description) { 'Text' }
       let(:work_package_params) do
@@ -253,11 +279,11 @@ describe WorkPackages::BulkController, type: :controller do
       it { delivery_size }
     end
 
-    context "with notification" do
+    context 'with notification' do
       let(:send_notification) { '1' }
       let(:delivery_size) { 2 }
 
-      shared_examples_for "updated work package" do
+      shared_examples_for 'updated work package' do
         describe :priority do
           subject { WorkPackage.find_all_by_priority_id(priority.id).collect(&:id) }
 
@@ -267,9 +293,11 @@ describe WorkPackages::BulkController, type: :controller do
         describe :custom_fields do
           let(:result) { [custom_field_value] }
 
-          subject { WorkPackage.find_all_by_id(work_package_ids)
-                               .collect {|w| w.custom_value_for(custom_field_1.id).value }
-                               .uniq }
+          subject {
+            WorkPackage.find_all_by_id(work_package_ids)
+              .collect { |w| w.custom_value_for(custom_field_1.id).value }
+              .uniq
+          }
 
           it { is_expected.to match_array(result) }
         end
@@ -278,9 +306,11 @@ describe WorkPackages::BulkController, type: :controller do
           describe :notes do
             let(:result) { ['Bulk editing'] }
 
-            subject { WorkPackage.find_all_by_id(work_package_ids)
-                                 .collect {|w| w.last_journal.notes }
-                                 .uniq }
+            subject {
+              WorkPackage.find_all_by_id(work_package_ids)
+                .collect { |w| w.last_journal.notes }
+                .uniq
+            }
 
             it { is_expected.to match_array(result) }
           end
@@ -288,29 +318,31 @@ describe WorkPackages::BulkController, type: :controller do
           describe :details do
             let(:result) { [1] }
 
-            subject { WorkPackage.find_all_by_id(work_package_ids)
-                                 .collect {|w| w.last_journal.details.size }
-                                 .uniq }
+            subject {
+              WorkPackage.find_all_by_id(work_package_ids)
+                .collect { |w| w.last_journal.details.size }
+                .uniq
+            }
 
             it { is_expected.to match_array(result) }
           end
         end
       end
 
-      context "single project" do
+      context 'single project' do
         include_context :update_request
 
         it { expect(response.response_code).to eq(302) }
 
         it_behaves_like :delivered
 
-        it_behaves_like "updated work package"
+        it_behaves_like 'updated work package'
       end
 
-      context "different projects" do
+      context 'different projects' do
         let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
 
-        context "with permission" do
+        context 'with permission' do
           before { member1_p2 }
 
           include_context :update_request
@@ -319,10 +351,10 @@ describe WorkPackages::BulkController, type: :controller do
 
           it_behaves_like :delivered
 
-          it_behaves_like "updated work package"
+          it_behaves_like 'updated work package'
         end
 
-        context "w/o permission" do
+        context 'w/o permission' do
           include_context :update_request
 
           it { expect(response.response_code).to eq(403) }
@@ -342,7 +374,7 @@ describe WorkPackages::BulkController, type: :controller do
 
           include_context :update_request
 
-          subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
+          subject { work_packages.collect(&:assigned_to_id).uniq }
 
           it { is_expected.to match_array [group_id] }
         end
@@ -352,18 +384,20 @@ describe WorkPackages::BulkController, type: :controller do
 
           include_context :update_request
 
-          subject { work_packages.collect {|w| w.responsible_id }.uniq }
+          subject { work_packages.collect(&:responsible_id).uniq }
 
           it { is_expected.to match_array [responsible_id] }
         end
 
         describe :status do
           let(:closed_status) { FactoryGirl.create(:closed_status) }
-          let(:workflow) { FactoryGirl.create(:workflow,
-                                              role: role,
-                                              type_id: type.id,
-                                              old_status: status,
-                                              new_status: closed_status) }
+          let(:workflow) {
+            FactoryGirl.create(:workflow,
+                               role: role,
+                               type_id: type.id,
+                               old_status: status,
+                               new_status: closed_status)
+          }
 
           before do
             workflow
@@ -379,9 +413,11 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         describe :parent do
-          let(:parent) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            project: project_1) }
+          let(:parent) {
+            FactoryGirl.create(:work_package,
+                               author: user,
+                               project: project_1)
+          }
 
           before do
             put :update,
@@ -403,8 +439,10 @@ describe WorkPackages::BulkController, type: :controller do
                 work_package: { custom_field_values: { custom_field_1.id.to_s => result } }
           end
 
-          subject { work_packages.collect {|w| w.custom_value_for(custom_field_1.id).value }
-                                 .uniq }
+          subject {
+            work_packages.collect { |w| w.custom_value_for(custom_field_1.id).value }
+              .uniq
+          }
 
           it { is_expected.to match_array [result] }
         end
@@ -434,14 +472,18 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         describe :version do
-          describe "set fixed_version_id attribute to some version" do
-            let(:version) { FactoryGirl.create(:version,
-                                               status: 'open',
-                                               sharing: 'tree',
-                                               project: subproject) }
-            let(:subproject) { FactoryGirl.create(:project,
-                                                  parent: project_1,
-                                                  types: [type]) }
+          describe 'set fixed_version_id attribute to some version' do
+            let(:version) {
+              FactoryGirl.create(:version,
+                                 status: 'open',
+                                 sharing: 'tree',
+                                 project: subproject)
+            }
+            let(:subproject) {
+              FactoryGirl.create(:project,
+                                 parent: project_1,
+                                 types: [type])
+            }
 
             before do
               put :update,
@@ -467,7 +509,7 @@ describe WorkPackages::BulkController, type: :controller do
               end
             end
           end
-          describe "set fixed_version_id to nil" do
+          describe 'set fixed_version_id to nil' do
             before do
               # 'none' is a magic value, setting fixed_version_id to nil
               # will make the controller ignore that param
@@ -487,7 +529,7 @@ describe WorkPackages::BulkController, type: :controller do
       end
     end
 
-    context "w/o notification" do
+    context 'w/o notification' do
       let(:send_notification) { '0' }
 
       describe :delivery do
@@ -503,7 +545,7 @@ describe WorkPackages::BulkController, type: :controller do
   end
 
   describe :destroy do
-    let(:params) { { "ids" => "1", "to_do" => "blubs" } }
+    let(:params) { { 'ids' => '1', 'to_do' => 'blubs' } }
 
     before do
       expect(controller).to receive(:find_work_packages) do
@@ -518,7 +560,7 @@ describe WorkPackages::BulkController, type: :controller do
         expect(stub_work_package).to receive(:reload).and_return(stub_work_package)
         expect(stub_work_package).to receive(:destroy)
 
-        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return true
+        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return true
 
         as_logged_in_user(user) do
           delete :destroy, params
@@ -532,7 +574,7 @@ describe WorkPackages::BulkController, type: :controller do
 
     describe 'w/o the cleanup beeing successful' do
       before do
-        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return false
+        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return false
 
         as_logged_in_user(user) do
           delete :destroy, params

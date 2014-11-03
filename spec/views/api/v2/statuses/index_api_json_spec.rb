@@ -40,7 +40,7 @@ describe 'api/v2/statuses/index.api.rabl', type: :view do
 
       render
 
-      expect(response).to have_json_size(0).at_path("statuses")
+      expect(response).to have_json_size(0).at_path('statuses')
     end
   end
 
@@ -58,10 +58,9 @@ describe 'api/v2/statuses/index.api.rabl', type: :view do
 
       render
 
-      expect(response).to have_json_size(3).at_path("statuses")
+      expect(response).to have_json_size(3).at_path('statuses')
     end
 
   end
-
 
 end

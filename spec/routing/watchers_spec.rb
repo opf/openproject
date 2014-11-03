@@ -29,39 +29,38 @@
 require 'spec_helper'
 
 describe WatchersController, type: :routing do
-  shared_examples_for "watched model routes" do
+  shared_examples_for 'watched model routes' do
     before do
       expect(OpenProject::Acts::Watchable::Routes).to receive(:matches?).and_return(true)
     end
 
-
-    it "should connect POST /:object_type/:object_id/watch to watchers#watch" do
-      expect(post("/#{type}/1/watch")).to route_to( controller: 'watchers',
-                                                action: 'watch',
-                                                object_type: type,
-                                                object_id: '1' )
+    it 'should connect POST /:object_type/:object_id/watch to watchers#watch' do
+      expect(post("/#{type}/1/watch")).to route_to(controller: 'watchers',
+                                                   action: 'watch',
+                                                   object_type: type,
+                                                   object_id: '1')
     end
 
-    it "should connect DELETE /:object_type/:id/unwatch to watchers#unwatch" do
+    it 'should connect DELETE /:object_type/:id/unwatch to watchers#unwatch' do
 
-      expect(delete("/#{type}/1/unwatch")).to route_to( controller: 'watchers',
-                                                    action: 'unwatch',
-                                                    object_type: type,
-                                                    object_id: '1' )
+      expect(delete("/#{type}/1/unwatch")).to route_to(controller: 'watchers',
+                                                       action: 'unwatch',
+                                                       object_type: type,
+                                                       object_id: '1')
     end
 
-    it "should connect GET /:object_type/:id/watchers/new to watchers#new" do
-      expect(get("/#{type}/1/watchers/new")).to route_to( controller: 'watchers',
-                                                      action: 'new',
-                                                      object_type: type,
-                                                      object_id: '1' )
+    it 'should connect GET /:object_type/:id/watchers/new to watchers#new' do
+      expect(get("/#{type}/1/watchers/new")).to route_to(controller: 'watchers',
+                                                         action: 'new',
+                                                         object_type: type,
+                                                         object_id: '1')
     end
 
-    it "should connect POST /:object_type/:object_id/watchers to watchers#create" do
-      expect(post("/#{type}/1/watch")).to route_to( controller: 'watchers',
-                                                action: 'watch',
-                                                object_type: type,
-                                                object_id: '1' )
+    it 'should connect POST /:object_type/:object_id/watchers to watchers#create' do
+      expect(post("/#{type}/1/watch")).to route_to(controller: 'watchers',
+                                                   action: 'watch',
+                                                   object_type: type,
+                                                   object_id: '1')
     end
   end
 
@@ -69,13 +68,13 @@ describe WatchersController, type: :routing do
     describe "routing #{type} watches" do
       let(:type) { type }
 
-      it_should_behave_like "watched model routes"
+      it_should_behave_like 'watched model routes'
     end
   end
 
-  it "should connect DELETE watchers/:id to watchers#destroy" do
-    expect(delete("/watchers/1")).to route_to( controller: 'watchers',
-                                           action: 'destroy',
-                                           id: '1' )
+  it 'should connect DELETE watchers/:id to watchers#destroy' do
+    expect(delete('/watchers/1')).to route_to(controller: 'watchers',
+                                              action: 'destroy',
+                                              id: '1')
   end
 end

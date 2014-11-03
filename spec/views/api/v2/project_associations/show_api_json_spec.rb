@@ -35,30 +35,34 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) { FactoryGirl.create(:project, id: 1234,
-                                         identifier: 'test_project_a',
-                                         name: 'Test Project A') }
-    let(:project_b) { FactoryGirl.create(:project, id: 1235,
-                                         identifier: 'test_project_b',
-                                         name: 'Test Project B') }
+    let(:project_a) {
+      FactoryGirl.create(:project, id: 1234,
+                                   identifier: 'test_project_a',
+                                   name: 'Test Project A')
+    }
+    let(:project_b) {
+      FactoryGirl.create(:project, id: 1235,
+                                   identifier: 'test_project_b',
+                                   name: 'Test Project B')
+    }
 
-    let(:project_association) { FactoryGirl.build(:project_association,
-                                                  id: 1,
-                                                  project_a_id: project_a.id,
-                                                  project_b_id: project_b.id,
-                                                  description: 'association description #1',
+    let(:project_association) {
+      FactoryGirl.build(:project_association,
+                        id: 1,
+                        project_a_id: project_a.id,
+                        project_b_id: project_b.id,
+                        description: 'association description #1',
 
-                                                  created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                                  updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
-
-
+                        created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                        updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    }
 
     before do
       assign(:project_association, project_association)
       render
     end
 
-    subject {response.body}
+    subject { response.body }
 
     it 'renders a project_association document' do
       is_expected.to have_json_path('project_association')
@@ -66,13 +70,12 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
 
     it 'renders the details of the association' do
       expected_json = { description: 'association description #1',
-                        projects: [ { name: 'Test Project A',identifier: 'test_project_a'},
-                                    { name: 'Test Project B',identifier: 'test_project_b'}]
+                        projects: [{ name: 'Test Project A', identifier: 'test_project_a' },
+                                   { name: 'Test Project B', identifier: 'test_project_b' }]
                       }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('project_association')
     end
-
 
   end
 end

@@ -34,7 +34,7 @@ describe AvailableProjectStatus, type: :model do
       it 'can read the project_type w/ the help of the belongs_to association' do
         project_type = FactoryGirl.create(:project_type)
         available_project_status = FactoryGirl.create(:available_project_status,
-                                                  project_type_id: project_type.id)
+                                                      project_type_id: project_type.id)
 
         available_project_status.reload
 
@@ -46,7 +46,7 @@ describe AvailableProjectStatus, type: :model do
       it 'can read the reported_project_status w/ the help of the belongs_to association' do
         reported_project_status  = FactoryGirl.create(:reported_project_status)
         available_project_status = FactoryGirl.create(:available_project_status,
-                                                  reported_project_status_id: reported_project_status.id)
+                                                      reported_project_status_id: reported_project_status.id)
 
         available_project_status.reload
 

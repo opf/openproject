@@ -33,17 +33,17 @@ FactoryGirl.define do
       default_locales nil
     end
 
-    sequence(:name) {|n| "Custom Field Nr. #{n}"}
-    regexp ""
+    sequence(:name) { |n| "Custom Field Nr. #{n}" }
+    regexp ''
     is_required false
     min_length false
-    default_value ""
+    default_value ''
     max_length false
     editable true
-    possible_values ""
+    possible_values ''
     visible true
-    field_format "bool"
-    type "WorkPackageCustomField"
+    field_format 'bool'
+    type 'WorkPackageCustomField'
 
     callback(:after_build) do |custom_field, evaluator|
       name_locales = evaluator.name_locales || {}

@@ -38,12 +38,12 @@ module OpenProject
       # class methods
 
       describe '.new_theme' do
-        it "returns a new theme" do
+        it 'returns a new theme' do
           theme = Theme.new_theme
           expect(theme).to be_kind_of Theme
         end
 
-        it "allows passing in the identifier" do
+        it 'allows passing in the identifier' do
           theme = Theme.new_theme do |theme|
             theme.identifier = :new_theme
           end
@@ -52,14 +52,14 @@ module OpenProject
       end
 
       describe '.abstract!' do
-        it "abstract themes have no instance" do
+        it 'abstract themes have no instance' do
           theme_class = Class.new(Theme) { abstract! }
           expect { theme_class.instance }.to raise_error NoMethodError
         end
       end
 
       describe '.abstract?' do
-        it "is abstract when marked as abstract" do
+        it 'is abstract when marked as abstract' do
           theme_class = Class.new(Theme)
           expect(theme_class).to_not be_abstract
           theme_class.abstract!
@@ -69,19 +69,19 @@ module OpenProject
 
       # duplicates singleton code, just to make sure
       describe '.instance' do
-        it "is an instance of the class" do
+        it 'is an instance of the class' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance.class).to be theme_class
         end
 
-        it "is a singleton" do
+        it 'is a singleton' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance).to be theme_class.instance
         end
       end
 
       describe '.inherited' do
-        it "is aware of the new theme after inheriting" do
+        it 'is aware of the new theme after inheriting' do
           theme = Theme.new_theme
           expect(ThemeFinder.themes).to include theme
         end
@@ -156,14 +156,14 @@ module OpenProject
       end
 
       describe '#path_to_image' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set a list of overridden images
           allow(theme).to receive(:overridden_images).and_return(['add.png'])
         end
 
-        it "prepends the theme path if file is present" do
+        it 'prepends the theme path if file is present' do
           expect(theme.path_to_image('add.png')).to eq 'new_theme/add.png'
         end
 
@@ -181,7 +181,7 @@ module OpenProject
       end
 
       describe '#overridden_images_path' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set an arbitrary base path for assets
@@ -229,7 +229,7 @@ module OpenProject
       end
 
       describe '#<=>' do
-        it "is equal when the classes match" do
+        it 'is equal when the classes match' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance).to eq theme_class.instance
         end
@@ -241,7 +241,7 @@ module OpenProject
     end
 
     describe ViewHelpers do
-      let(:theme)   { Theme.new_theme {|t| t.identifier = :new_theme} }
+      let(:theme)   { Theme.new_theme { |t| t.identifier = :new_theme } }
       let(:helpers) { ApplicationController.helpers }
 
       before do

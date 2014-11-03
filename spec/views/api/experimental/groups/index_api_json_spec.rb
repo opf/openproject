@@ -46,9 +46,11 @@ describe 'api/experimental/groups/index.api.rabl', type: :view do
   end
 
   describe 'with 2 groups available' do
-    let(:groups) { [
-      FactoryGirl.build(:group), FactoryGirl.build(:group)
-    ] }
+    let(:groups) {
+      [
+        FactoryGirl.build(:group), FactoryGirl.build(:group)
+      ]
+    }
 
     it { is_expected.to have_json_path('groups') }
     it { is_expected.to have_json_size(2).at_path('groups') }
