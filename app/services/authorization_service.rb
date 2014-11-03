@@ -45,6 +45,6 @@ class AuthorizationService
   end
 
   def call
-    @user.allowed_to?(@permission, @context, :global => @global)
+    @user.allowed_to?(@permission, @context, global: @global)
   end
 end
