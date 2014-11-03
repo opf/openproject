@@ -119,7 +119,7 @@ Redmine::AccessControl.map do |map|
                                         # This is api/v2/planning_element_types
                                         :'planning_element_types' => [:index,
                                                                       :show] 
-    map.permission :export_work_packages, 'work_packages': [:index, :all]
+    map.permission :export_work_packages, work_packages: [:index, :all]
     map.permission :add_work_packages,  issues: [:new, :create, :update_form],
                                         :'issues/previews' => :create,
                                         work_packages: [:new, :new_type, :preview, :create] 
