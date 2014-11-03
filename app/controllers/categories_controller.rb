@@ -30,9 +30,9 @@
 class CategoriesController < ApplicationController
   menu_item :settings
   model_object Category
-  before_filter :find_model_object, :except => [:new, :create]
-  before_filter :find_project_from_association, :except => [:new, :create]
-  before_filter :find_project, :only => [:new, :create]
+  before_filter :find_model_object, except: [:new, :create]
+  before_filter :find_project_from_association, except: [:new, :create]
+  before_filter :find_project, only: [:new, :create]
   before_filter :authorize
 
   def new
@@ -47,15 +47,15 @@ class CategoriesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => '/projects', :action => 'settings', :tab => 'categories', :id => @project
+          redirect_to controller: '/projects', action: 'settings', tab: 'categories', id: @project
         end
         format.js do
-          render :locals => { :project => @project, :category => @category }
+          render locals: { project: @project, category: @category }
         end
       end
     else
       respond_to do |format|
-        format.html { render :action => :new }
+        format.html { render action: :new }
         format.js do
           render(:update) {|page| page.alert(@category.errors.full_messages.join('\n')) }
         end
@@ -71,9 +71,9 @@ class CategoriesController < ApplicationController
     @category.safe_attributes = params[:category]
     if @category.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => '/projects', :action => 'settings', :tab => 'categories', :id => @project
+      redirect_to controller: '/projects', action: 'settings', tab: 'categories', id: @project
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -82,12 +82,12 @@ class CategoriesController < ApplicationController
     if @issue_count == 0
       # No issue assigned to this category
       @category.destroy
-      redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
+      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
       return
     elsif params[:todo]
       reassign_to = @project.categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
-      redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
+      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
       return
     end
     @categories = @project.categories - [@category]

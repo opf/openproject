@@ -29,25 +29,25 @@
 
 class ProjectsController < ApplicationController
   menu_item :overview
-  menu_item :roadmap, :only => :roadmap
-  menu_item :settings, :only => :settings
+  menu_item :roadmap, only: :roadmap
+  menu_item :settings, only: :settings
 
   helper :timelines
 
   before_filter :disable_api
-  before_filter :find_project, :except => [ :index, :level_list, :new, :create ]
-  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules, :types ]
-  before_filter :authorize_global, :only => [:new, :create]
-  before_filter :require_admin, :only => [ :archive, :unarchive, :destroy ]
-  before_filter :jump_to_project_menu_item, :only => :show
-  before_filter :load_project_settings, :only => :settings
+  before_filter :find_project, except: [ :index, :level_list, :new, :create ]
+  before_filter :authorize, only: [ :show, :settings, :edit, :update, :modules, :types ]
+  before_filter :authorize_global, only: [:new, :create]
+  before_filter :require_admin, only: [ :archive, :unarchive, :destroy ]
+  before_filter :jump_to_project_menu_item, only: :show
+  before_filter :load_project_settings, only: :settings
   before_filter :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
-  after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
+  after_filter only: [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
-      controller.send :expire_action, :controller => '/welcome', :action => 'robots.txt'
+      controller.send :expire_action, controller: '/welcome', action: 'robots.txt'
     end
   end
 
@@ -61,25 +61,25 @@ class ProjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @projects = Project.visible.find(:all, :order => 'lft')
+        @projects = Project.visible.find(:all, order: 'lft')
       }
       format.atom {
-        projects = Project.visible.find(:all, :order => 'created_on DESC',
-                                              :limit => Setting.feeds_limit.to_i)
-        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+        projects = Project.visible.find(:all, order: 'created_on DESC',
+                                              limit: Setting.feeds_limit.to_i)
+        render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
 
   def new
-    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
     @types = Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
     @types = Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -90,12 +90,12 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => '/projects', :action => 'settings', :id => @project
+          redirect_to controller: '/projects', action: 'settings', id: @project
         }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render action: 'new' }
       end
     end
 
@@ -105,20 +105,20 @@ class ProjectsController < ApplicationController
   def show
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+    @news = @project.news.find(:all, limit: 5, include: [ :author, :project ], order: "#{News.table_name}.created_on DESC")
     @types = @project.rolled_up_types
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
-    @open_issues_by_type = WorkPackage.visible.count(:group => :type,
-                                            :include => [:project, :status, :type],
-                                            :conditions => ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
-    @total_issues_by_type = WorkPackage.visible.count(:group => :type,
-                                            :include => [:project, :status, :type],
-                                            :conditions => cond)
+    @open_issues_by_type = WorkPackage.visible.count(group: :type,
+                                            include: [:project, :status, :type],
+                                            conditions: ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
+    @total_issues_by_type = WorkPackage.visible.count(group: :type,
+                                            include: [:project, :status, :type],
+                                            conditions: cond)
 
     if User.current.allowed_to?(:view_time_entries, @project)
-      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+      @total_hours = TimeEntry.visible.sum(:hours, include: :project, conditions: cond).to_f
     end
 
     respond_to do |format|
@@ -139,14 +139,14 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :action => 'settings', :id => @project
+          redirect_to action: 'settings', id: @project
         }
       end
     else
       respond_to do |format|
         format.html {
           load_project_settings
-          render :action => 'settings'
+          render action: 'settings'
         }
       end
     end
@@ -173,23 +173,23 @@ class ProjectsController < ApplicationController
     else
       flash[:error] = l('timelines.cannot_update_planning_element_types')
     end
-    redirect_to :action => "settings", :tab => "types"
+    redirect_to action: "settings", tab: "types"
   end
 
   def modules
     @project.enabled_module_names = params[:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
-    redirect_to :action => 'settings', :id => @project, :tab => 'modules'
+    redirect_to action: 'settings', id: @project, tab: 'modules'
   end
 
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(:controller => '/admin', :action => 'projects', :status => params[:status]))
+    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
   end
 
   def unarchive
     @project.unarchive if !@project.active?
-    redirect_to(url_for(:controller => '/admin', :action => 'projects', :status => params[:status]))
+    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
   end
 
   # Delete @project
@@ -199,7 +199,7 @@ class ProjectsController < ApplicationController
     if params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
-        format.html { redirect_to :controller => '/admin', :action => 'projects' }
+        format.html { redirect_to controller: '/admin', action: 'projects' }
       end
     else
       flash[:error] = l(:notice_project_not_deleted)
@@ -234,7 +234,7 @@ private
   end
 
   def load_project_settings
-    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
     @category ||= Category.new
     @member ||= @project.members.new
     @types = Type.all

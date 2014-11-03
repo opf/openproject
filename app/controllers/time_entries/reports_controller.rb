@@ -107,60 +107,60 @@ class TimeEntries::ReportsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout => !request.xhr? }
-      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
+      format.html { render layout: !request.xhr? }
+      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours), type: 'text/csv; header=present', filename: 'timelog.csv') }
     end
   end
 
   private
 
   def load_available_criterias
-    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
-                                          :klass => Project,
-                                          :label => Project.model_name.human},
-                             'version' => {:sql => "#{WorkPackage.table_name}.fixed_version_id",
-                                          :klass => Version,
-                                          :label => Version.model_name.human},
-                             'category' => {:sql => "#{WorkPackage.table_name}.category_id",
-                                            :klass => Category,
-                                            :label => Category.model_name.human},
-                             'member' => {:sql => "#{TimeEntry.table_name}.user_id",
-                                         :klass => User,
-                                         :label => Member.model_name.human},
-                             'type' => {:sql => "#{WorkPackage.table_name}.type_id",
-                                          :klass => Type,
-                                          :label => Type.model_name.human},
-                             'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-                                           :klass => TimeEntryActivity,
-                                           :label => :label_activity},
-                             'work_package' => {:sql => "#{TimeEntry.table_name}.work_package_id",
-                                            :klass => WorkPackage,
-                                            :label => WorkPackage.model_name.human}
+    @available_criterias = { 'project' => {sql: "#{TimeEntry.table_name}.project_id",
+                                          klass: Project,
+                                          label: Project.model_name.human},
+                             'version' => {sql: "#{WorkPackage.table_name}.fixed_version_id",
+                                          klass: Version,
+                                          label: Version.model_name.human},
+                             'category' => {sql: "#{WorkPackage.table_name}.category_id",
+                                            klass: Category,
+                                            label: Category.model_name.human},
+                             'member' => {sql: "#{TimeEntry.table_name}.user_id",
+                                         klass: User,
+                                         label: Member.model_name.human},
+                             'type' => {sql: "#{WorkPackage.table_name}.type_id",
+                                          klass: Type,
+                                          label: Type.model_name.human},
+                             'activity' => {sql: "#{TimeEntry.table_name}.activity_id",
+                                           klass: TimeEntryActivity,
+                                           label: :label_activity},
+                             'work_package' => {sql: "#{TimeEntry.table_name}.work_package_id",
+                                            klass: WorkPackage,
+                                            label: WorkPackage.model_name.human}
                            }
 
     # Add list and boolean custom fields as available criterias
     custom_fields = (@project.nil? ? WorkPackageCustomField.for_all : @project.all_work_package_custom_fields)
     custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
+      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
+                                             format: cf.field_format,
+                                             label: cf.name}
     end if @project
 
     # Add list and boolean time entry custom fields
     TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
+      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
+                                             format: cf.field_format,
+                                             label: cf.name}
     end
 
     # Add list and boolean time entry activity custom fields
     TimeEntryActivityCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
-                                             :format => cf.field_format,
-                                             :label => cf.name}
+      @available_criterias["cf_#{cf.id}"] = {sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
+                                             format: cf.field_format,
+                                             label: cf.name}
     end
 
-    call_hook(:controller_timelog_available_criterias, { :available_criterias => @available_criterias, :project => @project })
+    call_hook(:controller_timelog_available_criterias, { available_criterias: @available_criterias, project: @project })
     @available_criterias
   end
 
@@ -169,7 +169,7 @@ class TimeEntries::ReportsController < ApplicationController
     sql << " LEFT JOIN #{WorkPackage.table_name} ON #{TimeEntry.table_name}.work_package_id = #{WorkPackage.table_name}.id"
     sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
     # TODO: rename hook
-    call_hook(:controller_timelog_time_report_joins, {:sql => sql} )
+    call_hook(:controller_timelog_time_report_joins, {sql: sql} )
     sql
   end
 

@@ -34,14 +34,14 @@ class NewsController < ApplicationController
   default_search_scope :news
 
   before_filter :disable_api
-  before_filter :find_news_object, :except => [:new, :create, :index, :preview]
-  before_filter :find_project_from_association, :except => [:new, :create, :index, :preview]
-  before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index, :preview]
+  before_filter :find_news_object, except: [:new, :create, :index, :preview]
+  before_filter :find_project_from_association, except: [:new, :create, :index, :preview]
+  before_filter :find_project, only: [:new, :create]
+  before_filter :authorize, except: [:index, :preview]
   before_filter :find_optional_project, only: [:index]
   accept_key_auth :index
 
-  menu_item :new_news, :only => [:new, :create]
+  menu_item :new_news, only: [:new, :create]
 
   def index
     scope = @project ? @project.news.visible : News.visible
@@ -52,8 +52,8 @@ class NewsController < ApplicationController
                   .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render :layout => !request.xhr? }
-      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
+      format.html { render layout: !request.xhr? }
+      format.atom { render_feed(@newss, title: (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
 
@@ -63,17 +63,17 @@ class NewsController < ApplicationController
   end
 
   def new
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(project: @project, author: User.current)
   end
 
   def create
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(project: @project, author: User.current)
     @news.safe_attributes = params[:news]
     if @news.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => '/news', :action => 'index', :project_id => @project
+      redirect_to controller: '/news', action: 'index', project_id: @project
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -84,15 +84,15 @@ class NewsController < ApplicationController
     @news.safe_attributes = params[:news]
     if @news.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :id => @news
+      redirect_to action: 'show', id: @news
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
   def destroy
     @news.destroy
-    redirect_to :action => 'index', :project_id => @project
+    redirect_to action: 'index', project_id: @project
   end
 
   protected

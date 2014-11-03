@@ -69,7 +69,7 @@ class ProjectAssociationsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_project_associations_path(@project)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -105,7 +105,7 @@ class ProjectAssociationsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_project_associations_path(@project)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 

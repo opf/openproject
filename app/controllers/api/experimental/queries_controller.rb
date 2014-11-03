@@ -171,9 +171,9 @@ module Api::Experimental
         # Project specific queries and global queries
         visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
         @visible_queries = Query.find(:all,
-                                      :select => 'id, name, is_public',
-                                      :order => "name ASC",
-                                      :conditions => visible.conditions)
+                                      select: 'id, name, is_public',
+                                      order: "name ASC",
+                                      conditions: visible.conditions)
       end
       @visible_queries
     end

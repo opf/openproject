@@ -29,14 +29,14 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_filter :find_model_object_and_project, :except => [:autocomplete_for_member, :paginate_users]
-  before_filter :find_project, :only => [:autocomplete_for_member, :paginate_users]
+  before_filter :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
+  before_filter :find_project, only: [:autocomplete_for_member, :paginate_users]
   before_filter :authorize
 
   include Pagination::Controller
   paginate_model User
   search_for User, :search_in_project
-  search_options_for User, lambda { |_| {:project => @project} }
+  search_options_for User, lambda { |_| {project: @project} }
 
   @@scripts = ['hideOnLoad', 'init_members_cb']
 
@@ -53,12 +53,12 @@ class MembersController < ApplicationController
       if members.present? && members.all? {|m| m.valid? }
         flash.now.notice = l(:notice_successful_create)
 
-        format.html { redirect_to settings_project_path(@project, :tab => 'members') }
+        format.html { redirect_to settings_project_path(@project, tab: 'members') }
 
         format.js do
           @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) do |page|
-            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page.replace_html "tab-content-members", partial: 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
 
             page << MembersController.tab_scripts
@@ -69,9 +69,9 @@ class MembersController < ApplicationController
           @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) do |page|
             if params[:member]
-              page.insert_html :top, "tab-content-members", :partial => "members/member_errors", :locals => { :member => members.first }
+              page.insert_html :top, "tab-content-members", partial: "members/member_errors", locals: { member: members.first }
             else
-              page.insert_html :top, "tab-content-members", :partial => "members/common_error", :locals => { :message => l(:error_check_user_and_role) }
+              page.insert_html :top, "tab-content-members", partial: "members/common_error", locals: { message: l(:error_check_user_and_role) }
             end
           end
         end
@@ -86,16 +86,16 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
+      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] }
       format.js do
         @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
 
         render(:update) do |page|
           if params[:membership]
             @user = member.user
-            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.replace_html "tab-content-memberships", partial: 'users/memberships'
           else
-            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page.replace_html "tab-content-members", partial: 'projects/settings/members'
           end
           page.insert_html :top, "tab-content-members", render_flash_messages
           page << MembersController.tab_scripts
@@ -111,11 +111,11 @@ class MembersController < ApplicationController
       flash.now.notice = l(:notice_successful_delete)
     end
     respond_to do |format|
-      format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project }
       format.js do
         @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
         render(:update) do |page|
-          page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          page.replace_html "tab-content-members", partial: 'projects/settings/members'
           page.insert_html :top, "tab-content-members", render_flash_messages
           page << MembersController.tab_scripts
         end
@@ -130,7 +130,7 @@ class MembersController < ApplicationController
     if page
       page = page.to_i
       @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]),
-                        { :page => page, :page_limit => size })
+                        { page: page, page_limit: size })
       # we always get all the items on a page, so just check if we just got the last
       @more = @principals.total_pages > page
       @total = @principals.total_entries
@@ -146,10 +146,10 @@ class MembersController < ApplicationController
         else
           partial = "members/member_form"
         end
-        render :partial => partial,
-               :locals => { :project => @project,
-                            :principals => @principals,
-                            :roles => Role.find_all_givable }
+        render partial: partial,
+               locals: { project: @project,
+                            principals: @principals,
+                            roles: Role.find_all_givable }
       }
     end
   end

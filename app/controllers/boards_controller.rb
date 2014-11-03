@@ -31,8 +31,8 @@ class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project_by_project_id,
                 :authorize
-  before_filter :new_board, :only => [:new, :create]
-  before_filter :find_board_if_available, :except => [:index]
+  before_filter :new_board, only: [:new, :create]
+  before_filter :find_board_if_available, except: [:index]
   accept_key_auth :index, :show
 
   include MessagesHelper
@@ -71,7 +71,7 @@ class BoardsController < ApplicationController
         gon.settings = client_preferences
 
         @message = Message.new
-        render :action => 'show', :layout => !request.xhr?
+        render action: 'show', layout: !request.xhr?
       }
       format.json {
         set_topics
@@ -85,14 +85,14 @@ class BoardsController < ApplicationController
                                    .includes(:author, :board)
                                    .limit(Setting.feeds_limit.to_i)
 
-        render_feed(@messages, :title => "#{@project}: #{@board}")
+        render_feed(@messages, title: "#{@project}: #{@board}")
       }
     end
   end
 
   def set_topics
     @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                            .includes(:author, { :last_reply => :author })
+                            .includes(:author, { last_reply: :author })
                             .page(params[:page])
                             .per_page(per_page_param)
   end
@@ -126,7 +126,7 @@ class BoardsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     else
       flash.now[:error] = l('board_could_not_be_saved')
-      render :action => 'edit'
+      render action: 'edit'
     end
     redirect_to controller: :projects,
                 action: "settings",
@@ -142,7 +142,7 @@ class BoardsController < ApplicationController
 
 private
   def redirect_to_settings_in_projects
-    redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'boards'
+    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'boards'
   end
 
   def find_board_if_available

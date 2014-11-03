@@ -48,12 +48,12 @@ class WorkflowsController < ApplicationController
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
-          @role.workflows.build(:type_id => @type.id, :old_status_id => status_id, :new_status_id => new_status_id, :author => author, :assignee => assignee)
+          @role.workflows.build(type_id: @type.id, old_status_id: status_id, new_status_id: new_status_id, author: author, assignee: assignee)
         }
       }
       if @role.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'edit', :role_id => @role, :type_id => @type
+        redirect_to action: 'edit', role_id: @role, type_id: @type
         return
       end
     end
@@ -65,7 +65,7 @@ class WorkflowsController < ApplicationController
     @statuses ||= Status.all
 
     if @type && @role && @statuses.any?
-      workflows = Workflow.all(:conditions => {:role_id => @role.id, :type_id => @type.id})
+      workflows = Workflow.all(conditions: {role_id: @role.id, type_id: @type.id})
       @workflows = {}
       @workflows['always'] = workflows.select {|w| !w.author && !w.assignee}
       @workflows['author'] = workflows.select {|w| w.author}
@@ -97,7 +97,7 @@ class WorkflowsController < ApplicationController
       else
         Workflow.copy(@source_type, @source_role, @target_types, @target_roles)
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'copy', :source_type_id => @source_type, :source_role_id => @source_role
+        redirect_to action: 'copy', source_type_id: @source_type, source_role_id: @source_role
       end
     end
   end
@@ -105,10 +105,10 @@ class WorkflowsController < ApplicationController
   private
 
   def find_roles
-    @roles = Role.find(:all, :order => 'builtin, position')
+    @roles = Role.find(:all, order: 'builtin, position')
   end
 
   def find_types
-    @types = Type.find(:all, :order => 'position')
+    @types = Type.find(:all, order: 'position')
   end
 end

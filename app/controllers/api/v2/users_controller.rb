@@ -33,7 +33,7 @@ module Api
     class UsersController < UsersController
       include ::Api::V2::ApiController
 
-      skip_filter :require_admin, :only => :index
+      skip_filter :require_admin, only: :index
 
       before_filter :check_scope_supplied
 

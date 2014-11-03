@@ -34,7 +34,7 @@ class WorkPackages::MovesController < ApplicationController
 
   def new
     prepare_for_work_package_move
-    render :layout => false if request.xhr?
+    render layout: false if request.xhr?
   end
 
   def create
@@ -46,7 +46,7 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.each do |work_package|
       work_package.reload
 
-      call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
+      call_hook(:controller_work_packages_move_before_save, { params: params, work_package: work_package, target_project: @target_project, copy: !!@copy })
 
       permitted_params = params.permit(:copy,
                                        :assigned_to_id,
@@ -87,9 +87,9 @@ class WorkPackages::MovesController < ApplicationController
       flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
-                        :count => unsaved_work_package_ids.size,
-                        :total => work_packages.size,
-                        :ids => '#' + unsaved_work_package_ids.join(', #'))
+                        count: unsaved_work_package_ids.size,
+                        total: work_packages.size,
+                        ids: '#' + unsaved_work_package_ids.join(', #'))
     end
   end
 

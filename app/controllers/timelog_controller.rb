@@ -31,11 +31,11 @@ class TimelogController < ApplicationController
   menu_item :issues
 
   before_filter :disable_api, except: [:index, :destroy]
-  before_filter :find_work_package, :only => [:new, :create]
-  before_filter :find_project, :only => [:new, :create]
-  before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :find_work_package, only: [:new, :create]
+  before_filter :find_project, only: [:new, :create]
+  before_filter :find_time_entry, only: [:show, :edit, :update, :destroy]
+  before_filter :authorize, except: [:index]
+  before_filter :find_optional_project, only: [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -66,9 +66,9 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html {
         # Paginate results
-        @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(include: [:project, :work_package], conditions: cond.conditions)
 
-        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
+        @total_hours = TimeEntry.visible.sum(:hours, include: [:project, :work_package], conditions: cond.conditions).to_f
         set_entries(cond)
 
         gon.rabl "app/views/timelog/index.rabl"
@@ -79,7 +79,7 @@ class TimelogController < ApplicationController
         gon.total_count = total_entry_count(cond)
         gon.settings = client_preferences
 
-        render :layout => !request.xhr?
+        render layout: !request.xhr?
       }
       format.json {
         set_entries(cond)
@@ -88,24 +88,24 @@ class TimelogController < ApplicationController
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:work_package => :type}],
-                                 :conditions => cond.conditions,
-                                 :order => "#{TimeEntry.table_name}.created_on DESC",
-                                 :limit => Setting.feeds_limit.to_i)
-        render_feed(entries, :title => l(:label_spent_time))
+                                 include: [:project, :activity, :user, {work_package: :type}],
+                                 conditions: cond.conditions,
+                                 order: "#{TimeEntry.table_name}.created_on DESC",
+                                 limit: Setting.feeds_limit.to_i)
+        render_feed(entries, title: l(:label_spent_time))
       }
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_package => [:type, :assigned_to, :priority]}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause)
+                                  include: [:project, :activity, :user, {work_package: [:type, :assigned_to, :priority]}],
+                                  conditions: cond.conditions,
+                                  order: sort_clause)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(
           entries_to_csv(@entries),
-          :type => "text/csv; #{charset}; header=present",
-          :filename => 'timelog.csv')
+          type: "text/csv; #{charset}; header=present",
+          filename: 'timelog.csv')
       }
     end
   end
@@ -113,35 +113,35 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html { render :nothing => true, :status => 406 }
+      format.html { render nothing: true, status: 406 }
     end
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :work_package=> @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
 
-    render :action => 'edit'
+    render action: 'edit'
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :work_package => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
 
     if @time_entry.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+          redirect_back_or_default action: 'index', project_id: @time_entry.project
         }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
       end
     end
   end
@@ -149,24 +149,24 @@ class TimelogController < ApplicationController
   def edit
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
   end
 
   def update
     @time_entry.safe_attributes = params[:time_entry]
 
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save, { params: params, time_entry: @time_entry })
 
     if @time_entry.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+          redirect_back_or_default action: 'index', project_id: @time_entry.project
         }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
       end
     end
   end
@@ -190,18 +190,18 @@ class TimelogController < ApplicationController
       end
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :action => 'index', :project_id => @time_entry.project
+    redirect_to action: 'index', project_id: @time_entry.project
   end
 
   private
 
   def total_entry_count(cond)
-    TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
+    TimeEntry.visible.includes(:project, :activity, :user, {work_package: :type})
                      .where(cond.conditions).count
   end
 
   def set_entries(cond)
-    @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
+    @entries = TimeEntry.visible.includes(:project, :activity, :user, {work_package: :type})
                                 .where(cond.conditions)
                                 .order(sort_clause)
                                 .page(params[:page])

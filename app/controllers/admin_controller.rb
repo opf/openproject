@@ -34,12 +34,12 @@ class AdminController < ApplicationController
 
   include SortHelper
 
-  menu_item :projects, :only => [:projects]
-  menu_item :plugins, :only => [:plugins]
-  menu_item :info, :only => [:info]
+  menu_item :projects, only: [:projects]
+  menu_item :plugins, only: [:plugins]
+  menu_item :info, only: [:info]
 
   def index
-    redirect_to :action => 'projects'
+    redirect_to action: 'projects'
   end
 
   def projects
@@ -53,10 +53,10 @@ class AdminController < ApplicationController
       c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
     end
 
-    @projects = Project.find :all, :order => 'lft',
-                                   :conditions => c.conditions
+    @projects = Project.find :all, order: 'lft',
+                                   conditions: c.conditions
 
-    render :action => "projects", :layout => false if request.xhr?
+    render action: "projects", layout: false if request.xhr?
   end
 
   def plugins
@@ -74,7 +74,7 @@ class AdminController < ApplicationController
         flash[:error] = l(:error_can_t_load_default_data, e.message)
       end
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   def test_email
@@ -88,12 +88,12 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to :controller => '/settings', :action => 'edit', :tab => 'notifications'
+    redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
   end
 
   def force_user_language
     available_languages = Setting.find_by_name("available_languages").value
-    User.find(:all, :conditions => ["language not in (?)", available_languages]).each do |u|
+    User.find(:all, conditions: ["language not in (?)", available_languages]).each do |u|
       u.language = Setting.default_language
       u.save
     end

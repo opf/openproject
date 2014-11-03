@@ -50,7 +50,7 @@ class AuthSourcesController < ApplicationController
     @auth_source = auth_source_class.new permitted_params.auth_source
     if @auth_source.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
       render 'auth_sources/new'
     end
@@ -65,7 +65,7 @@ class AuthSourcesController < ApplicationController
     @auth_source = AuthSource.find(params[:id])
     if @auth_source.update_attributes permitted_params.auth_source
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
       render 'auth_sources/edit'
     end
@@ -79,7 +79,7 @@ class AuthSourcesController < ApplicationController
     rescue => text
       flash[:error] = l(:error_unable_to_connect, text.message)
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   def destroy
@@ -88,7 +88,7 @@ class AuthSourcesController < ApplicationController
       @auth_source.destroy
       flash[:notice] = l(:notice_successful_delete)
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   protected

@@ -122,13 +122,13 @@ class ReportingsController < ApplicationController
     case params[:only]
     when "via_source"
       @reportings = @project.reportings_via_source.find(:all,
-          :include => :project,
-          :conditions => conditions
+          include: :project,
+          conditions: conditions
         )
     when "via_target"
       @reportings = @project.reportings_via_target.find(:all,
-          :include => :project,
-          :conditions => conditions
+          include: :project,
+          conditions: conditions
         )
     else
       @reportings = @project.reportings.all
@@ -153,13 +153,13 @@ class ReportingsController < ApplicationController
     case params[:only]
     when "via_source"
       @ancestor_reportings = @project.reportings_via_source.find(:all,
-          :include => :project,
-          :conditions => conditions
+          include: :project,
+          conditions: conditions
         )
     when "via_target"
       @ancestor_reportings = @project.reportings_via_target.find(:all,
-          :include => :project,
-          :conditions => conditions
+          include: :project,
+          conditions: conditions
         )
     else
       @ancestor_reportings = @project.reportings.all
@@ -207,7 +207,7 @@ class ReportingsController < ApplicationController
       redirect_to project_reportings_path
     else
       flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -229,7 +229,7 @@ class ReportingsController < ApplicationController
       redirect_to project_reportings_path
     else
       flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render :action => :edit
+      render action: :edit
     end
   end
 

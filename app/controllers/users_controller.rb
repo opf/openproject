@@ -31,8 +31,8 @@ class UsersController < ApplicationController
   layout 'admin'
 
   before_filter :disable_api
-  before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
-  before_filter :find_user, :only => [:show,
+  before_filter :require_admin, except: [:show, :deletion_info, :destroy]
+  before_filter :find_user, only: [:show,
                                       :edit,
                                       :update,
                                       :change_status,
@@ -40,12 +40,12 @@ class UsersController < ApplicationController
                                       :destroy_membership,
                                       :destroy,
                                       :deletion_info]
-  before_filter :require_login, :only => [:deletion_info] # should also contain destroy but post data can not be redirected
-  before_filter :authorize_for_user, :only => [:destroy]
-  before_filter :check_if_deletion_allowed, :only => [:deletion_info,
+  before_filter :require_login, only: [:deletion_info] # should also contain destroy but post data can not be redirected
+  before_filter :authorize_for_user, only: [:destroy]
+  before_filter :check_if_deletion_allowed, only: [:deletion_info,
                                                       :destroy]
 
-  before_filter :block_if_password_login_disabled, :only => [:new, :create]
+  before_filter :block_if_password_login_disabled, only: [:new, :create]
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
@@ -86,16 +86,16 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html {
         @groups = Group.all.sort
-        render :layout => !request.xhr?
+        render layout: !request.xhr?
       }
     end
   end
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
+    @memberships = @user.memberships.all(conditions: Project.visible_by(User.current))
 
-    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+    events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by{|e| e.event_datetime.to_date }
 
     unless User.current.admin?
@@ -106,18 +106,18 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout => 'base' }
+      format.html { render layout: 'base' }
     end
   end
 
   def new
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @auth_sources = AuthSource.find(:all)
   end
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :post, only: :create, render: {nothing: true, status: :method_not_allowed }
   def create
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
 
@@ -155,7 +155,7 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render action: 'new' }
       end
     end
   end
@@ -165,7 +165,7 @@ class UsersController < ApplicationController
     @membership ||= Member.new
   end
 
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :put, only: :update, render: {nothing: true, status: :method_not_allowed }
   def update
     @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
                                                              @user.change_password_allowed?)
@@ -204,17 +204,17 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => :edit }
+        format.html { render action: :edit }
       end
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :controller => '/users', :action => 'edit', :id => @user
+    redirect_to controller: '/users', action: 'edit', id: @user
   end
 
   def change_status
     if @user.id == current_user.id
       # user is not allowed to change own status
-      redirect_back_or_default(:action => 'edit', :id => @user)
+      redirect_back_or_default(action: 'edit', id: @user)
       return
     end
     if params[:unlock]
@@ -235,10 +235,10 @@ class UsersController < ApplicationController
       end
     else
       flash[:error] = I18n.t(:error_status_change_failed,
-                             :errors => @user.errors.full_messages.join(', '),
-                             :scope => :user)
+                             errors: @user.errors.full_messages.join(', '),
+                             scope: :user)
     end
-    redirect_back_or_default(:action => 'edit', :id => @user)
+    redirect_back_or_default(action: 'edit', id: @user)
   end
 
   def edit_membership
@@ -246,19 +246,19 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
+        format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
         format.js {
           render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-            page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_update)}
+            page.replace_html "tab-content-memberships", partial: 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", partial: "members/common_notice", locals: {message: l(:notice_successful_update)}
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
         }
       else
         format.js {
           render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-            page.insert_html :top, "tab-content-memberships", :partial => "members/member_errors", :locals => {:member => @membership}
+            page.replace_html "tab-content-memberships", partial: 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", partial: "members/member_errors", locals: {member: @membership}
           }
         }
       end
@@ -295,18 +295,18 @@ class UsersController < ApplicationController
       @membership.destroy && @membership = nil
     end
     respond_to do |format|
-      format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
       format.js {
         render(:update) { |page|
-          page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-          page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_delete)}
+          page.replace_html "tab-content-memberships", partial: 'users/memberships'
+          page.insert_html :top, "tab-content-memberships", partial: "members/common_notice", locals: {message: l(:notice_successful_delete)}
         }
       }
     end
   end
 
   def deletion_info
-    render :action => 'deletion_info', :layout => my_or_admin_layout
+    render action: 'deletion_info', layout: my_or_admin_layout
   end
 
   private

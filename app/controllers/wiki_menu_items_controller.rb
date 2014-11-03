@@ -79,17 +79,17 @@ class WikiMenuItemsController < ApplicationController
       # we may have just destroyed a new record
       # e.g. there was no menu_item before, and there is none now
       flash[:notice] = l(:notice_successful_update) if (!@wiki_menu_item.new_record? && changed)
-      redirect_back_or_default({ :action => 'edit', :id => @page })
+      redirect_back_or_default({ action: 'edit', id: @page })
     else
       respond_to do |format|
-        format.html { render :action => 'edit', :id => @page }
+        format.html { render action: 'edit', id: @page }
       end
     end
   end
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page != @page && page.menu_item.present? && page.menu_item.is_main_item?}
+    @possible_wiki_pages = @project.wiki.pages.all(include: :parent).reject{|page| page != @page && page.menu_item.present? && page.menu_item.is_main_item?}
   end
 
   def replace_main_menu_item

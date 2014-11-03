@@ -41,8 +41,8 @@ module Api::Experimental::Concerns::QueryLoading
         raise ActiveRecord::RecordNotFound.new
       end
     else
-      @query = Query.new({ name: "_", :project => @project },
-                         :initialize_with_default_filter => no_query_params_provided?)
+      @query = Query.new({ name: "_", project: @project },
+                         initialize_with_default_filter: no_query_params_provided?)
     end
     prepare_query
     @query

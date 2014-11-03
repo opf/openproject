@@ -30,15 +30,15 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_filter :find_model_object, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project_from_association, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project, :only => [:index, :new, :create, :close_completed]
+  before_filter :find_model_object, except: [:index, :new, :create, :close_completed]
+  before_filter :find_project_from_association, except: [:index, :new, :create, :close_completed]
+  before_filter :find_project, only: [:index, :new, :create, :close_completed]
   before_filter :authorize
 
   include VersionsHelper
 
   def index
-    @types = @project.types.find(:all, :order => 'position')
+    @types = @project.types.find(:all, order: 'position')
     retrieve_selected_type_ids(@types, @types.select {|t| t.is_in_roadmap?})
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
@@ -52,9 +52,9 @@ class VersionsController < ApplicationController
     unless @selected_type_ids.empty?
       @versions.each do |version|
         issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:project, :status, :type, :priority],
-                                                   :conditions => {:type_id => @selected_type_ids, :project_id => project_ids},
-                                                   :order => "#{Project.table_name}.lft, #{Type.table_name}.position, #{WorkPackage.table_name}.id")
+                                                   include: [:project, :status, :type, :priority],
+                                                   conditions: {type_id: @selected_type_ids, project_id: project_ids},
+                                                   order: "#{Project.table_name}.lft, #{Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -63,8 +63,8 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version.fixed_issues.visible.find(:all,
-      :include => [:status, :type, :priority],
-      :order => "#{Type.table_name}.position, #{WorkPackage.table_name}.id")
+      include: [:status, :type, :priority],
+      order: "#{Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
@@ -90,18 +90,18 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
           end
           format.js do
             # IE doesn't support the replace_html rjs method for select box options
             render(:update) {|page| page.replace "work_package_fixed_version_id",
-              content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, :id => 'work_package_fixed_version_id', :name => 'work_package[fixed_version_id]')
+              content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, id: 'work_package_fixed_version_id', name: 'work_package[fixed_version_id]')
             }
           end
         end
       else
         respond_to do |format|
-          format.html { render :action => 'new' }
+          format.html { render action: 'new' }
           format.js do
             render(:update) {|page| page.alert(@version.errors.full_messages.join('\n')) }
           end
@@ -123,7 +123,7 @@ class VersionsController < ApplicationController
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
-          format.html { render :action => 'edit' }
+          format.html { render action: 'edit' }
         end
       end
     end
@@ -133,22 +133,22 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+    redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
     else
       flash[:error] = l(:notice_unable_delete_version)
-      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
     end
   end
 
   def status_by
     respond_to do |format|
-      format.html { render :action => 'show' }
+      format.html { render action: 'show' }
       format.js { render_status_by @version, params[:status_by] }
     end
   end

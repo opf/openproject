@@ -30,9 +30,9 @@
 require 'diff'
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:edit, :update, :preview]
+  before_filter :find_journal, except: [:index]
+  before_filter :find_optional_project, only: [:index]
+  before_filter :authorize, only: [:edit, :update, :preview]
   accept_key_auth :index
   menu_item :issues
 
@@ -45,18 +45,18 @@ class JournalsController < ApplicationController
     sort_update(@query.sortable_columns)
 
     if @query.valid?
-      @journals = @query.work_package_journals(:order => "#{Journal.table_name}.created_at DESC",
-                                               :limit => 25)
+      @journals = @query.work_package_journals(order: "#{Journal.table_name}.created_at DESC",
+                                               limit: 25)
     end
 
     title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
 
     respond_to do |format|
       format.atom do
-        render :layout => false,
-               :content_type => 'application/atom+xml',
-               :locals => { :title => title,
-                            :journals => @journals }
+        render layout: false,
+               content_type: 'application/atom+xml',
+               locals: { title: title,
+                            journals: @journals }
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -68,7 +68,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html {
         # TODO: implement non-JS journal update
-        render :nothing => true
+        render nothing: true
       }
       format.js
     end
@@ -77,11 +77,11 @@ class JournalsController < ApplicationController
   def update
     @journal.update_attribute(:notes, params[:notes]) if params[:notes]
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-    call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+    call_hook(:controller_journals_edit_post, { journal: @journal, params: params})
     respond_to do |format|
-      format.html { redirect_to :controller => "/#{@journal.journable.class.name.pluralize.downcase}",
-        :action => 'show', :id => @journal.journable_id }
-      format.js { render :action => 'update' }
+      format.html { redirect_to controller: "/#{@journal.journable.class.name.pluralize.downcase}",
+        action: 'show', id: @journal.journable_id }
+      format.js { render action: 'update' }
     end
   end
 
@@ -95,7 +95,7 @@ class JournalsController < ApplicationController
       @journable = @journal.journable
       respond_to do |format|
         format.html { }
-        format.js { render :partial => 'diff', :locals => { :diff => @diff } }
+        format.js { render partial: 'diff', locals: { diff: @diff } }
       end
     else
       render_404

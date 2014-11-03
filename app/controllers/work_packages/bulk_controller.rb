@@ -74,7 +74,7 @@ class WorkPackages::BulkController < ApplicationController
     unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
 
       respond_to do |format|
-        format.html { render :locals => { work_packages: @work_packages,
+        format.html { render locals: { work_packages: @work_packages,
                                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
                     }
         format.json { render json: { error_message: 'Clean up of associated objects required'}, status: 420 }
@@ -124,9 +124,9 @@ private
       flash[:notice] = l(:notice_successful_update) unless work_packages.empty?
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
-                        :count => unsaved_work_package_ids.size,
-                        :total => work_packages.size,
-                        :ids => '#' + unsaved_work_package_ids.join(', #'))
+                        count: unsaved_work_package_ids.size,
+                        total: work_packages.size,
+                        ids: '#' + unsaved_work_package_ids.join(', #'))
     end
   end
 

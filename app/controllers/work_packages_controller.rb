@@ -33,7 +33,7 @@ class WorkPackagesController < ApplicationController
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
-  menu_item :new_work_package, :only => [:new, :create]
+  menu_item :new_work_package, only: [:new, :create]
 
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
@@ -56,10 +56,10 @@ class WorkPackagesController < ApplicationController
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index, :preview, :column_data, :column_sums]
+                :authorize, except: [:index, :preview, :column_data, :column_sums]
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export, :only => [:index, :all, :preview]
-  before_filter :load_query, :only => :index
+                :protect_from_unauthorized_export, only: [:index, :all, :preview]
+  before_filter :load_query, only: :index
 
   # The order in here is actually important for the angular client.
   # The first 6 are always to be displayed.
@@ -72,70 +72,70 @@ class WorkPackagesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        render :show, :locals => { :work_package => work_package,
-                                   :project => project,
-                                   :priorities => priorities,
-                                   :user => current_user,
-                                   :ancestors => ancestors,
-                                   :descendants => descendants,
-                                   :changesets => changesets,
-                                   :relations => relations,
-                                   :journals => journals }
+        render :show, locals: { work_package: work_package,
+                                   project: project,
+                                   priorities: priorities,
+                                   user: current_user,
+                                   ancestors: ancestors,
+                                   descendants: descendants,
+                                   changesets: changesets,
+                                   relations: relations,
+                                   journals: journals }
       end
 
       format.js do
-        render :show, :partial => 'show', :locals => { :work_package => work_package,
-                                                       :project => project,
-                                                       :priorities => priorities,
-                                                       :user => current_user,
-                                                       :ancestors => ancestors,
-                                                       :descendants => descendants,
-                                                       :changesets => changesets,
-                                                       :relations => relations,
-                                                       :journals => journals }
+        render :show, partial: 'show', locals: { work_package: work_package,
+                                                       project: project,
+                                                       priorities: priorities,
+                                                       user: current_user,
+                                                       ancestors: ancestors,
+                                                       descendants: descendants,
+                                                       changesets: changesets,
+                                                       relations: relations,
+                                                       journals: journals }
       end
 
       format.pdf do
         pdf = WorkPackage::Exporter.work_package_to_pdf(work_package)
 
         send_data(pdf,
-                  :type => 'application/pdf',
-                  :filename => "#{project.identifier}-#{work_package.id}.pdf")
+                  type: 'application/pdf',
+                  filename: "#{project.identifier}-#{work_package.id}.pdf")
       end
 
       format.atom do
-        render :template => 'journals/index',
-               :layout => false,
-               :content_type => 'application/atom+xml',
-               :locals => { :title => "#{Setting.app_title} - #{work_package.to_s}",
-                            :journals => journals }
+        render template: 'journals/index',
+               layout: false,
+               content_type: 'application/atom+xml',
+               locals: { title: "#{Setting.app_title} - #{work_package.to_s}",
+                            journals: journals }
       end
     end
   end
 
   def new
     respond_to do |format|
-      format.html { render :locals => { :work_package => work_package,
-                                        :project => project,
-                                        :priorities => priorities,
-                                        :user => current_user } }
+      format.html { render locals: { work_package: work_package,
+                                        project: project,
+                                        priorities: priorities,
+                                        user: current_user } }
     end
   end
 
   def new_type
-    safe_params = permitted_params.update_work_package(:project => project)
+    safe_params = permitted_params.update_work_package(project: project)
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.js { render :locals => { :work_package => work_package,
-                                      :project => project,
-                                      :priorities => priorities,
-                                      :user => current_user } }
+      format.js { render locals: { work_package: work_package,
+                                      project: project,
+                                      priorities: priorities,
+                                      user: current_user } }
     end
   end
 
   def create
-    call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => work_package })
+    call_hook(:controller_work_package_new_before_save, { params: params, work_package: work_package })
 
     WorkPackageObserver.instance.send_notification = send_notifications?
 
@@ -144,40 +144,40 @@ class WorkPackagesController < ApplicationController
     if work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
 
-      call_hook(:controller_work_package_new_after_save, { :params => params, :work_package => work_package })
+      call_hook(:controller_work_package_new_after_save, { params: params, work_package: work_package })
 
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html { render :action => 'new', :locals => { :work_package => work_package,
-                                                            :project => project,
-                                                            :priorities => priorities,
-                                                            :user => current_user } }
+        format.html { render action: 'new', locals: { work_package: work_package,
+                                                            project: project,
+                                                            priorities: priorities,
+                                                            user: current_user } }
       end
     end
   end
 
   def edit
-    locals =   { :work_package => work_package,
-                 :allowed_statuses => allowed_statuses,
-                 :project => project,
-                 :priorities => priorities,
-                 :time_entry => time_entry,
-                 :user => current_user,
-                 :back_url => params[:back_url] }
+    locals =   { work_package: work_package,
+                 allowed_statuses: allowed_statuses,
+                 project: project,
+                 priorities: priorities,
+                 time_entry: time_entry,
+                 user: current_user,
+                 back_url: params[:back_url] }
 
     respond_to do |format|
       format.html do
-        render :edit, :locals => locals
+        render :edit, locals: locals
       end
       format.js do
-        render :partial => "edit", :locals => locals
+        render partial: "edit", locals: locals
       end
     end
   end
 
   def update
-    safe_params = permitted_params.update_work_package(:project => project)
+    safe_params = permitted_params.update_work_package(project: project)
 
     update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
 
@@ -200,7 +200,7 @@ class WorkPackagesController < ApplicationController
     journals_since = work_package.journals.after(work_package.lock_version)
     if journals_since.any?
       changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-      error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+      error_message << " " << l(:notice_locking_conflict_additional_information, users: changes.join(', '))
     end
 
     error_message << " " << l(:notice_locking_conflict_reload_page)
@@ -218,31 +218,31 @@ class WorkPackagesController < ApplicationController
         gon.settings = client_preferences
         gon.settings[:work_package_attributes] = hook_overview_attributes
 
-        render :index, :locals => { :query => @query,
-                                    :project => @project },
-                       :layout => 'angular' # !request.xhr?
+        render :index, locals: { query: @query,
+                                    project: @project },
+                       layout: 'angular' # !request.xhr?
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
-        send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
-                                            :filename => 'export.csv')
+        send_data(serialized_work_packages, type: "text/csv; #{charset}; header=present",
+                                            filename: 'export.csv')
       end
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
                                                              @results,
-                                                             :show_descriptions => params[:show_descriptions])
+                                                             show_descriptions: params[:show_descriptions])
 
         send_data(serialized_work_packages,
-                  :type => 'application/pdf',
-                  :filename => 'export.pdf')
+                  type: 'application/pdf',
+                  filename: 'export.pdf')
       end
       format.atom do
         render_feed(@work_packages,
-                    :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+                    title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -264,16 +264,16 @@ class WorkPackagesController < ApplicationController
     text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
     work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
 
-    locals = { :work_package => work_package,
-               :allowed_statuses => allowed_statuses,
-               :project => project,
-               :priorities => priorities,
-               :time_entry => time_entry,
-               :user => current_user }
+    locals = { work_package: work_package,
+               allowed_statuses: allowed_statuses,
+               project: project,
+               priorities: priorities,
+               time_entry: time_entry,
+               user: current_user }
 
     respond_to do |format|
-      format.js { render :partial => 'edit', locals: locals }
-      format.html { render :action => 'edit', locals: locals }
+      format.js { render partial: 'edit', locals: locals }
+      format.html { render action: 'edit', locals: locals }
     end
   end
 
@@ -303,7 +303,7 @@ class WorkPackagesController < ApplicationController
       return nil unless project
 
       permitted = if params[:work_package]
-                    permitted_params.new_work_package(:project => project)
+                    permitted_params.new_work_package(project: project)
                   else
                     params[:work_package] ||= {}
                     {}
@@ -312,7 +312,7 @@ class WorkPackagesController < ApplicationController
       permitted[:author] = current_user
 
       wp = project.add_work_package(permitted)
-      wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
+      wp.copy_from(params[:copy_from], exclude: [:project_id]) if params[:copy_from]
 
       wp
     end
@@ -352,7 +352,7 @@ class WorkPackagesController < ApplicationController
   def changesets
     @changesets ||= begin
       changes = work_package.changesets.visible
-                                       .includes({ :repository => {:project => :enabled_modules} }, :user)
+                                       .includes({ repository: {project: :enabled_modules} }, :user)
                                        .all
 
       changes.reverse! if current_user.wants_comments_in_reverse_order?
@@ -362,14 +362,14 @@ class WorkPackagesController < ApplicationController
   end
 
   def relations
-    @relations ||= work_package.relations.includes(:from => [:status,
+    @relations ||= work_package.relations.includes(from: [:status,
                                                                    :priority,
                                                                    :type,
-                                                                   { :project => :enabled_modules }],
-                                                   :to => [:status,
+                                                                   { project: :enabled_modules }],
+                                                   to: [:status,
                                                                  :priority,
                                                                  :type,
-                                                                 { :project => :enabled_modules }])
+                                                                 { project: :enabled_modules }])
                                          .select{ |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
   end
 
@@ -395,7 +395,7 @@ class WorkPackagesController < ApplicationController
     permitted = {}
 
     if params[:work_package]
-      permitted = permitted_params.update_work_package(:project => project)
+      permitted = permitted_params.update_work_package(project: project)
     end
 
     if permitted.has_key?("time_entry")
@@ -419,7 +419,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if EXPORT_FORMATS.include?(params[:format]) &&
-      !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -447,8 +447,8 @@ class WorkPackagesController < ApplicationController
     sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
 
-    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                             :order => sort_clause)
+    @results = @query.results(include: [:assigned_to, :type, :priority, :category, :fixed_version],
+                             order: sort_clause)
     @work_packages = if @query.valid?
                       @results.work_packages.page(page_param)
                                             .per_page(per_page_param)

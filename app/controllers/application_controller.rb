@@ -125,7 +125,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    { :layout => params['layout'] }
+    { layout: params['layout'] }
   end
 
   # set http headers so that the browser does not store any
@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id], :include => [:memberships]) rescue nil)
+      (User.active.find(session[:user_id], include: [:memberships]) rescue nil)
     elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
@@ -255,7 +255,7 @@ class ApplicationController < ActionController::Base
                       project_id: params[:project_id])
       end
       respond_to do |format|
-        format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
+        format.any(:html, :atom) { redirect_to signin_path(back_url: url) }
 
         authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
                                   'Session'
@@ -293,7 +293,7 @@ class ApplicationController < ActionController::Base
 
     unless is_authorized
       if @project && @project.archived?
-        render_403 :message => :notice_not_authorized_archived_project
+        render_403 message: :notice_not_authorized_archived_project
       else
         deny_access
       end
@@ -333,7 +333,7 @@ class ApplicationController < ActionController::Base
 
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
     allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
-                                       @project, :global => true)
+                                       @project, global: true)
     allowed ? true : deny_access
   end
 
@@ -507,7 +507,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_500(options = {})
-    message = t(:notice_internal_server_error, :app_title => Setting.app_title)
+    message = t(:notice_internal_server_error, app_title: Setting.app_title)
 
     if $ERROR_INFO.is_a?(ActionView::ActionViewError)
       @template.instance_variable_set('@project', nil)
@@ -544,7 +544,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html do
-        render :template => 'common/error', :layout => use_layout, :status => @status
+        render template: 'common/error', layout: use_layout, status: @status
       end
       format.any(:atom, :xml, :js, :json, :pdf, :csv) { head @status }
     end
@@ -562,7 +562,7 @@ class ApplicationController < ActionController::Base
     @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => 'common/feed', :layout => false, :content_type => 'application/atom+xml'
+    render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
   end
 
   def self.accept_key_auth(*actions)
@@ -643,10 +643,10 @@ class ApplicationController < ActionController::Base
 
   # Renders API response on validation failure
   def render_validation_errors(object)
-    options = { :status => :unprocessable_entity, :layout => false }
+    options = { status: :unprocessable_entity, layout: false }
     errors = case params[:format]
              when 'xml'
-               { :xml =>  object.errors }
+               { xml:  object.errors }
              when 'json'
                { json: { 'errors' => object.errors } } # ActiveResource client compliance
              else
@@ -710,11 +710,11 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        url = url_for(:controller => params[:controller], :action => params[:action],
-                      :id => params[:id], :project_id => params[:project_id])
+        url = url_for(controller: params[:controller], action: params[:action],
+                      id: params[:id], project_id: params[:project_id])
       end
-      flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
-      redirect_to(:controller => 'account', :action => 'login', :back_url => url)
+      flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
+      redirect_to(controller: 'account', action: 'login', back_url: url)
     end
     session[:updated_at] = Time.now
   end

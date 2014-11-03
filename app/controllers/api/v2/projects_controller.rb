@@ -33,16 +33,16 @@ module Api
 
       include ::Api::V2::ApiController
 
-      before_filter :find_project, :except => [:index, :level_list]
-      before_filter :authorize, :only => :show
-      before_filter :require_permissions, :only => :planning_element_custom_fields
+      before_filter :find_project, except: [:index, :level_list]
+      before_filter :authorize, only: :show
+      before_filter :require_permissions, only: :planning_element_custom_fields
 
       def self.accept_key_auth_actions
         super + ["planning_element_custom_fields"]
       end
 
       def index
-        options = {:order => 'lft'}
+        options = {order: 'lft'}
 
         if params[:ids]
           ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
@@ -80,7 +80,7 @@ module Api
       end
 
       def planning_element_custom_fields
-        @custom_fields = @project.all_work_package_custom_fields :include => [:projects, :types, :translations]
+        @custom_fields = @project.all_work_package_custom_fields include: [:projects, :types, :translations]
 
         respond_to do |format|
           format.api
@@ -91,7 +91,7 @@ module Api
 
       def find_project
         @project = Project.find params[:id],
-          :include => [{:custom_values => [{:custom_field => :translations}]}]
+          include: [{custom_values: [{custom_field: :translations}]}]
       end
 
       def build_associations

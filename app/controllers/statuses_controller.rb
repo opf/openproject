@@ -34,47 +34,47 @@ class StatusesController < ApplicationController
 
   before_filter :require_admin
 
-  verify :method => :get, :only => :index, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :get, only: :index, render: {nothing: true, status: :method_not_allowed }
   def index
     @statuses = Status.page(params[:page])
                       .per_page(per_page_param)
 
-    render :action => "index", :layout => false if request.xhr?
+    render action: "index", layout: false if request.xhr?
   end
 
-  verify :method => :get, :only => :new, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :get, only: :new, render: {nothing: true, status: :method_not_allowed }
   def new
     @status = Status.new
   end
 
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :post, only: :create, render: {nothing: true, status: :method_not_allowed }
   def create
     @status = Status.new(permitted_params.status)
     if @status.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
-  verify :method => :get, :only => :edit, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :get, only: :edit, render: {nothing: true, status: :method_not_allowed }
   def edit
     @status = Status.find(params[:id])
   end
 
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :put, only: :update, render: {nothing: true, status: :method_not_allowed }
   def update
     @status = Status.find(params[:id])
     if @status.update_attributes(permitted_params.status)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
-  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
+  verify method: :delete, only: :destroy, render: {nothing: true, status: :method_not_allowed }
   def destroy
     status = Status.find(params[:id])
     if status.is_default?
@@ -82,20 +82,20 @@ class StatusesController < ApplicationController
     else
       status.destroy
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   rescue
     flash[:error] = l(:error_unable_delete_status)
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
-  verify :method => :post, :only => :update_work_package_done_ratio,
-         :render => { :nothing => true, :status => 405 }
+  verify method: :post, only: :update_work_package_done_ratio,
+         render: { nothing: true, status: 405 }
   def update_work_package_done_ratio
     if Status.update_work_package_done_ratios
       flash[:notice] = l(:notice_work_package_done_ratios_updated)
     else
       flash[:error] =  l(:error_work_package_done_ratios_not_updated)
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 end

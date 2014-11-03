@@ -41,14 +41,14 @@ class ProjectEnumerationsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     end
 
-    redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
+    redirect_to controller: '/projects', action: 'settings', tab: 'activities', id: @project
   end
 
   def destroy
     TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
 
     flash[:notice] = l(:notice_successful_update)
-    redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
+    redirect_to controller: '/projects', action: 'settings', tab: 'activities', id: @project
   end
 
 end

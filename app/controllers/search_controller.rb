@@ -86,11 +86,11 @@ class SearchController < ApplicationController
       limit = 10
       @scope.each do |s|
         r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
-          :all_words => @all_words,
-          :titles_only => @titles_only,
-          :limit => (limit+1),
-          :offset => offset,
-          :before => params[:previous].nil?)
+          all_words: @all_words,
+          titles_only: @titles_only,
+          limit: (limit+1),
+          offset: offset,
+          before: params[:previous].nil?)
         @results += r
         @results_by_type[s] += c
       end
@@ -111,7 +111,7 @@ class SearchController < ApplicationController
     else
       @question = ""
     end
-    render :layout => false if request.xhr?
+    render layout: false if request.xhr?
   end
 
 private

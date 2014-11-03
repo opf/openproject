@@ -31,7 +31,7 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_enumeration, :only => [:edit, :update, :destroy]
+  before_filter :find_enumeration, only: [:edit, :update, :destroy]
 
   include CustomFieldsHelper
 
@@ -56,9 +56,9 @@ class EnumerationsController < ApplicationController
 
     if @enumeration.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index', :type => @enumeration.type
+      redirect_to action: 'index', type: @enumeration.type
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -68,9 +68,9 @@ class EnumerationsController < ApplicationController
     @enumeration.type = enumeration_class(type).try(:name) || @enumeration.type
     if @enumeration.update_attributes enum_params
       flash[:notice] = l(:notice_successful_update)
-      redirect_to enumerations_path(:type => @enumeration.type)
+      redirect_to enumerations_path(type: @enumeration.type)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -78,12 +78,12 @@ class EnumerationsController < ApplicationController
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
       return
     elsif params[:reassign_to_id]
       if reassign_to = @enumeration.class.find_by_id(params[:reassign_to_id])
         @enumeration.destroy(reassign_to)
-        redirect_to :action => 'index'
+        redirect_to action: 'index'
         return
       end
     end

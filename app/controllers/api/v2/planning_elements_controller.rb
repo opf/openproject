@@ -39,12 +39,12 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
-                    :authorize, :except => [:index]
+                    :authorize, except: [:index]
       before_filter :parse_changed_since, only: [:index]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
-      before_filter :find_all_projects_by_project_id, :only => :index
+      before_filter :find_all_projects_by_project_id, only: :index
 
       helper :timelines
 
@@ -59,7 +59,7 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+        @planning_element.update_attributes(permitted_params.planning_element({project: @project}).except :note)
 
         @planning_element.attach_files(params[:attachments])
 
@@ -74,7 +74,7 @@ module Api
               redirect_url = api_v2_project_planning_element_url(
                 @project, @planning_element,
                 # TODO this probably should be (params[:format] ||'xml'), however, client code currently anticipates xml responses.
-                :format => 'xml'
+                format: 'xml'
               )
               see_other(redirect_url)
             else
@@ -86,7 +86,7 @@ module Api
 
       def show
         @planning_element = @project.work_packages.find params[:id],
-          :include => [{:custom_values => [{:custom_field => :translations}]}]
+          include: [{custom_values: [{custom_field: :translations}]}]
 
         respond_to do |format|
           format.api
@@ -95,9 +95,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
+        @planning_element.attributes = permitted_params.planning_element({project: @project}).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element({project: @project})[:note])
 
         successfully_updated = @planning_element.save
 
@@ -125,8 +125,8 @@ module Api
 
       def load_multiple_projects(ids, identifiers)
         @projects = []
-        @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
-        @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
+        @projects |= Project.all(conditions: {id: ids}) unless ids.empty?
+        @projects |= Project.all(conditions: {identifier: identifiers}) unless identifiers.empty?
       end
 
       def find_single_project
@@ -242,8 +242,8 @@ module Api
       def timeline_to_project(timeline_id)
         if timeline_id then
           project = Timeline.find_by_id(params[:timeline]).project
-          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
-                                                      :action     => "index"},
+          user_has_access = User.current.allowed_to?({controller: "planning_elements",
+                                                      action:     "index"},
                                                       project)
           if user_has_access then
             return project
@@ -262,7 +262,7 @@ module Api
         if params[:f]
           #we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
-          query = Query.new(:project => project, :name => '_')
+          query = Query.new(project: project, name: '_')
 
           query.add_filters(params[:f], params[:op], params[:v])
 
@@ -293,10 +293,10 @@ module Api
 
       # Actual protected methods
       def render_errors(errors)
-        options = {:status => :bad_request, :layout => false}
+        options = {status: :bad_request, layout: false}
         options.merge!(case params[:format]
-          when 'xml';  {:xml => errors}
-          when 'json'; {:json => {'errors' => errors}}
+          when 'xml';  {xml: errors}
+          when 'json'; {json: {'errors' => errors}}
           else
             raise "Unknown format #{params[:format]} in #render_validation_errors"
           end
