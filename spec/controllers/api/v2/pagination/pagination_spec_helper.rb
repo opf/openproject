@@ -33,7 +33,7 @@ module Api
         def paginating_index_action(model, scope)
           describe :index, type: :controller do
             let(:params) { { "page" => "1",
-                             "page_limit" =>
+                             "page_limit" => "10",
                              "q" => "blubs",
                              "format" => "json" } }
 
