@@ -30,3 +30,5 @@
 class Journal::WorkPackageJournal < Journal::BaseJournal
   self.table_name = 'work_package_journals'
 end
+
+::WorkPackageJournal = Journal::WorkPackageJournal

@@ -32,3 +32,5 @@ class Journal::CustomizableJournal < Journal::BaseJournal
 
   belongs_to :custom_field, foreign_key: :custom_field_id
 end
+
+::CustomizableJournal = Journal::CustomizableJournal

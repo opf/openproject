@@ -30,3 +30,5 @@
 class Journal::NewsJournal < Journal::BaseJournal
   self.table_name = 'news_journals'
 end
+
+::NewsJournal = Journal::NewsJournal
