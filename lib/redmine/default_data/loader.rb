@@ -150,55 +150,55 @@ module Redmine
             end).flatten]
 
             # Types
-            task = Type.create! name:           l(:default_type_task),
-                                color_id:       colors[:Mint],
-                                is_default:     false,
-                                is_in_roadmap:  true,
-                                in_aggregation: true,
-                                is_milestone:   false,
-                                position:       1
+            task = ::Type.create! name:         l(:default_type_task),
+                                  color_id:       colors[:Mint],
+                                  is_default:     false,
+                                  is_in_roadmap:  true,
+                                  in_aggregation: true,
+                                  is_milestone:   false,
+                                  position:       1
 
-            deliverable = Type.create! name:           l(:default_type_deliverable),
-                                       is_default:     false,
-                                       color_id:       colors[:Orange],
-                                       is_in_roadmap:  true,
+            deliverable = ::Type.create! name:         l(:default_type_deliverable),
+                                         is_default:     false,
+                                         color_id:       colors[:Orange],
+                                         is_in_roadmap:  true,
+                                         in_aggregation: true,
+                                         is_milestone:   false,
+                                         position:       2
+
+            milestone = ::Type.create! name:         l(:default_type_milestone),
+                                       is_default:     true,
+                                       color_id:       colors[:Purple],
+                                       is_in_roadmap:  false,
                                        in_aggregation: true,
-                                       is_milestone:   false,
-                                       position:       2
+                                       is_milestone:   true,
+                                       position:       3
 
-            milestone = Type.create! name:           l(:default_type_milestone),
-                                     is_default:     true,
-                                     color_id:       colors[:Purple],
-                                     is_in_roadmap:  false,
-                                     in_aggregation: true,
-                                     is_milestone:   true,
-                                     position:       3
-
-            phase = Type.create! name:           l(:default_type_phase),
-                                 is_default:     true,
-                                 color_id:       colors[:Lime],
-                                 is_in_roadmap:  false,
-                                 in_aggregation: true,
-                                 is_milestone:   false,
-                                 position:       4
-
-            bug = Type.create! name:           l(:default_type_bug),
-                               is_default:     false,
-                               color_id:       colors[:'Red-bright'],
-                               is_in_roadmap:  true,
-                               in_aggregation: true,
-                               is_milestone:   false,
-                               position:       5
-
-            feature = Type.create! name:           l(:default_type_feature),
-                                   is_default:     false,
-                                   color_id:       colors[:Blue],
-                                   is_in_roadmap:  true,
+            phase = ::Type.create! name:         l(:default_type_phase),
+                                   is_default:     true,
+                                   color_id:       colors[:Lime],
+                                   is_in_roadmap:  false,
                                    in_aggregation: true,
                                    is_milestone:   false,
-                                   position:       6
+                                   position:       4
 
-            none = Type.standard_type
+            bug = ::Type.create! name:         l(:default_type_bug),
+                                 is_default:     false,
+                                 color_id:       colors[:'Red-bright'],
+                                 is_in_roadmap:  true,
+                                 in_aggregation: true,
+                                 is_milestone:   false,
+                                 position:       5
+
+            feature = ::Type.create! name:         l(:default_type_feature),
+                                     is_default:     false,
+                                     color_id:       colors[:Blue],
+                                     is_in_roadmap:  true,
+                                     in_aggregation: true,
+                                     is_milestone:   false,
+                                     position:       6
+
+            none = ::Type.standard_type
 
             # Issue statuses
             new      = Status.create!(name: l(:default_status_new), is_closed: false, is_default: true, position: 1)

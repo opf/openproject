@@ -68,7 +68,7 @@ class Workflow < ActiveRecord::Base
 
   # Copies workflows from source to targets
   def self.copy(source_type, source_role, target_types, target_roles)
-    unless source_type.is_a?(Type) || source_role.is_a?(Role)
+    unless source_type.is_a?(::Type) || source_role.is_a?(Role)
       raise ArgumentError.new('source_type or source_role must be specified')
     end
 
@@ -90,9 +90,9 @@ class Workflow < ActiveRecord::Base
 
   # Copies a single set of workflows from source to target
   def self.copy_one(source_type, source_role, target_type, target_role)
-    unless source_type.is_a?(Type) && !source_type.new_record? &&
+    unless source_type.is_a?(::Type) && !source_type.new_record? &&
            source_role.is_a?(Role) && !source_role.new_record? &&
-           target_type.is_a?(Type) && !target_type.new_record? &&
+           target_type.is_a?(::Type) && !target_type.new_record? &&
            target_role.is_a?(Role) && !target_role.new_record?
 
       raise ArgumentError.new('arguments can not be nil or unsaved objects')

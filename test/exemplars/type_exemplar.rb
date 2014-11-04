@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Type < ActiveRecord::Base
+class ::Type < ActiveRecord::Base
   generator_for :name, :method => :next_name
 
   def self.next_name
