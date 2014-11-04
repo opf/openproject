@@ -40,14 +40,6 @@ module API
             helpers do
               attr_reader :work_package
 
-              def save_work_package
-                send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-
-                UserMailer.with_deliveries(send_notifications) do
-                  @representer.represented.save
-                end
-              end
-
               def decorate_work_package(work_package)
                 @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
               end
@@ -89,7 +81,13 @@ module API
 
               @representer.from_json(patch_request_body)
 
-              if patch_request_valid? && save_work_package
+              send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
+              update_service = UpdateWorkPackageService.new(current_user,
+                                                            @representer.represented,
+                                                            nil,
+                                                            send_notifications)
+
+              if patch_request_valid? && update_service.save
                 decorate_work_package(@work_package.reload)
                 @representer
               else
