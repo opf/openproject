@@ -33,7 +33,6 @@ require_relative 'utils'
 
 module Migration
   module Utils
-
     def update_query_references_with_keys(keys)
       update_column_values('queries', COLUMNS.keys, update_query_reference(keys, COLUMNS), nil)
     end
@@ -71,14 +70,14 @@ module Migration
       if value.is_a? Array
         value.map! do |e|
           if e.is_a? Array
-            e.map! {|v| keys.has_key?(v) ? keys[v] : v}
+            e.map! { |v| keys.has_key?(v) ? keys[v] : v }
           else
             keys.has_key?(e.to_s) ? keys[e.to_s].to_sym : e
           end
         end
       elsif value.is_a? Hash
-        keys.select {|k| value[k.to_s]}
-            .each_pair {|k, v| value[v] = value.delete k}
+        keys.select { |k| value[k.to_s] }
+          .each_pair { |k, v| value[v] = value.delete k }
       end
 
       YAML.dump value

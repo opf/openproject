@@ -37,7 +37,7 @@ class AddFailedLoginCountLastFailedLoginOnToUser < ActiveRecord::Migration
             "\n\n"\
             "Chances are high that this schema was modified by the plug-in 'Strong Passwords':\n"\
             "You may use the rake task 'migrations:strong_passwords:reregister' to prepare the\n"\
-            "current schema for this migration."\
+            'current schema for this migration.'\
             "\n\n\n"
     end
     User.reset_column_information

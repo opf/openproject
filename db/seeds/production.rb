@@ -29,7 +29,6 @@
 
 # add seeds specific for the production-environment here
 
-
 standard_type = Type.find_by_is_standard(true)
 
 # Adds the standard type to all existing projects
@@ -38,7 +37,7 @@ standard_type = Type.find_by_is_standard(true)
 # that do not have the default type yet.
 
 projects_without_standard_type = Project.where("NOT EXISTS (SELECT * from projects_types WHERE projects.id = projects_types.project_id AND projects_types.type_id = #{standard_type.id})")
-                                        .all
+                                 .all
 
 projects_without_standard_type.each do |project|
   project.types << standard_type

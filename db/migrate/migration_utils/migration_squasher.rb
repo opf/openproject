@@ -34,9 +34,8 @@ module Migration
     class IncompleteMigrationsError < ::StandardError
     end
 
-    #define all the following methods as class methods
+    # define all the following methods as class methods
     class << self
-
       def squash(aggregated_versions)
         intersection = aggregated_versions & all_versions
 
@@ -51,7 +50,7 @@ module Migration
           # All migrations that this migration aggregates have already
           # been applied. In this case, remove the information about those
           # migrations from the schema_migrations table and we're done.
-          ActiveRecord::Base.connection.execute <<-SQL + (intersection.map { |version| <<-CONDITIONS }).join(" OR ")
+          ActiveRecord::Base.connection.execute <<-SQL + (intersection.map { |version| <<-CONDITIONS }).join(' OR ')
             DELETE FROM
               #{quoted_schema_migrations_table_name}
             WHERE
@@ -65,7 +64,7 @@ module Migration
 
           # Only a part of the migrations that this migration aggregates
           # have already been applied. In this case, fail miserably.
-          raise IncompleteMigrationsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          raise IncompleteMigrationsError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
             It appears you are migrating from an incompatible version.
             Your database has only some migrations to be squashed.
             Please update your installation to a version including all the
@@ -74,11 +73,9 @@ module Migration
           MESSAGE
 
         end
-
       end
 
-
-    private
+      private
 
       def all_versions
         table = Arel::Table.new(schema_migrations_table_name)
@@ -94,17 +91,16 @@ module Migration
       end
 
       def quoted_version_column_name
-        ActiveRecord::Base.connection.quote_table_name("version")
+        ActiveRecord::Base.connection.quote_table_name('version')
       end
 
       def version_column_for_comparison
         "#{quoted_schema_migrations_table_name}.#{quoted_version_column_name}"
       end
 
-      def quote_value s
+      def quote_value(s)
         ActiveRecord::Base.connection.quote(s)
       end
-
     end
   end
 end

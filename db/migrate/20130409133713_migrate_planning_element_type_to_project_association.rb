@@ -29,13 +29,13 @@
 
 class MigratePlanningElementTypeToProjectAssociation < ActiveRecord::Migration
   {
-    :DefaultPlanningElementType => 'timelines_default_planning_element_types',
-    :EnabledPlanningElementType => 'timelines_enabled_planning_element_types',
-    :PlanningElementType        => 'timelines_planning_element_types',
-    :Project                    => 'projects',
-    :ProjectType                => 'timelines_project_types'
+    DefaultPlanningElementType: 'timelines_default_planning_element_types',
+    EnabledPlanningElementType: 'timelines_enabled_planning_element_types',
+    PlanningElementType: 'timelines_planning_element_types',
+    Project: 'projects',
+    ProjectType: 'timelines_project_types'
   }.each do |class_name, table_name|
-    self.const_set(class_name, Class.new(ActiveRecord::Base) do
+    const_set(class_name, Class.new(ActiveRecord::Base) do
       self.table_name = table_name
     end)
   end
@@ -52,11 +52,11 @@ class MigratePlanningElementTypeToProjectAssociation < ActiveRecord::Migration
       project_type = ProjectType.find(planning_element_type.project_type_id)
 
       DefaultPlanningElementType.create!(project_type_id:          project_type.id,
-                                        planning_element_type_id: planning_element_type.id)
+                                         planning_element_type_id: planning_element_type.id)
 
-      Project.find(:all, conditions: {timelines_project_type_id: project_type.id}).each do |project|
+      Project.find(:all, conditions: { timelines_project_type_id: project_type.id }).each do |project|
         EnabledPlanningElementType.create!(project_id:               project.id,
-                                          planning_element_type_id: planning_element_type.id)
+                                           planning_element_type_id: planning_element_type.id)
       end
     end
   end

@@ -34,7 +34,7 @@ class AddMissingCustomizableJournals < ActiveRecord::Migration
   include Migration::Utils::CustomizableUtils
 
   def up
-    say_with_time_silently "Add missing customizable journals" do
+    say_with_time_silently 'Add missing customizable journals' do
       add_missing_customizable_journals
     end
   end

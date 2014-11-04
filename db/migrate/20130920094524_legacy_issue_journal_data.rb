@@ -35,7 +35,7 @@ class LegacyIssueJournalData < ActiveRecord::Migration
   include Migration::Utils
 
   def up
-    add_index "work_package_journals", ["journal_id"]
+    add_index 'work_package_journals', ['journal_id']
 
     migrator.run
 
@@ -46,22 +46,20 @@ class LegacyIssueJournalData < ActiveRecord::Migration
     migrator.remove_journals_derived_from_legacy_journals 'customizable_journals',
                                                           'attachable_journals'
 
-    remove_index "work_package_journals", ["journal_id"]
+    remove_index 'work_package_journals', ['journal_id']
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new "IssueJournal", "work_package_journals" do
+    @migrator ||= Migration::LegacyJournalMigrator.new 'IssueJournal', 'work_package_journals' do
       extend Migration::JournalMigratorConcerns::Attachable
       extend Migration::JournalMigratorConcerns::Customizable
 
-      self.journable_class = "WorkPackage"
+      self.journable_class = 'WorkPackage'
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
         migrate_custom_values(to_insert, legacy_journal, journal_id)
-
       end
     end
   end

@@ -31,15 +31,15 @@ class JournalIndices < ActiveRecord::Migration
   def up
     # remove existing indices on legacy_issues, if they still exist to avoid name-clashes with
     # the real(tm) journals-table
-    if (ActiveRecord::Base.connection.table_exists? :legacy_journals)
+    if ActiveRecord::Base.connection.table_exists? :legacy_journals
 
-      ActiveRecord::Base.connection.indexes(:legacy_journals).map(&:name).each{ |index_name| remove_index :legacy_journals, name: index_name }
+      ActiveRecord::Base.connection.indexes(:legacy_journals).map(&:name).each { |index_name| remove_index :legacy_journals, name: index_name }
 
-      add_index :legacy_journals, :activity_type, name: "idx_lgcy_journals_on_activity_type"
-      add_index :legacy_journals, :created_at, name: "idx_lgcy_journals_on_created_at"
-      add_index :legacy_journals, :journaled_id, name: "idx_lgcy_journals_on_journaled_id"
-      add_index :legacy_journals, :type, name: "idx_lgcy_journals_on_type"
-      add_index :legacy_journals, :user_id, name: "idx_lgcy_journals_on_user_id"
+      add_index :legacy_journals, :activity_type, name: 'idx_lgcy_journals_on_activity_type'
+      add_index :legacy_journals, :created_at, name: 'idx_lgcy_journals_on_created_at'
+      add_index :legacy_journals, :journaled_id, name: 'idx_lgcy_journals_on_journaled_id'
+      add_index :legacy_journals, :type, name: 'idx_lgcy_journals_on_type'
+      add_index :legacy_journals, :user_id, name: 'idx_lgcy_journals_on_user_id'
 
     end
 
@@ -48,7 +48,6 @@ class JournalIndices < ActiveRecord::Migration
     add_index :journals, :journable_type
     add_index :journals, :user_id
     add_index :journals, :activity_type
-
   end
 
   def down
@@ -58,6 +57,4 @@ class JournalIndices < ActiveRecord::Migration
     remove_index :journals, :user_id
     remove_index :journals, :activity_type
   end
-
-
 end

@@ -32,7 +32,7 @@ require_relative 'migration_utils/journal_migrator_concerns'
 
 class LegacyTimeEntryJournalData < ActiveRecord::Migration
   def up
-    add_index "time_entry_journals", ["journal_id"]
+    add_index 'time_entry_journals', ['journal_id']
 
     migrator.run
   end
@@ -40,19 +40,17 @@ class LegacyTimeEntryJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals 'customizable_journals'
 
-    remove_index "time_entry_journals", ["journal_id"]
+    remove_index 'time_entry_journals', ['journal_id']
   end
 
   private
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals") do
+    @migrator ||= Migration::LegacyJournalMigrator.new('TimeEntryJournal', 'time_entry_journals') do
       extend Migration::JournalMigratorConcerns::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
         migrate_custom_values(to_insert, legacy_journal, journal_id)
-
       end
     end
   end

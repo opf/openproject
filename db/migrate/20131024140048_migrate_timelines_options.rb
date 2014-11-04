@@ -36,44 +36,44 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
 
   OPTIONS = {
     # already done in 20131015064141_migrate_timelines_end_date_property_in_options.rb
-    #'end_date' => 'due_date',
+    # 'end_date' => 'due_date',
     'planning_element_types' => 'type',
     'project_type' => 'type',
     'project_status' => 'status',
   }
 
   def up
-    say_with_time_silently "Check for historical comparisons" do
+    say_with_time_silently 'Check for historical comparisons' do
       comparisons = timelines_with_historical_comparisons
 
       unless comparisons.empty?
         affected_ids = comparisons.map(&:id)
 
-        raise "Error: Cannot migrate timelines options!"\
+        raise 'Error: Cannot migrate timelines options!'\
               "\n\n"\
               "Timelines exist that use historical comparison. This is not\n"\
               "supported in future versions of timelines.\n\n"\
               "The affected timelines ids are: #{affected_ids}\n\n"\
-              "You may use the rake task "\
+              'You may use the rake task '\
               "'migrations:timelines:remove_timelines_historical_comparison_from_options' "\
               "to prepare the\n"\
-              "current schema for this migration."\
+              'current schema for this migration.'\
               "\n\n\n"
       end
     end
 
-    say_with_time_silently "Update timelines options" do
+    say_with_time_silently 'Update timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_timelines_options(OPTIONS,
                                                                     pe_id_map,
                                                                     pe_type_id_map)),
-                          nil)
+                           nil)
     end
 
     if contains_none_element?
       puts "\n\n"\
-           "ATTENTION:"\
+           'ATTENTION:'\
            "\n\n"\
            "The timelines configurations reference the 'none' type. The\n"\
            "'none' type is created in the production seed. Thus, AFTER the\n"\
@@ -84,7 +84,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   end
 
   def down
-    say_with_time_silently "Restore timelines options" do
+    say_with_time_silently 'Restore timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_timelines_options(OPTIONS.invert,
@@ -124,7 +124,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   def migrate_planning_element_types(timelines_opts, pe_type_id_map, calling_class)
     pe_types = []
 
-    pe_types =  timelines_opts[PE_TYPE_KEY].delete_if { |t| t.nil? } if timelines_opts.has_key? PE_TYPE_KEY
+    pe_types =  timelines_opts[PE_TYPE_KEY].delete_if(&:nil?) if timelines_opts.has_key? PE_TYPE_KEY
 
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
@@ -152,11 +152,11 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
     return timelines_opts unless timelines_opts.has_key? VERTICAL_PE_TYPES
 
     vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(',')
-                                                    .map { |p| p.strip }
+                   .map(&:strip)
 
     unless vertical_pes.empty?
       mapped_pes = vertical_pes.map { |v| pe_id_map[v.to_i] }
-                               .compact
+                   .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
     end
@@ -172,7 +172,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   end
 
   def pe_type_id_map
-    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object({ -1 => 0 }) do |r, h|
+    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object(-1 => 0) do |r, h|
       h[r['id']] = r['new_id']
     end
   end

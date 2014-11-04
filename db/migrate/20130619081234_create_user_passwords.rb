@@ -28,7 +28,6 @@
 #++
 
 class CreateUserPasswords < ActiveRecord::Migration
-
   def initialize
     super
     @former_passwords_table_exists = ActiveRecord::Base.connection.tables.include? 'former_user_passwords'
@@ -43,8 +42,8 @@ class CreateUserPasswords < ActiveRecord::Migration
     end
     add_index :user_passwords, :user_id
 
-    #if the plugin strong passwords was installed, we also transfer its
-    #stored former passwords of the users
+    # if the plugin strong passwords was installed, we also transfer its
+    # stored former passwords of the users
     if @former_passwords_table_exists
       ActiveRecord::Base.connection.execute <<-SQL
         INSERT INTO user_passwords (user_id, hashed_password, salt, created_at, updated_at)
@@ -62,10 +61,10 @@ class CreateUserPasswords < ActiveRecord::Migration
       UserPassword.record_timestamps = false
       # Create a UserPassword with the old password for each user
       User.find_each do |user|
-        user.passwords.create({hashed_password: user.hashed_password,
-                               salt: user.salt,
-                               created_at: user.updated_on,
-                               updated_at: user.updated_on})
+        user.passwords.create(hashed_password: user.hashed_password,
+                              salt: user.salt,
+                              created_at: user.updated_on,
+                              updated_at: user.updated_on)
       end
     ensure
       UserPassword.record_timestamps = true

@@ -29,11 +29,11 @@
 
 class CreateWorkPackages < ActiveRecord::Migration
   def up
-    create_table "work_packages" do |t|
+    create_table 'work_packages' do |t|
       # Issue
       t.column :tracker_id, :integer, default: 0, null: false
       t.column :project_id, :integer
-      t.column :subject, :string, default: "", null: false
+      t.column :subject, :string, default: '', null: false
       t.column :description, :text
       t.column :due_date, :date
       t.column :category_id, :integer
@@ -73,7 +73,7 @@ class CreateWorkPackages < ActiveRecord::Migration
     # Issue compatibility
     # Because of 't.belongs_to :project' (see above) column 'project_id'
     # becomes nullable. That breaks compatibility with issue behavior.
-    change_table "work_packages" do |t|
+    change_table 'work_packages' do |t|
       t.change :project_id, :integer, default: 0, null: false
     end
 
