@@ -37,7 +37,7 @@ class Reports::AssigneeReport < Reports::Report
   end
 
   def rows
-    @rows ||= @project.members.collect(&:user).sort
+    @rows ||= @project.members.map(&:user).sort
   end
 
   def data
