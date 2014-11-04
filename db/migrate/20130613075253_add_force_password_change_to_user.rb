@@ -29,7 +29,7 @@
 
 class AddForcePasswordChangeToUser < ActiveRecord::Migration
   def change
-    add_column :users, :force_password_change, :boolean, :default => false
+    add_column :users, :force_password_change, :boolean, default: false
     User.reset_column_information
   end
 end

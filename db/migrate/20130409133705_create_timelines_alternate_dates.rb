@@ -30,8 +30,8 @@
 class CreateTimelinesAlternateDates < ActiveRecord::Migration
   def self.up
     create_table(:timelines_alternate_dates) do |t|
-      t.column :start_date, :date, :null => false
-      t.column :end_date,   :date, :null => false
+      t.column :start_date, :date, null: false
+      t.column :end_date,   :date, null: false
 
       t.belongs_to :scenario
       t.belongs_to :planning_element

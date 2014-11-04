@@ -37,7 +37,7 @@ class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration
     end
 
     add_index :timelines_enabled_planning_element_types, :project_id
-    add_index :timelines_enabled_planning_element_types, :planning_element_type_id, :name => "index_enabled_pe_types_on_pe_type_id"
+    add_index :timelines_enabled_planning_element_types, :planning_element_type_id, name: "index_enabled_pe_types_on_pe_type_id"
   end
 
   def self.down

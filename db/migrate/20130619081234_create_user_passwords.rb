@@ -36,9 +36,9 @@ class CreateUserPasswords < ActiveRecord::Migration
 
   def up
     create_table :user_passwords do |t|
-      t.integer :user_id, :null => false
-      t.string :hashed_password, :limit => 40
-      t.string :salt, :limit => 64
+      t.integer :user_id, null: false
+      t.string :hashed_password, limit: 40
+      t.string :salt, limit: 64
       t.timestamps
     end
     add_index :user_passwords, :user_id
@@ -62,10 +62,10 @@ class CreateUserPasswords < ActiveRecord::Migration
       UserPassword.record_timestamps = false
       # Create a UserPassword with the old password for each user
       User.find_each do |user|
-        user.passwords.create({:hashed_password => user.hashed_password,
-                               :salt => user.salt,
-                               :created_at => user.updated_on,
-                               :updated_at => user.updated_on})
+        user.passwords.create({hashed_password: user.hashed_password,
+                               salt: user.salt,
+                               created_at: user.updated_on,
+                               updated_at: user.updated_on})
       end
     ensure
       UserPassword.record_timestamps = true
@@ -81,8 +81,8 @@ class CreateUserPasswords < ActiveRecord::Migration
     # we dont recreate the former_user_passwords_table here, since there is no Rails3
     # version of the old strong passwords plugin
     change_table :users do |t|
-      t.string :hashed_password, :limit => 40
-      t.string :salt, :limit => 60
+      t.string :hashed_password, limit: 40
+      t.string :salt, limit: 60
     end
     User.reset_column_information
 

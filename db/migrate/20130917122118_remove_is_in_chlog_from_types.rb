@@ -33,6 +33,6 @@ class RemoveIsInChlogFromTypes < ActiveRecord::Migration
   end
 
   def down
-    add_column :types, :is_in_chlog, :boolean, :default => false, :null => false
+    add_column :types, :is_in_chlog, :boolean, default: false, null: false
   end
 end

@@ -55,5 +55,5 @@ end
 # (from todays standpoint) the assignment is done covertedly.
 
 [WorkPackage, Journal::WorkPackageJournal].each do |klass|
-  klass.update_all({ :type_id => standard_type.id }, { :type_id => [0, nil] })
+  klass.update_all({ type_id: standard_type.id }, { type_id: [0, nil] })
 end

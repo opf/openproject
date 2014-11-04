@@ -30,7 +30,7 @@
 class CreateTimelinesScenarios < ActiveRecord::Migration
   def self.up
     create_table(:timelines_scenarios) do |t|
-      t.column :name,        :string, :null => false
+      t.column :name,        :string, null: false
       t.column :description, :text
 
       t.belongs_to :project
