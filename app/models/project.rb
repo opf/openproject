@@ -301,7 +301,7 @@ class Project < ActiveRecord::Base
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect(&:project_id).join(',')}))"
+      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.map(&:project_id).join(',')}))"
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
@@ -337,7 +337,7 @@ class Project < ActiveRecord::Base
         end
         user.projects_by_role.each do |role, projects|
           if role.allowed_to?(permission)
-            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
+            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.map(&:id).join(',')})"
           end
         end
       else
@@ -442,7 +442,7 @@ class Project < ActiveRecord::Base
   def archive
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
-    v_ids = self_and_descendants.collect(&:version_ids).flatten
+    v_ids = self_and_descendants.map(&:version_ids).flatten
     if v_ids.any? && WorkPackage.find(:first, include: :project,
                                               conditions: ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
                                                         " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
@@ -617,13 +617,13 @@ class Project < ActiveRecord::Base
 
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
-    notified_users.collect(&:mail)
+    notified_users.map(&:mail)
   end
 
   # Returns the users that should be notified on project events
   def notified_users
     # TODO: User part should be extracted to User#notify_about?
-    members.select { |m| m.mail_notification? || m.user.mail_notification == 'all' }.collect(&:user)
+    members.select { |m| m.mail_notification? || m.user.mail_notification == 'all' }.map(&:user)
   end
 
   # Returns an array of all custom fields enabled for project issues
@@ -680,8 +680,8 @@ class Project < ActiveRecord::Base
   def start_date
     [
       work_packages.minimum('start_date'),
-      shared_versions.collect(&:effective_date),
-      shared_versions.collect(&:start_date)
+      shared_versions.map(&:effective_date),
+      shared_versions.map(&:start_date)
     ].flatten.compact.min
   end
 
@@ -689,8 +689,8 @@ class Project < ActiveRecord::Base
   def due_date
     [
       work_packages.maximum('due_date'),
-      shared_versions.collect(&:effective_date),
-      shared_versions.collect { |v| v.fixed_issues.maximum('due_date') }
+      shared_versions.map(&:effective_date),
+      shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
     ].flatten.compact.max
   end
 
@@ -702,12 +702,12 @@ class Project < ActiveRecord::Base
   # progress on it's versions.
   def completed_percent(options = { include_subprojects: false })
     if options.delete(:include_subprojects)
-      total = self_and_descendants.collect(&:completed_percent).sum
+      total = self_and_descendants.map(&:completed_percent).sum
 
       total / self_and_descendants.count
     else
       if versions.count > 0
-        total = versions.collect(&:completed_percent).sum
+        total = versions.map(&:completed_percent).sum
 
         total / versions.count
       else
@@ -735,8 +735,8 @@ class Project < ActiveRecord::Base
 
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
-      module_names = module_names.collect(&:to_s).reject(&:blank?)
-      self.enabled_modules = module_names.collect { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
+      module_names = module_names.map(&:to_s).reject(&:blank?)
+      self.enabled_modules = module_names.map { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
     else
       enabled_modules.clear
     end
@@ -744,7 +744,7 @@ class Project < ActiveRecord::Base
 
   # Returns an array of the enabled modules names
   def enabled_module_names
-    enabled_modules.collect(&:name)
+    enabled_modules.map(&:name)
   end
 
   safe_attributes 'name',
@@ -884,7 +884,7 @@ class Project < ActiveRecord::Base
 
   # Returns all the active Systemwide and project specific activities
   def active_activities
-    overridden_activity_ids = time_entry_activities.collect(&:parent_id)
+    overridden_activity_ids = time_entry_activities.map(&:parent_id)
 
     if overridden_activity_ids.empty?
       return TimeEntryActivity.shared.active
@@ -896,7 +896,7 @@ class Project < ActiveRecord::Base
   # Returns all the Systemwide and project specific activities
   # (inactive and active)
   def all_activities
-    overridden_activity_ids = time_entry_activities.collect(&:parent_id)
+    overridden_activity_ids = time_entry_activities.map(&:parent_id)
 
     if overridden_activity_ids.empty?
       return TimeEntryActivity.shared
@@ -910,12 +910,12 @@ class Project < ActiveRecord::Base
     if include_inactive
       return TimeEntryActivity.shared
         .find(:all,
-              conditions: ['id NOT IN (?)', time_entry_activities.collect(&:parent_id)]) +
+              conditions: ['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities
     else
       return TimeEntryActivity.shared.active
         .find(:all,
-              conditions: ['id NOT IN (?)', time_entry_activities.collect(&:parent_id)]) +
+              conditions: ['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities.active
     end
   end

@@ -45,7 +45,7 @@ module Project::Copy
       with_model(project) do |project|
         self.enabled_modules = project.enabled_modules
         self.types = project.types
-        self.custom_values = project.custom_values.collect(&:clone)
+        self.custom_values = project.custom_values.map(&:clone)
         self.work_package_custom_fields = project.work_package_custom_fields
       end
       return self
@@ -215,7 +215,7 @@ module Project::Copy
         new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'), without_protection: true)
         # only copy non inherited roles
         # inherited roles will be added when copying the group membership
-        role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)
+        role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
         next if role_ids.empty?
         new_member.role_ids = role_ids
         new_member.project = self

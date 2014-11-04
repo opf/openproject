@@ -59,8 +59,8 @@ class Workflow < ActiveRecord::Base
   def self.available_statuses(project, user = User.current)
     Workflow.find(:all,
                   include: :new_status,
-                  conditions: { role_id: user.roles_for_project(project).collect(&:id) })
-      .collect(&:new_status)
+                  conditions: { role_id: user.roles_for_project(project).map(&:id) })
+      .map(&:new_status)
       .compact
       .uniq
       .sort

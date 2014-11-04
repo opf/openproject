@@ -150,7 +150,7 @@ class User < Principal
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates_length_of :mail, maximum: 60, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
-  validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.collect(&:first), allow_blank: true
+  validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
   validate :password_meets_requirements
 
@@ -448,7 +448,7 @@ class User < Principal
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
-    @notified_projects_ids ||= memberships.select(&:mail_notification?).collect(&:project_id)
+    @notified_projects_ids ||= memberships.select(&:mail_notification?).map(&:project_id)
   end
 
   def notified_project_ids=(ids)
@@ -781,7 +781,7 @@ class User < Principal
   private
 
   def initialize_allowance_evaluators
-    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.collect do |evaluator|
+    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map do |evaluator|
       evaluator.new(self)
     end
   end

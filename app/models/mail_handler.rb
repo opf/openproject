@@ -41,7 +41,7 @@ class MailHandler < ActionMailer::Base
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
-    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
+    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').map(&:strip) if @@handler_options[:allow_override].is_a?(String)
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
@@ -121,7 +121,7 @@ class MailHandler < ActionMailer::Base
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
-      if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
+      if self.class.private_instance_methods.map(&:to_s).include?(method_name)
         send method_name, object_id
       else
         # ignoring it
@@ -248,7 +248,7 @@ class MailHandler < ActionMailer::Base
   def add_watchers(obj)
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
        user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
-      addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
+      addresses = [email.to, email.cc].flatten.compact.uniq.map {|a| a.strip.downcase}
       unless addresses.empty?
         watchers = User.active.find(:all, conditions: ['LOWER(mail) IN (?)', addresses])
         watchers.each {|w| obj.add_watcher(w)}
@@ -285,7 +285,7 @@ class MailHandler < ActionMailer::Base
     keys << all_attribute_translations(Setting.default_language)[attr.to_sym] if Setting.default_language.present?
 
     keys.reject! {|k| k.blank?}
-    keys.collect! {|k| Regexp.escape(k)}
+    keys.map! {|k| Regexp.escape(k)}
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip

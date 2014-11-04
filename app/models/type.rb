@@ -106,7 +106,7 @@ class Type < ActiveRecord::Base
   end
 
   def is_valid_transition?(status_id_a, status_id_b, roles)
-    transition_exists?(status_id_a, status_id_b, roles.collect(&:id))
+    transition_exists?(status_id_a, status_id_b, roles.map(&:id))
   end
 
   private

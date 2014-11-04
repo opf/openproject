@@ -69,7 +69,7 @@ class WikiContent < ActiveRecord::Base
   def recipients
     notified = project.notified_users
     notified.reject! { |user| !visible?(user) }
-    notified.collect(&:mail)
+    notified.map(&:mail)
   end
 
   # FIXME: Deprecate

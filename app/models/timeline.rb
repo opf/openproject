@@ -341,7 +341,7 @@ class Timeline < ActiveRecord::Base
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
       projects = Project.find_all_by_id(ary)
-      projectsHashMap = Hash[projects.collect { |v| [v.id, v] }]
+      projectsHashMap = Hash[projects.map { |v| [v.id, v] }]
 
       ary.map { |a| projectsHashMap[a] }
     end

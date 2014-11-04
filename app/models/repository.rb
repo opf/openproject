@@ -168,7 +168,7 @@ class Repository < ActiveRecord::Base
       changes.find(:all, include: { changeset: :user },
                          conditions: ['path = ?', path.with_leading_slash],
                          order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                         limit: limit).collect(&:changeset)
+                         limit: limit).map(&:changeset)
     end
   end
 
@@ -252,7 +252,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.available_scm
-    subclasses.collect { |klass| [klass.scm_name, klass.name] }
+    subclasses.map { |klass| [klass.scm_name, klass.name] }
   end
 
   def self.factory(klass_name, *args)

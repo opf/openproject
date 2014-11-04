@@ -65,11 +65,11 @@ module WorkPackage::PdfExporter
     table_width = page_width - right_margin - 10  # fixed left margin
     col_width = []
     unless query.columns.empty?
-      col_width = query.columns.collect do |c|
+      col_width = query.columns.map do |c|
         (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
       end
       ratio = (table_width - col_id_width) / col_width.inject(0) { |s, w| s += w }
-      col_width = col_width.collect { |w| w * ratio }
+      col_width = col_width.map { |w| w * ratio }
     end
 
     # title
@@ -101,7 +101,7 @@ module WorkPackage::PdfExporter
       end
 
       # fetch all the row values
-      col_values = query.columns.collect do |column|
+      col_values = query.columns.map do |column|
         s = if column.is_a?(QueryCustomFieldColumn)
               cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
               show_value(cv)
@@ -428,7 +428,7 @@ module WorkPackage::PdfExporter
         # 0x5c char handling
         txtar = txt.split('\\')
         txtar << '' if txt[-1] == ?\\
-        txtar.collect { |x| x.encode(l(:general_pdf_encoding), 'UTF-8') }.join('\\').gsub(/\\/, '\\\\\\\\')
+        txtar.map { |x| x.encode(l(:general_pdf_encoding), 'UTF-8') }.join('\\').gsub(/\\/, '\\\\\\\\')
       rescue
         txt
       end || ''

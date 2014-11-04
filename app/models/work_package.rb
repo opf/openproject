@@ -363,14 +363,14 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of issues that duplicate this one
   def duplicates
-    relations_to.select { |r| r.relation_type == Relation::TYPE_DUPLICATES }.collect(&:from)
+    relations_to.select { |r| r.relation_type == Relation::TYPE_DUPLICATES }.map(&:from)
   end
 
   def soonest_start
     @soonest_start ||= (
-      self_and_ancestors.collect(&:relations_to)
+      self_and_ancestors.map(&:relations_to)
                         .flatten
-                        .collect(&:successor_soonest_start)
+                        .map(&:successor_soonest_start)
     ).compact.max
   end
 
@@ -493,7 +493,7 @@ class WorkPackage < ActiveRecord::Base
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! { |user| !visible?(user) }
-    notified.collect(&:mail)
+    notified.map(&:mail)
   end
 
   def done_ratio
@@ -528,7 +528,7 @@ class WorkPackage < ActiveRecord::Base
     end
 
     if attrs['status_id']
-      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
+      unless new_statuses_allowed_to(user).map(&:id).include?(attrs['status_id'].to_i)
         attrs.delete('status_id')
       end
     end
@@ -891,7 +891,7 @@ class WorkPackage < ActiveRecord::Base
   # Unassigns issues from versions that are no longer shared
   # after +project+ was moved
   def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.collect(&:id)
+    moved_project_ids = project.self_and_descendants.reload.map(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
     update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
@@ -948,7 +948,7 @@ class WorkPackage < ActiveRecord::Base
                                                 #{WorkPackage.table_name} i, #{Status.table_name} s
                                               where
                                                 i.status_id=s.id
-                                                and i.project_id IN (#{project.descendants.active.collect(&:id).join(',')})
+                                                and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
                                               group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
   end
   # End ReportsController extraction

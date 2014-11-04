@@ -173,7 +173,7 @@ class Member < ActiveRecord::Base
     ids = roles_or_role_ids.map { |r| (r.is_a? Role) ? r.id : r.to_i }
 
     # Keep inherited roles
-    ids += member_roles.select { |mr| !mr.inherited_from.nil? }.collect(&:role_id)
+    ids += member_roles.select { |mr| !mr.inherited_from.nil? }.map(&:role_id)
 
     new_role_ids = ids - role_ids
     # Add new roles

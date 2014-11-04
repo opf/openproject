@@ -176,7 +176,7 @@ class Query < ActiveRecord::Base
     @available_columns += (project ?
                             project.all_work_package_custom_fields :
                             WorkPackageCustomField.find(:all)
-                           ).collect { |cf| ::QueryCustomFieldColumn.new(cf) }
+                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
       @available_columns.select! { |column| column.name != :done_ratio }.length
     end
@@ -212,7 +212,7 @@ class Query < ActiveRecord::Base
       end
     else
       # preserve the column_names order
-      column_names.collect { |name| available_columns.find { |col| col.name == name } }.compact
+      column_names.map { |name| available_columns.find { |col| col.name == name } }.compact
     end
   end
 
@@ -220,7 +220,7 @@ class Query < ActiveRecord::Base
     if names.present?
       names = names.inject([]) { |out, e| out += e.to_s.split(',') }
       names = names.select { |n| n.is_a?(Symbol) || !n.blank? }
-      names = names.collect { |n| n.is_a?(Symbol) ? n : n.to_sym }
+      names = names.map { |n| n.is_a?(Symbol) ? n : n.to_sym }
       # Set column_names to nil if default columns
       if names.map(&:to_s) == Setting.work_package_list_default_columns
         names = nil
@@ -240,9 +240,9 @@ class Query < ActiveRecord::Base
   def sort_criteria=(arg)
     c = []
     if arg.is_a?(Hash)
-      arg = arg.keys.sort.collect { |k| arg[k] }
+      arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.select { |k, _o| !k.to_s.blank? }.slice(0, 3).collect { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
+    c = arg.select { |k, _o| !k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
     write_attribute(:sort_criteria, c)
   end
 
@@ -262,7 +262,7 @@ class Query < ActiveRecord::Base
   def group_by_sort_order
     if grouped? && (column = group_by_column)
       column.sortable.is_a?(Array) ?
-        column.sortable.collect { |s| "#{s} #{column.default_order}" }.join(',') :
+        column.sortable.map { |s| "#{s} #{column.default_order}" }.join(',') :
         "#{column.sortable} #{column.default_order}"
     end
   end
@@ -302,10 +302,10 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.descendants.collect(&:id)
+          ids += project.descendants.map(&:id)
         end
       elsif Setting.display_subprojects_work_packages?
-        ids += project.descendants.collect(&:id)
+        ids += project.descendants.map(&:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
@@ -358,7 +358,7 @@ class Query < ActiveRecord::Base
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
-          project_ids = User.current.projects_by_role.collect { |r, p| p if r.permissions.include? :view_work_package_watchers }.flatten.compact.collect(&:id).uniq
+          project_ids = User.current.projects_by_role.map { |r, p| p if r.permissions.include? :view_work_package_watchers }.flatten.compact.map(&:id).uniq
           sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"
@@ -379,7 +379,7 @@ class Query < ActiveRecord::Base
             user_ids << group.user_ids
           end
           user_ids.flatten.uniq.compact
-        }.sort.collect(&:to_s)
+        }.sort.map(&:to_s)
 
         sql << '(' + sql_for_field('assigned_to_id', operator, members_of_groups, WorkPackage.table_name, 'assigned_to_id', false) + ')'
 
@@ -397,13 +397,13 @@ class Query < ActiveRecord::Base
         members_of_roles = roles.inject([]) {|user_ids, role|
           if role && role.members
             user_ids << if project_id
-                          role.members.reject { |m| m.project_id != project_id }.collect(&:user_id)
+                          role.members.reject { |m| m.project_id != project_id }.map(&:user_id)
                         else
-                          role.members.collect(&:user_id)
+                          role.members.map(&:user_id)
                         end
           end
           user_ids.flatten.uniq.compact
-        }.sort.collect(&:to_s)
+        }.sort.map(&:to_s)
 
         sql << '(' + sql_for_field('assigned_to_id', operator, members_of_roles, WorkPackage.table_name, 'assigned_to_id', false) + ')'
       else
@@ -468,14 +468,14 @@ class Query < ActiveRecord::Base
           sql = "#{db_table}.#{db_field} IS NULL OR "
         end
 
-        sql += "#{db_table}.#{db_field} IN (" + value.collect { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
+        sql += "#{db_table}.#{db_field} IN (" + value.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
       else
         # empty set of allowed values produces no result
         sql = '0=1'
       end
     when '!'
       if value.present?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
+        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
       else
         # empty set of forbidden values allows all results
         sql = '1=1'

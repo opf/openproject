@@ -185,7 +185,7 @@ class Setting < ActiveRecord::Base
 
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
-    per_page_options.split(%r{[\s,]}).collect(&:to_i).select { |n| n > 0 }.sort
+    per_page_options.split(%r{[\s,]}).map(&:to_i).select { |n| n > 0 }.sort
   end
 
   # Deprecation Warning: This method is no longer available. There is no

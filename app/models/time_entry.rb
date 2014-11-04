@@ -114,7 +114,7 @@ class TimeEntry < ActiveRecord::Base
   def self.earliest_date_for_project(project = nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
-      finder_conditions << ['project_id IN (?)', project.hierarchy.collect(&:id)]
+      finder_conditions << ['project_id IN (?)', project.hierarchy.map(&:id)]
     end
     TimeEntry.minimum(:spent_on, include: :project, conditions: finder_conditions.conditions)
   end
@@ -122,7 +122,7 @@ class TimeEntry < ActiveRecord::Base
   def self.latest_date_for_project(project = nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
-      finder_conditions << ['project_id IN (?)', project.hierarchy.collect(&:id)]
+      finder_conditions << ['project_id IN (?)', project.hierarchy.map(&:id)]
     end
     TimeEntry.maximum(:spent_on, include: :project, conditions: finder_conditions.conditions)
   end

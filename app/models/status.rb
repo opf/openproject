@@ -70,14 +70,14 @@ class Status < ActiveRecord::Base
   # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, type, author = false, assignee = false)
     if roles && type
-      role_ids = roles.collect(&:id)
+      role_ids = roles.map(&:id)
       transitions = workflows.select do |w|
         role_ids.include?(w.role_id) &&
         w.type_id == type.id &&
         (author || !w.author) &&
         (assignee || !w.assignee)
       end
-      transitions.collect(&:new_status).uniq.compact.sort
+      transitions.map(&:new_status).uniq.compact.sort
     else
       []
     end
@@ -87,13 +87,13 @@ class Status < ActiveRecord::Base
   # More efficient than the previous method if called just once
   def find_new_statuses_allowed_to(roles, type, author = false, assignee = false)
     if roles && type
-      conditions = { role_id: roles.collect(&:id), type_id: type.id }
+      conditions = { role_id: roles.map(&:id), type_id: type.id }
       conditions[:author] = false unless author
       conditions[:assignee] = false unless assignee
 
       workflows.find(:all,
                      include: :new_status,
-                     conditions: conditions).collect(&:new_status).compact.sort
+                     conditions: conditions).map(&:new_status).compact.sort
     else
       []
     end

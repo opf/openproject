@@ -139,9 +139,9 @@ class CustomField < ActiveRecord::Base
       if obj.respond_to?(:project) && obj.project
         case field_format
         when 'user'
-          obj.project.users.sort.collect { |u| [u.to_s, u.id.to_s] }
+          obj.project.users.sort.map { |u| [u.to_s, u.id.to_s] }
         when 'version'
-          obj.project.versions.sort.collect { |u| [u.to_s, u.id.to_s] }
+          obj.project.versions.sort.map { |u| [u.to_s, u.id.to_s] }
         end
       else
         []
@@ -161,7 +161,7 @@ class CustomField < ActiveRecord::Base
   def possible_values(obj = nil)
     case field_format
     when 'user'
-      possible_values_options(obj).collect(&:last)
+      possible_values_options(obj).map(&:last)
     else
       options = obj.nil? ? {} : obj
       read_attribute(:possible_values, options)
@@ -171,7 +171,7 @@ class CustomField < ActiveRecord::Base
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select { |v| !v.blank? }
+      value = arg.compact.map(&:strip).select { |v| !v.blank? }
 
       write_attribute(:possible_values, value, {})
     else
@@ -258,7 +258,7 @@ class CustomField < ActiveRecord::Base
 
   def attribute_locale(attribute, value)
     locales_for_value = translations.select { |t| t.send(attribute) == value }
-                        .collect(&:locale)
+                        .map(&:locale)
                         .uniq
 
     locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
@@ -279,7 +279,7 @@ class CustomField::Translation < Globalize::ActiveRecord::Translation
 
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select { |v| !v.blank? }
+      value = arg.compact.map(&:strip).select { |v| !v.blank? }
 
       write_attribute(:possible_values, value)
     else

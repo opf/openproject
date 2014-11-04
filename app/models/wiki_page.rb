@@ -279,7 +279,7 @@ class WikiAnnotate
     @content = content
     current = content
     current_lines = current.journable.text.split(/\r?\n/)
-    @lines = current_lines.collect { |t| [nil, nil, t] }
+    @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
     current_lines.size.times { |i| positions << i }
     while current.previous

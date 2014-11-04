@@ -128,12 +128,12 @@ class Changeset < ActiveRecord::Base
   def scan_comment_for_work_package_ids
     return if comments.blank?
     # keywords used to reference work packages
-    ref_keywords = Setting.commit_ref_keywords.downcase.split(',').collect(&:strip)
+    ref_keywords = Setting.commit_ref_keywords.downcase.split(',').map(&:strip)
     ref_keywords_any = ref_keywords.delete('*')
     # keywords used to fix work packages
-    fix_keywords = Setting.commit_fix_keywords.downcase.split(',').collect(&:strip)
+    fix_keywords = Setting.commit_fix_keywords.downcase.split(',').map(&:strip)
 
-    kw_regexp = (ref_keywords + fix_keywords).collect { |kw| Regexp.escape(kw) }.join('|')
+    kw_regexp = (ref_keywords + fix_keywords).map { |kw| Regexp.escape(kw) }.join('|')
 
     referenced_work_packages = []
 

@@ -64,7 +64,7 @@ class Role < ActiveRecord::Base
   end
 
   def permissions=(perms)
-    perms = perms.collect { |p| p.to_sym unless p.blank? }.compact.uniq if perms
+    perms = perms.map { |p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
@@ -173,7 +173,7 @@ class Role < ActiveRecord::Base
   private
 
   def allowed_permissions
-    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect(&:name)
+    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.map(&:name)
   end
 
   def allowed_actions
