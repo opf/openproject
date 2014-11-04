@@ -59,7 +59,7 @@ describe Api::V2::VersionsController, type: :controller do
 
         it { expect(assigns(:versions).length).to eql(1) }
 
-        it { expect(assigns(:versions).collect(&:id)).to include(version.id) }
+        it { expect(assigns(:versions).map(&:id)).to include(version.id) }
       end
 
       describe 'multiple projects' do
@@ -68,7 +68,7 @@ describe Api::V2::VersionsController, type: :controller do
         shared_context 'request versions' do
           before do
             get :index,
-                project_id: projects.collect(&:id).join(','),
+                project_id: projects.map(&:id).join(','),
                 format: :xml
           end
         end
@@ -80,7 +80,7 @@ describe Api::V2::VersionsController, type: :controller do
 
           it { expect(assigns(:projects)).to match_array(expected_projects) }
 
-          it { expect(assigns(:versions).collect(&:id)).to match_array(expected_versions.collect(&:id)) }
+          it { expect(assigns(:versions).map(&:id)).to match_array(expected_versions.map(&:id)) }
         end
 
         context 'projects are not in hierarchy' do
@@ -142,11 +142,11 @@ describe Api::V2::VersionsController, type: :controller do
 
         describe 'valid versions' do
           let(:version_2) { FactoryGirl.create(:version, project: project) }
-          let(:ids) { [version, version_2].collect(&:id).join(',') }
+          let(:ids) { [version, version_2].map(&:id).join(',') }
 
           include_context 'request versions filtered'
 
-          it { expect(assigns(:versions).collect(&:id)).to match_array([version.id, version_2.id]) }
+          it { expect(assigns(:versions).map(&:id)).to match_array([version.id, version_2.id]) }
         end
 
         describe 'shared version' do
@@ -155,7 +155,7 @@ describe Api::V2::VersionsController, type: :controller do
 
           before { get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json }
 
-          it { expect(assigns(:versions).collect(&:id)).to match_array([shared_version.id]) }
+          it { expect(assigns(:versions).map(&:id)).to match_array([shared_version.id]) }
 
           it { expect(assigns(:versions).first.shared_with).to match_array([child_project.id]) }
         end
@@ -173,7 +173,7 @@ describe Api::V2::VersionsController, type: :controller do
             get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json
           end
 
-          it { expect(assigns(:versions).collect(&:id)).to match_array([shared_version.id]) }
+          it { expect(assigns(:versions).map(&:id)).to match_array([shared_version.id]) }
 
           it { expect(assigns(:versions).first.shared_with).to match_array([child_project.id]) }
         end

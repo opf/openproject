@@ -157,12 +157,12 @@ describe Api::V2::WorkflowsController, type: :controller do
 
             it { expect(workflows.length).to eq(4) }
 
-            it { expect(workflows.collect(&:type_id).uniq).to match_array(type_ids) }
+            it { expect(workflows.map(&:type_id).uniq).to match_array(type_ids) }
 
-            it { expect(workflows.collect(&:old_status_id).uniq).to match_array(old_status_ids) }
+            it { expect(workflows.map(&:old_status_id).uniq).to match_array(old_status_ids) }
 
             describe 'transitions' do
-              let(:transitions) { workflows.collect(&:transitions).flatten }
+              let(:transitions) { workflows.map(&:transitions).flatten }
               let(:workflows_by_type) { workflows.group_by(&:type_id) }
               let(:workflow_type_0_status_1) { workflows_by_type[type_0.id].detect { |w| w.old_status_id == status_1.id } }
 
@@ -173,8 +173,8 @@ describe Api::V2::WorkflowsController, type: :controller do
               it { expect(workflow_type_0_status_1.transitions.length).to eq(2) }
 
               describe 'scope' do
-                let(:workflow_type_0_roles) { workflows_by_type[type_0.id].collect(&:transitions).flatten.collect(&:scope) }
-                let(:workflow_type_1_roles) { workflows_by_type[type_1.id].collect(&:transitions).flatten.collect(&:scope) }
+                let(:workflow_type_0_roles) { workflows_by_type[type_0.id].map(&:transitions).flatten.map(&:scope) }
+                let(:workflow_type_1_roles) { workflows_by_type[type_1.id].map(&:transitions).flatten.map(&:scope) }
                 let(:workflow_type_1_status_3) { workflows_by_type[type_1.id].detect { |w| w.old_status_id == status_3.id } }
 
                 it { expect(workflow_type_0_roles.length).to eq(3) }
@@ -187,7 +187,7 @@ describe Api::V2::WorkflowsController, type: :controller do
 
                 it { expect(workflow_type_1_status_3.transitions.length).to eq(2) }
 
-                it { expect(workflow_type_1_status_3.transitions.collect(&:scope)).to match_array([:author, :assignee]) }
+                it { expect(workflow_type_1_status_3.transitions.map(&:scope)).to match_array([:author, :assignee]) }
               end
             end
           end

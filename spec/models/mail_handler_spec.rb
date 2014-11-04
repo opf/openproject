@@ -67,7 +67,7 @@ describe MailHandler, type: :model do
 
   before do
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
+    Setting.notified_events = Redmine::Notifiable.all.map(&:name)
     # we need both of these run first so the anonymous user is created and
     # there is a default work package priority to save any work packages
     priority_low

@@ -81,7 +81,7 @@ describe ::Query::Results, type: :model do
     }
 
     let!(:wp_p1) {
-      (1..3).collect {
+      (1..3).map {
         FactoryGirl.create(:work_package,
                            project: project_1,
                            assigned_to_id: user_1.id)

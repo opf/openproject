@@ -312,7 +312,7 @@ describe ProjectsController, type: :controller do
       context 'no type missing' do
         include_context :work_packages
 
-        let(:type_ids) { types.collect(&:id) }
+        let(:type_ids) { types.map(&:id) }
 
         before {
           put :types,

@@ -285,7 +285,7 @@ describe WorkPackages::BulkController, type: :controller do
 
       shared_examples_for 'updated work package' do
         describe :priority do
-          subject { WorkPackage.find_all_by_priority_id(priority.id).collect(&:id) }
+          subject { WorkPackage.find_all_by_priority_id(priority.id).map(&:id) }
 
           it { is_expected.to match_array(work_package_ids) }
         end
@@ -295,7 +295,7 @@ describe WorkPackages::BulkController, type: :controller do
 
           subject {
             WorkPackage.find_all_by_id(work_package_ids)
-              .collect { |w| w.custom_value_for(custom_field_1.id).value }
+              .map { |w| w.custom_value_for(custom_field_1.id).value }
               .uniq
           }
 
@@ -308,7 +308,7 @@ describe WorkPackages::BulkController, type: :controller do
 
             subject {
               WorkPackage.find_all_by_id(work_package_ids)
-                .collect { |w| w.last_journal.notes }
+                .map { |w| w.last_journal.notes }
                 .uniq
             }
 
@@ -320,7 +320,7 @@ describe WorkPackages::BulkController, type: :controller do
 
             subject {
               WorkPackage.find_all_by_id(work_package_ids)
-                .collect { |w| w.last_journal.details.size }
+                .map { |w| w.last_journal.details.size }
                 .uniq
             }
 
@@ -374,7 +374,7 @@ describe WorkPackages::BulkController, type: :controller do
 
           include_context :update_request
 
-          subject { work_packages.collect(&:assigned_to_id).uniq }
+          subject { work_packages.map(&:assigned_to_id).uniq }
 
           it { is_expected.to match_array [group_id] }
         end
@@ -384,7 +384,7 @@ describe WorkPackages::BulkController, type: :controller do
 
           include_context :update_request
 
-          subject { work_packages.collect(&:responsible_id).uniq }
+          subject { work_packages.map(&:responsible_id).uniq }
 
           it { is_expected.to match_array [responsible_id] }
         end
@@ -407,7 +407,7 @@ describe WorkPackages::BulkController, type: :controller do
                 work_package: { status_id: closed_status.id }
           end
 
-          subject { work_packages.collect(&:status_id).uniq }
+          subject { work_packages.map(&:status_id).uniq }
 
           it { is_expected.to match_array [closed_status.id] }
         end
@@ -425,7 +425,7 @@ describe WorkPackages::BulkController, type: :controller do
                 work_package: { parent_id: parent.id }
           end
 
-          subject { work_packages.collect(&:parent_id).uniq }
+          subject { work_packages.map(&:parent_id).uniq }
 
           it { is_expected.to match_array [parent.id] }
         end
@@ -440,7 +440,7 @@ describe WorkPackages::BulkController, type: :controller do
           end
 
           subject {
-            work_packages.collect { |w| w.custom_value_for(custom_field_1.id).value }
+            work_packages.map { |w| w.custom_value_for(custom_field_1.id).value }
               .uniq
           }
 
@@ -454,7 +454,7 @@ describe WorkPackages::BulkController, type: :controller do
                 work_package: { assigned_to_id: 'none' }
           end
 
-          subject { work_packages.collect(&:assigned_to_id).uniq }
+          subject { work_packages.map(&:assigned_to_id).uniq }
 
           it { is_expected.to match_array [nil] }
         end
@@ -466,7 +466,7 @@ describe WorkPackages::BulkController, type: :controller do
                 work_package: { responsible_id: 'none' }
           end
 
-          subject { work_packages.collect(&:responsible_id).uniq }
+          subject { work_packages.map(&:responsible_id).uniq }
 
           it { is_expected.to match_array [nil] }
         end
@@ -497,13 +497,13 @@ describe WorkPackages::BulkController, type: :controller do
 
             describe :work_package do
               describe :fixed_version do
-                subject { work_packages.collect(&:fixed_version_id).uniq }
+                subject { work_packages.map(&:fixed_version_id).uniq }
 
                 it { is_expected.to match_array [version.id] }
               end
 
               describe :project do
-                subject { work_packages.collect(&:project_id).uniq }
+                subject { work_packages.map(&:project_id).uniq }
 
                 it { is_expected.not_to match_array [subproject.id] }
               end
@@ -519,7 +519,7 @@ describe WorkPackages::BulkController, type: :controller do
             end
             describe :work_package do
               describe :fixed_version do
-                subject { work_packages.collect(&:fixed_version_id).uniq }
+                subject { work_packages.map(&:fixed_version_id).uniq }
 
                 it { is_expected.to eq([nil]) }
               end

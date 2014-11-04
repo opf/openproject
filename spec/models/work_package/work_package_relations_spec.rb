@@ -330,7 +330,7 @@ describe WorkPackage, type: :model do
       }
 
       shared_examples_for 'all dependant work packages visible' do
-        subject { work_package_1.all_dependent_packages.collect(&:id) }
+        subject { work_package_1.all_dependent_packages.map(&:id) }
 
         it { is_expected.to match_array(expected_ids) }
       end

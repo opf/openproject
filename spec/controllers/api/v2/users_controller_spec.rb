@@ -76,7 +76,7 @@ describe Api::V2::UsersController, type: :controller do
     end
 
     describe 'with 3 users' do
-      let(:ids) { User.all.collect(&:id).join(',') }
+      let(:ids) { User.all.map(&:id).join(',') }
 
       before { 3.times { FactoryGirl.create(:user) } }
 

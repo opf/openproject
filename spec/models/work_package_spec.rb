@@ -296,7 +296,7 @@ describe WorkPackage, type: :model do
       context 'open version' do
         let(:version) { version_open }
 
-        subject { work_package.assignable_versions.collect(&:status).uniq }
+        subject { work_package.assignable_versions.map(&:status).uniq }
 
         it { is_expected.to include('open') }
       end

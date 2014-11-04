@@ -348,7 +348,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
             include_context 'get work packages changed since'
 
-            it { expect(assigns(:planning_elements).collect(&:id)).to match_array([work_package.id]) }
+            it { expect(assigns(:planning_elements).map(&:id)).to match_array([work_package.id]) }
           end
 
           shared_examples_for 'valid but early timestamp' do
@@ -390,8 +390,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
         FactoryGirl.create(:work_package,
                            project: project_c)
       }
-      let(:project_ids) { [project_a, project_b, project_c].collect(&:id).join(',') }
-      let(:wp_ids) { [work_package_a, work_package_b].collect(&:id) }
+      let(:project_ids) { [project_a, project_b, project_c].map(&:id).join(',') }
+      let(:wp_ids) { [work_package_a, work_package_b].map(&:id) }
 
       become_admin { [project_a, project_b, work_package_c.project] }
 
@@ -404,7 +404,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
       shared_examples_for 'valid ids request' do
         before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
 
-        subject { assigns(:planning_elements).collect(&:id) }
+        subject { assigns(:planning_elements).map(&:id) }
 
         it { expect(subject).to include(*wp_ids) }
 

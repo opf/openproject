@@ -41,7 +41,7 @@ describe CopyProjectsController, type: :controller do
       'homepage' => '',
       'enabled_module_names' => ['work_package_tracking', 'boards', ''],
       'is_public' => project.is_public,
-      'type_ids' => project.types.collect(&:id)
+      'type_ids' => project.types.map(&:id)
     }
   }
 
