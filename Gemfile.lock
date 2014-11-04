@@ -151,8 +151,8 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    disposable (0.0.4)
-      representable (~> 1.8.1)
+    disposable (0.0.8)
+      representable (~> 2.0)
       uber
     equalizer (0.0.9)
     erubis (2.7.0)
@@ -305,18 +305,18 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
-    reform (1.0.4)
+    reform (1.1.1)
       activemodel
-      disposable (~> 0.0.4)
-      representable (~> 1.8.1)
-      uber (~> 0.0.4)
-    representable (1.8.5)
+      disposable (~> 0.0.5)
+      representable (~> 2.0.3)
+      uber (~> 0.0.8)
+    representable (2.0.4)
       multi_json
       nokogiri
-      uber
-    request_store (1.0.5)
-    roar (0.12.9)
-      representable (>= 1.6.0, < 2.0.0)
+      uber (~> 0.0.7)
+    request_store (1.1.0)
+    roar (1.0.0.beta2)
+      representable (>= 2.0.1, <= 3.0.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
@@ -468,9 +468,9 @@ DEPENDENCIES
   rails_autolink
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
-  reform (~> 1.0.4)
+  reform (~> 1.1.1)
   request_store
-  roar (~> 0.12.9)
+  roar (~> 1.0.0.beta2)
   rspec (~> 2.99.0)
   rspec-activemodel-mocks
   rspec-example_disabler!
