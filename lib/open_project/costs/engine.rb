@@ -134,7 +134,7 @@ module OpenProject::Costs
       property :summarized_cost_entries,
                embedded: true,
                exec_context: :decorator,
-               if: -> (*) { costs_enabled }
+               if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
 
       send(:define_method, :cost_object) do
         ::API::V3::CostObjects::CostObjectModel.new(represented.model.cost_object)
@@ -147,6 +147,11 @@ module OpenProject::Costs
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
         current_user_allowed_to(:view_time_entries, represented.model) ||
           current_user_allowed_to(:view_own_time_entries, represented.model)
+      end
+
+      send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
+        current_user_allowed_to(:view_cost_entries, represented.model) ||
+          current_user_allowed_to(:view_own_cost_entries, represented.model)
       end
 
       send(:define_method, :overall_costs) do
@@ -185,7 +190,6 @@ module OpenProject::Costs
       require 'open_project/costs/hooks/project_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'
-      require 'open_project/costs/hooks/work_packages_overview_attributes'
     end
 
     initializer 'costs.register_observers' do |app|

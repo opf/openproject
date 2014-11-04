@@ -29,13 +29,39 @@
 // main app
 var openprojectCostsApp = angular.module('openproject');
 
-openprojectCostsApp.run(['HookService', function(HookService) {
+openprojectCostsApp.run(['HookService',
+                         'ConfigurationService',
+                         'WorkPackagesOverviewService',
+                         function(HookService, ConfigurationService, WorkPackagesOverviewService) {
+  var setupCostsAttributes = function() {
+    var position = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes().length - 1;
+    var costsAttributes = {
+      overallCosts: null,
+      spentHours: 'spentHoursLinked',
+      costObject: null,
+      summarizedCostEntries: 'spentUnits'
+    };
+
+    WorkPackagesOverviewService.removeAttribute('spentTime');
+    WorkPackagesOverviewService.addGroup('costs', position);
+
+    angular.forEach(costsAttributes, function(id, costAttribute) {
+      WorkPackagesOverviewService.addAttributeToGroup('costs', id || costAttribute);
+    });
+  }
+
+  if (ConfigurationService.isModuleEnabled('costs_module')) {
+    setupCostsAttributes();
+  }
+
   HookService.register('workPackageOverviewAttributes', function(params) {
     var directive;
 
     switch (params.type) {
       case "spentUnits":
-        if (params.workPackage.embedded.summarizedCostEntries.length > 0) {
+        var summarizedCostEntries = params.workPackage.embedded.summarizedCostEntries;
+
+        if (summarizedCostEntries && summarizedCostEntries.length > 0) {
           directive = "summarized-cost-entries";
         }
         break;
