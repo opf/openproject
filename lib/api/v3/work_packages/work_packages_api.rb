@@ -51,7 +51,10 @@ module API
               def patch_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
-                unless contract.validate && @representer.represented.valid?
+                # Although the contract triggers the ActiveModel validations on
+                # the work package, it does not merge the contract errors with
+                # the model errors. Thus, we need to do it manually.
+                unless contract.validate
                   contract.errors.keys.each do |key|
                     contract.errors[key].each do |message|
                       @representer.represented.errors.add(key, message)

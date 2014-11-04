@@ -28,7 +28,7 @@
 #++
 
 require 'reform'
-require 'reform/form/coercion'
+require 'reform/form/active_model/model_validations'
 
 module API
   module V3
@@ -47,6 +47,9 @@ module API
         validate :user_allowed_to_edit_parent
         validate :lock_version_set
         validate :readonly_attributes_unchanged
+
+        extend Reform::Form::ActiveModel::ModelValidations
+        copy_validations_from WorkPackage
 
         private
 
