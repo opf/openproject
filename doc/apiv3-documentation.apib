@@ -456,6 +456,9 @@ This API provides forms as a concept to aid in editing or creating resources. Th
 * show to which values a property can be set
 * validate changes to a resource and indicate validation errors
 
+These benefits aside, a client can freely choose to immediately edit a resource without prior validation by a form.
+In the case of an invalid request the edit will fail and return appropriate errors nevertheless.
+
 A form is associated to a single resource and aids in performing changes on that resource.
 When posting to a form endpoint with an empty request body or an empty JSON object,
 you will receive an initial form for the associated resource.
