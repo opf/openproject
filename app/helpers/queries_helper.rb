@@ -29,7 +29,7 @@
 
 module QueriesHelper
   def operators_for_select(filter_type)
-    Queries::Filter.operators_by_filter_type[filter_type].collect { |o| [l(Queries::Filter.operators[o]), o] }
+    Queries::Filter.operators_by_filter_type[filter_type].map { |o| [l(Queries::Filter.operators[o]), o] }
   end
 
   def column_locale(column)

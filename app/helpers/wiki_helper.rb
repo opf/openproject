@@ -47,10 +47,10 @@ module WikiHelper
   def breadcrumb_for_page(page, action = nil)
     if action
       related_pages = page.ancestors.reverse + [page]
-      breadcrumb_paths(*(related_pages.collect { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [action]))
+      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [action]))
     else
       related_pages = page.ancestors.reverse
-      breadcrumb_paths(*(related_pages.collect { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [h(page.breadcrumb_title)]))
+      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [h(page.breadcrumb_title)]))
     end
   end
 

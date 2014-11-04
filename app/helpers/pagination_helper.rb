@@ -53,7 +53,7 @@ module PaginationHelper
   end
 
   def per_page_links(selected = nil, options = params)
-    links = Setting.per_page_options_array.collect do |n|
+    links = Setting.per_page_options_array.map do |n|
       n == selected ?
               content_tag(:span, n, class: 'current') :
               link_to_content_update(n, options.merge(page: 1, per_page: n))

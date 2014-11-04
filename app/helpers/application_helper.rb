@@ -76,7 +76,7 @@ module ApplicationHelper
 
   # Show a sorted linkified (if active) comma-joined list of users
   def list_users(users, options = {})
-    users.sort.collect { |u| link_to_user(u, options) }.join(', ')
+    users.sort.map { |u| link_to_user(u, options) }.join(', ')
   end
 
   # returns a class name based on the user's status
@@ -144,7 +144,7 @@ module ApplicationHelper
     return '' unless pages[node]
 
     content_tag :ul, class: 'pages-hierarchy' do
-      pages[node].collect do |page|
+      pages[node].map do |page|
         content_tag :li do
           concat link_to(page.pretty_title, project_wiki_path(page.project, page),
                          title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
@@ -279,7 +279,7 @@ module ApplicationHelper
   end
 
   def labeled_check_box_tags(name, collection, options = {})
-    collection.sort.collect do |object|
+    collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
       object_options = options.inject({}) do |h, (k, v)|
@@ -359,7 +359,7 @@ module ApplicationHelper
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.collect { |p| link_to_project(p, { jump: current_menu_item }, class: 'ancestor') }
+        b += ancestors.map { |p| link_to_project(p, { jump: current_menu_item }, class: 'ancestor') }
       end
       b << h(@project)
       b.join(' &#187; ')
@@ -412,12 +412,12 @@ module ApplicationHelper
            else
              []
           end
-    auto + valid_languages.collect { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
+    auto + valid_languages.map { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
   end
 
   def all_lang_options_for_select(blank = true)
     (blank ? [['(auto)', '']] : []) +
-      all_languages.collect { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
+      all_languages.map { |lang| [ll(lang.to_s, :general_lang_name), lang.to_s] }.sort { |x, y| x.last <=> y.last }
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -546,8 +546,8 @@ module ApplicationHelper
   def include_in_api_response?(arg)
     unless @included_in_api_response
       param = params[:include]
-      @included_in_api_response = param.is_a?(Array) ? param.collect(&:to_s) : param.to_s.split(',')
-      @included_in_api_response.collect!(&:strip)
+      @included_in_api_response = param.is_a?(Array) ? param.map(&:to_s) : param.to_s.split(',')
+      @included_in_api_response.map!(&:strip)
     end
     @included_in_api_response.include?(arg.to_s)
   end

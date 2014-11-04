@@ -58,7 +58,7 @@ module SettingsHelper
 
     setting_label(setting, options) +
       hidden_field_tag("settings[#{setting}][]", '') +
-      choices.collect do |choice|
+      choices.map do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
         content_tag('label',
@@ -73,17 +73,17 @@ module SettingsHelper
       '<thead>' +
         '<tr>' +
           '<th>' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
-          settings.collect do |setting|
+          settings.map do |setting|
             '<th>' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
           end.join +
         '</tr>' +
       '</thead>' +
       '<tbody>' +
-        choices.collect do |choice|
+        choices.map do |choice|
           text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
           '<tr>' +
             '<td>' + h(text) + '</td>' +
-            settings.collect do |setting|
+            settings.map do |setting|
               '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), id: "#{setting}_#{value}") + '</td>'
             end.join +
           '</tr>'

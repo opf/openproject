@@ -44,7 +44,7 @@ module BreadcrumbHelper
     cutme_elements = []
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
-    breadcrumb_elements += elements.collect do |element|
+    breadcrumb_elements += elements.map do |element|
       content_tag(:li, h(element.to_s)) if element
     end
 
@@ -68,7 +68,7 @@ module BreadcrumbHelper
     if project && !project.new_record?
       ancestors = (project.root? ? [] : project.ancestors.visible)
       ancestors << project
-      ancestors.collect do |p|
+      ancestors.map do |p|
         if p == project
           link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
         else

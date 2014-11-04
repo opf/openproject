@@ -133,7 +133,7 @@ module UsersHelper
   end
 
   def user_mail_notification_options(user)
-    user.valid_notification_options.collect { |o| [l(o.last), o.first] }
+    user.valid_notification_options.map { |o| [l(o.last), o.first] }
   end
 
   def user_settings_tabs

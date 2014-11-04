@@ -62,7 +62,7 @@ module JournalsHelper
 
     if journal.details.any?
       details = content_tag 'ul', class: 'details journal-attributes' do
-        journal.details.collect do |detail|
+        journal.details.map do |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
             content_tag('li', d.html_safe)
           end

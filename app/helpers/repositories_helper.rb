@@ -53,7 +53,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.changes.find(:all, limit: 1000, order: 'path').collect do |change|
+    changes = @changeset.changes.find(:all, limit: 1000, order: 'path').map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -145,7 +145,7 @@ module RepositoriesHelper
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
     end
-    @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
+    @encodings ||= Setting.repositories_encodings.split(',').map(&:strip)
     @encodings.each do |encoding|
       begin
         return str.to_s.encode('UTF-8', encoding)

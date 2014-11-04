@@ -30,7 +30,7 @@
 module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
-    re_tokens = tokens.collect { |t| Regexp.escape(t) }
+    re_tokens = tokens.map { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = ''
     text.split(regexp).each_with_index do |words, i|
@@ -60,7 +60,7 @@ module SearchHelper
 
   def has_tokens?(text, tokens)
     return false unless text && tokens && !tokens.empty?
-    re_tokens = tokens.collect { |t| Regexp.escape(t) }
+    re_tokens = tokens.map { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     !!regexp.match(text)
   end

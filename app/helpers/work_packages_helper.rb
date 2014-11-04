@@ -426,7 +426,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_type_attribute(form, work_package, locals = {})
-    selectable_types = locals[:project].types.collect { |t| [((t.is_standard) ? '' : t.name), t.id] }
+    selectable_types = locals[:project].types.map { |t| [((t.is_standard) ? '' : t.name), t.id] }
 
     field = form.select :type_id, selectable_types, required: true
 
@@ -499,7 +499,7 @@ module WorkPackagesHelper
   def work_package_form_category_attribute(form, _work_package, locals = {})
     unless locals[:project].categories.empty?
       field = form.select(:category_id,
-                          (locals[:project].categories.collect { |c| [c.name, c.id] }),
+                          (locals[:project].categories.map { |c| [c.name, c.id] }),
                           include_blank: true)
       field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_work_package_category_new)),
                                 I18n.t(:label_work_package_category_new),
@@ -556,7 +556,7 @@ module WorkPackagesHelper
   def work_package_form_done_ratio_attribute(form, work_package, _locals = {})
     if !attrib_disabled?(work_package, 'done_ratio') && WorkPackage.use_field_for_done_ratio?
 
-      field = form.select(:done_ratio, ((0..10).to_a.collect { |r| ["#{r * 10} %", r * 10] }))
+      field = form.select(:done_ratio, ((0..10).to_a.map { |r| ["#{r * 10} %", r * 10] }))
 
       WorkPackageAttribute.new(:done_ratio, field)
     end

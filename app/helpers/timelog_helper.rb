@@ -112,7 +112,7 @@ module TimelogHelper
                  TimeEntry.human_attribute_name(:comments)
                 ]
       # Export custom fields
-      headers += custom_fields.collect(&:name)
+      headers += custom_fields.map(&:name)
 
       csv << encode_csv_columns(headers)
       # csv lines
@@ -127,7 +127,7 @@ module TimelogHelper
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                  ]
-        fields += custom_fields.collect { |f| show_value(entry.custom_value_for(f)) }
+        fields += custom_fields.map { |f| show_value(entry.custom_value_for(f)) }
 
         csv << encode_csv_columns(fields)
       end
@@ -153,13 +153,13 @@ module TimelogHelper
   def report_to_csv(criterias, periods, hours)
     export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # Column headers
-      headers = criterias.collect do |criteria|
+      headers = criterias.map do |criteria|
         label = @available_criterias[criteria][:label]
         label.is_a?(Symbol) ? l(label) : label
       end
       headers += periods
       headers << l(:label_total)
-      csv << headers.collect { |c| to_utf8_for_timelogs(c) }
+      csv << headers.map { |c| to_utf8_for_timelogs(c) }
       # Content
       report_criteria_to_csv(csv, criterias, periods, hours)
       # Total row
@@ -177,7 +177,7 @@ module TimelogHelper
   end
 
   def report_criteria_to_csv(csv, criterias, periods, hours, level = 0)
-    hours.collect { |h| h[criterias[level]].to_s }.uniq.each do |value|
+    hours.map { |h| h[criterias[level]].to_s }.uniq.each do |value|
       hours_for_value = select_hours(hours, criterias[level], value)
       next if hours_for_value.empty?
       row = [''] * level

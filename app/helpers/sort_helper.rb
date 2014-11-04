@@ -93,7 +93,7 @@ module SortHelper
     end
 
     def from_param(param)
-      @criteria = param.to_s.split(',').collect { |s| s.split(':')[0..1] }
+      @criteria = param.to_s.split(',').map { |s| s.split(':')[0..1] }
       normalize!
     end
 
@@ -103,13 +103,13 @@ module SortHelper
     end
 
     def to_param
-      @criteria.collect { |k, o| k + (o ? '' : ':desc') }.join(',')
+      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
     end
 
     def to_sql
-      sql = @criteria.collect do |k, o|
+      sql = @criteria.map do |k, o|
         if s = @available_criteria[k]
-          (o ? Array(s) : Array(s).collect { |c| append_desc(c) }).join(', ')
+          (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
         end
       end.compact.join(', ')
       sql.blank? ? nil : sql
@@ -143,7 +143,7 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.collect { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
+      @criteria = @criteria.map { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
       @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) } if @available_criteria
       @criteria.slice!(3)
       self

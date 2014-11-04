@@ -47,13 +47,13 @@ module VersionsHelper
     rescue ActiveRecord::RecordNotFound
       # When grouping by an association, Rails throws this exception if there's no result (bug)
     end
-    counts = h.keys.compact.sort.collect { |k| { group: k, total: h[k][0], open: h[k][1], closed: (h[k][0] - h[k][1]) } }
-    max = counts.collect { |c| c[:total] }.max
+    counts = h.keys.compact.sort.map { |k| { group: k, total: h[k][0], open: h[k][1], closed: (h[k][0] - h[k][1]) } }
+    max = counts.map { |c| c[:total] }.max
 
     render partial: 'work_package_counts', locals: { version: version, criteria: criteria, counts: counts, max: max }
   end
 
   def status_by_options_for_select(value)
-    options_for_select(STATUS_BY_CRITERIAS.collect { |criteria| [WorkPackage.human_attribute_name(criteria.to_sym), criteria] }, value)
+    options_for_select(STATUS_BY_CRITERIAS.map { |criteria| [WorkPackage.human_attribute_name(criteria.to_sym), criteria] }, value)
   end
 end
