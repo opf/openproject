@@ -166,7 +166,7 @@ class ProjectsController < ApplicationController
     if types_missing?(selected_type_ids)
       flash.delete :notice
       flash[:error] = I18n.t(:error_types_in_use_by_work_packages,
-                             types: missing_types(selected_type_ids).collect(&:name).join(', '))
+                             types: missing_types(selected_type_ids).map(&:name).join(', '))
     elsif @project.update_attributes(params[:project])
       flash[:notice] << l('notice_successful_update')
     else

@@ -195,7 +195,7 @@ class MyController < ApplicationController
     group = params[:group]
     @user = User.current
     if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).collect(&:underscore)
+      group_items = (params["list-#{group}"] || []).map(&:underscore)
       if group_items and group_items.is_a? Array
         layout = get_current_layout
         # remove group blocks if they are presents in other groups

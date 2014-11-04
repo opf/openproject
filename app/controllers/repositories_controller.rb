@@ -70,7 +70,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users
-    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
     @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
@@ -322,16 +322,16 @@ class RepositoriesController < ApplicationController
     changes_by_author = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ?", repository.id]).group(:committer).size
     h = changes_by_author.inject({}) { |o, i| o[i.first] = i.last; o }
 
-    fields = commits_by_author.collect(&:first)
-    commits_data = commits_by_author.collect(&:last)
-    changes_data = commits_by_author.collect { |r| h[r.first] || 0 }
+    fields = commits_by_author.map(&:first)
+    commits_data = commits_by_author.map(&:last)
+    changes_data = commits_by_author.map { |r| h[r.first] || 0 }
 
     fields = fields + [''] * (10 - fields.length) if fields.length < 10
     commits_data = commits_data + [0] * (10 - commits_data.length) if commits_data.length < 10
     changes_data = changes_data + [0] * (10 - changes_data.length) if changes_data.length < 10
 
     # Remove email adress in usernames
-    fields = fields.collect { |c| c.gsub(%r{<.+@.+>}, '') }
+    fields = fields.map { |c| c.gsub(%r{<.+@.+>}, '') }
 
     graph = SVG::Graph::BarHorizontal.new(
       height: 400,

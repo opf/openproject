@@ -47,8 +47,8 @@ class TimeEntries::ReportsController < ApplicationController
     retrieve_date_range
 
     unless @criterias.empty?
-      sql_select = @criterias.collect { |criteria| @available_criterias[criteria][:sql] + ' AS ' + criteria }.join(', ')
-      sql_group_by = @criterias.collect { |criteria| @available_criterias[criteria][:sql] }.join(', ')
+      sql_select = @criterias.map { |criteria| @available_criterias[criteria][:sql] + ' AS ' + criteria }.join(', ')
+      sql_group_by = @criterias.map { |criteria| @available_criterias[criteria][:sql] }.join(', ')
       sql_condition = ''
 
       if @project.nil?

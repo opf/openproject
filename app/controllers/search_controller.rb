@@ -43,7 +43,7 @@ class SearchController < ApplicationController
       when 'all'
         nil
       when 'my_projects'
-        User.current.memberships.collect(&:project)
+        User.current.memberships.map(&:project)
       when 'subprojects'
         @project ? (@project.self_and_descendants.active) : nil
       else
@@ -125,7 +125,7 @@ class SearchController < ApplicationController
   end
 
   def scan_query_tokens(query)
-    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect { |m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '') }
+    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).map { |m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '') }
   end
 
   def scan_work_package_reference(query, &blk)

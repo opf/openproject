@@ -44,8 +44,8 @@ module Api
       accept_key_auth :index
 
       def index
-        workflows = ::Workflow.where(type_id: @project.types.collect(&:id),
-                                     role_id: User.current.roles(@project).collect(&:id))
+        workflows = ::Workflow.where(type_id: @project.types.map(&:id),
+                                     role_id: User.current.roles(@project).map(&:id))
                     .select(workflow_select_statement)
                     .group('type_id, old_status_id, new_status_id')
 

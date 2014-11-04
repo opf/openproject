@@ -41,7 +41,7 @@ class VersionsController < ApplicationController
     @types = @project.types.find(:all, order: 'position')
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
-    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
+    project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
 
     @versions = @project.shared_versions || []
     @versions += @project.rolled_up_versions.visible if @with_subprojects
@@ -164,9 +164,9 @@ class VersionsController < ApplicationController
 
   def retrieve_selected_type_ids(selectable_types, default_types = nil)
     if ids = params[:type_ids]
-      @selected_type_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+      @selected_type_ids = (ids.is_a? Array) ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
     else
-      @selected_type_ids = (default_types || selectable_types).collect { |t| t.id.to_s }
+      @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
     end
   end
 end
