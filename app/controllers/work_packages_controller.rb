@@ -61,14 +61,6 @@ class WorkPackagesController < ApplicationController
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
-  # The order in here is actually important for the angular client.
-  # The first 6 are always to be displayed.
-  # Beware that 'percentageDone' may be removed if the related setting is
-  # disabled.
-  DEFAULT_WORK_PACKAGE_PROPERTIES = [:status, :assignee, :responsible,
-                                     :date, :percentageDone, :priority,
-                                     :category, :estimatedTime, :versionName, :spentTime].freeze
-
   def show
     respond_to do |format|
       format.html do
@@ -216,7 +208,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         gon.settings = client_preferences
-        gon.settings[:work_package_attributes] = hook_overview_attributes
+        gon.settings[:enabled_modules] = @project.enabled_modules.collect(&:name) if @project
 
         render :index, :locals => { :query => @query,
                                     :project => @project },
@@ -460,28 +452,5 @@ class WorkPackagesController < ApplicationController
 
   def parse_preview_data
     parse_preview_data_helper :work_package, [:notes, :description]
-  end
-
-  def enabled_default_work_package_properties
-    @enabled_default_work_package_properties ||= begin
-                                                   # Need to dup here because
-                                                   # otherwise the contant
-                                                   # would be altered which is
-                                                   # retained between requests.
-                                                   # Changes to the constant
-                                                   # would therefore be kept by
-                                                   # the process.
-                                                   properties = DEFAULT_WORK_PACKAGE_PROPERTIES.dup
-                                                   properties.delete(:percentageDone) if Setting.work_package_done_ratio == 'disabled'
-                                                   properties
-                                                 end
-  end
-
-  def hook_overview_attributes(initial_attributes = enabled_default_work_package_properties)
-    attributes = initial_attributes
-    call_hook(:work_packages_overview_attributes,
-              project: @project,
-              attributes: attributes)
-    attributes.uniq
   end
 end

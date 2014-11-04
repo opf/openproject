@@ -26,23 +26,20 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
+.detail-panel-description,
+.detail-panel-attributes
+  h3
+    text-transform: uppercase
+    border-bottom: 2px solid #eaeaea
+
+
 .detail-panel-attributes
   float: left
   margin: 15px 0 0 0
   width: 100%
 
-  ul
-    list-style-type: none
-    +display(flex)
-    +flex-wrap(wrap)
-    margin: 10px 0 0 0
-    padding: 0
-
-    li
-      margin: 0 0 25px 0
-      padding: 0
-      +flex(1 0 33%)
-      max-width: 33%
+  dl
+    margin: 0 0 24px 0
 
 .detail-panel-attributes-toggler
   float: left
@@ -51,22 +48,26 @@
   text-align: center
   border-bottom: 1px solid #ddd
 
+@mixin work-package-attribute-margin
+  margin: 0 0 12px 0
+
 .work-package-attributes--label
+  @include work-package-attribute-margin
   font-weight: bold
-  margin: 0 0 7px 0
   padding: 0 4px 0 0
+  float: left
+  clear: left
+  width: 33%
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 
 .work-package-attributes--value-container
+  @include work-package-attribute-margin
   padding: 0 4px 0 0
-  display: block
+  overflow: hidden
 
 .work-package-attributes--value
-  &.-dynamic,
-  &.-version,
-  &.-category,
-  &.-text,
-    +ellipsis
-
   &.-user
     overflow: hidden
 

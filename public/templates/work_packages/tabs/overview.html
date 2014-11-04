@@ -9,46 +9,49 @@
 
 
 <div class="detail-panel-attributes">
-  <!-- present attributes -->
-  <ul>
-    <li ng-repeat="propertyData in presentWorkPackageProperties">
-      <div class="work-package-attributes--label" ng-bind="propertyData.label"/>
-      <div class="work-package-attributes--value-container" ng-switch="propertyData.format">
-        <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-          <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-          <span ng-switch-when="dynamic" work-package-dynamic-attribute
-                                         html-element="propertyData.value"
-                                         work-package="workPackage">
-          </span>
-          <span ng-switch-when="version">
-            <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-            <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-          </span>
-          <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
-          <span ng-switch-default
-            ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
-            ng-attr-title="{{propertyData.value}}"/>
+  <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
+    <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+
+    <dl>
+      <dt ng-repeat-start="propertyData in group.attributes"
+          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-bind="propertyData.label"
+          class="work-package-attributes--label">
+      </dt>
+      <dd ng-repeat-end
+          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-switch="propertyData.value"
+          class="work-package-attributes--value-container">
+        <div ng-switch-when="null" class="work-package-attributes--value">
+          <empty-element></empty-element>
         </div>
-      </div>
-    </li>
-  </ul>
-  <!-- empty attributes -->
-  <ul class="work-package-details-overview-tab-empty-attributes"
-      slide-toggle collapsed="toggleStates.hideAllAttributes">
-      <li ng-repeat="property in emptyWorkPackageProperties">
-        <div class="work-package-attributes--label" ng-bind="property"></div>
-        <div class="work-package-attributes--value-container">
-          <div class="work-package-attributes--value">-</div>
+        <div ng-switch-default ng-switch="propertyData.format">
+          <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+            <user-field ng-switch-when="user" user="propertyData.value"></user-field>
+            <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                           html-element="propertyData.value"
+                                           work-package="workPackage">
+            </span>
+            <span ng-switch-when="version">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
+            <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
+            <span ng-switch-default
+              ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
+              ng-attr-title="{{propertyData.value}}"/>
+          </div>
         </div>
-      </li>
-  </ul>
-  <panel-expander ng-if="emptyWorkPackageProperties.length"
+      </dd>
+    </dl>
+  </div>
+
+  <panel-expander if="anyEmptyWorkPackageValue()"
                   collapsed="toggleStates.hideAllAttributes"
                   expand-text="{{ I18n.t('js.label_show_attributes') }}"
                   collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
   </panel-expander>
 </div>
-
 
 <div class="detail-panel-latest-activity">
   <h3>{{ I18n.t('js.label_latest_activity') }}</h3>
