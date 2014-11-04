@@ -516,6 +516,22 @@ describe UsersController, type: :controller do
         expect(user.check_password?('newpassPASS!')).to be_truthy
       end
     end
+
+    context 'with disabled_password_choice' do
+      before do
+        expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
+      end
+
+      it 'ignores password parameters and leaves the password unchanged' do
+        as_logged_in_user(admin) do
+          put :update,
+              id: user.id,
+              user: { password: 'changedpass!', password_confirmation: 'changedpass!' }
+        end
+
+        expect(user.reload.check_password?('changedpass!')).to be false
+      end
+    end
   end
 
   describe 'update memberships' do

@@ -33,3 +33,25 @@ angular.module('openproject.workPackages.services')
     'WorkPackagesTableHelper',
     require('./work-packages-table-service')
   ])
+  .constant('WORK_PACKAGE_ATTRIBUTES', [
+    {
+      groupName: 'details',
+      attributes: ['status', 'percentageDone', 'date', 'priority', 'versionName', 'category']
+    },
+    {
+      groupName: 'people',
+      attributes: ['assignee', 'responsible']
+    },
+    {
+      groupName: 'estimatesAndTime',
+      attributes: ['estimatedTime', 'spentTime']
+    },
+    {
+      groupName: 'other',
+      attributes: []
+    }
+  ])
+  .service('WorkPackagesOverviewService', [
+      'WORK_PACKAGE_ATTRIBUTES',
+      require('./work-packages-overview-service')
+  ]);

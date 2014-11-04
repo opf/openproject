@@ -189,6 +189,12 @@ default:
   #
   # disable_password_login: true
 
+  # If enabled a user's password cannot be set to an arbitrary value.
+  # The respective form elements will be removed from the user edit view.
+  # Instead, if the password needs to be changed, a random, temporary password can be
+  # generated and sent to the user who then has to change their password upon login.
+  disable_password_choice: false
+
 # specific configuration options for production environment
 # that overrides the default ones
 # production:

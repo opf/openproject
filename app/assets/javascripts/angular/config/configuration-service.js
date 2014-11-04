@@ -77,13 +77,11 @@ module.exports = function($log) {
     timeFormat: function() {
       return gon.settings.display.time_format;
     },
-    workPackageAttributeSettingsPresent: function() {
-      return this.settingsPresent() && gon.settings.hasOwnProperty('work_package_attributes');
+    enabledModulesPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('enabled_modules');
     },
-    workPackageAttributes: function() {
-      var attributes = (this.workPackageAttributeSettingsPresent()) ? gon.settings.work_package_attributes : [];
-
-      return attributes;
-    }
+    isModuleEnabled: function(module) {
+      return gon.settings.enabled_modules.indexOf(module) >= 0;
+    },
   };
 };
