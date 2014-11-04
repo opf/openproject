@@ -44,6 +44,10 @@ module API
                 @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
               end
 
+              def patch_request_body
+                env['api.request.input']
+              end
+
               def patch_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
@@ -72,7 +76,8 @@ module API
             patch do
               @representer.represented.lock_version = nil # enforces availibility validation of lock_version
 
-              @representer.from_json(env['api.request.input'])
+              @representer.from_json(patch_request_body)
+
               if patch_request_valid? && @representer.represented.save
                 decorate_work_package(@work_package.reload)
                 @representer
