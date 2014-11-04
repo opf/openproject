@@ -40,7 +40,7 @@ Given /^the following (user|issue|work package) custom fields are defined:$/ do 
       attr_hash = { name: r['name'],
                     field_format: r['type'] }
 
-      attr_hash[:possible_values] = r['possible_values'].split(',').collect(&:strip) if r['possible_values']
+      attr_hash[:possible_values] = r['possible_values'].split(',').map(&:strip) if r['possible_values']
       attr_hash[:is_required] = (r[:required] == 'true') if r[:required]
       attr_hash[:editable] = (r[:editable] == 'true') if r[:editable]
       attr_hash[:visible] = (r[:visible] == 'true') if r[:visible]

@@ -144,7 +144,7 @@ Then /^there should be the following localizations:$/ do |table|
     a
   end
 
-  actual_localizations = actual_localizations.group_by { |e| e['locale'] }.collect { |(_k, v)| v.inject({}) { |a, x| a.merge(x) } }
+  actual_localizations = actual_localizations.group_by { |e| e['locale'] }.map { |(_k, v)| v.inject({}) { |a, x| a.merge(x) } }
 
   actual_localizations.should =~ cleaned_expectation
 end

@@ -328,7 +328,7 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   with_scope(selector) do
 
     field = find_field(field)
-    options_actual = field.all('option').collect(&:text)
+    options_actual = field.all('option').map(&:text)
     options_actual.should =~ options_expected
   end
 end

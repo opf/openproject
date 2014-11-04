@@ -34,13 +34,13 @@ end
 Given(/^the board "(.*?)" has the following messages:$/) do |board_name, table|
   board = Board.find_by_name(board_name)
 
-  create_messages(table.raw.collect(&:first), board)
+  create_messages(table.raw.map(&:first), board)
 end
 
 Given(/^"(.*?)" has the following replies:$/) do |message_name, table|
   message = Message.find_by_subject(message_name)
 
-  create_messages(table.raw.collect(&:first), message.board, message)
+  create_messages(table.raw.map(&:first), message.board, message)
 end
 
 private

@@ -58,7 +58,7 @@ Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, tab
   r = Role.find_by_name(role)
   raise "No such role was defined: #{role}" unless r
   as_admin do
-    available_perms = Redmine::AccessControl.permissions.collect(&:name)
+    available_perms = Redmine::AccessControl.permissions.map(&:name)
     r.permissions = []
 
     table.raw.each do |_perm|
