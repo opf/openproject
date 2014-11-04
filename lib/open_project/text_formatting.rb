@@ -38,6 +38,8 @@ module OpenProject
     include Redmine::I18n
     include ActionView::Helpers::TextHelper
     include OpenProject::ObjectLinking
+    # The WorkPackagesHelper is required to get access to the methods
+    # 'work_package_css_classes' and 'work_package_quick_info'.
     include WorkPackagesHelper
 
     # Truncates and returns the string as a single line
