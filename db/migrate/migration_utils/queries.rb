@@ -69,9 +69,9 @@ module Migration
       value = YAML.load row[column]
 
       if value.is_a? Array
-        value.collect! do |e|
+        value.map! do |e|
           if e.is_a? Array
-            e.collect! {|v| keys.has_key?(v) ? keys[v] : v}
+            e.map! {|v| keys.has_key?(v) ? keys[v] : v}
           else
             keys.has_key?(e.to_s) ? keys[e.to_s].to_sym : e
           end

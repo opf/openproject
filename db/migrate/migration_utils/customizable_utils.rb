@@ -152,7 +152,7 @@ module Migration::Utils
           AND tmp.journal_value IS NULL
       SQL
 
-      result.collect { |row| MissingCustomValue.new(row['customized_id'],
+      result.map { |row| MissingCustomValue.new(row['customized_id'],
                                                     row['customized_type'],
                                                     row['custom_field_id'],
                                                     row['current_value'],
@@ -247,7 +247,7 @@ module Migration::Utils
           AND version <= #{last_version}
       SQL
 
-      result_set.collect { |r| r['id'] }
+      result_set.map { |r| r['id'] }
     end
   end
 end

@@ -47,7 +47,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
       comparisons = timelines_with_historical_comparisons
 
       unless comparisons.empty?
-        affected_ids = comparisons.collect(&:id)
+        affected_ids = comparisons.map(&:id)
 
         raise "Error: Cannot migrate timelines options!"\
               "\n\n"\

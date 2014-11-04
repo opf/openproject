@@ -64,7 +64,7 @@ module Migration
 
       updated_rows = processed_rows.select(&:updated)
 
-      update_rows_in_database(table, column_list, updated_rows.collect(&:row))
+      update_rows_in_database(table, column_list, updated_rows.map(&:row))
 
       update_journals(table, updated_rows) if update_journal
     end
@@ -114,7 +114,7 @@ module Migration
     def update_journals(table, updated_rows)
       created_journals = {}
 
-      updated_ids = updated_rows.collect {|r| r.row['id']}
+      updated_ids = updated_rows.map {|r| r.row['id']}
       journal_table = "#{table.singularize}_journals"
       journable_type = table.classify
 
@@ -132,7 +132,7 @@ module Migration
 
       insert <<-SQL
         INSERT INTO #{journal_table} (journal_id, #{journal_table_columns.join(", ")})
-        SELECT j.id AS journal_id, #{journal_table_columns.collect{|c| "w.#{c}"}.join(", ")}
+        SELECT j.id AS journal_id, #{journal_table_columns.map{|c| "w.#{c}"}.join(", ")}
         FROM journals AS j JOIN #{table} AS w ON (j.journable_id = w.id)
         WHERE journable_type = '#{journable_type}'
           AND j.id NOT IN (SELECT journal_id FROM work_package_journals)

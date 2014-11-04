@@ -72,7 +72,7 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
       SELECT id FROM work_packages WHERE deleted_at IS NOT NULL
     SQL
 
-    @deleted_work_package_ids = result.collect { |r| r['id'] }
+    @deleted_work_package_ids = result.map { |r| r['id'] }
   end
 
   def deleted_work_packages_journals_ids
@@ -85,6 +85,6 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
       WHERE w.deleted_at IS NOT NULL;
     SQL
 
-    @deleted_work_packages_journals_ids = result.collect { |r| r['id'] }
+    @deleted_work_packages_journals_ids = result.map { |r| r['id'] }
   end
 end

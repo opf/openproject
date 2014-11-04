@@ -97,7 +97,7 @@ module Migration::Utils
         WHERE aj_id IS NULL
       SQL
 
-      result.collect { |row| MissingAttachment.new(row['journaled_id'],
+      result.map { |row| MissingAttachment.new(row['journaled_id'],
                                                    row['journaled_type'],
                                                    row['attachment_id'],
                                                    row['filename'],
@@ -193,7 +193,7 @@ module Migration::Utils
           AND version <= #{last_version}
       SQL
 
-      result_set.collect { |r| r['id'] }
+      result_set.map { |r| r['id'] }
     end
   end
 end
