@@ -223,6 +223,38 @@ h4. things we like
         it { expect(subject.body).to be_json_eql(work_package.reload.lock_version).at_path('lockVersion') }
       end
 
+      describe 'notification' do
+        let(:update_params) { valid_params.merge(subject: 'Updated subject') }
+
+        before(:each) do
+          allow(User).to receive(:current).and_return current_user
+          work_package
+          ActionMailer::Base.deliveries.clear
+        end
+
+        include_context 'patch request'
+
+        subject { ActionMailer::Base.deliveries }
+
+        context 'not set' do
+          let(:params) { update_params }
+
+          it { expect(subject.count).to eq(1) }
+        end
+
+        context 'disabled' do
+          let(:params) { update_params.merge(notify: 'false') }
+
+          it { expect(subject).to be_empty }
+        end
+
+        context 'enabled' do
+          let(:params) { update_params.merge(notify: 'Some text here - you can take true too') }
+
+          it { expect(subject.count).to eq(1) }
+        end
+      end
+
       context 'parent id' do
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
         let(:params) { valid_params.merge(parentId: parent.id) }
