@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsHelper, :type => :helper do
+describe ProjectsHelper, type: :helper do
   include ApplicationHelper
   include ProjectsHelper
 
@@ -44,7 +44,7 @@ describe ProjectsHelper, :type => :helper do
   let(:test_project)  { FactoryGirl.create :valid_project }
 
   describe 'a version' do
-    let(:version) { FactoryGirl.create :version, :project => test_project }
+    let(:version) { FactoryGirl.create :version, project: test_project }
 
     it 'can be formatted' do
       expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")
@@ -60,8 +60,8 @@ describe ProjectsHelper, :type => :helper do
     end
 
     describe 'with a valid user' do
-      let(:user) { FactoryGirl.create :user, :member_in_project => test_project }
-      before { allow(User).to receive(:current).and_return(user)}
+      let(:user) { FactoryGirl.create :user, member_in_project: test_project }
+      before { allow(User).to receive(:current).and_return(user) }
 
       it 'generates a link' do
         expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>")
@@ -85,7 +85,7 @@ describe ProjectsHelper, :type => :helper do
   end
 
   describe 'a system version' do
-    let(:version) { FactoryGirl.create :version, :project => test_project, :sharing => 'system' }
+    let(:version) { FactoryGirl.create :version, project: test_project, sharing: 'system' }
 
     it 'can be formatted' do
       expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")

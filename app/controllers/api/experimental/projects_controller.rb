@@ -29,7 +29,6 @@
 
 module Api
   module Experimental
-
     class ProjectsController < ApplicationController
       include ::Api::Experimental::ApiController
 
@@ -40,7 +39,7 @@ module Api
       def index
         # Note: Ordering by project hierarchy by default
         @projects = []
-        Project.project_tree(Project.visible) do |project, level|
+        Project.project_tree(Project.visible) do |project, _level|
           @projects << project
         end
 
@@ -67,9 +66,8 @@ module Api
 
       def find_project
         @project = Project.where(identifier: params[:project_id]).first ||
-          Project.find(params[:id])
+                   Project.find(params[:id])
       end
-
     end
   end
 end

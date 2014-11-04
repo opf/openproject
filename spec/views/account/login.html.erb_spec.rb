@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account/login', :type => :view do
+describe 'account/login', type: :view do
   context 'with password login enabled' do
     before do
       render

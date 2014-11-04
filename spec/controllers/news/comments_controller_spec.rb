@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe News::CommentsController, :type => :controller do
+describe News::CommentsController, type: :controller do
   render_views
 
   let(:user) { FactoryGirl.create(:admin)   }
@@ -38,8 +38,8 @@ describe News::CommentsController, :type => :controller do
     allow(User).to receive(:current).and_return user
   end
 
-  describe "#create" do
-    it "assigns a comment to the news item and redirects to the news page" do
+  describe '#create' do
+    it 'assigns a comment to the news item and redirects to the news page' do
       post :create, news_id: news.id, comment: { comments: 'This is a test comment' }
 
       expect(response).to redirect_to news_path(news)
@@ -58,8 +58,8 @@ describe News::CommentsController, :type => :controller do
     end
   end
 
-  describe "#destroy" do
-    it "deletes the comment and redirects to the news page" do
+  describe '#destroy' do
+    it 'deletes the comment and redirects to the news page' do
       comment = FactoryGirl.create :comment, commented: news
 
       expect {

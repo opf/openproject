@@ -37,7 +37,7 @@ class CreateTimelinesAvailableProjectStatuses < ActiveRecord::Migration
     end
 
     add_index :timelines_available_project_statuses, :project_type_id
-    add_index :timelines_available_project_statuses, :reported_project_status_id, :name => "index_avail_project_statuses_on_rep_project_status_id"
+    add_index :timelines_available_project_statuses, :reported_project_status_id, name: 'index_avail_project_statuses_on_rep_project_status_id'
   end
 
   def self.down

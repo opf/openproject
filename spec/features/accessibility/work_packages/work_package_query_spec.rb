@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work package index accessibility', :type => :feature do
+describe 'Work package index accessibility', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
@@ -107,7 +107,7 @@ describe 'Work package index accessibility', :type => :feature do
     shared_examples_for 'sort column' do
       it do
         expect(page).to have_selector(column_header_selector)
-        expect(find(column_header_selector + " span.sort-header")[:title]).to eq(sort_text)
+        expect(find(column_header_selector + ' span.sort-header')[:title]).to eq(sort_text)
       end
     end
 
@@ -208,35 +208,39 @@ describe 'Work package index accessibility', :type => :feature do
   end
 
   describe 'hotkeys', js: true do
-    let!(:another_work_package) { FactoryGirl.create(:work_package,
-                                                     project: project) }
-    let!(:yet_another_work_package) { FactoryGirl.create(:work_package,
-                                                     project: project) }
+    let!(:another_work_package) {
+      FactoryGirl.create(:work_package,
+                         project: project)
+    }
+    let!(:yet_another_work_package) {
+      FactoryGirl.create(:work_package,
+                         project: project)
+    }
     before { visit_index_page }
 
     context 'focus' do
       let(:first_link_selector) do
-        "table.list tbody tr:first-child a:focus, table.keyboard-accessible-list tbody tr:first-child a:focus"
+        'table.list tbody tr:first-child a:focus, table.keyboard-accessible-list tbody tr:first-child a:focus'
       end
       let(:second_link_selector) do
-        "table.list tbody tr:nth-child(2) a:focus, table.keyboard-accessible-list tbody tr:nth-child(2) a:focus"
+        'table.list tbody tr:nth-child(2) a:focus, table.keyboard-accessible-list tbody tr:nth-child(2) a:focus'
       end
 
       it 'navigates with J' do
-        find("body").native.send_keys('j')
+        find('body').native.send_keys('j')
         expect(page).to have_selector(first_link_selector)
       end
 
       it 'navigates with K' do
-        find("body").native.send_keys('k')
+        find('body').native.send_keys('k')
         expect(page).to have_selector(second_link_selector)
       end
     end
 
-    context "help" do
+    context 'help' do
       it 'opens help popup with \'?\'' do
-        find("body").native.send_keys('?')
-        expect(page).to have_selector(".ui-dialog")
+        find('body').native.send_keys('?')
+        expect(page).to have_selector('.ui-dialog')
       end
     end
   end
@@ -277,7 +281,7 @@ describe 'Work package index accessibility', :type => :feature do
     describe 'work package context menu', js: true do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.open a' }
-        let(:source_link) { ".workpackages-table tr.issue td.id a" }
+        let(:source_link) { '.workpackages-table tr.issue td.id a' }
         let(:keys) { [:shift, :alt, :f10] }
       end
     end
@@ -297,17 +301,17 @@ describe 'Work package index accessibility', :type => :feature do
     shared_examples_for 'menu setting item' do
       context 'closable by ESC and remembers focus on gear button' do
         before do
-          find(:css, ".work-packages-settings-button").click
+          find(:css, '.work-packages-settings-button').click
           anchor.click
         end
         it do
           # expect the modal to be shown
-          expect(page).to have_selector(".ng-modal-window")
-          find("body").native.send_keys(:escape)
+          expect(page).to have_selector('.ng-modal-window')
+          find('body').native.send_keys(:escape)
           # expect it to disappear
-          expect(page).to_not have_selector(".ng-modal-window")
+          expect(page).to_not have_selector('.ng-modal-window')
           # expect the gear to be focused
-          expect(page).to have_selector("#work-packages-settings-button:focus")
+          expect(page).to have_selector('#work-packages-settings-button:focus')
         end
       end
     end
@@ -316,19 +320,19 @@ describe 'Work package index accessibility', :type => :feature do
 
       context 'columns popup anchor' do
         it_behaves_like 'menu setting item' do
-          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(1) a") }
+          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(1) a') }
         end
       end
 
       context 'sorting popup anchor' do
         it_behaves_like 'menu setting item' do
-          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(2) a") }
+          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(2) a') }
         end
       end
 
       context 'grouping popup anchor' do
         it_behaves_like 'menu setting item' do
-          let (:anchor) { find("#settingsDropdown .dropdown-menu li:nth-child(3) a") }
+          let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(3) a') }
         end
       end
     end

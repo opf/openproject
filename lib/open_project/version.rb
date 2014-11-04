@@ -31,7 +31,6 @@ require 'rexml/document'
 
 module OpenProject
   module VERSION #:nodoc:
-
     MAJOR = 4
     MINOR = 1
     PATCH = 0

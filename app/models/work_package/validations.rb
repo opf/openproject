@@ -33,13 +33,13 @@ module WorkPackage::Validations
   included do
     validates_presence_of :subject, :priority, :project, :type, :author, :status
 
-    validates_length_of :subject, :maximum => 255
-    validates_inclusion_of :done_ratio, :in => 0..100
-    validates_numericality_of :estimated_hours, :allow_nil => true
+    validates_length_of :subject, maximum: 255
+    validates_inclusion_of :done_ratio, in: 0..100
+    validates_numericality_of :estimated_hours, allow_nil: true
 
-    validates :start_date, :date => {:allow_blank => true}
-    validates :due_date, :date => {:after_or_equal_to => :start_date, :message => :greater_than_start_date, :allow_blank => true}, :unless => Proc.new { |wp| wp.start_date.blank?}
-    validates :due_date, :date => {:allow_blank => true}
+    validates :start_date, date: { allow_blank: true }
+    validates :due_date, date: { after_or_equal_to: :start_date, message: :greater_than_start_date, allow_blank: true }, unless: Proc.new { |wp| wp.start_date.blank? }
+    validates :due_date, date: { allow_blank: true }
 
     validate :validate_start_date_before_soonest_start_date
     validate :validate_fixed_version_is_assignable
@@ -80,13 +80,13 @@ module WorkPackage::Validations
   end
 
   def validate_milestone_constraint
-    if self.is_milestone? && self.due_date && self.start_date && self.start_date != self.due_date
+    if self.is_milestone? && due_date && start_date && start_date != due_date
       errors.add :due_date, :not_start_date
     end
   end
 
   def validate_parent_constraint
-    if self.parent
+    if parent
       errors.add :parent_id, :cannot_be_milestone if parent.is_milestone?
     end
   end
@@ -98,7 +98,7 @@ module WorkPackage::Validations
   end
 
   def validate_active_priority
-    if self.priority && !self.priority.active? && self.changes[:priority_id]
+    if priority && !priority.active? && changes[:priority_id]
       errors.add :priority_id, :only_active_priorities_allowed
     end
   end
@@ -106,10 +106,10 @@ module WorkPackage::Validations
   private
 
   def status_changed?
-    self.status_id_was != 0 && self.status_id_changed?
+    status_id_was != 0 && self.status_id_changed?
   end
 
   def status_transition_exists?
-    self.type.is_valid_transition?(self.status_id_was, self.status_id, User.current.roles(self.project))
+    type.is_valid_transition?(status_id_was, status_id, User.current.roles(project))
   end
 end

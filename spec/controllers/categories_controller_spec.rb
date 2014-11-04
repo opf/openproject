@@ -28,15 +28,19 @@
 
 require 'spec_helper'
 
-describe CategoriesController, :type => :controller do
+describe CategoriesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:manage_categories]) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:manage_categories])
+  }
+  let(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
 
   before do
     member
@@ -65,10 +69,12 @@ describe CategoriesController, :type => :controller do
   describe :create do
     let(:category_name) { 'New category' }
 
-    before { post :create,
-                  project_id: project.id,
-                  category: { name: category_name,
-                              assigned_to_id: user.id } }
+    before {
+      post :create,
+           project_id: project.id,
+           category: { name: category_name,
+                       assigned_to_id: user.id }
+    }
 
     describe :categories do
       subject { Category.find_by_name(category_name) }
@@ -84,13 +90,17 @@ describe CategoriesController, :type => :controller do
   describe :edit do
     let(:name) { 'Testing' }
 
-    context "valid category" do
-      let(:category) { FactoryGirl.create(:category,
-                                          project: project) }
+    context 'valid category' do
+      let(:category) {
+        FactoryGirl.create(:category,
+                           project: project)
+      }
 
-      before { post :update,
-                    id: category.id,
-                    category: { name: name } }
+      before {
+        post :update,
+             id: category.id,
+             category: { name: name }
+      }
 
       subject { Category.find(category.id).name }
 
@@ -105,10 +115,12 @@ describe CategoriesController, :type => :controller do
       it_behaves_like :redirect
     end
 
-    context "invalid category" do
-      before { post :update,
-                    id: 404,
-                    category: { name: name } }
+    context 'invalid category' do
+      before {
+        post :update,
+             id: 404,
+             category: { name: name }
+      }
 
       subject { response.response_code }
 
@@ -117,11 +129,15 @@ describe CategoriesController, :type => :controller do
   end
 
   describe :destroy do
-    let(:category) { FactoryGirl.create(:category,
-                                        project: project) }
-    let(:work_package) { FactoryGirl.create(:work_package,
-                                            project: project,
-                                            category: category) }
+    let(:category) {
+      FactoryGirl.create(:category,
+                         project: project)
+    }
+    let(:work_package) {
+      FactoryGirl.create(:work_package,
+                         project: project,
+                         category: category)
+    }
 
     before { category }
 
@@ -131,7 +147,7 @@ describe CategoriesController, :type => :controller do
       it { is_expected.to be_nil }
     end
 
-    context "unused" do
+    context 'unused' do
       before { delete :destroy, id: category.id }
 
       it_behaves_like :redirect
@@ -139,7 +155,7 @@ describe CategoriesController, :type => :controller do
       it_behaves_like :delete
     end
 
-    context "in use" do
+    context 'in use' do
       before do
         work_package
 
@@ -160,8 +176,10 @@ describe CategoriesController, :type => :controller do
     end
 
     describe :reassign do
-      let(:target) { FactoryGirl.create(:category,
-                                        project: project) }
+      let(:target) {
+        FactoryGirl.create(:category,
+                           project: project)
+      }
       before do
         work_package
 

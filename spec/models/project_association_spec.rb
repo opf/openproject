@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectAssociation, :type => :model do
+describe ProjectAssociation, type: :model do
   describe '- Relations ' do
     describe '#project_a' do
       it 'can read the first project w/ the help of the belongs_to association' do
@@ -36,8 +36,8 @@ describe ProjectAssociation, :type => :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     :project_a_id => project_a.id,
-                                     :project_b_id => project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.project_a).to eq(project_a)
       end
@@ -47,8 +47,8 @@ describe ProjectAssociation, :type => :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     :project_a_id => project_a.id,
-                                     :project_b_id => project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.project_b).to eq(project_b)
       end
@@ -58,8 +58,8 @@ describe ProjectAssociation, :type => :model do
         project_b = FactoryGirl.create(:project)
 
         association = FactoryGirl.create(:project_association,
-                                     :project_a_id => project_a.id,
-                                     :project_b_id => project_b.id)
+                                         project_a_id: project_a.id,
+                                         project_b_id: project_b.id)
 
         expect(association.projects).to include(project_a)
         expect(association.projects).to include(project_b)
@@ -69,36 +69,36 @@ describe ProjectAssociation, :type => :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {:project_a_id => 1,
-       :project_b_id => 2}
+      { project_a_id: 1,
+        project_b_id: 2 }
     }
 
     before {
-      FactoryGirl.create(:project, :id => 1)
-      FactoryGirl.create(:project, :id => 2)
+      FactoryGirl.create(:project, id: 1)
+      FactoryGirl.create(:project, id: 2)
     }
 
-    it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
+    it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
 
-    it "should be invalid for a self referential association" do
+    it 'should be invalid for a self referential association' do
       attributes[:project_b_id] = attributes[:project_a_id]
 
       project_association = ProjectAssociation.new do |a|
-        a.send(:assign_attributes, attributes, :without_protection => true)
+        a.send(:assign_attributes, attributes, without_protection: true)
       end
 
       expect(project_association).not_to be_valid
 
-      expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, :scope => [:activerecord,
-                                                                                         :errors,
-                                                                                         :models,
-                                                                                         :project_association])])
+      expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, scope: [:activerecord,
+                                                                                           :errors,
+                                                                                           :models,
+                                                                                           :project_association])])
     end
 
     describe 'project_a' do
       it 'is invalid w/o a project_a' do
         attributes[:project_a_id] = nil
-        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }
+        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(project_association).not_to be_valid
 
@@ -109,7 +109,7 @@ describe ProjectAssociation, :type => :model do
     describe 'project_b' do
       it 'is invalid w/o a project_b' do
         attributes[:project_b_id] = nil
-        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }
+        project_association = ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(project_association).not_to be_valid
 

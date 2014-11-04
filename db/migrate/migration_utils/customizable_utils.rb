@@ -80,7 +80,7 @@ module Migration::Utils
 
         delete <<-SQL
           DELETE FROM customizable_journals
-          WHERE journal_id IN (#{journal_ids.join(", ")})
+          WHERE journal_id IN (#{journal_ids.join(', ')})
         SQL
       end
     end
@@ -152,11 +152,13 @@ module Migration::Utils
           AND tmp.journal_value IS NULL
       SQL
 
-      result.collect { |row| MissingCustomValue.new(row['customized_id'],
-                                                    row['customized_type'],
-                                                    row['custom_field_id'],
-                                                    row['current_value'],
-                                                    row['last_version']) }
+      result.map { |row|
+        MissingCustomValue.new(row['customized_id'],
+                               row['customized_type'],
+                               row['custom_field_id'],
+                               row['current_value'],
+                               row['last_version'])
+      }
     end
 
     COLUMNS = ['changed_data', 'version', 'journaled_id']
@@ -180,10 +182,10 @@ module Migration::Utils
     def find_work_package_with_missing_initial_custom_values(legacy_journal_type, result)
       Proc.new do |row|
         missing_entries = missing_initial_customizable_journals(legacy_journal_type,
-                                                              row['id'],
-                                                              row['journaled_id'],
-                                                              row['version'],
-                                                              row['changed_data'])
+                                                                row['id'],
+                                                                row['journaled_id'],
+                                                                row['version'],
+                                                                row['changed_data'])
 
         result << missing_entries unless missing_entries.empty?
 
@@ -191,19 +193,21 @@ module Migration::Utils
       end
     end
 
-    def missing_initial_customizable_journals(legacy_journal_type, journal_id, journaled_id, version, changed_data)
+    def missing_initial_customizable_journals(legacy_journal_type, _journal_id, journaled_id, version, changed_data)
       removed_customvalues = parse_custom_value_changes(changed_data)
 
       missing_entries = missing_initial_custom_value_entries(legacy_journal_type,
-                                                           journaled_id,
-                                                           version,
-                                                           removed_customvalues)
+                                                             journaled_id,
+                                                             version,
+                                                             removed_customvalues)
 
-      missing_entries.map { |e| MissingCustomValue.new(journaled_id,
-                                                      nil,
-                                                      e[:id],
-                                                      e[:value],
-                                                      version.to_i - 1) }
+      missing_entries.map { |e|
+        MissingCustomValue.new(journaled_id,
+                               nil,
+                               e[:id],
+                               e[:value],
+                               version.to_i - 1)
+      }
     end
 
     #############################################
@@ -247,7 +251,7 @@ module Migration::Utils
           AND version <= #{last_version}
       SQL
 
-      result_set.collect { |r| r['id'] }
+      result_set.map { |r| r['id'] }
     end
   end
 end

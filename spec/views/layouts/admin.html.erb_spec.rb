@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'layouts/admin', :type => :view do
+describe 'layouts/admin', type: :view do
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
 

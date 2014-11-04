@@ -44,7 +44,7 @@ class TypesController < ApplicationController
 
   def new
     @type = Type.new(params[:type])
-    @types = Type.find(:all, :order => 'position')
+    @types = Type.find(:all, order: 'position')
     @projects = Project.find(:all)
   end
 
@@ -56,11 +56,11 @@ class TypesController < ApplicationController
         @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
-      @types = Type.find(:all, :order => 'position')
+      @types = Type.find(:all, order: 'position')
       @projects = Project.find(:all)
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -76,10 +76,10 @@ class TypesController < ApplicationController
     params[:type].delete :name if @type.is_standard?
 
     if @type.update_attributes(permitted_params.type)
-      redirect_to types_path, :notice => t(:notice_successful_update)
+      redirect_to types_path, notice: t(:notice_successful_update)
     else
       @projects = Project.all
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -90,7 +90,7 @@ class TypesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     else
       flash.now[:error] = l('type_could_not_be_saved')
-      render :action => 'edit'
+      render action: 'edit'
     end
     redirect_to types_path
   end
@@ -110,6 +110,6 @@ class TypesController < ApplicationController
         flash[:error] = t(:error_can_not_delete_type)
       end
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 end

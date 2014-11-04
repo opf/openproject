@@ -28,7 +28,7 @@
 #++
 
 class IssuePriority < Enumeration
-  has_many :work_packages, :foreign_key => 'priority_id'
+  has_many :work_packages, foreign_key: 'priority_id'
 
   OptionName = :enumeration_work_package_priorities
 

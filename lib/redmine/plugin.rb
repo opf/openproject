@@ -28,10 +28,9 @@
 #++
 
 module Redmine #:nodoc:
-
   class PluginError < StandardError
     attr_reader :plugin_id
-    def initialize(plug_id=nil)
+    def initialize(plug_id = nil)
       super
       @plugin_id = plug_id
     end
@@ -105,7 +104,7 @@ module Redmine #:nodoc:
       registered_plugins[id] = p
 
       if p.settings
-        Setting.create_setting("plugin_#{id}", {'default' => p.settings[:default], 'serialized' => true})
+        Setting.create_setting("plugin_#{id}", 'default' => p.settings[:default], 'serialized' => true)
         Setting.create_setting_accessors("plugin_#{id}")
       end
 
@@ -121,7 +120,7 @@ module Redmine #:nodoc:
       return p
     rescue PluginNotFound => e
       # find circular dependencies
-      raise PluginCircularDependency.new(id) if self.dependencies_for(e.plugin_id).include?(id)
+      raise PluginCircularDependency.new(id) if dependencies_for(e.plugin_id).include?(id)
       if RedminePluginLocator.instance.has_plugin? e.plugin_id
         # The required plugin is going to be loaded later, defer loading this plugin
         (deferred_plugins[e.plugin_id] ||= []) << [id, block]
@@ -134,8 +133,8 @@ module Redmine #:nodoc:
     # returns an array of all dependencies we know of for plugin id
     # (might not be complete at all times!)
     def self.dependencies_for(id)
-      direct_deps = deferred_plugins.keys.find_all{|k| deferred_plugins[k].collect(&:first).include?(id)}
-      direct_deps.inject([]) {|deps,v| deps << v; deps += self.dependencies_for(v)}
+      direct_deps = deferred_plugins.keys.find_all { |k| deferred_plugins[k].map(&:first).include?(id) }
+      direct_deps.inject([]) { |deps, v| deps << v; deps += dependencies_for(v) }
     end
 
     # Returns an array of all registered plugins
@@ -167,7 +166,7 @@ module Redmine #:nodoc:
     end
 
     def <=>(plugin)
-      self.id.to_s <=> plugin.id.to_s
+      id.to_s <=> plugin.id.to_s
     end
 
     # Sets a requirement on the OpenProject version.
@@ -201,7 +200,7 @@ module Redmine #:nodoc:
     #   :type => (symbol): either :js or :css
     #   :path => (string): path to asset to include, or array with multiple asset paths
     def global_assets(assets_hash = {})
-      assets_hash.each { |k,v| registered_global_assets[k] = Array(v) }
+      assets_hash.each { |k, v| registered_global_assets[k] = Array(v) }
     end
 
     ##
@@ -225,15 +224,15 @@ module Redmine #:nodoc:
     #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
     def requires_redmine_plugin(plugin_name, arg)
-      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg = { version_or_higher: arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
       plugin = Plugin.find(plugin_name)
-      current = plugin.version.split('.').collect(&:to_i)
+      current = plugin.version.split('.').map(&:to_i)
 
       arg.each do |k, v|
         v = [] << v unless v.is_a?(Array)
-        versions = v.collect {|s| s.split('.').collect(&:to_i)}
+        versions = v.map { |s| s.split('.').map(&:to_i) }
         case k
         when :version_or_higher
           raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
@@ -241,7 +240,7 @@ module Redmine #:nodoc:
             raise PluginRequirementError.new("#{id} plugin requires the #{plugin_name} plugin #{v} or higher but current is #{current.join('.')}")
           end
         when :version
-          unless versions.include?(current.slice(0,3))
+          unless versions.include?(current.slice(0, 3))
             raise PluginRequirementError.new("#{id} plugin requires one the following versions of #{plugin_name}: #{v.join(', ')} but current is #{current.join('.')}")
           end
         end
@@ -255,7 +254,7 @@ module Redmine #:nodoc:
     #
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     #
-    def menu(menu_name, item, url, options={})
+    def menu(menu_name, item, url, options = {})
       Redmine::MenuManager.map(menu_name) do |menu|
         menu.push(item, url, options)
       end
@@ -293,9 +292,9 @@ module Redmine #:nodoc:
     #   permission :say_hello, { :example => :say_hello }, :require => :member
     def permission(name, actions, options = {})
       if @project_module
-        Redmine::AccessControl.map {|map| map.project_module(@project_module) {|map|map.permission(name, actions, options)}}
+        Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map|map.permission(name, actions, options) } }
       else
-        Redmine::AccessControl.map {|map| map.permission(name, actions, options)}
+        Redmine::AccessControl.map { |map| map.permission(name, actions, options) }
       end
     end
 
@@ -308,7 +307,7 @@ module Redmine #:nodoc:
     #   end
     def project_module(name, &block)
       @project_module = name
-      self.instance_eval(&block)
+      instance_eval(&block)
       @project_module = nil
     end
 
@@ -358,7 +357,7 @@ module Redmine #:nodoc:
       destination = public_directory
       return unless File.directory?(source)
 
-      source_files = Dir[source + "/**/*"]
+      source_files = Dir[source + '/**/*']
       source_dirs = source_files.select { |d| File.directory?(d) }
       source_files -= source_dirs
 
@@ -373,7 +372,7 @@ module Redmine #:nodoc:
         target_dir = File.join(destination, dir.gsub(source, ''))
         begin
           FileUtils.mkdir_p(target_dir)
-        rescue Exception => e
+        rescue => e
           raise "Could not create directory #{target_dir}: \n" + e
         end
       end
@@ -384,20 +383,18 @@ module Redmine #:nodoc:
           unless File.exist?(target) && FileUtils.identical?(file, target)
             FileUtils.cp(file, target)
           end
-        rescue Exception => e
+        rescue => e
           raise "Could not copy #{file} to #{target}: \n" + e
         end
       end
     end
 
     # Mirrors assets from one or all plugins to public/plugin_assets
-    def self.mirror_assets(name=nil)
+    def self.mirror_assets(name = nil)
       if name.present?
         find(name).mirror_assets
       else
-        all.each do |plugin|
-          plugin.mirror_assets
-        end
+        all.each(&:mirror_assets)
       end
     end
   end

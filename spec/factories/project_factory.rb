@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -53,7 +53,7 @@ FactoryGirl.define do
         project.types << FactoryGirl.build(:type)
       end
       callback(:after_create) do |project|
-        project.types.each { |type| type.save! }
+        project.types.each(&:save!)
       end
 
       factory :valid_project do
@@ -72,7 +72,7 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
-  factory(:timelines_project, :class => Project) do
+  factory(:timelines_project, class: Project) do
 
     sequence(:name) { |n| "Project #{n}" }
     sequence(:identifier) { |n| "project#{n}" }
@@ -80,7 +80,7 @@ FactoryGirl.define do
     # activate timeline module
 
     callback(:after_create) do |project|
-      project.enabled_module_names += ["timelines"]
+      project.enabled_module_names += ['timelines']
     end
 
     # add user to project
@@ -89,11 +89,11 @@ FactoryGirl.define do
 
       role = FactoryGirl.create(:role)
       member = FactoryGirl.build(:member,
-                             # we could also just make everybody a member,
-                             # since for now we can't pass transient
-                             # attributes into factory_girl
-                             :user => project.responsible,
-                             :project => project)
+                                 # we could also just make everybody a member,
+                                 # since for now we can't pass transient
+                                 # attributes into factory_girl
+                                 user: project.responsible,
+                                 project: project)
       member.roles = [role]
       member.save!
     end
@@ -108,9 +108,9 @@ FactoryGirl.define do
       (5 + rand(20)).times do
 
         due_date = start_date + (rand(30) + 10).days
-        FactoryGirl.create(:planning_element, :project => project,
-                                              :start_date => start_date,
-                                              :due_date => due_date)
+        FactoryGirl.create(:planning_element, project: project,
+                                              start_date: start_date,
+                                              due_date: due_date)
         start_date = due_date
 
       end
@@ -119,14 +119,14 @@ FactoryGirl.define do
     # create a timeline in that project
 
     callback(:after_create) do |project|
-      FactoryGirl.create(:timeline, :project => project)
+      FactoryGirl.create(:timeline, project: project)
     end
 
   end
 end
 
 FactoryGirl.define do
-  factory(:uerm_project, :parent => :project) do
+  factory(:uerm_project, parent: :project) do
     sequence(:name) { |n| "ÜRM Project #{n}" }
 
     @project_types = Array.new
@@ -135,8 +135,8 @@ FactoryGirl.define do
 
     # create some project types
 
-    callback(:after_create) do |project|
-      if (@project_types.empty?)
+    callback(:after_create) do |_project|
+      if @project_types.empty?
 
         6.times do
           @project_types << FactoryGirl.create(:project_type)
@@ -147,7 +147,7 @@ FactoryGirl.define do
 
     # create some planning_element_types
 
-    callback(:after_create) do |project|
+    callback(:after_create) do |_project|
 
       20.times do
         planning_element_type = FactoryGirl.create(:planning_element_type)
@@ -159,7 +159,6 @@ FactoryGirl.define do
 
     end
 
-
     callback(:after_create) do |project|
 
       projects = Array.new
@@ -168,11 +167,11 @@ FactoryGirl.define do
       #
       50.times do
         projects << FactoryGirl.create(:project,
-                                   :responsible => project.responsible)
+                                       responsible: project.responsible)
       end
 
       projects << FactoryGirl.create(:project,
-                                 :responsible => project.responsible)
+                                     responsible: project.responsible)
 
       projects.each do |r|
 
@@ -184,8 +183,8 @@ FactoryGirl.define do
         # create a reporting to ürm
 
         FactoryGirl.create(:reporting,
-                       :project => r,
-                       :reporting_to_project => project)
+                           project: r,
+                           reporting_to_project: project)
 
         # give every planning element a planning element type
 
@@ -196,7 +195,7 @@ FactoryGirl.define do
 
         # Add a timeline with history
 
-        FactoryGirl.create(:timeline_with_history, :project => r)
+        FactoryGirl.create(:timeline_with_history, project: r)
 
       end
 

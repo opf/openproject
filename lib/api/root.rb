@@ -36,7 +36,7 @@ module API
     prefix :api
 
     class Formatter
-      def call(object, env)
+      def call(object, _env)
         object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
       end
     end
@@ -64,7 +64,7 @@ module API
       end
 
       def build_representer(obj, model_klass, representer_klass, options = {})
-        model = (obj.kind_of?(Array)) ? obj.map{ |o| model_klass.new(o) } : model_klass.new(obj)
+        model = (obj.is_a?(Array)) ? obj.map { |o| model_klass.new(o) } : model_klass.new(obj)
         representer_klass.new(model, options)
       end
     end

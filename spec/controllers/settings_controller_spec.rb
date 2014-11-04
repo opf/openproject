@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SettingsController, :type => :controller do
+describe SettingsController, type: :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
     @params = {}
@@ -61,7 +61,7 @@ describe SettingsController, :type => :controller do
     end
 
     it 'contains a check box for the activity module on the projects tab' do
-      get 'edit', :tab => 'projects'
+      get 'edit', tab: 'projects'
 
       expect(response).to be_success
       expect(response).to render_template 'edit'
@@ -69,23 +69,23 @@ describe SettingsController, :type => :controller do
     end
 
     it 'does not store the activity in the default_projects_modules if unchecked' do
-      post 'edit', :tab => 'projects', :settings => {
-        :default_projects_modules => ['wiki']
+      post 'edit', tab: 'projects', settings: {
+        default_projects_modules: ['wiki']
       }
 
       expect(response).to be_redirect
-      expect(response).to redirect_to :action => 'edit', :tab => 'projects'
+      expect(response).to redirect_to action: 'edit', tab: 'projects'
 
       expect(Setting.default_projects_modules).to eq(['wiki'])
     end
 
     it 'stores the activity in the default_projects_modules if checked' do
-      post 'edit', :tab => 'projects', :settings => {
-        :default_projects_modules => ['activity', 'wiki']
+      post 'edit', tab: 'projects', settings: {
+        default_projects_modules: ['activity', 'wiki']
       }
 
       expect(response).to be_redirect
-      expect(response).to redirect_to :action => 'edit', :tab => 'projects'
+      expect(response).to redirect_to action: 'edit', tab: 'projects'
 
       expect(Setting.default_projects_modules).to eq(['activity', 'wiki'])
     end
@@ -96,7 +96,7 @@ describe SettingsController, :type => :controller do
       end
 
       it 'contains a checked checkbox for activity' do
-        get 'edit', :tab => 'projects'
+        get 'edit', tab: 'projects'
 
         expect(response).to be_success
         expect(response).to render_template 'edit'
@@ -111,7 +111,7 @@ describe SettingsController, :type => :controller do
       end
 
       it 'contains an unchecked checkbox for activity' do
-        get 'edit', :tab => 'projects'
+        get 'edit', tab: 'projects'
 
         expect(response).to be_success
         expect(response).to render_template 'edit'

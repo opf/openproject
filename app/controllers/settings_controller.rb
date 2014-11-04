@@ -34,7 +34,7 @@ class SettingsController < ApplicationController
 
   def index
     edit
-    render :action => 'edit'
+    render action: 'edit'
   end
 
   def edit
@@ -46,15 +46,15 @@ class SettingsController < ApplicationController
 
       settings.each do |name, value|
         # remove blank values in array settings
-        value.delete_if {|v| v.blank? } if value.is_a?(Array)
+        value.delete_if(&:blank?) if value.is_a?(Array)
         Setting[name] = value
       end
 
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'edit', :tab => params[:tab]
+      redirect_to action: 'edit', tab: params[:tab]
     else
       @options = {}
-      @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
+      @options[:user_format] = User::USER_FORMATS.keys.map { |f| [User.current.name(f), f.to_s] }
       @deliveries = ActionMailer::Base.perform_deliveries
 
       @guessed_host = request.host_with_port.dup
@@ -66,7 +66,7 @@ class SettingsController < ApplicationController
     if request.post?
       Setting["plugin_#{@plugin.id}"] = params[:settings]
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'plugin', :id => @plugin.id
+      redirect_to action: 'plugin', id: @plugin.id
     else
       @partial = @plugin.settings[:partial]
       @settings = Setting["plugin_#{@plugin.id}"]

@@ -31,7 +31,7 @@ module Migration
   module Utils
     UpdateResult = Struct.new(:row, :updated)
 
-    def say_with_time_silently message
+    def say_with_time_silently(message)
       say_with_time message do
         suppress_messages do
           yield
@@ -43,7 +43,7 @@ module Migration
       column_filters = []
 
       columns.each do |column|
-        filters = terms.map {|term| "#{column} LIKE '%#{term}%'"}
+        filters = terms.map { |term| "#{column} LIKE '%#{term}%'" }
 
         column_filters << "(#{filters.join(' OR ')})"
       end
@@ -64,22 +64,22 @@ module Migration
 
       updated_rows = processed_rows.select(&:updated)
 
-      update_rows_in_database(table, column_list, updated_rows.collect(&:row))
+      update_rows_in_database(table, column_list, updated_rows.map(&:row))
 
       update_journals(table, updated_rows) if update_journal
     end
 
     def reset_public_key_sequence_in_postgres(table)
-      return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+      return unless ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
       ActiveRecord::Base.connection.reset_pk_sequence!(table)
     end
 
     def postgres?
-      ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+      ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
     end
 
     def mysql?
-      ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+      ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
     end
 
     private
@@ -100,8 +100,8 @@ module Migration
       columns = (column_list.nil?) ? '' : column_list.join(', ')
 
       updated_rows.each do |row|
-        values = column_list.map {|c| "#{c}=#{quote(row[c])}"}
-                            .join(', ')
+        values = column_list.map { |c| "#{c}=#{quote(row[c])}" }
+                 .join(', ')
 
         update <<-SQL
           UPDATE #{table}
@@ -114,7 +114,7 @@ module Migration
     def update_journals(table, updated_rows)
       created_journals = {}
 
-      updated_ids = updated_rows.collect {|r| r.row['id']}
+      updated_ids = updated_rows.map { |r| r.row['id'] }
       journal_table = "#{table.singularize}_journals"
       journable_type = table.classify
 
@@ -131,8 +131,8 @@ module Migration
       journal_table_columns = journal_table_columns(journal_table)
 
       insert <<-SQL
-        INSERT INTO #{journal_table} (journal_id, #{journal_table_columns.join(", ")})
-        SELECT j.id AS journal_id, #{journal_table_columns.collect{|c| "w.#{c}"}.join(", ")}
+        INSERT INTO #{journal_table} (journal_id, #{journal_table_columns.join(', ')})
+        SELECT j.id AS journal_id, #{journal_table_columns.map { |c| "w.#{c}" }.join(', ')}
         FROM journals AS j JOIN #{table} AS w ON (j.journable_id = w.id)
         WHERE journable_type = '#{journable_type}'
           AND j.id NOT IN (SELECT journal_id FROM work_package_journals)

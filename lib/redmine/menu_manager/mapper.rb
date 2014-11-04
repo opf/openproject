@@ -34,7 +34,7 @@ class Redmine::MenuManager::Mapper
     @menu_items = items[menu]
   end
 
-  @@last_items_count = Hash.new {|h,k| h[k] = 0}
+  @@last_items_count = Hash.new { |h, k| h[k] = 0 }
 
   # Adds an item at the end of the menu. Available options:
   # * param: the parameter name that is used for the project id (default is :id)
@@ -49,11 +49,11 @@ class Redmine::MenuManager::Mapper
   #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. :last => true)
   # * html_options: a hash of html options that are passed to link_to
-  def push(name, url, options={})
+  def push(name, url, options = {})
     options = options.dup
 
     if options[:parent]
-      subtree = self.find(options[:parent])
+      subtree = find(options[:parent])
       if subtree
         target_root = subtree
       else
@@ -92,18 +92,18 @@ class Redmine::MenuManager::Mapper
 
   # Removes a menu item
   def delete(name)
-    if found = self.find(name)
+    if found = find(name)
       @menu_items.remove!(found)
     end
   end
 
   # Checks if a menu item exists
   def exists?(name)
-    @menu_items.any? {|node| node.name == name}
+    @menu_items.any? { |node| node.name == name }
   end
 
   def find(name)
-    @menu_items.find {|node| node.name == name}
+    @menu_items.find { |node| node.name == name }
   end
 
   def position_of(name)
@@ -121,8 +121,8 @@ class Redmine::MenuManager::MapDeferrer
   end
 
   def defer(method, *args)
-    ActiveSupport::Deprecation.warn "Calling #{method.to_s} and accessing the the menu object from outside of the block attached to the map method is deprecated and will be removed in ChiliProject 3.0. Please access the menu object from within the attached block instead. Please also note the differences between the APIs.", caller.drop(1)
-    menu_builder = proc{ |menu_mapper| menu_mapper.send(method, *args) }
+    ActiveSupport::Deprecation.warn "Calling #{method} and accessing the the menu object from outside of the block attached to the map method is deprecated and will be removed in ChiliProject 3.0. Please access the menu object from within the attached block instead. Please also note the differences between the APIs.", caller.drop(1)
+    menu_builder = proc { |menu_mapper| menu_mapper.send(method, *args) }
     @menu_builder_queue.push(menu_builder)
   end
 

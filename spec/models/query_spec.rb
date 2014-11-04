@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe Query, :type => :model do
+describe Query, type: :model do
   let(:query) { FactoryGirl.build(:query) }
 
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
-        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_truthy
+        expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_truthy
       end
     end
 
@@ -44,14 +44,14 @@ describe Query, :type => :model do
       end
 
       it 'should NOT include the done_ratio column' do
-        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_nil
+        expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_nil
       end
     end
 
   end
 
   describe '#valid?' do
-    it "should not be valid without a name" do
+    it 'should not be valid without a name' do
       query.name = ''
       expect(query.save).to be_falsey
       expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
@@ -70,7 +70,7 @@ describe Query, :type => :model do
 
     context 'when filters are blank' do
       let(:status) { FactoryGirl.create :status }
-      let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
+      let(:query) { FactoryGirl.build(:query).tap { |q| q.filters = [] } }
 
       it 'is valid' do
         expect(query.valid?).to be_truthy
@@ -79,10 +79,10 @@ describe Query, :type => :model do
 
     context 'with a missing value for a custom field' do
       let(:custom_field) { FactoryGirl.create :text_issue_custom_field }
-      let(:query) { FactoryGirl.build(:query)}
+      let(:query) { FactoryGirl.build(:query) }
 
       before do
-        query.filters = [Queries::WorkPackages::Filter.new("cf_" + custom_field.id.to_s, operator: "=", values: ['']) ]
+        query.filters = [Queries::WorkPackages::Filter.new('cf_' + custom_field.id.to_s, operator: '=', values: [''])]
       end
 
       it 'should have the name of the custom field in the error message' do

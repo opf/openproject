@@ -28,7 +28,7 @@
 #++
 
 class Journal < ActiveRecord::Base
-  self.table_name = "journals"
+  self.table_name = 'journals'
 
   include JournalFormatter
   include FormatHooks
@@ -40,7 +40,7 @@ class Journal < ActiveRecord::Base
   attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journable_id, :journable_type]
+  validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -52,13 +52,13 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope "changing", :conditions => ["version > 1"]
+  scope 'changing', conditions: ['version > 1']
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes
 
-    if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
-      attributes.each {|k,v| attributes[k] = v[1]}
+    if attributes.is_a? Hash and attributes.values.first.is_a? Array
+      attributes.each { |k, v| attributes[k] = v[1] }
     end
     data.update_attributes attributes
   end
@@ -142,13 +142,13 @@ class Journal < ActiveRecord::Base
       @changes = HashWithIndifferentAccess.new
 
       if predecessor.nil?
-        @changes = data.journaled_attributes.select{|_,v| !v.nil?}
-                                            .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
+        @changes = data.journaled_attributes.select { |_, v| !v.nil? }
+                   .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
       else
         normalized_data = JournalManager.normalize_newlines(data.journaled_attributes)
         normalized_predecessor_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
 
-        normalized_data.select do |k,v|
+        normalized_data.select do |k, v|
           # we dont record changes for changes from nil to empty strings and vice versa
           pred = normalized_predecessor_data[k]
           v != pred && (v.present? || pred.present?)
@@ -157,8 +157,8 @@ class Journal < ActiveRecord::Base
         end
       end
 
-      @changes.merge!(get_association_changes predecessor, "attachable", "attachments", :attachment_id, :filename)
-      @changes.merge!(get_association_changes predecessor, "customizable", "custom_fields", :custom_field_id, :value)
+      @changes.merge!(get_association_changes predecessor, 'attachable', 'attachments', :attachment_id, :filename)
+      @changes.merge!(get_association_changes predecessor, 'customizable', 'custom_fields', :custom_field_id, :value)
     end
 
     @changes
@@ -169,7 +169,7 @@ class Journal < ActiveRecord::Base
     journal_assoc_name = "#{journal_association}_journals"
 
     if predecessor.nil?
-      send(journal_assoc_name).each_with_object(changes) {|a, h| h["#{association}_#{a.send(key)}"] = [nil, a.send(value)] }
+      send(journal_assoc_name).each_with_object(changes) { |a, h| h["#{association}_#{a.send(key)}"] = [nil, a.send(value)] }
     else
       current = send(journal_assoc_name).map(&:attributes)
       predecessor_attachable_journals = predecessor.send(journal_assoc_name).map(&:attributes)
@@ -187,10 +187,10 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND version < ?",
+    @predecessor ||= Journal.where('journable_type = ? AND journable_id = ? AND version < ?',
                                    journable_type, journable_id, version)
-                            .order("version DESC")
-                            .first
+                     .order('version DESC')
+                     .first
   end
 
   def journalized_object_type

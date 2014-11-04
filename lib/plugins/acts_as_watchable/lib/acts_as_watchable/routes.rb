@@ -36,7 +36,7 @@ module OpenProject
           params = request.path_parameters
 
           watched?(params[:object_type]) &&
-          /\d+/.match(params[:object_id])
+            /\d+/.match(params[:object_id])
         end
 
         private

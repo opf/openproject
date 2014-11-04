@@ -32,16 +32,16 @@ class AddWikiListAttachments < ActiveRecord::Migration
   class Role < ActiveRecord::Base; end
 
   class AddViewWikiEditsPermission < ActiveRecord::Migration
-  def self.up
-    Role.find(:all).each do |r|
-      r.add_permission!(:list_attachments) if r.has_permission?(:view_wiki_pages) || r.has_permission?(:view_issues)
+    def self.up
+      Role.find(:all).each do |r|
+        r.add_permission!(:list_attachments) if r.has_permission?(:view_wiki_pages) || r.has_permission?(:view_issues)
+      end
     end
-  end
 
-  def self.down
-    Role.find(:all).each do |r|
-      r.remove_permission!(:list_attachments)
+    def self.down
+      Role.find(:all).each do |r|
+        r.remove_permission!(:list_attachments)
+      end
     end
-  end
 end
 end

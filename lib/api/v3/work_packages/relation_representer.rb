@@ -51,7 +51,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-         { href: "#{root_path}api/v3/relations/#{represented.model.id}" }
+          { href: "#{root_path}api/v3/relations/#{represented.model.id}" }
         end
 
         link :relatedFrom do
@@ -66,7 +66,7 @@ module API
           {
             href: "#{root_path}api/v3/work_packages/#{represented.model.from.id}/relations/#{represented.model.id}",
             method: :delete,
-            title: "Remove relation"
+            title: 'Remove relation'
           } if current_user_allowed_to(:manage_work_package_relations)
         end
 

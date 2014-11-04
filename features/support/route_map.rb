@@ -34,7 +34,6 @@ class RouteMap
     @map[model] = route
   end
 
-
   def self.route(model)
     @map ||= {}
 

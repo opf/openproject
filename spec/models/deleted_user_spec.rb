@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeletedUser, :type => :model do
+describe DeletedUser, type: :model do
   before do
     User.delete_all
   end
@@ -72,7 +72,7 @@ describe DeletedUser, :type => :model do
   end
 
   describe :create do
-    describe "WHEN creating a second deleted user" do
+    describe 'WHEN creating a second deleted user' do
       let(:u1) { FactoryGirl.build(:deleted_user) }
       let(:u2) { FactoryGirl.build(:deleted_user) }
 
@@ -88,7 +88,7 @@ describe DeletedUser, :type => :model do
   end
 
   describe :valid do
-    describe "WHEN no login, first-, lastname and mail is provided" do
+    describe 'WHEN no login, first-, lastname and mail is provided' do
       let(:user) { DeletedUser.new }
 
       it { expect(user).to be_valid }
@@ -96,7 +96,7 @@ describe DeletedUser, :type => :model do
   end
 
   describe :first do
-    describe "WHEN a deleted user already exists" do
+    describe 'WHEN a deleted user already exists' do
       let(:user) { FactoryGirl.build(:deleted_user) }
 
       before do
@@ -106,7 +106,7 @@ describe DeletedUser, :type => :model do
       it { expect(DeletedUser.first).to eq(user) }
     end
 
-    describe "WHEN no deleted user exists" do
+    describe 'WHEN no deleted user exists' do
       it { expect(DeletedUser.first.is_a?(DeletedUser)).to be_truthy }
       it { expect(DeletedUser.first).not_to be_new_record }
     end

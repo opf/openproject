@@ -28,13 +28,12 @@
 #++
 
 class Reports::VersionReport < Reports::Report
-
   def self.report_type
-    "version"
+    'version'
   end
 
   def field
-    @field ||= "fixed_version_id"
+    @field ||= 'fixed_version_id'
   end
 
   def rows
@@ -48,5 +47,4 @@ class Reports::VersionReport < Reports::Report
   def title
     @title ||= WorkPackage.human_attribute_name(:version)
   end
-
 end

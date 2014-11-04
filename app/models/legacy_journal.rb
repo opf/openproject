@@ -43,16 +43,16 @@ class LegacyJournal < ActiveRecord::Base
   include FormatHooks
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journaled_id, :type]
+  validates_uniqueness_of :version, scope: [:journaled_id, :type]
 
   # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
   # subclasses will be given an actual class name when they are created by aaj
   #
   #  e.g. IssueJournal will get :class_name => 'Issue'
-  belongs_to :journaled, :class_name => 'Journal'
+  belongs_to :journaled, class_name: 'Journal'
   belongs_to :user
 
-  #attr_protected :user_id
+  # attr_protected :user_id
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -63,7 +63,7 @@ class LegacyJournal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope "changing", :conditions => ["version > 1"]
+  scope 'changing', conditions: ['version > 1']
 
   # let all child classes have Journal as it's model name
   # used to not having to create another route for every subclass of Journal
@@ -114,7 +114,7 @@ class LegacyJournal < ActiveRecord::Base
   end
 
   def details
-    attributes["changed_data"] || {}
+    attributes['changed_data'] || {}
   end
 
   alias_method :changed_data, :details
@@ -147,5 +147,4 @@ class LegacyJournal < ActiveRecord::Base
   rescue NoMethodError => e
     e.name == method ? super : raise(e)
   end
-
 end

@@ -2,7 +2,6 @@ module API
   module V3
     module Relations
       class RelationsAPI < Grape::API
-
         resources :relations do
           params do
             optional :to_id, desc: 'Id of related work package'
@@ -11,7 +10,7 @@ module API
           end
           post do
             authorize(:manage_work_package_relations, context: @work_package.project)
-            declared_params = declared(params).reject{ |key, value| key.to_sym == :id || value.nil? }
+            declared_params = declared(params).reject { |key, value| key.to_sym == :id || value.nil? }
 
             relation = @work_package.new_relation.tap do |r|
               r.to = WorkPackage.visible.find_by_id(declared_params[:to_id].match(/\d+/).to_s)
@@ -36,7 +35,6 @@ module API
             end
           end
         end
-
       end
     end
   end

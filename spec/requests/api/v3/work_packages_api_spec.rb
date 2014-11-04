@@ -29,33 +29,35 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
+describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
   let(:admin) { FactoryGirl.create(:admin) }
 
-  describe "activities" do
+  describe 'activities' do
     let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:comment) { "This is a test comment!" }
+    let(:comment) { 'This is a test comment!' }
 
-    describe "POST /api/v3/work_packages/:id/activities" do
-      shared_context "create activity" do
-        before { post "/api/v3/work_packages/#{work_package.id}/activities",
-                      { comment: comment }.to_json, { 'CONTENT_TYPE' => 'application/json' } }
+    describe 'POST /api/v3/work_packages/:id/activities' do
+      shared_context 'create activity' do
+        before {
+          post "/api/v3/work_packages/#{work_package.id}/activities",
+               { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
+        }
       end
 
-      it_behaves_like "safeguarded API" do
-        include_context "create activity"
+      it_behaves_like 'safeguarded API' do
+        include_context 'create activity'
       end
 
-      it_behaves_like "valid activity request" do
+      it_behaves_like 'valid activity request' do
         let(:status_code) { 201 }
 
-        include_context "create activity"
+        include_context 'create activity'
       end
 
-      it_behaves_like "invalid activity request" do
+      it_behaves_like 'invalid activity request' do
         before { allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) }
 
-        include_context "create activity"
+        include_context 'create activity'
       end
     end
   end

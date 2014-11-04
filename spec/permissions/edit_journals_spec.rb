@@ -29,7 +29,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 require File.expand_path('../../support/permission_specs', __FILE__)
 
-describe JournalsController, "edit permission", type: :controller do
+describe JournalsController, 'edit permission', type: :controller do
   include PermissionSpecs
 
   check_permission_required_for('journals#edit', :edit_work_package_notes)

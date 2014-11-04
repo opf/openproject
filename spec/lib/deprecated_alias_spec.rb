@@ -44,8 +44,8 @@ describe DeprecatedAlias do
   subject(:object) { clazz.new }
 
   let(:deprecation_warning) {
-    "special_key is deprecated and will be removed in a future OpenProject version. " +
-    "Please use secret_key instead."
+    'special_key is deprecated and will be removed in a future OpenProject version. ' +
+      'Please use secret_key instead.'
   }
 
   before do

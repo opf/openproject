@@ -34,7 +34,7 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
   end
 
   def up
-    add_index "wiki_content_journals", ["journal_id"]
+    add_index 'wiki_content_journals', ['journal_id']
 
     migrator.run
   end
@@ -42,19 +42,18 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals
 
-    remove_index "wiki_content_journals", ["journal_id"]
+    remove_index 'wiki_content_journals', ['journal_id']
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new("WikiContentJournal", "wiki_content_journals") do
+    @migrator ||= Migration::LegacyJournalMigrator.new('WikiContentJournal', 'wiki_content_journals') do
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
         # remove once lock_version is no longer a column in the wiki_content_journales table
-        if !to_insert.has_key?("lock_version")
+        if !to_insert.has_key?('lock_version')
 
-          if !legacy_journal.has_key?("version")
-            raise WikiContentJournalVersionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          if !legacy_journal.has_key?('version')
+            raise WikiContentJournalVersionError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
               There is a wiki content without a version.
               The DB requires a version to be set
               #{legacy_journal},
@@ -64,15 +63,15 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
           end
 
           # as the old journals used the format [old_value, new_value] we have to fake it here
-          to_insert["lock_version"] = [nil,legacy_journal["version"]]
+          to_insert['lock_version'] = [nil, legacy_journal['version']]
         end
 
-        if to_insert.has_key?("data")
+        if to_insert.has_key?('data')
 
           # Why is that checked but than the compression is not used in any way to read the data
-          if !to_insert.has_key?("compression")
+          if !to_insert.has_key?('compression')
 
-            raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
               There is a WikiContent journal that contains data in an
               unsupported compression: #{compression}
             MESSAGE
@@ -80,10 +79,10 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
           end
 
           # as the old journals used the format [old_value, new_value] we have to fake it here
-          to_insert["text"] = [nil, to_insert.delete("data")]
+          to_insert['text'] = [nil, to_insert.delete('data')]
 
           # fix non null constraint violation on page_id.
-          to_insert["page_id"] = [nil, journal_id]
+          to_insert['page_id'] = [nil, journal_id]
 
         end
       end

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/reported_project_statuses/index.api.rabl', :type => :view do
+describe 'api/v2/reported_project_statuses/index.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -55,7 +55,7 @@ describe 'api/v2/reported_project_statuses/index.api.rabl', :type => :view do
     end
 
     before do
-      assign(:reported_project_statuses, reported_project_statuses )
+      assign(:reported_project_statuses, reported_project_statuses)
       render
     end
 

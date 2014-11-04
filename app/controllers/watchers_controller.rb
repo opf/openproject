@@ -28,11 +28,11 @@
 #++
 
 class WatchersController < ApplicationController
-  before_filter :find_watched_by_object, :except => [:destroy]
-  before_filter :find_watched_by_id, :only => [:destroy]
+  before_filter :find_watched_by_object, except: [:destroy]
+  before_filter :find_watched_by_id, only: [:destroy]
   before_filter :find_project
-  before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
-  before_filter :authorize, :only => [:new, :create, :destroy]
+  before_filter :require_login, :check_project_privacy, only: [:watch, :unwatch]
+  before_filter :authorize, only: [:new, :create, :destroy]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -55,12 +55,12 @@ class WatchersController < ApplicationController
       format.html { redirect_to :back }
       format.js do
         render :update do |page|
-          page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+          page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
         end
       end
     end
   rescue ::ActionController::RedirectBackError
-    render :text => 'Watcher added.', :layout => true
+    render text: 'Watcher added.', layout: true
   end
 
   # TODO: remove this and replace with proper action
@@ -72,13 +72,14 @@ class WatchersController < ApplicationController
       format.html { redirect_to :back }
       format.js do
         render :update do |page|
-          page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+          page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
         end
       end
     end
   end
 
-private
+  private
+
   def find_watched_by_object
     klass = params[:object_type].singularize.camelcase.constantize
     return false unless klass.respond_to?('watched_by') and
@@ -91,7 +92,7 @@ private
 
   def find_watched_by_id
     return false unless params[:id].to_s =~ /\A\d+\z/
-    @watch = Watcher.find(params[:id], :include => { :watchable => [:project] } )
+    @watch = Watcher.find(params[:id], include: { watchable: [:project] })
     @watched = @watch.watchable
   end
 
@@ -116,10 +117,10 @@ private
         end
         @user = user
 
-        render :action => 'replace_selectors'
+        render action: 'replace_selectors'
       end
     end
   rescue ::ActionController::RedirectBackError
-    render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
+    render text: (watching ? 'Watcher added.' : 'Watcher removed.'), layout: true
   end
 end

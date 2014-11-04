@@ -30,14 +30,14 @@
 class AddLongerLoginToUsers < ActiveRecord::Migration
   def self.up
     change_table :users do |t|
-      t.change "login", :string, :limit => 256, :default => "", :null => false
+      t.change 'login', :string, limit: 256, default: '', null: false
     end
     User.reset_column_information
   end
 
   def self.down
     change_table :users do |t|
-      t.change "login", :string, :limit => 30, :default => "", :null => false
+      t.change 'login', :string, limit: 30, default: '', null: false
     end
     User.reset_column_information
   end

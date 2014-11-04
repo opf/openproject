@@ -60,7 +60,7 @@ module AvatarHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
+  def avatar(user, options = {})
     avatar = with_default_avatar_options(user, options) do |email, opts|
       tag_options = merge_image_options(user, opts)
 

@@ -30,12 +30,12 @@
 class CreateTimelinesPlanningElements < ActiveRecord::Migration
   def self.up
     create_table(:timelines_planning_elements) do |t|
-      t.column :name,        :string,  :null => false
+      t.column :name,        :string,  null: false
       t.column :description, :text
       t.column :planning_element_status_comment, :text
 
-      t.column :start_date, :date, :null => false
-      t.column :end_date,   :date, :null => false
+      t.column :start_date, :date, null: false
+      t.column :end_date,   :date, null: false
 
       t.belongs_to :parent
       t.belongs_to :project

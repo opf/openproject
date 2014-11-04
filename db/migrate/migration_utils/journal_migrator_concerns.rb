@@ -50,7 +50,7 @@ module Migration
               WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
             SQL
             if attachable.size > 1
-              raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+              raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
                 It appears there are ambiguous attachable journal data.
                 Please make sure attachable journal data are consistent and
                 that the unique constraint on journal_id and attachment_id
@@ -66,9 +66,9 @@ module Migration
             # The attachment was removed
             # we need to make certain that no subsequent journal adds an attachable_journal
             # for this attachment
-            to_insert.delete_if { |k, v| k =~ /attachments_?#{attachment_id}/ }
+            to_insert.delete_if { |k, _v| k =~ /attachments_?#{attachment_id}/ }
           else
-            raise InvalidAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            raise InvalidAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
               There is a journal entry for an attachment but neither the old nor the new value contains anything:
               #{to_insert}
               #{legacy_journal}
@@ -87,12 +87,12 @@ module Migration
           journal_to_insert[key].first
         end
         attachments.reject do |key|
-          deleted_attachments.any? {|del_key| key =~ /attachments#{del_key[attachment_key_regexp,1]}/ }
+          deleted_attachments.any? { |del_key| key =~ /attachments#{del_key[attachment_key_regexp, 1]}/ }
         end
       end
 
       def attachable_table_name
-        quoted_table_name("attachable_journals")
+        quoted_table_name('attachable_journals')
       end
 
       def attachment_key_regexp
@@ -104,12 +104,12 @@ module Migration
     end
 
     module Customizable
-      def migrate_custom_values(to_insert, legacy_journal, journal_id)
+      def migrate_custom_values(to_insert, _legacy_journal, journal_id)
         keys = to_insert.keys
         values = to_insert.values
         custom_values = keys.select { |d| d =~ /custom_values.*/ }
         custom_values.each do |k|
-          custom_field_id = k.split("_values").last.to_i
+          custom_field_id = k.split('_values').last.to_i
           value = values[keys.index k].last
           customizable = db_select_all <<-SQL
             SELECT *
@@ -118,7 +118,7 @@ module Migration
           SQL
 
           if customizable.size > 1
-            raise AmbiguousCustomizableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            raise AmbiguousCustomizableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
               It appears there are ambiguous customizable journal
               data. Please make sure customizable journal data are
               consistent and that the unique constraint on journal_id and
@@ -134,7 +134,7 @@ module Migration
       end
 
       def customizable_table_name
-        quoted_table_name("customizable_journals")
+        quoted_table_name('customizable_journals')
       end
     end
   end

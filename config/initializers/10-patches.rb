@@ -36,14 +36,14 @@ module Sprockets
     # Helps OpenProject::Themes::ViewHelpers# find theme assets.
     # NOTE: repercussions of this hack are unknown.
     module LegacyAssetUrlHelper
-      ASSET_PUBLIC_DIRECTORIES.replace({
-        :audio      => '/assets',
-        :font       => '/assets',
-        :image      => '/assets',
-        :javascript => '/assets',
-        :stylesheet => '/assets',
-        :video      => '/assets'
-      })
+      ASSET_PUBLIC_DIRECTORIES.replace(
+        audio:      '/assets',
+        font:       '/assets',
+        image:      '/assets',
+        javascript: '/assets',
+        stylesheet: '/assets',
+        video:      '/assets'
+      )
     end
   end
 end
@@ -56,19 +56,17 @@ module ActiveRecord
 
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      begin
-        options_with_raise = {:raise => true, :default => false}.merge options
-        attr = attr.to_s.gsub(/_id\z/, '')
-        super(attr, options_with_raise)
-      rescue I18n::MissingTranslationData => e
-        included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
-        included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
-        unless included_in_general_attributes or included_in_superclasses
-          # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
-        end
-        super(attr, options) # without raise
+      options_with_raise = { raise: true, default: false }.merge options
+      attr = attr.to_s.gsub(/_id\z/, '')
+      super(attr, options_with_raise)
+    rescue I18n::MissingTranslationData => e
+      included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
+      included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
+      unless included_in_general_attributes or included_in_superclasses
+        # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
+        warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
       end
+      super(attr, options)
     end
   end
 end
@@ -89,21 +87,21 @@ module ActiveModel
             # with the errors on custom values
             @base.custom_values.each do |value|
               full_messages += value.errors.map do |_, message|
-                I18n.t(:"errors.format", {
-                  :default   => "%{attribute} %{message}",
-                  :attribute => value.custom_field.name,
-                  :message   => message
-                })
+                I18n.t(:"errors.format",
+                       default:   '%{attribute} %{message}',
+                       attribute: value.custom_field.name,
+                       message:   message
+                )
               end
             end
           else
             attr_name = attribute.to_s.gsub('.', '_').humanize
-            attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
-            full_messages << I18n.t(:"errors.format", {
-              :default   => "%{attribute} %{message}",
-              :attribute => attr_name,
-              :message   => message
-            })
+            attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
+            full_messages << I18n.t(:"errors.format",
+                                    default:   '%{attribute} %{message}',
+                                    attribute: attr_name,
+                                    message:   message
+            )
           end
         end
       end
@@ -115,7 +113,6 @@ end
 module ActionView
   module Helpers
     module AccessibleErrors
-
       def self.included(base)
         base.send(:include, InstanceMethods)
         base.extend(ClassMethods)
@@ -131,22 +128,21 @@ module ActionView
         def erroneous_object_identifier(id, method)
           # select boxes use name_id whereas the validation uses name
           # we have to cut the '_id' of in order for the field to match
-          id + "_" + method.gsub("_id", "") + "_error"
+          id + '_' + method.gsub('_id', '') + '_error'
         end
       end
 
       module InstanceMethods
-
         def error_message_list(objects)
-          objects.collect do |object|
+          objects.map do |object|
             error_messages = []
 
             object.errors.each_error do |attr, error|
-              unless attr == "custom_values"
+              unless attr == 'custom_values'
                 # Generating unique identifier in order to jump directly to the field with the error
                 object_identifier = erroneous_object_identifier(object.object_id.to_s, attr)
 
-                error_messages << [object.class.human_attribute_name(attr) + " " + error.message, object_identifier]
+                error_messages << [object.class.human_attribute_name(attr) + ' ' + error.message, object_identifier]
               end
             end
 
@@ -155,10 +151,10 @@ module ActionView
             # which would add to many error messages
             if object.errors[:custom_values].any?
               object.custom_values.each do |value|
-                value.errors.collect do |attr, msg|
+                value.errors.map do |attr, msg|
                   # Generating unique identifier in order to jump directly to the field with the error
                   object_identifier = erroneous_object_identifier(value.object_id.to_s, attr)
-                  error_messages << [value.custom_field.name + " " + msg, object_identifier]
+                  error_messages << [value.custom_field.name + ' ' + msg, object_identifier]
                 end
               end
             end
@@ -174,12 +170,12 @@ module ActionView
         end
 
         def error_message_list_elements(array)
-          array.collect do |msg, identifier|
+          array.map do |msg, identifier|
             content_tag :li do
               content_tag :a,
                           ERB::Util.html_escape(msg),
-                          :href => "#" + identifier,
-                          :class => "afocus"
+                          href: '#' + identifier,
+                          class: 'afocus'
             end
           end
         end
@@ -193,11 +189,11 @@ module ActionView
         to_date = to_date.to_date if to_date.respond_to?(:to_date)
         distance_in_days = (to_date - from_date).abs
 
-        I18n.with_options :locale => options[:locale], :scope => :'datetime.distance_in_words' do |locale|
+        I18n.with_options locale: options[:locale], scope: :'datetime.distance_in_words' do |locale|
           case distance_in_days
-            when 0..60     then locale.t :x_days,             :count => distance_in_days.round
-            when 61..720   then locale.t :about_x_months,     :count => (distance_in_days / 30).round
-            else                locale.t :over_x_years,       :count => (distance_in_days / 365).floor
+            when 0..60     then locale.t :x_days,             count: distance_in_days.round
+            when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
+            else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
           end
         end
       end
@@ -216,7 +212,7 @@ end
 ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors
 
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-  if html_tag.include?("<label")
+  if html_tag.include?('<label')
     html_tag.to_s
   else
     ActionView::Base.wrap_with_error_span(html_tag, instance.object, instance.method_name)
@@ -241,16 +237,16 @@ module ActiveRecord
   end
 
   class Errors
-  #  def on_with_id_handling(attribute)
-  #    attribute = attribute.to_s
-  #    if attribute.ends_with? '_id'
-  #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-  #    else
-  #      on_without_id_handling(attribute)
-  #    end
-  #  end
+    #  def on_with_id_handling(attribute)
+    #    attribute = attribute.to_s
+    #    if attribute.ends_with? '_id'
+    #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+    #    else
+    #      on_without_id_handling(attribute)
+    #    end
+    #  end
 
-  #  alias_method_chain :on, :id_handling
+    #  alias_method_chain :on, :id_handling
   end
 end
 

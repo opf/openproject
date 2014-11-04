@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsController, :type => :controller do
+describe ProjectsController, type: :controller do
   before do
     Role.delete_all
     User.delete_all
@@ -77,7 +77,7 @@ describe ProjectsController, :type => :controller do
       it 'renders main menu without wiki menu item' do
         get 'show', @params
 
-        assert_select "#main-menu a.Wiki", false # assert_no_select
+        assert_select '#main-menu a.Wiki', false # assert_no_select
       end
     end
 
@@ -98,14 +98,14 @@ describe ProjectsController, :type => :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select "#main-menu a.Wiki", 'Wiki'
+          assert_select '#main-menu a.Wiki', 'Wiki'
         end
       end
 
       describe 'with custom wiki menu item' do
         before do
-          main_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id, :name => 'Example', :title => 'Example')
-          sub_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id, :name => 'Sub', :title => 'Sub', :parent_id => main_item.id)
+          main_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'Example', title: 'Example')
+          sub_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'Sub', title: 'Sub', parent_id: main_item.id)
         end
 
         it 'renders show' do
@@ -117,20 +117,20 @@ describe ProjectsController, :type => :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select "#main-menu a.Example", 'Example'
+          assert_select '#main-menu a.Example', 'Example'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', @params
 
-          assert_select "#main-menu a.Sub", 'Sub'
+          assert_select '#main-menu a.Sub', 'Sub'
         end
       end
     end
 
     describe 'with activated activity module' do
       before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity])
+        @project = FactoryGirl.create(:project, enabled_module_names: %w[activity])
         @params[:id] = @project.id
       end
 
@@ -148,7 +148,7 @@ describe ProjectsController, :type => :controller do
 
     describe 'without activated activity module' do
       before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[wiki])
+        @project = FactoryGirl.create(:project, enabled_module_names: %w[wiki])
         @params[:id] = @project.id
       end
 
@@ -221,18 +221,18 @@ describe ProjectsController, :type => :controller do
 
     describe 'with activity in Setting.default_projects_modules' do
       before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity wiki])
+        @project = FactoryGirl.create(:project, enabled_module_names: %w[activity wiki])
         @params[:id] = @project.id
       end
 
       it 'renders settings/modules' do
-        get 'settings', @params.merge(:tab => 'modules')
+        get 'settings', @params.merge(tab: 'modules')
         expect(response).to be_success
         expect(response).to render_template 'settings'
       end
 
       it 'renders available modules list with activity being selected' do
-        get 'settings', @params.merge(:tab => 'modules')
+        get 'settings', @params.merge(tab: 'modules')
         expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
         expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
       end
@@ -240,18 +240,18 @@ describe ProjectsController, :type => :controller do
 
     describe 'without activated activity module' do
       before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[wiki])
+        @project = FactoryGirl.create(:project, enabled_module_names: %w[wiki])
         @params[:id] = @project.id
       end
 
       it 'renders settings/modules' do
-        get 'settings', @params.merge(:tab => 'modules')
+        get 'settings', @params.merge(tab: 'modules')
         expect(response).to be_success
         expect(response).to render_template 'settings'
       end
 
       it 'renders available modules list without activity being selected' do
-        get 'settings', @params.merge(:tab => 'modules')
+        get 'settings', @params.merge(tab: 'modules')
 
         expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
         expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity']"
@@ -265,17 +265,25 @@ describe ProjectsController, :type => :controller do
       let(:type_bug) { FactoryGirl.create(:type_bug) }
       let(:type_feature) { FactoryGirl.create(:type_feature) }
       let(:types) { [type_standard, type_bug, type_feature] }
-      let(:project) { FactoryGirl.create(:project,
-                                         types: types) }
-      let(:work_package_standard) { FactoryGirl.create(:work_package,
-                                                       project: project,
-                                                       type: type_standard) }
-      let(:work_package_bug) { FactoryGirl.create(:work_package,
-                                                  project: project,
-                                                  type: type_bug) }
-      let(:work_package_feature) { FactoryGirl.create(:work_package,
-                                                      project: project,
-                                                      type: type_feature) }
+      let(:project) {
+        FactoryGirl.create(:project,
+                           types: types)
+      }
+      let(:work_package_standard) {
+        FactoryGirl.create(:work_package,
+                           project: project,
+                           type: type_standard)
+      }
+      let(:work_package_bug) {
+        FactoryGirl.create(:work_package,
+                           project: project,
+                           type: type_bug)
+      }
+      let(:work_package_feature) {
+        FactoryGirl.create(:work_package,
+                           project: project,
+                           type: type_feature)
+      }
 
       shared_examples_for :redirect do
         subject { response }
@@ -301,33 +309,37 @@ describe ProjectsController, :type => :controller do
         it { is_expected.to match(regex) }
       end
 
-      context "no type missing" do
+      context 'no type missing' do
         include_context :work_packages
 
-        let(:type_ids) { types.collect(&:id) }
+        let(:type_ids) { types.map(&:id) }
 
-        before { put :types,
-                     id: project.id,
-                     project: { 'type_ids' => type_ids } }
+        before {
+          put :types,
+              id: project.id,
+              project: { 'type_ids' => type_ids }
+        }
 
         it_behaves_like :redirect
 
         it_behaves_like :success
       end
 
-      context "all types missing" do
+      context 'all types missing' do
         include_context :work_packages
 
         let(:missing_types) { types }
 
-        before { put :types,
-                     id: project.id,
-                     project: { 'type_ids' => [] } }
+        before {
+          put :types,
+              id: project.id,
+              project: { 'type_ids' => [] }
+        }
 
         it_behaves_like :redirect
 
-        describe "shows missing types" do
-          let(:regex) { Regexp.new(I18n.t(:error_types_in_use_by_work_packages).sub("%{types}", "")) }
+        describe 'shows missing types' do
+          let(:regex) { Regexp.new(I18n.t(:error_types_in_use_by_work_packages).sub('%{types}', '')) }
 
           subject { flash[:error] }
 
@@ -341,15 +353,15 @@ describe ProjectsController, :type => :controller do
         end
       end
 
-      context "no type selected" do
+      context 'no type selected' do
         before { put :types, id: project.id }
 
         it_behaves_like :success
 
-        describe "automatic selection of standard type" do
+        describe 'automatic selection of standard type' do
           let(:regex) { Regexp.new(I18n.t(:notice_automatic_set_of_standard_type)) }
 
-          subject { flash[:notice].all? {|n| regex.match(n).nil? } }
+          subject { flash[:notice].all? { |n| regex.match(n).nil? } }
 
           it { is_expected.to be_falsey }
         end

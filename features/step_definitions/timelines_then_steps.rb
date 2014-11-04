@@ -31,24 +31,24 @@ Then(/^I should see a modal window with selector "(.*?)"$/) do |selector|
   page.should have_selector(selector)
   dialog = find(selector)
 
-  dialog["class"].include?("ui-dialog-content").should be_true
+  dialog['class'].include?('ui-dialog-content').should be_true
 end
 
 Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in the timelines table$/) do |content1, content2|
-  steps %Q{
+  steps %{
     Then I should see the column "#{content1}" immediately before the column "#{content2}" in ".tl-main-table"
   }
 end
 
 Then(/^I should see the column "(.*?)" before the column "(.*?)" in the timelines table$/) do |content1, content2|
-  steps %Q{
+  steps %{
     Then I should see the column "#{content1}" before the column "#{content2}" in ".tl-main-table"
   }
 end
 
 Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) do |content1, content2, table|
-  #Check that the things really exist and wait until the exist
-  steps %Q{
+  # Check that the things really exist and wait until the exist
+  steps %{
     Then I should see "#{content1}" within "#{table}"
     Then I should see "#{content2}" within "#{table}"
   }
@@ -58,8 +58,8 @@ Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) d
 end
 
 Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in "(.*?)"$/) do |content1, content2, table|
-  #Check that the things really exist and wait until the exist
-  steps %Q{
+  # Check that the things really exist and wait until the exist
+  steps %{
     Then I should see "#{content1}" within "#{table}"
     Then I should see "#{content2}" within "#{table}"
   }
@@ -69,13 +69,12 @@ Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in 
   following.text.should == content2
 end
 
-
 Then(/^I should see a modal window$/) do
   steps 'Then I should see a modal window with selector "#modalDiv"'
 end
 
 Then(/^I should not see a modal window$/) do
-  page.should_not have_selector("#modalDiv")
+  page.should_not have_selector('#modalDiv')
 end
 
 Then(/^(.*) in the modal$/) do |step|
@@ -83,44 +82,44 @@ Then(/^(.*) in the modal$/) do |step|
 end
 
 Then(/^I should (not )?see the work package "(.*?)" in the timeline$/) do |negate, work_package_name|
-  steps %Q{
+  steps %{
     Then I should #{negate}see "#{work_package_name}" within ".timeline .tl-left-main"
   }
 end
 
 Then(/^I should see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
-  elements = find_lowest_containing_element wp_name, ".tl-main-table"
+  elements = find_lowest_containing_element wp_name, '.tl-main-table'
   elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[contains(text(), '#{content}')]")
 end
 
 Then(/^I should not see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
-  elements = find_lowest_containing_element wp_name, ".tl-main-table"
+  elements = find_lowest_containing_element wp_name, '.tl-main-table'
   elements[-1].should_not have_xpath("ancestor::tr/descendant-or-self::*[text()='#{content}']")
 end
 
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
-  find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
+  find(".tl-indent-#{indent}", text: project_name).should_not be_nil
 end
 
 Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, project_name_two|
-  #Check that the things really exist and wait until the exist
-  steps %Q{
+  # Check that the things really exist and wait until the exist
+  steps %{
     Then I should see "#{project_name_one}" within ".tl-left-main"
     Then I should see "#{project_name_two}" within ".tl-left-main"
   }
 
-  elements = find_lowest_containing_element project_name_one, ".tl-word-ellipsis"
+  elements = find_lowest_containing_element project_name_one, '.tl-word-ellipsis'
   elements[-1].should have_xpath("preceding::span[contains(@class,'tl-word-ellipsis')]/descendant-or-self::*[text()='#{project_name_two}']")
 end
 
 Then(/^I should see the project "(.*?)"$/) do |project_name|
-  steps %Q{
+  steps %{
     Then I should see "#{project_name}" within ".tl-left-main"
   }
 end
 
 Then(/^I should not see the project "(.*?)"$/) do |project_name|
-  steps %Q{
+  steps %{
     Then I should not see "#{project_name}" within ".tl-left-main"
   }
 end
@@ -133,7 +132,7 @@ end
 Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negation|
   should_be_visible = !negation
 
-  table_row = find_field(title).find(:xpath, "./ancestor::tr")
+  table_row = find_field(title).find(:xpath, './ancestor::tr')
 
   # The first column contains the Default value
   # TODO: This should not be a magic constant but derived from the actual table
@@ -146,7 +145,7 @@ Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negati
 end
 
 Then(/^I should see that "([^"]*)" is( not)? a milestone and( not)? shown in aggregation$/) do |name, not_milestone, not_in_aggregation|
-  row = page.find(:css, ".timelines-pet-name", :text => Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
+  row = page.find(:css, '.timelines-pet-name', text: Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
 
   nodes = row.all(:css, '.timelines-pet-is_milestone span.icon-yes')
   if not_milestone
@@ -166,7 +165,7 @@ end
 Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do |title, negation|
   should_be_visible = !negation
 
-  table_row = page.all(:css, "table.list tbody tr td", :text => title).first.find(:xpath, "./ancestor::tr")
+  table_row = page.all(:css, 'table.list tbody tr td', text: title).first.find(:xpath, './ancestor::tr')
   nodes = table_row.all(:css, '.timelines-pt-allows_association span.icon-yes')
   if should_be_visible
     nodes.should_not be_empty
@@ -176,34 +175,34 @@ Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do 
 end
 
 Then(/^I should see that "([^"]*)" is a color$/) do |name|
-  cell = page.all(:css, ".timelines-color-name", :text => name)
+  cell = page.all(:css, '.timelines-color-name', text: name)
   cell.should_not be_empty
 end
 
 Then(/^I should not see the "([^"]*)" color$/) do |name|
-  cell = page.all(:css, ".timelines-color-name", :text => name)
+  cell = page.all(:css, '.timelines-color-name', text: name)
   cell.should be_empty
 end
 
 Then(/^"([^"]*)" should be the first element in the list$/) do |name|
-  should have_selector("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
+  should have_selector('table.list tbody tr td', text: Regexp.new("^#{name}$"))
 end
 
 Then(/^"([^"]*)" should be the last element in the list$/) do |name|
-  has_css?("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
+  has_css?('table.list tbody tr td', text: Regexp.new("^#{name}$"))
 end
 
 Then(/^I should see an? (notice|warning|error) flash stating "([^"]*)"$/) do |class_name, message|
-  page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", :text => message).should_not be_empty
+  page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", text: message).should_not be_empty
 end
 
 Then(/^I should see a planning element named "([^"]*)"$/) do |name|
-  cells = page.all(:css, "table td.timelines-pe-name *", :text => name)
+  cells = page.all(:css, 'table td.timelines-pe-name *', text: name)
   cells.should_not be_empty
 end
 
 Then(/^I should( not)? see "([^"]*)" below "([^"]*)"$/) do |negation, text, heading|
-  cells = page.all(:css, "h1, h2, h3, h4, h5, h6", :text => heading)
+  cells = page.all(:css, 'h1, h2, h3, h4, h5, h6', text: heading)
   cells.should_not be_empty
 
   container = cells.first.find(:xpath, "./ancestor::*[@class='container']")
@@ -216,7 +215,7 @@ Then(/^I should( not)? see "([^"]*)" below "([^"]*)"$/) do |negation, text, head
 end
 
 Then(/^I should not be able to add new project associations$/) do
-  link = page.all(:css, "a.timelines-new-project-associations")
+  link = page.all(:css, 'a.timelines-new-project-associations')
   link.should be_empty
 end
 
@@ -224,16 +223,16 @@ Then(/^I should (not )?see a planning element link for "([^"]*)"$/) do |negate, 
   planning_element = PlanningElement.find_by_subject(planning_element_subject)
   text = "*#{planning_element.id}"
 
-  step %Q{I should #{negate}see "#{text}"}
+  step %{I should #{negate}see "#{text}"}
 end
 
 Then(/^I should (not )?see the timeline "([^"]*)"$/) do |negate, timeline_name|
-  selector = "div.timeline div.tl-left-main"
+  selector = 'div.timeline div.tl-left-main'
   timeline = Timeline.find_by_name(timeline_name)
 
   if (negate && page.has_css?(selector)) || !negate
     timeline.project.work_packages.each do |work_package|
-      step %Q{I should #{negate}see "#{work_package.subject}" within "#{selector}"}
+      step %{I should #{negate}see "#{work_package.subject}" within "#{selector}"}
     end
   end
 end

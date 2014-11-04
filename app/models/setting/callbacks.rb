@@ -29,7 +29,6 @@
 
 class Setting
   module Callbacks
-
     # register a callback for a setting named #name
     def register_callback(name, &callback)
       # register the block with the underlying notifications system
@@ -43,7 +42,7 @@ class Setting
       notifier.send(notification_event_for(name), event_payload_for(setting, old_setting))
     end
 
-  private
+    private
 
     # encapsulates the event name broadcast to all subscribers
     def notification_event_for(name)
@@ -59,6 +58,5 @@ class Setting
     def notifier
       OpenProject::Notifications
     end
-
   end
 end

@@ -43,7 +43,6 @@ require 'cgi'
 # on each request.
 require_dependency 'principal'
 
-
 class ApplicationController < ActionController::Base
   class_attribute :_model_object
   class_attribute :_model_scope
@@ -124,8 +123,8 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
-  def default_url_options(options = {})
-    { :layout => params['layout'] }
+  def default_url_options(_options = {})
+    { layout: params['layout'] }
   end
 
   # set http headers so that the browser does not store any
@@ -166,7 +165,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id], :include => [:memberships]) rescue nil)
+      (User.active.find(session[:user_id], include: [:memberships]) rescue nil)
     elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
@@ -248,14 +247,14 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        controller = "/#{params[:controller].to_s}" unless params[:controller].to_s.starts_with?('/')
+        controller = "/#{params[:controller]}" unless params[:controller].to_s.starts_with?('/')
         url = url_for(controller: controller,
                       action: params[:action],
                       id: params[:id],
                       project_id: params[:project_id])
       end
       respond_to do |format|
-        format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
+        format.any(:html, :atom) { redirect_to signin_path(back_url: url) }
 
         authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
                                   'Session'
@@ -293,7 +292,7 @@ class ApplicationController < ActionController::Base
 
     unless is_authorized
       if @project && @project.archived?
-        render_403 :message => :notice_not_authorized_archived_project
+        render_403 message: :notice_not_authorized_archived_project
       else
         deny_access
       end
@@ -333,7 +332,7 @@ class ApplicationController < ActionController::Base
 
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
     allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
-                                       @project, :global => true)
+                                       @project, global: true)
     allowed ? true : deny_access
   end
 
@@ -413,7 +412,7 @@ class ApplicationController < ActionController::Base
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                                .find_all_by_id(params[:work_package_id] || params[:ids])
+                     .find_all_by_id(params[:work_package_id] || params[:ids])
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -453,9 +452,9 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default, escape = true, use_escaped = true)
     escaped_back_url = if escape
-                 URI.escape(CGI.unescape(params[:back_url].to_s))
-               else
-                 params[:back_url]
+                         URI.escape(CGI.unescape(params[:back_url].to_s))
+                       else
+                         params[:back_url]
                end
 
     # if we have a back_url it must not contain two consecutive dots
@@ -507,7 +506,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_500(options = {})
-    message = t(:notice_internal_server_error, :app_title => Setting.app_title)
+    message = t(:notice_internal_server_error, app_title: Setting.app_title)
 
     if $ERROR_INFO.is_a?(ActionView::ActionViewError)
       @template.instance_variable_set('@project', nil)
@@ -544,7 +543,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html do
-        render :template => 'common/error', :layout => use_layout, :status => @status
+        render template: 'common/error', layout: use_layout, status: @status
       end
       format.any(:atom, :xml, :js, :json, :pdf, :csv) { head @status }
     end
@@ -562,7 +561,7 @@ class ApplicationController < ActionController::Base
     @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => 'common/feed', :layout => false, :content_type => 'application/atom+xml'
+    render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
   end
 
   def self.accept_key_auth(*actions)
@@ -588,8 +587,8 @@ class ApplicationController < ActionController::Base
           tmp.push([val, q])
         end
       end
-      tmp = tmp.sort_by { |val, q| -q }
-      tmp.map! { |val, q| val }
+      tmp = tmp.sort_by { |_val, q| -q }
+      tmp.map! { |val, _q| val }
     end
     return tmp
   rescue
@@ -643,10 +642,10 @@ class ApplicationController < ActionController::Base
 
   # Renders API response on validation failure
   def render_validation_errors(object)
-    options = { :status => :unprocessable_entity, :layout => false }
+    options = { status: :unprocessable_entity, layout: false }
     errors = case params[:format]
              when 'xml'
-               { :xml =>  object.errors }
+               { xml:  object.errors }
              when 'json'
                { json: { 'errors' => object.errors } } # ActiveResource client compliance
              else
@@ -710,11 +709,11 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        url = url_for(:controller => params[:controller], :action => params[:action],
-                      :id => params[:id], :project_id => params[:project_id])
+        url = url_for(controller: params[:controller], action: params[:action],
+                      id: params[:id], project_id: params[:project_id])
       end
-      flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
-      redirect_to(:controller => 'account', :action => 'login', :back_url => url)
+      flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
+      redirect_to(controller: 'account', action: 'login', back_url: url)
     end
     session[:updated_at] = Time.now
   end
@@ -737,8 +736,8 @@ class ApplicationController < ActionController::Base
 
   def session_expired?
     !api_request? && current_user.logged? &&
-    (session_ttl_enabled? && (session[:updated_at].nil? ||
-                             (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
+      (session_ttl_enabled? && (session[:updated_at].nil? ||
+                               (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
   end
 
   def session_ttl_enabled?

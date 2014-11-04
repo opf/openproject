@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user)    { FactoryGirl.create(:user) }
 
@@ -42,7 +42,7 @@ describe WorkPackage, :type => :model do
       it 'can read the project w/ the help of the belongs_to association' do
         project          = FactoryGirl.create(:project)
         planning_element = FactoryGirl.create(:work_package,
-                                              :project_id => project.id)
+                                              project_id: project.id)
 
         planning_element.reload
 
@@ -52,7 +52,7 @@ describe WorkPackage, :type => :model do
       it 'can read the responsible w/ the help of the belongs_to association' do
         user             = FactoryGirl.create(:user)
         planning_element = FactoryGirl.create(:work_package,
-                                              :responsible_id => user.id)
+                                              responsible_id: user.id)
 
         planning_element.reload
 
@@ -62,8 +62,8 @@ describe WorkPackage, :type => :model do
       it 'can read the type w/ the help of the belongs_to association' do
         type             = project.types.first
         planning_element = FactoryGirl.create(:work_package,
-                                                   :type_id => type.id,
-                                                   :project => project)
+                                              type_id: type.id,
+                                              project: project)
 
         planning_element.reload
 
@@ -73,7 +73,7 @@ describe WorkPackage, :type => :model do
       it 'can read the planning_element_status w/ the help of the belongs_to association' do
         status = FactoryGirl.create(:status)
         work_package = FactoryGirl.create(:work_package,
-                                          :status_id => status.id)
+                                          status_id: status.id)
 
         work_package.reload
 
@@ -84,21 +84,21 @@ describe WorkPackage, :type => :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      {:subject    => 'workpackage No. 1',
-       :start_date => Date.today,
-       :due_date   => Date.today + 2.weeks,
-       :project_id => project.id,
-       :type       => project.types.first,
-       :author     => user
+      { subject:    'workpackage No. 1',
+        start_date: Date.today,
+        due_date:   Date.today + 2.weeks,
+        project_id: project.id,
+        type:       project.types.first,
+        author:     user
       }
     }
 
-    it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
+    it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
 
     describe 'subject' do
       it 'is invalid w/o a subject' do
         attributes[:subject] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).not_to be_valid
 
@@ -107,20 +107,20 @@ describe WorkPackage, :type => :model do
       end
 
       it 'is invalid w/ a subject longer than 255 characters' do
-        attributes[:subject] = "A" * 500
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        attributes[:subject] = 'A' * 500
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:subject]).to be_present
-        expect(planning_element.errors[:subject]).to eq(["is too long (maximum is 255 characters)"])
+        expect(planning_element.errors[:subject]).to eq(['is too long (maximum is 255 characters)'])
       end
     end
 
     describe 'start_date' do
       it 'is valid w/o a start_date' do
         attributes[:start_date] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).to be_valid
 
@@ -131,7 +131,7 @@ describe WorkPackage, :type => :model do
     describe 'due_date' do
       it 'is valid w/o a due_date' do
         attributes[:due_date] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).to be_valid
 
@@ -141,31 +141,31 @@ describe WorkPackage, :type => :model do
       it 'is invalid if start_date is after due_date' do
         attributes[:start_date] = Date.today
         attributes[:due_date]   = Date.today - 1.week
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(["must be greater than start date"])
+        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date'])
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
-        attributes[:type] = FactoryGirl.build(:type, :is_milestone => true)
+        attributes[:type] = FactoryGirl.build(:type, is_milestone: true)
         attributes[:start_date]            = Date.today
         attributes[:due_date]              = Date.today + 1.week
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(["is not on start date, although this is required for milestones"])
+        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones'])
       end
     end
 
     describe 'project' do
       it 'is invalid w/o a project' do
         attributes[:project_id] = nil
-        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(planning_element).not_to be_valid
 
@@ -175,31 +175,30 @@ describe WorkPackage, :type => :model do
     end
 
     describe 'parent' do
-      let (:de_message){ "darf kein Meilenstein sein"}
-      let (:en_message){ "cannot be a milestone"}
+      let (:de_message) { 'darf kein Meilenstein sein' }
+      let (:en_message) { 'cannot be a milestone' }
       after(:each) do
-        #proper reset of the locale after the test
-        I18n.locale = "en"
+        # proper reset of the locale after the test
+        I18n.locale = 'en'
       end
 
       it 'is invalid if parent is_milestone' do
-        ["en","de"].each do |locale|
+        ['en', 'de'].each do |locale|
           I18n.with_locale(locale) do
             parent = WorkPackage.new.tap do |pe|
-              pe.send(:assign_attributes, attributes.merge(:type => FactoryGirl.build(:type, :is_milestone => true)), :without_protection => true)
+              pe.send(:assign_attributes, attributes.merge(type: FactoryGirl.build(:type, is_milestone: true)), without_protection: true)
             end
 
             attributes[:parent] = parent
-            planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+            planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, without_protection: true) }
 
             expect(planning_element).not_to be_valid
 
             expect(planning_element.errors[:parent_id]).to be_present
-            expect(planning_element.errors[:parent_id]).to eq([self.send("#{I18n.locale}_message")])
+            expect(planning_element.errors[:parent_id]).to eq([send("#{I18n.locale}_message")])
           end
 
         end
-
 
       end
     end
@@ -207,17 +206,17 @@ describe WorkPackage, :type => :model do
 
   describe 'derived attributes' do
     before do
-      @pe1  = FactoryGirl.create(:work_package, :project_id => project.id)
-      @pe11 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => @pe1.id)
-      @pe12 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => @pe1.id)
+      @pe1  = FactoryGirl.create(:work_package, project_id: project.id)
+      @pe11 = FactoryGirl.create(:work_package, project_id: project.id, parent_id: @pe1.id)
+      @pe12 = FactoryGirl.create(:work_package, project_id: project.id, parent_id: @pe1.id)
     end
 
     describe 'start_date' do
       it 'equals the minimum start date of all children' do
         @pe11.reload
-        @pe11.update_attributes(:start_date => Date.new(2000, 01, 20), :due_date => Date.new(2001, 01, 20))
+        @pe11.update_attributes(start_date: Date.new(2000, 01, 20), due_date: Date.new(2001, 01, 20))
         @pe12.reload
-        @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :due_date => Date.new(2001, 03, 20))
+        @pe12.update_attributes(start_date: Date.new(2000, 03, 20), due_date: Date.new(2001, 03, 20))
 
         @pe1.reload
         expect(@pe1.start_date).to eq(@pe11.start_date)
@@ -227,9 +226,9 @@ describe WorkPackage, :type => :model do
     describe 'due_date' do
       it 'equals the maximum end date of all children' do
         @pe11.reload
-        @pe11.update_attributes(:start_date => Date.new(2000, 01, 20), :due_date => Date.new(2001, 01, 20))
+        @pe11.update_attributes(start_date: Date.new(2000, 01, 20), due_date: Date.new(2001, 01, 20))
         @pe12.reload
-        @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :due_date => Date.new(2001, 03, 20))
+        @pe12.update_attributes(start_date: Date.new(2000, 03, 20), due_date: Date.new(2001, 03, 20))
 
         @pe1.reload
         expect(@pe1.due_date).to eq(@pe12.due_date)
@@ -240,21 +239,23 @@ describe WorkPackage, :type => :model do
   describe 'journal' do
     let(:responsible) { FactoryGirl.create(:user) }
     let(:type)        { project.types.first } # The type-validation, that now lives on work-package is more
-                                              # strict than the previous validation on the planning-element
-                                              # it also checks, that the type is available for the project the pe lives in.
+    # strict than the previous validation on the planning-element
+    # it also checks, that the type is available for the project the pe lives in.
     let(:pe_status)   { FactoryGirl.create(:status) }
 
-    let(:pe) { FactoryGirl.create(:work_package,
-                                  :subject                         => "Plan A",
-                                  :author                          => responsible,
-                                  :description                     => "This won't work out",
-                                  :start_date                      => Date.new(2012, 1, 24),
-                                  :due_date                        => Date.new(2012, 1, 31),
-                                  :project_id                      => project.id,
-                                  :responsible_id                  => responsible.id,
-                                  :type_id                         => type.id,
-                                  :status_id                       => pe_status.id
-                                  ) }
+    let(:pe) {
+      FactoryGirl.create(:work_package,
+                         subject:                         'Plan A',
+                         author:                          responsible,
+                         description:                     "This won't work out",
+                         start_date:                      Date.new(2012, 1, 24),
+                         due_date:                        Date.new(2012, 1, 31),
+                         project_id:                      project.id,
+                         responsible_id:                  responsible.id,
+                         type_id:                         type.id,
+                         status_id:                       pe_status.id
+                                  )
+    }
 
     it "has an initial journal, so that it's creation shows up in activity" do
       expect(pe.journals.size).to eq(1)
@@ -288,21 +289,23 @@ describe WorkPackage, :type => :model do
       expect(changes).to include(:due_date)
 
       expect(changes[:due_date].first).to eq(Date.new(2012, 1, 31))
-      expect(changes[:due_date].last).to  eq(Date.new(2012, 2, 1))
+      expect(changes[:due_date].last).to eq(Date.new(2012, 2, 1))
     end
 
     describe 'workpackage hierarchies' do
-      let(:child_pe) { FactoryGirl.create(:work_package,
-                                          :parent_id         => pe.id,
-                                          :subject           => "Plan B",
-                                          :description       => "This will work out",
-                                          # interval is the same as parent, so that
-                                          # dates are not updated
-                                          :start_date        => Date.new(2012, 1, 24),
-                                          :due_date          => Date.new(2012, 1, 31),
-                                          :project_id        => project.id,
-                                          :responsible_id    => responsible.id
-                                         ) }
+      let(:child_pe) {
+        FactoryGirl.create(:work_package,
+                           parent_id:         pe.id,
+                           subject:           'Plan B',
+                           description:       'This will work out',
+                           # interval is the same as parent, so that
+                           # dates are not updated
+                           start_date:        Date.new(2012, 1, 24),
+                           due_date:          Date.new(2012, 1, 31),
+                           project_id:        project.id,
+                           responsible_id:    responsible.id
+                                         )
+      }
 
       it 'creates a journal in the parent when end date is changed indirectly' do
         child_pe # trigger creation of child and parent
@@ -331,10 +334,10 @@ describe WorkPackage, :type => :model do
   describe 'acts as paranoid trash' do
     before(:each) do
       @pe1 = FactoryGirl.create(:work_package,
-                            :project_id => project.id,
-                            :start_date => Date.new(2011, 1, 1),
-                            :due_date   => Date.new(2011, 2, 1),
-                            :subject    => "Numero Uno")
+                                project_id: project.id,
+                                start_date: Date.new(2011, 1, 1),
+                                due_date:   Date.new(2011, 2, 1),
+                                subject:    'Numero Uno')
     end
 
     it 'should delete the object permanently when using destroy' do
@@ -344,11 +347,11 @@ describe WorkPackage, :type => :model do
     end
 
     it 'destroys all child elements' do
-      pe1   = FactoryGirl.create(:work_package, :project_id => project.id)
-      pe11  = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe1.id)
-      pe12  = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe1.id)
-      pe121 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe12.id)
-      pe2   = FactoryGirl.create(:work_package, :project_id => project.id)
+      pe1   = FactoryGirl.create(:work_package, project_id: project.id)
+      pe11  = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe1.id)
+      pe12  = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe1.id)
+      pe121 = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe12.id)
+      pe2   = FactoryGirl.create(:work_package, project_id: project.id)
 
       pe1.destroy
 

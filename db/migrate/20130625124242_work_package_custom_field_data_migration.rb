@@ -64,7 +64,7 @@ class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
     ActiveRecord::Base.connection.quote_table_name('custom_values')
   end
 
-  def quote_value s
+  def quote_value(s)
     ActiveRecord::Base.connection.quote(s)
   end
 end

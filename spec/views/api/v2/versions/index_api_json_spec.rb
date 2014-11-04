@@ -28,16 +28,18 @@
 
 require 'spec_helper'
 
-describe 'api/v2/versions/index.api.rabl', :type => :view do
+describe 'api/v2/versions/index.api.rabl', type: :view do
   let(:shared_with) { [42, 1, 2, 3] }
-  let(:version) { Api::V2::VersionsController::Version.new(42,
-                                                           'My Version',
-                                                           'Some description',
-                                                           43,
-                                                           'locked',
-                                                           Date.today,
-                                                           Date.today + 1,
-                                                           shared_with) }
+  let(:version) {
+    Api::V2::VersionsController::Version.new(42,
+                                             'My Version',
+                                             'Some description',
+                                             43,
+                                             'locked',
+                                             Date.today,
+                                             Date.today + 1,
+                                             shared_with)
+  }
 
   before { params[:format] = 'json' }
 

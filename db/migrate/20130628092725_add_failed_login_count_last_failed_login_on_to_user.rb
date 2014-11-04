@@ -30,14 +30,14 @@
 class AddFailedLoginCountLastFailedLoginOnToUser < ActiveRecord::Migration
   def change
     begin
-      add_column :users, :failed_login_count, :integer, :default => 0
+      add_column :users, :failed_login_count, :integer, default: 0
       add_column :users, :last_failed_login_on, :timestamp
     rescue
       raise "Error: Cannot migrate table 'users'!"\
             "\n\n"\
             "Chances are high that this schema was modified by the plug-in 'Strong Passwords':\n"\
             "You may use the rake task 'migrations:strong_passwords:reregister' to prepare the\n"\
-            "current schema for this migration."\
+            'current schema for this migration.'\
             "\n\n\n"
     end
     User.reset_column_information

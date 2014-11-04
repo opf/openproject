@@ -59,7 +59,7 @@ describe 'API v3 Project resource' do
       end
 
       context 'requesting nonexistent project' do
-        let(:get_path) { "/api/v3/projects/9999" }
+        let(:get_path) { '/api/v3/projects/9999' }
 
         it_behaves_like 'not found', 9999, 'Project'
       end

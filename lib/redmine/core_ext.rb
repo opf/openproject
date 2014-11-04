@@ -27,4 +27,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Dir[File.dirname(__FILE__) + "/core_ext/*.rb"].each { |file| require(file) }
+Dir[File.dirname(__FILE__) + '/core_ext/*.rb'].each { |file| require(file) }

@@ -39,8 +39,8 @@ RSpec::Matchers.define :have_exactly_one_selected_menu_item_in do |menu|
     "have exactly one selected menu item in #{menu}"
   end
 
-  failure_message_for_should_not do |actual|
-    raise "You should not use this matcher for should_not matches"
+  failure_message_for_should_not do |_actual|
+    raise 'You should not use this matcher for should_not matches'
   end
 
   def failure_message(menu, actual)

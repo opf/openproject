@@ -52,7 +52,7 @@ module OpenProject
       # where to store session data
       'session_store'           => :cache_store,
       # url-path prefix
-      'rails_relative_url_root' => "",
+      'rails_relative_url_root' => '',
 
       # email configuration
       'email_delivery_method' => nil,
@@ -80,7 +80,7 @@ module OpenProject
       # Valid options:
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
-      def load(options={})
+      def load(options = {})
         filename = options[:file] || File.join(Rails.root, 'config', 'configuration.yml')
         env = options[:env] || Rails.env
 
@@ -125,7 +125,7 @@ module OpenProject
       def with(settings)
         settings.stringify_keys!
         load unless @config
-        was = settings.keys.inject({}) {|h,v| h[v] = @config[v]; h}
+        was = settings.keys.inject({}) { |h, v| h[v] = @config[v]; h }
         @config.merge! settings
         yield if block_given?
         @config.merge! was
@@ -153,7 +153,7 @@ module OpenProject
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
           file_config = YAML::load(ERB.new(File.read(filename)).result)
-          unless file_config.kind_of? Hash
+          unless file_config.is_a? Hash
             warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           else
             config.merge!(load_env_from_config(file_config, env))
@@ -193,13 +193,13 @@ module OpenProject
       # mail_delivery.smtp_settings.<key> is converted to smtp_<key>
       # options:
       # disable_deprecation_message - used by testing
-      def convert_old_email_settings(config, options={})
+      def convert_old_email_settings(config, options = {})
         if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-                                            'update them in config/configuration.yml or use ' +
-                                            'environment variables. See doc/CONFIGURATION.md for ' +
-                                            'more information.'
+              'update them in config/configuration.yml or use ' +
+              'environment variables. See doc/CONFIGURATION.md for ' +
+              'more information.'
           end
 
           config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp

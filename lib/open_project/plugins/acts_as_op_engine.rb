@@ -28,7 +28,6 @@
 
 module OpenProject::Plugins
   module ActsAsOpEngine
-
     def self.included(base)
       base.send(:define_method, :name) do
         ActiveSupport::Inflector.demodulize(base).downcase
@@ -62,7 +61,7 @@ module OpenProject::Plugins
         base.config.to_prepare do
           patched_classes.each do |klass_name|
             plugin_module = plugin_name.sub(/^openproject_/, '').camelcase
-            patch = "OpenProject::#{plugin_module}::Patches::#{klass_name.to_s}Patch".constantize
+            patch = "OpenProject::#{plugin_module}::Patches::#{klass_name}Patch".constantize
             klass = klass_name.to_s.constantize
             klass.send(:include, patch) unless klass.included_modules.include?(patch)
           end
@@ -107,7 +106,7 @@ module OpenProject::Plugins
 
           p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
-            author spec.authors.kind_of?(Array) ? spec.authors[0] : spec.authors
+            author spec.authors.is_a?(Array) ? spec.authors[0] : spec.authors
             description spec.description
             version spec.version
             url spec.homepage
@@ -116,7 +115,7 @@ module OpenProject::Plugins
               send(name, value)
             end
           end
-          p.instance_eval(&block) if (p && block)
+          p.instance_eval(&block) if p && block
         end
 
         # Workaround to ensure settings are available after unloading in development mode
@@ -125,7 +124,7 @@ module OpenProject::Plugins
           base.class_eval do
             config.to_prepare do
               Setting.create_setting("plugin_#{plugin_name}",
-                                    {'default' => options[:settings][:default], 'serialized' => true})
+                                     'default' => options[:settings][:default], 'serialized' => true)
               Setting.create_setting_accessors("plugin_#{plugin_name}")
             end
           end
@@ -134,7 +133,7 @@ module OpenProject::Plugins
 
       base.send(:define_method, :extend_api_response) do |*args, &block|
         config.to_prepare do
-          representer_namespace = args.map{ |arg| arg.to_s.camelize}.join('::')
+          representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.instance_eval(&block)
         end
@@ -146,10 +145,10 @@ module OpenProject::Plugins
         config.before_configuration do |app|
           # This is required for the routes to be loaded first
           # as the routes should be prepended so they take precedence over the core.
-          app.config.paths['config/routes'].unshift File.join(config.root, "config", "routes.rb")
+          app.config.paths['config/routes'].unshift File.join(config.root, 'config', 'routes.rb')
         end
 
-        initializer "#{engine_name}.remove_duplicate_routes", :after => "add_routing_paths" do |app|
+        initializer "#{engine_name}.remove_duplicate_routes", after: 'add_routing_paths' do |app|
           # removes duplicate entry from app.routes_reloader
           # As we prepend the plugin's routes to the load_path up front and rails
           # adds all engines' config/routes.rb later, we have double loaded the routes
@@ -158,23 +157,22 @@ module OpenProject::Plugins
         end
 
         initializer "#{engine_name}.register_test_paths" do |app|
-          app.config.plugins_to_test_paths << self.root
+          app.config.plugins_to_test_paths << root
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", :after => "factory_girl.set_factory_paths" do |app|
-          FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
+        initializer "#{engine_name}.register_factories", after: 'factory_girl.set_factory_paths' do |_app|
+          FactoryGirl.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryGirl)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
           unless app.root.to_s.match root.to_s
-            config.paths["db/migrate"].expanded.each do |expanded_path|
-              app.config.paths["db/migrate"] << expanded_path
+            config.paths['db/migrate'].expanded.each do |expanded_path|
+              app.config.paths['db/migrate'] << expanded_path
             end
           end
         end
       end
     end
-
   end
 end

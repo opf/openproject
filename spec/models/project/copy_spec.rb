@@ -28,20 +28,20 @@
 
 require 'spec_helper'
 
-describe Project::Copy, :type => :model do
+describe Project::Copy, type: :model do
   describe :copy do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) { Project.new }
 
     before do
-      copy.name = "foo"
-      copy.identifier = "foo"
+      copy.name = 'foo'
+      copy.identifier = 'foo'
       copy.copy(project)
     end
 
     subject { copy }
 
-    it "should be able to be copied" do
+    it 'should be able to be copied' do
       expect(copy).to be_valid
       expect(copy).not_to be_new_record
     end
@@ -52,8 +52,8 @@ describe Project::Copy, :type => :model do
 
     let(:copy) do
       copy = Project.new
-      copy.name = "foo"
-      copy.identifier = "foo"
+      copy.name = 'foo'
+      copy.identifier = 'foo'
       copy
     end
 
@@ -115,23 +115,23 @@ describe Project::Copy, :type => :model do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) do
       copy = Project.new
-      copy.name = "foo"
-      copy.identifier = "foo"
+      copy.name = 'foo'
+      copy.identifier = 'foo'
       copy.copy_attributes(project)
       copy.save
       copy
     end
 
     describe :copy_work_packages do
-      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
-      let(:work_package2) { FactoryGirl.create(:work_package, :project => project) }
-      let(:version) { FactoryGirl.create(:version, :project => project) }
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+      let(:version) { FactoryGirl.create(:version, project: project) }
 
       describe :relation do
         before do
           wp = work_package
           wp2 = work_package2
-          FactoryGirl.create(:relation, :from => wp, :to => wp2)
+          FactoryGirl.create(:relation, from: wp, to: wp2)
           [wp, wp2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
@@ -158,7 +158,7 @@ describe Project::Copy, :type => :model do
         end
 
         it do
-          expect(parent_wp = copy.work_packages.detect { |wp| wp.parent }).not_to eq(nil)
+          expect(parent_wp = copy.work_packages.detect(&:parent)).not_to eq(nil)
           expect(parent_wp.parent.project).to eq(copy)
         end
       end
@@ -166,7 +166,7 @@ describe Project::Copy, :type => :model do
       describe :category do
         before do
           wp = work_package
-          wp.category = FactoryGirl.create(:category, :project => project)
+          wp.category = FactoryGirl.create(:category, project: project)
           wp.save
 
           project.work_packages << wp.reload
@@ -183,7 +183,7 @@ describe Project::Copy, :type => :model do
       end
 
       describe :watchers do
-        let(:role) { FactoryGirl.create(:role, permissions:[:view_work_packages]) }
+        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
         let(:watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
 
         describe :active_watcher do
@@ -199,7 +199,7 @@ describe Project::Copy, :type => :model do
             copy.save
           end
 
-          it "does copy active watchers" do
+          it 'does copy active watchers' do
             expect(copy.work_packages[0].watchers.first.user).to eq(watcher)
           end
         end
@@ -220,7 +220,7 @@ describe Project::Copy, :type => :model do
             copy.save
           end
 
-          it "does not copy locked watchers" do
+          it 'does not copy locked watchers' do
             expect(copy.work_packages[0].watchers).to eq([])
           end
         end
@@ -229,7 +229,7 @@ describe Project::Copy, :type => :model do
 
     describe :copy_timelines do
       before do
-        timeline = FactoryGirl.create(:timeline, :project => project)
+        timeline = FactoryGirl.create(:timeline, project: project)
         # set options to nil, is known to have been buggy
         timeline.send :write_attribute, :options, nil
 
@@ -244,7 +244,7 @@ describe Project::Copy, :type => :model do
 
     describe :copy_queries do
       before do
-        FactoryGirl.create(:query, :project => project)
+        FactoryGirl.create(:query, project: project)
 
         copy.send(:copy_queries, project)
         copy.save
@@ -341,7 +341,7 @@ describe Project::Copy, :type => :model do
     describe :copy_boards do
       let(:board) { FactoryGirl.create(:board, project: project) }
 
-      context "boards are copied" do
+      context 'boards are copied' do
         before do
           copy.send(:copy_boards, project)
           copy.save
@@ -352,7 +352,7 @@ describe Project::Copy, :type => :model do
         it { is_expected.to eq(project.boards.count) }
       end
 
-      context "board topics are copied" do
+      context 'board topics are copied' do
         before do
           topic = FactoryGirl.create(:message, board: board)
           message = FactoryGirl.create(:message, board: board, parent_id: topic.id)
@@ -361,7 +361,7 @@ describe Project::Copy, :type => :model do
           copy.save
         end
 
-        it "should copy topics without replies" do
+        it 'should copy topics without replies' do
           expect(copy.boards.first.topics.count).to eq(project.boards.first.topics.count)
           expect(copy.boards.first.messages.count).to_not eq(project.boards.first.messages.count)
         end

@@ -29,7 +29,6 @@
 
 module Api
   module V2
-
     class VersionsController < ApplicationController
       include PaginationHelper
 
@@ -58,13 +57,13 @@ module Api
 
       private
 
-      def find_single_project(version_scope=nil)
+      def find_single_project(version_scope = nil)
         find_project_by_project_id  unless performed?
         authorize                   unless performed?
         assign_versions([@project], version_scope) unless performed?
       end
 
-      def find_multiple_projects(version_scope=nil)
+      def find_multiple_projects(version_scope = nil)
         # find_project_by_project_id
         ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
         ids = ids.map(&:to_i).sort
@@ -95,7 +94,7 @@ module Api
         if params[:project_id] && params[:ids]
           identifiers = params[:ids].split(/,/).map(&:strip).map(&:to_i)
           version_scope = ::Version.find_all_by_id(identifiers)
-                                   .map(&:id)
+                          .map(&:id)
         end
 
         if params[:project_id] !~ /,/
@@ -132,6 +131,5 @@ module Api
                     Array.new(shared_with))
       end
     end
-
   end
 end

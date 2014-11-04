@@ -28,12 +28,11 @@
 #++
 
 module WorkPackage::StatusTransitions
-
   include do
 
   end
 
-# Return true if the issue is being reopened
+  # Return true if the issue is being reopened
   def reopened?
     if !new_record? && status_id_changed?
       status_was = Status.find_by_id(status_id_was)

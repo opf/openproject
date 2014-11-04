@@ -28,11 +28,13 @@
 
 require 'spec_helper'
 
-describe RepositoriesController, :type => :controller do
+describe RepositoriesController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
-  let(:user) { FactoryGirl.create(:user, :member_in_project => project,
-                                          :member_through_role => role) }
-  let(:repository) { FactoryGirl.create(:repository, :project => project) }
+  let(:user) {
+    FactoryGirl.create(:user, member_in_project: project,
+                              member_through_role: role)
+  }
+  let(:repository) { FactoryGirl.create(:repository, project: project) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
@@ -42,12 +44,14 @@ describe RepositoriesController, :type => :controller do
 
   describe 'commits per author graph' do
     before do
-      get :graph, :project_id => project.identifier, :graph => 'commits_per_author'
+      get :graph, project_id: project.identifier, graph: 'commits_per_author'
     end
 
     context 'requested by an authorized user' do
-      let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository,
-                                                              :view_commit_author_statistics]) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                :view_commit_author_statistics])
+      }
 
       it 'should be successful' do
         expect(response).to be_success
@@ -59,7 +63,7 @@ describe RepositoriesController, :type => :controller do
     end
 
     context 'requested by an unauthorized user' do
-      let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
+      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
       it 'should return 403' do
         expect(response.code).to eq('403')
@@ -69,12 +73,14 @@ describe RepositoriesController, :type => :controller do
 
   describe 'stats' do
     before do
-      get :stats, :project_id => project.identifier
+      get :stats, project_id: project.identifier
     end
 
     describe 'requested by a user with view_commit_author_statistics permission' do
-      let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository,
-                                                              :view_commit_author_statistics]) }
+      let(:role) {
+        FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                :view_commit_author_statistics])
+      }
 
       it 'show the commits per author graph' do
         expect(assigns(:show_commits_per_author)).to eq(true)
@@ -82,7 +88,7 @@ describe RepositoriesController, :type => :controller do
     end
 
     describe 'requested by a user without view_commit_author_statistics permission' do
-      let(:role) { FactoryGirl.create(:role, :permissions => [:browse_repository]) }
+      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
       it 'should NOT show the commits per author graph' do
         expect(assigns(:show_commits_per_author)).to eq(false)

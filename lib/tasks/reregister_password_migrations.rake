@@ -34,7 +34,7 @@ namespace :migrations do
     end
 
     desc "Prepares database schema changed by the plug-in 'Strong Passwords' for follow-up migrations"
-    task :reregister => :environment do |task|
+    task reregister: :environment do |_task|
       if strong_passwords_changed_schema
         puts "Adapt 'Strong Passwords' schema changes..."
         rename_strong_password_columns
@@ -64,10 +64,10 @@ namespace :migrations do
     end
 
     def schema_name
-      ActiveRecord::Base.connection.quote_table_name "schema_migrations"
+      ActiveRecord::Base.connection.quote_table_name 'schema_migrations'
     end
 
-    def quote_value name
+    def quote_value(name)
       ActiveRecord::Base.connection.quote name
     end
   end

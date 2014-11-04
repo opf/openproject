@@ -34,7 +34,7 @@ module Api::Experimental::Concerns::ColumnData
         sortable: column.sortable?,
         groupable: column.groupable?,
         custom_field: column.is_a?(QueryCustomFieldColumn) &&
-                      column.custom_field.as_json(only: [:id, :field_format]),
+          column.custom_field.as_json(only: [:id, :field_format]),
         meta_data: get_column_meta(column)
       }
     end
@@ -47,21 +47,21 @@ module Api::Experimental::Concerns::ColumnData
     # Needs to be things like user link,project link, datetime
     {
       data_type: column_data_type(column),
-      link: !!(link_meta()[column.name]) ? link_meta()[column.name] : { display: false }
+      link: !!(link_meta[column.name]) ? link_meta[column.name] : { display: false }
     }
   end
 
   def link_meta
     {
-      subject: { display: true, model_type: "work_package" },
+      subject: { display: true, model_type: 'work_package' },
       type: { display: false },
       status: { display: false },
       priority: { display: false },
-      parent: { display: true, model_type: "work_package" },
-      assigned_to: { display: true, model_type: "user" },
-      responsible: { display: true, model_type: "user" },
-      author: { display: true, model_type: "user" },
-      project: { display: true, model_type: "project" }
+      parent: { display: true, model_type: 'work_package' },
+      assigned_to: { display: true, model_type: 'user' },
+      responsible: { display: true, model_type: 'user' },
+      author: { display: true, model_type: 'user' },
+      project: { display: true, model_type: 'project' }
     }
   end
 
@@ -70,12 +70,12 @@ module Api::Experimental::Concerns::ColumnData
       return column.custom_field.field_format
     elsif column.class.to_s =~ /CurrencyQueryColumn/
       return 'currency'
-    elsif (c = WorkPackage.columns_hash[column.name.to_s] and !c.nil?)
+    elsif c = WorkPackage.columns_hash[column.name.to_s] and !c.nil?
       return c.type.to_s
-    elsif (c = WorkPackage.columns_hash[column.name.to_s + "_id"] and !c.nil?)
-      return "object"
+    elsif c = WorkPackage.columns_hash[column.name.to_s + '_id'] and !c.nil?
+      return 'object'
     else
-      return "default"
+      return 'default'
     end
   end
 end

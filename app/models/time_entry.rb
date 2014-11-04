@@ -34,7 +34,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
+  belongs_to :activity, class_name: 'TimeEntryActivity', foreign_key: 'activity_id'
 
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
@@ -42,24 +42,25 @@ class TimeEntry < ActiveRecord::Base
 
   acts_as_journalized
 
-  acts_as_event title: Proc.new {|o| "#{l_hours(o.hours)} (#{o.project.event_title})"},
-                url: Proc.new {|o| {controller: '/timelog', action: 'index', project_id: o.project, work_package_id: o.work_package}},
+  acts_as_event title: Proc.new { |o| "#{l_hours(o.hours)} (#{o.project.event_title})" },
+                url: Proc.new { |o| { controller: '/timelog', action: 'index', project_id: o.project, work_package_id: o.work_package } },
                 datetime: :created_on,
                 author: :user,
                 description: :comments
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
-  validates_numericality_of :hours, :allow_nil => true, :message => :invalid
-  validates_length_of :comments, :maximum => 255, :allow_nil => true
+  validates_numericality_of :hours, allow_nil: true, message: :invalid
+  validates_length_of :comments, maximum: 255, allow_nil: true
 
   validate :validate_hours_are_in_range
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
-  }}
+  scope :visible, lambda {|*args|
+                    {
+                      include: :project,
+                      conditions: Project.allowed_to_condition(args.first || User.current, :view_time_entries)
+                    }}
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
@@ -69,7 +70,7 @@ class TimeEntry < ActiveRecord::Base
   safe_attributes 'hours', 'comments', 'work_package_id', 'activity_id', 'spent_on', 'custom_field_values'
 
   def set_default_activity
-    if new_record? && self.activity.nil?
+    if new_record? && activity.nil?
       if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id
       end
@@ -104,29 +105,29 @@ class TimeEntry < ActiveRecord::Base
 
   # TODO: remove this method in 1.3.0
   def self.visible_by(usr)
-    ActiveSupport::Deprecation.warn "TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead."
-    with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_time_entries) }) do
+    ActiveSupport::Deprecation.warn 'TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead.'
+    with_scope(find: { conditions: Project.allowed_to_condition(usr, :view_time_entries) }) do
       yield
     end
   end
 
-  def self.earliest_date_for_project(project=nil)
+  def self.earliest_date_for_project(project = nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
+      finder_conditions << ['project_id IN (?)', project.hierarchy.map(&:id)]
     end
-    TimeEntry.minimum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
+    TimeEntry.minimum(:spent_on, include: :project, conditions: finder_conditions.conditions)
   end
 
-  def self.latest_date_for_project(project=nil)
+  def self.latest_date_for_project(project = nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
+      finder_conditions << ['project_id IN (?)', project.hierarchy.map(&:id)]
     end
-    TimeEntry.maximum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
+    TimeEntry.maximum(:spent_on, include: :project, conditions: finder_conditions.conditions)
   end
 
-private
+  private
 
   def validate_hours_are_in_range
     errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
@@ -137,6 +138,6 @@ private
   end
 
   def validate_consistency_of_work_package_id
-    errors.add :work_package_id, :invalid if (work_package_id && !work_package) || (work_package && project!=work_package.project)
+    errors.add :work_package_id, :invalid if (work_package_id && !work_package) || (work_package && project != work_package.project)
   end
 end

@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/support/toggable_fieldsets'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work package calendar index', :type => :feature do
+describe 'Work package calendar index', type: :feature do
   describe 'Toggable fieldset', js: true do
     include_context 'Toggable fieldset examples'
 

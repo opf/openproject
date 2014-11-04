@@ -28,5 +28,5 @@
 #++
 
 class Journal::ChangesetJournal < Journal::BaseJournal
-  self.table_name = "changeset_journals"
+  self.table_name = 'changeset_journals'
 end

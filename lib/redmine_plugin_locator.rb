@@ -46,6 +46,6 @@ class RedminePluginLocator < Rails::Plugin::FileSystemLocator
   end
 
   def has_plugin?(name)
-    plugins(false).collect(&:name).include? name.to_s
+    plugins(false).map(&:name).include? name.to_s
   end
 end

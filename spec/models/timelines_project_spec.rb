@@ -28,12 +28,12 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Project, :type => :model do
+describe Project, type: :model do
   describe '- Relations ' do
     describe '#project_type' do
       it 'can read the project_type w/ the help of the belongs_to association' do
         project_type = FactoryGirl.create(:project_type)
-        project      = FactoryGirl.create(:project, :project_type_id => project_type.id)
+        project      = FactoryGirl.create(:project, project_type_id: project_type.id)
 
         project.reload
 
@@ -44,7 +44,7 @@ describe Project, :type => :model do
     describe '#responsible' do
       it 'can read the responsible w/ the help of the belongs_to association' do
         user    = FactoryGirl.create(:user)
-        project = FactoryGirl.create(:project, :responsible_id => user.id)
+        project = FactoryGirl.create(:project, responsible_id: user.id)
 
         project.reload
 
@@ -83,17 +83,17 @@ describe Project, :type => :model do
     describe '#timelines' do
       it 'can read timelines w/ the help of the has_many association' do
         project  = FactoryGirl.create(:project)
-        timeline = FactoryGirl.create(:timeline, :project_id => project.id)
+        timeline = FactoryGirl.create(:timeline, project_id: project.id)
 
         project.reload
 
-        expect(project.timelines.size).to  eq(1)
+        expect(project.timelines.size).to eq(1)
         expect(project.timelines.first).to eq(timeline)
       end
 
       it 'deletes associated timelines' do
         project  = FactoryGirl.create(:project)
-        timeline = FactoryGirl.create(:timeline, :project_id => project.id)
+        timeline = FactoryGirl.create(:timeline, project_id: project.id)
 
         project.reload
 
@@ -106,28 +106,28 @@ describe Project, :type => :model do
     describe '#reportings' do
       it 'can read reportings via source w/ the help of the has_many association' do
         project   = FactoryGirl.create(:project)
-        reporting = FactoryGirl.create(:reporting, :project_id => project.id)
+        reporting = FactoryGirl.create(:reporting, project_id: project.id)
 
         project.reload
 
-        expect(project.reportings.size).to  eq(1)
+        expect(project.reportings.size).to eq(1)
         expect(project.reportings.first).to eq(reporting)
       end
 
       it 'can read reportings via target w/ the help of the has_many association' do
         project   = FactoryGirl.create(:project)
-        reporting = FactoryGirl.create(:reporting, :reporting_to_project_id => project.id)
+        reporting = FactoryGirl.create(:reporting, reporting_to_project_id: project.id)
 
         project.reload
 
-        expect(project.reportings.size).to  eq(1)
+        expect(project.reportings.size).to eq(1)
         expect(project.reportings.first).to eq(reporting)
       end
 
       it 'deletes associated reportings' do
         project     = FactoryGirl.create(:project)
-        reporting_a = FactoryGirl.create(:reporting, :project_id => project.id)
-        reporting_b = FactoryGirl.create(:reporting, :reporting_to_project_id => project.id)
+        reporting_a = FactoryGirl.create(:reporting, project_id: project.id)
+        reporting_b = FactoryGirl.create(:reporting, reporting_to_project_id: project.id)
 
         project.reload
 
@@ -158,12 +158,12 @@ describe Project, :type => :model do
           other_project = FactoryGirl.create(:project)
 
           association = FactoryGirl.create(:project_association,
-                                       :project_a_id => project.id,
-                                       :project_b_id => other_project.id)
+                                           project_a_id: project.id,
+                                           project_b_id: other_project.id)
 
           project.reload
 
-          expect(project.project_associations.size).to  eq(1)
+          expect(project.project_associations.size).to eq(1)
           expect(project.project_associations.first).to eq(association)
         end
 
@@ -172,12 +172,12 @@ describe Project, :type => :model do
           other_project = FactoryGirl.create(:project)
 
           association = FactoryGirl.create(:project_association,
-                                       :project_b_id => other_project.id,
-                                       :project_a_id => project.id)
+                                           project_b_id: other_project.id,
+                                           project_a_id: project.id)
 
           project.reload
 
-          expect(project.project_associations.size).to  eq(1)
+          expect(project.project_associations.size).to eq(1)
           expect(project.project_associations.first).to eq(association)
         end
 
@@ -187,11 +187,11 @@ describe Project, :type => :model do
           project_x = FactoryGirl.create(:project)
 
           association_a = FactoryGirl.create(:project_association,
-                                         :project_a_id => project_a.id,
-                                         :project_b_id => project_x.id)
+                                             project_a_id: project_a.id,
+                                             project_b_id: project_x.id)
           association_b = FactoryGirl.create(:project_association,
-                                         :project_a_id => project_x.id,
-                                         :project_b_id => project_b.id)
+                                             project_a_id: project_x.id,
+                                             project_b_id: project_b.id)
 
           project_x.reload
           project_x.destroy
@@ -207,12 +207,12 @@ describe Project, :type => :model do
           project = FactoryGirl.create(:project)
           other_project = FactoryGirl.create(:project)
 
-           FactoryGirl.create(:project_association, :project_a_id => project.id,
-                                                          :project_b_id => other_project.id)
+          FactoryGirl.create(:project_association, project_a_id: project.id,
+                                                   project_b_id: other_project.id)
 
           project.reload
 
-          expect(project.associated_projects.size).to  eq(1)
+          expect(project.associated_projects.size).to eq(1)
           expect(project.associated_projects.first).to eq(other_project)
         end
 
@@ -220,12 +220,12 @@ describe Project, :type => :model do
           project = FactoryGirl.create(:project)
           other_project = FactoryGirl.create(:project)
 
-          FactoryGirl.create(:project_association, :project_b_id => other_project.id,
-                                                         :project_a_id => project.id)
+          FactoryGirl.create(:project_association, project_b_id: other_project.id,
+                                                   project_a_id: project.id)
 
           project.reload
 
-          expect(project.associated_projects.size).to  eq(1)
+          expect(project.associated_projects.size).to eq(1)
           expect(project.associated_projects.first).to eq(other_project)
         end
 
@@ -275,7 +275,7 @@ describe Project, :type => :model do
 
           # using build & save instead of create to make sure all callbacks and
           # validations are triggered
-          project = FactoryGirl.build(:project, :types => [type_x])
+          project = FactoryGirl.build(:project, types: [type_x])
           project.save
 
           project.reload

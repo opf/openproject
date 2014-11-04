@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::ProjectTypesController, :type => :controller do
+describe Api::V2::ProjectTypesController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -37,19 +37,19 @@ describe Api::V2::ProjectTypesController, :type => :controller do
 
   describe 'index.xml' do
     def fetch
-      get 'index', :format => 'xml'
+      get 'index', format: 'xml'
     end
-    it_should_behave_like "a controller action with unrestricted access"
+    it_should_behave_like 'a controller action with unrestricted access'
 
     describe 'with no project types available' do
       it 'assigns an empty project_types array' do
-        get 'index', :format => 'xml'
+        get 'index', format: 'xml'
         expect(assigns(:project_types)).to eq([])
       end
 
       it 'renders the index builder template' do
-        get 'index', :format => 'xml'
-        expect(response).to render_template('api/v2/project_types/index', :formats=>["api"])
+        get 'index', format: 'xml'
+        expect(response).to render_template('api/v2/project_types/index', formats: ['api'])
       end
     end
 
@@ -63,13 +63,13 @@ describe Api::V2::ProjectTypesController, :type => :controller do
       end
 
       it 'assigns an array with all project types' do
-        get 'index', :format => 'xml'
+        get 'index', format: 'xml'
         expect(assigns(:project_types)).to eq(@created_project_types)
       end
 
       it 'renders the index template' do
-        get 'index', :format => 'xml'
-        expect(response).to render_template('api/v2/project_types/index', :formats=>["api"])
+        get 'index', format: 'xml'
+        expect(response).to render_template('api/v2/project_types/index', formats: ['api'])
       end
     end
   end
@@ -78,30 +78,29 @@ describe Api::V2::ProjectTypesController, :type => :controller do
     describe 'with unknown project type' do
       it 'raises ActiveRecord::RecordNotFound errors' do
         expect {
-          get 'show', :id => '1337', :format => 'xml'
+          get 'show', id: '1337', format: 'xml'
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     describe 'with an available project type' do
       before do
-        @available_project_type = FactoryGirl.create(:project_type, :id => '1337')
+        @available_project_type = FactoryGirl.create(:project_type, id: '1337')
       end
 
       def fetch
-        get "show", :id => '1337', :format => 'xml'
+        get 'show', id: '1337', format: 'xml'
       end
-      it_should_behave_like "a controller action with unrestricted access"
-
+      it_should_behave_like 'a controller action with unrestricted access'
 
       it 'assigns the available project type' do
-        get 'show', :id => '1337', :format => 'xml'
+        get 'show', id: '1337', format: 'xml'
         expect(assigns(:project_type)).to eq(@available_project_type)
       end
 
       it 'renders the show template' do
-        get 'show', :id => '1337', :format => 'xml'
-        expect(response).to render_template('api/v2/project_types/show', :formats=>["api"])
+        get 'show', id: '1337', format: 'xml'
+        expect(response).to render_template('api/v2/project_types/show', formats: ['api'])
       end
     end
   end

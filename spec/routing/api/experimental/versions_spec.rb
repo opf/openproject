@@ -31,7 +31,7 @@ require 'spec_helper'
 
 describe Api::Experimental::VersionsController, type: :routing do
   it 'should connect GET ' +
-     '/api/experimental/projects/:project_id/versions.json to versions#index' do
+    '/api/experimental/projects/:project_id/versions.json to versions#index' do
     expect(get('/api/experimental/projects/blubs/versions.json'))
       .to route_to(controller: 'api/experimental/versions',
                    action: 'index',
@@ -40,7 +40,7 @@ describe Api::Experimental::VersionsController, type: :routing do
   end
 
   it 'should connect GET ' +
-     '/api/experimental/versions.json to versions#index' do
+    '/api/experimental/versions.json to versions#index' do
     expect(get('/api/experimental/versions.json'))
       .to route_to(controller: 'api/experimental/versions',
                    action: 'index',

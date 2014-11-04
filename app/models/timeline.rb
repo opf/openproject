@@ -38,7 +38,6 @@ class Timeline < ActiveRecord::Base
     def name
       @name ||= ::I18n.t('timelines.filter.noneElement')
     end
-
   end
 
   unloadable
@@ -47,12 +46,12 @@ class Timeline < ActiveRecord::Base
 
   self.table_name = 'timelines'
 
-  default_scope :order => 'name ASC'
+  default_scope order: 'name ASC'
 
-  belongs_to :project, :class_name => "Project"
+  belongs_to :project, class_name: 'Project'
 
   validates_presence_of :name, :project
-  validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
+  validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
   validate :validate_option_dates
   validate :validate_option_numeric
 
@@ -62,57 +61,57 @@ class Timeline < ActiveRecord::Base
   before_save :split_joined_options_values
 
   @@allowed_option_keys = [
-    "custom_fields",
-    "columns",
-    "compare_to_absolute",
-    "compare_to_relative",
-    "compare_to_relative_unit",
-    "compare_to_historical_one",
-    "compare_to_historical_two",
-    "comparison",
-    "exclude_empty",
-    "exclude_own_planning_elements",
-    "exclude_reporters",
-    "exist",
-    "grouping_one_enabled",
-    "grouping_one_selection",
-    "grouping_one_sort",
-    "grouping_two_enabled",
-    "grouping_two_selection",
-    "grouping_two_sort",
-    "hide_chart",
-    "hide_other_group",
-    "initial_outline_expansion",
-    "parents",
-    "planning_element_responsibles",
-    "planning_element_assignee",
-    "planning_element_status",
-    "planning_element_time",
-    "planning_element_time_absolute_one",
-    "planning_element_time_absolute_two",
-    "planning_element_time_relative_one",
-    "planning_element_time_relative_one_unit",
-    "planning_element_time_relative_two",
-    "planning_element_time_relative_two_unit",
-    "planning_element_time_types",
-    "planning_element_types",
-    "project_responsibles",
-    "project_sort",
-    "project_status",
-    "project_types",
-    "timeframe_end",
-    "timeframe_start",
-    "vertical_planning_elements",
-    "zoom_factor"
+    'custom_fields',
+    'columns',
+    'compare_to_absolute',
+    'compare_to_relative',
+    'compare_to_relative_unit',
+    'compare_to_historical_one',
+    'compare_to_historical_two',
+    'comparison',
+    'exclude_empty',
+    'exclude_own_planning_elements',
+    'exclude_reporters',
+    'exist',
+    'grouping_one_enabled',
+    'grouping_one_selection',
+    'grouping_one_sort',
+    'grouping_two_enabled',
+    'grouping_two_selection',
+    'grouping_two_sort',
+    'hide_chart',
+    'hide_other_group',
+    'initial_outline_expansion',
+    'parents',
+    'planning_element_responsibles',
+    'planning_element_assignee',
+    'planning_element_status',
+    'planning_element_time',
+    'planning_element_time_absolute_one',
+    'planning_element_time_absolute_two',
+    'planning_element_time_relative_one',
+    'planning_element_time_relative_one_unit',
+    'planning_element_time_relative_two',
+    'planning_element_time_relative_two_unit',
+    'planning_element_time_types',
+    'planning_element_types',
+    'project_responsibles',
+    'project_sort',
+    'project_status',
+    'project_types',
+    'timeframe_end',
+    'timeframe_start',
+    'vertical_planning_elements',
+    'zoom_factor'
   ]
 
   @@available_columns = [
-    "start_date",
-    "due_date",
-    "type",
-    "status",
-    "responsible",
-    "assigned_to"
+    'start_date',
+    'due_date',
+    'type',
+    'status',
+    'responsible',
+    'assigned_to'
   ]
 
   @@available_zoom_factors = [
@@ -138,11 +137,11 @@ class Timeline < ActiveRecord::Base
   end
 
   def validate_option_numeric
-    numeric = ["compare_to_relative", "planning_element_time_relative_one", "planning_element_time_relative_two"]
+    numeric = ['compare_to_relative', 'planning_element_time_relative_one', 'planning_element_time_relative_two']
     numeric.each do |field|
       begin
-        if options[field] && options[field] != "" && options[field].to_i.to_s != options[field] then
-          errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_number")
+        if options[field] && options[field] != '' && options[field].to_i.to_s != options[field]
+          errors.add :options, l('timelines.filter.errors.' + field) + l('activerecord.errors.messages.not_a_number')
         end
       rescue ArgumentError
 
@@ -151,14 +150,14 @@ class Timeline < ActiveRecord::Base
   end
 
   def validate_option_dates
-    date_fields = ["timeframe_start", "timeframe_end", "compare_to_absolute", "planning_element_time_absolute_one", "planning_element_time_absolute_two"]
+    date_fields = ['timeframe_start', 'timeframe_end', 'compare_to_absolute', 'planning_element_time_absolute_one', 'planning_element_time_absolute_two']
     date_fields.each do |field|
       begin
-        if options[field] && options[field] != "" then
+        if options[field] && options[field] != ''
           Date.parse(options[field])
         end
       rescue ArgumentError
-        errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_date")
+        errors.add :options, l('timelines.filter.errors.' + field) + l('activerecord.errors.messages.not_a_date')
       end
     end
   end
@@ -168,7 +167,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def options
-    read_attribute(:options) || self.default_options
+    read_attribute(:options) || default_options
   end
 
   def options=(other)
@@ -177,12 +176,12 @@ class Timeline < ActiveRecord::Base
   end
 
   def json_options
-    json = with_escape_html_entities_in_json{ options.to_json }
+    json = with_escape_html_entities_in_json { options.to_json }
     json.html_safe
   end
 
   def custom_field_columns
-    project.all_work_package_custom_fields.map { |a| {name: a.name, id: "cf_#{a.id}"}}
+    project.all_work_package_custom_fields.map { |a| { name: a.name, id: "cf_#{a.id}" } }
   end
 
   def available_columns
@@ -194,8 +193,8 @@ class Timeline < ActiveRecord::Base
   end
 
   def selected_initial_outline_expansion
-    if options["initial_outline_expansion"].present?
-      options["initial_outline_expansion"].first.to_i
+    if options['initial_outline_expansion'].present?
+      options['initial_outline_expansion'].first.to_i
     else
       -1
     end
@@ -206,22 +205,21 @@ class Timeline < ActiveRecord::Base
   end
 
   def selected_zoom_factor
-    if options["zoom_factor"].present?
-      options["zoom_factor"].first.to_i
+    if options['zoom_factor'].present?
+      options['zoom_factor'].first.to_i
     else
       -1
     end
   end
 
   def available_planning_element_types
-
     # TODO: this should not be all planning element types, but instead
     # all types that are available in the project the timeline is
     # referencing, and all planning element types available in projects
     # that are reporting into the project that this timeline is
     # referencing.
 
-    Type.find(:all, :order => :name)
+    Type.find(:all, order: :name)
   end
 
   def available_planning_element_status
@@ -258,7 +256,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def available_project_status
-    ReportedProjectStatus.find(:all, :order => :name)
+    ReportedProjectStatus.find(:all, order: :name)
   end
 
   def selected_project_status
@@ -284,16 +282,16 @@ class Timeline < ActiveRecord::Base
   end
 
   def custom_field_list_value(field_id)
-    value = self.custom_fields_filter[field_id]
-    if value then
-      value.join(",")
+    value = custom_fields_filter[field_id]
+    if value
+      value.join(',')
     else
-      ""
+      ''
     end
   end
 
   def custom_fields_filter
-    options["custom_fields"] || {}
+    options['custom_fields'] || {}
   end
 
   def get_custom_fields
@@ -317,24 +315,24 @@ class Timeline < ActiveRecord::Base
   end
 
   def selected_columns
-    if options["columns"].present?
-      options["columns"]
+    if options['columns'].present?
+      options['columns']
     else
       []
     end
   end
 
   def planning_element_time
-    if options["planning_element_time"].present?
-      options["planning_element_time"]
+    if options['planning_element_time'].present?
+      options['planning_element_time']
     else
       'absolute'
     end
   end
 
   def comparison
-    if options["comparison"].present?
-      options["comparison"]
+    if options['comparison'].present?
+      options['comparison']
     else
       'none'
     end
@@ -343,7 +341,7 @@ class Timeline < ActiveRecord::Base
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
       projects = Project.find_all_by_id(ary)
-      projectsHashMap = Hash[projects.collect { |v| [v.id, v]}]
+      projectsHashMap = Hash[projects.map { |v| [v.id, v] }]
 
       ary.map { |a| projectsHashMap[a] }
     end
@@ -371,7 +369,7 @@ class Timeline < ActiveRecord::Base
 
   def remove_empty_options_values
     unless self[:options].nil?
-      self[:options].reject! do |key, value|
+      self[:options].reject! do |_key, value|
         value.instance_of?(Array) && value.length == 1 && value.first.empty?
       end
     end
@@ -380,15 +378,15 @@ class Timeline < ActiveRecord::Base
   def split_joined_options_values
     unless self[:options].nil?
       self[:options].each_pair do |key, value|
-        if value.instance_of?(Array) && value.length == 1 then
-          self[:options][key] = value[0].split(",")
+        if value.instance_of?(Array) && value.length == 1
+          self[:options][key] = value[0].split(',')
         end
       end
 
       unless self[:options][:custom_fields].nil?
         self[:options][:custom_fields].each_pair do |key, value|
-          if value.instance_of?(Array) && value.length == 1 then
-            self[:options][:custom_fields][key] = value[0].split(",")
+          if value.instance_of?(Array) && value.length == 1
+            self[:options][:custom_fields][key] = value[0].split(',')
           end
         end
       end
@@ -415,11 +413,11 @@ class Timeline < ActiveRecord::Base
     collection = []
     collection += [Empty.new] if (ary = array_of_comma_separated(options_field)).delete(-1)
     begin
-      collection += block.call(ary);
+      collection += block.call(ary)
     rescue
 
     end
-    return collection
+    collection
   end
 
   def array_of_comma_separated(options_field)

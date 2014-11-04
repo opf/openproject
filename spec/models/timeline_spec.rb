@@ -28,19 +28,19 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe Timeline, :type => :model do
+describe Timeline, type: :model do
   describe 'helper methods for creation' do
     describe 'available_responsibles' do
       it 'is sorted according to general setting' do
-        ab = FactoryGirl.create(:user, :firstname => 'a', :lastname => 'b')
-        ba = FactoryGirl.create(:user, :firstname => 'b', :lastname => 'a')
+        ab = FactoryGirl.create(:user, firstname: 'a', lastname: 'b')
+        ba = FactoryGirl.create(:user, firstname: 'b', lastname: 'a')
         t  = Timeline.new
 
-        with_settings :user_format => :firstname_lastname do
+        with_settings user_format: :firstname_lastname do
           expect(t.available_responsibles).to eq([ab, ba])
         end
 
-        with_settings :user_format => :lastname_firstname do
+        with_settings user_format: :lastname_firstname do
           expect(t.available_responsibles).to eq([ba, ab])
         end
       end

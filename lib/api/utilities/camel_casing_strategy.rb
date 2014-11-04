@@ -40,10 +40,11 @@ module API
       end
 
       private
-        def to_camel_case(string)
-          return string if string.first == '_'
-          string.camelize(:lower)
-        end
+
+      def to_camel_case(string)
+        return string if string.first == '_'
+        string.camelize(:lower)
+      end
     end
   end
 end

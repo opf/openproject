@@ -37,13 +37,13 @@ class MigrateUpdateCreateColumnReferenceInQueries < ActiveRecord::Migration
   KEY = { 'updated_on' => 'updated_at', 'created_on' => 'created_at' }
 
   def up
-    say_with_time_silently "Update updated/created column references in queries" do
+    say_with_time_silently 'Update updated/created column references in queries' do
       update_query_references_with_keys(KEY)
     end
   end
 
   def down
-    say_with_time_silently "Restore updated/created column references in queries" do
+    say_with_time_silently 'Restore updated/created column references in queries' do
       update_query_references_with_keys(KEY.invert)
     end
   end

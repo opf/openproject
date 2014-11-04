@@ -31,12 +31,12 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_types, :except => [:index, :destroy]
-  before_filter :find_custom_field, :only => [:edit, :update, :destroy, :move]
-  before_filter :blank_translation_attributes_as_nil, :only => [:create, :update]
+  before_filter :find_types, except: [:index, :destroy]
+  before_filter :find_custom_field, only: [:edit, :update, :destroy, :move]
+  before_filter :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
-    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
+    @custom_fields_by_type = CustomField.find(:all).group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
@@ -49,10 +49,10 @@ class CustomFieldsController < ApplicationController
 
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      call_hook(:controller_custom_fields_new_after_save, :custom_field => @custom_field)
-      redirect_to custom_fields_path(:tab => @custom_field.class.name)
+      call_hook(:controller_custom_fields_new_after_save, custom_field: @custom_field)
+      redirect_to custom_fields_path(tab: @custom_field.class.name)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -61,8 +61,8 @@ class CustomFieldsController < ApplicationController
   def update
     if @custom_field.update_attributes(@custom_field_params)
       flash[:notice] = l(:notice_successful_update)
-      call_hook(:controller_custom_fields_edit_after_save, :custom_field => @custom_field)
-      redirect_to custom_fields_path(:tab => @custom_field.class.name)
+      call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
+      redirect_to custom_fields_path(tab: @custom_field.class.name)
     else
       render action: 'edit'
     end
@@ -74,7 +74,7 @@ class CustomFieldsController < ApplicationController
     rescue
       flash[:error] = l(:error_can_not_delete_custom_field)
     end
-    redirect_to custom_fields_path(:tab => @custom_field.class.name)
+    redirect_to custom_fields_path(tab: @custom_field.class.name)
   end
 
   private
@@ -83,7 +83,7 @@ class CustomFieldsController < ApplicationController
     @custom_field_params = permitted_params.custom_field
     return unless @custom_field_params['translations_attributes']
 
-    @custom_field_params['translations_attributes'].each do |index, attributes|
+    @custom_field_params['translations_attributes'].each do |_index, attributes|
       attributes.each do |key, value|
         attributes[key] = nil if value.blank?
       end
@@ -109,6 +109,6 @@ class CustomFieldsController < ApplicationController
   end
 
   def find_types
-    @types = Type.find(:all, :order => 'position')
+    @types = Type.find(:all, order: 'position')
   end
 end

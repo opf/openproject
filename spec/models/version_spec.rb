@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe Version, :type => :model do
+describe Version, type: :model do
 
-  subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
+  subject(:version) { FactoryGirl.build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
 
-  it "rejects a due date that is smaller than the start date" do
+  it 'rejects a due date that is smaller than the start date' do
     version.start_date = '2013-05-01'
     version.effective_date = '2012-01-01'
 

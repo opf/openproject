@@ -46,7 +46,6 @@ class WorkPackageIndices < ActiveRecord::Migration
 
     add_index :work_packages, :created_at
     add_index :work_packages, :fixed_version_id
-
   end
 
   def down
@@ -66,8 +65,5 @@ class WorkPackageIndices < ActiveRecord::Migration
 
     remove_index :work_packages, :created_at
     remove_index :work_packages, :fixed_version_id
-
-
   end
-
 end

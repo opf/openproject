@@ -28,28 +28,28 @@
 
 require 'spec_helper'
 
-describe 'search/index', :type => :view do
+describe 'search/index', type: :view do
   let(:project)      { FactoryGirl.create :project }
-  let(:user)         { FactoryGirl.create :admin, :member_in_project => project }
-  let(:work_package) { FactoryGirl.create :work_package, :project => project }
+  let(:user)         { FactoryGirl.create :admin, member_in_project: project }
+  let(:work_package) { FactoryGirl.create :work_package, project: project }
 
   before do
     assign :project, project
-    assign :object_types, ["work_packages"]
-    assign :scope, ["work_packages", "changesets"]
+    assign :object_types, ['work_packages']
+    assign :scope, ['work_packages', 'changesets']
     assign :results, [work_package]
-    assign :results_by_type, {"work_packages" => 1}
-    assign :question, "foo"
-    assign :tokens, ["bar"]
+    assign :results_by_type, 'work_packages' => 1
+    assign :question, 'foo'
+    assign :tokens, ['bar']
   end
 
   it 'selects the current project' do
     render
 
     # the current project should be selected as the scope
-    expect(response).to have_selector("option[selected]", :text => project.name)
+    expect(response).to have_selector('option[selected]', text: project.name)
 
     # The grouped result link should retain the scope
-    expect(response).to have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
+    expect(response).to have_xpath("//a[contains(@href,'current_project')]", text: /work packages.*/i)
   end
 end

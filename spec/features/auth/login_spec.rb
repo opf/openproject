@@ -94,4 +94,3 @@ describe 'Login', type: :feature do
     end
   end
 end
-

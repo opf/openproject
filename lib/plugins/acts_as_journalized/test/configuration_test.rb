@@ -36,8 +36,8 @@ class ConfigurationTest < Test::Unit::TestCase
 
       @options = {
         'class_name' => 'CustomVersion',
-        :extend => Extension,
-        :as => :parent
+        extend: Extension,
+        as: :parent
       }
 
       VestalVersions.configure do |config|
@@ -54,7 +54,7 @@ class ConfigurationTest < Test::Unit::TestCase
     end
 
     should 'have symbol keys' do
-      assert @configuration.keys.all?{|k| k.is_a?(Symbol) }
+      assert @configuration.keys.all? { |k| k.is_a?(Symbol) }
     end
 
     should 'store values identical to those given' do

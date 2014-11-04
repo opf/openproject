@@ -28,17 +28,16 @@
 #++
 
 class Reports::AuthorReport < Reports::Report
-
   def self.report_type
-    "author"
+    'author'
   end
 
   def field
-    "author_id"
+    'author_id'
   end
 
   def rows
-    @rows ||= @project.members.collect { |m| m.user }.sort
+    @rows ||= @project.members.map(&:user).sort
   end
 
   def data

@@ -28,15 +28,15 @@
 #++
 
 require 'active_record/fixtures'
-require "rack_session_access/capybara"
+require 'rack_session_access/capybara'
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
-    FactoryGirl.create(:admin) unless User.find_by_login("admin")
+    FactoryGirl.create(:admin) unless User.find_by_login('admin')
     FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
-    Setting.notified_events = [] #can not test mailer
+    Setting.notified_events = [] # can not test mailer
 
-    if Capybara.current_driver.to_s.include?("selenium")
+    if Capybara.current_driver.to_s.include?('selenium')
       Capybara.current_session.driver.browser.manage.window.resize_to(3000, 3000)
     end
   end
@@ -44,7 +44,7 @@ end
 
 Given /^I am logged in$/ do
   @user = FactoryGirl.create :user
-  page.set_rack_session(:user_id => @user.id)
+  page.set_rack_session(user_id: @user.id)
 end
 
 When(/^I log out in the background$/) do
@@ -54,7 +54,7 @@ When(/^I log out in the background$/) do
     }
   })")
 
-  page.should have_selector("body.logout-ajax")
+  page.should have_selector('body.logout-ajax')
 end
 
 Given /^(?:|I )am not logged in$/ do
@@ -70,13 +70,13 @@ end
 Given /^(?:|I )am already [aA]dmin$/ do
   admin = User.find_by_admin(true)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => admin.id)
+  page.set_rack_session(user_id: admin.id)
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
   user = User.find_by_login(login)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => user.id)
+  page.set_rack_session(user_id: user.id)
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
@@ -104,28 +104,28 @@ Then /^the project "([^"]*)" is( not)? public$/ do |project_name, negation|
 end
 
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
-  plugin_name = plugin_name.gsub("\"", "")
-  Redmine::Plugin.all.detect {|x| x.id == plugin_name.to_sym}.present? ? nil : pending("Plugin #{plugin_name} not loaded")
+  plugin_name = plugin_name.gsub("\"", '')
+  Redmine::Plugin.all.detect { |x| x.id == plugin_name.to_sym }.present? ? nil : pending("Plugin #{plugin_name} not loaded")
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |project, table|
   p = Project.find_by_name(project)
 
-  p.enabled_module_names += table.raw.map { |row| row.first }
+  p.enabled_module_names += table.raw.map(&:first)
   p.reload
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" does not use the following [mM]odules:$/ do |project, table|
   p = Project.find_by_name(project)
 
-  p.enabled_module_names -= table.raw.map { |row| row.first }
+  p.enabled_module_names -= table.raw.map(&:first)
   p.reload
 end
 
 Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by_login user
   p = u.projects.last
-  raise "This user must be member of a project to have issues" unless p
+  raise 'This user must be member of a project to have issues' unless p
   i = FactoryGirl.create(:work_package, project: p)
   t = TimeEntry.generate
   t.user = u
@@ -151,7 +151,6 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the p
   end
 end
 
-
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
@@ -162,17 +161,17 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
     t.activity.project = p
     t.activity.save!
     send_table_to_object(t, table,
-      :user => Proc.new do |o,v|
-        o.user = User.find_by_login(v)
-        o.save!
-      end,
-      :spent_on => Proc.new do |object, value|
-        # This works for definitions like "2 years ago"
-        number, time_unit, tempus = value.split
-        time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
-        object.spent_on = time
-        object.save!
-      end
+                         user: Proc.new do |o, v|
+                           o.user = User.find_by_login(v)
+                           o.save!
+                         end,
+                         spent_on: Proc.new do |object, value|
+                           # This works for definitions like "2 years ago"
+                           number, time_unit, tempus = value.split
+                           time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
+                           object.spent_on = time
+                           object.save!
+                         end
     )
   end
 end
@@ -199,7 +198,7 @@ Given /^there are the following types:$/ do |table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
-    type = Type.new :name => t['name'] if type.nil?
+    type = Type.new name: t['name'] if type.nil?
     type.position       = t['position'] ? t['position'] : i
     type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
@@ -214,7 +213,7 @@ Given /^there are the following issue status:$/ do |table|
 
   table.hashes.each_with_index do |t, i|
     status = Status.find_by_name(t['name'])
-    status = Status.new :name => t['name'] if status.nil?
+    status = Status.new name: t['name'] if status.nil?
     status.is_closed = t['is_closed'] == 'true' ? true : false
     status.is_default = t['is_default'] == 'true' ? true : false
     status.position = t['position'] ? t['position'] : i
@@ -228,15 +227,14 @@ Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |typ
   type = Type.find_by_name(type_name)
   type.workflows = []
 
-  Status.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
-    type.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
+  Status.all(order: 'id ASC').map(&:id).combination(2).each do |c|
+    type.workflows.build(old_status_id: c[0], new_status_id: c[1], role: role)
   end
   type.save!
 end
 
-
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = WorkPackage.find(:last, :conditions => ["subject = '#{issue}'"])
+  i = WorkPackage.find(:last, conditions: ["subject = '#{issue}'"])
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate
@@ -244,10 +242,10 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t.spent_on = DateTime.now
     t.work_package = i
     send_table_to_object(t, table,
-      {:user => Proc.new do |o,v|
-        o.user = User.find_by_login(v)
-        o.save!
-      end})
+                         user: Proc.new do |o, v|
+                           o.user = User.find_by_login(v)
+                           o.save!
+                         end)
   end
 end
 
@@ -260,7 +258,7 @@ Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   s2_result.click
 end
 
-Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |column_name|
+Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |_column_name|
   pending
 end
 
@@ -295,26 +293,26 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
     $stdout.puts "\nPausing step execution. Press <Enter> to continue. Enter `debug` to start debugging."
     text = $stdin.readline
 
-    step "I start debugging" if text =~ /debug/
+    step 'I start debugging' if text =~ /debug/
 
     break if text.strip.empty?
   end
 end
 
 When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
-  username = username.gsub("\"", "")
-  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
+  username = username.gsub("\"", '')
+  password = password.nil? ? 'adminADMIN!' : password.gsub("\"", '')
   login(username, password)
 end
 
 When /^(?:|I )login with autologin enabled as (.+?)(?: with password (.+))?$/ do |username, password|
-  username = username.gsub("\"", "")
-  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
-  page.driver.post signin_path(:username => username, :password => password, :autologin => 1)
+  username = username.gsub("\"", '')
+  password = password.nil? ? 'adminADMIN!' : password.gsub("\"", '')
+  page.driver.post signin_path(username: username, password: password, autologin: 1)
 end
 
-When "I logout" do
-  visit "/logout"
+When 'I logout' do
+  visit '/logout'
 end
 
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|
@@ -324,13 +322,13 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   User.current = user
 end
 
-Then "I should be logged out" do
-  page.should have_css("a.login")
+Then 'I should be logged out' do
+  page.should have_css('a.login')
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
   if plugin_loaded?(plugin_name)
-    action_name = action.gsub("\"", "")
+    action_name = action.gsub("\"", '')
 
     plugin_action(plugin_name, action_name)
   end
@@ -341,7 +339,7 @@ Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
 end
 
 Given /^the [pP]roject uses the following modules:$/ do |table|
-  step %Q{the project "#{get_project}" uses the following modules:}, table
+  step %{the project "#{get_project}" uses the following modules:}, table
 end
 
 Given(/^the user "(.*?)" is responsible$/) do |user|
@@ -354,7 +352,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
-    type = Type.new :name => t['name'] if type.nil?
+    type = Type.new name: t['name'] if type.nil?
     type.position = t['position'] ? t['position'] : i
     type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.save!
@@ -366,7 +364,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
 end
 
 When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
- page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
+  page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
 end
 
 def get_project(project_name = nil)
@@ -385,29 +383,28 @@ def get_project(project_name = nil)
   project
 end
 
-
 # Modify a given user using the specified table
 def modify_user(u, table)
   as_admin do
     send_table_to_object(u, table,
-      :default_rate => Proc.new do |user, value|
-        user.save!
-        DefaultHourlyRate.new.tap do |r|
-          r.valid_from = 3.years.ago.to_date
-          r.rate       = value
-          r.user_id    = user.id
-        end.save!
-      end,
-      :name => Proc.new {|user, value| user.login = name; user.save!},
-      :hourly_rate => Proc.new do |user, value|
-        user.save!
-        HourlyRate.new.tap do |r|
-          r.valid_from = (2.years.ago + HourlyRate.count.days).to_date
-          r.rate       = value
-          r.user_id    = user.id
-          r.project    = user.projects.last
-        end.save!
-      end
+                         default_rate: Proc.new do |user, value|
+                           user.save!
+                           DefaultHourlyRate.new.tap do |r|
+                             r.valid_from = 3.years.ago.to_date
+                             r.rate       = value
+                             r.user_id    = user.id
+                           end.save!
+                         end,
+                         name: Proc.new { |user, _value| user.login = name; user.save! },
+                         hourly_rate: Proc.new do |user, value|
+                           user.save!
+                           HourlyRate.new.tap do |r|
+                             r.valid_from = (2.years.ago + HourlyRate.count.days).to_date
+                             r.rate       = value
+                             r.user_id    = user.id
+                             r.project    = user.projects.last
+                           end.save!
+                         end
     )
 
     u.save!
@@ -417,12 +414,12 @@ end
 
 # Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
-  if WorkPackageCustomField.all.collect(&:name).include? key.to_s
-    cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
+  if WorkPackageCustomField.all.map(&:name).include? key.to_s
+    cv = CustomValue.find(:first, conditions: ["customized_id = '#{object.id}'"])
     cv ||= CustomValue.new
-    cv.customized_type = "WorkPackage"
+    cv.customized_type = 'WorkPackage'
     cv.customized_id = object.id
-    cv.custom_field_id = WorkPackageCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
+    cv.custom_field_id = WorkPackageCustomField.first(joins: :translations, conditions: ['custom_field_translations.name = ?', key]).id
     cv.value = value
     cv.save!
   end
@@ -433,7 +430,7 @@ def send_table_to_object(object, table, except = {}, rescue_block = nil)
   return unless table.raw.present?
   as_admin do
     table.rows_hash.each do |key, value|
-      _key = key.gsub(" ", "_").underscore.to_sym
+      _key = key.gsub(' ', '_').underscore.to_sym
       if except[_key]
         except[_key].call(object, value)
       elsif except[key]
@@ -453,7 +450,7 @@ end
 # Do something as admin
 def as_admin(count = 1)
   cur_user = User.current
-  User.current = User.find_by_login("admin")
+  User.current = User.find_by_login('admin')
   retval = nil
   count.to_i.times do
     retval = yield
@@ -463,5 +460,5 @@ def as_admin(count = 1)
 end
 
 def plugin_loaded?(name)
-  Redmine::Plugin.all.detect {|x| x.id == name.to_sym}.present?
+  Redmine::Plugin.all.detect { |x| x.id == name.to_sym }.present?
 end

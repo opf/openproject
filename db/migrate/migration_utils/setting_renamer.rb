@@ -29,10 +29,8 @@
 
 module Migration
   class SettingRenamer
-
-    #define all the following methods as class methods
+    # define all the following methods as class methods
     class << self
-
       def rename(source_name, target_name)
         ActiveRecord::Base.connection.execute <<-SQL
             UPDATE #{settings_table}
@@ -41,17 +39,15 @@ module Migration
           SQL
       end
 
-
-    private
+      private
 
       def settings_table
         @settings_table ||= ActiveRecord::Base.connection.quote_table_name('settings')
       end
 
-      def quote_value s
+      def quote_value(s)
         ActiveRecord::Base.connection.quote(s)
       end
-
     end
   end
 end

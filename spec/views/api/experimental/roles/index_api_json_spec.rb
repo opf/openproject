@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/roles/index.api.rabl', :type => :view do
+describe 'api/experimental/roles/index.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
@@ -46,9 +46,11 @@ describe 'api/experimental/roles/index.api.rabl', :type => :view do
   end
 
   describe 'with 2 roles available' do
-    let(:roles) { [
-      FactoryGirl.build(:role), FactoryGirl.build(:role)
-    ] }
+    let(:roles) {
+      [
+        FactoryGirl.build(:role), FactoryGirl.build(:role)
+      ]
+    }
 
     it { is_expected.to have_json_path('roles') }
     it { is_expected.to have_json_size(2).at_path('roles') }

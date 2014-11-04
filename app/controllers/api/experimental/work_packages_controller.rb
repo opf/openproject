@@ -28,7 +28,6 @@
 
 module Api
   module Experimental
-
     class WorkPackagesController < ApplicationController
       unloadable
 
@@ -50,7 +49,7 @@ module Api
 
       def index
         @work_packages = current_work_packages(@project)
-        @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
+        @custom_field_column_names = @query.columns.select { |c| c.name.to_s =~ /cf_(.*)/ }.map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
           if @query.group_by =~ /cf_(.*)/
@@ -73,7 +72,7 @@ module Api
 
         column_names = params[:column_names]
         ids = params[:ids].map(&:to_i)
-        work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+        work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort { |a, b| ids.index(a.id) <=> ids.index(b.id) }
 
         @columns_data = fetch_columns_data(column_names, work_packages)
         @columns_meta = {
@@ -102,7 +101,7 @@ module Api
       end
 
       def column_sum(column_name, work_packages)
-        fetch_column_data(column_name, work_packages, false).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
+        fetch_column_data(column_name, work_packages, false).map { |c| c.nil? ? 0 : c }.compact.sum if column_should_be_summed_up?(column_name)
       end
 
       def columns_group_sums(column_names, work_packages, group_by)
@@ -112,7 +111,7 @@ module Api
           work_packages.map { |wp| wp.send(group_by) }
             .uniq
             .inject({}) do |group_sums, current_group|
-              work_packages_in_current_group = work_packages.select{|wp| wp.send(group_by) == current_group}
+              work_packages_in_current_group = work_packages.select { |wp| wp.send(group_by) == current_group }
               group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)
             end
         end
@@ -124,7 +123,7 @@ module Api
         render_404
       end
 
-      def current_work_packages(projects)
+      def current_work_packages(_projects)
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
@@ -132,10 +131,10 @@ module Api
                                  order: sort_clause
 
         work_packages = results.work_packages
-                               .page(page_param)
-                               .per_page(per_page_param)
-                               .changed_since(@since)
-                               .all
+                        .page(page_param)
+                        .per_page(per_page_param)
+                        .changed_since(@since)
+                        .all
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
@@ -168,7 +167,7 @@ module Api
       def work_packages_links
         links = {}
         links[:create] = api_experimental_work_packages_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
-        links[:export] = api_experimental_work_packages_path(@project) if User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+        links[:export] = api_experimental_work_packages_path(@project) if User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
         links
       end
 
@@ -180,13 +179,13 @@ module Api
       end
 
       def export_formats
-        export_formats = [{ identifier: "atom", format: "atom", label_locale: "label_format_atom" },
-          { identifier: "pdf",  format: "pdf", label_locale: "label_format_pdf"},
-          { identifier: "pdf-descr",  format: "pdf", label_locale: "label_format_pdf_with_descriptions", flags: ["show_descriptions"]},
-          { identifier: "csv", format: "csv", label_locale: "label_format_csv"}]
-        if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
-          export_formats.push({ identifier: "xls", format: "xls", label_locale: "label_format_xls"})
-          export_formats.push({ identifier: "xls-descr", format: "xls", label_locale: "label_format_xls_with_descriptions", flags: ["show_descriptions"]})
+        export_formats = [{ identifier: 'atom', format: 'atom', label_locale: 'label_format_atom' },
+                          { identifier: 'pdf',  format: 'pdf', label_locale: 'label_format_pdf' },
+                          { identifier: 'pdf-descr',  format: 'pdf', label_locale: 'label_format_pdf_with_descriptions', flags: ['show_descriptions'] },
+                          { identifier: 'csv', format: 'csv', label_locale: 'label_format_csv' }]
+        if Redmine::Plugin.all.sort.map(&:id).include?(:openproject_xls_export)
+          export_formats.push(identifier: 'xls', format: 'xls', label_locale: 'label_format_xls ')
+          export_formats.push(identifier: 'xls-descr', format: 'xls', label_locale: 'label_format_xls_with_descriptions', flags: ['show_descriptions'])
         end
         export_formats
       end
@@ -226,7 +225,7 @@ module Api
             #       Name and subject are the default properties that the front end currently looks for to summarize an object.
             raise 'API Error: Unknown column name' if !work_package.respond_to?(column_name)
             value = work_package.send(column_name)
-            value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
+            value.is_a?(ActiveRecord::Base) ? value.as_json(only: 'id', methods: [:name, :subject]) : value
           end
         end
       end

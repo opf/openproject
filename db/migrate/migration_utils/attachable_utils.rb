@@ -78,7 +78,7 @@ module Migration::Utils
 
         delete <<-SQL
           DELETE FROM attachable_journals
-          WHERE journal_id IN (#{journal_ids.join(", ")})
+          WHERE journal_id IN (#{journal_ids.join(', ')})
         SQL
       end
     end
@@ -97,13 +97,14 @@ module Migration::Utils
         WHERE aj_id IS NULL
       SQL
 
-      result.collect { |row| MissingAttachment.new(row['journaled_id'],
-                                                   row['journaled_type'],
-                                                   row['attachment_id'],
-                                                   row['filename'],
-                                                   row['last_version']) }
+      result.map { |row|
+        MissingAttachment.new(row['journaled_id'],
+                              row['journaled_type'],
+                              row['attachment_id'],
+                              row['filename'],
+                              row['last_version'])
+      }
     end
-
 
     COLUMNS = ['changed_data', 'version', 'journaled_id']
 
@@ -137,7 +138,7 @@ module Migration::Utils
       end
     end
 
-    def missing_initial_attachable_journals(legacy_journal_type, journal_id, journaled_id, version, changed_data)
+    def missing_initial_attachable_journals(legacy_journal_type, _journal_id, journaled_id, version, changed_data)
       removed_attachments = parse_attachment_removals(changed_data)
 
       missing_entries = missing_initial_attachment_entries(legacy_journal_type,
@@ -145,11 +146,13 @@ module Migration::Utils
                                                            version,
                                                            removed_attachments)
 
-      missing_entries.map { |e| MissingAttachment.new(journaled_id,
-                                                      nil,
-                                                      e[:id],
-                                                      e[:filename],
-                                                      version.to_i - 1) }
+      missing_entries.map { |e|
+        MissingAttachment.new(journaled_id,
+                              nil,
+                              e[:id],
+                              e[:filename],
+                              version.to_i - 1)
+      }
     end
 
     ############################################
@@ -193,7 +196,7 @@ module Migration::Utils
           AND version <= #{last_version}
       SQL
 
-      result_set.collect { |r| r['id'] }
+      result_set.map { |r| r['id'] }
     end
   end
 end

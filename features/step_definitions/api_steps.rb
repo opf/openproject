@@ -27,17 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require "benchmark"
+require 'benchmark'
 
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" without any filters$/) do |project_name, format|
   @project = Project.find(project_name)
-  @unfiltered_benchmark = Benchmark.measure("Unfiltered Results") do
+  @unfiltered_benchmark = Benchmark.measure('Unfiltered Results') do
     visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
   end
 
 end
 
-Then(/^the json\-response should include (\d+) work package(s?)$/) do |number_of_wps, plural|
+Then(/^the json\-response should include (\d+) work package(s?)$/) do |number_of_wps, _plural|
   expect(work_package_names.size).to eql number_of_wps.to_i
 end
 
@@ -53,40 +53,39 @@ end
 And(/^the json\-response for work_package "(.*?)" should have the type "(.*?)"$/) do |work_package_name, type_name|
   type = Type.where(name: type_name).first
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["type_id"]).to eql type.id
+  expect(work_package['type_id']).to eql type.id
 end
 
 And(/^the json\-response for work_package "(.*?)" should have the responsible "(.*?)"$/) do |work_package_name, responsible_name|
   responsible = User.where(login: responsible_name).first
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["responsible_id"]).to eql responsible.id
+  expect(work_package['responsible_id']).to eql responsible.id
 end
 Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["due_date"]).to eql due_date.gsub('/','-') # normalize the date-format
+  expect(work_package['due_date']).to eql due_date.gsub('/', '-') # normalize the date-format
 end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
   parent = WorkPackage.where(subject: parent_name).first
   child = lookup_work_package(child_name)
-  expect(child["parent_id"]).to eql parent.id
+  expect(child['parent_id']).to eql parent.id
 end
 
 And(/^the json\-response should say that "(.*?)" has no parent$/) do |child_name|
   child = child = lookup_work_package(child_name)
-  expect(child["parent"]).to be_nil
+  expect(child['parent']).to be_nil
 end
 
-And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
+And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children, _plural|
   parent = child = lookup_work_package(parent_name)
-  expect(parent["child_ids"].size).to eql nr_of_children.to_i
+  expect(parent['child_ids'].size).to eql nr_of_children.to_i
 end
 
 And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|
-  wp = WorkPackage.where(:subject => work_package_name).first
+  wp = WorkPackage.where(subject: work_package_name).first
   expect(wp.due_date).to eql Date.parse(due_date)
 end
-
 
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for status "(.*?)"$/) do |project_name, format, status_names|
   statuses = Status.where(name: status_names.split(','))
@@ -94,19 +93,18 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
   get_filtered_json(project_name: project_name,
                     format: format,
                     filters: [:status_id],
-                    operators:  {status_id: "="},
-                    values: {status_id: statuses.map(&:id)} )
+                    operators:  { status_id: '=' },
+                    values: { status_id: statuses.map(&:id) })
 end
 
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
-  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
+  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(','))
 
   get_filtered_json(project_name: project_name,
                     format: format,
                     filters: [:type_id],
-                    operators:  {type_id: "="},
-                    values: {type_id: types.map(&:id)} )
-
+                    operators:  { type_id: '=' },
+                    values: { type_id: types.map(&:id) })
 
 end
 
@@ -116,8 +114,8 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
   get_filtered_json(project_name: project_name,
                     format: format,
                     filters: [:responsible_id],
-                    operators:  {responsible_id: "="},
-                    values: {responsible_id: responsibles.map(&:id)} )
+                    operators:  { responsible_id: '=' },
+                    values: { responsible_id: responsibles.map(&:id) })
 
 end
 
@@ -127,11 +125,10 @@ And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter
   get_filtered_json(project_name: project_name,
                     format: 'json',
                     filters: [:type_id],
-                    operators:  {type_id: '='},
-                    values: {type_id: types.map(&:id)},
+                    operators:  { type_id: '=' },
+                    values: { type_id: types.map(&:id) },
                     at_time: DateTime.parse(at_time).to_i)  # the api accepts the time as unix-timestamps(epoch)
 end
-
 
 And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|
   project = Project.find_by_identifier(project_name)
@@ -141,15 +138,14 @@ And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr
 
 end
 
-
-And(/^the time to get the unfiltered results should not exceed (\d+)\.(\d+)s$/) do |seconds,milliseconds|
-  puts "----Unfiltered Benchmark----"
+And(/^the time to get the unfiltered results should not exceed (\d+)\.(\d+)s$/) do |seconds, milliseconds|
+  puts '----Unfiltered Benchmark----'
   puts @unfiltered_benchmark
   @unfiltered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
 end
 
 And(/^the time to get the filtered results should not exceed (\d+)\.(\d+)s$/) do |seconds, milliseconds|
-  puts "----Filtered Benchmark----"
+  puts '----Filtered Benchmark----'
   puts @filtered_benchmark
   @filtered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
 end
@@ -159,11 +155,11 @@ Then(/^the time to get the filtered results should be faster than the time to ge
 end
 
 def lookup_work_package(work_package_name)
-  work_package = decoded_json["planning_elements"].select {|wp| wp["subject"] == work_package_name}.first
+  work_package = decoded_json['planning_elements'].select { |wp| wp['subject'] == work_package_name }.first
 end
 
 def work_package_names
-  decoded_json["planning_elements"].map{|wp| wp["subject"]}
+  decoded_json['planning_elements'].map { |wp| wp['subject'] }
 end
 
 def decoded_json
@@ -175,7 +171,7 @@ def last_json
 end
 
 def get_filtered_json(params)
-  @filtered_benchmark = Benchmark.measure("Filtered Results") do
+  @filtered_benchmark = Benchmark.measure('Filtered Results') do
     visit api_v2_project_planning_elements_path(project_id: params[:project_name],
                                                 format: params[:format],
                                                 f: params[:filters],

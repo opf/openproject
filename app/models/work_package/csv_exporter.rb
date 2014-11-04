@@ -34,30 +34,30 @@ module WorkPackage::CsvExporter
   def csv(work_packages, project = nil)
     decimal_separator = l(:general_csv_decimal_separator)
 
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [ "#",
-                  WorkPackage.human_attribute_name(:status),
-                  WorkPackage.human_attribute_name(:project),
-                  WorkPackage.human_attribute_name(:type),
-                  WorkPackage.human_attribute_name(:priority),
-                  WorkPackage.human_attribute_name(:subject),
-                  WorkPackage.human_attribute_name(:assigned_to),
-                  WorkPackage.human_attribute_name(:category),
-                  WorkPackage.human_attribute_name(:fixed_version),
-                  WorkPackage.human_attribute_name(:author),
-                  WorkPackage.human_attribute_name(:start_date),
-                  WorkPackage.human_attribute_name(:due_date),
-                  WorkPackage.human_attribute_name(:done_ratio),
-                  WorkPackage.human_attribute_name(:estimated_hours),
-                  WorkPackage.human_attribute_name(:parent_work_package),
-                  WorkPackage.human_attribute_name(:created_at),
-                  WorkPackage.human_attribute_name(:updated_at)
-                  ]
+      headers = ['#',
+                 WorkPackage.human_attribute_name(:status),
+                 WorkPackage.human_attribute_name(:project),
+                 WorkPackage.human_attribute_name(:type),
+                 WorkPackage.human_attribute_name(:priority),
+                 WorkPackage.human_attribute_name(:subject),
+                 WorkPackage.human_attribute_name(:assigned_to),
+                 WorkPackage.human_attribute_name(:category),
+                 WorkPackage.human_attribute_name(:fixed_version),
+                 WorkPackage.human_attribute_name(:author),
+                 WorkPackage.human_attribute_name(:start_date),
+                 WorkPackage.human_attribute_name(:due_date),
+                 WorkPackage.human_attribute_name(:done_ratio),
+                 WorkPackage.human_attribute_name(:estimated_hours),
+                 WorkPackage.human_attribute_name(:parent_work_package),
+                 WorkPackage.human_attribute_name(:created_at),
+                 WorkPackage.human_attribute_name(:updated_at)
+                ]
       # Export project custom fields if project is given
       # otherwise export custom fields marked as "For all projects"
       custom_fields = project.nil? ? WorkPackageCustomField.for_all : project.all_work_package_custom_fields
-      custom_fields.each {|f| headers << f.name}
+      custom_fields.each { |f| headers << f.name }
       # Description in the last column
       headers << CustomField.human_attribute_name(:description)
       csv << encode_csv_columns(headers)
@@ -80,8 +80,8 @@ module WorkPackage::CsvExporter
                   work_package.parent_id,
                   format_time(work_package.created_at),
                   format_time(work_package.updated_at)
-                  ]
-        custom_fields.each {|f| fields << show_value(work_package.custom_value_for(f)) }
+                 ]
+        custom_fields.each { |f| fields << show_value(work_package.custom_value_for(f)) }
         fields << work_package.description
         csv << encode_csv_columns(fields)
       end

@@ -28,7 +28,7 @@
 #++
 
 class UserPassword < ActiveRecord::Base
-  belongs_to :user, :inverse_of => :passwords
+  belongs_to :user, inverse_of: :passwords
 
   # passwords must never be modified, so doing this on create should be enough
   before_create :salt_and_hash_password!
@@ -38,14 +38,14 @@ class UserPassword < ActiveRecord::Base
   # Checks whether the stored password is the same as a given plaintext password
   def same_as_plain_password?(plain_password)
     UserPassword.secure_equals?(UserPassword.hash_with_salt(plain_password,
-                                                            self.salt),
-                                self.hashed_password)
+                                                            salt),
+                                hashed_password)
   end
 
   def expired?
     days_valid = Setting.password_days_valid.to_i.days
     return false if days_valid == 0
-    self.created_at < (Time.now - days_valid)
+    created_at < (Time.now - days_valid)
   end
 
   # Returns a 128bits random salt as a hex string (32 chars long)
@@ -78,9 +78,9 @@ class UserPassword < ActiveRecord::Base
   private
 
   def salt_and_hash_password!
-    return if self.plain_password.nil?
+    return if plain_password.nil?
     self.salt = UserPassword.generate_salt
-    self.hashed_password = UserPassword.hash_with_salt(self.plain_password,
+    self.hashed_password = UserPassword.hash_with_salt(plain_password,
                                                        salt)
   end
 end

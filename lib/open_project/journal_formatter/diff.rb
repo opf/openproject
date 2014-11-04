@@ -31,9 +31,9 @@ require_dependency 'journal_formatter/base'
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   # unloadable
 
-  def render(key, values, options = { })
-    merge_options = { :only_path => true,
-                      :no_html => false }.merge(options)
+  def render(key, values, options = {})
+    merge_options = { only_path: true,
+                      no_html: false }.merge(options)
 
     render_ternary_detail_text(key, values.last, values.first, merge_options)
   end
@@ -54,12 +54,12 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     label = label(key, options[:no_html])
 
     if value.blank?
-      l(:text_journal_deleted_with_diff, :label => label, :link => link)
+      l(:text_journal_deleted_with_diff, label: label, link: link)
     else
       unless old_value.blank?
-        l(:text_journal_changed_with_diff, :label => label, :link => link)
+        l(:text_journal_changed_with_diff, label: label, link: link)
       else
-        l(:text_journal_set_with_diff, :label => label, :link => link)
+        l(:text_journal_set_with_diff, label: label, link: link)
       end
     end
   end
@@ -71,31 +71,31 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-    url_attr = default_attributes(options).merge({ :controller => '/journals',
-                                                   :action => 'diff',
-                                                   :id => @journal.id,
-                                                   :field => key.downcase })
+    url_attr = default_attributes(options).merge(controller: '/journals',
+                                                 action: 'diff',
+                                                 id: @journal.id,
+                                                 field: key.downcase)
 
     if options[:no_html]
       url_for url_attr
     else
       link_to(l(:label_details),
-                url_attr,
-                :class => 'description-details')
+              url_attr,
+              class: 'description-details')
     end
   end
 
   def default_attributes(options)
     if options[:only_path]
-      { :only_path => options[:only_path],
+      { only_path: options[:only_path],
         # setting :script_name is a hack that allows for setting the sub uri.
         # I am not yet sure why url_for normally returns the sub uri but does not within
         # this class.
-        :script_name => ::OpenProject::Configuration.rails_relative_url_root }
+        script_name: ::OpenProject::Configuration.rails_relative_url_root }
     else
-      { :only_path => options[:only_path],
-        :protocol => Setting.protocol,
-        :host => Setting.host_name }
+      { only_path: options[:only_path],
+        protocol: Setting.protocol,
+        host: Setting.host_name }
     end
   end
 end

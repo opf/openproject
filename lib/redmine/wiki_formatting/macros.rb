@@ -31,7 +31,7 @@ module Redmine
   module WikiFormatting
     module Macros
       module Definitions
-        def exec_macro(name, obj, args, options={})
+        def exec_macro(name, obj, args, options = {})
           method_name = "macro_#{name}"
           if respond_to?(method_name)
             if method(method_name).arity == 2
@@ -48,7 +48,7 @@ module Redmine
             options[$1.downcase.to_sym] = $2
             args.pop
           end
-          return [args, options]
+          [args, options]
         end
       end
 
@@ -76,13 +76,14 @@ module Redmine
           @@available_macros
         end
 
-      private
+        private
+
         # Defines a new macro with the given name and block.
         def macro(name, &block)
           name = name.to_sym if name.is_a?(String)
           @@available_macros[name] = @@desc || ''
           @@desc = nil
-          raise "Can not create a macro without a block!" unless block_given?
+          raise 'Can not create a macro without a block!' unless block_given?
           Definitions.send :define_method, "macro_#{name}".downcase, &block
         end
 

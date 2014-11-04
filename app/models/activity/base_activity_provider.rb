@@ -51,7 +51,7 @@ class Activity::BaseActivityProvider
   # if you need further information from different tables (e.g., projects     #
   # table) you may extend the query in this method.                           #
   #############################################################################
-  def extend_event_query(query, activity)
+  def extend_event_query(_query, _activity)
   end
 
   #############################################################################
@@ -60,7 +60,7 @@ class Activity::BaseActivityProvider
   # You must at least return the column containing the project reference with #
   # the alias 'project_id'.                                                   #
   #############################################################################
-  def event_query_projection(activity)
+  def event_query_projection(_activity)
     []
   end
 
@@ -72,11 +72,11 @@ class Activity::BaseActivityProvider
     activity_journals_table(activity)
   end
 
-  def activity_journals_table(activity)
+  def activity_journals_table(_activity)
     @activity_journals_table ||= Arel::Table.new(JournalManager.journal_class(activitied_type).table_name)
   end
 
-  def activitied_type(activity=nil)
+  def activitied_type(_activity = nil)
     activity_type = self.class.name
     namespace = activity_type.deconstantize
 
@@ -86,7 +86,7 @@ class Activity::BaseActivityProvider
 
   def format_event(event, event_data, activity)
     [:event_name, :event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
-      event[a] = self.send(a, event_data, activity) if self.class.method_defined? a
+      event[a] = send(a, event_data, activity) if self.class.method_defined? a
     end
 
     event
@@ -127,7 +127,7 @@ class Activity::BaseActivityProvider
   end
 
   class UndefinedEventTypeError < StandardError; end
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     raise UndefinedEventTypeError.new('Abstract method event_type called')
   end
 

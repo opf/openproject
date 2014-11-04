@@ -29,9 +29,7 @@
 
 module Api
   module Experimental
-
     class RolesController < ApplicationController
-
       include ::Api::Experimental::ApiController
 
       before_filter :authorize_global
@@ -43,7 +41,6 @@ module Api
           format.api
         end
       end
-
     end
   end
 end

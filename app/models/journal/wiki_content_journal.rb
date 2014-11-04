@@ -28,5 +28,5 @@
 #++
 
 class Journal::WikiContentJournal < Journal::BaseJournal
-  self.table_name = "wiki_content_journals"
+  self.table_name = 'wiki_content_journals'
 end

@@ -31,10 +31,9 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_group, :only => [:destroy, :autocomplete_for_user,
-                                       :show, :create_memberships, :destroy_membership,
-                                       :edit_membership]
-
+  before_filter :find_group, only: [:destroy, :autocomplete_for_user,
+                                    :show, :create_memberships, :destroy_membership,
+                                    :edit_membership]
 
   # GET /groups
   # GET /groups.xml
@@ -43,7 +42,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @groups }
+      format.xml  { render xml: @groups }
     end
   end
 
@@ -52,7 +51,7 @@ class GroupsController < ApplicationController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @group }
+      format.xml  { render xml: @group }
     end
   end
 
@@ -63,13 +62,13 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @group }
+      format.xml  { render xml: @group }
     end
   end
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id], :include => [ :users, :memberships ])
+    @group = Group.find(params[:id], include: [:users, :memberships])
   end
 
   # POST /groups
@@ -81,10 +80,10 @@ class GroupsController < ApplicationController
       if @group.save
         flash[:notice] = l(:notice_successful_create)
         format.html { redirect_to(groups_path) }
-        format.xml  { render :xml => @group, :status => :created, :location => @group }
+        format.xml  { render xml: @group, status: :created, location: @group }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -92,7 +91,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
-    @group = Group.find(params[:id], :include => :users)
+    @group = Group.find(params[:id], include: :users)
 
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
@@ -100,8 +99,8 @@ class GroupsController < ApplicationController
         format.html { redirect_to(groups_path) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -118,27 +117,27 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.find(params[:id], :include => :users )
-    @users = User.find_all_by_id(params[:user_ids], :include => :memberships)
+    @group = Group.find(params[:id], include: :users)
+    @users = User.find_all_by_id(params[:user_ids], include: :memberships)
     @group.users << @users
     respond_to do |format|
-      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { render :action => 'change_members' }
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
+      format.js { render action: 'change_members' }
     end
   end
 
   def remove_user
-    @group = Group.find(params[:id], :include => :users)
-    @group.users.delete(User.find(params[:user_id], :include => :memberships))
+    @group = Group.find(params[:id], include: :users)
+    @group.users.delete(User.find(params[:user_id], include: :memberships))
     respond_to do |format|
-      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { render :action => 'change_members' }
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
+      format.js { render action: 'change_members' }
     end
   end
 
   def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
-    render :layout => false
+    @users = User.active.not_in_group(@group).like(params[:q]).all(limit: 100)
+    render layout: false
   end
 
   def create_memberships
@@ -147,8 +146,8 @@ class GroupsController < ApplicationController
     @membership.save
 
     respond_to do |format|
-      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-      format.js { render :action => 'change_memberships' }
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
+      format.js { render action: 'change_memberships' }
     end
   end
 
@@ -158,8 +157,8 @@ class GroupsController < ApplicationController
     membership_params = permitted_params.group_membership
     Member.find(membership_params[:membership_id]).destroy
     respond_to do |format|
-      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-      format.js { render :action => 'destroy_memberships' }
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
+      format.js { render action: 'destroy_memberships' }
     end
   end
 

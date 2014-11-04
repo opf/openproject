@@ -41,7 +41,7 @@ class MailHandler < ActionMailer::Base
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
-    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
+    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').map(&:strip) if @@handler_options[:allow_override].is_a?(String)
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
@@ -121,7 +121,7 @@ class MailHandler < ActionMailer::Base
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
-      if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
+      if self.class.private_instance_methods.map(&:to_s).include?(method_name)
         send method_name, object_id
       else
         # ignoring it
@@ -161,7 +161,7 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_work_packages, project)
     end
 
-    issue = WorkPackage.new(:author => user, :project => project)
+    issue = WorkPackage.new(author: user, project: project)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     issue.subject = email.subject.to_s.chomp[0,255]
@@ -217,8 +217,8 @@ class MailHandler < ActionMailer::Base
       end
 
       if !message.locked?
-        reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
-                            :content => cleaned_up_text_body)
+        reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
+                            content: cleaned_up_text_body)
         reply.author = user
         reply.board = message.board
         message.children << reply
@@ -234,11 +234,11 @@ class MailHandler < ActionMailer::Base
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
         obj.attachments << Attachment.create(
-          :container => obj,
-          :file => attachment.decoded,
-          :filename => attachment.filename,
-          :author => user,
-          :content_type => attachment.mime_type)
+          container: obj,
+          file: attachment.decoded,
+          filename: attachment.filename,
+          author: user,
+          content_type: attachment.mime_type)
       end
     end
   end
@@ -248,9 +248,9 @@ class MailHandler < ActionMailer::Base
   def add_watchers(obj)
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
        user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
-      addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
+      addresses = [email.to, email.cc].flatten.compact.uniq.map {|a| a.strip.downcase}
       unless addresses.empty?
-        watchers = User.active.find(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
+        watchers = User.active.find(:all, conditions: ['LOWER(mail) IN (?)', addresses])
         watchers.each {|w| obj.add_watcher(w)}
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
@@ -285,7 +285,7 @@ class MailHandler < ActionMailer::Base
     keys << all_attribute_translations(Setting.default_language)[attr.to_sym] if Setting.default_language.present?
 
     keys.reject! {|k| k.blank?}
-    keys.collect! {|k| Regexp.escape(k)}
+    keys.map! {|k| Regexp.escape(k)}
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip
@@ -302,7 +302,7 @@ class MailHandler < ActionMailer::Base
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
-    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_assignee_from_keyword(k, issue)
+    assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
 
     attrs = {
       'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by_name(k).try(:id),
@@ -311,10 +311,10 @@ class MailHandler < ActionMailer::Base
       'category_id' => (k = get_keyword(:category)) && issue.project.categories.find_by_name(k).try(:id),
       'assigned_to_id' => assigned_to.try(:id),
       'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.find_by_name(k).try(:id),
-      'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
-      'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
-      'estimated_hours' => get_keyword(:estimated_hours, :override => true),
-      'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
+      'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
+      'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
+      'estimated_hours' => get_keyword(:estimated_hours, override: true),
+      'done_ratio' => get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
     }.delete_if {|_, v| v.blank? }
 
     if issue.new_record? && attrs['type_id'].nil?
@@ -326,7 +326,7 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
-      if value = get_keyword(v.custom_field.name, :override => true)
+      if value = get_keyword(v.custom_field.name, override: true)
         h[v.custom_field.id.to_s] = value
       end
       h

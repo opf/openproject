@@ -50,7 +50,7 @@ module OpenProject::NestedSet
     def self.included(base)
       base.class_eval do
         after_save :manage_root_id
-        acts_as_nested_set :scope => 'root_id', :dependent => :destroy
+        acts_as_nested_set scope: 'root_id', dependent: :destroy
 
         # callback from awesome_nested_set
         # we call it by hand as we have to set the scope first
@@ -63,7 +63,6 @@ module OpenProject::NestedSet
     end
 
     module InstanceMethods
-
       # The number of "items" this issue spans in it's nested set
       #
       # A parent issue would span all of it's children + 1 left + 1 right (3)
@@ -90,7 +89,7 @@ module OpenProject::NestedSet
         end
         # Checks parent issue assignment
         if parent
-          if !Setting.cross_project_work_package_relations? && parent.project_id != self.project_id
+          if !Setting.cross_project_work_package_relations? && parent.project_id != project_id
             errors.add :parent_id, :cannot_be_in_another_project
           elsif !new_record?
             # moving an existing issue
@@ -106,13 +105,13 @@ module OpenProject::NestedSet
       end
 
       def parent_issue_id=(arg)
-        warn "[DEPRECATION] No longer use parent_issue_id= - Use parent_id= instead."
+        warn '[DEPRECATION] No longer use parent_issue_id= - Use parent_id= instead.'
 
         self.parent_id = arg
       end
 
       def parent_issue_id
-        warn "[DEPRECATION] No longer use parent_issue_id - Use parent_id instead."
+        warn '[DEPRECATION] No longer use parent_issue_id - Use parent_id instead.'
 
         parent_id
       end
@@ -155,7 +154,7 @@ module OpenProject::NestedSet
         if new_root_id != root_id
           # as the following actions depend on the
           # node having current values, we reload them here
-          self.reload_nested_set
+          reload_nested_set
 
           # and save them in order to be save between removing the node from
           # the set and fixing the former set's attributes
@@ -173,7 +172,7 @@ module OpenProject::NestedSet
         self.class.update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = #{lft}, " +
                               "#{quoted_right_column_name} = #{rgt}",
-                              ["id = ?", id])
+                              ['id = ?', id])
       end
 
       # Moves the node and all it's descendants to the set with the provided
@@ -186,7 +185,7 @@ module OpenProject::NestedSet
       # The set than has two roots. As such this method should only be used
       # internally and the results should only be persisted for a short time.
       def move_subtree_to_new_set(new_root_id)
-        old_root_id = self.root_id
+        old_root_id = root_id
         self.root_id = new_root_id
 
         target_maxright = nested_set_scope.maximum(right_column_name) || 0
@@ -197,7 +196,7 @@ module OpenProject::NestedSet
         self.class.update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = lft + #{offset}, " +
                               "#{quoted_right_column_name} = rgt + #{offset}",
-                              ["root_id = ? AND " +
+                              ['root_id = ? AND ' +
                                "#{quoted_left_column_name} >= ? AND " +
                                "#{quoted_right_column_name} <= ? ", old_root_id, lft, rgt])
 
@@ -228,7 +227,7 @@ module OpenProject::NestedSet
         # As every node takes two integers we can multiply the amount of
         # removed_nodes by 2 to calculate the value by which right and left
         # will have to be reduced.
-        #removed_span = removed_nodes * 2
+        # removed_span = removed_nodes * 2
 
         self.class.update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
                               "#{quoted_left_column_name} = CASE " +

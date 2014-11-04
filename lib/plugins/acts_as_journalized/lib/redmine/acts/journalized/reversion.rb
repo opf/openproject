@@ -133,19 +133,20 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Returns the number of the last created journal in the object's journal history.
-        #
-        # If no associated journals exist, the object is considered at version 0.
-        def last_version
-          @last_version ||= journals.maximum(:version) || 0
-        end
 
-        # Clears the cached version number instance variables so that they can be recalculated.
-        # Useful after a new version is created.
-        def reset_journal(version = nil)
-          @last_version = nil if version.nil?
-          @version = version
-        end
+      # Returns the number of the last created journal in the object's journal history.
+      #
+      # If no associated journals exist, the object is considered at version 0.
+      def last_version
+        @last_version ||= journals.maximum(:version) || 0
+      end
+
+      # Clears the cached version number instance variables so that they can be recalculated.
+      # Useful after a new version is created.
+      def reset_journal(version = nil)
+        @last_version = nil if version.nil?
+        @version = version
+      end
     end
   end
 end

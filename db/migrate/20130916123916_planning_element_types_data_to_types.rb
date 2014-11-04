@@ -59,7 +59,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def add_pe_types_to_types
-    say_with_time_silently "Adding existing planning_element_types to types. Storing new id in legacy table." do
+    say_with_time_silently 'Adding existing planning_element_types to types. Storing new id in legacy table.' do
       max_position = get_max_position
 
       return if max_position.blank?
@@ -109,7 +109,6 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def add_new_id_to_legacy_table(max_position_existing_types)
-
     # Set the new_id column of every row in the
     # legacy_planning_element_types table
     # to be
@@ -130,13 +129,13 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def add_workflow_for_former_pe_types
-    say_with_time_silently "Creating default workflows for migrated types" do
+    say_with_time_silently 'Creating default workflows for migrated types' do
       all_status_ids = select_all <<-SQL
         SELECT id
         FROM #{db_status_table}
       SQL
 
-      all_status_ids = all_status_ids.map{ |s| s['id'] }
+      all_status_ids = all_status_ids.map { |s| s['id'] }
 
       # Select all roles
       # that are not builtin.
@@ -148,17 +147,16 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
         WHERE builtin = 0
       SQL
 
-      all_role_ids = all_role_ids.map{ |s| s['id'] }
+      all_role_ids = all_role_ids.map { |s| s['id'] }
 
       all_type_ids = select_all <<-SQL
         SELECT new_id
         FROM #{db_legacy_types_table}
       SQL
 
-      all_type_ids = all_type_ids.map{ |s| s['new_id'] }
+      all_type_ids = all_type_ids.map { |s| s['new_id'] }
 
       all_workflow_states = []
-
 
       all_role_ids.each do |role_id|
         all_type_ids.each do |type_id|
@@ -174,7 +172,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
 
       all_workflow_states.in_groups_of(100, false) do |some_workflow_states|
 
-        some_workflow_states = some_workflow_states.join(", ")
+        some_workflow_states = some_workflow_states.join(', ')
 
         execute <<-SQL
           INSERT INTO #{db_workflows_table}
@@ -192,7 +190,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def enable_types_in_projects
-    say_with_time_silently "Enabling new types in those projects that had the former legacy_planning_element_types enabled" do
+    say_with_time_silently 'Enabling new types in those projects that had the former legacy_planning_element_types enabled' do
       execute <<-SQL
         INSERT INTO #{db_projects_types_table}
           (
@@ -208,7 +206,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_types_in_projects
-    say_with_time_silently "Removing enabled types from projects" do
+    say_with_time_silently 'Removing enabled types from projects' do
       execute <<-SQL
         DELETE FROM #{db_projects_types_table}
         WHERE
@@ -219,7 +217,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_workflow_for_former_pe_types
-    say_with_time_silently "Removing workflows from pe_types" do
+    say_with_time_silently 'Removing workflows from pe_types' do
       execute <<-SQL
         DELETE FROM #{db_workflows_table}
         WHERE
@@ -230,7 +228,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_pe_types_from_types
-    say_with_time_silently "Removing all types that are former planning_element_types" do
+    say_with_time_silently 'Removing all types that are former planning_element_types' do
       execute <<-SQL
         DELETE FROM #{db_types_table}
         WHERE

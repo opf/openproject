@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 namespace :redmine do
   namespace :email do
 
@@ -74,11 +73,11 @@ Examples:
                   allow_override=type,priority < raw_email
 END_DESC
 
-    task :read => :environment do
-      options = { :issue => {} }
-      default_fields = (ENV['default_fields'] || "").split
+    task read: :environment do
+      options = { issue: {} }
+      default_fields = (ENV['default_fields'] || '').split
       default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+      default_fields.each { |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
@@ -148,20 +147,20 @@ Examples:
     allow_override=type,priority
 END_DESC
 
-    task :receive_imap => :environment do
-      imap_options = {:host => ENV['host'],
-                      :port => ENV['port'],
-                      :ssl => ENV['ssl'],
-                      :username => ENV['username'],
-                      :password => ENV['password'],
-                      :folder => ENV['folder'],
-                      :move_on_success => ENV['move_on_success'],
-                      :move_on_failure => ENV['move_on_failure']}
+    task receive_imap: :environment do
+      imap_options = { host: ENV['host'],
+                       port: ENV['port'],
+                       ssl: ENV['ssl'],
+                       username: ENV['username'],
+                       password: ENV['password'],
+                       folder: ENV['folder'],
+                       move_on_success: ENV['move_on_success'],
+                       move_on_failure: ENV['move_on_failure'] }
 
-      options = { :issue => {} }
-      default_fields = (ENV['default_fields'] || "").split
+      options = { issue: {} }
+      default_fields = (ENV['default_fields'] || '').split
       default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+      default_fields.each { |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
@@ -186,18 +185,18 @@ Available POP3 options:
 See redmine:email:receive_imap for more options and examples.
 END_DESC
 
-    task :receive_pop3 => :environment do
-      pop_options  = {:host => ENV['host'],
-                      :port => ENV['port'],
-                      :apop => ENV['apop'],
-                      :username => ENV['username'],
-                      :password => ENV['password'],
-                      :delete_unprocessed => ENV['delete_unprocessed']}
+    task receive_pop3: :environment do
+      pop_options  = { host: ENV['host'],
+                       port: ENV['port'],
+                       apop: ENV['apop'],
+                       username: ENV['username'],
+                       password: ENV['password'],
+                       delete_unprocessed: ENV['delete_unprocessed'] }
 
-      options = { :issue => {} }
-      default_fields = (ENV['default_fields'] || "").split
+      options = { issue: {} }
+      default_fields = (ENV['default_fields'] || '').split
       default_fields |= %w[project status type category priority fixed_version]
-      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+      default_fields.each { |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
@@ -206,24 +205,24 @@ END_DESC
       Redmine::POP3.check(pop_options, options)
     end
 
-    desc "Send a test email to the user with the provided login name"
-    task :test, [:login] => :environment do |task, args|
+    desc 'Send a test email to the user with the provided login name'
+    task :test, [:login] => :environment do |_task, args|
       login = args[:login]
       if login.blank?
-        abort I18n.t(:notice_email_error, :default => 'Please include the user login to test with. Example: redmine:email:test[example-login]')
+        abort I18n.t(:notice_email_error, default: 'Please include the user login to test with. Example: redmine:email:test[example-login]')
       end
 
       user = User.find_by_login(login)
       unless user && user.logged?
-        abort I18n.t(:notice_email_error, :default => "User with login '#{login}' not found")
+        abort I18n.t(:notice_email_error, default: "User with login '#{login}' not found")
       end
 
       ActionMailer::Base.raise_delivery_errors = true
 
       begin
         UserMailer.test_mail(user).deliver
-        puts I18n.t(:notice_email_sent, :value => user.mail)
-      rescue Exception => e
+        puts I18n.t(:notice_email_sent, value: user.mail)
+      rescue => e
         abort I18n.t(:notice_email_error, e.message)
       end
     end

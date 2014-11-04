@@ -83,10 +83,11 @@ module Redmine::Acts::Journalized
     # user information.
     module InstanceMethods
       private
+
         # Overrides the +journal_attributes+ method to include user information passed into the
         # parent object, by way of a +updated_by+ attr_accessor.
         def journal_attributes_with_user
-          journal_attributes_without_user.merge(:user_id => journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
+          journal_attributes_without_user.merge(user_id: journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
         end
     end
 

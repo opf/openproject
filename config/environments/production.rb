@@ -99,7 +99,7 @@ OpenProject::Application.configure do
                                   types_checkboxes.js
                                   work_packages.js
                                   angular-i18n/angular-locale_de-de.js
-                                )
+                              )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

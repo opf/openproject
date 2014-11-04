@@ -27,11 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 desc 'Fetch changesets from the repositories'
 
 namespace :redmine do
-  task :fetch_changesets => :environment do
+  task fetch_changesets: :environment do
     Repository.fetch_changesets
   end
 end

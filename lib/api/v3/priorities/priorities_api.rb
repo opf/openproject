@@ -31,7 +31,6 @@ module API
   module V3
     module Priorities
       class PrioritiesAPI < Grape::API
-
         resources :priorities do
           before do
             @priorities = IssuePriority.all
@@ -42,7 +41,6 @@ module API
             PriorityCollectionRepresenter.new(@priorities)
           end
         end
-
       end
     end
   end

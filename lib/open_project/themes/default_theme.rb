@@ -48,7 +48,7 @@ module OpenProject
         []
       end
 
-      def image_overridden?(source)
+      def image_overridden?(_source)
         false
       end
 

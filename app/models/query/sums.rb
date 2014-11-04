@@ -37,12 +37,12 @@ module ::Query::Sums
   def next_in_same_group?(issue = cached_issue)
     caching_issue issue do |issue|
       !last_issue? &&
-      query.group_by_column.value(issue) == query.group_by_column.value(all_work_packages[issue_index + 1])
+        query.group_by_column.value(issue) == query.group_by_column.value(all_work_packages[issue_index + 1])
     end
   end
 
   def last_issue?(issue = cached_issue)
-    caching_issue issue do |issue|
+    caching_issue issue do |_issue|
       issue_index == all_work_packages.size - 1
     end
   end
@@ -63,10 +63,10 @@ module ::Query::Sums
 
   def grouped_sums(column)
     all_work_packages
-      .map{|wp| query.group_by_column.value(wp)}
+      .map { |wp| query.group_by_column.value(wp) }
       .uniq
       .inject({}) do |group_sums, current_group|
-        work_packages_in_current_group = all_work_packages.select{|wp| query.group_by_column.value(wp) == current_group}
+        work_packages_in_current_group = all_work_packages.select { |wp| query.group_by_column.value(wp) == current_group }
         group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
       end
   end
@@ -114,7 +114,7 @@ module ::Query::Sums
 
   def crunch(num)
     return num if num.nil? or num.integer?
-    Float(format "%.2f", num.to_f)
+    Float(format '%.2f', num.to_f)
   end
 
   def group_for_issue(issue = @current_issue)

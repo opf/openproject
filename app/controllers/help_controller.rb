@@ -31,6 +31,8 @@ class HelpController < ApplicationController
   layout 'help'
 
   def wiki_syntax; end
+
   def wiki_syntax_detailed; end
+
   def keyboard_shortcuts; end
 end

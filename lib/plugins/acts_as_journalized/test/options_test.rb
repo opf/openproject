@@ -32,17 +32,17 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class OptionsTest < Test::Unit::TestCase
   context 'Configuration options' do
     setup do
-      @options = {:dependent => :destroy}
-      @configuration = {:class_name => 'MyCustomVersion'}
+      @options = { dependent: :destroy }
+      @configuration = { class_name: 'MyCustomVersion' }
 
       VestalVersions::Configuration.options.clear
-      @configuration.each{|k,v| VestalVersions::Configuration.send("#{k}=", v) }
+      @configuration.each { |k, v| VestalVersions::Configuration.send("#{k}=", v) }
 
       @prepared_options = User.prepare_journaled_options(@options.dup)
     end
 
     should 'have symbolized keys' do
-      assert User.vestal_journals_options.keys.all?{|k| k.is_a?(Symbol) }
+      assert User.vestal_journals_options.keys.all? { |k| k.is_a?(Symbol) }
     end
 
     should 'combine class-level and global configuration options' do

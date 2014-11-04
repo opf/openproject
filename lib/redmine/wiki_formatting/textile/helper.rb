@@ -33,10 +33,10 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id)
           heads_for_wiki_formatter
-          url = url_for(:controller => '/help', :action => 'wiki_syntax')
+          url = url_for(controller: '/help', action: 'wiki_syntax')
           help_link = link_to(l(:setting_text_formatting), url,
-                              :class => 'icon icon-help',
-                              :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
+                              class: 'icon icon-help',
+                              onclick: "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
 
           javascript_tag(<<-EOF)
             var wikiToolbar = new jsToolBar($('#{field_id}'));
@@ -47,7 +47,7 @@ module Redmine
           EOF
         end
 
-        def initial_page_content(page)
+        def initial_page_content(_page)
           "h1. #{@page.pretty_title}"
         end
 

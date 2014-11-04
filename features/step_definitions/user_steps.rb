@@ -36,10 +36,10 @@ InstanceFinder.register(User, Proc.new { |name| User.find_by_login(name) })
 
 When /^I create a new user$/ do
   visit '/users/new'
-  fill_in('user_login', :with => 'newbobby')
-  fill_in('user_firstname', :with => 'newbobby')
-  fill_in('user_lastname', :with => 'newbobby')
-  fill_in('user_mail', :with => 'newbobby@example.com')
+  fill_in('user_login', with: 'newbobby')
+  fill_in('user_firstname', with: 'newbobby')
+  fill_in('user_lastname', with: 'newbobby')
+  fill_in('user_mail', with: 'newbobby@example.com')
 end
 
 When /^I edit the user "([^\"]*)"$/ do |user|
@@ -49,12 +49,12 @@ end
 
 When /^I assign the user "([^\"]*)" a random password$/ do |user|
   step "I edit the user \"#{user}\""
-  step "I check the assign random password to user field"
-  step "I save the user"
+  step 'I check the assign random password to user field'
+  step 'I save the user'
 end
 
 When /^I check the assign random password to user field$/ do
-  check(I18n.t(:assign_random_password, :scope => :user))
+  check(I18n.t(:assign_random_password, scope: :user))
 end
 
 Given /^I save the user$/ do
@@ -110,12 +110,12 @@ end
 
 Given /^there are the following users:$/ do |table|
   table.raw.flatten.each do |login|
-    FactoryGirl.create(:user, :login => login)
+    FactoryGirl.create(:user, login: login)
   end
 end
 
 Given /^there is a user named "([^\"]+)"$/ do |user|
-  steps %Q{
+  steps %{
     Given there are the following users:
     | #{user} |
   }
@@ -124,7 +124,7 @@ end
 Then /^there should be a user with the following:$/ do |table|
   expected = table.rows_hash
 
-  user = User.find_by_login(expected["login"])
+  user = User.find_by_login(expected['login'])
 
   user.should_not be_nil
 
@@ -138,5 +138,5 @@ end
 #
 When /^I filter the users list by status "([^\"]+)"$/ do |status|
   visit('/users')
-  select(status, :from => 'Status:')
+  select(status, from: 'Status:')
 end

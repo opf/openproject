@@ -29,8 +29,8 @@
 
 class AddUserFirstLoggedInAndImpairedFields < ActiveRecord::Migration
   def self.up
-    add_column :users, :first_login, :boolean, :null => false, :default => true
-    add_column :user_preferences, :impaired, :boolean, :default => false
+    add_column :users, :first_login, :boolean, null: false, default: true
+    add_column :user_preferences, :impaired, :boolean, default: false
     User.reset_column_information
   end
 

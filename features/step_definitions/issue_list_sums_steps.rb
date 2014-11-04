@@ -29,7 +29,7 @@
 
 # TODO: check if this step can be removed as it is plugin specific
 Given /^there is a standard project named "([^\"]*)"$/ do |name|
-  steps %Q{
+  steps %{
     Given there is 1 project with the following:
       | Name | #{name} |
     And there is a role "Manager"
@@ -81,7 +81,7 @@ Given /^there is a standard project named "([^\"]*)"$/ do |name|
 end
 
 Then /^[iI] should (not )?see "([^\"]*)" in the overall sum(?:s)?$/ do |negative, sum|
-  step %Q{I should #{negative}see "#{sum}" within "tr.sum.all"}
+  step %{I should #{negative}see "#{sum}" within "tr.sum.all"}
 end
 
 Then /^[iI] should see "([^\"]*)" in the grouped sum(?:s)?$/ do |sum|

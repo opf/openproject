@@ -31,9 +31,9 @@ InstanceFinder.register(Category, Proc.new { |name| Category.find_by_name(name) 
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)? with(?: the following)?:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  table.rows_hash["assigned_to"] = Principal.like(table.rows_hash["assigned_to"]).first if table.rows_hash["assigned_to"]
+  table.rows_hash['assigned_to'] = Principal.like(table.rows_hash['assigned_to']).first if table.rows_hash['assigned_to']
   as_admin count do
-    ic = FactoryGirl.build(:category, :project => p)
+    ic = FactoryGirl.build(:category, project: p)
     send_table_to_object(ic, table)
     ic.save
   end
@@ -42,7 +42,7 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)?$/ do |project, count|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
-    ic = FactoryGirl.build(:category, :project => p)
+    ic = FactoryGirl.build(:category, project: p)
     ic.save
   end
 end

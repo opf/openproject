@@ -31,7 +31,6 @@ module API
   module V3
     module Categories
       class CategoriesAPI < Grape::API
-
         resources :categories do
           before do
             @categories = @project.categories
@@ -42,7 +41,6 @@ module API
             CategoryCollectionRepresenter.new(@categories, project: @project)
           end
         end
-
       end
     end
   end

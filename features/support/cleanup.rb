@@ -34,9 +34,7 @@ module Support
     end
 
     def self.cleanup
-      cleanings.each do |block|
-        block.call
-      end
+      cleanings.each(&:call)
 
       reset_cleanings
     end

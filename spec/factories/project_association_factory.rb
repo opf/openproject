@@ -27,8 +27,8 @@
 #++
 
 FactoryGirl.define do
-  factory(:project_association, :class => ProjectAssociation) do
-    association(:project_a, :factory => :project)
-    association(:project_b, :factory => :public_project)
+  factory(:project_association, class: ProjectAssociation) do
+    association(:project_a, factory: :project)
+    association(:project_b, factory: :public_project)
   end
 end

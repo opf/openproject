@@ -30,33 +30,32 @@
 module Api
   module V2
     class ProjectsController < ProjectsController
-
       include ::Api::V2::ApiController
 
-      before_filter :find_project, :except => [:index, :level_list]
-      before_filter :authorize, :only => :show
-      before_filter :require_permissions, :only => :planning_element_custom_fields
+      before_filter :find_project, except: [:index, :level_list]
+      before_filter :authorize, only: :show
+      before_filter :require_permissions, only: :planning_element_custom_fields
 
       def self.accept_key_auth_actions
-        super + ["planning_element_custom_fields"]
+        super + ['planning_element_custom_fields']
       end
 
       def index
-        options = {:order => 'lft'}
+        options = { order: 'lft' }
 
         if params[:ids]
           ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
           ids = ids.map(&:to_i).sort
           identifiers = identifiers.sort
 
-          options[:conditions] = ["id IN (?) OR identifier IN (?)", ids, identifiers]
+          options[:conditions] = ['id IN (?) OR identifier IN (?)', ids, identifiers]
         end
 
         @projects = @base.visible
-                         .includes(:types)
-                         .all(options)
+                    .includes(:types)
+                    .all(options)
 
-        @projects_by_id = Hash[@projects.map{|p| [p.id,p]}]
+        @projects_by_id = Hash[@projects.map { |p| [p.id, p] }]
 
         build_associations unless @projects.empty?
 
@@ -80,7 +79,7 @@ module Api
       end
 
       def planning_element_custom_fields
-        @custom_fields = @project.all_work_package_custom_fields :include => [:projects, :types, :translations]
+        @custom_fields = @project.all_work_package_custom_fields include: [:projects, :types, :translations]
 
         respond_to do |format|
           format.api
@@ -91,16 +90,16 @@ module Api
 
       def find_project
         @project = Project.find params[:id],
-          :include => [{:custom_values => [{:custom_field => :translations}]}]
+                                include: [{ custom_values: [{ custom_field: :translations }] }]
       end
 
       def build_associations
         association_attributes = ProjectAssociation.with_projects(@projects_by_id.keys)
-                                                   .map(&:attributes)
+                                 .map(&:attributes)
 
-        associations = association_attributes.map{|attributes| OpenStruct.new(attributes)}
+        associations = association_attributes.map { |attributes| OpenStruct.new(attributes) }
 
-        @associations_by_id ={}
+        @associations_by_id = {}
         associations.each do |a|
           @associations_by_id[a.project_a_id] ||= []
           @associations_by_id[a.project_a_id] << a
@@ -109,7 +108,6 @@ module Api
           @associations_by_id[a.project_b_id] << a
 
         end
-
       end
 
       # Helpers
@@ -127,7 +125,6 @@ module Api
       def require_permissions
         deny_access unless @project.visible?
       end
-
     end
   end
 end

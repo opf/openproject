@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe MenuItems::WikiMenuItem, :type => :model do
+describe MenuItems::WikiMenuItem, type: :model do
   before(:each) do
-    @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity])
-    @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
+    @project = FactoryGirl.create(:project, enabled_module_names: %w[activity])
+    @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
 
     allow(User).to receive(:current).and_return(@current)
   end
@@ -39,7 +39,7 @@ describe MenuItems::WikiMenuItem, :type => :model do
   it 'should create a default wiki menu item when enabling the wiki' do
     expect(MenuItems::WikiMenuItem.all).not_to be_any
 
-    @project.enabled_modules << EnabledModule.new(:name => 'wiki')
+    @project.enabled_modules << EnabledModule.new(name: 'wiki')
     @project.reload
 
     wiki_item = @project.wiki.wiki_menu_items.first
@@ -50,11 +50,11 @@ describe MenuItems::WikiMenuItem, :type => :model do
   end
 
   it 'should change title when a wikipage is renamed' do
-    wikipage = FactoryGirl.create(:wiki_page, :title => 'Oldtitle')
+    wikipage = FactoryGirl.create(:wiki_page, title: 'Oldtitle')
 
-    menu_item_1 = FactoryGirl.create(:wiki_menu_item, :navigatable_id => wikipage.wiki.id,
-                                                      :name    => 'Item 1',
-                                                      :title   => 'Oldtitle')
+    menu_item_1 = FactoryGirl.create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
+                                                      name:    'Item 1',
+                                                      title:   'Oldtitle')
 
     wikipage.title = 'Newtitle'
     wikipage.save!
@@ -65,24 +65,24 @@ describe MenuItems::WikiMenuItem, :type => :model do
 
   describe 'it should destroy' do
     before(:each) do
-      @project.enabled_modules << EnabledModule.new(:name => 'wiki')
+      @project.enabled_modules << EnabledModule.new(name: 'wiki')
       @project.reload
 
-      @menu_item_1 = FactoryGirl.create(:wiki_menu_item, :wiki => @project.wiki,
-                                    :name    => 'Item 1',
-                                    :title   => 'Item 1')
+      @menu_item_1 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
+                                                         name:    'Item 1',
+                                                         title:   'Item 1')
 
-      @menu_item_2 = FactoryGirl.create(:wiki_menu_item, :wiki => @project.wiki,
-                                    :name    => 'Item 2',
-                                    :parent_id    => @menu_item_1.id,
-                                    :title   => 'Item 2')
+      @menu_item_2 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
+                                                         name:    'Item 2',
+                                                         parent_id:    @menu_item_1.id,
+                                                         title:   'Item 2')
     end
 
     it 'all children when deleting the parent' do
       @menu_item_1.destroy
 
-      expect {MenuItems::WikiMenuItem.find(@menu_item_1.id)}.to raise_error(ActiveRecord::RecordNotFound)
-      expect {MenuItems::WikiMenuItem.find(@menu_item_2.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { MenuItems::WikiMenuItem.find(@menu_item_1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { MenuItems::WikiMenuItem.find(@menu_item_2.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     describe 'all items when destroying' do

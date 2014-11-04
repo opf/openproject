@@ -28,13 +28,13 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AvailableProjectStatus, :type => :model do
+describe AvailableProjectStatus, type: :model do
   describe '- Relations ' do
     describe '#project_type' do
       it 'can read the project_type w/ the help of the belongs_to association' do
         project_type = FactoryGirl.create(:project_type)
         available_project_status = FactoryGirl.create(:available_project_status,
-                                                  :project_type_id => project_type.id)
+                                                      project_type_id: project_type.id)
 
         available_project_status.reload
 
@@ -46,7 +46,7 @@ describe AvailableProjectStatus, :type => :model do
       it 'can read the reported_project_status w/ the help of the belongs_to association' do
         reported_project_status  = FactoryGirl.create(:reported_project_status)
         available_project_status = FactoryGirl.create(:available_project_status,
-                                                  :reported_project_status_id => reported_project_status.id)
+                                                      reported_project_status_id: reported_project_status.id)
 
         available_project_status.reload
 
@@ -57,21 +57,21 @@ describe AvailableProjectStatus, :type => :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      { :reported_project_status_id => 2,
-        :project_type_id => 1 }
+      { reported_project_status_id: 2,
+        project_type_id: 1 }
     }
 
     before {
-      FactoryGirl.create(:project_type, :id => 1)
-      FactoryGirl.create(:reported_project_status, :id => 2)
+      FactoryGirl.create(:project_type, id: 1)
+      FactoryGirl.create(:reported_project_status, id: 2)
     }
 
-    it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }).to be_valid }
+    it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }).to be_valid }
 
     describe 'project_type' do
       it 'is invalid w/o a project_type' do
         attributes[:project_type_id] = nil
-        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }
+        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(available_project_status).not_to be_valid
 
@@ -83,7 +83,7 @@ describe AvailableProjectStatus, :type => :model do
     describe 'reported_project_status' do
       it 'is invalid w/o a reported_project_status' do
         attributes[:reported_project_status_id] = nil
-        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, :without_protection => true) }
+        available_project_status = AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes, without_protection: true) }
 
         expect(available_project_status).not_to be_valid
 

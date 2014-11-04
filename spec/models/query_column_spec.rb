@@ -39,9 +39,9 @@ describe ::QueryColumn, type: :model do
     end
 
     it 'is the value if something trueish is provided' do
-      instance.groupable = "lorem ipsum"
+      instance.groupable = 'lorem ipsum'
 
-      expect(instance.groupable).to eql("lorem ipsum")
+      expect(instance.groupable).to eql('lorem ipsum')
     end
 
     it 'is false if false is provided' do
@@ -65,9 +65,9 @@ describe ::QueryColumn, type: :model do
     end
 
     it 'is the value if something trueish is provided' do
-      instance.sortable = "lorem ipsum"
+      instance.sortable = 'lorem ipsum'
 
-      expect(instance.sortable).to eql("lorem ipsum")
+      expect(instance.sortable).to eql('lorem ipsum')
     end
 
     it 'is false if false is provided' do
@@ -95,7 +95,7 @@ describe ::QueryColumn, type: :model do
     end
 
     it 'is true if a value is provided (e.g. for specifying sql code)' do
-      instance.groupable = "COALESCE(null, 1)"
+      instance.groupable = 'COALESCE(null, 1)'
 
       expect(instance.groupable?).to be_truthy
     end
@@ -113,7 +113,7 @@ describe ::QueryColumn, type: :model do
     end
 
     it 'is true if a value is provided (e.g. for specifying sql code)' do
-      instance.sortable = "COALESCE(null, 1)"
+      instance.sortable = 'COALESCE(null, 1)'
 
       expect(instance.sortable?).to be_truthy
     end

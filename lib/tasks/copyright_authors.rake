@@ -29,8 +29,8 @@
 
 namespace :copyright do
   namespace :authors do
-    desc "Shows contributors of a repository"
-    task :show, :arg1 do |task, args|
+    desc 'Shows contributors of a repository'
+    task :show, :arg1 do |_task, args|
       contribution_periods = contribution_periods_of_repository(args[:arg1])
       formatted_periods = format_contribution_periods(contribution_periods)
 
@@ -57,12 +57,12 @@ namespace :copyright do
       authors = contributions.collect(&:author).uniq
 
       authors.each do |a|
-        first, last = contributions.select{ |c| c.author == a }
-                                   .minmax{ |a, b| a.date <=> b.date }
+        first, last = contributions.select { |c| c.author == a }
+                      .minmax { |a, b| a.date <=> b.date }
         contribution_periods << CONTRIBUTION_PERIOD.new(a, first.date.year, last.date.year)
       end
 
-      contribution_periods.sort_by{ |c| [c.end, c.begin] }.reverse
+      contribution_periods.sort_by { |c| [c.end, c.begin] }.reverse
     end
 
     def format_contribution_periods(contribution_periods)
@@ -75,7 +75,7 @@ namespace :copyright do
 
     def show_contribution_periods(formatted_periods)
       formatted_periods.each_pair do |date, authors|
-        puts "#{date} #{authors.join(", ")}"
+        puts "#{date} #{authors.join(', ')}"
       end
     end
   end

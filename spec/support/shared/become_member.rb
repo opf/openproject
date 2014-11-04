@@ -36,9 +36,9 @@ module BecomeMember
     def become_member_with_permissions(project, user, permissions = [])
       permissions = Array(permissions)
 
-      role = FactoryGirl.create(:role, :permissions => permissions)
+      role = FactoryGirl.create(:role, permissions: permissions)
 
-      member = FactoryGirl.build(:member, :principal => user, :project => project)
+      member = FactoryGirl.build(:member, principal: user, project: project)
       member.roles = [role]
       member.save!
     end

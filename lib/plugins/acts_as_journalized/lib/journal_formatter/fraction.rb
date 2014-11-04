@@ -33,7 +33,7 @@ class JournalFormatter::Fraction < JournalFormatter::Attribute
     values.map do |v|
       v.nil? ?
         nil :
-        "%0.02f" % v.to_f
+        '%0.02f' % v.to_f
     end
   end
 end

@@ -28,12 +28,12 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AuthenticationController, :type => :controller do
+describe AuthenticationController, type: :controller do
   describe 'index.html' do
     def fetch
       get 'index'
     end
 
-    it_should_behave_like "a controller action with require_login"
+    it_should_behave_like 'a controller action with require_login'
   end
 end

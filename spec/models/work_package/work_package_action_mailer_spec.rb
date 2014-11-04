@@ -28,12 +28,16 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe ActionMailer::Base do
-    let(:user_1) { FactoryGirl.create(:user,
-                                      mail: "dlopper@somenet.foo") }
-    let(:user_2) { FactoryGirl.create(:user,
-                                      mail: "jsmith@somenet.foo") }
+    let(:user_1) {
+      FactoryGirl.create(:user,
+                         mail: 'dlopper@somenet.foo')
+    }
+    let(:user_2) {
+      FactoryGirl.create(:user,
+                         mail: 'jsmith@somenet.foo')
+    }
     let(:work_package) { FactoryGirl.build(:work_package) }
 
     before do
@@ -49,23 +53,23 @@ describe WorkPackage, :type => :model do
 
     it { is_expected.to eq(2) }
 
-    context "stale object" do
+    context 'stale object' do
       before do
         wp = WorkPackage.find(work_package.id)
 
-        wp.subject = "Subject update"
+        wp.subject = 'Subject update'
         wp.save!
 
         ActionMailer::Base.deliveries.clear
 
-        work_package.subject = "A different subject update"
+        work_package.subject = 'A different subject update'
         work_package.save! rescue nil
       end
 
       it { is_expected.to eq(0) }
     end
 
-    context "no notification" do
+    context 'no notification' do
       before do
         ActionMailer::Base.deliveries.clear
 

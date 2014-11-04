@@ -45,18 +45,18 @@ Given /^users are not allowed to reuse the last ([0-9]+) passwords$/ do |count|
   Setting.password_count_former_banned = count
 end
 
-def fill_change_password(old_password, new_password, confirmation=new_password)
+def fill_change_password(old_password, new_password, confirmation = new_password)
   # use find and set with id to prevent ambiguous match I get with fill_in
   find('#password').set(old_password)
 
-  fill_in('new_password', :with => new_password)
-  fill_in('new_password_confirmation', :with => confirmation)
+  fill_in('new_password', with: new_password)
+  fill_in('new_password_confirmation', with: confirmation)
   click_link_or_button 'Apply'
   @new_password = new_password
 end
 
 def change_password(old_password, new_password)
-  visit "/my/password"
+  visit '/my/password'
   fill_change_password(old_password, new_password)
 end
 
@@ -65,7 +65,7 @@ Given /^I try to change my password from "([^\"]+)" to "([^\"]+)"$/ do |old, new
 end
 
 When /^I try to set my new password to "(.+)"$/ do |password|
-  visit "/my/password"
+  visit '/my/password'
   change_password('adminADMIN!', password)
 end
 
@@ -148,5 +148,5 @@ end
 
 Given /^I use the first existing token to request a password reset$/ do
   token = Token.first
-  visit account_lost_password_path(:token=>token.value)
+  visit account_lost_password_path(token: token.value)
 end

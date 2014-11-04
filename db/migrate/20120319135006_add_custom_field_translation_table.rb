@@ -29,9 +29,9 @@
 
 class AddCustomFieldTranslationTable < ActiveRecord::Migration
   def self.up
-    CustomField.create_translation_table! :name => :string,
-                                          :default_value => :text,
-                                          :possible_values => :text
+    CustomField.create_translation_table! name: :string,
+                                          default_value: :text,
+                                          possible_values: :text
 
     I18n.locale = Setting.default_language.to_sym
     CustomField.all.each do |f|

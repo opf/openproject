@@ -30,7 +30,6 @@ module API
   module V3
     module Attachments
       class AttachmentsAPI < Grape::API
-
         resources :attachments do
 
           params do
@@ -52,7 +51,6 @@ module API
           end
 
         end
-
       end
     end
   end

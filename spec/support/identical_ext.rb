@@ -30,13 +30,13 @@ Journal.class_eval do
   def identical?(o)
     return false unless self.class === o
 
-    original = self.attributes
+    original = attributes
     recreated = o.attributes
 
-    original.except!("created_at")
-    self.changed_data.except!("created_on")
-    recreated.except!("created_at")
-    o.changed_data.except!("created_on")
+    original.except!('created_at')
+    changed_data.except!('created_on')
+    recreated.except!('created_at')
+    o.changed_data.except!('created_on')
 
     original.identical?(recreated)
   end
@@ -55,7 +55,7 @@ Array.class_eval do
   def identical?(o)
     return false unless self.class === o
     all? do |ea|
-      (o.any? {|other_each| other_each.identical?(ea) })
+      (o.any? { |other_each| other_each.identical?(ea) })
     end
   end
 end

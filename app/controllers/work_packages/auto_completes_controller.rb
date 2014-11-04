@@ -37,14 +37,14 @@ class WorkPackages::AutoCompletesController < ApplicationController
     q = params[:q].to_s
 
     if q.present?
-      query = (params[:scope] == "all" && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
+      query = (params[:scope] == 'all' && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
 
       @work_packages |= query.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
 
       @work_packages |= query.visible.find(:all,
                                            limit: 10,
                                            order: "#{WorkPackage.table_name}.id ASC",
-                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", {q: "%#{q.downcase}%" }])
+                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{q.downcase}%" }])
     end
 
     respond_to do |format|
@@ -57,9 +57,9 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def wp_hash_with_string
     @work_packages.map do |wp|
-      Hash[ wp.attributes.map do |key,value|
-        [ key, Rack::Utils.escape_html(value) ]
-      end << ['to_s', Rack::Utils.escape_html(wp.to_s)] ]
+      Hash[wp.attributes.map do |key, value|
+        [key, Rack::Utils.escape_html(value)]
+      end << ['to_s', Rack::Utils.escape_html(wp.to_s)]]
     end
   end
 
@@ -69,5 +69,4 @@ class WorkPackages::AutoCompletesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 end

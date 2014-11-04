@@ -102,7 +102,7 @@ class VersionsTest < Test::Unit::TestCase
     end
 
     should 'be fetchable by tag' do
-      @times.keys.map{|n| [n, n.to_s] }.each do |number, tag|
+      @times.keys.map { |n| [n, n.to_s] }.each do |number, tag|
         assert_kind_of VestalVersions::Version, @user.journals.at(tag)
         assert_equal number, @user.journals.at(tag).number
       end
@@ -156,7 +156,7 @@ class VersionsTest < Test::Unit::TestCase
     end
 
     should 'provide a journal number for a valid tag' do
-      @times.keys.map{|n| [n, n.to_s] }.each do |number, tag|
+      @times.keys.map { |n| [n, n.to_s] }.each do |number, tag|
         assert_kind_of Fixnum, @user.journals.number_at(tag)
         assert_equal number, @user.journals.number_at(tag)
       end

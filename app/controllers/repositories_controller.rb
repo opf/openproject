@@ -38,15 +38,15 @@ class RepositoriesController < ApplicationController
   include PaginationHelper
 
   menu_item :repository
-  menu_item :settings, :only => :edit
+  menu_item :settings, only: :edit
   default_search_scope :changesets
 
-  before_filter :find_repository, :except => :edit
-  before_filter :find_project, :only => :edit
+  before_filter :find_repository, except: :edit
+  before_filter :find_project, only: :edit
   before_filter :authorize
   accept_key_auth :revisions
 
-  rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
+  rescue_from Redmine::Scm::Adapters::CommandFailed, with: :show_error_command_failed
 
   def edit
     @repository = @project.repository
@@ -59,10 +59,10 @@ class RepositoriesController < ApplicationController
       @repository.save
     end
     render(:update) do |page|
-      page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'
+      page.replace_html 'tab-content-repository', partial: 'projects/settings/repository'
       if @repository && !@project.repository
-        @project.reload #needed to reload association
-        page.replace_html "main-menu", render_main_menu(@project)
+        @project.reload # needed to reload association
+        page.replace_html 'main-menu', render_main_menu(@project)
       end
     end
   end
@@ -70,21 +70,21 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users
-    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
     @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)
       # Build a hash with repository usernames as keys and corresponding user ids as values
-      @repository.committer_ids = params[:committers].values.inject({}) {|h, c| h[c.first] = c.last; h}
+      @repository.committer_ids = params[:committers].values.inject({}) { |h, c| h[c.first] = c.last; h }
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'committers', :project_id => @project
+      redirect_to action: 'committers', project_id: @project
     end
   end
 
   def destroy
     @repository.destroy
-    redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'repository'
+    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'repository'
   end
 
   def show
@@ -93,12 +93,12 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
-      @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
+      @entries ? render(partial: 'dir_list_content') : render(nothing: true)
     else
       (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
-      render :action => 'show'
+      render action: 'show'
     end
   end
 
@@ -114,12 +114,12 @@ class RepositoriesController < ApplicationController
 
   def revisions
     @changesets = @repository.changesets.includes(:user, :repository)
-                                        .page(params[:page])
-                                        .per_page(per_page_param)
+                  .page(params[:page])
+                  .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@changesets, :title => "#{@project.name}: #{l(:label_revision_plural)}") }
+      format.html { render layout: false if request.xhr? }
+      format.atom { render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}") }
     end
   end
 
@@ -133,10 +133,10 @@ class RepositoriesController < ApplicationController
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
     if 'raw' == params[:format] ||
-         (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
-         ! is_entry_text_data?(@content, @path)
+       (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
+       !is_entry_text_data?(@content, @path)
       # Force the download
-      send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
+      send_opt = { filename: filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
       send_data @content, send_opt
@@ -156,9 +156,9 @@ class RepositoriesController < ApplicationController
     return true if Redmine::MimeType.is_type?('text', path)
     # Ruby 1.8.6 has a bug of integer divisions.
     # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
-    if ent.respond_to?("is_binary_data?") && ent.is_binary_data? # Ruby 1.8.x and <1.9.2
+    if ent.respond_to?('is_binary_data?') && ent.is_binary_data? # Ruby 1.8.x and <1.9.2
       return false
-    elsif ent.respond_to?(:force_encoding) && (ent.dup.force_encoding("UTF-8") != ent.dup.force_encoding("BINARY") ) # Ruby 1.9.2
+    elsif ent.respond_to?(:force_encoding) && (ent.dup.force_encoding('UTF-8') != ent.dup.force_encoding('BINARY')) # Ruby 1.9.2
       # TODO: need to handle edge cases of non-binary content that isn't UTF-8
       return false
     end
@@ -182,7 +182,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js {render :layout => false}
+      format.js { render layout: false }
     end
   rescue ChangesetNotFound
     show_error_not_found
@@ -194,9 +194,9 @@ class RepositoriesController < ApplicationController
       (show_error_not_found; return) unless @diff
       filename = "changeset_r#{@rev}"
       filename << "_r#{@rev_to}" if @rev_to
-      send_data @diff.join, :filename => "#{filename}.diff",
-                            :type => 'text/x-patch',
-                            :disposition => 'attachment'
+      send_data @diff.join, filename: "#{filename}.diff",
+                            type: 'text/x-patch',
+                            disposition: 'attachment'
     else
       @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
       @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
@@ -221,23 +221,23 @@ class RepositoriesController < ApplicationController
 
   def stats
     @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
-                                                                  @project)
+                                                                   @project)
   end
 
   def graph
     data = nil
     case params[:graph]
-    when "commits_per_month"
+    when 'commits_per_month'
       data = graph_commits_per_month(@repository)
-    when "commits_per_author"
+    when 'commits_per_author'
       unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
         return deny_access
       end
       data = graph_commits_per_author(@repository)
     end
     if data
-      headers["Content-Type"] = "image/svg+xml"
-      send_data(data, :type => "image/svg+xml", :disposition => "inline")
+      headers['Content-Type'] = 'image/svg+xml'
+      send_data(data, type: 'image/svg+xml', disposition: 'inline')
     else
       render_404
     end
@@ -251,7 +251,7 @@ class RepositoriesController < ApplicationController
     @project = Project.find(params[:project_id])
     @repository = @project.repository
     (render_404; return false) unless @repository
-    @path = params[:path] || ""
+    @path = params[:path] || ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 
@@ -267,7 +267,7 @@ class RepositoriesController < ApplicationController
   end
 
   def show_error_not_found
-    render_error :message => l(:error_scm_not_found), :status => 404
+    render_error message: l(:error_scm_not_found), status: 404
   end
 
   # Handler for Redmine::Scm::Adapters::CommandFailed exception
@@ -279,91 +279,90 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = Changeset.where(["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
+    commits_by_day = Changeset.where(['repository_id = ? AND commit_date BETWEEN ? AND ?', repository.id, @date_from, @date_to]).group(:commit_date).size
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    commits_by_day.each { |c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     changes_by_day = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    changes_by_day.each { |c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
-    12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
+    12.times { |m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1) }
 
     graph = SVG::Graph::Bar.new(
-      :height => 300,
-      :width => 800,
-      :fields => fields.reverse,
-      :stack => :side,
-      :scale_integers => true,
-      :step_x_labels => 2,
-      :show_data_values => false,
-      :graph_title => l(:label_commits_per_month),
-      :show_graph_title => true
+      height: 300,
+      width: 800,
+      fields: fields.reverse,
+      stack: :side,
+      scale_integers: true,
+      step_x_labels: 2,
+      show_data_values: false,
+      graph_title: l(:label_commits_per_month),
+      show_graph_title: true
     )
 
     graph.add_data(
-      :data => commits_by_month[0..11].reverse,
-      :title => l(:label_revision_plural)
+      data: commits_by_month[0..11].reverse,
+      title: l(:label_revision_plural)
     )
 
     graph.add_data(
-      :data => changes_by_month[0..11].reverse,
-      :title => l(:label_change_plural)
+      data: changes_by_month[0..11].reverse,
+      title: l(:label_change_plural)
     )
 
     graph.burn
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = Changeset.where(["repository_id = ?", repository.id]).group(:committer).size
-    commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
+    commits_by_author = Changeset.where(['repository_id = ?', repository.id]).group(:committer).size
+    commits_by_author.to_a.sort! { |x, y| x.last <=> y.last }
 
     changes_by_author = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ?", repository.id]).group(:committer).size
-    h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
+    h = changes_by_author.inject({}) { |o, i| o[i.first] = i.last; o }
 
-    fields = commits_by_author.collect {|r| r.first}
-    commits_data = commits_by_author.collect {|r| r.last}
-    changes_data = commits_by_author.collect {|r| h[r.first] || 0}
+    fields = commits_by_author.map(&:first)
+    commits_data = commits_by_author.map(&:last)
+    changes_data = commits_by_author.map { |r| h[r.first] || 0 }
 
-    fields = fields + [""]*(10 - fields.length) if fields.length<10
-    commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
-    changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
+    fields = fields + [''] * (10 - fields.length) if fields.length < 10
+    commits_data = commits_data + [0] * (10 - commits_data.length) if commits_data.length < 10
+    changes_data = changes_data + [0] * (10 - changes_data.length) if changes_data.length < 10
 
     # Remove email adress in usernames
-    fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
+    fields = fields.map { |c| c.gsub(%r{<.+@.+>}, '') }
 
     graph = SVG::Graph::BarHorizontal.new(
-      :height => 400,
-      :width => 800,
-      :fields => fields,
-      :stack => :side,
-      :scale_integers => true,
-      :show_data_values => false,
-      :rotate_y_labels => false,
-      :graph_title => l(:label_commits_per_author),
-      :show_graph_title => true
+      height: 400,
+      width: 800,
+      fields: fields,
+      stack: :side,
+      scale_integers: true,
+      show_data_values: false,
+      rotate_y_labels: false,
+      graph_title: l(:label_commits_per_author),
+      show_graph_title: true
     )
     graph.add_data(
-      :data => commits_data,
-      :title => l(:label_revision_plural)
+      data: commits_data,
+      title: l(:label_revision_plural)
     )
     graph.add_data(
-      :data => changes_data,
-      :title => l(:label_change_plural)
+      data: changes_data,
+      title: l(:label_change_plural)
     )
     graph.burn
   end
-
 end
 
 class Date
   def months_ago(date = Date.today)
-    (date.year - self.year)*12 + (date.month - self.month)
+    (date.year - year) * 12 + (date.month - month)
   end
 
   def weeks_ago(date = Date.today)
-    (date.year - self.year)*52 + (date.cweek - self.cweek)
+    (date.year - year) * 52 + (date.cweek - cweek)
   end
 end
 

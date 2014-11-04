@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController, :type => :controller do
+describe WikiController, type: :controller do
   before do
     Role.delete_all # removing me makes us faster
     User.delete_all # removing me makes us faster
@@ -48,12 +48,12 @@ describe WikiController, :type => :controller do
       @project.reload # to get the wiki into the proxy
 
       # creating pages
-      @existing_page = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                      :title   => 'ExistingPage')
+      @existing_page = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+                                                      title:   'ExistingPage')
 
       # creating page contents
-      FactoryGirl.create(:wiki_content, :page_id   => @existing_page.id,
-                                        :author_id => @user.id)
+      FactoryGirl.create(:wiki_content, page_id:   @existing_page.id,
+                                        author_id: @user.id)
     end
 
     shared_examples_for "a 'new' action" do
@@ -87,13 +87,13 @@ describe WikiController, :type => :controller do
     end
 
     describe 'new' do
-      let(:get_page) { get 'new', :project_id => @project }
+      let(:get_page) { get 'new', project_id: @project }
 
       it_should_behave_like "a 'new' action"
     end
 
     describe 'new_child' do
-      let(:get_page) { get 'new_child', :project_id => @project, :id => @existing_page.title }
+      let(:get_page) { get 'new_child', project_id: @project, id: @existing_page.title }
 
       it_should_behave_like "a 'new' action"
 
@@ -104,7 +104,7 @@ describe WikiController, :type => :controller do
       end
 
       it 'renders 404 if used with an unknown page title' do
-        get 'new_child', :project_id => @project, :id => "foobar"
+        get 'new_child', project_id: @project, id: 'foobar'
 
         expect(response.status).to eq(404) # not found
       end
@@ -114,18 +114,18 @@ describe WikiController, :type => :controller do
       describe 'successful action' do
         it 'redirects to the show action' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => "abc"},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: 'abc' },
+               content: { text: 'h1. abc' }
 
-          expect(response).to redirect_to :action => 'show', :project_id => @project, :id => 'Abc'
+          expect(response).to redirect_to action: 'show', project_id: @project, id: 'Abc'
         end
 
         it 'saves a new WikiPage with proper content' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => "abc"},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: 'abc' },
+               content: { text: 'h1. abc' }
 
           page = @project.wiki.pages.find_by_title 'Abc'
           expect(page).not_to be_nil
@@ -137,27 +137,27 @@ describe WikiController, :type => :controller do
       describe 'unsuccessful action' do
         it 'renders "wiki/new"' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: '' },
+               content: { text: 'h1. abc' }
 
           expect(response).to render_template('new')
         end
 
         it 'assigns project to work with new template' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: '' },
+               content: { text: 'h1. abc' }
 
           expect(assigns[:project]).to eq(@project)
         end
 
         it 'assigns wiki to work with new template' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: '' },
+               content: { text: 'h1. abc' }
 
           expect(assigns[:wiki]).to eq(@project.wiki)
           expect(assigns[:wiki]).not_to be_new_record
@@ -165,21 +165,21 @@ describe WikiController, :type => :controller do
 
         it 'assigns page to work with new template' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: '' },
+               content: { text: 'h1. abc' }
 
           expect(assigns[:page]).to be_new_record
           expect(assigns[:page].wiki.project).to eq(@project)
-          expect(assigns[:page].title).to eq("")
+          expect(assigns[:page].title).to eq('')
           expect(assigns[:page]).not_to be_valid
         end
 
         it 'assigns content to work with new template' do
           post 'create',
-               :project_id => @project,
-               :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               project_id: @project,
+               page: { title: '' },
+               content: { text: 'h1. abc' }
 
           expect(assigns[:content]).to be_new_record
           expect(assigns[:content].page.wiki.project).to eq(@project)
@@ -224,11 +224,10 @@ describe WikiController, :type => :controller do
       @role = FactoryGirl.create(:non_member)
       @user = FactoryGirl.create(:admin)
 
-
       @anon = User.anonymous.nil? ? FactoryGirl.create(:anonymous) : User.anonymous
 
-      Role.anonymous.update_attributes :name => I18n.t(:default_role_anonymous),
-                                       :permissions => [:view_wiki_pages]
+      Role.anonymous.update_attributes name: I18n.t(:default_role_anonymous),
+                                       permissions: [:view_wiki_pages]
 
       allow(User).to receive(:current).and_return @user
 
@@ -236,31 +235,31 @@ describe WikiController, :type => :controller do
       @project.reload # to get the wiki into the proxy
 
       # creating pages
-      @page_default = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                     :title   => 'Wiki')
-      @page_with_content = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                      :title   => 'PagewithContent')
-      @page_without_content = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                      :title   => 'PagewithoutContent')
-      @unrelated_page = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                   :title   => 'UnrelatedPage')
+      @page_default = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+                                                     title:   'Wiki')
+      @page_with_content = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+                                                          title:   'PagewithContent')
+      @page_without_content = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+                                                             title:   'PagewithoutContent')
+      @unrelated_page = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+                                                       title:   'UnrelatedPage')
 
       # creating page contents
-      FactoryGirl.create(:wiki_content, :page_id   => @page_default.id,
-                                    :author_id => @user.id)
-      FactoryGirl.create(:wiki_content, :page_id   => @page_with_content.id,
-                                    :author_id => @user.id)
-      FactoryGirl.create(:wiki_content, :page_id   => @unrelated_page.id,
-                                    :author_id => @user.id)
+      FactoryGirl.create(:wiki_content, page_id:   @page_default.id,
+                                        author_id: @user.id)
+      FactoryGirl.create(:wiki_content, page_id:   @page_with_content.id,
+                                        author_id: @user.id)
+      FactoryGirl.create(:wiki_content, page_id:   @unrelated_page.id,
+                                        author_id: @user.id)
 
       # creating some child pages
       @children = {}
       [@page_with_content].each do |page|
-        child_page = FactoryGirl.create(:wiki_page, :wiki_id   => @project.wiki.id,
-                                                :parent_id => page.id,
-                                                :title     => page.title + " child")
-        FactoryGirl.create(:wiki_content, :page_id => child_page.id,
-                                      :author_id => @user.id)
+        child_page = FactoryGirl.create(:wiki_page, wiki_id:   @project.wiki.id,
+                                                    parent_id: page.id,
+                                                    title:     page.title + ' child')
+        FactoryGirl.create(:wiki_content, page_id: child_page.id,
+                                          author_id: @user.id)
 
         @children[page] = child_page
       end
@@ -268,23 +267,23 @@ describe WikiController, :type => :controller do
 
     describe '- main menu links' do
       before do
-        @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
-                                                               :name    => 'Item for Page with Content',
-                                                               :title   => @page_with_content.title)
+        @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+                                                                                    name:    'Item for Page with Content',
+                                                                                    title:   @page_with_content.title)
 
-        @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
-                                                           :name    => 'Item for new WikiPage',
-                                                           :title   => 'NewWikiPage')
+        @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+                                                                                name:    'Item for new WikiPage',
+                                                                                title:   'NewWikiPage')
 
-        @other_menu_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
-                                                           :name    => 'Item for other page',
-                                                           :title   => @unrelated_page.title)
+        @other_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+                                                               name:    'Item for other page',
+                                                               title:   @unrelated_page.title)
 
       end
 
       shared_examples_for 'all wiki menu items' do
-        it "is inactive, when an unrelated page is shown" do
-          get 'show', :id => @unrelated_page.title, :project_id => @project.id
+        it 'is inactive, when an unrelated page is shown' do
+          get 'show', id: @unrelated_page.title, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -294,7 +293,7 @@ describe WikiController, :type => :controller do
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
-          get 'show', :id => @other_wiki_menu_item.title, :project_id => @project.id
+          get 'show', id: @other_wiki_menu_item.title, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -304,7 +303,7 @@ describe WikiController, :type => :controller do
         end
 
         it 'is active, when the given wiki menu item is shown' do
-          get 'show', :id => @wiki_menu_item.title, :project_id => @project.id
+          get 'show', id: @wiki_menu_item.title, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -313,11 +312,10 @@ describe WikiController, :type => :controller do
         end
       end
 
-
       shared_examples_for 'all existing wiki menu items' do
-        #TODO: Add tests for new and toc options within menu item
-        it "is active on parents item, when new page is shown" do
-          get 'new_child', :id => @wiki_menu_item.title, :project_id => @project.identifier
+        # TODO: Add tests for new and toc options within menu item
+        it 'is active on parents item, when new page is shown' do
+          get 'new_child', id: @wiki_menu_item.title, project_id: @project.identifier
 
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
@@ -327,7 +325,7 @@ describe WikiController, :type => :controller do
         end
 
         it 'is inactive, when a toc page is shown' do
-          get 'index', :id => @wiki_menu_item.title, :project_id => @project.id
+          get 'index', id: @wiki_menu_item.title, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
@@ -339,7 +337,7 @@ describe WikiController, :type => :controller do
 
       shared_examples_for 'all wiki menu items with child pages' do
         it 'is active, when the given wiki menu item is an ancestor of the shown page' do
-          get 'show', :id => @child_page.title, :project_id => @project.id
+          get 'show', id: @child_page.title, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -347,7 +345,6 @@ describe WikiController, :type => :controller do
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
         end
       end
-
 
       describe '- wiki menu item pointing to a saved wiki page' do
         before do
@@ -372,9 +369,9 @@ describe WikiController, :type => :controller do
 
       describe '- wiki_menu_item containing special chars only' do
         before do
-          @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
-                                                            :name    => '?',
-                                                            :title   => 'Help')
+          @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+                                                                name:    '?',
+                                                                title:   'Help')
           @other_wiki_menu_item = @other_menu_item
         end
 
@@ -385,9 +382,9 @@ describe WikiController, :type => :controller do
     describe '- wiki sidebar' do
       describe 'configure menu items link' do
         describe 'on a show page' do
-          describe "being authorized to configure menu items" do
+          describe 'being authorized to configure menu items' do
             it 'is visible' do
-              get 'show', :project_id => @project.id
+              get 'show', project_id: @project.id
 
               expect(response).to be_success
 
@@ -395,17 +392,17 @@ describe WikiController, :type => :controller do
             end
           end
 
-          describe "being unauthorized to configure menu items" do
+          describe 'being unauthorized to configure menu items' do
             before do
               allow(User).to receive(:current).and_return @anon
             end
 
             it 'is invisible' do
-              get 'show', :project_id => @project.id
+              get 'show', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select '#content a', :text => 'Configure menu item', :count => 0
+              assert_select '#content a', text: 'Configure menu item', count: 0
             end
           end
         end
@@ -413,67 +410,66 @@ describe WikiController, :type => :controller do
 
       describe 'new child page link' do
         describe 'on an index page' do
-          describe "being authorized to edit wiki pages" do
+          describe 'being authorized to edit wiki pages' do
             it 'is invisible' do
-              get 'index', :project_id => @project.id
+              get 'index', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select '#content a', :text => 'Create new child page', :count => 0
+              assert_select '#content a', text: 'Create new child page', count: 0
             end
           end
 
-          describe "being unauthorized to edit wiki pages" do
+          describe 'being unauthorized to edit wiki pages' do
             before do
               allow(User).to receive(:current).and_return @anon
             end
 
             it 'is invisible' do
-              get 'index', :project_id => @project.id
+              get 'index', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select '#content a', :text => 'Create new child page', :count => 0
+              assert_select '#content a', text: 'Create new child page', count: 0
             end
           end
         end
 
         describe 'on a wiki page' do
-          describe "being authorized to edit wiki pages" do
-            describe "with a wiki page present" do
-              it "is visible" do
-                get 'show', :id => @page_with_content.title, :project_id => @project.identifier
+          describe 'being authorized to edit wiki pages' do
+            describe 'with a wiki page present' do
+              it 'is visible' do
+                get 'show', id: @page_with_content.title, project_id: @project.identifier
 
                 expect(response).to be_success
 
-                assert_select "#content a[href=#{wiki_new_child_path(:project_id => @project, :id => @page_with_content.title)}]", 'Create new child page'
+                assert_select "#content a[href=#{wiki_new_child_path(project_id: @project, id: @page_with_content.title)}]", 'Create new child page'
               end
             end
 
-
-            describe "with no wiki page present" do
+            describe 'with no wiki page present' do
               it 'is invisible' do
-                get 'show', :id => 'i-am-a-ghostpage', :project_id => @project.identifier
+                get 'show', id: 'i-am-a-ghostpage', project_id: @project.identifier
 
                 expect(response).to be_success
 
-                assert_select "#content a[href=#{wiki_new_child_path(:project_id => @project, :id => 'i-am-a-ghostpage')}]",
-                                :text => 'Create new child page', :count => 0
+                assert_select "#content a[href=#{wiki_new_child_path(project_id: @project, id: 'i-am-a-ghostpage')}]",
+                              text: 'Create new child page', count: 0
               end
             end
           end
 
-          describe "being unauthorized to edit wiki pages" do
+          describe 'being unauthorized to edit wiki pages' do
             before do
               allow(User).to receive(:current).and_return @anon
             end
 
             it 'is invisible' do
-              get 'show', :id => @page_with_content.title, :project_id => @project.identifier
+              get 'show', id: @page_with_content.title, project_id: @project.identifier
 
               expect(response).to be_success
 
-              assert_select '#content a', :text => 'Create new child page', :count => 0
+              assert_select '#content a', text: 'Create new child page', count: 0
             end
           end
         end
@@ -481,53 +477,53 @@ describe WikiController, :type => :controller do
 
       describe 'new page link' do
         describe 'on an index page' do
-          describe "being authorized to edit wiki pages" do
+          describe 'being authorized to edit wiki pages' do
             it 'is visible' do
-              get 'index', :project_id => @project.id
+              get 'index', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select ".menu_root a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]", 'Create new child page'
+              assert_select ".menu_root a[href=#{wiki_new_child_path(project_id: @project, id: 'Wiki')}]", 'Create new child page'
             end
           end
 
-          describe "being unauthorized to edit wiki pages" do
+          describe 'being unauthorized to edit wiki pages' do
             before do
               allow(User).to receive(:current).and_return @anon
             end
 
             it 'is invisible' do
-              get 'index', :project_id => @project.id
+              get 'index', project_id: @project.id
 
               expect(response).to be_success
 
-              assert_select '.menu_root a', :text => 'Create new child page', :count => 0
+              assert_select '.menu_root a', text: 'Create new child page', count: 0
             end
           end
         end
 
         describe 'on a wiki page' do
-          describe "being authorized to edit wiki pages" do
+          describe 'being authorized to edit wiki pages' do
             it 'is visible' do
-              get 'show', :id => @page_with_content.title, :project_id => @project.identifier
+              get 'show', id: @page_with_content.title, project_id: @project.identifier
 
               expect(response).to be_success
 
-              assert_select ".menu_root a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]", 'Create new child page'
+              assert_select ".menu_root a[href=#{wiki_new_child_path(project_id: @project, id: 'Wiki')}]", 'Create new child page'
             end
           end
 
-          describe "being unauthorized to edit wiki pages" do
+          describe 'being unauthorized to edit wiki pages' do
             before do
               allow(User).to receive(:current).and_return @anon
             end
 
             it 'is invisible' do
-              get 'show', :id => @page_with_content.title, :project_id => @project.identifier
+              get 'show', id: @page_with_content.title, project_id: @project.identifier
 
               expect(response).to be_success
 
-              assert_select '.menu_root a', :text => 'Create new child page', :count => 0
+              assert_select '.menu_root a', text: 'Create new child page', count: 0
             end
           end
         end
@@ -536,19 +532,23 @@ describe WikiController, :type => :controller do
 
     describe 'preview' do
       let(:project) { FactoryGirl.create(:project) }
-      let(:text) { "Wiki content" }
+      let(:text) { 'Wiki content' }
 
       it_behaves_like 'valid preview' do
         let(:preview_texts) { [text] }
-        let(:preview_params) { { project_id: project.id,
-                                 content: { text: text } } }
+        let(:preview_params) {
+          { project_id: project.id,
+            content: { text: text } }
+        }
       end
 
       it_behaves_like 'authorizes object access' do
         let(:wiki_page) { FactoryGirl.create(:wiki_page) }
-        let(:preview_params) { { project_id: wiki_page.wiki.project.id,
-                                 id: wiki_page.id,
-                                 content: { } } }
+        let(:preview_params) {
+          { project_id: wiki_page.wiki.project.id,
+            id: wiki_page.id,
+            content: {} }
+        }
       end
     end
   end

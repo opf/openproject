@@ -29,9 +29,7 @@
 
 module Api
   module V2
-
     class PlanningElementJournalsController < PlanningElementJournalsController
-
       include ::Api::V2::ApiController
 
       def index
@@ -41,6 +39,5 @@ module Api
         end
       end
     end
-
   end
 end

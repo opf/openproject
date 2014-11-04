@@ -31,9 +31,9 @@ class MessagesController < ApplicationController
   include OpenProject::Concerns::Preview
   menu_item :boards
   default_search_scope :messages
-  model_object Message, :scope => Board
+  model_object Message, scope: Board
   before_filter :find_object_and_scope, except: [:preview]
-  before_filter :authorize, :except => [:preview, :edit, :update, :destroy]
+  before_filter :authorize, except: [:preview, :edit, :update, :destroy]
 
   include AttachmentsHelper
   include PaginationHelper
@@ -47,17 +47,17 @@ class MessagesController < ApplicationController
     page = params[:page]
     # Find the page of the requested reply
     if params[:r] && page.nil?
-      offset = @topic.children.count(:conditions => ["#{Message.table_name}.id < ?", params[:r].to_i])
+      offset = @topic.children.count(conditions: ["#{Message.table_name}.id < ?", params[:r].to_i])
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies = @topic.children.includes(:author, :attachments, {:board => :project})
-                              .order("#{Message.table_name}.created_on ASC")
-                              .page(page)
-                              .per_page(per_page_param)
+    @replies = @topic.children.includes(:author, :attachments, board: :project)
+               .order("#{Message.table_name}.created_on ASC")
+               .page(page)
+               .per_page(per_page_param)
 
-    @reply = Message.new(:subject => "RE: #{@message.subject}")
-    render :action => "show", :layout => !request.xhr?
+    @reply = Message.new(subject: "RE: #{@message.subject}")
+    render action: 'show', layout: !request.xhr?
   end
 
   # new topic
@@ -80,11 +80,11 @@ class MessagesController < ApplicationController
     @message.attach_files(params[:attachments])
 
     if @message.save
-      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -99,11 +99,11 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
+      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
-    redirect_to topic_path(@topic, :r => @reply)
+    redirect_to topic_path(@topic, r: @reply)
   end
 
   # Edit a message
@@ -123,9 +123,9 @@ class MessagesController < ApplicationController
     if @message.save
       flash[:notice] = l(:notice_successful_update)
       @message.reload
-      redirect_to topic_path(@message.root, :r => (@message.parent_id && @message.id))
+      redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -134,8 +134,8 @@ class MessagesController < ApplicationController
     (render_403; return false) unless @message.destroyable_by?(User.current)
     @message.destroy
     redirect_to @message.parent.nil? ?
-      { :controller => '/boards', :action => 'show', :project_id => @project, :id => @board } :
-      { :action => 'show', :id => @message.parent, :r => @message }
+      { controller: '/boards', action: 'show', project_id: @project, id: @board } :
+      { action: 'show', id: @message.parent, r: @message }
   end
 
   def quote
@@ -144,7 +144,7 @@ class MessagesController < ApplicationController
     subject = @message.subject.gsub('"', '\"')
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
-    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\\n> ") + "\\n\\n"
+    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, '\\n> ') + '\\n\\n'
     render(:update) { |page|
       page << "$('message_subject').value = \"#{subject}\";"
       page.<< "$('message_content').value = \"#{content}\";"

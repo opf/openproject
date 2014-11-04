@@ -28,23 +28,29 @@
 
 require 'spec_helper'
 
-describe AttachmentsController, :type => :controller do
+describe AttachmentsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:edit_work_packages,
-                                                :view_work_packages,
-                                                :delete_wiki_pages_attachments]) }
-  let!(:member) { FactoryGirl.create(:member,
-                                     project: project,
-                                     principal: user,
-                                     roles: [role]) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:edit_work_packages,
+                                     :view_work_packages,
+                                     :delete_wiki_pages_attachments])
+  }
+  let!(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
 
   before { allow(User).to receive(:current).and_return user }
 
   describe :destroy do
-    let(:attachment) { FactoryGirl.create(:attachment,
-                                          container: container) }
+    let(:attachment) {
+      FactoryGirl.create(:attachment,
+                         container: container)
+    }
 
     shared_examples_for :deleted do
       subject { Attachment.find_by_id(attachment.id) }
@@ -61,9 +67,11 @@ describe AttachmentsController, :type => :controller do
     end
 
     context :work_package do
-      let(:container) { FactoryGirl.create(:work_package,
-                                           author: user,
-                                           project: project) }
+      let(:container) {
+        FactoryGirl.create(:work_package,
+                           author: user,
+                           project: project)
+      }
       let(:redirect_path) { work_package_path(container) }
 
       before { delete :destroy, id: attachment.id }
@@ -74,8 +82,10 @@ describe AttachmentsController, :type => :controller do
     end
 
     context :wiki do
-      let(:container) { FactoryGirl.create(:wiki_page,
-                                           wiki: project.wiki) }
+      let(:container) {
+        FactoryGirl.create(:wiki_page,
+                           wiki: project.wiki)
+      }
       let(:redirect_path) { project_wiki_path(project, project.wiki) }
 
       before do

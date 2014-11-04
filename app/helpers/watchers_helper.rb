@@ -28,11 +28,10 @@
 #++
 
 module WatchersHelper
-
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
-  def watcher_link(object, user, options = { :replace => '.watcher_link', :class => 'watcher_link' })
+  def watcher_link(object, user, options = { replace: '.watcher_link', class: 'watcher_link' })
     options = options.with_indifferent_access
     raise ArgumentError, 'Missing :replace option in options hash' if options['replace'].blank?
 
@@ -41,9 +40,9 @@ module WatchersHelper
     watched = object.watched_by?(user)
 
     html_options = options
-    path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", :object_type => object.class.to_s.underscore.pluralize,
-                                                            :object_id => object.id,
-                                                            :replace => options.delete('replace') )
+    path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", object_type: object.class.to_s.underscore.pluralize,
+                                                            object_id: object.id,
+                                                            replace: options.delete('replace'))
     html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-watch-1' : ' icon icon-not-watch')
 
     method = watched ?
@@ -54,28 +53,28 @@ module WatchersHelper
       l(:button_unwatch) :
       l(:button_watch)
 
-    link_to(label, path, html_options.merge(:remote => true, :method => method))
+    link_to(label, path, html_options.merge(remote: true, method: method))
   end
 
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watcher_users.sort.collect do |user|
-      watcher = object.watchers(true).find{|u| u.user_id == user.id }
+    lis = object.watcher_users.sort.map do |user|
+      watcher = object.watchers(true).find { |u| u.user_id == user.id }
       content_tag :li do
-        avatar(user, :class => 'avatar-mini') +
-          link_to_user(user, :class => 'user') +
-          if remove_allowed
-            ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
-                                                 l(:button_delete_watcher, name: user.name)),
-                             watcher_path(watcher),
-                             :method => :delete,
-                             :remote => true,
-                             :title => l(:button_delete_watcher, name: user.name),
-                             :class => "delete no-decoration-on-hover")
-          else
-            ''.html_safe
-          end
+        avatar(user, class: 'avatar-mini') +
+        link_to_user(user, class: 'user') +
+        if remove_allowed
+          ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
+                                               l(:button_delete_watcher, name: user.name)),
+                                  watcher_path(watcher),
+                                  method: :delete,
+                                  remote: true,
+                                  title: l(:button_delete_watcher, name: user.name),
+                                  class: 'delete no-decoration-on-hover')
+        else
+          ''.html_safe
+        end
       end
     end
     lis.empty? ? ''.html_safe : content_tag(:ul, lis.reduce(:+))

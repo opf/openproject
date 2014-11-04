@@ -30,7 +30,6 @@ module API
   module V3
     module Activities
       class ActivitiesAPI < Grape::API
-
         resources :activities do
 
           params do
@@ -41,7 +40,7 @@ module API
             before do
               @activity = Journal.find(params[:id])
               model = ::API::V3::Activities::ActivityModel.new(@activity)
-              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user})
+              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model,  current_user: current_user)
             end
 
             get do
@@ -82,7 +81,6 @@ module API
           end
 
         end
-
       end
     end
   end

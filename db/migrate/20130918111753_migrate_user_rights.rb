@@ -62,21 +62,21 @@ class MigrateUserRights < ActiveRecord::Migration
   }
 
   def up
-    say_with_time_silently "Update role permissions" do
+    say_with_time_silently 'Update role permissions' do
       update_column_values('roles', [COLUMN], update_role_permissions(PERMISSIONS), filter)
     end
   end
 
   def down
     # select only nonambiguous permissions
-    permissions = PERMISSIONS.select {|k, v| PERMISSIONS.values.count(v) == 1}
+    permissions = PERMISSIONS.select { |_k, v| PERMISSIONS.values.count(v) == 1 }
 
-    say_with_time_silently "Restore role permissions" do
+    say_with_time_silently 'Restore role permissions' do
       update_column_values('roles', [COLUMN], update_role_permissions(permissions.invert), filter)
     end
 
-    ambiguous_permissions = PERMISSIONS.select {|k, v| PERMISSIONS.values.count(v) > 1}
-                                       .keys
+    ambiguous_permissions = PERMISSIONS.select { |_k, v| PERMISSIONS.values.count(v) > 1 }
+                            .keys
 
     say <<-WARNING
       This down migration can't restore the following permission: #{ambiguous_permissions.inspect}
@@ -94,7 +94,7 @@ class MigrateUserRights < ActiveRecord::Migration
       unless row[COLUMN].nil?
         role_permissions = YAML.load row[COLUMN]
 
-        role_permissions.map! {|p| permissions.has_key?(p) ? permissions[p] : p}
+        role_permissions.map! { |p| permissions.has_key?(p) ? permissions[p] : p }
 
         row[COLUMN] = YAML.dump role_permissions.flatten
       end

@@ -66,7 +66,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
     end
   end
 
-  def create_missing_custom_value(table, customized_id, custom_field_id)
+  def create_missing_custom_value(_table, _customized_id, _custom_field_id)
   end
 
   def missing_custom_values
@@ -87,7 +87,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
 
   def custom_field_default_values
     @custom_field_default_values ||= CustomField.select { |c| !(c.default_value.blank?) }
-                                                .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
+                                     .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 
   def affected_journals

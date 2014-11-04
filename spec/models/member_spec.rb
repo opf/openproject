@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe Member, :type => :model do
+describe Member, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role) }
   let(:second_role) { FactoryGirl.create(:role) }
-  let(:member) { FactoryGirl.create(:member, :user => user, :roles => [role]) }
+  let(:member) { FactoryGirl.create(:member, user: user, roles: [role]) }
 
   describe '#add_role' do
     before do
@@ -79,11 +79,11 @@ describe Member, :type => :model do
       end
 
       context(:roles) { it { expect(member.roles).to include role } }
-      context(:errors) { it { expect(member.errors.map {|k,v| v}).to include "Please choose at least one role." } }
+      context(:errors) { it { expect(member.errors.map { |_k, v| v }).to include 'Please choose at least one role.' } }
     end
   end
 
-  describe "#assign_and_save_roles_and_destroy_member_if_none_left" do
+  describe '#assign_and_save_roles_and_destroy_member_if_none_left' do
     describe 'when replacing an existing role' do
       before do
         member.assign_and_save_roles_and_destroy_member_if_none_left([second_role])
