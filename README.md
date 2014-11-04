@@ -5,29 +5,29 @@
 
 OpenProject is a web-based project management software. Its key features are:
 
-* [Work Package Tracking](https://www.openproject.org/projects/openproject/wiki/Work_packages)
-* [Project Timelines](https://www.openproject.org/projects/openproject/wiki/Timelines)
-* [Wikis](https://www.openproject.org/projects/openproject/wiki/Wiki)
-* [Forums](https://www.openproject.org/projects/openproject/wiki/Forums)
+* [Work Package Tracking](https://openproject.org/features/work-packages/)
+* [Project Timelines](https://openproject.org/features/timelines/)
+* [Wikis](https://openproject.org/features/wiki/)
+* [Forums](https://openproject.org/features/more/)
 
 Via plugins, it also supports:
 
-* [Meeting Management](https://www.openproject.org/projects/openproject/wiki/Meetings)
-* [Scrum Process Support](https://www.openproject.org/projects/openproject/wiki/Agile_teams)
-* [Time and Cost Reporting](https://www.openproject.org/projects/openproject/wiki/Time_and_Cost)
-* and [others](https://www.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+* [Meeting Management](https://openproject.org/features/more/)
+* [Scrum Process Support](https://openproject.org/features/agile-scrum/)
+* [Time and Cost Reporting](https://openproject.org/features/time-and-costs/)
+* and [others](https://openproject.org/download/install-plugins/).
 
 More information and screenshots can be found on [openproject.org](https://www.openproject.org).
 
 ## Installation
 
-There is an [installation guide](https://www.openproject.org/projects/openproject/wiki/Installation) and a [reference of configuration options](doc/CONFIGURATION.md).
+There is an [installation guide](https://openproject.org/download/) and a [reference of configuration options](doc/CONFIGURATION.md).
 
 ## Contact
 
 OpenProject is supported by its community members, both companies and individuals.
 
-Please find ways to contact us on the OpenProject [support page](https://www.openproject.org/support).
+Please find ways to contact us on the OpenProject [help page](https://www.openproject.org/help).
 
 ## Community
 
