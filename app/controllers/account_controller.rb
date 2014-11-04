@@ -255,7 +255,7 @@ class AccountController < ApplicationController
         invalid_credentials
       end
     elsif user.new_record?
-      onthefly_creation_failed(user,  login: user.login, auth_source_id: user.auth_source_id)
+      onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)
     else
       # Valid user
       successful_authentication(user)
@@ -270,7 +270,7 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
 
-    call_hook(:controller_account_success_authentication_after,  user: user)
+    call_hook(:controller_account_success_authentication_after, user: user)
 
     redirect_after_login(user)
   end
