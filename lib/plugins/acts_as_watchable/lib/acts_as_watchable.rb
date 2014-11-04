@@ -139,7 +139,7 @@ module Redmine
           notified = watcher_users.active.where(['mail_notification != ?', 'none'])
           notified.select! { |user| possible_watcher?(user) }
 
-          notified.collect(&:mail).compact
+          notified.map(&:mail).compact
         end
 
         module ClassMethods; end

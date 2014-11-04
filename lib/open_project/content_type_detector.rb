@@ -114,7 +114,7 @@ module OpenProject
     end
 
     def possible_types
-      MIME::Types.type_for(@filename).collect(&:content_type)
+      MIME::Types.type_for(@filename).map(&:content_type)
     end
 
     def calculated_type_matches

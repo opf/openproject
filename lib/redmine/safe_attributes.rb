@@ -63,9 +63,9 @@ module Redmine
     #   book.safe_attributes(book.author) # => ['title', 'pages', 'isbn']
     def safe_attribute_names(user = User.current)
       names = []
-      self.class.safe_attributes.collect do |attrs, options|
+      self.class.safe_attributes.map do |attrs, options|
         if options[:if].nil? || options[:if].call(self, user)
-          names += attrs.collect(&:to_s)
+          names += attrs.map(&:to_s)
         end
       end
       names.uniq

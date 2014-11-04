@@ -133,7 +133,7 @@ module Redmine #:nodoc:
     # returns an array of all dependencies we know of for plugin id
     # (might not be complete at all times!)
     def self.dependencies_for(id)
-      direct_deps = deferred_plugins.keys.find_all { |k| deferred_plugins[k].collect(&:first).include?(id) }
+      direct_deps = deferred_plugins.keys.find_all { |k| deferred_plugins[k].map(&:first).include?(id) }
       direct_deps.inject([]) { |deps, v| deps << v; deps += dependencies_for(v) }
     end
 
@@ -228,11 +228,11 @@ module Redmine #:nodoc:
       arg.assert_valid_keys(:version, :version_or_higher)
 
       plugin = Plugin.find(plugin_name)
-      current = plugin.version.split('.').collect(&:to_i)
+      current = plugin.version.split('.').map(&:to_i)
 
       arg.each do |k, v|
         v = [] << v unless v.is_a?(Array)
-        versions = v.collect { |s| s.split('.').collect(&:to_i) }
+        versions = v.map { |s| s.split('.').map(&:to_i) }
         case k
         when :version_or_higher
           raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1

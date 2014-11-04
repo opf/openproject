@@ -69,7 +69,7 @@ module Redmine
 
       def available_project_modules
         @available_project_modules ||= (
-            @permissions.collect(&:project_module) + @project_modules_without_permissions
+            @permissions.map(&:project_module) + @project_modules_without_permissions
           ).uniq.compact
       end
 
@@ -120,7 +120,7 @@ module Redmine
         @project_module = options[:project_module]
         hash.each do |controller, actions|
           if actions.is_a? Array
-            @actions << actions.collect { |action| "#{controller}/#{action}" }
+            @actions << actions.map { |action| "#{controller}/#{action}" }
           else
             @actions << "#{controller}/#{actions}"
           end

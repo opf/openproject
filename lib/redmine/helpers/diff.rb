@@ -44,7 +44,7 @@ module Redmine
       end
 
       def to_html
-        words = self.words.collect { |word| h(word) }
+        words = self.words.map { |word| h(word) }
         words_add = 0
         words_del = 0
         dels = 0

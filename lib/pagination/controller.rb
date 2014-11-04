@@ -212,7 +212,7 @@ module Pagination::Controller
         respond_to do |format|
           format.json {
             render json: { results:
-            { items: @paginated_items.collect { |item| { id: item.id, name: item.name } },
+            { items: @paginated_items.map { |item| { id: item.id, name: item.name } },
               total: @total ? @total : @paginated_items.size,
               more:  @more ? @more : 0 }
           } }

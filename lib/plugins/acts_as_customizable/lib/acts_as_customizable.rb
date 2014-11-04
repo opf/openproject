@@ -86,7 +86,7 @@ module Redmine
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.collect { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(customized: self, custom_field: x, value: nil) }
+          @custom_field_values ||= available_custom_fields.map { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(customized: self, custom_field: x, value: nil) }
         end
 
         def visible_custom_field_values

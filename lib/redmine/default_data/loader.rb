@@ -54,7 +54,7 @@ module Redmine
             # Roles
             manager = Role.create! name: l(:default_role_manager),
                                    position: 3
-            manager.permissions = manager.setable_permissions.collect(&:name)
+            manager.permissions = manager.setable_permissions.map(&:name)
             manager.save!
 
             member = Role.create! name: l(:default_role_member),

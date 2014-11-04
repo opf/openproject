@@ -46,7 +46,7 @@ module OpenProject
             out = ''
             available_macros = Redmine::WikiFormatting::Macros.available_macros
 
-            available_macros.keys.collect(&:to_s).sort.each do |macro|
+            available_macros.keys.map(&:to_s).sort.each do |macro|
               out << content_tag('dt', content_tag('code', macro))
               out << content_tag('dd', format_text(available_macros[macro.to_sym]))
             end

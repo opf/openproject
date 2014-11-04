@@ -44,7 +44,7 @@ module Redmine
 
       # Returns all the listener instances.
       def listeners
-        @@listeners ||= @@listener_classes.collect(&:instance)
+        @@listeners ||= @@listener_classes.map(&:instance)
       end
 
       # Returns the listener instances for the given hook.

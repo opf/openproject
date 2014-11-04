@@ -56,7 +56,7 @@ module Redmine::Acts::Journalized
       notified = []
       notified = project.notified_users if project
       notified.reject! { |user| !visible?(user) }
-      notified.collect(&:mail)
+      notified.map(&:mail)
     end
 
     def current_journal

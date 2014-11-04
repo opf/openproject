@@ -277,7 +277,7 @@ class RedCloth3 < String
         markdown_rules = [:refs_markdown, :block_markdown_setext, :block_markdown_atx, :block_markdown_rule,
                           :block_markdown_bq, :block_markdown_lists,
                           :inline_markdown_reflink, :inline_markdown_link]
-        @rules = rules.collect do |rule|
+        @rules = rules.map do |rule|
             case rule
             when :markdown
                 markdown_rules
@@ -330,7 +330,7 @@ class RedCloth3 < String
          [134, 8224], [135, 8225], [136, 710], [137, 8240], [138, 352], [139, 8249],
          [140, 338], [141, 0], [142, 0], [143, 0], [144, 0], [145, 8216], [146, 8217],
          [147, 8220], [148, 8221], [149, 8226], [150, 8211], [151, 8212], [152, 732],
-         [153, 8482], [154, 353], [155, 8250], [156, 339], [157, 0], [158, 0], [159, 376]].collect! do |a, b|
+         [153, 8482], [154, 353], [155, 8250], [156, 339], [157, 0], [158, 0], [159, 376]].map! do |a, b|
             [a.chr, ( b.zero? and "" or "&#{ b };" )]
         end
 
@@ -374,7 +374,7 @@ class RedCloth3 < String
     ]
     QTAGS_JOIN = QTAGS.map {|rc, _ht, _rtype| Regexp::quote rc}.join('|')
 
-    QTAGS.collect! do |rc, ht, rtype|
+    QTAGS.map! do |rc, ht, rtype|
         rcq = Regexp::quote rc
         re =
             case rtype
@@ -629,7 +629,7 @@ class RedCloth3 < String
     BLOCKS_GROUP_RE = /\n{2,}(?! )/m
 
     def blocks( text, deep_code = false )
-        text.replace( text.split( BLOCKS_GROUP_RE ).collect do |blk|
+        text.replace( text.split( BLOCKS_GROUP_RE ).map do |blk|
             plain = blk !~ /\A[#*> ]/
 
             # skip blocks that are complex HTML
@@ -754,7 +754,7 @@ class RedCloth3 < String
     end
 
     MARKDOWN_RULE_RE = /^(#{
-        ['*', '-', '_'].collect { |ch| ' ?(' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
+        ['*', '-', '_'].map { |ch| ' ?(' + Regexp::quote( ch ) + ' ?){3,}' }.join( '|' )
     })$/
 
     def block_markdown_rule( text )

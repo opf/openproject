@@ -34,7 +34,7 @@ module Redmine
       attr_reader :user, :project, :scope
 
       # Needs to be unloaded in development mode
-      @@constantized_providers = Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].collect(&:constantize) }
+      @@constantized_providers = Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].map(&:constantize) }
 
       def initialize(user, options = {})
         options.assert_valid_keys(:project, :with_subprojects, :author)
@@ -53,7 +53,7 @@ module Redmine
         if @project
           @event_types = @event_types.select do |o|
             @project.self_and_descendants.detect do |_p|
-              permissions = constantized_providers(o).collect do |p|
+              permissions = constantized_providers(o).map do |p|
                 p.activity_provider_options[o].try(:[], :permission)
               end.compact
               return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
@@ -99,8 +99,8 @@ module Redmine
           end
         end
 
-        projects = Project.find(e.collect(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
-        users = User.find(e.collect(&:author_id).compact)
+        projects = Project.find(e.map(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
+        users = User.find(e.map(&:author_id).compact)
 
         e.each do |e|
           e.event_author = users.find { |u| u.id == e.author_id } if e.author_id

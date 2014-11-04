@@ -97,7 +97,7 @@ module Redmine
           notified = []
           notified = project.notified_users if project
           notified.reject! { |user| !visible?(user) }
-          notified.collect(&:mail)
+          notified.map(&:mail)
         end
 
         module ClassMethods

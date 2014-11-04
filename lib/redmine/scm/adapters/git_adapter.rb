@@ -64,7 +64,7 @@ module Redmine
               scm_version.force_encoding('ASCII-8BIT')
             end
             if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
-              m[2].scan(%r{\d+}).collect(&:to_i)
+              m[2].scan(%r{\d+}).map(&:to_i)
             end
           end
 

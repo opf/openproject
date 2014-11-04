@@ -96,7 +96,7 @@ module Redmine
         fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
         fields.sort {|a, b|
           a.order <=> b.order
-        }.collect {|custom_field_format|
+        }.map {|custom_field_format|
           [label_for(custom_field_format.name), custom_field_format.name]
         }
       end

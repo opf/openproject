@@ -139,7 +139,7 @@ module Redmine::MenuManager::MenuHelper
               else
                 content_tag :ul, style: "display:none" do
 
-                  items.collect do |item|
+                  items.map do |item|
                     render_menu_node(item)
                   end.join(" ").html_safe
                 end
@@ -162,7 +162,7 @@ module Redmine::MenuManager::MenuHelper
 
     content_tag :li do
       # Standard children
-      standard_children_list = node.children.collect do |child|
+      standard_children_list = node.children.map do |child|
                                  render_menu_node(child, project)
                                end.join.html_safe
 

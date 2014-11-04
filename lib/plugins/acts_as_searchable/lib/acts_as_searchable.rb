@@ -91,13 +91,13 @@ module Redmine
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
 
-            token_clauses = columns.collect { |column| "(LOWER(#{column}) LIKE ?)" }
+            token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
               searchable_custom_field_ids = CustomField.find(:all,
                                                              select: 'id',
                                                              conditions: { type: "#{name}CustomField",
-                                                                           searchable: true }).collect(&:id)
+                                                                           searchable: true }).map(&:id)
               if searchable_custom_field_ids.any?
                 custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
                                    " WHERE customized_type='#{name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +
@@ -108,12 +108,12 @@ module Redmine
 
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
 
-            find_options[:conditions] = [sql, * (tokens.collect { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
+            find_options[:conditions] = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
 
             project_conditions = []
             project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
                                                  Project.allowed_to_condition(User.current, searchable_options[:permission]))
-            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.collect(&:id).join(',')})" unless projects.nil?
+            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.map(&:id).join(',')})" unless projects.nil?
 
             results = []
             results_count = 0
