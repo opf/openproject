@@ -134,7 +134,7 @@ module ActionView
 
       module InstanceMethods
         def error_message_list(objects)
-          objects.collect do |object|
+          objects.map do |object|
             error_messages = []
 
             object.errors.each_error do |attr, error|
@@ -151,7 +151,7 @@ module ActionView
             # which would add to many error messages
             if object.errors[:custom_values].any?
               object.custom_values.each do |value|
-                value.errors.collect do |attr, msg|
+                value.errors.map do |attr, msg|
                   # Generating unique identifier in order to jump directly to the field with the error
                   object_identifier = erroneous_object_identifier(value.object_id.to_s, attr)
                   error_messages << [value.custom_field.name + ' ' + msg, object_identifier]
@@ -170,7 +170,7 @@ module ActionView
         end
 
         def error_message_list_elements(array)
-          array.collect do |msg, identifier|
+          array.map do |msg, identifier|
             content_tag :li do
               content_tag :a,
                           ERB::Util.html_escape(msg),
