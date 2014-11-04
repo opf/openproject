@@ -32,15 +32,17 @@ module Api
       module PaginationSpecHelper
         def paginating_index_action(model, scope)
           describe :index, type: :controller do
-            let(:params) { { "page" => "1",
-                             "page_limit" => "10",
-                             "q" => "blubs",
-                             "format" => "json" } }
+            let(:params) {
+              { 'page' => '1',
+                'page_limit' => '10',
+                'q' => 'blubs',
+                'format' => 'json' }
+            }
 
             before do
               expect(model).to receive(scope)
-                   .with(params["q"])
-                   .and_return(model)
+                .with(params['q'])
+                .and_return(model)
 
               get :index, params
             end
