@@ -28,5 +28,5 @@
 #++
 
 class Journal::NewsJournal < Journal::BaseJournal
-  self.table_name = "news_journals"
+  self.table_name = 'news_journals'
 end

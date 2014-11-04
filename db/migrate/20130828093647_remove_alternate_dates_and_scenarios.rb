@@ -35,7 +35,7 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration
 
   def down
     create_table(:scenarios) do |t|
-      t.column :name,        :string, :null => false
+      t.column :name,        :string, null: false
       t.column :description, :text
 
       t.belongs_to :project
@@ -46,8 +46,8 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration
     add_index :scenarios, :project_id
 
     create_table(:alternate_dates) do |t|
-      t.column :start_date, :date, :null => false
-      t.column :due_date,   :date, :null => false
+      t.column :start_date, :date, null: false
+      t.column :due_date,   :date, null: false
 
       t.belongs_to :scenario
       t.belongs_to :planning_element
@@ -60,7 +60,7 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration
 
     add_index :alternate_dates,
               [:updated_at, :planning_element_id, :scenario_id],
-              :unique => true,
-              :name => 'index_ad_on_updated_at_and_planning_element_id'
+              unique: true,
+              name: 'index_ad_on_updated_at_and_planning_element_id'
   end
 end

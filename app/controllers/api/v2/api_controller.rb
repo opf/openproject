@@ -73,8 +73,6 @@ module Api
                            :find_project_by_project_id,
                            :jump_to_project_menu_item,
                            :find_optional_project_and_raise_error
-
-
     end
   end
 end

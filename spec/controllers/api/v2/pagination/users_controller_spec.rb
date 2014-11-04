@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'pagination_spec_helper'
 
-describe Api::V2::Pagination::UsersController, :type => :controller do
+describe Api::V2::Pagination::UsersController, type: :controller do
   extend Api::V2::Pagination::PaginationSpecHelper
 
   paginating_index_action User, :active_or_registered_like

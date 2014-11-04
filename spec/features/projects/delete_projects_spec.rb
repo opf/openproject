@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-describe 'Delete project', :type => :feature do
+describe 'Delete project', type: :feature do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:projects_page) { ProjectsPage.new(project) }

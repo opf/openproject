@@ -29,9 +29,7 @@
 
 module Api
   module V2
-
     class ReportedProjectStatusesController < ::ReportedProjectStatusesController
-
       include ::Api::V2::ApiController
 
       def index
@@ -48,6 +46,5 @@ module Api
         end
       end
     end
-
   end
 end

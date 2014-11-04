@@ -38,7 +38,7 @@ describe ::API::V3::WorkPackages::WorkPackageModel do
   context 'with a formatted description' do
     let(:attributes) {
       {
-       description: <<-DESC
+        description: <<-DESC
 h2. Plan for this month
 
 # Important bug fixes
@@ -95,12 +95,16 @@ h2. Plan for this month
       end
 
       describe 'relations' do
-        let!(:relation) { FactoryGirl.create(:relation,
-                                             from: work_package,
-                                             to: work_package_2) }
-        let!(:forbidden_relation) { FactoryGirl.create(:relation,
-                                                       from: work_package,
-                                                       to: forbidden_work_package) }
+        let!(:relation) {
+          FactoryGirl.create(:relation,
+                             from: work_package,
+                             to: work_package_2)
+        }
+        let!(:forbidden_relation) {
+          FactoryGirl.create(:relation,
+                             from: work_package,
+                             to: forbidden_work_package)
+        }
 
         it { expect(model.relations.count).to eq(1) }
 
@@ -124,14 +128,14 @@ h2. Plan for this month
     it 'should have units in de if the language is de' do
       I18n.with_locale(:de) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => value.to_i))
+                                                           count: value.to_i))
       end
     end
 
     it 'should have units in en if the language is en' do
       I18n.with_locale(:en) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => value.to_i))
+                                                           count: value.to_i))
       end
     end
 
@@ -140,7 +144,7 @@ h2. Plan for this month
 
       I18n.with_locale(:en) do
         expect(model.estimated_time[:units]).to eql(I18n.t(:'datetime.units.hour',
-                                                           :count => 2)) # we want plural on 0
+                                                           count: 2)) # we want plural on 0
       end
     end
   end

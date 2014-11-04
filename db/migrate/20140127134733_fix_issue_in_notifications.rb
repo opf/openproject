@@ -29,10 +29,10 @@
 
 class FixIssueInNotifications < ActiveRecord::Migration
   REPLACED = {
-    "issue_added" => "work_package_added",
-    "issue_updated" => "work_package_updated",
-    "issue_priority_updated" => "work_package_priority_updated",
-    "issue_note_added" => "work_package_note_added"
+    'issue_added' => 'work_package_added',
+    'issue_updated' => 'work_package_updated',
+    'issue_priority_updated' => 'work_package_priority_updated',
+    'issue_note_added' => 'work_package_note_added'
   }
   def up
     Setting['notified_events'] = replace(Setting['notified_events'], REPLACED)
@@ -44,7 +44,7 @@ class FixIssueInNotifications < ActiveRecord::Migration
 
   private
 
-  def replace(value,mapping)
+  def replace(value, mapping)
     if value.respond_to? :map
       value.map { |s| mapping[s].nil? ? s : mapping[s] }
     else

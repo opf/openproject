@@ -30,24 +30,24 @@
 class Enumeration < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  default_scope :order => "#{Enumeration.table_name}.position ASC"
+  default_scope order: "#{Enumeration.table_name}.position ASC"
 
   belongs_to :project
 
-  acts_as_list :scope => 'type = \'#{type}\''
+  acts_as_list scope: 'type = \'#{type}\''
   acts_as_customizable
-  acts_as_tree :order => 'position ASC'
+  acts_as_tree order: 'position ASC'
 
   before_destroy :check_integrity
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:type, :project_id]
-  validates_length_of :name, :maximum => 30
+  validates_uniqueness_of :name, scope: [:type, :project_id]
+  validates_length_of :name, maximum: 30
 
-  scope :shared, :conditions => { :project_id => nil }
-  scope :active, :conditions => { :active => true }
+  scope :shared, conditions: { project_id: nil }
+  scope :active, conditions: { active: true }
 
-  before_save :unmark_old_default_value, :if => :became_default_value?
+  before_save :unmark_old_default_value, if: :became_default_value?
 
   # let all child classes have Enumeration as it's model name
   # used to not having to create another route for every subclass of Enumeration
@@ -65,10 +65,10 @@ class Enumeration < ActiveRecord::Base
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
     if self.descends_from_active_record?
-      find(:first, :conditions => { :is_default => true, :type => 'Enumeration' })
+      find(:first, conditions: { is_default: true, type: 'Enumeration' })
     else
       # STI classes are
-      find(:first, :conditions => { :is_default => true })
+      find(:first, conditions: { is_default: true })
     end
   end
 
@@ -93,7 +93,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   def unmark_old_default_value
-    Enumeration.where(:type => type).update_all(:is_default => false)
+    Enumeration.where(type: type).update_all(is_default: false)
   end
 
   # Overloaded on concrete classes
@@ -102,12 +102,12 @@ class Enumeration < ActiveRecord::Base
   end
 
   def in_use?
-    self.objects_count != 0
+    objects_count != 0
   end
 
   # Is this enumeration overriding a system level enumeration?
   def is_override?
-    !self.parent.nil?
+    !parent.nil?
   end
 
   alias :destroy_without_reassign :destroy
@@ -116,7 +116,7 @@ class Enumeration < ActiveRecord::Base
   # If a enumeration is specified, objects are reassigned
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Enumeration)
-      self.transfer_relations(reassign_to)
+      transfer_relations(reassign_to)
     end
     destroy_without_reassign
   end
@@ -129,7 +129,7 @@ class Enumeration < ActiveRecord::Base
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
-    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
+    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new, previous)
       return false
     else
       return true
@@ -139,21 +139,22 @@ class Enumeration < ActiveRecord::Base
   # Does the +new+ Hash have the same custom values as the previous Enumeration?
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
-      if custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
+      if custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
         return false
       end
     end
 
-    return true
+    true
   end
 
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)
-    new = (new == "1" ? true : false)
-    return new == previous
+    new = (new == '1' ? true : false)
+    new == previous
   end
 
-private
+  private
+
   # This is not a performant method.
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
@@ -172,7 +173,6 @@ private
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end
-
 end
 
 # Force load the subclasses in development mode

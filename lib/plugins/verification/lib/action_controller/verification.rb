@@ -78,14 +78,14 @@ module ActionController #:nodoc:
       # <tt>:except</tt>::
       #   do not apply this verification to the actions specified in the associated
       #   array (may also be a single value).
-      def verify(options={})
-        before_filter :only => options[:only], :except => options[:except] do
+      def verify(options = {})
+        before_filter only: options[:only], except: options[:except] do
           verify_action options
         end
       end
     end
 
-  private
+    private
 
     def verify_action(options) #:nodoc:
       if prereqs_invalid?(options)
@@ -97,14 +97,14 @@ module ActionController #:nodoc:
 
     def prereqs_invalid?(options) # :nodoc:
       verify_presence_of_keys_in_hash_flash_or_params(options) ||
-      verify_method(options) ||
-      verify_request_xhr_status(options)
+        verify_method(options) ||
+        verify_request_xhr_status(options)
     end
 
     def verify_presence_of_keys_in_hash_flash_or_params(options) # :nodoc:
-      [*options[:params] ].find { |v| v && params[v.to_sym].nil?  } ||
-      [*options[:session]].find { |v| session[v].nil? } ||
-      [*options[:flash]  ].find { |v| flash[v].nil?   }
+      [*options[:params]].find { |v| v && params[v.to_sym].nil?  } ||
+        [*options[:session]].find { |v| session[v].nil? } ||
+        [*options[:flash]].find { |v| flash[v].nil?   }
     end
 
     def verify_method(options) # :nodoc:
@@ -116,13 +116,13 @@ module ActionController #:nodoc:
     end
 
     def apply_redirect_to(redirect_to_option) # :nodoc:
-      (redirect_to_option.is_a?(Symbol) && redirect_to_option != :back) ? self.__send__(redirect_to_option) : redirect_to_option
+      (redirect_to_option.is_a?(Symbol) && redirect_to_option != :back) ? __send__(redirect_to_option) : redirect_to_option
     end
 
     def apply_remaining_actions(options) # :nodoc:
       case
-        when options[:render]      ; render(options[:render])
-        when options[:redirect_to] ; redirect_to(apply_redirect_to(options[:redirect_to]))
+        when options[:render]; render(options[:render])
+        when options[:redirect_to]; redirect_to(apply_redirect_to(options[:redirect_to]))
         else head(:bad_request)
       end
     end

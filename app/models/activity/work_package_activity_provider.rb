@@ -47,13 +47,13 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
-    title = "#{(is_standard) ? "" : "#{type_name}"} ##{id}: #{subject}"
+    title = "#{(is_standard) ? '' : "#{type_name}"} ##{id}: #{subject}"
     title << " (#{status_name})" unless status_name.blank?
   end
 
   protected
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     self.class.work_package_title(event['journable_id'],
                                   event['subject'],
                                   event['type_name'],
@@ -61,7 +61,7 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
                                   event['is_standard'])
   end
 
-  def event_type(event, activity)
+  def event_type(event, _activity)
     state = ''
     journal = Journal.find(event['event_id'])
 
@@ -74,11 +74,11 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     "work_package#{state}"
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.work_package_path(event['journable_id'])
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.work_package_url(event['journable_id'],
                                  anchor: notes_anchor(event))
   end
@@ -88,6 +88,6 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   def notes_anchor(event)
     version = event['version'].to_i
 
-    (version > 1) ? "note-#{version - 1}" : ""
+    (version > 1) ? "note-#{version - 1}" : ''
   end
 end

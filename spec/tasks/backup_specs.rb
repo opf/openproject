@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe 'mysql' do
   let(:database_config) do
-    {'adapter' => 'mysql2',
-     'database' => 'openproject-database',
-     'username' => 'testuser',
-     'password' => 'testpassword'}
+    { 'adapter' => 'mysql2',
+      'database' => 'openproject-database',
+      'username' => 'testuser',
+      'password' => 'testpassword' }
   end
 
   before do
@@ -119,10 +119,10 @@ end
 
 describe 'postgresql' do
   let(:database_config) do
-    {'adapter' => 'postgresql',
-     'database' => 'openproject-database',
-     'username' => 'testuser',
-     'password' => 'testpassword'}
+    { 'adapter' => 'postgresql',
+      'database' => 'openproject-database',
+      'username' => 'testuser',
+      'password' => 'testpassword' }
   end
 
   before do

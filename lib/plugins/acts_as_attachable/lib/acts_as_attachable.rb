@@ -37,12 +37,12 @@ module Redmine
         def acts_as_attachable(options = {})
           cattr_accessor :attachable_options
           self.attachable_options = {}
-          attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{self.name.pluralize.underscore}".to_sym
-          attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
+          attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{name.pluralize.underscore}".to_sym
+          attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{name.pluralize.underscore}".to_sym
 
-          has_many :attachments, options.reverse_merge!(:as => :container,
-                                                        :order => "#{Attachment.table_name}.created_on",
-                                                        :dependent => :destroy)
+          has_many :attachments, options.reverse_merge!(as: :container,
+                                                        order: "#{Attachment.table_name}.created_on",
+                                                        dependent: :destroy)
           attr_accessor :unsaved_attachments
           after_initialize :initialize_unsaved_attachments
           send :include, Redmine::Acts::Attachable::InstanceMethods
@@ -54,12 +54,12 @@ module Redmine
           base.extend ClassMethods
         end
 
-        def attachments_visible?(user=User.current)
-          user.allowed_to?(self.class.attachable_options[:view_permission], self.project)
+        def attachments_visible?(user = User.current)
+          user.allowed_to?(self.class.attachable_options[:view_permission], project)
         end
 
-        def attachments_deletable?(user=User.current)
-          user.allowed_to?(self.class.attachable_options[:delete_permission], self.project)
+        def attachments_deletable?(user = User.current)
+          user.allowed_to?(self.class.attachable_options[:delete_permission], project)
         end
 
         def initialize_unsaved_attachments

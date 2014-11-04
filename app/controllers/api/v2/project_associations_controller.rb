@@ -29,9 +29,7 @@
 
 module Api
   module V2
-
     class ProjectAssociationsController < ::ProjectAssociationsController
-
       include ::Api::V2::ApiController
 
       respond_to :api
@@ -62,6 +60,5 @@ module Api
         respond_with(@project_associations)
       end
     end
-
   end
 end

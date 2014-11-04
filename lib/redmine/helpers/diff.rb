@@ -37,14 +37,14 @@ module Redmine
 
       def initialize(content_to, content_from)
         @words = content_to.to_s.split(/(\s+)/)
-        @words = @words.select {|word| word != ' '}
+        @words = @words.select { |word| word != ' ' }
         words_from = content_from.to_s.split(/(\s+)/)
-        words_from = words_from.select {|word| word != ' '}
+        words_from = words_from.select { |word| word != ' ' }
         @diff = words_from.diff @words
       end
 
       def to_html
-        words = self.words.collect{|word| h(word)}
+        words = self.words.map { |word| h(word) }
         words_add = 0
         words_del = 0
         dels = 0
@@ -53,10 +53,10 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ""
+          deleted = ''
           diff.each do |change|
             pos = change[1]
-            if change[0] == "+"
+            if change[0] == '+'
               add_at = pos + dels unless add_at
               add_to = pos + dels
               words_add += 1

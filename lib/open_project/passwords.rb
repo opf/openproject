@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 #-- copyright
 # OpenProject is a project management system.
@@ -39,10 +39,10 @@ module OpenProject
     # length and other complexity rules.
     #
     module Evaluator
-      RULES = {'uppercase' => /.*[A-Z].*/u,
-               'lowercase' => /.*[a-z].*/u,
-               'special'   => /.*[^\da-zA-Z].*/u,
-               'numeric'   => /.*\d.*/u}
+      RULES = { 'uppercase' => /.*[A-Z].*/u,
+                'lowercase' => /.*[a-z].*/u,
+                'special'   => /.*[^\da-zA-Z].*/u,
+                'numeric'   => /.*\d.*/u }
       # Check whether password conforms to password complexity settings.
       # Checks complexity rules and password length.
       def self.conforming?(password)
@@ -58,8 +58,8 @@ module OpenProject
         end
         unless password_long_enough(password)
           errors << I18n.t(:too_short,
-                           :scope => [:activerecord, :errors, :messages],
-                           :count => OpenProject::Passwords::Evaluator.min_length)
+                           scope: [:activerecord, :errors, :messages],
+                           count: OpenProject::Passwords::Evaluator.min_length)
         end
         errors
       end
@@ -106,23 +106,23 @@ module OpenProject
 
         rules = active_rules.map do |rule|
           I18n.t(rule.to_sym,
-                 :scope => [:activerecord, :errors, :models, :user, :attributes, :password])
+                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
         end
 
         I18n.t(:weak,
-          :scope => [:activerecord, :errors, :models, :user, :attributes, :password],
-          :rules => rules.join(", "),
-          :min_count => min_adhered_rules,
-          :all_count => active_rules.size)
+               scope: [:activerecord, :errors, :models, :user, :attributes, :password],
+               rules: rules.join(', '),
+               min_count: min_adhered_rules,
+               all_count: active_rules.size)
       end
 
       # Returns a text describing the minimum length of a password.
       def self.min_length_description
         I18n.t(:text_caracters_minimum,
-               :count => OpenProject::Passwords::Evaluator.min_length)
+               count: OpenProject::Passwords::Evaluator.min_length)
       end
 
-    private
+      private
 
       # Returns the number of active rules password adheres to.
       def self.size_active_rules_adhered_by(password)
@@ -142,17 +142,17 @@ module OpenProject
       # password length, whichever is higher.
       # The generated password conforms to the active password rules.
       def self.random_password
-        chars = ("a".."z").to_a +
-                ("A".."Z").to_a +
-                ("0".."9").to_a +
-                ["!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+",
-                  ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\",
-                   "]", "^", "_", "`", "{", "|", "}", "~"]
+        chars = ('a'..'z').to_a +
+                ('A'..'Z').to_a +
+                ('0'..'9').to_a +
+                ['!', "\"", '#', '$', '%', '&', "'", '(', ')', '*', '+',
+                 ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\',
+                 ']', '^', '_', '`', '{', '|', '}', '~']
 
         begin
-           password = ''
-           length = [RANDOM_PASSWORD_MIN_LENGTH, Evaluator.min_length].max
-           length.times { |i| password << chars[SecureRandom.random_number(chars.size-1)] }
+          password = ''
+          length = [RANDOM_PASSWORD_MIN_LENGTH, Evaluator.min_length].max
+          length.times { |_i| password << chars[SecureRandom.random_number(chars.size - 1)] }
         end while not Evaluator.conforming? password
         password
       end

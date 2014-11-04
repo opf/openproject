@@ -30,20 +30,18 @@
 class RenameActsAsJournalizedChangesColumn < ActiveRecord::Migration
   def self.up
     # This is provided here for migrating up after the JournalDetails has been removed
-    unless Object.const_defined?("JournalDetails")
-      Object.const_set("JournalDetails", Class.new(ActiveRecord::Base))
+    unless Object.const_defined?('JournalDetails')
+      Object.const_set('JournalDetails', Class.new(ActiveRecord::Base))
     end
 
     change_table :journals do |t|
       t.rename :changes, :changed_data
     end
-
   end
 
   def self.down
-    change_table "journals" do |t|
+    change_table 'journals' do |t|
       t.rename :changed_data, :changes
     end
-
   end
 end

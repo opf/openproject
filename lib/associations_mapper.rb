@@ -36,7 +36,7 @@ module AssociationsMapper
     def map_associations_for(*association_names)
       association_names.each do |association_name|
         if reflection = reflect_on_association(association_name)
-          class_eval %Q{
+          class_eval %{
             def #{association_name}_with_map_associations_for=(new_value)
               if new_value.present? && new_value.is_a?(Hash) && new_value.has_key?(:id)
                 obj = #{reflection.klass.name}.find_by_id(new_value[:id])

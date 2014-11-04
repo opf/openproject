@@ -139,8 +139,8 @@ module API
             data: { user_id: @current_user.id },
             title: 'Watch work package'
           } if !@current_user.anonymous? &&
-             current_user_allowed_to(:view_work_packages, represented.model) &&
-            !represented.model.watcher_users.include?(@current_user)
+               current_user_allowed_to(:view_work_packages, represented.model) &&
+               !represented.model.watcher_users.include?(@current_user)
         end
 
         link :unwatchChanges do
@@ -162,15 +162,15 @@ module API
 
         link :addRelation do
           {
-              href: "#{root_path}api/v3/work_packages/#{represented.model.id}/relations",
-              method: :post,
-              title: 'Add relation'
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/relations",
+            method: :post,
+            title: 'Add relation'
           } if current_user_allowed_to(:manage_work_package_relations, represented.model)
         end
 
         link :addChild do
           {
-            href: new_project_work_package_path(represented.model.project, work_package: {parent_id: represented.model}),
+            href: new_project_work_package_path(represented.model.project, work_package: { parent_id: represented.model }),
             type: 'text/html',
             title: "Add child of #{represented.subject}"
           } if current_user_allowed_to(:add_work_packages, represented.model)
@@ -186,16 +186,16 @@ module API
 
         link :addComment do
           {
-              href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",
-              method: :post,
-              title: 'Add comment'
+            href: "#{root_path}api/v3/work_packages/#{represented.model.id}/activities",
+            method: :post,
+            title: 'Add comment'
           } if current_user_allowed_to(:add_work_package_notes, represented.model)
         end
 
         link :parent do
           {
-              href: "#{root_path}api/v3/work_packages/#{represented.model.parent.id}",
-              title:  represented.model.parent.subject
+            href: "#{root_path}api/v3/work_packages/#{represented.model.parent.id}",
+            title:  represented.model.parent.subject
           } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
@@ -204,7 +204,7 @@ module API
             href: version_path(represented.model.fixed_version),
             type: 'text/html',
             title: "#{represented.model.fixed_version.to_s_for_project(represented.model.project)}"
-          } if represented.model.fixed_version && @current_user.allowed_to?({controller: "versions", action: "show"}, represented.model.fixed_version.project, global: false)
+          } if represented.model.fixed_version && @current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.model.fixed_version.project, global: false)
         end
 
         links :children do
@@ -255,28 +255,28 @@ module API
         end
 
         def activities
-          represented.activities.map{ |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
+          represented.activities.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
         end
 
         def watchers
-          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.model, current_user: @current_user) }
+          represented.watchers.map { |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.model, current_user: @current_user) }
         end
 
         def relations
-          represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.model, current_user: @current_user) }
+          represented.relations.map { |relation| RelationRepresenter.new(relation, work_package: represented.model, current_user: @current_user) }
         end
 
         def custom_properties
-            values = represented.model.custom_field_values
-            values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
+          values = represented.model.custom_field_values
+          values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value } }
         end
 
-        def current_user_allowed_to(permission, work_package)
+        def current_user_allowed_to(permission, _work_package)
           @current_user && @current_user.allowed_to?(permission, represented.model.project)
         end
 
         def visible_children
-          @visible_children ||= represented.model.children.find_all { |child| child.visible? }
+          @visible_children ||= represented.model.children.find_all(&:visible?)
         end
 
         def percentage_done

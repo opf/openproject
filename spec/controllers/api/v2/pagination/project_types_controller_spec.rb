@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'pagination_spec_helper'
 
-describe Api::V2::Pagination::ProjectTypesController, :type => :controller do
+describe Api::V2::Pagination::ProjectTypesController, type: :controller do
   extend Api::V2::Pagination::PaginationSpecHelper
 
   paginating_index_action ProjectType, :like

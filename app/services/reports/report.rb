@@ -28,13 +28,12 @@
 #++
 
 class Reports::Report
-
   def initialize(project)
     @project = project
   end
 
   def self.report_type
-    "default"
+    'default'
   end
 
   def report_type
@@ -61,5 +60,4 @@ class Reports::Report
   def title
     raise NotImplementedError
   end
-
 end

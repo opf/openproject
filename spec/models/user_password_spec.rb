@@ -28,25 +28,25 @@
 
 require 'spec_helper'
 
-describe UserPassword, :type => :model do
+describe UserPassword, type: :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }
   let(:password) { FactoryGirl.create(:user_password) }
 
   describe :expired? do
     it 'should be true for an old password when password expiry is activated' do
-      with_settings :password_days_valid => 30 do
+      with_settings password_days_valid: 30 do
         expect(old_password.expired?).to be_truthy
       end
     end
 
     it 'should be false when password expiry is enabled and the password was changed recently' do
-      with_settings :password_days_valid => 30 do
+      with_settings password_days_valid: 30 do
         expect(password.expired?).to be_falsey
       end
     end
 
     it 'should be false for an old password when password expiry is disabled' do
-      with_settings :password_days_valid => 0 do
+      with_settings password_days_valid: 0 do
         expect(old_password.expired?).to be_falsey
       end
     end

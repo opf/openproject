@@ -82,7 +82,7 @@ class CopyProjectJob < Struct.new(:user,
         error_objects = (target_project.compiled_errors.flatten + [target_project.errors]).flatten
         error_objects.each do |error_object|
           base = error_object.instance_variable_get(:@base)
-          error_prefix = base.is_a?(Project) ? "" : "#{base.class.model_name.human} '#{base.to_s}': "
+          error_prefix = base.is_a?(Project) ? '' : "#{base.class.model_name.human} '#{base}': "
 
           error_object.full_messages.flatten.each do |error|
             errors << error_prefix + error

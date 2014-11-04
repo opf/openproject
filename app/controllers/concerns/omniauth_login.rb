@@ -5,7 +5,7 @@ require 'uri'
 module Concerns::OmniauthLogin
   def self.included(base)
     # disable CSRF protection since that should be covered by the omniauth strategy
-    base.skip_before_filter :verify_authenticity_token, :only => [:omniauth_login]
+    base.skip_before_filter :verify_authenticity_token, only: [:omniauth_login]
   end
 
   def omniauth_login
@@ -73,7 +73,7 @@ module Concerns::OmniauthLogin
 
   def show_error(error)
     flash[:error] = error
-    redirect_to :action => 'login'
+    redirect_to action: 'login'
   end
 
   # a user may login via omniauth and (if that user does not exist

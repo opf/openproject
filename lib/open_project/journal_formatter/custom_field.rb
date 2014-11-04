@@ -34,7 +34,7 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
   private
 
   def format_details(key, values)
-    custom_field = CustomField.find_by_id(key.to_s.sub("custom_fields_", "").to_i)
+    custom_field = CustomField.find_by_id(key.to_s.sub('custom_fields_', '').to_i)
 
     if custom_field
       label = custom_field.name
@@ -48,5 +48,4 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
 
     [label, old_value, value]
   end
-
 end

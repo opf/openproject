@@ -33,16 +33,16 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   include OpenProject::StaticRouting::UrlHelpers
 
   def self.default_url_options
-    { :only_path => true }
+    { only_path: true }
   end
 
-  def render(key, values, options = { :no_html => false })
-    label, old_value, value = format_details(key.to_s.sub("attachments_", ""), values)
+  def render(key, values, options = { no_html: false })
+    label, old_value, value = format_details(key.to_s.sub('attachments_', ''), values)
 
     unless options[:no_html]
       label, old_value, value = *format_html_details(label, old_value, value)
 
-      value = format_html_attachment_detail(key.to_s.sub("attachments_", ""), value)
+      value = format_html_attachment_detail(key.to_s.sub('attachments_', ''), value)
     end
 
     render_binary_detail_text(label, value, old_value)
@@ -50,7 +50,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
 
   private
 
-  def label(key)
+  def label(_key)
     Attachment.model_name.human
   end
 
@@ -62,7 +62,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
 
   def format_html_attachment_detail(key, value)
     if !value.blank? && a = Attachment.find_by_id(key.to_i)
-      link_to_attachment(a, :only_path => false )
+      link_to_attachment(a, only_path: false)
     else
       value if value.present?
     end

@@ -31,11 +31,11 @@ module AccessibilityHelper
   def you_are_here_info(condition = true)
     condition ?
       "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>".html_safe :
-      ""
+      ''
   end
 
   def empty_element_tag
-    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
+    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: 'accessibility/empty_element_tag').html_safe
   end
 
   # Return true if the difference between two colors
@@ -72,7 +72,7 @@ module AccessibilityHelper
   def find_color_diff(c1, c2)
     r1, g1, b1 = break_color c1
     r2, g2, b2 = break_color c2
-    cont_diff = (r1-r2).abs+(g1-g2).abs+(b1-b2).abs # Color contrast
+    cont_diff = (r1 - r2).abs + (g1 - g2).abs + (b1 - b2).abs # Color contrast
     bright1 = (r1 * 299 + g1 * 587 + b1 * 114) / 1000
     bright2 = (r2 * 299 + g2 * 587 + b2 * 114) / 1000
     brt_diff = (bright1 - bright2).abs # Color brightness diff
@@ -84,10 +84,10 @@ module AccessibilityHelper
     r = (rgb & 0xff0000) >> 16
     g = (rgb & 0x00ff00) >> 8
     b = rgb & 0x0000ff
-    [r,g,b]
+    [r, g, b]
   end
 
-  def locale_exists?(key, locale=I18n.locale)
+  def locale_exists?(key, locale = I18n.locale)
     I18n.t(key, locale: locale, raise: true) rescue false
   end
 

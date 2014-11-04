@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Workflow, :type => :model do
+describe Workflow, type: :model do
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
   let(:role) { FactoryGirl.create(:role) }
@@ -41,7 +41,7 @@ describe Workflow, :type => :model do
     shared_examples_for 'copied workflow' do
       before { Workflow.copy(type, role, type_target, role_target) }
 
-      subject { Workflow.order("id DESC").first }
+      subject { Workflow.order('id DESC').first }
 
       it { expect(subject.old_status).to eq(workflow_src.old_status) }
 
@@ -57,31 +57,37 @@ describe Workflow, :type => :model do
     end
 
     describe 'workflow w/o author or assignee' do
-      let!(:workflow_src) { FactoryGirl.create(:workflow,
-                                               old_status: status_0,
-                                               new_status: status_1,
-                                               type_id: type.id,
-                                               role: role) }
+      let!(:workflow_src) {
+        FactoryGirl.create(:workflow,
+                           old_status: status_0,
+                           new_status: status_1,
+                           type_id: type.id,
+                           role: role)
+      }
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with author' do
-      let!(:workflow_src) { FactoryGirl.create(:workflow,
-                                               old_status: status_0,
-                                               new_status: status_1,
-                                               type_id: type.id,
-                                               role: role,
-                                               author: true) }
+      let!(:workflow_src) {
+        FactoryGirl.create(:workflow,
+                           old_status: status_0,
+                           new_status: status_1,
+                           type_id: type.id,
+                           role: role,
+                           author: true)
+      }
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with assignee' do
-      let!(:workflow_src) { FactoryGirl.create(:workflow,
-                                               old_status: status_0,
-                                               new_status: status_1,
-                                               type_id: type.id,
-                                               role: role,
-                                               assignee: true) }
+      let!(:workflow_src) {
+        FactoryGirl.create(:workflow,
+                           old_status: status_0,
+                           new_status: status_1,
+                           type_id: type.id,
+                           role: role,
+                           assignee: true)
+      }
       it_behaves_like 'copied workflow'
     end
   end

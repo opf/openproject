@@ -31,7 +31,7 @@ class Token < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :value
 
-  #attr_protected :user_id
+  # attr_protected :user_id
 
   before_create :delete_previous_tokens
   before_create :assign_generated_token
@@ -40,7 +40,7 @@ class Token < ActiveRecord::Base
 
   # Return true if token has expired
   def expired?
-    return Time.now > self.created_on + @@validity_time
+    Time.now > created_on + @@validity_time
   end
 
   # Delete all expired tokens
@@ -48,7 +48,7 @@ class Token < ActiveRecord::Base
     Token.delete_all ["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]
   end
 
-private
+  private
 
   def self.generate_token_value
     SecureRandom.hex(20)

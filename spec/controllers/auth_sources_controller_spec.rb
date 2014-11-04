@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AuthSourcesController, :type => :controller do
+describe AuthSourcesController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -37,7 +37,7 @@ describe AuthSourcesController, :type => :controller do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe "index" do
+  describe 'index' do
     before do
       get :index
     end
@@ -47,7 +47,7 @@ describe AuthSourcesController, :type => :controller do
     it { is_expected.to render_template :index }
   end
 
-  describe "new" do
+  describe 'new' do
     before do
       get :new
     end
@@ -56,15 +56,15 @@ describe AuthSourcesController, :type => :controller do
     it { is_expected.to respond_with :success }
     it { is_expected.to render_template :new }
 
-    it "initializes a new AuthSource" do
+    it 'initializes a new AuthSource' do
       expect(assigns(:auth_source).class).to eq(AuthSource)
       expect(assigns(:auth_source)).to be_new_record
     end
   end
 
-  describe "create" do
+  describe 'create' do
     before do
-      post :create, :auth_source => {:name => 'Test'}
+      post :create, auth_source: { name: 'Test' }
     end
 
     it { is_expected.to respond_with :redirect }
@@ -72,9 +72,9 @@ describe AuthSourcesController, :type => :controller do
     it { is_expected.to set_the_flash.to /success/i }
   end
 
-  describe "edit" do
+  describe 'edit' do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
       get :edit, id: @auth_source.id
     end
 
@@ -83,10 +83,10 @@ describe AuthSourcesController, :type => :controller do
     it { is_expected.to render_template :edit }
   end
 
-  describe "update" do
+  describe 'update' do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
-      post :update, id: @auth_source.id, auth_source: {name: 'TestUpdate'}
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
+      post :update, id: @auth_source.id, auth_source: { name: 'TestUpdate' }
     end
 
     it { is_expected.to respond_with :redirect }
@@ -94,12 +94,12 @@ describe AuthSourcesController, :type => :controller do
     it { is_expected.to set_the_flash.to /update/i }
   end
 
-  describe "destroy" do
+  describe 'destroy' do
     before do
-      @auth_source = AuthSource.generate!(:name => 'TestEdit')
+      @auth_source = AuthSource.generate!(name: 'TestEdit')
     end
 
-    context "without users" do
+    context 'without users' do
       before do
         post :destroy, id: @auth_source.id
       end
@@ -109,14 +109,14 @@ describe AuthSourcesController, :type => :controller do
       it { is_expected.to set_the_flash.to /deletion/i }
     end
 
-    context "with users" do
+    context 'with users' do
       before do
-        User.generate!(:auth_source => @auth_source)
+        User.generate!(auth_source: @auth_source)
         post :destroy, id: @auth_source.id
       end
 
       it { is_expected.to respond_with :redirect }
-      it "doesn not destroy the AuthSource" do
+      it 'doesn not destroy the AuthSource' do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end
     end

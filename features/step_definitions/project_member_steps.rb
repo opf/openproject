@@ -32,29 +32,29 @@ When /^I check the role "(.+?)" for the project member "(.+?)"$/ do |role_name, 
 
   member = member_for_login user_login
 
-  steps %Q{When I check "member_role_ids_#{role.id}" within "#member-#{member.id}"}
+  steps %{When I check "member_role_ids_#{role.id}" within "#member-#{member.id}"}
 end
 
 Then /^the project member "(.+?)" should not be in edit mode$/ do |user_login|
   member = member_for_login user_login
 
-  page.find("#member-#{member.id}-roles-form", :visible => false).should_not be_visible
+  page.find("#member-#{member.id}-roles-form", visible: false).should_not be_visible
 end
 
 Then /^the project member "(.+?)" should have the role "(.+?)"$/ do |user_login, role_name|
   member = member_for_login user_login
 
-  steps %Q{Then I should see "#{role_name}" within "#member-#{member.id}-roles"}
+  steps %{Then I should see "#{role_name}" within "#member-#{member.id}-roles"}
 end
 
 When /^I follow the delete link of the project member "(.+?)"$/ do |login_name|
   member = member_for_login login_name
 
-  steps %Q{When I follow "Delete" within "#member-#{member.id}"}
+  steps %{When I follow "Delete" within "#member-#{member.id}"}
 end
 
 When /^I add(?: the)? principal "(.+)" as(?: a)? "(.+)"$/ do |principal, role|
-  steps %Q{
+  steps %{
     And I select the principal "#{principal}"
     And I select the role "#{role}"
     And I click on "Add" within "#tab-content-members"
@@ -76,17 +76,17 @@ end
 
 def select_principal(principal)
   if !User.current.impaired?
-    select_within_select2(principal.name, "#s2id_member_user_ids")
+    select_within_select2(principal.name, '#s2id_member_user_ids')
   else
-    select_without_select2(principal.name, "form .principals")
+    select_without_select2(principal.name, 'form .principals')
   end
 end
 
 def select_role(role)
   if !User.current.impaired?
-    select_within_select2(role.name, "#s2id_member_role_ids")
+    select_within_select2(role.name, '#s2id_member_role_ids')
   else
-    select_without_select2(role.name, "form .roles")
+    select_without_select2(role.name, 'form .roles')
   end
 end
 
@@ -94,41 +94,40 @@ def select_within_select2(to_select, scope)
   tries = 3
   begin
     enter_name_with_select2(to_select, scope)
-    steps %Q{And I wait 10 seconds for the AJAX requests to finish}
-    find(".select2-results .select2-result").click
+    steps %{And I wait 10 seconds for the AJAX requests to finish}
+    find('.select2-results .select2-result').click
   rescue Capybara::ElementNotFound
     tries -= 1
     retry unless tries == 0
   end
 end
 
-
 def select_without_select2(name, scope)
-  steps %Q{And I check "#{name}" within "#{scope}"}
+  steps %{And I check "#{name}" within "#{scope}"}
 end
 
-def enter_name_with_select2(name, scope = "")
+def enter_name_with_select2(name, scope = '')
   with_scope(scope) do
-    find(".select2-choices .select2-input").set(name)
+    find('.select2-choices .select2-input').set(name)
   end
 end
 
 def enter_name_without_select2(name)
-  step %Q{I fill in "principal_search" with "#{name}"}
+  step %{I fill in "principal_search" with "#{name}"}
 end
 
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
 
   roles_table.raw.flatten.each do |role_name|
-    steps %Q{ When I add the principal "#{principal_name}" as a "#{role_name}" }
+    steps %{ When I add the principal "#{principal_name}" as a "#{role_name}" }
   end
 end
 
 Then /^I should see the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
   principal = InstanceFinder.find(Principal, principal_name)
-  steps %Q{ Then I should see "#{principal.name}" within "#tab-content-members .members" }
+  steps %{ Then I should see "#{principal.name}" within "#tab-content-members .members" }
 
-  found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, "td.roles span").text.split(",").map(&:strip)
+  found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, 'td.roles span').text.split(',').map(&:strip)
 
   found_roles.should =~ roles_table.raw.flatten
 end
@@ -136,11 +135,11 @@ end
 Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   principal = InstanceFinder.find(Principal, principal_name)
 
-  steps %Q{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
+  steps %{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
 end
 
 When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
-  model = (model == "role" ? "role" : "user")
+  model = (model == 'role' ? 'role' : 'user')
   if !User.current.impaired?
     enter_name_with_select2(principal_name, "#s2id_member_#{model}_ids")
   else
@@ -150,7 +149,7 @@ end
 
 When /^I delete the "([^"]*)" membership$/ do |group_name|
   membership = member_for_login(group_name)
-  step %Q(I follow "Delete" within "#member-#{membership.id}")
+  step %(I follow "Delete" within "#member-#{membership.id}")
 end
 
 def member_for_login(principal_name)
@@ -158,6 +157,6 @@ def member_for_login(principal_name)
 
   sleep 1
 
-  #the assumption here is, that there is only one project
+  # the assumption here is, that there is only one project
   principal.members.first
 end

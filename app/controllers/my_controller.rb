@@ -32,35 +32,34 @@ class MyController < ApplicationController
 
   before_filter :require_login
 
-  menu_item :account, :only => [:account]
-  menu_item :password, :only => [:password]
+  menu_item :account, only: [:account]
+  menu_item :password, only: [:password]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
-             'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
-             'issuesreportedbyme' => :label_reported_work_packages,
-             'issueswatched' => :label_watched_work_packages,
-             'news' => :label_news_latest,
-             'calendar' => :label_calendar,
-             'timelog' => :label_spent_time
+                     'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
+                     'issuesreportedbyme' => :label_reported_work_packages,
+                     'issueswatched' => :label_watched_work_packages,
+                     'news' => :label_news_latest,
+                     'calendar' => :label_calendar,
+                     'timelog' => :label_spent_time
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
                       'right' => ['issuesreportedbyme']
                    }.freeze
 
-  verify :xhr => true,
-         :only => [:add_block, :remove_block, :order_blocks]
+  verify xhr: true,
+         only: [:add_block, :remove_block, :order_blocks]
 
   def self.available_blocks
     @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)
   end
 
-
   # Show user's page
   def index
     @user = User.current
     @blocks = get_current_layout
-    render :action => 'page', :layout => 'base'
+    render action: 'page', layout: 'base'
   end
   alias :page :index
 
@@ -77,7 +76,7 @@ class MyController < ApplicationController
         @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
-        redirect_to :action => 'account'
+        redirect_to action: 'account'
       end
     end
   end
@@ -102,7 +101,7 @@ class MyController < ApplicationController
       @user.force_password_change = false
       if @user.save
         flash[:notice] = l(:notice_account_password_updated)
-        redirect_to :action => 'account'
+        redirect_to action: 'account'
         return
       end
     else
@@ -135,7 +134,7 @@ class MyController < ApplicationController
       User.current.rss_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
-    redirect_to :action => 'account'
+    redirect_to action: 'account'
   end
 
   # Create a new API key
@@ -148,7 +147,7 @@ class MyController < ApplicationController
       User.current.api_key
       flash[:notice] = l(:notice_api_access_key_reseted)
     end
-    redirect_to :action => 'account'
+    redirect_to action: 'account'
   end
 
   # User's page layout configuration
@@ -156,7 +155,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = get_current_layout
     @block_options = []
-    MyController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    MyController.available_blocks.each { |k, v| @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize] }
   end
 
   # Add a block to user's page
@@ -164,16 +163,16 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    (render :nothing => true; return) unless block && (MyController.available_blocks.keys.include? block)
+    (render nothing: true; return) unless block && (MyController.available_blocks.keys.include? block)
     @user = User.current
     layout = get_current_layout
     # remove if already present in a group
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right).each { |f| (layout[f] ||= []).delete block }
     # add it on top
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
     @user.pref.save
-    render :partial => "block", :locals => {:user => @user, :block_name => block}
+    render partial: 'block', locals: { user: @user, block_name: block }
   end
 
   # Remove a block to user's page
@@ -183,10 +182,10 @@ class MyController < ApplicationController
     @user = User.current
     # remove block in all groups
     layout = get_current_layout
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right).each { |f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
     @user.pref.save
-    render :nothing => true
+    render nothing: true
   end
 
   # Change blocks order on user's page
@@ -196,7 +195,7 @@ class MyController < ApplicationController
     group = params[:group]
     @user = User.current
     if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).collect(&:underscore)
+      group_items = (params["list-#{group}"] || []).map(&:underscore)
       if group_items and group_items.is_a? Array
         layout = get_current_layout
         # remove group blocks if they are presents in other groups
@@ -208,7 +207,7 @@ class MyController < ApplicationController
         @user.pref.save
       end
     end
-    render :nothing => true
+    render nothing: true
   end
 
   def default_breadcrumb
@@ -216,10 +215,11 @@ class MyController < ApplicationController
   end
 
   private
+
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?
       flash[:error] = l(:notice_can_t_change_password)
-      redirect_to :action => 'account'
+      redirect_to action: 'account'
       return true
     end
     false

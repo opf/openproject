@@ -28,13 +28,13 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportedProjectStatus, :type => :model do
+describe ReportedProjectStatus, type: :model do
   describe '- Relations ' do
     describe '#reportings' do
       it 'can read reportings w/ the help of the has_many association' do
         reported_project_status = FactoryGirl.create(:reported_project_status)
         reporting               = FactoryGirl.create(:reporting,
-                                                 :reported_project_status_id => reported_project_status.id)
+                                                     reported_project_status_id: reported_project_status.id)
 
         reported_project_status.reload
 

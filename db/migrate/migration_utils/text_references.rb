@@ -72,7 +72,7 @@ module Migration
         new_id = row[value].to_s
         project_id = row['project_id'].to_s
 
-        hash[current_id] = { new_id: new_id, project_id: project_id}
+        hash[current_id] = { new_id: new_id, project_id: project_id }
       end
     end
 
@@ -141,8 +141,8 @@ module Migration
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
         text = parse_non_pre_blocks(text) do |block|
-          block.gsub!(work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
-          block.gsub!(rel_work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
+          block.gsub!(work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
+          block.gsub!(rel_work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
         end
       end
 
@@ -159,9 +159,9 @@ module Migration
 
     def restore_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) do |block|
-          text.gsub!(restore_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
-          text.gsub!(restore_rel_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+        text = parse_non_pre_blocks(text) do |_block|
+          text.gsub!(restore_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
+          text.gsub!(restore_rel_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
         end
       end
 
@@ -228,7 +228,6 @@ module Migration
       end
       parsed
     end
-
 
     def host_name
       @host_name ||= select_host_name

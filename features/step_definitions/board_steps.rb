@@ -28,24 +28,24 @@
 #++
 
 Given(/^there is a board "(.*?)" for project "(.*?)"$/) do |board_name, project_identifier|
-  FactoryGirl.create :board, :project => get_project(project_identifier), :name => board_name
+  FactoryGirl.create :board, project: get_project(project_identifier), name: board_name
 end
 
 Given(/^the board "(.*?)" has the following messages:$/) do |board_name, table|
   board = Board.find_by_name(board_name)
 
-  create_messages(table.raw.collect { |r| r.first }, board)
+  create_messages(table.raw.map(&:first), board)
 end
 
 Given(/^"(.*?)" has the following replies:$/) do |message_name, table|
   message = Message.find_by_subject(message_name)
 
-  create_messages(table.raw.collect { |r| r.first }, message.board, message)
+  create_messages(table.raw.map(&:first), message.board, message)
 end
 
 private
 
-def create_messages(names, board, parent=nil)
+def create_messages(names, board, parent = nil)
   names.each do |name|
     FactoryGirl.create :message,
                        board: board,

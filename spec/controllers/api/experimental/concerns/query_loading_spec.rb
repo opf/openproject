@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'QueryLoading', :type => :controller do
+describe 'QueryLoading', type: :controller do
   include Api::Experimental::Concerns::QueryLoading
   include QueriesHelper
 
@@ -46,7 +46,7 @@ describe 'QueryLoading', :type => :controller do
       view_context.stub(:add_filter_from_params)
     end
 
-    context "accept_empty_query_fields is true" do
+    context 'accept_empty_query_fields is true' do
       let(:params) { { accept_empty_query_fields: true, query_id: query.id } }
       it 'should call add_filter_from_params' do
         view_context.should_receive :add_filter_from_params
@@ -54,7 +54,7 @@ describe 'QueryLoading', :type => :controller do
       end
     end
 
-    context "accept_empty_query_fields is false or missing" do
+    context 'accept_empty_query_fields is false or missing' do
       let(:params) { { accept_empty_query_fields: false, query_id: query.id } }
       it 'should not call add_filter_from_params' do
         view_context.should_not_receive :add_filter_from_params

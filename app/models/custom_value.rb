@@ -29,7 +29,7 @@
 
 class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
-  belongs_to :customized, :polymorphic => true
+  belongs_to :customized, polymorphic: true
 
   validate :validate_presence_of_required_value
   validate :validate_format_of_value
@@ -95,8 +95,8 @@ class CustomValue < ActiveRecord::Base
 
   def validate_length_of_value
     if value.present? && custom_field.min_length.present? && custom_field.max_length.present?
-      errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
-      errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
+      errors.add(:value, :too_short, count: custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
+      errors.add(:value, :too_long, count: custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
     end
   end
 end

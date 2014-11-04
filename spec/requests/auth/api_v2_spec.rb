@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../spec_helper', __FILE__)
 
-describe "API v2", :type => :request do
+describe 'API v2', type: :request do
 
   let(:admin) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }
@@ -43,51 +43,51 @@ describe "API v2", :type => :request do
     User.current = nil # api key auth sets the current user, reset it to make test idempotent
   end
 
-  describe "key authentication" do
+  describe 'key authentication' do
     let(:api_key) { admin.api_key }
 
-    shared_examples_for "API key access" do
-      context "invalid" do
+    shared_examples_for 'API key access' do
+      context 'invalid' do
         before { get "#{request_url}?key=invalid_key" }
 
         it { expect(response.status).to eq(401) }
       end
 
-      context "valid" do
+      context 'valid' do
         before { get "#{request_url}?key=#{api_key}" }
 
         it { expect(response.status).to eq(200) }
       end
     end
 
-    describe "for planning element types" do
+    describe 'for planning element types' do
       let(:request_url) { "/api/v2/projects/#{project.id}/planning_element_types.json" }
 
-      it_behaves_like "API key access"
+      it_behaves_like 'API key access'
     end
 
-    describe "for project associations" do
+    describe 'for project associations' do
       let(:request_url) { "/api/v2/projects/#{project.id}/project_associations.xml" }
 
-      it_behaves_like "API key access"
+      it_behaves_like 'API key access'
     end
 
     describe "for project associations' available projects" do
       let(:request_url) { "/api/v2/projects/#{project.id}/project_associations/available_projects.xml" }
 
-      it_behaves_like "API key access"
+      it_behaves_like 'API key access'
     end
 
-    describe "for reportings" do
+    describe 'for reportings' do
       let(:request_url) { "/api/v2/projects/#{project.id}/reportings.xml" }
 
-      it_behaves_like "API key access"
+      it_behaves_like 'API key access'
     end
 
     describe "for reportings' available projects" do
       let(:request_url) { "/api/v2/projects/#{project.id}/reportings/available_projects.xml" }
 
-      it_behaves_like "API key access"
+      it_behaves_like 'API key access'
     end
   end
 end

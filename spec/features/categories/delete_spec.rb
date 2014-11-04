@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-describe 'Deletion', :type => :feature do
+describe 'Deletion', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }
   let(:category) { FactoryGirl.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
@@ -61,9 +61,11 @@ describe 'Deletion', :type => :feature do
   end
 
   describe 'with work package' do
-    let!(:work_package) { FactoryGirl.create :work_package,
-                                             project: category.project,
-                                             category: category }
+    let!(:work_package) {
+      FactoryGirl.create :work_package,
+                         project: category.project,
+                         category: category
+    }
 
     include_context 'delete category'
 

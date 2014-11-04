@@ -29,11 +29,11 @@
 
 # "Then I should see 5 articles"
 Then /^I should see (\d+) ([^\" ]+)?$/ do |number, name|
-  page.should have_css(".#{name.singularize}", :count => number.to_i)
+  page.should have_css(".#{name.singularize}", count: number.to_i)
 end
 
 Then /^I should not see(?: (\d+))? ([^\" ]+)$/ do |number, name|
-  options = number ? {:count => number.to_i} : {}
+  options = number ? { count: number.to_i } : {}
   page.should have_no_css(".#{name.singularize}", options)
 end
 
@@ -44,11 +44,11 @@ Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project,
     name = line.first
     type = ::Type.find_by_name(name)
 
-    type = FactoryGirl.create(:type, :name => name) if type.blank?
+    type = FactoryGirl.create(:type, name: name) if type.blank?
     type
   end
 
-  project.update_attributes :type_ids => types.map(&:id).map(&:to_s)
+  project.update_attributes type_ids: types.map(&:id).map(&:to_s)
 end
 
 Then(/^I should see the following fields:$/) do |table|
@@ -64,8 +64,8 @@ Then(/^I should see the following fields:$/) do |table|
         raise Capybara::ExpectationNotMet, "expected to find field \"#{field}\" but there were no matches."
       end
 
-      if found.tag_name == "select" && value.present?
-        should have_select(field, :selected => value)
+      if found.tag_name == 'select' && value.present?
+        should have_select(field, selected: value)
       else
         found.value.should == value
       end
@@ -76,5 +76,5 @@ Then(/^I should see the following fields:$/) do |table|
 end
 
 Then(/^"([^"]*)" should be the first row in table$/) do |name|
-  should have_selector("table.list tbody tr td", :text => Regexp.new("#{name}"))
+  should have_selector('table.list tbody tr td', text: Regexp.new("#{name}"))
 end

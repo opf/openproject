@@ -28,12 +28,14 @@
 
 require 'spec_helper'
 
-describe 'users/edit', :type => :view do
+describe 'users/edit', type: :view do
   let(:current_user) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
-    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
-                                           :identity_url => 'test_provider:veryuniqueid' }
+    let(:user)  {
+      FactoryGirl.build :user, id: 1,  # id is required to create route to edit
+                               identity_url: 'test_provider:veryuniqueid'
+    }
 
     before do
       assign(:user, user)
@@ -78,7 +80,7 @@ describe 'users/edit', :type => :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)]}
+        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources
@@ -114,6 +116,34 @@ describe 'users/edit', :type => :view do
           render
 
           expect(rendered).to have_selector('#user_auth_source_id')
+        end
+      end
+
+      context 'with password choice enabled' do
+        before do
+          expect(OpenProject::Configuration)
+            .to receive(:disable_password_choice?)
+            .and_return(false)
+        end
+
+        it 'shows the password and password confirmation fields' do
+          render
+
+          expect(rendered).to have_text('Password')
+          expect(rendered).to have_text('Confirmation')
+        end
+      end
+
+      context 'with password choice enabled' do
+        before do
+          expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
+        end
+
+        it 'doesn not show the password and password confirmation fields' do
+          render
+
+          expect(rendered).not_to have_text('Password')
+          expect(rendered).not_to have_text('Password confirmation')
         end
       end
     end

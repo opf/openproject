@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/work_packages/column_data.api.rabl', :type => :view do
+describe 'api/experimental/work_packages/column_data.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 

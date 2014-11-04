@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe Reports::ReportsService, :type => :model do
+describe Reports::ReportsService, type: :model do
 
-  let(:project) {FactoryGirl.create(:project)}
+  let(:project) { FactoryGirl.create(:project) }
 
-  it "should be initializable with a project" do
-    expect { Reports::ReportsService.new(project)}.not_to raise_error
+  it 'should be initializable with a project' do
+    expect { Reports::ReportsService.new(project) }.not_to raise_error
   end
 
-  it "should raise an error, when given no project" do
-    expect { Reports::ReportsService.new(nil)}.to raise_error
+  it 'should raise an error, when given no project' do
+    expect { Reports::ReportsService.new(nil) }.to raise_error
   end
 end

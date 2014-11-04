@@ -30,7 +30,7 @@
 class UpdateWorkPackageService
   attr_accessor :user, :work_package, :permitted_params, :send_notifications
 
-  def initialize(user, work_package, permitted_params, send_notifications=true)
+  def initialize(user, work_package, permitted_params, send_notifications = true)
     self.user = user
     self.work_package = work_package
     self.permitted_params = permitted_params

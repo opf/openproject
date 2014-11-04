@@ -36,12 +36,12 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 #
 # loads environment-specific seeds. The assumed directory structure in db/ is like this:
-#|___seeds
-#| |___all.rb
-#| |___development.rb
-#| |___staging.rb
-#| |___production.rb
-#|___seeds.rb
+# |___seeds
+# | |___all.rb
+# | |___development.rb
+# | |___staging.rb
+# | |___production.rb
+# |___seeds.rb
 
 # clear some schema caches and column information.
 ActiveRecord::Base.descendants.each do |klass|

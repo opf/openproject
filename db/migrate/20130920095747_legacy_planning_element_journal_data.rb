@@ -45,34 +45,34 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
     reset_public_key_sequence_in_postgres 'journals'
 
     unless migrator.missing_type_ids.empty?
-      puts "Cannot resolve new type ids for all journals!"\
+      puts 'Cannot resolve new type ids for all journals!'\
            "\n\n"\
-           "The following list contains all legacy planning element "\
-           "type ids for which no new type id exists. Furthermore, "\
-           "the list contains all journal ids for which no new type "\
-           "id exists."\
+           'The following list contains all legacy planning element '\
+           'type ids for which no new type id exists. Furthermore, '\
+           'the list contains all journal ids for which no new type '\
+           'id exists.'\
            "\n\n"\
            "#{migrator.missing_type_ids}"\
            "\n\n"\
            "The type id is set to '0' for all journals containing a "\
-           "planning element type id for which no type id exists."\
+           'planning element type id for which no type id exists.'\
            "\n\n\n"
     end
 
     unless migrator.missing_journaled_ids.empty?
-      puts "Cannot resolve work package ids for all journals!"\
+      puts 'Cannot resolve work package ids for all journals!'\
            "\n\n"\
-           "The following list contains all legacy planning element "\
-           "ids for which no new work package id exists. Furthermore,"\
-           " the list contains all journal ids for which no new"\
-           "work package id exists."\
+           'The following list contains all legacy planning element '\
+           'ids for which no new work package id exists. Furthermore,'\
+           ' the list contains all journal ids for which no new'\
+           'work package id exists.'\
            "\n\n"\
            "#{migrator.missing_journaled_ids}"\
            "\n\n"\
            "The work package id is set to '0' for all journals "\
-           "containing a planning element type id for which no type "\
-           "id exists."
-           "\n\n\n"
+           'containing a planning element type id for which no type '\
+           'id exists.'
+      "\n\n\n"
     end
   end
 
@@ -82,11 +82,11 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new "Timelines_PlanningElementJournal", "work_package_journals" do
+    @migrator ||= Migration::LegacyJournalMigrator.new 'Timelines_PlanningElementJournal', 'work_package_journals' do
       extend Migration::JournalMigratorConcerns::Attachable
       extend Migration::JournalMigratorConcerns::Customizable
 
-      self.journable_class = "WorkPackage"
+      self.journable_class = 'WorkPackage'
 
       def migrate(legacy_journal)
         update_journaled_id(legacy_journal)
@@ -95,7 +95,6 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
       end
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
         update_type_id(to_insert, journal_id)
 
         set_empty_description(to_insert)
@@ -103,12 +102,11 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
         migrate_custom_values(to_insert, legacy_journal, journal_id)
-
       end
 
       def update_journaled_id(legacy_journal)
-        legecy_journal_id = legacy_journal["id"]
-        old_journaled_id = legacy_journal["journaled_id"]
+        legecy_journal_id = legacy_journal['id']
+        old_journaled_id = legacy_journal['journaled_id']
         new_journaled_id = new_journaled_id_for_old(old_journaled_id)
 
         if new_journaled_id.nil?
@@ -117,14 +115,14 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
           new_journaled_id = 0
         end
 
-        legacy_journal["journaled_id"] = new_journaled_id
+        legacy_journal['journaled_id'] = new_journaled_id
       end
 
       def update_type_id(to_insert, journal_id)
-        return if to_insert["planning_element_type_id"].nil? ||
-                  to_insert["planning_element_type_id"].last.nil?
+        return if to_insert['planning_element_type_id'].nil? ||
+                  to_insert['planning_element_type_id'].last.nil?
 
-        old_type_id = to_insert["planning_element_type_id"].last
+        old_type_id = to_insert['planning_element_type_id'].last
 
         new_type_id = new_type_id_for_old(old_type_id)
 
@@ -134,7 +132,7 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
           new_type_id = 0
         end
 
-        to_insert["type_id"] = [nil, new_type_id]
+        to_insert['type_id'] = [nil, new_type_id]
       end
 
       def new_journaled_id_for_old(old_journaled_id)

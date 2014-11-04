@@ -28,13 +28,13 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe '/api/v2/projects/index.api.rabl', :type => :view do
+describe '/api/v2/projects/index.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
   end
 
-  subject {response.body}
+  subject { response.body }
   describe 'with no project available' do
     it 'renders an empty projects document' do
       assign(:projects, [])
@@ -45,13 +45,12 @@ describe '/api/v2/projects/index.api.rabl', :type => :view do
     end
   end
 
-
   describe 'with some projects available' do
     let(:projects) {
       [
-        FactoryGirl.build(:project, :name => 'P1'),
-        FactoryGirl.build(:project, :name => 'P2'),
-        FactoryGirl.build(:project, :name => 'P3')
+        FactoryGirl.build(:project, name: 'P1'),
+        FactoryGirl.build(:project, name: 'P2'),
+        FactoryGirl.build(:project, name: 'P3')
       ]
     }
 
@@ -70,12 +69,11 @@ describe '/api/v2/projects/index.api.rabl', :type => :view do
 
     it 'renders all three projects' do
 
-      is_expected.to be_json_eql('P1'.to_json).at_path("projects/0/name")
-      is_expected.to be_json_eql('P2'.to_json).at_path("projects/1/name")
-      is_expected.to be_json_eql('P3'.to_json).at_path("projects/2/name")
+      is_expected.to be_json_eql('P1'.to_json).at_path('projects/0/name')
+      is_expected.to be_json_eql('P2'.to_json).at_path('projects/1/name')
+      is_expected.to be_json_eql('P3'.to_json).at_path('projects/2/name')
 
     end
-
 
   end
 end

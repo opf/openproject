@@ -28,19 +28,21 @@
 
 require 'spec_helper'
 
-describe BoardsController, :type => :controller do
+describe BoardsController, type: :controller do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:project) }
-  let!(:board) { FactoryGirl.build(:board,
-                                   project: project) }
+  let!(:board) {
+    FactoryGirl.build(:board,
+                      project: project)
+  }
 
   before do
     disable_flash_sweep
   end
 
   describe :create do
-    let(:params) { {:board => board_params} }
-    let(:board_params) { {:name => 'my board', :description => 'awesome board'} }
+    let(:params) { { board: board_params } }
+    let(:board_params) { { name: 'my board', description: 'awesome board' } }
 
     before do
       expect(@controller).to receive(:authorize)
@@ -63,7 +65,7 @@ describe BoardsController, :type => :controller do
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to :controller => '/projects', :action => 'settings', :id => project, :tab => 'boards'
+        expect(response).to redirect_to controller: '/projects', action: 'settings', id: project, tab: 'boards'
       end
 
       it 'have a successful creation flash' do
@@ -89,12 +91,16 @@ describe BoardsController, :type => :controller do
 
   describe :move do
     let(:project) { FactoryGirl.create(:project) }
-    let!(:board_1) { FactoryGirl.create(:board,
-                                        project: project,
-                                        position: 1) }
-    let!(:board_2) { FactoryGirl.create(:board,
-                                        project: project,
-                                        position: 2) }
+    let!(:board_1) {
+      FactoryGirl.create(:board,
+                         project: project,
+                         position: 1)
+    }
+    let!(:board_2) {
+      FactoryGirl.create(:board,
+                         project: project,
+                         position: 2)
+    }
 
     before { allow(@controller).to receive(:authorize).and_return(true) }
 
@@ -118,8 +124,10 @@ describe BoardsController, :type => :controller do
   end
 
   describe :update do
-    let!(:board) { FactoryGirl.create(:board, :name => 'Board name',
-                                              :description => 'Board description') }
+    let!(:board) {
+      FactoryGirl.create(:board, name: 'Board name',
+                                 description: 'Board description')
+    }
 
     before do
       expect(@controller).to receive(:authorize)
@@ -130,16 +138,16 @@ describe BoardsController, :type => :controller do
       before do
         as_logged_in_user user do
           put :update, id: board.id,
-                        project_id: board.project_id,
-                        board: {:name => 'New name', :description => 'New description'}
+                       project_id: board.project_id,
+                       board: { name: 'New name', description: 'New description' }
         end
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to :controller => '/projects',
-                                    :action => 'settings',
-                                    :id => board.project,
-                                    :tab => 'boards'
+        expect(response).to redirect_to controller: '/projects',
+                                        action: 'settings',
+                                        id: board.project,
+                                        tab: 'boards'
       end
 
       it 'have a successful update flash' do
@@ -159,7 +167,7 @@ describe BoardsController, :type => :controller do
         as_logged_in_user user do
           post :update, id: board.id,
                         project_id: board.project_id,
-                        board: {:name => '', :description => 'New description'}
+                        board: { name: '', description: 'New description' }
         end
       end
 
@@ -180,44 +188,48 @@ describe BoardsController, :type => :controller do
 
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
-    let!(:sticked_message1) { FactoryGirl.create(:message, board_id: board.id, subject: "How to",
-                                                 content: "How to install this cool app", sticky: "1", sticked_on: Time.now - 2.minute) }
+    let!(:sticked_message1) {
+      FactoryGirl.create(:message, board_id: board.id, subject: 'How to',
+                                   content: 'How to install this cool app', sticky: '1', sticked_on: Time.now - 2.minute)
+    }
 
-    let!(:sticked_message2) { FactoryGirl.create(:message, board_id: board.id, subject: "FAQ",
-                                                 content: "Frequestly asked question", sticky: "1", sticked_on: Time.now - 1.minute) }
+    let!(:sticked_message2) {
+      FactoryGirl.create(:message, board_id: board.id, subject: 'FAQ',
+                                   content: 'Frequestly asked question', sticky: '1', sticked_on: Time.now - 1.minute)
+    }
 
-    describe "all sticky messages" do
+    describe 'all sticky messages' do
       before do
         expect(@controller).to receive(:authorize)
         get :show, project_id: project.id, id: board.id
       end
 
       it { expect(response).to render_template 'show' }
-      it "should be displayed on top" do
+      it 'should be displayed on top' do
         expect(assigns[:topics][0].id).to eq(sticked_message1.id)
       end
     end
 
-    describe "edit a sticky message" do
+    describe 'edit a sticky message' do
       before(:each) do
         sticked_message1.sticky = 0
         sticked_message1.save!
       end
 
-      describe "when sticky is unset from message" do
+      describe 'when sticky is unset from message' do
         before do
           expect(@controller).to receive(:authorize)
           get :show, project_id: project.id, id: board.id
         end
 
-        it "it should not be displayed as sticky message" do
+        it 'it should not be displayed as sticky message' do
 
           expect(sticked_message1.sticked_on).to be_nil
           expect(assigns[:topics][0].id).to_not eq(sticked_message1.id)
         end
       end
 
-      describe "when sticky is set back to message" do
+      describe 'when sticky is set back to message' do
         before do
           sticked_message1.sticky = 1
           sticked_message1.save!
@@ -226,7 +238,7 @@ describe BoardsController, :type => :controller do
           get :show, project_id: project.id, id: board.id
         end
 
-        it "it should not be displayed on first position" do
+        it 'it should not be displayed on first position' do
           expect(assigns[:topics][0].id).to eq(sticked_message2.id)
         end
       end

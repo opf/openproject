@@ -31,7 +31,6 @@ module API
   module V3
     module Statuses
       class StatusesAPI < Grape::API
-
         resources :statuses do
           before do
             @statuses = Status.all
@@ -42,7 +41,6 @@ module API
             StatusCollectionRepresenter.new(@statuses)
           end
         end
-
       end
     end
   end

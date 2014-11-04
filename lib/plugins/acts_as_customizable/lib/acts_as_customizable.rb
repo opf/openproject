@@ -35,16 +35,17 @@ module Redmine
 
       module ClassMethods
         def acts_as_customizable(options = {})
-          return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
+          return if included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
-          has_many :custom_values, :as => :customized,
-                                   :include => :custom_field,
-                                   :order => "#{CustomField.table_name}.position",
-                                   :dependent => :delete_all
+          has_many :custom_values, as: :customized,
+                                   include: :custom_field,
+                                   order: "#{CustomField.table_name}.position",
+                                   dependent: :delete_all
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
           # Trigger validation only if custom values were changed
-          validates_associated :custom_values, :on => :update, :if => Proc.new { |customized| customized.custom_field_values_changed? }
+          validates_associated :custom_values, on: :update,
+                                               if: -> (customized) { customized.custom_field_values_changed? }
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
@@ -57,8 +58,8 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.find(:all, :conditions => "type = '#{self.class.name}CustomField'",
-                                 :order => 'position')
+          CustomField.find(:all, conditions: "type = '#{self.class.name}CustomField'",
+                                 order: 'position')
         end
 
         # Sets the values of the object's custom fields
@@ -85,7 +86,7 @@ module Redmine
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.collect { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(:customized => self, :custom_field => x, :value => nil) }
+          @custom_field_values ||= available_custom_fields.map { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(customized: self, custom_field: x, value: nil) }
         end
 
         def visible_custom_field_values
@@ -98,7 +99,7 @@ module Redmine
 
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
-          custom_values.detect {|v| v.custom_field_id == field_id }
+          custom_values.detect { |v| v.custom_field_id == field_id }
         end
 
         def save_custom_field_values
@@ -111,8 +112,8 @@ module Redmine
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
-          values = custom_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-          custom_values.each {|cv| cv.destroy unless custom_field_values.include?(cv)}
+          values = custom_values.inject({}) { |h, v| h[v.custom_field_id] = v.value; h }
+          custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
         module ClassMethods

@@ -40,6 +40,6 @@ class CreateWikiMenuItems < ActiveRecord::Migration
   end
 
   def self.down
-    puts "You cannot safely undo this migration!"
+    puts 'You cannot safely undo this migration!'
   end
 end

@@ -31,7 +31,7 @@ Given /^the [pP]roject "([^\"]*)" has the parent "([^\"]*)"$/ do |child_name, pa
   parent = Project.find_by_name(parent_name)
   child = Project.find_by_name(child_name)
 
-  child.set_parent!(parent);
+  child.set_parent!(parent)
   child.save!
 end
 
@@ -66,7 +66,7 @@ end
 
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|
   table.raw.flatten.each do |name|
-    step %Q{there is a project named "#{name}" of type "#{project_type_name}"}
+    step %{there is a project named "#{name}" of type "#{project_type_name}"}
   end
 end
 
@@ -85,8 +85,8 @@ Given /^there are the following reportings:$/ do |table|
   table = table.map_headers { |h| h.delete(' ').underscore }
 
   table.hashes.each do |attrs|
-    attrs['project'] = Project.find_by_name!(attrs["project"])
-    attrs['reporting_to_project'] = Project.find_by_name!(attrs["reporting_to_project"])
+    attrs['project'] = Project.find_by_name!(attrs['project'])
+    attrs['reporting_to_project'] = Project.find_by_name!(attrs['reporting_to_project'])
     FactoryGirl.create(:reporting, attrs)
   end
 end
@@ -94,16 +94,16 @@ end
 Given /^there is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name, project_name|
   project = Project.find_by_name(project_name)
 
-  timeline = FactoryGirl.create(:timeline, :project_id => project.id, :name => timeline_name)
-  timeline.options = {"initial_outline_expansion"=>["6"], "timeframe_end"=>"", "timeframe_start"=>"", "zoom_factor"=>["-1"], "exist"=>""}
+  timeline = FactoryGirl.create(:timeline, project_id: project.id, name: timeline_name)
+  timeline.options = { 'initial_outline_expansion' => ['6'], 'timeframe_end' => '', 'timeframe_start' => '', 'zoom_factor' => ['-1'], 'exist' => '' }
   timeline.save!
 end
 
 Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
   project_type = ProjectType.find_by_name(project_type_name)
-  projects = Project.where(:project_type_id => project_type.id)
+  projects = Project.where(project_type_id: project_type.id)
   types = type_name_table.raw.flatten.map do |type_name|
-    ::Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
+    ::Type.find_by_name(type_name) || FactoryGirl.create(:type, name: type_name)
   end
 
   projects.each do |project|
@@ -117,18 +117,18 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
   create_work_packages_from_table table, project
 end
 
-def create_work_packages_from_table table, project
+def create_work_packages_from_table(table, project)
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
-    [ ["author", User],
-      ["responsible", User],
-      ["assigned_to", User],
-      ["type", Type],
-      ["fixed_version", Version],
-      ["priority", IssuePriority],
-      ["status", Status],
-      ["parent", WorkPackage]
+    [['author', User],
+     ['responsible', User],
+     ['assigned_to', User],
+     ['type', Type],
+     ['fixed_version', Version],
+     ['priority', IssuePriority],
+     ['status', Status],
+     ['parent', WorkPackage]
     ].each do |key, const|
       if type_attributes[key].present?
         type_attributes[key] = InstanceFinder.find(const, type_attributes[key])
@@ -143,10 +143,10 @@ def create_work_packages_from_table table, project
       type_attributes[:type] = ::Type.where(name: type_attributes[:type].to_s).first
     end
 
-    if type_attributes.has_key? "author"
+    if type_attributes.has_key? 'author'
       User.current = type_attributes['author']
     end
 
-    FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
+    FactoryGirl.create(:work_package, type_attributes.merge(project_id: project.id))
   end
 end

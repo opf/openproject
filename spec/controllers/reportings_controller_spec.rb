@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportingsController, :type => :controller do
+describe ReportingsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -38,20 +38,20 @@ describe ReportingsController, :type => :controller do
   describe 'index.html' do
     let(:project) { FactoryGirl.create(:project) }
     def fetch
-      get 'index', :project_id => project.identifier
+      get 'index', project_id: project.identifier
     end
     let(:permission) { :view_reportings }
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'show.html' do
     let(:project)   { FactoryGirl.create(:project) }
-    let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
+    let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
     def fetch
-      get 'show', :project_id => project.identifier, :id => reporting.id
+      get 'show', project_id: project.identifier, id: reporting.id
     end
     let(:permission) { :view_reportings }
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'new.html' do
@@ -59,78 +59,78 @@ describe ReportingsController, :type => :controller do
     def fetch
       FactoryGirl.create(:public_project) # reporting candidate
 
-      get 'new', :project_id => project.identifier
+      get 'new', project_id: project.identifier
     end
     let(:permission) { :edit_reportings }
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'create.html' do
     let(:project)   { FactoryGirl.create(:project) }
     def fetch
-      post 'create', :project_id => project.identifier,
-                     :reporting  => FactoryGirl.build(:reporting,
-                     :project_id => project.id).attributes
+      post 'create', project_id: project.identifier,
+                     reporting:  FactoryGirl.build(:reporting,
+                                                   project_id: project.id).attributes
     end
     let(:permission) { :edit_reportings }
     def expect_redirect_to
       project_reportings_path(project)
     end
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'edit.html' do
     let(:project)   { FactoryGirl.create(:project) }
-    let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
+    let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      get 'edit', :project_id => project.identifier,
-                  :id         => reporting.id
+      get 'edit', project_id: project.identifier,
+                  id:         reporting.id
     end
     let(:permission) { :edit_reportings }
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'update.html' do
     let(:project)   { FactoryGirl.create(:project) }
-    let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
+    let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      post 'update', :project_id => project.identifier,
-                     :id         => reporting.id,
-                     :reporting => {}
+      post 'update', project_id: project.identifier,
+                     id:         reporting.id,
+                     reporting: {}
     end
     let(:permission) { :edit_reportings }
     def expect_redirect_to
       project_reportings_path(project)
     end
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'confirm_destroy.html' do
     let(:project)   { FactoryGirl.create(:project) }
-    let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
+    let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      get 'confirm_destroy', :project_id => project.identifier,
-                             :id         => reporting.id
+      get 'confirm_destroy', project_id: project.identifier,
+                             id:         reporting.id
     end
     let(:permission) { :delete_reportings }
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 
   describe 'update.html' do
     let(:project)   { FactoryGirl.create(:project) }
-    let(:reporting) { FactoryGirl.create(:reporting, :project_id => project.id) }
+    let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      post 'destroy', :project_id => project.identifier,
-                      :id         => reporting.id
+      post 'destroy', project_id: project.identifier,
+                      id:         reporting.id
     end
     let(:permission) { :delete_reportings }
     def expect_redirect_to
       project_reportings_path(project)
     end
-    it_should_behave_like "a controller action which needs project permissions"
+    it_should_behave_like 'a controller action which needs project permissions'
   end
 end

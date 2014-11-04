@@ -29,20 +29,18 @@
 
 class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration
   def self.up
-    begin
-      change_table(:projects) do |t|
-        t.belongs_to :timelines_project_type
+    change_table(:projects) do |t|
+      t.belongs_to :timelines_project_type
 
-        t.index :timelines_project_type_id
-      end
-    rescue
-      raise "Error: Cannot migrate table 'projects'!"\
-            "\n\n"\
-            "Chances are high that this schema was modified by the plug-in 'Timelines':\n"\
-            "You may use the rake task 'migrations:timelines:reregister' to prepare the\n"\
-            "current schema for this migration."\
-            "\n\n\n"
+      t.index :timelines_project_type_id
     end
+  rescue
+    raise "Error: Cannot migrate table 'projects'!"\
+          "\n\n"\
+          "Chances are high that this schema was modified by the plug-in 'Timelines':\n"\
+          "You may use the rake task 'migrations:timelines:reregister' to prepare the\n"\
+          'current schema for this migration.'\
+          "\n\n\n"
   end
 
   def self.down

@@ -30,21 +30,20 @@
 module Api
   module V2
     class CustomFieldsController < ApplicationController
-
       include ::Api::V2::ApiController
 
       accept_key_auth :index, :show
 
       def index
         wp_fields = WorkPackageCustomField.visible_by_user(User.current)
-                                          .find(:all,
-                                                :include => [:translations, :projects, :types],
-                                                :order => :id)
-                                          .uniq
+                    .find(:all,
+                          include: [:translations, :projects, :types],
+                          order: :id)
+                    .uniq
         other_fields = CustomField.find :all,
-          :include => :translations,
-          :conditions => "type != 'WorkPackageCustomField'",
-          :order => [:type, :id]
+                                        include: :translations,
+                                        conditions: "type != 'WorkPackageCustomField'",
+                                        order: [:type, :id]
 
         @custom_fields = wp_fields + other_fields
 
@@ -54,7 +53,7 @@ module Api
       end
 
       def show
-        @custom_field = CustomField.find params[:id], :include => :translations
+        @custom_field = CustomField.find params[:id], include: :translations
 
         respond_to do |format|
           format.api

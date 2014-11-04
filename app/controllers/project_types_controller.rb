@@ -28,7 +28,6 @@
 #++
 
 class ProjectTypesController < ApplicationController
-
   unloadable
   helper :timelines
 
@@ -60,13 +59,13 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_types_path
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
   def show
     @project_type = ProjectType.find(params[:id])
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 
@@ -84,7 +83,7 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_types_path
     else
-      render :action => :edit
+      render action: :edit
     end
   end
 
@@ -108,7 +107,7 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     else
       flash.now[:error] = l('timelines.project_type_could_not_be_saved')
-      render :action => 'edit'
+      render action: 'edit'
     end
     redirect_to project_types_path
   end

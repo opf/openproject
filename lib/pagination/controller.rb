@@ -183,9 +183,9 @@ module Pagination::Controller
           methods = {}
           [:pagination, :search].each do |meth|
             methods[meth] = if paginator.send(meth).respond_to?(:call)
-                paginator.send(meth)
-              else
-                paginator.model.method(paginator.send(meth))
+                              paginator.send(meth)
+                            else
+                              paginator.model.method(paginator.send(meth))
               end
           end
 
@@ -196,7 +196,7 @@ module Pagination::Controller
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
                                                        search_call,
-                                                       { :page => page, :page_limit => size }
+                                                       page: page, page_limit: size
                                                       )
 
           @more = @paginated_items.total_pages > page
@@ -210,15 +210,15 @@ module Pagination::Controller
     def default_response_block
       Proc.new {
         respond_to do |format|
-          format.json { render :json => { :results =>
-            { :items => @paginated_items.collect {|item| { :id => item.id, :name => item.name } },
-              :total => @total ? @total : @paginated_items.size,
-              :more  => @more ? @more : 0 }
+          format.json {
+            render json: { results:
+            { items: @paginated_items.map { |item| { id: item.id, name: item.name } },
+              total: @total ? @total : @paginated_items.size,
+              more:  @more ? @more : 0 }
           } }
         end
       }
     end
-
   end
 
   def self.included(base)
@@ -283,7 +283,7 @@ module Pagination::Controller
 
       def resolve_paginator_for(model)
         model = pagination_class.resolve_model(model)
-        inst = pagination.find { |_,pag| pag.model == model }[1]
+        inst = pagination.find { |_, pag| pag.model == model }[1]
 
         if inst.nil?
           raise ArgumentError, "Model #{model} is not being paginated. Call #paginate_model(s) first."
@@ -293,5 +293,4 @@ module Pagination::Controller
       end
     end
   end
-
 end

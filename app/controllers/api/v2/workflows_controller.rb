@@ -44,13 +44,13 @@ module Api
       accept_key_auth :index
 
       def index
-        workflows = ::Workflow.where(type_id: @project.types.collect(&:id),
-                                     role_id: User.current.roles(@project).collect(&:id))
-                              .select(workflow_select_statement)
-                              .group("type_id, old_status_id, new_status_id")
+        workflows = ::Workflow.where(type_id: @project.types.map(&:id),
+                                     role_id: User.current.roles(@project).map(&:id))
+                    .select(workflow_select_statement)
+                    .group('type_id, old_status_id, new_status_id')
 
-        workflows_by_type_and_old_status = workflows.group_by { |w| w.type_id }.each_with_object({}) do |kv, h|
-          h[kv[0]] = kv[1].group_by { |w| w.old_status_id }
+        workflows_by_type_and_old_status = workflows.group_by(&:type_id).each_with_object({}) do |kv, h|
+          h[kv[0]] = kv[1].group_by(&:old_status_id)
         end
 
         @workflows = workflows_by_type_and_old_status.each_with_object([]) do |kv, l|
@@ -77,12 +77,12 @@ module Api
       private
 
       def workflow_select_statement
-        stmt = "type_id, old_status_id, new_status_id, "
+        stmt = 'type_id, old_status_id, new_status_id, '
 
-        if ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
-          stmt += "MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author"
+        if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
+          stmt += 'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
         else
-          stmt += "MAX(assignee) AS assignee, MAX(author) AS author"
+          stmt += 'MAX(assignee) AS assignee, MAX(author) AS author'
         end
 
         stmt

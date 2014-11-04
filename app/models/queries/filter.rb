@@ -41,60 +41,60 @@ class Queries::Filter
   @@filter_params = [:operator, :values] # will be serialized and persisted with the query
 
   @@operators = {
-    label_equals:               "=",
-    label_not_equals:           "!",
-    label_open_work_packages:   "o",
-    label_closed_work_packages: "c",
-    label_none:                 "!*",
-    label_all:                  "*",
-    label_greater_or_equal:     ">=",
-    label_less_or_equal:        "<=",
-    label_in_less_than:         "<t+",
-    label_in_more_than:         ">t+",
-    label_in:                   "t+",
-    label_today:                "t",
-    label_this_week:            "w",
-    label_less_than_ago:        ">t-",
-    label_more_than_ago:        "<t-",
-    label_ago:                  "t-",
-    label_contains:             "~",
-    label_not_contains:         "!~"
+    label_equals:               '=',
+    label_not_equals:           '!',
+    label_open_work_packages:   'o',
+    label_closed_work_packages: 'c',
+    label_none:                 '!*',
+    label_all:                  '*',
+    label_greater_or_equal:     '>=',
+    label_less_or_equal:        '<=',
+    label_in_less_than:         '<t+',
+    label_in_more_than:         '>t+',
+    label_in:                   't+',
+    label_today:                't',
+    label_this_week:            'w',
+    label_less_than_ago:        '>t-',
+    label_more_than_ago:        '<t-',
+    label_ago:                  't-',
+    label_contains:             '~',
+    label_not_contains:         '!~'
   }.invert
 
   @@operators_not_requiring_values = %w(o c !* * t w)
 
   @@operators_by_filter_type = {
-    list:             [ "=", "!" ],
-    list_status:      [ "o", "=", "!", "c", "*" ],
-    list_optional:    [ "=", "!", "!*", "*" ],
-    list_subprojects: [ "*", "!*", "=" ],
-    date:             [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
-    date_past:        [ ">t-", "<t-", "t-", "t", "w" ],
-    string:           [ "=", "~", "!", "!~" ],
-    text:             [  "~", "!~" ],
-    integer:          [ "=", ">=", "<=", "!*", "*" ]
- }
+    list:             ['=', '!'],
+    list_status:      ['o', '=', '!', 'c', '*'],
+    list_optional:    ['=', '!', '!*', '*'],
+    list_subprojects: ['*', '!*', '='],
+    date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-'],
+    date_past:        ['>t-', '<t-', 't-', 't', 'w'],
+    string:           ['=', '~', '!', '!~'],
+    text:             ['~', '!~'],
+    integer:          ['=', '>=', '<=', '!*', '*']
+  }
 
   cattr_reader :operators, :operators_by_filter_type
 
   attr_accessor :field, *@@filter_params
 
   validates_presence_of :field
-  validate :validate_presence_of_values, unless: Proc.new {|filter| @@operators_not_requiring_values.include?(filter.operator)}
+  validate :validate_presence_of_values, unless: Proc.new { |filter| @@operators_not_requiring_values.include?(filter.operator) }
   validate :validate_filter_values
 
-  def initialize(field=nil, options={})
+  def initialize(field = nil, options = {})
     self.field = field
     values = []
 
     @@filter_params.each do |param_field|
-      self.send("#{param_field}=", options[param_field])
+      send("#{param_field}=", options[param_field])
     end
   end
 
   # (de-)serialization
   def self.from_hash(filter_hash)
-    filter_hash.keys.map {|field| new(field, filter_hash[field]) }
+    filter_hash.keys.map { |field| new(field, filter_hash[field]) }
   end
 
   def to_hash
@@ -112,11 +112,11 @@ class Queries::Filter
   end
 
   def possible_types_by_operator
-    @@operators_by_filter_type.select{|key, operators| operators.include?(operator) }.keys.sort
+    @@operators_by_filter_type.select { |_key, operators| operators.include?(operator) }.keys.sort
   end
 
   def type
-    self.filter_types_by_field[field]
+    filter_types_by_field[field]
   end
 
   def ==(filter)
@@ -142,10 +142,10 @@ class Queries::Filter
 
     case type
     when :integer
-      errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all?{|value| is_integer?(value)}
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all? { |value| is_integer?(value) }
     when :date, :date_past
-      errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all?{|value| is_integer?(value)}
-    # ...
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all? { |value| is_integer?(value) }
+      # ...
     end
   end
 

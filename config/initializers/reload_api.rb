@@ -27,7 +27,7 @@
 #++
 
 if Rails.env.development?
-  ActiveSupport::Dependencies.explicitly_unloadable_constants << "API"
+  ActiveSupport::Dependencies.explicitly_unloadable_constants << 'API'
 
   api_files = Dir[Rails.root.join('lib', 'api', '**', '*.rb')]
   api_reloader = ActiveSupport::FileUpdateChecker.new(api_files) do

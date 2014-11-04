@@ -44,7 +44,7 @@ Then(/^I can see the (\d+(?:st|nd|rd|th)) through (\d+(?:st|nd|rd|th)) of those 
   to = to.to_i - 1
   count = (to - from).abs + 1
 
-  found_wps = page.all(:css, "dt.work_package-edit")
+  found_wps = page.all(:css, 'dt.work_package-edit')
   expect(found_wps.size).to eq(count)
 
   expected_wps = @search_work_packages[from..to]
@@ -53,14 +53,14 @@ Then(/^I can see the (\d+(?:st|nd|rd|th)) through (\d+(?:st|nd|rd|th)) of those 
   expected_wps.each do |wp|
     path = Rails.application.routes.url_helpers.work_package_path(wp)
     linked = found_wps.any? do |e|
-      e.find("a")["href"].include? path
+      e.find('a')['href'].include? path
     end
     expect(linked).to be(true)
   end
 end
 
 When(/^I search globally for "([^"]*)"$/) do |query|
-  steps %Q{
+  steps %{
     And I fill in "#{query}" for "q"
     And I press the "return" key on element "#q"
     And I wait for the AJAX requests to finish
@@ -68,7 +68,7 @@ When(/^I search globally for "([^"]*)"$/) do |query|
 end
 
 When(/^I search for "([^"]*)" after having searched$/) do |query|
-  steps %Q{
+  steps %{
     And I fill in "#{query}" for "q" within "#content"
     And I press "Submit" within "#content"
     And I wait for the AJAX requests to finish
@@ -76,16 +76,16 @@ When(/^I search for "([^"]*)" after having searched$/) do |query|
 end
 
 When(/^there are pagination links$/) do
-  links = page.all(:css, ".search-pagination a")
+  links = page.all(:css, '.search-pagination a')
 
   if links.size == 2
-    @search_previous_url = links.first["href"]
-    @search_next_url = links.last["href"]
+    @search_previous_url = links.first['href']
+    @search_next_url = links.last['href']
   elsif links.size == 1
     @search_previous_url = nil
-    @search_next_url = links.first["href"]
+    @search_next_url = links.first['href']
   else
-    fail "There are no pagination links!"
+    fail 'There are no pagination links!'
   end
 end
 

@@ -29,9 +29,11 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user)             { FactoryGirl.build_stubbed(:user,
-                                                     created_on: Time.now,
-                                                     updated_on: Time.now) }
+  let(:user)             {
+    FactoryGirl.build_stubbed(:user,
+                              created_on: Time.now,
+                              updated_on: Time.now)
+  }
   let(:model)          { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { described_class.new(model) }
 

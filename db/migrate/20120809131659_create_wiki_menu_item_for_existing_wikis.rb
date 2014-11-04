@@ -31,7 +31,7 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
   def self.up
     Wiki.all.each do |wiki|
 
-      page = wiki.find_page(wiki.start_page, :with_redirects => true)
+      page = wiki.find_page(wiki.start_page, with_redirects: true)
 
       current_title = page.present? ?
                         page.title :
@@ -49,6 +49,6 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
   end
 
   def self.down
-    puts "You cannot safely undo this migration!"
+    puts 'You cannot safely undo this migration!'
   end
 end

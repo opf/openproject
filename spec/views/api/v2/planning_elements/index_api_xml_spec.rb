@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
+describe 'api/v2/planning_elements/index.api.rabl', type: :view do
   before do
     params[:format] = 'xml'
   end
@@ -38,10 +38,10 @@ describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
       assign(:planning_elements, [])
       render
     end
-    subject {response.body}
+    subject { response.body }
 
     it 'renders an empty planning_elements document' do
-      is_expected.to have_selector('planning_elements', :count => 1)
+      is_expected.to have_selector('planning_elements', count: 1)
       is_expected.to have_selector('planning_elements[type=array]') do
         without_tag 'planning_element'
       end
@@ -49,31 +49,29 @@ describe 'api/v2/planning_elements/index.api.rabl', :type => :view do
   end
 
   describe 'with 3 planning elements available' do
-    let(:project){FactoryGirl.build(:project_with_types, name: "Sample Project", identifier: "sample_project")}
-    let(:wp1){FactoryGirl.build(:work_package, subject: "Subject #1", project: project)}
-    let(:wp2){FactoryGirl.build(:work_package, subject: "Subject #2", project: project)}
-    let(:wp3){FactoryGirl.build(:work_package, subject: "Subject #3", project: project)}
+    let(:project) { FactoryGirl.build(:project_with_types, name: 'Sample Project', identifier: 'sample_project') }
+    let(:wp1) { FactoryGirl.build(:work_package, subject: 'Subject #1', project: project) }
+    let(:wp2) { FactoryGirl.build(:work_package, subject: 'Subject #2', project: project) }
+    let(:wp3) { FactoryGirl.build(:work_package, subject: 'Subject #3', project: project) }
 
-    let(:planning_elements) {[wp1, wp2, wp3]}
+    let(:planning_elements) { [wp1, wp2, wp3] }
 
     before do
       assign(:planning_elements, planning_elements)
       render
     end
 
-    subject {Nokogiri.XML(response.body)}
+    subject { Nokogiri.XML(response.body) }
 
     it 'renders a planning_elements document with the size 3 of array' do
-      is_expected.to have_selector('planning_elements', :count => 1)
-      is_expected.to have_selector('planning_elements planning_element', :count => 3)
+      is_expected.to have_selector('planning_elements', count: 1)
+      is_expected.to have_selector('planning_elements planning_element', count: 3)
     end
 
     it 'renders the subject' do
       first_planning_element = subject.xpath('//planning_elements/planning_element')[0]
-      expect(first_planning_element).to have_selector("subject", text: "Subject #1")
+      expect(first_planning_element).to have_selector('subject', text: 'Subject #1')
     end
-
-
 
   end
 end

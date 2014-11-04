@@ -37,7 +37,7 @@ describe ::API::V3::Activities::ActivityModel do
   context 'with a formatted description' do
     let(:attributes) {
       {
-       notes: <<-DESC
+        notes: <<-DESC
 h3. Plan update
 
 # More done

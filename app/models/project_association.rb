@@ -32,10 +32,10 @@ class ProjectAssociation < ActiveRecord::Base
 
   self.table_name = 'project_associations'
 
-  belongs_to :project_a, :class_name  => "Project",
-                         :foreign_key => 'project_a_id'
-  belongs_to :project_b, :class_name  => "Project",
-                         :foreign_key => 'project_b_id'
+  belongs_to :project_a, class_name:  'Project',
+                         foreign_key: 'project_a_id'
+  belongs_to :project_b, class_name:  'Project',
+                         foreign_key: 'project_b_id'
 
   validates_presence_of :project_a, :project_b
 
@@ -46,9 +46,9 @@ class ProjectAssociation < ActiveRecord::Base
 
   scope :with_projects, lambda { |projects|
     projects = [projects] unless  projects.is_a? Array
-    project_ids = projects.first.respond_to?(:id) ? projects.map(&:id).join(",") : projects
+    project_ids = projects.first.respond_to?(:id) ? projects.map(&:id).join(',') : projects
 
-    { :conditions => ["#{self.table_name}.project_a_id in (?) or #{self.table_name}.project_b_id in (?)", project_ids, project_ids]}
+    { conditions: ["#{table_name}.project_a_id in (?) or #{table_name}.project_b_id in (?)", project_ids, project_ids] }
   }
 
   def projects
@@ -65,7 +65,7 @@ class ProjectAssociation < ActiveRecord::Base
 
     condition = "(#{condition}) AND id != :id" unless new_record?
 
-    c = self.class.count(:conditions => [condition, {:first => project_a, :second => project_b, :id => self.id}])
+    c = self.class.count(conditions: [condition, { first: project_a, second: project_b, id: id }])
 
     errors.add(:base, :project_association_already_exists) if c != 0
 

@@ -37,17 +37,17 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
 
     return if skip_on_no_planning_elements
 
-    say_with_time "Inserting planning elements into the work packages table" do
+    say_with_time 'Inserting planning elements into the work packages table' do
       add_planning_elements_to_work_packages
     end
 
-    say_with_time "Rebuilding the nested set attributes on the newly inserted work packages" do
+    say_with_time 'Rebuilding the nested set attributes on the newly inserted work packages' do
       rebuild_nested_set
     end
   end
 
   def down
-    say_with_time "Removing work packages that where planning elements" do
+    say_with_time 'Removing work packages that where planning elements' do
       remove_planning_elements_from_work_packages
     end
 
@@ -136,8 +136,6 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
   # still set to the id, the now work package has in the legacy_planning_elements
   # table.
   def insert_legacy_planning_elements_entries_to_work_packages(default_status_id, default_priority_id)
-
-
     insert <<-SQL
       INSERT INTO #{db_work_packages_table}
         (
@@ -214,7 +212,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
   end
 
   def update_legacy_planning_elements_with_new_id
-     update <<-SQL
+    update <<-SQL
       UPDATE #{db_planning_elements_table}
       SET new_id = (SELECT #{db_work_packages_table}.#{db_column('id')}
                     FROM #{db_work_packages_table}
@@ -338,7 +336,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
     if planning_element.present?
       false
     else
-      say "There are no legacy planning elements to migrate... skipping."
+      say 'There are no legacy planning elements to migrate... skipping.'
 
       true
     end
@@ -372,7 +370,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
     quote_column_name(name)
   end
 
-  def say_with_time message
+  def say_with_time(message)
     super do
       suppress_messages do
         yield

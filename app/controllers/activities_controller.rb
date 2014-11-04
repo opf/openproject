@@ -44,20 +44,20 @@ class ActivitiesController < ApplicationController
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
-    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
-                                                             :with_subprojects => @with_subprojects,
-                                                             :author => @author)
+    @activity = Redmine::Activity::Fetcher.new(User.current, project: @project,
+                                                             with_subprojects: @with_subprojects,
+                                                             author: @author)
 
     set_activity_scope
 
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
-    if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
+    if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html {
-          @events_by_day = events.group_by {|e| e.event_datetime.to_date}
-          render :layout => false if request.xhr?
+          @events_by_day = events.group_by { |e| e.event_datetime.to_date }
+          render layout: false if request.xhr?
         }
         format.atom {
           title = l(:label_activity)
@@ -66,7 +66,7 @@ class ActivitiesController < ApplicationController
           elsif @activity.scope.size == 1
             title = l("label_#{@activity.scope.first.singularize}_plural")
           end
-          render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
+          render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
         }
       end
     end
@@ -88,14 +88,14 @@ class ActivitiesController < ApplicationController
   end
 
   def verify_activities_module_activated
-    render_403 if @project && !@project.module_enabled?("activity")
+    render_403 if @project && !@project.module_enabled?('activity')
   end
 
   # Do not show events, which are associated with projects where activities are disabled.
   # In a better world this would be implemented (with better performance) in SQL.
   # TODO: make the world a better place.
   def censor_events_from_projects_with_disabled_activity!(events)
-    allowed_project_ids = EnabledModule.where(:name => 'activity').map(&:project_id)
+    allowed_project_ids = EnabledModule.where(name: 'activity').map(&:project_id)
     events.select! do |event|
       event.project_id.nil? || allowed_project_ids.include?(event.project_id)
     end
@@ -103,7 +103,7 @@ class ActivitiesController < ApplicationController
 
   def set_activity_scope
     if params[:apply]
-      @activity.scope_select {|t| !params["show_#{t}"].nil?}
+      @activity.scope_select { |t| !params["show_#{t}"].nil? }
     elsif session[:activity]
       @activity.scope = session[:activity]
     else

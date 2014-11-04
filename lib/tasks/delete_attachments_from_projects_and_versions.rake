@@ -33,25 +33,23 @@ namespace :migrations do
   namespace :attachments do
     include ::Tasks::Shared::UserFeedback
 
-    desc "Removes all attachments from versions and projects"
-    task :delete_from_projects_and_versions => :environment do |task|
+    desc 'Removes all attachments from versions and projects'
+    task delete_from_projects_and_versions: :environment do |_task|
       try_delete_attachments_from_projects_and_versions
     end
 
     def try_delete_attachments_from_projects_and_versions
-      begin
-        if !$stdout.isatty || user_agrees_to_delete_versions_and_projects_documents
-          puts "Delete all attachments attached to projects or versions..."
+      if !$stdout.isatty || user_agrees_to_delete_versions_and_projects_documents
+        puts 'Delete all attachments attached to projects or versions...'
 
-          Attachment.where(:container_type => ['Version','Project']).destroy_all
-        end
-      rescue
-        raise "Cannot delete attachments from projects and versions! There may be migrations missing...?"
+        Attachment.where(container_type: ['Version', 'Project']).destroy_all
       end
+    rescue
+      raise 'Cannot delete attachments from projects and versions! There may be migrations missing...?'
     end
 
     def user_agrees_to_delete_versions_and_projects_documents
-      questions = ["CAUTION: This rake task will delete ALL attachments attached to versions or projects!",
+      questions = ['CAUTION: This rake task will delete ALL attachments attached to versions or projects!',
                    "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
       ask_for_confirmation(questions)

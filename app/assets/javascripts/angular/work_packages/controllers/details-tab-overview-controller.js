@@ -28,7 +28,7 @@
 
 module.exports = function($scope,
            I18n,
-           ConfigurationService,
+           WorkPackagesOverviewService,
            TEXT_TYPE,
            VERSION_TYPE,
            CATEGORY_TYPE,
@@ -43,11 +43,7 @@ module.exports = function($scope,
 
   // work package properties
 
-  $scope.presentWorkPackageProperties = [];
-  $scope.emptyWorkPackageProperties = [];
   $scope.userPath = PathHelper.staticUserPath;
-
-  var workPackageProperties = ConfigurationService.workPackageAttributes();
 
     function getPropertyValue(property, format) {
         switch(format) {
@@ -89,72 +85,68 @@ module.exports = function($scope,
     }
   }
 
-  function addFormattedValueToPresentProperties(property, label, value, format) {
-    var propertyData = {
-      property: property,
-      label: label,
-      format: format,
-      value: null
-    };
-    $q.when(value).then(function(value) {
-      propertyData.value = value;
-    });
-    $scope.presentWorkPackageProperties.push(propertyData);
-  }
-
-  function secondRowToBeDisplayed() {
-    return !!workPackageProperties
-      .slice(3, 6)
-      .map(function(property) {
-        return $scope.workPackage.props[property];
-      })
-      .reduce(function(a, b) {
-        return a || b;
-      });
-  }
-
-  function getWorkPackagePropertiesInSpecifiedOrder(workPackageProperties) {
-    // The work package property oder is specified as follows:
-    // 1. The first 6 properties are:
-    //    'Status', 'Assigned To', 'Responsible'
-    //    'Date' '% Done', 'Priority'
-    // 2. All remaining properties are sorted in their alphabetical order
-    var propertiesForFirstTwoRows = workPackageProperties.slice(0, 6);
-    var remainingProperties = workPackageProperties.slice(6);
-    var remainingPropertiesByLabels = { };
-    var propertyLabels;
-    var workPackagePropertiesInSpecificOrder = propertiesForFirstTwoRows;
-
-    for (var x = 0; x < remainingProperties.length; x++) {
-      var property = remainingProperties[x];
-      var label = (typeof property == 'string') ? I18n.t('js.work_packages.properties.' + property) : property.name;
-
-      remainingPropertiesByLabels[label] = property;
-    }
-
-    propertyLabels = Object.keys(remainingPropertiesByLabels).sort(function(a, b) {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-    });
-
-    for (var x = 0; x < propertyLabels.length; x++) {
-      workPackagePropertiesInSpecificOrder.push(remainingPropertiesByLabels[propertyLabels[x]]);
-    }
-
-    return workPackagePropertiesInSpecificOrder;
-  }
+  $scope.groupedAttributes = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
   (function setupWorkPackageProperties() {
-    var properties = workPackageProperties.concat($scope.workPackage.props.customProperties);
-    var sortedProperties = getWorkPackagePropertiesInSpecifiedOrder(properties);
+    var otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
 
-    angular.forEach(sortedProperties, function(property, index) {
-      if (typeof property == 'string') {
-        addWorkPackageProperty(property, index);
-      } else {
-        addWorkPackageCustomProperty(property);
-      }
+    angular.forEach($scope.workPackage.props.customProperties, function(customProperty) {
+      this.push(customProperty);
+    }, otherAttributes);
+
+    angular.forEach($scope.groupedAttributes, function(group) {
+      var attributesWithValues = [];
+
+      angular.forEach(group.attributes, function(attribute) {
+        if (typeof attribute == 'string') {
+          this.push(getWorkPackageProperty(attribute));
+        } else {
+          this.push(getWorkPackageCustomProperty(attribute));
+        }
+      }, attributesWithValues);
+
+      group.attributes = attributesWithValues;
+    });
+
+    // The loops before overwrite the attributes array of group 'other'. Thus,
+    // to get the current values of that array, I need to get that array again.
+    otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
+    // Sorting the 'other' group is an acutal requirement. So, check if the
+    // requirement has changed before removing this code!
+    otherAttributes.sort(function(a, b) {
+      return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
     });
   })();
+
+  function getWorkPackageProperty(property) {
+    var label  = I18n.t('js.work_packages.properties.' + property),
+        format = getPropertyFormat(property);
+        value  = getPropertyValue(property, format);
+
+    if (!(value === null || value === undefined)) {
+      return getFormattedValueToPresentProperties(property, label, value, format);
+    } else {
+      var plugInValues = HookService.call('workPackageOverviewAttributes',
+                                          { type: property,
+                                            workPackage: $scope.workPackage });
+
+      if (plugInValues.length == 0) {
+        return getFormattedValueToPresentProperties(property, label, null, format);
+      } else {
+        for (var x = 0; x < plugInValues.length; x++) {
+          return getFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
+        }
+      }
+    }
+  }
+
+  function getWorkPackageCustomProperty(property) {
+    var label = property.name,
+        value = (property.value) ? getCustomPropertyValue(property) : null,
+        format = property.format;
+
+    return getFormattedValueToPresentProperties(property.name, label, value, format);
+  }
 
   function getPropertyFormat(property) {
     var format = USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
@@ -162,42 +154,6 @@ module.exports = function($scope,
     format = (property === 'category') ? CATEGORY_TYPE : format;
 
     return format;
-  }
-
-  function addWorkPackageProperty(property, index) {
-    var label  = I18n.t('js.work_packages.properties.' + property),
-        format = getPropertyFormat(property);
-        value  = getPropertyValue(property, format);
-
-    if (!(value === null || value === undefined) ||
-        index < 3 ||
-        index < 6 && secondRowToBeDisplayed()) {
-      addFormattedValueToPresentProperties(property, label, value, format);
-    } else {
-      var plugInValues = HookService.call('workPackageOverviewAttributes',
-                                          { type: property,
-                                            workPackage: $scope.workPackage });
-
-      if (plugInValues.length == 0) {
-        $scope.emptyWorkPackageProperties.push(label);
-      } else {
-        for (var x = 0; x < plugInValues.length; x++) {
-          addFormattedValueToPresentProperties(property, label, plugInValues[x], 'dynamic');
-        }
-      }
-    }
-  }
-
-  function addWorkPackageCustomProperty(property) {
-    var label = property.name,
-        value = getCustomPropertyValue(property),
-        format = property.format;
-
-    if (property.value) {
-      addFormattedValueToPresentProperties(property.name, label, value, format);
-    } else {
-      $scope.emptyWorkPackageProperties.push(label);
-    }
   }
 
   function getCustomPropertyValue(customProperty) {
@@ -208,6 +164,21 @@ module.exports = function($scope,
     }
   }
 
+  function getFormattedValueToPresentProperties(property, label, value, format) {
+    var propertyData = {
+      property: property,
+      label: label,
+      format: format,
+      value: null
+    };
+
+    $q.when(value).then(function(value) {
+      propertyData.value = value;
+    });
+
+    return propertyData;
+  }
+
   // toggles
 
   $scope.toggleStates = {
@@ -215,5 +186,15 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
+  $scope.isGroupEmpty = function(group) {
+    return group.attributes.filter(function(element) {
+      return !!element.value;
+    }).length == 0;
+  };
 
+  $scope.anyEmptyWorkPackageValue = function() {
+    return $scope.groupedAttributes.filter(function(element) {
+      return $scope.isGroupEmpty(element);
+    }).length > 0;
+  };
 }

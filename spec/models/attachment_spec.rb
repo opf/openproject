@@ -27,48 +27,52 @@
 #++
 require 'spec_helper'
 
-describe Attachment, :type => :model do
+describe Attachment, type: :model do
   let(:author) { FactoryGirl.create(:user) }
-  let(:long_description){'a' * 300}
-  let(:work_package) { FactoryGirl.create( :work_package, :description => '') }
-  let(:attachment) { FactoryGirl.build( :attachment,
-                                        :author => author,
-                                        :container => work_package,
-                                        :filename => 'foo.jpg') }
-  describe "create" do
+  let(:long_description) { 'a' * 300 }
+  let(:work_package) { FactoryGirl.create(:work_package, description: '') }
+  let(:attachment) {
+    FactoryGirl.build(:attachment,
+                      author: author,
+                      container: work_package,
+                      filename: 'foo.jpg')
+  }
+  describe 'create' do
     context :save do
       before do
         attachment.description = long_description
         attachment.valid?
       end
 
-      it "should validate description length" do
+      it 'should validate description length' do
         expect(attachment.errors[:description]).not_to be_empty
       end
 
-      it "should raise an error regarding description length" do
-        expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', :count => 255)
+      it 'should raise an error regarding description length' do
+        expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', count: 255)
       end
     end
   end
 
-  describe "update" do
-    let!(:attachment) { FactoryGirl.create( :attachment,
-                                          :author => author,
-                                          :container => work_package,
-                                          :filename => 'foo.jpg') }
+  describe 'update' do
+    let!(:attachment) {
+      FactoryGirl.create(:attachment,
+                         author: author,
+                         container: work_package,
+                         filename: 'foo.jpg')
+    }
     context :update do
       before do
         attachment.description = long_description
         attachment.valid?
       end
 
-      it "should validate description length" do
+      it 'should validate description length' do
         expect(attachment.errors[:description]).not_to be_empty
       end
 
-      it "should raise an error regarding description length" do
-        expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', :count => 255)
+      it 'should raise an error regarding description length' do
+        expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', count: 255)
       end
     end
   end

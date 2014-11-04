@@ -42,7 +42,7 @@ describe 'API v3 Status resource' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/statuses" }
+      let(:get_path) { '/api/v3/statuses' }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)

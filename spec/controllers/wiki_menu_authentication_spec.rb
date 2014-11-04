@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController, :type => :controller do
+describe WikiMenuItemsController, type: :controller do
   before do
     User.delete_all
     Role.delete_all
@@ -36,10 +36,9 @@ describe WikiMenuItemsController, :type => :controller do
     @project = FactoryGirl.create(:project)
     @project.reload # project contains wiki by default
 
-
     @params = {}
     @params[:project_id] = @project.id
-    page = FactoryGirl.create(:wiki_page, :wiki => @project.wiki)
+    page = FactoryGirl.create(:wiki_page, wiki: @project.wiki)
     @params[:id] = page.title
   end
 
@@ -48,8 +47,8 @@ describe WikiMenuItemsController, :type => :controller do
       admin_user = FactoryGirl.create(:admin)
 
       allow(User).to receive(:current).and_return admin_user
-      permission_role = FactoryGirl.create(:role, :name => "accessgranted", :permissions => [:manage_wiki_menu])
-      member = FactoryGirl.create(:member, :principal => admin_user, :user => admin_user, :project => @project, :roles => [permission_role])
+      permission_role = FactoryGirl.create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
+      member = FactoryGirl.create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
       get 'edit', @params
 

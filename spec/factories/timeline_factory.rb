@@ -27,15 +27,15 @@
 #++
 
 FactoryGirl.define do
-  factory(:timeline, :class => Timeline) do
+  factory(:timeline, class: Timeline) do
 
-    options({
-      'exist'                     => "",
-      'timeframe_start'           => "",
-      'zoom_factor'               => ["1"],
-      'timeframe_end'             => "",
-      'initial_outline_expansion' => ["2"]
-    })
+    options(
+      'exist'                     => '',
+      'timeframe_start'           => '',
+      'zoom_factor'               => ['1'],
+      'timeframe_end'             => '',
+      'initial_outline_expansion' => ['2']
+    )
 
     association :project
     sequence(:name) { |n| "Timeline No. #{n}" }
@@ -44,7 +44,7 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
-  factory(:timeline_with_history, :parent => :timeline) do
+  factory(:timeline_with_history, parent: :timeline) do
 
     sequence(:name) { |n| "Timeline No. #{n} with History" }
 

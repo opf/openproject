@@ -31,13 +31,13 @@ class Member < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :user
-  belongs_to :principal, :foreign_key => 'user_id'
-  has_many :member_roles, :dependent => :destroy, :autosave => true
-  has_many :roles, :through => :member_roles
+  belongs_to :principal, foreign_key: 'user_id'
+  has_many :member_roles, dependent: :destroy, autosave: true
+  has_many :roles, through: :member_roles
   belongs_to :project
 
   validates_presence_of :project
-  validates_uniqueness_of :user_id, :scope => :project_id
+  validates_uniqueness_of :user_id, scope: :project_id
 
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   after_destroy :unwatch_from_permission_change
 
   def name
-    self.user.name
+    user.name
   end
 
   def to_s
@@ -71,12 +71,12 @@ class Member < ActiveRecord::Base
 
   # Add a role to the membership
   # Does not save the changes, the member must be saved afterwards for the role to be added.
-  def add_role(role_or_role_id, inherited_from_id=nil)
+  def add_role(role_or_role_id, inherited_from_id = nil)
     do_add_role(role_or_role_id, inherited_from_id, false)
   end
 
   # Add a role and save the change to the database
-  def add_and_save_role(role_or_role_id, inherited_from_id=nil)
+  def add_and_save_role(role_or_role_id, inherited_from_id = nil)
     do_add_role(role_or_role_id, inherited_from_id, true)
   end
 
@@ -103,7 +103,7 @@ class Member < ActiveRecord::Base
   end
 
   def deletable?
-    member_roles.detect {|mr| mr.inherited_from}.nil?
+    member_roles.detect(&:inherited_from).nil?
   end
 
   def include?(user)
@@ -116,12 +116,12 @@ class Member < ActiveRecord::Base
 
   # remove category based auto assignments for this member
   def remove_from_category_assignments
-    Category.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id] if user
+    Category.update_all 'assigned_to_id = NULL', ['project_id = ? AND assigned_to_id = ?', project.id, user.id] if user
   end
 
   # Find or initialize a Member with an id, attributes, and for a Principal
-  def self.edit_membership(id, new_attributes, principal=nil)
-    @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
+  def self.edit_membership(id, new_attributes, principal = nil)
+    @membership = id.present? ? Member.find(id) : Member.new(principal: principal)
     # interface refactoring needed
     # not critical atm because only admins can invoke it (see users and groups controllers)
     @membership.force_attributes = new_attributes
@@ -151,7 +151,7 @@ class Member < ActiveRecord::Base
   end
 
   def do_add_role(role_or_role_id, inherited_from_id, save_immediately)
-    id = (role_or_role_id.kind_of? Role) ? role_or_role_id.id : role_or_role_id
+    id = (role_or_role_id.is_a? Role) ? role_or_role_id.id : role_or_role_id
 
     if save_immediately
       member_roles << MemberRole.new.tap do |member_role|
@@ -170,19 +170,19 @@ class Member < ActiveRecord::Base
   # when no roles are left.
   def do_assign_roles(roles_or_role_ids, save_and_possibly_destroy)
     # ensure we have integer ids
-    ids = roles_or_role_ids.map { |r| (r.kind_of? Role) ? r.id : r.to_i }
+    ids = roles_or_role_ids.map { |r| (r.is_a? Role) ? r.id : r.to_i }
 
     # Keep inherited roles
-    ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
+    ids += member_roles.select { |mr| !mr.inherited_from.nil? }.map(&:role_id)
 
     new_role_ids = ids - role_ids
     # Add new roles
     # Do this before destroying them, otherwise the Member is destroyed due to not having any
     # Roles assigned via MemberRoles.
-    new_role_ids.each {|id| do_add_role(id, nil, save_and_possibly_destroy) }
+    new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
+    member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }
     member_roles_to_destroy.each { |mr| do_remove_member_role(mr, save_and_possibly_destroy) }
   end
 
@@ -201,7 +201,7 @@ class Member < ActiveRecord::Base
   # Unwatch things that the user is no longer allowed to view inside project
   def unwatch_from_permission_change
     if user
-      Watcher.prune(:user => user, :project => project)
+      Watcher.prune(user: user, project: project)
     end
   end
 end

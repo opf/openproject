@@ -30,7 +30,6 @@ module API
   module V3
     module Projects
       class ProjectsAPI < Grape::API
-
         resources :projects do
           params do
             requires :id, desc: 'Project id'

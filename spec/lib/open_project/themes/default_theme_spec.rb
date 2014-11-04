@@ -52,7 +52,7 @@ module OpenProject
       end
 
       describe '#assets_path' do
-        it "should be the assets path of the rails app" do
+        it 'should be the assets path of the rails app' do
           rails_root = File.expand_path('../../../../..', __FILE__)
           expect(theme.assets_path).to eq File.join(rails_root, 'app/assets')
         end

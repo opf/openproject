@@ -29,17 +29,17 @@
 
 require 'spec_helper'
 
-describe ProjectsController, :type => :routing do
-  it "should connect GET /api/v2/projects/level_list.json to projects#level_list" do
-    expect(get("/api/v2/projects/level_list.json")).to route_to( :controller => 'api/v2/projects',
-                                                                 :action => 'level_list',
-                                                                 :format => 'json' )
+describe ProjectsController, type: :routing do
+  it 'should connect GET /api/v2/projects/level_list.json to projects#level_list' do
+    expect(get('/api/v2/projects/level_list.json')).to route_to(controller: 'api/v2/projects',
+                                                                action: 'level_list',
+                                                                format: 'json')
   end
 
-  it "should connect GET /api/v2/projects/level_list.xml to projects#level_list" do
-    expect(get("/api/v2/projects/level_list.xml")).to route_to( :controller => 'api/v2/projects',
-                                                                 :action => 'level_list',
-                                                                 :format => 'xml' )
+  it 'should connect GET /api/v2/projects/level_list.xml to projects#level_list' do
+    expect(get('/api/v2/projects/level_list.xml')).to route_to(controller: 'api/v2/projects',
+                                                               action: 'level_list',
+                                                               format: 'xml')
   end
 
 end

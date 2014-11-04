@@ -28,15 +28,15 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::AuthenticationController, :type => :controller do
+describe Api::V2::AuthenticationController, type: :controller do
   before { allow(Setting).to receive(:rest_api_enabled?).and_return true }
 
   describe 'index.xml' do
     def fetch
-      get 'index', :format => 'xml'
+      get 'index', format: 'xml'
     end
 
-    it_should_behave_like "a controller action with require_login"
+    it_should_behave_like 'a controller action with require_login'
 
     describe 'REST API disabled' do
       before do
@@ -68,7 +68,7 @@ describe Api::V2::AuthenticationController, :type => :controller do
     end
   end
 
-  describe "session" do
+  describe 'session' do
     let(:api_key) { user.api_key }
     let(:user) { FactoryGirl.create(:admin) }
     let(:ttl) { 42 }
@@ -90,12 +90,12 @@ describe Api::V2::AuthenticationController, :type => :controller do
     it 'should not expire' do
       session[:updated_at] = Time.now
 
-      get :index, :format => 'xml', :key => api_key
+      get :index, format: 'xml', key: api_key
       expect(response.status).to eq(200)
 
       Timecop.travel(Time.now + (ttl + 1).minutes) do
         # Now another request after a normal session would be expired
-        get :index, :format => 'xml', :key => api_key
+        get :index, format: 'xml', key: api_key
         expect(response.status).to eq(200)
       end
     end

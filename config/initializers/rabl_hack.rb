@@ -33,7 +33,7 @@
 #
 module Rabl
   class Engine
-    def to_hash_with_hack(options={})
+    def to_hash_with_hack(options = {})
       if is_collection?(@_data_object)
         options[:building_collection] = true
       end
@@ -45,7 +45,7 @@ module Rabl
   end
 
   class Builder
-    def compile_hash_with_hack(options={})
+    def compile_hash_with_hack(options = {})
       if options[:building_collection] && !options[:child_root]
         options[:root_name] = false
       end

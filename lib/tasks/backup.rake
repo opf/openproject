@@ -33,8 +33,8 @@ require 'fileutils'
 namespace :backup do
   namespace :database do
     desc 'Creates a database dump which can be used as a backup.'
-    task :create, [:path_to_backup] => [:environment] do |task, args|
-      args.with_defaults(:path_to_backup => default_db_filename)
+    task :create, [:path_to_backup] => [:environment] do |_task, args|
+      args.with_defaults(path_to_backup: default_db_filename)
       FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
 
       config = database_configuration
@@ -53,7 +53,7 @@ namespace :backup do
           pg_dump_call << "#{config['database']}"
 
           if config['password']
-            Kernel.system({'PGPASSFILE' => config_file}, *pg_dump_call)
+            Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
           else
             Kernel.system(*pg_dump_call)
           end
@@ -74,7 +74,7 @@ namespace :backup do
     end
 
     desc 'Restores a database dump created by the :create task.'
-    task :restore, [:path_to_backup] => [:environment] do |task, args|
+    task :restore, [:path_to_backup] => [:environment] do |_task, args|
       raise 'You must provide the path to the database dump' unless args[:path_to_backup]
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
@@ -83,10 +83,10 @@ namespace :backup do
       when /PostgreSQL/i
         with_pg_config(config) do |config_file|
           pg_restore_call = ['pg_restore',
-                       '--clean',
-                       '--no-owner',
-                       '--single-transaction',
-                       "--dbname=#{config['database']}"]
+                             '--clean',
+                             '--no-owner',
+                             '--single-transaction',
+                             "--dbname=#{config['database']}"]
           pg_restore_call << "--host=#{config['host']}" if config['host']
           pg_restore_call << "--port=#{config['port']}" if config['port']
           user = config.values_at('user', 'username').compact.first
@@ -94,7 +94,7 @@ namespace :backup do
           pg_restore_call << "#{args[:path_to_backup]}"
 
           if config['password']
-            Kernel.system({'PGPASSFILE' => config_file}, *pg_restore_call)
+            Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
           else
             Kernel.system(*pg_restore_call)
           end
@@ -109,6 +109,7 @@ namespace :backup do
     end
 
     private
+
     def database_configuration
       ActiveRecord::Base.configurations[Rails.env]
     end
@@ -142,7 +143,7 @@ namespace :backup do
     end
 
     def default_db_filename
-      filename = "openproject-#{Rails.env.to_s}-db-#{date_string}"
+      filename = "openproject-#{Rails.env}-db-#{date_string}"
       case database_configuration['adapter']
       when /PostgreSQL/i
         filename << '.backup'

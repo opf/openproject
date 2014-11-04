@@ -52,34 +52,34 @@ module Redmine::MenuManager::MenuHelper
     MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
-                  { :controller => '/wiki', :action => 'show', :id => CGI.escape(main_item.title) },
-                    :param => :project_id,
-                    :caption => main_item.name,
-                    :after => :repository,
-                    :html => {:class => 'icon2 icon-wiki'}
+                  { controller: '/wiki', action: 'show', id: CGI.escape(main_item.title) },
+                    param: :project_id,
+                    caption: main_item.name,
+                    after: :repository,
+                    html: {class: 'icon2 icon-wiki'}
 
         menu.push :"#{main_item.item_class}_new_page",
-                  { :action=>"new_child", :controller=>"/wiki", :id => CGI.escape(main_item.title) },
-                  :param   => :project_id,
-                  :caption => :create_child_page,
-                  :html    => {:class => 'icon2 icon-add'},
-                  :parent  => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
+                  { action:"new_child", controller:"/wiki", id: CGI.escape(main_item.title) },
+                  param:   :project_id,
+                  caption: :create_child_page,
+                  html:    {class: 'icon2 icon-add'},
+                  parent:  "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
                     WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 
         menu.push :"#{main_item.item_class}_toc",
-                  { :action => 'index', :controller => '/wiki', :id => CGI.escape(main_item.title) },
-                  :param   => :project_id,
-                  :caption => :label_table_of_contents,
-                  :html    => {:class => 'icon2 icon-list-view1'},
-                  :parent  => "#{main_item.item_class}".to_sym if main_item.index_page
+                  { action: 'index', controller: '/wiki', id: CGI.escape(main_item.title) },
+                  param:   :project_id,
+                  caption: :label_table_of_contents,
+                  html:    {class: 'icon2 icon-list-view1'},
+                  parent:  "#{main_item.item_class}".to_sym if main_item.index_page
 
         main_item.children.each do |child|
           menu.push "#{child.item_class}".to_sym,
-                    { :controller => '/wiki', :action => 'show', :id => CGI.escape(child.title) },
-                    :param => :project_id,
-                    :caption => child.name,
-                    :html    => {:class => 'icon2 icon-wiki2'},
-                    :parent => "#{main_item.item_class}".to_sym
+                    { controller: '/wiki', action: 'show', id: CGI.escape(child.title) },
+                    param: :project_id,
+                    caption: child.name,
+                    html:    {class: 'icon2 icon-wiki2'},
+                    parent: "#{main_item.item_class}".to_sym
         end
         # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
       end
@@ -92,14 +92,14 @@ module Redmine::MenuManager::MenuHelper
     Redmine::MenuManager.loose :project_menu do |menu|
       query_menu_items.each do |query_menu_item|
         # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
-        url = { :controller => '/work_packages', :action => 'index', :params => {:query_id => query_menu_item.navigatable_id} }
+        url = { controller: '/work_packages', action: 'index', params: {query_id: query_menu_item.navigatable_id} }
         menu.push query_menu_item.unique_name,
                   url,
-                  :param => :project_id,
-                  :caption => query_menu_item.title,
-                  :parent => :work_packages,
-                  :html    => {
-                    :class => 'icon2 icon-pin query-menu-item',
+                  param: :project_id,
+                  caption: query_menu_item.title,
+                  parent: :work_packages,
+                  html:    {
+                    class: 'icon2 icon-pin query-menu-item',
                     "data-ui-route" => '',
                     'query-menu-item' => 'query-menu-item',
                     'object-id' => query_menu_item.navigatable_id
@@ -118,7 +118,7 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
+    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: "menu_root")
   end
 
   def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &block)
@@ -131,15 +131,15 @@ module Redmine::MenuManager::MenuHelper
 
     return "" if items.empty? && !block_given?
 
-    options.reverse_merge!({ :class => "drop-down" })
+    options.reverse_merge!({ class: "drop-down" })
 
     content_tag :li, options do
       label + if block_given?
                 yield
               else
-                content_tag :ul, :style => "display:none" do
+                content_tag :ul, style: "display:none" do
 
-                  items.collect do |item|
+                  items.map do |item|
                     render_menu_node(item)
                   end.join(" ").html_safe
                 end
@@ -162,7 +162,7 @@ module Redmine::MenuManager::MenuHelper
 
     content_tag :li do
       # Standard children
-      standard_children_list = node.children.collect do |child|
+      standard_children_list = node.children.map do |child|
                                  render_menu_node(child, project)
                                end.join.html_safe
 
@@ -173,8 +173,8 @@ module Redmine::MenuManager::MenuHelper
       node = [render_single_menu_node(node, caption, url, selected)]
 
       # add children
-      node << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
-      node << content_tag(:ul, unattached_children_list, :class => 'menu-children unattached') unless unattached_children_list.blank?
+      node << content_tag(:ul, standard_children_list, class: 'menu-children') unless standard_children_list.empty?
+      node << content_tag(:ul, unattached_children_list, class: 'menu-children unattached') unless unattached_children_list.blank?
 
       node.join("\n").html_safe
     end
@@ -199,7 +199,7 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_menu_node(item, caption, url, selected)
     link_text    = you_are_here_info(selected) + caption
-    html_options = item.html_options(:selected => selected)
+    html_options = item.html_options(selected: selected)
     html_options[:title] = caption
 
     html_options[:lang] = menu_item_locale(item)

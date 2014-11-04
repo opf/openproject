@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/authentication/index.api.rabl', :type => :view do
+describe 'api/v2/authentication/index.api.rabl', type: :view do
   before { params[:format] = 'xml' }
 
   describe 'authentication state' do

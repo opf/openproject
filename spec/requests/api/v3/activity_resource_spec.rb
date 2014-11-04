@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Activity resource', :type => :request do
+describe 'API v3 Activity resource', type: :request do
   include Rack::Test::Methods
 
   let(:current_user) { FactoryGirl.create(:user) }
@@ -61,7 +61,7 @@ describe 'API v3 Activity resource', :type => :request do
       end
 
       context 'requesting nonexistent activity' do
-        let(:get_path) { "/api/v3/activities/9999" }
+        let(:get_path) { '/api/v3/activities/9999' }
 
         it_behaves_like 'not found', 9999, 'Journal'
       end

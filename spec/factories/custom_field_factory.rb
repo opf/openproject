@@ -28,69 +28,69 @@
 
 FactoryGirl.define do
   factory :custom_field do
-    name "Custom Field"
-    regexp ""
+    name 'Custom Field'
+    regexp ''
     is_required false
     min_length false
-    default_value ""
+    default_value ''
     max_length false
     editable true
-    possible_values ""
+    possible_values ''
     visible true
-    field_format "bool"
+    field_format 'bool'
 
-    factory :user_custom_field, :class => UserCustomField do
+    factory :user_custom_field, class: UserCustomField do
       sequence(:name) { |n| "User Custom Field #{n}" }
-      type "UserCustomField"
+      type 'UserCustomField'
 
       factory :boolean_user_custom_field do
-        name "BooleanUserCustomField"
-        field_format "bool"
+        name 'BooleanUserCustomField'
+        field_format 'bool'
       end
 
       factory :integer_user_custom_field do
-        name "IntegerUserCustomField"
-        field_format "int"
+        name 'IntegerUserCustomField'
+        field_format 'int'
       end
 
       factory :text_user_custom_field do
-        name "TextUserCustomField"
-        field_format "text"
+        name 'TextUserCustomField'
+        field_format 'text'
       end
 
       factory :string_user_custom_field do
-        name "StringUserCustomField"
-        field_format "string"
+        name 'StringUserCustomField'
+        field_format 'string'
       end
 
       factory :float_user_custom_field do
-        name "FloatUserCustomField"
-        field_format "float"
+        name 'FloatUserCustomField'
+        field_format 'float'
       end
 
       factory :list_user_custom_field do
-        name "ListUserCustomField"
-        field_format "list"
-        possible_values ["1", "2", "3", "4", "5", "6", "7"]
+        name 'ListUserCustomField'
+        field_format 'list'
+        possible_values ['1', '2', '3', '4', '5', '6', '7']
       end
 
       factory :date_user_custom_field do
-        name "DateUserCustomField"
-        field_format "date"
+        name 'DateUserCustomField'
+        field_format 'date'
       end
     end
 
-    factory :issue_custom_field, :class => WorkPackageCustomField do
+    factory :issue_custom_field, class: WorkPackageCustomField do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
 
       factory :user_issue_custom_field do
-        field_format "user"
+        field_format 'user'
         sequence(:name) { |n| "UserWorkPackageCustomField #{n}" }
       end
 
       factory :text_issue_custom_field do
-        field_format "text"
-        sequence(:name) { |n| "TextWorkPackageCustomField #{n}"}
+        field_format 'text'
+        sequence(:name) { |n| "TextWorkPackageCustomField #{n}" }
       end
     end
   end

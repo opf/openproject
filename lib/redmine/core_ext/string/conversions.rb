@@ -34,7 +34,7 @@ module Redmine #:nodoc:
       module Conversions
         # Parses hours format and returns a float
         def to_hours
-          s = self.dup
+          s = dup
           s.strip!
           if s =~ %r{^(\d+([.,]\d+)?)h?$}
             s = $1

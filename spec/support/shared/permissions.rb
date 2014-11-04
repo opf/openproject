@@ -74,14 +74,14 @@ module PermissionSpecHelpers
   end
 end
 
-shared_examples_for "a controller action with unrestricted access" do
+shared_examples_for 'a controller action with unrestricted access' do
   let(:valid_user) { FactoryGirl.create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
-shared_examples_for "a controller action with require_login" do
+shared_examples_for 'a controller action with require_login' do
   let(:valid_user)   { FactoryGirl.create(:user) }
   let(:invalid_user) { FactoryGirl.create(:anonymous) }
 
@@ -89,15 +89,15 @@ shared_examples_for "a controller action with require_login" do
   spec_permissions
 end
 
-shared_examples_for "a controller action with require_admin" do
-  let(:valid_user)   { User.first(:conditions => {:admin => true}) || FactoryGirl.create(:admin) }
+shared_examples_for 'a controller action with require_admin' do
+  let(:valid_user)   { User.first(conditions: { admin: true }) || FactoryGirl.create(:admin) }
   let(:invalid_user) { FactoryGirl.create(:user) }
 
   extend PermissionSpecHelpers
   spec_permissions
 end
 
-shared_examples_for "a controller action which needs project permissions" do
+shared_examples_for 'a controller action which needs project permissions' do
   # Expecting the following environment
   #
   # let(:project) { FactoryGirl.create(:project) }
@@ -120,8 +120,8 @@ shared_examples_for "a controller action which needs project permissions" do
   let(:invalid_user) { FactoryGirl.create(:user) }
 
   def add_membership(user, permissions)
-    role   = FactoryGirl.create(:role, :permissions => Array(permissions))
-    member = FactoryGirl.build(:member, :user => user, :project => project)
+    role   = FactoryGirl.create(:role, permissions: Array(permissions))
+    member = FactoryGirl.build(:member, user: user, project: project)
     member.roles = [role]
     member.save!
   end

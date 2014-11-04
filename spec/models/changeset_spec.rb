@@ -28,14 +28,16 @@
 
 require 'spec_helper'
 
-describe Changeset, :type => :model do
-  let(:email) { "bob@bobbit.org" }
+describe Changeset, type: :model do
+  let(:email) { 'bob@bobbit.org' }
   let(:repo) { FactoryGirl.create(:repository) }
-  let(:changeset) { FactoryGirl.build(:changeset,
-                                      repository: repo,
-                                      revision: '1',
-                                      committer: email,
-                                      comments: "Initial commit") }
+  let(:changeset) {
+    FactoryGirl.build(:changeset,
+                      repository: repo,
+                      revision: '1',
+                      committer: email,
+                      comments: 'Initial commit')
+  }
 
   before { allow(Setting).to receive(:enabled_scm).and_return(['Filesystem']) }
 
@@ -44,7 +46,7 @@ describe Changeset, :type => :model do
 
     it { expect(changeset.committer).to eq(email) }
 
-    it { expect(changeset.comments).to eq("Initial commit") }
+    it { expect(changeset.comments).to eq('Initial commit') }
 
     describe 'journal' do
       let(:journal) { changeset.journals.first }
@@ -56,7 +58,7 @@ describe Changeset, :type => :model do
   end
 
   describe 'assign_openproject user' do
-    describe "w/o user" do
+    describe 'w/o user' do
       before { changeset.save! }
 
       it_behaves_like 'valid changeset' do
@@ -64,7 +66,7 @@ describe Changeset, :type => :model do
       end
     end
 
-    describe "with user is committer" do
+    describe 'with user is committer' do
       let!(:committer) { FactoryGirl.create(:user, login: email) }
 
       before { changeset.save! }
@@ -74,7 +76,7 @@ describe Changeset, :type => :model do
       end
     end
 
-    describe "current user is not committer" do
+    describe 'current user is not committer' do
       let(:current_user) { FactoryGirl.create(:user) }
       let!(:committer) { FactoryGirl.create(:user, login: email) }
 

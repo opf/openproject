@@ -36,9 +36,8 @@ class CreateTimelinesDefaultPlanningElementTypes < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :timelines_default_planning_element_types, :project_type_id, :name => "index_default_pe_types_on_project_type_id"
-    add_index :timelines_default_planning_element_types, :planning_element_type_id, :name => "index_default_pe_types_on_pe_type_id"
-
+    add_index :timelines_default_planning_element_types, :project_type_id, name: 'index_default_pe_types_on_project_type_id'
+    add_index :timelines_default_planning_element_types, :planning_element_type_id, name: 'index_default_pe_types_on_pe_type_id'
   end
 
   def self.down

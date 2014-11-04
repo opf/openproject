@@ -53,13 +53,13 @@ module Migration
       instance_eval &block if block_given?
 
       if table_name.nil? || type.nil?
-        raise ArgumentError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise ArgumentError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
           table_name and type have to be provided. Either as parameters
           or set within the block.
         MESSAGE
       end
 
-      self.journable_class ||= self.type.gsub(/Journal\z/, "")
+      self.journable_class ||= self.type.gsub(/Journal\z/, '')
     end
 
     def run
@@ -81,7 +81,7 @@ module Migration
                                           smoothing: 0.5)
         progress_bar.log "Migrating #{total_count} legacy journals."
 
-        legacy_journals.each_with_index do |legacy_journal, count|
+        legacy_journals.each_with_index do |legacy_journal, _count|
           migrate(legacy_journal)
           progress_bar.increment
         end
@@ -89,7 +89,6 @@ module Migration
     end
 
     def remove_journals_derived_from_legacy_journals(*table_names)
-
       table_names << table_name
 
       if legacy_table_exists?
@@ -114,7 +113,7 @@ module Migration
                      WHERE type=#{quote_value(type)})
         SQL
       else
-        puts "No legacy table exists. Doing nothing"
+        puts 'No legacy table exists. Doing nothing'
       end
     end
 
@@ -122,14 +121,14 @@ module Migration
 
     def migrate(legacy_journal)
       journal = set_journal(legacy_journal)
-      journal_id = journal["id"]
+      journal_id = journal['id']
 
       set_journal_data(journal_id, legacy_journal)
     end
 
     def combine_journal(journaled_id, legacy_journal)
       # compute the combined journal from current and all previous changesets.
-      combined_journal = legacy_journal["changed_data"]
+      combined_journal = legacy_journal['changed_data']
       if previous.journaled_id == journaled_id
         combined_journal = previous.journal.merge(combined_journal)
       end
@@ -145,7 +144,7 @@ module Migration
     end
 
     # here to be overwritten by instances
-    def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id) end
+    def migrate_key_value_pairs!(_to_insert, _legacy_journal, _journal_id) end
 
     # fetches specific journal data row. might be empty.
     def fetch_existing_data_journal(journal_id)
@@ -159,12 +158,11 @@ module Migration
     # gets a journal row, and makes sure it has a valid id in the database.
     # if the journal does not exist, it creates it
     def set_journal(legacy_journal)
-
       journal = fetch_journal(legacy_journal)
 
       if journal.size > 1
 
-        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
           It appears there are ambiguous journals. Please make sure
           journals are consistent and that the unique constraint on id,
           type and version is met.
@@ -181,7 +179,7 @@ module Migration
 
     # fetches specific journal row. might be empty.
     def fetch_journal(legacy_journal)
-      id, version = legacy_journal["journaled_id"], legacy_journal["version"]
+      id, version = legacy_journal['journaled_id'], legacy_journal['version']
 
       db_select_all <<-SQL
         SELECT *
@@ -197,7 +195,6 @@ module Migration
     # created with created_at set to now. This will need to be set to an actual
     # date
     def create_journal(legacy_journal)
-
       db_execute <<-SQL
         INSERT INTO #{quoted_journals_table_name} (
           id,
@@ -210,13 +207,13 @@ module Migration
           journable_type
         )
         VALUES (
-          #{quote_value(legacy_journal["id"])},
-          #{quote_value(legacy_journal["journaled_id"])},
-          #{quote_value(legacy_journal["version"])},
-          #{quote_value(legacy_journal["user_id"])},
-          #{quote_value(legacy_journal["notes"])},
-          #{quote_value(legacy_journal["activity_type"])},
-          #{quote_value(legacy_journal["created_at"])},
+          #{quote_value(legacy_journal['id'])},
+          #{quote_value(legacy_journal['journaled_id'])},
+          #{quote_value(legacy_journal['version'])},
+          #{quote_value(legacy_journal['user_id'])},
+          #{quote_value(legacy_journal['notes'])},
+          #{quote_value(legacy_journal['activity_type'])},
+          #{quote_value(legacy_journal['created_at'])},
           #{quote_value(journable_class)}
         );
       SQL
@@ -225,9 +222,8 @@ module Migration
     end
 
     def set_journal_data(journal_id, legacy_journal)
-
       deserialize_journal(legacy_journal)
-      journaled_id = legacy_journal["journaled_id"]
+      journaled_id = legacy_journal['journaled_id']
 
       combined_journal = combine_journal(journaled_id, legacy_journal)
       migrate_key_value_pairs!(combined_journal, legacy_journal, journal_id)
@@ -238,7 +234,7 @@ module Migration
 
       if existing_data_journal.size > 1
 
-        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
           It appears there are ambiguous journal data. Please make sure
           journal data are consistent and that the unique constraint on
           journal_id is met.
@@ -252,7 +248,7 @@ module Migration
 
       existing_data_journal = existing_data_journal.first
 
-      update_data_journal(existing_data_journal["id"], to_insert)
+      update_data_journal(existing_data_journal['id'], to_insert)
     end
 
     def create_data_journal(journal_id, to_insert)
@@ -260,8 +256,8 @@ module Migration
       values = to_insert.values
 
       db_execute <<-SQL
-        INSERT INTO #{journal_table_name} (journal_id#{", " + keys.join(", ") unless keys.empty? })
-        VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
+        INSERT INTO #{journal_table_name} (journal_id#{', ' + keys.join(', ') unless keys.empty? })
+        VALUES (#{quote_value(journal_id)}#{', ' + values.map { |d| quote_value(d) }.join(', ') unless values.empty?});
       SQL
 
       fetch_existing_data_journal(journal_id)
@@ -270,14 +266,13 @@ module Migration
     def update_data_journal(id, to_insert)
       db_execute <<-SQL unless to_insert.empty?
         UPDATE #{journal_table_name}
-           SET #{(to_insert.each.map { |key,value| "#{key} = #{quote_value(value)}"}).join(", ") }
+           SET #{(to_insert.each.map { |key, value| "#{key} = #{quote_value(value)}" }).join(', ') }
          WHERE id = #{id};
       SQL
-
     end
 
     def deserialize_changed_data(journal)
-      changed_data = journal["changed_data"]
+      changed_data = journal['changed_data']
       return Hash.new if changed_data.nil?
 
       current_yamler = YAML::ENGINE.yamler || 'psych'
@@ -294,7 +289,7 @@ module Migration
 
     def deserialize_journal(journal)
       integerize_ids(journal)
-      journal["changed_data"] = deserialize_changed_data(journal)
+      journal['changed_data'] = deserialize_changed_data(journal)
     end
 
     def insertable_data_journal(journal)
@@ -314,14 +309,14 @@ module Migration
 
     def map_key(key)
       case key
-      when "issue_id"
-        "work_package_id"
-      when "tracker_id"
-        "type_id"
-      when "end_date"
-        "due_date"
-      when "name"
-        "subject"
+      when 'issue_id'
+        'work_package_id'
+      when 'tracker_id'
+        'type_id'
+      when 'end_date'
+        'due_date'
+      when 'name'
+        'subject'
       else
         key
       end
@@ -329,7 +324,7 @@ module Migration
 
     def integerize_ids(journal)
       # turn id fields into integers.
-      ["id", "journaled_id", "user_id", "version"].each do |f|
+      ['id', 'journaled_id', 'user_id', 'version'].each do |f|
         journal[f] = journal[f].to_i
       end
     end
@@ -349,7 +344,6 @@ module Migration
     end
 
     def check_legacy_journal_completeness
-
       # SQL finds all those journals whose has more or less predecessors than
       # it's version would require. Ignores the first journal.
       # e.g. a journal with version 5 would have to have 5 predecessors
@@ -383,7 +377,7 @@ module Migration
 
       unless invalid_journals.empty?
 
-        raise IncompleteJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise IncompleteJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
           It appears there are incomplete journals. Please make sure
           journals are consistent and that for every journal, there is an
           initial journal containing all attribute values at the time of

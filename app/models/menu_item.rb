@@ -30,13 +30,13 @@
 class MenuItem < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :parent, :class_name => 'MenuItem'
-  has_many :children, :class_name => 'MenuItem', :dependent => :destroy, :foreign_key => :parent_id, :order => 'id ASC'
+  belongs_to :parent, class_name: 'MenuItem'
+  has_many :children, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id, order: 'id ASC'
 
   serialize :options, Hash
 
   validates_presence_of :title
-  validates_uniqueness_of :title, :scope => [:navigatable_id, :type]
+  validates_uniqueness_of :title, scope: [:navigatable_id, :type]
 
   validates_presence_of :name
 

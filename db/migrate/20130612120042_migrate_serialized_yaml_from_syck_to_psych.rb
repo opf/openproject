@@ -51,5 +51,4 @@ class MigrateSerializedYamlFromSyckToPsych < ActiveRecord::Migration
     migrate_yaml('user_preferences', 'others', source_yamler, target_yamler)
     migrate_yaml('wiki_menu_items', 'options', source_yamler, target_yamler)
   end
-
 end

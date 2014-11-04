@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe NewsController, :type => :controller do
+describe NewsController, type: :controller do
   render_views
 
   include BecomeMember
@@ -41,8 +41,8 @@ describe NewsController, :type => :controller do
     allow(User).to receive(:current).and_return user
   end
 
-  describe "#index" do
-    it "renders index" do
+  describe '#index' do
+    it 'renders index' do
       get :index
 
       expect(response).to be_success
@@ -52,7 +52,7 @@ describe NewsController, :type => :controller do
       expect(assigns(:newss)).to_not be_nil
     end
 
-    it "renders index with project" do
+    it 'renders index with project' do
       get :index, project_id: project.id
 
       expect(response).to be_success
@@ -61,8 +61,8 @@ describe NewsController, :type => :controller do
     end
   end
 
-  describe "#show" do
-    it "renders show" do
+  describe '#show' do
+    it 'renders show' do
       get :show, id: news.id
 
       expect(response).to be_success
@@ -71,7 +71,7 @@ describe NewsController, :type => :controller do
       expect(response.body).to have_selector('h2', text: news.title)
     end
 
-    it "renders show with slug" do
+    it 'renders show with slug' do
       get :show, id: "#{news.id}-some-news-title"
 
       expect(response).to be_success
@@ -80,15 +80,15 @@ describe NewsController, :type => :controller do
       expect(response.body).to have_selector('h2', text: news.title)
     end
 
-    it "renders error if news item is not found" do
+    it 'renders error if news item is not found' do
       get :show, id: -1
 
       expect(response).to be_not_found
     end
   end
 
-  describe "#new" do
-    it "renders new" do
+  describe '#new' do
+    it 'renders new' do
       get :new, project_id: project.id
 
       expect(response).to be_success
@@ -96,16 +96,16 @@ describe NewsController, :type => :controller do
     end
   end
 
-  describe "#create" do
-    it "persists a news item and delivers email notifications" do
+  describe '#create' do
+    it 'persists a news item and delivers email notifications' do
       ActionMailer::Base.deliveries.clear
 
       become_member_with_permissions(project, user)
 
       with_settings notified_events: ['news_added'] do
         post :create, project_id: project.id, news: { title: 'NewsControllerTest',
-                                                description: 'This is the description',
-                                                    summary: '' }
+                                                      description: 'This is the description',
+                                                      summary: '' }
         expect(response).to redirect_to project_news_index_path(project)
 
         news = News.find_by_title!('NewsControllerTest')
@@ -120,8 +120,8 @@ describe NewsController, :type => :controller do
 
     it "doesn't persist if validations fail" do
       post :create, project_id: project.id, news: { title: '',
-                                              description: 'This is the description',
-                                                  summary: '' }
+                                                    description: 'This is the description',
+                                                    summary: '' }
 
       expect(response).to be_success
       expect(response).to render_template 'new'
@@ -132,7 +132,7 @@ describe NewsController, :type => :controller do
     end
   end
 
-  describe "#edit" do
+  describe '#edit' do
     it 'renders edit' do
       get :edit, id: news.id
       expect(response).to be_success
@@ -140,7 +140,7 @@ describe NewsController, :type => :controller do
     end
   end
 
-  describe "#update" do
+  describe '#update' do
     it 'updates the news element' do
       put :update, id: news.id, news: { description: 'Description changed by test_post_edit' }
 
@@ -151,8 +151,8 @@ describe NewsController, :type => :controller do
     end
   end
 
-  describe "#destroy" do
-    it "deletes the news element and redirects to the news overview page" do
+  describe '#destroy' do
+    it 'deletes the news element and redirects to the news overview page' do
       delete :destroy, id: news.id
 
       expect(response).to redirect_to project_news_index_path(news.project)
@@ -161,7 +161,7 @@ describe NewsController, :type => :controller do
   end
 
   describe 'preview' do
-    let(:description) { "News description" }
+    let(:description) { 'News description' }
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [description] }
@@ -169,7 +169,7 @@ describe NewsController, :type => :controller do
     end
 
     it_behaves_like 'authorizes object access' do
-      let(:preview_params) { { id: news.id, news: { } } }
+      let(:preview_params) { { id: news.id, news: {} } }
     end
   end
 end

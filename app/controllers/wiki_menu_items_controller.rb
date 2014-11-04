@@ -28,7 +28,6 @@
 #++
 
 class WikiMenuItemsController < ApplicationController
-
   attr_reader :wiki_menu_item
 
   current_menu_item do |controller|
@@ -78,18 +77,18 @@ class WikiMenuItemsController < ApplicationController
     if @wiki_menu_item.save || changed
       # we may have just destroyed a new record
       # e.g. there was no menu_item before, and there is none now
-      flash[:notice] = l(:notice_successful_update) if (!@wiki_menu_item.new_record? && changed)
-      redirect_back_or_default({ :action => 'edit', :id => @page })
+      flash[:notice] = l(:notice_successful_update) if !@wiki_menu_item.new_record? && changed
+      redirect_back_or_default(action: 'edit', id: @page)
     else
       respond_to do |format|
-        format.html { render :action => 'edit', :id => @page }
+        format.html { render action: 'edit', id: @page }
       end
     end
   end
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page != @page && page.menu_item.present? && page.menu_item.is_main_item?}
+    @possible_wiki_pages = @project.wiki.pages.all(include: :parent).reject { |page| page != @page && page.menu_item.present? && page.menu_item.is_main_item? }
   end
 
   def replace_main_menu_item
@@ -109,7 +108,6 @@ class WikiMenuItemsController < ApplicationController
     @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item).permit(:name, :title, :navigatable_id, :parent_id, :setting, :new_wiki_page, :index_page)
   end
 
-
   def get_data_from_params(params)
     @page_title = params[:id]
     wiki_id = @project.wiki.id
@@ -118,36 +116,36 @@ class WikiMenuItemsController < ApplicationController
     @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by_navigatable_id_and_title(@page.wiki.id, @page_title)
     possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
 
-    @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
+    @parent_menu_item_options = possible_parent_menu_items.map { |item| [item.name, item.id] }
 
     @selected_parent_menu_item_id = if @wiki_menu_item.parent
-      @wiki_menu_item.parent.id
-    else
-      @page.nearest_parent_menu_item(is_main_item: true).try :id
+                                      @wiki_menu_item.parent.id
+                                    else
+                                      @page.nearest_parent_menu_item(is_main_item: true).try :id
     end
   end
 
   def assign_wiki_menu_item_params(menu_item)
-    if wiki_menu_item_params[:new_wiki_page] == "1"
+    if wiki_menu_item_params[:new_wiki_page] == '1'
       menu_item.new_wiki_page = true
-    elsif wiki_menu_item_params[:new_wiki_page] == "0"
+    elsif wiki_menu_item_params[:new_wiki_page] == '0'
       menu_item.new_wiki_page = false
     end
 
-    if wiki_menu_item_params[:index_page] == "1"
+    if wiki_menu_item_params[:index_page] == '1'
       menu_item.index_page = true
-    elsif wiki_menu_item_params[:index_page] == "0"
+    elsif wiki_menu_item_params[:index_page] == '0'
       menu_item.index_page = false
     end
   end
 
-  def create_main_menu_item_for_wiki_page(page, options={})
+  def create_main_menu_item_for_wiki_page(page, options = {})
     wiki = page.wiki
 
     menu_item = if item = page.menu_item
-      item.tap {|item| item.parent_id = nil}
-    else
-      wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
+                  item.tap { |item| item.parent_id = nil }
+                else
+                  wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
     end
 
     menu_item.options = options

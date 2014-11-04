@@ -35,12 +35,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:representer)  { described_class.new(model, current_user: current_user) }
 
   let(:model)        { ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user) }
-  let(:work_package) { FactoryGirl.build(:work_package,
-      id: 42,
-      created_at: DateTime.now,
-      updated_at: DateTime.now,
-      category:   category,
-      done_ratio: 50
+  let(:work_package) {
+    FactoryGirl.build(:work_package,
+                      id: 42,
+                      created_at: DateTime.now,
+                      updated_at: DateTime.now,
+                      category:   category,
+                      done_ratio: 50
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -75,8 +76,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('status') }
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
-
-
 
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
@@ -142,7 +141,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           context ' but is not accessible due to permissions' do
             before do
               current_user.stub(:allowed_to?).and_call_original
-              current_user.stub(:allowed_to?).with({controller: "versions", action: "show"}, project, global: false).and_return(false)
+              current_user.stub(:allowed_to?).with({ controller: 'versions', action: 'show' }, project, global: false).and_return(false)
             end
 
             it { is_expected.to_not have_json_path('_links/version/href') }
@@ -265,9 +264,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'parent' do
-          let(:work_package) { FactoryGirl.create(:work_package,
-                                                  project: project,
-                                                  parent_id: forbidden_work_package.id) }
+          let(:work_package) {
+            FactoryGirl.create(:work_package,
+                               project: project,
+                               parent_id: forbidden_work_package.id)
+          }
           let!(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
 
           it { expect(subject).to_not have_json_path('_links/parent') }
@@ -275,20 +276,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'children' do
           let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-          let!(:forbidden_work_package) { FactoryGirl.create(:work_package,
-                                                             project: forbidden_project,
-                                                             parent_id: work_package.id) }
+          let!(:forbidden_work_package) {
+            FactoryGirl.create(:work_package,
+                               project: forbidden_project,
+                               parent_id: work_package.id)
+          }
 
           it { expect(subject).to_not have_json_path('_links/children') }
 
           describe 'visible and invisible children' do
-            let!(:child) { FactoryGirl.create(:work_package,
-                                              project: project,
-                                              parent_id: work_package.id) }
+            let!(:child) {
+              FactoryGirl.create(:work_package,
+                                 project: project,
+                                 parent_id: work_package.id)
+            }
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
 
-            it { expect(parse_json(subject)["_links"]["children"][0]["title"]).to eq(child.subject) }
+            it { expect(parse_json(subject)['_links']['children'][0]['title']).to eq(child.subject) }
           end
         end
       end

@@ -28,88 +28,91 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper, :type => :helper do
+describe ApplicationHelper, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
 
-  describe "format_activity_description" do
-    it "truncates given text" do
-      text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore"
+  describe 'format_activity_description' do
+    it 'truncates given text' do
+      text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore'
       expect(format_activity_description(text).size).to eq(120)
     end
 
-    it "replaces escaped line breaks with html line breaks and should be html_safe" do
+    it 'replaces escaped line breaks with html line breaks and should be html_safe' do
       text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
-      text_html = "Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt"
+      text_html = 'Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt'
       expect(format_activity_description(text)).to eq(text_html)
       expect(format_activity_description(text).html_safe?).to be_truthy
     end
 
-    it "escapes potentially harmful code" do
+    it 'escapes potentially harmful code' do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_truthy
+      expect(format_activity_description(text).include?('lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;')).to be_truthy
     end
   end
 
-  describe "footer_content" do
-    context "no additional footer content" do
+  describe 'footer_content' do
+    context 'no additional footer content' do
       before do
         OpenProject::Footer.content = nil
       end
 
-      it { expect(footer_content).to eq(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
+      it { expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
     end
 
-    context "string as additional footer content" do
+    context 'string as additional footer content' do
       before do
         OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content("openproject","footer")
+        OpenProject::Footer.add_content('openproject', 'footer')
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
       it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
     end
 
-    context "proc as additional footer content" do
+    context 'proc as additional footer content' do
       before do
         OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content("openproject",Proc.new{Date.parse(Time.now.to_s)})
+        OpenProject::Footer.add_content('openproject', Proc.new { Date.parse(Time.now.to_s) })
       end
 
       it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
     end
 
-    context "proc which returns nothing" do
+    context 'proc which returns nothing' do
       before do
         OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content("openproject",Proc.new{"footer" if false})
+        OpenProject::Footer.add_content('openproject', Proc.new { 'footer' if false })
       end
 
       it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_falsey }
     end
   end
 
-  describe ".link_to_if_authorized" do
+  describe '.link_to_if_authorized' do
     let(:project) { FactoryGirl.create :valid_project }
-    let(:project_member) { FactoryGirl.create :user,
-                                              :member_in_project => project,
-                                              :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
-                                                                                         :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :work_package,
-                                     :project => project,
-                                     :author => project_member,
-                                     :type => project.types.first }
+    let(:project_member) {
+      FactoryGirl.create :user,
+                         member_in_project: project,
+                         member_through_role: FactoryGirl.create(:role,
+                                                                 permissions: [:view_work_packages, :edit_work_packages,
+                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
+    }
+    let(:issue) {
+      FactoryGirl.create :work_package,
+                         project: project,
+                         author: project_member,
+                         type: project.types.first
+    }
 
-
-    context "if user is authorized" do
+    context 'if user is authorized' do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('link_content', {
-                                          :controller => 'issues',
-                                          :action => 'show',
-                                          :id => issue },
-                                        :class => 'fancy_css_class')
+                                            controller: 'issues',
+                                            action: 'show',
+                                            id: issue },
+                                          class: 'fancy_css_class')
       end
 
       subject { @response }
@@ -119,14 +122,14 @@ describe ApplicationHelper, :type => :helper do
       it { is_expected.to match /fancy_css_class/ }
     end
 
-    context "if user is unauthorized" do
+    context 'if user is unauthorized' do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
         @response = link_to_if_authorized('link_content', {
-                                          :controller => 'issues',
-                                          :action => 'show',
-                                          :id => issue },
-                                        :class => 'fancy_css_class')
+                                            controller: 'issues',
+                                            action: 'show',
+                                            id: issue },
+                                          class: 'fancy_css_class')
       end
 
       subject { @response }
@@ -134,13 +137,13 @@ describe ApplicationHelper, :type => :helper do
       it { is_expected.to be_nil }
     end
 
-    context "allow using the :controller and :action for the target link" do
+    context 'allow using the :controller and :action for the target link' do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
-        @response = link_to_if_authorized("By controller/action",
-                                         { :controller => 'issues',
-                                           :action => 'edit',
-                                           :id => issue.id })
+        @response = link_to_if_authorized('By controller/action',
+                                          controller: 'issues',
+                                          action: 'edit',
+                                          id: issue.id)
       end
 
       subject { @response }
@@ -149,20 +152,20 @@ describe ApplicationHelper, :type => :helper do
     end
   end
 
-  describe "other_formats_links" do
-    context "link given" do
+  describe 'other_formats_links' do
+    context 'link given' do
       before do
-        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+        @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>")}
+      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>") }
     end
 
-    context "link given but disabled" do
+    context 'link given but disabled' do
       before do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
-        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+        @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to be_nil}
+      it { expect(@links).to be_nil }
     end
 
   end

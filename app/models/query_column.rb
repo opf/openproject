@@ -31,7 +31,7 @@ class QueryColumn
   attr_accessor :name, :sortable, :groupable, :join, :default_order
   include Redmine::I18n
 
-  def initialize(name, options={})
+  def initialize(name, options = {})
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable]

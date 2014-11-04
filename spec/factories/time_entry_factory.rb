@@ -32,7 +32,7 @@ FactoryGirl.define do
     user
     work_package
     spent_on Date.today
-    activity :factory => :time_entry_activity
+    activity factory: :time_entry_activity
     hours 1.0
   end
 end

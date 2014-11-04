@@ -63,12 +63,12 @@ module API
         property :is_starred, getter: -> (*) { is_starred.to_s }, exec_context: :decorator
 
         def _type
-          "Query"
+          'Query'
         end
 
         def is_starred
-            return true if !represented.model.query_menu_item.nil?
-            false
+          return true if !represented.model.query_menu_item.nil?
+          false
         end
       end
     end

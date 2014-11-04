@@ -28,7 +28,6 @@
 #++
 
 class QueryCustomFieldColumn < QueryColumn
-
   def initialize(custom_field)
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
@@ -48,7 +47,7 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def value(issue)
-    cv = issue.custom_values.detect {|v| v.custom_field_id == @cf.id}
+    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
     cv && @cf.cast_value(cv.value)
   end
 end

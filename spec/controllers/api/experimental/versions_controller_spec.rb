@@ -39,7 +39,7 @@ describe Api::Experimental::VersionsController, type: :controller do
   before do
     allow(User).to receive(:current).and_return(current_user)
     allow(Project).to receive(:find).with(project.id.to_s)
-                                    .and_return(project)
+      .and_return(project)
   end
 
   describe '#index' do
@@ -59,7 +59,7 @@ describe Api::Experimental::VersionsController, type: :controller do
       context 'with versions available' do
         before do
           project.stub_chain(:shared_versions, :all)
-                 .and_return(FactoryGirl.build_list(:version, 2))
+            .and_return(FactoryGirl.build_list(:version, 2))
         end
 
         it 'assigns an array with 2 versions' do
@@ -85,7 +85,7 @@ describe Api::Experimental::VersionsController, type: :controller do
         before do
           # TODO: rename to receive_message_chain once on rspec 3.0
           Version.stub_chain(:visible, :systemwide)
-                 .and_return(shared_versions)
+            .and_return(shared_versions)
 
           get 'index', format: 'json'
         end

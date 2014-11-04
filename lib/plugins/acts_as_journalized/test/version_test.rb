@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class VersionTest < Test::Unit::TestCase
   context 'Versions' do
     setup do
-      @user = User.create(:name => 'Stephen Richert')
+      @user = User.create(name: 'Stephen Richert')
       @user.update_attribute(:name, 'Steve Jobs')
       @user.update_attribute(:last_name, 'Richert')
       @first_journal, @last_journal = @user.journals.first, @user.journals.last
@@ -50,7 +50,7 @@ class VersionTest < Test::Unit::TestCase
     end
 
     should "not equal a separate model's journal with the same number" do
-      user = User.create(:name => 'Stephen Richert')
+      user = User.create(name: 'Stephen Richert')
       user.update_attribute(:name, 'Steve Jobs')
       user.update_attribute(:last_name, 'Richert')
       first_journal, last_journal = user.journals.first, user.journals.last
@@ -64,7 +64,7 @@ class VersionTest < Test::Unit::TestCase
     end
 
     should 'return true for the "initial?" method when the journal number is 1' do
-      journal = @user.journals.build(:number => 1)
+      journal = @user.journals.build(number: 1)
       assert_equal 1, journal.number
       assert_equal true, journal.initial?
     end

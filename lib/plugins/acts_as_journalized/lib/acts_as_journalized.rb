@@ -46,15 +46,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
-Dir[File.expand_path("../redmine/acts/journalized/*.rb", __FILE__)].each{|f| require f }
-Dir[File.expand_path("../acts/journalized/*.rb", __FILE__)].each{|f| require f }
-require "ar_condition"
+Dir[File.expand_path('../redmine/acts/journalized/*.rb', __FILE__)].each { |f| require f }
+Dir[File.expand_path('../acts/journalized/*.rb', __FILE__)].each { |f| require f }
+require 'ar_condition'
 
 module Redmine
   module Acts
     module Journalized
-
       def self.included(base)
         base.extend ClassMethods
         base.extend Versioned
@@ -67,7 +65,7 @@ module Redmine
         end
 
         def plural_name
-          self.name.underscore.pluralize
+          name.underscore.pluralize
         end
 
         # This call will add an activity and, if neccessary, start the journaling and
@@ -75,10 +73,9 @@ module Redmine
         # Versioning and acting as an Event may only be applied once.
         # To apply more than on activity, use acts_as_activity
         def acts_as_journalized(options = {}, &block)
-
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
-          self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
+          self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub('::', '_')}Journal"
 
           return if journaled?
 
@@ -96,7 +93,7 @@ module Redmine
           # FIXME: When the transition to the new API is complete, remove me
           include Deprecated
 
-          (journal_hash[:except] ||= []) << self.primary_key << inheritance_column <<
+          (journal_hash[:except] ||= []) << primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
 
           prepare_journaled_options(journal_hash)
@@ -125,10 +122,10 @@ module Redmine
               # Run after the inherited hook to associate with the parent record.
               # This eager loads the associated project (for permissions) if possible
               if project_assoc = reflect_on_association(:project).try(:name)
-                include_option = ", :include => :#{project_assoc.to_s}"
+                include_option = ", :include => :#{project_assoc}"
               end
               c.class_eval("belongs_to :journaled, :class_name => '#{name}' #{include_option}")
-              c.class_eval("belongs_to :#{name.gsub("::", "_").underscore},
+              c.class_eval("belongs_to :#{name.gsub('::', '_').underscore},
                   :foreign_key => 'journaled_id' #{include_option}")
               c.class_eval("def self.journaled_class
                               #{self}
@@ -138,43 +135,43 @@ module Redmine
         end
 
         private
-          # Splits an option has into three hashes:
-          ## => [{ options prefixed with "activity_" }, { options prefixed with "event_" }, { other options }]
-          def split_option_hashes(options)
-            activity_hash = {}
-            event_hash = {}
-            journal_hash = {}
 
-            options.each_pair do |k, v|
-              case
-              when k.to_s =~ /\Aactivity_(.+)\z/
-                activity_hash[$1.to_sym] = v
-              when k.to_s =~ /\Aevent_(.+)\z/
-                event_hash[$1.to_sym] = v
-              else
-                journal_hash[k.to_sym] = v
-              end
-            end
-            [activity_hash, event_hash, journal_hash]
-          end
+        # Splits an option has into three hashes:
+        ## => [{ options prefixed with "activity_" }, { options prefixed with "event_" }, { other options }]
+        def split_option_hashes(options)
+          activity_hash = {}
+          event_hash = {}
+          journal_hash = {}
 
-          # Merges the event hashes defaults with the options provided by the user
-          # The defaults take their details from the journal
-          def journalized_event_hash(options)
-            unless options.has_key? :url
-              options[:url] = Proc.new do |data|
-                { :controller => plural_name,
-                  :action => 'show',
-                  :id => data.journal.journable_id,
-                  :anchor => ("note-#{data.journal.anchor}" unless data.journal.initial?) }
-              end
+          options.each_pair do |k, v|
+            case
+            when k.to_s =~ /\Aactivity_(.+)\z/
+              activity_hash[$1.to_sym] = v
+            when k.to_s =~ /\Aevent_(.+)\z/
+              event_hash[$1.to_sym] = v
+            else
+              journal_hash[k.to_sym] = v
             end
-            options[:type] ||= self.name.underscore.dasherize # Make sure the name of the journalized model and not the name of the journal is used for events
-            options[:author] ||= :user
-            { :description => :notes }.reverse_merge options
           end
+          [activity_hash, event_hash, journal_hash]
+        end
+
+        # Merges the event hashes defaults with the options provided by the user
+        # The defaults take their details from the journal
+        def journalized_event_hash(options)
+          unless options.has_key? :url
+            options[:url] = Proc.new do |data|
+              { controller: plural_name,
+                action: 'show',
+                id: data.journal.journable_id,
+                anchor: ("note-#{data.journal.anchor}" unless data.journal.initial?) }
+            end
+          end
+          options[:type] ||= name.underscore.dasherize # Make sure the name of the journalized model and not the name of the journal is used for events
+          options[:author] ||= :user
+          { description: :notes }.reverse_merge options
+        end
       end
-
     end
   end
 end

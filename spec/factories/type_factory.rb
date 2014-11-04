@@ -32,38 +32,38 @@ FactoryGirl.define do
     name { |a| "Type No. #{a.position}" }
   end
 
-  factory :type_standard, :class => Type do
-    name "None"
+  factory :type_standard, class: Type do
+    name 'None'
     is_standard true
     is_default true
   end
 
-  factory :type_bug, :class => Type do
-    name "Bug"
+  factory :type_bug, class: Type do
+    name 'Bug'
     position 1
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { ::Type.find_or_create_by_name(name)}
+    initialize_with { ::Type.find_or_create_by_name(name) }
 
     factory :type_feature do
-      name "Feature"
+      name 'Feature'
       position 2
       is_default true
     end
 
     factory :type_support do
-      name "Support"
+      name 'Support'
       position 3
     end
 
     factory :type_task do
-      name "Task"
+      name 'Task'
       position 4
     end
   end
 
-  factory :type_with_workflow, :class => Type do
+  factory :type_with_workflow, class: Type do
     sequence(:name) { |n| "Type #{n}" }
     sequence(:position) { |n| n }
     callback(:after_build) do |t|

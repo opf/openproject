@@ -35,11 +35,11 @@ class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration
   COLUMN = 'options'
 
   OPTIONS = {
-    "end_date" => "due_date"
+    'end_date' => 'due_date'
   }
 
   def up
-    say_with_time_silently "Update timelines options" do
+    say_with_time_silently 'Update timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_end_date_options(OPTIONS)),
@@ -48,7 +48,7 @@ class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration
   end
 
   def down
-    say_with_time_silently "Restore timelines options" do
+    say_with_time_silently 'Restore timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_end_date_options(OPTIONS.invert)),

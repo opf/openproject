@@ -28,7 +28,6 @@
 #++
 
 class ::Query::Results
-
   include Sums
   include Redmine::I18n
 
@@ -43,7 +42,7 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    WorkPackage.count(:include => [:status, :project], :conditions => query.statement)
+    WorkPackage.count(include: [:status, :project], conditions: query.statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
@@ -55,15 +54,15 @@ class ::Query::Results
       if query.grouped?
         begin
           # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-          r = WorkPackage.count(:group => query.group_by_statement,
-                                :include => [:status, :project],
-                                :conditions => query.statement)
+          r = WorkPackage.count(group: query.group_by_statement,
+                                include: [:status, :project],
+                                conditions: query.statement)
         rescue ActiveRecord::RecordNotFound
-          r = {nil => work_package_count}
+          r = { nil => work_package_count }
         end
         c = query.group_by_column
         if c.is_a?(QueryCustomFieldColumn)
-          r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
+          r = r.keys.inject({}) { |h, k| h[c.custom_field.cast_value(k)] = r[k]; h }
         end
       end
       r
@@ -77,18 +76,18 @@ class ::Query::Results
   end
 
   def work_packages
-    order_option = [query.group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
+    order_option = [query.group_by_sort_order, options[:order]].reject(&:blank?).join(',')
     order_option = nil if order_option.blank?
 
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
-               .includes([:status, :project] + (options[:include] || []).uniq)
-               .joins((query.group_by_column ? query.group_by_column.join : nil))
-               .order(order_option)
+      .includes([:status, :project] + (options[:include] || []).uniq)
+      .joins((query.group_by_column ? query.group_by_column.join : nil))
+      .order(order_option)
   end
 
   def versions
-    Version.find :all, :include => :project,
-                       :conditions => ::Query.merge_conditions(query.project_statement, options[:conditions])
+    Version.find :all, include: :project,
+                       conditions: ::Query.merge_conditions(query.project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

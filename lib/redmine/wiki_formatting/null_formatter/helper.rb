@@ -31,7 +31,7 @@ module Redmine
   module WikiFormatting
     module NullFormatter
       module Helper
-        def wikitoolbar_for(field_id)
+        def wikitoolbar_for(_field_id)
         end
 
         def heads_for_wiki_formatter

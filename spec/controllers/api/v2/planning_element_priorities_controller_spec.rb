@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::PlanningElementPrioritiesController, :type => :controller do
+describe Api::V2::PlanningElementPrioritiesController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before { allow(User).to receive(:current).and_return current_user }
@@ -50,11 +50,15 @@ describe Api::V2::PlanningElementPrioritiesController, :type => :controller do
 
     describe 'w/o priorities' do
       let!(:priority_0) { FactoryGirl.create(:priority) }
-      let!(:priority_1) { FactoryGirl.create(:priority,
-                                             position: 1) }
-      let!(:priority_2) { FactoryGirl.create(:priority,
-                                             position: 2,
-                                             is_default: true) }
+      let!(:priority_1) {
+        FactoryGirl.create(:priority,
+                           position: 1)
+      }
+      let!(:priority_2) {
+        FactoryGirl.create(:priority,
+                           position: 2,
+                           is_default: true)
+      }
 
       before { get :index, format: :xml }
 

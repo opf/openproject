@@ -67,7 +67,7 @@ class AccountController < ApplicationController
     return redirect_to(home_url) unless allow_lost_password_recovery?
 
     if params[:token]
-      @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
+      @token = Token.find_by_action_and_value('recovery', params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
@@ -76,11 +76,11 @@ class AccountController < ApplicationController
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'login'
+          redirect_to action: 'login'
           return
         end
       end
-      render :template => "account/password_recovery"
+      render template: 'account/password_recovery'
       return
     else
       if request.post?
@@ -97,11 +97,11 @@ class AccountController < ApplicationController
         end
 
         # create a new token for password recovery
-        token = Token.new(:user => user, :action => "recovery")
+        token = Token.new(user: user, action: 'recovery')
         if token.save
           UserMailer.password_lost(token).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to :action => 'login', :back_url => home_url
+          redirect_to action: 'login', back_url: home_url
           return
         end
       end
@@ -114,7 +114,7 @@ class AccountController < ApplicationController
 
     if request.get?
       session[:auth_source_registration] = nil
-      @user = User.new(:language => Setting.default_language)
+      @user = User.new(language: Setting.default_language)
     else
       @user = User.new
       @user.admin = false
@@ -162,7 +162,7 @@ class AccountController < ApplicationController
       token.destroy
       flash[:notice] = l(:notice_account_activated)
     end
-    redirect_to :action => 'login'
+    redirect_to action: 'login'
   end
 
   # Process a password change form, used when the user is forced
@@ -218,7 +218,7 @@ class AccountController < ApplicationController
   def logout_user
     if User.current.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
+      Token.delete_all(['user_id = ? AND action = ?', User.current.id, 'autologin'])
       self.logged_user = nil
     end
   end
@@ -246,7 +246,7 @@ class AccountController < ApplicationController
         elsif user.password_expired?
           return if redirect_if_password_change_not_allowed(user)
           render_password_change(I18n.t(:notice_account_password_expired,
-                                        :days => Setting.password_days_valid.to_i))
+                                        days: Setting.password_days_valid.to_i))
         else
           invalid_credentials
         end
@@ -255,7 +255,7 @@ class AccountController < ApplicationController
         invalid_credentials
       end
     elsif user.new_record?
-      onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
+      onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)
     else
       # Valid user
       successful_authentication(user)
@@ -270,19 +270,19 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
 
-    call_hook(:controller_account_success_authentication_after, {:user => user })
+    call_hook(:controller_account_success_authentication_after, user: user)
 
     redirect_after_login(user)
   end
 
   def set_autologin_cookie(user)
-    token = Token.create(:user => user, :action => 'autologin')
+    token = Token.create(user: user, action: 'autologin')
     cookie_options = {
-      :value => token.value,
-      :expires => 1.year.from_now,
-      :path => OpenProject::Configuration['autologin_cookie_path'],
-      :secure => OpenProject::Configuration['autologin_cookie_secure'],
-      :httponly => true
+      value: token.value,
+      expires: 1.year.from_now,
+      path: OpenProject::Configuration['autologin_cookie_path'],
+      secure: OpenProject::Configuration['autologin_cookie_secure'],
+      httponly: true
     }
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
@@ -304,7 +304,7 @@ class AccountController < ApplicationController
     Hash(session[:auth_source_registration])[:omniauth]
   end
 
-  def register_and_login_via_authsource(user, session, permitted_params)
+  def register_and_login_via_authsource(_user, session, permitted_params)
     @user.attributes = permitted_params.user
     @user.activate
     @user.login = session[:auth_source_registration][:login]
@@ -314,24 +314,24 @@ class AccountController < ApplicationController
       session[:auth_source_registration] = nil
       self.logged_user = @user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => '/my', :action => 'account'
+      redirect_to controller: '/my', action: 'account'
     end
     # Otherwise render register view again
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
-  def onthefly_creation_failed(user, auth_source_options = { })
+  def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render :action => 'register'
+    render action: 'register'
   end
 
   def redirect_if_password_change_not_allowed(user)
     if user and not user.change_password_allowed?
       logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
-                  "to change password"
+        'to change password'
       flash[:error] = l(:notice_can_t_change_password)
-      redirect_to :action => 'login'
+      redirect_to action: 'login'
       return true
     end
     false
@@ -358,12 +358,12 @@ class AccountController < ApplicationController
   # Register a user for email activation.
   #
   # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, opts = {})
-    token = Token.new(:user => user, :action => "register")
+  def register_by_email_activation(user, _opts = {})
+    token = Token.new(user: user, action: 'register')
     if user.save and token.save
       UserMailer.user_signed_up(token).deliver
       flash[:notice] = l(:notice_account_register_done)
-      redirect_to :action => 'login'
+      redirect_to action: 'login'
     else
       yield if block_given?
     end
@@ -391,7 +391,7 @@ class AccountController < ApplicationController
   # Manual activation by the administrator
   #
   # Pass a block for behavior when a user fails to save
-  def register_manually_by_administrator(user, opts = {})
+  def register_manually_by_administrator(user, _opts = {})
     if user.save
       # Sends an email to the administrators
       admins = User.admin.active
@@ -452,15 +452,15 @@ class AccountController < ApplicationController
     # Set back_url to make sure user is not redirected to an external login page
     # when registering via the external service. This also redirects the user
     # to the original page where the user clicked on the omniauth login link for a provider.
-    redirect_to :action => 'login', :back_url => params[:back_url]
+    redirect_to action: 'login', back_url: params[:back_url]
   end
 
   def redirect_after_login(user)
     if user.first_login
       user.update_attribute(:first_login, false)
-      redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
+      redirect_to controller: '/my', action: 'first_login', back_url: params[:back_url]
     else
-      redirect_back_or_default :controller => '/my', :action => 'page'
+      redirect_back_or_default controller: '/my', action: 'page'
     end
   end
 end

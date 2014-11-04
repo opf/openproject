@@ -37,13 +37,13 @@ class RepairCustomizableJournals < ActiveRecord::Migration
   JOURNAL_TYPE = 'WorkPackage'
 
   def up
-    say_with_time_silently "Repair initial customizable journals" do
+    say_with_time_silently 'Repair initial customizable journals' do
       repair_customizable_journal_entries(JOURNAL_TYPE, LEGACY_JOURNAL_TYPE)
     end
   end
 
   def down
-    say_with_time_silently "Repair initial customizable journals" do
+    say_with_time_silently 'Repair initial customizable journals' do
       remove_customizable_journal_entries(JOURNAL_TYPE, LEGACY_JOURNAL_TYPE)
     end
   end

@@ -33,7 +33,7 @@ module OpenProject
     before { Themes.clear_themes }
 
     describe '.new_theme' do
-      it "returns a new theme" do
+      it 'returns a new theme' do
         theme = Themes.new_theme do |theme|
           theme.identifier = :new_theme
         end
@@ -43,14 +43,14 @@ module OpenProject
     end
 
     describe '.themes' do
-      it "returns the known themes" do
+      it 'returns the known themes' do
         theme = Themes.new_theme
         expect(Themes.themes).to include theme
       end
     end
 
     describe '.clear_themes' do
-      it "clears the known themes" do
+      it 'clears the known themes' do
         theme = Themes.new_theme
         Themes.clear_themes
         expect(Themes.themes).to be_empty
@@ -58,26 +58,26 @@ module OpenProject
     end
 
     describe '.theme' do
-      it "returns a theme by name" do
+      it 'returns a theme by name' do
         theme = Themes.new_theme do |theme|
           theme.identifier = :new_theme
         end
         expect(Themes.theme(:new_theme)).to be theme
       end
 
-      it "returns the default theme if theme not found" do
+      it 'returns the default theme if theme not found' do
         expect(Themes.theme(:missing_theme)).to be Themes.default_theme
       end
     end
 
     describe '.default_theme' do
-      it "returns the instance of the default theme class" do
+      it 'returns the instance of the default theme class' do
         expect(Themes.default_theme).to be Themes::DefaultTheme.instance
       end
     end
 
     describe '.each' do
-      it "iterates over the registered themes" do
+      it 'iterates over the registered themes' do
         Themes.new_theme do |theme|
           theme.identifier = :new_theme
         end
@@ -88,7 +88,7 @@ module OpenProject
     end
 
     describe '.inject' do
-      it "iterates over the registered themes" do
+      it 'iterates over the registered themes' do
         Themes.new_theme do |theme|
           theme.identifier = :new_theme
         end
@@ -98,7 +98,7 @@ module OpenProject
     end
 
     describe '.current_theme' do
-      it "returns the theme with identifier defined by current theme identifier" do
+      it 'returns the theme with identifier defined by current theme identifier' do
         theme = Themes.new_theme do |theme|
           theme.identifier = :new_theme
         end
@@ -115,13 +115,13 @@ module OpenProject
         let(:user) { FactoryGirl.build(:user) }
 
         it 'returns the theme identifier defined by the user' do
-          user_theme = Themes.new_theme {|t| t.identifier = :user_theme }
+          user_theme = Themes.new_theme { |t| t.identifier = :user_theme }
           user.pref[:theme] = :user_theme
           expect(Themes.current_theme(user: user)).to eq user_theme
         end
 
         it 'returns the theme identifier defined by the app' do
-          app_theme = Themes.new_theme {|t| t.identifier = :app_theme }
+          app_theme = Themes.new_theme { |t| t.identifier = :app_theme }
           user.pref[:theme] = nil
           allow(Themes).to receive(:application_theme_identifier).and_return :app_theme
           expect(Themes.current_theme(user: user)).to eq app_theme
@@ -130,17 +130,17 @@ module OpenProject
     end
 
     describe '.application_theme_identifier' do
-      it "normalizes current theme setting to a symbol" do
+      it 'normalizes current theme setting to a symbol' do
         allow(Setting).to receive(:ui_theme).and_return 'new_theme'
         expect(Themes.application_theme_identifier).to eq :new_theme
       end
 
-      it "returns nil for an empty string" do
+      it 'returns nil for an empty string' do
         allow(Setting).to receive(:ui_theme).and_return ''
         expect(Themes.application_theme_identifier).to be_nil
       end
 
-      it "returns nil for nil" do
+      it 'returns nil for nil' do
         allow(Setting).to receive(:ui_theme).and_return nil
         expect(Themes.application_theme_identifier).to be_nil
       end

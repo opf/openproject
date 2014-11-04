@@ -35,7 +35,7 @@ angular.module('openproject.workPackages.controllers')
   .controller('DetailsTabOverviewController', [
     '$scope',
     'I18n',
-    'ConfigurationService',
+    'WorkPackagesOverviewService',
     'TEXT_TYPE',
     'VERSION_TYPE',
     'CATEGORY_TYPE',

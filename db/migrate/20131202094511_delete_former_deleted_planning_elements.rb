@@ -33,7 +33,7 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
   include Migration::Utils
 
   def up
-    say_with_time_silently "Remove deleted work packages and related journals" do
+    say_with_time_silently 'Remove deleted work packages and related journals' do
       delete_work_packages_marked_as_deleted
     end
 
@@ -60,7 +60,7 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
     unless ids.empty?
       delete <<-SQL
         DELETE FROM #{table}
-        WHERE #{id_column} IN (#{ids.join(", ")})
+        WHERE #{id_column} IN (#{ids.join(', ')})
       SQL
     end
   end
@@ -72,7 +72,7 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
       SELECT id FROM work_packages WHERE deleted_at IS NOT NULL
     SQL
 
-    @deleted_work_package_ids = result.collect { |r| r['id'] }
+    @deleted_work_package_ids = result.map { |r| r['id'] }
   end
 
   def deleted_work_packages_journals_ids
@@ -85,6 +85,6 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
       WHERE w.deleted_at IS NOT NULL;
     SQL
 
-    @deleted_work_packages_journals_ids = result.collect { |r| r['id'] }
+    @deleted_work_packages_journals_ids = result.map { |r| r['id'] }
   end
 end

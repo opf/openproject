@@ -28,27 +28,33 @@
 
 require 'spec_helper'
 
-describe JournalsController, :type => :controller do
+describe JournalsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_package]) }
-  let(:member) { FactoryGirl.build(:member, :project => project,
-                                            :roles => [role],
-                                            :principal => user) }
-  let(:work_package) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                        :author => user,
-                                                        :project => project,
-                                                        :description => '') }
-  let(:journal) { FactoryGirl.create(:work_package_journal,
-                  journable: work_package,
-                  user: user) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_package]) }
+  let(:member) {
+    FactoryGirl.build(:member, project: project,
+                               roles: [role],
+                               principal: user)
+  }
+  let(:work_package) {
+    FactoryGirl.build(:work_package, type: project.types.first,
+                                     author: user,
+                                     project: project,
+                                     description: '')
+  }
+  let(:journal) {
+    FactoryGirl.create(:work_package_journal,
+                       journable: work_package,
+                       user: user)
+  }
 
-  describe "GET diff" do
+  describe 'GET diff' do
     render_views
 
     before do
       work_package.update_attribute :description, 'description'
-      params = { :id => work_package.journals.last.id.to_s, :field => :description, :format => 'js' }
+      params = { id: work_package.journals.last.id.to_s, field: :description, format: 'js' }
 
       get :diff, params
     end

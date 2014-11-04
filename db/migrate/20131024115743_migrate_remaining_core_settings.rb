@@ -29,11 +29,11 @@
 
 class MigrateRemainingCoreSettings < ActiveRecord::Migration
   REPLACED = {
-    "tracker" => "type",
-    "issue_status_updated" => "status_updated",
-    "issue_status" => "status",
-    "issue_field" => "field",
-    "updated_on" => "updated_at"
+    'tracker' => 'type',
+    'issue_status_updated' => 'status_updated',
+    'issue_status' => 'status',
+    'issue_field' => 'field',
+    'updated_on' => 'updated_at'
   }
   def self.up
     # Delete old plugin settings no longer needed
@@ -62,7 +62,7 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration
 
   private
 
-  def replace(value,mapping)
+  def replace(value, mapping)
     if value.respond_to? :map
       value.map { |s| mapping[s].nil? ? s : mapping[s] }
     else
@@ -74,7 +74,7 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration
     @settings_table ||= ActiveRecord::Base.connection.quote_table_name('settings')
   end
 
-  def quote_value s
+  def quote_value(s)
     ActiveRecord::Base.connection.quote(s)
   end
 end

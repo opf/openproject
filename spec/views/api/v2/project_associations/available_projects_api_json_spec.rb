@@ -28,29 +28,31 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/project_associations/available_projects.api.rabl', :type => :view do
+describe 'api/v2/project_associations/available_projects.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) { FactoryGirl.create(:project, :id => 1234,
-                                         :identifier => 'test_project_a',
-                                         :name => 'Test Project A',
-                                         :created_on => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                         :updated_on => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+    let(:project_a) {
+      FactoryGirl.create(:project, id: 1234,
+                                   identifier: 'test_project_a',
+                                   name: 'Test Project A',
+                                   created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                   updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    }
 
-    let(:project_b) { FactoryGirl.create(:project, :id => 2345,
-                                         :identifier => 'test_project_b',
-                                         :name => 'Test Project B',
-                                         :created_on => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                         :updated_on => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+    let(:project_b) {
+      FactoryGirl.create(:project, id: 2345,
+                                   identifier: 'test_project_b',
+                                   name: 'Test Project B',
+                                   created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                   updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    }
 
-    let(:available_projects) {[{project: project_a, level: 1}]}
-    let(:disabled_projects)  {[{project: project_b, level: 1}]}
-
-
+    let(:available_projects) { [{ project: project_a, level: 1 }] }
+    let(:disabled_projects)  { [{ project: project_b, level: 1 }] }
 
     before do
       assign(:elements, available_projects)
@@ -58,7 +60,7 @@ describe 'api/v2/project_associations/available_projects.api.rabl', :type => :vi
       render
     end
 
-    subject {response.body}
+    subject { response.body }
 
     it 'renders a list of projects available for association' do
       expected_json = { name: 'Test Project A',
@@ -74,9 +76,6 @@ describe 'api/v2/project_associations/available_projects.api.rabl', :type => :vi
     it ' should check for disabled projects' do
       skip
     end
-
-
-
 
   end
 end

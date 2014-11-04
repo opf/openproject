@@ -29,7 +29,6 @@
 
 module Api
   module Experimental
-
     class UsersController < ApplicationController
       include ::Api::Experimental::ApiController
 

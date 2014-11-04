@@ -28,11 +28,13 @@
 
 require 'spec_helper'
 
-describe Api::V2::PlanningElementPrioritiesController, :type => :routing do
+describe Api::V2::PlanningElementPrioritiesController, type: :routing do
 
-  describe "index" do
-    it { expect(get("/api/v2/planning_element_priorities")).to route_to(controller: 'api/v2/planning_element_priorities',
-                                                                        action: 'index')}
+  describe 'index' do
+    it {
+      expect(get('/api/v2/planning_element_priorities')).to route_to(controller: 'api/v2/planning_element_priorities',
+                                                                     action: 'index')
+    }
   end
 
 end

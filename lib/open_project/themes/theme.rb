@@ -129,7 +129,8 @@ module OpenProject
       include Singleton
       abstract!
 
-    private
+      private
+
       def base_name
         self.class.to_s.gsub(/Theme\z/, '').demodulize
       end

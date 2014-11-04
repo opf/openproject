@@ -32,7 +32,7 @@ module Redmine
   class UnifiedDiff < Array
     attr_reader :diff_type
 
-    def initialize(diff, options={})
+    def initialize(diff, options = {})
       options.assert_valid_keys(:type, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       @diff_type = options[:type] || 'inline'
@@ -72,7 +72,7 @@ module Redmine
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
-    def initialize(type="inline")
+    def initialize(type = 'inline')
       @parsing = false
       @added = 0
       @removed = 0
@@ -101,13 +101,13 @@ module Redmine
           parse_line(line, @type)
         end
       end
-      return true
+      true
     end
 
     def each_line
       prev_line_left, prev_line_right = nil, nil
       each do |line|
-        spacing = prev_line_left && prev_line_right && (line.nb_line_left != prev_line_left+1) && (line.nb_line_right != prev_line_right+1)
+        spacing = prev_line_left && prev_line_right && (line.nb_line_left != prev_line_left + 1) && (line.nb_line_right != prev_line_right + 1)
         yield spacing, line
         prev_line_left = line.nb_line_left.to_i if line.nb_line_left.to_i > 0
         prev_line_right = line.nb_line_right.to_i if line.nb_line_right.to_i > 0
@@ -117,9 +117,7 @@ module Redmine
     def inspect
       puts '### DIFF TABLE ###'
       puts "file : #{file_name}"
-      self.each do |d|
-        d.inspect
-      end
+      each(&:inspect)
     end
 
     private
@@ -139,8 +137,8 @@ module Redmine
       end
     end
 
-    def parse_line(line, type="inline")
-      if line[0, 1] == "+"
+    def parse_line(line, _type = 'inline')
+      if line[0, 1] == '+'
         diff = diff_for_added_line
         diff.line_right = line[1..-1]
         diff.nb_line_right = @line_num_r
@@ -148,7 +146,7 @@ module Redmine
         @line_num_r += 1
         @added += 1
         true
-      elsif line[0, 1] == "-"
+      elsif line[0, 1] == '-'
         diff = Diff.new
         diff.line_left = line[1..-1]
         diff.nb_line_left = @line_num_l
@@ -169,7 +167,7 @@ module Redmine
           @line_num_l += 1
           @line_num_r += 1
           true
-        elsif line[0, 1] = "\\"
+        elsif line[0, 1] = '\\'
           true
         else
           false
@@ -218,7 +216,7 @@ module Redmine
     attr_accessor :type_diff_left
     attr_accessor :offsets
 
-    def initialize()
+    def initialize
       self.nb_line_left = ''
       self.nb_line_right = ''
       self.line_left = ''
@@ -261,10 +259,10 @@ module Redmine
 
     def inspect
       puts '### Start Line Diff ###'
-      puts self.nb_line_left
-      puts self.line_left
-      puts self.nb_line_right
-      puts self.line_right
+      puts nb_line_left
+      puts line_left
+      puts nb_line_right
+      puts line_right
     end
   end
 end

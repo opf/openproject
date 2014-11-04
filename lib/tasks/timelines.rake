@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 #
 #-- copyright
 # OpenProject is a project management system.
@@ -31,84 +31,84 @@
 namespace :timelines do
   namespace :clear do
     desc 'Delete all timelines-related models'
-    task :all => [:environment,
-                  :colors, :project_types, :planning_element_types,
-                  :reported_project_status, :planning_element_status,
-                  :available_project_status]
+    task all: [:environment,
+               :colors, :project_types, :planning_element_types,
+               :reported_project_status, :planning_element_status,
+               :available_project_status]
 
-    task :colors => :environment do
+    task colors: :environment do
       Color.delete_all
     end
 
-    task :project_types => :environment do
+    task project_types: :environment do
       ProjectType.delete_all
     end
 
-    task :planning_element_types => :environment do
+    task planning_element_types: :environment do
       PlanningElementType.delete_all
     end
 
-    task :reported_project_status => :environment do
+    task reported_project_status: :environment do
       ReportedProjectStatus.delete_all
     end
 
-    task :planning_element_status => :environment do
+    task planning_element_status: :environment do
       PlanningElementStatus.delete_all
     end
 
-    task :available_project_status => :environment do
+    task available_project_status: :environment do
       AvailableProjectStatus.delete_all
     end
   end
 
   namespace :load do
     desc 'Load some pre-defined test data'
-    task :all => [:environment,
-                  :colors, :project_types, :planning_element_types,
-                  :reported_project_status, :planning_element_status,
-                  :available_project_status]
+    task all: [:environment,
+               :colors, :project_types, :planning_element_types,
+               :reported_project_status, :planning_element_status,
+               :available_project_status]
 
-    task :colors => :environment do
+    task colors: :environment do
       Color.colors.map(&:save!)
     end
 
-    task :project_types => :environment do
+    task project_types: :environment do
       %w{ÜRM QAM PM}.each do |name|
-        ProjectType.create!(:name => name, :allows_association => false)
+        ProjectType.create!(name: name, allows_association: false)
       end
       %w{Anforderung Release Test Umgebung}.each do |name|
-        ProjectType.create!(:name => name, :allows_association => true)
+        ProjectType.create!(name: name, allows_association: true)
       end
     end
 
-    task :planning_element_types => :environment do
+    task planning_element_types: :environment do
       {
         'Release' => [
-          {:name => 'Entwicklung',   :color => 'pjBlue', :is_default => true},
-          {:name => 'BzA',           :color => 'pjFuchsia', :is_milestone => true},
-          {:name => 'Testing',       :color => 'pjYellow'},
-          {:name => 'Preproduction', :color => 'pjMaroon'},
-          {:name => 'Rollout',       :color => 'pjLime', :in_aggregation => false},
-          {:name => 'PNPA',          :color => 'pjOlive', :in_aggregation => false}
+          { name: 'Entwicklung',   color: 'pjBlue', is_default: true },
+          { name: 'BzA',           color: 'pjFuchsia', is_milestone: true },
+          { name: 'Testing',       color: 'pjYellow' },
+          { name: 'Preproduction', color: 'pjMaroon' },
+          { name: 'Rollout',       color: 'pjLime', in_aggregation: false },
+          { name: 'PNPA',          color: 'pjOlive', in_aggregation: false }
         ],
 
         'Test' => [
-          {:name => 'Feasibility Study', :color => 'pjBlue', :is_default => true},
-          {:name => 'Impact Analysis',   :color => 'pjYellow'},
-          {:name => 'Testplanung',       :color => 'pjMaroon'},
-          {:name => 'Testspezifikation', :color => 'pjWhite'},
-          {:name => 'Testdurchführung',  :color => 'pjNavy'},
-          {:name => 'Deployment ATU1',   :color => 'pjPurple', :is_milestone => true},
-          {:name => 'Deployment ATU2',   :color => 'pjTeal', :is_milestone => true},
-          {:name => 'Backup',            :color => 'pjAqua'},
-          {:name => 'Reporting',         :color => 'pjSilver'},
+          { name: 'Feasibility Study', color: 'pjBlue', is_default: true },
+          { name: 'Impact Analysis',   color: 'pjYellow' },
+          { name: 'Testplanung',       color: 'pjMaroon' },
+          { name: 'Testspezifikation', color: 'pjWhite' },
+          { name: 'Testdurchführung',  color: 'pjNavy' },
+          { name: 'Deployment ATU1',   color: 'pjPurple', is_milestone: true },
+          { name: 'Deployment ATU2',   color: 'pjTeal', is_milestone: true },
+          { name: 'Backup',            color: 'pjAqua' },
+          { name: 'Reporting',         color: 'pjSilver' },
         ],
 
         'Anforderung' => [
-          {:name => 'FS', :color => 'pjBlue'},
-          {:name => 'DD', :color => 'pjYellow'},
-          {:name => 'RE', :color => 'pjMaroon'},
-          {:name => 'LA', :color => 'pjLime'}
+          { name: 'FS', color: 'pjBlue' },
+          { name: 'DD', color: 'pjYellow' },
+          { name: 'RE', color: 'pjMaroon' },
+          { name: 'LA', color: 'pjLime' }
         ],
 
         'Umgebung' => [
@@ -119,32 +119,32 @@ namespace :timelines do
 
         planning_element_types.each do |planning_element_type|
           planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
-          PlanningElementType.create!(planning_element_type.merge(:project_type_id => project_type.id))
+          PlanningElementType.create!(planning_element_type.merge(project_type_id: project_type.id))
         end
       end
 
       [
-        {:name => 'Phase', :color => 'pjGray'},
-        {:name => 'Milestone', :color => 'pjGray', :is_milestone => true}
+        { name: 'Phase', color: 'pjGray' },
+        { name: 'Milestone', color: 'pjGray', is_milestone: true }
       ].each do |planning_element_type|
         planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
         PlanningElementType.create!(planning_element_type)
       end
     end
 
-    task :reported_project_status => :environment do
+    task reported_project_status: :environment do
       ['Alle Daten vorhanden', 'Unvollständig', 'Offen', 'Verzug'].each do |name|
-        ReportedProjectStatus.create!(:name => name)
+        ReportedProjectStatus.create!(name: name)
       end
     end
 
-    task :planning_element_status => :environment do
+    task planning_element_status: :environment do
       ['Keine Planung', 'Vorläufige Planung', 'Im Plan', 'Verzögerung', 'Eskalation'].each do |name|
-        ReportedProjectStatus.create!(:name => name)
+        ReportedProjectStatus.create!(name: name)
       end
     end
 
-    task :available_project_status => :environment do
+    task available_project_status: :environment do
       ReportedProjectStatus.all.each do |status|
         ProjectType.all.each do |type|
           s = AvailableProjectStatus.new

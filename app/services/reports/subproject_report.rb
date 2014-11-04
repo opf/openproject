@@ -28,13 +28,12 @@
 #++
 
 class Reports::SubprojectReport < Reports::Report
-
   def self.report_type
-    "subproject"
+    'subproject'
   end
 
   def field
-    "project_id"
+    'project_id'
   end
 
   def rows

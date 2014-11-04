@@ -31,9 +31,10 @@ require 'spec_helper'
 describe ::API::V3::Categories::CategoryCollectionRepresenter do
   let(:project)    { FactoryGirl.build(:project, id: 888) }
   let(:categories) { FactoryGirl.build_list(:category, 3) }
-  let(:models)     { categories.map { |category|
-    ::API::V3::Categories::CategoryModel.new(category)
-  } }
+  let(:models)     {
+    categories.map { |category|
+      ::API::V3::Categories::CategoryModel.new(category)
+    } }
   let(:representer) { described_class.new(models, project: project) }
 
   describe '#initialize' do

@@ -31,7 +31,7 @@ require_relative 'migration_utils/legacy_journal_migrator'
 
 class LegacyChangesetJournalData < ActiveRecord::Migration
   def up
-    add_index "changeset_journals", ["journal_id"]
+    add_index 'changeset_journals', ['journal_id']
 
     migrator.run
   end
@@ -39,12 +39,12 @@ class LegacyChangesetJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals
 
-    remove_index "changeset_journals", ["journal_id"]
+    remove_index 'changeset_journals', ['journal_id']
   end
 
   private
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new("ChangesetJournal", "changeset_journals")
+    @migrator ||= Migration::LegacyJournalMigrator.new('ChangesetJournal', 'changeset_journals')
   end
 end

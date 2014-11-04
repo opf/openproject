@@ -28,7 +28,6 @@
 #++
 
 class ::Type < ActiveRecord::Base
-
   extend Pagination::Model
 
   include ActiveModel::ForbiddenAttributesProtection
@@ -36,7 +35,7 @@ class ::Type < ActiveRecord::Base
   before_destroy :check_integrity
 
   has_many :work_packages
-  has_many :workflows, :dependent => :delete_all do
+  has_many :workflows, dependent: :delete_all do
     def copy(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)
     end
@@ -45,24 +44,24 @@ class ::Type < ActiveRecord::Base
   has_and_belongs_to_many :projects
 
   has_and_belongs_to_many :custom_fields,
-                          :class_name => 'WorkPackageCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
+                          class_name: 'WorkPackageCustomField',
+                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
+                          association_foreign_key: 'custom_field_id'
 
-  belongs_to :color, :class_name  => 'PlanningElementTypeColor',
-                     :foreign_key => 'color_id'
+  belongs_to :color, class_name:  'PlanningElementTypeColor',
+                     foreign_key: 'color_id'
 
   acts_as_list
 
-  validates_presence_of   :name
+  validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of     :name,
-                          :maximum => 255,
-                          :unless => lambda { |e| e.name.blank? }
+  validates_length_of :name,
+                      maximum: 255,
+                      unless: lambda { |e| e.name.blank? }
 
-  validates_inclusion_of :in_aggregation, :is_default, :is_milestone, :in => [true, false]
+  validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
 
-  default_scope :order => 'position ASC'
+  default_scope order: 'position ASC'
 
   scope :without_standard, conditions: { is_standard: false },
                            order: :position
@@ -74,7 +73,7 @@ class ::Type < ActiveRecord::Base
   end
 
   # def self.all
-  #  find(:all, :order => 'position')
+  #  find(:all, order: 'position')
   # end
 
   def self.statuses(types)
@@ -107,19 +106,19 @@ class ::Type < ActiveRecord::Base
   end
 
   def is_valid_transition?(status_id_a, status_id_b, roles)
-    transition_exists?(status_id_a, status_id_b, roles.collect(&:id))
+    transition_exists?(status_id_a, status_id_b, roles.map(&:id))
   end
 
-private
+  private
 
   def check_integrity
-    raise "Can't delete type" if WorkPackage.find(:first, :conditions => ["type_id=?", self.id])
+    raise "Can't delete type" if WorkPackage.find(:first, conditions: ['type_id=?', id])
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)
     workflows.where(old_status_id: status_id_a,
                     new_status_id: status_id_b,
                     role_id: role_ids)
-             .any?
+      .any?
   end
 end

@@ -30,7 +30,7 @@ class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
-  def initialize(project=nil)
+  def initialize(project = nil)
     @project = project
   end
 
@@ -51,7 +51,7 @@ class WorkPackagesPage
   end
 
   def visit_calendar
-    visit index_path + "/calendar"
+    visit index_path + '/calendar'
   end
 
   def click_work_packages_menu_item
@@ -63,7 +63,7 @@ class WorkPackagesPage
   end
 
   def select_query(query)
-    visit query_path(query);
+    visit query_path(query)
   end
 
   def selected_filter(filter_name)

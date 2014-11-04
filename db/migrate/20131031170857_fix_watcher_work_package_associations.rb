@@ -112,11 +112,10 @@ class FixWatcherWorkPackageAssociations < ActiveRecord::Migration
   end
 
   def postgres?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
   end
 
   def mysql?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
   end
-
 end

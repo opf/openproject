@@ -34,8 +34,8 @@ module Api::Experimental::Concerns::GrapeRouting
     API::Root
     query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
 
-    query_route.route_path.gsub(":version", query_route.route_version)
-                          .gsub(":id", query.id.to_s)
-                          .gsub(/\(\.:format\)/,'')
+    query_route.route_path.gsub(':version', query_route.route_version)
+      .gsub(':id', query.id.to_s)
+      .gsub(/\(\.:format\)/, '')
   end
 end

@@ -10,7 +10,7 @@ describe 'API v3 Root resource' do
 
   describe '#get' do
     subject(:response) { last_response }
-    let(:get_path) { "/api/v3" }
+    let(:get_path) { '/api/v3' }
 
     context 'anonymous user' do
       before do

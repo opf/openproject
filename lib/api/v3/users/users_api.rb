@@ -30,7 +30,6 @@ module API
   module V3
     module Users
       class UsersAPI < Grape::API
-
         resources :users do
 
           params do
@@ -50,7 +49,6 @@ module API
           end
 
         end
-
       end
     end
   end

@@ -35,11 +35,11 @@ module OpenProject
       # if no block is given, raise an error
       raise ArgumentError, 'please provide a block as a callback' unless block_given?
 
-      ActiveSupport::Notifications.subscribe(name.to_s) do |name, start, finish, id, payload|
+      ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
         block.call(payload)
       end
       # Don't return a subscription object as it's an implementation detail.
-      return nil
+      nil
     end
 
     # Send a notification
@@ -49,6 +49,5 @@ module OpenProject
     def self.send(name, payload)
       ActiveSupport::Notifications.instrument(name, payload)
     end
-
   end
 end

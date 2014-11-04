@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 

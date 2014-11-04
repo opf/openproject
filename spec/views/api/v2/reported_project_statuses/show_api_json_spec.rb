@@ -28,33 +28,34 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/reported_project_statuses/show.api.rabl', :type => :view do
+describe 'api/v2/reported_project_statuses/show.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
   end
 
   describe 'with an assigned reported_project_status' do
-    let(:reported_project_status) { FactoryGirl.build(:reported_project_status,
-                                                      :id         => 1,
-                                                      :name       => 'Awesometastic reported_project_status',
-                                                      :is_default => true,
-                                                      :position   => 10) }
-
+    let(:reported_project_status) {
+      FactoryGirl.build(:reported_project_status,
+                        id:         1,
+                        name:       'Awesometastic reported_project_status',
+                        is_default: true,
+                        position:   10)
+    }
 
     before do
       assign(:reported_project_status, reported_project_status)
       render
     end
 
-    subject {response.body}
+    subject { response.body }
 
     it 'renders a reported_project_status document' do
       is_expected.to have_json_path('reported_project_status')
     end
 
     it 'should render the details of the reported project-status' do
-      expected_json = {name: "Awesometastic reported_project_status", is_default: true, position: 10}.to_json
+      expected_json = { name: 'Awesometastic reported_project_status', is_default: true, position: 10 }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('reported_project_status')
 

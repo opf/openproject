@@ -31,19 +31,19 @@ class ChiliProject::PrincipalAllowanceEvaluator::Base
     @user = user
   end
 
-  def granted_for_global? candidate, action, options
+  def granted_for_global?(_candidate, _action, _options)
     false
   end
 
-  def denied_for_global? candidate, action, options
+  def denied_for_global?(_candidate, _action, _options)
     false
   end
 
-  def granted_for_project? candidate, action, project, options = {}
+  def granted_for_project?(_candidate, _action, _project, _options = {})
     false
   end
 
-  def denied_for_project? candidate, action, project, options = {}
+  def denied_for_project?(_candidate, _action, _project, _options = {})
     false
   end
 
@@ -51,7 +51,7 @@ class ChiliProject::PrincipalAllowanceEvaluator::Base
     []
   end
 
-  def project_granting_candidates project
+  def project_granting_candidates(_project)
     []
   end
 end

@@ -38,7 +38,7 @@ require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
 
 # json-spec is used to specifiy our json-apis
-require "json_spec/cucumber"
+require 'json_spec/cucumber'
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
@@ -52,12 +52,12 @@ require_relative 'paths.rb'
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.configure do |config|
-    config.default_selector = :css
-    config.default_wait_time = 10
-    config.exact_options = true
-    config.ignore_hidden_elements = true
-    config.match = :one
-    config.visible_text_only = true
+  config.default_selector = :css
+  config.default_wait_time = 10
+  config.exact_options = true
+  config.ignore_hidden_elements = true
+  config.match = :one
+  config.visible_text_only = true
 end
 
 # By default, any exception happening in your Rails application will bubble up
@@ -82,7 +82,7 @@ ActionController::Base.allow_rescue = false
 begin
   DatabaseCleaner.strategy = :truncation
 rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
@@ -106,7 +106,7 @@ end
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
-Before do |scenario|
+Before do |_scenario|
   page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
 end
 

@@ -28,19 +28,19 @@
 #++
 
 [CustomField, WorkPackageCustomField].each do |const|
-  InstanceFinder.register(const, Proc.new{ |name| const.find_by_name(name) })
-  RouteMap.register(const, "/custom_fields")
+  InstanceFinder.register(const, Proc.new { |name| const.find_by_name(name) })
+  RouteMap.register(const, '/custom_fields')
 end
 
 Given /^the following (user|issue|work package) custom fields are defined:$/ do |type, table|
-  type = (type.gsub(" ", "_") + "_custom_field").to_sym
+  type = (type.gsub(' ', '_') + '_custom_field').to_sym
 
   as_admin do
-    table.hashes.each_with_index do |r, i|
-      attr_hash = { :name => r['name'],
-                    :field_format => r['type']}
+    table.hashes.each_with_index do |r, _i|
+      attr_hash = { name: r['name'],
+                    field_format: r['type'] }
 
-      attr_hash[:possible_values] = r['possible_values'].split(",").collect(&:strip) if r['possible_values']
+      attr_hash[:possible_values] = r['possible_values'].split(',').map(&:strip) if r['possible_values']
       attr_hash[:is_required] = (r[:required] == 'true') if r[:required]
       attr_hash[:editable] = (r[:editable] == 'true') if r[:editable]
       attr_hash[:visible] = (r[:visible] == 'true') if r[:visible]
@@ -57,7 +57,7 @@ Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |
   user = User.find_by_login(login)
   custom_field = UserCustomField.find_by_name(field_name)
 
-  user.custom_values.build(:custom_field => custom_field, :value => value)
+  user.custom_values.build(custom_field: custom_field, value: value)
   user.save!
 end
 
@@ -65,12 +65,12 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   wp = InstanceFinder.find(WorkPackage, wp_name)
   custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
 
-  custom_value = wp.custom_values.detect {|cv| cv.custom_field_id == custom_field.id}
+  custom_value = wp.custom_values.detect { |cv| cv.custom_field_id == custom_field.id }
 
   if custom_value
     custom_value.value = value
   else
-    wp.custom_values.build(:custom_field => custom_field, :value => value)
+    wp.custom_values.build(custom_field: custom_field, value: value)
   end
 
   wp.save!
@@ -78,7 +78,7 @@ end
 
 Given /^the work package "(.+?)" has the custom user field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, username|
   user = User.find_by_login(username)
-  steps %Q{
+  steps %{
     Given the work package "#{wp_name}" has the custom field "#{field_name}" set to "#{user.id}"
   }
 end

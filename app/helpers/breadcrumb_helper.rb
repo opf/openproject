@@ -29,26 +29,26 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    breadcrumb_list(link_to(icon_wrapper("icon2 icon-home2", I18n.t(:label_home)), home_path),
+    breadcrumb_list(link_to(icon_wrapper('icon2 icon-home2', I18n.t(:label_home)), home_path),
                     link_to_project_ancestors(@project),
                     *breadcrumb_paths)
   end
 
   def breadcrumb(*args)
     elements = args.flatten
-    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, :class => 'breadcrumb') : nil
+    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'breadcrumb') : nil
   end
 
   def breadcrumb_list(*args)
     elements = args.flatten
     cutme_elements = []
-    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, :class => 'first-breadcrumb-element', :style => 'list-style-image:none;')]
+    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
-    breadcrumb_elements += elements.collect do |element|
+    breadcrumb_elements += elements.map do |element|
       content_tag(:li, h(element.to_s)) if element
     end
 
-    content_tag(:ul, breadcrumb_elements.join.html_safe, :class => 'breadcrumb')
+    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
   end
 
   def breadcrumb_paths(*args)
@@ -68,11 +68,11 @@ module BreadcrumbHelper
     if project && !project.new_record?
       ancestors = (project.root? ? [] : project.ancestors.visible)
       ancestors << project
-      ancestors.collect do |p|
+      ancestors.map do |p|
         if p == project
-          link_to_project(p, {:only_path => false}, {:title => p, :class => 'breadcrumb-project-title nocut'}).html_safe
+          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
         else
-          link_to_project(p, {:jump => current_menu_item}, {:title => p}).html_safe
+          link_to_project(p, { jump: current_menu_item }, title: p).html_safe
         end
       end
     end

@@ -83,7 +83,7 @@ module Redmine::Acts::Journalized
       # <tt>:dependent</tt> option given to the +journaled+ method. See the +journaled+ method
       # documentation for more details.
       def reset_to!(value)
-        if saved = skip_journal{ revert_to!(value) }
+        if saved = skip_journal { revert_to!(value) }
           journals.send(:delete_records, journals.after(value))
           reset_journal
         end

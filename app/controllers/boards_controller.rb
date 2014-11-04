@@ -31,8 +31,8 @@ class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project_by_project_id,
                 :authorize
-  before_filter :new_board, :only => [:new, :create]
-  before_filter :find_board_if_available, :except => [:index]
+  before_filter :new_board, only: [:new, :create]
+  before_filter :find_board_if_available, except: [:index]
   accept_key_auth :index, :show
 
   include MessagesHelper
@@ -53,7 +53,7 @@ class BoardsController < ApplicationController
 
   def show
     sort_init 'updated_on', 'desc'
-    sort_update  'created_on' => "#{Message.table_name}.created_on",
+    sort_update 'created_on' => "#{Message.table_name}.created_on",
                 'replies' => "#{Message.table_name}.replies_count",
                 'updated_on' => "#{Message.table_name}.updated_on"
 
@@ -61,9 +61,9 @@ class BoardsController < ApplicationController
       format.html {
         set_topics
 
-        gon.rabl "app/views/messages/index.rabl"
+        gon.rabl 'app/views/messages/index.rabl'
         gon.project_id = @project.id
-        gon.activity_modul_enabled = @project.module_enabled?("activity");
+        gon.activity_modul_enabled = @project.module_enabled?('activity')
         gon.board_id = @board.id
         gon.sort_column = 'updated_on'
         gon.sort_direction = 'desc'
@@ -71,30 +71,30 @@ class BoardsController < ApplicationController
         gon.settings = client_preferences
 
         @message = Message.new
-        render :action => 'show', :layout => !request.xhr?
+        render action: 'show', layout: !request.xhr?
       }
       format.json {
         set_topics
 
-        gon.rabl "app/views/messages/index.rabl"
+        gon.rabl 'app/views/messages/index.rabl'
 
-        render template: "messages/index"
+        render template: 'messages/index'
       }
       format.atom {
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                                   .includes(:author, :board)
-                                   .limit(Setting.feeds_limit.to_i)
+                    .includes(:author, :board)
+                    .limit(Setting.feeds_limit.to_i)
 
-        render_feed(@messages, :title => "#{@project}: #{@board}")
+        render_feed(@messages, title: "#{@project}: #{@board}")
       }
     end
   end
 
   def set_topics
     @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                            .includes(:author, { :last_reply => :author })
-                            .page(params[:page])
-                            .per_page(per_page_param)
+               .includes(:author,  last_reply: :author)
+               .page(params[:page])
+               .per_page(per_page_param)
   end
 
   def new
@@ -126,23 +126,23 @@ class BoardsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     else
       flash.now[:error] = l('board_could_not_be_saved')
-      render :action => 'edit'
+      render action: 'edit'
     end
     redirect_to controller: :projects,
-                action: "settings",
-                tab: "boards",
+                action: 'settings',
+                tab: 'boards',
                 id: @board.project_id
   end
-
 
   def destroy
     @board.destroy
     redirect_to_settings_in_projects
   end
 
-private
+  private
+
   def redirect_to_settings_in_projects
-    redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'boards'
+    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'boards'
   end
 
   def find_board_if_available

@@ -62,9 +62,9 @@ module API
 
         link :update do
           {
-              href: "#{root_path}api/v3/activities/#{represented.model.id}",
-              method: :patch,
-              title: "#{represented.model.id}"
+            href: "#{root_path}api/v3/activities/#{represented.model.id}",
+            method: :patch,
+            title: "#{represented.model.id}"
           } if current_user_allowed_to_edit?
         end
 
@@ -103,7 +103,7 @@ module API
         end
 
         def render_details(journal, no_html: false)
-          journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
+          journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
         end
       end
     end

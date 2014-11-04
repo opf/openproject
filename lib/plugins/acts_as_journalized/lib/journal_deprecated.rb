@@ -62,10 +62,9 @@ module JournalDeprecated
   end
 
   # Old naming
-  def journalized= obj
+  def journalized=(obj)
     journaled = obj
   end
-
 
   # Shortcut from more issue-specific journals
   def attachments

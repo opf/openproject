@@ -30,7 +30,7 @@
 InstanceFinder.register(Version, Proc.new { |name| Version.find_by_name(name) })
 
 Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", "")
+  project.gsub!("\"", '')
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
 
   as_admin do

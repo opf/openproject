@@ -54,7 +54,7 @@ class JournalActivitiesData < ActiveRecord::Migration
         SQL
       end
     else
-      say "Can not distinguish between former planning_elements and issues. Assuming all to be former issues."
+      say 'Can not distinguish between former planning_elements and issues. Assuming all to be former issues.'
     end
 
     say_with_time_silently "Changing activity type from 'work_packages' to 'issues'" do

@@ -28,32 +28,32 @@
 #++
 
 class Relation < ActiveRecord::Base
-  belongs_to :from, :class_name => 'WorkPackage', :foreign_key => 'from_id'
-  belongs_to :to, :class_name => 'WorkPackage', :foreign_key => 'to_id'
+  belongs_to :from, class_name: 'WorkPackage', foreign_key: 'from_id'
+  belongs_to :to, class_name: 'WorkPackage', foreign_key: 'to_id'
 
   scope :of_work_package, ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
-  TYPE_RELATES      = "relates"
-  TYPE_DUPLICATES   = "duplicates"
-  TYPE_DUPLICATED   = "duplicated"
-  TYPE_BLOCKS       = "blocks"
-  TYPE_BLOCKED      = "blocked"
-  TYPE_PRECEDES     = "precedes"
-  TYPE_FOLLOWS      = "follows"
+  TYPE_RELATES      = 'relates'
+  TYPE_DUPLICATES   = 'duplicates'
+  TYPE_DUPLICATED   = 'duplicated'
+  TYPE_BLOCKS       = 'blocks'
+  TYPE_BLOCKED      = 'blocked'
+  TYPE_PRECEDES     = 'precedes'
+  TYPE_FOLLOWS      = 'follows'
 
-  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1, :sym => TYPE_RELATES },
-            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2, :sym => TYPE_DUPLICATED },
-            TYPE_DUPLICATED =>  { :name => :label_duplicated_by, :sym_name => :label_duplicates, :order => 3, :sym => TYPE_DUPLICATES, :reverse => TYPE_DUPLICATES },
-            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 4, :sym => TYPE_BLOCKED },
-            TYPE_BLOCKED =>     { :name => :label_blocked_by, :sym_name => :label_blocks, :order => 5, :sym => TYPE_BLOCKS, :reverse => TYPE_BLOCKS },
-            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 6, :sym => TYPE_FOLLOWS },
-            TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES }
+  TYPES = { TYPE_RELATES =>     { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: TYPE_RELATES },
+            TYPE_DUPLICATES =>  { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: TYPE_DUPLICATED },
+            TYPE_DUPLICATED =>  { name: :label_duplicated_by, sym_name: :label_duplicates, order: 3, sym: TYPE_DUPLICATES, reverse: TYPE_DUPLICATES },
+            TYPE_BLOCKS =>      { name: :label_blocks, sym_name: :label_blocked_by, order: 4, sym: TYPE_BLOCKED },
+            TYPE_BLOCKED =>     { name: :label_blocked_by, sym_name: :label_blocks, order: 5, sym: TYPE_BLOCKS, reverse: TYPE_BLOCKS },
+            TYPE_PRECEDES =>    { name: :label_precedes, sym_name: :label_follows, order: 6, sym: TYPE_FOLLOWS },
+            TYPE_FOLLOWS =>     { name: :label_follows, sym_name: :label_precedes, order: 7, sym: TYPE_PRECEDES, reverse: TYPE_PRECEDES }
           }.freeze
 
   validates_presence_of :from, :to, :relation_type
-  validates_inclusion_of :relation_type, :in => TYPES.keys
-  validates_numericality_of :delay, :allow_nil => true
-  validates_uniqueness_of :to_id, :scope => :from_id
+  validates_inclusion_of :relation_type, in: TYPES.keys
+  validates_numericality_of :delay, allow_nil: true
+  validates_uniqueness_of :to_id, scope: :from_id
 
   validate :validate_sanity_of_relation
 
@@ -71,13 +71,13 @@ class Relation < ActiveRecord::Base
   end
 
   def other_work_package(work_package)
-    (self.from_id == work_package.id) ? to : from
+    (from_id == work_package.id) ? to : from
   end
 
   # Returns the relation type for +work_package+
   def relation_type_for(work_package)
     if TYPES[relation_type]
-      if self.from_id == work_package.id
+      if from_id == work_package.id
         relation_type
       else
         TYPES[relation_type][:sym]
@@ -86,7 +86,7 @@ class Relation < ActiveRecord::Base
   end
 
   def label_for(work_package)
-    TYPES[relation_type] ? TYPES[relation_type][(self.from_id == work_package.id) ? :name : :sym_name] : :unknow
+    TYPES[relation_type] ? TYPES[relation_type][(from_id == work_package.id) ? :name : :sym_name] : :unknow
   end
 
   def update_schedule
@@ -101,20 +101,20 @@ class Relation < ActiveRecord::Base
   end
 
   def set_dates_of_target
-    soonest_start = self.successor_soonest_start
+    soonest_start = successor_soonest_start
     if soonest_start && to
       to.reschedule_after(soonest_start)
     end
   end
 
   def successor_soonest_start
-    if (TYPE_PRECEDES == self.relation_type) && delay && from && (from.start_date || from.due_date)
+    if (TYPE_PRECEDES == relation_type) && delay && from && (from.start_date || from.due_date)
       (from.due_date || from.start_date) + 1 + delay
     end
   end
 
   def <=>(relation)
-    TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
+    TYPES[relation_type][:order] <=> TYPES[relation.relation_type][:order]
   end
 
   # delay is an attribute of Relation but its getter is masked by delayed_job's #delay method

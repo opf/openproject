@@ -34,8 +34,8 @@ class Repository::Filesystem < Repository
   validates_presence_of :url
 
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Root directory",
-    }
+    'url'          => 'Root directory',
+  }
   def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
@@ -52,12 +52,11 @@ class Repository::Filesystem < Repository
     false
   end
 
-  def entries(path=nil, identifier=nil)
+  def entries(path = nil, identifier = nil)
     scm.entries(path, identifier)
   end
 
   def fetch_changesets
     nil
   end
-
 end

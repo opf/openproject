@@ -34,7 +34,7 @@ class AddMissingAttachableJournals < ActiveRecord::Migration
   include Migration::Utils::AttachableUtils
 
   def up
-    say_with_time_silently "Add missing attachable journals" do
+    say_with_time_silently 'Add missing attachable journals' do
       add_missing_attachable_journals
     end
   end

@@ -28,14 +28,16 @@
 
 require 'spec_helper'
 
-describe 'users/show', :type => :view do
+describe 'users/show', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
-  let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
+  let(:user)       { FactoryGirl.create :admin, member_in_project: project }
   let(:custom_field) { FactoryGirl.create :text_user_custom_field }
-  let(:visibility_custom_value) { FactoryGirl.create(:principal_custom_value,
-                                                     :customized => user,
-                                                     :custom_field => custom_field,
-                                                     :value => "TextUserCustomFieldValue") }
+  let(:visibility_custom_value) {
+    FactoryGirl.create(:principal_custom_value,
+                       customized: user,
+                       custom_field: custom_field,
+                       value: 'TextUserCustomFieldValue')
+  }
 
   before do
     visibility_custom_value
@@ -48,6 +50,6 @@ describe 'users/show', :type => :view do
   it 'renders the visible custom values' do
     render
 
-    expect(response).to have_selector("li", :text => "TextUserCustomField")
+    expect(response).to have_selector('li', text: 'TextUserCustomField')
   end
 end

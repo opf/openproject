@@ -32,30 +32,30 @@ namespace :migrations do
     def name_map
       # note that 20120215093215_add_indexes_to_timelines_models.rb of the timelines plugins was
       # removed without replacement and that the contents of it was put into a multitude of migrations
-      @name_map ||= { "20110929081301-chiliproject_timelines" => "20130409133700",
-                      "20110929083343-chiliproject_timelines" => "20130409133701",
-                      "20110929144754-chiliproject_timelines" => "20130409133702",
-                      "20110930125321-chiliproject_timelines" => "20130409133703",
-                      "20111005114335-chiliproject_timelines" => "20130409133704",
-                      "20111005133556-chiliproject_timelines" => "20130409133705",
-                      "20111006070115-chiliproject_timelines" => "20130409133706",
-                      "20111108075045-chiliproject_timelines" => "20130409133707",
-                      "20111108134440-chiliproject_timelines" => "20130409133708",
-                      "20111108145338-chiliproject_timelines" => "20130409133709",
-                      "20111122083825-chiliproject_timelines" => "20130409133710",
-                      "20120106155245-chiliproject_timelines" => "20130409133711",
-                      "20120109111640-chiliproject_timelines" => "20130409133712",
-                      "20120109140237-chiliproject_timelines" => "20130409133713",
-                      "20120109153625-chiliproject_timelines" => "20130409133714",
-                      "20120206165120-chiliproject_timelines" => "20130409133715",
-                      "20120215093215-chiliproject_timelines" => nil             ,
-                      "20120221143844-chiliproject_timelines" => "20130409133717",
-                      "20120221144552-chiliproject_timelines" => "20130409133718",
-                      "20120306161515-chiliproject_timelines" => "20130409133719",
-                      "20120322111436-chiliproject_timelines" => "20130409133720",
-                      "20120518151232-chiliproject_timelines" => "20130409133721",
-                      "20120522094843-chiliproject_timelines" => "20130409133722",
-                      "20120524130128-chiliproject_timelines" => "20130409133723" }
+      @name_map ||= { '20110929081301-chiliproject_timelines' => '20130409133700',
+                      '20110929083343-chiliproject_timelines' => '20130409133701',
+                      '20110929144754-chiliproject_timelines' => '20130409133702',
+                      '20110930125321-chiliproject_timelines' => '20130409133703',
+                      '20111005114335-chiliproject_timelines' => '20130409133704',
+                      '20111005133556-chiliproject_timelines' => '20130409133705',
+                      '20111006070115-chiliproject_timelines' => '20130409133706',
+                      '20111108075045-chiliproject_timelines' => '20130409133707',
+                      '20111108134440-chiliproject_timelines' => '20130409133708',
+                      '20111108145338-chiliproject_timelines' => '20130409133709',
+                      '20111122083825-chiliproject_timelines' => '20130409133710',
+                      '20120106155245-chiliproject_timelines' => '20130409133711',
+                      '20120109111640-chiliproject_timelines' => '20130409133712',
+                      '20120109140237-chiliproject_timelines' => '20130409133713',
+                      '20120109153625-chiliproject_timelines' => '20130409133714',
+                      '20120206165120-chiliproject_timelines' => '20130409133715',
+                      '20120215093215-chiliproject_timelines' => nil,
+                      '20120221143844-chiliproject_timelines' => '20130409133717',
+                      '20120221144552-chiliproject_timelines' => '20130409133718',
+                      '20120306161515-chiliproject_timelines' => '20130409133719',
+                      '20120322111436-chiliproject_timelines' => '20130409133720',
+                      '20120518151232-chiliproject_timelines' => '20130409133721',
+                      '20120522094843-chiliproject_timelines' => '20130409133722',
+                      '20120524130128-chiliproject_timelines' => '20130409133723' }
     end
 
     def new_name_of(old_name)
@@ -67,15 +67,15 @@ namespace :migrations do
     end
 
     def migrations_to_remove
-      ["20120215093215-chiliproject_timelines"]
+      ['20120215093215-chiliproject_timelines']
     end
 
-    def quote_value name
+    def quote_value(name)
       ActiveRecord::Base.connection.quote name
     end
 
     def schema_name
-      ActiveRecord::Base.connection.quote_table_name "schema_migrations"
+      ActiveRecord::Base.connection.quote_table_name 'schema_migrations'
     end
 
     def remove_migrations
@@ -102,8 +102,8 @@ namespace :migrations do
       end
     end
 
-    desc "rewrites existing timelines migrations to the newly named migrations"
-    task :reregister => :environment do |task|
+    desc 'rewrites existing timelines migrations to the newly named migrations'
+    task reregister: :environment do |_task|
       remove_migrations
       rename_migrations
     end

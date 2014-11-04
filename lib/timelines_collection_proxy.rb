@@ -43,7 +43,7 @@ module TimelinesCollectionProxy
       proxy_class.class_eval(&Proc.new) if block_given?
 
       define_method name do
-        proxy_class.new(relation_names.map { |n| self.send(n) }, self)
+        proxy_class.new(relation_names.map { |n| send(n) }, self)
       end
 
       protected(*relation_names) unless options[:leave_public]
@@ -110,11 +110,11 @@ module TimelinesCollectionProxy
     end
 
     def first
-      @proxies.find { |proxy| proxy.first }.first
+      @proxies.find(&:first).first
     end
 
     def last
-      @proxies.reverse.find { |proxy| proxy.last }.last
+      @proxies.reverse.find(&:last).last
     end
 
     def each(*args, &block)
@@ -136,7 +136,7 @@ module TimelinesCollectionProxy
     end
 
     %w[build create << delete delete_all replace push].each do |method|
-      class_eval %Q{
+      class_eval %{
         def #{method}(*args)
           raise NotImplementedError, 'This proxy is read-only'
         end

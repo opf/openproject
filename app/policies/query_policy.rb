@@ -52,29 +52,29 @@ class QueryPolicy < BasePolicy
 
   def persisted_and_own_or_public?(query)
     query.persisted? &&
-    (save_queries_allowed?(query) && query.user == user ||
-     manage_public_queries_allowed?(query) && query.is_public)
+      (save_queries_allowed?(query) && query.user == user ||
+       manage_public_queries_allowed?(query) && query.is_public)
   end
 
   def viewable?(query)
     view_work_packages_allowed?(query) &&
-     (query.is_public? || query.user == user)
+      (query.is_public? || query.user == user)
   end
 
   def create_allowed?(query)
     query.new_record? &&
-    save_queries_allowed?(query)
+      save_queries_allowed?(query)
   end
 
   def publicize_allowed?(query)
     !query.is_public &&
-    query.user_id == user.id &&
-    manage_public_queries_allowed?(query)
+      query.user_id == user.id &&
+      manage_public_queries_allowed?(query)
   end
 
   def depublicize_allowed?(query)
     query.is_public &&
-    manage_public_queries_allowed?(query)
+      manage_public_queries_allowed?(query)
   end
 
   def view_work_packages_allowed?(query)

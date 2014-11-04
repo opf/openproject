@@ -31,7 +31,6 @@ module API
   module V3
     module Users
       class UserCollectionRepresenter < ::API::Decorators::Collection
-
         collection :users, as: -> (*) { as || :users }, exec_context: :decorator, embedded: true
 
         def users
