@@ -116,6 +116,34 @@ describe 'users/edit', :type => :view do
           expect(rendered).to have_selector('#user_auth_source_id')
         end
       end
+
+      context 'with password choice enabled' do
+        before do
+          expect(OpenProject::Configuration)
+            .to receive(:disable_password_choice?)
+            .and_return(false)
+        end
+
+        it 'shows the password and password confirmation fields' do
+          render
+
+          expect(rendered).to have_text('Password')
+          expect(rendered).to have_text('Confirmation')
+        end
+      end
+
+      context 'with password choice enabled' do
+        before do
+          expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
+        end
+
+        it 'doesn not show the password and password confirmation fields' do
+          render
+
+          expect(rendered).not_to have_text('Password')
+          expect(rendered).not_to have_text('Password confirmation')
+        end
+      end
     end
   end
 end
