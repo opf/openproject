@@ -146,8 +146,8 @@ module OpenProject::Costs
       end
 
       send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
-        current_user_allowed_to(:view_cost_entries, represented) ||
-          current_user_allowed_to(:view_own_cost_entries, represented)
+        current_user_allowed_to(:view_cost_entries) ||
+          current_user_allowed_to(:view_own_cost_entries)
       end
 
       send(:define_method, :overall_costs) do
