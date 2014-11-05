@@ -48,10 +48,9 @@ shared_examples_for 'handling anonymous user' do |type, path|
 
     context 'when access for anonymous user is not allowed' do
       before do
-        Setting.login_required = 1
+        allow(Setting).to receive(:login_required?).and_return(true)
         get get_path
       end
-      after { Setting.login_required = 0 }
 
       it_behaves_like 'unauthenticated access'
     end
