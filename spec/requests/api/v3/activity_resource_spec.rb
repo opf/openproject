@@ -77,6 +77,7 @@ describe 'API v3 Activity resource', type: :request do
     end
 
     it_behaves_like 'handling anonymous user', 'Activity', '/api/v3/activities/%s' do
+      let(:project) { FactoryGirl.create(:project, is_public: true) }
       let(:id) { activity.id }
     end
   end
