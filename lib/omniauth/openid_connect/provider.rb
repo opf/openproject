@@ -108,11 +108,11 @@ module OmniAuth
         {
           :name => name,
           :scope => [:openid, :email, :profile],
-          :icon => self.class.config["icon"],
-          :display_name => self.class.config["display_name"],
+          :icon => config["icon"],
+          :display_name => config["display_name"],
           :client_options => client_options.merge( # override with configuration
             Hash[
-              self.class.config.reject do |key, value|
+              config.reject do |key, value|
                 ["identifier", "secret", "icon", "display_name"].include? key
               end.map do |key, value|
                 [key.to_sym, value]
@@ -145,7 +145,9 @@ module OmniAuth
         config("secret")
       end
 
-      def config(key)
+      def config(key = nil)
+        return self.class.config unless key
+
         self.class.config[key] || error_configure(key)
       end
 
