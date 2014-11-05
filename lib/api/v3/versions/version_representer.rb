@@ -28,21 +28,21 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module Versions
       class VersionRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :name
 
         def _type

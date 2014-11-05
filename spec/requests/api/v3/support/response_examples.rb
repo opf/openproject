@@ -46,6 +46,13 @@ shared_examples_for 'error response' do |code, id, message|
   end
 end
 
+shared_examples_for 'invalid render context' do |message|
+  it_behaves_like 'error response',
+                  400,
+                  'InvalidRenderContext',
+                  message
+end
+
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,

@@ -34,7 +34,6 @@ module API
         resources :priorities do
           before do
             @priorities = IssuePriority.all
-            @priorities.map! { |priority| PriorityModel.new(priority) }
           end
 
           get do

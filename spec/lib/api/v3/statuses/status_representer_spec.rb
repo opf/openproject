@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Statuses::StatusRepresenter do
   let(:status) { FactoryGirl.build(:status) }
-  let(:model) { ::API::V3::Statuses::StatusModel.new(status) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(status) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

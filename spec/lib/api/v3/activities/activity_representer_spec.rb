@@ -35,8 +35,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_own_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
-  let(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
-  let(:representer) { described_class.new(model, current_user: current_user) }
+  let(:representer) { described_class.new(journal, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

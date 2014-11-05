@@ -34,9 +34,9 @@ module Api
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController
-      include Concerns::GrapeRouting
-      include Concerns::ColumnData
-      include Concerns::QueryLoading
+      include ::Api::Experimental::Concerns::GrapeRouting
+      include ::Api::Experimental::Concerns::ColumnData
+      include ::Api::Experimental::Concerns::QueryLoading
 
       include PaginationHelper
       include QueriesHelper

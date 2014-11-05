@@ -41,8 +41,28 @@ module API
               attr_reader :work_package
 
               def decorate_work_package(work_package)
-                model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package, current_user)
-                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, { current_user: current_user }, :activities, :users)
+                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
+              end
+
+              def patch_request_body
+                env['api.request.input']
+              end
+
+              def patch_request_valid?
+                contract = WorkPackageContract.new(@representer.represented, current_user)
+
+                # Although the contract triggers the ActiveModel validations on
+                # the work package, it does not merge the contract errors with
+                # the model errors. Thus, we need to do it manually.
+                unless contract.validate
+                  contract.errors.keys.each do |key|
+                    contract.errors[key].each do |message|
+                      @representer.represented.errors.add(key, message)
+                    end
+                  end
+                end
+
+                @representer.represented.errors.count == 0
               end
             end
 
@@ -59,8 +79,15 @@ module API
             patch do
               @representer.represented.lock_version = nil # enforces availibility validation of lock_version
 
-              @representer.from_json(env['api.request.input'])
-              if @representer.represented.valid? && @representer.represented.sync && @representer.represented.save
+              @representer.from_json(patch_request_body)
+
+              send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
+              update_service = UpdateWorkPackageService.new(current_user,
+                                                            @representer.represented,
+                                                            nil,
+                                                            send_notifications)
+
+              if patch_request_valid? && update_service.save
                 decorate_work_package(@work_package.reload)
                 @representer
               else
@@ -73,8 +100,7 @@ module API
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(model,  current_user: current_user)
+                    representer = ::API::V3::Activities::ActivityRepresenter.new(work_package.journals.last, current_user: current_user)
 
                     representer
                   else
@@ -103,10 +129,7 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_assignees = @work_package.assignable_assignees
-                build_representer(available_assignees,
-                                  ::API::V3::Users::UserModel,
-                                  ::API::V3::Users::UserCollectionRepresenter,
-                                  as: :available_assignees)
+                ::API::V3::Users::UserCollectionRepresenter.new(available_assignees, as: :available_assignees)
               end
 
             end
@@ -118,10 +141,7 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_responsibles = @work_package.assignable_responsibles
-                build_representer(available_responsibles,
-                                  ::API::V3::Users::UserModel,
-                                  ::API::V3::Users::UserCollectionRepresenter,
-                                  as: :available_responsibles)
+                ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles, as: :available_responsibles)
               end
 
             end

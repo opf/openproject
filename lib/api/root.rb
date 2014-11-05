@@ -62,11 +62,6 @@ module API
         raise API::Errors::Unauthorized unless is_authorized && allow
         is_authorized
       end
-
-      def build_representer(obj, model_klass, representer_klass, options = {})
-        model = (obj.is_a?(Array)) ? obj.map { |o| model_klass.new(o) } : model_klass.new(obj)
-        representer_klass.new(model, options)
-      end
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|

@@ -31,16 +31,12 @@ require 'spec_helper'
 describe ::API::V3::Categories::CategoryCollectionRepresenter do
   let(:project)    { FactoryGirl.build(:project, id: 888) }
   let(:categories) { FactoryGirl.build_list(:category, 3) }
-  let(:models)     {
-    categories.map { |category|
-      ::API::V3::Categories::CategoryModel.new(category)
-    } }
-  let(:representer) { described_class.new(models, project: project) }
+  let(:representer) { described_class.new(categories, project: project) }
 
   describe '#initialize' do
     context 'with incorrect parameters' do
       it 'should raise without a project' do
-        expect { described_class.new(models) }.to raise_error(ArgumentError)
+        expect { described_class.new(categories) }.to raise_error(ArgumentError)
       end
     end
   end

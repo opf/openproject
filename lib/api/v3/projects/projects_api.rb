@@ -38,12 +38,11 @@ module API
           namespace ':id' do
             before do
               @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
             end
 
             get do
               authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
+              ProjectRepresenter.new(@project)
             end
 
             mount API::V3::Categories::CategoriesAPI

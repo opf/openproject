@@ -76,6 +76,7 @@ describe 'API v3 Attachment resource', type: :request do
     end
 
     it_behaves_like 'handling anonymous user', 'Attachment', '/api/v3/attachments/%s' do
+      let(:project) { FactoryGirl.create(:project, is_public: true) }
       let(:id) { attachment.id }
     end
   end

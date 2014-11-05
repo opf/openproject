@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,44 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module Utilities
+    module Renderer
+      class TextileRenderer
+        include ActionView::Helpers::UrlHelper
+        include OpenProject::StaticRouting::UrlHelpers
+        include OpenProject::TextFormatting
+        include WorkPackagesHelper
 
-describe ::API::V3::Activities::ActivityModel do
-  include Capybara::RSpecMatchers
+        def initialize(text, object = nil)
+          @text = text
+          @object = object
+        end
 
-  subject(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
-  let(:journal) { FactoryGirl.build(:work_package_journal, attributes) }
+        def to_html
+          format_text(@text, object: @object)
+        end
 
-  context 'with a formatted description' do
-    let(:attributes) {
-      {
-        notes: <<-DESC
-h3. Plan update
-
-# More done
-# More quickly
-       DESC
-      }
-    }
-
-    describe '#notes' do
-      subject { super().notes }
-      it { is_expected.to have_selector 'h3' }
-    end
-
-    describe '#notes' do
-      subject { super().notes }
-      it { is_expected.to have_selector 'ol > li' }
-    end
-
-    describe '#raw_notes' do
-      subject { super().raw_notes }
-      it { is_expected.to eq attributes[:notes] }
-    end
-
-    it 'should allow raw_notes to be set' do
-      model.raw_notes = 'h4. Plan revision'
-      expect(model.notes).to have_selector 'h4'
+        def controller; end
+      end
     end
   end
 end

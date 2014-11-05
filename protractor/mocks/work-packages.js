@@ -34,7 +34,7 @@ module.exports = function(app) {
     res.send({"work_packages":[]});
   });
   workPackagesRouter.get('/:id', function(req, res) {
-    fs.readFile(__dirname + '/work-package.json', 'utf8', function(err, text) {
+    fs.readFile(__dirname + '/work-packages/' + req.params.id + '.json', 'utf8', function(err, text) {
       res.send(text);
     });
   });

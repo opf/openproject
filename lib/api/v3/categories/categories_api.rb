@@ -34,7 +34,6 @@ module API
         resources :categories do
           before do
             @categories = @project.categories
-            @categories = @categories.map { |category| CategoryModel.new(category) }
           end
 
           get do

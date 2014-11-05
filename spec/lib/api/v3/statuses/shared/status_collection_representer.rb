@@ -1,10 +1,6 @@
 RSpec.shared_examples 'status collection representer' do
   let(:statuses)  { FactoryGirl.build_list(:status, 3) }
-  let(:models)    {
-    statuses.map { |status|
-      ::API::V3::Statuses::StatusModel.new(status)
-    } }
-  let(:representer) { described_class.new(models) }
+  let(:representer) { described_class.new(statuses) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Projects::ProjectRepresenter do
   let(:project) { FactoryGirl.build(:project) }
-  let(:model) { ::API::V3::Projects::ProjectModel.new(project) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(project) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

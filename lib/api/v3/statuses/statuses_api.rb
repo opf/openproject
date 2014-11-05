@@ -34,7 +34,6 @@ module API
         resources :statuses do
           before do
             @statuses = Status.all
-            @statuses.map! { |status| StatusModel.new(status) }
           end
 
           get do

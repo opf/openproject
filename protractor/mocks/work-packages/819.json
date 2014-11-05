@@ -1,0 +1,277 @@
+{
+  "_type": "WorkPackage",
+  "_links": {
+    "self": {
+      "href": "/api/v3/work_packages/819",
+      "title": "qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "update": {
+      "href": "/api/v3/work_packages/819",
+      "method": "patch",
+      "title": "Update qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "delete": {
+      "href": "/work_packages/bulk?ids=819",
+      "method": "delete",
+      "title": "Delete qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "log_time": {
+      "href": "/work_packages/819/time_entries/new",
+      "type": "text/html",
+      "title": "Log time on qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "duplicate": {
+      "href": "/projects/seeded_project/work_packages/new?copy_from=819",
+      "type": "text/html",
+      "title": "Duplicate qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "move": {
+      "href": "/work_packages/819/move/new",
+      "type": "text/html",
+      "title": "Move qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "author": {
+      "href": "/api/v3/users/34",
+      "title": "Reinhold Weber - Joe3757"
+    },
+    "availableStatuses": {
+      "href": "/api/v3/work_packages/819/available_statuses",
+      "title": "Available Statuses"
+    },
+    "availableWatchers": {
+      "href": "/api/v3/work_packages/819/available_watchers",
+      "title": "Available Watchers"
+    },
+    "watchChanges": {
+      "href": "/api/v3/work_packages/819/watchers",
+      "method": "post",
+      "data": {
+        "user_id": 1
+      },
+      "title": "Watch work package"
+    },
+    "addWatcher": {
+      "href": "/api/v3/work_packages/819/watchers{?user_id}",
+      "method": "post",
+      "title": "Add watcher",
+      "templated": true
+    },
+    "addRelation": {
+      "href": "/api/v3/work_packages/819/relations",
+      "method": "post",
+      "title": "Add relation"
+    },
+    "addChild": {
+      "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=819",
+      "type": "text/html",
+      "title": "Add child of qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "changeParent": {
+      "href": "/api/v3/work_packages/819",
+      "method": "patch",
+      "title": "Change parent of qui assumenda sed aut sed veniam delectus sunt"
+    },
+    "addComment": {
+      "href": "/api/v3/work_packages/819/activities",
+      "method": "post",
+      "title": "Add comment"
+    }
+  },
+  "id": 819,
+  "subject": "qui assumenda sed aut sed veniam delectus sunt",
+  "type": "Bug",
+  "description": "<p>Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.</p>",
+  "rawDescription": "Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.",
+  "status": "New",
+  "isClosed": false,
+  "priority": "Normal",
+  "startDate": "2014-02-28T00:00:00+00:00",
+  "dueDate": "2014-04-28T00:00:00+00:00",
+  "estimatedTime": {
+    "units": "hours",
+    "value": null
+  },
+  "percentageDone": 0,
+  "versionId": null,
+  "versionName": null,
+  "projectId": 2,
+  "projectName": "Seeded Project",
+  "createdAt": "2014-03-10T16:20:23Z",
+  "updatedAt": "2014-03-10T16:20:23Z",
+  "customProperties": [
+    {
+      "name": "Coke Float",
+      "format": "float",
+      "value": null
+    },
+    {
+      "name": "Integery",
+      "format": "int",
+      "value": null
+    },
+    {
+      "name": "quas voluptatem",
+      "format": "text",
+      "value": ""
+    },
+    {
+      "name": "The King",
+      "format": "user",
+      "value": null
+    }
+  ],
+  "_embedded": {
+    "author": {
+      "_type": "User",
+      "_links": {
+        "self": {
+          "href": "/api/v3/users/34",
+          "title": "Reinhold Weber - Joe3757"
+        }
+      },
+      "id": 34,
+      "login": "Joe3757",
+      "subtype": "User",
+      "firstName": "Reinhold",
+      "lastName": "Weber",
+      "name": "Reinhold Weber",
+      "mail": "adaline@kirlin.info",
+      "avatar": "http://gravatar.com/avatar/a7d866df193a2a5abf7cfa5f5637cc6b?default=wavatar&secure=false",
+      "createdAt": "2014-03-10T16:20:20Z",
+      "updatedAt": "2014-03-10T16:20:20Z",
+      "status": 1
+    },
+    "activities": [
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/5210",
+            "title": "5210"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/819",
+            "title": "qui assumenda sed aut sed veniam delectus sunt"
+          },
+          "user": {
+            "href": "/api/v3/users/3",
+            "title": "Anonymous - "
+          },
+          "update": {
+            "href": "/api/v3/activities/5210",
+            "method": "patch",
+            "title": "5210"
+          }
+        },
+        "id": 5210,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Type set to Bug",
+          "Project set to Seeded Project",
+          "Subject set to qui assumenda sed aut sed veniam delectus sunt",
+          "Description set (/journals/5210/diff/description)",
+          "Due date set to 04/28/2014",
+          "Status set to New",
+          "Priority set to Normal",
+          "Author set to Reinhold Weber",
+          "% done changed from 0 to 0",
+          "Start date set to 02/28/2014"
+        ],
+        "htmlDetails": [
+          "<strong>Type</strong> set to <i title=\"Bug\">Bug</i>",
+          "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>",
+          "<strong>Subject</strong> set to <i title=\"qui assumenda sed aut sed veniam delectus sunt\">qui assumenda sed aut sed veniam delectus sunt</i>",
+          "<strong>Description</strong> set (<a href=\"/journals/5210/diff/description\" class=\"description-details\">Details</a>)",
+          "<strong>Due date</strong> set to <i title=\"04/28/2014\">04/28/2014</i>",
+          "<strong>Status</strong> set to <i title=\"New\">New</i>",
+          "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
+          "<strong>Author</strong> set to <i title=\"Reinhold Weber\">Reinhold Weber</i>",
+          "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
+          "<strong>Start date</strong> set to <i title=\"02/28/2014\">02/28/2014</i>"
+        ],
+        "version": 1,
+        "createdAt": "2014-03-10T16:20:23Z"
+      }
+    ],
+    "watchers": [
+      {
+        "_type": "User",
+        "_links": {
+          "self": {
+            "href": "/api/v3/users/25",
+            "title": "Deron Feil - Daniela2775"
+          },
+          "removeWatcher": {
+            "href": "/api/v3/work_packages/819/watchers/25",
+            "method": "delete",
+            "title": "Remove watcher"
+          }
+        },
+        "id": 25,
+        "login": "Daniela2775",
+        "subtype": "User",
+        "firstName": "Deron",
+        "lastName": "Feil",
+        "name": "Deron Feil",
+        "mail": "grayson@walterwilliamson.name",
+        "avatar": "http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&secure=false",
+        "createdAt": "2014-03-10T16:19:25Z",
+        "updatedAt": "2014-03-10T16:19:25Z",
+        "status": 1
+      },
+      {
+        "_type": "User",
+        "_links": {
+          "self": {
+            "href": "/api/v3/users/20",
+            "title": "Loraine Runolfsdottir - Emerson7849"
+          },
+          "removeWatcher": {
+            "href": "/api/v3/work_packages/819/watchers/20",
+            "method": "delete",
+            "title": "Remove watcher"
+          }
+        },
+        "id": 20,
+        "login": "Emerson7849",
+        "subtype": "User",
+        "firstName": "Loraine",
+        "lastName": "Runolfsdottir",
+        "name": "Loraine Runolfsdottir",
+        "mail": "nona@bartellmoriette.info",
+        "avatar": "http://gravatar.com/avatar/4a261f6edb9ed1de10076982663bffec?default=wavatar&secure=false",
+        "createdAt": "2014-03-10T16:18:56Z",
+        "updatedAt": "2014-03-10T16:18:56Z",
+        "status": 1
+      },
+      {
+        "_type": "User",
+        "_links": {
+          "self": {
+            "href": "/api/v3/users/15",
+            "title": "Zena Labadie - Carmine2575"
+          },
+          "removeWatcher": {
+            "href": "/api/v3/work_packages/819/watchers/15",
+            "method": "delete",
+            "title": "Remove watcher"
+          }
+        },
+        "id": 15,
+        "login": "Carmine2575",
+        "subtype": "User",
+        "firstName": "Zena",
+        "lastName": "Labadie",
+        "name": "Zena Labadie",
+        "mail": "olaf@bednar.info",
+        "avatar": "http://gravatar.com/avatar/1ac321aa9afb93ad78b52697c93d34f2?default=wavatar&secure=false",
+        "createdAt": "2014-03-10T16:18:27Z",
+        "updatedAt": "2014-03-10T16:18:27Z",
+        "status": 1
+      }
+    ],
+    "attachments": [],
+    "relations": []
+  }
+}

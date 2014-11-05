@@ -27,35 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
-
 module API
-  module V3
-    module Activities
-      class ActivityModel < Reform::Form
-        include Coercion
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::TextFormatting
-        include OpenProject::StaticRouting::UrlHelpers
-        include WorkPackagesHelper
-
-        # N.B. required by ActionView::Helpers::UrlHelper
-        def controller; nil; end
-
-        property :user_id, type: Integer
-
-        def notes
-          format_text(model.notes, object: model.journable)
-        end
-
-        def raw_notes
-          model.notes
-        end
-
-        def raw_notes=(value)
-          model.notes = value
-        end
+  module Errors
+    class InvalidRenderContext < ErrorBase
+      def initialize(message)
+        super 400, message
       end
     end
   end

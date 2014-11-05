@@ -31,7 +31,6 @@ require 'spec_helper'
 shared_examples_for 'handling anonymous user' do |type, path|
   context 'anonymous user' do
     let(:get_path) { path % [id] }
-    let(:project) { FactoryGirl.create(:project, is_public: true) }
 
     context 'when access for anonymous user is allowed' do
       before { get get_path }
@@ -48,10 +47,9 @@ shared_examples_for 'handling anonymous user' do |type, path|
 
     context 'when access for anonymous user is not allowed' do
       before do
-        Setting.login_required = 1
+        allow(Setting).to receive(:login_required?).and_return(true)
         get get_path
       end
-      after { Setting.login_required = 0 }
 
       it_behaves_like 'unauthenticated access'
     end

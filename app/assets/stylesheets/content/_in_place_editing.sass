@@ -1,0 +1,80 @@
+.inplace-editor
+  display: inline
+  div
+    display: inline
+  &.busy
+    opacity: 0.5
+    *
+      cursor: wait!important
+  .hidden-but-focusable
+    position: absolute
+    left: -10000px
+    top: auto
+    width: 1px
+    height: 1px
+    overflow: hidden
+  .visible-on-focus
+    left: 0
+    position: inherit
+    width: auto
+    height: auto
+    float: inherit
+  .editing-link-wrapper
+    a
+      @extend .hidden-but-focusable
+      &:focus
+        @extend .visible-on-focus
+
+  .ined-input-wrapper
+    input, textarea
+      width: 370px
+  .ined-read-value:hover
+    outline: 1px solid #cacaca
+    cursor: pointer
+    .editing-link-wrapper a
+      @extend .visible-on-focus
+  form
+    position: relative
+    .ng-invalid
+      background: lightpink!important
+  .ined-errors
+    position: absolute
+    font-size: 13px
+    line-height: 1.2em
+    width: 251px
+    padding: 5px
+    left: 0px
+    bottom: -49px
+    background: white
+    border: 1px solid #cacaca
+    height: 42px
+  .ined-controls
+    position: absolute
+    bottom: -35px
+    right: 0px
+    width: 120px
+    font-size: 13px
+    background: white
+    border: 1px solid #cacaca
+    text-align: center
+    a
+      width: 36px
+      display: inline-block
+      text-align: center
+      text-decoration: none
+      &:hover
+        background: #f0f0f0
+  &.type-wiki_textarea
+    .ined-read-value
+      display: block
+    .read-value-wrapper
+      display: inline-block
+      width: 400px
+    .editing-link-wrapper
+      display: inline-block
+      float: right
+    .ined-controls
+      bottom: -18px
+    .ined-errors
+      bottom: -46px
+      width: 307px

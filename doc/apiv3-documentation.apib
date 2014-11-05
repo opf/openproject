@@ -18,6 +18,7 @@ TODO: Description & Resources
 TODO: Description and why only JSON
 
 # HAL+JSON
+
 HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
 Read more: http://stateless.co/hal_specification.html
 
@@ -28,6 +29,10 @@ Read more: http://stateless.co/hal_specification.html
     - `_embedded` - contains all embedded objects
     - `_count` - number of records fetched in the response
     - `_total` - number of available records
+
+HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
+partially represented (e.g. some properties can be left out).
+However in this API you have the guarantee that whenever a resource is **embedded**, it is embedded in its **full representation**.
 
 # API response structure
 
@@ -177,14 +182,17 @@ embedded errors or simply state that multiple errors occured.
             ]
         }
     }
-    
+
 ## List of Error Identifiers
+
+* `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
+* `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
@@ -298,27 +306,39 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Activity][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** edit journals
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to edit the comment of this journal entry."
             }
 
-    
+
 + Response 422 (application/hal+json)
 
     Returned if the client tries to modify a read-only property.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
@@ -392,7 +412,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -418,7 +438,7 @@ Updates an activity's comment and, on success, returns the updated activity.
                     ]
                 }
             }
-            
+
 ## List categories of a project [GET]
 
 + Parameters
@@ -427,7 +447,238 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Categories by Project][]
-    
+
+# Group Forms
+
+This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
+
+* make writable properties of a resource discoverable
+* show to which values a property can be set
+* validate changes to a resource and indicate validation errors
+
+These benefits aside, a client can freely choose to immediately edit a resource without prior validation by a form.
+In the case of an invalid request the edit will fail and return appropriate errors nevertheless.
+
+A form is associated to a single resource and aids in performing changes on that resource.
+When posting to a form endpoint with an empty request body or an empty JSON object,
+you will receive an initial form for the associated resource.
+Subsequent calls to the form should contain a single JSON object as described by the form.
+
+## Actions:
+
+| Link                | Description                                                           | Condition                        |
+|:-------------------:|-----------------------------------------------------------------------| -------------------------------- |
+| validate            | Validate changes, show errors and allowed values for changed resource |                                  |
+| commit              | Actually perform changes to the resource                              | form content is valid            |
+| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
+
+## Embedded Properties:
+
+Forms contain exactly three embedded properties:
+
+* `payload`
+* `schema`
+* `validationErrors`
+
+Their purpose is explained below.
+
+### Payload
+
+The payload contains an edited version of the resource that will be modified when commiting the form.
+This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
+thereby acting as a preview for the changes.
+
+In case the client tries to set the value to something invalid, the invalid change is also reflected here. However a validation error (see below)
+indicates that a commit of this payload would fail.
+
+It might happen that setting one property affects the allowed values for another property. Thus by changing a property A
+the current value of another property B might become invalid. If the client did not yet touch the value of B, the payload will
+contain a default value for that property. Nevertheless the client will also receive an apropriate validation error for value B.
+
+The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
+
+### Schema
+
+The schema provides more detailed information about the properties of a resource.
+Technically `schema` is a dictionary containing names of properties as keys
+and objects describing the corresponding property as values. The values are called **field schema**.
+
+#### Field schema
+
+**Linked Properties**
+
+| Property       | Description                                                    | Example       |
+|:--------------:|----------------------------------------------------------------| ------------- |
+| allowed_values | List of resources that are assignable by the current user.     | `{ href: "/api/v3/statuses" }` |
+
+**Properties**
+
+| Property       | Description                                                    | Example       | Default |
+|:--------------:|----------------------------------------------------------------| ------------- | ------- |
+| type           | The data type of the properties values                         | String        |         |
+| required       | If true every request **must** contain this property           | true          | false   |
+| writable       | If false it is not allowed to **change** the properties value  | false         | true    |
+
+**Remarks**
+
+The `allowed_values` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+It is only necessary to include the properties that you want to change and the properties that are defined as **required**
+by the field schema. However you *may* include all the properties sent in the `payload` section.
+
+### Validation Errors
+
+Like `schema` the validation errors build a dictionary where the key is a property name.
+Each value is an error object that indicates the error that occured validating the corresponding property.
+There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
+
+However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
+That is because the main purpose of a form is helping the client to sort out validation errors.
+
+## Example Form [/example/form]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/example/form" },
+                    "validate": {
+                        "href": "/api/v3/example/form",
+                        "method": "POST"
+                    },
+                    "previewMarkup": {
+                        "href": "/api/v3/render/textile",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/example",
+                        "method": "PATCH"
+                    }
+                },
+
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "status": { "href": "/api/v3/statuses/1" }
+                        },
+                        "_type": "Example",
+                        "lockVersion": 5,
+                        "subject": "An example title"
+                    },
+                    "schema": {
+                        "lockVersion": {
+                            "type": "Integer",
+                            "required": true,
+                            "writable": false
+                        },
+                        "_type": {
+                            "type": "MetaType",
+                            "required": true,
+                            "writable": false
+                        },
+                        "subject": {
+                            "type": "String"
+                        },
+                        "status": {
+                            "_links": {
+                                "allowed_values": [
+                                    { "href": "/api/v3/statuses/1", "title": "New" },
+                                    { "href": "/api/v3/statuses/2", "title": "Closed" }
+                                ]
+                            },
+
+                            "type": "Status",
+
+                            "_embedded": {
+                                "allowed_values": [
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                        "_type": "Status",
+                                        "id": 1,
+                                        "name": "New",
+                                        "position": 1,
+                                        "isDefault": true,
+                                        "isClosed": false,
+                                        "defaultDoneRatio": 0,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    },
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                        "_type": "Status",
+                                        "id": 2,
+                                        "name": "Closed",
+                                        "position": 2,
+                                        "isDefault": false,
+                                        "isClosed": true,
+                                        "defaultDoneRatio": 100,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "validationErrors": {
+                        "subject": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:BadExampleError",
+                            "message": "For the purpose of this example we need a validation error. The remainder of the response pretends there were no errors."
+                        }
+                    }
+                }
+            }
+
+## show or validate form [POST]
+
+This is an example of how a form might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Request (application/json)
+
+        {
+            "lockVersion": 5,
+            "_type": "Example",
+            "subject": "An example title"
+        }
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body and the request body
+    was not empty.
+
+    Note that this error only occurs when the content is not at all a single JSON object.
+    It **does not occur** for requests containing undefined properties or invalid property values.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was neither empty, nor did it contain a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to modify the associated resource.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit example resources."
+            }
+
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
@@ -509,7 +760,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -550,7 +801,7 @@ The request body is the actual string that shall be rendered as HTML string.
                     ]
                 }
             }
-            
+
 ## List all Priorities [GET]
 
 + Response 200 (application/hal+json)
@@ -559,7 +810,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Projects
 
-## Links:
+## Linked Properties:
 |  Link  | Description | Type | Constraints | Supported operations |
 |:------:|-------------| ---- | ----------- | -------------------- |
 | self   | This project | Project | not null | READ |
@@ -763,6 +1014,18 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Star Query][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
+
 ## Unstar Query [/queries/{id}/unstar]
 
 + Model
@@ -830,71 +1093,230 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Unstar Query][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
+
 # Group Statuses
+
+## Linked Properties:
+|  Link  | Description | Type   | Constraints | Supported operations |
+|:------:|-------------| ------ | ----------- | -------------------- |
+| self   | This status | Status | not null    | READ |
 
 ## Properties
 | Property | Description | Type    | Constraints | Example | Supported operations |
 |:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Status id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Status name | String  |             | Closed  | READ |
+| id       | Status id   | Integer | Must be a positive integer | 12 |       READ |
+| name     | Status name | String  |             | Closed  |                 READ |
+| position | Sort index of the status | Integer  | |     1 |                 READ |
+| isDefault|             | Boolean |             | true    |                 READ |
+| isClosed | are tickets of this status considered closed? | Boolean | | true | READ |
+| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | 50 | READ |
+| createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 ## Statuses [/statuses]
 
 + Model
     + Body
-    
+
             {
-                _links:
+                "_links":
                 {
-                    self:
+                    "self":
                     {
-                        href: "/api/v3/statuses"
+                        "href": "/api/v3/statuses"
                     }
                 },
-                _type: "Statuses",
-                _embedded:
+                "_type": "Statuses",
+                "_embedded":
                 {
-                    statuses: [
+                    "statuses": [
                         {
-                            _type: "Status",
-                            id: 1,
-                            name: "New"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/1"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 1,
+                            "name": "New",
+                            "position": 1,
+                            "isDefault": true,
+                            "isClosed": false,
+                            "defaultDoneRatio": 0,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 3,
-                            name: "Resolved"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/3"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 3,
+                            "name": "Resolved",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 75,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 4,
-                            name: "Feedback"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/4"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 4,
+                            "name": "Feedback",
+                            "position": 4,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 25,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 5,
-                            name: "Closed"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/5"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 5,
+                            "name": "Closed",
+                            "position": 5,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 6,
-                            name: "Rejected"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/6"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 6,
+                            "name": "Rejected",
+                            "position": 6,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         },
                         {
-                            _type: "Status",
-                            id: 2,
-                            name: "In Progress"
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/2"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 2,
+                            "name": "In Progress",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 50,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T09:12:00Z"
                         }
                     ]
                 }
             }
-            
+
 ## List all Statuses [GET]
 
 + Response 200 (application/hal+json)
 
     [Statuses][]
-    
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the statuses."
+            }
+
+## Status [/statuses/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/statuses/1"
+                    }
+                },
+                "_type": "Status",
+                "id": 1,
+                "name": "New",
+                "position": 1,
+                "isDefault": true,
+                "isClosed": false,
+                "defaultDoneRatio": 0,
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T09:12:00Z"
+            }
+
+## View Status [GET]
+
++ Response 200 (application/hal+json)
+
+    [Status][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this status."
+            }
+
 # Group Users
 
 ## Properties:
@@ -955,7 +1377,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
 + Model
     + Body
-    
+
             {
                 _links:
                 {
@@ -986,7 +1408,7 @@ The request body is the actual string that shall be rendered as HTML string.
                     ]
                 }
             }
-            
+
 ## List versions available in a project [GET]
 
 + Parameters
@@ -995,15 +1417,26 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (application/hal+json)
 
     [Versions by Project][]
-    
+
 # Group Work packages
 
-## Links:
-|  Link  | Description | Type | Constraints | Supported operations |
-|:------:|-------------| ---- | ----------- | -------------------- |
-| self   | This work package | WorkPackage | not null | READ |
-| author | The person that created the work package | User | not null | READ |
-| changeParent | Endpoint to change the parent (only if the user has the manage_subtasks permission) | | | READ |
+## Actions:
+
+| Link                | Description                                                          | Condition                        |
+|:-------------------:|----------------------------------------------------------------------| -------------------------------- |
+| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
+| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
+| watch               | Add current user to WP watchers                                      | logged in; not watching          |
+| unwatch             | Remove current user from WP watchers                                 | logged in; watching              |
+| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher      |
+
+## Linked Properties:
+
+| Link         | Description                              | Type        | Constraints | Supported operations |
+|:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
+| self         | This work package                        | WorkPackage | not null    | READ                 |
+| author       | The person that created the work package | User        | not null    | READ                 |
+| status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
 
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
@@ -1014,7 +1447,6 @@ The request body is the actual string that shall be rendered as HTML string.
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
 | description | The work package description | Formatable | | | READ / WRITE |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
-| status | | String | **REQUIRED** ... | New | READ |
 | priority | | String | Must be one of the activated priorities | High | READ |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
 | dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
@@ -1072,6 +1504,10 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/users/11",
                         "title": "Emmie Okuneva - Adele5450"
                     },
+                    "status": {
+                        "href": "/api/v3/statuses/1",
+                        "title": "New"
+                    },
                     "availableStatuses": {
                         "href": "/api/v3/work_packages/1528/available_statuses",
                         "title": "Available Statuses"
@@ -1128,7 +1564,6 @@ The request body is the actual string that shall be rendered as HTML string.
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
-                "status": "New",
                 "isClosed": false,
                 "priority": "Normal",
                 "startDate": null,
@@ -1381,7 +1816,7 @@ Note that it is only allowed to provide properties or links supporting the **wri
 Additionally to the fields the client wants to change, it is mandatory to provide:
 
 * The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from.
+* The value of `lockVersion` which was received by the `GET` request this change originates from
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
@@ -1405,32 +1840,44 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
     [WorkPackage][]
 
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
-    **Required permission:** edit workpackage
+
+    **Required permission:** edit work package
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to edit the content of the work package."
             }
-    
+
 + Response 409 (application/hal+json)
 
     Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
                 "message": "Your changes could not be saved, because the work package was changed since you've seen it the last time."
             }
-    
+
 + Response 422 (application/hal+json)
 
     Returned if:
@@ -1438,7 +1885,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     * a constraint for a property was violated
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
@@ -1449,7 +1896,22 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                     }
                 }
             }
-    
+
+## Work Package Edit Form [/work_packages/{id}/form]
+
+This endpoint returns a form to allow a guided modification of an existing work package.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## WorkPackage Edit Form [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package being modified
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
+
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
 
 + Model
@@ -1545,9 +2007,9 @@ Gets a list of users that can watch the work package.
 
     [Available Watchers][]
 
-## Comment  WorkPackage [/work_packages/{id}/activities]
+## Comment WorkPackage [/work_packages/{id}/activities]
 
-## Comment  work package [POST]
+## Comment work package [POST]
 
 Creates an activity for the selected work package and, on success, returns the
 updated activity.
@@ -1564,15 +2026,27 @@ updated activity.
 + Response 201 (application/hal+json)
 
     [Activity][]
-    
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
-    
+
     **Required permission:** create journals
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",

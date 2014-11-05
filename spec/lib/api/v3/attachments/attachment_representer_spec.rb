@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Attachments::AttachmentRepresenter, type: :request do
   let(:attachment) { FactoryGirl.create(:attachment) }
-  let(:model) { ::API::V3::Attachments::AttachmentModel.new(attachment) }
-  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(model) }
+  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(attachment) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

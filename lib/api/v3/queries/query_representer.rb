@@ -28,14 +28,14 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module Queries
       class QueryRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
@@ -43,32 +43,27 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/queries/#{represented.model.id}", title: "#{represented.name}" }
+          { href: "#{root_path}api/v3/queries/#{represented.id}", title: "#{represented.name}" }
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :name, render_nil: true
-        property :project_id, getter: -> (*) { model.project.id }
-        property :project_name, getter: -> (*) { model.project.try(:name) }
-        property :user_id, getter: -> (*) { model.user.try(:id) }, render_nil: true
-        property :user_name, getter: -> (*) { model.user.try(:name) }, render_nil: true
-        property :user_login, getter: -> (*) { model.user.try(:login) }, render_nil: true
-        property :user_mail, getter: -> (*) { model.user.try(:mail) }, render_nil: true
+        property :project_id, getter: -> (*) { project.id }
+        property :project_name, getter: -> (*) { project.try(:name) }
+        property :user_id, getter: -> (*) { user.try(:id) }, render_nil: true
+        property :user_name, getter: -> (*) { user.try(:name) }, render_nil: true
+        property :user_login, getter: -> (*) { user.try(:login) }, render_nil: true
+        property :user_mail, getter: -> (*) { user.try(:mail) }, render_nil: true
         property :filters, render_nil: true
-        property :is_public, getter: -> (*) { model.is_public.to_s }, render_nil: true
+        property :is_public, getter: -> (*) { is_public.to_s }, render_nil: true
         property :column_names, render_nil: true
         property :sort_criteria, render_nil: true
         property :group_by, render_nil: true
-        property :display_sums, getter: -> (*) { model.display_sums.to_s }, render_nil: true
-        property :is_starred, getter: -> (*) { is_starred.to_s }, exec_context: :decorator
+        property :display_sums, getter: -> (*) { display_sums.to_s }, render_nil: true
+        property :is_starred, getter: -> (*) { (!query_menu_item.nil?).to_s }
 
         def _type
           'Query'
-        end
-
-        def is_starred
-          return true if !represented.model.query_menu_item.nil?
-          false
         end
       end
     end

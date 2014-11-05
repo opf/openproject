@@ -26,23 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-exports.config = {
+function WorkPackageDetailsPane(id, tab) {
 
-  framework: 'mocha',
+    this.pane = $(".work-packages--details");
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'firefox'
-  },
+    this.get = function() {
+        browser.get('/work_packages/' + id + '/' + tab);
+    };
 
-  specs: ['work-packages-spec.js', 'work-package-details-spec.js'],
+}
 
-  allScriptsTimeout: 40000,
-
-  mochaOpts: {
-    timeout:  40000,
-    reporter: 'mocha-jenkins-reporter'
-  },
-
-  baseUrl: 'http://localhost:8080'
-};
+module.exports = WorkPackageDetailsPane;
