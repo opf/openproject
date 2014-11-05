@@ -304,7 +304,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'delete' do
+      describe 'log_time' do
         it_behaves_like 'action link' do
           let(:action) { 'log_time' }
           let(:permission) { :log_time }
