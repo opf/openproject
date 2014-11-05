@@ -351,10 +351,12 @@ h4. things we like
 
           context 'project id' do
             let(:another_project) { FactoryGirl.create(:project) }
-            let!(:another_membership) { FactoryGirl.create(:member,
-                                                           user: current_user,
-                                                           project: another_project,
-                                                           roles: [role]) }
+            let!(:another_membership) {
+              FactoryGirl.create(:member,
+                                 user: current_user,
+                                 project: another_project,
+                                 roles: [role])
+            }
             let(:params) { valid_params.merge(projectId: another_project.id) }
 
             include_context 'patch request'

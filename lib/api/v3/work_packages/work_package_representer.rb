@@ -230,9 +230,9 @@ module API
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
                  getter: -> (*) {
-                                  { units: I18n.t(:'datetime.units.hour', count: estimated_hours.to_i),
-                                    value: estimated_hours }
-                                },
+                           { units: I18n.t(:'datetime.units.hour', count: estimated_hours.to_i),
+                             value: estimated_hours }
+                         },
                  setter: -> (value, *) { self.estimated_hours = ActiveSupport::JSON.decode(value)['value'] },
                  render_nil: true
         property :percentage_done,
