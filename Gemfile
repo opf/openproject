@@ -153,7 +153,6 @@ group :test do
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
-  gem 'test-unit', '2.5.5'
 end
 
 group :ldap do
