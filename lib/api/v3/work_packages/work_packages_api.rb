@@ -81,7 +81,13 @@ module API
 
               @representer.from_json(patch_request_body)
 
-              if patch_request_valid? && @representer.represented.save
+              send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
+              update_service = UpdateWorkPackageService.new(current_user,
+                                                            @representer.represented,
+                                                            nil,
+                                                            send_notifications)
+
+              if patch_request_valid? && update_service.save
                 decorate_work_package(@work_package.reload)
                 @representer
               else
