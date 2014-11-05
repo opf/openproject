@@ -113,7 +113,7 @@ module OpenProject::Costs
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if costs_enabled && current_user_allowed_to(:log_costs, represented)
+        } if costs_enabled && current_user_allowed_to(:log_costs)
       end
 
       property :cost_object,
@@ -141,8 +141,8 @@ module OpenProject::Costs
       end
 
       send(:define_method, :current_user_allowed_to_view_spent_hours) do
-        current_user_allowed_to(:view_time_entries, represented) ||
-          current_user_allowed_to(:view_own_time_entries, represented)
+        current_user_allowed_to(:view_time_entries) ||
+          current_user_allowed_to(:view_own_time_entries)
       end
 
       send(:define_method, :overall_costs) do
