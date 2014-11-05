@@ -18,21 +18,22 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module CostTypes
       class CostTypeRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
-        def initialize(model, options = {}, *expand)
+        def initialize(model, unit_summary, options = {}, *expand)
           @expand = expand
           @work_package = options[:work_package]
+          @summary = unit_summary
 
           super(model)
         end
@@ -41,9 +42,17 @@ module API
 
         property :id, render_nil: true
         property :name, render_nil: true
-        property :units, render_nil: true
-        property :unit, render_nil: true
-        property :unit_plural, render_nil: true
+        property :units,
+                 getter: -> (*) { cost_entries.sum(&:units) },
+                 render_nil: true
+        property :unit,
+                 exec_context: :decorator,
+                 getter: -> (*) { @summary[:unit] },
+                 render_nil: true
+        property :unit_plural,
+                 exec_context: :decorator,
+                 getter: -> (*) { @summary[:unit_plural] },
+                 render_nil: true
 
         def _type
           'CostType'

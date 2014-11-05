@@ -18,14 +18,14 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module CostObjects
       class CostObjectRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
@@ -40,15 +40,15 @@ module API
 
         property :id, render_nil: true
         property :project_id
-        property :project_name, getter: -> (*) { model.project.try(:name) }
+        property :project_name, getter: -> (*) { project.try(:name) }
         property :subject, render_nil: true
         property :description, render_nil: true
         property :type, render_nil: true
-        property :fixed_date, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
-        property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
+        property :fixed_date, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
+        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
 
-        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
+        property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
 
         def _type
           'CostObject'
