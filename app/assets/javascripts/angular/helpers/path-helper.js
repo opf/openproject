@@ -100,7 +100,7 @@ module.exports = function() {
       return PathHelper.staticBase + '/work_packages/' + id;
     },
     workPackageDuplicatePath: function(projectId, workPackageId) {
-      return "/projects/" + projectId + "/work_packages/new?copy_from=" + workPackageId;
+      return '/projects/' + projectId + '/work_packages/new?copy_from=' + workPackageId;
     },
     workPackageMovePath: function(id) {
       return PathHelper.workPackagePath(id) + '/move/new';
@@ -127,10 +127,10 @@ module.exports = function() {
       return PathHelper.workPackagesPath() + '/bulk';
     },
     workPackageAutoCompletePath: function(projectId, workPackageId) {
-      return "/work_packages/auto_complete?escape=false&id=" + workPackageId + "&project_id=" + projectId;
+      return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
     },
     workPackageNewWithParentPath: function(projectId, parentId) {
-      return "/projects/" + projectId + "/work_packages/new?work_package[parent_id]=" + parentId;
+      return '/projects/' + projectId + '/work_packages/new?work_package[parent_id]=' + parentId;
     },
 
     // Experimental API
@@ -238,7 +238,16 @@ module.exports = function() {
     apiV3QueryPath: function(queryId) {
       return PathHelper.apiV3 + PathHelper.queryPath(queryId);
     },
-
+    apiV3WorkPackagePath: function(workPackageId) {
+      return PathHelper.apiV3 + '/work_packages/' + workPackageId;
+    },
+    apiV3TextilePath: function(context) {
+      var textilePath = PathHelper.apiV3 + '/render/textile';
+      if (context) {
+        textilePath += '?context=' + context;
+      }
+      return textilePath;
+    },
     // Static
     staticAttachmentPath: function(attachmentId, fileName) {
       return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);

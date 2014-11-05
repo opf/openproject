@@ -26,42 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout) {
+module.exports = function($timeout, $sce, TextileService) {
   return {
     restrict: 'A',
     transclude: false,
-    templateUrl: "/templates/components/inplace_editor.html",
+    templateUrl: '/templates/components/inplace_editor.html',
     scope: {
-      type: "@inedType",
-      entity: "=inedEntity",
-      attribute: "@inedAttribute"
+      type: '@inedType',
+      entity: '=inedEntity',
+      attribute: '@inedAttribute'
     },
     link: link,
     controller: Controller
   };
 
   function link(scope, element, attrs) {
-    element.on("click", ".ined-read-value", function() {
+    element.on('click', '.ined-read-value', function() {
       scope.$apply(function() {
         scope.startEditing();
       });
     });
-    element.bind("keydown keypress", function(e) {
+    element.bind('keydown keypress', function(e) {
       if (e.keyCode == 27) {
         scope.$apply(function() {
           scope.discardEditing();
         });
       }
     });
-
     scope.$on('startEditing', function() {
       $timeout(function() {
-        element.find(".ined-input-wrapper input, .ined-input-wrapper textarea").focus();
+        element.find('.ined-input-wrapper input, .ined-input-wrapper textarea').focus().triggerHandler('keyup');
       });
     });
     scope.$on('finishEditing', function() {
       $timeout(function() {
-        element.find(".ined-read-value a").focus();
+        element.find('.ined-read-value a').focus();
       });
     });
   }
@@ -70,7 +69,8 @@ module.exports = function($timeout) {
   function Controller($scope, WorkPackageService, ApiHelper) {
     $scope.isEditing = false;
     $scope.isBusy = false;
-    $scope.readValue = "";
+    $scope.isPreview = false;
+    $scope.readValue = '';
     $scope.editTitle = I18n.t('js.inplace.button_edit');
     $scope.saveTitle = I18n.t('js.inplace.button_save');
     $scope.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send');
@@ -83,6 +83,7 @@ module.exports = function($timeout) {
     $scope.onSuccess = onSuccess;
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
+    $scope.togglePreview = togglePreview;
 
     activate();
 
@@ -99,6 +100,7 @@ module.exports = function($timeout) {
       $scope.isEditing = true;
       $scope.error = null;
       $scope.isBusy = false;
+      $scope.isPreview = false;
       $scope.$broadcast('startEditing');
     }
 
@@ -125,11 +127,12 @@ module.exports = function($timeout) {
       $scope.error = null;
       setReadValue();
       finishEditing();
-      $scope.$emit("workPackageRefreshRequired");
+      $scope.$emit('workPackageRefreshRequired');
     }
 
     function onFail(e) {
       $scope.error = ApiHelper.getErrorMessage(e);
+      $scope.isPreview = false;
     }
 
     function onFinally() {
@@ -152,7 +155,29 @@ module.exports = function($timeout) {
     }
 
     function setReadValue() {
-      $scope.readValue = $scope.dataObject.value;
+      // this part should be refactored into a service that sets the read value
+      // by attribute name, maybe some strategies or whatever
+      if ($scope.attribute == 'rawDescription') {
+        $scope.readValue = $sce.trustAsHtml($scope.entity.props.description);
+      } else {
+        $scope.readValue = $scope.entity.props[$scope.attribute];
+      }
+    }
+
+    function togglePreview() {
+      $scope.isPreview = !$scope.isPreview;
+      $scope.error = null;
+      if (!$scope.isPreview) {
+        return;
+      }
+      $scope.isBusy = true;
+      TextileService.renderWithWorkPackageContext($scope.entity.props.id, $scope.dataObject.value).then(function(r) {
+        $scope.onFinally();
+        $scope.previewHtml = $sce.trustAsHtml(r.data);
+      }, function(e) {
+        $scope.onFinally();
+        $scope.onFail(e);
+      });
     }
   }
 };

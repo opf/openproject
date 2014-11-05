@@ -26,34 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(app) {
-  var fs = require('fs');
-  var express = require('express');
-  var workPackagesRouter = express.Router();
-  workPackagesRouter.get('/', function(req, res) {
-    res.send({'work_packages':[]});
-  });
-  workPackagesRouter.get('/:id', function(req, res) {
-    fs.readFile(__dirname + '/work-packages/' + req.params.id + '.json', 'utf8', function(err, text) {
-      res.send(text);
+module.exports = function($http, PathHelper) {
+  return {
+    render: render,
+    renderWithWorkPackageContext: renderWithWorkPackageContext
+  };
+
+  function renderWithWorkPackageContext(workPackageId, text) {
+    return render(text, PathHelper.apiV3WorkPackagePath(workPackageId));
+  }
+
+  function render(text, context) {
+    return $http({
+      url: PathHelper.apiV3TextilePath(context),
+      method: 'POST',
+      data: text,
+      headers: { 'Content-Type': 'text/plain' }
     });
-  });
-  workPackagesRouter.patch('/821', function(req, res) {
-    fs.readFile(__dirname + '/work-packages/821_patch.json', 'utf8', function(err, text) {
-      res.status(409);
-      res.send(text);
-    });
-  });
-
-  app.use('/api/v3/work_packages', workPackagesRouter);
-
-
-  var textileRouter = express.Router();
-  textileRouter.post('/?context=/api/v3/work_packages/:id', function(req, res) {
-    fs.readFile(__dirname + '/work-packages/' + req.params.id + '_textile.html', 'utf8', function(err, text) {
-      res.send(text);
-    });
-  });
-
-  app.use('/api/v3/render/textile', textileRouter);
+  }
 };

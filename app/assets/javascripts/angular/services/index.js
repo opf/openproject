@@ -65,6 +65,7 @@ angular.module('openproject.services')
   .service('RoleService', ['$http', 'PathHelper', require('./role-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
+  .factory('TextileService', ['$http', 'PathHelper', require('./textile-service')])
   .service('TimezoneService', ['ConfigurationService', 'I18n', require(
     './timezone-service')])
   .service('TypeService', ['$http', 'PathHelper', require('./type-service')])

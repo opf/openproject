@@ -64,6 +64,7 @@ module.exports = function(config) {
       'app/assets/javascripts/members_select_boxes.js',
       'app/assets/javascripts/openproject.js',
       'app/assets/javascripts/timelines_select_boxes.js',
+      'app/assets/javascripts/jstoolbar/jstoolbar.js',
 
       'app/assets/javascripts/date-en-US.js',
 

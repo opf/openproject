@@ -64,7 +64,7 @@ angular.module('openproject.uiComponents')
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('inplaceEditor', ['$timeout', require('./inplace-editor-directive')])
+  .directive('inplaceEditor', ['$timeout', '$sce', 'TextileService', require('./inplace-editor-directive')])
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
@@ -94,6 +94,7 @@ angular.module('openproject.uiComponents')
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
+  .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('withDropdown', ['$rootScope',
     '$window',
     'ESC_KEY',

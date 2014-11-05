@@ -1,5 +1,5 @@
-<span ng-if="!entity.links.update">{{ entity.props[attribute] }}</span>
-<div ng-if="entity.links.update" class="inplace-editor type-{{type}}" ng-class="{busy: isBusy}">
+<span ng-if="!entity.links.updateImmediately">{{ entity.props[attribute] }}</span>
+<div ng-if="entity.links.updateImmediately" class="inplace-editor type-{{type}}" ng-class="{busy: isBusy, preview: isPreview}">
   <div class="ined-read-value" ng-hide="isEditing" ng-switch="type">
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
     <span class="read-value-wrapper" ng-switch-default ng-bind="readValue"></span>
@@ -12,23 +12,28 @@
   <div class="ined-edit" ng-if="isEditing">
     <form name="editForm" ng-submit="submit(false)" novalidate>
       <div class="ined-input-wrapper" ng-switch="type">
-        <input ng-switch-when="text"
-          name="value"
-          type="text"
-          ng-disabled="isBusy"
-          ng-model="dataObject.value"
-        />
-        <textarea ng-switch-when="textarea"
-          name="value"
-          ng-disabled="isBusy"
-          ng-model="dataObject.value"
-        ></textarea>
-        <textarea wiki-toolbar ng-switch-when="wiki_textarea"
-          name="value"
-          ng-disabled="isBusy"
-          ng-model="dataObject.value"
-        ></textarea>
-
+        <div class="ined-input-wrapper-inner">
+          <input ng-switch-when="text"
+                 name="value"
+                 type="text"
+                 ng-disabled="isBusy"
+                 ng-model="dataObject.value" />
+          <textarea ng-switch-when="textarea"
+                    name="value"
+                    ng-disabled="isBusy"
+                    ng-model="dataObject.value">
+          </textarea>
+          <textarea wiki-toolbar ng-switch-when="wiki_textarea"
+                    ng-show="!isPreview || isBusy"
+                    preview-toggle="togglePreview()"
+                    name="value"
+                    ng-disabled="isBusy"
+                    ng-model="dataObject.value">
+          </textarea>
+        </div>
+        <div class="preview-wrapper" ng-if="isPreview && !isBusy">
+          <span ng-bind-html="previewHtml"></span>
+        </div>
       </div>
       <div class="ined-errors" ng-show="error">
         {{ error }}
@@ -47,4 +52,4 @@
       </div>
     </form>
   </div>
-</span>
+</div>
