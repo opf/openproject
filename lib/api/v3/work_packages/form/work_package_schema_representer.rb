@@ -56,6 +56,37 @@ module API
           property :subject,
                    getter: -> (*) { { type: 'String' } },
                    writeable: false
+          property :status,
+                   exec_context: :decorator,
+                   getter: -> (*) { represented.new_statuses_allowed_to(@current_user) } do
+            include Roar::JSON::HAL
+
+            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+            property :links_to_allowed_statuses,
+                     as: :_links,
+                     getter: -> (*) { self } do
+              include API::Utilities::UrlHelper
+
+              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+              property :allowed_values, exec_context: :decorator
+
+              def allowed_values
+                represented.map do |status|
+                  { href: "#{root_path}api/v3/statuses/#{status.id}", title: status.name }
+                end
+              end
+            end
+
+            property :type, getter: -> (*) { 'Status' }
+
+            collection :allowed_values,
+                       embedded: true,
+                       class: ::Status,
+                       decorator: ::API::V3::Statuses::StatusRepresenter,
+                       getter: -> (*) { self }
+          end
         end
       end
     end
