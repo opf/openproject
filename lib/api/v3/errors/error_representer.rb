@@ -68,6 +68,8 @@ module API
             'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
           when ::API::Errors::Validation
             'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
+          when ::API::Errors::InvalidRenderContext
+            'urn:openproject-org:api:v3:errors:InvalidRenderContext'
           end
         end
       end
