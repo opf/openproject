@@ -214,7 +214,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         gon.settings = client_preferences
-        gon.settings[:enabled_modules] = @project.enabled_modules.collect(&:name) if @project
+        gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
 
         render :index, locals: { query: @query,
                                  project: @project },
