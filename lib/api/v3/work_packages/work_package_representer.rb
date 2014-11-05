@@ -62,7 +62,7 @@ module API
             href: "#{root_path}api/v3/work_packages/#{represented.id}",
             method: :patch,
             title: "Update #{represented.subject}"
-          } if current_user_allowed_to(:edit_work_packages, represented)
+          } if current_user_allowed_to(:edit_work_packages)
         end
 
         link :delete do
@@ -70,7 +70,7 @@ module API
             href: work_packages_bulk_path(ids: represented),
             method: :delete,
             title: "Delete #{represented.subject}"
-          } if current_user_allowed_to(:delete_work_packages, represented)
+          } if current_user_allowed_to(:delete_work_packages)
         end
 
         link :log_time do
@@ -78,7 +78,7 @@ module API
             href: new_work_package_time_entry_path(represented),
             type: 'text/html',
             title: "Log time on #{represented.subject}"
-          } if current_user_allowed_to(:log_time, represented)
+          } if current_user_allowed_to(:log_time)
         end
 
         link :duplicate do
@@ -86,7 +86,7 @@ module API
             href: new_project_work_package_path(represented.project, copy_from: represented),
             type: 'text/html',
             title: "Duplicate #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages, represented)
+          } if current_user_allowed_to(:add_work_packages)
         end
 
         link :move do
@@ -94,7 +94,7 @@ module API
             href: new_work_package_move_path(represented),
             type: 'text/html',
             title: "Move #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages, represented)
+          } if current_user_allowed_to(:move_work_packages)
         end
 
         link :author do
@@ -140,7 +140,7 @@ module API
             data: { user_id: @current_user.id },
             title: 'Watch work package'
           } if !@current_user.anonymous? &&
-               current_user_allowed_to(:view_work_packages, represented) &&
+               current_user_allowed_to(:view_work_packages) &&
                !represented.watcher_users.include?(@current_user)
         end
 
@@ -149,7 +149,8 @@ module API
             href: "#{root_path}api/v3/work_packages/#{represented.id}/watchers/#{@current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
-          } if current_user_allowed_to(:view_work_packages, represented) && represented.watcher_users.include?(@current_user)
+          } if current_user_allowed_to(:view_work_packages) &&
+               represented.watcher_users.include?(@current_user)
         end
 
         link :addWatcher do
@@ -158,7 +159,7 @@ module API
             method: :post,
             title: 'Add watcher',
             templated: true
-          } if current_user_allowed_to(:add_work_package_watchers, represented)
+          } if current_user_allowed_to(:add_work_package_watchers)
         end
 
         link :addRelation do
@@ -166,7 +167,7 @@ module API
             href: "#{root_path}api/v3/work_packages/#{represented.id}/relations",
             method: :post,
             title: 'Add relation'
-          } if current_user_allowed_to(:manage_work_package_relations, represented)
+          } if current_user_allowed_to(:manage_work_package_relations)
         end
 
         link :addChild do
@@ -174,7 +175,7 @@ module API
             href: new_project_work_package_path(represented.project, work_package: { parent_id: represented }),
             type: 'text/html',
             title: "Add child of #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages, represented)
+          } if current_user_allowed_to(:add_work_packages)
         end
 
         link :changeParent do
@@ -182,7 +183,7 @@ module API
             href: "#{root_path}api/v3/work_packages/#{represented.id}",
             method: :patch,
             title: "Change parent of #{represented.subject}"
-          } if current_user_allowed_to(:manage_subtasks, represented)
+          } if current_user_allowed_to(:manage_subtasks)
         end
 
         link :addComment do
@@ -190,7 +191,7 @@ module API
             href: "#{root_path}api/v3/work_packages/#{represented.id}/activities",
             method: :post,
             title: 'Add comment'
-          } if current_user_allowed_to(:add_work_package_notes, represented)
+          } if current_user_allowed_to(:add_work_package_notes)
         end
 
         link :parent do
@@ -259,7 +260,7 @@ module API
         property :category, embedded: true, class: ::Category, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
 
         property :activities, embedded: true, exec_context: :decorator
-        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented) }
+        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
         collection :attachments, embedded: true, class: ::Attachment, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
 
@@ -287,11 +288,13 @@ module API
         end
 
         def custom_properties
-            values = represented.custom_field_values
-            values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
+          values = represented.custom_field_values
+          values.map do |v|
+            { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }
+          end
         end
 
-        def current_user_allowed_to(permission, work_package)
+        def current_user_allowed_to(permission)
           @current_user && @current_user.allowed_to?(permission, represented.project)
         end
 
