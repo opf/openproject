@@ -97,7 +97,6 @@ class User < Principal
   has_many :changesets, dependent: :nullify
   has_many :passwords, class_name: 'UserPassword',
                        order: 'id DESC',
-                       readonly: true,
                        dependent: :destroy,
                        inverse_of: :user
   has_one :preference, dependent: :destroy, class_name: 'UserPreference'
