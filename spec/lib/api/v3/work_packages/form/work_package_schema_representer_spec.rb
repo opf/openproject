@@ -76,6 +76,51 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
       describe 'subject' do
         it_behaves_like 'schema property', 'subject', 'String'
       end
+
+      describe 'status' do
+        shared_examples_for 'contains statuses' do
+          it { is_expected.to have_json_path('status') }
+
+          it { is_expected.to have_json_path('status/_links') }
+
+          it { is_expected.to have_json_path('status/_links/allowedValues') }
+
+          it 'contains valid links to statuses' do
+            status_links = statuses.map do |status|
+              { href: "/api/v3/statuses/#{status.id}", title: status.name }
+            end
+
+            is_expected.to be_json_eql(status_links.to_json).at_path('status/_links/allowedValues')
+          end
+
+          it { is_expected.to be_json_eql('Status'.to_json).at_path('status/type') }
+
+          it 'embeds statuses' do
+            embedded_statuses = statuses.map do |status|
+              { _type: 'Status', id: status.id, name: status.name }
+            end
+
+            is_expected.to be_json_eql(embedded_statuses.to_json)
+                           .at_path('status/_embedded/allowedValues')
+          end
+        end
+
+        context 'w/o allowed statuses' do
+          before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
+
+          it_behaves_like 'contains statuses' do
+            let(:statuses) { [] }
+          end
+        end
+
+        context 'with allowed statuses' do
+          let(:statuses) { FactoryGirl.build_list(:status, 3) }
+
+          before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
+
+          it_behaves_like 'contains statuses'
+        end
+      end
     end
   end
 end
