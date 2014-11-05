@@ -34,7 +34,7 @@ module OpenProject
 
     MAJOR = 4
     MINOR = 0
-    PATCH = 0
+    PATCH = 1
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).
