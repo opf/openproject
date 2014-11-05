@@ -117,12 +117,14 @@ describe WorkPackagesController, type: :routing do
 
   it 'should connect GET /work_packages/moves/new?ids=1,2,3 to work_packages/moves#new' do
     expect(get('/work_packages/move/new?ids=1,2,3')).to route_to(controller: 'work_packages/moves',
-                                                                 action: 'new')
+                                                                 action: 'new',
+                                                                 ids: '1,2,3')
   end
 
   it 'should connect POST /work_packages/moves to work_packages/moves#create' do
     expect(post('/work_packages/move?ids=1,2,3')).to route_to(controller: 'work_packages/moves',
-                                                              action: 'create')
+                                                              action: 'create',
+                                                              ids: '1,2,3')
   end
 
   it do

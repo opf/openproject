@@ -54,7 +54,8 @@ describe WikiController, type: :routing do
                  controller: 'wiki',
                  action: 'show',
                  project_id: 'abc',
-                 id: 'abc_wiki')
+                 id: 'abc_wiki',
+                 version: '3')
     end
   end
 end
