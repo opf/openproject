@@ -28,13 +28,13 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module Decorators
     class Collection < Roar::Decorator
-      include Roar::Representer::JSON::HAL
-      include Roar::Representer::Feature::Hypermedia
+      include Roar::JSON::HAL
+      include Roar::Hypermedia
       include OpenProject::StaticRouting::UrlHelpers
 
       attr_reader :current_user, :as
@@ -50,7 +50,7 @@ module API
       property :total, as: :_total, exec_context: :decorator
 
       def total
-        represented.empty? ? 0 : represented.first.model.class.count
+        represented.empty? ? 0 : represented.first.class.count
       end
     end
   end

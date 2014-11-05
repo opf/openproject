@@ -34,8 +34,7 @@ describe ::API::V3::Users::UserRepresenter do
                               created_on: Time.now,
                               updated_on: Time.now)
   }
-  let(:model)          { ::API::V3::Users::UserModel.new(user) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

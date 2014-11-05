@@ -27,36 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
-
 module API
-  module V3
-    module Activities
-      class ActivityModel < Reform::Form
-        include Coercion
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::TextFormatting
-        include OpenProject::StaticRouting::UrlHelpers
-        include WorkPackagesHelper
+  module Utilities
+    module UrlHelper
+      include OpenProject::StaticRouting::UrlHelpers
+      include ActionView::Helpers::UrlHelper
 
-        # N.B. required by ActionView::Helpers::UrlHelper
-        def controller; nil; end
-
-        property :user_id, type: Integer
-
-        def notes
-          format_text(model.notes, object: model.journable)
-        end
-
-        def raw_notes
-          model.notes
-        end
-
-        def raw_notes=(value)
-          model.notes = value
-        end
-      end
+      def controller; end # The URL helpers need a controller, even if it's nil
     end
   end
 end

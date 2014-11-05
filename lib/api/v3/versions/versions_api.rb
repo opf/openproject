@@ -34,7 +34,6 @@ module API
         resources :versions do
           before do
             @versions = @project.shared_versions.all
-            @versions.map! { |version| VersionModel.new(version) }
           end
 
           get do

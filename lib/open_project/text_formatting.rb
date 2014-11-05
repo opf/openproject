@@ -38,6 +38,9 @@ module OpenProject
     include Redmine::I18n
     include ActionView::Helpers::TextHelper
     include OpenProject::ObjectLinking
+    # The WorkPackagesHelper is required to get access to the methods
+    # 'work_package_css_classes' and 'work_package_quick_info'.
+    include WorkPackagesHelper
 
     # Truncates and returns the string as a single line
     def truncate_single_line(string, *args)
@@ -282,8 +285,9 @@ module OpenProject
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
-                link = link_to("##{oid}", work_package_path(id: oid, only_path: only_path),
+              if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+                link = link_to("##{oid}",
+                               work_package_path(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
                                title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
               end

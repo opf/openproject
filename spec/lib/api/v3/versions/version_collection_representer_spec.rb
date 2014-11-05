@@ -31,16 +31,12 @@ require 'spec_helper'
 describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:project)  { FactoryGirl.build(:project, id: 666) }
   let(:versions) { FactoryGirl.build_list(:version, 3) }
-  let(:models)   {
-    versions.map { |version|
-      ::API::V3::Versions::VersionModel.new(version)
-    } }
-  let(:representer) { described_class.new(models, project: project) }
+  let(:representer) { described_class.new(versions, project: project) }
 
   describe '#initialize' do
     context 'with incorrect parameters' do
       it 'should raise without a project' do
-        expect { described_class.new(models) }.to raise_error(ArgumentError)
+        expect { described_class.new(versions) }.to raise_error(ArgumentError)
       end
     end
   end

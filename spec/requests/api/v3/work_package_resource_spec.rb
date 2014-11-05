@@ -284,19 +284,103 @@ h4. things we like
         it_behaves_like 'lock version updated'
       end
 
+      context 'description' do
+        shared_examples_for 'description updated' do |description|
+          it 'should respond with updated work package description' do
+            expect(subject.body).to be_json_eql(description.to_json).at_path('description')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'w/o value (empty)' do
+          let(:params) { valid_params.merge(rawDescription: nil) }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it_behaves_like 'description updated', ''
+        end
+
+        context 'with value' do
+          let(:params) { valid_params.merge(rawDescription: '*Some text* _describing_ *something*...') }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it_behaves_like 'description updated', '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+        end
+      end
+
       describe 'update with read-only attributes' do
-        include_context 'patch request'
+        describe 'single read-only violation' do
+          context 'start date' do
+            let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
 
-        context 'single read-only attribute' do
-          let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
+            include_context 'patch request'
 
-          it_behaves_like 'read-only violation', 'startDate'
+            it_behaves_like 'read-only violation', 'startDate'
+          end
+
+          context 'due date' do
+            let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
+
+            include_context 'patch request'
+
+            it_behaves_like 'read-only violation', 'dueDate'
+          end
+
+          context 'created and updated' do
+            let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
+            include_context 'patch request'
+
+            context 'created_at' do
+              let(:params) { valid_params.merge(createdAt: tomorrow) }
+
+              it_behaves_like 'read-only violation', 'createdAt'
+            end
+
+            context 'updated_at' do
+              let(:params) { valid_params.merge(updatedAt: tomorrow) }
+
+              it_behaves_like 'read-only violation', 'updatedAt'
+            end
+          end
+
+          context 'project id' do
+            let(:another_project) { FactoryGirl.create(:project) }
+            let!(:another_membership) {
+              FactoryGirl.create(:member,
+                                 user: current_user,
+                                 project: another_project,
+                                 roles: [role])
+            }
+            let(:params) { valid_params.merge(projectId: another_project.id) }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(422) }
+
+            it_behaves_like 'read-only violation', 'projectId'
+          end
+
+          context 'fixed version id' do
+            let(:params) { valid_params.merge(versionId: -1) }
+
+            include_context 'patch request'
+
+            it_behaves_like 'read-only violation', 'fixedVersionId'
+          end
         end
 
         context 'multiple read-only attributes' do
           let(:params) do
             valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
           end
+
+          include_context 'patch request'
 
           it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
 
@@ -317,11 +401,6 @@ h4. things we like
           expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
           expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
         end
-
-        xit 'should allow html in raw description' do
-          expect(subject.body).to be_json_eql('<h1>Updated description</h1>'.to_json).at_path('rawDescription')
-        end
-
       end
 
       context 'invalid update' do

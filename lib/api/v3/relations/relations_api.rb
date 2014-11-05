@@ -19,8 +19,7 @@ module API
             end
 
             if relation.valid? && relation.save
-              model = ::API::V3::WorkPackages::RelationModel.new(relation)
-              representer = ::API::V3::WorkPackages::RelationRepresenter.new(model, work_package: relation.to)
+              representer = ::API::V3::WorkPackages::RelationRepresenter.new(relation, work_package: relation.to)
               representer
             else
               fail Errors::Validation.new(relation)

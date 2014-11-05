@@ -39,8 +39,7 @@ module API
 
             before do
               @attachment = Attachment.find(params[:id])
-              model = ::API::V3::Attachments::AttachmentModel.new(@attachment)
-              @representer =  ::API::V3::Attachments::AttachmentRepresenter.new(model)
+              @representer =  ::API::V3::Attachments::AttachmentRepresenter.new(@attachment)
             end
 
             get do
