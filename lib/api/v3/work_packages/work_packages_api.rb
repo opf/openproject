@@ -149,6 +149,7 @@ module API
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::WorkPackages::StatusesAPI
             mount ::API::V3::Relations::RelationsAPI
+            mount ::API::V3::WorkPackages::Form::FormAPI
 
           end
 
