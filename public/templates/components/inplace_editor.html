@@ -1,0 +1,50 @@
+<span ng-if="!entity.links.update">{{ entity.props[attribute] }}</span>
+<div ng-if="entity.links.update" class="inplace-editor type-{{type}}" ng-class="{busy: isBusy}">
+  <div class="ined-read-value" ng-hide="isEditing" ng-switch="type">
+    <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
+    <span class="read-value-wrapper" ng-switch-default ng-bind="readValue"></span>
+    <span class="editing-link-wrapper">
+      <a href="#" ng-click="startEditing()" title="{{ editTitle }}">
+        <i class="icon-edit"></i>
+      </a>
+    </span>
+  </div>
+  <div class="ined-edit" ng-if="isEditing">
+    <form name="editForm" ng-submit="submit(false)" novalidate>
+      <div class="ined-input-wrapper" ng-switch="type">
+        <input ng-switch-when="text"
+          name="value"
+          type="text"
+          ng-disabled="isBusy"
+          ng-model="dataObject.value"
+        />
+        <textarea ng-switch-when="textarea"
+          name="value"
+          ng-disabled="isBusy"
+          ng-model="dataObject.value"
+        ></textarea>
+        <textarea wiki-toolbar ng-switch-when="wiki_textarea"
+          name="value"
+          ng-disabled="isBusy"
+          ng-model="dataObject.value"
+        ></textarea>
+
+      </div>
+      <div class="ined-errors" ng-show="error">
+        {{ error }}
+      </div>
+      <div class="ined-controls" ng-hide="isBusy">
+        <a class="ined-edit-save" href="#" ng-click="editForm.$valid && submit(false)" title="{{ saveTitle }}">
+          <i class="icon-yes"></i>
+        </a>
+        <a class="ined-edit-save-send" href="#" ng-click="editForm.$valid && submit(true)" title="{{ saveAndSendTitle }}">
+          <i class="icon-yes"></i>
+          <i class="icon-mail"></i>
+        </a>
+        <a class="ined-edit-close" href="#" ng-click="discardEditing()" title="{{ cancelTitle }}">
+          <i class="icon-close"></i>
+        </a>
+      </div>
+    </form>
+  </div>
+</span>
