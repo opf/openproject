@@ -133,16 +133,8 @@ module OpenProject::Backlogs
       :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
 
     extend_api_response(:v3, :work_packages, :work_package) do
-      property :story_points, exec_context: :decorator, if: -> (*) { represented.model.backlogs_enabled? }
-      property :remaining_hours, exec_context: :decorator, if: -> (*) { represented.model.backlogs_enabled? }
-
-      send(:define_method, :story_points) do
-        represented.model.story_points
-      end
-
-      send(:define_method, :remaining_hours) do
-        represented.model.remaining_hours
-      end
+      property :story_points, if: -> (*) { backlogs_enabled? }
+      property :remaining_hours, if: -> (*) { backlogs_enabled? }
     end
 
     config.to_prepare do
