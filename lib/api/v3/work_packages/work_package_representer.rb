@@ -218,7 +218,7 @@ module API
         property :id, render_nil: true
         property :lock_version
         property :subject, render_nil: true
-        property :type, render_nil: true
+        property :type, getter: -> (*) { type.try(:name) }, render_nil: true
         property :description, exec_context: :decorator, render_nil: true, writeable: false
         property :raw_description,
                  getter: -> (*) { description },
