@@ -69,10 +69,7 @@ gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
 
-# we need the old Version to be compatible with pgsql 8.4
-# see: http://stackoverflow.com/questions/14862144/rake-jobswork-gives-pgerror-error-select-for-update-share-is-not-allowed-in
-# or: https://github.com/collectiveidea/delayed_job/issues/323
-# gem 'delayed_job_active_record', '0.3.3'
+gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
