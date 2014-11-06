@@ -34,7 +34,13 @@ module API
   module V3
     module WorkPackages
       class WorkPackageContract < Reform::Contract
-        WRITEABLE_ATTRIBUTES = ['lock_version', 'subject', 'parent_id', 'description'].freeze
+        WRITEABLE_ATTRIBUTES = [
+          'lock_version',
+          'subject',
+          'parent_id',
+          'description',
+          'status_id'
+        ].freeze
 
         def initialize(object, user)
           super(object)

@@ -34,9 +34,19 @@ module API
           helpers do
             def process_form_request
               if form_post_request_body
+                form_post_request_body_without_links = form_post_request_body
+                links = form_post_request_body_without_links.delete('_links')
+
                 # enforces availibility validation of lock_version
                 @representer.represented.lock_version = nil
-                @representer.from_json(patch_request_body)
+                @representer.from_json(form_post_request_body_without_links.to_json)
+
+                if links
+                  link_to_object_extractor = ::API::V3::WorkPackages::LinkToObjectExtractor.new
+                  linked_properties = link_to_object_extractor.parse_links(links)
+
+                  @representer.represented.attributes = linked_properties
+                end
 
                 patch_request_valid?
               end

@@ -29,20 +29,17 @@
 
 module API
   module V3
-    module Statuses
-      class StatusesAPI < Grape::API
-        resources :statuses do
-          before do
-            @statuses = Status.all
-          end
+    module WorkPackages
+      class LinkToObjectExtractor < ::API::V3::Utilities::ResourceLinkParser
+        def parse_links(links)
+          links.keys.each_with_object({}) do |attribute, h|
+            resource = parse links[attribute]
 
-          get do
-            StatusCollectionRepresenter.new(@statuses)
-          end
-
-          namespace ':id' do
-            get do
-              fail NotImplementedError
+            if resource
+              case resource[:ns]
+              when 'statuses'
+                h[:status_id] = resource[:id]
+              end
             end
           end
         end
