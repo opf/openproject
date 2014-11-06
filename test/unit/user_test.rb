@@ -98,7 +98,7 @@ class UserTest < ActiveSupport::TestCase
       u.login = 'NewUser'
       u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
       assert !u.save
-      assert_include u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
+      assert_includes u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
     end
   end
 
@@ -112,7 +112,7 @@ class UserTest < ActiveSupport::TestCase
     u.login = 'newuser2'
     u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert !u.save
-    assert_include u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
+    assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end
 
   def test_update
