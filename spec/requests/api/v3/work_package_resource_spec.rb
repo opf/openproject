@@ -469,7 +469,7 @@ h4. things we like
           it_behaves_like 'update conflict'
         end
 
-        context 'state object' do
+        context 'stale object' do
           let(:params) { valid_params.merge(subject: 'Updated subject') }
 
           before do
