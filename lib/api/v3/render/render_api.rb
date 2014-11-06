@@ -45,11 +45,11 @@ module API
             def context_object
               if params[:context]
                 context_object = nil
-                namespace, id = parse_context
+                context = parse_context
 
-                case namespace
+                case context[:ns]
                 when 'work_packages'
-                  context_object = WorkPackage.visible(current_user).find_by_id(id)
+                  context_object = WorkPackage.visible(current_user).find_by_id(context[:id])
                 end
 
                 unless context_object
@@ -59,27 +59,16 @@ module API
             end
 
             def parse_context
-              contexts = API::V3::Root.routes.map do |route|
-                route_options = route.instance_variable_get(:@options)
-                match = route_options[:compiled].match(params[:context])
+              resourceLinkParser = ::API::V3::Utilities::ResourceLinkParser.new
+              context = resourceLinkParser.parse(params[:context])
 
-                if match
-                  {
-                    ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-                    id: match[:id]
-                  }
-                end
-              end
+              fail API::Errors::InvalidRenderContext.new('No context found.') if context.nil?
 
-              contexts.compact!.uniq! { |c| c[:ns] }
-
-              fail API::Errors::InvalidRenderContext.new('No context found.') if contexts.empty?
-
-              unless SUPPORTED_CONTEXT_NAMESPACES.include? contexts[0][:ns]
+              unless SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
                 fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
               end
 
-              [contexts[0][:ns], contexts[0][:id]]
+              context
             end
 
             def render(type)
