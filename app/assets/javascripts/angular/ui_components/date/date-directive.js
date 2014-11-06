@@ -33,10 +33,12 @@ module.exports = function(TimezoneService) {
     scope: { dateValue: '=', hideTitle: '@' },
     template: '<span title="{{ dateTitle }}">{{date}}</span>',
     link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateValue);
-      if (!scope.hideTitle) {
-        scope.dateTitle = scope.date;
-      }
+      attrs.$observe('date', function(value) {
+        scope.date = TimezoneService.formattedDate(scope.value);
+        if (!scope.hideTitle) {
+          scope.dateTitle = scope.date;
+        }
+      });
     }
   };
 }
