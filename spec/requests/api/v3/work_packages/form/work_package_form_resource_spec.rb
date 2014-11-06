@@ -235,6 +235,46 @@ describe 'API v3 Work package form resource', type: :request do
                 expect(subject.body).to be_json_eql(description.to_json).at_path(path)
               end
             end
+
+            describe 'status' do
+              let(:path) { '_embedded/payload/_links/status/href' }
+              let(:target_status) { FactoryGirl.create(:status) }
+              let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
+              let(:status_parameter) { { _links: { status: status_link } } }
+              let(:params) { valid_params.merge(status_parameter) }
+
+              context 'valid status' do
+                let!(:workflow) {
+                  FactoryGirl.create(:workflow,
+                                     type_id: work_package.type.id,
+                                     old_status: work_package.status,
+                                     new_status: target_status,
+                                     role: current_user.memberships[0].roles[0])
+                }
+
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package status' do
+                  expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                end
+              end
+
+              context 'invalid status' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having an error', 'status_id'
+
+                it 'should respond with updated work package status' do
+                  expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                end
+              end
+            end
           end
         end
       end
