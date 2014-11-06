@@ -159,15 +159,13 @@ describe WorkPackagesController, type: :controller do
           let(:call_action) { get('index') }
 
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ['html'],
-                                                                       layout: :base)
+            expect(response).to render_template('work_packages/index')
           end
         end
 
         context 'w/ a project' do
           it 'should render the index template' do
-            expect(response).to render_template('work_packages/index', formats: ['html'],
-                                                                       layout: :base)
+            expect(response).to render_template('work_packages/index')
           end
         end
 
@@ -318,8 +316,7 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/show', formats: ['html'],
-                                                                  layout: :base)
+        expect(response).to render_template('work_packages/show')
       end
     end
   end
@@ -352,9 +349,7 @@ describe WorkPackagesController, type: :controller do
       it 'render the journal/index template' do
         call_action
 
-        expect(response).to render_template('journals/index', formats: ['atom'],
-                                                              layout: false,
-                                                              content_type: 'application/atom+xml')
+        expect(response).to render_template('journals/index')
       end
     end
   end
@@ -369,7 +364,7 @@ describe WorkPackagesController, type: :controller do
 
       it 'renders the new builder template' do
 
-        expect(response).to render_template('work_packages/new', formats: ['html'])
+        expect(response).to render_template('work_packages/new')
       end
 
       it 'should respond with 200 OK' do
@@ -393,7 +388,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       it 'renders the new builder template' do
-        expect(response).to render_template('work_packages/new_type', formats: ['html'])
+        expect(response).to render_template('work_packages/new_type')
       end
 
       it 'should respond with 200 OK' do
@@ -450,7 +445,7 @@ describe WorkPackagesController, type: :controller do
         end
 
         it 'renders the new template' do
-          expect(response).to render_template('work_packages/new', formats: ['html'])
+          expect(response).to render_template('work_packages/new')
         end
       end
     end
@@ -463,7 +458,7 @@ describe WorkPackagesController, type: :controller do
       it 'renders the show builder template' do
         call_action
 
-        expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
+        expect(response).to render_template('work_packages/edit')
       end
     end
   end
@@ -559,7 +554,7 @@ describe WorkPackagesController, type: :controller do
         it 'render the edit action' do
           call_action
 
-          expect(response).to render_template('work_packages/edit', formats: ['html'], layout: :base)
+          expect(response).to render_template('work_packages/edit')
         end
       end
 
@@ -971,7 +966,7 @@ describe WorkPackagesController, type: :controller do
         describe :view do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/new', formats: ['html']) }
+          it { is_expected.to render_template('work_packages/new') }
         end
 
         describe :error do
@@ -1030,7 +1025,7 @@ describe WorkPackagesController, type: :controller do
         describe :view do
           subject { response }
 
-          it { is_expected.to render_template('work_packages/edit', formats: ['html']) }
+          it { is_expected.to render_template('work_packages/edit') }
         end
 
         describe :error do
@@ -1080,9 +1075,7 @@ describe WorkPackagesController, type: :controller do
       before { xhr :put, :preview, preview_params }
 
       it {
-        expect(response).to render_template('common/preview',
-                                            format: ['html'],
-                                            layout: false)
+        expect(response).to render_template('common/preview')
       }
     end
   end

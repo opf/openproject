@@ -156,7 +156,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -175,7 +175,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -463,7 +463,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -484,7 +484,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
         end
@@ -517,7 +517,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           end
 
           it 'renders the index builder template' do
-            expect(response).to render_template('planning_elements/index', formats: ['api'])
+            expect(response).to render_template('planning_elements/index')
           end
         end
 
@@ -534,7 +534,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
 
@@ -559,7 +559,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             end
 
             it 'renders the index builder template' do
-              expect(response).to render_template('planning_elements/index', formats: ['api'])
+              expect(response).to render_template('planning_elements/index')
             end
           end
         end
@@ -714,7 +714,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
           it 'renders the show builder template' do
             get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
-            expect(response).to render_template('planning_elements/show', formats: ['api'])
+            expect(response).to render_template('planning_elements/show')
           end
         end
       end
@@ -979,7 +979,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           it 'renders the destroy builder template' do
             get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
 
-            expect(response).to render_template('planning_elements/destroy', formats: ['api'])
+            expect(response).to render_template('planning_elements/destroy')
           end
 
           it 'deletes the record' do

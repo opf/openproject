@@ -97,7 +97,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
 
       it 'renders the index template' do
         get 'index', format: 'json'
-        expect(response).to render_template('api/experimental/work_packages/index', formats: %w(api))
+        expect(response).to render_template('api/experimental/work_packages/index')
       end
 
       it 'assigns a query which has the default filter arguments set' do
@@ -269,7 +269,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
 
       it 'renders the column_data template' do
         get :column_data, format: 'json', ids: [1, 2], column_names: %w(subject status estimated_hours)
-        expect(response).to render_template('api/experimental/work_packages/column_data', formats: %w(api))
+        expect(response).to render_template('api/experimental/work_packages/column_data')
       end
     end
 
@@ -300,7 +300,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
     it 'renders template' do
       get 'column_sums', column_names: ['id'], format: 'json'
 
-      expect(response).to render_template('api/experimental/work_packages/column_sums', formats: %w(api))
+      expect(response).to render_template('api/experimental/work_packages/column_sums')
     end
 
     context 'without the necessary permissions' do

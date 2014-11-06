@@ -53,7 +53,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
     }
 
     shared_examples_for 'valid workflow index request' do
-      it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
+      it { expect(response).to render_template('api/v2/custom_fields/index') }
     end
 
     shared_examples_for 'a user w/o a project' do

@@ -272,7 +272,7 @@ describe TimelinesController, type: :controller do
 
       it 'renders the new template' do
         fetch project_id: project.id
-        expect(response).to render_template('timelines/new', formats: ['html'], layout: :base)
+        expect(response).to render_template('timelines/new')
       end
 
       it 'assigns a new timeline instance for the current project' do
@@ -328,7 +328,7 @@ describe TimelinesController, type: :controller do
         it 'renders the create action' do
           fetch project_id: project.id, timeline: { name: '' }
 
-          expect(response).to render_template('timelines/new', formats: ['html'], layout: :base)
+          expect(response).to render_template('timelines/new')
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
@@ -377,7 +377,7 @@ describe TimelinesController, type: :controller do
 
       it 'renders the show template' do
         fetch project_id: project.id, id: timeline.id
-        expect(response).to render_template('timelines/show', formats: ['html'], layout: :base)
+        expect(response).to render_template('timelines/show')
       end
     end
   end
@@ -397,7 +397,7 @@ describe TimelinesController, type: :controller do
 
       it 'renders the edit template' do
         fetch project_id: project.id, id: timeline.id
-        expect(response).to render_template('timelines/edit', formats: ['html'], layout: :base)
+        expect(response).to render_template('timelines/edit')
       end
     end
   end
@@ -447,7 +447,7 @@ describe TimelinesController, type: :controller do
         it 'renders the edit action' do
           fetch project_id: project.id, id: timeline.id, timeline: { name: '' }
 
-          expect(response).to render_template('timelines/edit', formats: ['html'], layout: :base)
+          expect(response).to render_template('timelines/edit')
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
@@ -476,7 +476,7 @@ describe TimelinesController, type: :controller do
       it 'renders the confirm_destroy action' do
         fetch project_id: project.id, id: timeline.id
 
-        expect(response).to render_template('timelines/confirm_destroy', formats: ['html'], layout: :base)
+        expect(response).to render_template('timelines/confirm_destroy')
       end
     end
   end

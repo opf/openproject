@@ -52,7 +52,7 @@ describe Api::Experimental::VersionsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'json', project_id: project.id
-          expect(response).to render_template('api/experimental/versions/index', formats: ['api'])
+          expect(response).to render_template('api/experimental/versions/index')
         end
       end
 

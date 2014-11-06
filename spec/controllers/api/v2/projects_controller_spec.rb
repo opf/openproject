@@ -45,7 +45,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/index')
         end
       end
 
@@ -78,7 +78,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/index')
         end
       end
     end
@@ -121,7 +121,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/projects/show', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/show')
         end
       end
     end

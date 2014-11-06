@@ -46,7 +46,7 @@ describe Api::V2::WorkflowsController, type: :controller do
       shared_examples_for 'valid workflow index request' do
         it { expect(assigns(:project)).to eq(project) }
 
-        it { expect(response).to render_template('api/v2/workflows/index', formats: ['api']) }
+        it { expect(response).to render_template('api/v2/workflows/index') }
       end
 
       describe 'w/o project' do

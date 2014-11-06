@@ -86,7 +86,7 @@ describe Api::Experimental::QueriesController, type: :controller do
 
     it 'renders the available_columns template' do
       get :available_columns, format: :json
-      expect(response).to render_template('api/experimental/queries/available_columns', formats: %w(api))
+      expect(response).to render_template('api/experimental/queries/available_columns')
     end
 
     context 'without the necessary permissions' do
@@ -114,7 +114,7 @@ describe Api::Experimental::QueriesController, type: :controller do
 
     it 'renders the custom_field template' do
       get :custom_field_filters, format: :json
-      expect(response).to render_template('api/experimental/queries/custom_field_filters', formats: %w(api))
+      expect(response).to render_template('api/experimental/queries/custom_field_filters')
     end
 
     context 'without the necessary permissions' do

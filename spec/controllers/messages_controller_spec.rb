@@ -120,7 +120,7 @@ describe MessagesController, type: :controller do
         describe :view do
           subject { response }
 
-          it { is_expected.to render_template('messages/edit', formats: ['html']) }
+          it { is_expected.to render_template('messages/edit') }
         end
 
         describe :error do

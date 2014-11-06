@@ -45,7 +45,7 @@ describe Api::V2::UsersController, type: :controller do
   shared_examples_for 'valid user API call' do
     it { expect(assigns(:users).size).to eq(user_count) }
 
-    it { expect(response).to render_template('api/v2/users/index', formats: ['api']) }
+    it { expect(response).to render_template('api/v2/users/index') }
   end
 
   describe 'index.json' do

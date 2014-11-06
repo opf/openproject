@@ -49,7 +49,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the index builder template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', formats: ['api'])
+        expect(response).to render_template('planning_element_type_colors/index')
       end
     end
 
@@ -69,7 +69,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the index template' do
         get 'index', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/index', formats: ['api'])
+        expect(response).to render_template('planning_element_type_colors/index')
       end
     end
   end
@@ -115,7 +115,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
 
       it 'renders the show template' do
         get 'show', id: '1337', format: 'xml'
-        expect(response).to render_template('planning_element_type_colors/show', formats: ['api'])
+        expect(response).to render_template('planning_element_type_colors/show')
       end
     end
   end

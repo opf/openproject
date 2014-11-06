@@ -51,7 +51,7 @@ describe Api::Experimental::GroupsController, type: :controller do
       end
 
       it 'renders the index template' do
-        expect(response).to render_template('api/experimental/groups/index', formats: ['api'])
+        expect(response).to render_template('api/experimental/groups/index')
       end
 
       it 'should respond with 200' do

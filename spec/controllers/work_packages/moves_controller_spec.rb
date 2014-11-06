@@ -107,7 +107,7 @@ describe WorkPackages::MovesController, type: :controller do
         end
 
         it 'renders the new builder template' do
-          expect(response).to render_template('work_packages/moves/new', formats: ['html'], layout: :base)
+          expect(response).to render_template('work_packages/moves/new')
         end
       end
     end
