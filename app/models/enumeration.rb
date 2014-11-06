@@ -44,8 +44,8 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:type, :project_id]
   validates_length_of :name, maximum: 30
 
-  scope :shared, conditions: { project_id: nil }
-  scope :active, conditions: { active: true }
+  scope :shared, -> { where(project_id: nil) }
+  scope :active, -> { where(active: true) }
 
   before_save :unmark_old_default_value, if: :became_default_value?
 
