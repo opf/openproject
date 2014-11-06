@@ -949,7 +949,7 @@ class WorkPackage < ActiveRecord::Base
                                               where
                                                 i.status_id=s.id
                                                 and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
-                                              group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
+                                              group by s.id, s.is_closed, i.project_id").to_a if project.descendants.active.any?
   end
   # End ReportsController extraction
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1068,7 +1068,7 @@ class WorkPackage < ActiveRecord::Base
                                                 i.status_id=s.id
                                                 and #{where}
                                                 and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, j.id")
+                                              group by s.id, s.is_closed, j.id").to_a
   end
   private_class_method :count_and_group_by
 
