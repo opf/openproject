@@ -31,7 +31,6 @@ module API
   module V3
     module Render
       class RenderAPI < Grape::API
-        include OpenProject::TextFormatting
         format :txt
 
         resources :render do
@@ -59,8 +58,8 @@ module API
             end
 
             def parse_context
-              resourceLinkParser = ::API::V3::Utilities::ResourceLinkParser.new
-              context = resourceLinkParser.parse(params[:context])
+              resource_link_parser = ::API::V3::Utilities::ResourceLinkParser.new
+              context = resource_link_parser.parse(params[:context])
 
               fail API::Errors::InvalidRenderContext.new('No context found.') if context.nil?
 
