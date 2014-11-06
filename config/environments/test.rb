@@ -62,7 +62,7 @@ OpenProject::Application.configure do
   config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
-  config.active_support.deprecation = :silence
+  config.active_support.deprecation = :stderr
 
   # we use per process memory for caching in the test environment
   config.cache_store = :memory_store
