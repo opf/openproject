@@ -31,8 +31,33 @@ module API
     module WorkPackages
       module Form
         class FormAPI < Grape::API
+          helpers do
+            def process_form_request
+              if form_post_request_body
+                # enforces availibility validation of lock_version
+                @representer.represented.lock_version = nil
+                @representer.from_json(patch_request_body)
+
+                patch_request_valid?
+              end
+
+              error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+
+              if error.is_a? ::API::Errors::Validation
+                status 200
+                FormRepresenter.new(@representer.represented, current_user: current_user)
+              else
+                fail error
+              end
+            end
+
+            def form_post_request_body
+              env['api.request.body']
+            end
+          end
+
           post '/form' do
-            FormRepresenter.new(@work_package, current_user: current_user)
+            process_form_request
           end
         end
       end
