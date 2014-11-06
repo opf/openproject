@@ -259,12 +259,12 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         get :column_data, format: 'json', ids: [1, 2],
                           column_names: %w(subject status estimated_hours done_ratio)
 
-        expect(assigns(:columns_meta)).to have_key('group_sums')
-        expect(assigns(:columns_meta)).to have_key('total_sums')
+        expect(assigns(:columns_meta)).to have_key(:group_sums)
+        expect(assigns(:columns_meta)).to have_key(:total_sums)
 
-        expect(assigns(:columns_meta)['total_sums'].size).to eq(4)
-        expect(assigns(:columns_meta)['total_sums'][2]).to eq(10.0)
-        expect(assigns(:columns_meta)['total_sums'][3]).to eq(66)
+        expect(assigns(:columns_meta)[:total_sums].size).to eq(4)
+        expect(assigns(:columns_meta)[:total_sums][2]).to eq(10.0)
+        expect(assigns(:columns_meta)[:total_sums][3]).to eq(66)
       end
 
       it 'renders the column_data template' do
