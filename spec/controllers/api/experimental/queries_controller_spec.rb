@@ -79,8 +79,8 @@ describe Api::Experimental::QueriesController, type: :controller do
       it 'assigns available_columns' do
         get :available_columns, format: :json
         expect(assigns(:available_columns)).not_to be_empty
-        expect(assigns(:available_columns).first).to have_key('name')
-        expect(assigns(:available_columns).first).to have_key('meta_data')
+        expect(assigns(:available_columns).first).to have_key(:name)
+        expect(assigns(:available_columns).first).to have_key(:meta_data)
       end
     end
 
