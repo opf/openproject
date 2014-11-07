@@ -40,10 +40,6 @@ module API
             helpers do
               attr_reader :work_package
 
-              def decorate_work_package(work_package)
-                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
-              end
-
               def write_work_package_attributes
                 if request_body
                   request_body_without_links = request_body
@@ -86,7 +82,8 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              decorate_work_package(@work_package)
+              @representer = ::API::V3::WorkPackages::WorkPackageRepresenter
+                .new(work_package, { current_user: current_user }, :activities, :users)
             end
 
             get do
@@ -104,7 +101,7 @@ module API
                                                             send_notifications)
 
               if write_request_valid? && update_service.save
-                decorate_work_package(@work_package.reload)
+                @representer.represented.reload
                 @representer
               else
                 fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
