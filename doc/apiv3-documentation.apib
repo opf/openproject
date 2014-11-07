@@ -224,7 +224,7 @@ There are two ways to access the result pages of a paginated collection:
 The available ways of pagination depend on the collection queried. Some collection feature no pagination at all, meaning they
 will always return all elements. Others might only offer one of the two pagination methods or both of them.
 
-## Offset based pagination [/examples{?offset,pageSize}]
+## Offset based pagination [/api/v3/examples{?offset,pageSize}]
 
 Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
 skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
@@ -276,7 +276,7 @@ between two page requests, it is possible that the client receives elements clos
                 }
             }
 
-## Cursor based pagination [/examples{?before,after,pageSize}]
+## Cursor based pagination [/api/v3/examples{?before,after,pageSize}]
 
 Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
 e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
@@ -337,7 +337,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 
 Activity can be either _type Activity or _type Activity::Comment.
 
-## Activity [/activities/{id}]
+## Activity [/api/v3/activities/{id}]
 
 + Model
     + Body
@@ -454,7 +454,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | downloads | | Integer | | | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## Attachment [/attachments/{id}]
+## Attachment [/api/v3/attachments/{id}]
 
 + Model
     + Body
@@ -503,7 +503,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | id       | Category id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Category name | String  |             | Category Name  | READ |
 
-## Categories by Project [/projects/{project_id}/categories]
+## Categories by Project [/api/v3/projects/{project_id}/categories]
 
 + Model
     + Body
@@ -633,7 +633,7 @@ There are only key value pairs for properties that failed validation, the elemen
 However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
 That is because the main purpose of a form is helping the client to sort out validation errors.
 
-## Example Form [/example/form]
+## Example Form [/api/v3/example/form]
 
 + Model
     + Body
@@ -795,7 +795,7 @@ receive a preview of the rendered text.
 The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
 The request body is the actual string that shall be rendered as HTML string.
 
-## Textile [/render/textile{?context}]
+## Textile [/api/v3/render/textile{?context}]
 
 + Model
     + Body
@@ -838,7 +838,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "Could not render textile string in the given context."
             }
 
-## Plain Text [/render/plain]
+## Plain Text [/api/v3/render/plain]
 
 + Model
     + Body
@@ -863,7 +863,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | id       | Priority id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Priority name | String  |             | High  | READ |
 
-## Priorities [/priorities]
+## Priorities [/api/v3/priorities]
 
 + Model
     + Body
@@ -935,7 +935,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
 | updatedOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
 
-## Project [/projects/{id}]
+## Project [/api/v3/projects/{id}]
 
 + Model
     + Body
@@ -985,7 +985,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | displaySums | | Boolean | | true | READ |
 | isStarred | | Boolean | | true | READ |
 
-## Query [/queries/{id}]
+## Query [/api/v3/queries/{id}]
 
 + Model
     + Body
@@ -1054,7 +1054,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Query][]
 
-## Star Query [/queries/{id}/star]
+## Star Query [/api/v3/queries/{id}/star]
 
 + Model
     + Body
@@ -1133,7 +1133,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "The request body was not empty."
             }
 
-## Unstar Query [/queries/{id}/unstar]
+## Unstar Query [/api/v3/queries/{id}/unstar]
 
 + Model
     + Body
@@ -1231,7 +1231,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## Statuses [/statuses]
+## Statuses [/api/v3/statuses]
 
 + Model
     + Body
@@ -1380,7 +1380,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "You are not allowed to see the statuses."
             }
 
-## Status [/statuses/{id}]
+## Status [/api/v3/statuses/{id}]
 
 + Model
     + Body
@@ -1440,7 +1440,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 
-## User [/users/{id}]
+## User [/api/v3/users/{id}]
 
 + Model
     + Body
@@ -1480,7 +1480,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | id       | Version id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Version name | String  |             | Version 1.0  | READ |
 
-## Versions by Project [/projects/{project_id}/versions]
+## Versions by Project [/api/v3/projects/{project_id}/versions]
 
 + Model
     + Body
@@ -1562,7 +1562,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}{?notify}]
+## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
 + Model
     + Body
@@ -2004,7 +2004,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 }
             }
 
-## Work Package Edit Form [/work_packages/{id}/form]
+## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
 This endpoint returns a form to allow a guided modification of an existing work package.
 
@@ -2019,7 +2019,7 @@ For more details and all possible responses see the general specification of [Fo
 
     [Example Form][]
 
-## Add Watcher [/work_packages/{work_package_id}/watchers]
+## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
 + Model
     + Body
@@ -2057,7 +2057,7 @@ For more details and all possible responses see the general specification of [Fo
 
     [Add Watcher][]
 
-## Remove Watcher [/work_packages/{work_package_id}/watchers/{id}]
+## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
 
@@ -2067,7 +2067,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 204
 
-## Available Watchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
+## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
 
 + Model
     + Body
@@ -2114,7 +2114,7 @@ Gets a list of users that can watch the work package.
 
     [Available Watchers][]
 
-## Comment WorkPackage [/work_packages/{id}/activities]
+## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 
 ## Comment work package [POST]
 
@@ -2161,7 +2161,7 @@ updated activity.
             }
 
 
-## Available Assignees [/work_packages/{work_package_id}/available_assignees]
+## Available Assignees [/api/v3/work_packages/{work_package_id}/available_assignees]
 
 + Model
     + Body
@@ -2238,7 +2238,7 @@ Gets a list of users that can be assigned to the work package.
 
     [Available Assignees][]
 
-## Available Responsibles [/work_packages/{work_package_id}/available_responsibles]
+## Available Responsibles [/api/v3/work_packages/{work_package_id}/available_responsibles]
 
 + Model
     + Body
