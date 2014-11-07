@@ -185,7 +185,7 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
 However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
-object that will contain the actual elements in its embedded section.
+object that will contain the actual elements in its embedded property `elements`.
 
 Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
 but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
@@ -224,7 +224,7 @@ There are two ways to access the result pages of a paginated collection:
 The available ways of pagination depend on the collection queried. Some collection feature no pagination at all, meaning they
 will always return all elements. Others might only offer one of the two pagination methods or both of them.
 
-## Offset based pagination [/example/collection{?offset,pageSize}]
+## Offset based pagination [/examples{?offset,pageSize}]
 
 Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
 skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
@@ -251,19 +251,19 @@ between two page requests, it is possible that the client receives elements clos
         
             {
                 "_links": {
-                    "self": { "href": "/api/v3/example/collection?offset=25&pageSize=25" },
+                    "self": { "href": "/api/v3/examples?offset=25&pageSize=25" },
                     "jumpTo": {
-                        "href": "/api/v3/example/collection?offset={offset}&pageSize=25",
+                        "href": "/api/v3/examples?offset={offset}&pageSize=25",
                         "templated": true
                     },
                     "changeSize": {
-                        "href": "/api/v3/example/collection?offset=25&pageSize={size}",
+                        "href": "/api/v3/examples?offset=25&pageSize={size}",
                         "templated": true
                     },
-                    "previousOffset": { "href": "/api/v3/example/collection?offset=0&pageSize=25" },
-                    "previous": { "href": "/api/v3/example/collection?before=bar&pageSize=25" }
+                    "previousOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
+                    "previous": { "href": "/api/v3/examples?before=bar&pageSize=25" }
                 },
-                "_type": "Examples",
+                "_type": "Collection",
                 "total": 27,
                 "pageSize": 25,
                 "count": 2,
@@ -276,7 +276,7 @@ between two page requests, it is possible that the client receives elements clos
                 }
             }
 
-## Cursor based pagination [/example/collection{?before,after,pageSize}]
+## Cursor based pagination [/examples{?before,after,pageSize}]
 
 Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
 e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
@@ -305,14 +305,14 @@ Cursor based pagination is therefore less suited for use cases where you want to
         
             {
                 "_links": {
-                    "self": { "href": "/api/v3/example/collection?after=buz&pageSize=25" },
+                    "self": { "href": "/api/v3/examples?after=buz&pageSize=25" },
                     "changeSize": {
-                        "href": "/api/v3/example/collection?after=buz&pageSize={size}",
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
                         "templated": true
                     },
-                    "previous": { "href": "/api/v3/example/collection?before=bar&pageSize=25" }
+                    "previous": { "href": "/api/v3/examples?before=bar&pageSize=25" }
                 },
-                "_type": "Examples",
+                "_type": "Collection",
                 "total": 27,
                 "pageSize": 25,
                 "count": 2,
