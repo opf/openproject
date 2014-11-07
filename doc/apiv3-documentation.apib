@@ -55,65 +55,6 @@ However for the future we plan to add authentication modes that are more suitabl
 
 # Group Basic Objects
 
-# Collections
-
-Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
-However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
-object that will contain the actual elements in its embedded section.
-
-Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
-but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
-
-A collection carries meta information like the total count of elements in the collection or - in case of a paginated collection -
-the amount of elements returned in this response and action links to retrieve the remaining elements.
-
-## Properties
-
-| Property | Description                                                     | Type    | Availability      |
-|:--------:| --------------------------------------------------------------- | ------- | ----------------- |
-| total    | The total amount of elements available in the collection        | Integer | always            |
-| pageSize | Amount of elements that a response will hold                    | Integer | always            |
-| count    | Actual amount of elements in this response                      | Integer | always            |
-| offset   | Amount of elements preceding the first element of this response | Integer | only offset based |
-
-## Links
-
-| Link           | Description                                                              | Availability      |
-|:--------------:| ------------------------------------------------------------------------ | ----------------- |
-| self           | Link to the current page in the collection                               | always            |
-| changeSize     | Templated link to change the page size, preserving the relative position | always            |
-| jumpTo         | Templated link to jump to a specified offset                             | only offset based |
-| nextOffset     | Link to retrieve the following page of elements (offset based)           | only offset based |
-| previousOffset | Link to retrieve the preceding page of elements (offset based)           | only offset based |
-| next           | Link to retrieve the elements following the current page (cursor based)  | only cursor based |
-| previous       | Link to retrieve the elements preceding the current page (cursor based)  | only cursor based |
-
-## Pagination
-
-There are two ways to access the result pages of a paginated collection:
-
-* offset based pagination
-* cursor based pagination
-
-Offset based iteration works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
-skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
-that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
-using the **pageSize** property of the response.
-
-The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
-to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
-in the form of multiple pages anyway.
-
-A drawback of offset based pagination comes with concurrent modification of the result, as this can lead to the client receiving an element
-twice or missing it altogether.
-
-TODO: probably include a picture to illustrate the case (Twitter does so in its API-Docs: https://dev.twitter.com/rest/public/timelines)
-
-Cursor based pagination is intended to be used, when the client needs a consistent and complete range of the collection, e.g. when it either
-needs the complete collection or in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
-the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
-there are no omissions and no duplicates. However it is not immediately determinable how many "next" and how many "previous" pages there are.
-
 # Errors
 
 In case of an error, the API will respond with an apropriate HTTP status code.
@@ -239,6 +180,145 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
         "raw": "I *am* formatted!",
         "html": "I <strong>am</strong> formatted!"
     }
+
+# Group Collections
+
+Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
+However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
+object that will contain the actual elements in its embedded section.
+
+Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
+but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
+
+A collection carries meta information like the total count of elements in the collection or - in case of a paginated collection -
+the amount of elements returned in this response and action links to retrieve the remaining elements.
+
+## Properties
+
+| Property | Description                                                     | Type    | Availability                |
+|:--------:| --------------------------------------------------------------- | ------- | --------------------------- |
+| total    | The total amount of elements available in the collection        | Integer | always                      |
+| pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
+| count    | Actual amount of elements in this response                      | Integer | always                      |
+| offset   | Amount of elements preceding the first element of this response | Integer | when offset based available |
+
+## Links
+
+| Link           | Description                                                              | Availability                |
+|:--------------:| ------------------------------------------------------------------------ | --------------------------- |
+| self           | Link to the current page in the collection                               | always                      |
+| changeSize     | Templated link to change the page size, preserving the relative position | when paginated              |
+| jumpTo         | Templated link to jump to a specified offset                             | when offset based available |
+| nextOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
+| previousOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
+| next           | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
+| previous       | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+
+## Pagination
+
+There are two ways to access the result pages of a paginated collection:
+
+* offset based pagination
+* cursor based pagination
+
+## Offset based pagination [/example/collection{?offset,pageSize}]
+
+Offset based iteration works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
+skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
+that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
+using the **pageSize** property of the response.
+
+The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
+to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
+in the form of multiple pages anyway.
+
+## view offset based [GET]
+
++ Parameters
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+        
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    
++ Response 200 (application/hal+json)
+
+    + Body
+        
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/example/collection?offset=25&pageSize=25" },
+                    "jumpTo": {
+                        "href": "/api/v3/example/collection?offset={offset}&pageSize=25",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/example/collection?offset=25&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousOffset": { "href": "/api/v3/example/collection?offset=0&pageSize=25" },
+                    "previous": { "href": "/api/v3/example/collection?before=bar&pageSize=25" }
+                },
+                "_type": "Examples",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "offset": 25,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
+## Cursor based pagination [/example/collection{?before,after,pageSize}]
+
+A drawback of offset based pagination comes with concurrent modification of the result, as this can lead to the client receiving an element
+twice or missing it altogether.
+
+TODO: probably include a picture to illustrate the case (Twitter does so in its API-Docs: https://dev.twitter.com/rest/public/timelines)
+
+Cursor based pagination is intended to be used, when the client needs a consistent and complete range of the collection, e.g. when it either
+needs the complete collection or in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
+the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
+there are no omissions and no duplicates. However it is not immediately determinable how many "next" and how many "previous" pages there are.
+
+## view cursor based [GET]
+
++ Parameters
+    + before (optional, string, `25`) ... Display the elements preceding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **previous** link offered by the collection.
+    
+    + after (optional, string, `25`) ... Display the elements succeeding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **next** link offered by the collection.
+    
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    
++ Response 200 (application/hal+json)
+
+    + Body
+        
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/example/collection?after=buz&pageSize=25" },
+                    "changeSize": {
+                        "href": "/api/v3/example/collection?after=buz&pageSize={size}",
+                        "templated": true
+                    },
+                    "previous": { "href": "/api/v3/example/collection?before=bar&pageSize=25" }
+                },
+                "_type": "Examples",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
 
 # Group Activities
 
