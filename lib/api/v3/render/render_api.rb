@@ -42,17 +42,21 @@ module API
             end
 
             def context_object
+              begin
+                try_context_object
+              rescue ::ActiveRecord::RecordNotFound
+                fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+              end
+            end
+
+            def try_context_object
               if params[:context]
-                context_object = nil
                 context = parse_context
 
                 case context[:ns]
                 when 'work_packages'
-                  context_object = WorkPackage.visible(current_user).find_by_id(context[:id])
-                end
-
-                unless context_object
-                  fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+                  WorkPackage.visible(current_user).find(context[:id])
+                else
                 end
               end
             end
