@@ -221,9 +221,12 @@ There are two ways to access the result pages of a paginated collection:
 * offset based pagination
 * cursor based pagination
 
+The available ways of pagination depend on the collection queried. Some collection feature no pagination at all, meaning they
+will always return all elements. Others might only offer one of the two pagination methods or both of them.
+
 ## Offset based pagination [/example/collection{?offset,pageSize}]
 
-Offset based iteration works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
+Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
 skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
 that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
 using the **pageSize** property of the response.
@@ -231,6 +234,9 @@ using the **pageSize** property of the response.
 The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
 to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
 in the form of multiple pages anyway.
+
+A drawback of offset based pagination comes with concurrent modification of the collection. If the collection is modified
+between two page requests, it is possible that the client receives elements close to the page boundaries twice or does not see them at all.
 
 ## view offset based [GET]
 
@@ -272,15 +278,13 @@ in the form of multiple pages anyway.
 
 ## Cursor based pagination [/example/collection{?before,after,pageSize}]
 
-A drawback of offset based pagination comes with concurrent modification of the result, as this can lead to the client receiving an element
-twice or missing it altogether.
-
-TODO: probably include a picture to illustrate the case (Twitter does so in its API-Docs: https://dev.twitter.com/rest/public/timelines)
-
-Cursor based pagination is intended to be used, when the client needs a consistent and complete range of the collection, e.g. when it either
-needs the complete collection or in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
+Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
+e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
 the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
-there are no omissions and no duplicates. However it is not immediately determinable how many "next" and how many "previous" pages there are.
+regardless of changes to the collection.
+
+The drawback for cursor based pagination is, that it is not immediately determinable how many "next" and how many "previous" pages there are.
+Cursor based pagination is therefore less suited for use cases where you want to directly "jump" to an arbitrary page.
 
 ## view cursor based [GET]
 
