@@ -32,23 +32,19 @@ module API
     module Utilities
       module ResourceLinkParser
         def self.parse(resource_link)
-          matching_resources = API::V3::Root.routes.map do |route|
+          API::V3::Root.routes.each do |route|
             route_options = route.instance_variable_get(:@options)
             match = route_options[:compiled].match(resource_link)
 
             if match
-              {
+              return {
                 ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
                 id: match[:id]
               }
             end
           end
 
-          matching_resources.compact!.uniq! { |c| c[:ns] }
-
-          unless matching_resources.empty?
-            { ns: matching_resources[0][:ns], id: matching_resources[0][:id] }
-          end
+          nil
         end
       end
     end
