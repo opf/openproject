@@ -30,10 +30,10 @@
 module API
   module V3
     module WorkPackages
-      class LinkToObjectExtractor < ::API::V3::Utilities::ResourceLinkParser
-        def parse_links(links)
+      module LinkToObjectExtractor
+        def self.parse_links(links)
           links.keys.each_with_object({}) do |attribute, h|
-            resource = parse links[attribute]
+            resource = ::API::V3::Utilities::ResourceLinkParser.parse links[attribute]
 
             if resource
               case resource[:ns]

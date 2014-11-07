@@ -62,8 +62,7 @@ module API
             end
 
             def parse_context
-              resource_link_parser = ::API::V3::Utilities::ResourceLinkParser.new
-              context = resource_link_parser.parse(params[:context])
+              context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
 
               fail API::Errors::InvalidRenderContext.new('No context found.') if context.nil?
 

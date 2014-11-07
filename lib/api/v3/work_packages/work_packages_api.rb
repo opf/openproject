@@ -50,8 +50,8 @@ module API
                   @representer.from_json(request_body_without_links.to_json)
 
                   if links
-                    link_to_object_extractor = ::API::V3::WorkPackages::LinkToObjectExtractor.new
-                    linked_properties = link_to_object_extractor.parse_links(links)
+                    linked_properties = ::API::V3::WorkPackages::LinkToObjectExtractor
+                                          .parse_links(links)
 
                     @representer.represented.attributes = linked_properties
                   end

@@ -30,8 +30,8 @@
 module API
   module V3
     module Utilities
-      class ResourceLinkParser
-        def parse(resource_link)
+      module ResourceLinkParser
+        def self.parse(resource_link)
           matching_resources = API::V3::Root.routes.map do |route|
             route_options = route.instance_variable_get(:@options)
             match = route_options[:compiled].match(resource_link)
