@@ -366,6 +366,44 @@ h4. things we like
         end
       end
 
+      context 'status' do
+        let(:target_status) { FactoryGirl.create(:status) }
+        let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
+        let(:status_parameter) { { _links: { status: status_link } } }
+        let(:params) { valid_params.merge(status_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid status' do
+          let!(:workflow) {
+            FactoryGirl.create(:workflow,
+                               type_id: work_package.type.id,
+                               old_status: work_package.status,
+                               new_status: target_status,
+                               role: current_user.memberships[0].roles[0])
+          }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with updated work package status' do
+            expect(subject.body).to be_json_eql(target_status.name.to_json)
+              .at_path('status')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'invalid status' do
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation',
+                          'Status no valid transition exists from old to new '\
+                          'status for the current user roles.'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
           context 'start date' do
