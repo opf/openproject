@@ -369,7 +369,7 @@ h4. things we like
       context 'status' do
         let(:target_status) { FactoryGirl.create(:status) }
         let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
-        let(:status_parameter) { { _links: { status: status_link } } }
+        let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }

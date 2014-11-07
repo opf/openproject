@@ -240,7 +240,7 @@ describe 'API v3 Work package form resource', type: :request do
               let(:path) { '_embedded/payload/_links/status/href' }
               let(:target_status) { FactoryGirl.create(:status) }
               let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
-              let(:status_parameter) { { _links: { status: status_link } } }
+              let(:status_parameter) { { _links: { status: { href: status_link } } } }
               let(:params) { valid_params.merge(status_parameter) }
 
               context 'valid status' do
