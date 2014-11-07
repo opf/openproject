@@ -42,11 +42,9 @@ module API
             end
 
             def context_object
-              begin
-                try_context_object
-              rescue ::ActiveRecord::RecordNotFound
-                fail API::Errors::InvalidRenderContext.new('Context does not exist!')
-              end
+              try_context_object
+            rescue ::ActiveRecord::RecordNotFound
+              fail API::Errors::InvalidRenderContext.new('Context does not exist!')
             end
 
             def try_context_object
