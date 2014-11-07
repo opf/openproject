@@ -237,7 +237,10 @@ h4. things we like
 
     context 'user with needed permissions' do
       shared_examples_for 'lock version updated' do
-        it { expect(subject.body).to be_json_eql(work_package.reload.lock_version).at_path('lockVersion') }
+        it {
+          expect(subject.body).to be_json_eql(work_package.reload.lock_version)
+            .at_path('lockVersion')
+        }
       end
 
       describe 'notification' do
