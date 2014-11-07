@@ -33,23 +33,8 @@ module API
         class FormAPI < Grape::API
           helpers do
             def process_form_request
-              if form_post_request_body
-                form_post_request_body_without_links = form_post_request_body
-                links = form_post_request_body_without_links.delete('_links')
-
-                # enforces availibility validation of lock_version
-                @representer.represented.lock_version = nil
-                @representer.from_json(form_post_request_body_without_links.to_json)
-
-                if links
-                  link_to_object_extractor = ::API::V3::WorkPackages::LinkToObjectExtractor.new
-                  linked_properties = link_to_object_extractor.parse_links(links)
-
-                  @representer.represented.attributes = linked_properties
-                end
-
-                patch_request_valid?
-              end
+              write_work_package_attributes
+              write_request_valid?
 
               error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
 
@@ -61,9 +46,6 @@ module API
               end
             end
 
-            def form_post_request_body
-              env['api.request.body']
-            end
           end
 
           post '/form' do

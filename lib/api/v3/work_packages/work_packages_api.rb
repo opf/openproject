@@ -44,11 +44,29 @@ module API
                 @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
               end
 
-              def patch_request_body
-                env['api.request.input']
+              def write_work_package_attributes
+                if request_body
+                  request_body_without_links = request_body
+                  links = request_body_without_links.delete('_links')
+
+                  # enforces availibility validation of lock_version
+                  @representer.represented.lock_version = nil
+                  @representer.from_json(request_body_without_links.to_json)
+
+                  if links
+                    link_to_object_extractor = ::API::V3::WorkPackages::LinkToObjectExtractor.new
+                    linked_properties = link_to_object_extractor.parse_links(links)
+
+                    @representer.represented.attributes = linked_properties
+                  end
+                end
               end
 
-              def patch_request_valid?
+              def request_body
+                env['api.request.body']
+              end
+
+              def write_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
                 # Although the contract triggers the ActiveModel validations on
@@ -77,9 +95,7 @@ module API
             end
 
             patch do
-              @representer.represented.lock_version = nil # enforces availibility validation of lock_version
-
-              @representer.from_json(patch_request_body)
+              write_work_package_attributes
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
               update_service = UpdateWorkPackageService.new(current_user,
@@ -87,7 +103,7 @@ module API
                                                             nil,
                                                             send_notifications)
 
-              if patch_request_valid? && update_service.save
+              if write_request_valid? && update_service.save
                 decorate_work_package(@work_package.reload)
                 @representer
               else
