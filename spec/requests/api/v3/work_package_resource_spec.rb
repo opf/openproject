@@ -210,12 +210,29 @@ h4. things we like
     end
 
     context 'user without needed permissions' do
-      let(:current_user) { FactoryGirl.create :user }
-      let(:params) { valid_params }
+      context 'no permission to see the work package' do
+        let(:work_package) { FactoryGirl.create(:work_package, id: 42) }
+        let(:current_user) { FactoryGirl.create :user }
+        let(:params) { valid_params }
 
-      include_context 'patch request'
+        include_context 'patch request'
 
-      it_behaves_like 'unauthorized access'
+        it_behaves_like 'not found', 42, 'WorkPackage'
+      end
+
+      context 'no permission to edit the work package' do
+        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+        let(:current_user) {
+          FactoryGirl.create(:user,
+                             member_in_project: work_package.project,
+                             member_through_role: role)
+        }
+        let(:params) { valid_params }
+
+        include_context 'patch request'
+
+        it_behaves_like 'unauthorized access'
+      end
     end
 
     context 'user with needed permissions' do
