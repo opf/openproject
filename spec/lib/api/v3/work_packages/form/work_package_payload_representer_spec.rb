@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Form::WorkPackageFormRepresenter do
+describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:representer)  { described_class.new(work_package) }
 

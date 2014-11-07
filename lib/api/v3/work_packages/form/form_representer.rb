@@ -79,7 +79,7 @@ module API
 
           property :payload,
                    embedded: true,
-                   decorator: Form::WorkPackageFormRepresenter,
+                   decorator: Form::WorkPackagePayloadRepresenter,
                    getter: -> (*) { self }
           property :schema,
                    embedded: true,
