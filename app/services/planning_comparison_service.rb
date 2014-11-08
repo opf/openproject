@@ -86,16 +86,13 @@ SQL
   protected
 
   def self.filtered_work_packages(projects, filter)
-    work_package_scope = WorkPackage.scoped
-                         .joins(:status)
-                         .joins(:project) # query doesn't provide these joins itself...
-                         .for_projects(projects)
-
     query = Query.new name: 'generated-query'
     query.add_filters(filter[:f], filter[:op], filter[:v])
 
-    work_package_scope.with_query(query)
-      .pluck(:id)
+    WorkPackage.for_projects(projects)
+               .with_query(query)
+               .joins(:status, :project)
+               .pluck(:id)
   end
 
   def self.unfiltered_work_packages(projects)
