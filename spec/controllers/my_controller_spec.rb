@@ -67,7 +67,7 @@ describe MyController, type: :controller do
       it 'should show an error message' do
         assert_response :success
         assert_template 'password'
-        expect(user.errors.keys).to eq([:password])
+        expect(user.errors.keys).to eq([:password_confirmation])
         expect(user.errors.values.flatten.join('')).to include('confirmation')
       end
     end
