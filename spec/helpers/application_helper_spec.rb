@@ -157,7 +157,7 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>") }
+      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
     end
 
     context 'link given but disabled' do
