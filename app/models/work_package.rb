@@ -76,7 +76,7 @@ class WorkPackage < ActiveRecord::Base
   scope :in_status, lambda { |*args| where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first)) }
 
   scope :for_projects, lambda { |projects|
-    { conditions: { project_id: projects } }
+    where(project_id: projects)
   }
 
   scope :changed_since, lambda { |changed_since|
