@@ -66,48 +66,57 @@ class WorkPackage < ActiveRecord::Base
   attr_protected :project_id, :author_id, :lft, :rgt
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  scope :recently_updated, order: "#{WorkPackage.table_name}.updated_at DESC"
-  scope :visible, lambda {|*args|
-    { include: :project,
-      conditions: WorkPackage.visible_condition(args.first ||
-                                                                 User.current) }
+  scope :recently_updated, ->() {
+    order(updated_at: :desc)
   }
 
-  scope :in_status, lambda { |*args| where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first)) }
+  scope :visible, ->(*args) {
+    includes(:project)
+    .where(WorkPackage.visible_condition(args.first || User.current))
+  }
 
-  scope :for_projects, lambda { |projects|
+  scope :in_status, ->(*args) {
+    status_id = args.first.respond_to?(:id) ? args.first.id : args.first
+    where(status_id: status_id)
+  }
+
+  scope :for_projects, ->(projects) {
     where(project_id: projects)
   }
 
-  scope :changed_since, lambda { |changed_since|
-    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
+  scope :changed_since, ->(changed_since) {
+    if changed_since
+      where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since])
+    else
+      nil
+    end
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  scope :open, conditions: ["#{Status.table_name}.is_closed = ?", false], include: :status
-
-  scope :with_limit, lambda { |limit| { limit: limit } }
-
-  scope :on_active_project, lambda {
-    {
-      include: [:status, :project, :type],
-      conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }
+  scope :open, ->() {
+    includes(:status)
+    .where(statuses: { is_closed: false  })
   }
 
-  scope :without_version, lambda {
-    {
-      conditions: { fixed_version_id: nil }
-    }
+  scope :with_limit, ->(limit) {
+    limit(limit)
   }
 
-  scope :with_query, lambda {|query|
-    {
-      conditions: ::Query.merge_conditions(query.statement)
-    }
+  scope :on_active_project, -> {
+    includes(:status, :project, :type)
+    .where(projects: { status: Project::STATUS_ACTIVE })
   }
 
-  scope :with_author, lambda { |author|
-    { conditions: { author_id: author.id } }
+  scope :without_version, -> {
+    where(fixed_version_id: nil)
+  }
+
+  scope :with_query, ->(query) {
+    where(::Query.merge_conditions(query.statement))
+  }
+
+  scope :with_author, ->(author) {
+    where(author_id: author.id)
   }
 
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
