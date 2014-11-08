@@ -13,7 +13,11 @@ Ruby 2.1.3 (MRI) and necessary libraries to run the OpenProject source code.
 
 The installation procedure assumes the following prerequisites to be met:
 
-* A server running either _Debian 7.6 (amd64)_ or _Fedora 20 (amd64)_ to perform the installation on.
+* A server running one of the following Linux distributions:
+** _Debian 7.6 Wheezy 64 bits server_
+** _Ubuntu 14.04 Trusty 64bits server_
+** _Fedora 20 64bits server_
+** _CentOS 6 / RHEL 6 64 bits server_
 * A mail server that is accessible via SMTP that can be used for sending notification emails. OpenProject supports authentication, yet does not provide support for SMTP via SSL/TLS.
 
 If you intend to use SSL for OpenProject:
@@ -23,7 +27,7 @@ If you intend to use SSL for OpenProject:
 
 The following steps have to be performed to initiate the actual installation of OpenProject via package manager. Note that all commands should either be run as root or should be prepended by sudo otherwise (typically depending what linux distribution is used).
 
-## Debian 7 Wheezy 64bits server
+## Debian 7.6 Wheezy 64bits server
 
     # install https support
     apt-get install apt-transport-https
