@@ -23,7 +23,7 @@ If you intend to use SSL for OpenProject:
 
 The following steps have to be performed to initiate the actual installation of OpenProject via package manager. Note that all commands should either be run as root or should be prepended by sudo otherwise (typically depending what linux distribution is used).
 
-## Debian
+## Debian 7 Wheezy 64bits server
 
     # install https support
     apt-get install apt-transport-https
@@ -33,12 +33,29 @@ The following steps have to be performed to initiate the actual installation of 
     sudo apt-get update
     sudo apt-get install openproject
 
-## Fedora
+## Ubuntu 14.04 Trusty 64bits server
+
+    wget -qO - https://deb.packager.io/key | sudo apt-key add -
+    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable" |
+    sudo tee /etc/apt/sources.list.d/openproject.list
+    sudo apt-get update
+    sudo apt-get install openproject
+
+## Fedora 20 64bits server
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
     baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/feature/packager-new-installer-stable
+    enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
+    sudo yum install openproject
+
+## CentOS / RHEL 6 64 bits server
+
+    sudo rpm --import https://rpm.packager.io/key
+    echo "[openproject]
+    name=Repository for opf/openproject application.
+    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -116,13 +133,13 @@ The command above will bring up the installation wizard again. Please be aware t
 
 Upgrading the OpenProject is as easy as installing a newer OpenProject package and running the openproject configure command.
 
-## Debian
+## Debian / Ubuntu
 
     sudo apt-get update
     sudo apt-get install --only-upgrade openproject
     sudo openproject configure
 
-## Fedora
+## Fedora / CentOS / RHEL
 
     sudo yum update
     sudo yum install openproject
