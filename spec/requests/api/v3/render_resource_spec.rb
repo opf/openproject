@@ -42,7 +42,7 @@ describe 'API v3 Render resource' do
           let(:id) { work_package.id }
           let(:href) { "/work_packages/#{id}" }
           let(:title) { "#{work_package.subject} (#{work_package.status})" }
-          let(:textile) { "<p>Hello World! Have a look at <a href=\"#{href}\" class=\"issue work_package status-1 priority-1\" title=\"#{title}\">##{id}</a></p>" }
+          let(:textile) { "<p>Hello World! Have a look at <a class=\"issue work_package status-1 priority-1\" href=\"#{href}\" title=\"#{title}\">##{id}</a></p>" }
 
           it_behaves_like 'valid response'
         end
