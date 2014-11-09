@@ -427,7 +427,7 @@ class Project < ActiveRecord::Base
 
   def to_param
     # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{\A\d*\z} ? id : identifier)
+    @to_param ||= (identifier.to_s =~ %r{\A\d*\z} ? id.to_s : identifier)
   end
 
   def active?
