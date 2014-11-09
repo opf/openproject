@@ -161,7 +161,7 @@ describe VersionsController, type: :controller do
 
         select_substring = "select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\""
         # selected option tag for the new version
-        option_substring = "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
+        option_substring = "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
 
         expect(response.body.include?(select_substring)).to be_truthy
         expect(response.body.include?(option_substring)).to be_truthy
