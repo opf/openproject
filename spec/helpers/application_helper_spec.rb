@@ -47,7 +47,7 @@ describe ApplicationHelper, type: :helper do
 
     it 'escapes potentially harmful code' do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?('lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;')).to be_truthy
+      expect(format_activity_description(text).include?('&lt;script&gt;alert(&#39;pwnd&#39;);&lt;/script&gt;')).to be_truthy
     end
   end
 
