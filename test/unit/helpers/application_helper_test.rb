@@ -216,7 +216,7 @@ RAW
     to_test = {
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
-      "#{identifier}:version:\"1.0\""         => "<a href=\"/versions/#{version.id}\" class=\"version\">1.0</a>",
+      "#{identifier}:version:\"1.0\""         => "<a class=\"version\" href=\"/versions/#{version.id}\">1.0</a>",
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
       # changeset
       "r#{changeset.revision}"                => "r#{changeset.revision}",
@@ -340,9 +340,9 @@ EXPECTED
     FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Last page"
 
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
-                 "<tr><td><a href=\"/projects/#{@project.identifier}/wiki/Page\" class=\"wiki-page new\">Link title</a></td>" +
-                 "<td><a href=\"/projects/#{@project.identifier}/wiki/Other_Page\" class=\"wiki-page\">Other title</a></td>" +
-                 "</tr><tr><td>Cell 21</td><td><a href=\"/projects/#{@project.identifier}/wiki/Last_page\" class=\"wiki-page\">Last page</a></td></tr>"
+                 "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/Page\">Link title</a></td>" +
+                 "<td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Other_Page\">Other title</a></td>" +
+                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Last_page\">Last page</a></td></tr>"
     }
 
     to_test.each { |text, result| assert_equal "<table>#{result}</table>", format_text(text).gsub(/[\t\n]/, '') }
@@ -524,7 +524,7 @@ RAW
                  link_to_project(@project, :action => 'settings', :tab => 'members')
     assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
                  link_to_project(@project, {:only_path => false, :jump => 'blah'})
-    assert_equal %(<a href="/projects/#{p_id}/settings" class="project">#{p_name}</a>),
+    assert_equal %(<a class="project" href="/projects/#{p_id}/settings">#{p_name}</a>),
                  link_to_project(@project, {:action => 'settings'}, :class => "project")
   end
 end
