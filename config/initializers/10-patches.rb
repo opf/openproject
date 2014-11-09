@@ -91,6 +91,12 @@ end
 
 module ActionView
   module Helpers
+    module Tags
+      Base.class_eval do
+        attr_reader :method_name
+      end
+    end
+
     module AccessibleErrors
       def self.included(base)
         base.send(:include, InstanceMethods)
