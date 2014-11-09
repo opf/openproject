@@ -83,15 +83,6 @@ class ActiveSupport::TestCase
   def setup
     super
     Rails.cache.clear
-    # Ugly H4X to convince postgresql to update its sequences after bulk loading fixtures
-    # TODO: remove this when we got rid of the fixtures
-    ActiveRecord::Base.descendants.each do |model|
-      if model.table_name \
-         and defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter) \
-         and ActiveRecord::Base.connection.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
-        ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
-      end
-    end
 
     # initializes the mocking features
     RSpec::Mocks.setup
