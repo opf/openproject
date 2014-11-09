@@ -44,7 +44,7 @@ module OpenProject
 
     # Truncates and returns the string as a single line
     def truncate_single_line(string, *args)
-      truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
+      truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
     end
 
     # Truncates at line break after 250 characters or options[:length]
@@ -329,7 +329,7 @@ module OpenProject
               if project && project.repository && (changeset = Changeset.visible.find(:first, conditions: ['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]))
                 link = link_to h("#{project_prefix}#{name}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                                class: 'changeset',
-                               title: truncate_single_line(h(changeset.comments), length: 100)
+                               title: truncate_single_line(changeset.comments, length: 100)
               end
             when 'source', 'export'
               if project && project.repository && User.current.allowed_to?(:browse_repository, project)
