@@ -163,8 +163,8 @@ describe VersionsController, type: :controller do
         # selected option tag for the new version
         option_substring = "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
 
-        expect(response.body.include?(select_substring)).to be_truthy
-        expect(response.body.include?(option_substring)).to be_truthy
+        expect(response.body).to include(select_substring)
+        expect(response.body).to include(option_substring)
       end
 
       it 'escapes potentially harmful html' do
