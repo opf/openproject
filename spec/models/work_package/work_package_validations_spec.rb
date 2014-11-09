@@ -41,7 +41,7 @@ describe WorkPackage, type: :model do
     end
 
     it { is_expected.to ensure_length_of(:subject).is_at_most 255 }
-    it { is_expected.to ensure_inclusion_of(:done_ratio).in_range 0..100 }
+    it { is_expected.to validate_inclusion_of(:done_ratio).in_range 0..100 }
     it { is_expected.to validate_numericality_of :estimated_hours }
 
     it 'validates, that start-date is before end-date' do
@@ -107,7 +107,7 @@ describe WorkPackage, type: :model do
       expect(wp).to be_valid
 
     end
-    it 'validate, that the fixed_version belongs to the project ticket lives in' do
+    it 'validate, that the fixed_version belongs to the project the ticket lives in' do
       other_project = FactoryGirl.create(:project)
       non_assignable_version = FactoryGirl.create(:version, project: other_project)
 

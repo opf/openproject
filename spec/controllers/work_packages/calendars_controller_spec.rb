@@ -52,7 +52,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
       it { is_expected.to be_success }
 
-      it { is_expected.to render_template('calendar') }
+      it { is_expected.to render_template('work_packages/calendars/index') }
 
       context :assigns do
         subject { assigns(:calendar) }

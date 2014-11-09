@@ -50,10 +50,10 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, conditions: { status: 'open' }
-  scope :visible, lambda {|*args|
-    { include: :project,
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) }
+  scope :open, -> { where(status: 'open') }
+  scope :visible, ->(*args) {
+    includes(:project)
+    .where(Project.allowed_to_condition(args.first || User.current, :view_work_packages))
   }
 
   scope :systemwide, -> { where(sharing: 'system') }

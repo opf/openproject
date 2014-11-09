@@ -327,8 +327,8 @@ describe CustomField, type: :model do
         field.translations_attributes = { '0' => { 'name' => 'name_en',
                                                    'default_value' => '1',
                                                    'locale' => 'en' },
-                                          '1' => { 'name' => 'name_es',
-                                                   'locale' => 'es' } }
+                                          '1' => { 'name' => 'name_de',
+                                                   'locale' => 'de' } }
         field.is_required = true
       end
 

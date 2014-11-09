@@ -566,8 +566,9 @@ class Project < ActiveRecord::Base
   def shared_versions
     @shared_versions ||= begin
       r = root? ? self : root
-      Version.scoped(include: :project,
-                     conditions: "#{Project.table_name}.id = #{id}" +
+
+      Version.includes(:project)
+             .where("#{Project.table_name}.id = #{id}" +
                                     " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                           " #{Version.table_name}.sharing = 'system'" +
                                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +

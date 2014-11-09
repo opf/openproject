@@ -33,7 +33,14 @@ class Principal < ActiveRecord::Base
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
+  has_many :memberships, -> {
+                          includes(:project, :roles)
+                           .where(projects: { status: Project::STATUS_ACTIVE})
+                           .order('projects.name ASC')
+                           # haven't been able to produce the order using hashes
+                        },
+                        :class_name => 'Member',
+                        foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
@@ -44,7 +51,9 @@ class Principal < ActiveRecord::Base
 
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
-  scope :not_in_project, lambda { |project| { conditions: "id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})" } }
+  scope :not_in_project, ->(project) {
+    where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
+  }
 
   scope :like, lambda { |q|
     firstnamelastname = "((firstname || ' ') || lastname)"
@@ -58,14 +67,12 @@ class Principal < ActiveRecord::Base
 
     s = "%#{q.to_s.downcase.strip.tr(',', '')}%"
 
-    {
-      conditions: ['LOWER(login) LIKE :s OR ' +
-        "LOWER(#{firstnamelastname}) LIKE :s OR " +
-        "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-        'LOWER(mail) LIKE :s',
-                   { s: s }],
-      order: 'type, login, lastname, firstname, mail'
-    }
+    where(['LOWER(login) LIKE :s OR ' +
+             "LOWER(#{firstnamelastname}) LIKE :s OR " +
+             "LOWER(#{lastnamefirstname}) LIKE :s OR " +
+             'LOWER(mail) LIKE :s',
+           { s: s }])
+    .order(:type, :login, :lastname, :firstname, :mail)
   }
 
   scope :visible_by, lambda { |principal| Principal.visible_by_condition(principal) }
