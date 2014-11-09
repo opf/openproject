@@ -35,7 +35,7 @@ class TypeTest < ActiveSupport::TestCase
     source = ::Type.find(1)
     assert_equal 89, source.workflows.size
 
-    target = Type.new(:name => 'Target')
+    target = ::Type.new(:name => 'Target')
     assert target.save
     target.workflows.copy(source)
     target.reload

@@ -97,7 +97,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal ['work_package_tracking', 'repository'], Project.new.enabled_module_names
     end
 
-    assert_equal Type.all, Project.new.types
+    assert_equal ::Type.all, Project.new.types
     assert_equal ::Type.find(1, 3), Project.new(:type_ids => [1, 3]).types
   end
 
@@ -426,7 +426,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1, 2], parent.type_ids
     assert_equal [2, 3], child.types.collect(&:id)
 
-    assert_kind_of Type, parent.rolled_up_types.first
+    assert_kind_of ::Type, parent.rolled_up_types.first
 
     assert_equal [999, 1, 2, 3], parent.rolled_up_types.collect(&:id)
     assert_equal [2, 3], child.rolled_up_types.collect(&:id)
@@ -985,7 +985,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     should "be nil if there are no issues on the project" do
@@ -1008,7 +1008,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     should "be nil if there are no issues on the project" do
@@ -1050,7 +1050,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
     end
 
     context "no versions" do

@@ -124,7 +124,7 @@ def create_work_packages_from_table(table, project)
     [['author', User],
      ['responsible', User],
      ['assigned_to', User],
-     ['type', Type],
+     ['type', ::Type],
      ['fixed_version', Version],
      ['priority', IssuePriority],
      ['status', Status],

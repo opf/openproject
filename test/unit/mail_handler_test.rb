@@ -269,7 +269,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_japanese_keywords
-    type = Type.create!(:name => '開発')
+    type = ::Type.create!(:name => '開発')
     Project.find(1).types << type
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'type')
     assert_kind_of WorkPackage, issue

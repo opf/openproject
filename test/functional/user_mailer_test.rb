@@ -42,7 +42,7 @@ class UserMailerTest < ActionMailer::TestCase
     User.delete_all
     WorkPackage.delete_all
     Project.delete_all
-    Type.delete_all
+    ::Type.delete_all
     ActionMailer::Base.deliveries.clear
 
     User.current = User.anonymous

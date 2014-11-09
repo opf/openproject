@@ -58,7 +58,7 @@ end
 project = Project.create(name: 'Seeded Project',
                          identifier: 'seeded_project',
                          description: Faker::Lorem.paragraph(5),
-                         types: Type.all,
+                         types: ::Type.all,
                          is_public: true
                         )
 

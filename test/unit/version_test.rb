@@ -165,7 +165,7 @@ class VersionTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.types << Type.generate!
+      @project.types << ::Type.generate!
 
       (@version = Version.new.tap do |v|
         v.force_attributes = { :project => @project, :effective_date => nil, :name => "test" }

@@ -114,8 +114,8 @@ class TypesControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    type = Type.create!(:name => 'Destroyable')
-    assert_difference 'Type.count', -1 do
+    type = ::Type.create!(:name => 'Destroyable')
+    assert_difference '::Type.count', -1 do
       post :destroy, :id => type.id
     end
     assert_redirected_to :action => 'index'
@@ -123,7 +123,7 @@ class TypesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_type_in_use
-    assert_no_difference 'Type.count' do
+    assert_no_difference '::Type.count' do
       post :destroy, :id => 1
     end
     assert_redirected_to :action => 'index'

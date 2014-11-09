@@ -155,7 +155,7 @@ class ProjectsController < ApplicationController
     flash[:notice] = []
 
     unless params.has_key? :project
-      params[:project] = { 'type_ids' => [Type.standard_type.id] }
+      params[:project] = { 'type_ids' => [::Type.standard_type.id] }
       flash[:notice] << l(:notice_automatic_set_of_standard_type)
     end
 
