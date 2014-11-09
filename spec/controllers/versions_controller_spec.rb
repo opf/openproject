@@ -269,7 +269,7 @@ describe VersionsController, type: :controller do
       end
 
       it { expect(response).to be_success }
-      it { expect(response).to render_template('work_package_counts') }
+      it { expect(response).to render_template('versions/_work_package_counts') }
     end
 
     context 'status by version with status_by' do
@@ -278,7 +278,7 @@ describe VersionsController, type: :controller do
       end
 
       it { expect(response).to be_success }
-      it { expect(response).to render_template('work_package_counts') }
+      it { expect(response).to render_template('versions/_work_package_counts') }
     end
   end
 end
