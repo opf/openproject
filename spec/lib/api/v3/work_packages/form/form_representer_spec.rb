@@ -84,6 +84,19 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end
+
+        context 'user with insufficient permissions' do
+          let(:role) { FactoryGirl.create(:role, permissions: []) }
+          let(:current_user) {
+            FactoryGirl.build(:user,
+                              member_in_project: work_package.project,
+                              member_through_role: role)
+          }
+
+          before { allow(work_package).to receive(:valid?).and_return(true) }
+
+          it { is_expected.not_to have_json_path('_links/commit/href') }
+        end
       end
     end
 
