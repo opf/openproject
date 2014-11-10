@@ -58,7 +58,8 @@ class MembersController < ApplicationController
         format.js do
           @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
           render(:update) do |page|
-            page.replace_html 'tab-content-members', partial: 'projects/settings/members'
+            page.replace_html 'tab-content-members', partial: 'projects/settings/members',
+                                                     locals: { members: members }
             page.insert_html :top, 'tab-content-members', render_flash_messages
 
             page << MembersController.tab_scripts
