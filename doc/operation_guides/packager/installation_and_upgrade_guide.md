@@ -50,7 +50,7 @@ The following steps have to be performed to initiate the actual installation of 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/feature/packager-new-installer-stable
+    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
