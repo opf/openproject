@@ -33,6 +33,11 @@ module Api
       module ClassMethods
         def included(base)
           base.class_eval do
+            rescue_from(ActionController::ParameterMissing) do |exception|
+              render text:   "Required parameter missing: #{exception.param}",
+                     status: :bad_request
+            end
+
             if (respond_to? :skip_before_filter) && (respond_to? :prepend_before_filter)
               skip_before_filter :disable_api
               prepend_before_filter :disable_everything_except_api
