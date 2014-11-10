@@ -104,27 +104,6 @@ module IssuesHelper
     s.html_safe
   end
 
-  def visible_queries
-    unless @visible_queries
-      # User can see public queries and his own queries
-      visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
-      # Project specific queries and global queries
-      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
-      @visible_queries = Query.find(:all,
-                                    select: 'id, name, is_public',
-                                    order: 'name ASC',
-                                    conditions: visible.conditions)
-    end
-    @visible_queries
-  end
-
-  def grouped_query_options
-    {
-      l(:label_my_queries)   => visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] },
-      l(:label_query_plural) => visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
-    }
-  end
-
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
     association = WorkPackage.reflect_on_association(field.to_sym)
