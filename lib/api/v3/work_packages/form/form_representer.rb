@@ -65,7 +65,8 @@ module API
 
           link :previewMarkup do
             {
-              href: "#{root_path}api/v3/render/textile",
+              href: "#{root_path}api/v3/render/textile?"\
+                    "#{root_path}api/v3/work_packages/#{represented.id}",
               method: :post
             }
           end
