@@ -45,8 +45,6 @@ module API
                   payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
                               .new(@work_package)
 
-                  # enforces availibility validation of lock_version
-                  payload.represented.lock_version = nil
                   payload.from_json(request_body.to_json)
                 end
               end

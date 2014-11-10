@@ -40,6 +40,13 @@ module API
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
+          def initialize(represented)
+            # enforces availibility validation of lock_version
+            represented.lock_version = nil
+
+            super(represented)
+          end
+
           property :_type, exec_context: :decorator, writeable: false
 
           property :linked_resources,
