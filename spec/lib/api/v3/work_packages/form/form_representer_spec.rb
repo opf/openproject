@@ -29,7 +29,11 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Form::FormRepresenter do
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:work_package) {
+    FactoryGirl.build(:work_package,
+                      created_at: DateTime.now,
+                      updated_at: DateTime.now)
+  }
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }

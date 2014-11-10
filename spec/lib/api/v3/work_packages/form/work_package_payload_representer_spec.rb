@@ -29,8 +29,14 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:work_package) {
+    FactoryGirl.build(:work_package,
+                      created_at: DateTime.now,
+                      updated_at: DateTime.now)
+  }
   let(:representer)  { described_class.new(work_package) }
+
+  before { allow(work_package).to receive(:lock_version).and_return(1) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
