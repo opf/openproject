@@ -679,6 +679,18 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "message": "You are not allowed to edit example resources."
             }
 
++ Response 409 (application/hal+json)
+
+    Returned if underlying resource was changed since the client requested the form. This is determined using the `lockVersion` property.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
+                "message": "The resource you are about to edit was changed in the meantime."
+            }
+
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).

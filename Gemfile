@@ -139,7 +139,7 @@ group :test do
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
-  gem 'selenium-webdriver', '~> 2.43.0'
+  gem 'selenium-webdriver', '~> 2.44.0'
   gem 'timecop', "~> 0.6.1"
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this

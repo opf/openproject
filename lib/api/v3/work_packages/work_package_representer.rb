@@ -224,9 +224,9 @@ module API
                  getter: -> (*) { description },
                  setter: -> (value, *) { self.description = value },
                  render_nil: true
-        property :status, render_nil: true
+        property :status, getter: -> (*) { status.try(:name) }, render_nil: true
         property :is_closed, getter: -> (*) { closed? }
-        property :priority, render_nil: true
+        property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
