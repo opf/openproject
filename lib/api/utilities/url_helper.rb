@@ -30,8 +30,8 @@
 module API
   module Utilities
     module UrlHelper
-      include OpenProject::StaticRouting::UrlHelpers
       include ActionView::Helpers::UrlHelper
+      include OpenProject::StaticRouting::UrlHelpers
 
       def controller; end # The URL helpers need a controller, even if it's nil
     end
