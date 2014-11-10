@@ -1,3 +1,6 @@
 ruby:
   enabled: true
   config_file: config/.rubocop.yml
+java_script:
+  enabled: true
+  config_file: config/.jshintrc
