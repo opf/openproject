@@ -67,7 +67,9 @@ class WorkPackage < ActiveRecord::Base
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, ->() {
-    order(updated_at: :desc)
+    # Specified as a String due to https://github.com/rails/rails/issues/15405
+    # TODO: change to Hash on upgrade to Rails 4.1.
+    order('updated_at DESC')
   }
 
   scope :visible, ->(*args) {
