@@ -42,19 +42,12 @@ module API
 
               def write_work_package_attributes
                 if request_body
-                  request_body_without_links = request_body
-                  links = request_body_without_links.delete('_links')
+                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
+                              .new(@work_package)
 
                   # enforces availibility validation of lock_version
-                  @representer.represented.lock_version = nil
-                  @representer.from_json(request_body_without_links.to_json)
-
-                  if links
-                    linked_properties = ::API::V3::WorkPackages::LinkToObjectExtractor
-                                          .parse_links(links)
-
-                    @representer.represented.attributes = linked_properties
-                  end
+                  payload.represented.lock_version = nil
+                  payload.from_json(request_body.to_json)
                 end
               end
 

@@ -37,17 +37,21 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::Utilities::UrlHelper
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           property :_type, exec_context: :decorator, writeable: false
 
-          link :status do
-            {
-              href: "#{root_path}api/v3/statuses/#{represented.status.id}"
-            } if represented.status
-          end
+          property :linked_resources,
+                   as: :_links,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     work_package_attribute_links_representer represented
+                   },
+                   setter: -> (value, *) {
+                     representer = work_package_attribute_links_representer represented
+                     representer.from_json(value.to_json)
+                   }
 
           property :lock_version
           property :subject, render_nil: true
@@ -55,9 +59,34 @@ module API
                    getter: -> (*) { description },
                    setter: -> (value, *) { self.description = value },
                    render_nil: true
+          property :parent_id, writeable: true
+
+          property :project_id, getter: -> (*) { project.id }
+          property :start_date,
+                   getter: -> (*) {
+                     start_date.to_datetime.utc.iso8601 unless start_date.nil?
+                   },
+                   render_nil: true
+          property :due_date,
+                   getter: -> (*) {
+                     due_date.to_datetime.utc.iso8601 unless due_date.nil?
+                   },
+                   render_nil: true
+          property :version_id,
+                   getter: -> (*) { fixed_version.try(:id) },
+                   setter: -> (value, *) { self.fixed_version_id = value },
+                   render_nil: true
+          property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
+          property :updated_at, getter: -> (*) { updated_at.utc.iso8601 }, render_nil: true
 
           def _type
             'WorkPackage'
+          end
+
+          private
+
+          def work_package_attribute_links_representer(represented)
+            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
           end
         end
       end
