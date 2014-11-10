@@ -32,6 +32,7 @@ var gulpWebpack = require('gulp-webpack');
 var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
+var watch = require('gulp-watch');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -92,3 +93,7 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
 });
 
 gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('watch', function() {
+  gulp.watch('app/assets/javascripts/angular/**/*.js', ['webpack']);
+  gulp.watch('app/assets/stylesheets/**/*.sass', ['sass']);
+});
