@@ -32,7 +32,7 @@ namespace :copyright do
     case format
     when :ruby, :rb
       short_copyright_line('#', options)
-    when :js
+    when :js, :sass
       short_copyright_line('//', options)
     when :css
       short_copyright_surrounding('/*', '*/', options)
@@ -76,7 +76,7 @@ namespace :copyright do
     case format
     when :ruby, :rb
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?#--\s*copyright.*?\+\+/m
-    when :js, :css
+    when :js, :css, :sass
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#--\s*copyright.*?\+\+#%>/m
@@ -189,6 +189,14 @@ namespace :copyright do
     rewrite_copyright('css.erb', excluded, :css, args[:arg1])
   end
 
+  desc 'Update the copyright on .sass source files'
+  task :update_sass, :arg1 do |task, args|
+    excluded = %w(
+      app/assets/stylesheets/default.css.sass
+    )
+    rewrite_copyright('sass', excluded, :sass, args[:arg1])
+  end
+
   desc 'Update the copyright on .sql source files'
   task :update_sql, :arg1 do |_task, args|
     rewrite_copyright('sql', [], :sql, args[:arg1])
@@ -264,6 +272,7 @@ namespace :copyright do
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
       feature rdoc rjs md sql html yml yml_example rb_example special_files
+      sass
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end

@@ -1,29 +1,30 @@
-/*-- copyright
- * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See doc/COPYRIGHT.rdoc for more details.  ++*/
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
 
 $vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
 $button_gray_font_color: #222222
@@ -104,12 +105,7 @@ $button_gray_font_color: #222222
 @mixin button-highlight-background
   border: 1px solid $button_highlight_border_color
   background: $button_highlight_background_color
-  background: $button_highlight_background_gradient_moz
-  background: $button_highlight_background_gradient_webkit
-  background: $button_highlight_background_gradient_webkit_l
-  background: $button_highlight_background_gradient_o
-  background: $button_highlight_background_gradient_ms
-  background: $button_highlight_background_gradient
+  +background-image($button_highlight_background_gradient)
 
   &:enabled:hover
     border: 1px solid $button_highlight_background_hover_color
@@ -118,21 +114,11 @@ $button_gray_font_color: #222222
 @mixin button-background
   border: 1px solid #ccc
   background: #ffffff
-  background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 74%, #eeeeee 100%)
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(74%,#eeeeee), color-stop(100%,#eeeeee))
-  background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
-  background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
-  background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
-  background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
+  +background-image(linear-gradient(to bottom, #ffffff 0%, #eeeeee 74%, #eeeeee 100%))
 
   &:enabled:hover
     border: 1px solid #777777
-    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 40%, #ddd 100%)
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(40%,#eeeeee), color-stop(100%,#ddd))
-    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#ddd 100%)
-    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
-    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
-    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
+    +background-image(linear-gradient(to bottom, #ffffff 0%, #eeeeee 40%, #ddd 100%))
 
 @mixin button-active-background
   border: 1px solid #CCCCCC
