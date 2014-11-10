@@ -83,9 +83,7 @@ describe WelcomeController, type: :controller do
     session[:user_id] = 2
 
     get :index
-    assert_tag 'script',
-               attributes: { type: 'text/javascript' },
-               content: /warnLeavingUnsaved/
+    assert_tag 'script', content: /warnLeavingUnsaved/
   end
 
   it 'should warn on leaving unsaved turn off' do
@@ -95,8 +93,6 @@ describe WelcomeController, type: :controller do
     session[:user_id] = 2
 
     get :index
-    assert_no_tag 'script',
-                  attributes: { type: 'text/javascript' },
-                  content: /warnLeavingUnsaved/
+    assert_no_tag 'script', content: /warnLeavingUnsaved/
   end
 end
