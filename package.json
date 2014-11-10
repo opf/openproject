@@ -12,6 +12,7 @@
     "gulp-jshint": "^1.8.5",
     "gulp-protractor": "0.0.11",
     "gulp-ruby-sass": "^0.7.1",
+    "gulp-watch": "^1.1.0",
     "gulp-webpack": "^1.0.0",
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
