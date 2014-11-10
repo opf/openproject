@@ -45,7 +45,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   }
   let(:category) { FactoryGirl.build(:category) }
   let(:project) { work_package.project }
-  let(:permissions) { %i(view_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_work_package_relations add_work_package_notes) }
+  let(:permissions) {
+    [
+      :view_work_packages,
+      :view_work_package_watchers,
+      :edit_work_packages,
+      :add_work_package_watchers,
+      :delete_work_package_watchers,
+      :manage_work_package_relations,
+      :add_work_package_notes
+    ]
+  }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
@@ -122,6 +132,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
         expect(subject).to have_json_path('_links/self/title')
+      end
+
+      describe 'update links' do
+        describe 'update by form' do
+          it { expect(subject).to have_json_path('_links/update/href') }
+          it {
+            expect(subject).to be_json_eql("/api/v3/work_packages/#{work_package.id}/form".to_json)
+              .at_path('_links/update/href')
+          }
+          it { expect(subject).to be_json_eql('post'.to_json).at_path('_links/update/method') }
+        end
+
+        describe 'immediate update' do
+          it { expect(subject).to have_json_path('_links/updateImmediately/href') }
+          it {
+            expect(subject).to be_json_eql("/api/v3/work_packages/#{work_package.id}".to_json)
+              .at_path('_links/updateImmediately/href')
+          }
+          it {
+            expect(subject).to be_json_eql('patch'.to_json)
+              .at_path('_links/updateImmediately/method')
+          }
+        end
       end
 
       describe 'version' do
