@@ -43,7 +43,7 @@ module API
               def write_work_package_attributes
                 if request_body
                   payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
-                              .new(@work_package)
+                              .new(@work_package, enforce_lock_version_validation: true)
 
                   payload.from_json(request_body.to_json)
                 end

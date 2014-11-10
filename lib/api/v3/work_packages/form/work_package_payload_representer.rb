@@ -40,9 +40,11 @@ module API
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          def initialize(represented)
-            # enforces availibility validation of lock_version
-            represented.lock_version = nil
+          def initialize(represented, options={})
+            if options[:enforce_lock_version_validation]
+              # enforces availibility validation of lock_version
+              represented.lock_version = nil
+            end
 
             super(represented)
           end
