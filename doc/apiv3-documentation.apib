@@ -204,15 +204,15 @@ the amount of elements returned in this response and action links to retrieve th
 
 ## Links
 
-| Link           | Description                                                              | Availability                |
-|:--------------:| ------------------------------------------------------------------------ | --------------------------- |
-| self           | Link to the current page in the collection                               | always                      |
-| changeSize     | Templated link to change the page size, preserving the relative position | when paginated              |
-| jumpTo         | Templated link to jump to a specified offset                             | when offset based available |
-| nextOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
-| previousOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
-| next           | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
-| previous       | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+| Link             | Description                                                              | Availability                |
+|:----------------:| ------------------------------------------------------------------------ | --------------------------- |
+| self             | Link to the current page in the collection                               | always                      |
+| changeSize       | Templated link to change the page size, preserving the relative position | when paginated              |
+| jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
+| nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
+| previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
+| nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
+| previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
 
 ## Pagination
 
