@@ -105,6 +105,11 @@ class ApplicationController < ActionController::Base
     render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    render text:   "Required parameter missing: #{exception.param}",
+           status: :bad_request
+  end
+
   before_filter :user_setup,
                 :check_if_login_required,
                 :log_requesting_user,
