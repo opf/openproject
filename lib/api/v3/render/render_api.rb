@@ -62,13 +62,13 @@ module API
             def parse_context
               context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
 
-              fail API::Errors::InvalidRenderContext.new('No context found.') if context.nil?
-
-              unless SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
+              if context.nil?
+                fail API::Errors::InvalidRenderContext.new('No context found.')
+              elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
                 fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
+              else
+                context
               end
-
-              context
             end
 
             def render(type)
