@@ -75,7 +75,8 @@ module API
             {
               href: "#{root_path}api/v3/work_packages/#{represented.id}",
               method: :patch
-            } if represented.valid?
+            } if @current_user.allowed_to?(:edit_work_packages, represented.project) &&
+                 represented.valid?
           end
 
           property :payload,
