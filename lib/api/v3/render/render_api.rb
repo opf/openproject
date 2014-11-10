@@ -54,7 +54,6 @@ module API
                 case context[:ns]
                 when 'work_packages'
                   WorkPackage.visible(current_user).find(context[:id])
-                else
                 end
               end
             end
