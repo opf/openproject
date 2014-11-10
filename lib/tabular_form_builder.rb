@@ -38,7 +38,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  (field_helpers - %w(radio_button hidden_field fields_for label) + %w(date_select)).each do |selector|
+  (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
       if options[:multi_locale] || options[:single_locale]
