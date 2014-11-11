@@ -88,7 +88,7 @@ module OpenProject
 
         convert_old_email_settings(@config)
 
-        load_overrides_from_environment_variables(@config)
+        override_config!(@config)
 
         if @config['email_delivery_method']
           configure_action_mailer(@config)
@@ -101,19 +101,19 @@ module OpenProject
 
       # Replace config values for which an environment variable with the same key in upper case
       # exists
-      def load_overrides_from_environment_variables(config)
+      def override_config!(config, source = ENV)
         config.each do |key, value|
-          config[key] = ENV.fetch(key.upcase, value)
+          config[key] = source.fetch(key.upcase, value)
         end
 
-        config.deep_merge! merge_config_from_env(config)
+        config.deep_merge! merge_config(config, source)
       end
 
-      def merge_config_from_env(config, prefix: 'OP', include_prefix_in_path: false)
+      def merge_config(config, source, prefix: 'OP')
         new_config = {}
 
-        ENV.select { |k, _| k =~ /^#{prefix}_/i }.each do |k, value|
-          path = self.path prefix, k, include_prefix_in_path: include_prefix_in_path
+        source.select { |k, _| k =~ /^#{prefix}_/i }.each do |k, value|
+          path = self.path prefix, k
           org_config = config
           path.inject(new_config) do |set, key|
             org_config = org_config[key] if org_config
@@ -130,9 +130,9 @@ module OpenProject
         new_config.with_indifferent_access
       end
 
-      def path(prefix, env_var_name, include_prefix_in_path: false)
+      def path(prefix, env_var_name)
         path = []
-        env_var_name = env_var_name[prefix.length..-1] unless include_prefix_in_path
+        env_var_name = env_var_name[prefix.length..-1]
 
         env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
           path << unescape_underscores(seg.downcase).to_sym
