@@ -101,12 +101,14 @@ describe OpenProject::Configuration do
     let(:env_vars) {
       {
         'SOMESETTING' => 'bar',
-        'OP_NESTED_KEY' => 'baz',
-        'OP_NESTED_DEEPLY__NESTED_KEY' => '42'
+        'OPTEST_NESTED_KEY' => 'baz',
+        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42'
       }
     }
 
     before do
+      stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
+
       OpenProject::Configuration.send :override_config!, config, env_vars
     end
 
