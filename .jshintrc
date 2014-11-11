@@ -14,7 +14,20 @@
     "Hyperagent",
     "gon",
 
-    "Ajax"
+    "Ajax",
+
+    "context",
+    "expect",
+    "describe",
+    "xdescribe",
+    "it",
+    "xit",
+    "beforeEach",
+    "before",
+    "afterEach",
+    "after",
+    "sinon",
+    "Factory"
   ],
 
   "asi": false,
