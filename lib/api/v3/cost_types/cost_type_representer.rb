@@ -31,9 +31,9 @@ module API
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         def initialize(model, unit_summary, options = {}, *expand)
-          @expand = expand
-          @work_package = options[:work_package]
           @summary = unit_summary
+          @work_package = options[:work_package]
+          @current_user = options[:current_user]
 
           super(model)
         end
@@ -43,7 +43,14 @@ module API
         property :id, render_nil: true
         property :name, render_nil: true
         property :units,
-                 getter: -> (*) { cost_entries.sum(&:units) },
+                 getter: -> (*) {
+                   cost_entries = @work_package.cost_entries
+                                               .visible(@current_user, @work_package.project)
+                                               .where(cost_type_id: represented.id)
+
+                   cost_entries.sum(&:units)
+                 },
+                 exec_context: :decorator,
                  render_nil: true
         property :unit,
                  exec_context: :decorator,

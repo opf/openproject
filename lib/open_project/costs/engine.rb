@@ -156,7 +156,13 @@ module OpenProject::Costs
 
       send(:define_method, :summarized_cost_entries) do
         self.attributes_helper.summarized_cost_entries
-            .map { |c| ::API::V3::CostTypes::CostTypeRepresenter.new(c[0], c[1], work_package: represented) }
+            .map do |c|
+              ::API::V3::CostTypes::CostTypeRepresenter
+                .new(c[0],
+                     c[1],
+                     work_package: represented,
+                     current_user: @current_user)
+            end
       end
 
       send(:define_method, :attributes_helper) do
