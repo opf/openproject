@@ -63,12 +63,12 @@ For example, given the following configuration:
 
 You can override it by defining the following environment variable:
 
-    OP_STORAGE_TMP__PATH=/some/other/path
+    OPENPROJECT_STORAGE_TMP__PATH=/some/other/path
 
 You can also add new values this way. For instance you could add another field 'type' to the
 storage config above like this:
 
-    OP_STORAGE_TYPE=nfs
+    OPENPROJECT_STORAGE_TYPE=nfs
 
 ## List of options
 
