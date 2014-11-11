@@ -259,8 +259,8 @@ between two page requests, it is possible that the client receives elements clos
                         "href": "/api/v3/examples?offset=25&pageSize={size}",
                         "templated": true
                     },
-                    "previousOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
-                    "previous": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                    "previousByOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
                 },
                 "_type": "Collection",
                 "total": 27,
@@ -309,7 +309,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
                         "href": "/api/v3/examples?after=buz&pageSize={size}",
                         "templated": true
                     },
-                    "previous": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
                 },
                 "_type": "Collection",
                 "total": 27,
