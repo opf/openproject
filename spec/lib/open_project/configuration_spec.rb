@@ -107,17 +107,7 @@ describe OpenProject::Configuration do
     }
 
     before do
-      env_vars.each do |key, value|
-        ENV[key] = value
-      end
-
-      OpenProject::Configuration.send(:load_overrides_from_environment_variables, config)
-    end
-
-    after do
-      env_vars.keys.each do |key|
-        ENV.delete key
-      end
+      OpenProject::Configuration.send :override_config!, config, env_vars
     end
 
     it 'should override the previous setting value' do
