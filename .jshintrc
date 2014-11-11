@@ -45,6 +45,7 @@
   "noarg": true,
   "noempty": true,
   "nonew": true,
+  "maxlen": 100,
   "quotmark": true,
   "sub": true,
   "trailing": true,
