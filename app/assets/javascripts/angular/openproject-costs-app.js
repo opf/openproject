@@ -33,22 +33,29 @@ openprojectCostsApp.run(['HookService',
                          'ConfigurationService',
                          'WorkPackagesOverviewService',
                          function(HookService, ConfigurationService, WorkPackagesOverviewService) {
+  var addAttributesToGroup = function(group, attributes) {
+    angular.forEach(attributes, function(id, attribute) {
+      WorkPackagesOverviewService.addAttributeToGroup(group, id || attribute);
+    });
+  };
+
   var setupCostsAttributes = function() {
     var position = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes().length - 1;
     var costsAttributes = {
-      overallCosts: null,
-      spentHours: 'spentHoursLinked',
       costObject: null,
-      summarizedCostEntries: 'spentUnits'
+      overallCosts: null,
+      summarizedCostEntries: 'spentUnits',
+    };
+    var estimatesAndTimeAttributes = {
+      spentHours: 'spentHoursLinked'
     };
 
     WorkPackagesOverviewService.removeAttribute('spentTime');
     WorkPackagesOverviewService.addGroup('costs', position);
 
-    angular.forEach(costsAttributes, function(id, costAttribute) {
-      WorkPackagesOverviewService.addAttributeToGroup('costs', id || costAttribute);
-    });
-  }
+    addAttributesToGroup('costs', costsAttributes);
+    addAttributesToGroup('estimatesAndTime', estimatesAndTimeAttributes);
+  };
 
   if (ConfigurationService.isModuleEnabled('costs_module')) {
     setupCostsAttributes();
