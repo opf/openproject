@@ -33,6 +33,8 @@ module OpenProject
   module Configuration
     extend Helpers
 
+    ENV_PREFIX = 'OPENPROJECT_'
+
     # Configuration default values
     @defaults = {
       'attachments_storage_path' => nil,
@@ -111,10 +113,10 @@ module OpenProject
         config.deep_merge! merge_config(config, source)
       end
 
-      def merge_config(config, source, prefix: 'OP')
+      def merge_config(config, source, prefix: ENV_PREFIX)
         new_config = {}
 
-        source.select { |k, _| k =~ /^#{prefix}_/i }.each do |k, value|
+        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
           path = self.path prefix, k
           org_config = config
           path.inject(new_config) do |set, key|
@@ -134,7 +136,7 @@ module OpenProject
 
       def path(prefix, env_var_name)
         path = []
-        env_var_name = env_var_name[prefix.length..-1]
+        env_var_name = env_var_name.sub prefix, ''
 
         env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
           path << unescape_underscores(seg.downcase).to_sym
