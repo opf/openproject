@@ -86,19 +86,50 @@ describe OpenProject::Configuration do
   end
 
   describe '.load_overrides_from_environment_variables' do
-    let(:config) { {'somesetting' => 'foo'} }
+    let(:config) {
+      {
+        'somesetting' => 'foo',
+        'nested' => {
+          'key' => 'value',
+          'deeply_nested' => {
+            'key' => nil
+          }
+        }
+      }
+    }
+
+    let(:env_vars) {
+      {
+        'SOMESETTING' => 'bar',
+        'OP_NESTED_KEY' => 'baz',
+        'OP_NESTED_DEEPLY__NESTED_KEY' => '42'
+      }
+    }
 
     before do
-      ENV['SOMESETTING'] = 'bar'
+      env_vars.each do |key, value|
+        ENV[key] = value
+      end
+
       OpenProject::Configuration.send(:load_overrides_from_environment_variables, config)
+    end
+
+    after do
+      env_vars.keys.each do |key|
+        ENV.delete key
+      end
     end
 
     it 'should override the previous setting value' do
       expect(config['somesetting']).to eq('bar')
     end
 
-    after do
-      ENV.delete 'SOMESETTING'
+    it 'should override a nested value' do
+      expect(config['nested']['key']).to eq('baz')
+    end
+
+    it 'should override values nested several levels deep' do
+      expect(config['nested']['deeply_nested']['key']).to eq('42')
     end
   end
 

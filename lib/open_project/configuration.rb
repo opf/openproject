@@ -105,6 +105,48 @@ module OpenProject
         config.each do |key, value|
           config[key] = ENV.fetch(key.upcase, value)
         end
+
+        config.deep_merge! merge_config_from_env(config)
+      end
+
+      def merge_config_from_env(config, prefix: 'OP', include_prefix_in_path: false)
+        new_config = {}
+
+        ENV.select { |k, _| k =~ /^#{prefix}_/i }.each do |k, value|
+          path = self.path prefix, k, include_prefix_in_path: include_prefix_in_path
+          org_config = config
+          path.inject(new_config) do |set, key|
+            org_config = org_config[key] if org_config
+            if key == path.last
+              set[key] = get_value value
+            elsif !set.include?(key)
+              set[key] = org_config || {}
+            end
+
+            set[key]
+          end
+        end
+
+        new_config.with_indifferent_access
+      end
+
+      def path(prefix, env_var_name, include_prefix_in_path: false)
+        path = []
+        env_var_name = env_var_name[prefix.length..-1] unless include_prefix_in_path
+
+        env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
+          path << unescape_underscores(seg.downcase).to_sym
+        end
+
+        path
+      end
+
+      def get_value(value)
+        value
+      end
+
+      def unescape_underscores(path_segment)
+        path_segment.gsub '__', '_'
       end
 
       # Returns a configuration setting
