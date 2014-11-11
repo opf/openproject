@@ -31,7 +31,6 @@ module API
   module V3
     module Render
       class RenderAPI < Grape::API
-        include OpenProject::TextFormatting
         format :txt
 
         resources :render do
@@ -43,43 +42,32 @@ module API
             end
 
             def context_object
+              try_context_object
+            rescue ::ActiveRecord::RecordNotFound
+              fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+            end
+
+            def try_context_object
               if params[:context]
-                context_object = nil
-                namespace, id = parse_context
+                context = parse_context
 
-                case namespace
+                case context[:ns]
                 when 'work_packages'
-                  context_object = WorkPackage.visible(current_user).find_by_id(id)
-                end
-
-                unless context_object
-                  fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+                  WorkPackage.visible(current_user).find(context[:id])
                 end
               end
             end
 
             def parse_context
-              contexts = API::V3::Root.routes.map do |route|
-                route_options = route.instance_variable_get(:@options)
-                match = route_options[:compiled].match(params[:context])
+              context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
 
-                if match
-                  {
-                    ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-                    id: match[:id]
-                  }
-                end
-              end
-
-              contexts.compact!.uniq! { |c| c[:ns] }
-
-              fail API::Errors::InvalidRenderContext.new('No context found.') if contexts.empty?
-
-              unless SUPPORTED_CONTEXT_NAMESPACES.include? contexts[0][:ns]
+              if context.nil?
+                fail API::Errors::InvalidRenderContext.new('No context found.')
+              elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
                 fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
+              else
+                context
               end
-
-              [contexts[0][:ns], contexts[0][:id]]
             end
 
             def render(type)

@@ -134,7 +134,7 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8"
       }, force: true};
-      return workPackage.links.update.fetch(options).then(function(workPackage) {
+      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
         return workPackage;
       })
     },

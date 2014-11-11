@@ -34,7 +34,13 @@ module API
   module V3
     module WorkPackages
       class WorkPackageContract < Reform::Contract
-        WRITEABLE_ATTRIBUTES = ['lock_version', 'subject', 'parent_id', 'description'].freeze
+        WRITEABLE_ATTRIBUTES = [
+          'lock_version',
+          'subject',
+          'parent_id',
+          'description',
+          'status_id'
+        ].freeze
 
         def initialize(object, user)
           super(object)
@@ -43,15 +49,23 @@ module API
           @can = WorkPackagePolicy.new(user)
         end
 
+        validate :user_allowed_to_access
         validate :user_allowed_to_edit
         validate :user_allowed_to_edit_parent
-        validate :lock_version_set
+        validate :lock_version_valid
         validate :readonly_attributes_unchanged
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
 
         private
+
+        def user_allowed_to_access
+          unless ::WorkPackage.visible(@user).exists?(model)
+            message = "Couldn't find WorkPackage with id=#{model.id}"
+            errors.add :error_not_found, message
+          end
+        end
 
         def user_allowed_to_edit
           errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
@@ -63,8 +77,8 @@ module API
           end
         end
 
-        def lock_version_set
-          errors.add :error_conflict, '' if model.lock_version.nil?
+        def lock_version_valid
+          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
         end
 
         def readonly_attributes_unchanged

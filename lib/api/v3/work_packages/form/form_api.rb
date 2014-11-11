@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -28,33 +27,31 @@
 #++
 
 module API
-  module Errors
-    class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors
+  module V3
+    module WorkPackages
+      module Form
+        class FormAPI < Grape::API
+          helpers do
+            def process_form_request
+              write_work_package_attributes
+              write_request_valid?
 
-      def self.create(errors)
-        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
-          if errors.has_key?(key)
-            case key
-            when :error_not_found
-              return ::API::Errors::NotFound.new(errors[key].join(' '))
-            when :error_unauthorized
-              return ::API::Errors::Unauthorized
-            when :error_conflict
-              return ::API::Errors::Conflict
-            when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
+              error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+
+              if error.is_a? ::API::Errors::Validation
+                status 200
+                FormRepresenter.new(@representer.represented, current_user: current_user)
+              else
+                fail error
+              end
             end
+
+          end
+
+          post '/form' do
+            process_form_request
           end
         end
-
-        ::API::Errors::Validation.new(errors.full_messages)
-      end
-
-      def initialize(code, message)
-        @code = code
-        @message = message
-        @errors = []
       end
     end
   end

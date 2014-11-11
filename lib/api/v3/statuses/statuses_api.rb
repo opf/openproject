@@ -39,6 +39,12 @@ module API
           get do
             StatusCollectionRepresenter.new(@statuses)
           end
+
+          namespace ':id' do
+            get do
+              fail NotImplementedError
+            end
+          end
         end
       end
     end

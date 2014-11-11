@@ -27,34 +27,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'roar/json/hal'
+
 module API
-  module Errors
-    class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors
+  module V3
+    module WorkPackages
+      module Form
+        class WorkPackageAttributeLinksRepresenter < Roar::Decorator
+          include Roar::JSON::HAL
+          include Roar::Hypermedia
+          include API::Utilities::UrlHelper
 
-      def self.create(errors)
-        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
-          if errors.has_key?(key)
-            case key
-            when :error_not_found
-              return ::API::Errors::NotFound.new(errors[key].join(' '))
-            when :error_unauthorized
-              return ::API::Errors::Unauthorized
-            when :error_conflict
-              return ::API::Errors::Conflict
-            when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
-            end
-          end
+          self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+          property :status,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     { href: "#{root_path}api/v3/statuses/#{represented.status.id}" }
+                   },
+                   setter: -> (value, *) {
+                     resource = ::API::V3::Utilities::ResourceLinkParser.parse value['href']
+
+                     represented.status_id = resource[:id] if resource[:ns] == 'statuses'
+                   },
+                   if: -> (*) { represented.status }
         end
-
-        ::API::Errors::Validation.new(errors.full_messages)
-      end
-
-      def initialize(code, message)
-        @code = code
-        @message = message
-        @errors = []
       end
     end
   end

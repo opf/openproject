@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,34 +26,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors
+require 'spec_helper'
 
-      def self.create(errors)
-        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
-          if errors.has_key?(key)
-            case key
-            when :error_not_found
-              return ::API::Errors::NotFound.new(errors[key].join(' '))
-            when :error_unauthorized
-              return ::API::Errors::Unauthorized
-            when :error_conflict
-              return ::API::Errors::Conflict
-            when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
-            end
-          end
-        end
+describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
+  let(:work_package) {
+    FactoryGirl.build(:work_package,
+                      created_at: DateTime.now,
+                      updated_at: DateTime.now)
+  }
+  let(:representer)  { described_class.new(work_package) }
 
-        ::API::Errors::Validation.new(errors.full_messages)
+  before { allow(work_package).to receive(:lock_version).and_return(1) }
+
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
+
+    describe 'work_package' do
+      it { is_expected.to have_json_path('subject') }
+      it { is_expected.to have_json_path('rawDescription') }
+
+      describe 'lock version' do
+        it { is_expected.to have_json_path('lockVersion') }
+
+        it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
+
+        it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
       end
+    end
 
-      def initialize(code, message)
-        @code = code
-        @message = message
-        @errors = []
+    describe '_links' do
+      it { is_expected.to have_json_type(Object).at_path('_links') }
+
+      it 'should link status' do
+        expect(subject).to have_json_path('_links/status/href')
       end
     end
   end

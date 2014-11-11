@@ -40,15 +40,20 @@ module API
             helpers do
               attr_reader :work_package
 
-              def decorate_work_package(work_package)
-                @representer = ::API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, { current_user: current_user }, :activities, :users)
+              def write_work_package_attributes
+                if request_body
+                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
+                              .new(@work_package, enforce_lock_version_validation: true)
+
+                  payload.from_json(request_body.to_json)
+                end
               end
 
-              def patch_request_body
-                env['api.request.input']
+              def request_body
+                env['api.request.body']
               end
 
-              def patch_request_valid?
+              def write_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
                 # Although the contract triggers the ActiveModel validations on
@@ -68,7 +73,8 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              decorate_work_package(@work_package)
+              @representer = ::API::V3::WorkPackages::WorkPackageRepresenter
+                .new(work_package, { current_user: current_user }, :activities, :users)
             end
 
             get do
@@ -77,9 +83,7 @@ module API
             end
 
             patch do
-              @representer.represented.lock_version = nil # enforces availibility validation of lock_version
-
-              @representer.from_json(patch_request_body)
+              write_work_package_attributes
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
               update_service = UpdateWorkPackageService.new(current_user,
@@ -87,8 +91,8 @@ module API
                                                             nil,
                                                             send_notifications)
 
-              if patch_request_valid? && update_service.save
-                decorate_work_package(@work_package.reload)
+              if write_request_valid? && update_service.save
+                @representer.represented.reload
                 @representer
               else
                 fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
@@ -149,6 +153,7 @@ module API
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::WorkPackages::StatusesAPI
             mount ::API::V3::Relations::RelationsAPI
+            mount ::API::V3::WorkPackages::Form::FormAPI
 
           end
 

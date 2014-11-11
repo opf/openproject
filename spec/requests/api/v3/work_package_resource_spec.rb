@@ -210,17 +210,37 @@ h4. things we like
     end
 
     context 'user without needed permissions' do
-      let(:current_user) { FactoryGirl.create :user }
-      let(:params) { valid_params }
+      context 'no permission to see the work package' do
+        let(:work_package) { FactoryGirl.create(:work_package, id: 42) }
+        let(:current_user) { FactoryGirl.create :user }
+        let(:params) { valid_params }
 
-      include_context 'patch request'
+        include_context 'patch request'
 
-      it_behaves_like 'unauthorized access'
+        it_behaves_like 'not found', 42, 'WorkPackage'
+      end
+
+      context 'no permission to edit the work package' do
+        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+        let(:current_user) {
+          FactoryGirl.create(:user,
+                             member_in_project: work_package.project,
+                             member_through_role: role)
+        }
+        let(:params) { valid_params }
+
+        include_context 'patch request'
+
+        it_behaves_like 'unauthorized access'
+      end
     end
 
     context 'user with needed permissions' do
       shared_examples_for 'lock version updated' do
-        it { expect(subject.body).to be_json_eql(work_package.reload.lock_version).at_path('lockVersion') }
+        it {
+          expect(subject.body).to be_json_eql(work_package.reload.lock_version)
+            .at_path('lockVersion')
+        }
       end
 
       describe 'notification' do
@@ -343,6 +363,44 @@ h4. things we like
           it { expect(response.status).to eq(200) }
 
           it_behaves_like 'description updated', '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+        end
+      end
+
+      context 'status' do
+        let(:target_status) { FactoryGirl.create(:status) }
+        let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
+        let(:status_parameter) { { _links: { status: { href: status_link } } } }
+        let(:params) { valid_params.merge(status_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid status' do
+          let!(:workflow) {
+            FactoryGirl.create(:workflow,
+                               type_id: work_package.type.id,
+                               old_status: work_package.status,
+                               new_status: target_status,
+                               role: current_user.memberships[0].roles[0])
+          }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with updated work package status' do
+            expect(subject.body).to be_json_eql(target_status.name.to_json)
+              .at_path('status')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'invalid status' do
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation',
+                          'Status no valid transition exists from old to new '\
+                          'status for the current user roles.'
         end
       end
 
@@ -469,7 +527,7 @@ h4. things we like
           it_behaves_like 'update conflict'
         end
 
-        context 'state object' do
+        context 'stale object' do
           let(:params) { valid_params.merge(subject: 'Updated subject') }
 
           before do

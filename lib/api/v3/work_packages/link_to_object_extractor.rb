@@ -28,33 +28,21 @@
 #++
 
 module API
-  module Errors
-    class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors
+  module V3
+    module WorkPackages
+      module LinkToObjectExtractor
+        def self.parse_links(links)
+          links.keys.each_with_object({}) do |attribute, h|
+            resource = ::API::V3::Utilities::ResourceLinkParser.parse links[attribute]['href']
 
-      def self.create(errors)
-        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
-          if errors.has_key?(key)
-            case key
-            when :error_not_found
-              return ::API::Errors::NotFound.new(errors[key].join(' '))
-            when :error_unauthorized
-              return ::API::Errors::Unauthorized
-            when :error_conflict
-              return ::API::Errors::Conflict
-            when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
+            if resource
+              case resource[:ns]
+              when 'statuses'
+                h[:status_id] = resource[:id]
+              end
             end
           end
         end
-
-        ::API::Errors::Validation.new(errors.full_messages)
-      end
-
-      def initialize(code, message)
-        @code = code
-        @message = message
-        @errors = []
       end
     end
   end

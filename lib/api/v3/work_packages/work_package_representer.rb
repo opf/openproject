@@ -59,6 +59,14 @@ module API
 
         link :update do
           {
+            href: "#{root_path}api/v3/work_packages/#{represented.id}/form",
+            method: :post,
+            title: "Update #{represented.subject}"
+          } if current_user_allowed_to(:edit_work_packages)
+        end
+
+        link :updateImmediately do
+          {
             href: "#{root_path}api/v3/work_packages/#{represented.id}",
             method: :patch,
             title: "Update #{represented.subject}"
