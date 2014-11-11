@@ -1,3 +1,19 @@
 {
-  "sub": true
+  "asi": false,
+  "bitwise": true,
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "forin": true,
+  "immed": true,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "quotmark": true,
+  "sub": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
 }
