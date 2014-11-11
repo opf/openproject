@@ -1,4 +1,5 @@
 {
+  "node": true,
   "asi": false,
   "bitwise": true,
   "browser": true,
