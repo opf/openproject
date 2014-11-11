@@ -29,11 +29,12 @@
 /*jshint expr: true*/
 
 describe('Timeline table helper', function() {
-  var TimelineTableHelper;
+  var TimelineTableHelper, TreeNode;
 
-  beforeEach(module('openproject.timelines.helpers'));
-  beforeEach(inject(function(_TimelineTableHelper_) {
+  beforeEach(module('openproject.timelines.helpers', 'openproject.timelines.models'));
+  beforeEach(inject(function(_TimelineTableHelper_, _TreeNode_) {
     TimelineTableHelper = _TimelineTableHelper_;
+    TreeNode = _TreeNode_;
   }));
 
   describe('setRowLevelVisibility', function() {
