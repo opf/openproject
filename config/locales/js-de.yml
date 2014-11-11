@@ -385,3 +385,9 @@ de:
     relations:
       empty: Keine bestehenden Beziehungen
       delete: Beziehung löschen
+    inplace:
+      button_edit: "Bearbeiten"
+      button_save: "Speichern"
+      button_save_and_send: "Speichern mit E-Mail-Benachrichtigung"
+      button_cancel: "Abbrechen"
+      link_formatting_help: "Textformatierung"
