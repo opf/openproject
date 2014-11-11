@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function() {
+module.exports = function(Timeline) {
 
   var Project = {
     objectType: 'Project',
@@ -626,17 +626,6 @@ module.exports = function() {
     },
     getElements: function() {
       return [];
-    },
-    all: function(timeline) {
-      // collect all planning elements
-      var r = timeline.projects;
-      var result = [];
-      for (var key in r) {
-        if (r.hasOwnProperty(key)) {
-          result.push(r[key]);
-        }
-      }
-      return result;
     }
   };
 

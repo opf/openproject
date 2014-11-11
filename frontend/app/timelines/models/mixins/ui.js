@@ -42,8 +42,8 @@ module.exports = function($timeout) {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ UI and Plotting                                                   │
   // ╰───────────────────────────────────────────────────────────────────╯
-
-  var UI = {
+  var Timeline, UI;
+  Timeline = UI = {
 
     DEFAULT_COLOR: '#999999',
     DEFAULT_FILL_COLOR_IN_COMPARISONS: 'none',
