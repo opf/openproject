@@ -56,4 +56,4 @@ module.exports = function($rootScope, $timeout, ConfigurationService) {
       });
     }
   };
-}
+};

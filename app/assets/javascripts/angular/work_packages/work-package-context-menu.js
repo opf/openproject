@@ -56,7 +56,7 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
   function deleteSelectedWorkPackages() {
     var rows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
 
-    WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id }), true);
+    WorkPackageService.performBulkDelete(getSelectedWorkPackages().map(function(wp) { return wp.id; }), true);
   }
 
   function getWorkPackagesFromSelectedRows() {
@@ -78,4 +78,4 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
     }
   }
 
-}
+};

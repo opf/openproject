@@ -105,4 +105,4 @@ module.exports = function() {
       };
     }
   };
-}
+};

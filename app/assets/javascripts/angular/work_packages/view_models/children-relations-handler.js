@@ -33,14 +33,14 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
       handler.type = "child";
       handler.applyCustomExtensions = undefined;
 
-      handler.canAddRelation = function() { return !!this.workPackage.links.addChild };
+      handler.canAddRelation = function() { return !!this.workPackage.links.addChild; };
       handler.canDeleteRelation = function() {
         return !!this.workPackage.links.update;
       };
       handler.addRelation = function() {
-        window.location = this.workPackage.links.addChild.href
+        window.location = this.workPackage.links.addChild.href;
       };
-      handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
+      handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.removeRelation = function(scope) {
           var index = this.relations.indexOf(scope.relation);
           var handler = this;
@@ -59,7 +59,7 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
       };
 
       return handler;
-  };
+  }
 
   return ChildrenRelationsHandler;
-}
+};

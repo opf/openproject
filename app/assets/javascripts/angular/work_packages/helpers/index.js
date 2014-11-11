@@ -42,4 +42,4 @@ angular.module('openproject.workPackages.helpers')
     'CustomFieldHelper', require('./work-packages-helper')
   ])
   .factory('WorkPackagesTableHelper', ['WorkPackagesHelper', require(
-    './work-packages-table-helper')])
+    './work-packages-table-helper')]);

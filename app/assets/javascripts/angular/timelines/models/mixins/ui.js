@@ -1021,4 +1021,4 @@ module.exports = function($timeout) {
   };
 
   return UI;
-}
+};

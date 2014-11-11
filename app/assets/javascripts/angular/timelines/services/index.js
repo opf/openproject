@@ -32,4 +32,4 @@ angular.module('openproject.timelines.services')
     'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status',
     'Timeline', 'User', 'CustomField',
     require('./timeline-loader-service')
-  ])
+  ]);

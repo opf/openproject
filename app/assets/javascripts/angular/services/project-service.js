@@ -61,4 +61,4 @@ module.exports = function($http, PathHelper, FiltersHelper) {
   };
 
   return ProjectService;
-}
+};

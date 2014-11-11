@@ -176,4 +176,4 @@ module.exports = function() {
 
 
   return SvgHelper;
-}
+};

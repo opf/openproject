@@ -38,4 +38,4 @@ module.exports = function(PathHelper) {
       scope.attachmentPath = PathHelper.staticAttachmentPath(scope.attachment.props.id, scope.attachment.props.fileName);
     }
   };
-}
+};

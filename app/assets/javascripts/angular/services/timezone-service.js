@@ -69,4 +69,4 @@ module.exports = function(ConfigurationService, I18n) {
   };
 
   return TimezoneService;
-}
+};

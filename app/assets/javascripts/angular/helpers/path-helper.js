@@ -133,7 +133,7 @@ module.exports = function() {
       var path = "/projects/" + projectId + '/work_packages/new?';
 
       for (var parameter in parameters) {
-        path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';'
+        path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';';
       }
 
       return path;
@@ -279,4 +279,4 @@ module.exports = function() {
   };
 
   return PathHelper;
-}
+};

@@ -45,4 +45,4 @@ module.exports = function() {
   };
 
   return AuthorisationService;
-}
+};

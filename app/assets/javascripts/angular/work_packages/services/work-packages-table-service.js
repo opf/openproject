@@ -106,7 +106,7 @@ module.exports = function($filter, QueryService, WorkPackagesTableHelper) {
         if (ids.indexOf(row.object.id) >= 0) {
           rows.push(row);
         }
-      })
+      });
 
       return rows;
     },
@@ -173,4 +173,4 @@ module.exports = function($filter, QueryService, WorkPackagesTableHelper) {
   };
 
   return WorkPackagesTableService;
-}
+};

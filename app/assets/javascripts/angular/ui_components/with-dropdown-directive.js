@@ -123,4 +123,4 @@ module.exports = function ($rootScope, $window, ESC_KEY, FocusHelper) {
         });
       }
     };
-  }
+  };

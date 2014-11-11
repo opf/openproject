@@ -449,9 +449,9 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
       msg = msg || I18n.t('js.notice_bad_request');
       return function(response){
         return angular.extend(response, { status: { text: msg, isError: true }} );
-      }
+      };
     }
   };
 
   return QueryService;
-}
+};

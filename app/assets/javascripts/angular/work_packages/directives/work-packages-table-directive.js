@@ -126,7 +126,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
           invalidateWidths();
           setTableContainerWidths();
           setHeaderFooterWidths();
-        })
+        });
       };
 
       $timeout(setTableWidths);
@@ -222,4 +222,4 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       };
     }
   };
-}
+};

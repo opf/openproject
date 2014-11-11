@@ -127,4 +127,4 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPL
   };
 
   return CommonRelationsHandler;
-}
+};

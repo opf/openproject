@@ -35,4 +35,4 @@ module.exports = function() {
       scope.relationToAddId = null;
     }
   };
-}
+};

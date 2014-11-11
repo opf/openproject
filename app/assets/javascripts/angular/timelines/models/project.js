@@ -639,4 +639,4 @@ module.exports = function() {
   };
 
   return Project;
-}
+};

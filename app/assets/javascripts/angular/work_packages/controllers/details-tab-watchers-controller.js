@@ -143,4 +143,4 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   $scope.watcher = { selected: null };
 
   $scope.$watch('watcher.selected', addWatcher);
-}
+};

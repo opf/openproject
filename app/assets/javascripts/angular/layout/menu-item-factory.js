@@ -108,4 +108,4 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
       link: linkFn
     };
   };
-}
+};

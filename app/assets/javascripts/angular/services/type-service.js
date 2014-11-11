@@ -51,4 +51,4 @@ module.exports = function($http, PathHelper) {
   };
 
   return TypeService;
-}
+};

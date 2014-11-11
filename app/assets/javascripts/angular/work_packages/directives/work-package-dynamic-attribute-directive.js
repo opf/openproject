@@ -34,10 +34,10 @@ module.exports = function($compile){
       workPackage: '='
     },
     link: function(scope, element, attributes) {
-      var html = '<' + scope.htmlElement + '></' + scope.htmlElement +'>'
+      var html = '<' + scope.htmlElement + '></' + scope.htmlElement +'>';
 
       element.html(html);
       $compile(element.contents())(scope);
     }
   };
-}
+};

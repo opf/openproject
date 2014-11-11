@@ -167,4 +167,4 @@ module.exports = function($injector, $window, $parse) {
       win.bind(triggerOnEvent, handleWindowClickEvent);
     }
   };
-}
+};

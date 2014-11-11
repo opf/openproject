@@ -337,4 +337,4 @@ module.exports = function() {
   };
 
   return TreeNode;
-}
+};

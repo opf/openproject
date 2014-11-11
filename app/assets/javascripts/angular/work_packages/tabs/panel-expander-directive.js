@@ -37,4 +37,4 @@ module.exports = function() {
       collapseText: '@'
     }
   };
-}
+};

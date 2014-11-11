@@ -151,4 +151,4 @@ module.exports = function($scope, $state, latestTab, workPackage, I18n, RELATION
 
     $scope.focusAnchorLabel = getFocusAnchorLabel($state.current.url.replace(/\//, ''), $scope.workPackage);
 
-}
+};

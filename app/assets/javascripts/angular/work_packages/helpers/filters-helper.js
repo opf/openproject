@@ -69,4 +69,4 @@ module.exports = function(I18n) {
   };
 
   return FiltersHelper;
-}
+};

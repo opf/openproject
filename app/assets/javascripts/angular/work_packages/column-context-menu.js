@@ -80,7 +80,7 @@ module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPac
     };
 
     $scope.canMoveRight = function() {
-      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1
+      return isValidColumn($scope.column) && $scope.columns.indexOf($scope.column) !== $scope.columns.length - 1;
     };
 
     $scope.canBeHidden = function() {
@@ -103,5 +103,5 @@ module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPac
       }
 
       return focus;
-    }
-}
+    };
+};

@@ -30,4 +30,4 @@ angular.module('openproject.timeEntries.controllers')
   .controller('TimeEntriesController', ['$scope', '$http', 'PathHelper',
     'SortService', 'PaginationService',
     require('./time-entries-controller')
-  ])
+  ]);

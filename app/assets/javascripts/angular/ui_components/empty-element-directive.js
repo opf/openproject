@@ -31,4 +31,4 @@ module.exports = function() {
     restrict: 'E',
     templateUrl: "/templates/components/empty_element.html"
   };
-}
+};

@@ -229,4 +229,4 @@ angular.module('openproject.workPackages.controllers')
     'QueryService',
     'I18n',
     require('./dialogs/sorting')
-  ])
+  ]);

@@ -71,4 +71,4 @@ module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
   };
 
   return CustomFieldHelper;
-}
+};

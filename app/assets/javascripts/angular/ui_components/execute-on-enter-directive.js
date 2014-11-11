@@ -43,4 +43,4 @@ module.exports = function(ENTER_KEY) {
       });
     }
   };
-}
+};

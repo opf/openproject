@@ -54,7 +54,7 @@ module.exports = function(HALAPIResource, $http, PathHelper){
         return activity;
       });
     }
-  }
+  };
 
   return ActivityService;
-}
+};

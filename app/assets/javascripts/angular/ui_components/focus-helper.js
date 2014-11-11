@@ -62,11 +62,11 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
             focusSelect2ElementRecursiv(--retries);
           }
         });
-      }
+      };
 
       focusSelect2ElementRecursiv(3);
     }
   };
 
   return FocusHelper;
-}
+};

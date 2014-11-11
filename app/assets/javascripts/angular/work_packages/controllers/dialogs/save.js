@@ -44,4 +44,4 @@ module.exports = function($scope, saveModal, QueryService, AuthorisationService,
         $scope.$emit('flashMessage', data.status);
       });
   };
-}
+};

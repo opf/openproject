@@ -56,4 +56,4 @@ module.exports = function($scope, settingsModal, QueryService, AuthorisationServ
         }
       });
     };
-}
+};

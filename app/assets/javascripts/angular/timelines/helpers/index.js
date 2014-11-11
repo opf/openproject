@@ -28,4 +28,4 @@
 
 angular.module('openproject.timelines.helpers')
   .factory('FilterQueryStringBuilder', require('./filter-query-string-builder'))
-  .factory('TimelineTableHelper', require('./timeline-table-helper'))
+  .factory('TimelineTableHelper', require('./timeline-table-helper'));

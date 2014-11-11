@@ -81,4 +81,4 @@ module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
   };
 
   return PaginationService;
-}
+};

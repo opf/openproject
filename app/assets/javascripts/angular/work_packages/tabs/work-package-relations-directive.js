@@ -88,4 +88,4 @@ module.exports = function(I18n, WorkPackagesHelper, $timeout) {
       };
     }
   };
-}
+};

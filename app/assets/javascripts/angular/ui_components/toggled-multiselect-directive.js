@@ -74,4 +74,4 @@ module.exports = function(I18n){
       scope.isMultiselect = (Array.isArray(scope.values) && scope.values.length > 1);
     }
   };
-}
+};

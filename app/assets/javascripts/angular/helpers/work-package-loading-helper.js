@@ -61,4 +61,4 @@ module.exports = function($timeout) {
         }, errorCallback);
     }
   };
-}
+};

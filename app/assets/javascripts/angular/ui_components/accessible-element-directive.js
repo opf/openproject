@@ -35,4 +35,4 @@ module.exports = function() {
     },
     templateUrl: "/templates/components/accessible_element.html"
   };
-}
+};

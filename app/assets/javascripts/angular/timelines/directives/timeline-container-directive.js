@@ -83,4 +83,4 @@ module.exports = function($window, Timeline) {
       }
     }
   };
-}
+};

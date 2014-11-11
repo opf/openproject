@@ -46,7 +46,7 @@ module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, 
             angular.element('#edit-comment-text').focus();
           });
         }
-      })
+      });
 
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
@@ -108,4 +108,4 @@ module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, 
       }
     }
   };
-}
+};

@@ -29,5 +29,5 @@
 module.exports = function() {
   return function(items, isDescending, visible){
     return isDescending ? items.slice(0, visible) : items.slice(-visible).reverse();
-  }
-}
+  };
+};

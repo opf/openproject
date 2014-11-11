@@ -171,4 +171,4 @@ module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper)
       renderTimeline();
     }
   };
-}
+};

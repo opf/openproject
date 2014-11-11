@@ -125,4 +125,4 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   $scope.$watch('sortElements', pruneBlankSortElements, true);
 
-}
+};

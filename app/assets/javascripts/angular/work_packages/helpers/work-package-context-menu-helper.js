@@ -94,4 +94,4 @@ module.exports = function(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlP
   };
 
   return WorkPackageContextMenuHelper;
-}
+};
