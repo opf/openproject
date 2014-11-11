@@ -1,6 +1,22 @@
 {
   "node": true,
   "jquery": true,
+  "predef": [
+    "OpenProject",
+
+    "_",
+
+    "angular",
+    "inject",
+    "module",
+
+    "I18n",
+    "Hyperagent",
+    "gon",
+
+    "Ajax"
+  ],
+
   "asi": false,
   "bitwise": true,
   "browser": true,
