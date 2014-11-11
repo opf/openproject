@@ -134,7 +134,7 @@ module OpenProject
 
       def path(prefix, env_var_name)
         path = []
-        env_var_name = env_var_name.sub prefix, ''
+        env_var_name = env_var_name.sub /^#{prefix}/, ''
 
         env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
           path << unescape_underscores(seg.downcase).to_sym
