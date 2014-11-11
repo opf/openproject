@@ -32,7 +32,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class GitAdapterTest < ActiveSupport::TestCase
+describe Redmine::Scm::Adapters::GitAdapter do
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
 
   FELIX_UTF8 = "Felix Schäfer"
@@ -46,8 +46,8 @@ class GitAdapterTest < ActiveSupport::TestCase
   WINDOWS_PASS = false
 
   if File.directory?(REPOSITORY_PATH)
-    def setup
-      super
+    before do
+
       @adapter = Redmine::Scm::Adapters::GitAdapter.new(
                     REPOSITORY_PATH,
                     nil,
@@ -62,7 +62,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
     end
 
-    def test_scm_version
+    it 'should scm_version' do
       to_test = { "git version 1.7.3.4\n"             => [1,7,3,4],
                   "1.6.1\n1.7\n1.8"                   => [1,6,1],
                   "1.6.2\r\n1.8.1\r\n1.9.1"           => [1,6,2]}
@@ -71,7 +71,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
     end
 
-    def test_branches
+    it 'should branches' do
       assert_equal  [
             'latin-1-path-encoding',
             'master',
@@ -80,22 +80,22 @@ class GitAdapterTest < ActiveSupport::TestCase
           ], @adapter.branches
     end
 
-    def test_tags
+    it 'should tags' do
       assert_equal  [
             "tag00.lightweight",
             "tag01.annotated",
           ], @adapter.tags
     end
 
-    def test_getting_all_revisions
+    it 'should getting_all_revisions' do
       assert_equal 21, @adapter.revisions('',nil,nil,:all => true).length
     end
 
-    def test_getting_certain_revisions
+    it 'should getting_certain_revisions' do
       assert_equal 1, @adapter.revisions('','899a15d^','899a15d').length
     end
 
-    def test_revisions_reverse
+    it 'should revisions_reverse' do
       revs1 = @adapter.revisions('',nil,nil,{:all => true, :reverse => true })
       assert_equal 21, revs1.length
       assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[0].identifier
@@ -108,24 +108,24 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[5].identifier
     end
 
-    def test_getting_revisions_with_spaces_in_filename
+    it 'should getting_revisions_with_spaces_in_filename' do
       assert_equal 1, @adapter.revisions("filemane with spaces.txt",
                                          nil, nil, :all => true).length
     end
 
-    def test_getting_revisions_with_leading_and_trailing_spaces_in_filename
+    it 'should getting_revisions_with_leading_and_trailing_spaces_in_filename' do
       assert_equal " filename with a leading space.txt ",
          @adapter.revisions(" filename with a leading space.txt ",
                              nil, nil, :all => true)[0].paths[0][:path]
     end
 
-    def test_getting_entries_with_leading_and_trailing_spaces_in_filename
+    it 'should getting_entries_with_leading_and_trailing_spaces_in_filename' do
       assert_equal " filename with a leading space.txt ",
          @adapter.entries('',
                  '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')[3].name
     end
 
-    def test_annotate
+    it 'should annotate' do
       annotate = @adapter.annotate('sources/watchers_controller.rb')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
       assert_equal 41, annotate.lines.size
@@ -136,13 +136,13 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "jsmith", annotate.revisions[4].author
     end
 
-    def test_annotate_moved_file
+    it 'should annotate_moved_file' do
       annotate = @adapter.annotate('renamed_test.txt')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
       assert_equal 2, annotate.lines.size
     end
 
-    def test_last_rev
+    it 'should last_rev' do
       last_rev = @adapter.lastrev("README",
                                   "4f26664364207fa8b1af9f8722647ab2d4ac5d43")
       assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8", last_rev.scmid
@@ -151,7 +151,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "2009-06-24 05:27:38".to_time, last_rev.time
     end
 
-    def test_last_rev_with_spaces_in_filename
+    it 'should last_rev_with_spaces_in_filename' do
       last_rev = @adapter.lastrev("filemane with spaces.txt",
                                   "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
       str_felix_utf8 = FELIX_UTF8.dup
@@ -170,7 +170,7 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-    should_eventually "test_latin_1_path" do
+    xit "test_latin_1_path" do
       if WINDOWS_PASS
         #
       else
@@ -188,7 +188,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
     end
 
-    def test_entries_tag
+    it 'should entries_tag' do
       entries1 = @adapter.entries(nil, 'tag01.annotated')
       assert entries1
       assert_equal 3, entries1.size
@@ -204,7 +204,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
     end
 
-    def test_entries_branch
+    it 'should entries_branch' do
       entries1 = @adapter.entries(nil, 'test_branch')
       assert entries1
       assert_equal 4, entries1.size
@@ -220,7 +220,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal Time.gm(2009, 6, 19, 4, 37, 23), readme.lastrev.time
     end
 
-    def test_entries_latin_1_files
+    it 'should entries_latin_1_files' do
       entries1 = @adapter.entries('latin-1-dir', '64f1f3e8')
       assert entries1
       assert_equal 3, entries1.size
@@ -230,7 +230,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal 'file', f1.kind
     end
 
-    def test_entries_latin_1_dir
+    it 'should entries_latin_1_dir' do
       if WINDOWS_PASS
         #
       else
@@ -254,6 +254,6 @@ class GitAdapterTest < ActiveSupport::TestCase
 
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 end

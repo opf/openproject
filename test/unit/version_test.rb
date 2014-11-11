@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class VersionTest < ActiveSupport::TestCase
-  fixtures :all
+describe Version do
 
-  def test_create
+
+  it 'should create' do
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25' }
     end)
@@ -39,7 +39,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal 'open', v.status
   end
 
-  def test_invalid_effective_date_validation
+  it 'should invalid_effective_date_validation' do
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01' }
     end)
@@ -49,7 +49,7 @@ class VersionTest < ActiveSupport::TestCase
 
   context "#start_date" do
     context "with no value saved" do
-      should "be the date of the earlist issue" do
+      it "be the date of the earlist issue" do
         project = Project.find(1)
         (v = Version.new.tap do |v|
           v.force_attributes = { :project => project, :name => 'Progress' }
@@ -62,7 +62,7 @@ class VersionTest < ActiveSupport::TestCase
     end
 
     context "with a value saved" do
-      should "be the value" do
+      it "be the value" do
         project = Project.find(1)
         (v = Version.new.tap do |v|
           v.force_attributes = { :project => project, :name => 'Progress', :start_date => '2010-01-05' }
@@ -77,7 +77,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
 
-  def test_progress_should_be_0_with_no_assigned_issues
+  it 'should progress_should_be_0_with_no_assigned_issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -86,7 +86,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal 0, v.closed_percent
   end
 
-  def test_progress_should_be_0_with_unbegun_assigned_issues
+  it 'should progress_should_be_0_with_unbegun_assigned_issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -97,7 +97,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 0, v.closed_percent
   end
 
-  def test_progress_should_be_100_with_closed_assigned_issues
+  it 'should progress_should_be_100_with_closed_assigned_issues' do
     project = Project.find(1)
     status = Status.find(:first, :conditions => {:is_closed => true})
     (v = Version.new.tap do |v|
@@ -111,7 +111,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 100.0, v.closed_percent
   end
 
-  def test_progress_should_consider_done_ratio_of_open_assigned_issues
+  it 'should progress_should_consider_done_ratio_of_open_assigned_issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -123,7 +123,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 0, v.closed_percent
   end
 
-  def test_progress_should_consider_closed_issues_as_completed
+  it 'should progress_should_consider_closed_issues_as_completed' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -135,7 +135,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (100.0)/3, v.closed_percent
   end
 
-  def test_progress_should_consider_estimated_hours_to_weigth_issues
+  it 'should progress_should_consider_estimated_hours_to_weigth_issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -148,7 +148,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 25.0/95.0*100, v.closed_percent
   end
 
-  def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
+  it 'should progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
@@ -162,7 +162,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   context "#behind_schedule?" do
-    setup do
+    before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
       @project.types << Type.generate!
@@ -172,16 +172,16 @@ class VersionTest < ActiveSupport::TestCase
       end).save!
     end
 
-    should "be false if there are no issues assigned" do
+    it "be false if there are no issues assigned" do
       @version.update_attribute(:effective_date, Date.yesterday)
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be false if there is no effective_date" do
+    it "be false if there is no effective_date" do
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be false if all of the issues are ahead of schedule" do
+    it "be false if all of the issues are ahead of schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
                                FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
@@ -191,7 +191,7 @@ class VersionTest < ActiveSupport::TestCase
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be true if any of the issues are behind schedule" do
+    it "be true if any of the issues are behind schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
                                FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
@@ -201,7 +201,7 @@ class VersionTest < ActiveSupport::TestCase
       assert_equal true, @version.behind_schedule?
     end
 
-    should "be false if all of the issues are complete" do
+    it "be false if all of the issues are complete" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
                                FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)), # 7 day span
@@ -214,28 +214,28 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   context "#estimated_hours" do
-    setup do
+    before do
       (@version = Version.new.tap do |v|
         v.force_attributes = { :project_id => 1, :name => '#estimated_hours' }
       end).save!
     end
 
-    should "return 0 with no assigned issues" do
+    it "return 0 with no assigned issues" do
       assert_equal 0, @version.estimated_hours
     end
 
-    should "return 0 with no estimated hours" do
+    it "return 0 with no estimated hours" do
       add_work_package(@version)
       assert_equal 0, @version.estimated_hours
     end
 
-    should "return the sum of estimated hours" do
+    it "return the sum of estimated hours" do
       add_work_package(@version, :estimated_hours => 2.5)
       add_work_package(@version, :estimated_hours => 5)
       assert_equal 7.5, @version.estimated_hours
     end
 
-    should "return the sum of leaves estimated hours" do
+    it "return the sum of leaves estimated hours" do
       parent = add_work_package(@version)
       add_work_package(@version, :estimated_hours => 2.5, :parent_id => parent.id)
       add_work_package(@version, :estimated_hours => 5, :parent_id => parent.id)
@@ -243,7 +243,7 @@ class VersionTest < ActiveSupport::TestCase
     end
   end
 
-  test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
+  it "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
     User.current = User.find(1) # Need the admin's permissions
 
     @version = Version.find(7)

@@ -32,18 +32,16 @@ require 'wikis_controller'
 # Re-raise errors caught by the controller.
 class WikisController; def rescue_action(e) raise e end; end
 
-class WikisControllerTest < ActionController::TestCase
-  fixtures :all
+describe WikisController do
 
-  def setup
-    super
+  before do
     @controller = WikisController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_create
+  it 'create' do
     @request.session[:user_id] = 1
     assert_nil Project.find(3).wiki
     post :edit, :id => 3, :wiki => { :start_page => 'Start page' }
@@ -53,14 +51,14 @@ class WikisControllerTest < ActionController::TestCase
     assert_equal 'Start page', wiki.start_page
   end
 
-  def test_destroy
+  it 'destroy' do
     @request.session[:user_id] = 1
     post :destroy, :id => 1, :confirm => 1
     assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
     assert_nil Project.find(1).wiki
   end
 
-  def test_not_found
+  it 'not_found' do
     @request.session[:user_id] = 1
     post :destroy, :id => 999, :confirm => 1
     assert_response 404

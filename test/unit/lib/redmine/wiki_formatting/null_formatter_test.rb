@@ -29,18 +29,17 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::NullFormatterTest < HelperTestCase
+describe Redmine::WikiFormatting::NullFormatter do
 
-  def setup
-    super
+  before do
     @formatter = Redmine::WikiFormatting::NullFormatter::Formatter
   end
 
-  def test_plain_text
+  it 'should plain_text' do
     assert_html_output("This is some input" => "This is some input")
   end
 
-  def test_escaping
+  it 'should escaping' do
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
     )

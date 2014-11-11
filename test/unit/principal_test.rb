@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class PrincipalTest < ActiveSupport::TestCase
+describe Principal do
 
   context "#like" do
-    setup do
+    before do
       Principal.generate!(:login => 'login')
       Principal.generate!(:login => 'login2')
 
@@ -45,28 +45,28 @@ class PrincipalTest < ActiveSupport::TestCase
       Principal.generate!(:mail => 'mail2@example.com')
     end
 
-    should "search login" do
+    it "search login" do
       results = Principal.like('login')
 
       assert_equal 2, results.count
       assert results.all? {|u| u.login.match(/login/) }
     end
 
-    should "search firstname" do
+    it "search firstname" do
       results = Principal.like('firstname')
 
       assert_equal 2, results.count
       assert results.all? {|u| u.firstname.match(/firstname/) }
     end
 
-    should "search lastname" do
+    it "search lastname" do
       results = Principal.like('lastname')
 
       assert_equal 2, results.count
       assert results.all? {|u| u.lastname.match(/lastname/) }
     end
 
-    should "search mail" do
+    it "search mail" do
       results = Principal.like('mail')
 
       assert_equal 2, results.count

@@ -32,32 +32,31 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesControllerTest < ActionController::TestCase
-  fixtures :all
+describe RepositoriesController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_revisions
+  it 'revisions' do
     get :revisions, :project_id => 1
     assert_response :success
     assert_template 'revisions'
     assert_not_nil assigns(:changesets)
   end
 
-  def test_revision
+  it 'revision' do
     get :revision, :project_id => 1, :rev => 1
     assert_response :success
     assert_not_nil assigns(:changeset)
     assert_equal "1", assigns(:changeset).revision
   end
 
-  def test_revision_with_before_nil_and_after_normal
+  it 'revision_with_before_nil_and_after_normal' do
     get :revision, {:project_id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
@@ -75,13 +74,13 @@ class RepositoriesControllerTest < ActionController::TestCase
                                                                              :rev => '2') } }
   end
 
-  def test_graph_commits_per_month
+  it 'graph_commits_per_month' do
     get :graph, :project_id => 1, :graph => 'commits_per_month'
     assert_response :success
     assert_equal 'image/svg+xml', @response.content_type
   end
 
-  def test_committers
+  it 'committers' do
     @request.session[:user_id] = 2
     # add a commit with an unknown user
     Changeset.create!(
@@ -109,7 +108,7 @@ class RepositoriesControllerTest < ActionController::TestCase
                                      :descendant => { :tag => 'option', :attributes => { :selected => 'selected' }}}
   end
 
-  def test_map_committers
+  it 'map_committers' do
     @request.session[:user_id] = 2
     # add a commit with an unknown user
     c = Changeset.create!(

@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::Hook::ManagerTest < ActionView::TestCase
-  fixtures :all
+describe "Redmine::Hook::Manager" do # FIXME: naming (RSpec-port)
+
 
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
@@ -68,17 +68,17 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   Redmine::Hook.clear_listeners
 
-  def setup
-    super
+  before do
+
     @hook_module = Redmine::Hook
   end
 
-  def teardown
-    super
+  after do
+
     @hook_module.clear_listeners
   end
 
-  def test_clear_listeners
+  it 'should clear_listeners' do
     assert_equal 0, @hook_module.hook_listeners(:view_layouts_base_html_head).size
     @hook_module.add_listener(TestHook1)
     @hook_module.add_listener(TestHook2)
@@ -88,75 +88,75 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     assert_equal 0, @hook_module.hook_listeners(:view_layouts_base_html_head).size
   end
 
-  def test_add_listener
+  it 'should add_listener' do
     assert_equal 0, @hook_module.hook_listeners(:view_layouts_base_html_head).size
     @hook_module.add_listener(TestHook1)
     assert_equal 1, @hook_module.hook_listeners(:view_layouts_base_html_head).size
   end
 
-  def test_call_hook
+  it 'should call_hook' do
     @hook_module.add_listener(TestHook1)
     assert_equal ['Test hook 1 listener.'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  def test_call_hook_with_context
+  it 'should call_hook_with_context' do
     @hook_module.add_listener(TestHook3)
     assert_equal ['Context keys: bar, controller, foo, hook_caller, project, request.'],
                  hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
 
-  def test_call_hook_with_multiple_listeners
+  it 'should call_hook_with_multiple_listeners' do
     @hook_module.add_listener(TestHook1)
     @hook_module.add_listener(TestHook2)
     assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   # Context: Redmine::Hook::Helper.call_hook default_url
-  def test_call_hook_default_url_options
+  it 'should call_hook_default_url_options' do
     @hook_module.add_listener(TestLinkToHook)
 
     assert_equal ['<a href="/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   # Context: Redmine::Hook::Helper.call_hook
-  def test_call_hook_with_project_added_to_context
+  it 'should call_hook_with_project_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /project/i, hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
 
-  def test_call_hook_from_controller_with_controller_added_to_context
+  it 'should call_hook_from_controller_with_controller_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /controller/i, hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
 
-  def test_call_hook_from_controller_with_request_added_to_context
+  it 'should call_hook_from_controller_with_request_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /request/i, hook_helper.call_hook(:view_layouts_base_html_head)[0]
   end
 
-  def test_call_hook_from_view_with_project_added_to_context
+  it 'should call_hook_from_view_with_project_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /project/i, view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  def test_call_hook_from_view_with_controller_added_to_context
+  it 'should call_hook_from_view_with_controller_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /controller/i, view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  def test_call_hook_from_view_with_request_added_to_context
+  it 'should call_hook_from_view_with_request_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /request/i, view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  def test_call_hook_from_view_should_join_responses_with_a_space
+  it 'should call_hook_from_view_should_join_responses_with_a_space' do
     @hook_module.add_listener(TestHook1)
     @hook_module.add_listener(TestHook2)
     assert_equal 'Test hook 1 listener. Test hook 2 listener.',
                  view_hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  def test_call_hook_should_not_change_the_default_url_for_email_notifications
+  it 'should call_hook_should_not_change_the_default_url_for_email_notifications' do
     user = User.find(1)
     issue = WorkPackage.find(1)
 

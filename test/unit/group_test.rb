@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class GroupTest < ActiveSupport::TestCase
+describe Group do
 
-  def setup
-    super
+  before do
+
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member
     @work_package = FactoryGirl.create :work_package
@@ -44,23 +44,23 @@ class GroupTest < ActiveSupport::TestCase
     @group.save!
   end
 
-  def test_create
+  it 'should create' do
     g = Group.new(:lastname => 'New group')
     assert g.save
   end
 
-  def test_roles_given_to_new_user
+  it 'should roles_given_to_new_user' do
     user = FactoryGirl.build :user
     @group.users << user
 
     assert user.member_of? @project
   end
 
-  def test_roles_given_to_existing_user
+  it 'should roles_given_to_existing_user' do
     assert @user.member_of? @project
   end
 
-  def test_roles_updated
+  it 'should roles_updated' do
     group = FactoryGirl.create :group
     member = FactoryGirl.build :member
     roles = FactoryGirl.create_list :role, 2
@@ -84,7 +84,7 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal [role_ids.first], user.reload.roles_for_project(member.project).collect(&:id).sort
   end
 
-  def test_roles_removed_when_removing_group_membership
+  it 'should roles_removed_when_removing_group_membership' do
     assert @user.member_of?(@project)
     @member.destroy
     @user.reload
@@ -92,7 +92,7 @@ class GroupTest < ActiveSupport::TestCase
     assert !@user.member_of?(@project)
   end
 
-  def test_roles_removed_when_removing_user_from_group
+  it 'should roles_removed_when_removing_user_from_group' do
     assert @user.member_of?(@project)
     @user.groups.clear
     @user.reload

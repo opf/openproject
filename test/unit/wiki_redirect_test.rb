@@ -28,16 +28,14 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class WikiRedirectTest < ActiveSupport::TestCase
-  fixtures :all
+describe WikiRedirect do
 
-  def setup
-    super
+  before do
     @wiki = Wiki.find(1)
     @original = WikiPage.create(:wiki => @wiki, :title => 'Original title')
   end
 
-  def test_create_redirect
+  it 'should create_redirect' do
     @original.title = 'New title'
     assert @original.save
     @original.reload
@@ -48,7 +46,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
     assert @wiki.find_page('ORIGINAL title')
   end
 
-  def test_update_redirect
+  it 'should update_redirect' do
     # create a redirect that point to this page
     assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
 
@@ -58,7 +56,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
     assert_equal 'New_title', @wiki.find_page('An old page').title
   end
 
-  def test_reverse_rename
+  it 'should reverse_rename' do
     # create a redirect that point to this page
     assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
 
@@ -68,7 +66,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
     assert @wiki.redirects.find_by_title_and_redirects_to('Original_title', 'An_old_page')
   end
 
-  def test_rename_to_already_redirected
+  it 'should rename_to_already_redirected' do
     assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Other_page')
 
     @original.title = 'An old page'
@@ -77,7 +75,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
     assert !@wiki.redirects.find_by_title_and_redirects_to('An_old_page', 'Other_page')
   end
 
-  def test_redirects_removed_when_deleting_page
+  it 'should redirects_removed_when_deleting_page' do
     assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
 
     @original.destroy

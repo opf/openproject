@@ -32,11 +32,10 @@ require 'welcome_controller'
 # Re-raise errors caught by the controller.
 class WelcomeController; def rescue_action(e) raise e end; end
 
-class WelcomeControllerTest < ActionController::TestCase
-  fixtures :all
+describe WelcomeController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = WelcomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,7 +43,7 @@ class WelcomeControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_index
+  it 'index' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -53,35 +52,35 @@ class WelcomeControllerTest < ActionController::TestCase
     assert !assigns(:projects).include?(Project.find(:first, :conditions => {:is_public => false}))
   end
 
-  def test_browser_language
+  it 'browser_language' do
     Setting.default_language = 'en'
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     get :index
     assert_equal :de, @controller.current_language
   end
 
-  def test_browser_language_alternate
+  it 'browser_language_alternate' do
     Setting.default_language = 'en'
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
     assert_equal :"de", @controller.current_language
   end
 
-  def test_browser_language_alternate_not_valid
+  it 'browser_language_alternate_not_valid' do
     Setting.default_language = 'en'
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-CA'
     get :index
     assert_equal :de, @controller.current_language
   end
 
-  def test_robots
+  it 'robots' do
     get :robots, :format => :txt
     assert_response :success
     assert_equal 'text/plain', @response.content_type
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end
 
-  def test_warn_on_leaving_unsaved_turn_on
+  it 'warn_on_leaving_unsaved_turn_on' do
     user = User.find(2)
     user.pref.warn_on_leaving_unsaved = '1'
     user.pref.save!
@@ -93,7 +92,7 @@ class WelcomeControllerTest < ActionController::TestCase
                content: /warnLeavingUnsaved/
   end
 
-  def test_warn_on_leaving_unsaved_turn_off
+  it 'warn_on_leaving_unsaved_turn_off' do
     user = User.find(2)
     user.pref.warn_on_leaving_unsaved = '0'
     user.pref.save!

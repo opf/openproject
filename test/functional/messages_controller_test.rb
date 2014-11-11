@@ -32,18 +32,17 @@ require 'messages_controller'
 # Re-raise errors caught by the controller.
 class MessagesController; def rescue_action(e) raise e end; end
 
-class MessagesControllerTest < ActionController::TestCase
-  fixtures :all
+describe MessagesController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = MessagesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_show
+  it 'show' do
     get :show, :board_id => 1, :id => 1
     assert_response :success
     assert_template 'show'
@@ -52,7 +51,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topic)
   end
 
-  def test_show_with_pagination
+  it 'show_with_pagination' do
     message = Message.find(1)
     assert_difference 'Message.count', 110 do
       110.times do
@@ -70,7 +69,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert replies.include?(message.children.last(:order => 'id'))
   end
 
-  def test_show_with_reply_permission
+  it 'show_with_reply_permission' do
     @request.session[:user_id] = 2
     get :show, :board_id => 1, :id => 1
     assert_response :success
@@ -79,19 +78,19 @@ class MessagesControllerTest < ActionController::TestCase
                      :descendant => { :tag => 'textarea', :attributes => { :id => 'message_content' } }
   end
 
-  def test_show_message_not_found
+  it 'show_message_not_found' do
     get :show, :board_id => 1, :id => 99999
     assert_response 404
   end
 
-  def test_get_new
+  it 'get_new' do
     @request.session[:user_id] = 2
     get :new, :board_id => 1
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_create
+  it 'post_create' do
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = ['message_posted']
@@ -121,14 +120,14 @@ class MessagesControllerTest < ActionController::TestCase
     assert mails_to_member.first.to.include?('dlopper@somenet.foo')
   end
 
-  def test_get_edit
+  it 'get_edit' do
     @request.session[:user_id] = 2
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
   end
 
-  def test_put_update
+  it 'put_update' do
     @request.session[:user_id] = 2
     put :update, :id => 1,
                  :message => { :subject => 'New subject',
@@ -139,7 +138,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 'New body', message.content
   end
 
-  def test_reply
+  it 'reply' do
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
     reply = Message.find(:first, :order => 'id DESC')
@@ -147,14 +146,14 @@ class MessagesControllerTest < ActionController::TestCase
     assert Message.find_by_subject('Test reply')
   end
 
-  def test_destroy_topic
+  it 'destroy_topic' do
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
     assert_redirected_to project_board_path("ecookbook", 1)
     assert_nil Message.find_by_id(1)
   end
 
-  def test_quote
+  it 'quote' do
     @request.session[:user_id] = 2
     xhr :get, :quote, :board_id => 1, :id => 3
     assert_response :success

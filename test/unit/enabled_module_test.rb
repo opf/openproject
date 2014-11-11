@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class EnabledModuleTest < ActiveSupport::TestCase
-  def test_enabling_wiki_should_create_a_wiki
+describe EnabledModule do
+  it 'should enabling_wiki_should_create_a_wiki' do
     CustomField.delete_all
     FactoryGirl.create(:type_standard)
     project = Project.create!(:name => 'Project with wiki', :identifier => 'wikiproject')
@@ -41,7 +41,7 @@ class EnabledModuleTest < ActiveSupport::TestCase
     assert_equal 'Wiki', project.wiki.start_page
   end
 
-  def test_reenabling_wiki_should_not_create_another_wiki
+  it 'should reenabling_wiki_should_not_create_another_wiki' do
     project = FactoryGirl.create :project
     wiki = FactoryGirl.create :wiki, :project => project
     project.reload

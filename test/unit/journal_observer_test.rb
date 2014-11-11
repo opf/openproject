@@ -28,9 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class JournalObserverTest < ActiveSupport::TestCase
-  def setup
-    super
+describe JournalObserver do
+  before do
+
     @type = FactoryGirl.create :type_with_workflow
     @project = FactoryGirl.create :project,
                                   :types => [@type]
@@ -53,7 +53,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   end
 
   context "#after_create for 'work_package_updated'" do
-    should "should send a notification when configured as a notification" do
+    it "should send a notification when configured as a notification" do
       Setting.notified_events = ['work_package_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
@@ -62,7 +62,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       end
     end
 
-    should "not send a notification with not configured" do
+    it "not send a notification with not configured" do
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
@@ -73,7 +73,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   end
 
   context "#after_create for 'work_package_note_added'" do
-    should "should send a notification when configured as a notification" do
+    it "should send a notification when configured as a notification" do
       @issue.recreate_initial_journal!
 
       Setting.notified_events = ['work_package_note_added']
@@ -83,7 +83,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       end
     end
 
-    should "not send a notification with not configured" do
+    it "not send a notification with not configured" do
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user, 'This update has a note')
@@ -93,7 +93,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   end
 
   context "#after_create for 'status_updated'" do
-    should "should send a notification when configured as a notification" do
+    it "should send a notification when configured as a notification" do
       Setting.notified_events = ['status_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
@@ -102,7 +102,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       end
     end
 
-    should "not send a notification with not configured" do
+    it "not send a notification with not configured" do
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
@@ -113,7 +113,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   end
 
   context "#after_create for 'work_package_priority_updated'" do
-    should "should send a notification when configured as a notification" do
+    it "should send a notification when configured as a notification" do
       Setting.notified_events = ['work_package_priority_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
@@ -122,7 +122,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       end
     end
 
-    should "not send a notification with not configured" do
+    it "not send a notification with not configured" do
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)

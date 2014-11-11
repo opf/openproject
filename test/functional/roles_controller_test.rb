@@ -32,11 +32,10 @@ require 'roles_controller'
 # Re-raise errors caught by the controller.
 class RolesController; def rescue_action(e) raise e end; end
 
-class RolesControllerTest < ActionController::TestCase
-  fixtures :all
+describe RolesController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = RolesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,7 +43,7 @@ class RolesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_get_index
+  it 'get_index' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -56,13 +55,13 @@ class RolesControllerTest < ActionController::TestCase
                             :content => 'Manager'
   end
 
-  def test_get_new
+  it 'get_new' do
     get :new
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_new_with_validaton_failure
+  it 'post_new_with_validaton_failure' do
     post :create, :role => { :name => '',
                              :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' }
@@ -72,7 +71,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' }
   end
 
-  def test_post_new_without_workflow_copy
+  it 'post_new_without_workflow_copy' do
     post :create, :role => { :name => 'RoleWithoutWorkflowCopy',
                              :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' }
@@ -84,7 +83,7 @@ class RolesControllerTest < ActionController::TestCase
     assert !role.assignable?
   end
 
-  def test_post_new_with_workflow_copy
+  it 'post_new_with_workflow_copy' do
     post :create, :role => { :name => 'RoleWithWorkflowCopy',
                              :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' },
@@ -96,14 +95,14 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal Role.find(1).workflows.size, role.workflows.size
   end
 
-  def test_get_edit
+  it 'get_edit' do
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
   end
 
-  def test_put_update
+  it 'put_update' do
     put :update, :id => 1,
                  :role => {:name => 'Manager',
                            :permissions => ['edit_project', ''],
@@ -114,7 +113,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal [:edit_project], role.permissions
   end
 
-  def test_destroy
+  it 'destroy' do
     r = Role.new(:name => 'ToBeDestroyed', :permissions => [:view_wiki_pages])
     assert r.save
 
@@ -123,14 +122,14 @@ class RolesControllerTest < ActionController::TestCase
     assert_nil Role.find_by_id(r.id)
   end
 
-  def test_destroy_role_in_use
+  it 'destroy_role_in_use' do
     delete :destroy, :id => 1
     assert_redirected_to roles_path
     assert flash[:error] == 'This role is in use and cannot be deleted.'
     assert_not_nil Role.find_by_id(1)
   end
 
-  def test_get_report
+  it 'get_report' do
     get :report
     assert_response :success
     assert_template 'report'
@@ -149,7 +148,7 @@ class RolesControllerTest < ActionController::TestCase
                                                  :checked => nil }
   end
 
-  def test_put_bulk_update
+  it 'put_bulk_update' do
     put :bulk_update, :permissions => { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_work_packages', 'delete_work_packages']}
     assert_redirected_to roles_path
 
@@ -158,33 +157,33 @@ class RolesControllerTest < ActionController::TestCase
     assert Role.find(2).permissions.empty?
   end
 
-  def test_clear_all_permissions
+  it 'clear_all_permissions' do
     put :bulk_update, :permissions => { '0' => '' }
     assert_redirected_to roles_path
     assert Role.find(1).permissions.empty?
   end
 
-  def test_move_highest
+  it 'move_highest' do
     put :update, :id => 3, :role => {:move_to => 'highest'}
     assert_redirected_to roles_path
     assert_equal 1, Role.find(3).position
   end
 
-  def test_move_higher
+  it 'move_higher' do
     position = Role.find(3).position
     put :update, :id => 3, :role => {:move_to => 'higher'}
     assert_redirected_to roles_path
     assert_equal position - 1, Role.find(3).position
   end
 
-  def test_move_lower
+  it 'move_lower' do
     position = Role.find(2).position
     put :update, :id => 2, :role => {:move_to => 'lower'}
     assert_redirected_to roles_path
     assert_equal position + 1, Role.find(2).position
   end
 
-  def test_move_lowest
+  it 'move_lowest' do
     put :update, :id => 2, :role => {:move_to => 'lowest'}
     assert_redirected_to roles_path
     assert_equal Role.count, Role.find(2).position

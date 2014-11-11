@@ -29,23 +29,20 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "ApiTest::HttpAcceptAuth" do
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
     Setting.login_required = '1'
   end
 
-  def teardown
-    super
+  after do
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end
 
   context "get /planning_elements" do
-    setup do
+    before do
       project = Project.find('onlinestore')
       EnabledModule.create(:project => project, :name => 'work_package_tracking')
     end

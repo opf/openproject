@@ -33,18 +33,17 @@ require 'search_controller'
 # Re-raise errors caught by the controller.
 class SearchController; def rescue_action(e) raise e end; end
 
-class SearchControllerTest < ActionController::TestCase
-  fixtures :all
+describe SearchController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = SearchController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_search_all_projects
+  it 'search_all_projects' do
     get :index, :q => 'recipe subproject commit', :submit => 'Search'
     assert_response :success
     assert_template 'index'
@@ -58,7 +57,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_tag :a, :content => 'Changesets (5)'
   end
 
-  def test_search_project_and_subprojects
+  it 'search_project_and_subprojects' do
     get :index, :project_id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
     assert_template 'index'
@@ -66,7 +65,7 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(WorkPackage.find(5))
   end
 
-  def test_search_without_searchable_custom_fields
+  it 'search_without_searchable_custom_fields' do
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
 
     get :index, :project_id => 1
@@ -79,7 +78,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_search_with_searchable_custom_fields
+  it 'search_with_searchable_custom_fields' do
     get :index, :project_id => 1, :q => "stringforcustomfield"
     assert_response :success
     results = assigns(:results)
@@ -88,7 +87,7 @@ class SearchControllerTest < ActionController::TestCase
     assert results.include?(WorkPackage.find(7))
   end
 
-  def test_search_all_words
+  it 'search_all_words' do
     # 'all words' is on by default
     get :index, :project_id => 1, :q => 'recipe updating saving'
     results = assigns(:results)
@@ -97,7 +96,7 @@ class SearchControllerTest < ActionController::TestCase
     assert results.include?(WorkPackage.find(3))
   end
 
-  def test_search_one_of_the_words
+  it 'search_one_of_the_words' do
     get :index, :project_id => 1, :q => 'recipe updating saving', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
@@ -105,27 +104,27 @@ class SearchControllerTest < ActionController::TestCase
     assert results.include?(WorkPackage.find(3))
   end
 
-  def test_search_titles_only_without_result
+  it 'search_titles_only_without_result' do
     get :index, :project_id => 1, :q => 'recipe updating saving', :all_words => '1', :titles_only => '1', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 0, results.size
   end
 
-  def test_search_titles_only
+  it 'search_titles_only' do
     get :index, :project_id => 1, :q => 'recipe', :titles_only => '1', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 2, results.size
   end
 
-  def test_search_with_invalid_project_id
+  it 'search_with_invalid_project_id' do
     get :index, :project_id => 195, :q => 'recipe'
     assert_response 404
     assert_nil assigns(:results)
   end
 
-  def test_quick_jump_to_work_packages
+  it 'quick_jump_to_work_packages' do
     # work_package of a public project
     get :index, :q => "3"
     assert_redirected_to '/work_packages/3'
@@ -136,13 +135,13 @@ class SearchControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  def test_large_integer
+  it 'large_integer' do
     get :index, :q => '4615713488'
     assert_response :success
     assert_template 'index'
   end
 
-  def test_tokens_with_quotes
+  it 'tokens_with_quotes' do
     get :index, :project_id => 1, :q => '"good bye" hello "bye bye"'
     assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
   end

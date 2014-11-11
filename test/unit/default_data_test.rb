@@ -28,16 +28,16 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class DefaultDataTest < ActiveSupport::TestCase
+describe Redmine::DefaultData do
   include Redmine::I18n
 
-  def setup
-    super
+  before do
+
     delete_loaded_data!
     assert Redmine::DefaultData::Loader::no_data?
   end
 
-  def test_no_data
+  it 'should no_data' do
     Redmine::DefaultData::Loader::load
     assert !Redmine::DefaultData::Loader::no_data?
 
@@ -45,7 +45,7 @@ class DefaultDataTest < ActiveSupport::TestCase
     assert Redmine::DefaultData::Loader::no_data?
   end
 
-  def test_load
+  it 'should load' do
     valid_languages.each do |lang|
       begin
         delete_loaded_data!

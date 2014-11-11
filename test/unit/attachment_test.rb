@@ -28,10 +28,8 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class AttachmentTest < ActiveSupport::TestCase
-  fixtures :all
-
-  def test_create
+describe Attachment do
+  it 'should create' do
     a = Attachment.new(:container => WorkPackage.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),
                        :author => User.find(1))
@@ -44,7 +42,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert File.exist?(a.diskfile)
   end
 
-  def test_create_should_auto_assign_content_type
+  it 'should create_should_auto_assign_content_type' do
     a = Attachment.new(:container => WorkPackage.find(1),
                        :file => uploaded_test_file("testfile.txt", ""),
                        :author => User.find(1))
@@ -52,7 +50,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
   end
 
-  def test_identical_attachments_at_the_same_time_should_not_overwrite
+  it 'should identical_attachments_at_the_same_time_should_not_overwrite' do
     a1 = Attachment.create!(:container => WorkPackage.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
@@ -62,7 +60,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert a1.disk_filename != a2.disk_filename
   end
 
-  def test_diskfilename
+  it 'should diskfilename' do
     assert Attachment.disk_filename("test_file.txt") =~ /\A\d{12}_test_file.txt\z/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]
     assert_equal '770c509475505f37c2b8fb6030434d6b.txt', Attachment.disk_filename("test_accentué.txt")[13..-1]
@@ -71,7 +69,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   context "Attachmnet#attach_files" do
-    should "add unsaved files to the object as unsaved attachments" do
+    it "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
         @issue = WorkPackage.find(1)

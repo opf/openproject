@@ -28,10 +28,10 @@
 #++
 require_relative '../test_helper'
 
-class CommentTest < ActiveSupport::TestCase
+describe Comment do
   include MiniTest::Assertions # refute
 
-  def test_validations
+  it 'should validations' do
     # factory valid
     assert FactoryGirl.build(:comment).valid?
 
@@ -43,7 +43,7 @@ class CommentTest < ActiveSupport::TestCase
     refute FactoryGirl.build(:comment, :author => nil).valid?
   end
 
-  def test_create
+  it 'should create' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
     comment = Comment.new(:commented => news, :author => user, :comments => 'some important words')
@@ -51,7 +51,7 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal 1, news.reload.comments_count
   end
 
-  def test_create_through_news
+  it 'should create_through_news' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
     comment = news.new_comment(:author => user, :comments => 'some important words')
@@ -59,19 +59,19 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal 1, news.reload.comments_count
   end
 
-  def test_create_comment_through_news
+  it 'should create_comment_through_news' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
     news.post_comment!(:author => user, :comments => 'some important words')
     assert_equal 1, news.reload.comments_count
   end
 
-  def test_text
+  it 'should text' do
     comment = FactoryGirl.build(:comment, :comments => 'something useful')
     assert_equal 'something useful', comment.text
   end
 
-  def test_create_should_send_notification_with_settings
+  it 'should create_should_send_notification_with_settings' do
     # news needs a project in order to be notified
     # see Redmine::Acts::Journalized::Deprecated#recipients
     project = FactoryGirl.create(:project)
@@ -94,7 +94,7 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   # TODO: testing #destroy really needed?
-  def test_destroy
+  it 'should destroy' do
     # just setup
     news = FactoryGirl.create(:news)
     comment = FactoryGirl.build(:comment)

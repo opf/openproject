@@ -28,10 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class ChangesetTest < ActiveSupport::TestCase
-  fixtures :all
+describe Changeset do
 
-  def test_ref_keywords_any
+  it 'should ref_keywords_any' do
     WorkPackage.all.each { |m| m.recreate_initial_journal! }
 
     ActionMailer::Base.deliveries.clear
@@ -52,7 +51,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  def test_ref_keywords
+  it 'should ref_keywords' do
     Setting.commit_ref_keywords = 'refs'
     Setting.commit_fix_keywords = ''
 
@@ -64,7 +63,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_any_only
+  it 'should ref_keywords_any_only' do
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = ''
 
@@ -76,7 +75,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1, 2], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_any_with_timelog
+  it 'should ref_keywords_any_with_timelog' do
     Setting.commit_ref_keywords = '*'
     Setting.commit_logtime_enabled = '1'
 
@@ -116,7 +115,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_ref_keywords_closing_with_timelog
+  it 'should ref_keywords_closing_with_timelog' do
     Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -138,7 +137,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1, 2], times.collect(&:work_package_id).sort
   end
 
-  def test_ref_keywords_any_line_start
+  it 'should ref_keywords_any_line_start' do
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
@@ -149,7 +148,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_a_work_package_number
+  it 'should ref_keywords_allow_brackets_around_a_work_package_number' do
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
@@ -160,7 +159,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_multiple_work_package_numbers
+  it 'should ref_keywords_allow_brackets_around_multiple_work_package_numbers' do
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
@@ -171,7 +170,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1,2,3], c.work_package_ids.sort
   end
 
-  def test_commit_referencing_a_subproject_work_package
+  it 'should commit_referencing_a_subproject_work_package' do
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'refs #5, a subproject work_package')
@@ -181,7 +180,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert c.work_packages.first.project != c.project
   end
 
-  def test_commit_referencing_a_parent_project_work_package
+  it 'should commit_referencing_a_parent_project_work_package' do
     # repository of child project
     r = Repository::Subversion.create!(
           :project => Project.find(3),
@@ -196,44 +195,44 @@ class ChangesetTest < ActiveSupport::TestCase
     assert c.work_packages.first.project != c.project
   end
 
-  def test_text_tag_revision
+  it 'should text_tag_revision' do
     c = Changeset.new(:revision => '520')
     assert_equal 'r520', c.text_tag
   end
 
-  def test_text_tag_hash
+  it 'should text_tag_hash' do
     c = Changeset.new(
           :scmid    => '7234cb2750b63f47bff735edc50a1c0a433c2518',
           :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
   end
 
-  def test_text_tag_hash_all_number
+  it 'should text_tag_hash_all_number' do
     c = Changeset.new(:scmid => '0123456789', :revision => '0123456789')
     assert_equal 'commit:0123456789', c.text_tag
   end
 
-  def test_previous
+  it 'should previous' do
     changeset = Changeset.find_by_revision('3')
     assert_equal Changeset.find_by_revision('2'), changeset.previous
   end
 
-  def test_previous_nil
+  it 'should previous_nil' do
     changeset = Changeset.find_by_revision('1')
     assert_nil changeset.previous
   end
 
-  def test_next
+  it 'should next' do
     changeset = Changeset.find_by_revision('2')
     assert_equal Changeset.find_by_revision('3'), changeset.next
   end
 
-  def test_next_nil
+  it 'should next_nil' do
     changeset = Changeset.find_by_revision('10')
     assert_nil changeset.next
   end
 
-  def test_comments_should_be_converted_to_utf8
+  it 'should comments_should_be_converted_to_utf8' do
     with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
@@ -251,7 +250,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
+  it 'should invalid_utf8_sequences_in_comments_should_be_replaced_latin1' do
     with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
@@ -270,7 +269,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
+  it 'should invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis' do
     with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       str = "test\xb5\xfetest\xb5\xfe"
@@ -292,7 +291,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_comments_should_be_converted_all_latin1_to_utf8
+  it 'should comments_should_be_converted_all_latin1_to_utf8' do
     with_settings :enabled_scm => ['Filesystem'] do
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
@@ -320,7 +319,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_comments_nil
+  it 'should comments_nil' do
     with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       r = Repository::Filesystem.create!(
@@ -340,7 +339,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_comments_empty
+  it 'should comments_empty' do
     with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       r = Repository::Filesystem.create!(
@@ -360,7 +359,7 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_identifier
+  it 'should identifier' do
     c = Changeset.find_by_revision('1')
     assert_equal c.revision, c.identifier
   end

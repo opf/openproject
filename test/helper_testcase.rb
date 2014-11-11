@@ -33,7 +33,10 @@ class StubController < ApplicationController
   attr_accessor :request, :url
 end
 
-class HelperTestCase < ActionView::TestCase
+module HelperTestCase
+  extend ActiveSupport::Concern
+
+  attr_accessor :controller
 
   # Add other helpers here if you need them
   include ERB::Util
@@ -45,16 +48,16 @@ class HelperTestCase < ActionView::TestCase
   include ActionView::Helpers::AssetTagHelper
   # include ActionView::Helpers::PrototypeHelper
 
-  def setup
-    super
+  included do
+    before do
+      @request    = ActionController::TestRequest.new
+      @controller = StubController.new
+      @controller.request = @request
 
-    @request    = ActionController::TestRequest.new
-    @controller = StubController.new
-    @controller.request = @request
+      # Fake url rewriter so we can test url_for
+      # @controller.url = ActionController::UrlRewriter.new @request, {}
 
-    # Fake url rewriter so we can test url_for
-    # @controller.url = ActionController::UrlRewriter.new @request, {}
-
-    # ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
+      # ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
+    end
   end
 end

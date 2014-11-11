@@ -28,11 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :all
+describe Repository::Subversion do
 
-  def setup
-    super
+  before do
     @project = Project.find(3)
     @repository = Repository::Subversion.create(:project => @project,
              :url => self.class.subversion_repository_url)
@@ -40,7 +38,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   end
 
   if repository_configured?('subversion')
-    def test_fetch_changesets_from_scratch
+    it 'should fetch_changesets_from_scratch' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -49,7 +47,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
 
-    def test_fetch_changesets_incremental
+    it 'should fetch_changesets_incremental' do
       @repository.fetch_changesets
       # Remove changesets with revision > 5
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 5}
@@ -60,7 +58,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 11, @repository.changesets.count
     end
 
-    def test_latest_changesets
+    it 'should latest_changesets' do
       @repository.fetch_changesets
 
       # with limit
@@ -77,7 +75,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal ["7", "6", "5", "2"], changesets.collect(&:revision)
     end
 
-    def test_directory_listing_with_square_brackets_in_path
+    it 'should directory_listing_with_square_brackets_in_path' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -87,7 +85,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 'README.txt', entries.first.name
     end
 
-    def test_directory_listing_with_square_brackets_in_base
+    it 'should directory_listing_with_square_brackets_in_base' do
       @project = Project.find(3)
       @repository = Repository::Subversion.create(
                           :project => @project,
@@ -105,14 +103,14 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 'README.txt', entries.first.name
     end
 
-    def test_identifier
+    it 'should identifier' do
       @repository.fetch_changesets
       @repository.reload
       c = @repository.changesets.find_by_revision('1')
       assert_equal c.revision, c.identifier
     end
 
-    def test_find_changeset_by_empty_name
+    it 'should find_changeset_by_empty_name' do
       @repository.fetch_changesets
       @repository.reload
       ['', ' ', nil].each do |r|
@@ -120,26 +118,26 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       end
     end
 
-    def test_identifier_nine_digit
+    it 'should identifier_nine_digit' do
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
       assert_equal c.identifier, c.revision
     end
 
-    def test_format_identifier
+    it 'should format_identifier' do
       @repository.fetch_changesets
       @repository.reload
       c = @repository.changesets.find_by_revision('1')
       assert_equal c.format_identifier, c.revision
     end
 
-    def test_format_identifier_nine_digit
+    it 'should format_identifier_nine_digit' do
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
       assert_equal c.format_identifier, c.revision
     end
 
-    def test_activities
+    it 'should activities' do
       c = Changeset.create(:repository => @repository, :committed_on => Time.now,
                            :revision => '1', :comments => 'test')
       event = find_events(User.find(2)).first # manager
@@ -147,7 +145,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert event.event_path =~ /\?rev=1$/
     end
 
-    def test_activities_nine_digit
+    it 'should activities_nine_digit' do
       c = Changeset.create(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
       event = find_events(User.find(2)).first # manager
@@ -155,7 +153,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert event.event_path =~ /\?rev=123456789$/
     end
 
-    def test_log_encoding_ignore_setting
+    it 'should log_encoding_ignore_setting' do
       with_settings :commit_logs_encoding => 'windows-1252' do
         s1 = "\xC2\x80"
         s2 = "\xc3\x82\xc2\x80"
@@ -173,28 +171,28 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       end
     end
 
-    def test_previous
+    it 'should previous' do
       @repository.fetch_changesets
       @repository.reload
       changeset = @repository.find_changeset_by_name('3')
       assert_equal @repository.find_changeset_by_name('2'), changeset.previous
     end
 
-    def test_previous_nil
+    it 'should previous_nil' do
       @repository.fetch_changesets
       @repository.reload
       changeset = @repository.find_changeset_by_name('1')
       assert_nil changeset.previous
     end
 
-    def test_next
+    it 'should next' do
       @repository.fetch_changesets
       @repository.reload
       changeset = @repository.find_changeset_by_name('2')
       assert_equal @repository.find_changeset_by_name('3'), changeset.next
     end
 
-    def test_next_nil
+    it 'should next_nil' do
       @repository.fetch_changesets
       @repository.reload
       changeset = @repository.find_changeset_by_name('11')
@@ -202,7 +200,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 
   private

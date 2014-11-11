@@ -28,67 +28,67 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class WatcherTest < ActiveSupport::TestCase
-  def setup
-    super
+describe Watcher do
+  before do
+
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :work_package
     @role  = FactoryGirl.create :role, :permissions => [:view_work_packages]
     @issue.project.add_member! @user, @role
   end
 
-  def test_add_watcher
+  it 'should add_watcher' do
     @issue.add_watcher(@user)
     assert_contains @issue.watchers.map(&:user), @user
   end
 
-  def test_add_watcher_will_not_add_same_user_twice
+  it 'should add_watcher_will_not_add_same_user_twice' do
     assert @issue.add_watcher(@user)
     refute @issue.add_watcher(@user)
   end
 
-  def test_watched_by
+  it 'should watched_by' do
     @issue.add_watcher(@user)
     assert @issue.watched_by?(@user)
     assert_contains WorkPackage.watched_by(@user), @issue
   end
 
-  def test_watcher_users_contains_correct_classes
+  it 'should watcher_users_contains_correct_classes' do
     @issue.add_watcher(@user)
     watcher_users = @issue.watcher_users
     assert_kind_of Array, watcher_users
     assert_kind_of User, watcher_users.first
   end
 
-  def test_watcher_users_should_not_validate_user
+  it 'should watcher_users_should_not_validate_user' do
     @user.stub(:valid?).and_return(false)
     @issue.watcher_users << @user
     assert @issue.watched_by?(@user)
   end
 
-  def test_watcher_user_ids
+  it 'should watcher_user_ids' do
     @issue.add_watcher(@user)
     assert_contains @issue.watcher_user_ids, @user.id
   end
 
-  def test_watcher_user_ids=
+  it 'should watcher_user_ids' do
     @issue.watcher_user_ids = [@user.id]
     assert @issue.watched_by?(@user)
   end
 
-  def test_watcher_user_ids_should_make_ids_uniq
+  it 'should watcher_user_ids_should_make_ids_uniq' do
     @issue.watcher_user_ids = [@user.id, @user.id]
     assert @issue.valid?
     assert_equal 1, @issue.watchers.count
   end
 
-  def test_addable_watcher_users
+  it 'should addable_watcher_users' do
     addable_watcher_users = @issue.addable_watcher_users
     assert_kind_of Array, addable_watcher_users
     assert_kind_of User, addable_watcher_users.first
   end
 
-  def test_recipients
+  it 'should recipients' do
     @user.update_attribute :mail_notification, 'all'
 
     assert @issue.watcher_recipients.empty?
@@ -99,7 +99,7 @@ class WatcherTest < ActiveSupport::TestCase
     assert_does_not_contain @issue.watcher_recipients, @user.mail
   end
 
-  def test_unwatch
+  it 'should unwatch' do
     assert @issue.add_watcher(@user)
     @issue.save
     assert_equal 1, @issue.remove_watcher(@user)
@@ -108,7 +108,7 @@ class WatcherTest < ActiveSupport::TestCase
     refute @issue.watched_by?(@user)
   end
 
-  def test_prune_removes_watchers_that_dont_have_permission
+  it 'should prune_removes_watchers_that_dont_have_permission' do
     @issue.add_watcher(@user)
 
     assert_no_difference 'Watcher.count' do

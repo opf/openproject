@@ -28,12 +28,12 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class TimelogHelperTest < HelperTestCase
+describe TimelogHelper do
   include TimelogHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  def test_activities_collection_for_select_options_should_return_array_of_activity_names_and_ids
+  it 'should activities_collection_for_select_options_should_return_array_of_activity_names_and_ids' do
     design = TimeEntryActivity.find_by_name("Design") || FactoryGirl.create(:activity, :name => "Design")
     development = TimeEntryActivity.find_by_name("Development") || FactoryGirl.create(:activity, :name => "Development")
     activities = activity_collection_for_select_options
@@ -41,13 +41,13 @@ class TimelogHelperTest < HelperTestCase
     assert activities.include?(["Development", development.id])
   end
 
-  def test_activities_collection_for_select_options_should_not_include_inactive_activities
+  it 'should activities_collection_for_select_options_should_not_include_inactive_activities' do
     inactive = TimeEntryActivity.find_by_name("Inactive Activity") || FactoryGirl.create(:inactive_activity, :name => "Inactive Activity")
     activities = activity_collection_for_select_options
     assert !activities.include?(["Inactive Activity", inactive.id])
   end
 
-  def test_activities_collection_for_select_options_should_use_the_projects_override
+  it 'should activities_collection_for_select_options_should_use_the_projects_override' do
     project = FactoryGirl.create :valid_project
     design = TimeEntryActivity.find_by_name("Design") || FactoryGirl.create(:activity, :name => "Design")
     override_activity = TimeEntryActivity.create!({:name => "Design override", :parent => TimeEntryActivity.find_by_name("Design"), :project => project})

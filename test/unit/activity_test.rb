@@ -28,11 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class ActivityTest < ActiveSupport::TestCase
-  fixtures :all
+describe Activity do
 
-  def setup
-    super
+  before do
     @project = Project.find(1)
     [1,4,5,6].each do |issue_id|
       i = WorkPackage.find(issue_id)
@@ -44,12 +42,11 @@ class ActivityTest < ActiveSupport::TestCase
     Message.all.each { |m| m.recreate_initial_journal! }
   end
 
-  def teardown
-    super
+  after do
     Journal.delete_all
   end
 
-  def test_activity_without_subprojects
+  it 'should activity_without_subprojects' do
     events = find_events(User.anonymous, :project => @project)
     assert_not_nil events
 
@@ -59,7 +56,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert !events.include?(WorkPackage.find(5))
   end
 
-  def test_activity_with_subprojects
+  it 'should activity_with_subprojects' do
     events = find_events(User.anonymous, :project => @project, :with_subprojects => 1)
     assert_not_nil events
 
@@ -68,7 +65,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert events.include?(WorkPackage.find(5))
   end
 
-  def test_global_activity_anonymous
+  it 'should global_activity_anonymous' do
     events = find_events(User.anonymous)
     assert_not_nil events
 
@@ -78,7 +75,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert !events.include?(WorkPackage.find(6))
   end
 
-  def test_global_activity_logged_user
+  it 'should global_activity_logged_user' do
     events = find_events(User.find(2)) # manager
     assert_not_nil events
 
@@ -87,7 +84,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert events.include?(WorkPackage.find(6))
   end
 
-  def test_user_activity
+  it 'should user_activity' do
     user = User.find(2)
     events = Redmine::Activity::Fetcher.new(User.anonymous, :author => user).events(nil, nil, :limit => 10)
 

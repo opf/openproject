@@ -28,11 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class SearchTest < ActiveSupport::TestCase
-  fixtures :all
+describe "Search" do # FIXME: naming (RSpec-port)
 
-  def setup
-    super
+  before do
     @project = Project.find(1)
     @issue_keyword = '%unable to print recipes%'
     @issue = WorkPackage.find(1)
@@ -40,7 +38,7 @@ class SearchTest < ActiveSupport::TestCase
     @changeset = Changeset.find(100)
   end
 
-  def test_search_by_anonymous
+  it 'should search_by_anonymous' do
     User.current = nil
 
     r = WorkPackage.search(@issue_keyword).first
@@ -64,7 +62,7 @@ class SearchTest < ActiveSupport::TestCase
     assert !r.include?(@changeset)
   end
 
-  def test_search_by_user
+  it 'should search_by_user' do
     User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
@@ -89,7 +87,7 @@ class SearchTest < ActiveSupport::TestCase
     assert !r.include?(@changeset)
   end
 
-  def test_search_by_allowed_member
+  it 'should search_by_allowed_member' do
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
@@ -106,7 +104,7 @@ class SearchTest < ActiveSupport::TestCase
     assert r.include?(@changeset)
   end
 
-  def test_search_by_unallowed_member
+  it 'should search_by_unallowed_member' do
     # Removes the :view_changesets permission from user's and non member role
     remove_permission Role.find(1), :view_changesets
     remove_permission Role.non_member, :view_changesets
@@ -127,7 +125,7 @@ class SearchTest < ActiveSupport::TestCase
     assert !r.include?(@changeset)
   end
 
-  def test_search_issue_with_multiple_hits_in_journals
+  it 'should search_issue_with_multiple_hits_in_journals' do
     i = WorkPackage.find(1)
     Journal.delete_all journable_id: i.id
     i.add_journal User.current, "Journal notes"

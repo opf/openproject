@@ -28,23 +28,19 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ThemesTest < ActionDispatch::IntegrationTest
+describe "Themes" do
   include MiniTest::Assertions
 
-  fixtures :all
-
-  def setup
-    super
+  before do
     @theme = OpenProject::Themes.default_theme
     Setting.ui_theme = @theme.identifier
   end
 
-  def teardown
-    super
+  after do
     Setting.ui_theme = nil
   end
 
-  def test_application_css
+  it 'application_css' do
     get '/'
 
     assert_response :success
@@ -52,7 +48,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
       :attributes => {:href => '/assets/default.css'}
   end
 
-  should_eventually 'test_without_theme_js' do
+  xit 'test_without_theme_js' do
     get '/'
 
     assert_response :success
@@ -60,7 +56,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
       :attributes => {:src => '/assets/default.js'}
   end
 
-  should_eventually 'test_with_theme_js' do
+  xit 'test_with_theme_js' do
     begin
       # Simulates a theme.js
       @theme.javascripts << 'theme'
@@ -74,7 +70,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should_eventually 'test_with_sub_uri' do
+  xit 'test_with_sub_uri' do
     begin
       OpenProject::Configuration['rails_relative_url_root'] = '/foo'
       @theme.javascripts << 'theme'

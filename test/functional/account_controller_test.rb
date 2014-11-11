@@ -32,50 +32,49 @@ require 'account_controller'
 # Re-raise errors caught by the controller.
 class AccountController; def rescue_action(e) raise e end; end
 
-class AccountControllerTest < ActionController::TestCase
-  fixtures :all
+describe AccountController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_login_with_wrong_password
+  it 'login_with_wrong_password' do
     post :login, :username => 'admin', :password => 'bad'
     assert_response :success
     assert_template 'login'
     assert_select "div.flash.error.icon.icon-error", /Invalid user or password/
   end
 
-  def test_login
+  it 'login' do
     get :login
     assert_template 'login'
   end
 
-  def test_login_should_reset_session
+  it 'login_should_reset_session' do
     @controller.should_receive(:reset_session).once
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
   end
 
-  def test_login_with_logged_account
+  it 'login_with_logged_account' do
     @request.session[:user_id] = 2
     get :login
     assert_redirected_to home_url
   end
 
-  def test_logout
+  it 'logout' do
     @request.session[:user_id] = 2
     get :logout
     assert_redirected_to '/'
     assert_nil @request.session[:user_id]
   end
 
-  def test_logout_should_reset_session
+  it 'logout_should_reset_session' do
     @controller.should_receive(:reset_session).once
 
     @request.session[:user_id] = 2

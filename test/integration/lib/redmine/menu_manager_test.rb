@@ -28,12 +28,11 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class MenuManagerTest < ActionDispatch::IntegrationTest
+describe "MenuManager" do
   include Redmine::I18n
 
-  fixtures :all
 
-  def test_project_menu_with_specific_locale
+  it 'project_menu_with_specific_locale' do
     Setting.available_languages = [:de, :en]
     get 'projects/ecookbook', { }, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
@@ -47,7 +46,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
                                                                                               :class => 'icon2 icon-list-view2 overview ellipsis selected' } } }
   end
 
-  def test_project_menu_with_additional_menu_items
+  it 'project_menu_with_additional_menu_items' do
     Setting.default_language = 'en'
     assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
       Redmine::MenuManager.map :project_menu do |menu|
@@ -80,7 +79,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_dynamic_menu
+  it 'dynamic_menu' do
     list = []
     Redmine::MenuManager.map :some_menu do |menu|
       list.each do |item|
@@ -99,7 +98,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
   end
 
-  def test_dynamic_menu_map_deferred
+  it 'dynamic_menu_map_deferred' do
     assert_no_difference 'Redmine::MenuManager.items(:some_menu).size' do
       Redmine::MenuManager.map(:some_other_menu).push :baz, {:controller => 'projects', :action => 'show'}, :caption => 'Baz'
       Redmine::MenuManager.map(:some_other_menu).delete :baz

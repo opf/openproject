@@ -28,26 +28,26 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class TimeEntryActivityTest < ActiveSupport::TestCase
+describe TimeEntryActivity do
   include MiniTest::Assertions # refute
 
-  fixtures :all
 
 
-  def test_should_be_an_enumeration
+
+  it 'should should_be_an_enumeration' do
     assert TimeEntryActivity.ancestors.include?(Enumeration)
   end
 
-  def test_objects_count
+  it 'should objects_count' do
     assert_equal 3, TimeEntryActivity.find_by_name("Design").objects_count
     assert_equal 1, TimeEntryActivity.find_by_name("Development").objects_count
   end
 
-  def test_option_name
+  it 'should option_name' do
     assert_equal :enumeration_activities, TimeEntryActivity.new.option_name
   end
 
-  def test_create_with_custom_field
+  it 'should create_with_custom_field' do
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     e = TimeEntryActivity.new(:name => 'Custom Data')
     e.custom_field_values = {field.id => "1"}
@@ -57,7 +57,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert_equal "1", e.custom_value_for(field).value
   end
 
-  def test_create_without_required_custom_field_should_fail
+  it 'should create_without_required_custom_field_should_fail' do
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
@@ -66,7 +66,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert_include e.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
   end
 
-  def test_create_with_required_custom_field_should_succeed
+  it 'should create_with_required_custom_field_should_succeed' do
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
@@ -75,7 +75,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert e.save
   end
 
-  def test_update_issue_with_required_custom_field_change
+  it 'should update_issue_with_required_custom_field_change' do
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 

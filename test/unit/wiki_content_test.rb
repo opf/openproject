@@ -28,16 +28,16 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class WikiContentTest < ActiveSupport::TestCase
-  fixtures :all
+describe WikiContent do
 
-  def setup
-    super
+
+  before do
+
     @wiki = Wiki.find(1)
     @page = @wiki.pages.first
   end
 
-  def test_create
+  it 'should create' do
     page = WikiPage.new(:wiki => @wiki, :title => "Page")
     page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
     assert page.save
@@ -53,7 +53,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal content.text, content.versions.last.data.text
   end
 
-  def test_create_should_send_email_notification
+  it 'should create_should_send_email_notification' do
     Setting.notified_events = ['wiki_content_added']
     ActionMailer::Base.deliveries.clear
     page = WikiPage.new(:wiki => @wiki, :title => "A new page")
@@ -63,7 +63,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  def test_update
+  it 'should update' do
     content = @page.content
     version_count = content.version
     content.text = "My new content"
@@ -73,7 +73,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal version_count+1, content.versions.length
   end
 
-  def test_update_should_send_email_notification
+  it 'should update_should_send_email_notification' do
     Setting.notified_events = ['wiki_content_updated']
     ActionMailer::Base.deliveries.clear
     content = @page.content
@@ -83,7 +83,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  def test_fetch_history
+  it 'should fetch_history' do
     wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
                                              journable_id: @page.content.id)
     wiki_content_journal.data.page_id = @page.id
@@ -96,7 +96,7 @@ class WikiContentTest < ActiveSupport::TestCase
     end
   end
 
-  def test_large_text_should_not_be_truncated_to_64k
+  it 'should large_text_should_not_be_truncated_to_64k' do
     page = WikiPage.new(:wiki => @wiki, :title => "Big page")
     page.content = WikiContent.new(:text => "a" * 500.kilobyte, :author => User.find(1))
     assert page.save
@@ -104,7 +104,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal 500.kilobyte, page.content.text.size
   end
 
-  test "new WikiContent is version 0" do
+  it "new WikiContent is version 0" do
     page = WikiPage.new(:wiki => @wiki, :title => "Page")
     page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
 

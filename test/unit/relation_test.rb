@@ -28,12 +28,12 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RelationTest < ActiveSupport::TestCase
+describe Relation do
   include MiniTest::Assertions # refute
 
-  fixtures :all
 
-  def test_create
+
+  it 'should create' do
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
@@ -45,7 +45,7 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal to, relation.to
   end
 
-  def test_follows_relation_should_be_reversed
+  it 'should follows_relation_should_be_reversed' do
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
@@ -57,7 +57,7 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal from, relation.to
   end
 
-  def test_follows_relation_should_not_be_reversed_if_validation_fails
+  it 'should follows_relation_should_not_be_reversed_if_validation_fails' do
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
@@ -68,7 +68,7 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal to, relation.to
   end
 
-  def test_relation_type_for
+  it 'should relation_type_for' do
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
@@ -77,17 +77,17 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal Relation::TYPE_FOLLOWS, relation.relation_type_for(to)
   end
 
-  def test_set_dates_of_target_without_to
+  it 'should set_dates_of_target_without_to' do
     r = Relation.new(:from => WorkPackage.new(:start_date => Date.today), :relation_type => Relation::TYPE_PRECEDES, :delay => 1)
     assert_nil r.set_dates_of_target
   end
 
-  def test_set_dates_of_target_without_issues
+  it 'should set_dates_of_target_without_issues' do
     r = Relation.new(:relation_type => Relation::TYPE_PRECEDES, :delay => 1)
     assert_nil r.set_dates_of_target
   end
 
-  def test_validates_circular_dependency
+  it 'should validates_circular_dependency' do
     Relation.delete_all
     assert Relation.create!(:from => WorkPackage.find(1), :to => WorkPackage.find(2), :relation_type => Relation::TYPE_PRECEDES)
     assert Relation.create!(:from => WorkPackage.find(2), :to => WorkPackage.find(3), :relation_type => Relation::TYPE_PRECEDES)

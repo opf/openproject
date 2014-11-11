@@ -28,9 +28,8 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class CustomFieldUserFormatTest < ActiveSupport::TestCase
-  def setup
-    super
+describe "CustomFieldFormat" do # TODO: what is this?
+  before do
     @project = FactoryGirl.create :valid_project
     role   = FactoryGirl.create :role, :permissions => [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
@@ -42,44 +41,44 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 
-  def test_possible_values_with_no_arguments
+  it 'should possible_values_with_no_arguments' do
     assert_equal [], @field.possible_values
     assert_equal [], @field.possible_values(nil)
   end
 
-  def test_possible_values_with_project_resource
+  it 'should possible_values_with_project_resource' do
     possible_values = @field.possible_values(@project.work_packages.first)
     assert possible_values.any?
     assert_equal @project.users.sort.collect(&:id).map(&:to_s), possible_values
   end
 
-  def test_possible_values_with_nil_project_resource
+  it 'should possible_values_with_nil_project_resource' do
     assert_equal [], @field.possible_values(WorkPackage.new)
   end
 
-  def test_possible_values_options_with_no_arguments
+  it 'should possible_values_options_with_no_arguments' do
     assert_equal [], @field.possible_values_options
     assert_equal [], @field.possible_values_options(nil)
   end
 
-  def test_possible_values_options_with_project_resource
+  it 'should possible_values_options_with_project_resource' do
     possible_values_options = @field.possible_values_options(@project.work_packages.first)
     assert possible_values_options.any?
     assert_equal @project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
   end
 
-  def test_cast_blank_value
+  it 'should cast_blank_value' do
     assert_equal nil, @field.cast_value(nil)
     assert_equal nil, @field.cast_value("")
   end
 
-  def test_cast_valid_value
+  it 'should cast_valid_value' do
     user = @field.cast_value("#{@users.first.id}")
     assert_kind_of User, user
     assert_equal @users.first, user
   end
 
-  def test_cast_invalid_value
+  it 'should cast_invalid_value' do
     User.delete_all
     assert_equal nil, @field.cast_value("1")
   end

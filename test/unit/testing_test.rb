@@ -29,27 +29,27 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 # Test case that checks that the testing infrastructure is setup correctly.
-class TestingTest < ActiveSupport::TestCase
-  def test_working
+describe "Testing" do # FIXME: naming (RSpec-port)
+  it 'should working' do
     assert true
   end
 
-  test "Rails 'test' case syntax" do
+  it "Rails 'test' case syntax" do
     assert true
   end
 
-  test "Generating with object_daddy" do
+  it "Generating with object_daddy" do
     assert_difference "Status.count" do
       Status.generate!
     end
   end
 
-  should "work with shoulda" do
+  it "work with shoulda" do
     assert true
   end
 
   context "works with a context" do
-    should "work" do
+    it "work" do
       assert true
     end
   end

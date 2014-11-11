@@ -29,16 +29,16 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ProjectEnumerationsControllerTest < ActionController::TestCase
-  fixtures :all
+describe ProjectEnumerationsController do
 
-  def setup
-    super
+
+  before do
+
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
   end
 
-  def test_update_to_override_system_activities
+  it 'update_to_override_system_activities' do
     @request.session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name("Billable")
 
@@ -88,7 +88,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal nil, project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
   end
 
-  def test_update_will_update_project_specific_activities
+  it 'update_will_update_project_specific_activities' do
     @request.session[:user_id] = 2 # manager
 
     project_activity = TimeEntryActivity.new({
@@ -130,7 +130,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert !activity_two.active?
   end
 
-  def test_update_when_creating_new_activities_will_convert_existing_data
+  it 'update_when_creating_new_activities_will_convert_existing_data' do
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
 
     @request.session[:user_id] = 2 # manager
@@ -146,7 +146,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_specific_activity.id, 1).size, "No Time Entries assigned to the project activity"
   end
 
-  def test_update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
+  it 'update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised' do
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a duplicate
@@ -179,7 +179,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size, "Time Entries are not assigned to system activities"
   end
 
-  def test_destroy
+  it 'destroy' do
     @request.session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new({
                                                :name => 'Project Specific',
@@ -204,7 +204,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_nil TimeEntryActivity.find_by_id(project_activity_two.id)
   end
 
-  def test_destroy_should_reassign_time_entries_back_to_the_system_activity
+  it 'destroy_should_reassign_time_entries_back_to_the_system_activity' do
     @request.session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new({
                                                :name => 'Project Specific Design',

@@ -32,18 +32,17 @@ require 'journals_controller'
 # Re-raise errors caught by the controller.
 class JournalsController; def rescue_action(e) raise e end; end
 
-class JournalsControllerTest < ActionController::TestCase
-  fixtures :all
+describe JournalsController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = JournalsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_get_edit
+  it 'get_edit' do
     issue = WorkPackage.find(1)
     journal = FactoryGirl.create :work_package_journal,
                                  journable_id: issue.id
@@ -58,7 +57,7 @@ class JournalsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_post_edit
+  it 'post_edit' do
     issue = WorkPackage.find(1)
     journal = FactoryGirl.create :work_package_journal,
                                  journable_id: issue.id,
@@ -72,7 +71,7 @@ class JournalsControllerTest < ActionController::TestCase
     assert_equal 'Updated notes', Journal.find(journal.id).notes
   end
 
-  def test_post_edit_with_empty_notes
+  it 'post_edit_with_empty_notes' do
     issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
@@ -89,7 +88,7 @@ class JournalsControllerTest < ActionController::TestCase
     assert_nil Journal.find_by_id(journal.id)
   end
 
-  def test_index
+  it 'index' do
     get :index, :project_id => 1, :format => :atom
     assert_response :success
     assert_not_nil assigns(:journals)

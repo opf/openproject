@@ -29,15 +29,13 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class BoardTest < ActiveSupport::TestCase
-  fixtures :all
+describe Board do
 
-  def setup
-    super
+  before do
     @project = Project.find(1)
   end
 
-  def test_create
+  it 'should create' do
     board = Board.new(:project => @project, :name => 'Test board', :description => 'Test board description')
     assert board.save
     board.reload
@@ -51,7 +49,7 @@ class BoardTest < ActiveSupport::TestCase
     assert_equal @project.boards.size, board.position
   end
 
-  def test_destroy
+  it 'should destroy' do
     board = Board.find(1)
     assert_difference 'Message.count', -6 do
       assert_difference 'Attachment.count', -1 do

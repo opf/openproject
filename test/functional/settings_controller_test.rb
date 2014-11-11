@@ -33,11 +33,11 @@ require 'settings_controller'
 # Re-raise errors caught by the controller.
 class SettingsController; def rescue_action(e) raise e end; end
 
-class SettingsControllerTest < ActionController::TestCase
-  fixtures :all
+describe SettingsController do
 
-  def setup
-    super
+
+  before do
+
     @controller = SettingsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -45,19 +45,19 @@ class SettingsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'index' do
     get :index
     assert_response :success
     assert_template 'edit'
   end
 
-  def test_get_edit
+  it 'get_edit' do
     get :edit
     assert_response :success
     assert_template 'edit'
   end
 
-  def test_post_edit_notifications
+  it 'post_edit_notifications' do
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',
                               :notified_events => %w(work_package_added work_package_updated news_added),

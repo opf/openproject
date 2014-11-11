@@ -29,10 +29,10 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class LayoutTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "Layout" do
 
-  test "browsing to a missing page should render the base layout" do
+
+  it "browsing to a missing page should render the base layout" do
     get "/users/100000000"
 
     assert_response :not_found
@@ -41,21 +41,21 @@ class LayoutTest < ActionDispatch::IntegrationTest
     assert_select "#main-menu", :count => 0
   end
 
-  def test_top_menu_navigation_not_visible_when_login_required
+  it 'top_menu_navigation_not_visible_when_login_required' do
     with_settings :login_required => '1' do
       get '/'
       assert_select "#account-nav-left", 0
     end
   end
 
-  def test_top_menu_navigation_visible_when_login_not_required
+  it 'top_menu_navigation_visible_when_login_not_required' do
     with_settings :login_required => '0' do
       get '/'
       assert_select "#account-nav-left"
     end
   end
 
-  test "page titles should be properly escaped" do
+  it "page titles should be properly escaped" do
     project = Project.generate(:name => "C&A", :is_public => true)
 
     with_settings :app_title => '<3' do

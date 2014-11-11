@@ -28,21 +28,21 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class IssuePriorityTest < ActiveSupport::TestCase
-  fixtures :all
+describe IssuePriority do
 
-  def test_should_be_an_enumeration
+
+  it 'should should_be_an_enumeration' do
     assert IssuePriority.ancestors.include?(Enumeration)
   end
 
-  def test_objects_count
+  it 'should objects_count' do
     # low priority
     assert_equal 6, IssuePriority.find(4).objects_count
     # urgent
     assert_equal 0, IssuePriority.find(7).objects_count
   end
 
-  def test_option_name
+  it 'should option_name' do
     assert_equal :enumeration_work_package_priorities, IssuePriority.new.option_name
   end
 end

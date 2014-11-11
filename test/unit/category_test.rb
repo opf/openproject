@@ -28,9 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class CategoryTest < ActiveSupport::TestCase
-  def setup
-    super
+describe Category do
+  before do
+
     @project = FactoryGirl.create :project
     @category = FactoryGirl.create :category, :project => @project
     @issue = FactoryGirl.create :work_package, :category => @category
@@ -38,14 +38,14 @@ class CategoryTest < ActiveSupport::TestCase
     assert_equal @category.work_packages, [@issue]
   end
 
-  def test_create
+  it 'should create' do
     (new_cat = Category.new).force_attributes = {:project_id => @project.id, :name => 'New category'}
     assert new_cat.valid?
     assert new_cat.save
     assert_equal 'New category', new_cat.name
   end
 
-  def test_create_with_group_assignment
+  it 'should create_with_group_assignment' do
     group = FactoryGirl.create :group
     role = FactoryGirl.create :role
     (Member.new.tap do |m|
@@ -59,13 +59,13 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   # Make sure the category was nullified on the issue
-  def test_destroy
+  it 'should destroy' do
     @category.destroy
     assert_nil @issue.reload.category
   end
 
   # both issue categories must be in the same project
-  def test_destroy_with_reassign
+  it 'should destroy_with_reassign' do
     reassign_to = FactoryGirl.create :category, :project => @project
     @category.destroy(reassign_to)
     # Make sure the issue was reassigned

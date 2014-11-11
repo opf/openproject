@@ -32,18 +32,18 @@ require 'boards_controller'
 # Re-raise errors caught by the controller.
 class BoardsController; def rescue_action(e) raise e end; end
 
-class BoardsControllerTest < ActionController::TestCase
-  fixtures :all
+describe BoardsController do
 
-  def setup
-    super
+
+  before do
+
     @controller = BoardsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_index
+  it 'index' do
     get :index, :project_id => 1
     assert_response :success
     assert_template 'index'
@@ -51,12 +51,12 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
   end
 
-  def test_index_not_found
+  it 'index_not_found' do
     get :index, :project_id => 97
     assert_response 404
   end
 
-  def test_index_should_show_messages_if_only_one_board
+  it 'index_should_show_messages_if_only_one_board' do
     Project.find(1).boards.slice(1..-1).each(&:destroy)
 
     get :index, :project_id => 1
@@ -65,7 +65,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  def test_create
+  it 'create' do
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
       post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
@@ -73,7 +73,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/boards'
   end
 
-  def test_show
+  it 'show' do
     get :show, :project_id => 1, :id => 1
     assert_response :success
     assert_template 'show'
@@ -82,7 +82,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  def test_show_atom
+  it 'show_atom' do
     get :show, :project_id => 1, :id => 1, :format => 'atom'
     assert_response :success
     assert_template 'common/feed'
@@ -91,7 +91,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:messages)
   end
 
-  def test_update
+  it 'update' do
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
       put :update, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
@@ -100,7 +100,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_equal 'Testing', Board.find(2).name
   end
 
-  def test_post_destroy
+  it 'post_destroy' do
     @request.session[:user_id] = 2
     assert_difference 'Board.count', -1 do
       post :destroy, :project_id => 1, :id => 2
@@ -109,7 +109,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_nil Board.find_by_id(2)
   end
 
-  def test_index_should_404_with_no_board
+  it 'index_should_404_with_no_board' do
     Project.find(1).boards.each(&:destroy)
 
     get :index, :project_id => 1
