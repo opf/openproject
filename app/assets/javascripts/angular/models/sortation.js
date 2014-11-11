@@ -70,7 +70,7 @@ angular.module('openproject.models')
   };
 
   Sortation.prototype.removeSortElement = function(elementName) {
-    index = this.sortElements.map(function(sortation){
+    var index = this.sortElements.map(function(sortation){
       return sortation.field;
     }).indexOf(elementName);
 
@@ -112,7 +112,7 @@ angular.module('openproject.models')
 
   Sortation.prototype.decodeEncodedSortation = function(encodedSortation) {
     return encodedSortation.split(',').map(function(sortParam) {
-      fieldAndDirection = sortParam.split(':');
+      var fieldAndDirection = sortParam.split(':');
       return { field: fieldAndDirection[0], direction: fieldAndDirection[1] || defaultSortDirection};
     });
   };

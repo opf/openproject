@@ -30,7 +30,7 @@
 angular.module('openproject.helpers')
 
 .service('PathHelper', [function() {
-  PathHelper = {
+  var PathHelper = {
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',

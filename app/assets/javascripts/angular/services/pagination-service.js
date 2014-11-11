@@ -37,7 +37,7 @@ angular.module('openproject.services')
     optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
   };
 
-  PaginationService = {
+  var PaginationService = {
     getPaginationOptions: function() {
       return paginationOptions;
     },

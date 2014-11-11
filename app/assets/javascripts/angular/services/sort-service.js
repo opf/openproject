@@ -33,7 +33,7 @@ angular.module('openproject.services')
     column: "",
     direction: ""
   };
-  SortService = {
+  var SortService = {
     getColumn: function() {
       return sortOptions.column;
     },

@@ -30,7 +30,7 @@ angular.module('openproject.workPackages.models')
 
 .factory('WorkPackageAuthorization', [function() {
 
-  WorkPackageAuthorization = function (workPackage) {
+  var WorkPackageAuthorization = function (workPackage) {
     this.workPackage = workPackage;
   };
 
