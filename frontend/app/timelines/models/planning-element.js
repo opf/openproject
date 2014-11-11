@@ -45,6 +45,8 @@ module.exports = function(PathHelper) {
 
     is: function(t) {
       if (t === undefined) return false;
+      if (_.isString(t)) return this.objectType === t;
+
       return PlanningElement.identifier === t.identifier;
     },
     hide: function () {

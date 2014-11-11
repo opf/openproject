@@ -68,7 +68,7 @@
 
           addProjectToOwnTimeline(current);
 
-          if (!current.is(Project)) {
+          if (!current.is('Project')) {
             Project.children[i] = Factory.build('Project', current);
           }
         }

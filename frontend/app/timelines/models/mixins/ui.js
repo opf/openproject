@@ -662,7 +662,7 @@ module.exports = function($timeout) {
 
         // if the grouping changed, put a grey box here.
 
-        if (timeline.isGrouping() && indent === 0 && pl.is(Project)) {
+        if (timeline.isGrouping() && indent === 0 && pl.is('Project')) {
           grouping = pl.getFirstLevelGrouping();
           if (previousGrouping !== grouping) {
 
@@ -709,7 +709,7 @@ module.exports = function($timeout) {
 
         // if there is a new project, draw a black line.
 
-        if (pl.is(Project)) {
+        if (pl.is('Project')) {
 
           if (!groupingChanged) {
 
@@ -726,13 +726,13 @@ module.exports = function($timeout) {
 
           }
 
-        } else if (pl.is(PlanningElement)) {
+        } else if (pl.is('PlanningElement')) {
 
         }
 
         previousNode = node;
 
-        if (pl.is(PlanningElement)) {
+        if (pl.is('PlanningElement')) {
           render_bucket_text.push(function () {
             pl.renderForeground(node);
           });
@@ -867,7 +867,7 @@ module.exports = function($timeout) {
       info += "<b>";
       info += this.escape(renderable.subject);
       info += "</b>";
-      if (renderable.is(PlanningElement)) {
+      if (renderable.is('PlanningElement')) {
         info += " (#" + renderable.id + ")";
       }
       info += "<br/>";

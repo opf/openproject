@@ -54,7 +54,7 @@ module.exports = function() {
     },
     setData: function(data, level) {
       this.text = data.subject || data.name;
-      if (data.is(Project)) this.group = data.getFirstLevelGrouping();
+      if (data.is('Project')) this.group = data.getFirstLevelGrouping();
       this.url = data.getUrl();
 
       this.payload = data;
@@ -176,7 +176,7 @@ module.exports = function() {
 
       if (timeline.options.hide_other_group &&
           timeline.isGrouping() &&
-          this.payload.is(Project) &&
+          this.payload.is('Project') &&
           this !== root &&
           options.indent === 0 &&
           this.payload.getFirstLevelGrouping() === 0) {
@@ -220,7 +220,7 @@ module.exports = function() {
             callback.call(this, this, options.indent, options.index);
           }
 
-          if (this.payload.is(Project)) {
+          if (this.payload.is('Project')) {
             options.projects++;
           }
 
@@ -255,11 +255,11 @@ module.exports = function() {
 
             if (options.traverseCollapsed ||
                 self.isExpanded() ||
-                child.payload.is(Project)) {
+                child.payload.is('Project')) {
 
                 //do we wan to inherit the hidden status from projects to planning elements?
-                if (!hidden || child.payload.is(Project)) {
-                  if (!(options.indent > 1 && child.payload.is(Project))) {
+                if (!hidden || child.payload.is('Project')) {
+                  if (!(options.indent > 1 && child.payload.is('Project'))) {
                     child.iterateWithChildren(callback, options);
                   }
                 }

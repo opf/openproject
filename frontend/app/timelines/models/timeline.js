@@ -452,7 +452,7 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
 
       tree.iterateWithChildren(function(node) {
         var data = node.getData();
-        if (data.is(PlanningElement)) {
+        if (data.is('PlanningElement')) {
           timeline.includeDate(data.start());
           timeline.includeDate(data.end());
         }

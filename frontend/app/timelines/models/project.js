@@ -45,6 +45,8 @@ module.exports = function() {
 
     is: function(t) {
       if (t === undefined) return false;
+      if (_.isString(t)) return this.objectType === t;
+
       return Project.identifier === t.identifier;
     },
     hide: function () {
@@ -86,7 +88,7 @@ module.exports = function() {
         // and it is inside our timeframe
         // and it has got the planning element type we want
         if (hidden &&
-              child.is(PlanningElement) &&
+              child.is('PlanningElement') &&
               child.inTimeFrame() &&
               Timeline.idInArray(types, child.getPlanningElementType())) {
                 hidden = false;
@@ -209,7 +211,7 @@ module.exports = function() {
         var dc = 0, nc = 0;
         var as = a.start(), bs = b.start();
         var ag, bg;
-        if (a.is(Project) && b.is(Project)) {
+        if (a.is('Project') && b.is('Project')) {
           var dataAGrouping = a.getFirstLevelGroupingData();
           var dataBGrouping = b.getFirstLevelGroupingData();
 
@@ -294,7 +296,7 @@ module.exports = function() {
           }
         }
 
-        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is(Project) && b.is(Project)) {
+        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is('Project') && b.is('Project')) {
           if (nc !== 0) {
             return nc;
           }
