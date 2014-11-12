@@ -27,7 +27,7 @@
 //++
 
 describe('inplaceEditor Directive', function() {
-  var compile, element, rootScope, scope, elementScope, $timeout,
+  var compile, element, rootScope, scope, elementScope, $timeout, html,
   submitStub, updateWorkPackageStub, onSuccessSpy, onFailSpy, onFinallySpy,
   workPackageService;
 
@@ -45,13 +45,12 @@ describe('inplaceEditor Directive', function() {
                     'openproject.config',
                     'openproject.services'));
   beforeEach(inject(function($rootScope, $compile, _$timeout_, _WorkPackageService_) {
-    var html =
-      '<h2 ' +
+    html =
+        '<h2 ' +
         'inplace-editor ' +
         'ined-type="text" ' +
         'ined-entity="workPackage" ' +
         'ined-attribute="subject" ' +
-        'ined-value="workPackage.props.subject" ' +
         'title="{{ workPackage.props.subject }}" ' +
       '></h2>';
 
@@ -62,6 +61,7 @@ describe('inplaceEditor Directive', function() {
     WorkPackageService = _WorkPackageService_;
 
     compile = function() {
+      element = angular.element(html);
       $compile(element)(scope);
       scope.$digest();
       elementScope = element.isolateScope();
@@ -72,11 +72,11 @@ describe('inplaceEditor Directive', function() {
     beforeEach(function() {
       scope.workPackage = {
         props: {
-          subject: "Some subject",
-          lockVersion: "1"
+          subject: 'Some subject',
+          lockVersion: '1'
         },
         links: {
-          update: {
+          updateImmediately: {
             fetch: function() {}
           }
         }
@@ -90,25 +90,59 @@ describe('inplaceEditor Directive', function() {
     });
 
     describe('scope', function() {
-      describe('workPackage.links.update', function() {
+      describe('type', function() {
+        context('text', function() {
+          beforeEach(function() {
+            elementScope.startEditing();
+            scope.$digest();
+          });
+          it('should render a text input', function() {
+            expect(element.find('.ined-input-wrapper input[type="text"]').length).to.eq(1);
+          });
+        });
+        context('wiki_textarea', function() {
+          beforeEach(function() {
+            html =
+              '<h2 ' +
+              'inplace-editor ' +
+              'ined-type="wiki_textarea" ' +
+              'ined-entity="workPackage" ' +
+              'ined-attribute="rawDescription" ' +
+              '></h2>';
+            compile();
+            elementScope.startEditing();
+            scope.$digest();
+          });
+          it('should render a textarea', function() {
+            expect(element.find('.ined-input-wrapper textarea').length).to.eq(1);
+          });
+          it('should render the js toolbar', function() {
+            expect(element.find('.ined-input-wrapper .jstElements').length).to.eq(1);
+          });
+          it('should render a text formatting help link', function() {
+            expect(element.find('.ined-input-wrapper .help').length).to.eq(1);
+          });
+        });
+      });
+      describe('workPackage.links.updateImmediately', function() {
         context('present', function() {
           it('should render the inplace editor', function() {
-            expect(element.find(".inplace-editor").length).to.eq(1);
+            expect(element.find('.inplace-editor').length).to.eq(1);
           });
         });
         context('not present', function() {
           beforeEach(function() {
           scope.workPackage = {
             props: {
-              subject: "Some subject",
-              lockVersion: "1"
+              subject: 'Some subject',
+              lockVersion: '1'
             },
             links: { }
           };
           compile();
           });
-          it("should render the value with no editing elements", function() {
-            expect(element.find(".inplace-editor").length).to.eq(0);
+          it('should render the value without editing elements', function() {
+            expect(element.find('.inplace-editor').length).to.eq(0);
           });
         });
       });
@@ -119,30 +153,30 @@ describe('inplaceEditor Directive', function() {
             elementScope.isBusy = true;
             scope.$digest();
           });
-          it("should disable the input", function() {
-            expect(element.find(".ined-input-wrapper input").prop('disabled')).to.eq(true);
+          it('should disable the input', function() {
+            expect(element.find('.ined-input-wrapper input').prop('disabled')).to.eq(true);
           });
         });
       });
-      describe("isEditing", function() {
+      describe('isEditing', function() {
         context('true', function() {
           beforeEach(function() {
             elementScope.isEditing = true;
             scope.$digest();
           });
-          it("should render the edit block", function() {
-            expect(element.find(".ined-edit").length).to.eq(1);
+          it('should render the edit block', function() {
+            expect(element.find('.ined-edit').length).to.eq(1);
           });
-          it("should hide the read block", function() {
-            expect(element.find('.ined-read-value').hasClass("ng-hide")).to.eq(true);
+          it('should hide the read block', function() {
+            expect(element.find('.ined-read-value').hasClass('ng-hide')).to.eq(true);
           });
         });
         context('false', function() {
           it('should not render the edit block', function() {
-            expect(element.find(".ined-edit").length).to.eq(0);
+            expect(element.find('.ined-edit').length).to.eq(0);
           });
-          it("should not hide the read block", function() {
-            expect(element.find('.ined-read-value').hasClass("ng-hide")).to.eq(false);
+          it('should not hide the read block', function() {
+            expect(element.find('.ined-read-value').hasClass('ng-hide')).to.eq(false);
           });
         });
       });
@@ -150,13 +184,13 @@ describe('inplaceEditor Directive', function() {
         context('general', function() {
           beforeEach(function() {
             updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-              "then": $.noop,
-              "catch": $.noop,
-              "finally": $.noop
+              'then': $.noop,
+              'catch': $.noop,
+              'finally': $.noop
             });
             elementScope.submit();
           });
-          it("should set the isBusy variable", function() {
+          it('should set the isBusy variable', function() {
             expect(elementScope.isBusy).to.eq(true);
           });
         });
@@ -166,14 +200,14 @@ describe('inplaceEditor Directive', function() {
             beforeEach(function() {
               emitSpy = sinon.spy(elementScope, '$emit');
               elementScope.onSuccess({
-                subject: "Oh well"
+                subject: 'Oh well'
               });
             });
             it('should extend the entity with the response', function() {
-              expect(scope.workPackage.subject).to.eq("Oh well");
+              expect(scope.workPackage.subject).to.eq('Oh well');
             });
-            it("should refresh the details view", function() {
-              emitSpy.should.have.been.calledWith("workPackageRefreshRequired");
+            it('should refresh the details view', function() {
+              emitSpy.should.have.been.calledWith('workPackageRefreshRequired');
             });
             it('should switch to read view', function() {
               expect(elementScope.isEditing).to.eq(false);
@@ -184,14 +218,14 @@ describe('inplaceEditor Directive', function() {
               elementScope.startEditing();
               elementScope.onFail({
                 status: 500,
-                statusText: "Nope"
+                statusText: 'Nope'
               });
             });
-            it("should not leave the edit mode", function() {
+            it('should not leave the edit mode', function() {
               expect(elementScope.isEditing).to.eq(true);
             });
-            it("should set the error", function() {
-              expect(elementScope.error).to.eq("Nope");
+            it('should set the error', function() {
+              expect(elementScope.error).to.eq('Nope');
             });
           });
           describe('onFinally', function() {
@@ -200,7 +234,7 @@ describe('inplaceEditor Directive', function() {
               elementScope.isBusy = true;
               elementScope.onFinally();
             });
-            it("should set isBusy to false", function() {
+            it('should set isBusy to false', function() {
               expect(elementScope.isBusy).to.eq(false);
             });
           });
@@ -214,45 +248,45 @@ describe('inplaceEditor Directive', function() {
           context('successful response', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                "then": function(cb) {
+                'then': function(cb) {
                   cb();
                 },
-                "catch": $.noop,
-                "finally": $.noop
+                'catch': $.noop,
+                'finally': $.noop
               });
               elementScope.submit();
             });
-            it("should call onSuccess callback", function() {
+            it('should call onSuccess callback', function() {
               onSuccessSpy.should.have.been.called;
             });
           });
           context('error response', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                "then": $.noop,
-                "catch": function(cb) {
+                'then': $.noop,
+                'catch': function(cb) {
                   cb();
                 },
-                "finally": $.noop
+                'finally': $.noop
               });
               elementScope.submit();
             });
-            it("should call onFail callback", function() {
+            it('should call onFail callback', function() {
               onFailSpy.should.have.been.called;
             });
           });
           context('finally', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                "then": $.noop,
-                "catch": $.noop,
-                "finally": function(cb) {
+                'then': $.noop,
+                'catch': $.noop,
+                'finally': function(cb) {
                   cb();
                 }
               });
               elementScope.submit();
             });
-            it("should call onFinally callback", function() {
+            it('should call onFinally callback', function() {
               onFinallySpy.should.have.been.called;
             });
           });
@@ -269,7 +303,7 @@ describe('inplaceEditor Directive', function() {
         expect(element.find('.ined-read-value').length).to.eq(1);
       });
       it('should have the value of the given attribute', function() {
-        expect(element.find('.ined-read-value .read-value-wrapper').text()).to.eq("Some subject");
+        expect(element.find('.ined-read-value .read-value-wrapper').text()).to.eq('Some subject');
       });
       it('should trigger edit mode on click', function() {
         element.find('.ined-read-value').click();
@@ -281,11 +315,11 @@ describe('inplaceEditor Directive', function() {
         it('should not be hidden from the reader', function() {
           expect(element.find('.editing-link-wrapper').length).to.eq(1);
           //it's in the viewport and not hidden by angular
-          expect(element.find('.editing-link-wrapper').closest(".ng-hide").length).to.eq(0);
+          expect(element.find('.editing-link-wrapper').closest('.ng-hide').length).to.eq(0);
         });
         it('should be accessible by tab', function() {
           // I suggest some manual test here as well for the screen reader
-          expect(element.find('.editing-link-wrapper a').attr("tabindex")).not.to.eq("-1");
+          expect(element.find('.editing-link-wrapper a').attr('tabindex')).not.to.eq('-1');
         });
         it('should trigger the edit mode', function() {
           element.find('.editing-link-wrapper a').click();
@@ -299,62 +333,62 @@ describe('inplaceEditor Directive', function() {
         scope.$digest();
         $timeout.flush();
       });
-      it("should leave edit mode on ESC", function() {
+      it('should leave edit mode on ESC', function() {
         triggerKey(element, 27);
         expect(elementScope.isEditing).to.eq(false);
       });
       context('input', function() {
-        it("should be focused", function() {
-          expect(element.find(".ined-input-wrapper input").get(0)).to.eq(document.activeElement);
+        it('should be focused', function() {
+          expect(element.find('.ined-input-wrapper input').get(0)).to.eq(document.activeElement);
         });
-        it("should call submit on RETURN pressed", function() {
+        it('should call submit on RETURN pressed', function() {
           submitStub = sinon.stub(elementScope, 'submit').returns(false);
           // pressing enter triggers form submit (default browser behaviour)
-          element.find(".ined-input-wrapper").closest("form").triggerHandler("submit");
+          element.find('.ined-input-wrapper').closest('form').triggerHandler('submit');
           submitStub.should.have.been.calledWith(false);
           submitStub.restore();
         });
       });
       context('action buttons', function() {
         it('should be rendered', function() {
-          expect(element.find(".ined-edit-save").length).to.eq(1);
-          expect(element.find(".ined-edit-save-send").length).to.eq(1);
-          expect(element.find(".ined-edit-close").length).to.eq(1);
+          expect(element.find('.ined-edit-save').length).to.eq(1);
+          expect(element.find('.ined-edit-save-send').length).to.eq(1);
+          expect(element.find('.ined-edit-close').length).to.eq(1);
         });
         describe('save', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(true);
-            element.find(".ined-edit-save").click();
+            element.find('.ined-edit-save').click();
             elementScope.submit();
           });
           afterEach(function() {
             submitStub.restore();
           });
-          it("should call submit with sendEmail=false", function() {
+          it('should call submit with sendEmail=false', function() {
             submitStub.should.have.been.calledWith(false);
           });
         });
         describe('save and send', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(false);
-            element.find(".ined-edit-save-send").click();
+            element.find('.ined-edit-save-send').click();
             elementScope.submit();
           });
           afterEach(function() {
             submitStub.restore();
           });
-          it("should call submit with sendEmail=true", function() {
+          it('should call submit with sendEmail=true', function() {
             submitStub.should.have.been.calledWith(true);
           });
         });
         describe('cancel', function() {
           beforeEach(function() {
-            element.find(".ined-edit-close").click();
+            element.find('.ined-edit-close').click();
           });
-          it("should switch back to read mode", function() {
+          it('should switch back to read mode', function() {
             expect(elementScope.isEditing).to.eq(false);
           });
-          it("should focus the edit link", function() {
+          it('should focus the edit link', function() {
             $timeout.flush();
             expect(element.find('.editing-link-wrapper a').get(0)).to.eq(document.activeElement);
           });

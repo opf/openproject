@@ -391,3 +391,5 @@ de:
       button_save_and_send: "Speichern mit E-Mail-Benachrichtigung"
       button_cancel: "Abbrechen"
       link_formatting_help: "Textformatierung"
+      btn_preview_enable: "Vorschau"
+      btn_preview_disable: "Vorschau deaktivieren"

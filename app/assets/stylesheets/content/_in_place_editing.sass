@@ -4,8 +4,17 @@
     display: inline
   &.busy
     opacity: 0.5
+    .jstElements button
+      opacity: 0.5
     *
       cursor: wait!important
+  &.preview
+    button, .help
+      visibility: hidden
+    .btn-preview
+      visibility: visible
+    &.type-wiki_textarea .ined-controls
+      bottom: -34px
   .hidden-but-focusable
     position: absolute
     left: -10000px
@@ -37,6 +46,7 @@
       @extend .visible-on-focus
   form
     position: relative
+    display: inline
     .ng-invalid
       background: lightpink!important
   .ined-errors
@@ -67,16 +77,40 @@
       &:hover
         background: #f0f0f0
   &.type-wiki_textarea
+    .ined-input-wrapper-inner
+      display: block!important
+    form
+      display: block
     .ined-read-value
       display: block
     .read-value-wrapper
       display: inline-block
       width: 400px
     .editing-link-wrapper
+      position: relative
       display: inline-block
       float: right
     .ined-controls
-      bottom: -18px
+      bottom: -11px
     .ined-errors
-      bottom: -46px
+      bottom: -31px
       width: 307px
+    .jstElements button
+      display: none
+    .jstElements
+      bottom: -31px
+      width: 307px
+    .jstElements button
+      display: none
+      &.btn-preview
+        float: right
+        font-size: 12px
+        height: 32px
+        width: auto
+        display: inline
+        margin-right: 0
+    .jstElements
+      padding: 0
+      .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
+        display: inline
+

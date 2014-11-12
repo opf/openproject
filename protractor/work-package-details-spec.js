@@ -34,34 +34,69 @@ var expect = chai.expect;
 
 var WorkPackageDetailsPane = require('./pages/work-package-details-pane.js');
 
-describe('OpenProject', function() {
-    var page = new WorkPackageDetailsPane(819, 'overview');
+describe('OpenProject', function () {
+  var page = new WorkPackageDetailsPane(819, 'overview');
 
-    it('should show work packages details pane', function() {
+  it('should show work packages details pane', function () {
+    page.get();
+    expect(page.pane.isPresent()).to.eventually.be.true;
+  });
+
+  describe('editable', function () {
+    var page;
+
+    context('subject', function () {
+      context('work package with updateImmediately link', function () {
+        beforeEach(function () {
+          page = new WorkPackageDetailsPane(819, 'overview');
+          page.get();
+        });
+        it('should render an editable subject', function () {
+          expect($('h2 .inplace-editor').isPresent()).to.eventually.be.true;
+        });
+      });
+      context('work package without updateImmediately link', function () {
+        beforeEach(function () {
+          page = new WorkPackageDetailsPane(820, 'overview');
+          page.get();
+        });
+        it('should not render an editable subject', function () {
+          expect($('h2 .inplace-editor').isPresent()).to.eventually.be.false;
+        });
+      });
+      context('work package with a wrong version', function () {
+        beforeEach(function () {
+          page = new WorkPackageDetailsPane(821, 'overview');
+          page.get();
+          $('h2 .inplace-editor .ined-read-value').then(function (e) {
+            e.click();
+            $('h2 .ined-edit-save').click();
+          });
+        });
+        it('should render an error', function () {
+          expect($('h2 .ined-errors').isDisplayed()).to.eventually.be.true;
+        });
+      });
+    });
+    context('description', function() {
+      beforeEach(function () {
+        page = new WorkPackageDetailsPane(819, 'overview');
         page.get();
-        expect(page.pane.isPresent()).to.eventually.be.true;
-    });
-
-    describe('editable subject', function() {
-        var page;
-        context('work package with update link', function() {
-            beforeEach(function() {
-                page = new WorkPackageDetailsPane(819, 'overview');
-                page.get();
-            });
-            it('should render an editable subject', function() {
-                expect($("h2 .inplace-editor").isPresent()).to.eventually.be.true;
-            });
+        $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
+          e.click();
         });
-        context('work package without update link', function() {
-            beforeEach(function() {
-                page = new WorkPackageDetailsPane(820, 'overview');
-                page.get();
-            });
-            it('should not render an editable subject', function() {
-                expect($("h2 .inplace-editor").isPresent()).to.eventually.be.false;
-            });
+      });
+      describe('preview', function() {
+        it('should render the button', function() {
+          expect($('.detail-panel-description .btn-preview').isDisplayed()).to.eventually.be.true;
         });
+        it('should render the preview block on click', function() {
+          $('.detail-panel-description .btn-preview').then(function(btn) {
+            btn.click();
+            expect($('.detail-panel-description .preview-wrapper').isDisplayed()).to.eventually.be.true;
+          })
+        });
+      });
     });
-
+  });
 });

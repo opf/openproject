@@ -3,7 +3,11 @@
   <h3>{{ I18n.t('js.label_description') }}</h3>
 
   <div class="detail-panel-description-content wiki">
-    <span ng-bind-html="workPackage.props.description"></span>
+    <span inplace-editor
+          ined-type="wiki_textarea"
+          ined-entity="workPackage"
+          ined-attribute="rawDescription"
+    ></span>
   </div>
 </div>
 
