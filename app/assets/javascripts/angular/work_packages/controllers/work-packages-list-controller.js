@@ -42,11 +42,12 @@ angular.module('openproject.workPackages.controllers')
     'PaginationService',
     'AuthorisationService',
     'UrlParamsHelper',
+    'PathHelper',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, UrlParamsHelper,
+      AuthorisationService, UrlParamsHelper, PathHelper,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   // Setup
@@ -301,5 +302,9 @@ angular.module('openproject.workPackages.controllers')
     if (force || $state.current.url != "") {
       $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
     }
+  };
+
+  $scope.workPackageNewPath = function(typeId) {
+    return PathHelper.staticWorkPackageNewWithParametersPath($scope.projectIdentifier, { type_id: typeId })
   };
 }]);
