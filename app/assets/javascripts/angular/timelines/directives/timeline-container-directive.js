@@ -26,13 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Timeline) {
+module.exports = function($window, Timeline) {
   getInitialOutlineExpansion = function(timelineOptions) {
     initialOutlineExpansion = timelineOptions.initial_outline_expansion;
     if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
       return initialOutlineExpansion;
     } else {
       return 0;
+    }
+  };
+
+  setTimelinesWidth = function(scope) {
+    var contentElement = angular.element('#content');
+
+    if (contentElement.length > 0) {
+      scope.timelineWidth = contentElement.width();
     }
   };
 
@@ -45,7 +53,7 @@ module.exports = function(Timeline) {
         };
       }],
     transclude: true,
-    template: '<div>' +
+    template: '<div ng-style="{ width: timelineWidth }">' +
               '<div ng-hide="!!errorMessage" ng-transclude id="{{timelineContainerElementId}}"/>' +
               '<div ng-if="!!errorMessage" ng-bind="errorMessage" class="flash error"/>' +
               '</div>',
@@ -60,6 +68,19 @@ module.exports = function(Timeline) {
 
       // Set initial expansion index
       scope.timeline.expansionIndex = getInitialOutlineExpansion(scope.timelineOptions);
+
+      // As part of a wiki the timeline container would have to stick to the wiki's width
+      // limitation. We set the timeline width programmatically to bypass the width
+      // limitation.
+      if (angular.element('.wiki-content').length > 0) {
+        setTimelinesWidth(scope);
+
+        angular.element($window).bind('resize', function() {
+          scope.$apply(function() {
+            setTimelinesWidth(scope);
+          });
+        });
+      }
     }
   };
 }

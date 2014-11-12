@@ -33,7 +33,7 @@ angular.module('openproject.timelines.directives')
   ])
   .directive('timelineColumnName', ['I18n', 'CustomFieldHelper', require(
     './timeline-column-name-directive')])
-  .directive('timelineContainer', ['Timeline', require(
+  .directive('timelineContainer', ['$window', 'Timeline', require(
     './timeline-container-directive')])
   .directive('timelineGroupingLabel', [require(
     './timeline-grouping-label-directive')])

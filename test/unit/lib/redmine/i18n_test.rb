@@ -133,23 +133,6 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_valid_languages
-    assert valid_languages.is_a?(Array)
-    assert valid_languages.first.is_a?(Symbol)
-  end
-
-  def test_valid_language
-    Setting.available_languages = [:de, :zh]
-
-    to_test = {'de' => :de,
-               'DE' => :de,
-               'De' => :de,
-               'de-ZZ' => nil,
-               'zh' => nil }
-
-    to_test.each {|lang, expected| assert_equal expected, find_language(lang)}
-  end
-
   def test_fallback
     ::I18n.backend.store_translations(:en, {:untranslated => "Untranslated string"})
     ::I18n.locale = 'en'
