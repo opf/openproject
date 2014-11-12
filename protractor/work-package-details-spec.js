@@ -70,7 +70,7 @@ describe('OpenProject', function () {
           page.get();
           $('h2 .inplace-editor .ined-read-value').then(function (e) {
             e.click();
-            $('h2 .ined-edit-save').click();
+            $('h2 .ined-edit-save a').click();
           });
         });
         it('should render an error', function () {

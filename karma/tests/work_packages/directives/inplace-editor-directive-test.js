@@ -358,7 +358,7 @@ describe('inplaceEditor Directive', function() {
         describe('save', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(true);
-            element.find('.ined-edit-save').click();
+            element.find('.ined-edit-save a').click();
             elementScope.submit();
           });
           afterEach(function() {
@@ -371,7 +371,7 @@ describe('inplaceEditor Directive', function() {
         describe('save and send', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(false);
-            element.find('.ined-edit-save-send').click();
+            element.find('.ined-edit-save-send a').click();
             elementScope.submit();
           });
           afterEach(function() {
@@ -383,7 +383,7 @@ describe('inplaceEditor Directive', function() {
         });
         describe('cancel', function() {
           beforeEach(function() {
-            element.find('.ined-edit-close').click();
+            element.find('.ined-edit-close a').click();
           });
           it('should switch back to read mode', function() {
             expect(elementScope.isEditing).to.eq(false);
