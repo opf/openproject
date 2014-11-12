@@ -28,6 +28,9 @@ module.exports = {
   externals: { jquery: "jQuery" },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      '_': 'lodash'
+    }),
     new webpack.ResolverPlugin([
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
         'bower.json', ['main'])

@@ -49,7 +49,6 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       "vendor/assets/components/jquery/dist/jquery.js",
-      "vendor/assets/components/lodash/dist/lodash.js",
       "vendor/assets/components/momentjs/moment.js",
       "vendor/assets/components/moment-timezone/moment-timezone.js",
       'vendor/assets/components/select2/select2.js',
