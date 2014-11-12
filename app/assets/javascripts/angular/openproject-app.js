@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('hyperagent/dist/hyperagent');
-
 var I18n = require('./vendor/i18n');
 window.I18n = I18n;
 I18n.translations.de = require("json!yaml!./../../../../config/locales/js-de.yml").de;
