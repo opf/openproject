@@ -30,8 +30,8 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       '_':            'lodash',
-      'URI':          'uri.js/src/URI',
-      'URITemplate':  'uri.js/src/URITemplate'
+      'URI':          'URIjs',
+      'URITemplate':  'URIjs/src/URITemplate'
     }),
     new webpack.ResolverPlugin([
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
