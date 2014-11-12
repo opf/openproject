@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('hyperagent/dist/hyperagent');
+require('hyperagent');
 
 module.exports = function HALAPIResource($q, PathHelper) {
   'use strict';
