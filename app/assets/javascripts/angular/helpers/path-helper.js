@@ -129,8 +129,14 @@ module.exports = function() {
     workPackageAutoCompletePath: function(projectId, workPackageId) {
       return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
     },
-    workPackageNewWithParentPath: function(projectId, parentId) {
-      return '/projects/' + projectId + '/work_packages/new?work_package[parent_id]=' + parentId;
+    workPackageNewWithParameterPath: function(projectId, parameters) {
+      var path = "/projects/" + projectId + '/work_packages/new?';
+
+      for (var parameter in parameters) {
+        path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';'
+      }
+
+      return path;
     },
 
     // Experimental API
@@ -267,8 +273,8 @@ module.exports = function() {
     staticVersionPath: function(versionId) {
       return PathHelper.staticBase + PathHelper.versionPath(versionId);
     },
-    staticWorkPackageNewWithParentPath: function(projectId, parentId) {
-      return PathHelper.staticBase + PathHelper.workPackageNewWithParentPath(projectId, parentId);
+    staticWorkPackageNewWithParametersPath: function(projectId, parameters) {
+      return PathHelper.staticBase + PathHelper.workPackageNewWithParameterPath(projectId, parameters);
     }
   };
 

@@ -114,6 +114,7 @@ angular.module('openproject.workPackages.controllers')
     'PaginationService',
     'AuthorisationService',
     'UrlParamsHelper',
+    'PathHelper',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     require('./work-packages-list-controller')
   ])

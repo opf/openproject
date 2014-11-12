@@ -29,7 +29,7 @@
 module.exports = function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, UrlParamsHelper,
+      AuthorisationService, UrlParamsHelper, PathHelper,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   // Setup
@@ -127,7 +127,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
 
     if (cachedQuery && urlQueryId && cachedQuery.id == urlQueryId) {
       // Augment current unsaved query with url param data
-      var updateData = angular.extend(queryData, { columns: columnData })
+      var updateData = angular.extend(queryData, { columns: columnData });
       $scope.query = QueryService.updateQuery(updateData, afterQuerySetupCallback);
     } else {
       // Set up fresh query from retrieved query meta data
@@ -199,7 +199,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
 
   $scope.maintainBackUrl = function() {
     $scope.backUrl = getCurrentStateUrl();
-  }
+  };
 
   // Updates
 
@@ -224,7 +224,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       .then(setupWorkPackagesTable);
 
     return $scope.refreshWorkPackages;
-  };
+  }
 
   // More
 
@@ -278,11 +278,15 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     var path = $state.href("work-packages.list"),
         query_props = $location.search().query_props;
     $location.url(path).search('query_props', query_props);
-  }
+  };
 
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
       $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
     }
   };
-}
+
+  $scope.workPackageNewPath = function(typeId) {
+    return PathHelper.staticWorkPackageNewWithParametersPath($scope.projectIdentifier, { type_id: typeId });
+  };
+};
