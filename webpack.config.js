@@ -19,14 +19,15 @@ module.exports = {
   },
 
   resolve: {
-    //root: [path.join(__dirname, 'vendor', 'assets', 'components')]
+    root: __dirname,
+
     modulesDirectories: [
-      path.join(__dirname, 'node_modules'),
-      path.join(__dirname, 'vendor', 'assets', 'components')
+      'node_modules',
+      'vendor/assets/components'
     ],
 
     alias: {
-      locales: path.join(__dirname, 'config', 'locales'),
+      'locales': 'config/locales',
 
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
