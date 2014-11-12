@@ -114,24 +114,17 @@ module OpenProject
       end
 
       def merge_config(config, source, prefix: ENV_PREFIX)
-        new_config = {}
+        new_config = config.dup.with_indifferent_access
 
         source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
           path = self.path prefix, k
-          org_config = config
-          path.inject(new_config) do |set, key|
-            org_config = org_config[key] if org_config
-            if key == path.last
-              set[key] = get_value value
-            elsif !set.include?(key)
-              set[key] = org_config || {}
-            end
 
-            set[key]
-          end
+          path_config = path_to_hash(*path, value)
+
+          new_config.deep_merge! path_config
         end
 
-        new_config.with_indifferent_access
+        new_config
       end
 
       def path(prefix, env_var_name)
@@ -143,6 +136,19 @@ module OpenProject
         end
 
         path
+      end
+
+      # takes the path provided and transforms it into a deeply nested hash
+      # where the last parameter becomes the value.
+      #
+      # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
+
+      def path_to_hash(*path)
+        value = path.pop
+
+        path.reverse.inject(value) do |path_hash, key|
+          { key => path_hash }
+        end
       end
 
       def get_value(value)
