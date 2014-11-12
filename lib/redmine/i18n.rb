@@ -110,8 +110,7 @@ module Redmine
     end
 
     def find_language(lang)
-      @@languages_lookup = valid_languages.inject({}) { |k, v| k[v.to_s.downcase] = v; k }
-      @@languages_lookup[lang.to_s.downcase]
+      valid_languages.detect { |l| l =~ /#{lang}/i }
     end
 
     def set_language_if_valid(lang)
