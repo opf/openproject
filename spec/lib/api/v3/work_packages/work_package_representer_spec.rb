@@ -96,6 +96,66 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('estimatedTime/value') }
     end
 
+    describe 'spentTime' do
+      before { permissions << :view_time_entries }
+
+      it { is_expected.to have_json_path('spentTime') }
+
+      it { is_expected.to have_json_path('spentTime/units') }
+
+      it { is_expected.to have_json_path('spentTime/value') }
+
+      describe :content do
+        let(:wp) { FactoryGirl.create(:work_package) }
+        let(:permissions) { [:view_work_packages, :view_time_entries] }
+        let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+        let(:user) {
+          FactoryGirl.create(:user,
+                             member_in_project: wp.project,
+                             member_through_role: role)
+        }
+        let(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(wp) }
+
+        before { allow(User).to receive(:current).and_return(user) }
+
+        shared_examples_for 'valid spent time content' do |hours, unit|
+          it { is_expected.to be_json_eql(hours.to_json).at_path('spentTime/value') }
+
+          it { is_expected.to be_json_eql(unit.to_json).at_path('spentTime/units') }
+        end
+
+        context 'no time entry' do
+          it_behaves_like 'valid spent time content', 0.0, 'hours'
+        end
+
+        context 'time entry with single hour' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: wp.project,
+                               work_package: wp,
+                               hours: 1.0)
+          }
+
+          before { time_entry }
+
+          it_behaves_like 'valid spent time content', 1.0, 'hour'
+        end
+
+        context 'time entry with multiple hours' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: wp.project,
+                               work_package: wp,
+                               hours: 42.0)
+          }
+
+          before { time_entry }
+
+          it_behaves_like 'valid spent time content', 42.0, 'hours'
+        end
+      end
+    end
+
     describe 'percentageDone' do
       describe 'work package done ratio setting behavior' do
         context 'setting enabled' do
