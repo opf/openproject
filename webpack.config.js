@@ -13,7 +13,8 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /[\/]angular\.js$/, loader: "exports?angular" }
+      { test: /[\/]angular\.js$/, loader: "exports?angular" },
+      { test: /js-\w{2}\.yml$/,   loader: 'json!yaml' }
     ]
   },
 
@@ -25,6 +26,8 @@ module.exports = {
     ],
 
     alias: {
+      locales: path.join(__dirname, 'config', 'locales'),
+
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
       'angular-feature-flags': 'angular-feature-flags/dist/featureFlags.js',
