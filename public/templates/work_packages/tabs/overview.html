@@ -18,12 +18,12 @@
 
     <dl>
       <dt ng-repeat-start="propertyData in group.attributes"
-          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
           ng-bind="propertyData.label"
           class="work-package-attributes--label">
       </dt>
       <dd ng-repeat-end
-          ng-show="propertyData.value || !toggleStates.hideAllAttributes"
+          ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
           ng-switch="propertyData.value"
           class="work-package-attributes--value-container">
         <div ng-switch-when="null" class="work-package-attributes--value">

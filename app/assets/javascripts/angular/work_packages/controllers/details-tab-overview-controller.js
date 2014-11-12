@@ -197,4 +197,8 @@ module.exports = function($scope,
       return $scope.isGroupEmpty(element);
     }).length > 0;
   };
+
+  $scope.isPropertyEmpty = function(property) {
+    return property === undefined || property === null;
+  };
 }
