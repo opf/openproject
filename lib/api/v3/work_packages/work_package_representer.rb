@@ -224,6 +224,12 @@ module API
         property :start_date, getter: -> (*) { model.start_date.to_datetime.utc.iso8601 unless model.start_date.nil? }, render_nil: true, writeable: false
         property :due_date, getter: -> (*) { model.due_date.to_datetime.utc.iso8601 unless model.due_date.nil? }, render_nil: true, writeable: false
         property :estimated_time, render_nil: true, writeable: false
+        property :spent_time,
+                 getter: -> (*) {
+                   { units: I18n.t(:'datetime.units.hour', count: model.spent_hours.to_i),
+                     value: model.spent_hours }
+                 },
+                 writeable: false
         property :percentage_done,
                  render_nil: true,
                  exec_context: :decorator,
