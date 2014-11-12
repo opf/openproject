@@ -47,7 +47,7 @@ var paths = {
 gulp.task('lint', function() {
   return gulp.src(paths.scripts)
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('webpack', function() {
