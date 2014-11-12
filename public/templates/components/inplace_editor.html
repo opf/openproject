@@ -4,9 +4,10 @@
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
     <span class="read-value-wrapper" ng-switch-default ng-bind="readValue"></span>
     <span class="editing-link-wrapper">
-      <a href="#" ng-click="startEditing()" title="{{ editTitle }}">
-        <i class="icon-edit"></i>
-      </a>
+      <accessible-by-keyboard execute="startEditing()">
+        <icon-wrapper icon-name="edit" icon-title="{{ editTitle }}">
+        </icon-wrapper>
+      </accessible-by-keyboard>
     </span>
   </div>
   <div class="ined-edit" ng-if="isEditing">
@@ -39,16 +40,20 @@
         {{ error }}
       </div>
       <div class="ined-controls" ng-hide="isBusy">
-        <a class="ined-edit-save" href="#" ng-click="editForm.$valid && submit(false)" title="{{ saveTitle }}">
-          <i class="icon-yes"></i>
-        </a>
-        <a class="ined-edit-save-send" href="#" ng-click="editForm.$valid && submit(true)" title="{{ saveAndSendTitle }}">
-          <i class="icon-yes"></i>
-          <i class="icon-mail"></i>
-        </a>
-        <a class="ined-edit-close" href="#" ng-click="discardEditing()" title="{{ cancelTitle }}">
-          <i class="icon-close"></i>
-        </a>
+        <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
+          <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
+          <span title="{{ saveAndSendTitle }}">
+            <i class="icon-yes"></i>
+            <i class="icon-mail"></i>
+          </span>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
+          <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
       </div>
     </form>
   </div>
