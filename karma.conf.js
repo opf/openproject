@@ -150,9 +150,7 @@ module.exports = function(config) {
     webpack: require('./webpack.config.js'),
 
     webpackServer: {
-      stats: {
-        colors: true
-      }
+      noInfo: true
     }
   });
 };
