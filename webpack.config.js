@@ -1,5 +1,6 @@
-var webpack = require('webpack'),
-  path = require('path');
+var webpack  = require('webpack'),
+  path       = require('path'),
+  pathConfig = require('./config/rails-plugins.conf');
 
 module.exports = {
   context: __dirname + '/app/assets/javascripts/angular',
@@ -15,7 +16,7 @@ module.exports = {
     loaders: [
       { test: /[\/]angular\.js$/,         loader: "exports?angular" },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: "expose?I18n" },
-      { test: /js-\w{2}\.yml$/,           loader: 'json!yaml' },
+      { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
     ]
   },
 
@@ -28,7 +29,8 @@ module.exports = {
     ],
 
     alias: {
-      'locales': 'config/locales',
+      'locales':        'config/locales',
+      'extra-locales':  path.join(pathConfig.translationsPluginPath, 'config', 'locales'),
 
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
@@ -38,6 +40,10 @@ module.exports = {
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'
     }
+  },
+
+  resolveLoader: {
+    root: __dirname + '/node_modules'
   },
 
   externals: { jquery: "jQuery" },

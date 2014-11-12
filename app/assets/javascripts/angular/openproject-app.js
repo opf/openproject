@@ -27,8 +27,17 @@
 //++
 
 var I18n = require('./vendor/i18n');
-I18n.translations.de = require("locales/js-de.yml").de;
+
+// standard locales
 I18n.translations.en = require("locales/js-en.yml").en;
+I18n.translations.de = require("locales/js-de.yml").de;
+
+// extra locales, automatically loaded
+var requireExtraLocale = require.context('extra-locales', false, /js-[\w|-]{2,5}\.yml$/);
+requireExtraLocale.keys().forEach(function(localeFile) {
+  var locale = localeFile.match(/js-([\w|-]{2,5})\.yml/)[1];
+  I18n.translations[locale] = requireExtraLocale(localeFile)[locale];
+});
 
 var angular = require('angular');
 require('angular-animate');
