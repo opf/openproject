@@ -41,7 +41,7 @@ module.exports = function($http, PathHelper) {
       url: PathHelper.apiV3TextilePath(context),
       method: 'POST',
       data: text,
-      headers: { 'Content-Type': 'text/plain' }
+      headers: { 'Content-Type': 'text/plain; charset=UTF-8' }
     });
   }
 };
