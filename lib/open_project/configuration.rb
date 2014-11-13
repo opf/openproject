@@ -33,6 +33,8 @@ module OpenProject
   module Configuration
     extend Helpers
 
+    ENV_PREFIX = 'OPENPROJECT_'
+
     # Configuration default values
     @defaults = {
       'attachments_storage_path' => nil,
@@ -90,7 +92,7 @@ module OpenProject
 
         convert_old_email_settings(@config)
 
-        load_overrides_from_environment_variables(@config)
+        override_config!(@config)
 
         if @config['email_delivery_method']
           configure_action_mailer(@config)
@@ -103,10 +105,58 @@ module OpenProject
 
       # Replace config values for which an environment variable with the same key in upper case
       # exists
-      def load_overrides_from_environment_variables(config)
+      def override_config!(config, source = ENV)
         config.each do |key, value|
-          config[key] = ENV.fetch(key.upcase, value)
+          config[key] = source.fetch(key.upcase, value)
         end
+
+        config.deep_merge! merge_config(config, source)
+      end
+
+      def merge_config(config, source, prefix: ENV_PREFIX)
+        new_config = config.dup.with_indifferent_access
+
+        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
+          path = self.path prefix, k
+
+          path_config = path_to_hash(*path, value)
+
+          new_config.deep_merge! path_config
+        end
+
+        new_config
+      end
+
+      def path(prefix, env_var_name)
+        path = []
+        env_var_name = env_var_name.sub /^#{prefix}/, ''
+
+        env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
+          path << unescape_underscores(seg.downcase).to_sym
+        end
+
+        path
+      end
+
+      # takes the path provided and transforms it into a deeply nested hash
+      # where the last parameter becomes the value.
+      #
+      # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
+
+      def path_to_hash(*path)
+        value = path.pop
+
+        path.reverse.inject(value) do |path_hash, key|
+          { key => path_hash }
+        end
+      end
+
+      def get_value(value)
+        value
+      end
+
+      def unescape_underscores(path_segment)
+        path_segment.gsub '__', '_'
       end
 
       # Returns a configuration setting
