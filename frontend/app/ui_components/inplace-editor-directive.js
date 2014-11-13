@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
+module.exports = function($timeout, InplaceEditorDispatcher) {
   return {
     restrict: 'A',
     transclude: false,
@@ -60,18 +60,8 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
     });
     scope.$on('startEditing', function() {
       $timeout(function() {
-        var textarea = element.find('.ined-input-wrapper input, .ined-input-wrapper textarea');
-
-        AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
-
-        textarea.focus().triggerHandler('keyup');
-
-        // TODO: move this to a textarea-specific strategy
-        if (scope.type == 'wiki_textarea' || scope.type == 'textarea') {
-          var textarea = element.find('.ined-input-wrapper textarea'),
-              lines = textarea.val().split('\n');
-          textarea.attr('rows', lines.length + 1);
-        }
+        element.find('.ined-input-wrapper-inner .focus-input').focus().triggerHandler('keyup');
+        InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
       });
     });
 
@@ -85,14 +75,15 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
   Controller.$inject = ['$scope', 'WorkPackageService', 'ApiHelper'];
   function Controller($scope, WorkPackageService, ApiHelper) {
     $scope.isEditing = false;
+    $scope.isEditable = !!$scope.entity.links.updateImmediately;
     $scope.isBusy = false;
-    $scope.isPreview = false;
     $scope.readValue = '';
     $scope.editTitle = I18n.t('js.inplace.button_edit');
     $scope.saveTitle = I18n.t('js.inplace.button_save');
     $scope.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send');
     $scope.cancelTitle = I18n.t('js.inplace.button_cancel');
     $scope.error = null;
+    $scope.options = [];
 
     $scope.startEditing = startEditing;
     $scope.discardEditing = discardEditing;
@@ -100,16 +91,17 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
     $scope.onSuccess = onSuccess;
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
-    $scope.togglePreview = togglePreview;
 
     activate();
 
     function activate() {
-      // ng-model works weird with isolated scope
-      // also it's better to make an intermediate container
-      // to avoid live editing
+      InplaceEditorDispatcher.dispatchHook($scope, 'activate');
       setWriteValue();
       setReadValue();
+    }
+
+    function setWriteValue() {
+      InplaceEditorDispatcher.dispatchHook($scope, 'setWriteValue');
     }
 
     function startEditing() {
@@ -117,14 +109,14 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
       $scope.isEditing = true;
       $scope.error = null;
       $scope.isBusy = false;
-      $scope.isPreview = false;
+      InplaceEditorDispatcher.dispatchHook($scope, 'startEditing');
       $scope.$broadcast('startEditing');
     }
 
     function submit(withEmail) {
-      var data = {};
-      data[$scope.attribute] = $scope.dataObject.value;
-      data.lockVersion = $scope.entity.props.lockVersion;
+      // angular.copy here to make a new object instead of a reference
+      var data = angular.copy($scope.entity.form.embedded.payload.props);
+      InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
       $scope.isBusy = true;
       var result = WorkPackageService.updateWorkPackage($scope.entity, data);
       result.then(function(workPackage) {
@@ -138,9 +130,10 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
       });
     }
 
-    function onSuccess(workPackage) {
-      angular.extend($scope.entity, workPackage);
-      $scope.dataObject.value = $scope.entity.props[$scope.attribute];
+    function onSuccess(entity) {
+      // is it copying the other way around in documentation?
+      // https://docs.angularjs.org/api/ng/function/angular.copy
+      angular.extend($scope.entity, entity);
       $scope.error = null;
       setReadValue();
       finishEditing();
@@ -149,7 +142,7 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
 
     function onFail(e) {
       $scope.error = ApiHelper.getErrorMessage(e);
-      $scope.isPreview = false;
+      InplaceEditorDispatcher.dispatchHook($scope, 'onFail');
     }
 
     function onFinally() {
@@ -165,21 +158,8 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
       $scope.$broadcast('finishEditing');
     }
 
-    function setWriteValue() {
-      $scope.dataObject = {
-        value: $scope.entity.props[$scope.attribute]
-      };
-    }
-
     function setReadValue() {
-      // this part should be refactored into a service that sets the read value
-      // by attribute name, maybe some strategies or whatever
-      if ($scope.attribute == 'rawDescription') {
-        $scope.readValue = $sce.trustAsHtml($scope.entity.props.description);
-      } else {
-        $scope.readValue = $scope.entity.props[$scope.attribute];
-      }
-
+      InplaceEditorDispatcher.dispatchHook($scope, 'setReadValue');
       if ((!$scope.readValue || $scope.readValue.length === 0) && $scope.placeholder) {
         $scope.readValue = $scope.placeholder;
         $scope.placeholderSet = true;
@@ -188,20 +168,5 @@ module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
       }
     }
 
-    function togglePreview() {
-      $scope.isPreview = !$scope.isPreview;
-      $scope.error = null;
-      if (!$scope.isPreview) {
-        return;
-      }
-      $scope.isBusy = true;
-      TextileService.renderWithWorkPackageContext($scope.entity.props.id, $scope.dataObject.value).then(function(r) {
-        $scope.onFinally();
-        $scope.previewHtml = $sce.trustAsHtml(r.data);
-      }, function(e) {
-        $scope.onFinally();
-        $scope.onFail(e);
-      });
-    }
   }
 };
