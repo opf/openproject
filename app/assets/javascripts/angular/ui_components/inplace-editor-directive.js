@@ -41,7 +41,10 @@ module.exports = function($timeout, $sce, TextileService) {
   };
 
   function link(scope, element, attrs) {
-    element.on('click', '.ined-read-value', function() {
+    element.on('click', '.ined-read-value', function(e) {
+      if (angular.element(e.target).is('a')) {
+        return;
+      }
       scope.$apply(function() {
         scope.startEditing();
       });
