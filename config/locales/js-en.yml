@@ -383,3 +383,5 @@ en:
     relations:
       empty: No relation exists
       delete: Delete relation
+
+    error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"

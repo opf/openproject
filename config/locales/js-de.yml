@@ -380,3 +380,5 @@ de:
     relations:
       empty: Keine bestehenden Beziehungen
       delete: Beziehung löschen
+
+    error_could_not_resolve_version_name: "Couldn't resolve version name"
