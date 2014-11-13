@@ -95,5 +95,6 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
 gulp.task('default', ['webpack', 'sass', 'express']);
 gulp.task('watch', function() {
   gulp.watch('app/assets/javascripts/angular/**/*.js', ['webpack']);
+  gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('app/assets/stylesheets/**/*.sass', ['sass']);
 });
