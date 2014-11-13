@@ -154,7 +154,7 @@ module OmniAuth
       ##
       # Path to which to redirect after successful authentication with the provider.
       def redirect_path
-        "/auth/#{self.class.provider_name}/callback"
+        "/auth/#{name}/callback"
       end
 
       def redirect_uri
@@ -168,7 +168,7 @@ module OmniAuth
               Please configure #{name} in configuration.yml like this:
 
               openid_connect:
-                #{self.class.provider_name}:
+                #{self.name}:
                   #{name}: <value>
 
               You can also configure it in Settings["plugin_openproject_openid_connect"]["providers"]
