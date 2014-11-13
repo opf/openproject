@@ -36,9 +36,7 @@
           <span ng-bind-html="previewHtml"></span>
         </div>
       </div>
-      <div class="ined-errors" ng-show="error">
-        {{ error }}
-      </div>
+      <div class="ined-errors" ng-show="error" role="alert" ng-bind="error"></div>
       <div class="ined-controls" ng-hide="isBusy">
         <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
           <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
