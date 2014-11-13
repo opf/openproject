@@ -192,8 +192,6 @@ GEM
     hooks (0.3.3)
     htmldiff (0.0.1)
     i18n (0.6.11)
-    i18n-js (3.0.0.rc6)
-      i18n (~> 0.6)
     ice_nine (0.11.0)
     interception (0.3)
     iso8601 (0.8.2)
@@ -441,7 +439,6 @@ DEPENDENCIES
   gravatar_image_tag (~> 1.2.0)
   htmldiff
   i18n (>= 0.6.8)
-  i18n-js (~> 3.0.0.rc6)
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)

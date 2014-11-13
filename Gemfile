@@ -105,8 +105,6 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'i18n-js', '~> 3.0.0.rc6'
-
 # small wrapper around the command line
 gem 'cocaine'
 
