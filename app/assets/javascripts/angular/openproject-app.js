@@ -26,14 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var URI = require('uri.js/src/URI');
-var URITemplate = require('uri.js/src/URITemplate');
-
-window.URI = URI;
-window.URITemplate = URITemplate;
-
-require('hyperagent/dist/hyperagent');
-
 var I18n = require('./vendor/i18n');
 window.I18n = I18n;
 I18n.translations.de = require("json!yaml!./../../../../config/locales/js-de.yml").de;
@@ -45,15 +37,15 @@ require('angular-modal');
 require('angular-ui-router');
 require('angular-ui-select2');
 require('angular-ui-select2-sortable');
-require('angular-ui-date/src/date');
+require('angular-ui-date');
 require('angular-sanitize');
-require('angular-truncate/src/truncate');
-require('angular-feature-flags/dist/featureFlags.js');
-require('angular-busy/dist/angular-busy.js');
+require('angular-truncate');
+require('angular-feature-flags');
+require('angular-busy');
 
-require('angular-context-menu/dist/angular-context-menu.js');
+require('angular-context-menu');
 
-require('openproject-ui_components/app/assets/javascripts/angular/ui-components-app')
+require('openproject-ui_components');
 
 
 // global
