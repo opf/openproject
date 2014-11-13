@@ -13,8 +13,9 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /[\/]angular\.js$/, loader: "exports?angular" },
-      { test: /js-\w{2}\.yml$/,   loader: 'json!yaml' }
+      { test: /[\/]angular\.js$/,         loader: "exports?angular" },
+      { test: /[\/]vendor[\/]i18n\.js$/,  loader: "expose?I18n" },
+      { test: /js-\w{2}\.yml$/,           loader: 'json!yaml' },
     ]
   },
 

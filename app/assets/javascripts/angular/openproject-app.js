@@ -27,7 +27,6 @@
 //++
 
 var I18n = require('./vendor/i18n');
-window.I18n = I18n;
 I18n.translations.de = require("locales/js-de.yml").de;
 I18n.translations.en = require("locales/js-en.yml").en;
 
