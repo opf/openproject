@@ -51,6 +51,7 @@ describe('inplaceEditor Directive', function() {
         'ined-type="text" ' +
         'ined-entity="workPackage" ' +
         'ined-attribute="subject" ' +
+        'placeholder="The default text" ' +
         'title="{{ workPackage.props.subject }}" ' +
       '></h2>';
 
@@ -132,14 +133,14 @@ describe('inplaceEditor Directive', function() {
         });
         context('not present', function() {
           beforeEach(function() {
-          scope.workPackage = {
-            props: {
-              subject: 'Some subject',
-              lockVersion: '1'
-            },
-            links: { }
-          };
-          compile();
+            scope.workPackage = {
+              props: {
+                subject: 'Some subject',
+                lockVersion: '1'
+              },
+              links: { }
+            };
+            compile();
           });
           it('should render the value without editing elements', function() {
             expect(element.find('.inplace-editor').length).to.eq(0);
@@ -324,6 +325,34 @@ describe('inplaceEditor Directive', function() {
         it('should trigger the edit mode', function() {
           element.find('.editing-link-wrapper a').click();
           expect(elementScope.isEditing).to.eq(true);
+        });
+      });
+
+      describe('default text', function() {
+        beforeEach(function() {
+          scope.workPackage = {
+            props: {
+              subject: '',
+              lockVersion: '1'
+            },
+            links: {
+              updateImmediately: {
+                fetch: function() {}
+              }
+            }
+          };
+
+          compile();
+        });
+
+        it('should render the default text', function() {
+          var text = element.find('.ined-read-value .read-value-wrapper').text();
+
+          expect(text).to.eq('The default text');
+        });
+
+        it('should set default text switch', function() {
+          expect(elementScope.placeholderSet).to.be.true;
         });
       });
     });
