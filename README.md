@@ -1,4 +1,5 @@
 # OpenProject
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/opf/openproject?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
