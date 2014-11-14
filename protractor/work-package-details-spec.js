@@ -96,7 +96,7 @@ describe('OpenProject', function () {
           $('.detail-panel-description .btn-preview').then(function(btn) {
             btn.click();
             expect($('.detail-panel-description .preview-wrapper').isDisplayed()).to.eventually.be.true;
-          })
+          });
         });
       });
     });
