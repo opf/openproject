@@ -35,7 +35,7 @@ describe('WorkPackageService', function() {
   beforeEach(module('openproject.api', 'openproject.layout','openproject.services', 'openproject.models'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 

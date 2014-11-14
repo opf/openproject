@@ -36,7 +36,7 @@ describe('optionsDropdown Directive', function() {
                       'openproject.layout',
                       'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      var configurationService = new Object();
+      var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 

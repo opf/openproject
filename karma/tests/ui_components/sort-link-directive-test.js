@@ -31,7 +31,7 @@ describe('sort link Directive', function() {
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
     beforeEach(module('templates', function($provide) {
-      sortService = new Object();
+      sortService = {};
 
       sortService.isDescending = sinon.stub().returns(false);
       sortService.getColumn = sinon.stub().returns('');

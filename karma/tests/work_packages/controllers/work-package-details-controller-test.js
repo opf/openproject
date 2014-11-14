@@ -97,7 +97,7 @@ describe('WorkPackageDetailsController', function() {
   beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 

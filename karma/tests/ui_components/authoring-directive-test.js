@@ -33,7 +33,7 @@ describe('authoring Directive', function() {
 
     beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.helpers', 'ngSanitize'));
     beforeEach(module('templates', function($provide) {
-      timezoneService = new Object();
+      timezoneService = {};
 
       timezoneService.parseDate = sinon.stub().returns(createdOn);
 

@@ -39,7 +39,7 @@ describe('Work Package Relations Directive', function() {
                                  'ngSanitize'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -94,7 +94,7 @@ describe('Work Package Relations Directive', function() {
   var relationsHandlerWithNotAssignedRelatedWorkPackage;
 
   var createRelationsHandlerStub = function($timeout, count) {
-    var relationsHandler = new Object();
+    var relationsHandler = {};
 
     relationsHandler.relationsId = sinon.stub();
     relationsHandler.isEmpty = sinon.stub();
