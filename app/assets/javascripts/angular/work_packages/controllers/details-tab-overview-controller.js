@@ -38,6 +38,7 @@ module.exports = function($scope,
            WorkPackagesHelper,
            PathHelper,
            UserService,
+           VersionService,
            HookService,
            $q) {
 
@@ -156,11 +157,14 @@ module.exports = function($scope,
     return format;
   }
 
-  function getCustomPropertyValue(customProperty) {
-    if (!!customProperty.value && customProperty.format === USER_TYPE) {
-      return UserService.getUser(customProperty.value);
-    } else {
-      return CustomFieldHelper.formatCustomFieldValue(customProperty.value, customProperty.format);
+  function getCustomPropertyValue(property) {
+    switch(property.format) {
+      case VERSION_TYPE:
+        return setCustomPropertyVersionValue(property);
+      case USER_TYPE:
+        return UserService.getUser(property.value);
+      default:
+        return CustomFieldHelper.formatCustomFieldValue(property.value, property.format);
     }
   }
 
@@ -177,6 +181,30 @@ module.exports = function($scope,
     });
 
     return propertyData;
+  }
+
+  function setCustomPropertyVersionValue(property) {
+    var versionHref = PathHelper.staticBase + PathHelper.versionPath(property.value);
+    var versionTitle = I18n.t('js.error_could_not_resolve_version_name');
+    var projectId = $scope.workPackage.props.projectId;
+    var versions = VersionService.getVersions(projectId);
+
+    var promise = $q.when(versions).then(function(value) {
+
+      var version = _.find(value, function(version) {
+        return version.id.toString() == property.value;
+      });
+
+      if (version) {
+        versionTitle = version.name;
+      }
+
+      return { href: versionHref, title: versionTitle, viewable: true };
+    }, function(reason) {
+      return { href: versionHref, title: versionTitle, viewable: true };
+    });
+
+    return promise;
   }
 
   // toggles
