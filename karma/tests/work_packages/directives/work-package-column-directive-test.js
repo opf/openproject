@@ -263,7 +263,7 @@ describe('workPackageColumn Directive', function() {
           scope.column = {
             meta_data: { data_type: 'object', link: { display: true, model_type: 'project'} },
             name: 'project'
-          }
+          };
           compile();
         });
 
@@ -288,7 +288,7 @@ describe('workPackageColumn Directive', function() {
             name: 'parent',
             sortable: 'work_packages.subject',
             title: 'Parent'
-          }
+          };
           compile();
         });
 
@@ -301,5 +301,5 @@ describe('workPackageColumn Directive', function() {
           expect(tag.attr('title')).to.equal(tag.text());
         });
       });
-    })
+    });
 });

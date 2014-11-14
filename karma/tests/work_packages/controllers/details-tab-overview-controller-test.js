@@ -31,7 +31,7 @@
 describe('DetailsTabOverviewController', function() {
   var DEFAULT_WORK_PACKAGE_PROPERTIES = ['status', 'assignee', 'responsible',
                                          'date', 'percentageDone', 'priority',
-                                         'estimatedTime', 'versionName', 'spentTime']
+                                         'estimatedTime', 'versionName', 'spentTime'];
 
   var scope;
   var buildController;
@@ -141,13 +141,13 @@ describe('DetailsTabOverviewController', function() {
       it('adds property to present properties', function() {
         expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
       });
-    }
+    };
 
     var shouldBehaveLikePropertyWithNoValue = function(propertyName) {
       it('adds property to present properties', function() {
         expect(fetchEmptyPropertiesWithName(propertyName)).to.have.length(1);
       });
-    }
+    };
 
     describe('when the property has a value', function() {
       beforeEach(function() {
@@ -290,7 +290,7 @@ describe('DetailsTabOverviewController', function() {
 
       describe('is "user"', function() {
         beforeEach(function() {
-          workPackage.embedded['assignee'] = { id: 1, name: 'Waya Namamo' }
+          workPackage.embedded['assignee'] = { id: 1, name: 'Waya Namamo' };
           buildController();
         });
 

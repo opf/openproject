@@ -44,7 +44,7 @@ describe('Work Package Relations Directive', function() {
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', function() { return configurationService });
+    $provide.constant('ConfigurationService', function() { return configurationService; });
   }));
 
   beforeEach(inject(function($rootScope,
@@ -67,7 +67,7 @@ describe('Work Package Relations Directive', function() {
 
     Ajax = {
       Autocompleter: angular.noop
-    }
+    };
 
     var stub = sinon.stub(I18n, 't');
 
@@ -81,7 +81,7 @@ describe('Work Package Relations Directive', function() {
     I18n.t.restore();
   });
 
-  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>"
+  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>";
 
   var workPackage1;
   var workPackage2;

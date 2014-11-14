@@ -47,7 +47,7 @@ describe('queryMenuItemFactory', function() {
 
   beforeEach(module('templates', function($provide) {
     // Mock check whether we are on a work_packages page
-    state = { includes: function() { return true; } }
+    state = { includes: function() { return true; } };
     $provide.value('$state', state);
 
     $provide.value('$stateParams', stateParams);

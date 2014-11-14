@@ -88,7 +88,7 @@ describe('WorkPackageService', function() {
           deferred.resolve({ id: workPackageId } );
           return deferred.promise;
         }
-      }
+      };
     }));
 
     beforeEach(inject(function(HALAPIResource) {

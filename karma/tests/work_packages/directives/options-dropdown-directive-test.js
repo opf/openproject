@@ -107,7 +107,7 @@ describe('optionsDropdown Directive', function() {
             scope.query = query;
             AuthorisationService.initModelAuth('query', {
               create: '/queries'
-            })
+            });
             element = angular.element(optionsDropdownHtml);
             compile();
           });
@@ -118,7 +118,7 @@ describe('optionsDropdown Directive', function() {
             shareLink.click();
             expect(AuthorisationService.can).to.have.been.called;
           });
-        })
+        });
         it('should not open save as modal', function() {
           var saveAsLink = element.find('a').first();
           saveAsLink.click();
@@ -136,10 +136,10 @@ describe('optionsDropdown Directive', function() {
           scope.query = query;
           AuthorisationService.initModelAuth('query', {
             create: '/queries'
-          })
+          });
 
           compile();
-        })
+        });
 
         it('should have an active save as option', function() {
           var saveAsLink = element.find('a').first();

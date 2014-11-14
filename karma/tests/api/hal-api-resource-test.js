@@ -54,8 +54,8 @@ describe('HALAPIResource', function() {
     beforeEach(inject(function($q) {
       apiResource = {
         fetch: $q.when(function() { return { id: workPackageId }; })
-      }
-    }))
+      };
+    }));
 
     beforeEach(inject(function(HALAPIResource) {
       resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
@@ -74,7 +74,7 @@ describe('HALAPIResource', function() {
         expect(resourceFunction).to.have.been.calledWith({
           url: "/api/v3/" + workPackageUri
         });
-      })
+      });
     });
 
     describe('with custom appBasePath', function() {
@@ -88,7 +88,7 @@ describe('HALAPIResource', function() {
         expect(resourceFunction).to.have.been.calledWith({
           url: "/whitelabel/api/v3/" + workPackageUri
         });
-      })
+      });
     });
 
   });

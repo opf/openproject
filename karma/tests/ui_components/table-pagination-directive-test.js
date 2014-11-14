@@ -33,7 +33,7 @@ describe('tablePagination Directive', function () {
   beforeEach(module('templates'));
 
   beforeEach(inject(function ($rootScope, $compile, _I18n_) {
-    var html, I18n, t;;
+    var html, I18n, t;
     html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="noteUpdateResultsCalled()"></table-pagination>';
 
     element = angular.element(html);
@@ -43,7 +43,7 @@ describe('tablePagination Directive', function () {
 
     scope.noteUpdateResultsCalled = function() {
       scope.updateResultsCalled = true;
-    }
+    };
 
     compile = function () {
       $compile(element)(scope);
@@ -121,7 +121,7 @@ describe('tablePagination Directive', function () {
 
     it('calls the callback when seleceting a different per page option', function() {
       // click on first per-page anchor (current is not an anchor)
-      element.find('.pagination--options a:eq(0)').click()
+      element.find('.pagination--options a:eq(0)').click();
 
       expect(scope.updateResultsCalled).to.eq(true);
     });

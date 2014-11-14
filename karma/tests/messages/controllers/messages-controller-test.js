@@ -47,7 +47,7 @@ describe('MessagesController', function() {
     testPaginationService = {
       per_page_options: [],
       setPerPageOptions: function(ppo) { testPaginationService.per_page_options = ppo; },
-      getPerPageOptions: function(ppo) { return testPaginationService.per_page_options }
+      getPerPageOptions: function(ppo) { return testPaginationService.per_page_options; }
     };
 
     buildController = function() {

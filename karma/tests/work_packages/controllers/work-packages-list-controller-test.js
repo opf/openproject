@@ -171,7 +171,7 @@ describe('WorkPackagesListController', function() {
     testAuthorisationService = {
       initModelAuth: function(model, links) {
       }
-    }
+    };
 
     buildController = function(params, state, location) {
       scope.projectIdentifier = 'test';
@@ -199,13 +199,13 @@ describe('WorkPackagesListController', function() {
       testParams = {};
       testState = {
         params: {},
-        href: function() { return '' }
+        href: function() { return ''; }
       };
       testLocation = {
         search: function() {
           return {};
         }
-      }
+      };
 
       buildController(testParams, testState, testLocation);
     });
@@ -238,13 +238,13 @@ describe('WorkPackagesListController', function() {
         params: {
           query_id: testQueries['2'].id
         },
-        href: function() { return '' }
+        href: function() { return ''; }
       };
       testLocation = {
         search: function() {
           return {};
         }
-      }
+      };
 
       buildController(testParams, testState, testLocation);
     });

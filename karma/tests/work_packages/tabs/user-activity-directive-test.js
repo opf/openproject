@@ -82,8 +82,8 @@ describe('userActivity Directive', function() {
                           status: 1
                         }
                       }
-                    )}
-                  }
+                    );}
+                  };
                 }
               }
             }
