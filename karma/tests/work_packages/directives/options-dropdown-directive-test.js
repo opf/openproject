@@ -27,7 +27,7 @@
 //++
 
 describe('optionsDropdown Directive', function() {
-    var compile, element, rootScope, scope, I18n, stateParams = {};
+    var compile, element, rootScope, scope, Query, I18n, stateParams = {};
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('openproject.models',
@@ -63,8 +63,9 @@ describe('optionsDropdown Directive', function() {
       };
     }));
 
-    beforeEach(inject(function(_AuthorisationService_, _I18n_){
+    beforeEach(inject(function(_AuthorisationService_, _Query_, _I18n_){
       AuthorisationService = _AuthorisationService_;
+      Query = _Query_;
 
       I18n = _I18n_;
 

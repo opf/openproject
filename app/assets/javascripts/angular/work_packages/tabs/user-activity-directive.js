@@ -101,7 +101,7 @@ module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, 
       };
 
       function quotedText(rawComment) {
-        quoted = rawComment.split("\n")
+        var quoted = rawComment.split("\n")
           .map(function(line){ return "\n> " + line; })
           .join('');
         return scope.userName + " wrote:" + quoted;

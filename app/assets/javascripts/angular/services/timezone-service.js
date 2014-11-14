@@ -27,7 +27,7 @@
 //++
 
 module.exports = function(ConfigurationService, I18n) {
-  TimezoneService = {
+  var TimezoneService = {
     parseDate: function(date) {
       var d = moment.utc(date);
 

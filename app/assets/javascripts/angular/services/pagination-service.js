@@ -35,7 +35,7 @@ module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
     optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
   };
 
-  PaginationService = {
+  var PaginationService = {
     getPaginationOptions: function() {
       return paginationOptions;
     },

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService) {
+module.exports = function($scope, $state, $stateParams, QueryService, PathHelper) {
 
   // Setup
   $scope.$state = $state;

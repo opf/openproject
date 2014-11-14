@@ -28,7 +28,7 @@
 
 module.exports = function() {
 
-  WorkPackageAuthorization = function (workPackage) {
+  var WorkPackageAuthorization = function (workPackage) {
     this.workPackage = workPackage;
   };
 

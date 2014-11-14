@@ -28,7 +28,7 @@
 
 module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED_COLUMNS) {
 
-  Query = function (queryData, options) {
+  var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
 
     this.filters = [];

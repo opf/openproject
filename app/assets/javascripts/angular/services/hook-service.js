@@ -29,7 +29,7 @@
 module.exports = function() {
   var hooks = { };
 
-  HookService = {
+  var HookService = {
     register: function(id, callback) {
       if (callback && typeof(callback) == "function") {
         if (!hooks[id]) {

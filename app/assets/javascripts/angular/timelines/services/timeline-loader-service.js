@@ -983,7 +983,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
     var results = [];
 
     var i, userFields = [], cf = this.data.custom_fields;
-    for (attr in cf) {
+    for (var attr in cf) {
       if (cf.hasOwnProperty(attr) && cf[attr].field_format === "user") {
           userFields.push("cf_" + cf[attr].id);
       }
@@ -1134,15 +1134,15 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
   };
 
 
-  TimelineLoaderService = {
+  var TimelineLoaderService = {
     createTimelineLoader: function(timeline) {
       return new TimelineLoader(timeline, timeline.getTimelineLoaderOptions());
     },
     loadTimelineData: function(timeline) {
       // console.log('- TimelineLoaderService: loadTimelineData');
 
-      deferred = $q.defer();
-      timelineLoader = null;
+      var deferred = $q.defer();
+      var timelineLoader = null;
 
       try {
         // prerequisites (3rd party libs)

@@ -61,9 +61,10 @@ describe('sortHeader Directive', function() {
     }));
 
     describe('element', function() {
-      var Sortation;
-      beforeEach(inject(function(_Sortation_) {
+      var Sortation, Query;
+      beforeEach(inject(function(_Sortation_, _Query_) {
         Sortation = _Sortation_;
+        Query = _Query_;
       }));
 
       describe('rendering multiple headers', function(){

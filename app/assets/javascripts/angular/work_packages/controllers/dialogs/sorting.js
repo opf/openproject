@@ -52,7 +52,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
-    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term });
+    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term }),
         sorted = $filter('orderBy')(filtered, 'label');
 
     return result(sorted);

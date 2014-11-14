@@ -31,7 +31,7 @@ module.exports = function() {
     column: "",
     direction: ""
   };
-  SortService = {
+  var SortService = {
     getColumn: function() {
       return sortOptions.column;
     },

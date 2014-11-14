@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  Constants = {
+  var Constants = {
     //constants and defaults
     LOAD_ERROR_TIMEOUT: 60000,
     DISPLAY_ERROR_DELAY: 2000,

@@ -28,7 +28,7 @@
 
 // TODO move to UI components
 module.exports = function($timeout, FOCUSABLE_SELECTOR) {
-  FocusHelper = {
+  var FocusHelper = {
     getFocusableElement: function(element) {
       var focusable = element;
 

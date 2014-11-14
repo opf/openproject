@@ -49,7 +49,7 @@ module.exports = function(I18n) {
 
     indentedName: function(name, level){
       var indentation = '';
-      for(i = 0; i < level; i++){
+      for(var i = 0; i < level; i++){
         indentation = indentation + '--';
       }
       return indentation + " " + name;
