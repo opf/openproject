@@ -15,7 +15,7 @@ describe 'API v3 Render resource' do
 
     before(:each) do
       allow(User).to receive(:current).and_return(user)
-      post post_path, params, 'CONTENT_TYPE' => 'text/plain'
+      post post_path, params, 'CONTENT_TYPE' => 'text/plain, charset=UTF-8'
     end
 
     describe 'response' do
@@ -30,8 +30,15 @@ describe 'API v3 Render resource' do
       describe 'valid' do
         context 'w/o context' do
           let(:post_path) { path }
-          let(:params) { 'Hello World! This *is* textile with a "link":http://community.openproject.org.' }
-          let(:textile) { '<p>Hello World! This <strong>is</strong> textile with a <a href="http://community.openproject.org" class="external">link</a>.</p>' }
+          let(:params) do
+            'Hello World! This *is* textile with a ' +
+              '"link":http://community.openproject.org and ümläutß.'
+          end
+          let(:textile) do
+            '<p>Hello World! This <strong>is</strong> textile with a ' +
+              '<a href="http://community.openproject.org" class="external">link</a> ' +
+              'and ümläutß.</p>'
+          end
 
           it_behaves_like 'valid response'
         end

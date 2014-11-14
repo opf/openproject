@@ -32,6 +32,7 @@ module API
     module Render
       class RenderAPI < Grape::API
         format :txt
+        parser :txt, ::API::V3::Formatter::TxtCharset
 
         resources :render do
           helpers do
