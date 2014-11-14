@@ -395,4 +395,4 @@ de:
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
 
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
+    error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
