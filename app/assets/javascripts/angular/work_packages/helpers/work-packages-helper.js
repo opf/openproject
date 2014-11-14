@@ -138,7 +138,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       };
 
       if (propertyName === 'estimatedTime') {
-        return value && value.value ? value.value + ' ' + value.units : null;
+        return value && value.value !== null ? value.value + ' ' + value.units : null;
       } else {
         return this.formatValue(value, mappings[propertyName]);
       }
