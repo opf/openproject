@@ -34,7 +34,8 @@ module.exports = function($timeout, $sce, TextileService) {
     scope: {
       type: '@inedType',
       entity: '=inedEntity',
-      attribute: '@inedAttribute'
+      attribute: '@inedAttribute',
+      placeholder: '@'
     },
     link: link,
     controller: Controller
@@ -161,6 +162,13 @@ module.exports = function($timeout, $sce, TextileService) {
         $scope.readValue = $sce.trustAsHtml($scope.entity.props.description);
       } else {
         $scope.readValue = $scope.entity.props[$scope.attribute];
+      }
+
+      if ((!$scope.readValue || $scope.readValue.length === 0) && $scope.placeholder) {
+        $scope.readValue = $scope.placeholder;
+        $scope.placeholderSet = true;
+      } else {
+        $scope.placeholderSet = false;
       }
     }
 

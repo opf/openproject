@@ -154,6 +154,7 @@ de:
     label_global_queries: "Öffentliche Filter"
     label_custom_queries: "Benutzerdefinierte Filter"
     label_columns: "Spalten"
+    label_click_to_enter_description: "Klicken um die Beschreibung einzugeben..."
 
     text_are_you_sure: "Sind Sie sicher?"
 

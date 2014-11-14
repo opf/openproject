@@ -39,11 +39,15 @@
   .ined-input-wrapper
     input, textarea
       width: 370px
-  .ined-read-value:hover
-    outline: 1px solid #cacaca
-    cursor: pointer
-    .editing-link-wrapper a
-      @extend .visible-on-focus
+  .ined-read-value
+    &.default
+      span
+        font-style: italic
+    &:hover
+      outline: 1px solid #cacaca
+      cursor: pointer
+      .editing-link-wrapper a
+        @extend .visible-on-focus
   form
     position: relative
     display: inline
