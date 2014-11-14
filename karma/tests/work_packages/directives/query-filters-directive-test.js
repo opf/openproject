@@ -43,8 +43,8 @@ describe('queryFilters', function() {
     $provide.constant('ConfigurationService', new Object());
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_) {
-    $httpBackend = _$httpBackend_; 
+  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_, PathHelper) {
+    $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
 
     doc = $document[0];
@@ -60,9 +60,9 @@ describe('queryFilters', function() {
       $timeout.flush();
     };
 
-    path = PathHelper.apiCustomFieldsPath();
-    custom_field_filters = { custom_field_filters: {} };
-    $httpBackend.when('GET', path).respond(200, custom_field_filters);
+    var path = PathHelper.apiCustomFieldsPath();
+    var customFieldFilters = { custom_field_filters: {} };
+    $httpBackend.when('GET', path).respond(200, customFieldFilters);
   }));
 
   afterEach(function() {

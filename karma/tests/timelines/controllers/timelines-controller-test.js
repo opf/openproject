@@ -31,6 +31,7 @@
 var gon = { timeline_options: { } };
 
 describe('TimelinesController', function() {
+  var ctrl;
 
   beforeEach(module('openproject.timelines.controllers'));
 

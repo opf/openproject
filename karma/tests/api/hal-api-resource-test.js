@@ -49,6 +49,7 @@ describe('HALAPIResource', function() {
   });
 
   describe('setup', function() {
+    var apiResource, resourceFunction;
     var workPackageUri = 'work_packages/1';
 
     beforeEach(inject(function($q) {

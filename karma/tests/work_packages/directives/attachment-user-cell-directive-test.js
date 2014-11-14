@@ -57,7 +57,7 @@ describe('attachmentUserCell Directive', function() {
           links: {
             author: {
               fetch: function() {
-                deferred = $q.defer();
+                var deferred = $q.defer();
                 deferred.resolve({ props: { id: userId, name: userName} } );
                 return deferred.promise;
               }

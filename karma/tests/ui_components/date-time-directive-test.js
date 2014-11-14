@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('date time Directives', function() {
-  var I18n, compile, element, scope, configurationService;
+  var I18n, compile, element, scope, configurationService, TimezoneService;
 
   var formattedDate = function() {
     var formattedDateElement = element[0];

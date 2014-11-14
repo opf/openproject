@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('Work Package Relations Directive', function() {
-  var I18n, PathHelper, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
+  var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.workPackages.tabs',
                                  'openproject.api',
@@ -89,6 +89,8 @@ describe('Work Package Relations Directive', function() {
   var workPackage2;
   var workPackage3;
   var workPackage4;
+
+  var relation1, relation2, relation3;
 
   var relationsHandlerEmpty;
   var relationsHandlerSingle;

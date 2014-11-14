@@ -213,6 +213,8 @@ describe('Planning Element', function(){
   });
 
   describe('historical', function () {
+    var peWithHistorical;
+
     it('empty should have no historical', function () {
       expect(this.peEmpty.has_historical()).to.be.false;
       expect(this.peEmpty.historical()).to.be.empty;
@@ -333,7 +335,7 @@ describe('Planning Element', function(){
         start_date: "2012-11-13"
       });
 
-      boundary = noEndDatePE.getHorizontalBounds(scale, beginning);
+      var boundary = noEndDatePE.getHorizontalBounds(scale, beginning);
       expectBoundary(boundary, 0, 3, 3);
     });
     it('should return the middle for a milestone');

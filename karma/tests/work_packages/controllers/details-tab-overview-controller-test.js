@@ -33,7 +33,7 @@ describe('DetailsTabOverviewController', function() {
                                          'date', 'percentageDone', 'priority',
                                          'estimatedTime', 'versionName', 'spentTime'];
 
-  var scope;
+  var scope, ctrl;
   var buildController;
   var HookService;
   var WorkPackagesOverviewService;
@@ -309,7 +309,7 @@ describe('DetailsTabOverviewController', function() {
 
       describe('when the property has a value', function() {
         beforeEach(function() {
-          formatCustomFieldValueSpy = sinon.spy(CustomFieldHelper, 'formatCustomFieldValue');
+          sinon.spy(CustomFieldHelper, 'formatCustomFieldValue');
 
           buildController();
         });
@@ -345,7 +345,7 @@ describe('DetailsTabOverviewController', function() {
           workPackage.props.customProperties[0].value = userId;
           workPackage.props.customProperties[0].format = 'user';
 
-          getUserSpy = sinon.spy(UserService, 'getUser');
+          sinon.spy(UserService, 'getUser');
           buildController();
         });
 

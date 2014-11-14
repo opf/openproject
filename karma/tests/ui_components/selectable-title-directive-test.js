@@ -156,7 +156,7 @@ describe('selectableTitle Directive', function() {
 
       expect(jQuery(listElements[1]).hasClass('selected')).to.be.false;
 
-      for(i = 0; i < 3; i++){
+      for(var i = 0; i < 3; i++){
         var e = jQuery.Event('keydown');
         e.which = 40;
         element.find('#title-filter').first().trigger(e);

@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('timelineColumnData Directive', function() {
-  var compile, element, rootScope, scope;
+  var compile, element, rootScope, scope, type;
 
   beforeEach(angular.mock.module('openproject.timelines.directives'));
   beforeEach(module('templates', 'openproject.uiComponents', 'openproject.helpers'));
@@ -74,6 +74,8 @@ describe('timelineColumnData Directive', function() {
     });
 
     describe('rendering a changed historical date', function() {
+      var historicalStartDate;
+
       beforeEach(function() {
         historicalStartDate = '2014-04-20';
 
@@ -91,6 +93,8 @@ describe('timelineColumnData Directive', function() {
       });
 
       describe('the historical data container', function() {
+        var historicalContainerElement, historicalDataContainer;
+
         beforeEach(function() {
           historicalContainerElement = element.find('.tl-historical');
           historicalDataContainer = historicalContainerElement.find('.historical-data');
@@ -107,6 +111,8 @@ describe('timelineColumnData Directive', function() {
     });
 
     describe('rendering changed data which is not a date', function() {
+      var historicalType;
+
       beforeEach(function() {
         historicalType = Factory.build('PlanningElementType');
 
@@ -119,6 +125,8 @@ describe('timelineColumnData Directive', function() {
       });
 
       describe('the historical data container', function() {
+        var historicalContainerElement, historicalDataContainer;
+
         beforeEach(function() {
           historicalContainerElement = element.find('.tl-historical');
           historicalDataContainer = historicalContainerElement.find('.historical-data');

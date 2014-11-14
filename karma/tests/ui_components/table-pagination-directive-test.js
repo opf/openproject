@@ -130,6 +130,8 @@ describe('tablePagination Directive', function () {
   });
 
   describe('perPage options', function () {
+    var t;
+
     beforeEach(function() {
       t = sinon.stub(I18n, 't');
       t.withArgs('js.label_per_page').returns('Per page:');

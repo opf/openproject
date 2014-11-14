@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesController', function() {
-  var scope, win, testParams, buildController, stateParams = {};
+  var scope, win, ctrl, testParams, buildController, stateParams = {};
 
   beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
   beforeEach(module('templates', function($provide) {

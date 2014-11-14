@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('sortHeader Directive', function() {
-    var compile, element, rootScope, scope;
+    var compile, element1, element2, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('templates', 'openproject.models'));

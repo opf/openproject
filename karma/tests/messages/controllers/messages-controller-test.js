@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('MessagesController', function() {
-  var scope, buildController, testPaginationService;
+  var scope, buildController, ctrl, testPaginationService;
 
   beforeEach(module('openproject.messages.controllers', 'openproject.api', 'openproject.services'));
 

@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('optionsDropdown Directive', function() {
-    var compile, element, rootScope, scope, Query, I18n, stateParams = {};
+    var compile, element, rootScope, scope, Query, I18n, AuthorisationService, stateParams = {};
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('openproject.models',
@@ -102,7 +102,7 @@ describe('optionsDropdown Directive', function() {
 
         context('share option', function() {
           beforeEach(function() {
-            optionsDropdownHtml = '<div options-dropdown><a class="publicize-or-star-link" href ng-click="showShareModal($event)" ng-class="{\'inactive\': (cannot(\'query\', \'publicize\') && cannot(\'query\', \'star\'))}"></a></div>';
+            var optionsDropdownHtml = '<div options-dropdown><a class="publicize-or-star-link" href ng-click="showShareModal($event)" ng-class="{\'inactive\': (cannot(\'query\', \'publicize\') && cannot(\'query\', \'star\'))}"></a></div>';
             var query = new Query({
               id: 1
             });

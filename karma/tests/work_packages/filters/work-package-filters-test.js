@@ -29,6 +29,7 @@
 /*jshint expr: true*/
 
 describe('Work package filters', function() {
+  var availableFilters, selectedFilters;
 
   beforeEach(module('openproject.workPackages.filters'));
 
@@ -58,7 +59,7 @@ describe('Work package filters', function() {
     }));
 
     describe('when there are filter locales for the remaining filters', function() {
-      var I18n, t;
+      var I18n, t, selectedFilters;
 
       beforeEach(inject(function(_I18n_){
         I18n = _I18n_;

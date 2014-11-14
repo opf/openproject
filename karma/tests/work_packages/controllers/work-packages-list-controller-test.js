@@ -29,8 +29,8 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesListController', function() {
-  var scope, ctrl, win, testParams,
-     testProjectService, testWorkPackageService, testQueryService, testPaginationService;
+  var scope, ctrl, win,
+     testProjectService, testWorkPackageService, testQueryService, testPaginationService, testAuthorisationService;
   var testQueries;
   var buildController;
   var stateParams = {};
@@ -195,6 +195,8 @@ describe('WorkPackagesListController', function() {
   }));
 
   describe('initialisation of default query', function() {
+    var testParams, testState, testLocation;
+
     beforeEach(function(){
       testParams = {};
       testState = {
@@ -232,6 +234,8 @@ describe('WorkPackagesListController', function() {
   });
 
   describe('initialisation of query by id', function() {
+    var testParams, testState, testLocation;
+
     beforeEach(function(){
       testParams = { };
       testState = {

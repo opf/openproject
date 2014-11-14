@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('workPackageContextMenu', function() {
-  var container, contextMenu, $rootScope, stateParams;
+  var container, contextMenu, $rootScope, stateParams, ngContextMenu;
   stateParams = {};
 
   beforeEach(module('ng-context-menu',

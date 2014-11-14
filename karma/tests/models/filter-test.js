@@ -59,6 +59,8 @@ describe('Filter', function() {
   });
 
   describe('when it is a single input filter', function() {
+    var filter, textValue;
+
     beforeEach(function(){
       filter = Factory.build('Filter', {name: 'subject', values: []});
     });
