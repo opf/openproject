@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('queryMenuItem Directive', function() {
     var compile, element, rootScope, scope, html;
     var queryId = '25', stateParams = {};

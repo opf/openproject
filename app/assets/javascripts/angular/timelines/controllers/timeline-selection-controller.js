@@ -33,4 +33,4 @@ module.exports = function($scope, $window) {
   $scope.switchTimeline = function() {
     $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
   };
-}
+};

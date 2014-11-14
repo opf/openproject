@@ -56,4 +56,4 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
   $scope.getActivationActionLabel = function(activate) {
     return (activate) ? I18n.t('js.label_activate') : '';
   };
-}
+};

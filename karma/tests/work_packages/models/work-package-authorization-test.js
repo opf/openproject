@@ -60,7 +60,7 @@ describe('WorkPackageAuthorization', function() {
     });
 
     describe('allowed action passed', function() {
-      var allowedActions = ['delete', 'log_time']
+      var allowedActions = ['delete', 'log_time'];
       var permittedActions;
 
       before(function() {

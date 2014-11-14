@@ -703,4 +703,4 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
 
 
   return Timeline;
-}
+};

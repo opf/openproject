@@ -37,7 +37,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
 
       handler.canAddRelation = function() { return !!this.workPackage.links.changeParent; };
       handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
-      handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch() };
+      handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.addRelation = function(scope) {
           var params = {
             lockVersion: scope.workPackage.props.lockVersion,
@@ -73,4 +73,4 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
   }
 
   return ParentRelationsHandler;
-}
+};

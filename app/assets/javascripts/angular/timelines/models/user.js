@@ -50,4 +50,4 @@ module.exports = function() {
   User.identifier = identifier;
 
   return User;
-}
+};

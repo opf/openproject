@@ -76,4 +76,4 @@ module.exports = function(TimelineTableHelper) {
       });
     }
   };
-}
+};

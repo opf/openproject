@@ -136,7 +136,7 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
       }, force: true};
       return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
         return workPackage;
-      })
+      });
     },
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {
@@ -212,4 +212,4 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
   };
 
   return WorkPackageService;
-}
+};

@@ -74,4 +74,4 @@ module.exports = function(I18n) {
 
     }
   };
-}
+};

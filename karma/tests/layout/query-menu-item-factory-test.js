@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 
 describe('queryMenuItemFactory', function() {
   var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',
@@ -38,7 +40,7 @@ describe('queryMenuItemFactory', function() {
                     'openproject.models',
                     'openproject.api',
                     function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -47,7 +49,7 @@ describe('queryMenuItemFactory', function() {
 
   beforeEach(module('templates', function($provide) {
     // Mock check whether we are on a work_packages page
-    state = { includes: function() { return true; } }
+    state = { includes: function() { return true; } };
     $provide.value('$state', state);
 
     $provide.value('$stateParams', stateParams);

@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('sort link Directive', function() {
     var I18n, t, compile, element, scope, sortService;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
     beforeEach(module('templates', function($provide) {
-      sortService = new Object();
+      sortService = {};
 
       sortService.isDescending = sinon.stub().returns(false);
       sortService.getColumn = sinon.stub().returns('');

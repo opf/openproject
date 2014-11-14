@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 window.openProject = new OpenProject({
   urlRoot : '/',
   loginUrl: '/fake-login'

@@ -50,4 +50,4 @@ module.exports = function($http, PathHelper) {
   };
 
   return StatusService;
-}
+};

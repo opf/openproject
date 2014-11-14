@@ -35,4 +35,4 @@ module.exports = function(I18n) {
       scope.I18n = I18n;
     }
   };
-}
+};

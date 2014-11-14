@@ -105,4 +105,4 @@ angular.module('openproject.workPackages.directives')
     'flags',
     'PathHelper',
     require('./work-packages-table-directive')
-  ])
+  ]);

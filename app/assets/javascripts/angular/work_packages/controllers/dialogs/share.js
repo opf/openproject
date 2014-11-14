@@ -65,4 +65,4 @@ module.exports = function($scope, shareModal, QueryService, AuthorisationService
         }
       });
   };
-}
+};

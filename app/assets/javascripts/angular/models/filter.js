@@ -99,4 +99,4 @@ module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPE
   };
 
   return Filter;
-}
+};

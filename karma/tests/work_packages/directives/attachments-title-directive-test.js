@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('attachmentsTitle Directive', function() {
     var I18n, compile, element, rootScope, scope;
 

@@ -131,4 +131,4 @@ module.exports = function() {
   };
 
   return TimelineTableHelper;
-}
+};

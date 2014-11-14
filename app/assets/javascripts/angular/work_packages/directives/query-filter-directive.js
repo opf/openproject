@@ -94,4 +94,4 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
       }
     }
   };
-}
+};

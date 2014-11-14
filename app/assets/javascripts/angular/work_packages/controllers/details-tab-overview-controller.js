@@ -229,4 +229,4 @@ module.exports = function($scope,
   $scope.isPropertyEmpty = function(property) {
     return property === undefined || property === null;
   };
-}
+};

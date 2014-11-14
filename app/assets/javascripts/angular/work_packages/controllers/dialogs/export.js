@@ -32,4 +32,4 @@ module.exports = function(exportModal, QueryService, UrlParamsHelper) {
   this.closeMe = exportModal.deactivate;
 
   this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
-}
+};

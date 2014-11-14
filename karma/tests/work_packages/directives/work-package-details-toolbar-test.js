@@ -44,7 +44,7 @@ describe('workPackageDetailsToolbar', function() {
                     'openproject.workPackages.services'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);

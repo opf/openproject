@@ -33,7 +33,7 @@ describe('Work packages helper', function() {
 
   beforeEach(module('openproject.helpers', 'openproject.services'));
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub();
     configurationService.dateFormatPresent = sinon.stub();
@@ -144,7 +144,7 @@ describe('Work packages helper', function() {
     it('should display parsed dates and datetimes', function(){
       expect(formatValue(TIME, 'date')).to.equal(EXPECTED_DATE);
       expect(formatValue(TIME, 'datetime')).to.equal(EXPECTED_DATETIME);
-    })
+    });
   });
 
 });

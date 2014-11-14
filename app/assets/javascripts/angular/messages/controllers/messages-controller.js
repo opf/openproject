@@ -57,4 +57,4 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
            $scope.isLoading = false;
          });
   };
-}
+};

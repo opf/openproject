@@ -74,4 +74,4 @@ module.exports = function($timeout, FiltersHelper, I18n, ADD_FILTER_SELECT_INDEX
       };
     }
   };
-}
+};

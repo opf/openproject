@@ -82,7 +82,7 @@ module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsMo
         if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
           showExistingQueryModal.call(shareModal, event);
         }
-      }
+      };
 
       scope.showSettingsModal = function(event){
         if( allowQueryAction(event, 'update') ) {
@@ -162,4 +162,4 @@ module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsMo
       }
     }
   };
-}
+};

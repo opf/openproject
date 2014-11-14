@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('MainMenuController', function() {
   var rootScope, sessionStorage, ctrl;
 
@@ -36,9 +38,9 @@ describe('MainMenuController', function() {
 
     var fakeSession = {};
     sessionStorage = {
-      setItem: function(k, v) { fakeSession[k] = v },
-      getItem: function(k)    { return fakeSession[k] }
-    }
+      setItem: function(k, v) { fakeSession[k] = v; },
+      getItem: function(k)    { return fakeSession[k]; }
+    };
 
     ctrl = $controller("MainMenuController", {
       $rootScope: rootScope,

@@ -45,4 +45,4 @@ angular.module('openproject.timelines.directives')
     './timeline-table-directive')])
   .directive('timelineTableRow', require('./timeline-table-row-directive'))
   .directive('timelineToolbar', ['TimelineTableHelper', require(
-    './timeline-toolbar-directive')])
+    './timeline-toolbar-directive')]);

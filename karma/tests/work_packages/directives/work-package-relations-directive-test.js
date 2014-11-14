@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('Work Package Relations Directive', function() {
   var I18n, PathHelper, compile, element, scope, ChildrenRelationsHandler, stateParams = {};
 
@@ -39,12 +41,12 @@ describe('Work Package Relations Directive', function() {
                                  'ngSanitize'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', function() { return configurationService });
+    $provide.constant('ConfigurationService', function() { return configurationService; });
   }));
 
   beforeEach(inject(function($rootScope,
@@ -67,7 +69,7 @@ describe('Work Package Relations Directive', function() {
 
     Ajax = {
       Autocompleter: angular.noop
-    }
+    };
 
     var stub = sinon.stub(I18n, 't');
 
@@ -81,7 +83,7 @@ describe('Work Package Relations Directive', function() {
     I18n.t.restore();
   });
 
-  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>"
+  var html = "<work-package-relations title='MyRelation' handler='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relations>";
 
   var workPackage1;
   var workPackage2;
@@ -94,7 +96,7 @@ describe('Work Package Relations Directive', function() {
   var relationsHandlerWithNotAssignedRelatedWorkPackage;
 
   var createRelationsHandlerStub = function($timeout, count) {
-    var relationsHandler = new Object();
+    var relationsHandler = {};
 
     relationsHandler.relationsId = sinon.stub();
     relationsHandler.isEmpty = sinon.stub();

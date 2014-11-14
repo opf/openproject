@@ -35,4 +35,4 @@ module.exports = function($scope) {
   // Count timeline containers
   $scope.timelineContainerCount = 0;
 
-}
+};

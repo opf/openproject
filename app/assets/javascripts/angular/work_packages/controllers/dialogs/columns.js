@@ -89,4 +89,4 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
 
     columnsModal.deactivate();
   };
-}
+};

@@ -141,4 +141,4 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
 
     }
   };
-}
+};

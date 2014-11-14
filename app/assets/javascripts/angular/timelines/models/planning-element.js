@@ -812,4 +812,4 @@ module.exports = function() {
   };
 
   return PlanningElement;
-}
+};

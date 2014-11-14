@@ -43,4 +43,4 @@ module.exports = function(PathHelper) {
       scope.userPath = PathHelper.staticUserPath;
     }
   };
-}
+};

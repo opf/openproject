@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('templates', 'openproject.api', 'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      var configurationService = new Object();
+      var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -263,7 +265,7 @@ describe('workPackageColumn Directive', function() {
           scope.column = {
             meta_data: { data_type: 'object', link: { display: true, model_type: 'project'} },
             name: 'project'
-          }
+          };
           compile();
         });
 
@@ -288,7 +290,7 @@ describe('workPackageColumn Directive', function() {
             name: 'parent',
             sortable: 'work_packages.subject',
             title: 'Parent'
-          }
+          };
           compile();
         });
 
@@ -301,5 +303,5 @@ describe('workPackageColumn Directive', function() {
           expect(tag.attr('title')).to.equal(tag.text());
         });
       });
-    })
+    });
 });

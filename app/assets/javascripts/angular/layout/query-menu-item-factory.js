@@ -71,4 +71,4 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
       });
     }
   });
-}
+};

@@ -32,4 +32,4 @@ module.exports = function() {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_add_work_package_child.html',
   };
-}
+};

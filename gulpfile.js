@@ -41,7 +41,10 @@ var protractor = require('gulp-protractor').protractor,
 var server;
 
 var paths = {
-  scripts: ['app/assets/javascripts/**/*.js']
+  scripts: [
+    'app/assets/javascripts/angular/**/*.js',
+    '!app/assets/javascripts/angular/vendor/**/*.js'
+  ]
 };
 
 gulp.task('lint', function() {

@@ -69,10 +69,10 @@ module.exports = function(WorkPackagesTableHelper, WorkPackagesTableService, Wor
             var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
 
             WorkPackageService.augmentWorkPackagesWithColumnsData(workPackages, newColumns, groupBy)
-              .then(function(){ scope.$emit('queryStateChange') });
+              .then(function(){ scope.$emit('queryStateChange'); });
           }
         }
       };
     }
   };
-}
+};

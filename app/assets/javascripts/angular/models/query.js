@@ -364,4 +364,4 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
   };
 
   return Query;
-}
+};

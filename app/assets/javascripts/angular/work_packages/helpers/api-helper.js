@@ -63,4 +63,4 @@ module.exports = function() {
   };
 
   return ApiHelper;
-}
+};

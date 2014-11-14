@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('inplaceEditor Directive', function() {
   var compile, element, rootScope, scope, elementScope, $timeout, html,
   submitStub, updateWorkPackageStub, onSuccessSpy, onFailSpy, onFinallySpy,

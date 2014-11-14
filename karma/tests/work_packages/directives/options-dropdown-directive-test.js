@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope, Query, I18n, stateParams = {};
 
@@ -36,7 +38,7 @@ describe('optionsDropdown Directive', function() {
                       'openproject.layout',
                       'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      var configurationService = new Object();
+      var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -107,7 +109,7 @@ describe('optionsDropdown Directive', function() {
             scope.query = query;
             AuthorisationService.initModelAuth('query', {
               create: '/queries'
-            })
+            });
             element = angular.element(optionsDropdownHtml);
             compile();
           });
@@ -118,7 +120,7 @@ describe('optionsDropdown Directive', function() {
             shareLink.click();
             expect(AuthorisationService.can).to.have.been.called;
           });
-        })
+        });
         it('should not open save as modal', function() {
           var saveAsLink = element.find('a').first();
           saveAsLink.click();
@@ -136,10 +138,10 @@ describe('optionsDropdown Directive', function() {
           scope.query = query;
           AuthorisationService.initModelAuth('query', {
             create: '/queries'
-          })
+          });
 
           compile();
-        })
+        });
 
         it('should have an active save as option', function() {
           var saveAsLink = element.find('a').first();

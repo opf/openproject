@@ -60,4 +60,4 @@ module.exports = function(HALAPIResource, $http, PathHelper) {
   };
 
   return UserService;
-}
+};

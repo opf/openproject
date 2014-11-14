@@ -34,4 +34,4 @@ module.exports = function(){
     scope: { iconName: '@', title: '@iconTitle', cssClass: '@' },
     templateUrl: '/templates/components/icon_wrapper.html'
   };
-}
+};

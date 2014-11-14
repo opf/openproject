@@ -120,7 +120,7 @@ describe('activityCommentDirective', function() {
         expect(save_button.attr('disabled')).to.equal('disabled');
 
         comment.val('a useful comment');
-        comment.change()
+        comment.change();
         expect(save_button.attr('disabled')).to.equal(undefined);
 
       });
@@ -141,7 +141,7 @@ describe('activityCommentDirective', function() {
 
         // after sending, we can send comments again
         commentCreation.resolve();
-        scope.$digest()
+        scope.$digest();
         expect(save_button.scope().processingComment).to.equal(false);
 
       });

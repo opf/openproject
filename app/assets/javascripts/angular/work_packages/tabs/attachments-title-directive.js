@@ -38,4 +38,4 @@ module.exports = function() {
       scope.attachmentsTitle = I18n.t('js.work_packages.tabs.attachments') + " (" + scope.attachments.length + ")";
     }
   };
-}
+};

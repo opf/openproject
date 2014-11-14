@@ -70,4 +70,4 @@ module.exports = function($scope, $filter, groupingModal, QueryService, WorkPack
     }
   });
 
-}
+};

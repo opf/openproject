@@ -126,4 +126,4 @@ module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   };
 
   return Sortation;
-}
+};

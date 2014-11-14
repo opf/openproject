@@ -67,4 +67,4 @@ angular.module('openproject.workPackages.directives')
   .directive('attachmentsTable', ['I18n', require(
     './attachments-table-directive')])
   .directive('attachmentsTitle', require('./attachments-title-directive'))
-  .directive('editableComment', require('./editable-comment-directive'))
+  .directive('editableComment', require('./editable-comment-directive'));

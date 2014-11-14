@@ -84,4 +84,4 @@ module.exports = function() {
   };
 
   return ProjectAssociation;
-}
+};

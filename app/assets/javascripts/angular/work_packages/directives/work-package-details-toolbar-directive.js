@@ -109,4 +109,4 @@ module.exports = function(PERMITTED_MORE_MENU_ACTIONS,
       }
     }
   };
-}
+};

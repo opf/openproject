@@ -34,4 +34,4 @@ module.exports = function($rootScope, $window) {
     $window.sessionStorage.setItem('openproject:navigation-toggle',
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
-}
+};

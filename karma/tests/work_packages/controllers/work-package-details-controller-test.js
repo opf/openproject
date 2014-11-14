@@ -97,7 +97,7 @@ describe('WorkPackageDetailsController', function() {
   beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
   beforeEach(module('templates', function($provide) {
-    var configurationService = new Object();
+    var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
@@ -149,7 +149,7 @@ describe('WorkPackageDetailsController', function() {
       beforeEach(function() {
         workPackage.embedded.watchers = undefined;
         buildController();
-      })
+      });
 
       it('returns false', function() {
         expect(scope.canViewWorkPackageWatchers()).to.be.false;
@@ -160,7 +160,7 @@ describe('WorkPackageDetailsController', function() {
       beforeEach(function() {
         workPackage.embedded.watchers = [];
         buildController();
-      })
+      });
 
       it('returns true', function() {
         expect(scope.canViewWorkPackageWatchers()).to.be.true;

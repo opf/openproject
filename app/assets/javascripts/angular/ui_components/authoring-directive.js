@@ -50,4 +50,4 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
       }
     }
   };
-}
+};

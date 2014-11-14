@@ -40,4 +40,4 @@ module.exports = function() {
     },
     templateUrl: '/templates/components/accessible_checkbox.html'
   };
-}
+};

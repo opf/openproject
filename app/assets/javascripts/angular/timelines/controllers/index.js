@@ -30,4 +30,4 @@ angular.module('openproject.timelines.controllers')
   .controller('TimelineSelectionController', ['$scope', '$window', require(
     './timeline-selection-controller')])
   .controller('TimelinesController', ['$scope', require(
-    './timelines-controller')])
+    './timelines-controller')]);

@@ -40,7 +40,7 @@ module.exports = function() {
       function formattedFileSize(fileSize) {
         var size = parseFloat(fileSize);
         return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
-      };
+      }
     }
   };
-}
+};

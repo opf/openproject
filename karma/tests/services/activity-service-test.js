@@ -65,7 +65,7 @@ describe('ActivityService', function() {
 
     afterEach(function() {
       workPackage.links.addComment.fetch.restore();
-    })
+    });
 
     it('returns an activity', function() {
       apiFetchResource.then(function(activity){

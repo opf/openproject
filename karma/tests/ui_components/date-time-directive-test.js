@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('date time Directives', function() {
   var I18n, compile, element, scope, configurationService;
 
@@ -37,7 +39,7 @@ describe('date time Directives', function() {
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
   beforeEach(module('templates', function($provide) {
-    configurationService = new Object();
+    configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 

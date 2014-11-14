@@ -1170,4 +1170,4 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
   };
 
   return TimelineLoaderService;
-}
+};

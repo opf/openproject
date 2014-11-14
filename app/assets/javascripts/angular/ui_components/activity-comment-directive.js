@@ -59,4 +59,4 @@ module.exports = function(I18n, ActivityService, ConfigurationService) {
       };
     }
   };
-}
+};

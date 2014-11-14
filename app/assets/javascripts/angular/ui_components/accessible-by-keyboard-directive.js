@@ -42,4 +42,4 @@ module.exports = function() {
       scope.defaultEventHandling = !attrs.execute;
     }
   };
-}
+};

@@ -111,4 +111,4 @@ module.exports = function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
       }
     }
   };
-}
+};

@@ -36,4 +36,4 @@ module.exports = function(ACTIVE_USER_STATUSES) {
   };
 
   return UsersHelper;
-}
+};

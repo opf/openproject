@@ -66,7 +66,7 @@ module.exports = function($sce, LABEL_MAX_CHARS, KEY_CODES) {
               labelHtml: $sce.trustAsHtml(truncate(model[0], LABEL_MAX_CHARS)),
               id: model[1],
               highlighted: false
-            }
+            };
           });
         });
       }
@@ -234,4 +234,4 @@ module.exports = function($sce, LABEL_MAX_CHARS, KEY_CODES) {
       };
     }
   };
-}
+};

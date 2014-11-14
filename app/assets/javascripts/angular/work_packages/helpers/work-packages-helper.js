@@ -215,4 +215,4 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
   };
 
   return WorkPackagesHelper;
-}
+};

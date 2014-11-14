@@ -52,4 +52,4 @@ module.exports = function(I18n, WorkPackagesTableService){
       });
     }
   };
-}
+};

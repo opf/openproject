@@ -53,4 +53,4 @@ module.exports = function(DOUBLE_CLICK_DELAY, $parse, $timeout) {
       }
     }
   };
-}
+};

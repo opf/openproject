@@ -64,7 +64,7 @@ module.exports = function(I18n, PaginationService) {
         paramsData.g = query.groupBy;
       }
       if(query.getSortation()) {
-        paramsData.t = query.getSortation().encode()
+        paramsData.t = query.getSortation().encode();
       }
       if(query.filters && query.filters.length) {
         paramsData.f = query.filters.filter(function(filter) {
@@ -81,7 +81,7 @@ module.exports = function(I18n, PaginationService) {
           } else if(filter.values) {
             angular.extend(filterData, { v: filter.values });
           }
-          return filterData
+          return filterData;
         });
       }
       paramsData.pa = PaginationService.getPage();
@@ -165,10 +165,10 @@ module.exports = function(I18n, PaginationService) {
           label: I18n.t('js.' + format.label_locale),
           format: format.format,
           url: url
-        }
-      })
+        };
+      });
     }
   };
 
   return UrlParamsHelper;
-}
+};

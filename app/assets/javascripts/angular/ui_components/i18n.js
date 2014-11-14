@@ -29,4 +29,4 @@
 // TODO move to UI components
 module.exports = function() {
   return I18n;
-}
+};

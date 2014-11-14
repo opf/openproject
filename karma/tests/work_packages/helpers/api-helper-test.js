@@ -57,7 +57,7 @@ describe('API helper', function() {
 
   describe('other codes', function() {
     function createApiErrorObject(errorIdentifier, message, multiple) {
-      var apiError = new Object();
+      var apiError = {};
 
       apiError._type = 'Error';
       apiError.errorIdentifier = (multiple) ? 'urn:openproject-org:api:v3:errors:MultipleErrors' : errorIdentifier;

@@ -57,4 +57,4 @@ module.exports = function() {
   };
 
   return HookService;
-}
+};

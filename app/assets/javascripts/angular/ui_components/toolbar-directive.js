@@ -33,4 +33,4 @@ module.exports = function() {
       link: function(scope, element, attributes) {
       }
     };
-}
+};

@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('toggledMultiselect Directive', function() {
     var compile, element, rootScope, scope;
 
@@ -33,7 +35,7 @@ describe('toggledMultiselect Directive', function() {
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
     beforeEach(module('templates', function($provide) {
-      var configurationService = new Object();
+      var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
 

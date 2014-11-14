@@ -37,4 +37,4 @@ module.exports = function() {
     }
   };
   // TODO restrict to 'E' once https://github.com/angular/angular.js/issues/1459 is solved
-}
+};
