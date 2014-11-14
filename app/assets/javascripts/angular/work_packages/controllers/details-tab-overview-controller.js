@@ -216,7 +216,7 @@ module.exports = function($scope,
 
   $scope.isGroupEmpty = function(group) {
     return group.attributes.filter(function(element) {
-      return !!element.value;
+      return !$scope.isPropertyEmpty(element.value);
     }).length == 0;
   };
 
