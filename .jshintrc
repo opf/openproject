@@ -48,7 +48,6 @@
   "maxlen": 100,
   "quotmark": true,
   "sub": true,
-  "trailing": true,
   "undef": true,
   "unused": true
 }
