@@ -43,8 +43,8 @@ describe('queryFilters', function() {
     $provide.constant('ConfigurationService', new Object());
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_) {
-    $httpBackend = _$httpBackend_; 
+  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_, PathHelper) {
+    $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
 
     doc = $document[0];
