@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($compile) {
+module.exports = function($compile, TimezoneService) {
   return {
     restrict: 'EA',
     replace: true,
