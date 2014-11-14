@@ -43,11 +43,12 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     'UrlParamsHelper',
     'PathHelper',
+    'Query',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $rootScope, $state, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, UrlParamsHelper, PathHelper,
+      AuthorisationService, UrlParamsHelper, PathHelper, Query,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   // Setup
