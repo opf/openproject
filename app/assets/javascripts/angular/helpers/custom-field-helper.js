@@ -31,7 +31,7 @@ angular.module('openproject.helpers')
 .constant('CUSTOM_FIELD_PREFIX', 'cf_')
 .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', function(CUSTOM_FIELD_PREFIX, I18n) {
 
-  CustomFieldHelper = {
+  var CustomFieldHelper = {
     isCustomFieldKey: function(key) {
       return key.substr(0, CUSTOM_FIELD_PREFIX.length) === CUSTOM_FIELD_PREFIX;
     },

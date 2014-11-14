@@ -68,7 +68,7 @@ angular.module('openproject.uiComponents')
       scope.$watch('currentScaleIndex', function(newIndex){
         scope.currentScaleIndex = newIndex;
 
-        newScaleName = Timeline.ZOOM_SCALES[newIndex];
+        var newScaleName = Timeline.ZOOM_SCALES[newIndex];
         if (scope.currentScaleName !== newScaleName) {
           scope.currentScaleName = newScaleName;
         }

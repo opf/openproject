@@ -33,7 +33,8 @@ angular.module('openproject.workPackages.controllers')
     '$state',
     '$stateParams',
     'QueryService',
-    function($scope, $state, $stateParams, QueryService) {
+    'PathHelper',
+    function($scope, $state, $stateParams, QueryService, PathHelper) {
 
   // Setup
   $scope.$state = $state;

@@ -41,7 +41,7 @@ angular.module('openproject.timelines.helpers')
 
 .factory('FilterQueryStringBuilder', [function() {
 
-  FilterQueryStringBuilder = (function() {
+  var FilterQueryStringBuilder = (function() {
 
     /**
      * FilterQueryStringBuilder

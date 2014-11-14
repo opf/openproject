@@ -51,7 +51,7 @@ angular.module('openproject.workPackages.helpers')
 
     indentedName: function(name, level){
       var indentation = '';
-      for(i = 0; i < level; i++){
+      for(var i = 0; i < level; i++){
         indentation = indentation + '--';
       }
       return indentation + " " + name;

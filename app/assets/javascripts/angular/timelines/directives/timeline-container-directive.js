@@ -29,8 +29,8 @@
 angular.module('openproject.timelines.directives')
 
 .directive('timelineContainer', ['$window', 'Timeline', function($window, Timeline) {
-  getInitialOutlineExpansion = function(timelineOptions) {
-    initialOutlineExpansion = timelineOptions.initial_outline_expansion;
+  var getInitialOutlineExpansion = function(timelineOptions) {
+    var initialOutlineExpansion = timelineOptions.initial_outline_expansion;
     if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
       return initialOutlineExpansion;
     } else {

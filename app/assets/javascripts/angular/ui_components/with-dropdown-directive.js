@@ -47,7 +47,7 @@ angular.module('openproject.uiComponents')
 
       // Position the dropdown relative-to-parent or relative-to-document
       if (dropdown.hasClass('dropdown-relative')) {
-        leftPosition = dropdown.hasClass('dropdown-anchor-right') ?
+        var leftPosition = dropdown.hasClass('dropdown-anchor-right') ?
             trigger.position().left - (dropdown.outerWidth(true) - trigger.outerWidth(true)) - parseInt(trigger.css('margin-right')) + hOffset :
             trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset;
 

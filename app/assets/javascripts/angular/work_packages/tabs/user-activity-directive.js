@@ -112,7 +112,7 @@ angular.module('openproject.workPackages.tabs')
       };
 
       function quotedText(rawComment) {
-        quoted = rawComment.split("\n")
+        var quoted = rawComment.split("\n")
           .map(function(line){ return "\n> " + line; })
           .join('');
         return scope.userName + " wrote:" + quoted;
