@@ -56,6 +56,10 @@ These are generic (and condensed) installation instructions for the **current de
 
         npm install
 
+3. Install `foreman` gem:
+
+        [sudo] gem install foreman
+
 ### Configure Rails
 
 1. Copy `config/database.yml.example` to `config/database.yml`:
@@ -84,17 +88,9 @@ These are generic (and condensed) installation instructions for the **current de
 
 ### Run!
 
-1. In development, bundle JavaScript assets using Webpack:
+1. Start OpenProject in development mode:
 
-        ./node_modules/webpack/bin/webpack.js
-
-   Pass the `-w` flag to keep Webpack watching for changes.
-
-   In production, this step is executed as part of `rake assets:precompile` task.
-
-2. Start Rails:
-
-        bundle exec rails server
+        foreman start -f Procfile.dev
 
 
 [Node.js]:http://nodejs.org/
