@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('MainMenuController', function() {
   var rootScope, sessionStorage, ctrl;
 

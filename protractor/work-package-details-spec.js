@@ -34,6 +34,8 @@ var expect = chai.expect;
 
 var WorkPackageDetailsPane = require('./pages/work-package-details-pane.js');
 
+/*jshint expr: true*/
+
 describe('OpenProject', function () {
   var page = new WorkPackageDetailsPane(819, 'overview');
 

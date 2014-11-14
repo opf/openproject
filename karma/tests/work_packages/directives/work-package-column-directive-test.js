@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 

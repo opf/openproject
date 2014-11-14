@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 
 describe('queryMenuItemFactory', function() {
   var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',

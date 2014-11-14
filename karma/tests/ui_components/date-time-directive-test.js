@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/*jshint expr: true*/
+
 describe('date time Directives', function() {
   var I18n, compile, element, scope, configurationService;
 
