@@ -121,7 +121,7 @@ module.exports = function($scope,
 
   function getWorkPackageProperty(property) {
     var label  = I18n.t('js.work_packages.properties.' + property),
-        format = getPropertyFormat(property);
+        format = getPropertyFormat(property),
         value  = getPropertyValue(property, format);
 
     if (!(value === null || value === undefined)) {

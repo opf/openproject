@@ -98,7 +98,7 @@ module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper)
           timeline.secondLevelGroupingAdjustments();
         }
 
-        tree = timeline.getLefthandTree();
+        var tree = timeline.getLefthandTree();
 
         if (tree.containsPlanningElements() || tree.containsProjects()) {
           timeline.adjustForPlanningElements();
@@ -111,7 +111,7 @@ module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper)
       }
 
       function drawChart(tree) {
-        timeline = scope.timeline;
+        var timeline = scope.timeline;
 
         try {
           window.clearTimeout(timeline.safetyHook);

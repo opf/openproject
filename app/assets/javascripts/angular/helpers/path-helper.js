@@ -28,7 +28,7 @@
 
 // TODO forward rails routes
 module.exports = function() {
-  PathHelper = {
+  var PathHelper = {
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',

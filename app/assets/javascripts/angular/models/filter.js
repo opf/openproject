@@ -27,7 +27,7 @@
 //++
 
 module.exports = function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
-  Filter = function (data) {
+  var Filter = function (data) {
     angular.extend(this, data);
 
     // Experimental API controller will always give back strings even for numeric values so need to parse them

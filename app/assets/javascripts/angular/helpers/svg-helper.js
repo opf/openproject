@@ -127,7 +127,7 @@ module.exports = function() {
   jQuery.each([SVGSVGElement, SVGRectElement, SVGPathElement,
       SVGTextElement], function (i, klass) {
     klass.prototype.attr = function(attributeHash) {
-      for (key in attributeHash) {
+      for (var key in attributeHash) {
         if (attributeHash.hasOwnProperty(key)) {
           this.setAttribute(key, attributeHash[key]);
         }

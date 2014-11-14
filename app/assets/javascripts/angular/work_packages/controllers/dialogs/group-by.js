@@ -32,7 +32,7 @@ module.exports = function($scope, $filter, groupingModal, QueryService, WorkPack
   this.closeMe = groupingModal.deactivate;
 
   $scope.getGroupableColumnsData = function(term, result) {
-    var filtered = $filter('filter')($scope.groupableColumnsData, { label: term });
+    var filtered = $filter('filter')($scope.groupableColumnsData, { label: term }),
         sorted = $filter('orderBy')(filtered, 'label');
 
     return result(sorted);

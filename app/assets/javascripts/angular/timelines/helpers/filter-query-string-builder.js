@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  FilterQueryStringBuilder = (function() {
+  var FilterQueryStringBuilder = (function() {
 
     /**
      * FilterQueryStringBuilder

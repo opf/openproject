@@ -68,7 +68,7 @@ module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   };
 
   Sortation.prototype.removeSortElement = function(elementName) {
-    index = this.sortElements.map(function(sortation){
+    var index = this.sortElements.map(function(sortation){
       return sortation.field;
     }).indexOf(elementName);
 
@@ -110,7 +110,7 @@ module.exports = function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
 
   Sortation.prototype.decodeEncodedSortation = function(encodedSortation) {
     return encodedSortation.split(',').map(function(sortParam) {
-      fieldAndDirection = sortParam.split(':');
+      var fieldAndDirection = sortParam.split(':');
       return { field: fieldAndDirection[0], direction: fieldAndDirection[1] || defaultSortDirection};
     });
   };

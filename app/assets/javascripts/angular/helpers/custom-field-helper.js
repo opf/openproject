@@ -28,7 +28,7 @@
 
 module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
 
-  CustomFieldHelper = {
+  var CustomFieldHelper = {
     isCustomFieldKey: function(key) {
       return key.substr(0, CUSTOM_FIELD_PREFIX.length) === CUSTOM_FIELD_PREFIX;
     },

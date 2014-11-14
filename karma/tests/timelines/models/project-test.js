@@ -378,6 +378,13 @@ describe('Project', function(){
 });
 
 describe('Helper Functions', function () {
+  var Timeline;
+
+  beforeEach(module('openproject.timelines.models'));
+  beforeEach(inject(function(_Timeline_) {
+    Timeline = _Timeline_;
+  }));
+
   describe('id in Array', function () {
     it('should return true if element in array', function () {
       expect(Timeline.idInArray(["5", "4"], {id: 4})).to.be.true;

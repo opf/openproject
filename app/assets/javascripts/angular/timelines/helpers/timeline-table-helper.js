@@ -45,7 +45,7 @@ module.exports = function() {
     return this.hiddenOrFilteredOut(node) || this.memberOfHiddenOtherGroup(node);
   };
 
-  TimelineTableHelper = {
+  var TimelineTableHelper = {
     flattenTimelineTree: function(root, filterCallback, processNodeCallback){
       var nodes = [];
 
@@ -72,7 +72,7 @@ module.exports = function() {
       }
 
       // first level group
-      isNested = node.level >= 2;
+      var isNested = node.level >= 2;
       if (node.payload.objectType === 'Project' && !isNested) {
         node.firstLevelGroup        = node.payload.getFirstLevelGrouping();
         node.firstLevelGroupingName = node.payload.getFirstLevelGroupingName();
@@ -83,12 +83,12 @@ module.exports = function() {
     },
 
     getTableRowsFromTimelineTree: function(tree, options) {
-      nodeFilter = new NodeFilter(options);
+      var nodeFilter = new NodeFilter(options);
 
       // add relevant information to tree root serving as first row
       TimelineTableHelper.addRowDataToNode(tree);
 
-      rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.nodeExcluded(node); }, TimelineTableHelper.addRowDataToNode);
+      var rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.nodeExcluded(node); }, TimelineTableHelper.addRowDataToNode);
       rows.unshift(tree);
 
       return rows;
@@ -96,7 +96,7 @@ module.exports = function() {
 
     setLastVisible: function(rows) {
       var set = false;
-      i = rows.length - 1;
+      var i = rows.length - 1;
       while(i >= 0){
         if(!set && rows[i].visible){
           rows[i].setLastVisible();
