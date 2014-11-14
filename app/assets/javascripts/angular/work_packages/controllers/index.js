@@ -117,6 +117,7 @@ angular.module('openproject.workPackages.controllers')
     'AuthorisationService',
     'UrlParamsHelper',
     'PathHelper',
+    'Query',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     require('./work-packages-list-controller')
   ])
