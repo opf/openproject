@@ -139,7 +139,7 @@ angular.module('openproject.workPackages.helpers')
         updatedAt: 'datetime'
       };
 
-      if (propertyName === 'estimatedTime') {
+      if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
         return value && value.value ? value.value + ' ' + value.units : null;
       } else {
         return this.formatValue(value, mappings[propertyName]);
