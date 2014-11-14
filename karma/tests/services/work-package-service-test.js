@@ -84,7 +84,7 @@ describe('WorkPackageService', function() {
     beforeEach(inject(function($q) {
       apiResource = {
         fetch: function() {
-          deferred = $q.defer();
+          var deferred = $q.defer();
           deferred.resolve({ id: workPackageId } );
           return deferred.promise;
         }

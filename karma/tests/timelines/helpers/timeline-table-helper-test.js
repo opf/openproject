@@ -47,7 +47,7 @@ describe('Timeline table helper', function() {
     describe('with 3 levels', function() {
       it('should set levels 0 to 3 to visible', function() {
         var nodes = [];
-        for(i = 0; i < 10; i++){
+        for(var i = 0; i < 10; i++){
           var node = Object.create(TreeNode);
           node.level = i;
           nodes.push(node);

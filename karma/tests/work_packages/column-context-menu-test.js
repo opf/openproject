@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('columnContextMenu', function() {
-  var container, contextMenu, $rootScope, scope, stateParams;
+  var container, contextMenu, $rootScope, scope, stateParams, ngContextMenu;
   stateParams = {};
 
   beforeEach(module('ng-context-menu',

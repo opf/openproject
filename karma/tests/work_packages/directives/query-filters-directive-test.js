@@ -60,9 +60,9 @@ describe('queryFilters', function() {
       $timeout.flush();
     };
 
-    path = PathHelper.apiCustomFieldsPath();
-    custom_field_filters = { custom_field_filters: {} };
-    $httpBackend.when('GET', path).respond(200, custom_field_filters);
+    var path = PathHelper.apiCustomFieldsPath();
+    var customFieldFilters = { custom_field_filters: {} };
+    $httpBackend.when('GET', path).respond(200, customFieldFilters);
   }));
 
   afterEach(function() {

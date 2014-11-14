@@ -88,7 +88,7 @@ describe('workPackageTotalSums Directive', function() {
           scope.updateBackUrl = function(){ return 0; };
 
           WorkPackageService.getWorkPackagesSums = function() {
-            deferred = $q.defer();
+            var deferred = $q.defer();
             deferred.resolve({ column_sums: sumsData } );
             return deferred.promise;
           };

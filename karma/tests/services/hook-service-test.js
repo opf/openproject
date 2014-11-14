@@ -31,6 +31,7 @@
 describe('HookService', function() {
 
   var HookService;
+  var callback, invalidCallback;
   var validId = 'myValidCallbacks';
 
   beforeEach(module('openproject.services'));
@@ -160,6 +161,8 @@ describe('HookService', function() {
     });
 
     describe('function that returns something that is not undefined', function() {
+      var callback1, callback2;
+
       beforeEach(function() {
         callback1 = sinon.stub();
         callback1.returns(new Object());

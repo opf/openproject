@@ -31,7 +31,7 @@
 describe('inplaceEditor Directive', function() {
   var compile, element, rootScope, scope, elementScope, $timeout, html,
   submitStub, updateWorkPackageStub, onSuccessSpy, onFailSpy, onFinallySpy,
-  workPackageService;
+  WorkPackageService;
 
   function triggerKey(element, keyCode) {
     var e = jQuery.Event("keypress");

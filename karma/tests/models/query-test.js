@@ -84,6 +84,8 @@ describe('Query', function() {
   });
 
   describe('adding filters', function(){
+    var filter;
+
     beforeEach(function(){
       query = Factory.build('Query', {filters: []});
       filter = Factory.build('Filter', {name: 'type_id'});

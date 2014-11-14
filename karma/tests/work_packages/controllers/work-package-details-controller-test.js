@@ -30,7 +30,7 @@
 
 describe('WorkPackageDetailsController', function() {
   var scope;
-  var buildController;
+  var buildController, ctrl;
   var stateParams = {};
   var I18n = { t: angular.identity },
       WorkPackagesHelper = {

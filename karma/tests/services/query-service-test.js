@@ -30,7 +30,7 @@
 
 describe('QueryService', function() {
 
-  var QueryService, query, queryData, stateParams = {};
+  var QueryService, PathHelper, query, queryData, stateParams = {};
 
   beforeEach(module('openproject.layout',
                     'openproject.models',
