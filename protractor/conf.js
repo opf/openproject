@@ -35,6 +35,8 @@ exports.config = {
     'browserName': 'firefox'
   },
 
+  directConnect: true,
+
   specs: ['work-packages-spec.js', 'work-package-details-spec.js'],
 
   allScriptsTimeout: 40000,
