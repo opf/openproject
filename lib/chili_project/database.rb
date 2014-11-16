@@ -39,8 +39,7 @@ module ChiliProject
     def self.supported_adapters
       @adapters ||= ({
         mysql: /mysql/i,
-        postgresql: /postgres/i,
-        sqlite: /sqlite/i
+        postgresql: /postgres/i
       })
     end
 
@@ -75,16 +74,6 @@ module ChiliProject
       when :postgresql
         version = ActiveRecord::Base.connection.select_value('SELECT version()')
         raw ? version : version.match(/\APostgreSQL (\S+)/i)[1]
-      when :sqlite
-        if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
-          Jdbc::SQLite3::VERSION
-        else
-          if SQLite3.const_defined? 'SQLITE_VERSION'
-            SQLite3::SQLITE_VERSION
-          else
-            SQLite3::Driver::Native::API.sqlite3_libversion
-          end
-        end
       end
     end
   end
