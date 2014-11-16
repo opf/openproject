@@ -64,13 +64,6 @@ env:
     - "TEST_SUITE=test     DB=postgres"
     - "TEST_SUITE=spec     DB=postgres"
 
-script:
-  - if [[ $TEST_SUITE =~ ^(karma|protractor)$ ]]; then
-      npm run $TEST_SUITE;
-    else
-      bundle exec rake $TEST_SUITE;
-    fi
-
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
@@ -82,6 +75,13 @@ before_install:
 before_script:
   - if [[ ! $TEST_SUITE =~ ^(karma|protractor)$ ]]; then
       RAILS_ENV=production bundle exec rake ci:travis:prepare;
+    fi
+
+script:
+  - if [[ $TEST_SUITE =~ ^(karma|protractor)$ ]]; then
+      npm run $TEST_SUITE;
+    else
+      bundle exec rake $TEST_SUITE;
     fi
 
 notifications:
