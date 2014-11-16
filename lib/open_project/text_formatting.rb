@@ -285,7 +285,7 @@ module OpenProject
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+              if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
                 link = link_to("##{oid}",
                                work_package_path(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
