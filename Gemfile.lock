@@ -236,7 +236,7 @@ GEM
     multi_test (0.0.2)
     multi_xml (0.5.5)
     mysql2 (0.3.11)
-    net-ldap (0.2.2)
+    net-ldap (0.8.0)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     non-stupid-digest-assets (1.0.4)
