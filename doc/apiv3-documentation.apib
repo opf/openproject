@@ -508,26 +508,24 @@ Updates an activity's comment and, on success, returns the updated activity.
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/projects/11/categories"
-                    }
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/categories" }
                 },
-                _type: "Categories",
-                _embedded:
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
                 {
-                    categories: [
+                    "elements": [
                         {
-                            _type: "Category",
-                            id: 10,
-                            name: "Foo"
+                            "_type": "Category",
+                            "id": 10,
+                            "name": "Foo"
                         },
                         {
-                            _type: "Category",
-                            id: 11,
-                            name: "Bar"
+                            "_type": "Category",
+                            "id": 11,
+                            "name": "Bar"
                         }
                     ]
                 }
@@ -868,41 +866,39 @@ The request body is the actual string that shall be rendered as HTML string.
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/priorities"
-                    }
+                "_links": {
+                    "self": { "href": "/api/v3/priorities" }
                 },
-                _type: "Priorities",
-                _embedded:
+                "total": 5,
+                "count": 5,
+                "_type": "Collection",
+                "_embedded":
                 {
-                    priorities: [
+                    "elements": [
                         {
-                            _type: "Priority",
-                            id: 1,
-                            name: "Low"
+                            "_type": "Priority",
+                            "id": 1,
+                            "name": "Low"
                         },
                         {
-                            _type: "Priority",
-                            id: 2,
-                            name: "Normal"
+                            "_type": "Priority",
+                            "id": 2,
+                            "name": "Normal"
                         },
                         {
-                            _type: "Priority",
-                            id: 3,
-                            name: "High"
+                            "_type": "Priority",
+                            "id": 3,
+                            "name": "High"
                         },
                         {
-                            _type: "Priority",
-                            id: 4,
-                            name: "Urgent"
+                            "_type": "Priority",
+                            "id": 4,
+                            "name": "Urgent"
                         },
                         {
-                            _type: "Priority",
-                            id: 5,
-                            name: "Immediate"
+                            "_type": "Priority",
+                            "id": 5,
+                            "name": "Immediate"
                         }
                     ]
                 }
@@ -1243,10 +1239,12 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/statuses"
                     }
                 },
-                "_type": "Statuses",
+                "total": 6,
+                "count": 6,
+                "_type": "Collection",
                 "_embedded":
                 {
-                    "statuses": [
+                    "elements": [
                         {
                             "_links":
                             {
@@ -1485,31 +1483,29 @@ The request body is the actual string that shall be rendered as HTML string.
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/projects/11/versions"
-                    }
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/versions" }
                 },
-                _type: "Versions",
-                _embedded:
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
                 {
-                    versions: [
+                    "elements": [
                         {
-                            _type: "Version",
-                            id: 11,
-                            name: "v3.0 Alpha"
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha"
                         },
                         {
-                            _type: "Version",
-                            id: 12,
-                            name: "v2.0"
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0"
                         },
                         {
-                            _type: "Version",
-                            id: 10,
-                            name: "v1.0"
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0"
                         }
                     ]
                 }
@@ -1538,11 +1534,13 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## Linked Properties:
 
-| Link         | Description                              | Type        | Constraints | Supported operations |
-|:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
-| self         | This work package                        | WorkPackage | not null    | READ                 |
-| author       | The person that created the work package | User        | not null    | READ                 |
-| status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
+| Link         | Description                                             | Type        | Constraints | Supported operations |
+|:------------:|---------------------------------------------------------| ----------- | ----------- | -------------------- |
+| self         | This work package                                       | WorkPackage | not null    | READ                 |
+| author       | The person that created the work package                | User        | not null    | READ                 |
+| assignee     | The person that is intended to work on the work package | User        |             | READ / WRITE         |
+| responsible  | The person that is responsible for the overall outcome  | User        |             | READ / WRITE         |
+| status       | The current status of the work package                  | Status      | not null    | READ / WRITE         |
 
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
@@ -2072,29 +2070,67 @@ For more details and all possible responses see the general specification of [Fo
     + Body
 
             {
-                "_total": 1674,
-                "_count": 1,
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/14/available_watchers" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
                 "_embedded": {
-                    "availableWatchers": [{
+                  "elements": [
+                    {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "John Sheppard - j.sheppard"
-                            },
-                            "addWatcher": {
-                                "href": "/api/v3/work_packages/1/watchers",
-                                "method": "post"
+                                "href": "/api/v3/users/4581",
+                                "title": "Mister X"
                             }
                         },
-                        "id": 1,
-                        "login": "j.sheppard",
-                        "firstName": "John",
-                        "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
-                        "createdAt": "2014-05-21T08:51:20Z",
-                        "updatedAt": "2014-05-21T08:51:20Z"
+                        "id": 4581,
+                        "login": "m@x.org",
+                        "firstName": "Mister",
+                        "lastName": "X",
+                        "name": "Mister X",
+                        "mail": "m@x.org",
+                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
+                        "createdAt": "2013-10-01T16:25:17Z",
+                        "updatedAt": "2013-10-02T09:33:42Z"
+                    },
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/972",
+                                "title": "Mister Y"
+                            }
+                        },
+                        "id": 972,
+                        "login": "m@y.org",
+                        "firstName": "Mister",
+                        "lastName": "Y",
+                        "name": "Mister Y",
+                        "mail": "m@y.org",
+                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
+                        "createdAt": "2013-01-11T11:47:06Z",
+                        "updatedAt": "2013-11-18T07:13:56Z"
+                    },
+                    {
+                        "_type": "User",
+                        "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/4724",
+                                    "title": "Mister Z"
+                                }
+                            },
+                        "id": 4724,
+                        "login": "m@z.org",
+                        "firstName": "Mister",
+                        "lastName": "Z",
+                        "name": "Mister Z",
+                        "mail": "m@z.org",
+                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
+                        "createdAt": "2013-10-08T09:28:46Z",
+                        "updatedAt": "2013-10-08T09:28:52Z"
                     }]
                 }
             }
@@ -2160,15 +2196,20 @@ updated activity.
             }
 
 
-## Available Assignees [/api/v3/work_packages/{work_package_id}/available_assignees]
+## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees]
 
 + Model
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableAssignees": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
@@ -2194,7 +2235,7 @@ updated activity.
                                 "href": "/api/v3/users/972",
                                 "title": "Mister Y"
                             }
-                        "},
+                        },
                         "id": 972,
                         "login": "m@y.org",
                         "firstName": "Mister",
@@ -2228,24 +2269,29 @@ updated activity.
 
 ## Available assignees [GET]
 
-Gets a list of users that can be assigned to the work package.
+Gets a list of users that can be assigned to work packages in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
 
 + Response 200 (application/hal+json)
 
     [Available Assignees][]
 
-## Available Responsibles [/api/v3/work_packages/{work_package_id}/available_responsibles]
+## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
 
 + Model
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableResponsibles": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
@@ -2271,7 +2317,7 @@ Gets a list of users that can be assigned to the work package.
                                 "href": "/api/v3/users/972",
                                 "title": "Mister Y"
                             }
-                        "},
+                        },
                         "id": 972,
                         "login": "m@y.org",
                         "firstName": "Mister",
@@ -2305,10 +2351,10 @@ Gets a list of users that can be assigned to the work package.
 
 ## Available responsibles [GET]
 
-Gets a list of users that can be assigned to the work package as responsible.
+Gets a list of users that can be assigned as the responsible of a work package in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
 
 + Response 200 (application/hal+json)
 
