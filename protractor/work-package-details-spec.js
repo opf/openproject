@@ -84,11 +84,32 @@ describe('OpenProject', function () {
       beforeEach(function () {
         page = new WorkPackageDetailsPane(819, 'overview');
         page.get();
-        $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
-          e.click();
+      });
+      describe('read state', function() {
+        it('should render the link to another work package', function() {
+          expect($('.detail-panel-description .inplace-editor .ined-read-value a.work_package').isDisplayed()).to.eventually.be.true;
+        });
+        context('click', function() {
+          it('should render the textarea', function() {
+            $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
+              e.click();
+              expect($('.detail-panel-description .ined-edit textarea').isDisplayed()).to.eventually.be.true;
+            });
+          });
+          it('should not render the textarea if click is on the link', function() {
+            $('.detail-panel-description .inplace-editor .ined-read-value  a.work_package').then(function (e) {
+              e.click();
+              expect($('.detail-panel-description .ined-edit textarea').isPresent()).to.eventually.be.false;
+            });
+          });
         });
       });
       describe('preview', function() {
+        beforeEach(function() {
+          $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
+            e.click();
+          });
+        });
         it('should render the button', function() {
           expect($('.detail-panel-description .btn-preview').isDisplayed()).to.eventually.be.true;
         });

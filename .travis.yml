@@ -27,31 +27,43 @@
 #++
 
 language: ruby
+
 rvm:
   - 2.1
+
 sudo: false
+
 cache:
-  - bundler
-  - npm
+  - bundler: true
+  - directories:
+    - node_modules
+    - vendor/assets/components
+
 branches:
   only:
     - dev
     - stable
     - release/3.0
     - release/4.0
+
 env:
-  # Frontend
-  - "TEST_SUITE=karma"
-  - "TEST_SUITE=protractor"
-  # mysql2
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:development"
-  # postgres
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:development"
-script: "if [[ $TEST_SUITE =~ ^(karma|protractor)$ ]]; then npm run $TEST_SUITE; else bundle exec rake $TEST_SUITE; fi"
+  global:
+    - CI=true
+    - RAILS_ENV=test
+    - BUNDLE_WITHOUT=rmagick:development
+  matrix:
+    # Frontend
+    - "TEST_SUITE=karma"
+    - "TEST_SUITE=protractor"
+    # mysql2
+    - "TEST_SUITE=cucumber DB=mysql2"
+    - "TEST_SUITE=test     DB=mysql2"
+    - "TEST_SUITE=spec     DB=mysql2"
+    # postgres
+    - "TEST_SUITE=cucumber DB=postgres"
+    - "TEST_SUITE=test     DB=postgres"
+    - "TEST_SUITE=spec     DB=postgres"
+
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
@@ -59,10 +71,22 @@ before_install:
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
   - "nvm use 0.10"
   - "travis_retry npm install"
+
 before_script:
-  - "if [[ ! $TEST_SUITE =~ ^(karma|protractor)$ ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
+  - if [[ ! $TEST_SUITE =~ ^(karma|protractor)$ ]]; then
+      RAILS_ENV=production bundle exec rake ci:travis:prepare;
+    fi
+
+script:
+  - if [[ $TEST_SUITE =~ ^(karma|protractor)$ ]]; then
+      npm run $TEST_SUITE;
+    else
+      bundle exec rake $TEST_SUITE;
+    fi
+
 notifications:
   email: false
+
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
 # addons:
 #   code_climate:
