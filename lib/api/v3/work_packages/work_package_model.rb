@@ -93,11 +93,6 @@ module API
           model.priority = IssuePriority.find_by_name(value)
         end
 
-        def estimated_time=(value)
-          hours = ActiveSupport::JSON.decode(value)['value']
-          model.estimated_hours = hours
-        end
-
         def version_id=(value)
           model.fixed_version_id = value
         end
