@@ -2162,7 +2162,7 @@ updated activity.
             }
 
 
-## Available Assignees [/api/v3/work_packages/{work_package_id}/available_assignees]
+## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees]
 
 + Model
     + Body
@@ -2196,7 +2196,7 @@ updated activity.
                                 "href": "/api/v3/users/972",
                                 "title": "Mister Y"
                             }
-                        "},
+                        },
                         "id": 972,
                         "login": "m@y.org",
                         "firstName": "Mister",
@@ -2230,16 +2230,16 @@ updated activity.
 
 ## Available assignees [GET]
 
-Gets a list of users that can be assigned to the work package.
+Gets a list of users that can be assigned to work packages in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
 
 + Response 200 (application/hal+json)
 
     [Available Assignees][]
 
-## Available Responsibles [/api/v3/work_packages/{work_package_id}/available_responsibles]
+## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
 
 + Model
     + Body
@@ -2273,7 +2273,7 @@ Gets a list of users that can be assigned to the work package.
                                 "href": "/api/v3/users/972",
                                 "title": "Mister Y"
                             }
-                        "},
+                        },
                         "id": 972,
                         "login": "m@y.org",
                         "firstName": "Mister",
@@ -2307,10 +2307,10 @@ Gets a list of users that can be assigned to the work package.
 
 ## Available responsibles [GET]
 
-Gets a list of users that can be assigned to the work package as responsible.
+Gets a list of users that can be assigned as the responsible of a work package in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
 
 + Response 200 (application/hal+json)
 
