@@ -31,8 +31,10 @@ rvm:
   - 2.1
 sudo: false
 cache:
-  - bundler
-  - npm
+  - bundler: true
+  - directories:
+    - node_modules
+    - vendor/assets/components
 branches:
   only:
     - dev
