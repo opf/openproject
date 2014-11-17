@@ -2168,9 +2168,14 @@ updated activity.
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableAssignees": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
@@ -2245,9 +2250,14 @@ Gets a list of users that can be assigned to work packages in the given project.
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableResponsibles": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
