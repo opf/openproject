@@ -40,7 +40,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       created_at: DateTime.now,
       updated_at: DateTime.now,
       category:   category,
-      done_ratio: 50
+      done_ratio: 50,
+      estimated_hours: 6.0
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -94,6 +95,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('estimatedTime/units') }
       it { is_expected.to have_json_path('estimatedTime/value') }
+
+      it { is_expected.to be_json_eql(6.0.to_json).at_path('estimatedTime/value') }
     end
 
     describe 'spentTime' do
