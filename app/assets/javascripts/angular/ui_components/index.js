@@ -31,8 +31,13 @@ angular.module('openproject.uiComponents')
     './accessible-by-keyboard-directive')])
   .directive('accessibleCheckbox', [require('./accessible-checkbox-directive')])
   .directive('accessibleElement', [require('./accessible-element-directive')])
-  .directive('activityComment', ['I18n', 'ActivityService',
-    'ConfigurationService', require('./activity-comment-directive')
+  .directive('activityComment', [
+    '$timeout',
+    'I18n',
+    'ActivityService',
+    'ConfigurationService',
+    'AutoCompleteHelper',
+    require('./activity-comment-directive')
   ])
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])

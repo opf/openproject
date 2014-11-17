@@ -9,7 +9,8 @@
               ng-model="activity.comment"
               required
               placeholder="{{ title }}"
-              ng-disabled="processingComment">
+              ng-disabled="processingComment"
+              data-wp_autocomplete_url="{{ autocompletePath }}">
     </textarea>
     <button class="button"
             ng-click="createComment()"
