@@ -93,11 +93,6 @@ module API
           model.priority = IssuePriority.find_by_name(value)
         end
 
-        def estimated_time
-          { units: I18n.t(:'datetime.units.hour', count: model.estimated_hours.to_i),
-            value: model.estimated_hours }
-        end
-
         def estimated_time=(value)
           hours = ActiveSupport::JSON.decode(value)['value']
           model.estimated_hours = hours
