@@ -91,22 +91,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      it { is_expected.to have_json_type(Object).at_path('estimatedTime') }
-
-      it { is_expected.to have_json_path('estimatedTime/units') }
-      it { is_expected.to have_json_path('estimatedTime/value') }
-
-      it { is_expected.to be_json_eql(6.0.to_json).at_path('estimatedTime/value') }
+      it { is_expected.to be_json_eql('PT6H'.to_json).at_path('estimatedTime') }
     end
 
     describe 'spentTime' do
       before { permissions << :view_time_entries }
-
-      it { is_expected.to have_json_path('spentTime') }
-
-      it { is_expected.to have_json_path('spentTime/units') }
-
-      it { is_expected.to have_json_path('spentTime/value') }
 
       describe :content do
         let(:wp) { FactoryGirl.create(:work_package) }
@@ -121,14 +110,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         before { allow(User).to receive(:current).and_return(user) }
 
-        shared_examples_for 'valid spent time content' do |hours, unit|
-          it { is_expected.to be_json_eql(hours.to_json).at_path('spentTime/value') }
-
-          it { is_expected.to be_json_eql(unit.to_json).at_path('spentTime/units') }
-        end
-
         context 'no time entry' do
-          it_behaves_like 'valid spent time content', 0.0, 'hours'
+          it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
         end
 
         context 'time entry with single hour' do
@@ -141,7 +124,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           before { time_entry }
 
-          it_behaves_like 'valid spent time content', 1.0, 'hour'
+          it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
 
         context 'time entry with multiple hours' do
@@ -154,7 +137,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           before { time_entry }
 
-          it_behaves_like 'valid spent time content', 42.0, 'hours'
+          it { is_expected.to be_json_eql('P1DT18H'.to_json).at_path('spentTime') }
         end
       end
     end
