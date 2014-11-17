@@ -27,8 +27,6 @@ Read more: http://stateless.co/hal_specification.html
     - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
     - `_embedded` - contains all embedded objects
-    - `_count` - number of records fetched in the response
-    - `_total` - number of available records
 
 HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
 partially represented (e.g. some properties can be left out).
@@ -36,55 +34,9 @@ However in this API you have the guarantee that whenever a resource is **embedde
 
 # API response structure
 
-All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
-contains its members in its `_embedded` section.
-
-## Simple objects
-
-For example:
-
-    {
-        "id": 1,
-        "name": "My awesome project",
-        ...
-
-        "_type": "Project",
-        "_links": {
-            "self": { "href": "/projects/1", "title": "My awesome project" },
-            "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
-            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
-        },
-        "_embedded": {
-            ...
-        }
-    }
-
-## Collection objects
-
-For example:
-
-    {
-        "_links":
-        {
-            "self": { href: "/api/v3/projects" }
-        },
-        "_type": "Projects",
-        "_embedded":
-        {
-            "projects": [
-                {
-                    "self": { "href": "/projects/1" }
-                    "_type": "Project",
-                    // ... etc ...
-                },
-                {
-                    "self": { "href": "/projects/2" }
-                    "_type": "Project",
-                    // ... etc ...
-                }
-            ]
-        }
-    }
+All API responses contain a single HAL+JSON object, even collections of objects are technically represented by 
+a single HAL+JSON object that itself contains its members. More details on collections can be found
+in the [Collections Section](#collections).
 
 # Authentication
 
@@ -229,6 +181,148 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
         "html": "I <strong>am</strong> formatted!"
     }
 
+# Group Collections
+
+Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
+However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
+object that will contain the actual elements in its embedded property `elements`.
+
+Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
+but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
+There are two ways to access the result pages of a paginated collection:
+
+* offset based pagination
+* cursor based pagination
+
+The available ways of pagination depend on the collection queried. Some collections feature no pagination at all, meaning they
+will always return all elements. Others might only offer one of the two pagination methods or both of them.
+An explanation of [offset](#collections-offset-based-pagination) and [cursor](#collections-cursor-based-pagination) based
+pagination can be found below the links table.
+
+A collection also carries meta information like the total count of elements in the collection or - in case of a paginated collection -
+the amount of elements returned in this response and action links to retrieve the remaining elements.
+
+## Properties
+
+| Property | Description                                                     | Type    | Availability                |
+|:--------:| --------------------------------------------------------------- | ------- | --------------------------- |
+| total    | The total amount of elements available in the collection        | Integer | always                      |
+| pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
+| count    | Actual amount of elements in this response                      | Integer | always                      |
+| offset   | Amount of elements preceding the first element of this response | Integer | when offset based available |
+
+## Links
+
+| Link             | Description                                                              | Availability                |
+|:----------------:| ------------------------------------------------------------------------ | --------------------------- |
+| self             | Link to the current page in the collection                               | always                      |
+| changeSize       | Templated link to change the page size, preserving the relative position | when paginated              |
+| jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
+| nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
+| previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
+| nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
+| previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+
+## Offset based pagination [/api/v3/examples{?offset,pageSize}]
+
+Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
+skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
+that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
+using the **pageSize** property of the response.
+
+The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
+to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
+in the form of multiple pages anyway.
+
+A drawback of offset based pagination comes with concurrent modification of the collection. If the collection is modified
+between two page requests, it is possible that the client receives elements close to the page boundaries twice or does not see them at all.
+
+## view offset based [GET]
+
++ Parameters
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+        
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    
++ Response 200 (application/hal+json)
+
+    + Body
+        
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?offset=25&pageSize=25" },
+                    "jumpTo": {
+                        "href": "/api/v3/examples?offset={offset}&pageSize=25",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/examples?offset=25&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "offset": 25,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
+## Cursor based pagination [/api/v3/examples{?before,after,pageSize}]
+
+Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
+e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
+the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
+regardless of changes to the collection.
+
+The drawback for cursor based pagination is, that it is not immediately determinable how many "next" and how many "previous" pages there are.
+Cursor based pagination is therefore less suited for use cases where you want to directly "jump" to an arbitrary page.
+
+## view cursor based [GET]
+
++ Parameters
+    + before (optional, string, `bar`) ... Display the elements preceding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **previous** link offered by the collection.
+    
+    + after (optional, string, `buz`) ... Display the elements succeeding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **next** link offered by the collection.
+    
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    
++ Response 200 (application/hal+json)
+
+    + Body
+        
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?after=buz&pageSize=25" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
 # Group Activities
 
 ## Properties:
@@ -242,7 +336,7 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
 
 Activity can be either _type Activity or _type Activity::Comment.
 
-## Activity [/activities/{id}]
+## Activity [/api/v3/activities/{id}]
 
 + Model
     + Body
@@ -359,7 +453,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | downloads | | Integer | | | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## Attachment [/attachments/{id}]
+## Attachment [/api/v3/attachments/{id}]
 
 + Model
     + Body
@@ -408,7 +502,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | id       | Category id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Category name | String  |             | Category Name  | READ |
 
-## Categories by Project [/projects/{project_id}/categories]
+## Categories by Project [/api/v3/projects/{project_id}/categories]
 
 + Model
     + Body
@@ -538,7 +632,7 @@ There are only key value pairs for properties that failed validation, the elemen
 However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
 That is because the main purpose of a form is helping the client to sort out validation errors.
 
-## Example Form [/example/form]
+## Example Form [/api/v3/example/form]
 
 + Model
     + Body
@@ -700,7 +794,7 @@ receive a preview of the rendered text.
 The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
 The request body is the actual string that shall be rendered as HTML string.
 
-## Textile [/render/textile{?context}]
+## Textile [/api/v3/render/textile{?context}]
 
 + Model
     + Body
@@ -743,7 +837,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "Could not render textile string in the given context."
             }
 
-## Plain Text [/render/plain]
+## Plain Text [/api/v3/render/plain]
 
 + Model
     + Body
@@ -768,7 +862,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | id       | Priority id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Priority name | String  |             | High  | READ |
 
-## Priorities [/priorities]
+## Priorities [/api/v3/priorities]
 
 + Model
     + Body
@@ -840,7 +934,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
 | updatedOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
 
-## Project [/projects/{id}]
+## Project [/api/v3/projects/{id}]
 
 + Model
     + Body
@@ -890,7 +984,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | displaySums | | Boolean | | true | READ |
 | isStarred | | Boolean | | true | READ |
 
-## Query [/queries/{id}]
+## Query [/api/v3/queries/{id}]
 
 + Model
     + Body
@@ -959,7 +1053,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Query][]
 
-## Star Query [/queries/{id}/star]
+## Star Query [/api/v3/queries/{id}/star]
 
 + Model
     + Body
@@ -1038,7 +1132,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "The request body was not empty."
             }
 
-## Unstar Query [/queries/{id}/unstar]
+## Unstar Query [/api/v3/queries/{id}/unstar]
 
 + Model
     + Body
@@ -1136,7 +1230,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## Statuses [/statuses]
+## Statuses [/api/v3/statuses]
 
 + Model
     + Body
@@ -1285,7 +1379,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "You are not allowed to see the statuses."
             }
 
-## Status [/statuses/{id}]
+## Status [/api/v3/statuses/{id}]
 
 + Model
     + Body
@@ -1345,7 +1439,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 
-## User [/users/{id}]
+## User [/api/v3/users/{id}]
 
 + Model
     + Body
@@ -1385,7 +1479,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | id       | Version id   | Integer | Must be a positive integer | 12 | READ |
 | name     | Version name | String  |             | Version 1.0  | READ |
 
-## Versions by Project [/projects/{project_id}/versions]
+## Versions by Project [/api/v3/projects/{project_id}/versions]
 
 + Model
     + Body
@@ -1467,7 +1561,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}{?notify}]
+## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
 + Model
     + Body
@@ -1909,7 +2003,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 }
             }
 
-## Work Package Edit Form [/work_packages/{id}/form]
+## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
 This endpoint returns a form to allow a guided modification of an existing work package.
 
@@ -1924,7 +2018,7 @@ For more details and all possible responses see the general specification of [Fo
 
     [Example Form][]
 
-## Add Watcher [/work_packages/{work_package_id}/watchers]
+## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
 + Model
     + Body
@@ -1962,7 +2056,7 @@ For more details and all possible responses see the general specification of [Fo
 
     [Add Watcher][]
 
-## Remove Watcher [/work_packages/{work_package_id}/watchers/{id}]
+## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
 
@@ -1972,7 +2066,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 204
 
-## Available Watchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
+## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
 
 + Model
     + Body
@@ -2019,7 +2113,7 @@ Gets a list of users that can watch the work package.
 
     [Available Watchers][]
 
-## Comment WorkPackage [/work_packages/{id}/activities]
+## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 
 ## Comment work package [POST]
 
@@ -2066,7 +2160,7 @@ updated activity.
             }
 
 
-## Available Assignees [/work_packages/{work_package_id}/available_assignees]
+## Available Assignees [/api/v3/work_packages/{work_package_id}/available_assignees]
 
 + Model
     + Body
@@ -2143,7 +2237,7 @@ Gets a list of users that can be assigned to the work package.
 
     [Available Assignees][]
 
-## Available Responsibles [/work_packages/{work_package_id}/available_responsibles]
+## Available Responsibles [/api/v3/work_packages/{work_package_id}/available_responsibles]
 
 + Model
     + Body
