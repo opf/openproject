@@ -30,22 +30,22 @@ require File.expand_path('../../../../test_helper', __FILE__)
 
 class ChiliProject::DatabaseTest < ActiveSupport::TestCase
   setup do
-    ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
+    ChiliProject::Database.stub(:adapter_name).and_return 'SQLite'
   end
 
-  should "return the correct identifier" do
+  should 'return the correct identifier' do
     assert_equal :sqlite, ChiliProject::Database.name
   end
 
-  should "be able to use the helper methods" do
+  should 'be able to use the helper methods' do
     assert_equal false, ChiliProject::Database.mysql?
     assert_equal false, ChiliProject::Database.postgresql?
     assert_equal true, ChiliProject::Database.sqlite?
   end
 
-  should "return a version string for SQLite3" do
+  should 'return a version string for SQLite3' do
     begin
-      ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
+      ChiliProject::Database.stub(:adapter_name).and_return 'SQLite'
 
       if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
         # If we have the SQLite3 gem installed, save the old constant
@@ -97,21 +97,20 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     end
   end
 
-  should "return a version string for PostgreSQL" do
-    ChiliProject::Database.stub(:adapter_name).and_return "PostgreSQL"
-    raw_version = "PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2"
+  should 'return a version string for PostgreSQL' do
+    ChiliProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
+    raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
     ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
 
-    assert_equal "8.3.11", ChiliProject::Database.version
+    assert_equal '8.3.11', ChiliProject::Database.version
     assert_equal raw_version, ChiliProject::Database.version(true)
   end
 
-  should "return a version string for MySQL" do
-    ChiliProject::Database.stub(:adapter_name).and_return "MySQL"
-    ActiveRecord::Base.connection.stub(:select_value).and_return "5.1.2"
+  should 'return a version string for MySQL' do
+    ChiliProject::Database.stub(:adapter_name).and_return 'MySQL'
+    ActiveRecord::Base.connection.stub(:select_value).and_return '5.1.2'
 
-    assert_equal "5.1.2", ChiliProject::Database.version
-    assert_equal "5.1.2", ChiliProject::Database.version(true)
+    assert_equal '5.1.2', ChiliProject::Database.version
+    assert_equal '5.1.2', ChiliProject::Database.version(true)
   end
-
 end
