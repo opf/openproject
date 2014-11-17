@@ -1538,11 +1538,13 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## Linked Properties:
 
-| Link         | Description                              | Type        | Constraints | Supported operations |
-|:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
-| self         | This work package                        | WorkPackage | not null    | READ                 |
-| author       | The person that created the work package | User        | not null    | READ                 |
-| status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
+| Link         | Description                                             | Type        | Constraints | Supported operations |
+|:------------:|---------------------------------------------------------| ----------- | ----------- | -------------------- |
+| self         | This work package                                       | WorkPackage | not null    | READ                 |
+| author       | The person that created the work package                | User        | not null    | READ                 |
+| assignee     | The person that is intended to work on the work package | User        |             | READ / WRITE         |
+| responsible  | The person that is responsible for the overall outcome  | User        |             | READ / WRITE         |
+| status       | The current status of the work package                  | Status      | not null    | READ / WRITE         |
 
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
