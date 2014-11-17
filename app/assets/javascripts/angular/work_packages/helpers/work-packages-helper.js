@@ -140,7 +140,9 @@ angular.module('openproject.workPackages.helpers')
       };
 
       if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
-        return value && value.value ? value.value + ' ' + value.units : null;
+        var hours = moment.duration(value).asHours();
+
+        return I18n.t('js.units.hour', { count: hours });
       } else {
         return this.formatValue(value, mappings[propertyName]);
       }
