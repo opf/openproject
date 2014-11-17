@@ -69,7 +69,13 @@ angular.module('openproject.uiComponents')
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('inplaceEditor', ['$timeout', '$sce', 'TextileService', require('./inplace-editor-directive')])
+  .directive('inplaceEditor', [
+      '$timeout',
+      '$sce',
+      'TextileService',
+      'AutoCompleteHelper',
+      require('./inplace-editor-directive')
+  ])
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
