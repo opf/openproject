@@ -893,8 +893,8 @@ Updates an activity's comment and, on success, returns the updated activity.
 | priority | | String | Must be one of the activated priorities | High | READ |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
 | dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
-| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ |
-| spentTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ |
+| estimatedTime | | Object | ISO 8601 duration | P1DT18H  | READ |
+| spentTime | | Object | ISO 8601 duration | PT1H | READ |
 | percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
