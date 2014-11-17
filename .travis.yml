@@ -27,6 +27,9 @@
 #++
 
 language: ruby
+os:
+  - linux
+  - osx
 rvm:
   - 2.1
 sudo: false
