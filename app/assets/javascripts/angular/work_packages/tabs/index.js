@@ -47,7 +47,9 @@ angular.module('openproject.workPackages.tabs')
     'PathHelper',
     'ActivityService',
     'UsersHelper',
-    'ConfigurationService', require('./user-activity-directive')
+    'ConfigurationService',
+    'AutoCompleteHelper',
+    require('./user-activity-directive')
   ])
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('workPackageRelations', [

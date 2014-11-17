@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, ConfigurationService) {
+module.exports = function($uiViewScroll,
+    $timeout,
+    $location,
+    I18n,
+    PathHelper,
+    ActivityService,
+    UsersHelper,
+    ConfigurationService,
+    AutoCompleteHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -36,14 +44,19 @@ module.exports = function($uiViewScroll, $timeout, $location, I18n, PathHelper, 
       workPackage: '=',
       activity: '=',
       activityNo: '=',
-      inputElementId: '='
+      inputElementId: '=',
+      autocompletePath: '@'
     },
     link: function(scope, element, attrs, exclusiveEditController) {
       exclusiveEditController.addEditable(scope);
       scope.$watch('inEdit', function(newVal, oldVal) {
         if(newVal) {
           $timeout(function() {
-            angular.element('#edit-comment-text').focus();
+            var textarea = angular.element('#edit-comment-text');
+
+            AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
+
+            textarea.focus();
           });
         }
       });
