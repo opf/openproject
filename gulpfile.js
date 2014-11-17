@@ -81,7 +81,7 @@ gulp.task('express', function() {
 gulp.task('webdriver:update', webdriverUpdate);
 gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
-gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
+gulp.task('tests:protractor', ['webpack', 'sass', 'express'], function(done) {
   gulp.src('protractor/**/*_spec.js')
     .pipe(protractor({
       configFile: 'protractor/conf.js',
