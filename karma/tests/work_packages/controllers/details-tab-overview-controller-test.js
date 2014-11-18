@@ -38,9 +38,6 @@ describe('DetailsTabOverviewController', function() {
   var HookService;
   var ConfigurationService;
   var I18n = { t: angular.identity },
-      WorkPackagesHelper = {
-        formatWorkPackageProperty: angular.identity
-      },
       UserService = {
         getUser: angular.identity
       },
@@ -55,8 +52,8 @@ describe('DetailsTabOverviewController', function() {
           status: 'open',
           versionName: null,
           percentageDone: 0,
-          estimatedTime: undefined,
-          spentTime: 'A lot!',
+          estimatedTime: 'PT0S',
+          spentTime: 'PT0S',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
             { format: 'text', name: 'Width', value: '' },
@@ -82,8 +79,16 @@ describe('DetailsTabOverviewController', function() {
                     'openproject.config',
                     'openproject.workPackages.controllers'));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _ConfigurationService_, _$q_) {
+  beforeEach(inject(function($rootScope,
+          $controller,
+          $timeout,
+          _HookService_,
+          _ConfigurationService_,
+          _$q_,
+          _I18n_) {
     var workPackageId = 99;
+
+    I18n = _I18n_;
 
     buildController = function() {
       scope = $rootScope.$new();
@@ -302,13 +307,74 @@ describe('DetailsTabOverviewController', function() {
       });
     });
 
+    describe('durations', function() {
+      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+        beforeEach(function() {
+          sinon.stub(I18n, 't', function(locale, parameter) {
+            if (locale == 'js.work_packages.properties.' + property) {
+              return property;
+            } else if (locale == 'js.units.hour') {
+              return parameter.count;
+            }
+          });
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('should show hours', function() {
+          var description = fetchPresentPropertiesWithName(property)[0].value;
+
+          expect(description).to.equal(hours);
+        });
+      };
+
+      describe('estimated time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('estimatedTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.estimatedTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+        });
+      });
+
+      describe('spent time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('spentTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.spentTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+        });
+      });
+    });
+
     describe('property format', function() {
       describe('is "version"', function() {
         beforeEach(function() {
+          sinon.stub(I18n, 't').returnsArg(0);
+
           workPackage.props.versionName = 'Test version';
           workPackage.props.versionId = 1;
           workPackage.links = workPackage.links || {};
+
           buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
         });
 
         context('versionViewable is false or missing', function() {
