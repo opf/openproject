@@ -48,32 +48,32 @@ module.exports = function($scope,
   $scope.userPath = PathHelper.staticUserPath;
 
     function getPropertyValue(property, format) {
-        switch(format) {
-            case VERSION_TYPE:
-                if ($scope.workPackage.props.versionId == undefined) {
-                    return;
-                }
-                var versionId = $scope.workPackage.props.versionId,
-                    versionLinkPresent = !!$scope.workPackage.links.version;
-                var versionTitle = versionLinkPresent ? $scope.workPackage.links.version.props.title : $scope.workPackage.props.versionName,
-                    versionHref  = versionLinkPresent ? $scope.workPackage.links.version.href : null;
-                return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
-                break;
-            case USER_TYPE:
-                return $scope.workPackage.embedded[property];
-                break;
-            case CATEGORY_TYPE:
-                return $scope.workPackage.embedded[property];
-                break;
-            case TIME_ENTRY_TYPE:
-                var spentTime = $scope.workPackage.props.spentTime,
-                    timeLinkPresent = !!$scope.workPackage.links.timeEntries,
-                    formattedValue = WorkPackagesHelper.formatWorkPackageProperty(spentTime, property),
-                    timeHref  = PathHelper.timeEntriesPath(null, $scope.workPackage.props.id);
-                return {href: timeHref, title: formattedValue, viewable: timeLinkPresent};
-            default:
-                return getFormattedPropertyValue(property);
+      switch(format) {
+      case VERSION_TYPE:
+        if ($scope.workPackage.props.versionId === undefined) {
+            return;
         }
+        var versionLinkPresent = !!$scope.workPackage.links.version;
+        var versionTitle = versionLinkPresent ?
+                              $scope.workPackage.links.version.props.title :
+                              $scope.workPackage.props.versionName,
+            versionHref  = versionLinkPresent ?
+                              $scope.workPackage.links.version.href :
+                              null;
+        return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
+      case USER_TYPE:
+        return $scope.workPackage.embedded[property];
+      case CATEGORY_TYPE:
+        return $scope.workPackage.embedded[property];
+      case TIME_ENTRY_TYPE:
+        var spentTime = $scope.workPackage.props.spentTime,
+            timeLinkPresent = !!$scope.workPackage.links.timeEntries,
+            formattedValue = WorkPackagesHelper.formatWorkPackageProperty(spentTime, property),
+            timeHref  = PathHelper.timeEntriesPath(null, $scope.workPackage.props.id);
+        return {href: timeHref, title: formattedValue, viewable: timeLinkPresent};
+      default:
+        return getFormattedPropertyValue(property);
+      }
     }
 
   function getFormattedPropertyValue(property) {
