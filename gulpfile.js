@@ -72,10 +72,21 @@ gulp.task('sass', function() {
 });
 
 gulp.task('express', function() {
-  var app = require('./protractor/server');
-  server = app.listen(8080, function() {
-    console.log('Listening at localhost:8080');
-  });
+  var expressApp = require('./protractor/server');
+  var port = process.env.PORT || 8080;
+
+  (function startServer(port) {
+    server = expressApp.listen(port, function() {
+      console.log('Starting express server at localhost:%d', port);
+    });
+
+    server.on('error', function(err) {
+      if (err.code === 'EADDRINUSE') {
+        console.warn('Port %d already in use.', port);
+        startServer(++port);
+      }
+    });
+  })(port);
 });
 
 gulp.task('webdriver:update', webdriverUpdate);
@@ -85,6 +96,7 @@ gulp.task('tests:protractor', ['webpack', 'sass', 'express'], function(done) {
   gulp.src('protractor/**/*_spec.js')
     .pipe(protractor({
       configFile: 'protractor/conf.js',
+      args: ['--baseUrl', 'http://' + server.address().address + ':' + server.address().port]
     }))
     .on('error', function(e) {
       throw e;
