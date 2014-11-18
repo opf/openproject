@@ -209,6 +209,14 @@ module API
           } unless represented.parent.nil? || !represented.parent.visible?
         end
 
+        link :timeEntries do
+          {
+            href: work_package_time_entries_path(represented.id),
+            type: 'text/html',
+            title: 'Time entries'
+          } if current_user_allowed_to(:view_time_entries)
+        end
+
         link :version do
           {
             href: version_path(represented.fixed_version),

@@ -330,6 +330,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      context 'when the user has the permission to view time entries' do
+        before do
+          role.permissions.push(:view_time_entries) and role.save
+        end
+        it 'should have a link to add child' do
+          expect(subject).to have_json_path('_links/timeEntries/href')
+        end
+      end
+
+      context 'when the user does not have the permission to view time entries' do
+        before do
+          role.permissions.delete(:view_time_entries) and role.save
+        end
+        it 'should not have a link to timeEntries' do
+          expect(subject).to_not have_json_path('_links/timeEntries/href')
+        end
+      end
+
       describe 'linked relations' do
         let(:project) { FactoryGirl.create(:project, is_public: false) }
         let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
