@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Statuses::StatusRepresenter do
-  let(:status) { FactoryGirl.build(:status) }
+  let(:status) { FactoryGirl.build(:status, id: 42) }
   let(:representer) { described_class.new(status) }
 
   context 'generation' do
@@ -37,14 +37,38 @@ describe ::API::V3::Statuses::StatusRepresenter do
 
     it { should include_json('Status'.to_json).at_path('_type') }
 
-    xit { should have_json_type(Object).at_path('_links') }
-    xit 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+    describe 'status' do
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('name') }
+      it { is_expected.to have_json_path('isClosed') }
+      it { is_expected.to have_json_path('isDefault') }
+      it { is_expected.to have_json_path('position') }
+      it { is_expected.to have_json_path('defaultDoneRatio') }
+
+      describe 'values' do
+        it { is_expected.to be_json_eql(status.id.to_json).at_path('id') }
+        it { is_expected.to be_json_eql(status.name.to_json).at_path('name') }
+        it { is_expected.to be_json_eql(status.is_closed.to_json).at_path('isClosed') }
+        it { is_expected.to be_json_eql(status.is_default.to_json).at_path('isDefault') }
+        it { is_expected.to be_json_eql(status.position.to_json).at_path('position') }
+        it {
+          is_expected.to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
+        }
+      end
     end
 
-    describe 'status' do
-      it { should have_json_path('id') }
-      it { should have_json_path('name') }
+    describe '_links' do
+      it { is_expected.to have_json_type(Object).at_path('_links') }
+
+      describe 'self' do
+        let(:href) { "/api/v3/statuses/#{status.id}".to_json }
+
+        it { is_expected.to have_json_path('_links/self/href') }
+        it { is_expected.to have_json_path('_links/self/title') }
+
+        it { is_expected.to be_json_eql(href).at_path('_links/self/href') }
+        it { is_expected.to be_json_eql(status.name.to_json).at_path('_links/self/title') }
+      end
     end
   end
 end
