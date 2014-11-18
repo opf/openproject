@@ -33,11 +33,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
   include ActionView::Helpers::AssetTagHelper
 
-  def initialize(object_name, object, template, options)
-    set_language_if_valid options.delete(:lang)
-    super
-  end
-
   (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
