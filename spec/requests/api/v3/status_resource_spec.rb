@@ -38,29 +38,58 @@ describe 'API v3 Status resource' do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:statuses) { FactoryGirl.create_list(:status, 4) }
 
-  describe '#get' do
-    subject(:response) { last_response }
+  describe 'statuses' do
+    describe '#get' do
+      subject(:response) { last_response }
 
-    context 'logged in user' do
-      let(:get_path) { '/api/v3/statuses' }
+      context 'logged in user' do
+        let(:get_path) { '/api/v3/statuses' }
+        before do
+          allow(User).to receive(:current).and_return current_user
+          member = FactoryGirl.build(:member, user: current_user, project: project)
+          member.role_ids = [role.id]
+          member.save!
+
+          statuses
+
+          get get_path
+        end
+
+        it 'should respond with 200' do
+          expect(subject.status).to eq(200)
+        end
+
+        it 'should respond with statuses, scoped to project' do
+          expect(subject.body).to include_json('Statuses'.to_json).at_path('_type')
+          expect(subject.body).to have_json_size(4).at_path('_embedded/statuses')
+        end
+      end
+    end
+  end
+
+  describe 'statuses/:id' do
+    describe '#get' do
+      let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+      let(:status) { statuses.first }
+
+      subject(:response) { last_response }
+
       before do
-        allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
+        allow(User).to receive(:current).and_return(user)
 
-        statuses
-
-        get get_path
+        get path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+      context 'valid status id' do
+        let(:path) { "/api/v3/statuses/#{status.id}" }
+
+        it { expect(response.status).to eq(200) }
       end
 
-      it 'should respond with statuses, scoped to project' do
-        expect(subject.body).to include_json('Statuses'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(4).at_path('_embedded/statuses')
+      context 'invalid status id' do
+        let(:path) { '/api/v3/statuses/bogus' }
+
+        it_behaves_like 'not found', 'bogus', 'Status'
       end
     end
   end
