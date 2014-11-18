@@ -57,6 +57,7 @@ gem 'htmldiff'
 gem 'svg-graph'
 
 gem "date_validator"
+gem 'ruby-duration', '~> 3.2.0'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
 # because we have to apply to it a bugfix which could break things in other versions.

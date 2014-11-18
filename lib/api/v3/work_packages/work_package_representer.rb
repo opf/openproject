@@ -238,12 +238,12 @@ module API
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
-                 getter: -> (*) {
-                           { units: I18n.t(:'datetime.units.hour', count: estimated_hours.to_i),
-                             value: estimated_hours }
-                         },
-                 setter: -> (value, *) { self.estimated_hours = ActiveSupport::JSON.decode(value)['value'] },
-                 render_nil: true
+                 getter: -> (*) { Duration.new(hours: estimated_hours).iso8601 },
+                 render_nil: true,
+                 writeable: false
+        property :spent_time,
+                 getter: -> (*) { Duration.new(hours: spent_hours).iso8601 },
+                 writeable: false
         property :percentage_done,
                  render_nil: true,
                  exec_context: :decorator,

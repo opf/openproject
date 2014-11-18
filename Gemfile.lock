@@ -196,6 +196,7 @@ GEM
       i18n (~> 0.6)
     ice_nine (0.11.0)
     interception (0.3)
+    iso8601 (0.8.2)
     journey (1.0.4)
     json (1.8.1)
     json_spec (1.1.1)
@@ -340,6 +341,10 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    ruby-duration (3.2.0)
+      activesupport (>= 3.0.0)
+      i18n
+      iso8601
     ruby-prof (0.13.0)
     ruby-progressbar (1.2.0)
     rubytree (0.8.3)
@@ -475,6 +480,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-example_disabler!
   rspec-rails (~> 2.99.0)
+  ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
   rubytree (~> 0.8.3)

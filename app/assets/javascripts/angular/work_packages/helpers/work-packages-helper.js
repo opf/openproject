@@ -137,8 +137,10 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
         updatedAt: 'datetime'
       };
 
-      if (propertyName === 'estimatedTime') {
-        return value && value.value !== null ? value.value + ' ' + value.units : null;
+      if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
+        var hours = moment.duration(value).asHours();
+
+        return I18n.t('js.units.hour', { count: hours });
       } else {
         return this.formatValue(value, mappings[propertyName]);
       }

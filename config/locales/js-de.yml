@@ -396,3 +396,9 @@ de:
       btn_preview_disable: "Vorschau deaktivieren"
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
+
+    units:
+      hour:
+        one: "1 Stunde"
+        other: "%{count} Stunden"
+        zero: "0 Stunden"
