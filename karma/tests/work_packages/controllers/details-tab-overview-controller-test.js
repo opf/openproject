@@ -52,8 +52,8 @@ describe('DetailsTabOverviewController', function() {
           status: 'open',
           versionName: null,
           percentageDone: 0,
-          estimatedTime: undefined,
-          spentTime: 'A lot!',
+          estimatedTime: 'PT0S',
+          spentTime: 'PT0S',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
             { format: 'text', name: 'Width', value: '' },
@@ -303,6 +303,60 @@ describe('DetailsTabOverviewController', function() {
 
         it('combines them and renders them as date property', function() {
           expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('07/09/2014 - 07/10/2014');
+        });
+      });
+    });
+
+    describe('durations', function() {
+      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+        beforeEach(function() {
+          sinon.stub(I18n, 't', function(locale, parameter) {
+            if (locale == 'js.work_packages.properties.' + property) {
+              return property;
+            } else if (locale == 'js.units.hour') {
+              return parameter.count;
+            }
+          });
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('should show hours', function() {
+          var description = fetchPresentPropertiesWithName(property)[0].value;
+
+          expect(description).to.equal(hours);
+        });
+      };
+
+      describe('estimated time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('estimatedTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.estimatedTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+        });
+      });
+
+      describe('spent time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('spentTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.spentTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
         });
       });
     });
