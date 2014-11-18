@@ -26,7 +26,7 @@ module.exports = {
     modulesDirectories: [
       'node_modules',
       'vendor/assets/components'
-    ],
+    ].concat(pathConfig.pluginDirectories),
 
     alias: {
       'locales':        'config/locales',
