@@ -40,7 +40,6 @@ de:
         costs: "Kosten"
       properties:
         costObject: "Budget"
-        spentHoursLinked: "Aufgewendete Zeit"
         overallCosts: "Gesamtkosten"
         spentUnits: "Gebuchte Einheiten"
     button_log_costs: "Stückkosten buchen"

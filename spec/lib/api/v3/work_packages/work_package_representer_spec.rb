@@ -63,9 +63,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'work_package' do
-      it { should_not have_json_path('spentTime') }
+      # specifiying as it used to be different
+      it { should have_json_path('spentTime') }
 
-      it { should have_json_path('spentHours') }
+      it { should_not have_json_path('spentHours') }
 
       it { should have_json_path('overallCosts') }
 
@@ -84,6 +85,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permission) { :log_costs }
       end
     end
+
+    describe 'timeEntries' do
+      it 'exists if user has view_time_entries permission' do
+        allow(user).to receive(:allowed_to?).and_return false
+        allow(user).to receive(:allowed_to?).with(:view_time_entries,
+                                                  cost_object.project)
+                                            .and_return true
+
+        is_expected.to have_json_path('_links/timeEntries/href')
+      end
+
+      it 'has spentTime link when user only has view_own_time_entries permission' do
+        allow(user).to receive(:allowed_to?).and_return false
+        allow(user).to receive(:allowed_to?).with(:view_own_time_entries,
+                                                  cost_object.project)
+                                            .and_return true
+
+        is_expected.to have_json_path('_links/timeEntries/href')
+      end
+    end
   end
 
   describe 'costs module disabled' do
@@ -93,6 +114,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'work_package' do
+      it { should have_json_path('spentTime') }
+
       it { should_not have_json_path('spentHours') }
 
       it { should_not have_json_path('overallCosts') }

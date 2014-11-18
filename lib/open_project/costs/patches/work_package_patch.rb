@@ -43,11 +43,6 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
       register_on_journal_formatter(:cost_association, 'cost_object_id')
 
-      def spent_hours
-        # overwritten method
-        @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
-      end
-
       associated_to_ask_before_destruction CostEntry,
                                            ->(work_packages) { CostEntry.on_work_packages(work_packages).count > 0 },
                                           self.method(:cleanup_cost_entries_before_destruction_of)

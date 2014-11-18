@@ -100,7 +100,7 @@ module OpenProject::Costs
       end
     end
 
-    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :Version, :PermittedParams,
+    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
 
 
@@ -116,11 +116,14 @@ module OpenProject::Costs
         } if costs_enabled && current_user_allowed_to(:log_costs)
       end
 
-      # Overwrite core's spent time property definition
-      #
-      # By setting render_nil to false and returning nil we are able to remove
-      # the spent time property from the work package API response
-      property :spent_time, getter: -> (*) { nil }, render_nil: false
+      link :timeEntries do
+        {
+          href: work_package_time_entries_path(represented.id),
+          type: 'text/html',
+          title: 'Time entries'
+        } if current_user_allowed_to(:view_time_entries) ||
+             (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
+      end
 
       property :cost_object,
                embedded: true,
@@ -128,10 +131,6 @@ module OpenProject::Costs
                class: ::CostObject,
                decorator: ::API::V3::CostObjects::CostObjectRepresenter,
                if: -> (*) { costs_enabled && !represented.cost_object.nil? }
-
-      property :spent_hours,
-               exec_context: :decorator,
-               if: -> (*) { costs_enabled && current_user_allowed_to_view_spent_hours }
 
       property :overall_costs,
                exec_context: :decorator,
@@ -142,14 +141,6 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
 
-      send(:define_method, :spent_hours) do
-        self.attributes_helper.time_entries_sum
-      end
-
-      send(:define_method, :current_user_allowed_to_view_spent_hours) do
-        current_user_allowed_to(:view_time_entries) ||
-          current_user_allowed_to(:view_own_time_entries)
-      end
 
       send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
         current_user_allowed_to(:view_cost_entries) ||
@@ -186,12 +177,10 @@ module OpenProject::Costs
 
     assets %w(angular/work_packages/directives/summarized-cost-entries-directive.js
               angular/work_packages/directives/cost-object-directive.js
-              angular/work_packages/directives/spent-hours-directive.js
               angular/openproject-costs-app.js
               costs/costs.css
               costs/costs.js
               work_packages/cost_object.html
-              work_packages/spent_hours.html
               work_packages/summarized_cost_entries.html)
 
     initializer "costs.register_hooks" do
