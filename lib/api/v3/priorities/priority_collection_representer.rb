@@ -34,22 +34,9 @@ require 'roar/json/hal'
 module API
   module V3
     module Priorities
-      class PriorityCollectionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        link :self do
-          "#{root_path}api/v3/priorities"
-        end
-
-        property :_type, exec_context: :decorator
-
-        collection :priorities, embedded: true, extend: PriorityRepresenter, getter: ->(_) { self }
-
-        def _type
-          'Priorities'
+      class PriorityCollectionRepresenter < ::API::Decorators::Collection
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Priorities::PriorityRepresenter)
         end
       end
     end

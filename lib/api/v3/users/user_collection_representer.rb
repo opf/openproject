@@ -31,10 +31,8 @@ module API
   module V3
     module Users
       class UserCollectionRepresenter < ::API::Decorators::Collection
-        collection :users, as: -> (*) { as || :users }, exec_context: :decorator, embedded: true
-
-        def users
-          represented.map { |model| ::API::V3::Users::UserRepresenter.new(model) }
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Users::UserRepresenter)
         end
       end
     end

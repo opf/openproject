@@ -55,7 +55,10 @@ module API
 
           statuses = work_package.new_statuses_allowed_to(current_user)
 
-          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(statuses)
+          self_link = "work_packages/#{work_package.id}/available_statuses"
+          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(statuses,
+                                                                                          statuses.count,
+                                                                                          self_link)
 
           represented
         end

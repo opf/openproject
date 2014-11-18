@@ -37,7 +37,9 @@ module API
           end
 
           get do
-            CategoryCollectionRepresenter.new(@categories, project: @project)
+            CategoryCollectionRepresenter.new(@categories,
+                                              @categories.count,
+                                              "projects/#{@project.identifier}/categories")
           end
         end
       end

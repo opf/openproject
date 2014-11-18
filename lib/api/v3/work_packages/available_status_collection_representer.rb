@@ -31,8 +31,8 @@ module API
   module V3
     module WorkPackages
       class AvailableStatusCollectionRepresenter < ::API::V3::Statuses::StatusCollectionRepresenter
-        link :self do |opts|
-          "#{work_package_url(opts[:work_package_id])}/available_statuses"
+        def initialize(models, total, self_link)
+          super(models, total, self_link)
         end
 
         link :work_package do |opts|
