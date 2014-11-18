@@ -1093,8 +1093,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def compute_spent_hours(usr = User.current)
-    return 0.0 unless usr.allowed_to?(:view_time_entries, project)
-
     spent_time = TimeEntry.visible(usr)
       .on_work_packages(self_and_descendants.visible(usr))
       .sum(:hours)
