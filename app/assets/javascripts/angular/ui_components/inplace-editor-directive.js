@@ -60,8 +60,19 @@ module.exports = function($timeout, $sce, TextileService) {
     scope.$on('startEditing', function() {
       $timeout(function() {
         element.find('.ined-input-wrapper input, .ined-input-wrapper textarea').focus().triggerHandler('keyup');
+        resizeTextarea(element.find('.ined-input-wrapper textarea').get(0));
       });
     });
+
+    // will move this to textarea-specific components in a separate refactoring pull request
+    function resizeTextarea(textarea) {
+      if (!textarea) {
+        return;
+      }
+      var lines = textarea.value.split('\n');
+      textarea.rows = lines.length + 1;
+    }
+
     scope.$on('finishEditing', function() {
       $timeout(function() {
         element.find('.ined-read-value a').focus();
@@ -137,6 +148,7 @@ module.exports = function($timeout, $sce, TextileService) {
     function onFail(e) {
       $scope.error = ApiHelper.getErrorMessage(e);
       $scope.isPreview = false;
+      console.log($scope.isPreview);
     }
 
     function onFinally() {

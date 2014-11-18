@@ -105,6 +105,18 @@ describe('inplaceEditor Directive', function() {
         });
         context('wiki_textarea', function() {
           beforeEach(function() {
+            scope.workPackage = {
+              props: {
+                subject: 'Some subject',
+                lockVersion: '1',
+                rawDescription: "1\n2\n\3"
+              },
+              links: {
+                updateImmediately: {
+                  fetch: function() {}
+                }
+              }
+            };
             html =
               '<h2 ' +
               'inplace-editor ' +
@@ -124,6 +136,10 @@ describe('inplaceEditor Directive', function() {
           });
           it('should render a text formatting help link', function() {
             expect(element.find('.ined-input-wrapper .help').length).to.eq(1);
+          });
+          it('should set textaria\'s row count according to the content\'s row length', function() {
+            $timeout.flush();
+            expect(element.find('.ined-input-wrapper textarea').attr('rows')).to.eq('4');
           });
         });
       });
