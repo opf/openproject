@@ -245,7 +245,7 @@ describe('DetailsTabOverviewController', function() {
     });
 
     describe('durations', function() {
-      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+      var prepareHourDescription = function(property) {
         beforeEach(function() {
           sinon.stub(I18n, 't', function(locale, parameter) {
             if (locale == 'js.work_packages.properties.' + property) {
@@ -261,11 +261,36 @@ describe('DetailsTabOverviewController', function() {
         afterEach(function() {
           I18n.t.restore();
         });
+      };
+      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+        workPackage.links = {
+          spentTime: {
+            href: '/time_entries'
+          }
+        };
+
+        prepareHourDescription(property);
 
         it('should show hours', function() {
           var description = fetchPresentPropertiesWithName(property)[0].value;
 
           expect(description).to.equal(hours);
+        });
+      };
+
+      var shouldBehaveLikeValidLinkedHourDescription = function(property, hours, link) {
+        prepareHourDescription(property);
+
+        it('should show hours', function() {
+          var description = fetchPresentPropertiesWithName(property)[0].value.title;
+
+          expect(description).to.equal(hours);
+        });
+
+        it('should have a link', function() {
+          var href = fetchPresentPropertiesWithName(property)[0].value.href;
+
+          expect(href).to.equal(link);
         });
       };
 
@@ -285,7 +310,7 @@ describe('DetailsTabOverviewController', function() {
 
       describe('spent time', function() {
         context('default value', function() {
-          shouldBehaveLikeValidHourDescription('spentTime', 0);
+          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '/time_entries');
         });
 
         context('time set', function() {
@@ -293,7 +318,7 @@ describe('DetailsTabOverviewController', function() {
             workPackage.props.spentTime = 'P2DT4H';
           });
 
-          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+          shouldBehaveLikeValidLinkedHourDescription('spentTime', 52, '/time_entries');
         });
       });
     });

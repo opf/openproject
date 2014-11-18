@@ -33,6 +33,7 @@ module.exports = function($scope,
            VERSION_TYPE,
            CATEGORY_TYPE,
            USER_TYPE,
+           TIME_ENTRY_TYPE,
            USER_FIELDS,
            CustomFieldHelper,
            WorkPackagesHelper,
@@ -64,6 +65,12 @@ module.exports = function($scope,
             case CATEGORY_TYPE:
                 return $scope.workPackage.embedded[property];
                 break;
+            case TIME_ENTRY_TYPE:
+                var spentTime = $scope.workPackage.props.spentTime,
+                    timeLinkPresent = !!$scope.workPackage.links.timeEntries,
+                    formattedValue = WorkPackagesHelper.formatWorkPackageProperty(spentTime, property),
+                    timeHref  = PathHelper.timeEntriesPath(null, $scope.workPackage.props.id);
+                return {href: timeHref, title: formattedValue, viewable: timeLinkPresent};
             default:
                 return getFormattedPropertyValue(property);
         }
@@ -150,11 +157,16 @@ module.exports = function($scope,
   }
 
   function getPropertyFormat(property) {
-    var format = USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
-    format = (property === 'versionName') ? VERSION_TYPE : format;
-    format = (property === 'category') ? CATEGORY_TYPE : format;
-
-    return format;
+    switch(property) {
+    case 'versionName':
+      return VERSION_TYPE;
+    case 'category':
+      return CATEGORY_TYPE;
+    case 'spentTime':
+      return TIME_ENTRY_TYPE;
+    default:
+      return USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
+    }
   }
 
   function getCustomPropertyValue(property) {
