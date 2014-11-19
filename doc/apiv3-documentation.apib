@@ -1223,8 +1223,6 @@ The request body is the actual string that shall be rendered as HTML string.
 | isDefault|             | Boolean |             | true    |                 READ |
 | isClosed | are tickets of this status considered closed? | Boolean | | true | READ |
 | defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | 50 | READ |
-| createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 ## Statuses [/api/v3/statuses]
 
@@ -1259,9 +1257,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 1,
                             "isDefault": true,
                             "isClosed": false,
-                            "defaultDoneRatio": 0,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 0
                         },
                         {
                             "_links":
@@ -1277,9 +1273,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 3,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 75,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 75
                         },
                         {
                             "_links":
@@ -1295,9 +1289,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 4,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 25,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 25
                         },
                         {
                             "_links":
@@ -1313,9 +1305,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 5,
                             "isDefault": false,
                             "isClosed": true,
-                            "defaultDoneRatio": 100,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 100
                         },
                         {
                             "_links":
@@ -1331,9 +1321,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 6,
                             "isDefault": false,
                             "isClosed": true,
-                            "defaultDoneRatio": 100,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 100
                         },
                         {
                             "_links":
@@ -1349,9 +1337,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 3,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 50,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 50
                         }
                     ]
                 }
@@ -1396,9 +1382,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "position": 1,
                 "isDefault": true,
                 "isClosed": false,
-                "defaultDoneRatio": 0,
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T09:12:00Z"
+                "defaultDoneRatio": 0
             }
 
 ## View Status [GET]
