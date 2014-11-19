@@ -1622,6 +1622,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | self         | This work package                                       | WorkPackage | not null    | READ                 |
 | author       | The person that created the work package                | User        | not null    | READ                 |
 | assignee     | The person that is intended to work on the work package | User        |             | READ / WRITE         |
+| priority     | The priority of the work package                        | Priority    | not null    | READ / WRITE         |
 | responsible  | The person that is responsible for the overall outcome  | User        |             | READ / WRITE         |
 | status       | The current status of the work package                  | Status      | not null    | READ / WRITE         |
 
@@ -1634,7 +1635,6 @@ The request body is the actual string that shall be rendered as HTML string.
 | type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
 | description | The work package description | Formatable | | | READ / WRITE |
 | parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
-| priority | | String | Must be one of the activated priorities | High | READ |
 | startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
 | dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
 | estimatedTime | | Object | ISO 8601 duration | P1DT18H  | READ |
@@ -1691,6 +1691,10 @@ The request body is the actual string that shall be rendered as HTML string.
                     "assignee": {
                         "href": "/api/v3/users/11",
                         "title": "Emmie Okuneva - Adele5450"
+                    },
+                    "priority": {
+                        "href": "/api/v3/priorities/2",
+                        "title": "Normal"
                     },
                     "status": {
                         "href": "/api/v3/statuses/1",
@@ -1753,7 +1757,6 @@ The request body is the actual string that shall be rendered as HTML string.
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
                 "isClosed": false,
-                "priority": "Normal",
                 "startDate": null,
                 "dueDate": null,
                 "estimatedTime": {
