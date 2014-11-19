@@ -54,6 +54,7 @@ describe('DetailsTabOverviewController', function() {
           percentageDone: 0,
           estimatedTime: 'PT0S',
           spentTime: 'PT0S',
+          id: '0815',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
             { format: 'text', name: 'Width', value: '' },
@@ -64,6 +65,8 @@ describe('DetailsTabOverviewController', function() {
           activities: [],
           watchers: [],
           attachments: []
+        },
+        links: {
         },
       };
   var $q;
@@ -94,7 +97,7 @@ describe('DetailsTabOverviewController', function() {
 
     buildController = function() {
       scope = $rootScope.$new();
-      scope.workPackage = workPackage;
+      scope.workPackage = angular.copy(workPackage);
 
       ctrl = $controller("DetailsTabOverviewController", {
         $scope:  scope,
@@ -168,6 +171,47 @@ describe('DetailsTabOverviewController', function() {
         var propertyName = 'percentageDone';
 
         shouldBehaveLikePropertyWithValue(propertyName);
+      });
+    });
+
+    describe ('unallowed property', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('removes spentTime if link not present', function() {
+        var group = _.find(scope.groupedAttributes, function(group) {
+          return group.groupName === 'estimatesAndTime';
+        });
+
+        expect(group['spentTime']).to.equal(undefined);
+      });
+    });
+
+    describe ('allowed property', function() {
+      beforeEach(function() {
+        workPackage.links = {
+          timeEntries: {
+            href: 'bogus'
+          }
+        };
+        buildController();
+      });
+
+      // This here is bad. For whatever reasons, we are altering
+      // the workPackage variable with each test
+      // generating dependencies between our tests.
+      afterEach(function() {
+        workPackage.links = {
+        };
+      });
+
+      it('has spentTime if link is present', function() {
+        var group = _.find(scope.groupedAttributes, function(group) {
+          return group.groupName === 'estimatesAndTime';
+        });
+
+        expect(group['spentTime']).to.equal(undefined);
       });
     });
 
@@ -245,7 +289,7 @@ describe('DetailsTabOverviewController', function() {
     });
 
     describe('durations', function() {
-      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+      var prepareHourDescription = function(property) {
         beforeEach(function() {
           sinon.stub(I18n, 't', function(locale, parameter) {
             if (locale == 'js.work_packages.properties.' + property) {
@@ -261,11 +305,42 @@ describe('DetailsTabOverviewController', function() {
         afterEach(function() {
           I18n.t.restore();
         });
+      };
+
+      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+
+        prepareHourDescription(property);
 
         it('should show hours', function() {
           var description = fetchPresentPropertiesWithName(property)[0].value;
 
           expect(description).to.equal(hours);
+        });
+      };
+
+      var shouldBehaveLikeValidLinkedHourDescription = function(property, hours, link) {
+        prepareHourDescription(property);
+
+        it('should show hours', function() {
+          var description = fetchPresentPropertiesWithName(property)[0].value.title;
+
+          expect(description).to.equal(hours);
+        });
+
+        it('should have a link', function() {
+          var href = fetchPresentPropertiesWithName(property)[0].value.href;
+
+          expect(href).to.equal(link);
+        });
+      };
+
+      var shouldBehaveLikeItNotExists = function(property) {
+        prepareHourDescription(property);
+
+        it('should should not exist', function() {
+          var property = fetchPresentPropertiesWithName(property);
+
+          expect(property.length).to.equal(0);
         });
       };
 
@@ -284,8 +359,51 @@ describe('DetailsTabOverviewController', function() {
       });
 
       describe('spent time', function() {
+        context('with a link to timeEntries', function() {
+          var spentTimeLink = '/work_packages/' + workPackage.props.id + '/time_entries';
+
+          beforeEach(function() {
+            workPackage.links = {
+              timeEntries: {
+                href: spentTimeLink
+              }
+            };
+          });
+
+          // This here is bad. For whatever reasons, we are altering
+          // the workPackage variable with each test
+          // generating dependencies between our tests.
+          afterEach(function() {
+            workPackage.links = {
+            };
+          });
+
+          context('default value', function() {
+            beforeEach(function() {
+              workPackage.props.spentTime = undefined;
+            });
+
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, spentTimeLink);
+          });
+
+          context('time set', function() {
+            beforeEach(function() {
+              workPackage.props.spentTime = 'P2DT4H';
+            });
+
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', 52, spentTimeLink);
+          });
+        });
+      });
+
+      context('without a link to timeEntries', function() {
         context('default value', function() {
-          shouldBehaveLikeValidHourDescription('spentTime', 0);
+
+          beforeEach(function() {
+            workPackage.props.spentTime = undefined;
+          });
+
+          shouldBehaveLikeItNotExists('spentTime');
         });
 
         context('time set', function() {
@@ -293,7 +411,7 @@ describe('DetailsTabOverviewController', function() {
             workPackage.props.spentTime = 'P2DT4H';
           });
 
-          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+          shouldBehaveLikeItNotExists('spentTime');
         });
       });
     });

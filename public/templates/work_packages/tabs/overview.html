@@ -41,6 +41,10 @@
               <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
               <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
             </span>
+            <span ng-switch-when="time_entry">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
             <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
             <span ng-switch-default
               ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
