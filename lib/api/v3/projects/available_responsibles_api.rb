@@ -29,26 +29,17 @@
 module API
   module V3
     module Projects
-      class ProjectsAPI < Grape::API
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+      class AvailableResponsiblesAPI < Grape::API
+        resource :available_responsibles do
+          get do
+            authorize(:view_project, context: @project)
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-            end
-
-            get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@project)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
+            available_responsibles = @project.possible_responsibles
+            total = available_responsibles.count
+            self_link = "projects/#{@project.id}/available_responsibles"
+            ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
+                                                            total,
+                                                            self_link)
           end
         end
       end
