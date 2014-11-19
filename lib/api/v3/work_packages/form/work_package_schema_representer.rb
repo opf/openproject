@@ -87,6 +87,56 @@ module API
                        decorator: ::API::V3::Statuses::StatusRepresenter,
                        getter: -> (*) { self }
           end
+
+          property :assignee, getter: -> (*) { self } do
+            include Roar::JSON::HAL
+
+            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+            property :links_to_available_assignees,
+                     as: :_links,
+                     getter: -> (*) { self } do
+              include API::Utilities::UrlHelper
+
+              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+              property :allowed_values,
+                       getter: -> (*) {
+                         project_id = represented.project.id
+                         href = "#{root_path}api/v3/projects/#{project_id}/available_assignees"
+
+                         { href: href }
+                       },
+                       exec_context: :decorator
+            end
+
+            property :type, getter: -> (*) { 'User' }
+          end
+
+          property :responsible, getter: -> (*) { self } do
+            include Roar::JSON::HAL
+
+            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+            property :links_to_available_responsibles,
+                     as: :_links,
+                     getter: -> (*) { self } do
+              include API::Utilities::UrlHelper
+
+              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+              property :allowed_values,
+                       getter: -> (*) {
+                         project_id = represented.project.id
+                         href = "#{root_path}api/v3/projects/#{project_id}/available_responsibles"
+
+                         { href: href }
+                       },
+                       exec_context: :decorator
+            end
+
+            property :type, getter: -> (*) { 'User' }
+          end
         end
       end
     end
