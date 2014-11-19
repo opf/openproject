@@ -37,6 +37,7 @@ module.exports = function($scope,
            USER_FIELDS,
            CustomFieldHelper,
            WorkPackagesHelper,
+           AuthorisationService,
            PathHelper,
            UserService,
            VersionService,
@@ -46,6 +47,12 @@ module.exports = function($scope,
   // work package properties
 
   $scope.userPath = PathHelper.staticUserPath;
+  AuthorisationService.initModelAuth('work_package' + $scope.workPackage.id,
+                                     $scope.workPackage.links);
+
+  function can(action) {
+    return AuthorisationService.can('work_package' + $scope.workPackage.id, action);
+  }
 
   function getPropertyValue(property, format) {
     switch(format) {
@@ -108,6 +115,31 @@ module.exports = function($scope,
   }
 
   $scope.groupedAttributes = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+
+  (function filterUnallowedAttributes() {
+    var attributes = $scope.groupedAttributes;
+
+    angular.forEach(attributes, function(attributesGroup) {
+      angular.forEach(attributesGroup.attributes, function(attribute) {
+        if (!isAllowedProperty(attribute)) {
+          var index = attributesGroup.attributes.indexOf(attribute);
+
+          attributesGroup.attributes.splice(index, 1);
+        }
+      });
+    });
+
+    return attributes;
+  })();
+
+  function isAllowedProperty(property) {
+    switch (property) {
+    case 'spentTime':
+      return can('timeEntries');
+    default:
+      return true;
+    }
+  }
 
   (function setupWorkPackageProperties() {
     var otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);

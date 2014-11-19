@@ -45,6 +45,7 @@ angular.module('openproject.workPackages.controllers')
     'USER_FIELDS',
     'CustomFieldHelper',
     'WorkPackagesHelper',
+    'AuthorisationService',
     'PathHelper',
     'UserService',
     'VersionService',

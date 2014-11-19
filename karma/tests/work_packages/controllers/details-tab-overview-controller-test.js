@@ -174,6 +174,47 @@ describe('DetailsTabOverviewController', function() {
       });
     });
 
+    describe ('unallowed property', function() {
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('removes spentTime if link not present', function() {
+        var group = _.find(scope.groupedAttributes, function(group) {
+          return group.groupName === 'estimatesAndTime';
+        });
+
+        expect(group['spentTime']).to.equal(undefined);
+      });
+    });
+
+    describe ('allowed property', function() {
+      beforeEach(function() {
+        workPackage.links = {
+          timeEntries: {
+            href: 'bogus'
+          }
+        };
+        buildController();
+      });
+
+      // This here is bad. For whatever reasons, we are altering
+      // the workPackage variable with each test
+      // generating dependencies between our tests.
+      afterEach(function() {
+        workPackage.links = {
+        };
+      });
+
+      it('has spentTime if link is present', function() {
+        var group = _.find(scope.groupedAttributes, function(group) {
+          return group.groupName === 'estimatesAndTime';
+        });
+
+        expect(group['spentTime']).to.equal(undefined);
+      });
+    });
+
     describe('when the property has NO value', function() {
       beforeEach(function() {
         buildController();
@@ -293,6 +334,16 @@ describe('DetailsTabOverviewController', function() {
         });
       };
 
+      var shouldBehaveLikeItNotExists = function(property) {
+        prepareHourDescription(property);
+
+        it('should should not exist', function() {
+          var property = fetchPresentPropertiesWithName(property);
+
+          expect(property.length).to.equal(0);
+        });
+      };
+
       describe('estimated time', function() {
         context('default value', function() {
           shouldBehaveLikeValidHourDescription('estimatedTime', 0);
@@ -347,11 +398,12 @@ describe('DetailsTabOverviewController', function() {
 
       context('without a link to timeEntries', function() {
         context('default value', function() {
+
           beforeEach(function() {
             workPackage.props.spentTime = undefined;
           });
 
-          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '');
+          shouldBehaveLikeItNotExists('spentTime');
         });
 
         context('time set', function() {
@@ -359,7 +411,7 @@ describe('DetailsTabOverviewController', function() {
             workPackage.props.spentTime = 'P2DT4H';
           });
 
-          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '');
+          shouldBehaveLikeItNotExists('spentTime');
         });
       });
     });
