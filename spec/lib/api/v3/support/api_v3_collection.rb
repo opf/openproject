@@ -28,13 +28,24 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Categories::CategoryCollectionRepresenter do
-  let(:categories) { FactoryGirl.build_list(:category, 3) }
-  let(:representer) { described_class.new(categories, 42, 'projects/1/categories') }
+shared_examples_for 'API V3 collection decorated' do |total, count, self_link, type|
+  it { expect(collection).to be_json_eql('Collection'.to_json).at_path('_type') }
 
-  context 'generation' do
-    subject(:collection) { representer.to_json }
+  describe 'elements' do
+    it { expect(collection).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type') }
+  end
 
-    it_behaves_like 'API V3 collection decorated', 42, 3, 'projects/1/categories', 'Category'
+  describe 'quantities' do
+    it { expect(collection).to be_json_eql(total.to_json).at_path('total') }
+
+    it { expect(collection).to be_json_eql(count.to_json).at_path('count') }
+
+    it { expect(collection).to have_json_size(count).at_path('_embedded/elements') }
+  end
+
+  describe '_links' do
+    let(:href) { "/api/v3/#{self_link}".to_json }
+
+    it { expect(collection).to be_json_eql(href).at_path('_links/self/href') }
   end
 end

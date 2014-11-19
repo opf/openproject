@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -54,14 +53,7 @@ describe 'API v3 Priority resource' do
         get get_path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
-      end
-
-      it 'should respond with priorities, scoped to project' do
-        expect(subject.body).to include_json('Priorities'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(2).at_path('_embedded/priorities')
-      end
+      it_behaves_like 'API V3 collection response', 2, 2, 'Priority'
     end
   end
 end

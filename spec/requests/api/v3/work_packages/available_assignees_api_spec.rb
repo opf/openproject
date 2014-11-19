@@ -48,16 +48,10 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
     describe 'response' do
       before { allow(User).to receive(:current).and_return(admin) }
 
-      shared_examples_for 'returns available assignees' do
+      shared_examples_for 'returns available assignees' do |total, count|
         include_context 'request available assignees'
 
-        subject { JSON.parse(response.body) }
-
-        it { expect(subject).to have_key('_embedded') }
-
-        it { expect(subject['_embedded']).to have_key('availableAssignees') }
-
-        it { expect(subject['_embedded']['availableAssignees'].count).to eq(available_assignee_count) }
+        it_behaves_like 'API V3 collection response', total, count, 'User'
       end
 
       describe 'users' do
@@ -72,9 +66,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
             allow(user).to receive(:updated_on).and_return(user.created_at)
           end
 
-          it_behaves_like 'returns available assignees' do
-            let(:available_assignee_count) { 1 }
-          end
+          it_behaves_like 'returns available assignees', 1, 1
         end
 
         context 'multiple users' do
@@ -88,9 +80,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
             allow(user2).to receive(:updated_on).and_return(user.created_at)
           end
 
-          it_behaves_like 'returns available assignees' do
-            let(:available_assignee_count) { 2 }
-          end
+          it_behaves_like 'returns available assignees', 2, 2
         end
       end
 
@@ -106,9 +96,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
             work_package.project.add_member! group, FactoryGirl.create(:role)
           end
 
-          it_behaves_like 'returns available assignees' do
-            let(:available_assignee_count) { 1 }
-          end
+          it_behaves_like 'returns available assignees', 1, 1
         end
 
         context 'without work_package_group_assignment' do
@@ -117,9 +105,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
             work_package.project.add_member! group, FactoryGirl.create(:role)
           end
 
-          it_behaves_like 'returns available assignees' do
-            let(:available_assignee_count) { 0 }
-          end
+          it_behaves_like 'returns available assignees', 0, 0
         end
       end
     end
