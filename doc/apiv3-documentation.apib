@@ -854,11 +854,19 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Priorities
 
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This priority                               | Priority      | not null              | READ                 |
+
 ## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Priority id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Priority name | String  |             | High  | READ |
+| Property  | Description                                 | Type       | Constraints | Example    | Supported operations |
+|:---------:| ------------------------------------------- | ---------- | ----------- | ---------- | -------------------- |
+| id        | Priority id                                 | Integer    | x > 0       | 12         | READ                 |
+| name      | Priority name                               | String     | not empty   | High       | READ                 |
+| position  | Sort index of the priority                  | Integer    | x > 0       | 2          | READ                 |
+| isDefault | Indicates whether this is the default value | Boolean    |             | true       | READ                 |
+| isActive  | Indicates whether the priority is available | Boolean    |             | true       | READ                 |
 
 ## Priorities [/api/v3/priorities]
 
@@ -876,29 +884,49 @@ The request body is the actual string that shall be rendered as HTML string.
                 {
                     "elements": [
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/priorities/1" }
+                            },
                             "_type": "Priority",
                             "id": 1,
-                            "name": "Low"
+                            "name": "Low",
+                            "position": 1
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/priorities/2" }
+                            },
                             "_type": "Priority",
                             "id": 2,
-                            "name": "Normal"
+                            "name": "Normal",
+                            "position": 2
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/priorities/3" }
+                            },
                             "_type": "Priority",
                             "id": 3,
-                            "name": "High"
+                            "name": "High",
+                            "position": 3                            
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/priorities/4" }
+                            },
                             "_type": "Priority",
                             "id": 4,
-                            "name": "Urgent"
+                            "name": "Urgent",
+                            "position": 4
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/priorities/5" }
+                            },
                             "_type": "Priority",
                             "id": 5,
-                            "name": "Immediate"
+                            "name": "Immediate",
+                            "position": 5
                         }
                     ]
                 }
@@ -909,6 +937,58 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (application/hal+json)
 
     [Priorities][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the priorities."
+            }
+    
+## Priority [/api/v3/priorities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/priorities/1" }
+                },
+                "_type": "Priority",
+                "id": 1,
+                "name": "Low",
+                "position": 1
+            }
+
+## view Priority [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Priority id
+
++ Response 200 (application/hal+json)
+
+    [Priority][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this priority."
+            }
 
 # Group Projects
 
@@ -1210,9 +1290,9 @@ The request body is the actual string that shall be rendered as HTML string.
 # Group Statuses
 
 ## Linked Properties:
-|  Link  | Description | Type   | Constraints | Supported operations |
-|:------:|-------------| ------ | ----------- | -------------------- |
-| self   | This status | Status | not null    | READ |
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This status               | Status        | not null    | READ                 |
 
 ## Properties
 | Property | Description | Type    | Constraints | Example | Supported operations |
@@ -1402,6 +1482,9 @@ The request body is the actual string that shall be rendered as HTML string.
             }
 
 ## View Status [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... status id
 
 + Response 200 (application/hal+json)
 
