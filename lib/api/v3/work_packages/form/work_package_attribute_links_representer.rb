@@ -52,6 +52,20 @@ module API
                      represented.status_id = resource[:id] if resource[:ns] == 'statuses'
                    },
                    if: -> (*) { represented.status }
+
+          property :assignee,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     { href: "#{root_path}api/v3/users/#{represented.assigned_to.id}" }
+                   },
+                   if: -> (*) { represented.assigned_to }
+
+          property :responsible,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     { href: "#{root_path}api/v3/users/#{represented.responsible.id}" }
+                   },
+                   if: -> (*) { represented.responsible }
         end
       end
     end
