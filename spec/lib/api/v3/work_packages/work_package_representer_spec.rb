@@ -75,6 +75,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it { should have_json_path('_embedded/summarizedCostEntries') }
       end
+
+      context 'no view_time_entries permission' do
+        before do
+          allow(user).to receive(:allowed_to?).and_return false
+        end
+
+        it { should_not have_json_path('spentTime') }
+
+      end
+
+      context 'only view_own_time_entries permission' do
+        before do
+          allow(user).to receive(:allowed_to?).and_return false
+          allow(user).to receive(:allowed_to?).with(:view_own_time_entries,
+                                                    cost_object.project)
+                                              .and_return(true)
+        end
+
+        it { should have_json_path('spentTime') }
+      end
     end
   end
 

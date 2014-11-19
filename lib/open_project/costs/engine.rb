@@ -121,8 +121,7 @@ module OpenProject::Costs
           href: work_package_time_entries_path(represented.id),
           type: 'text/html',
           title: 'Time entries'
-        } if current_user_allowed_to(:view_time_entries) ||
-             (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
+        } if user_has_time_entry_permissions?
       end
 
       property :cost_object,
@@ -141,6 +140,11 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
 
+      property :spent_time,
+               getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+               writeable: false,
+               exec_context: :decorator,
+               if: -> (_) { user_has_time_entry_permissions? }
 
       send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
         current_user_allowed_to(:view_cost_entries) ||
@@ -172,6 +176,11 @@ module OpenProject::Costs
 
       send(:define_method, :cost_object) do
         represented.cost_object
+      end
+
+      send(:define_method, :user_has_time_entry_permissions?) do
+        current_user_allowed_to(:view_time_entries) ||
+        (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
       end
     end
 
