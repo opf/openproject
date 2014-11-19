@@ -116,6 +116,12 @@ module OpenProject::Costs
         } if costs_enabled && current_user_allowed_to(:log_costs, represented.model)
       end
 
+      # Overwrite core's spent time property definition
+      #
+      # By setting render_nil to false and returning nil we are able to remove
+      # the spent time property from the work package API response
+      property :spent_time, getter: -> (*) { nil }, render_nil: false
+
       property :cost_object,
                exec_context: :decorator,
                embedded: true,
