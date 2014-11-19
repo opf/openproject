@@ -49,7 +49,6 @@ de:
         material_costs: "Stückkosten"
         overall_costs: "Gesamtkosten"
         spent_costs: "Gebuchte Kosten"
-        spent_hours: "Aufgewendete Zeit"
         spent_units: "Gebuchte Einheiten"
       rate:
         rate: "Satz"

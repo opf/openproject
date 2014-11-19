@@ -49,7 +49,6 @@ en:
         material_costs: "Unit costs"
         overall_costs: "Overall costs"
         spent_costs: "Spent costs"
-        spent_hours: "Spent time"
         spent_units: "Spent units"
       rate:
         rate: "Rate"

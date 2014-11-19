@@ -29,8 +29,6 @@ module OpenProject::Costs::Hooks
 
       return unless @project.module_enabled? :costs_module
 
-      attributes.reject!{ |a| a.attribute == :spent_time }
-
       attributes << cost_work_package_attributes
       attributes.flatten!
 
@@ -48,16 +46,6 @@ module OpenProject::Costs::Hooks
         @work_package.cost_object ?
           link_to_cost_object(@work_package.cost_object) :
           empty_element_tag
-      end
-
-      if attributes_helper.time_entries_sum
-        attributes << work_package_show_table_row(:spent_hours) do
-          summed_hours = attributes_helper.time_entries_sum
-
-          summed_hours > 0 ?
-            link_to(l_hours(summed_hours), work_package_time_entries_path(@work_package)) :
-            empty_element_tag
-        end
       end
 
       attributes << work_package_show_table_row(:overall_costs) do

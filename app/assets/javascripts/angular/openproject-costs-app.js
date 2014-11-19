@@ -46,15 +46,10 @@ openprojectCostsApp.run(['HookService',
       overallCosts: null,
       summarizedCostEntries: 'spentUnits',
     };
-    var estimatesAndTimeAttributes = {
-      spentHours: 'spentHoursLinked'
-    };
 
-    WorkPackagesOverviewService.removeAttribute('spentTime');
     WorkPackagesOverviewService.addGroup('costs', position);
 
     addAttributesToGroup('costs', costsAttributes);
-    addAttributesToGroup('estimatesAndTime', estimatesAndTimeAttributes);
   };
 
   if (ConfigurationService.isModuleEnabled('costs_module')) {
@@ -75,11 +70,6 @@ openprojectCostsApp.run(['HookService',
       case "costObject":
         if (params.workPackage.embedded.costObject) {
           directive = "cost-object";
-        }
-        break;
-      case "spentHoursLinked":
-        if (params.workPackage.props.spentHours) {
-          directive = "spent-hours";
         }
         break;
     }

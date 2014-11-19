@@ -40,7 +40,6 @@ en:
         costs: "Costs"
       properties:
         costObject: "Budget"
-        spentHoursLinked: "Spent time"
         overallCosts: "Overall costs"
         spentUnits: "Spent units"
     button_log_costs: "Log unit costs"

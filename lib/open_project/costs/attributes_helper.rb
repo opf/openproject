@@ -24,10 +24,6 @@ module OpenProject::Costs
       @work_package = work_package
     end
 
-    def time_entries_sum
-      @time_entries_sum ||= compute_time_entries_sum
-    end
-
     def overall_costs
       @overall_costs ||= compute_overall_costs
     end
@@ -37,10 +33,6 @@ module OpenProject::Costs
     end
 
     private
-
-    def compute_time_entries_sum
-      time_entries.sum(&:hours) if user_allowed_to?(:view_time_entries, :view_own_time_entries)
-    end
 
     def compute_overall_costs
       if material_costs || labor_costs
