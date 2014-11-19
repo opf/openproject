@@ -54,6 +54,7 @@ describe('DetailsTabOverviewController', function() {
           percentageDone: 0,
           estimatedTime: 'PT0S',
           spentTime: 'PT0S',
+          id: '0815',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
             { format: 'text', name: 'Width', value: '' },
@@ -64,6 +65,8 @@ describe('DetailsTabOverviewController', function() {
           activities: [],
           watchers: [],
           attachments: []
+        },
+        links: {
         },
       };
   var $q;
@@ -94,7 +97,7 @@ describe('DetailsTabOverviewController', function() {
 
     buildController = function() {
       scope = $rootScope.$new();
-      scope.workPackage = workPackage;
+      scope.workPackage = angular.copy(workPackage);
 
       ctrl = $controller("DetailsTabOverviewController", {
         $scope:  scope,
@@ -262,12 +265,8 @@ describe('DetailsTabOverviewController', function() {
           I18n.t.restore();
         });
       };
+
       var shouldBehaveLikeValidHourDescription = function(property, hours) {
-        workPackage.links = {
-          spentTime: {
-            href: '/time_entries'
-          }
-        };
 
         prepareHourDescription(property);
 
@@ -309,8 +308,50 @@ describe('DetailsTabOverviewController', function() {
       });
 
       describe('spent time', function() {
+        context('with a link to timeEntries', function() {
+          var spentTimeLink = '/work_packages/' + workPackage.props.id + '/time_entries';
+
+          beforeEach(function() {
+            workPackage.links = {
+              timeEntries: {
+                href: spentTimeLink
+              }
+            };
+          });
+
+          // This here is bad. For whatever reasons, we are altering
+          // the workPackage variable with each test
+          // generating dependencies between our tests.
+          afterEach(function() {
+            workPackage.links = {
+            };
+          });
+
+          context('default value', function() {
+            beforeEach(function() {
+              workPackage.props.spentTime = undefined;
+            });
+
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, spentTimeLink);
+          });
+
+          context('time set', function() {
+            beforeEach(function() {
+              workPackage.props.spentTime = 'P2DT4H';
+            });
+
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', 52, spentTimeLink);
+          });
+        });
+      });
+
+      context('without a link to timeEntries', function() {
         context('default value', function() {
-          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '/time_entries');
+          beforeEach(function() {
+            workPackage.props.spentTime = undefined;
+          });
+
+          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '');
         });
 
         context('time set', function() {
@@ -318,7 +359,7 @@ describe('DetailsTabOverviewController', function() {
             workPackage.props.spentTime = 'P2DT4H';
           });
 
-          shouldBehaveLikeValidLinkedHourDescription('spentTime', 52, '/time_entries');
+          shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, '');
         });
       });
     });
