@@ -51,7 +51,10 @@ module.exports = function() {
       });
     };
 
-    element.closest('.ined-input-wrapper').find('.help').before(jQuery('<button>', previewButtonAttributes));
+    element
+      .closest('.ined-input-wrapper')
+      .find('.help')
+      .after(jQuery('<button>', previewButtonAttributes));
     // changes are made by jQuery, we trigger input event so that
     // ng-model knows that the value changed
     element.closest('.jstEditor').prevAll('.jstElements').find('button').on('click', function() {
