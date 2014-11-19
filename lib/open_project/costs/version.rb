@@ -19,6 +19,6 @@
 
 module OpenProject
   module Costs
-    VERSION = "4.0.0"
+    VERSION = "4.0.2"
   end
 end
