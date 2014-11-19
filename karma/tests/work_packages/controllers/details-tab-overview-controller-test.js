@@ -38,11 +38,11 @@ describe('DetailsTabOverviewController', function() {
   var HookService;
   var ConfigurationService;
   var I18n = { t: angular.identity },
-      WorkPackagesHelper = {
-        formatWorkPackageProperty: angular.identity
-      },
       UserService = {
         getUser: angular.identity
+      },
+      VersionService = {
+        getVersions: angular.identity
       },
       CustomFieldHelper = {
         formatCustomFieldValue: angular.identity
@@ -52,8 +52,8 @@ describe('DetailsTabOverviewController', function() {
           status: 'open',
           versionName: null,
           percentageDone: 0,
-          estimatedTime: undefined,
-          spentTime: 'A lot!',
+          estimatedTime: 'PT0S',
+          spentTime: 'PT0S',
           customProperties: [
             { format: 'text', name: 'color', value: 'red' },
             { format: 'text', name: 'Width', value: '' },
@@ -67,6 +67,7 @@ describe('DetailsTabOverviewController', function() {
         },
       };
   var workPackageAttributesStub;
+  var $q;
 
   function buildWorkPackageWithId(id) {
     angular.extend(workPackage.props, {id: id});
@@ -78,8 +79,16 @@ describe('DetailsTabOverviewController', function() {
                     'openproject.config',
                     'openproject.workPackages.controllers'));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, _HookService_, _ConfigurationService_) {
+  beforeEach(inject(function($rootScope,
+          $controller,
+          $timeout,
+          _HookService_,
+          _ConfigurationService_,
+          _$q_,
+          _I18n_) {
     var workPackageId = 99;
+
+    I18n = _I18n_;
 
     buildController = function() {
       scope = $rootScope.$new();
@@ -89,6 +98,7 @@ describe('DetailsTabOverviewController', function() {
         $scope:  scope,
         I18n: I18n,
         UserService: UserService,
+        VersionService: VersionService,
         CustomFieldHelper: CustomFieldHelper,
       });
 
@@ -100,6 +110,8 @@ describe('DetailsTabOverviewController', function() {
 
     workPackageAttributesStub = sinon.stub(ConfigurationService, "workPackageAttributes");
     workPackageAttributesStub.returns(DEFAULT_WORK_PACKAGE_PROPERTIES);
+
+    $q = _$q_;
   }));
 
   describe('initialisation', function() {
@@ -295,13 +307,74 @@ describe('DetailsTabOverviewController', function() {
       });
     });
 
+    describe('durations', function() {
+      var shouldBehaveLikeValidHourDescription = function(property, hours) {
+        beforeEach(function() {
+          sinon.stub(I18n, 't', function(locale, parameter) {
+            if (locale == 'js.work_packages.properties.' + property) {
+              return property;
+            } else if (locale == 'js.units.hour') {
+              return parameter.count;
+            }
+          });
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('should show hours', function() {
+          var description = fetchPresentPropertiesWithName(property)[0].value;
+
+          expect(description).to.equal(hours);
+        });
+      };
+
+      describe('estimated time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('estimatedTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.estimatedTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+        });
+      });
+
+      describe('spent time', function() {
+        context('default value', function() {
+          shouldBehaveLikeValidHourDescription('spentTime', 0);
+        });
+
+        context('time set', function() {
+          beforeEach(function() {
+            workPackage.props.spentTime = 'P2DT4H';
+          });
+
+          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+        });
+      });
+    });
+
     describe('property format', function() {
       describe('is "version"', function() {
         beforeEach(function() {
+          sinon.stub(I18n, 't').returnsArg(0);
+
           workPackage.props.versionName = 'Test version';
           workPackage.props.versionId = 1;
           workPackage.links = workPackage.links || {};
+
           buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
         });
 
         context('versionViewable is false or missing', function() {
@@ -406,6 +479,93 @@ describe('DetailsTabOverviewController', function() {
 
         it('fetches the user using the user service', function() {
           expect(UserService.getUser.calledWith(userId)).to.be.true;
+        });
+      });
+
+      describe('version custom property', function() {
+        var versionId = '1';
+        var versionName = 'A test version name';
+        var customVersionName = 'My custom version';
+        var errorMessage = 'my error message';
+        var tStub;
+
+        before(function() {
+          workPackage.props.customProperties[0].name = customVersionName;
+          workPackage.props.customProperties[0].value = versionId;
+          workPackage.props.customProperties[0].format = 'version';
+
+          tStub = sinon.stub(I18n, 't');
+          tStub.withArgs('js.error_could_not_resolve_version_name').returns(errorMessage);
+        });
+
+        after(function() {
+          tStub.restore();
+        });
+
+        var itBehavesLikeHavingAVersion = function(href, title, viewable) {
+          var customVersion;
+
+          before(function() {
+            customVersion = fetchPresentPropertiesWithName(customVersionName)[0];
+          });
+
+          it('sets the custom version link title correctly', function() {
+            expect(customVersion.value.title).to.equal(title);
+          });
+
+          it('sets the custom version link href correctly', function() {
+            expect(customVersion.value.href).to.equal(href);
+          });
+
+          it('is viewable', function() {
+            expect(customVersion.value.viewable).to.equal(viewable);
+          });
+        };
+
+        describe('version available', function() {
+          var getVersionsStub;
+
+          before(function() {
+            getVersionsStub = sinon.stub(VersionService, 'getVersions');
+
+            getVersionsStub.returns([{ id: versionId, name: versionName }]);
+
+            buildController();
+          });
+
+          after(function() {
+            getVersionsStub.restore();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', versionName, true);
+        });
+
+        describe('version not available', function() {
+          before(function() {
+            buildController();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', errorMessage, true);
+        });
+
+        describe('list of versions not available', function() {
+          var getVersionsStub;
+
+          before(function() {
+            var reject = $q.reject('For test reasons!');
+
+            getVersionsStub = sinon.stub(VersionService, 'getVersions');
+
+            getVersionsStub.returns(reject);
+
+            buildController();
+          });
+
+          after(function() {
+            getVersionsStub.restore();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', errorMessage, true);
         });
       });
     });

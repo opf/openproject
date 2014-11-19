@@ -1474,4 +1474,85 @@ describe WorkPackage, :type => :model do
       it { expect(subject).to match_array([work_package]) }
     end
   end
+
+  describe 'spent_hours' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+    let!(:time_entry1) {
+      FactoryGirl.create(:time_entry,
+                         project: project,
+                         work_package: work_package,
+                         hours: 2.0)
+    }
+    let!(:time_entry2) {
+      FactoryGirl.create(:time_entry,
+                         project: project,
+                         work_package: work_package,
+                         hours: 42.0)
+    }
+
+    shared_examples_for 'returns spent hours' do |hours|
+      before { allow(User).to receive(:current).and_return(user) }
+
+      subject { work_package.spent_hours }
+
+      it { expect(subject).to eql(hours) }
+    end
+
+    context 'user with permission to view time entries' do
+      let(:permissions) { [:view_work_packages, :view_time_entries] }
+      let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+      let(:user) {
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: role)
+      }
+
+      it_behaves_like 'returns spent hours', 44.0
+
+      context 'cross project work packages allowed' do
+        let(:other_work_package) { FactoryGirl.create(:work_package) }
+        let(:other_visible_work_package) { FactoryGirl.create(:work_package) }
+        let(:other_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+        let!(:member) {
+          FactoryGirl.create(:member,
+                             user: user,
+                             project: other_visible_work_package.project,
+                             roles: [other_role])
+        }
+        let!(:time_entry3) {
+          FactoryGirl.create(:time_entry,
+                             project: other_work_package.project,
+                             work_package: other_work_package,
+                             hours: 99.0)
+        }
+        let!(:time_entry4) {
+          FactoryGirl.create(:time_entry,
+                             project: other_visible_work_package.project,
+                             work_package: other_visible_work_package,
+                             hours: 100.0)
+        }
+
+        before do
+          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+
+          other_work_package.parent = work_package
+          other_work_package.save!
+
+          other_visible_work_package.parent = other_work_package
+          other_visible_work_package.save!
+
+          work_package.reload
+        end
+
+        it_behaves_like 'returns spent hours', 44.0
+      end
+    end
+
+    context 'user w/o permission to view time entries' do
+      let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+
+      it_behaves_like 'returns spent hours', 0.0
+    end
+  end
 end

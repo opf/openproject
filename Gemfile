@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.20"
+gem "rails", "~> 3.2.21"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -57,6 +57,7 @@ gem 'htmldiff'
 gem 'svg-graph'
 
 gem "date_validator"
+gem 'ruby-duration', '~> 3.2.0'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
 # because we have to apply to it a bugfix which could break things in other versions.
@@ -159,7 +160,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", '~> 0.2.2'
+  gem "net-ldap", '~> 0.8.0'
 end
 
 group :development do

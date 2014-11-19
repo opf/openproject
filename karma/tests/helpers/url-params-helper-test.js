@@ -29,11 +29,12 @@
 /*jshint expr: true*/
 
 describe('UrlParamsHelper', function() {
-  var UrlParamsHelper;
+  var UrlParamsHelper, Query;
 
-  beforeEach(module('openproject.helpers'));
-  beforeEach(inject(function(_UrlParamsHelper_) {
+  beforeEach(module('openproject.helpers', 'openproject.models'));
+  beforeEach(inject(function(_UrlParamsHelper_, _Query_) {
     UrlParamsHelper = _UrlParamsHelper_;
+    Query = _Query_;
   }));
 
   describe('buildQueryString', function() {

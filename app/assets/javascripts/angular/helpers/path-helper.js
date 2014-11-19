@@ -30,7 +30,7 @@
 angular.module('openproject.helpers')
 
 .service('PathHelper', [function() {
-  PathHelper = {
+  var PathHelper = {
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',
@@ -131,8 +131,14 @@ angular.module('openproject.helpers')
     workPackageAutoCompletePath: function(projectId, workPackageId) {
       return "/work_packages/auto_complete?escape=false&id=" + workPackageId + "&project_id=" + projectId;
     },
-    workPackageNewWithParentPath: function(projectId, parentId) {
-      return "/projects/" + projectId + "/work_packages/new?work_package[parent_id]=" + parentId;
+    workPackageNewWithParameterPath: function(projectId, parameters) {
+      var path = "/projects/" + projectId + '/work_packages/new?';
+
+      for (var parameter in parameters) {
+        path += 'work_package[' + parameter + ']=' + parameters[parameter] + ';'
+      }
+
+      return path;
     },
 
     // Experimental API
@@ -173,7 +179,7 @@ angular.module('openproject.helpers')
       return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
     apiProjectUsersPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.usersPath();
+      return PathHelper.apiProjectPath(projectIdentifier) + '/users';
     },
     apiVersionsPath: function(projectIdentifier) {
       return PathHelper.apiExperimental + PathHelper.versionsPath();
@@ -260,8 +266,8 @@ angular.module('openproject.helpers')
     staticVersionPath: function(versionId) {
       return PathHelper.staticBase + PathHelper.versionPath(versionId);
     },
-    staticWorkPackageNewWithParentPath: function(projectId, parentId) {
-      return PathHelper.staticBase + PathHelper.workPackageNewWithParentPath(projectId, parentId);
+    staticWorkPackageNewWithParametersPath: function(projectId, parameters) {
+      return PathHelper.staticBase + PathHelper.workPackageNewWithParameterPath(projectId, parameters);
     }
   };
 

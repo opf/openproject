@@ -3,7 +3,7 @@
 [<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
 [![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
-[![Inline docs](http://inch-ci.org/github/opf/openproject.png?branch=dev)](http://inch-ci.org/github/opf/openproject)
+[![Inline docs](http://inch-ci.org/github/opf/openproject.png?branch=release/4.0)](http://inch-ci.org/github/opf/openproject)
 
 OpenProject is a web-based project management software. Its key features are:
 

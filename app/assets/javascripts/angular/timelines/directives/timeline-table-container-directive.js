@@ -101,7 +101,7 @@ angular.module('openproject.timelines.directives')
           timeline.secondLevelGroupingAdjustments();
         }
 
-        tree = timeline.getLefthandTree();
+        var tree = timeline.getLefthandTree();
 
         if (tree.containsPlanningElements() || tree.containsProjects()) {
           timeline.adjustForPlanningElements();
@@ -114,7 +114,7 @@ angular.module('openproject.timelines.directives')
       }
 
       function drawChart(tree) {
-        timeline = scope.timeline;
+        var timeline = scope.timeline;
 
         try {
           window.clearTimeout(timeline.safetyHook);

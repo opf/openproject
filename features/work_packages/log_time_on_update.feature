@@ -40,6 +40,7 @@ Feature: Logging time on work package update
       | edit_work_packages |
       | view_work_packages |
       | log_time           |
+      | view_time_entries  |
     And I am working in project "ecookbook"
     And the user "manager" is a "manager"
     And there are the following status:

@@ -31,7 +31,7 @@ angular.module('openproject.models')
 .constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
 .constant('SELECTABLE_FILTER_TYPES', ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'])
 .factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', 'SELECTABLE_FILTER_TYPES', function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
-  Filter = function (data) {
+  var Filter = function (data) {
     angular.extend(this, data);
 
     // Experimental API controller will always give back strings even for numeric values so need to parse them

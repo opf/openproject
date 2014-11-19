@@ -45,7 +45,7 @@ angular.module('openproject.timelines.models')
   // │ UI and Plotting                                                   │
   // ╰───────────────────────────────────────────────────────────────────╯
 
-  UI = {
+  var UI = {
 
     DEFAULT_COLOR: '#999999',
     DEFAULT_FILL_COLOR_IN_COMPARISONS: 'none',

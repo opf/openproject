@@ -59,7 +59,7 @@ angular.module('openproject.uiComponents')
   };
 }])
 
-.directive('dateTime', function($compile) {
+.directive('dateTime', ['$compile', 'TimezoneService', function($compile, TimezoneService) {
   return {
     restrict: 'EA',
     replace: true,
@@ -72,4 +72,4 @@ angular.module('openproject.uiComponents')
       $compile(element.contents())(scope);
     }
   };
-});
+}]);

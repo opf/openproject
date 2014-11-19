@@ -68,7 +68,7 @@ angular.module('openproject.workPackages.controllers')
   // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
-    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term });
+    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term }),
         sorted = $filter('orderBy')(filtered, 'label');
 
     return result(sorted);

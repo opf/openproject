@@ -383,3 +383,11 @@ en:
     relations:
       empty: No relation exists
       delete: Delete relation
+
+    error_could_not_resolve_version_name: "Couldn't resolve version name"
+
+    units:
+      hour:
+        one: "1 hour"
+        other: "%{count} hours"
+        zero: "0 hours"

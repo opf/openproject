@@ -40,7 +40,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       created_at: DateTime.now,
       updated_at: DateTime.now,
       category:   category,
-      done_ratio: 50
+      done_ratio: 50,
+      estimated_hours: 6.0
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -90,10 +91,55 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      it { is_expected.to have_json_type(Object).at_path('estimatedTime') }
+      it { is_expected.to be_json_eql('PT6H'.to_json).at_path('estimatedTime') }
+    end
 
-      it { is_expected.to have_json_path('estimatedTime/units') }
-      it { is_expected.to have_json_path('estimatedTime/value') }
+    describe 'spentTime' do
+      before { permissions << :view_time_entries }
+
+      describe :content do
+        let(:wp) { FactoryGirl.create(:work_package) }
+        let(:permissions) { [:view_work_packages, :view_time_entries] }
+        let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+        let(:user) {
+          FactoryGirl.create(:user,
+                             member_in_project: wp.project,
+                             member_through_role: role)
+        }
+        let(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(wp) }
+
+        before { allow(User).to receive(:current).and_return(user) }
+
+        context 'no time entry' do
+          it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
+        end
+
+        context 'time entry with single hour' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: wp.project,
+                               work_package: wp,
+                               hours: 1.0)
+          }
+
+          before { time_entry }
+
+          it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
+        end
+
+        context 'time entry with multiple hours' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: wp.project,
+                               work_package: wp,
+                               hours: 42.0)
+          }
+
+          before { time_entry }
+
+          it { is_expected.to be_json_eql('P1DT18H'.to_json).at_path('spentTime') }
+        end
+      end
     end
 
     describe 'percentageDone' do
