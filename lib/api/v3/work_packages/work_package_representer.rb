@@ -250,8 +250,10 @@ module API
                  render_nil: true,
                  writeable: false
         property :spent_time,
-                 getter: -> (*) { Duration.new(hours: spent_hours).iso8601 },
-                 writeable: false
+                 getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+                 writeable: false,
+                 exec_context: :decorator,
+                 if: -> (_) { current_user_allowed_to(:view_time_entries) }
         property :percentage_done,
                  render_nil: true,
                  exec_context: :decorator,

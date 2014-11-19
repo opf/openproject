@@ -121,9 +121,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                              member_in_project: wp.project,
                              member_through_role: role)
         }
-        let(:representer)  { described_class.new(wp, current_user: current_user) }
+        let(:representer)  { described_class.new(wp, current_user: user) }
 
-        before { allow(User).to receive(:current).and_return(user) }
+        before do
+          allow(User).to receive(:current).and_return(user)
+
+          allow(user).to receive(:allowed_to?).and_return(false)
+          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
+                                              .and_return(true)
+        end
+
+        context 'no view_time_entries permission' do
+          before do
+            allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
+                                                .and_return(false)
+
+          end
+
+          it { is_expected.to_not have_json_path('spentTime') }
+        end
 
         context 'no time entry' do
           it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
