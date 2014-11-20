@@ -39,6 +39,11 @@ requireExtraLocale.keys().forEach(function(localeFile) {
   I18n.translations[locale] = requireExtraLocale(localeFile)[locale];
 });
 
+I18n.addTranslations = function(locale, translations) {
+  I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+};
+
+
 var angular = require('angular');
 require('angular-animate');
 require('angular-modal');
