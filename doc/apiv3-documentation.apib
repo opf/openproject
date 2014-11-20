@@ -2637,6 +2637,20 @@ Gets a list of users that can be assigned to work packages in the given project.
 
     [Available Assignees][]
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the assignable users for this project."
+            }
+
 ## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
 
 + Model
@@ -2718,3 +2732,17 @@ Gets a list of users that can be assigned as the responsible of a work package i
 + Response 200 (application/hal+json)
 
     [Available Responsibles][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the users available as responsible for this project."
+            }
