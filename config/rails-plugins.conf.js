@@ -19,7 +19,11 @@ var OpenProjectPlugins = {
   pluginNamesPaths: function() {
     return this.pluginPaths().reduce(function(obj, pluginPath) {
       var pluginName = path.basename(pluginPath).replace(/-[0-9a-fA-F]{12}$/, '');
-      obj[pluginName] = pluginPath;
+      if (test('-e', path.join(pluginPath, 'package.json'))) {
+        obj[pluginName] = pluginPath;
+      } else {
+        console.info('INFO: plugin "%s" does not provide a package.json', pluginName);
+      }
       return obj;
     }, {});
   },
