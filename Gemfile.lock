@@ -440,7 +440,7 @@ DEPENDENCIES
   delayed_job_active_record (= 0.3.3)
   factory_girl_rails (~> 4.0)
   faker
-  globalize
+  globalize (= 3.0.0)
   gon (~> 4.0)
   grape (~> 0.7.0)
   gravatar_image_tag (~> 1.2.0)
