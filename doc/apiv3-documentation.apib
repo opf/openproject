@@ -1545,11 +1545,24 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Versions
 
+## Linked Properties:
+|  Link               | Description                              | Type          | Constraints | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | ----------- | -------------------- |
+| self                | This version                             | Version       | not null    | READ                 |
+| definingProject     | The project to which the version belongs | Project       | not null    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null    | READ                 |
+
 ## Properties
-| Property   | Description   | Type    | Constraints | Supported operations |
-| :--------: | ------------- | ------- | ----------- | -------------------- |
-| id         | Version id    | Integer | x > 0       | READ                 |
-| name       | Version name  | String  |             | READ                 |
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+| id          | Version id                                    | Integer     | x > 0       | READ                 |
+| name        | Version name                                  | String      | not null    | READ                 |
+| description |                                               | Formatable  | not null    | READ                 |
+| startDate   |                                               | Date        |             | READ                 |
+| endDate     |                                               | Date        |             | READ                 |
+| status      | The current status of the version             | String      | not null    | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null    | READ                 |                                                                         | READ                 |                                  |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null    | READ                 |                                                                         | READ                 |                                  |
 
 ## Versions by Project [/api/v3/projects/{project_id}/versions]
 
@@ -1567,19 +1580,58 @@ The request body is the actual string that shall be rendered as HTML string.
                 {
                     "elements": [
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
                             "_type": "Version",
                             "id": 11,
-                            "name": "v3.0 Alpha"
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
                             "_type": "Version",
                             "id": 12,
-                            "name": "v2.0"
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/10/projects" }
+                            },
                             "_type": "Version",
                             "id": 10,
-                            "name": "v1.0"
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
                         }
                     ]
                 }
