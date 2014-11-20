@@ -1031,10 +1031,8 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/projects/1",
                         "title": "Lorem"
                     },
-                    "workPackages": [{
-                        "href": "/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
-                    }]
+                    "categories": { "href": "/api/v3/projects/1/categories" },
+                    "versions": { "href": "/api/v3/projects/1/versions" }
                 },
                 "id": 1,
                 "identifier": "project_identifier",
@@ -1757,7 +1755,6 @@ The request body is the actual string that shall be rendered as HTML string.
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
-                "isClosed": false,
                 "startDate": null,
                 "dueDate": null,
                 "estimatedTime": "PT2H",
