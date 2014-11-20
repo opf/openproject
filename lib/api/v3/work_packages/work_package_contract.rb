@@ -77,6 +77,10 @@ module API
           end
         end
 
+        def parent_changed?
+          model.changed.include? 'parent_id'
+        end
+
         def lock_version_valid
           errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
         end
@@ -85,28 +89,6 @@ module API
           changed_attributes = model.changed - WRITEABLE_ATTRIBUTES
 
           errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
-        end
-
-        def milestone_constraint
-          errors.add :parent_id, :cannot_be_milestone if model.parent && model.parent.is_milestone?
-        end
-
-        def user_allowed_to_access_parent
-          if parent_changed? && !parent_visible?
-            errors.add(:parent_id, error_message('parent_id.does_not_exist'))
-          end
-        end
-
-        def parent_changed?
-          model.changed.include? 'parent_id'
-        end
-
-        def parent_visible?
-          !model.parent_id || ::WorkPackage.visible(@user).exists?(model.parent_id)
-        end
-
-        def error_message(path)
-          I18n.t("activerecord.errors.models.work_package.attributes.#{path}")
         end
       end
     end
