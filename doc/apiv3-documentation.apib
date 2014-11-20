@@ -181,6 +181,15 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
         "html": "I <strong>am</strong> formatted!"
     }
 
+# Dates, Times and Durations
+
+Representation of time related values in this API is done according to [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601).
+In this specification the following terms will be used as type specifiers (e.g. in tables):
+
+* `Date` - refers to an ISO 8601 date, e.g. "2014-05-21"
+* `DateTime` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z"
+* `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
+
 # Group Collections
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
@@ -326,13 +335,13 @@ Cursor based pagination is therefore less suited for use cases where you want to
 # Group Activities
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Activity id | Integer | Must be a positive integer | 12 | READ |
-| version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| comment | | Formatable | | | READ / WRITE |
-| details | | Array of Formatable | | | READ |
-| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
+| Property  | Description | Type | Constraints | Supported operations |
+|:---------:|-------------| ---- | ----------- | -------------------- |
+| id | Activity id | Integer | Must be a positive integer | READ |
+| version | Activity version | Integer | Must be a positive integer | READ |
+| comment | | Formatable | | READ / WRITE |
+| details | | Array of Formatable | | READ |
+| createdAt | Time of creation | DateTime | | READ |
 
 Activity can be either _type Activity or _type Activity::Comment.
 
@@ -442,16 +451,16 @@ Updates an activity's comment and, on success, returns the updated activity.
 # Group Attachments
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
-| fileName | | String | | dolor_sit_amet | READ |
-| diskFileName | | String | | dolor_sit_amet | READ |
-| description | | String | | Lorem ipsum dolor ... | READ |
-| contentType | | String | | application/binary | READ |
-| digest | | String | | | READ |
-| downloads | | Integer | | | READ |
-| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
+| Property  | Description | Type | Constraints | Supported operations |
+|:---------:|-------------| ---- | ----------- | -------------------- |
+| id | Attachment's id | Integer | Must be a positive integer | READ |
+| fileName | | String | | READ |
+| diskFileName | | String | | READ |
+| description | | String | | READ |
+| contentType | | String | | READ |
+| digest | | String | | READ |
+| downloads | | Integer | | READ |
+| createdAt | Time of creation | DateTime | | READ |
 
 ## Attachment [/api/v3/attachments/{id}]
 
@@ -497,10 +506,10 @@ Updates an activity's comment and, on success, returns the updated activity.
 # Group Categories
 
 ## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Category id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Category name | String  |             | Category Name  | READ |
+| Property | Description | Type    | Constraints | Supported operations |
+|:--------:|-------------| ------- | ----------- | -------------------- |
+| id       | Category id   | Integer | Must be a positive integer | READ |
+| name     | Category name | String  |             | READ |
 
 ## Categories by Project [/api/v3/projects/{project_id}/categories]
 
@@ -559,7 +568,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 ## Actions:
 
 | Link                | Description                                                           | Condition                        |
-|:-------------------:|-----------------------------------------------------------------------| -------------------------------- |
+|:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
 | validate            | Validate changes, show errors and allowed values for changed resource |                                  |
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
@@ -599,17 +608,17 @@ and objects describing the corresponding property as values. The values are call
 
 **Linked Properties**
 
-| Property       | Description                                                    | Example       |
-|:--------------:|----------------------------------------------------------------| ------------- |
-| allowed_values | List of resources that are assignable by the current user.     | `{ href: "/api/v3/statuses" }` |
+| Property       | Description                                                    |
+|:--------------:|----------------------------------------------------------------|
+| allowed_values | List of resources that are assignable by the current user.     |
 
 **Properties**
 
-| Property       | Description                                                    | Example       | Default |
-|:--------------:|----------------------------------------------------------------| ------------- | ------- |
-| type           | The data type of the properties values                         | String        |         |
-| required       | If true every request **must** contain this property           | true          | false   |
-| writable       | If false it is not allowed to **change** the properties value  | false         | true    |
+| Property       | Description                                                    | Default |
+|:--------------:|----------------------------------------------------------------| ------- |
+| type           | The data type of the properties values                         |         |
+| required       | If true every request **must** contain this property           | false   |
+| writable       | If false it is not allowed to **change** the properties value  | true    |
 
 **Remarks**
 
@@ -860,13 +869,13 @@ The request body is the actual string that shall be rendered as HTML string.
 | self      | This priority                               | Priority      | not null              | READ                 |
 
 ## Properties
-| Property  | Description                                 | Type       | Constraints | Example    | Supported operations |
-|:---------:| ------------------------------------------- | ---------- | ----------- | ---------- | -------------------- |
-| id        | Priority id                                 | Integer    | x > 0       | 12         | READ                 |
-| name      | Priority name                               | String     | not empty   | High       | READ                 |
-| position  | Sort index of the priority                  | Integer    | x > 0       | 2          | READ                 |
-| isDefault | Indicates whether this is the default value | Boolean    |             | true       | READ                 |
-| isActive  | Indicates whether the priority is available | Boolean    |             | true       | READ                 |
+| Property  | Description                                 | Type       | Constraints | Supported operations |
+|:---------:| ------------------------------------------- | ---------- | ----------- | -------------------- |
+| id        | Priority id                                 | Integer    | x > 0       | READ                 |
+| name      | Priority name                               | String     | not empty   | READ                 |
+| position  | Sort index of the priority                  | Integer    | x > 0       | READ                 |
+| isDefault | Indicates whether this is the default value | Boolean    |             | READ                 |
+| isActive  | Indicates whether the priority is available | Boolean    |             | READ                 |
 
 ## Priorities [/api/v3/priorities]
 
@@ -1000,15 +1009,15 @@ The request body is the actual string that shall be rendered as HTML string.
 | versions | Versions available in this project | Versions | not null | READ |
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Projects's id | Integer | Must be a positive integer | 12 | READ |
-| identifier | | String | | project_identifier | READ |
-| name | | String | | Project example | READ |
-| description | | String | | Lorem ipsum dolor sit amet | READ |
-| homepage | | String | | http://openproject.com | READ |
-| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
-| updatedAt | Time of the most recent change to the project | DateTime | ISO 8601 combined date and time | 2014-05-21T17:13:37Z| READ |
+| Property  | Description | Type | Constraints | Supported operations |
+|:---------:|-------------| ---- | ----------- | -------------------- |
+| id | Projects's id | Integer | Must be a positive integer | READ |
+| identifier | | String | | READ |
+| name | | String | | READ |
+| description | | String | | READ |
+| homepage | | String | | READ |
+| createdAt | Time of creation | DateTime | | READ |
+| updatedAt | Time of the most recent change to the project | DateTime | | READ |
 
 ## Project [/api/v3/projects/{id}]
 
@@ -1048,17 +1057,17 @@ The request body is the actual string that shall be rendered as HTML string.
 # Group Queries
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Query id | Integer | Must be a positive integer | 12 | READ |
-| name | Query name | String | | My work packages query | READ |
-| filters | | String | | | READ |
-| isPublic | | Boolean | | true | READ |
-| columnNames | | String | | | READ |
-| sortCriteria | | String | | | READ |
-| groupBy | | String | | | READ |
-| displaySums | | Boolean | | true | READ |
-| isStarred | | Boolean | | true | READ |
+| Property  | Description | Type | Constraints | Supported operations |
+|:---------:|-------------| ---- | ----------- | -------------------- |
+| id | Query id | Integer | Must be a positive integer | READ |
+| name | Query name | String | | READ |
+| filters | | String | | READ |
+| isPublic | | Boolean | | READ |
+| columnNames | | String | | READ |
+| sortCriteria | | String | | READ |
+| groupBy | | String | | READ |
+| displaySums | | Boolean | | READ |
+| isStarred | | Boolean | | READ |
 
 ## Query [/api/v3/queries/{id}]
 
@@ -1295,14 +1304,14 @@ The request body is the actual string that shall be rendered as HTML string.
 | self          | This status               | Status        | not null    | READ                 |
 
 ## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Status id   | Integer | Must be a positive integer | 12 |       READ |
-| name     | Status name | String  |             | Closed  |                 READ |
-| position | Sort index of the status | Integer  | |     1 |                 READ |
-| isDefault|             | Boolean |             | true    |                 READ |
-| isClosed | are tickets of this status considered closed? | Boolean | | true | READ |
-| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | 50 | READ |
+| Property | Description | Type    | Constraints | Supported operations |
+|:--------:|-------------| ------- | ----------- | -------------------- |
+| id       | Status id   | Integer | Must be a positive integer |        READ |
+| name     | Status name | String  |             |                  READ |
+| position | Sort index of the status | Integer  | |                 READ |
+| isDefault|             | Boolean |             |                 READ |
+| isClosed | are tickets of this status considered closed? | Boolean | | READ |
+| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ |
 
 ## Statuses [/api/v3/statuses]
 
@@ -1491,17 +1500,17 @@ The request body is the actual string that shall be rendered as HTML string.
 # Group Users
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | User's id | Integer | Must be a positive integer | 12 | READ |
-| login | User's login name | String | | j.sheppard | READ |
-| firstName | User's first name | String | | John | READ |
-| lastName | User's last name | String | | Sheppard | READ |
-| name | User's full name, formatting depends on instance settings | String | | Sheppard, John | READ |
-| mail | User's email | String | | shep@mail.com | READ |
-| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
-| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
-| updatedAt | Time of the most recent change to the user | DateTime | ISO 8601 combined date and time | 2014-05-21T17:13:37Z| READ |
+| Property  | Description | Type | Constraints | Supported operations |
+|:---------:|-------------| ---- | ----------- | -------------------- |
+| id | User's id | Integer | Must be a positive integer | READ |
+| login | User's login name | String | | READ |
+| firstName | User's first name | String | | READ |
+| lastName | User's last name | String | | READ |
+| name | User's full name, formatting depends on instance settings | String | | READ |
+| mail | User's email | String | | READ |
+| avatar | URL to user's avatar | String | | READ |
+| createdAt | Time of creation | DateTime | | READ |
+| updatedAt | Time of the most recent change to the user | DateTime | | READ |
 
 
 ## User [/api/v3/users/{id}]
@@ -1539,10 +1548,10 @@ The request body is the actual string that shall be rendered as HTML string.
 # Group Versions
 
 ## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Version id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Version name | String  |             | Version 1.0  | READ |
+| Property | Description | Type    | Constraints | Supported operations |
+|:--------:|-------------| ------- | ----------- | -------------------- |
+| id       | Version id   | Integer | Must be a positive integer | READ |
+| name     | Version name | String  |             | READ |
 
 ## Versions by Project [/api/v3/projects/{project_id}/versions]
 
@@ -1613,21 +1622,21 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## Properties:
 
-| Property       | Description                                            | Type       | Constraints                                                                          | Example                 | Supported operations | Condition                        |
-| :---------:    | -------------                                          | ----       | -----------                                                                          | -------                 | -------------------- | --------------------             |
-| id             | Work package id                                        | Integer    | Must be a positive integer                                                           | 12                      | READ                 |                                  |
-| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                                      | 12                      | READ                 |                                  |
-| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                         | Refactor projecs module | READ / WRITE         |                                  |
-| type           |                                                        | String     | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature                 | READ                 |                                  |
-| description    | The work package description                           | Formatable |                                                                                      |                         | READ / WRITE         |                                  |
-| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (in respect to the API user) work package   | 42                      | READ / WRITE         |                                  |
-| startDate      |                                                        | Date       | ISO 8601 date; must be equal or greater than the soonest possible start date         | 2014-05-21              | READ / WRITE         |                                  |
-| dueDate        |                                                        | Date       | ISO 8601 date; must be greater then start date                                       | 2014-05-22              | READ / WRITE         |                                  |
-| estimatedTime  |                                                        | Duration   | ISO 8601 duration                                                                    | P1DT18H                 | READ                 |                                  |
-| spentTime      |                                                        | Duration   | ISO 8601 duration                                                                    | PT1H                    | READ                 | **Permission** view time entries |
-| percentageDone |                                                        | Integer    | Must be an integer between 0 and 100                                                 | 50                      | READ                 |                                  |
-| createdAt      | Time of creation                                       | DateTime   | ISO 8601 combined date and time                                                      | 2014-05-21T13:37:00Z    | READ                 |                                  |
-| updatedAt      | Time of the most recent change to the work package     | DateTime   | ISO 8601 combined date and time                                                      | 2014-05-21T17:13:37Z    | READ                 |                                  |
+| Property       | Description                                            | Type       | Constraints                                                                          | Supported operations | Condition                        |
+| :---------:    | -------------                                          | ----       | -----------                                                                          | -------------------- | --------------------             |
+| id             | Work package id                                        | Integer    | Must be a positive integer                                                           | READ                 |                                  |
+| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                                      | READ                 |                                  |
+| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                         | READ / WRITE         |                                  |
+| type           |                                                        | String     | **REQUIRED** Must be one of the types enabled for the current work package's project | READ                 |                                  |
+| description    | The work package description                           | Formatable |                                                                                      | READ / WRITE         |                                  |
+| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (in respect to the API user) work package   | READ / WRITE         |                                  |
+| startDate      |                                                        | Date       | must be equal or greater than the soonest possible start date                        | READ / WRITE         |                                  |
+| dueDate        |                                                        | Date       | must be greater then start date                                                      | READ / WRITE         |                                  |
+| estimatedTime  |                                                        | Duration   |                                                                                      | READ                 |                                  |
+| spentTime      |                                                        | Duration   |                                                                                      | READ                 | **Permission** view time entries |
+| percentageDone |                                                        | Integer    | Must be an integer between 0 and 100                                                 | READ                 |                                  |
+| createdAt      | Time of creation                                       | DateTime   |                                                                                      | READ                 |                                  |
+| updatedAt      | Time of the most recent change to the work package     | DateTime   |                                                                                      | READ                 |                                  |
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
