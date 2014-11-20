@@ -1,3 +1,8 @@
+/*global exec */
+/*global test */
+/*global env  */
+/*global find */
+
 require('shelljs/global');
 var path = require('path'),
     _    = require('lodash');
