@@ -205,7 +205,7 @@ h4. things we like
     shared_context 'patch request' do
       before(:each) do
         allow(User).to receive(:current).and_return current_user
-        patch patch_path, params.to_json,  'CONTENT_TYPE' => 'application/json'
+        patch patch_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
       end
     end
 
@@ -401,6 +401,77 @@ h4. things we like
           it_behaves_like 'constraint violation',
                           'Status no valid transition exists from old to new '\
                           'status for the current user roles.'
+        end
+      end
+
+      context 'assignee and responsible' do
+        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:params) { valid_params.merge(user_parameter) }
+        let(:work_package) {
+          FactoryGirl.create(:work_package,
+                             project: project,
+                             assigned_to: current_user,
+                             responsible: current_user)
+        }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        shared_examples_for 'handling people' do |property|
+          let(:user_parameter) { { _links: { property => { href: user_href } } } }
+
+          describe 'nil' do
+            let(:user_href) { nil }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(200) }
+
+            it { expect(response.body).not_to have_json_path("_links/#{property}") }
+
+            it_behaves_like 'lock version updated'
+          end
+
+          describe 'valid' do
+            let(:user_href) { "/api/v3/users/#{user.id}" }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(200) }
+
+            it {
+              expect(response.body).to be_json_eql("#{user.name} - #{user.login}".to_json)
+                .at_path("_links/#{property}/title")
+            }
+
+            it_behaves_like 'lock version updated'
+          end
+
+          describe 'invalid' do
+            include_context 'patch request'
+
+            context 'user doesn\'t exist' do
+              let(:user_href) { '/api/v3/users/909090' }
+
+              it_behaves_like 'constraint violation',
+                              "#{property.capitalize} is not included in the list"
+            end
+
+            context 'user is not visible' do
+              let(:invalid_user) { FactoryGirl.create(:user, id: 42) }
+              let(:user_href) { '/api/v3/users/42' }
+
+              it_behaves_like 'constraint violation',
+                              "#{property.capitalize} is not included in the list"
+            end
+          end
+        end
+
+        context 'assingee' do
+          it_behaves_like 'handling people', 'assignee'
+        end
+
+        context 'responsible' do
+          it_behaves_like 'handling people', 'responsible'
         end
       end
 
