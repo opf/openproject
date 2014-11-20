@@ -275,6 +275,9 @@ module.exports = function() {
     },
     staticWorkPackageNewWithParametersPath: function(projectId, parameters) {
       return PathHelper.staticBase + PathHelper.workPackageNewWithParameterPath(projectId, parameters);
+    },
+    staticWorkPackagesAutocompletePath: function(projectId) {
+      return PathHelper.staticBase + '/work_packages/auto_complete.json?project_id=' + projectId;
     }
   };
 

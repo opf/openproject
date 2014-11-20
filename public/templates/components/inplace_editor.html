@@ -29,7 +29,8 @@
                     preview-toggle="togglePreview()"
                     name="value"
                     ng-disabled="isBusy"
-                    ng-model="dataObject.value">
+                    ng-model="dataObject.value"
+                    data-wp_autocomplete_url="{{ autocompletePath }}">
           </textarea>
         </div>
         <div class="preview-wrapper" ng-if="isPreview && !isBusy">

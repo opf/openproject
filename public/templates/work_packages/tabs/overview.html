@@ -7,7 +7,8 @@
           ined-type="wiki_textarea"
           ined-entity="workPackage"
           ined-attribute="rawDescription"
-          placeholder="{{ I18n.t('js.label_click_to_enter_description') }}">
+          placeholder="{{ I18n.t('js.label_click_to_enter_description') }}"
+          autocomplete-path="{{ autocompletePath }}">
     </span>
   </div>
 </div>
@@ -73,11 +74,13 @@
         <user-activity work-package="workPackage"
                        activity="activity"
                        activity-no="activityNo"
-                       input-element-id="'add-comment-text'">
+                       input-element-id="'add-comment-text'"
+                       autocomplete-path="{{ autocompletePath }}">
       </li>
     </ul>
     <activity-comment work-package="workPackage"
-                      activities="activities">
+                      activities="activities"
+                      autocomplete-path="{{ autocompletePath }}">
     </activity-comment>
   </exclusive-edit>
 </div>

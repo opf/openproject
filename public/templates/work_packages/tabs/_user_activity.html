@@ -33,7 +33,9 @@
                     ng-model="activity.props.rawComment"
                     ng-bind-html="activity.props.rawComment"
                     rows="4"
-                    required></textarea>
+                    required
+                    data-wp_autocomplete_url="{{ autocompletePath }}">
+          </textarea>
         </div>
         <div>
           <button class="button"

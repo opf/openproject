@@ -27,14 +27,19 @@
 //++
 
 // TODO move to UI components
-module.exports = function(I18n, ActivityService, ConfigurationService) {
+module.exports = function($timeout,
+    I18n,
+    ActivityService,
+    ConfigurationService,
+    AutoCompleteHelper) {
   return {
     restrict: 'E',
     replace: true,
     require: '^?exclusiveEdit',
     scope: {
       workPackage: '=',
-      activities: '='
+      activities: '=',
+      autocompletePath: '@'
     },
     templateUrl: '/templates/components/activity_comment.html',
     link: function(scope, element, attrs, exclusiveEditController) {
@@ -57,6 +62,12 @@ module.exports = function(I18n, ActivityService, ConfigurationService) {
             return response;
           });
       };
+
+      $timeout(function() {
+        AutoCompleteHelper.enableTextareaAutoCompletion(
+          angular.element.find('textarea.add-comment-text')
+        );
+      });
     }
   };
 };
