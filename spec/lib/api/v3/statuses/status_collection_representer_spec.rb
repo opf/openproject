@@ -30,13 +30,11 @@ require 'spec_helper'
 require 'lib/api/v3/statuses/shared/status_collection_representer'
 
 describe ::API::V3::Statuses::StatusCollectionRepresenter do
-  include_examples 'status collection representer'
+  include_context 'status collection representer', 'statuses'
 
   context 'generation' do
-    subject(:generated) { representer.to_json }
+    subject(:collection) { representer.to_json }
 
-    it 'should have link to self' do
-      expect(parse_json(subject)['_links']['self']['href']).to match(%r{api/v3/statuses$})
-    end
+    it_behaves_like 'API V3 collection decorated', 42, 3, 'statuses', 'Status'
   end
 end

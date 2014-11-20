@@ -34,22 +34,9 @@ require 'roar/json/hal'
 module API
   module V3
     module Statuses
-      class StatusCollectionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        link :self do
-          "#{root_path}api/v3/statuses"
-        end
-
-        property :_type, exec_context: :decorator
-
-        collection :statuses, embedded: true, extend: StatusRepresenter, getter: ->(_) { self }
-
-        def _type
-          'Statuses'
+      class StatusCollectionRepresenter < ::API::Decorators::Collection
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Statuses::StatusRepresenter)
         end
       end
     end

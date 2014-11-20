@@ -133,7 +133,11 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_assignees = @work_package.assignable_assignees
-                ::API::V3::Users::UserCollectionRepresenter.new(available_assignees, as: :available_assignees)
+                total = available_assignees.count
+                self_link = "work_packages/#{@work_package.id}/available_assignees"
+                ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
+                                                                total,
+                                                                self_link)
               end
 
             end
@@ -145,13 +149,16 @@ module API
                   || authorize(:edit_work_packages, context: @work_package.project)
 
                 available_responsibles = @work_package.assignable_responsibles
-                ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles, as: :available_responsibles)
+                total = available_responsibles.count
+                self_link = "work_packages/#{@work_package.id}/available_responsibles"
+                ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
+                                                                total,
+                                                                self_link)
               end
 
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
-            mount ::API::V3::WorkPackages::StatusesAPI
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::WorkPackages::Form::FormAPI
 

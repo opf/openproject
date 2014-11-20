@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -55,14 +54,7 @@ describe 'API v3 Status resource' do
           get get_path
         end
 
-        it 'should respond with 200' do
-          expect(subject.status).to eq(200)
-        end
-
-        it 'should respond with statuses, scoped to project' do
-          expect(subject.body).to include_json('Statuses'.to_json).at_path('_type')
-          expect(subject.body).to have_json_size(4).at_path('_embedded/statuses')
-        end
+        it_behaves_like 'API V3 collection response', 4, 4, 'Status'
       end
     end
   end

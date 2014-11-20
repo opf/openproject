@@ -34,29 +34,9 @@ require 'roar/json/hal'
 module API
   module V3
     module Categories
-      class CategoryCollectionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        attr_reader :project
-
-        def initialize(model, project:)
-          @project = project
-          super(model)
-        end
-
-        link :self do
-          "#{root_path}api/v3/projects/#{project.id}/categories"
-        end
-
-        property :_type, exec_context: :decorator
-
-        collection :categories, embedded: true, extend: CategoryRepresenter, getter: ->(_) { self }
-
-        def _type
-          'Categories'
+      class CategoryCollectionRepresenter < ::API::Decorators::Collection
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Categories::CategoryRepresenter)
         end
       end
     end
