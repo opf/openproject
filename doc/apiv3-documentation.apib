@@ -1639,12 +1639,48 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## List versions available in a project [GET]
 
+This endpoint lists the versions that are *available* in a given project.
+Note that due to sharing this might be more than the versions *defined* by that project.
+
 + Parameters
     + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
 
 + Response 200 (application/hal+json)
 
     [Versions by Project][]
+
+## Version [/api/v3/versions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions/11" },
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                },
+                "_type": "Version",
+                "id": 11,
+                "name": "v3.0 Alpha",
+                "description": {
+                    "format": "plain",
+                    "raw": "This version has a description",
+                    "html": "This version has a description"
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "Open"
+            }
+
+## View Priority [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... priority id
+
++ Response 200 (application/hal+json)
+
+    [Priority][]
 
 # Group Work packages
 
@@ -1669,6 +1705,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | responsible    | The person that is responsible for the overall outcome                                                                                               | User        |             | READ / WRITE         |                                  |
 | status         | The current status of the work package                                                                                                               | Status      | not null    | READ / WRITE         |                                  |
 | timeEntries    | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change. | N/A         |             | READ                 | **Permission** view time entries |
+| version        | The version associated to the work package                                                                                                           | Version     |             | READ / WRITE         |                                  |
 
 ## Properties:
 
@@ -1745,6 +1782,9 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/statuses/1",
                         "title": "New"
                     },
+                    "version": {
+                        "href": "/api/v3/versions/1"
+                    },
                     "availableStatuses": {
                         "href": "/api/v3/work_packages/1528/available_statuses",
                         "title": "Available Statuses"
@@ -1811,8 +1851,6 @@ The request body is the actual string that shall be rendered as HTML string.
                 "dueDate": null,
                 "estimatedTime": "PT2H",
                 "percentageDone": 0,
-                "versionId": 2,
-                "versionName": "1.0",
                 "projectId": 1,
                 "projectName": "Seeded Project",
                 "parentId": 1298,
