@@ -264,14 +264,26 @@ describe 'API v3 Work package form resource', type: :request do
               end
 
               context 'invalid status' do
-                include_context 'post request'
+                context 'no transition' do
+                  include_context 'post request'
 
-                it_behaves_like 'valid payload'
+                  it_behaves_like 'valid payload'
 
-                it_behaves_like 'having an error', 'status_id'
+                  it_behaves_like 'having an error', 'status_id'
 
-                it 'should respond with updated work package status' do
-                  expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  it 'should respond with updated work package status' do
+                    expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  end
+                end
+
+                context 'wrong resource' do
+                  let(:status_link) { "/api/v3/users/#{authorized_user.id}" }
+
+                  include_context 'post request'
+
+                  it_behaves_like 'constraint violation',
+                                  'For property status a resource of type Status' \
+                                  ' is expected but got a resource of type User.'
                 end
               end
             end
@@ -301,16 +313,28 @@ describe 'API v3 Work package form resource', type: :request do
                 end
 
                 context "invalid #{property}" do
-                  let(:user_link) { '/api/v3/users/42' }
+                  context 'non-existing user' do
+                    let(:user_link) { '/api/v3/users/42' }
 
-                  include_context 'post request'
+                    include_context 'post request'
 
-                  it_behaves_like 'valid payload'
+                    it_behaves_like 'valid payload'
 
-                  it_behaves_like 'having an error', property
+                    it_behaves_like 'having an error', property
 
-                  it "should respond with updated work package #{property}" do
-                    expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                    it "should respond with updated work package #{property}" do
+                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                    end
+                  end
+
+                  context 'wrong resource' do
+                    let(:user_link) { "/api/v3/statuses/#{work_package.status.id}" }
+
+                    include_context 'post request'
+
+                    it_behaves_like 'constraint violation',
+                                    "For property #{property} a resource of type User" \
+                                    ' is expected but got a resource of type Status.'
                   end
                 end
               end

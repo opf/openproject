@@ -402,6 +402,16 @@ h4. things we like
                           'Status no valid transition exists from old to new '\
                           'status for the current user roles.'
         end
+
+        context 'wrong resource' do
+          let(:status_link) { "/api/v3/users/#{current_user.id}" }
+
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation',
+                          'For property status a resource of type Status' \
+                          ' is expected but got a resource of type User.'
+        end
       end
 
       context 'assignee and responsible' do
@@ -462,6 +472,16 @@ h4. things we like
 
               it_behaves_like 'constraint violation',
                               "#{property.capitalize} is not included in the list"
+            end
+
+            context 'wrong resource' do
+              let(:user_href) { "/api/v3/statuses/#{work_package.status.id}" }
+
+              include_context 'patch request'
+
+              it_behaves_like 'constraint violation',
+                              "For property #{property} a resource of type User" \
+                              ' is expected but got a resource of type Status.'
             end
           end
         end
