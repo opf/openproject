@@ -45,7 +45,11 @@ module API
                   payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
                               .new(@work_package, enforce_lock_version_validation: true)
 
-                  payload.from_json(request_body.to_json)
+                  begin
+                    payload.from_json(request_body.to_json)
+                  rescue ::API::Errors::Form::InvalidResourceLink => e
+                    fail ::API::Errors::Validation.new(e.message)
+                  end
                 end
               end
 

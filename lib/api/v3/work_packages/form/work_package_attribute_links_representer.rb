@@ -47,9 +47,9 @@ module API
                      { href: "#{root_path}api/v3/statuses/#{represented.status.id}" }
                    },
                    setter: -> (value, *) {
-                     resource = ::API::V3::Utilities::ResourceLinkParser.parse value['href']
+                     resource = parse_resource(:status, :statuses, value['href'])
 
-                     represented.status_id = resource[:id] if resource[:ns] == 'statuses'
+                     represented.status_id = resource[:id] if resource
                    }
 
           property :assignee,
@@ -60,7 +60,7 @@ module API
                      { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
                    },
                    setter: -> (value, *) {
-                     user_id = parse_user_resource(value['href'])
+                     user_id = parse_user_resource(:assignee, value['href'])
 
                      represented.assigned_to_id = user_id
                    }
@@ -73,19 +73,31 @@ module API
                      { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
                    },
                    setter: -> (value, *) {
-                     user_id = parse_user_resource(value['href'])
+                     user_id = parse_user_resource(:responsible, value['href'])
 
                      represented.responsible_id = user_id
                    }
 
-          def parse_user_resource(href)
+          private
+
+          def parse_resource(property, ns, href)
             return nil unless href
 
             resource = ::API::V3::Utilities::ResourceLinkParser.parse href
 
-            # The return value -1 will trigger a validation error. This is
-            # intended as no valid user resource was passed
-            (resource && resource[:ns] == 'users') ? resource[:id] : -1
+            if resource.nil? || resource[:ns] != ns.to_s
+              actual_ns = resource ? resource[:ns] : nil
+
+              fail ::API::Errors::Form::InvalidResourceLink.new(property, ns, actual_ns)
+            end
+
+            resource
+          end
+
+          def parse_user_resource(property, href)
+            resource = parse_resource(property, :users, href)
+
+            resource ? resource[:id] : nil
           end
         end
       end
