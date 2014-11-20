@@ -332,7 +332,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
 | comment | | Formatable | | | READ / WRITE |
 | details | | Array of Formatable | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
 
 Activity can be either _type Activity or _type Activity::Comment.
 
@@ -451,7 +451,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | contentType | | String | | application/binary | READ |
 | digest | | String | | | READ |
 | downloads | | Integer | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
 
 ## Attachment [/api/v3/attachments/{id}]
 
@@ -1007,8 +1007,8 @@ The request body is the actual string that shall be rendered as HTML string.
 | name | | String | | Project example | READ |
 | description | | String | | Lorem ipsum dolor sit amet | READ |
 | homepage | | String | | http://openproject.com | READ |
-| createdOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
-| updatedOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
+| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
+| updatedAt | Time of the most recent change to the project | DateTime | ISO 8601 combined date and time | 2014-05-21T17:13:37Z| READ |
 
 ## Project [/api/v3/projects/{id}]
 
@@ -1500,8 +1500,8 @@ The request body is the actual string that shall be rendered as HTML string.
 | name | User's full name, formatting depends on instance settings | String | | Sheppard, John | READ |
 | mail | User's email | String | | shep@mail.com | READ |
 | avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| createdAt | Time of creation | DateTime | ISO 8601 combined date and time | 2014-05-21T13:37:00Z | READ |
+| updatedAt | Time of the most recent change to the user | DateTime | ISO 8601 combined date and time | 2014-05-21T17:13:37Z| READ |
 
 
 ## User [/api/v3/users/{id}]
@@ -1612,21 +1612,22 @@ The request body is the actual string that shall be rendered as HTML string.
 | timeEntries  | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change. | N/A        |             | READ          | **Permission** view time entries |
 
 ## Properties:
-| Property       | Description                                            | Type       | Constraints                                                                                           | Example                 | Supported operations | Condition                        |
-| :---------:    | -------------                                          | ----       | -----------                                                                                           | -------                 | -------------------- | --------------------             |
-| id             | Work package id                                        | Integer    | Must be a positive integer                                                                            | 12                      | READ                 |                                  |
-| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                                                       | 12                      | READ                 |                                  |
-| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                                          | Refactor projecs module | READ / WRITE         |                                  |
-| type           |                                                        | String     | **REQUIRED** Must be one of the types enabled for the current work package's project                  | Feature                 | READ                 |                                  |
-| description    | The work package description                           | Formatable |                                                                                                       |                         | READ / WRITE         |                                  |
-| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (in respect to the API user) work package                    | 42                      | READ / WRITE         |                                  |
-| startDate      |                                                        | Date       | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z    | READ                 |                                  |
-| dueDate        |                                                        | Date       | Must be a date in format YYYY-MM-DD and must be greater then start date                               |                         | READ                 |                                  |
-| estimatedTime  |                                                        | Object     | ISO 8601 duration                                                                                     | P1DT18H                 | READ                 |                                  |
-| spentTime      |                                                        | Object     | ISO 8601 duration                                                                                     | PT1H                    | READ                 | **Permission** view time entries |
-| percentageDone |                                                        | Integer    | Must be an integer between 0 and 100                                                                  | 50                      | READ                 |                                  |
-| createdAt      |                                                        | Timestamp  | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ                                                    |                         | READ                 |                                  |
-| updatedAt      |                                                        | Timestamp  | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ                                                    |                         | READ                 |                                  |
+
+| Property       | Description                                            | Type       | Constraints                                                                          | Example                 | Supported operations | Condition                        |
+| :---------:    | -------------                                          | ----       | -----------                                                                          | -------                 | -------------------- | --------------------             |
+| id             | Work package id                                        | Integer    | Must be a positive integer                                                           | 12                      | READ                 |                                  |
+| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                                      | 12                      | READ                 |                                  |
+| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                         | Refactor projecs module | READ / WRITE         |                                  |
+| type           |                                                        | String     | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature                 | READ                 |                                  |
+| description    | The work package description                           | Formatable |                                                                                      |                         | READ / WRITE         |                                  |
+| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (in respect to the API user) work package   | 42                      | READ / WRITE         |                                  |
+| startDate      |                                                        | Date       | ISO 8601 date; must be equal or greater than the soonest possible start date         | 2014-05-21              | READ / WRITE         |                                  |
+| dueDate        |                                                        | Date       | ISO 8601 date; must be greater then start date                                       | 2014-05-22              | READ / WRITE         |                                  |
+| estimatedTime  |                                                        | Duration   | ISO 8601 duration                                                                    | P1DT18H                 | READ                 |                                  |
+| spentTime      |                                                        | Duration   | ISO 8601 duration                                                                    | PT1H                    | READ                 | **Permission** view time entries |
+| percentageDone |                                                        | Integer    | Must be an integer between 0 and 100                                                 | 50                      | READ                 |                                  |
+| createdAt      | Time of creation                                       | DateTime   | ISO 8601 combined date and time                                                      | 2014-05-21T13:37:00Z    | READ                 |                                  |
+| updatedAt      | Time of the most recent change to the work package     | DateTime   | ISO 8601 combined date and time                                                      | 2014-05-21T17:13:37Z    | READ                 |                                  |
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
@@ -1750,10 +1751,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "isClosed": false,
                 "startDate": null,
                 "dueDate": null,
-                "estimatedTime": {
-                    "units": "hours",
-                    "value": null
-                },
+                "estimatedTime": "PT2H",
                 "percentageDone": 0,
                 "versionId": 2,
                 "versionName": "1.0",
