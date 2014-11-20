@@ -39,7 +39,9 @@ module API
           'subject',
           'parent_id',
           'description',
-          'status_id'
+          'status_id',
+          'assigned_to_id',
+          'responsible_id'
         ].freeze
 
         def initialize(object, user)
@@ -54,6 +56,8 @@ module API
         validate :user_allowed_to_edit_parent
         validate :lock_version_valid
         validate :readonly_attributes_unchanged
+        validate :assignee_visible
+        validate :responsible_visible
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
@@ -62,7 +66,7 @@ module API
 
         def user_allowed_to_access
           unless ::WorkPackage.visible(@user).exists?(model)
-            message = "Couldn't find WorkPackage with id=#{model.id}"
+            message = not_found_error_message('WorkPackage', model.id)
             errors.add :error_not_found, message
           end
         end
@@ -89,6 +93,34 @@ module API
           changed_attributes = model.changed - WRITEABLE_ATTRIBUTES
 
           errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+        end
+
+        def assignee_visible
+          people_visible :assignee, 'assigned_to_id', model.project.possible_assignees
+        end
+
+        def responsible_visible
+          people_visible :responsible, 'responsible_id', model.project.possible_responsibles
+        end
+
+        def people_visible(attribute, id_attribute, list)
+          id = model[id_attribute]
+
+          return if id.nil? || !model.changed.include?(id_attribute)
+
+          unless user_visible?(id, list)
+            errors.add attribute, I18n.t('activerecord.errors.messages.inclusion', locale: :en)
+          end
+        end
+
+        def user_visible?(user_id, list)
+          user = User.find_by_id(user_id)
+
+          !user.nil? && list.include?(user)
+        end
+
+        def not_found_error_message(object_type, id)
+          "Couldn't find #{object_type} with id=#{id}"
         end
       end
     end

@@ -56,16 +56,38 @@ module API
           property :assignee,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     { href: "#{root_path}api/v3/users/#{represented.assigned_to.id}" }
+                     id = represented.assigned_to_id
+
+                     { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
                    },
-                   if: -> (*) { represented.assigned_to }
+                   setter: -> (value, *) {
+                     user_id = parse_user_resource(value['href'])
+
+                     represented.assigned_to_id = user_id
+                   }
 
           property :responsible,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     { href: "#{root_path}api/v3/users/#{represented.responsible.id}" }
+                     id = represented.responsible_id
+
+                     { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
                    },
-                   if: -> (*) { represented.responsible }
+                   setter: -> (value, *) {
+                     user_id = parse_user_resource(value['href'])
+
+                     represented.responsible_id = user_id
+                   }
+
+          def parse_user_resource(href)
+            return nil unless href
+
+            resource = ::API::V3::Utilities::ResourceLinkParser.parse href
+
+            # The return value -1 will trigger a validation error. This is
+            # intended as no valid user resource was passed
+            (resource && resource[:ns] == 'users') ? resource[:id] : -1
+          end
         end
       end
     end
