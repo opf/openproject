@@ -37,7 +37,9 @@ module API
           end
 
           get do
-            PriorityCollectionRepresenter.new(@priorities)
+            PriorityCollectionRepresenter.new(@priorities,
+                                              @priorities.count,
+                                              'priorities')
           end
         end
       end

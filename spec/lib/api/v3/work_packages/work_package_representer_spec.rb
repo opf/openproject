@@ -121,9 +121,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                              member_in_project: wp.project,
                              member_through_role: role)
         }
-        let(:representer)  { described_class.new(wp, current_user: current_user) }
+        let(:representer)  { described_class.new(wp, current_user: user) }
 
-        before { allow(User).to receive(:current).and_return(user) }
+        before do
+          allow(User).to receive(:current).and_return(user)
+
+          allow(user).to receive(:allowed_to?).and_return(false)
+          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
+                                              .and_return(true)
+        end
+
+        context 'no view_time_entries permission' do
+          before do
+            allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
+                                                .and_return(false)
+
+          end
+
+          it { is_expected.to_not have_json_path('spentTime') }
+        end
 
         context 'no time entry' do
           it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
@@ -327,6 +343,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
         it 'should not have a link to add child' do
           expect(subject).to_not have_json_path('_links/addChild/href')
+        end
+      end
+
+      context 'when the user has the permission to view time entries' do
+        before do
+          role.permissions.push(:view_time_entries) and role.save
+        end
+        it 'should have a link to add child' do
+          expect(subject).to have_json_path('_links/timeEntries/href')
+        end
+      end
+
+      context 'when the user does not have the permission to view time entries' do
+        before do
+          role.permissions.delete(:view_time_entries) and role.save
+        end
+        it 'should not have a link to timeEntries' do
+          expect(subject).to_not have_json_path('_links/timeEntries/href')
         end
       end
 

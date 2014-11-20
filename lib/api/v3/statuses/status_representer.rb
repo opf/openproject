@@ -42,8 +42,19 @@ module API
 
         property :_type, exec_context: :decorator
 
+        link :self do
+          {
+            href: "#{root_path}api/v3/statuses/#{represented.id}",
+            title: "#{represented.name}"
+          }
+        end
+
         property :id, render_nil: true
         property :name
+        property :is_closed, render_nil: true
+        property :is_default, render_nil: true
+        property :default_done_ratio, render_nil: true
+        property :position, render_nil: true
 
         def _type
           'Status'

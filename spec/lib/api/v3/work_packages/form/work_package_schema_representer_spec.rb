@@ -97,7 +97,21 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
 
           it 'embeds statuses' do
             embedded_statuses = statuses.map do |status|
-              { _type: 'Status', id: status.id, name: status.name }
+              {
+                _links: {
+                  self: {
+                    href: "/api/v3/statuses/#{status.id}",
+                    title: status.name
+                  }
+                },
+                _type: 'Status',
+                id: status.id,
+                name: status.name,
+                defaultDoneRatio: status.default_done_ratio,
+                isClosed: status.is_closed,
+                isDefault: status.is_default,
+                position: status.position
+              }
             end
 
             is_expected.to be_json_eql(embedded_statuses.to_json)

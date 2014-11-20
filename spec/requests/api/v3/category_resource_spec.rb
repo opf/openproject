@@ -55,14 +55,7 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
-      end
-
-      it 'should respond with categories' do
-        expect(subject.body).to include_json('Categories'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(3).at_path('_embedded/categories')
-      end
+      it_behaves_like 'API V3 collection response', 3, 3, 'Category'
     end
   end
 end

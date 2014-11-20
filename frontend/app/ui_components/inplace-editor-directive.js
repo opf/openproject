@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, $sce, TextileService) {
+module.exports = function($timeout, $sce, TextileService, AutoCompleteHelper) {
   return {
     restrict: 'A',
     transclude: false,
@@ -35,7 +35,8 @@ module.exports = function($timeout, $sce, TextileService) {
       type: '@inedType',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
-      placeholder: '@'
+      placeholder: '@',
+      autocompletePath: '@'
     },
     link: link,
     controller: Controller
@@ -59,9 +60,21 @@ module.exports = function($timeout, $sce, TextileService) {
     });
     scope.$on('startEditing', function() {
       $timeout(function() {
-        element.find('.ined-input-wrapper input, .ined-input-wrapper textarea').focus().triggerHandler('keyup');
+        var textarea = element.find('.ined-input-wrapper input, .ined-input-wrapper textarea');
+
+        AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
+
+        textarea.focus().triggerHandler('keyup');
+
+        // TODO: move this to a textarea-specific strategy
+        if (scope.type == 'wiki_textarea' || scope.type == 'textarea') {
+          var textarea = element.find('.ined-input-wrapper textarea'),
+              lines = textarea.val().split('\n');
+          textarea.attr('rows', lines.length + 1);
+        }
       });
     });
+
     scope.$on('finishEditing', function() {
       $timeout(function() {
         element.find('.ined-read-value a').focus();

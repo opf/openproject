@@ -34,29 +34,9 @@ require 'roar/json/hal'
 module API
   module V3
     module Versions
-      class VersionCollectionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        attr_reader :project
-
-        def initialize(model, project:)
-          @project = project
-          super(model)
-        end
-
-        link :self do
-          "#{root_path}api/v3/projects/#{project.id}/versions"
-        end
-
-        property :_type, exec_context: :decorator
-
-        collection :versions, embedded: true, extend: VersionRepresenter, getter: ->(_) { self }
-
-        def _type
-          'Versions'
+      class VersionCollectionRepresenter < ::API::Decorators::Collection
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Versions::VersionRepresenter)
         end
       end
     end

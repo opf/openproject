@@ -33,9 +33,11 @@ module.exports = function($scope,
            VERSION_TYPE,
            CATEGORY_TYPE,
            USER_TYPE,
+           TIME_ENTRY_TYPE,
            USER_FIELDS,
            CustomFieldHelper,
            WorkPackagesHelper,
+           AuthorisationService,
            PathHelper,
            UserService,
            VersionService,
@@ -45,29 +47,55 @@ module.exports = function($scope,
   // work package properties
 
   $scope.userPath = PathHelper.staticUserPath;
+  AuthorisationService.initModelAuth('work_package' + $scope.workPackage.id,
+                                     $scope.workPackage.links);
 
-    function getPropertyValue(property, format) {
-        switch(format) {
-            case VERSION_TYPE:
-                if ($scope.workPackage.props.versionId == undefined) {
-                    return;
-                }
-                var versionId = $scope.workPackage.props.versionId,
-                    versionLinkPresent = !!$scope.workPackage.links.version;
-                var versionTitle = versionLinkPresent ? $scope.workPackage.links.version.props.title : $scope.workPackage.props.versionName,
-                    versionHref  = versionLinkPresent ? $scope.workPackage.links.version.href : null;
-                return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
-                break;
-            case USER_TYPE:
-                return $scope.workPackage.embedded[property];
-                break;
-            case CATEGORY_TYPE:
-                return $scope.workPackage.embedded[property];
-                break;
-            default:
-                return getFormattedPropertyValue(property);
-        }
+  function can(action) {
+    return AuthorisationService.can('work_package' + $scope.workPackage.id, action);
+  }
+
+  function getPropertyValue(property, format) {
+    switch(format) {
+    case VERSION_TYPE:
+      if ($scope.workPackage.props.versionId === undefined) {
+          return;
+      }
+      var versionLinkPresent = !!$scope.workPackage.links.version;
+      var versionTitle = versionLinkPresent ?
+                            $scope.workPackage.links.version.props.title :
+                            $scope.workPackage.props.versionName,
+          versionHref  = versionLinkPresent ?
+                            $scope.workPackage.links.version.href :
+                            null;
+      return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
+    case USER_TYPE:
+      return $scope.workPackage.embedded[property];
+    case CATEGORY_TYPE:
+      return $scope.workPackage.embedded[property];
+    case TIME_ENTRY_TYPE:
+      return getLinkedTimeEntryValue(property);
+    default:
+      return getFormattedPropertyValue(property);
     }
+  }
+
+  function getLinkedTimeEntryValue(property) {
+    var hasLink = !!$scope.workPackage.links.timeEntries,
+        link = '',
+        value = 0;
+
+    if (hasLink) {
+      link = $scope.workPackage.links.timeEntries.href;
+    }
+
+    if (hasLink && $scope.workPackage.props.spentTime !== undefined) {
+      value = $scope.workPackage.props.spentTime;
+    }
+
+    var formattedValue = WorkPackagesHelper.formatWorkPackageProperty(value, property);
+
+    return {href: link, title: formattedValue, viewable: link !== ''};
+  }
 
   function getFormattedPropertyValue(property) {
     if (property === 'date') {
@@ -87,6 +115,31 @@ module.exports = function($scope,
   }
 
   $scope.groupedAttributes = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+
+  (function filterUnallowedAttributes() {
+    var attributes = $scope.groupedAttributes;
+
+    angular.forEach(attributes, function(attributesGroup) {
+      angular.forEach(attributesGroup.attributes, function(attribute) {
+        if (!isAllowedProperty(attribute)) {
+          var index = attributesGroup.attributes.indexOf(attribute);
+
+          attributesGroup.attributes.splice(index, 1);
+        }
+      });
+    });
+
+    return attributes;
+  })();
+
+  function isAllowedProperty(property) {
+    switch (property) {
+    case 'spentTime':
+      return can('timeEntries');
+    default:
+      return true;
+    }
+  }
 
   (function setupWorkPackageProperties() {
     var otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
@@ -150,11 +203,16 @@ module.exports = function($scope,
   }
 
   function getPropertyFormat(property) {
-    var format = USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
-    format = (property === 'versionName') ? VERSION_TYPE : format;
-    format = (property === 'category') ? CATEGORY_TYPE : format;
-
-    return format;
+    switch(property) {
+    case 'versionName':
+      return VERSION_TYPE;
+    case 'category':
+      return CATEGORY_TYPE;
+    case 'spentTime':
+      return TIME_ENTRY_TYPE;
+    default:
+      return USER_FIELDS.indexOf(property) === -1 ? TEXT_TYPE : USER_TYPE;
+    }
   }
 
   function getCustomPropertyValue(property) {

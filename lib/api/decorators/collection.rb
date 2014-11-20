@@ -35,23 +35,30 @@ module API
     class Collection < Roar::Decorator
       include Roar::JSON::HAL
       include Roar::Hypermedia
-      include OpenProject::StaticRouting::UrlHelpers
+      include API::Utilities::UrlHelper
 
-      attr_reader :current_user, :as
+      def initialize(models, total, self_link, decorator)
+        @total = total
+        @self_link = self_link
+        @decorator = decorator
 
-      def initialize(models, current_user: nil, as: nil)
-        @current_user = current_user
-        @as = as.to_s.camelize(:lower)
         super(models)
       end
 
       as_strategy = API::Utilities::CamelCasingStrategy.new
 
-      property :total, as: :_total, exec_context: :decorator
-
-      def total
-        represented.empty? ? 0 : represented.first.class.count
+      link :self do
+        { href: "#{root_path}api/v3/#{@self_link}" }
       end
+
+      property :_type, getter: -> (*) { 'Collection' }
+      property :total, getter: -> (*) { @total }, exec_context: :decorator
+      property :count, getter: -> (*) { empty? ? 0 : count }
+
+      collection :elements,
+                 getter: -> (*) { represented.map { |model| @decorator.new(model) } },
+                 exec_context: :decorator,
+                 embedded: true
     end
   end
 end

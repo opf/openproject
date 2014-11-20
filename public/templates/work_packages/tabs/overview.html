@@ -7,7 +7,8 @@
           ined-type="wiki_textarea"
           ined-entity="workPackage"
           ined-attribute="rawDescription"
-          placeholder="{{ I18n.t('js.label_click_to_enter_description') }}">
+          placeholder="{{ I18n.t('js.label_click_to_enter_description') }}"
+          autocomplete-path="{{ autocompletePath }}">
     </span>
   </div>
 </div>
@@ -41,6 +42,10 @@
               <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
               <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
             </span>
+            <span ng-switch-when="time_entry">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
             <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
             <span ng-switch-default
               ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
@@ -69,11 +74,13 @@
         <user-activity work-package="workPackage"
                        activity="activity"
                        activity-no="activityNo"
-                       input-element-id="'add-comment-text'">
+                       input-element-id="'add-comment-text'"
+                       autocomplete-path="{{ autocompletePath }}">
       </li>
     </ul>
     <activity-comment work-package="workPackage"
-                      activities="activities">
+                      activities="activities"
+                      autocomplete-path="{{ autocompletePath }}">
     </activity-comment>
   </exclusive-edit>
 </div>

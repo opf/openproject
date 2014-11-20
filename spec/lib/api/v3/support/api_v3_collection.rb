@@ -1,10 +1,9 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License status 3.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
@@ -12,8 +11,8 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either status 2
-# of the License, or (at your option) any later status.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,24 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class AvailableStatusCollectionRepresenter < ::API::V3::Statuses::StatusCollectionRepresenter
-        link :self do |opts|
-          "#{work_package_url(opts[:work_package_id])}/available_statuses"
-        end
+require 'spec_helper'
 
-        link :work_package do |opts|
-          work_package_url(opts[:work_package_id])
-        end
+shared_examples_for 'API V3 collection decorated' do |total, count, self_link, type|
+  it { expect(collection).to be_json_eql('Collection'.to_json).at_path('_type') }
 
-        private
+  describe 'elements' do
+    it { expect(collection).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type') }
+  end
 
-        def work_package_url(work_package_id)
-          "#{root_path}api/v3/work_packages/#{work_package_id}"
-        end
-      end
-    end
+  describe 'quantities' do
+    it { expect(collection).to be_json_eql(total.to_json).at_path('total') }
+
+    it { expect(collection).to be_json_eql(count.to_json).at_path('count') }
+
+    it { expect(collection).to have_json_size(count).at_path('_embedded/elements') }
+  end
+
+  describe '_links' do
+    let(:href) { "/api/v3/#{self_link}".to_json }
+
+    it { expect(collection).to be_json_eql(href).at_path('_links/self/href') }
   end
 end

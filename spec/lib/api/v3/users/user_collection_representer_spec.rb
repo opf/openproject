@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,39 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class StatusesAPI < Grape::API
-        class AvailableStatusesFormatter
-          # this is an ugly hack to get the work package id for the path to self
-          def work_package_id(env)
-            env['rack.routing_args'][:id]
-          end
+require 'spec_helper'
 
-          def call(object, env)
-            if object.respond_to?(:to_json)
-              object.to_json(work_package_id: work_package_id(env))
-            else
-              MultiJson.dump(object)
-            end
-          end
-        end
+describe ::API::V3::Users::UserCollectionRepresenter do
+  let(:users) {
+    FactoryGirl.build_list(:user,
+                           3,
+                           created_on: Time.now,
+                           updated_on: Time.now)
+  }
+  let(:representer) { described_class.new(users, 42, 'work_package/1/watchers') }
 
-        formatter 'hal+json', AvailableStatusesFormatter.new
+  context 'generation' do
+    subject(:collection) { representer.to_json }
 
-        get '/available_statuses' do
-          authorize({ controller: :work_packages, action: :update }, context: work_package.project)
-
-          work_package.type = work_package.project.types.find_by_name(params[:type]) if params[:type]
-
-          statuses = work_package.new_statuses_allowed_to(current_user)
-
-          represented = ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter.new(statuses)
-
-          represented
-        end
-      end
-    end
+    it_behaves_like 'API V3 collection decorated', 42, 3, 'work_package/1/watchers', 'User'
   end
 end

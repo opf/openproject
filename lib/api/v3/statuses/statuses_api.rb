@@ -37,12 +37,19 @@ module API
           end
 
           get do
-            StatusCollectionRepresenter.new(@statuses)
+            StatusCollectionRepresenter.new(@statuses,
+                                            @statuses.count,
+                                            'statuses')
           end
 
           namespace ':id' do
+            before do
+              status = Status.find(params[:id])
+              @representer = ::API::V3::Statuses::StatusRepresenter.new(status)
+            end
+
             get do
-              fail NotImplementedError
+              @representer
             end
           end
         end

@@ -73,6 +73,10 @@ module.exports = function($scope, $state, latestTab, workPackage, I18n, RELATION
       $scope.toggleWatchLink = workPackage.links.watchChanges === undefined ? workPackage.links.unwatchChanges : workPackage.links.watchChanges;
       $scope.watchers = workPackage.embedded.watchers;
 
+      // autocomplete path
+      var projectId = workPackage.props.projectId;
+      $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+
       // activities and latest activities
       $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
       $scope.activities = displayedActivities($scope.workPackage);
