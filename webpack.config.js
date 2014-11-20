@@ -9,7 +9,7 @@ var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path
 }, {});
 
 module.exports = {
-  context: __dirname + '/app/assets/javascripts/angular',
+  context: __dirname + '/frontend/app',
 
   entry: _.merge({
     app: './openproject-app.js'
