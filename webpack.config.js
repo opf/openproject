@@ -22,8 +22,8 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /[\/]angular\.js$/,         loader: "exports?angular" },
-      { test: /[\/]vendor[\/]i18n\.js$/,  loader: "expose?I18n" },
+      { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
+      { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
       { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
     ]
   },
@@ -54,7 +54,7 @@ module.exports = {
     root: __dirname + '/node_modules'
   },
 
-  externals: { jquery: "jQuery" },
+  externals: { jquery: 'jQuery' },
 
   plugins: [
     new webpack.ProvidePlugin({
@@ -65,6 +65,6 @@ module.exports = {
     new webpack.ResolverPlugin([
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
         'bower.json', ['main'])
-    ]) // ["normal", "loader"]
+    ]) // ['normal', 'loader']
   ]
 };
