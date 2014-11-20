@@ -56,7 +56,7 @@ gulp.task('lint', function() {
 gulp.task('webpack', function() {
   return gulp.src('app/assets/javascripts/angular/openproject-app.js')
     .pipe(gulpWebpack(config))
-    .pipe(gulp.dest('app/assets/javascripts/'));
+    .pipe(gulp.dest('app/assets/javascripts/bundles'));
 });
 
 gulp.task('sass', function() {
