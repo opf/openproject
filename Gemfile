@@ -49,7 +49,7 @@ gem "rails", "~> 3.2.21"
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-gem 'globalize'
+gem 'globalize', "3.0.0"
 
 gem 'request_store'
 

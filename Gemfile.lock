@@ -389,7 +389,7 @@ DEPENDENCIES
   execjs
   factory_girl_rails (~> 4.0)
   faker
-  globalize
+  globalize (= 3.0.0)
   guard-cucumber
   guard-rspec
   guard-test
