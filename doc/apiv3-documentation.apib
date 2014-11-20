@@ -1600,13 +1600,13 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## Actions:
 
-| Link                | Description                                                          | Condition                        |
-|:-------------------:|----------------------------------------------------------------------| -------------------------------- |
+| Link                | Description                                                          | Condition                         |
+|:-------------------:|----------------------------------------------------------------------| --------------------------------- |
 | update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
 | updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
-| watch               | Add current user to WP watchers                                      | logged in; not watching          |
-| unwatch             | Remove current user from WP watchers                                 | logged in; watching              |
-| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher      |
+| watch               | Add current user to WP watchers                                      | logged in; not watching           |
+| unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
+| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
 
 ## Linked Properties:
 
@@ -1622,21 +1622,21 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## Properties:
 
-| Property       | Description                                            | Type       | Constraints                                                                          | Supported operations | Condition                        |
-| :---------:    | -------------                                          | ----       | -----------                                                                          | -------------------- | --------------------             |
-| id             | Work package id                                        | Integer    | Must be a positive integer                                                           | READ                 |                                  |
-| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                                      | READ                 |                                  |
-| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                         | READ / WRITE         |                                  |
-| type           |                                                        | String     | **REQUIRED** Must be one of the types enabled for the current work package's project | READ                 |                                  |
-| description    | The work package description                           | Formatable |                                                                                      | READ / WRITE         |                                  |
-| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (in respect to the API user) work package   | READ / WRITE         |                                  |
-| startDate      |                                                        | Date       | must be equal or greater than the soonest possible start date                        | READ / WRITE         |                                  |
-| dueDate        |                                                        | Date       | must be greater then start date                                                      | READ / WRITE         |                                  |
-| estimatedTime  |                                                        | Duration   |                                                                                      | READ                 |                                  |
-| spentTime      |                                                        | Duration   |                                                                                      | READ                 | **Permission** view time entries |
-| percentageDone |                                                        | Integer    | Must be an integer between 0 and 100                                                 | READ                 |                                  |
-| createdAt      | Time of creation                                       | DateTime   |                                                                                      | READ                 |                                  |
-| updatedAt      | Time of the most recent change to the work package     | DateTime   |                                                                                      | READ                 |                                  |
+| Property       | Description                                            | Type       | Constraints                                                                  | Supported operations | Condition                        |
+|:--------------:| ------------------------------------------------------ | ---------- | ---------------------------------------------------------------------------- | -------------------- | -------------------------------- |
+| id             | Work package id                                        | Integer    | id > 0                                                                       | READ                 |                                  |
+| lockVersion    | The version of the item as used for optimistic locking | Integer    |                                                                              | READ                 |                                  |
+| subject        | Work package subject                                   | String     | not null; 1 <= length <= 255                                                 | READ / WRITE         |                                  |
+| type           | Name of the work package's type                        | String     | not null                                                                     | READ                 |                                  |
+| description    | The work package description                           | Formatable |                                                                              | READ / WRITE         |                                  |
+| parentId       | Parent work package id                                 | Integer    | Must be an id of an existing and visible (for the current user) work package | READ / WRITE         |                                  |
+| startDate      |                                                        | Date       | must be equal or greater than the soonest possible start date                | READ / WRITE         |                                  |
+| dueDate        |                                                        | Date       | must be greater than start date                                              | READ / WRITE         |                                  |
+| estimatedTime  |                                                        | Duration   |                                                                              | READ                 |                                  |
+| spentTime      |                                                        | Duration   |                                                                              | READ                 | **Permission** view time entries |
+| percentageDone |                                                        | Integer    | 0 <= x <= 100                                                                | READ                 |                                  |
+| createdAt      | Time of creation                                       | DateTime   |                                                                              | READ                 |                                  |
+| updatedAt      | Time of the most recent change to the work package     | DateTime   |                                                                              | READ                 |                                  |
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
