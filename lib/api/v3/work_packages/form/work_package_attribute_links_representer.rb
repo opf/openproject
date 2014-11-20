@@ -50,8 +50,7 @@ module API
                      resource = ::API::V3::Utilities::ResourceLinkParser.parse value['href']
 
                      represented.status_id = resource[:id] if resource[:ns] == 'statuses'
-                   },
-                   if: -> (*) { represented.status }
+                   }
 
           property :assignee,
                    exec_context: :decorator,
