@@ -76,7 +76,9 @@ module API
               href: "#{root_path}api/v3/work_packages/#{represented.id}",
               method: :patch
             } if @current_user.allowed_to?(:edit_work_packages, represented.project) &&
-                 represented.valid?
+                 # Calling valid? on represented empties the list of errors
+                 # also removing errors from other sources (like contracts).
+                 represented.errors.empty?
           end
 
           property :payload,

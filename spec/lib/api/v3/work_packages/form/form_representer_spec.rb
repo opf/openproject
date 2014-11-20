@@ -72,15 +72,13 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
 
       describe 'commit' do
         context 'valid work package' do
-          before { allow(work_package).to receive(:valid?).and_return(true) }
-
           it { is_expected.to have_json_path('_links/commit/href') }
 
           it { is_expected.to be_json_eql(:patch.to_json).at_path('_links/commit/method') }
         end
 
         context 'invalid work package' do
-          before { allow(work_package).to receive(:valid?).and_return(false) }
+          before { allow(work_package.errors).to receive(:empty?).and_return(false) }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end
@@ -93,7 +91,7 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
                               member_through_role: role)
           }
 
-          before { allow(work_package).to receive(:valid?).and_return(true) }
+          before { allow(work_package.errors).to receive(:empty?).and_return(true) }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end
