@@ -59,6 +59,7 @@ var TranslationsPlugin = {
   }
 };
 
+exports.pluginNamesPaths          = OpenProjectPlugins.pluginNamesPaths();
 exports.pluginDirectories         = OpenProjectPlugins.pluginDirectories();
 exports.translationsPluginLocales = TranslationsPlugin.findLocaleFiles();
 exports.translationsPluginPath    = TranslationsPlugin.findPluginPath();

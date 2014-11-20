@@ -1,15 +1,23 @@
 var webpack  = require('webpack'),
   path       = require('path'),
+  _          = require('lodash'),
   pathConfig = require('./config/rails-plugins.conf');
+
+var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path, name) {
+  entries[name.replace(/^openproject\-/, '')] = name;
+  return entries;
+}, {});
 
 module.exports = {
   context: __dirname + '/app/assets/javascripts/angular',
 
-  entry: './openproject-app.js',
+  entry: _.merge({
+    app: './openproject-app.js'
+  }, pluginEntries),
 
   output: {
-    filename: 'openproject-app.bundle.js',
-    path: path.join(__dirname, 'app', 'assets', 'javascripts')
+    filename: 'openproject-[name].js',
+    path: path.join(__dirname, 'app', 'assets', 'javascripts', 'bundles')
   },
 
   module: {
