@@ -1052,6 +1052,62 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Project][]
 
+## Projects by version [/api/v3/versions/{id}/projects]
+
++ Model
+    + Body
+
+            {
+                {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/statuses"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Project",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Lorem"
+                                },
+                                "categories": { "href": "/api/v3/projects/1/categories" },
+                                "versions": { "href": "/api/v3/projects/1/versions" }
+                            },
+                            "id": 1,
+                            "identifier": "project_identifier",
+                            "name": "Project example",
+                            "description": "Lorem ipsum dolor sit amet",
+                            "homepage": "http://openproject.com",
+                            "createdOn": "2014-05-21T08:51:20Z",
+                            "updatedOn": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List projects with version [GET]
+
+This endpoint lists the projects where the given version is available.
+
+The projects returned depend on the sharing settings of the given version,
+but are also limited to the projects that the current user is allowed to see.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 200 (application/hal+json)
+
+    [Project][]
+
 # Group Queries
 
 ## Properties:
