@@ -505,6 +505,13 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Categories
 
+## Linked Properties:
+|  Link           | Description                                         | Type          | Constraints | Supported operations |
+|:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self            | This category                                       | Category      | not null    | READ                 |
+| project         | The project of this category                        | Project       | not null    | READ                 |
+| defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
+
 ## Properties
 | Property   | Description   | Type    | Constraints | Supported operations |
 | :--------: | ------------- | ------- | ----------- | -------------------- |
@@ -527,11 +534,20 @@ Updates an activity's comment and, on success, returns the updated activity.
                 {
                     "elements": [
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/10" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "defaultAssignee": { "href": "/api/v3/users/42" }
+                            },
                             "_type": "Category",
                             "id": 10,
                             "name": "Foo"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/11" },
+                                "project": { "href": "/api/v3/projects/11" }
+                            },
                             "_type": "Category",
                             "id": 11,
                             "name": "Bar"
