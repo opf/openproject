@@ -72,6 +72,9 @@ angular.module('openproject.helpers')
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
+    projectWorkPackagesPath: function(projectId) {
+      return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
+    },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
@@ -268,7 +271,13 @@ angular.module('openproject.helpers')
     },
     staticWorkPackageNewWithParametersPath: function(projectId, parameters) {
       return PathHelper.staticBase + PathHelper.workPackageNewWithParameterPath(projectId, parameters);
-    }
+    },
+    staticProjectWorkPackagesPath: function(projectId) {
+      return PathHelper.staticBase + PathHelper.projectWorkPackagesPath(projectId);
+    },
+    staticWorkPackagesPath: function() {
+      return PathHelper.staticBase + PathHelper.workPackagesPath();
+    },
   };
 
   return PathHelper;
