@@ -7,23 +7,20 @@ require('shelljs/global');
 var path = require('path'),
     _    = require('lodash');
 
-function rubyBundler(subCmd) {
-  var fullCmd = exec('bundle ' + subCmd, { silent: true });
-  return fullCmd.code === 0 ? fullCmd.output : null;
+var PLUGIN_INFO_CMD_PATH = path.join(__dirname, '..', 'bin', 'plugin_info');
+
+function runPluginsInfo() {
+  var fullCmd = exec(PLUGIN_INFO_CMD_PATH, { silent: true });
+  return fullCmd.code === 0 ? fullCmd.output : '{}';
 }
 
 var OpenProjectPlugins = {
-  pluginPaths: _.memoize(function() {
-    var allPaths = (rubyBundler('list --paths') || '').split('\n');
-    return allPaths.filter(function(name) {
-      // naive match
-      return name.match(/openproject-/);
-    });
+  allPluginNamesPaths: _.memoize(function() {
+    return JSON.parse(runPluginsInfo());
   }),
 
   pluginNamesPaths: function() {
-    return this.pluginPaths().reduce(function(obj, pluginPath) {
-      var pluginName = path.basename(pluginPath).replace(/-[0-9a-fA-F]{12}$/, '');
+    return _.reduce(this.allPluginNamesPaths(), function(obj, pluginPath, pluginName) {
       if (test('-e', path.join(pluginPath, 'package.json'))) {
         obj[pluginName] = pluginPath;
       } else {
@@ -38,7 +35,7 @@ var OpenProjectPlugins = {
   }, _.identity),
 
   pluginDirectories: function() {
-    return this.pluginPaths().reduce(function(dirList, pluginPath) {
+    return _.reduce(this.allPluginNamesPaths(), function(dirList, pluginPath) {
       var pluginDir = path.dirname(pluginPath);
       return dirList.indexOf(pluginDir) === -1 ? dirList.concat(pluginDir) : dirList;
     }, []);
