@@ -36,7 +36,7 @@
 // main app
 var openprojectBacklogsApp = angular.module('openproject');
 
-openprojectCostsApp.run([ 'ConfigurationService',
+openprojectBacklogsApp.run([ 'ConfigurationService',
                          'WorkPackagesOverviewService',
                          function(ConfigurationService, WorkPackagesOverviewService) {
   if (ConfigurationService.isModuleEnabled('backlogs')) {
