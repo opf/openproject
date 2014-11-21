@@ -35,23 +35,27 @@ module API
     class RootRepresenter < Roar::Decorator
       include Roar::JSON::HAL
       include Roar::Hypermedia
-      include OpenProject::StaticRouting::UrlHelpers
+      include API::V3::Utilities::PathHelper
 
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
       link 'priorities' do
-        "#{root_path}api/v3/priorities"
+        {
+          href: api_v3_paths.priorities
+        }
       end
 
       link 'project' do
         {
-          href: "#{root_path}api/v3/project/{project_id}",
+          href: api_v3_paths.projects + '/{project_id}',
           templated: true
         }
       end
 
       link 'statuses' do
-        "#{root_path}api/v3/statuses"
+        {
+          href: api_v3_paths.statuses
+        }
       end
     end
   end

@@ -37,14 +37,14 @@ module API
         class WorkPackageAttributeLinksRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::Utilities::UrlHelper
+          include API::V3::Utilities::PathHelper
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     { href: "#{root_path}api/v3/statuses/#{represented.status.id}" }
+                     { href: api_v3_paths.status(represented.status.id) }
                    },
                    setter: -> (value, *) {
                      resource = parse_resource(:status, :statuses, value['href'])
@@ -57,7 +57,7 @@ module API
                    getter: -> (*) {
                      id = represented.assigned_to_id
 
-                     { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
+                     { href: id ? api_v3_paths.user(id) : nil }
                    },
                    setter: -> (value, *) {
                      user_id = parse_user_resource(:assignee, value['href'])
@@ -70,7 +70,7 @@ module API
                    getter: -> (*) {
                      id = represented.responsible_id
 
-                     { href: id ? "#{root_path}api/v3/users/#{id}" : nil }
+                     { href: id ? api_v3_paths.user(id) : nil }
                    },
                    setter: -> (value, *) {
                      user_id = parse_user_resource(:responsible, value['href'])

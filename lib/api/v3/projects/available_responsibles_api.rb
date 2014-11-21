@@ -36,7 +36,7 @@ module API
 
             available_responsibles = @project.possible_responsibles
             total = available_responsibles.count
-            self_link = "projects/#{@project.id}/available_responsibles"
+            self_link = api_v3_paths.available_responsibles(@project.id)
             ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
                                                             total,
                                                             self_link)

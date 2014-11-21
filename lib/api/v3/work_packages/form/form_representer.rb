@@ -37,7 +37,7 @@ module API
         class FormRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::Utilities::UrlHelper
+          include API::V3::Utilities::PathHelper
           include OpenProject::TextFormatting
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
@@ -52,28 +52,27 @@ module API
 
           link :self do
             {
-              href: "#{root_path}api/v3/work_packages/#{represented.id}/form",
+              href: api_v3_paths.work_package_form(represented.id),
             }
           end
 
           link :validate do
             {
-              href: "#{root_path}api/v3/work_packages/#{represented.id}/form",
+              href: api_v3_paths.work_package_form(represented.id),
               method: :post
             }
           end
 
           link :previewMarkup do
             {
-              href: "#{root_path}api/v3/render/textile?"\
-                    "#{root_path}api/v3/work_packages/#{represented.id}",
+              href: api_v3_paths.preview_textile(api_v3_paths.work_package(represented.id)),
               method: :post
             }
           end
 
           link :commit do
             {
-              href: "#{root_path}api/v3/work_packages/#{represented.id}",
+              href: api_v3_paths.work_package(represented.id),
               method: :patch
             } if @current_user.allowed_to?(:edit_work_packages, represented.project) &&
                  # Calling valid? on represented empties the list of errors

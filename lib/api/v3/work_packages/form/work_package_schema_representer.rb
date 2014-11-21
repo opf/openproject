@@ -37,7 +37,7 @@ module API
         class WorkPackageSchemaRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::Utilities::UrlHelper
+          include API::V3::Utilities::PathHelper
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -66,7 +66,7 @@ module API
             property :links_to_allowed_statuses,
                      as: :_links,
                      getter: -> (*) { self } do
-              include API::Utilities::UrlHelper
+              include API::V3::Utilities::PathHelper
 
               self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -74,7 +74,7 @@ module API
 
               def allowed_values
                 represented.map do |status|
-                  { href: "#{root_path}api/v3/statuses/#{status.id}", title: status.name }
+                  { href: api_v3_paths.status(status.id), title: status.name }
                 end
               end
             end
@@ -96,16 +96,13 @@ module API
             property :links_to_available_assignees,
                      as: :_links,
                      getter: -> (*) { self } do
-              include API::Utilities::UrlHelper
+              include API::V3::Utilities::PathHelper
 
               self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
               property :allowed_values,
                        getter: -> (*) {
-                         project_id = represented.project.id
-                         href = "#{root_path}api/v3/projects/#{project_id}/available_assignees"
-
-                         { href: href }
+                         { href: api_v3_paths.available_assignees(represented.project.id) }
                        },
                        exec_context: :decorator
             end
@@ -121,16 +118,13 @@ module API
             property :links_to_available_responsibles,
                      as: :_links,
                      getter: -> (*) { self } do
-              include API::Utilities::UrlHelper
+              include API::V3::Utilities::PathHelper
 
               self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
               property :allowed_values,
                        getter: -> (*) {
-                         project_id = represented.project.id
-                         href = "#{root_path}api/v3/projects/#{project_id}/available_responsibles"
-
-                         { href: href }
+                         { href: api_v3_paths.available_responsibles(represented.project.id) }
                        },
                        exec_context: :decorator
             end

@@ -36,24 +36,33 @@ module API
       class AttachmentRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/attachments/#{represented.id}", title: "#{represented.filename}" }
+          {
+            href: api_v3_paths.attachment(represented.id),
+            title: "#{represented.filename}"
+          }
         end
 
         link :work_package do
           work_package = represented.container
-          { href: "#{root_path}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
+          {
+            href: api_v3_paths.work_package(work_package.id),
+            title: "#{work_package.subject}"
+          } unless work_package.nil?
         end
 
         link :author do
           author = represented.author
-          { href: "#{root_path}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
+          {
+            href: api_v3_paths.user(author.id),
+            title: "#{author.name} - #{author.login}"
+          } unless author.nil?
         end
 
         property :id, render_nil: true
