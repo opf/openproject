@@ -278,6 +278,10 @@ angular.module('openproject.helpers')
     staticWorkPackagesPath: function() {
       return PathHelper.staticBase + PathHelper.workPackagesPath();
     },
+    staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
+      return PathHelper.staticBase
+        + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
+    },
   };
 
   return PathHelper;

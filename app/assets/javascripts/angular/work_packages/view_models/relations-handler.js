@@ -34,8 +34,13 @@ angular.module('openproject.viewModels')
     '$timeout',
     'WorkPackageService',
     'ApiHelper',
+    'PathHelper',
     'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS',
-    function($timeout, WorkPackageService, ApiHelper, MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
+    function($timeout,
+             WorkPackageService,
+             ApiHelper,
+             PathHelper,
+             MAX_AUTOCOMPLETER_ADDITION_ITERATIONS) {
   function CommonRelationsHandler(workPackage,
                                   relations,
                                   relationsId) {
@@ -97,9 +102,12 @@ angular.module('openproject.viewModels')
     },
 
     addAutocompleter: function(retries, workPackage, relationsId) {
+      var projectId = workPackage.props.projectId;
+      var workPackageId = workPackage.props.id;
+
       if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
         // Massive hack alert - Using old prototype autocomplete ///////////
-        var url = PathHelper.workPackageAutoCompletePath(workPackage.props.projectId, workPackage.props.id);
+        var url = PathHelper.staticWorkPackageAutoCompletePath(projectId, workPackageId);
         new Ajax.Autocompleter('relation_to_id-' + relationsId,
                                'related_issue_candidates-' + relationsId,
                                url,
