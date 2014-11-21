@@ -57,6 +57,15 @@ file in the root directory of the plugin).
 Plugins that extend the frontend application may be packaged as **npm modules**.
 These plugins must contain a `package.json` in the root directory of the plugin.
 
+Plugins are responsible for loading their own assets, including additional
+images, styles and I18n translations.
+
+To load translation strings use the provided `I18n.addTranslation` function:
+
+    ```js
+    I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
+    ```
+
 **To use a frontend plugin:**
 
   * You will currently need to modify the `package.json` of OpenProject core
