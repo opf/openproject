@@ -87,8 +87,7 @@ script:
 notifications:
   email: false
 
-# Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
-# addons:
-#   code_climate:
-#       repo_token:
-#         secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="
+addons:
+  code_climate:
+    repo_token:
+      secure: "ZfYhlmqdWJ+qf/73pUAIK1DwZBB/p4dVCuoKY75y5QNXZXsWvojoZ3VwZpUmZL4BX77fnWQYgQa++gUc9v6ZanKJen+zigxJEjIxdMzqx0F1MRLJL6hjzbf+uISfzEKMGiSfe9yKSsj9p4DUaUGMdtfFw0giuCBRrN3ZPmW9GM4="
