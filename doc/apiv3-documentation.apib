@@ -1108,6 +1108,24 @@ but are also limited to the projects that the current user is allowed to see.
 
     [Project][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project (any project where the version is available)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
 # Group Queries
 
 ## Properties:
@@ -1705,6 +1723,24 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
     [Versions by Project][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
 ## Version [/api/v3/versions/{id}]
 
 + Model
@@ -1737,6 +1773,24 @@ Note that due to sharing this might be more than the versions *defined* by that 
 + Response 200 (application/hal+json)
 
     [Priority][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project (any project where the version is available)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
 
 # Group Work packages
 
