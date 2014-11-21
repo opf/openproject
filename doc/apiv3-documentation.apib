@@ -571,7 +571,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     to see it.
 
     **Required permission:** view project
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
     Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -614,7 +614,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     to see it.
 
     **Required permission:** view project (defining the category)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of
     a category. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1190,7 +1190,7 @@ but are also limited to the projects that the current user is allowed to see.
     to see it.
 
     **Required permission:** view work packages **or** manage versions (any project where the given version is available)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1805,7 +1805,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
     to see it.
 
     **Required permission:** view work packages **or** manage versions (on given project)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1856,7 +1856,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
     to see it.
 
     **Required permission:** view work packages **or** manage versions (any project where the version is available)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of
     a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1971,10 +1971,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                     },
                     "version": {
                         "href": "/api/v3/versions/1"
-                    },
-                    "availableStatuses": {
-                        "href": "/api/v3/work_packages/1528/available_statuses",
-                        "title": "Available Statuses"
                     },
                     "availableWatchers": {
                         "href": "/api/v3/work_packages/1528/available_watchers",

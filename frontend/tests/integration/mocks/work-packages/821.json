@@ -39,10 +39,6 @@
       "href": "/api/v3/users/5",
       "title": "Freida Fay - Christine6938"
     },
-    "availableStatuses": {
-      "href": "/api/v3/work_packages/821/available_statuses",
-      "title": "Available Statuses"
-    },
     "availableWatchers": {
       "href": "/api/v3/work_packages/821/available_watchers",
       "title": "Available Watchers"

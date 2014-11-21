@@ -34,10 +34,6 @@
       "href": "/api/v3/users/34",
       "title": "Reinhold Weber - Joe3757"
     },
-    "availableStatuses": {
-      "href": "/api/v3/work_packages/819/available_statuses",
-      "title": "Available Statuses"
-    },
     "availableWatchers": {
       "href": "/api/v3/work_packages/819/available_watchers",
       "title": "Available Watchers"

@@ -126,14 +126,6 @@ module API
           } unless represented.assigned_to.nil?
         end
 
-        link :availableStatuses do
-          {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/available_statuses",
-            title: 'Available Statuses'
-          } if @current_user.allowed_to?({ controller: :work_packages, action: :update },
-                                         represented.project)
-        end
-
         link :availableWatchers do
           {
             href: api_v3_paths.available_watchers(represented.id),
