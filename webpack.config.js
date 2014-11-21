@@ -8,6 +8,11 @@ var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path
   return entries;
 }, {});
 
+var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, pluginPath, name) {
+  entries[name] = path.basename(pluginPath);
+  return entries;
+}, {});
+
 module.exports = {
   context: __dirname + '/frontend/app',
 
@@ -36,7 +41,7 @@ module.exports = {
       'vendor/assets/components'
     ].concat(pathConfig.pluginDirectories),
 
-    alias: {
+    alias: _.merge({
       'locales':        'config/locales',
       'extra-locales':  path.join(pathConfig.translationsPluginPath, 'config', 'locales'),
 
@@ -47,7 +52,7 @@ module.exports = {
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'
-    }
+    }, pluginAliases)
   },
 
   resolveLoader: {
