@@ -4,5 +4,5 @@ title: "Living Style Guide for OpenProject"
 
 # Adjust default LivingStyleGuide design:
 style:
-  base-font: Lato
+  base-font: Fira Sans
   base-font-size: 16px
