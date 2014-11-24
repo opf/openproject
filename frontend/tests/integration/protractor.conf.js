@@ -61,6 +61,7 @@ if (process.env.TRAVIS_BUILD_NUMBER) {
   config.sauceKey  = process.env.SAUCE_ACCESS_KEY;
 
   if (config.sauceUser && config.sauceKey) {
+    config.directConnect = false;
     config.capabilities = {
       'browserName': 'chrome',
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
