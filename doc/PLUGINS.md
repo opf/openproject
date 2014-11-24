@@ -81,9 +81,9 @@ _CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
 **To use a hybrid plugin:**
 
   * declare the dependency in `Gemfile.plugins` within the `:opf_plugins` group
-    using the Bundler DSL. The
+    using the Bundler DSL.
 
-  * run `bundle install`.
+  * then run `bundle install`.
 
 You **do not** need to modify the `package.json` of OpenProject core. Provided
 Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
