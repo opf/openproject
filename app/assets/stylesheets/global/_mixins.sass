@@ -237,25 +237,11 @@ $button_gray_font_color: #222222
   overflow-y: auto
 
 // Based on Bourbon mixin: http://bourbon.io/docs/#font-face
-@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $svg-font-id: $font-family)
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal)
   @font-face
     font-family: $font-family
     font-weight: $weight
     font-style:  $style
     src: font-url('#{$file-path}.eot')
-    src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'), font-url('#{$file-path}.woff') format('woff'), font-url('#{$file-path}.ttf') format('truetype'), font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
+    src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'), font-url('#{$file-path}.woff') format('woff'), font-url('#{$file-path}.ttf') format('truetype'), font-url('#{$file-path}.svg##{$font-family}') format('svg')
     text-rendering: optimizeLegibility
-
-  // Always use SVG fonts (rather than WOFF/TTF) in WebKit-based browers
-  // FIXME: we only want to target Chrome on Windows
-  @media screen and (-webkit-min-device-pixel-ratio:0)
-    @font-face
-      font-family: $font-family
-      font-weight: $weight
-      font-style:  $style
-      src: font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
-    // Select dropdowns show strange characters on Chrome on Windows with the fix above
-    // Temporarily use another font for them.
-    // See https://www.openproject.org/work_packages/7479
-    select
-      font-family: sans-serif !important
