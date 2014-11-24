@@ -47,7 +47,7 @@ namespace :ci do
       RAILS_ENV = 'test'
       db_adapter = ENV['DB']
 
-      raise 'please provide a db adapter with DB={mysql2, postgres, sqlite}' unless db_adapter
+      raise 'please provide a db adapter with DB={mysql2, postgres}' unless db_adapter
 
       db_info = {
         'mysql2' => {
@@ -57,10 +57,6 @@ namespace :ci do
         'postgres' => {
           'adapter'  => 'postgresql',
           'username' => 'postgres'
-        },
-        'sqlite' => {
-          'adapter'  => 'sqlite3',
-          'database' => 'db/test.sqlite3'
         }
       }[db_adapter]
 
