@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++-->
 
-# OpenProject Plugins
+# Developing OpenProject Plugins
 
 The core functionality of OpenProject may be extended through the use of plugins.
 
@@ -37,7 +37,7 @@ Plugins that extend the Rails application are packaged as **Ruby gems**.
 These plugins must contain a `Gem::Specification` (typically as a `.gemspec`
 file in the root directory of the plugin).
 
-**To use a Rails plugin:**
+**To use a Rails plugin**
 
   * declare the dependency in `Gemfile.plugins` within the `:opf_plugins` group
     using the Bundler DSL.
@@ -52,7 +52,7 @@ file in the root directory of the plugin).
 
   * run `bundle install`.
 
-## Frontend plugins
+## Frontend plugins [WIP]
 
 Plugins that extend the frontend application may be packaged as **npm modules**.
 These plugins must contain a `package.json` in the root directory of the plugin.
@@ -65,6 +65,9 @@ To load translation strings use the provided `I18n.addTranslation` function:
     ```js
     I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
     ```
+
+Pure frontend plugins should be considered _a work in progress_. As such, it is
+currently recommended to create hybrid plugins (see below).
 
 **To use a frontend plugin:**
 
