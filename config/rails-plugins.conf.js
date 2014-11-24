@@ -70,26 +70,5 @@ var OpenProjectPlugins = {
   }
 };
 
-var TranslationsPlugin = {
-  envPath: function() {
-    if (env['OPENPROJECT_TRANSLATIONS_ROOT']) {
-      return path.resolve(__dirname, '..', env['OPENPROJECT_TRANSLATIONS_ROOT']);
-    }
-  },
-
-  findPluginPath: function() {
-    return this.envPath() || OpenProjectPlugins.findPluginPath('openproject-translations') || '';
-  },
-
-  findLocaleFiles: function() {
-    var localeFilePath = path.join(this.findPluginPath(), 'config', 'locales');
-    return find(localeFilePath).filter(function(file) {
-      return file.match(/js-([\w|-]){2,5}\.yml$/);
-    });
-  }
-};
-
 exports.pluginNamesPaths          = OpenProjectPlugins.pluginNamesPaths();
 exports.pluginDirectories         = OpenProjectPlugins.pluginDirectories();
-exports.translationsPluginLocales = TranslationsPlugin.findLocaleFiles();
-exports.translationsPluginPath    = TranslationsPlugin.findPluginPath();

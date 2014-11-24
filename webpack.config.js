@@ -43,7 +43,6 @@ module.exports = {
 
     alias: _.merge({
       'locales':        'config/locales',
-      'extra-locales':  path.join(pathConfig.translationsPluginPath, 'config', 'locales'),
 
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
