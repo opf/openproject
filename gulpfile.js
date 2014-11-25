@@ -72,7 +72,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('express', function() {
-  var expressApp = require('./protractor/server');
+  var expressApp = require('./frontend/tests/integration/server');
   var port = process.env.PORT || 8080;
 
   (function startServer(port) {
@@ -93,9 +93,9 @@ gulp.task('webdriver:update', webdriverUpdate);
 gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
 gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
-  gulp.src('protractor/**/*_spec.js')
+  gulp.src('frontend/tests/integration/**/*_spec.js')
     .pipe(protractor({
-      configFile: 'protractor/conf.js',
+      configFile: 'frontend/tests/integration/conf.js',
       args: ['--baseUrl', 'http://' + server.address().address + ':' + server.address().port]
     }))
     .on('error', function(e) {

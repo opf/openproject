@@ -34,7 +34,7 @@ var mocks = globSync('./mocks/**/*.js', {
 }).map(require);
 
 var express = require('express');
-var railsRoot = __dirname + '/..';
+var railsRoot = __dirname + '/../../..';
 var app = express();
 
 app.use(bodyParser.json());
