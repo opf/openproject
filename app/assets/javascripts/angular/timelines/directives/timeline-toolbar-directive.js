@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineToolbar', ['TimelineTableHelper', function(TimelineTableHelper) {
+.directive('timelineToolbar', ['I18n', function(I18n) {
 
   return {
     restrict: 'E',
@@ -36,6 +36,7 @@ angular.module('openproject.timelines.directives')
     templateUrl: '/templates/timelines/toolbar.html',
     scope: { timeline: '=' },
     link: function(scope) {
+      scope.I18n = I18n;
       scope.currentScaleName = 'monthly';
 
       scope.updateToolbar = function() {
