@@ -92,6 +92,12 @@ These are generic (and condensed) installation instructions for the **current de
 
         foreman start -f Procfile.dev
 
+   By default a worker process will also be started. In development asynchronous
+   execution of long-running background tasks (sending emails, copying projects,
+   etc.) may be of limited use. To disable the worker process:
+
+        echo "concurrency: web=1,assets=1,worker=0" >> .foreman
+
 
 [Node.js]:http://nodejs.org/
 [Bundler]:http://bundler.io/
