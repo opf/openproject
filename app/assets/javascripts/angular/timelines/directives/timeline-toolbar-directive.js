@@ -61,9 +61,6 @@ angular.module('openproject.timelines.directives')
 
       scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
         if (newScaleName !== oldScaleName) {
-          scope.currentScale = scope.timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
-          scope.timeline.scale = scope.currentScale;
-
           scope.currentScaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
           scope.slider.slider('value', scope.currentScaleIndex + 1);
 

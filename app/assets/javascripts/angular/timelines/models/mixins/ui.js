@@ -197,7 +197,12 @@ angular.module('openproject.timelines.models')
         index = this.zoomIndex;
       }
       index = Math.max(Math.min(this.ZOOM_SCALES.length - 1, index), 0);
+      var zoomScale = this.ZOOM_SCALES[index];
+      var scale = this.ZOOM_CONFIGURATIONS[zoomScale].scale;
+
       this.zoomIndex = index;
+      this.scale = scale;
+
       this.resetWidth();
       this.triggerResize();
       this.rebuildAll();
