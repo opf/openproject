@@ -26,6 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// standard locales
+I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
+I18n.addTranslations('de', require('../../config/locales/js-de.yml').de);
+
 // main app
 var openprojectCostsApp = angular.module('openproject');
 
@@ -81,3 +85,6 @@ openprojectCostsApp.run(['HookService',
     return { "log_costs": ["icon-unit"] };
   });
 }]);
+
+require('./work_packages/directives/cost-object-directive');
+require('./work_packages/directives/summarized-cost-entries-directive');

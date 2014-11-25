@@ -184,10 +184,7 @@ module OpenProject::Costs
       end
     end
 
-    assets %w(angular/work_packages/directives/summarized-cost-entries-directive.js
-              angular/work_packages/directives/cost-object-directive.js
-              angular/openproject-costs-app.js
-              costs/costs.css
+    assets %w(costs/costs.css
               costs/costs.js
               work_packages/cost_object.html
               work_packages/summarized_cost_entries.html)
