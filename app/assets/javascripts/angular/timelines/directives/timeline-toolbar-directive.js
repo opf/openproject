@@ -73,7 +73,6 @@ angular.module('openproject.timelines.directives')
         if (outlineLevel !== formerLevel) {
           scope.timeline.expansionIndex = scope.timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
           scope.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
-          TimelineTableHelper.setRowLevelVisibility(scope.rows, scope.timeline.expansionIndex);
         }
       });
 
