@@ -31,39 +31,42 @@ See doc/COPYRIGHT.rdoc for more details.
 <% push_timeline_options timeline %>
 <%= include_gon %>
 
-<div ng-controller="TimelinesController">
-  <timeline-container>
-    <timeline-toolbar></timeline-toolbar>
-    <timeline-table-container></timeline-table-container>
-  </timeline-container>
-</div>
+<% if gon.timeline_options.count == 1 %>
+  <div ng-controller="TimelinesController">
+    <timeline-container ng-repeat="timeline in timelines"
+                        timeline-id="{{ timeline.id }}">
+      <timeline-toolbar></timeline-toolbar>
+      <timeline-table-container></timeline-table-container>
+    </timeline-container>
+  </div>
 
-<% unless User.current.impaired? %>
-  <%# TODO: Require autocompleter inside select_boxes.js
-    For lack of a requiring policy (such as requirejs), just include the
-    autocompleter on its own.
+  <% unless User.current.impaired? %>
+    <%# TODO: Require autocompleter inside select_boxes.js
+      For lack of a requiring policy (such as requirejs), just include the
+      autocompleter on its own.
+    %>
+    <%= javascript_include_tag "autocompleter.js" %>
+    <%= javascript_include_tag "timelines_select_boxes.js" %>
+  <% end %>
+
+  <% unless @timeline_header_included %>
+    <% content_for :header_tags do %>
+  <!-- additional resources for timelines -->
+  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%=
+    case I18n.locale
+    when :de
+      javascript_include_tag 'date-de-DE.js'
+    else
+      javascript_include_tag 'date-en-US.js'
+    end
   %>
-  <%= javascript_include_tag "autocompleter.js" %>
-  <%= javascript_include_tag "timelines_select_boxes.js" %>
-<% end %>
 
-<% unless @timeline_header_included %>
-  <% content_for :header_tags do %>
-<!-- additional resources for timelines -->
-<%= stylesheet_link_tag 'timelines.css', :media => "all" %>
-<%=
-  case I18n.locale
-  when :de
-    javascript_include_tag 'date-de-DE.js'
-  else
-    javascript_include_tag 'date-en-US.js'
-  end
-%>
+  <%= include_calendar_headers_tags %>
 
-<%= include_calendar_headers_tags %>
+  <%= javascript_include_tag 'timelines_modal.js' %>
 
-<%= javascript_include_tag 'timelines_modal.js' %>
-
-<% @timeline_header_included = true %>
+  <% @timeline_header_included = true %>
+    <% end %>
   <% end %>
 <% end %>

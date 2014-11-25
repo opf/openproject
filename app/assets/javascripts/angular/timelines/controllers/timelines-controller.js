@@ -29,12 +29,28 @@
 angular.module('openproject.timelines.controllers')
 
 .controller('TimelinesController', ['$scope', function($scope) {
+  var getInitialOutlineExpansion = function(timelineOptions) {
+    var initialOutlineExpansion = timelineOptions.initial_outline_expansion;
+    if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
+      return initialOutlineExpansion;
+    } else {
+      return 0;
+    }
+  };
+
   // Setup
 
   // Get server-side stuff into scope
   $scope.timelineOptions = gon.timeline_options;
+  $scope.timelines = [];
 
-  // Count timeline containers
-  $scope.timelineContainerCount = 0;
+  angular.forEach($scope.timelineOptions, function(value, id) {
+    var timelineOptions = $scope.timelineOptions[id];
+    var timeline = Timeline.create(id, value);
 
+    // Set initial expansion index
+    timeline.expansionIndex = getInitialOutlineExpansion(timelineOptions);
+
+    this.push(timeline);
+  }, $scope.timelines);
 }]);

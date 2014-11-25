@@ -29,15 +29,6 @@
 angular.module('openproject.timelines.directives')
 
 .directive('timelineContainer', ['$window', 'Timeline', function($window, Timeline) {
-  var getInitialOutlineExpansion = function(timelineOptions) {
-    var initialOutlineExpansion = timelineOptions.initial_outline_expansion;
-    if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
-      return initialOutlineExpansion;
-    } else {
-      return 0;
-    }
-  };
-
   setTimelinesWidth = function(scope) {
     var contentElement = angular.element('#content');
 
@@ -54,6 +45,7 @@ angular.module('openproject.timelines.directives')
           $scope.errorMessage = errorMessage;
         };
       }],
+    scope: { timelineId: '@' },
     transclude: true,
     template: '<div ng-style="{ width: timelineWidth }">' +
               '<div ng-hide="!!errorMessage" ng-transclude id="{{timelineContainerElementId}}"/>' +
@@ -64,12 +56,6 @@ angular.module('openproject.timelines.directives')
 
       // Hide charts until tables are drawn
       scope.underConstruction = true;
-
-      // Create timeline object
-      scope.timeline = Timeline.create(scope.timelineOptions);
-
-      // Set initial expansion index
-      scope.timeline.expansionIndex = getInitialOutlineExpansion(scope.timelineOptions);
 
       // As part of a wiki the timeline container would have to stick to the wiki's width
       // limitation. We set the timeline width programmatically to bypass the width
