@@ -53,7 +53,7 @@
 /db/*.sqlite3
 /db/schema.rb
 /files/*
-/karma/reports
+/frontend/tests/unit/reports
 /log/*.log*
 /log/mongrel_debug
 /public/dispatch.*

@@ -67,16 +67,16 @@ module.exports = function(config) {
 
       'app/assets/javascripts/date-en-US.js',
 
-      'karma/tests/timeline_stubs.js',
-      'karma/lib/rosie.js',
-      'karma/tests/test-helper.js',
-      'karma/factories/*factory.js',
+      'frontend/tests/unit/tests/timeline_stubs.js',
+      'frontend/tests/unit/lib/rosie.js',
+      'frontend/tests/unit/tests/test-helper.js',
+      'frontend/tests/unit/factories/*factory.js',
 
       'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
 
-      'karma/tests/asset_functions.js',
-      'karma/tests/**/*test.js',
-      'karma/tests/legacy-tests.js',
+      'frontend/tests/unit/tests/asset_functions.js',
+      'frontend/tests/unit/tests/**/*test.js',
+      'frontend/tests/unit/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
@@ -132,7 +132,7 @@ module.exports = function(config) {
 
 
     junitReporter: {
-      outputFile: 'karma/reports/test-results.xml'
+      outputFile: 'frontend/tests/unit/reports/test-results.xml'
     },
 
     coverageReporter: {
