@@ -187,8 +187,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
-  gem 'pry-debugger', :platforms => :mri_19
+  gem 'pry-byebug'
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
