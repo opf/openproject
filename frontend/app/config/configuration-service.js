@@ -26,73 +26,69 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($log) {
+// As the settings are transported from ruby code (gon)
+// we can not enforce camel case here.
+
+/* jshint camelcase: false */
+
+module.exports = function() {
+
+  var initSettings = function() {
+    var settings = {},
+        defaults = {
+          enabled_modules: [],
+          display: [],
+          user_preferences: {
+            impaired: false,
+            time_zone: '',
+            others: {
+              comments_sorting: 'asc'
+            }
+          }
+        };
+
+    if (window.gon !== undefined) {
+      settings = window.gon.settings;
+    }
+
+    return _.merge(defaults, settings);
+  };
 
   return {
-    settingsPresent: function() {
-      try {
-        return gon && gon.settings;
-      }
-      catch (e) {
-        if (e instanceof ReferenceError) {
-          // gon not loaded on this page
-          return false;
-        }
-        else {
-          throw e;
-        }
-      }
-    },
+    settings: initSettings(),
     userPreferencesPresent: function() {
-      return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
-    },
-    displaySettingsPresent: function() {
-      return this.settingsPresent() && gon.settings.hasOwnProperty('display');
+      return this.settings.hasOwnProperty('user_preferences');
     },
     displaySettingPresent: function(setting) {
-      return this.displaySettingsPresent()
-        && gon.settings.display.hasOwnProperty(setting)
-        && gon.settings.display[setting] != false;
+      return this.settings.display.hasOwnProperty(setting) &&
+        this.settings.display[setting] !== false;
     },
     accessibilityModeEnabled: function() {
-      if (!this.userPreferencesPresent()) {
-        $log.error('User preferences are not available.');
-        return false;
-      } else {
-        return gon.settings.user_preferences.impaired;
-      }
+      return this.settings.user_preferences.impaired;
     },
     commentsSortedInDescendingOrder: function() {
-      if (!this.userPreferencesPresent()) {
-        $log.error('User preferences are not available.');
-        return false;
-      } else {
-        return gon.settings.user_preferences.others.comments_sorting === 'desc';
-      }
+      return this.settings.user_preferences.others.comments_sorting === 'desc';
     },
     isTimezoneSet: function() {
-      return this.userPreferencesPresent() && gon.settings.user_preferences.time_zone != '';
+      return this.settings.user_preferences.time_zone !== '';
     },
     timezone: function() {
-      return (this.isTimezoneSet()) ? gon.settings.user_preferences.time_zone : '';
+      return this.settings.user_preferences.time_zone;
     },
     dateFormatPresent: function() {
       return this.displaySettingPresent('date_format');
     },
     dateFormat: function() {
-      return gon.settings.display.date_format;
+      return this.settings.display.date_format;
     },
     timeFormatPresent: function() {
       return this.displaySettingPresent('time_format');
     },
     timeFormat: function() {
-      return gon.settings.display.time_format;
-    },
-    enabledModulesPresent: function() {
-      return this.settingsPresent() && gon.settings.hasOwnProperty('enabled_modules');
+      return this.settings.display.time_format;
     },
     isModuleEnabled: function(module) {
-      return this.settingsPresent() && gon.settings.enabled_modules.indexOf(module) >= 0;
+      return this.settings.enabled_modules.indexOf(module) >= 0;
     },
   };
 };
