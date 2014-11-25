@@ -1,7 +1,7 @@
 var webpack  = require('webpack'),
   path       = require('path'),
   _          = require('lodash'),
-  pathConfig = require('./config/rails-plugins.conf');
+  pathConfig = require('./rails-plugins.conf');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
@@ -14,7 +14,7 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, plug
 }, {});
 
 module.exports = {
-  context: __dirname + '/frontend/app',
+  context: __dirname + '/app',
 
   entry: _.merge({
     app: './openproject-app.js'
@@ -22,7 +22,7 @@ module.exports = {
 
   output: {
     filename: 'openproject-[name].js',
-    path: path.join(__dirname, 'app', 'assets', 'javascripts', 'bundles')
+    path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles')
   },
 
   module: {
@@ -38,11 +38,11 @@ module.exports = {
 
     modulesDirectories: [
       'node_modules',
-      'vendor/assets/components'
+      'bower_components'
     ].concat(pathConfig.pluginDirectories),
 
     alias: _.merge({
-      'locales':        'config/locales',
+      'locales':        './../../config/locales',
 
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',

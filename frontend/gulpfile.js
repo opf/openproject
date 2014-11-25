@@ -42,8 +42,8 @@ var server;
 
 var paths = {
   scripts: [
-    'frontend/app/**/*.js',
-    '!frontend/app/vendor/**/*.js'
+    'app/**/*.js',
+    '!app/vendor/**/*.js'
   ]
 };
 
@@ -54,13 +54,13 @@ gulp.task('lint', function() {
 });
 
 gulp.task('webpack', function() {
-  return gulp.src('frontend/app/openproject-app.js')
+  return gulp.src('app/openproject-app.js')
     .pipe(gulpWebpack(config))
-    .pipe(gulp.dest('app/assets/javascripts/bundles'));
+    .pipe(gulp.dest('../app/assets/javascripts/bundles'));
 });
 
 gulp.task('sass', function() {
-  return gulp.src('app/assets/stylesheets/default.css.sass')
+  return gulp.src('../app/assets/stylesheets/default.css.sass')
     .pipe(sass({
       bundleExec: true,
       require: 'bourbon'
@@ -72,7 +72,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('express', function() {
-  var expressApp = require('./frontend/tests/integration/server');
+  var expressApp = require('./tests/integration/server');
   var port = process.env.PORT || 8080;
 
   (function startServer(port) {
@@ -93,9 +93,9 @@ gulp.task('webdriver:update', webdriverUpdate);
 gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
 gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
-  gulp.src('frontend/tests/integration/**/*_spec.js')
+  gulp.src('tests/integration/**/*_spec.js')
     .pipe(protractor({
-      configFile: 'frontend/tests/integration/protractor.conf.js',
+      configFile: 'tests/integration/protractor.conf.js',
       args: ['--baseUrl', 'http://' + server.address().address + ':' + server.address().port]
     }))
     .on('error', function(e) {
@@ -109,7 +109,7 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
 
 gulp.task('default', ['webpack', 'sass', 'express']);
 gulp.task('watch', function() {
-  gulp.watch('frontend/app/**/*.js', ['webpack']);
+  gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('app/assets/stylesheets/**/*.sass', ['sass']);
 });
