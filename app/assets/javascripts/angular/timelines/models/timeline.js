@@ -58,11 +58,13 @@ angular.module('openproject.timelines.models')
   //startup
   angular.extend(Timeline, {
     instances: [],
-    create: function(options) {
+    create: function(id, options) {
+      if (!id) {
+        throw new Error('No timelines id given');
+      }
       if (!options) {
         throw new Error('No configuration options given');
       }
-      this.options = options;
       this.extendOptions();
 
       this.instances = [];
@@ -70,6 +72,8 @@ angular.module('openproject.timelines.models')
       var timeline = Object.create(Timeline);
 
       // some private fields.
+      timeline.id = id;
+      timeline.options = options;
       timeline.listeners = [];
       timeline.data = {};
 
@@ -722,8 +726,6 @@ angular.module('openproject.timelines.models')
       return new F();
     };
   }
-
-
 
   return Timeline;
 }]);

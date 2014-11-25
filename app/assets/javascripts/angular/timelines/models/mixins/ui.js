@@ -296,7 +296,7 @@ angular.module('openproject.timelines.models')
     },
     registerDrawPaper: function() {
       // store the paper element for later use.
-      this.paperElement = jQuery('.tl-chart')[0];
+      this.paperElement = jQuery('#timeline-container-' + this.id + ' .tl-chart')[0];
     },
     getMeasuredHeight: function() {
       return this.getUiRoot().find('.tl-left-main').height();
