@@ -38,6 +38,7 @@ Feature: Editing a bool custom field
       | IssueCustomField  | bool      |
     When I go to the custom fields page
 
+  @wip
   @javascript
   Scenario: Adding a localized name
     When I follow "IssueCustomField"
