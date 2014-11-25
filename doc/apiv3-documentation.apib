@@ -1129,6 +1129,79 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Project][]
 
+## Projects by version [/api/v3/versions/{id}/projects]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/versions/2/projects"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Project",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Lorem"
+                                },
+                                "categories": { "href": "/api/v3/projects/1/categories" },
+                                "versions": { "href": "/api/v3/projects/1/versions" }
+                            },
+                            "id": 1,
+                            "identifier": "project_identifier",
+                            "name": "Project example",
+                            "description": "Lorem ipsum dolor sit amet",
+                            "homepage": "http://openproject.com",
+                            "createdOn": "2014-05-21T08:51:20Z",
+                            "updatedOn": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List projects with version [GET]
+
+This endpoint lists the projects where the given version is available.
+
+The projects returned depend on the sharing settings of the given version,
+but are also limited to the projects that the current user is allowed to see.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 200 (application/hal+json)
+
+    [Projects by version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the given version is available)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
 # Group Queries
 
 ## Properties:
@@ -1622,11 +1695,24 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Versions
 
+## Linked Properties:
+|  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+| self                | This version                             | Version       | not null                                                       | READ                 |
+| definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
+
 ## Properties
-| Property   | Description   | Type    | Constraints | Supported operations |
-| :--------: | ------------- | ------- | ----------- | -------------------- |
-| id         | Version id    | Integer | x > 0       | READ                 |
-| name       | Version name  | String  |             | READ                 |
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+| id          | Version id                                    | Integer     | x > 0       | READ                 |
+| name        | Version name                                  | String      | not null    | READ                 |
+| description |                                               | Formatable  | not null    | READ                 |
+| startDate   |                                               | Date        |             | READ                 |
+| endDate     |                                               | Date        |             | READ                 |
+| status      | The current status of the version             | String      | not null    | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null    | READ                 |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null    | READ                 |
 
 ## Versions by Project [/api/v3/projects/{project_id}/versions]
 
@@ -1644,19 +1730,58 @@ The request body is the actual string that shall be rendered as HTML string.
                 {
                     "elements": [
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
                             "_type": "Version",
                             "id": 11,
-                            "name": "v3.0 Alpha"
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
                             "_type": "Version",
                             "id": 12,
-                            "name": "v2.0"
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/10/projects" }
+                            },
                             "_type": "Version",
                             "id": 10,
-                            "name": "v1.0"
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
                         }
                     ]
                 }
@@ -1664,12 +1789,84 @@ The request body is the actual string that shall be rendered as HTML string.
 
 ## List versions available in a project [GET]
 
+This endpoint lists the versions that are *available* in a given project.
+Note that due to sharing this might be more than the versions *defined* by that project.
+
 + Parameters
     + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
 
 + Response 200 (application/hal+json)
 
     [Versions by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (on given project)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Version [/api/v3/versions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions/11" },
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                },
+                "_type": "Version",
+                "id": 11,
+                "name": "v3.0 Alpha",
+                "description": {
+                    "format": "plain",
+                    "raw": "This version has a description",
+                    "html": "This version has a description"
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "Open"
+            }
+
+## View Version [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... version id
+
++ Response 200 (application/hal+json)
+
+    [Version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
 
 # Group Work packages
 
@@ -1695,6 +1892,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | responsible    | The person that is responsible for the overall outcome                                                                                               | User        |             | READ / WRITE         |                                  |
 | status         | The current status of the work package                                                                                                               | Status      | not null    | READ / WRITE         |                                  |
 | timeEntries    | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change. | N/A         |             | READ                 | **Permission** view time entries |
+| version        | The version associated to the work package                                                                                                           | Version     |             | READ / WRITE         |                                  |
 
 ## Properties:
 
@@ -1771,6 +1969,9 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/statuses/1",
                         "title": "New"
                     },
+                    "version": {
+                        "href": "/api/v3/versions/1"
+                    },
                     "availableStatuses": {
                         "href": "/api/v3/work_packages/1528/available_statuses",
                         "title": "Available Statuses"
@@ -1837,8 +2038,6 @@ The request body is the actual string that shall be rendered as HTML string.
                 "dueDate": null,
                 "estimatedTime": "PT2H",
                 "percentageDone": 0,
-                "versionId": 2,
-                "versionName": "1.0",
                 "projectId": 1,
                 "projectName": "Seeded Project",
                 "parentId": 1298,
