@@ -505,6 +505,13 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Categories
 
+## Linked Properties:
+|  Link           | Description                                         | Type          | Constraints | Supported operations |
+|:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self            | This category                                       | Category      | not null    | READ                 |
+| project         | The project of this category                        | Project       | not null    | READ                 |
+| defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
+
 ## Properties
 | Property   | Description   | Type    | Constraints | Supported operations |
 | :--------: | ------------- | ------- | ----------- | -------------------- |
@@ -527,11 +534,20 @@ Updates an activity's comment and, on success, returns the updated activity.
                 {
                     "elements": [
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/10" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "defaultAssignee": { "href": "/api/v3/users/42" }
+                            },
                             "_type": "Category",
                             "id": 10,
                             "name": "Foo"
                         },
                         {
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/11" },
+                                "project": { "href": "/api/v3/projects/11" }
+                            },
                             "_type": "Category",
                             "id": 11,
                             "name": "Bar"
@@ -548,6 +564,67 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Categories by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Category [/api/v3/categories/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/categories/10" },
+                    "project": { "href": "/api/v3/projects/11" },
+                    "defaultAssignee": { "href": "/api/v3/users/42" }
+                },
+                "_type": "Category",
+                "id": 10,
+                "name": "Foo"
+            }
+
+## View Category [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... category id
+
++ Response 200 (application/hal+json)
+
+    [Category][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the category does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project (defining the category)
+    
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a category. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified category does not exist."
+            }
 
 # Group Forms
 
@@ -1031,10 +1108,8 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/projects/1",
                         "title": "Lorem"
                     },
-                    "workPackages": [{
-                        "href": "/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
-                    }]
+                    "categories": { "href": "/api/v3/projects/1/categories" },
+                    "versions": { "href": "/api/v3/projects/1/versions" }
                 },
                 "id": 1,
                 "identifier": "project_identifier",
@@ -1615,6 +1690,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | self           | This work package                                                                                                                                    | WorkPackage | not null    | READ                 |                                  |
 | author         | The person that created the work package                                                                                                             | User        | not null    | READ                 |                                  |
 | assignee       | The person that is intended to work on the work package                                                                                              | User        |             | READ / WRITE         |                                  |
+| category       | The category of the work package                                                                                                                     | Category    |             | READ / WRITE         |                                  |
 | priority       | The priority of the work package                                                                                                                     | Priority    | not null    | READ / WRITE         |                                  |
 | responsible    | The person that is responsible for the overall outcome                                                                                               | User        |             | READ / WRITE         |                                  |
 | status         | The current status of the work package                                                                                                               | Status      | not null    | READ / WRITE         |                                  |
@@ -1757,7 +1833,6 @@ The request body is the actual string that shall be rendered as HTML string.
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
-                "isClosed": false,
                 "startDate": null,
                 "dueDate": null,
                 "estimatedTime": "PT2H",
