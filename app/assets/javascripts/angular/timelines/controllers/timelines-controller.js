@@ -38,19 +38,14 @@ angular.module('openproject.timelines.controllers')
     }
   };
 
-  // Setup
-
-  // Get server-side stuff into scope
   $scope.timelineOptions = gon.timeline_options;
-  $scope.timelines = [];
 
-  angular.forEach($scope.timelineOptions, function(value, id) {
+  // Setup
+  $scope.init = function(id) {
     var timelineOptions = $scope.timelineOptions[id];
-    var timeline = Timeline.create(id, value);
+    var timeline = Timeline.create(id, timelineOptions);
 
-    // Set initial expansion index
-    timeline.expansionIndex = getInitialOutlineExpansion(timelineOptions);
-
-    this.push(timeline);
-  }, $scope.timelines);
+    // Get server-side stuff into scope
+    $scope.timeline = timeline;
+  };
 }]);
