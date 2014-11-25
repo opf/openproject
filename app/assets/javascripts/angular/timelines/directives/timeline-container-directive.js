@@ -52,10 +52,7 @@ angular.module('openproject.timelines.directives')
               '<div ng-if="!!errorMessage" ng-bind="errorMessage" class="flash error"/>' +
               '</div>',
     link: function(scope) {
-      scope.timelineContainerElementId = 'timeline-container-' + (++scope.timelineContainerCount);
-
-      // Hide charts until tables are drawn
-      scope.underConstruction = true;
+      scope.timelineContainerElementId = 'timeline-container-' + scope.timelineId;
 
       // As part of a wiki the timeline container would have to stick to the wiki's width
       // limitation. We set the timeline width programmatically to bypass the width

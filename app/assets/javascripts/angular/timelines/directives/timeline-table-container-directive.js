@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
+.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', 'PathHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper, PathHelper) {
 
 
   return {
@@ -36,7 +36,10 @@ angular.module('openproject.timelines.directives')
     replace: true,
     require: '^timelineContainer',
     templateUrl: '/templates/timelines/timeline_table_container.html',
+    scope: { timeline: '=' },
     link: function(scope, element, attributes, timelineContainerCtrl) {
+      // Hide charts until tables are drawn
+      scope.underConstruction = true;
 
       function showWarning() {
         scope.underConstruction = false;
@@ -153,9 +156,8 @@ angular.module('openproject.timelines.directives')
         scope.timeline.modalHelper.setupTimeline(
           scope.timeline,
           {
-            api_prefix                : scope.timeline.options.api_prefix,
-            url_prefix                : scope.timeline.options.url_prefix,
-            project_prefix            : scope.timeline.options.project_prefix
+            url_prefix                : PathHelper.staticBase,
+            project_prefix            : PathHelper.projectsPath()
           }
         );
 

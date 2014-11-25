@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <timeline-container ng-repeat="timeline in timelines"
                         timeline-id="{{ timeline.id }}">
       <timeline-toolbar></timeline-toolbar>
-      <timeline-table-container></timeline-table-container>
+      <timeline-table-container timeline="timeline"></timeline-table-container>
     </timeline-container>
   </div>
 
