@@ -145,7 +145,7 @@ angular.module('openproject.timelines.directives')
             if (scope.currentOutlineLevel) {
               scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
             } else {
-              scope.rebuildAll();
+              scope.timeline.rebuildAll();
             }
           }, showError);
       }

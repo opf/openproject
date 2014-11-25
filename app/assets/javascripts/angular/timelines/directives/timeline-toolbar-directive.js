@@ -40,12 +40,12 @@ angular.module('openproject.timelines.directives')
 
       scope.updateToolbar = function() {
         scope.slider.slider('value', scope.timeline.zoomIndex + 1);
-        scope.currentOutlineLevel = Timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-        scope.currentScaleName = Timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
+        scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
+        scope.currentScaleName = scope.timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
       };
 
       scope.increaseZoom = function() {
-        if(scope.currentScaleIndex < Object.keys(Timeline.ZOOM_CONFIGURATIONS).length - 1) {
+        if(scope.currentScaleIndex < Object.keys(scope.timeline.ZOOM_CONFIGURATIONS).length - 1) {
           scope.currentScaleIndex++;
         }
       };
@@ -60,10 +60,10 @@ angular.module('openproject.timelines.directives')
 
       scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
         if (newScaleName !== oldScaleName) {
-          scope.currentScale = Timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
+          scope.currentScale = scope.timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
           scope.timeline.scale = scope.currentScale;
 
-          scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
+          scope.currentScaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
           scope.slider.slider('value', scope.currentScaleIndex + 1);
 
           scope.timeline.zoom(scope.currentScaleIndex); // TODO replace event-driven adaption by bindings
@@ -72,7 +72,7 @@ angular.module('openproject.timelines.directives')
 
       scope.$watch('currentOutlineLevel', function(outlineLevel, formerLevel) {
         if (outlineLevel !== formerLevel) {
-          scope.timeline.expansionIndex = Timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
+          scope.timeline.expansionIndex = scope.timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
           scope.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
           TimelineTableHelper.setRowLevelVisibility(scope.rows, scope.timeline.expansionIndex);
         }
