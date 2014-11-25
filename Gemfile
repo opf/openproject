@@ -99,7 +99,7 @@ gem 'daemons'
 # (see https://www.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+gem 'syck', :platforms => [:ruby_21, :mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -187,8 +187,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
-  gem 'pry-debugger', :platforms => :mri_19
+  gem 'pry-byebug'
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
