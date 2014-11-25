@@ -9,14 +9,13 @@
         </a>
       </li>
 
-      <li ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers"
+      <li ng-if="prePageNumbers.length" ng-repeat="pageNumber in prePageNumbers"
         class="pagination--item">
         <a ng-click="showPage(pageNumber)"
            rel="next"
            href="">{{ pageNumber }}</a>
       </li>
-
-      <li ng-if="prePageNumbers" class="pagination--space">…</li>
+      <li ng-if="prePageNumbers.length" class="pagination--space">…</li>
 
       <li ng-if="pageNumbers.length > 1"
           ng-repeat="pageNumber in pageNumbers"
@@ -29,7 +28,7 @@
            href="">{{ pageNumber }}</a>
       </li>
 
-      <li ng-if="postPageNumbers" class="pagination--space">…</li>
+      <li ng-if="postPageNumbers.length" class="pagination--space">…</li>
 
       <li ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers" class="pagination--item">
         <a ng-click="showPage(pageNumber)"

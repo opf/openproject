@@ -48,6 +48,7 @@ require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
 require('angular-busy');
+require('angular-aria');
 
 require('angular-context-menu');
 
@@ -154,6 +155,8 @@ angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
+angular.module('openproject.templates', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
@@ -167,12 +170,14 @@ var openprojectApp = angular.module('openproject', [
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',
+  'ngAria',
   'ngSanitize',
   'truncate',
   'feature-flags',
   'openproject.layout',
   'cgBusy',
-  'openproject.api'
+  'openproject.api',
+  'openproject.templates'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -191,24 +196,23 @@ openprojectApp
       //
       // NOTE: this does not apply to Hyperagent-based queries, which instead use
       //       jQuery's AJAX implementation.
-      $httpProvider.interceptors.push(function($q) {
+      $httpProvider.interceptors.push(['$q', function($q) {
         return {
           'request': function(config) {
             config.url = window.appBasePath + config.url;
             return config || $q.when(config);
           }
         };
-      });
+      }]);
     }
   ])
   .run([
     '$http',
     '$rootScope',
     '$window',
-    'flags',
+    'featureFlags',
     function($http, $rootScope, $window, flags) {
       $http.defaults.headers.common.Accept = 'application/json';
-
       $rootScope.showNavigation =
         $window.sessionStorage.getItem('openproject:navigation-toggle') !==
         'collapsed';
@@ -222,8 +226,8 @@ openprojectApp
 
 require('./api');
 
-angular.module('openproject.config').service('ConfigurationService', require(
-  './config/configuration-service'));
+angular.module('openproject.config').service('ConfigurationService', ['$log', require(
+  './config/configuration-service')]);
 
 require('./helpers');
 require('./layout');

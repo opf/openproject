@@ -33,7 +33,10 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
-
+var uglify = require('gulp-uglify');
+var concat = require('gulp-concat');
+var ngAnnotate = require('gulp-ng-annotate');
+var templateCache = require('gulp-angular-templatecache');
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
   webdriverUpdate = require('gulp-protractor').webdriver_update;
@@ -57,6 +60,24 @@ gulp.task('webpack', function() {
   return gulp.src('frontend/app/openproject-app.js')
     .pipe(gulpWebpack(config))
     .pipe(gulp.dest('app/assets/javascripts/bundles'));
+});
+
+gulp.task('minify', function() {
+  return gulp.src('frontend/app/openproject-app.js')
+    .pipe(gulpWebpack(config))
+    .pipe(ngAnnotate())
+    .pipe(uglify())
+    .pipe(gulp.dest('app/assets/javascripts/bundles'));
+});
+
+gulp.task('templates', function () {
+  return gulp.src('public/templates/**/*.html')
+    .pipe(templateCache({
+      standalone: false,
+      module: 'openproject.templates',
+      root: '/templates'
+    }))
+    .pipe(gulp.dest('tmp'));
 });
 
 gulp.task('sass', function() {
@@ -92,7 +113,7 @@ gulp.task('express', function() {
 gulp.task('webdriver:update', webdriverUpdate);
 gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
-gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
+function protractorFunc(done) {
   gulp.src('frontend/tests/integration/**/*_spec.js')
     .pipe(protractor({
       configFile: 'frontend/tests/integration/protractor.conf.js',
@@ -105,9 +126,17 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
       server.close();
       done();
     });
-});
+}
 
-gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], protractorFunc);
+gulp.task('tests:protractor:minified', ['webdriver:update', 'production', 'express'], protractorFunc);
+
+gulp.task('default', ['webpack', 'sass', 'express', 'watch']);
+gulp.task('production', ['sass', 'minify', 'templates'], function() {
+  return gulp.src(['app/assets/javascripts/bundles/openproject-app.js', 'tmp/templates.js'])
+    .pipe(concat('openproject-app.js'))
+    .pipe(gulp.dest('app/assets/javascripts/bundles'));
+});
 gulp.task('watch', function() {
   gulp.watch('frontend/app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
