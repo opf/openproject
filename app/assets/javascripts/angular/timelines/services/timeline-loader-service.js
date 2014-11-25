@@ -600,6 +600,7 @@ angular.module('openproject.timelines.services')
    *      }
    */
   var TimelineLoader = function (timeline, options) {
+    this.timelineId   = timeline.id;
     this.options      = options;
     this.data         = {};
     this.loader       = new QueueingLoader(options.ajax_defaults);
@@ -834,7 +835,7 @@ angular.module('openproject.timelines.services')
       // load current planning elements.
       this.loader.register(
         PlanningElement.identifier + '_' + i,
-        { url : qsb.append({timeline: this.options.timeline_id}).build(projectPrefix + '/planning_elements.json') },
+        { url : qsb.append({timeline: this.timelineId}).build(projectPrefix + '/planning_elements.json') },
         { storeIn: PlanningElement.identifier }
       );
 
