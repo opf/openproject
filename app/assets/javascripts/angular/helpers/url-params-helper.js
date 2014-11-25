@@ -28,7 +28,11 @@
 
 angular.module('openproject.helpers')
 
-.service('UrlParamsHelper', ['I18n', 'PaginationService', function(I18n, PaginationService) {
+.service('UrlParamsHelper', [
+    'I18n',
+    'PaginationService',
+    'PathHelper',
+    function(I18n, PaginationService, PathHelper) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -148,9 +152,12 @@ angular.module('openproject.helpers')
     },
 
     buildQueryExportOptions: function(query){
-      var relativeUrl = "/work_packages";
-      if (query.project_id){
-        relativeUrl = "/projects/" + query.project_id + relativeUrl;
+      var relativeUrl;
+
+      if (query.project_id) {
+        relativeUrl = PathHelper.staticProjectWorkPackagesPath(query.project_id);
+      } else {
+        relativeUrl = PathHelper.staticWorkPackagesPath();
       }
 
       return query.exportFormats.map(function(format){

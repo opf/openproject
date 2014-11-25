@@ -29,12 +29,13 @@
 /*jshint expr: true*/
 
 describe('UrlParamsHelper', function() {
-  var UrlParamsHelper, Query;
+  var UrlParamsHelper, Query, PathHelper;
 
   beforeEach(module('openproject.helpers', 'openproject.models'));
-  beforeEach(inject(function(_UrlParamsHelper_, _Query_) {
+  beforeEach(inject(function(_UrlParamsHelper_, _Query_, _PathHelper_) {
     UrlParamsHelper = _UrlParamsHelper_;
     Query = _Query_;
+    PathHelper = _PathHelper_;
   }));
 
   describe('buildQueryString', function() {
@@ -127,5 +128,67 @@ describe('UrlParamsHelper', function() {
 
       expect(angular.equals(decodedQueryParams, expected)).to.be.true;
     });
-  })
+  });
+
+
+  describe('buildQueryExportOptions', function() {
+    var queryDummy = {
+      exportFormats: [ { identifier: 'atom', format: 'atom' } ],
+      getQueryString: function() { return '' }
+    };
+    var exportOptions;
+    var queryExportSuffix = '\\/work_packages.atom\\?set_filter=1&';
+
+    var shouldBehaveLikeExportForProjectWorkPackages = function(relativeUrl) {
+      context('project query', function() {
+        beforeEach(function() {
+          var query = angular.copy(queryDummy);
+
+          query.project_id = 1;
+
+          exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
+        });
+
+        it('should have project path', function() {
+          var urlPattern = new RegExp(relativeUrl + '\\/projects\\/1' + queryExportSuffix);
+
+          expect(exportOptions[0].url).to.match(urlPattern);
+        });
+      });
+    };
+
+    var shouldBehaveLikeExportForGlobalWorkPackages = function(relativeUrl) {
+      context('global query', function() {
+        beforeEach(function() {
+          exportOptions = UrlParamsHelper.buildQueryExportOptions(queryDummy);
+        });
+
+        it('should have global path', function() {
+          var urlPattern = new RegExp(relativeUrl + queryExportSuffix);
+
+          expect(exportOptions[0].url).to.match(urlPattern);
+        });
+      });
+    };
+
+    context('no relative url', function() {
+      shouldBehaveLikeExportForProjectWorkPackages('');
+
+      shouldBehaveLikeExportForGlobalWorkPackages('');
+    });
+
+    context('relative url', function() {
+      beforeEach(function() {
+        PathHelper.staticBase = '/dev';
+      });
+
+      afterEach(function() {
+        PathHelper.staticBase = '';
+      });
+
+      shouldBehaveLikeExportForProjectWorkPackages('\\/dev');
+
+      shouldBehaveLikeExportForGlobalWorkPackages('\\/dev');
+    });
+  });
 });
