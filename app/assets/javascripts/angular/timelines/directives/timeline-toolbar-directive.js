@@ -34,6 +34,7 @@ angular.module('openproject.timelines.directives')
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/timelines/toolbar.html',
+    scope: { timeline: '=' },
     link: function(scope) {
       scope.currentScaleName = 'monthly';
 
