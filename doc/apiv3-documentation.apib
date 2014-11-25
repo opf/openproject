@@ -1619,11 +1619,11 @@ but are also limited to the projects that the current user is allowed to see.
 # Group Versions
 
 ## Linked Properties:
-|  Link               | Description                              | Type          | Constraints | Supported operations |
-|:-------------------:|----------------------------------------- | ------------- | ----------- | -------------------- |
-| self                | This version                             | Version       | not null    | READ                 |
-| definingProject     | The project to which the version belongs | Project       | not null    | READ                 |
-| availableInProjects | Projects where this version can be used  | Projects      | not null    | READ                 |
+|  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+| self                | This version                             | Version       | not null                                                       | READ                 |
+| definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
 
 ## Properties
 | Property    | Description                                   | Type        | Constraints | Supported operations |
