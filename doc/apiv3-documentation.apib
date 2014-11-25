@@ -1112,7 +1112,7 @@ but are also limited to the projects that the current user is allowed to see.
     Returned if the version does not exist or the client does not have sufficient permissions
     to see it.
 
-    **Required permission:** view project (any project where the version is available)
+    **Required permission:** view work packages **or** manage versions (any project where the given version is available)
     
     *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
@@ -1727,7 +1727,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
     Returned if the project does not exist or the client does not have sufficient permissions
     to see it.
 
-    **Required permission:** view project
+    **Required permission:** view work packages **or** manage versions (on given project)
     
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
@@ -1764,21 +1764,21 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 "status": "Open"
             }
 
-## View Priority [GET]
+## View Version [GET]
 
 + Parameters
-    + id (required, integer, `1`) ... priority id
+    + id (required, integer, `1`) ... version id
 
 + Response 200 (application/hal+json)
 
-    [Priority][]
+    [Version][]
 
 + Response 404 (application/hal+json)
 
     Returned if the version does not exist or the client does not have sufficient permissions
     to see it.
 
-    **Required permission:** view project (any project where the version is available)
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
     
     *Note: A client without sufficient permissions shall not be able to test for the existence of
     a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
