@@ -29,15 +29,6 @@
 angular.module('openproject.timelines.controllers')
 
 .controller('TimelinesController', ['$scope', function($scope) {
-  var getInitialOutlineExpansion = function(timelineOptions) {
-    var initialOutlineExpansion = timelineOptions.initial_outline_expansion;
-    if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
-      return initialOutlineExpansion;
-    } else {
-      return 0;
-    }
-  };
-
   $scope.timelineOptions = gon.timeline_options;
 
   // Setup

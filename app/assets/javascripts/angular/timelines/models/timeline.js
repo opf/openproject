@@ -31,6 +31,24 @@ angular.module('openproject.timelines.models')
 
 .factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', 'CustomField', 'CustomFieldHelper', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
+  var getInitialValue = function(timelineOptions, property) {
+    var value = timelineOptions[property];
+
+    if (value && value >= 0) {
+      return value;
+    } else {
+      return 0;
+    }
+  };
+
+  var getInitialOutlineExpansion = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'initial_outline_expansion');
+  };
+
+  var getInitialZoomFactor = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'zoom_factor');
+  };
+
   Timeline = {};
 
   // model mix ins
@@ -54,6 +72,9 @@ angular.module('openproject.timelines.models')
       // some private fields.
       timeline.listeners = [];
       timeline.data = {};
+
+      timeline.expansionIndex = parseInt(getInitialOutlineExpansion(options));
+      timeline.zoomIndex = parseInt(getInitialZoomFactor(options));
 
       Timeline.instances.push(timeline);
       return timeline;
