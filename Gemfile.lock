@@ -113,12 +113,7 @@ GEM
     date_validator (0.7.0)
       activemodel (>= 3)
     debug_inspector (0.0.2)
-    debugger (1.6.0)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.1)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.2)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
@@ -215,9 +210,6 @@ GEM
     pry-byebug (1.2.0)
       byebug (~> 2.2)
       pry (~> 0.9.12)
-    pry-debugger (0.2.2)
-      debugger (~> 1.3)
-      pry (~> 0.9.10)
     pry-doc (0.4.6)
       pry (>= 0.9)
       yard (>= 0.8)
@@ -413,7 +405,6 @@ DEPENDENCIES
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug
-  pry-debugger
   pry-doc
   pry-rails
   pry-rescue
