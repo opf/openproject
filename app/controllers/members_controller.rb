@@ -216,7 +216,7 @@ class MembersController < ApplicationController
       role_ids = attrs.delete(:role_ids).map(&:to_i).select { |i| i > 0 }
       @member.assign_roles(role_ids)
     end
-    @member.update_attributes(attrs)
+    @member.assign_attributes(attrs)
     @member
   end
 end

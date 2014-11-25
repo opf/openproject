@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, PaginationService) {
+module.exports = function(I18n, PaginationService, PathHelper) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -146,9 +146,12 @@ module.exports = function(I18n, PaginationService) {
     },
 
     buildQueryExportOptions: function(query){
-      var relativeUrl = "/work_packages";
-      if (query.project_id){
-        relativeUrl = "/projects/" + query.project_id + relativeUrl;
+      var relativeUrl;
+
+      if (query.project_id) {
+        relativeUrl = PathHelper.staticProjectWorkPackagesPath(query.project_id);
+      } else {
+        relativeUrl = PathHelper.staticWorkPackagesPath();
       }
 
       return query.exportFormats.map(function(format){
