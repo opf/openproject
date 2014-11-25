@@ -30,7 +30,18 @@ module.exports = function($log) {
 
   return {
     settingsPresent: function() {
-      return gon && gon.settings;
+      try {
+        return gon && gon.settings;
+      }
+      catch (e) {
+        if (e instanceof ReferenceError) {
+          // gon not loaded on this page
+          return false;
+        }
+        else {
+          throw e;
+        }
+      }
     },
     userPreferencesPresent: function() {
       return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
@@ -81,7 +92,7 @@ module.exports = function($log) {
       return this.settingsPresent() && gon.settings.hasOwnProperty('enabled_modules');
     },
     isModuleEnabled: function(module) {
-      return gon.settings.enabled_modules.indexOf(module) >= 0;
+      return this.settingsPresent() && gon.settings.enabled_modules.indexOf(module) >= 0;
     },
   };
 };
