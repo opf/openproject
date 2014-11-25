@@ -77,6 +77,8 @@ angular.module('openproject.timelines.directives')
           TimelineTableHelper.setRowLevelVisibility(scope.rows, scope.timeline.expansionIndex);
         }
       });
+
+      scope.updateToolbar();
     }
   };
 }]);
