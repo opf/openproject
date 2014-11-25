@@ -33,6 +33,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// standard locales
+I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
+I18n.addTranslations('de', require('../../config/locales/js-de.yml').de);
+
 // main app
 var openprojectBacklogsApp = angular.module('openproject');
 

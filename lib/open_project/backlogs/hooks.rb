@@ -72,8 +72,6 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    render_on :view_work_package_overview_attributes, partial: 'hooks/backlogs/view_work_package_overview_attributes'
-
     def view_work_packages_form_details_bottom(context = {})
       snippet = ''
       work_package = context[:issue]
