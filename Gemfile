@@ -99,7 +99,7 @@ gem 'daemons'
 # (see https://www.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_21, :mingw_21], :require => false
+gem 'syck', :platforms => [:ruby_21, :mingw_21, :x64_mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -226,7 +226,7 @@ end
 # orders of magnitude compared to their native counterparts. You have been
 # warned.
 
-platforms :mri, :mingw do
+platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
     gem "mysql2", "~> 0.3.11"
   end
