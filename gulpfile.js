@@ -95,7 +95,7 @@ gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
   gulp.src('frontend/tests/integration/**/*_spec.js')
     .pipe(protractor({
-      configFile: 'frontend/tests/integration/conf.js',
+      configFile: 'frontend/tests/integration/protractor.conf.js',
       args: ['--baseUrl', 'http://' + server.address().address + ':' + server.address().port]
     }))
     .on('error', function(e) {
