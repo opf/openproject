@@ -37,6 +37,7 @@ Feature: Editing text custom fields
       | name             | type      |
       | My Custom Field  | text      |
 
+  @wip
   @javascript
   Scenario: Adding localized default_values
     When I go to the custom fields page
