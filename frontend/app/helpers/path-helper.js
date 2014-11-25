@@ -287,6 +287,10 @@ module.exports = function() {
     },
     staticWorkPackagesAutocompletePath: function(projectId) {
       return PathHelper.staticBase + '/work_packages/auto_complete.json?project_id=' + projectId;
+    },
+    staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
+      return PathHelper.staticBase
+        + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
     }
   };
 

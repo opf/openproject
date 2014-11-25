@@ -32,6 +32,7 @@ angular.module('openproject.viewModels')
     '$timeout',
     'WorkPackageService',
     'ApiHelper',
+    'PathHelper',
     'MAX_AUTOCOMPLETER_ADDITION_ITERATIONS', require(
       './common-relations-handler')
   ])
