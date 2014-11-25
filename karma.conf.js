@@ -54,7 +54,7 @@ module.exports = function(config) {
       'vendor/assets/components/select2/select2.js',
       "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
 
-      'app/assets/javascripts/angular/openproject-app.js',
+      'frontend/app/openproject-app.js',
       "vendor/assets/components/angular-mocks/angular-mocks.js",
 
       "app/assets/javascripts/lib/jquery.trap.js",
@@ -92,7 +92,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'app/assets/javascripts/*.js': ['coverage'],
-      'app/assets/javascripts/angular/**/*.js': ['webpack'], // coverage disabled
+      'frontend/app/**/*.js': ['webpack'], // coverage disabled
       'public/templates/**/*.html': ['ng-html2js']
     },
 

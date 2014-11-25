@@ -1,30 +1,49 @@
-var webpack = require('webpack'),
-  path = require('path');
+var webpack  = require('webpack'),
+  path       = require('path'),
+  _          = require('lodash'),
+  pathConfig = require('./config/rails-plugins.conf');
+
+var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path, name) {
+  entries[name.replace(/^openproject\-/, '')] = name;
+  return entries;
+}, {});
+
+var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, pluginPath, name) {
+  entries[name] = path.basename(pluginPath);
+  return entries;
+}, {});
 
 module.exports = {
-  context: __dirname + '/app/assets/javascripts/angular',
+  context: __dirname + '/frontend/app',
 
-  entry: './openproject-app.js',
+  entry: _.merge({
+    app: './openproject-app.js'
+  }, pluginEntries),
 
   output: {
-    filename: 'openproject-app.bundle.js',
-    path: path.join(__dirname, 'app', 'assets', 'javascripts')
+    filename: 'openproject-[name].js',
+    path: path.join(__dirname, 'app', 'assets', 'javascripts', 'bundles')
   },
 
   module: {
     loaders: [
-      { test: /[\/]angular\.js$/, loader: "exports?angular" }
+      { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
+      { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
+      { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
     ]
   },
 
   resolve: {
-    //root: [path.join(__dirname, 'vendor', 'assets', 'components')]
-    modulesDirectories: [
-      path.join(__dirname, 'node_modules'),
-      path.join(__dirname, 'vendor', 'assets', 'components')
-    ],
+    root: __dirname,
 
-    alias: {
+    modulesDirectories: [
+      'node_modules',
+      'vendor/assets/components'
+    ].concat(pathConfig.pluginDirectories),
+
+    alias: _.merge({
+      'locales':        'config/locales',
+
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
       'angular-feature-flags': 'angular-feature-flags/dist/featureFlags.js',
@@ -32,10 +51,14 @@ module.exports = {
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'
-    }
+    }, pluginAliases)
   },
 
-  externals: { jquery: "jQuery" },
+  resolveLoader: {
+    root: __dirname + '/node_modules'
+  },
+
+  externals: { jquery: 'jQuery' },
 
   plugins: [
     new webpack.ProvidePlugin({
@@ -46,6 +69,6 @@ module.exports = {
     new webpack.ResolverPlugin([
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
         'bower.json', ['main'])
-    ]) // ["normal", "loader"]
+    ]) // ['normal', 'loader']
   ]
 };

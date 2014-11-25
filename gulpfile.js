@@ -42,8 +42,8 @@ var server;
 
 var paths = {
   scripts: [
-    'app/assets/javascripts/angular/**/*.js',
-    '!app/assets/javascripts/angular/vendor/**/*.js'
+    'frontend/app/**/*.js',
+    '!frontend/app/vendor/**/*.js'
   ]
 };
 
@@ -54,9 +54,9 @@ gulp.task('lint', function() {
 });
 
 gulp.task('webpack', function() {
-  return gulp.src('app/assets/javascripts/angular/openproject-app.js')
+  return gulp.src('frontend/app/openproject-app.js')
     .pipe(gulpWebpack(config))
-    .pipe(gulp.dest('app/assets/javascripts/'));
+    .pipe(gulp.dest('app/assets/javascripts/bundles'));
 });
 
 gulp.task('sass', function() {
@@ -109,7 +109,7 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
 
 gulp.task('default', ['webpack', 'sass', 'express']);
 gulp.task('watch', function() {
-  gulp.watch('app/assets/javascripts/angular/**/*.js', ['webpack']);
+  gulp.watch('frontend/app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('app/assets/stylesheets/**/*.sass', ['sass']);
 });
