@@ -75,6 +75,7 @@
 /.rvmrc*
 /.ruby-version
 /.ruby-gemset
+/.foreman
 
 # coverage in plugins
 /lib/plugins/*/coverage
