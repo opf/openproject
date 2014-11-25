@@ -56,6 +56,7 @@ angular.module('openproject.timelines.directives')
       };
       scope.resetOutline = function(){
         scope.timeline.expandTo(0);
+        scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
       };
 
       scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
