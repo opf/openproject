@@ -36,6 +36,7 @@ Feature: Text custom fields can be created
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
+  @wip
   @javascript
   Scenario: Creating a text custom field with multiple name and default_value localizations
     When I select "Text" from "custom_field_field_format"
