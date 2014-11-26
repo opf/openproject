@@ -62,7 +62,7 @@ module API
 
                 # We need to merge the contract errors with the model errors in
                 # order to have them available at one place.
-                unless contract.validate && @representer.represented.valid?
+                unless contract.validate & @representer.represented.valid?
                   contract.errors.keys.each do |key|
                     contract.errors[key].each do |message|
                       @representer.represented.errors.add(key, message)
