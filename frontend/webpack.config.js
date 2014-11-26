@@ -17,7 +17,7 @@ module.exports = {
   context: __dirname + '/app',
 
   entry: _.merge({
-    app: './openproject-app.js'
+    'core-app': './openproject-app.js'
   }, pluginEntries),
 
   output: {
