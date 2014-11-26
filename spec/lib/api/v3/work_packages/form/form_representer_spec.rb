@@ -106,21 +106,24 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
       context 'with errors' do
         let(:subject_error_message) { 'Subject can\'t be blank!' }
         let(:status_error_message) { 'Status can\'t be blank!' }
+        let(:errors) {
+          { subject: [subject_error_message], status: [status_error_message] }
+        }
         let(:subject_error) { ::API::Errors::Validation.new(subject_error_message) }
         let(:status_error) { ::API::Errors::Validation.new(status_error_message) }
         let(:api_subject_error) { ::API::V3::Errors::ErrorRepresenter.new(subject_error) }
         let(:api_status_error) { ::API::V3::Errors::ErrorRepresenter.new(status_error) }
-        let(:errors) { { subject: api_subject_error, status: api_status_error } }
+        let(:api_errors) { { subject: api_subject_error, status: api_status_error } }
 
         before do
-          allow(work_package.errors).to receive(:keys).and_return(errors.keys)
-          allow(work_package.errors).to receive(:full_message).with(:subject, [])
+          allow(work_package).to receive(:errors).and_return(errors)
+          allow(work_package.errors).to receive(:full_message).with(:subject, anything)
                                                               .and_return(subject_error_message)
-          allow(work_package.errors).to receive(:full_message).with(:status, [])
+          allow(work_package.errors).to receive(:full_message).with(:status, anything)
                                                               .and_return(status_error_message)
         end
 
-        it { is_expected.to be_json_eql(errors.to_json).at_path('_embedded/validationErrors') }
+        it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
       end
     end
   end

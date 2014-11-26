@@ -101,7 +101,11 @@ module API
             errors = represented.errors
 
             errors.keys.each_with_object({}) do |key, hash|
-              error = ::API::Errors::Validation.new(errors.full_message(key, errors[key]))
+              messages = errors[key].each_with_object([]) do |m, l|
+                l << errors.full_message(key, m)
+              end
+
+              error = ::API::Errors::Validation.new(messages)
               hash[key] = ::API::V3::Errors::ErrorRepresenter.new(error)
             end
           end
