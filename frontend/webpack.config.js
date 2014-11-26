@@ -32,6 +32,10 @@ module.exports = {
       { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
       { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
+      { test: /\.css$/,                   loader: 'style-loader!css-loader' },
+      { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
+      { test: /\.gif$/,                   loader: 'file-loader' },
+      { test: /\.jpg$/,                   loader: 'file-loader' },
       { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
     ]
   },

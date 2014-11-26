@@ -39,11 +39,15 @@
   "dependencies": {
     "URIjs": "^1.14.1",
     "bower": "~1.3.8",
+    "css-loader": "^0.9.0",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
+    "file-loader": "^0.8.1",
     "json-loader": "^0.5.1",
     "lodash": "^2.4.1",
     "shelljs": "^0.3.0",
+    "style-loader": "^0.8.2",
+    "url-loader": "^0.5.5",
     "webpack": "^1.4.9",
     "yaml-loader": "^0.1.0"
   },
