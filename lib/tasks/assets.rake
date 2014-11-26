@@ -50,6 +50,6 @@ namespace :assets do
   end
 
   task :clobber do
-    rm_rf FileList["#{Rails.root}/app/assets/javascripts/*.bundle.js*"]
+    rm_rf FileList["#{Rails.root}/app/assets/javascripts/bundles/*"]
   end
 end
