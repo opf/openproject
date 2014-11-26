@@ -58,7 +58,15 @@ module API
                    writeable: false
           property :status,
                    exec_context: :decorator,
-                   getter: -> (*) { represented.new_statuses_allowed_to(@current_user) } do
+                   getter: -> (*) {
+                     status_origin = represented
+
+                     if represented.persisted? && represented.status_id_changed?
+                       status_origin = represented.class.find(represented.id)
+                     end
+
+                     status_origin.new_statuses_allowed_to(@current_user)
+                   } do
             include Roar::JSON::HAL
 
             self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
