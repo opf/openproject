@@ -276,6 +276,20 @@ describe 'API v3 Work package form resource', type: :request do
                   end
                 end
 
+                context 'status does not exist' do
+                  let(:status_link) { '/api/v3/statuses/-1' }
+
+                  include_context 'post request'
+
+                  it_behaves_like 'valid payload'
+
+                  it_behaves_like 'having an error', 'status_id'
+
+                  it 'should respond with updated work package status' do
+                    expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  end
+                end
+
                 context 'wrong resource' do
                   let(:status_link) { "/api/v3/users/#{authorized_user.id}" }
 
