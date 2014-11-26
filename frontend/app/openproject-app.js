@@ -47,7 +47,9 @@ require('angular-ui-date');
 require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
-require('angular-busy');
+
+require('angular-busy/dist/angular-busy');
+require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 

@@ -55,7 +55,6 @@ module.exports = {
       'angular-ui-date': 'angular-ui-date/src/date',
       'angular-truncate': 'angular-truncate/src/truncate',
       'angular-feature-flags': 'angular-feature-flags/dist/featureFlags.js',
-      'angular-busy': 'angular-busy/dist/angular-busy.js',
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'

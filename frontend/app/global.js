@@ -36,6 +36,7 @@ require('jquery-ujs');
 require('jquery-ui/ui/jquery-ui.js');
 require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
 require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
+require('jquery-ui/themes/base/jquery-ui.css');
 
 require('momentjs');
 require('momentjs/lang/en-gb.js');
@@ -45,6 +46,9 @@ require('moment-timezone/moment-timezone.js');
 require('moment-timezone/moment-timezone-data.js');
 
 require('jquery.atwho/dist/js/jquery.atwho.js');
+require('jquery.atwho/dist/css/jquery.atwho.css');
+
 require('Caret.js/src/jquery.caret.js');
 
 require('select2/select2.js');
+require('select2/select2.css');
