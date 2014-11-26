@@ -36,8 +36,12 @@ module.exports = {
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
       { test: /\.gif$/,                   loader: 'file-loader' },
       { test: /\.jpg$/,                   loader: 'file-loader' },
-      { test: /\.html$/,                  loader: 'ng-cache?prefix=public' },
-      { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
+      { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' },
+      {
+        test: /\.html$/,
+        loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
+                  path.resolve(__dirname, './public') + '!html'
+      },
     ]
   },
 

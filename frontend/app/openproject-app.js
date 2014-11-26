@@ -156,6 +156,8 @@ angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
+angular.module('openproject.templates', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
@@ -174,7 +176,8 @@ var openprojectApp = angular.module('openproject', [
   'feature-flags',
   'openproject.layout',
   'cgBusy',
-  'openproject.api'
+  'openproject.api',
+  'openproject.templates'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -237,3 +240,6 @@ require('./time_entries');
 require('./timelines');
 require('./ui_components');
 require('./work_packages');
+
+var requireTemplate = require.context('../public/templates', true, /\.html$/);
+requireTemplate.keys().forEach(requireTemplate);
