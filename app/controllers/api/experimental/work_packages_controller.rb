@@ -50,7 +50,9 @@ module Api
 
       def index
         @work_packages = current_work_packages(@project)
-        @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
+        @custom_field_column_names = @query.columns
+                                           .select { |c| c.name.to_s =~ /cf_(.*)/ }
+                                           .map(&:name)
         @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
         if !@query.group_by.blank?
           if @query.group_by =~ /cf_(.*)/
@@ -75,10 +77,11 @@ module Api
 
         column_names = params[:column_names]
         ids = params[:ids].map(&:to_i)
-        scope = WorkPackage.visible.includes(:custom_values)
+        scope = WorkPackage.visible.includes(custom_values: :custom_field)
 
         work_packages = Array.wrap(scope.find(*ids)).sort { |a, b| ids.index(a.id) <=> ids.index(b.id) }
 
+        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
         @columns_data = fetch_columns_data(column_names, work_packages)
         @columns_meta = {
           total_sums: columns_total_sums(column_names, work_packages),
@@ -90,7 +93,8 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        @column_sums = columns_total_sums(column_names, all_query_work_packages)
+        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(all_query_work_packages)
+        @column_sums = columns_total_sums(column_names, work_packages)
       end
 
       private
@@ -158,7 +162,8 @@ module Api
                                            :category,
                                            :fixed_version,
                                            { custom_values: :custom_field }]
-        work_packages = results.work_packages.all
+
+        results.work_packages.all
       end
 
       def set_work_packages_meta_data(query, results, work_packages)
@@ -225,14 +230,13 @@ module Api
 
       def fetch_column_data(column_name, work_packages, display = true)
         if column_name =~ /cf_(.*)/
-          custom_field = CustomField.find($1)
-          work_packages.map do |work_package|
-            custom_value = work_package.custom_values.find_by_custom_field_id($1)
-            if display
-              work_package.get_cast_custom_value_with_meta(custom_value)
-            else
-              custom_field.cast_value custom_value.try(:value)
-            end
+          custom_field_data = work_packages.map { |wp|
+            wp.custom_values_display_data([column_name])
+          }
+          if display
+            custom_field_data.flatten
+          else
+            custom_field_data.flatten.map { |d| d.nil? ? nil : d[:value] }
           end
         else
           work_packages.map do |work_package|
@@ -252,7 +256,7 @@ module Api
 
       def column_is_numeric?(column_name)
         # TODO RS: We want to leave out ids even though they are numeric
-        [:integer, :float].include? column_type(column_name)
+        [:int, :integer, :float].include? column_type(column_name)
       end
 
       def column_type(column_name)
