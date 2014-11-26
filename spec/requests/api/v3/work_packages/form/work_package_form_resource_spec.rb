@@ -269,7 +269,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                   it_behaves_like 'valid payload'
 
-                  it_behaves_like 'having an error', 'status_id'
+                  it_behaves_like 'having an error', 'status'
 
                   it 'should respond with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
@@ -277,13 +277,24 @@ describe 'API v3 Work package form resource', type: :request do
                 end
 
                 context 'status does not exist' do
+                  let(:error_id) {
+                    'urn:openproject-org:api:v3:errors:MultipleErrors'.to_json
+                  }
                   let(:status_link) { '/api/v3/statuses/-1' }
 
                   include_context 'post request'
 
                   it_behaves_like 'valid payload'
 
-                  it_behaves_like 'having an error', 'status_id'
+                  it {
+                    expect(subject.body).to be_json_eql(error_id)
+                      .at_path('_embedded/validationErrors/status/errorIdentifier')
+                  }
+
+                  it {
+                    expect(subject.body).to have_json_size(2)
+                      .at_path('_embedded/validationErrors/status/_embedded/errors')
+                  }
 
                   it 'should respond with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
