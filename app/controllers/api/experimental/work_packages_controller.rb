@@ -75,7 +75,7 @@ module Api
         column_names = params[:column_names]
         scope = WorkPackage.visible.includes(includes_for_columns(column_names))
 
-        work_packages = Array.wrap(scope.find(*ids)).sort { |a, b| ids.index(a.id) <=> ids.index(b.id) }
+        work_packages = Array.wrap(scope.find(*ids)).sort_by { |wp| ids.index wp.id }
 
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
         @columns_data = fetch_columns_data(column_names, work_packages)
