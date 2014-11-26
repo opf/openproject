@@ -71,9 +71,7 @@ module.exports = function(config) {
 
       'tests/unit/tests/asset_functions.js',
       'tests/unit/tests/**/*test.js',
-      'tests/unit/tests/legacy-tests.js',
-
-      'public/templates/**/*.html'
+      'tests/unit/tests/legacy-tests.js'
     ],
 
 
@@ -87,8 +85,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '../app/assets/javascripts/*.js': ['coverage'],
-      'app/**/*.js': ['webpack'], // coverage disabled
-      'public/templates/**/*.html': ['ng-html2js']
+      'app/**/*.js': ['webpack'] // coverage disabled
     },
 
 
@@ -135,11 +132,6 @@ module.exports = function(config) {
         { type: 'html', dir:'coverage/' },
         { type: 'cobertura' }
       ]
-    },
-
-    ngHtml2JsPreprocessor: {
-      stripPrefix:  'public',
-      moduleName:   'templates'
     },
 
     webpack: require('./webpack.config.js'),
