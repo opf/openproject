@@ -17,6 +17,7 @@ module.exports = {
   context: __dirname + '/app',
 
   entry: _.merge({
+    'global':   './global.js',
     'core-app': './openproject-app.js'
   }, pluginEntries),
 
@@ -28,6 +29,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
+      { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
+      { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
       { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
     ]
@@ -38,7 +41,8 @@ module.exports = {
 
     modulesDirectories: [
       'node_modules',
-      'bower_components'
+      'bower_components',
+      'vendor'
     ].concat(pathConfig.pluginDirectories),
 
     alias: _.merge({
@@ -57,8 +61,6 @@ module.exports = {
   resolveLoader: {
     root: __dirname + '/node_modules'
   },
-
-  externals: { jquery: 'jQuery' },
 
   plugins: [
     new webpack.ProvidePlugin({

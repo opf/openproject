@@ -48,12 +48,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "bower_components/jquery/dist/jquery.js",
-      "bower_components/momentjs/moment.js",
-      "bower_components/moment-timezone/moment-timezone.js",
-      'bower_components/select2/select2.js',
-      "../vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
-
+      'app/global.js',
       'app/openproject-app.js',
       "bower_components/angular-mocks/angular-mocks.js",
 
