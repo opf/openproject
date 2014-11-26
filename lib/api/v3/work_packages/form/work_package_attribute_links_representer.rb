@@ -44,7 +44,7 @@ module API
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     { href: api_v3_paths.status(represented.status.id) }
+                     { href: api_v3_paths.status(represented.status_id) }
                    },
                    setter: -> (value, *) {
                      resource = parse_resource(:status, :statuses, value['href'])
