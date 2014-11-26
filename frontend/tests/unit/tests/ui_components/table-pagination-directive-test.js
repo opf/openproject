@@ -32,7 +32,7 @@ describe('tablePagination Directive', function () {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('templates'));
+  beforeEach(module('openproject.templates'));
 
   beforeEach(inject(function ($rootScope, $compile, _I18n_) {
     var html, I18n, t;

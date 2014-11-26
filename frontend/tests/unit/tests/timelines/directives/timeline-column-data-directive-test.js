@@ -32,7 +32,7 @@ describe('timelineColumnData Directive', function() {
   var compile, element, rootScope, scope, type;
 
   beforeEach(angular.mock.module('openproject.timelines.directives'));
-  beforeEach(module('templates', 'openproject.uiComponents', 'openproject.helpers'));
+  beforeEach(module('openproject.templates', 'openproject.uiComponents', 'openproject.helpers'));
 
   beforeEach(inject(function($rootScope, $compile) {
     var html;

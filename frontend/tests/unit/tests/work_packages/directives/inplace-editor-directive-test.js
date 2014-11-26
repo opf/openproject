@@ -40,7 +40,7 @@ describe('inplaceEditor Directive', function() {
   }
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('templates',
+  beforeEach(module('openproject.templates',
                     'openproject.models',
                     'openproject.api',
                     'openproject.layout',
