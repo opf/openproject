@@ -313,16 +313,28 @@ describe 'API v3 Work package form resource', type: :request do
                 let(:params) { valid_params.merge(user_parameter) }
 
                 context "valid #{property}" do
-                  let(:user_link) { "/api/v3/users/#{visible_user.id}" }
+                  shared_examples_for 'valid user assignment' do
+                    include_context 'post request'
 
-                  include_context 'post request'
+                    it_behaves_like 'valid payload'
 
-                  it_behaves_like 'valid payload'
+                    it_behaves_like 'having no errors'
 
-                  it_behaves_like 'having no errors'
+                    it "should respond with updated work package #{property}" do
+                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                    end
+                  end
 
-                  it "should respond with updated work package #{property}" do
-                    expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                  context 'empty user' do
+                    let(:user_link) { nil }
+
+                    it_behaves_like 'valid user assignment'
+                  end
+
+                  context 'existing user' do
+                    let(:user_link) { "/api/v3/users/#{visible_user.id}" }
+
+                    it_behaves_like 'valid user assignment'
                   end
                 end
 
