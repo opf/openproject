@@ -369,6 +369,44 @@ describe 'API v3 Work package form resource', type: :request do
 
               it_behaves_like 'handling people', 'responsible'
             end
+
+            describe 'multiple errors' do
+              let(:user_link) { '/api/v3/users/42' }
+              let(:status_link) { '/api/v3/statuses/-1' }
+              let(:links) {
+                {
+                  _links: {
+                    status: { href: status_link },
+                    assignee: { href: user_link },
+                    responsible: { href: user_link }
+                  }
+                }
+              }
+              let(:params) { valid_params.merge(subject: nil).merge(links) }
+
+              include_context 'post request'
+
+              it_behaves_like 'valid payload'
+
+              it {
+                expect(subject.body).to have_json_size(4).at_path('_embedded/validationErrors')
+              }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/subject') }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/status') }
+
+              it {
+                expect(subject.body).to have_json_size(2)
+                  .at_path('_embedded/validationErrors/status/_embedded/errors')
+              }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/assignee') }
+
+              it {
+                expect(subject.body).to have_json_path('_embedded/validationErrors/responsible')
+              }
+            end
           end
         end
       end
