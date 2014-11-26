@@ -261,6 +261,11 @@ describe 'API v3 Work package form resource', type: :request do
                 it 'should respond with updated work package status' do
                   expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
                 end
+
+                it 'should still show the original allowed statuses' do
+                  expect(subject.body).to be_json_eql(status_link.to_json)
+                    .at_path('_embedded/schema/status/_links/allowedValues/1/href')
+                end
               end
 
               context 'invalid status' do
