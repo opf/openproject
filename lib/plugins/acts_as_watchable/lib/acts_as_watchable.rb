@@ -89,10 +89,10 @@ module Redmine
           # TODO: There might be addable users which are not in the current
           #       project. But its hard (performance wise) to find them
           #       correctly. So we only search for users in the project scope.
-          #       Also, the watchable might not be allowed to be seen by all
-          #       users in the project.
           #       This implementation is so wrong, it makes me sad.
-          project.users
+          watchers = project.users
+          watchers = watchers.select { |w| visible?(w) } if respond_to?(:visible?)
+          watchers
         end
 
         # Returns an array of users that are proposed as watchers
