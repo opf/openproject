@@ -73,7 +73,9 @@ module Api
 
         column_names = params[:column_names]
         ids = params[:ids].map(&:to_i)
-        work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+        scope = WorkPackage.visible.includes(:custom_values)
+
+        work_packages = Array.wrap(scope.find(*ids)).sort { |a, b| ids.index(a.id) <=> ids.index(b.id) }
 
         @columns_data = fetch_columns_data(column_names, work_packages)
         @columns_meta = {
@@ -128,7 +130,12 @@ module Api
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
-        results = @query.results include: [:assigned_to, :type, :priority, :category, :fixed_version],
+        results = @query.results include: [:assigned_to,
+                                           :type,
+                                           :priority,
+                                           :category,
+                                           :fixed_version,
+                                           { custom_values: :custom_field }],
                                  order: sort_clause
 
         work_packages = results.work_packages
@@ -143,7 +150,12 @@ module Api
 
       def all_query_work_packages
         # Note: Do not apply pagination. Used to obtain total query meta data.
-        results = @query.results include: [:assigned_to, :type, :priority, :category, :fixed_version]
+        results = @query.results include: [:assigned_to,
+                                           :type,
+                                           :priority,
+                                           :category,
+                                           :fixed_version,
+                                           { custom_values: :custom_field }]
         work_packages = results.work_packages.all
       end
 
