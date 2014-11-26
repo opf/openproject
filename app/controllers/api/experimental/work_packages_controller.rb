@@ -64,11 +64,7 @@ module Api
 
         setup_context_menu_actions
 
-        respond_to do |format|
-          format.api {
-            @work_packages = ::API::Experimental::WorkPackageDecorator.decorate(@work_packages)
-          }
-        end
+        @work_packages = ::API::Experimental::WorkPackageDecorator.decorate(@work_packages)
       end
 
       def column_data
