@@ -229,7 +229,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
         allow(Setting).to receive(:work_package_list_summable_columns).and_return(
           %w(estimated_hours done_ratio)
         )
-        WorkPackage.stub_chain(:visible, :find) {
+        WorkPackage.stub_chain(:visible, :includes, :find) {
           FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, done_ratio: 33)
         }
       end

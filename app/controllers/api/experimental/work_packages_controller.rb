@@ -75,9 +75,9 @@ module Api
         raise 'API Error: No IDs' unless params[:ids]
         raise 'API Error: No column names' unless params[:column_names]
 
-        column_names = params[:column_names]
         ids = params[:ids].map(&:to_i)
-        scope = WorkPackage.visible.includes(custom_values: :custom_field)
+        column_names = params[:column_names]
+        scope = WorkPackage.visible.includes(includes_for_columns(column_names))
 
         work_packages = Array.wrap(scope.find(*ids)).sort { |a, b| ids.index(a.id) <=> ids.index(b.id) }
 
@@ -93,7 +93,8 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(all_query_work_packages)
+        work_packages = all_query_work_packages(column_names)
+        work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
         @column_sums = columns_total_sums(column_names, work_packages)
       end
 
@@ -136,12 +137,7 @@ module Api
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
-        results = @query.results include: [:assigned_to,
-                                           :type,
-                                           :priority,
-                                           :category,
-                                           :fixed_version,
-                                           { custom_values: :custom_field }],
+        results = @query.results include: includes_for_columns(@query.columns.map(&:name)),
                                  order: sort_clause
 
         work_packages = results.work_packages
@@ -154,16 +150,19 @@ module Api
         work_packages
       end
 
-      def all_query_work_packages
+      def all_query_work_packages(column_names)
         # Note: Do not apply pagination. Used to obtain total query meta data.
-        results = @query.results include: [:assigned_to,
-                                           :type,
-                                           :priority,
-                                           :category,
-                                           :fixed_version,
-                                           { custom_values: :custom_field }]
+        results = @query.results include: includes_for_columns(column_names)
 
         results.work_packages.all
+      end
+
+      def includes_for_columns(column_names)
+        column_names = Array(column_names)
+        includes = (WorkPackage.reflections.keys & column_names)
+        includes << { custom_values: :custom_field } if column_names.any? { |c| c =~ /cf_\d+/ }
+
+        includes
       end
 
       def set_work_packages_meta_data(query, results, work_packages)
