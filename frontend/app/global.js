@@ -30,6 +30,10 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
+// NOTE: currently needed for PhantomJS to support Webpack's style-loader.
+// See: https://github.com/webpack/style-loader/issues/31
+require('polyfill-function-prototype-bind');
+
 require('jquery');
 require('jquery-migrate/jquery-migrate');
 require('jquery-ujs');
