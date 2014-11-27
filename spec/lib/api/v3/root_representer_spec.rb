@@ -46,6 +46,12 @@ describe ::API::V3::RootRepresenter do
         it { should have_json_path('_links/project') }
         it { should have_json_path('_links/project/href') }
         it { should have_json_path('_links/project/templated') }
+
+        it {
+          should be_json_eql('/api/v3/projects/{project_id}'.to_json)
+            .at_path('_links/project/href')
+        }
+        it { should be_json_eql(true.to_json).at_path('_links/project/templated') }
       end
 
       describe 'statuses' do

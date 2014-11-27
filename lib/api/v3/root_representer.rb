@@ -47,7 +47,7 @@ module API
 
       link 'project' do
         {
-          href: api_v3_paths.projects + '/{project_id}',
+          href: api_v3_paths.project('{project_id}'),
           templated: true
         }
       end
