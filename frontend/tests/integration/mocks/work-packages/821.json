@@ -3,45 +3,41 @@
   "_links": {
     "self": {
       "href": "/api/v3/work_packages/821",
-      "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "66666"
     },
     "update": {
       "href": "/api/v3/work_packages/821/form",
       "method": "post",
-      "title": "Update harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Update 66666"
     },
     "updateImmediately": {
       "href": "/api/v3/work_packages/821",
       "method": "patch",
-      "title": "Update harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Update 66666"
     },
     "delete": {
       "href": "/work_packages/bulk?ids=821",
       "method": "delete",
-      "title": "Delete harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Delete 66666"
     },
     "log_time": {
       "href": "/work_packages/821/time_entries/new",
       "type": "text/html",
-      "title": "Log time on harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Log time on 66666"
     },
     "duplicate": {
       "href": "/projects/seeded_project/work_packages/new?copy_from=821",
       "type": "text/html",
-      "title": "Duplicate harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Duplicate 66666"
     },
     "move": {
       "href": "/work_packages/821/move/new",
       "type": "text/html",
-      "title": "Move harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Move 66666"
     },
     "author": {
       "href": "/api/v3/users/5",
       "title": "Freida Fay - Christine6938"
-    },
-    "availableStatuses": {
-      "href": "/api/v3/work_packages/821/available_statuses",
-      "title": "Available Statuses"
     },
     "availableWatchers": {
       "href": "/api/v3/work_packages/821/available_watchers",
@@ -50,7 +46,9 @@
     "watchChanges": {
       "href": "/api/v3/work_packages/821/watchers",
       "method": "post",
-      "data": {"user_id": 1},
+      "data": {
+        "user_id": 1
+      },
       "title": "Watch work package"
     },
     "addWatcher": {
@@ -67,56 +65,63 @@
     "addChild": {
       "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=821",
       "type": "text/html",
-      "title": "Add child of harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Add child of 66666"
     },
     "changeParent": {
       "href": "/api/v3/work_packages/821",
       "method": "patch",
-      "title": "Change parent of harum temporibus sit sit autem atque optio vitaelasd22ss2"
+      "title": "Change parent of 66666"
     },
     "addComment": {
       "href": "/api/v3/work_packages/821/activities",
       "method": "post",
       "title": "Add comment"
+    },
+    "parent": {
+      "href": "/api/v3/work_packages/54",
+      "title": "asd"
+    },
+    "timeEntries": {
+      "href": "/work_packages/821/time_entries",
+      "type": "text/html",
+      "title": "Time entries"
     }
   },
   "id": 821,
-  "lockVersion": 67,
-  "subject": "harum temporibus sit sit autem atque optio vitaelasd22ss2",
+  "subject": "66666",
   "type": "Feature",
-  "description": "<strong>dfgfdg</strong> sdf <em>sdf</em>  <em>asdasdasd</em>\n\t<ol>\n\t<li>1112</li>\n\t\t<li>2ddd223</li>\n\t\t<li><strong>2asddd</strong></li>\n\t\t<li>3<br />22</li>\n\t</ol>\n\n\n\t<p><ins>asdasd</ins></p>",
-  "rawDescription": "*dfgfdg* sdf _sdf_  _asdasdasd_\n# 1112\n# 2ddd223\n# *2asddd*\n# 3\n22\n\n\n+asdasd+",
-  "status": "to be scheduled",
-  "isClosed": false,
+  "description": "<p><a href=\"/work_packages/54\" class=\"issue work_package status-4 priority-2 parent\" title=\"asd (to be scheduled)\">#54</a><br />2</p>",
+  "rawDescription": "#54\n2",
+  "status": "rejected",
+  "isClosed": true,
   "priority": "Normal",
-  "startDate": "2014-10-26T00:00:00+00:00",
-  "dueDate": "2014-12-07T00:00:00+00:00",
-  "estimatedTime": {
-    "units": "hours",
-    "value": null
-  },
+  "startDate": "2014-10-23T00:00:00+00:00",
+  "dueDate": "2014-12-27T00:00:00+00:00",
+  "estimatedTime": "PT0S",
+  "spentTime": "PT0S",
   "percentageDone": 0,
   "versionId": null,
   "versionName": null,
   "projectId": 1,
   "projectName": "Seeded Project",
+  "parentId": 54,
   "createdAt": "2014-11-05T15:56:53Z",
-  "updatedAt": "2014-11-10T13:52:32Z",
+  "updatedAt": "2014-11-21T08:48:57Z",
   "customProperties": [
     {
       "name": "dolorum quidem",
       "format": "text",
-      "value": "566569429-0"
+      "value": null
     },
     {
       "name": "aut mollitia",
       "format": "text",
-      "value": "919043755-1"
+      "value": null
     },
     {
       "name": "est exercitationem",
       "format": "text",
-      "value": "2091844821-3"
+      "value": null
     }
   ],
   "_embedded": {
@@ -136,8 +141,8 @@
       "name": "Freida Fay",
       "mail": "elwyn_dickens@gulgowskicasper.biz",
       "avatar": "",
-      "createdAt": "2014-11-05T15:56:52Z",
-      "updatedAt": "2014-11-05T15:56:52Z",
+      "createdAt": "2014-11-05T15:56:821Z",
+      "updatedAt": "2014-11-05T15:56:821Z",
       "status": 1
     },
     "activities": [
@@ -145,49 +150,49 @@
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/317",
-            "title": "317"
+            "href": "/api/v3/activities/315",
+            "title": "315"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/3",
             "title": "Anonymous - "
           },
           "update": {
-            "href": "/api/v3/activities/317",
+            "href": "/api/v3/activities/315",
             "method": "patch",
-            "title": "317"
+            "title": "315"
           }
         },
-        "id": 317,
+        "id": 315,
         "comment": "",
         "rawComment": "",
         "details": [
           "Type set to Feature",
           "Project set to Seeded Project",
-          "Subject set to harum temporibus sit sit autem atque optio vitae",
-          "Description set (/journals/317/diff/description)",
-          "Due date set to 12/07/2014",
-          "Status set to to be scheduled",
+          "Subject set to praesentium repellendus nam officia velit voluptas voluptas quasi",
+          "Description set (/journals/315/diff/description)",
+          "Due date set to 12/27/2014",
+          "Status set to new",
           "Priority set to Normal",
           "Author set to Freida Fay",
           "% done changed from 0 to 0",
-          "Start date set to 10/26/2014"
+          "Start date set to 10/23/2014"
         ],
         "htmlDetails": [
           "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>",
           "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>",
-          "<strong>Subject</strong> set to <i title=\"harum temporibus sit sit autem atque optio vitae\">harum temporibus sit sit autem atque optio vitae</i>",
-          "<strong>Description</strong> set (<a href=\"/journals/317/diff/description\" class=\"description-details\">Details</a>)",
-          "<strong>Due date</strong> set to <i title=\"12/07/2014\">12/07/2014</i>",
-          "<strong>Status</strong> set to <i title=\"to be scheduled\">to be scheduled</i>",
+          "<strong>Subject</strong> set to <i title=\"praesentium repellendus nam officia velit voluptas voluptas quasi\">praesentium repellendus nam officia velit voluptas voluptas quasi</i>",
+          "<strong>Description</strong> set (<a href=\"/journals/315/diff/description\" class=\"description-details\">Details</a>)",
+          "<strong>Due date</strong> set to <i title=\"12/27/2014\">12/27/2014</i>",
+          "<strong>Status</strong> set to <i title=\"new\">new</i>",
           "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>",
           "<strong>Author</strong> set to <i title=\"Freida Fay\">Freida Fay</i>",
           "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>",
-          "<strong>Start date</strong> set to <i title=\"10/26/2014\">10/26/2014</i>"
+          "<strong>Start date</strong> set to <i title=\"10/23/2014\">10/23/2014</i>"
         ],
         "version": 1,
         "createdAt": "2014-11-05T15:56:53Z"
@@ -196,1439 +201,1952 @@
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/330",
-            "title": "330"
+            "href": "/api/v3/activities/500",
+            "title": "500"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/330",
+            "href": "/api/v3/activities/500",
             "method": "patch",
-            "title": "330"
+            "title": "500"
           }
         },
-        "id": 330,
+        "id": 500,
         "comment": "",
         "rawComment": "",
         "details": [
-          "File ex_accusamus_numquam_modi_animi_totam_voluptatem_similique added",
-          "File praesentium_laudantium_est_id_consequatur_dignissimos_ut_aspernatur added",
-          "File quod_quis_inventore_velit_sunt_incidunt_omnis_cum added",
-          "dolorum quidem set to voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis",
-          "aut mollitia set to alias eum sequi sit ut sapiente distinctio et",
-          "est exercitationem set to consequuntur facere debitis adipisci incidunt beatae voluptatem magnam"
+          "Description changed (/journals/500/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>File</strong> <a href=\"http://localhost:3000/attachments/9/ex_accusamus_numquam_modi_animi_totam_voluptatem_similique\">ex_accusamus_numquam_modi_animi_totam_voluptatem_similique</a> added",
-          "<strong>File</strong> <a href=\"http://localhost:3000/attachments/8/praesentium_laudantium_est_id_consequatur_dignissimos_ut_aspernatur\">praesentium_laudantium_est_id_consequatur_dignissimos_ut_aspernatur</a> added",
-          "<strong>File</strong> <a href=\"http://localhost:3000/attachments/7/quod_quis_inventore_velit_sunt_incidunt_omnis_cum\">quod_quis_inventore_velit_sunt_incidunt_omnis_cum</a> added",
-          "<strong>dolorum quidem</strong> set to <i title=\"voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis\">voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis</i>",
-          "<strong>aut mollitia</strong> set to <i title=\"alias eum sequi sit ut sapiente distinctio et\">alias eum sequi sit ut sapiente distinctio et</i>",
-          "<strong>est exercitationem</strong> set to <i title=\"consequuntur facere debitis adipisci incidunt beatae voluptatem magnam\">consequuntur facere debitis adipisci incidunt beatae voluptatem magnam</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/500/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 2,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:31:10Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/331",
-            "title": "331"
+            "href": "/api/v3/activities/501",
+            "title": "501"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/331",
+            "href": "/api/v3/activities/501",
             "method": "patch",
-            "title": "331"
+            "title": "501"
           }
         },
-        "id": 331,
-        "comment": "",
-        "rawComment": "",
-        "details": ["aut mollitia changed from alias eum sequi sit ut sapiente distinctio et to 938168672-6"],
-        "htmlDetails": ["<strong>aut mollitia</strong> changed from <i title=\"alias eum sequi sit ut sapiente distinctio et\">alias eum sequi sit ut sapiente distinctio et</i> to <i title=\"938168672-6\">938168672-6</i>"],
-        "version": 3,
-        "createdAt": "2014-11-05T15:56:821Z"
-      },
-      {
-        "_type": "Activity",
-        "_links": {
-          "self": {
-            "href": "/api/v3/activities/332",
-            "title": "332"
-          },
-          "workPackage": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
-          },
-          "update": {
-            "href": "/api/v3/activities/332",
-            "method": "patch",
-            "title": "332"
-          }
-        },
-        "id": 332,
-        "comment": "",
-        "rawComment": "",
-        "details": ["dolorum quidem changed from voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis to 763952510-1"],
-        "htmlDetails": ["<strong>dolorum quidem</strong> changed from <i title=\"voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis\">voluptatibus voluptatem architecto tempora blanditiis doloribus ea facilis</i> to <i title=\"763952510-1\">763952510-1</i>"],
-        "version": 4,
-        "createdAt": "2014-11-05T15:56:821Z"
-      },
-      {
-        "_type": "Activity",
-        "_links": {
-          "self": {
-            "href": "/api/v3/activities/333",
-            "title": "333"
-          },
-          "workPackage": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
-          },
-          "update": {
-            "href": "/api/v3/activities/333",
-            "method": "patch",
-            "title": "333"
-          }
-        },
-        "id": 333,
+        "id": 501,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 763952510-1 to 1568216380-3",
-          "est exercitationem changed from consequuntur facere debitis adipisci incidunt beatae voluptatem magnam to 123728879-7"
+          "Description changed (/journals/501/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"763952510-1\">763952510-1</i> to <i title=\"1568216380-3\">1568216380-3</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"consequuntur facere debitis adipisci incidunt beatae voluptatem magnam\">consequuntur facere debitis adipisci incidunt beatae voluptatem magnam</i> to <i title=\"123728879-7\">123728879-7</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/501/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 3,
+        "createdAt": "2014-11-10T12:31:53Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/502",
+            "title": "502"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/502",
+            "method": "patch",
+            "title": "502"
+          }
+        },
+        "id": 502,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/502/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/502/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 4,
+        "createdAt": "2014-11-10T12:31:59Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/503",
+            "title": "503"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/503",
+            "method": "patch",
+            "title": "503"
+          }
+        },
+        "id": 503,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/503/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/503/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 5,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:32:21Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/334",
-            "title": "334"
+            "href": "/api/v3/activities/504",
+            "title": "504"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/334",
+            "href": "/api/v3/activities/504",
             "method": "patch",
-            "title": "334"
+            "title": "504"
           }
         },
-        "id": 334,
+        "id": 504,
         "comment": "",
         "rawComment": "",
         "details": [
-          "aut mollitia changed from 938168672-6 to 478801303-7",
-          "est exercitationem changed from 123728879-7 to 736851346-3"
+          "Description changed (/journals/504/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>aut mollitia</strong> changed from <i title=\"938168672-6\">938168672-6</i> to <i title=\"478801303-7\">478801303-7</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"123728879-7\">123728879-7</i> to <i title=\"736851346-3\">736851346-3</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/504/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 6,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:32:27Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/335",
-            "title": "335"
+            "href": "/api/v3/activities/505",
+            "title": "505"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/335",
+            "href": "/api/v3/activities/505",
             "method": "patch",
-            "title": "335"
+            "title": "505"
           }
         },
-        "id": 335,
+        "id": 505,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 1568216380-3 to 012019084-2",
-          "est exercitationem changed from 736851346-3 to 512839028-4"
+          "Description changed (/journals/505/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"1568216380-3\">1568216380-3</i> to <i title=\"012019084-2\">012019084-2</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"736851346-3\">736851346-3</i> to <i title=\"512839028-4\">512839028-4</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/505/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 7,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:32:31Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/336",
-            "title": "336"
+            "href": "/api/v3/activities/506",
+            "title": "506"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/336",
+            "href": "/api/v3/activities/506",
             "method": "patch",
-            "title": "336"
+            "title": "506"
           }
         },
-        "id": 336,
+        "id": 506,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 012019084-2 to 660188044-2",
-          "aut mollitia changed from 478801303-7 to 700143201-6",
-          "est exercitationem changed from 512839028-4 to 210200678-6"
+          "Description changed (/journals/506/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"012019084-2\">012019084-2</i> to <i title=\"660188044-2\">660188044-2</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"478801303-7\">478801303-7</i> to <i title=\"700143201-6\">700143201-6</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"512839028-4\">512839028-4</i> to <i title=\"210200678-6\">210200678-6</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/506/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 8,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:32:40Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/337",
-            "title": "337"
+            "href": "/api/v3/activities/507",
+            "title": "507"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/337",
+            "href": "/api/v3/activities/507",
             "method": "patch",
-            "title": "337"
+            "title": "507"
           }
         },
-        "id": 337,
+        "id": 507,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 660188044-2 to 592903892-9",
-          "aut mollitia changed from 700143201-6 to 676490337-9"
+          "Description changed (/journals/507/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"660188044-2\">660188044-2</i> to <i title=\"592903892-9\">592903892-9</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"700143201-6\">700143201-6</i> to <i title=\"676490337-9\">676490337-9</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/507/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 9,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T12:32:45Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/338",
-            "title": "338"
+            "href": "/api/v3/activities/511",
+            "title": "511"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/338",
+            "href": "/api/v3/activities/511",
             "method": "patch",
-            "title": "338"
+            "title": "511"
           }
         },
-        "id": 338,
+        "id": 511,
         "comment": "",
         "rawComment": "",
         "details": [
-          "aut mollitia changed from 676490337-9 to 6302598217-9",
-          "est exercitationem changed from 210200678-6 to 967026608-4"
+          "Description changed (/journals/511/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>aut mollitia</strong> changed from <i title=\"676490337-9\">676490337-9</i> to <i title=\"6302598217-9\">6302598217-9</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"210200678-6\">210200678-6</i> to <i title=\"967026608-4\">967026608-4</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/511/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 10,
-        "createdAt": "2014-11-05T15:56:821Z"
+        "createdAt": "2014-11-10T14:10:51Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/339",
-            "title": "339"
+            "href": "/api/v3/activities/512",
+            "title": "512"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/339",
+            "href": "/api/v3/activities/512",
             "method": "patch",
-            "title": "339"
+            "title": "512"
           }
         },
-        "id": 339,
+        "id": 512,
         "comment": "",
         "rawComment": "",
         "details": [
-          "aut mollitia changed from 6302598217-9 to 606128953-7",
-          "est exercitationem changed from 967026608-4 to 413193610-0"
+          "Description changed (/journals/512/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>aut mollitia</strong> changed from <i title=\"6302598217-9\">6302598217-9</i> to <i title=\"606128953-7\">606128953-7</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"967026608-4\">967026608-4</i> to <i title=\"413193610-0\">413193610-0</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/512/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 11,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T14:42:50Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/340",
-            "title": "340"
+            "href": "/api/v3/activities/513",
+            "title": "513"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/340",
+            "href": "/api/v3/activities/513",
             "method": "patch",
-            "title": "340"
+            "title": "513"
           }
         },
-        "id": 340,
+        "id": 513,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 592903892-9 to 014948589-1",
-          "aut mollitia changed from 606128953-7 to 005997781-7"
+          "Description deleted (/journals/513/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"592903892-9\">592903892-9</i> to <i title=\"014948589-1\">014948589-1</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"606128953-7\">606128953-7</i> to <i title=\"005997781-7\">005997781-7</i>"
+          "<strong>Description</strong> deleted (<a href=\"/journals/513/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 12,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T14:44:11Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/341",
-            "title": "341"
+            "href": "/api/v3/activities/514",
+            "title": "514"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/341",
+            "href": "/api/v3/activities/514",
             "method": "patch",
-            "title": "341"
+            "title": "514"
           }
         },
-        "id": 341,
+        "id": 514,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 014948589-1 to 381034651-9",
-          "aut mollitia changed from 005997781-7 to 749033678-3"
+          "Description set (/journals/514/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"014948589-1\">014948589-1</i> to <i title=\"381034651-9\">381034651-9</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"005997781-7\">005997781-7</i> to <i title=\"749033678-3\">749033678-3</i>"
+          "<strong>Description</strong> set (<a href=\"/journals/514/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 13,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T14:44:21Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/342",
-            "title": "342"
+            "href": "/api/v3/activities/515",
+            "title": "515"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/342",
+            "href": "/api/v3/activities/515",
             "method": "patch",
-            "title": "342"
+            "title": "515"
           }
         },
-        "id": 342,
+        "id": 515,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 381034651-9 to 392415989-0",
-          "aut mollitia changed from 749033678-3 to 134317431-7",
-          "est exercitationem changed from 413193610-0 to 981016016-X"
+          "Description deleted (/journals/515/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"381034651-9\">381034651-9</i> to <i title=\"392415989-0\">392415989-0</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"749033678-3\">749033678-3</i> to <i title=\"134317431-7\">134317431-7</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"413193610-0\">413193610-0</i> to <i title=\"981016016-X\">981016016-X</i>"
+          "<strong>Description</strong> deleted (<a href=\"/journals/515/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 14,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T14:47:36Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/343",
-            "title": "343"
+            "href": "/api/v3/activities/516",
+            "title": "516"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/343",
+            "href": "/api/v3/activities/516",
             "method": "patch",
-            "title": "343"
+            "title": "516"
           }
         },
-        "id": 343,
-        "comment": "",
-        "rawComment": "",
-        "details": ["est exercitationem changed from 981016016-X to 868560844-9"],
-        "htmlDetails": ["<strong>est exercitationem</strong> changed from <i title=\"981016016-X\">981016016-X</i> to <i title=\"868560844-9\">868560844-9</i>"],
-        "version": 15,
-        "createdAt": "2014-11-05T15:56:55Z"
-      },
-      {
-        "_type": "Activity",
-        "_links": {
-          "self": {
-            "href": "/api/v3/activities/344",
-            "title": "344"
-          },
-          "workPackage": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
-          },
-          "update": {
-            "href": "/api/v3/activities/344",
-            "method": "patch",
-            "title": "344"
-          }
-        },
-        "id": 344,
+        "id": 516,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 392415989-0 to 314100999-6",
-          "est exercitationem changed from 868560844-9 to 809410157-1"
+          "Description set (/journals/516/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"392415989-0\">392415989-0</i> to <i title=\"314100999-6\">314100999-6</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"868560844-9\">868560844-9</i> to <i title=\"809410157-1\">809410157-1</i>"
+          "<strong>Description</strong> set (<a href=\"/journals/516/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 15,
+        "createdAt": "2014-11-10T14:821:47Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/517",
+            "title": "517"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/517",
+            "method": "patch",
+            "title": "517"
+          }
+        },
+        "id": 517,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/517/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/517/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 16,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T14:53:17Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/345",
-            "title": "345"
+            "href": "/api/v3/activities/518",
+            "title": "518"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/345",
+            "href": "/api/v3/activities/518",
             "method": "patch",
-            "title": "345"
+            "title": "518"
           }
         },
-        "id": 345,
+        "id": 518,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 314100999-6 to 534681130-3",
-          "aut mollitia changed from 134317431-7 to 888595028-0"
+          "Description changed (/journals/518/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"314100999-6\">314100999-6</i> to <i title=\"534681130-3\">534681130-3</i>",
-          "<strong>aut mollitia</strong> changed from <i title=\"134317431-7\">134317431-7</i> to <i title=\"888595028-0\">888595028-0</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/518/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 17,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-10T15:17:34Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/346",
-            "title": "346"
+            "href": "/api/v3/activities/8213",
+            "title": "8213"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/346",
+            "href": "/api/v3/activities/8213",
             "method": "patch",
-            "title": "346"
+            "title": "8213"
           }
         },
-        "id": 346,
+        "id": 8213,
         "comment": "",
         "rawComment": "",
         "details": [
-          "dolorum quidem changed from 534681130-3 to 566569429-0",
-          "est exercitationem changed from 809410157-1 to 885157057-4"
+          "Subject changed from praesentium repellendus nam officia velit voluptas voluptas quasi to praesentium repellendus nam officia velit voluptas voluptas quasivv"
         ],
         "htmlDetails": [
-          "<strong>dolorum quidem</strong> changed from <i title=\"534681130-3\">534681130-3</i> to <i title=\"566569429-0\">566569429-0</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"809410157-1\">809410157-1</i> to <i title=\"885157057-4\">885157057-4</i>"
+          "<strong>Subject</strong> changed from <i title=\"praesentium repellendus nam officia velit voluptas voluptas quasi\">praesentium repellendus nam officia velit voluptas voluptas quasi</i> to <i title=\"praesentium repellendus nam officia velit voluptas voluptas quasivv\">praesentium repellendus nam officia velit voluptas voluptas quasivv</i>"
         ],
         "version": 18,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-12T12:59:25Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/347",
-            "title": "347"
+            "href": "/api/v3/activities/531",
+            "title": "531"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/347",
+            "href": "/api/v3/activities/531",
             "method": "patch",
-            "title": "347"
+            "title": "531"
           }
         },
-        "id": 347,
+        "id": 531,
         "comment": "",
         "rawComment": "",
         "details": [
-          "aut mollitia changed from 888595028-0 to 301517229-8",
-          "est exercitationem changed from 885157057-4 to 640127204-X"
+          "Description changed (/journals/531/diff/description)"
         ],
         "htmlDetails": [
-          "<strong>aut mollitia</strong> changed from <i title=\"888595028-0\">888595028-0</i> to <i title=\"301517229-8\">301517229-8</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"885157057-4\">885157057-4</i> to <i title=\"640127204-X\">640127204-X</i>"
+          "<strong>Description</strong> changed (<a href=\"/journals/531/diff/description\" class=\"description-details\">Details</a>)"
         ],
         "version": 19,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-12T13:42:54Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/348",
-            "title": "348"
+            "href": "/api/v3/activities/533",
+            "title": "533"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/348",
+            "href": "/api/v3/activities/533",
             "method": "patch",
-            "title": "348"
+            "title": "533"
           }
         },
-        "id": 348,
+        "id": 533,
         "comment": "",
         "rawComment": "",
         "details": [
-          "aut mollitia changed from 301517229-8 to 919043755-1",
-          "est exercitationem changed from 640127204-X to 107222125-X"
+          "Parent set to 232aa22"
         ],
         "htmlDetails": [
-          "<strong>aut mollitia</strong> changed from <i title=\"301517229-8\">301517229-8</i> to <i title=\"919043755-1\">919043755-1</i>",
-          "<strong>est exercitationem</strong> changed from <i title=\"640127204-X\">640127204-X</i> to <i title=\"107222125-X\">107222125-X</i>"
+          "<strong>Parent</strong> set to <i title=\"232aa22\">232aa22</i>"
         ],
         "version": 20,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-12T16:16:51Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/349",
-            "title": "349"
+            "href": "/api/v3/activities/535",
+            "title": "535"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/349",
+            "href": "/api/v3/activities/535",
             "method": "patch",
-            "title": "349"
+            "title": "535"
           }
         },
-        "id": 349,
+        "id": 535,
         "comment": "",
         "rawComment": "",
-        "details": ["est exercitationem changed from 107222125-X to 2091844821-3"],
-        "htmlDetails": ["<strong>est exercitationem</strong> changed from <i title=\"107222125-X\">107222125-X</i> to <i title=\"2091844821-3\">2091844821-3</i>"],
+        "details": [
+          "Parent changed from 232aa22 to asd"
+        ],
+        "htmlDetails": [
+          "<strong>Parent</strong> changed from <i title=\"232aa22\">232aa22</i> to <i title=\"asd\">asd</i>"
+        ],
         "version": 21,
-        "createdAt": "2014-11-05T15:56:55Z"
+        "createdAt": "2014-11-12T16:19:01Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/465",
-            "title": "465"
+            "href": "/api/v3/activities/536",
+            "title": "536"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/465",
+            "href": "/api/v3/activities/536",
             "method": "patch",
-            "title": "465"
+            "title": "536"
           }
         },
-        "id": 465,
+        "id": 536,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitae to harum temporibus sit sit autem atque optio vitaesd"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitae\">harum temporibus sit sit autem atque optio vitae</i> to <i title=\"harum temporibus sit sit autem atque optio vitaesd\">harum temporibus sit sit autem atque optio vitaesd</i>"],
+        "details": [
+          "Description changed (/journals/536/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/536/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 22,
-        "createdAt": "2014-11-05T15:58:18Z"
+        "createdAt": "2014-11-12T16:23:26Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/466",
-            "title": "466"
+            "href": "/api/v3/activities/537",
+            "title": "537"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/466",
+            "href": "/api/v3/activities/537",
             "method": "patch",
-            "title": "466"
+            "title": "537"
           }
         },
-        "id": 466,
+        "id": 537,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitaesd to harum temporibus sit sit autem atque optio vitaesds"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitaesd\">harum temporibus sit sit autem atque optio vitaesd</i> to <i title=\"harum temporibus sit sit autem atque optio vitaesds\">harum temporibus sit sit autem atque optio vitaesds</i>"],
+        "details": [
+          "Description changed (/journals/537/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/537/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 23,
-        "createdAt": "2014-11-05T16:01:48Z"
+        "createdAt": "2014-11-13T12:23:49Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/467",
-            "title": "467"
+            "href": "/api/v3/activities/539",
+            "title": "539"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/467",
+            "href": "/api/v3/activities/539",
             "method": "patch",
-            "title": "467"
+            "title": "539"
           }
         },
-        "id": 467,
+        "id": 539,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/467/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/467/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from praesentium repellendus nam officia velit voluptas voluptas quasivv to 23123123"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"praesentium repellendus nam officia velit voluptas voluptas quasivv\">praesentium repellendus nam officia velit voluptas voluptas quasivv</i> to <i title=\"23123123\">23123123</i>"
+        ],
         "version": 24,
-        "createdAt": "2014-11-05T16:03:25Z"
+        "createdAt": "2014-11-17T14:03:47Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/468",
-            "title": "468"
+            "href": "/api/v3/activities/540",
+            "title": "540"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/468",
+            "href": "/api/v3/activities/540",
             "method": "patch",
-            "title": "468"
+            "title": "540"
           }
         },
-        "id": 468,
+        "id": 540,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/468/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/468/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 23123123 to 3q4e4"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"23123123\">23123123</i> to <i title=\"3q4e4\">3q4e4</i>"
+        ],
         "version": 25,
-        "createdAt": "2014-11-05T16:03:42Z"
+        "createdAt": "2014-11-17T14:07:43Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/469",
-            "title": "469"
+            "href": "/api/v3/activities/541",
+            "title": "541"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/469",
+            "href": "/api/v3/activities/541",
             "method": "patch",
-            "title": "469"
+            "title": "541"
           }
         },
-        "id": 469,
+        "id": 541,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitaesds to harum temporibus sit sit autem atque optio vitael"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitaesds\">harum temporibus sit sit autem atque optio vitaesds</i> to <i title=\"harum temporibus sit sit autem atque optio vitael\">harum temporibus sit sit autem atque optio vitael</i>"],
+        "details": [
+          "Description changed (/journals/541/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/541/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 26,
-        "createdAt": "2014-11-05T16:06:31Z"
+        "createdAt": "2014-11-17T14:08:20Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/470",
-            "title": "470"
+            "href": "/api/v3/activities/542",
+            "title": "542"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/470",
+            "href": "/api/v3/activities/542",
             "method": "patch",
-            "title": "470"
+            "title": "542"
           }
         },
-        "id": 470,
+        "id": 542,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitael to harum temporibus sit sit autem atque optio vitaelasd22"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitael\">harum temporibus sit sit autem atque optio vitael</i> to <i title=\"harum temporibus sit sit autem atque optio vitaelasd22\">harum temporibus sit sit autem atque optio vitaelasd22</i>"],
+        "details": [
+          "Description changed (/journals/542/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/542/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 27,
-        "createdAt": "2014-11-05T16:07:06Z"
+        "createdAt": "2014-11-17T14:08:27Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/471",
-            "title": "471"
+            "href": "/api/v3/activities/543",
+            "title": "543"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/471",
+            "href": "/api/v3/activities/543",
             "method": "patch",
-            "title": "471"
+            "title": "543"
           }
         },
-        "id": 471,
+        "id": 543,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitaelasd22 to harum temporibus sit sit autem atque optio vitaelasd22ss"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitaelasd22\">harum temporibus sit sit autem atque optio vitaelasd22</i> to <i title=\"harum temporibus sit sit autem atque optio vitaelasd22ss\">harum temporibus sit sit autem atque optio vitaelasd22ss</i>"],
+        "details": [
+          "Status changed from new to in progress"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"new\">new</i> to <i title=\"in progress\">in progress</i>"
+        ],
         "version": 28,
-        "createdAt": "2014-11-05T16:08:16Z"
+        "createdAt": "2014-11-17T14:08:38Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/487",
-            "title": "487"
+            "href": "/api/v3/activities/544",
+            "title": "544"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/487",
+            "href": "/api/v3/activities/544",
             "method": "patch",
-            "title": "487"
+            "title": "544"
           }
         },
-        "id": 487,
+        "id": 544,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/487/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/487/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Status changed from in progress to tested"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"in progress\">in progress</i> to <i title=\"tested\">tested</i>"
+        ],
         "version": 29,
-        "createdAt": "2014-11-06T14:18:17Z"
+        "createdAt": "2014-11-17T14:11:36Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/488",
-            "title": "488"
+            "href": "/api/v3/activities/546",
+            "title": "546"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/488",
+            "href": "/api/v3/activities/546",
             "method": "patch",
-            "title": "488"
+            "title": "546"
           }
         },
-        "id": 488,
+        "id": 546,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/488/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/488/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Status changed from tested to closed"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"closed\">closed</i>"
+        ],
         "version": 30,
-        "createdAt": "2014-11-06T15:24:49Z"
+        "createdAt": "2014-11-17T14:11:41Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/489",
-            "title": "489"
+            "href": "/api/v3/activities/548",
+            "title": "548"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/489",
+            "href": "/api/v3/activities/548",
             "method": "patch",
-            "title": "489"
+            "title": "548"
           }
         },
-        "id": 489,
+        "id": 548,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/489/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/489/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Status changed from closed to in progress"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"closed\">closed</i> to <i title=\"in progress\">in progress</i>"
+        ],
         "version": 31,
-        "createdAt": "2014-11-07T12:22:58Z"
+        "createdAt": "2014-11-17T14:11:51Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/490",
-            "title": "490"
+            "href": "/api/v3/activities/549",
+            "title": "549"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/490",
+            "href": "/api/v3/activities/549",
             "method": "patch",
-            "title": "490"
+            "title": "549"
           }
         },
-        "id": 490,
+        "id": 549,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/490/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/490/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Description deleted (/journals/549/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> deleted (<a href=\"/journals/549/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 32,
-        "createdAt": "2014-11-07T12:23:23Z"
+        "createdAt": "2014-11-17T14:13:06Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/491",
-            "title": "491"
+            "href": "/api/v3/activities/550",
+            "title": "550"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/491",
+            "href": "/api/v3/activities/550",
             "method": "patch",
-            "title": "491"
+            "title": "550"
           }
         },
-        "id": 491,
+        "id": 550,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/491/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/491/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 3q4e4 to 3q4e4s"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"3q4e4\">3q4e4</i> to <i title=\"3q4e4s\">3q4e4s</i>"
+        ],
         "version": 33,
-        "createdAt": "2014-11-07T12:24:01Z"
+        "createdAt": "2014-11-17T14:14:53Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/492",
-            "title": "492"
+            "href": "/api/v3/activities/551",
+            "title": "551"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/492",
+            "href": "/api/v3/activities/551",
             "method": "patch",
-            "title": "492"
+            "title": "551"
           }
         },
-        "id": 492,
+        "id": 551,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/492/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/492/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Description set (/journals/551/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> set (<a href=\"/journals/551/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 34,
-        "createdAt": "2014-11-07T13:12:19Z"
+        "createdAt": "2014-11-17T14:17:41Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/493",
-            "title": "493"
+            "href": "/api/v3/activities/5821",
+            "title": "5821"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/493",
+            "href": "/api/v3/activities/5821",
             "method": "patch",
-            "title": "493"
+            "title": "5821"
           }
         },
-        "id": 493,
+        "id": 5821,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/493/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/493/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 3q4e4s to 2"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"3q4e4s\">3q4e4s</i> to <i title=\"2\">2</i>"
+        ],
         "version": 35,
-        "createdAt": "2014-11-07T14:34:24Z"
+        "createdAt": "2014-11-17T14:17:44Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/494",
-            "title": "494"
+            "href": "/api/v3/activities/553",
+            "title": "553"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/494",
+            "href": "/api/v3/activities/553",
             "method": "patch",
-            "title": "494"
+            "title": "553"
           }
         },
-        "id": 494,
+        "id": 553,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/494/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/494/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 2 to 22"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2\">2</i> to <i title=\"22\">22</i>"
+        ],
         "version": 36,
-        "createdAt": "2014-11-10T11:821:01Z"
+        "createdAt": "2014-11-17T14:17:51Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/495",
-            "title": "495"
+            "href": "/api/v3/activities/554",
+            "title": "554"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/495",
+            "href": "/api/v3/activities/554",
             "method": "patch",
-            "title": "495"
+            "title": "554"
           }
         },
-        "id": 495,
+        "id": 554,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/495/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/495/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 22 to 2323"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"22\">22</i> to <i title=\"2323\">2323</i>"
+        ],
         "version": 37,
-        "createdAt": "2014-11-10T11:55:06Z"
+        "createdAt": "2014-11-17T14:18:33Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/496",
-            "title": "496"
+            "href": "/api/v3/activities/555",
+            "title": "555"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/496",
+            "href": "/api/v3/activities/555",
             "method": "patch",
-            "title": "496"
+            "title": "555"
           }
         },
-        "id": 496,
+        "id": 555,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/496/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/496/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Description changed (/journals/555/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/555/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 38,
-        "createdAt": "2014-11-10T11:55:10Z"
+        "createdAt": "2014-11-17T14:18:46Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/497",
-            "title": "497"
+            "href": "/api/v3/activities/556",
+            "title": "556"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/497",
+            "href": "/api/v3/activities/556",
             "method": "patch",
-            "title": "497"
+            "title": "556"
           }
         },
-        "id": 497,
+        "id": 556,
         "comment": "",
         "rawComment": "",
-        "details": ["Subject changed from harum temporibus sit sit autem atque optio vitaelasd22ss to harum temporibus sit sit autem atque optio vitaelasd22ss2"],
-        "htmlDetails": ["<strong>Subject</strong> changed from <i title=\"harum temporibus sit sit autem atque optio vitaelasd22ss\">harum temporibus sit sit autem atque optio vitaelasd22ss</i> to <i title=\"harum temporibus sit sit autem atque optio vitaelasd22ss2\">harum temporibus sit sit autem atque optio vitaelasd22ss2</i>"],
+        "details": [
+          "Subject changed from 2323 to 2323123123"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2323\">2323</i> to <i title=\"2323123123\">2323123123</i>"
+        ],
         "version": 39,
-        "createdAt": "2014-11-10T11:55:24Z"
+        "createdAt": "2014-11-17T14:20:40Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/498",
-            "title": "498"
+            "href": "/api/v3/activities/557",
+            "title": "557"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/498",
+            "href": "/api/v3/activities/557",
             "method": "patch",
-            "title": "498"
+            "title": "557"
           }
         },
-        "id": 498,
+        "id": 557,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/498/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/498/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 2323123123 to 22"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2323123123\">2323123123</i> to <i title=\"22\">22</i>"
+        ],
         "version": 40,
-        "createdAt": "2014-11-10T11:55:34Z"
+        "createdAt": "2014-11-17T14:22:21Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/499",
-            "title": "499"
+            "href": "/api/v3/activities/559",
+            "title": "559"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/499",
+            "href": "/api/v3/activities/559",
             "method": "patch",
-            "title": "499"
+            "title": "559"
           }
         },
-        "id": 499,
+        "id": 559,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/499/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/499/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Status changed from in progress to rejected"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"in progress\">in progress</i> to <i title=\"rejected\">rejected</i>"
+        ],
         "version": 41,
-        "createdAt": "2014-11-10T11:56:02Z"
+        "createdAt": "2014-11-17T14:22:34Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/508",
-            "title": "508"
+            "href": "/api/v3/activities/560",
+            "title": "560"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/508",
+            "href": "/api/v3/activities/560",
             "method": "patch",
-            "title": "508"
+            "title": "560"
           }
         },
-        "id": 508,
+        "id": 560,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/508/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/508/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Subject changed from 22 to 2222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"22\">22</i> to <i title=\"2222\">2222</i>"
+        ],
         "version": 42,
-        "createdAt": "2014-11-10T13:36:55Z"
+        "createdAt": "2014-11-17T14:25:07Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/509",
-            "title": "509"
+            "href": "/api/v3/activities/562",
+            "title": "562"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/509",
+            "href": "/api/v3/activities/562",
             "method": "patch",
-            "title": "509"
+            "title": "562"
           }
         },
-        "id": 509,
+        "id": 562,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/509/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/509/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Status changed from rejected to tested"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"rejected\">rejected</i> to <i title=\"tested\">tested</i>"
+        ],
         "version": 43,
-        "createdAt": "2014-11-10T13:52:27Z"
+        "createdAt": "2014-11-17T14:26:20Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/510",
-            "title": "510"
+            "href": "/api/v3/activities/563",
+            "title": "563"
           },
           "workPackage": {
             "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/510",
+            "href": "/api/v3/activities/563",
             "method": "patch",
-            "title": "510"
+            "title": "563"
           }
         },
-        "id": 510,
+        "id": 563,
         "comment": "",
         "rawComment": "",
-        "details": ["Description changed (/journals/510/diff/description)"],
-        "htmlDetails": ["<strong>Description</strong> changed (<a href=\"/journals/510/diff/description\" class=\"description-details\">Details</a>)"],
+        "details": [
+          "Description deleted (/journals/563/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> deleted (<a href=\"/journals/563/diff/description\" class=\"description-details\">Details</a>)"
+        ],
         "version": 44,
-        "createdAt": "2014-11-10T13:52:32Z"
+        "createdAt": "2014-11-17T14:26:29Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/564",
+            "title": "564"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/564",
+            "method": "patch",
+            "title": "564"
+          }
+        },
+        "id": 564,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 2222 to sad"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2222\">2222</i> to <i title=\"sad\">sad</i>"
+        ],
+        "version": 45,
+        "createdAt": "2014-11-17T14:26:31Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/565",
+            "title": "565"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/565",
+            "method": "patch",
+            "title": "565"
+          }
+        },
+        "id": 565,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description set (/journals/565/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> set (<a href=\"/journals/565/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 46,
+        "createdAt": "2014-11-18T12:46:00Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/566",
+            "title": "566"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/566",
+            "method": "patch",
+            "title": "566"
+          }
+        },
+        "id": 566,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/566/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/566/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 47,
+        "createdAt": "2014-11-18T12:48:821Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/567",
+            "title": "567"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/567",
+            "method": "patch",
+            "title": "567"
+          }
+        },
+        "id": 567,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/567/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/567/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 48,
+        "createdAt": "2014-11-18T12:821:34Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/568",
+            "title": "568"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/568",
+            "method": "patch",
+            "title": "568"
+          }
+        },
+        "id": 568,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/568/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/568/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 49,
+        "createdAt": "2014-11-18T12:53:03Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/569",
+            "title": "569"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/569",
+            "method": "patch",
+            "title": "569"
+          }
+        },
+        "id": 569,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/569/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/569/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 50,
+        "createdAt": "2014-11-18T14:10:48Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/570",
+            "title": "570"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/570",
+            "method": "patch",
+            "title": "570"
+          }
+        },
+        "id": 570,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/570/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/570/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 51,
+        "createdAt": "2014-11-18T14:10:55Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/571",
+            "title": "571"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/571",
+            "method": "patch",
+            "title": "571"
+          }
+        },
+        "id": 571,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/571/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/571/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 821,
+        "createdAt": "2014-11-18T14:11:22Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/572",
+            "title": "572"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/572",
+            "method": "patch",
+            "title": "572"
+          }
+        },
+        "id": 572,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/572/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/572/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 53,
+        "createdAt": "2014-11-19T12:53:54Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/573",
+            "title": "573"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/573",
+            "method": "patch",
+            "title": "573"
+          }
+        },
+        "id": 573,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sad to sadaa"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sad\">sad</i> to <i title=\"sadaa\">sadaa</i>"
+        ],
+        "version": 54,
+        "createdAt": "2014-11-21T08:32:09Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/574",
+            "title": "574"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/574",
+            "method": "patch",
+            "title": "574"
+          }
+        },
+        "id": 574,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/574/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/574/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 55,
+        "createdAt": "2014-11-21T08:34:01Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/575",
+            "title": "575"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/575",
+            "method": "patch",
+            "title": "575"
+          }
+        },
+        "id": 575,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa to sadaa222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa\">sadaa</i> to <i title=\"sadaa222\">sadaa222</i>"
+        ],
+        "version": 56,
+        "createdAt": "2014-11-21T08:38:21Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/576",
+            "title": "576"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/576",
+            "method": "patch",
+            "title": "576"
+          }
+        },
+        "id": 576,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa222 to sadaa22222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa222\">sadaa222</i> to <i title=\"sadaa22222\">sadaa22222</i>"
+        ],
+        "version": 57,
+        "createdAt": "2014-11-21T08:41:25Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/577",
+            "title": "577"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/577",
+            "method": "patch",
+            "title": "577"
+          }
+        },
+        "id": 577,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa22222 to 23"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa22222\">sadaa22222</i> to <i title=\"23\">23</i>"
+        ],
+        "version": 58,
+        "createdAt": "2014-11-21T08:47:21Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/578",
+            "title": "578"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/578",
+            "method": "patch",
+            "title": "578"
+          }
+        },
+        "id": 578,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 23 to 66666"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"23\">23</i> to <i title=\"66666\">66666</i>"
+        ],
+        "version": 59,
+        "createdAt": "2014-11-21T08:48:27Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/580",
+            "title": "580"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/821",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/580",
+            "method": "patch",
+            "title": "580"
+          }
+        },
+        "id": 580,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from tested to rejected"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"rejected\">rejected</i>"
+        ],
+        "version": 60,
+        "createdAt": "2014-11-21T08:48:57Z"
       }
     ],
     "watchers": [],
-    "attachments": [
-      {
-        "_type": "Attachment",
-        "_links": {
-          "self": {
-            "href": "/api/v3/attachments/9",
-            "title": "ex_accusamus_numquam_modi_animi_totam_voluptatem_similique"
-          },
-          "work_package": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "author": {
-            "href": "/api/v3/users/5",
-            "title": "Freida Fay - Christine6938"
-          }
-        },
-        "id": 9,
-        "fileName": "ex_accusamus_numquam_modi_animi_totam_voluptatem_similique",
-        "diskFileName": "asperiores_quidem_sint_voluptatem_excepturi_non_modi_quo",
-        "description": null,
-        "fileSize": 0,
-        "contentType": "application/binary",
-        "digest": "",
-        "downloads": 0,
-        "createdAt": "2014-11-05T15:56:53Z"
-      },
-      {
-        "_type": "Attachment",
-        "_links": {
-          "self": {
-            "href": "/api/v3/attachments/8",
-            "title": "praesentium_laudantium_est_id_consequatur_dignissimos_ut_aspernatur"
-          },
-          "work_package": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "author": {
-            "href": "/api/v3/users/5",
-            "title": "Freida Fay - Christine6938"
-          }
-        },
-        "id": 8,
-        "fileName": "praesentium_laudantium_est_id_consequatur_dignissimos_ut_aspernatur",
-        "diskFileName": "velit_eos_earum_qui_asperiores_quidem_corrupti_quia",
-        "description": null,
-        "fileSize": 0,
-        "contentType": "application/binary",
-        "digest": "",
-        "downloads": 0,
-        "createdAt": "2014-11-05T15:56:53Z"
-      },
-      {
-        "_type": "Attachment",
-        "_links": {
-          "self": {
-            "href": "/api/v3/attachments/7",
-            "title": "quod_quis_inventore_velit_sunt_incidunt_omnis_cum"
-          },
-          "work_package": {
-            "href": "/api/v3/work_packages/821",
-            "title": "harum temporibus sit sit autem atque optio vitaelasd22ss2"
-          },
-          "author": {
-            "href": "/api/v3/users/5",
-            "title": "Freida Fay - Christine6938"
-          }
-        },
-        "id": 7,
-        "fileName": "quod_quis_inventore_velit_sunt_incidunt_omnis_cum",
-        "diskFileName": "maiores_aut_numquam_totam_cupiditate_maxime_ullam_ut",
-        "description": null,
-        "fileSize": 0,
-        "contentType": "application/binary",
-        "digest": "",
-        "downloads": 0,
-        "createdAt": "2014-11-05T15:56:53Z"
-      }
-    ],
+    "attachments": [],
     "relations": []
   }
 }

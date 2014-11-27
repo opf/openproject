@@ -31,7 +31,7 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
 
   var WorkPackageService = {
     getWorkPackage: function(id) {
-      var resource = HALAPIResource.setup("work_packages/" + id);
+      var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
         workPackage = wp;
         return workPackage;
@@ -125,14 +125,28 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
         });
     },
 
+    loadWorkPackageForm: function(workPackage) {
+      var options = { ajax: {
+        method: 'POST',
+        headers: {
+          Accept: 'application/hal+json'
+        },
+        contentType: 'application/json; charset=utf-8'
+      }, force: true};
+      return workPackage.links.update.fetch(options).then(function(form) {
+        workPackage.form = form;
+        return form;
+      });
+    },
+
     updateWorkPackage: function(workPackage, data) {
       var options = { ajax: {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          Accept: "application/hal+json"
+          Accept: 'application/hal+json'
         },
         data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8"
+        contentType: 'application/json; charset=utf-8'
       }, force: true};
       return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
         return workPackage;
@@ -141,12 +155,12 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {
       var options = { ajax: {
-        method: "POST",
+        method: 'POST',
         data: JSON.stringify({
           to_id: toId,
           relation_type: relationType
         }),
-        contentType: "application/json; charset=utf-8"
+        contentType: 'application/json; charset=utf-8'
       } };
       return workPackage.links.addRelation.fetch(options).then(function(relation){
         return relation;
@@ -154,7 +168,7 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
     },
 
     removeWorkPackageRelation: function(relation) {
-      var options = { ajax: { method: "DELETE" } };
+      var options = { ajax: { method: 'DELETE' } };
       return relation.links.remove.fetch(options).then(function(response){
         return response;
       });

@@ -31,7 +31,15 @@
 describe('inplaceEditor Directive', function() {
   var compile, element, rootScope, scope, elementScope, $timeout, html,
   submitStub, updateWorkPackageStub, onSuccessSpy, onFailSpy, onFinallySpy,
-  WorkPackageService;
+  WorkPackageService, form;
+
+  form = {
+    embedded: {
+      payload: {
+        props: {}
+      }
+    }
+  };
 
   function triggerKey(element, keyCode) {
     var e = jQuery.Event("keypress");
@@ -80,9 +88,10 @@ describe('inplaceEditor Directive', function() {
         },
         links: {
           updateImmediately: {
-            fetch: function() {}
+            fetch: function() { }
           }
-        }
+        },
+        form: form
       };
       compile();
       element.appendTo(document.body);
@@ -113,9 +122,10 @@ describe('inplaceEditor Directive', function() {
               },
               links: {
                 updateImmediately: {
-                  fetch: function() {}
+                  fetch: function() { }
                 }
-              }
+              },
+              form: form
             };
             html =
               '<h2 ' +
@@ -156,7 +166,8 @@ describe('inplaceEditor Directive', function() {
                 subject: 'Some subject',
                 lockVersion: '1'
               },
-              links: { }
+              links: { },
+              form: form
             };
             compile();
           });

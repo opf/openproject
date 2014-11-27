@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,24 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Categories
-      class CategoriesAPI < Grape::API
-        resources :categories do
-          before do
-            @categories = @project.categories
-          end
+require 'spec_helper'
 
-          get do
-            self_link = api_v3_paths.categories(@project.identifier)
+describe OpenProject::Acts::Watchable do
+  let(:project) { FactoryGirl.build(:project) }
+  let(:work_package) { FactoryGirl.build(:work_package, project: project) }
+  let(:users) { FactoryGirl.build_list(:user, 3) }
 
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
-          end
-        end
+  before do
+    allow(project).to receive(:users).and_return(users)
+  end
+
+  describe '#possible_watcher_users' do
+    subject { work_package.possible_watcher_users }
+
+    context 'supports #visible?' do
+      context 'all are visible' do
+        before { allow(work_package).to receive(:visible?).and_return(true) }
+
+        it { is_expected.to match_array(users) }
       end
+
+      context 'all are invisible' do
+        before { allow(work_package).to receive(:visible?).and_return(false) }
+
+        it { is_expected.to be_empty }
+      end
+    end
+
+    context 'does not support #visible?' do
+      before { allow(work_package).to receive(:respond_to?).with(:visible?).and_return(false) }
+
+      it { is_expected.to match_array(users) }
     end
   end
 end

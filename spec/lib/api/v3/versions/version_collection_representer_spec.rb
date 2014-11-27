@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionCollectionRepresenter do
-  let(:self_link) { 'projects/1/versions' }
+  let(:self_link) { '/api/v3/projects/1/versions' }
   let(:versions) { FactoryGirl.build_list(:version, 3) }
   let(:representer) { described_class.new(versions, 42, self_link) }
 

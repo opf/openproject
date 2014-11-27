@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,25 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
-
-module API
-  module V3
-    module Queries
-      class QueryModel < Reform::Form
-        include Coercion
-
-        property :name,           type: String
-        property :project_id,     type: Integer
-        property :user_id,        type: Integer
-        property :filters,        type: String
-        property :is_public,      type: String
-        property :column_names,   type: String
-        property :sort_criteria,  type: String
-        property :group_by,       type: String
-        property :display_sums,   type: String
-      end
-    end
+module Grape
+  class Endpoint
+    include ::API::V3::Utilities::PathHelper
   end
 end

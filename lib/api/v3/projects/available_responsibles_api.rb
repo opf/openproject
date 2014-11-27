@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -29,19 +28,18 @@
 
 module API
   module V3
-    module Categories
-      class CategoriesAPI < Grape::API
-        resources :categories do
-          before do
-            @categories = @project.categories
-          end
-
+    module Projects
+      class AvailableResponsiblesAPI < Grape::API
+        resource :available_responsibles do
           get do
-            self_link = api_v3_paths.categories(@project.identifier)
+            authorize(:view_project, context: @project)
 
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
+            available_responsibles = @project.possible_responsibles
+            total = available_responsibles.count
+            self_link = api_v3_paths.available_responsibles(@project.id)
+            ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
+                                                            total,
+                                                            self_link)
           end
         end
       end

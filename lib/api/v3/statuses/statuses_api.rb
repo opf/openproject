@@ -39,7 +39,7 @@ module API
           get do
             StatusCollectionRepresenter.new(@statuses,
                                             @statuses.count,
-                                            'statuses')
+                                            api_v3_paths.statuses)
           end
 
           namespace ':id' do

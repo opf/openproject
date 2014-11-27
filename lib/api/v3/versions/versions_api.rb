@@ -39,7 +39,7 @@ module API
           get do
             VersionCollectionRepresenter.new(@versions,
                                              @versions.count,
-                                             "projects/#{@project.identifier}/versions")
+                                             api_v3_paths.versions(@project.identifier))
           end
         end
       end

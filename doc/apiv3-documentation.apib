@@ -571,7 +571,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     to see it.
 
     **Required permission:** view project
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
     Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -614,7 +614,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     to see it.
 
     **Required permission:** view project (defining the category)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of
     a category. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -687,7 +687,7 @@ and objects describing the corresponding property as values. The values are call
 
 | Property       | Description                                                    |
 |:--------------:|----------------------------------------------------------------|
-| allowed_values | List of resources that are assignable by the current user.     |
+| allowedValues  | List of resources that are assignable by the current user.     |
 
 **Properties**
 
@@ -699,7 +699,7 @@ and objects describing the corresponding property as values. The values are call
 
 **Remarks**
 
-The `allowed_values` can either contain a list of canonical links or just a single link to a collection resource.
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
 This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
@@ -765,7 +765,7 @@ That is because the main purpose of a form is helping the client to sort out val
                         },
                         "status": {
                             "_links": {
-                                "allowed_values": [
+                                "allowedValues": [
                                     { "href": "/api/v3/statuses/1", "title": "New" },
                                     { "href": "/api/v3/statuses/2", "title": "Closed" }
                                 ]
@@ -774,7 +774,7 @@ That is because the main purpose of a form is helping the client to sort out val
                             "type": "Status",
 
                             "_embedded": {
-                                "allowed_values": [
+                                "allowedValues": [
                                     {
                                         "_links": { "self": { "href": "/api/v3/statuses/1" } },
                                         "_type": "Status",
@@ -1190,7 +1190,7 @@ but are also limited to the projects that the current user is allowed to see.
     to see it.
 
     **Required permission:** view work packages **or** manage versions (any project where the given version is available)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1805,7 +1805,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
     to see it.
 
     **Required permission:** view work packages **or** manage versions (on given project)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
     That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1856,7 +1856,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
     to see it.
 
     **Required permission:** view work packages **or** manage versions (any project where the version is available)
-    
+
     *Note: A client without sufficient permissions shall not be able to test for the existence of
     a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
@@ -1971,10 +1971,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                     },
                     "version": {
                         "href": "/api/v3/versions/1"
-                    },
-                    "availableStatuses": {
-                        "href": "/api/v3/work_packages/1528/available_statuses",
-                        "title": "Available Statuses"
                     },
                     "availableWatchers": {
                         "href": "/api/v3/work_packages/1528/available_watchers",
@@ -2637,6 +2633,20 @@ Gets a list of users that can be assigned to work packages in the given project.
 
     [Available Assignees][]
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the assignable users for this project."
+            }
+
 ## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
 
 + Model
@@ -2718,3 +2728,17 @@ Gets a list of users that can be assigned as the responsible of a work package i
 + Response 200 (application/hal+json)
 
     [Available Responsibles][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the users available as responsible for this project."
+            }

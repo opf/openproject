@@ -38,6 +38,14 @@ module.exports = function(app) {
       res.send(text);
     });
   });
+  workPackagesRouter.post('/:id/form', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/' + req.params.id + '_form.json',
+      'utf8',
+      function(err, text) {
+        res.send(text);
+    });
+  });
   workPackagesRouter.patch('/821', function(req, res) {
     fs.readFile(__dirname + '/work-packages/821_patch.json', 'utf8', function(err, text) {
       res.status(409);
@@ -56,4 +64,9 @@ module.exports = function(app) {
   });
 
   app.use('/api/v3/render/textile', textileRouter);
+
+
+  app.get('/work_packages/auto_complete.json*', function(req, res) {
+    res.send('[]');
+  });
 };

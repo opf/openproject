@@ -92,6 +92,7 @@ angular.module('openproject.workPackages.controllers')
     'PathHelper',
     'UsersHelper',
     'ConfigurationService',
+    'WorkPackageService',
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',

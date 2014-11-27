@@ -65,6 +65,22 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         end
       end
 
+      shared_examples_for 'linked property' do |property_name, type|
+        it { is_expected.to have_json_path(property_name) }
+
+        it { is_expected.to be_json_eql(type.to_json).at_path("#{property_name}/type") }
+
+        it { is_expected.to have_json_path("#{property_name}/_links") }
+
+        it { is_expected.to have_json_path("#{property_name}/_links/allowedValues") }
+      end
+
+      shared_examples_for 'linked with href' do |property_name|
+        let(:path) { "#{property_name}/_links/allowedValues/href" }
+
+        it { is_expected.to be_json_eql(href).at_path(path) }
+      end
+
       describe '_type' do
         it_behaves_like 'schema property', '_type', 'MetaType', true, false
       end
@@ -79,11 +95,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
 
       describe 'status' do
         shared_examples_for 'contains statuses' do
-          it { is_expected.to have_json_path('status') }
-
-          it { is_expected.to have_json_path('status/_links') }
-
-          it { is_expected.to have_json_path('status/_links/allowedValues') }
+          it_behaves_like 'linked property', 'status', 'Status'
 
           it 'contains valid links to statuses' do
             status_links = statuses.map do |status|
@@ -92,8 +104,6 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
 
             is_expected.to be_json_eql(status_links.to_json).at_path('status/_links/allowedValues')
           end
-
-          it { is_expected.to be_json_eql('Status'.to_json).at_path('status/type') }
 
           it 'embeds statuses' do
             embedded_statuses = statuses.map do |status|
@@ -133,6 +143,26 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
           before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
 
           it_behaves_like 'contains statuses'
+        end
+      end
+
+      describe 'responsible and assignee' do
+        let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
+
+        describe 'assignee' do
+          it_behaves_like 'linked property', 'assignee', 'User'
+
+          it_behaves_like 'linked with href', 'assignee' do
+            let(:href) { "#{base_href}/available_assignees".to_json }
+          end
+        end
+
+        describe 'responsible' do
+          it_behaves_like 'linked property', 'responsible', 'User'
+
+          it_behaves_like 'linked with href', 'responsible' do
+            let(:href) { "#{base_href}/available_responsibles".to_json }
+          end
         end
       end
     end
