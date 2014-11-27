@@ -204,7 +204,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       }
 
       buildController(testParams, testState, testLocation);
@@ -243,7 +244,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       }
 
       buildController(testParams, testState, testLocation);
