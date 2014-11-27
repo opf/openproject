@@ -1083,6 +1083,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | :------:   | -------------                        | ----       | ----------- | -------------------- |
 | self       | This project                         | Project    | not null    | READ                 |
 | categories | Categories available in this project | Categories | not null    | READ                 |
+| types      | Types available in this project      | Types      | not null    | READ                 |
 | versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
 ## Properties:
@@ -1109,6 +1110,7 @@ The request body is the actual string that shall be rendered as HTML string.
                         "title": "Lorem"
                     },
                     "categories": { "href": "/api/v3/projects/1/categories" },
+                    "types": { "href": "/api/v3/projects/1/types" },
                     "versions": { "href": "/api/v3/projects/1/versions" }
                 },
                 "id": 1,
@@ -1643,6 +1645,219 @@ but are also limited to the projects that the current user is allowed to see.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see this status."
+            }
+
+# Group Types
+
+## Linked Properties:
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This type                 | Type          | not null    | READ                 |
+
+## Properties
+| Property         | Description                                                   | Type    | Constraints   | Supported operations |
+| :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
+| id               | Type id                                                       | Integer | x > 0         | READ                 |
+| name             | Type name                                                     | String  |               | READ                 |
+| position         | Sort index of the type                                        | Integer |               | READ                 |
+| isDefault        |                                                               | Boolean |               | READ                 |
+| isMilestone      | Do tickets of this type represent a milestone?                | Boolean |               | READ                 |
+
+**TBD**: What about the color? What does in aggregation mean?
+
+## Types [/api/v3/types]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types"
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false
+                        }
+                    ]
+                }
+            }
+
+## List all Types [GET]
+
++ Response 200 (application/hal+json)
+
+    [Types][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the types."
+            }
+
+## Types by Project [/api/v3/projects/{project_id}/types]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/types" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false
+                        }
+                    ]
+                }
+            }
+
+## List types available in a project [GET]
+
+This endpoint lists the types that are *available* in a given project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose types will be listed
+
++ Response 200 (application/hal+json)
+
+    [Types by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage types (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Type [/api/v3/types/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types/1"
+                    }
+                },
+                "_type": "Type",
+                "id": 1,
+                "name": "Bug",
+                "position": 1,
+                "isDefault": true,
+                "isMilestone": false
+            }
+
+## View Type [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... type id
+
++ Response 200 (application/hal+json)
+
+    [Type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this type."
             }
 
 # Group Users
