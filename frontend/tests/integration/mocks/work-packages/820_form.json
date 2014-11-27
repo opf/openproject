@@ -1,0 +1,219 @@
+{
+  "_type": "Form",
+  "_links": {
+    "self": {
+      "href": "/api/v3/work_packages/820/form"
+    },
+    "validate": {
+      "href": "/api/v3/work_packages/820/form",
+      "method": "post"
+    },
+    "previewMarkup": {
+      "href": "/api/v3/render/textile?/api/v3/work_packages/820",
+      "method": "post"
+    },
+    "commit": {
+      "href": "/api/v3/work_packages/820",
+      "method": "patch"
+    }
+  },
+  "_embedded": {
+    "payload": {
+      "_type": "WorkPackage",
+      "_links": {
+        "status": {
+          "href": "/api/v3/statuses/9"
+        }
+      },
+      "lockVersion": 119,
+      "subject": "66666",
+      "rawDescription": "#54\n2",
+      "parentId": 54,
+      "projectId": 1,
+      "startDate": "2014-10-23T00:00:00+00:00",
+      "dueDate": "2014-12-27T00:00:00+00:00",
+      "versionId": null,
+      "createdAt": "2014-11-05T15:56:53Z",
+      "updatedAt": "2014-11-21T08:48:57Z"
+    },
+    "schema": {
+      "_type": {
+        "type": "MetaType",
+        "required": true,
+        "writable": false
+      },
+      "lockVersion": {
+        "type": "Integer",
+        "required": true,
+        "writable": false
+      },
+      "subject": {
+        "type": "String"
+      },
+      "status": {
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/statuses/1",
+              "title": "new"
+            },
+            {
+              "href": "/api/v3/statuses/2",
+              "title": "specified"
+            },
+            {
+              "href": "/api/v3/statuses/3",
+              "title": "confirmed"
+            },
+            {
+              "href": "/api/v3/statuses/6",
+              "title": "in progress"
+            },
+            {
+              "href": "/api/v3/statuses/7",
+              "title": "tested"
+            },
+            {
+              "href": "/api/v3/statuses/8",
+              "title": "on hold"
+            },
+            {
+              "href": "/api/v3/statuses/9",
+              "title": "rejected"
+            },
+            {
+              "href": "/api/v3/statuses/10",
+              "title": "closed"
+            }
+          ]
+        },
+        "type": "Status",
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/1",
+                  "title": "new"
+                }
+              },
+              "id": 1,
+              "name": "new",
+              "isClosed": false,
+              "isDefault": true,
+              "defaultDoneRatio": null,
+              "position": 1
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/2",
+                  "title": "specified"
+                }
+              },
+              "id": 2,
+              "name": "specified",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 2
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/3",
+                  "title": "confirmed"
+                }
+              },
+              "id": 3,
+              "name": "confirmed",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 3
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/6",
+                  "title": "in progress"
+                }
+              },
+              "id": 6,
+              "name": "in progress",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 6
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/7",
+                  "title": "tested"
+                }
+              },
+              "id": 7,
+              "name": "tested",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 7
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/8",
+                  "title": "on hold"
+                }
+              },
+              "id": 8,
+              "name": "on hold",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 8
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/9",
+                  "title": "rejected"
+                }
+              },
+              "id": 9,
+              "name": "rejected",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 9
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/10",
+                  "title": "closed"
+                }
+              },
+              "id": 10,
+              "name": "closed",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 10
+            }
+          ]
+        }
+      }
+    },
+    "validationErrors": {}
+  }
+}

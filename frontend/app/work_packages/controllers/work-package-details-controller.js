@@ -26,133 +26,160 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, latestTab, workPackage, I18n, RELATION_TYPES, RELATION_IDENTIFIERS, $q, WorkPackagesHelper, PathHelper, UsersHelper, ConfigurationService, CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler) {
-    $scope.$on('$stateChangeSuccess', function(event, toState){
-      latestTab.registerState(toState.name);
+module.exports = function(
+    $scope, $state, latestTab, workPackage, I18n,
+    RELATION_TYPES, RELATION_IDENTIFIERS, $q,
+    WorkPackagesHelper, PathHelper, UsersHelper,
+    ConfigurationService, WorkPackageService,
+    CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler
+  ) {
+  $scope.$on('$stateChangeSuccess', function(event, toState){
+    latestTab.registerState(toState.name);
+  });
+
+  $scope.$on('workPackageRefreshRequired', function() {
+    refreshWorkPackage();
+  });
+
+  // initialization
+  setWorkPackageScopeProperties(workPackage);
+
+  $scope.I18n = I18n;
+  $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+  $scope.maxDescriptionLength = 800;
+
+  function refreshWorkPackage() {
+    workPackage.links.self
+      .fetch({force: true})
+      .then(function() {
+        WorkPackageService.loadWorkPackageForm(workPackage);
+        setWorkPackageScopeProperties(workPackage);
+      });
+  }
+  $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
+
+  // Inform parent that work package is loaded so back url can be maintained
+  $scope.$emit('workPackgeLoaded');
+
+  function outputMessage(message, isError) {
+    $scope.$emit('flashMessage', {
+      isError: !!isError,
+      text: message
+    });
+  }
+
+  function outputError(error) {
+    outputMessage(error.message, true);
+  }
+
+  $scope.outputMessage = outputMessage; // expose to child controllers
+  $scope.outputError = outputError; // expose to child controllers
+
+  function setWorkPackageScopeProperties(workPackage){
+    $scope.workPackage = workPackage;
+
+    $scope.isWatched = !!workPackage.links.unwatchChanges;
+
+    if (workPackage.links.watchChanges === undefined) {
+      $scope.toggleWatchLink = workPackage.links.unwatchChanges;
+    } else {
+      $scope.toggleWatchLink = workPackage.links.watchChanges;
+    }
+
+    $scope.watchers = workPackage.embedded.watchers;
+
+    // autocomplete path
+    var projectId = workPackage.props.projectId;
+    $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
+
+    // activities and latest activities
+    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+    $scope.activities = displayedActivities($scope.workPackage);
+
+    // watchers
+    $scope.watchers = workPackage.embedded.watchers;
+
+    // Author
+    $scope.author = workPackage.embedded.author;
+    $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
+    $scope.authorActive = UsersHelper.isActive($scope.author);
+
+    // Attachments
+    $scope.attachments = workPackage.embedded.attachments;
+
+    // relations
+    $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
+      var relationsHandler = new ParentRelationsHandler(workPackage, parents, 'parent');
+      $scope.wpParent = relationsHandler;
     });
 
-    $scope.$on('workPackageRefreshRequired', function(event, toState){
-      refreshWorkPackage();
+    $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
+      var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
+      $scope.wpChildren = relationsHandler;
     });
 
-    // initialization
-    setWorkPackageScopeProperties(workPackage);
-
-    $scope.I18n = I18n;
-    $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
-    $scope.maxDescriptionLength = 800;
-
-    function refreshWorkPackage() {
-      workPackage.links.self
-        .fetch({force: true})
-        .then(setWorkPackageScopeProperties);
-    }
-    $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
-
-    // Inform parent that work package is loaded so back url can be maintained
-    $scope.$emit('workPackgeLoaded');
-
-    function outputMessage(message, isError) {
-      $scope.$emit('flashMessage', {
-        isError: !!isError,
-        text: message
+    function relationTypeIterator(key) {
+      $q.all(WorkPackagesHelper.getRelationsOfType(
+        workPackage,
+        RELATION_TYPES[key])
+      ).then(function(relations) {
+        var relationsHandler = new CommonRelationsHandler(workPackage,
+                                                          relations,
+                                                          RELATION_IDENTIFIERS[key]);
+        $scope[key] = relationsHandler;
       });
     }
 
-    function outputError(error) {
-      outputMessage(error.message, true);
-    }
-
-    $scope.outputMessage = outputMessage; // expose to child controllers
-    $scope.outputError = outputError; // expose to child controllers
-
-    function setWorkPackageScopeProperties(workPackage){
-      $scope.workPackage = workPackage;
-
-      $scope.isWatched = !!workPackage.links.unwatchChanges;
-      $scope.toggleWatchLink = workPackage.links.watchChanges === undefined ? workPackage.links.unwatchChanges : workPackage.links.watchChanges;
-      $scope.watchers = workPackage.embedded.watchers;
-
-      // autocomplete path
-      var projectId = workPackage.props.projectId;
-      $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
-
-      // activities and latest activities
-      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-      $scope.activities = displayedActivities($scope.workPackage);
-
-      // watchers
-      $scope.watchers = workPackage.embedded.watchers;
-
-      // Author
-      $scope.author = workPackage.embedded.author;
-      $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
-      $scope.authorActive = UsersHelper.isActive($scope.author);
-
-      // Attachments
-      $scope.attachments = workPackage.embedded.attachments;
-
-      // relations
-      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-        var relationsHandler = new ParentRelationsHandler(workPackage, parents, "parent");
-        $scope.wpParent = relationsHandler;
-      });
-
-      $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
-        var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
-        $scope.wpChildren = relationsHandler;
-      });
-
-      for (var key in RELATION_TYPES) {
-        if (RELATION_TYPES.hasOwnProperty(key)) {
-          (function(key) {
-            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
-              var relationsHandler = new CommonRelationsHandler(workPackage,
-                                                                relations,
-                                                                RELATION_IDENTIFIERS[key]);
-              $scope[key] = relationsHandler;
-            });
-          })(key);
-        }
+    for (var key in RELATION_TYPES) {
+      if (RELATION_TYPES.hasOwnProperty(key)) {
+        relationTypeIterator(key);
       }
-
-      // Author
-      $scope.author = workPackage.embedded.author;
     }
 
-    $scope.toggleWatch = function() {
-      $scope.toggleWatchLink
-        .fetch({ ajax: $scope.toggleWatchLink.props })
-        .then(refreshWorkPackage, outputError);
-    };
+    // Author
+    $scope.author = workPackage.embedded.author;
+  }
 
-    $scope.canViewWorkPackageWatchers = function() {
-      return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
-    };
+  $scope.toggleWatch = function() {
+    $scope.toggleWatchLink
+      .fetch({ ajax: $scope.toggleWatchLink.props })
+      .then(refreshWorkPackage, outputError);
+  };
 
-    function displayedActivities(workPackage) {
-      var activities = workPackage.embedded.activities;
-      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
-      if ($scope.activitiesSortedInDescendingOrder) {
-        activities.reverse();
-      }
-      return activities;
+  $scope.canViewWorkPackageWatchers = function() {
+    return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
+  };
+
+  function displayedActivities(workPackage) {
+    var activities = workPackage.embedded.activities;
+    // remove first activity (assumes activities are sorted chronologically)
+    activities.splice(0, 1);
+    if ($scope.activitiesSortedInDescendingOrder) {
+      activities.reverse();
     }
+    return activities;
+  }
 
-    // toggles
+  // toggles
 
-    $scope.toggleStates = {
-      hideFullDescription: true,
-      hideAllAttributes: true
-    };
+  $scope.toggleStates = {
+    hideFullDescription: true,
+    hideAllAttributes: true
+  };
 
-    function getFocusAnchorLabel(tab, workPackage) {
-      var tabLabel = I18n.t('js.work_packages.tabs.' + tab);
-      var params = { tab: tabLabel, type: workPackage.props.type, subject: workPackage.props.subject };
+  function getFocusAnchorLabel(tab, workPackage) {
+    var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
+        params = {
+          tab: tabLabel,
+          type: workPackage.props.type,
+          subject: workPackage.props.subject
+        };
 
-      return I18n.t('js.label_work_package_details_you_are_here', params);
-    }
+    return I18n.t('js.label_work_package_details_you_are_here', params);
+  }
 
-    $scope.focusAnchorLabel = getFocusAnchorLabel($state.current.url.replace(/\//, ''), $scope.workPackage);
-
+  $scope.focusAnchorLabel = getFocusAnchorLabel(
+    $state.current.url.replace(/\//, ''),
+    $scope.workPackage
+  );
 };
