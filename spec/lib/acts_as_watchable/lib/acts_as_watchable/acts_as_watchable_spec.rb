@@ -26,24 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Services::CreateWatcher
-  def initialize(work_package, user)
-    @work_package = work_package
-    @user = user
+require 'spec_helper'
 
-    @watcher = Watcher.new(user: user, watchable: work_package)
+describe OpenProject::Acts::Watchable do
+  let(:project) { FactoryGirl.build(:project) }
+  let(:work_package) { FactoryGirl.build(:work_package, project: project) }
+  let(:users) { FactoryGirl.build_list(:user, 3) }
+
+  before do
+    allow(project).to receive(:users).and_return(users)
   end
 
-  def run(success = -> {}, failure = -> {})
-    if @work_package.watcher_users.include?(@user)
-      success.(created: false)
-    else
-      if @watcher.valid?
-        @work_package.watchers << @watcher
-        success.(created: true)
-      else
-        failure.(@watcher)
+  describe '#possible_watcher_users' do
+    subject { work_package.possible_watcher_users }
+
+    context 'supports #visible?' do
+      context 'all are visible' do
+        before { allow(work_package).to receive(:visible?).and_return(true) }
+
+        it { is_expected.to match_array(users) }
       end
+
+      context 'all are invisible' do
+        before { allow(work_package).to receive(:visible?).and_return(false) }
+
+        it { is_expected.to be_empty }
+      end
+    end
+
+    context 'does not support #visible?' do
+      before { allow(work_package).to receive(:respond_to?).with(:visible?).and_return(false) }
+
+      it { is_expected.to match_array(users) }
     end
   end
 end
