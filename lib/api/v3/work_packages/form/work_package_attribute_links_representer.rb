@@ -57,7 +57,7 @@ module API
                    getter: -> (*) {
                      id = represented.assigned_to_id
 
-                     { href: id ? api_v3_paths.user(id) : nil }
+                     { href: (api_v3_paths.user(id) if id) }
                    },
                    setter: -> (value, *) {
                      user_id = parse_user_resource(:assignee, value['href'])
@@ -70,7 +70,7 @@ module API
                    getter: -> (*) {
                      id = represented.responsible_id
 
-                     { href: id ? api_v3_paths.user(id) : nil }
+                     { href: (api_v3_paths.user(id) if id) }
                    },
                    setter: -> (value, *) {
                      user_id = parse_user_resource(:responsible, value['href'])
