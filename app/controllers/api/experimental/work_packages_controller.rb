@@ -63,7 +63,9 @@ module Api
         setup_context_menu_actions
 
         respond_to do |format|
-          format.api
+          format.api {
+            @work_packages = ::API::Experimental::WorkPackageDecorator.decorate(@work_packages)
+          }
         end
       end
 
