@@ -22,16 +22,6 @@ GIT
     rspec-example_disabler (0.0.1)
 
 GIT
-  remote: https://github.com/finnlabs/sprockets-rails.git
-  revision: e069c097056e28e3cd4adc4ee8bb2a895c71bfc1
-  branch: backport
-  specs:
-    sprockets-rails (2.0.1)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      sprockets (= 2.2.2.backport2)
-
-GIT
   remote: https://github.com/guilleiguaran/sass-rails.git
   revision: 0393d9e1a6e4a776e61f16fb75f97971b9f4abd2
   branch: backport
@@ -42,21 +32,31 @@ GIT
       sprockets-rails (~> 2.0.0.backport1)
 
 GIT
-  remote: https://github.com/rails/prototype_legacy_helper.git
-  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
+  remote: https://github.com/marutosi/sprockets-rails.git
+  revision: 9462bff97838c8437127774c8cdeddbdade5f5a6
+  branch: backport
   specs:
-    prototype_legacy_helper (0.0.0)
+    sprockets-rails (2.0.1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      sprockets (= 2.2.3.backport2)
 
 GIT
-  remote: https://github.com/tessi/sprockets.git
-  revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
+  remote: https://github.com/marutosi/sprockets.git
+  revision: 5a88f9fa1bbac2b366ea2b9839b1debb040ca6da
   branch: 2_2_2_backport2
   specs:
-    sprockets (2.2.2.backport2)
+    sprockets (2.2.3.backport2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+
+GIT
+  remote: https://github.com/rails/prototype_legacy_helper.git
+  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
+  specs:
+    prototype_legacy_helper (0.0.0)
 
 GEM
   remote: https://rubygems.org/
