@@ -1883,7 +1883,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 ## Linked Properties:
 
 | Link           | Description                                                                                                                                          | Type        | Constraints | Supported operations | Condition                        |
-| :------------: | ---------------------------------------------------------                                                                                            | ----------- | ----------- | -------------------- | -------------------------------- |
+| :------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | -------------------- | -------------------------------- |
 | self           | This work package                                                                                                                                    | WorkPackage | not null    | READ                 |                                  |
 | author         | The person that created the work package                                                                                                             | User        | not null    | READ                 |                                  |
 | assignee       | The person that is intended to work on the work package                                                                                              | User        |             | READ / WRITE         |                                  |
@@ -1892,6 +1892,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | responsible    | The person that is responsible for the overall outcome                                                                                               | User        |             | READ / WRITE         |                                  |
 | status         | The current status of the work package                                                                                                               | Status      | not null    | READ / WRITE         |                                  |
 | timeEntries    | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change. | N/A         |             | READ                 | **Permission** view time entries |
+| type           | The type of the work package                                                                                                                         | Type        | not null    | READ / WRITE         |                                  |
 | version        | The version associated to the work package                                                                                                           | Version     |             | READ / WRITE         |                                  |
 
 ## Properties:
@@ -1969,6 +1970,10 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/statuses/1",
                         "title": "New"
                     },
+                    "type": {
+                        "href": "/api/v3/types/1",
+                        "title": "New"
+                    },
                     "version": {
                         "href": "/api/v3/versions/1"
                     },
@@ -2024,7 +2029,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 },
                 "id": 1528,
                 "subject": "Develop API",
-                "type": "Feature",
                 "description": {
                     "format": "textile",
                     "raw": "Develop super cool OpenProject API.",
