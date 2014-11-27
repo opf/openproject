@@ -34,7 +34,7 @@ describe ::API::V3::Categories::CategoryCollectionRepresenter do
   let(:models)     { categories.map { |category|
     ::API::V3::Categories::CategoryModel.new(category)
   } }
-  let(:representer) { described_class.new(models, project: project) }
+  let(:representer) { described_class.new(models, project) }
 
   describe '#initialize' do
     context 'with incorrect parameters' do
