@@ -220,10 +220,7 @@ openprojectApp
 
       flags.set($http.get('/javascripts/feature-flags.json'));
     }
-  ])
-  .value('cgBusyDefaults', {
-    templateUrl: '/assets/angular-busy/angular-busy.html'
-  });
+  ]);
 
 require('./api');
 
@@ -243,3 +240,5 @@ require('./work_packages');
 
 var requireTemplate = require.context('../public/templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
+
+require('angular-busy/angular-busy.html');
