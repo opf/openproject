@@ -48,15 +48,36 @@ module Api::Experimental::Concerns::QueryLoading
   end
 
   def prepare_query
-    @query.is_public = params[:is_public] if params[:is_public]
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    view_context.add_filter_from_params if params[:fields] || params[:f] || params[:accept_empty_query_fields]
-    @query.group_by = params[:group_by] if params[:group_by].present?
-    @query.sort_criteria = prepare_sort_criteria if params[:sort]
-    @query.display_sums = params[:display_sums] if params[:display_sums].present?
-    @query.column_names = params[:c] if params[:c]
-    @query.column_names = nil if params[:default_columns]
-    @query.name = params[:name] if params[:name]
+    # Set the query properties only if a query property string exists in the
+    # URL. This assumes that if 'accept_empty_query_fields' or 'is_public'
+    # are available also a query string exists
+    #
+    # This prevents a requested query from being overriden even if no query
+    # parameters were given in the query string. Example: Assume you request
+    # query 42 with URL?query_id=42. Although no further properties are given,
+    # the code within the if would happiliy overwrite the requested query (in
+    # this particular case 'group by').
+    #
+    # But if we guard 'group by' from being overwritten, we have no chance to
+    # remove the grouping.
+    if params[:accept_empty_query_fields] || params[:is_public]
+      if User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+        @query.is_public = params[:is_public] if params[:is_public]
+      else
+        @query.is_public = false
+      end
+
+      if params[:fields] || params[:f] || params[:accept_empty_query_fields]
+        view_context.add_filter_from_params
+      end
+
+      @query.group_by = params[:group_by]
+      @query.sort_criteria = prepare_sort_criteria if params[:sort]
+      @query.display_sums = params[:display_sums] if params[:display_sums].present?
+      @query.column_names = params[:c] if params[:c]
+      @query.column_names = nil if params[:default_columns]
+      @query.name = params[:name] if params[:name]
+    end
   end
 
   def prepare_sort_criteria
