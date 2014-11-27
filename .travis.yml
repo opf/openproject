@@ -28,7 +28,6 @@
 
 language: ruby
 rvm:
-  - 2.0
   - 2.1
 sudo: false
 cache: bundler
@@ -49,6 +48,16 @@ env:
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
   - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
   - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+
+matrix:
+  include:
+    - rvm: 2.0
+      env: "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+    - rvm: 2.0
+      env: "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+    - rvm: 2.0
+      env: "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+
 script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
 before_install:
   - "echo `firefox -v`"
