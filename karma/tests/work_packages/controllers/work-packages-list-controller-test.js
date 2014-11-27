@@ -47,7 +47,7 @@ describe('WorkPackagesListController', function() {
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
-     location: { pathname: "" }
+      location: { pathname: '' }
     };
 
     var defaultWorkPackagesData = {
