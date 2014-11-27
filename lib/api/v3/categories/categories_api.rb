@@ -39,7 +39,7 @@ module API
           end
 
           get do
-            CategoryCollectionRepresenter.new(@categories, project: @project)
+            CategoryCollectionRepresenter.new(@categories, @project)
           end
         end
 
