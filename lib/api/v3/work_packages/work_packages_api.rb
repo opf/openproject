@@ -45,7 +45,11 @@ module API
                   payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
                               .new(@work_package, enforce_lock_version_validation: true)
 
-                  payload.from_json(request_body.to_json)
+                  begin
+                    payload.from_json(request_body.to_json)
+                  rescue ::API::Errors::Form::InvalidResourceLink => e
+                    fail ::API::Errors::Validation.new(e.message)
+                  end
                 end
               end
 
@@ -56,10 +60,9 @@ module API
               def write_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
-                # Although the contract triggers the ActiveModel validations on
-                # the work package, it does not merge the contract errors with
-                # the model errors. Thus, we need to do it manually.
-                unless contract.validate
+                # We need to merge the contract errors with the model errors in
+                # order to have them available at one place.
+                unless contract.validate & @representer.represented.valid?
                   contract.errors.keys.each do |key|
                     contract.errors[key].each do |message|
                       @representer.represented.errors.add(key, message)
@@ -122,38 +125,6 @@ module API
                 @work_package.journal_notes = params[:comment]
 
                 save_work_package(@work_package)
-              end
-
-            end
-
-            resource :available_assignees do
-
-              get do
-                authorize(:add_work_packages, context: @work_package.project) \
-                  || authorize(:edit_work_packages, context: @work_package.project)
-
-                available_assignees = @work_package.assignable_assignees
-                total = available_assignees.count
-                self_link = "work_packages/#{@work_package.id}/available_assignees"
-                ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
-                                                                total,
-                                                                self_link)
-              end
-
-            end
-
-            resource :available_responsibles do
-
-              get do
-                authorize(:add_work_packages, context: @work_package.project) \
-                  || authorize(:edit_work_packages, context: @work_package.project)
-
-                available_responsibles = @work_package.assignable_responsibles
-                total = available_responsibles.count
-                self_link = "work_packages/#{@work_package.id}/available_responsibles"
-                ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
-                                                                total,
-                                                                self_link)
               end
 
             end

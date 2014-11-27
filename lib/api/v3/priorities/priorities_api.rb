@@ -39,7 +39,7 @@ module API
           get do
             PriorityCollectionRepresenter.new(@priorities,
                                               @priorities.count,
-                                              'priorities')
+                                              api_v3_paths.priorities)
           end
         end
       end

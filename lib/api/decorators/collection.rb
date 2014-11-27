@@ -48,7 +48,7 @@ module API
       as_strategy = API::Utilities::CamelCasingStrategy.new
 
       link :self do
-        { href: "#{root_path}api/v3/#{@self_link}" }
+        { href: @self_link }
       end
 
       property :_type, getter: -> (*) { 'Collection' }

@@ -45,10 +45,11 @@ module API
               ProjectRepresenter.new(@project)
             end
 
+            mount API::V3::Projects::AvailableAssigneesAPI
+            mount API::V3::Projects::AvailableResponsiblesAPI
             mount API::V3::Categories::CategoriesAPI
             mount API::V3::Versions::VersionsAPI
           end
-
         end
       end
     end

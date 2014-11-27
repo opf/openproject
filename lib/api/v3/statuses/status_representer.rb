@@ -36,7 +36,7 @@ module API
       class StatusRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -44,7 +44,7 @@ module API
 
         link :self do
           {
-            href: "#{root_path}api/v3/statuses/#{represented.id}",
+            href: api_v3_paths.status(represented.id),
             title: "#{represented.name}"
           }
         end

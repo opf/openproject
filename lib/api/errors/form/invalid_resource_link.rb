@@ -28,21 +28,16 @@
 #++
 
 module API
-  module V3
-    module Categories
-      class CategoriesAPI < Grape::API
-        resources :categories do
-          before do
-            @categories = @project.categories
-          end
+  module Errors
+    module Form
+      class InvalidResourceLink < StandardError
+        def initialize(property, expected_resource, actual_resource = :unknown)
+          expected = expected_resource.to_s.singularize.capitalize
+          actual = actual_resource.to_s.singularize.capitalize
+          message = "For property #{property} a resource of type #{expected}" \
+                    " is expected but got a resource of type #{actual}"
 
-          get do
-            self_link = api_v3_paths.categories(@project.identifier)
-
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
-          end
+          super(message)
         end
       end
     end

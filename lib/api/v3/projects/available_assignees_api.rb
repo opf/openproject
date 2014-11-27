@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,16 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
-
 module API
   module V3
-    module Priorities
-      class PriorityModel < Reform::Form
-        include Coercion
+    module Projects
+      class AvailableAssigneesAPI < Grape::API
+        resource :available_assignees do
+          get do
+            authorize(:view_project, context: @project)
 
-        property :name, type: String
+            available_assignees = @project.possible_assignees
+            total = available_assignees.count
+            self_link = api_v3_paths.available_assignees(@project.id)
+            ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
+                                                            total,
+                                                            self_link)
+          end
+        end
       end
     end
   end

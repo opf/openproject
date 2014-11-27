@@ -36,7 +36,7 @@ module API
       class ActivityRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include API::Utilities::UrlHelper
+        include API::V3::Utilities::PathHelper
         include OpenProject::TextFormatting
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
@@ -50,20 +50,29 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/activities/#{represented.id}", title: "#{represented.id}" }
+          {
+            href: api_v3_paths.activity(represented.id),
+            title: "#{represented.id}"
+          }
         end
 
         link :workPackage do
-          { href: "#{root_path}api/v3/work_packages/#{represented.journable.id}", title: "#{represented.journable.subject}" }
+          {
+            href: api_v3_paths.work_package(represented.journable.id),
+            title: "#{represented.journable.subject}"
+          }
         end
 
         link :user do
-          { href: "#{root_path}api/v3/users/#{represented.user.id}", title: "#{represented.user.name} - #{represented.user.login}" }
+          {
+            href: api_v3_paths.user(represented.user.id),
+            title: "#{represented.user.name} - #{represented.user.login}"
+          }
         end
 
         link :update do
           {
-            href: "#{root_path}api/v3/activities/#{represented.id}",
+            href: api_v3_paths.activity(represented.id),
             method: :patch,
             title: "#{represented.id}"
           } if current_user_allowed_to_edit?
