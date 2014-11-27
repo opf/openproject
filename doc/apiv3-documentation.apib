@@ -1655,13 +1655,15 @@ but are also limited to the projects that the current user is allowed to see.
 | self          | This type                 | Type          | not null    | READ                 |
 
 ## Properties
-| Property         | Description                                                   | Type    | Constraints   | Supported operations |
-| :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
-| id               | Type id                                                       | Integer | x > 0         | READ                 |
-| name             | Type name                                                     | String  |               | READ                 |
-| position         | Sort index of the type                                        | Integer |               | READ                 |
-| isDefault        |                                                               | Boolean |               | READ                 |
-| isMilestone      | Do tickets of this type represent a milestone?                | Boolean |               | READ                 |
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| id               | Type id                                        | Integer  | x > 0       | READ                 |
+| name             | Type name                                      | String   |             | READ                 |
+| position         | Sort index of the type                         | Integer  |             | READ                 |
+| isDefault        |                                                | Boolean  |             | READ                 |
+| isMilestone      | Do tickets of this type represent a milestone? | Boolean  |             | READ                 |
+| createdAt        | Time of creation                               | DateTime |             | READ                 |
+| updatedAt        | Time of the most recent change to the user     | DateTime |             | READ                 |
 
 **TBD**: What about the color? What does in aggregation mean?
 
