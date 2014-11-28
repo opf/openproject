@@ -23,7 +23,8 @@ module.exports = {
 
   output: {
     filename: 'openproject-[name].js',
-    path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles')
+    path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles'),
+    publicPath: '/assets/bundles/'
   },
 
   module: {
