@@ -105,4 +105,21 @@ describe 'API v3 Render resource' do
       end
     end
   end
+
+  describe 'plain' do
+    describe '#post' do
+      let(:post_path) { '/api/v3/render/plain' }
+
+      subject(:response) { last_response }
+
+      describe 'response' do
+        describe 'valid' do
+          let(:params) { 'Hello World! Have a look at #1' }
+          let(:text) { "<p>#{params}</p>" }
+
+          it_behaves_like 'valid response'
+        end
+      end
+    end
+  end
 end
