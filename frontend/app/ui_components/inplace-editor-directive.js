@@ -113,12 +113,12 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       $scope.$broadcast('startEditing');
     }
 
-    function submit(withEmail) {
+    function submit(notify) {
       // angular.copy here to make a new object instead of a reference
       var data = angular.copy($scope.entity.form.embedded.payload.props);
       InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
       $scope.isBusy = true;
-      var result = WorkPackageService.updateWorkPackage($scope.entity, data);
+      var result = WorkPackageService.updateWorkPackage($scope.entity, data, notify);
       result.then(function(workPackage) {
         $scope.onSuccess(workPackage);
       });

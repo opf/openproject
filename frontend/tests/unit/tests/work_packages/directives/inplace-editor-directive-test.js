@@ -211,13 +211,34 @@ describe('inplaceEditor Directive', function() {
         });
       });
       describe('submit', function() {
+        var emptyPromiseResponse = {
+          'then': _.noop,
+          'catch': _.noop,
+          'finally': _.noop
+        };
+        context('notify', function() {
+          var updateSpy;
+          beforeEach(function() {
+            updateSpy = sinon.stub(scope.workPackage.links.updateImmediately, 'fetch').returns({
+              then: function() {
+                return emptyPromiseResponse;
+              }
+            });
+          });
+          it('should be false for normal submit', function() {
+            elementScope.submit(false);
+            expect(updateSpy.args[0][0].ajax.url).to.contain('?notify=false');
+          });
+          it('should be true for normal submit', function() {
+            elementScope.submit(true);
+            expect(updateSpy.args[0][0].ajax.url).to.contain('?notify=true');
+          });
+        });
         context('general', function() {
           beforeEach(function() {
-            updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-              'then': _.noop,
-              'catch': _.noop,
-              'finally': _.noop
-            });
+            updateWorkPackageStub = sinon
+              .stub(WorkPackageService, 'updateWorkPackage')
+              .returns(emptyPromiseResponse);
             elementScope.submit();
           });
           it('should set the isBusy variable', function() {
