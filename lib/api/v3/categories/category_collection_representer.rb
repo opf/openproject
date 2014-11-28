@@ -42,7 +42,7 @@ module API
 
         attr_reader :project
 
-        def initialize(model, project:)
+        def initialize(model, project)
           @project = project
           super(model)
         end

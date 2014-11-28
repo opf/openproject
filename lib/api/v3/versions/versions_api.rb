@@ -39,7 +39,7 @@ module API
           end
 
           get do
-            VersionCollectionRepresenter.new(@versions, project: @project)
+            VersionCollectionRepresenter.new(@versions, @project)
           end
         end
 
