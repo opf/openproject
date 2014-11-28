@@ -50,18 +50,8 @@ module Api
 
       def index
         @work_packages = current_work_packages(@project)
-        custom_field_column_names = @query.columns
-                                           .select { |c| custom_field_id_in(c.name) }
-                                           .map(&:name)
-        @column_names = [:id] | @query.columns.map(&:name) - custom_field_column_names
 
-        @custom_field_column_ids = custom_field_column_names.map { |cn| custom_field_id_in(cn) }
-
-        if group_by_id = custom_field_id_in(@query.group_by)
-          @custom_field_column_ids << group_by_id
-        elsif !@query.group_by.blank?
-          @column_names << @query.group_by.to_sym
-        end
+        @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(@query)
 
         setup_context_menu_actions
 
@@ -96,6 +86,17 @@ module Api
       end
 
       private
+
+      def separate_columns_by_custom_fields(query)
+        columns = query.columns.map(&:name) + [:id]
+        columns << query.group_by if query.group_by
+
+        cf_columns, non_cf_columns = columns.partition { |name| custom_field_id_in(name) }
+
+        cf_columns_id = cf_columns.map { |name| custom_field_id_in(name) }
+
+        [non_cf_columns, cf_columns_id]
+      end
 
       def setup_context_menu_actions
         @can = WorkPackagePolicy.new(User.current)
