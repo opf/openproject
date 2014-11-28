@@ -49,7 +49,7 @@ module Api
                                         :column_sums]
 
       def index
-        @work_packages = current_work_packages(@project)
+        @work_packages = current_work_packages
 
         columns = @query.columns.map(&:name) + [:id]
         columns << @query.group_by if @query.group_by
@@ -68,9 +68,7 @@ module Api
         ids = params[:ids].map(&:to_i)
         column_names = params[:column_names]
 
-        scope = WorkPackage.visible.includes(includes_for_columns(column_names))
-
-        work_packages = Array.wrap(scope.find(*ids)).sort_by { |wp| ids.index wp.id }
+        work_packages = work_packages_of_ids(ids, column_names)
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
 
         @columns_data = fetch_columns_data(column_names, work_packages)
@@ -84,7 +82,7 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        work_packages = all_query_work_packages(column_names)
+        work_packages = work_packages_of_query(@query, column_names)
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
         @column_sums = columns_total_sums(column_names, work_packages)
       end
@@ -101,7 +99,7 @@ module Api
         render_404
       end
 
-      def current_work_packages(projects)
+      def current_work_packages
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
@@ -118,9 +116,15 @@ module Api
         work_packages
       end
 
-      def all_query_work_packages(column_names)
+      def work_packages_of_ids(ids, column_names)
+        scope = WorkPackage.visible.includes(includes_for_columns(column_names))
+
+        Array.wrap(scope.find(*ids)).sort_by { |wp| ids.index wp.id }
+      end
+
+      def work_packages_of_query(query, column_names)
         # Note: Do not apply pagination. Used to obtain total query meta data.
-        results = @query.results include: includes_for_columns(column_names)
+        results = query.results include: includes_for_columns(column_names)
 
         results.work_packages.all
       end
