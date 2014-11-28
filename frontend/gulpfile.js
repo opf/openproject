@@ -71,13 +71,14 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('tmp/stylesheets'));
 });
 
-gulp.task('express', function() {
+gulp.task('express', function(done) {
   var expressApp = require('./tests/integration/server');
   var port = process.env.PORT || 8080;
 
   (function startServer(port) {
     server = expressApp.listen(port, function() {
       console.log('Starting express server at localhost:%d', port);
+      done();
     });
 
     server.on('error', function(err) {
