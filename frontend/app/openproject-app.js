@@ -41,8 +41,10 @@ var angular = require('angular');
 require('angular-animate');
 require('angular-modal');
 
-require('angular-i18n/angular-locale_en-us');
-require('angular-i18n/angular-locale_de-de');
+// require('angular-i18n/angular-locale_en-us');
+if (I18n.locale === 'de') {
+  require('angular-i18n/angular-locale_de-de');
+}
 
 require('angular-ui-router');
 require('angular-ui-select2');
