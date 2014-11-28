@@ -57,7 +57,7 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
     it 'returns a hash with a subset of information about the custom value' do
       allow(dwp1).to receive(:custom_values).and_return [custom_value]
 
-      returned = dwp1.custom_values_display_data(["cf_#{custom_field.id}"])
+      returned = dwp1.custom_values_display_data(custom_field.id)
 
       expected = [{
         custom_field_id: custom_field.id,
@@ -77,7 +77,7 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
 
       allow(dwp1).to receive(:custom_values).and_return [custom_value]
 
-      returned = dwp1.custom_values_display_data(["cf_#{field.id}"])
+      returned = dwp1.custom_values_display_data(field.id)
 
       expected = [{
         custom_field_id: field.id,

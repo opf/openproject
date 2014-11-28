@@ -50,16 +50,17 @@ module Api
 
       def index
         @work_packages = current_work_packages(@project)
-        @custom_field_column_names = @query.columns
-                                           .select { |c| c.name.to_s =~ /cf_(.*)/ }
+        custom_field_column_names = @query.columns
+                                           .select { |c| custom_field_id_in(c.name) }
                                            .map(&:name)
-        @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
-        if !@query.group_by.blank?
-          if @query.group_by =~ /cf_(.*)/
-            @custom_field_column_names << @query.group_by
-          else
-            @column_names << @query.group_by.to_sym
-          end
+        @column_names = [:id] | @query.columns.map(&:name) - custom_field_column_names
+
+        @custom_field_column_ids = custom_field_column_names.map { |cn| custom_field_id_in(cn) }
+
+        if group_by_id = custom_field_id_in(@query.group_by)
+          @custom_field_column_ids << group_by_id
+        elsif !@query.group_by.blank?
+          @column_names << @query.group_by.to_sym
         end
 
         setup_context_menu_actions
@@ -156,7 +157,10 @@ module Api
       def includes_for_columns(column_names)
         column_names = Array(column_names)
         includes = (WorkPackage.reflections.keys & column_names)
-        includes << { custom_values: :custom_field } if column_names.any? { |c| c =~ /cf_\d+/ }
+
+        if column_names.any? { |c| custom_field_id_in(c) }
+          includes << { custom_values: :custom_field }
+        end
 
         includes
       end
@@ -224,9 +228,9 @@ module Api
       end
 
       def fetch_column_data(column_name, work_packages, display = true)
-        if column_name =~ /cf_(.*)/
+        if custom_field_id = custom_field_id_in(column_name)
           custom_field_data = work_packages.map { |wp|
-            wp.custom_values_display_data([column_name])
+            wp.custom_values_display_data(custom_field_id)
           }
           if display
             custom_field_data.flatten
@@ -254,9 +258,19 @@ module Api
         [:int, :integer, :float].include? column_type(column_name)
       end
 
+      def custom_field_id_in(name)
+        groups = name.to_s.scan(/cf_(\d+)/).flatten
+
+        if groups
+          groups[0]
+        else
+          nil
+        end
+      end
+
       def column_type(column_name)
-        if column_name =~ /cf_(.*)/
-          CustomField.find($1).field_format.to_sym
+        if id = custom_field_id_in(column_name)
+          CustomField.find(id).field_format.to_sym
         else
           column = WorkPackage.columns_hash[column_name]
           column.nil? ? :none : column.type

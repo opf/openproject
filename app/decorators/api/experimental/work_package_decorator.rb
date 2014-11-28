@@ -5,10 +5,11 @@ class API::Experimental::WorkPackageDecorator < SimpleDelegator
     end
   end
 
-  def custom_values_display_data(field_names)
-    field_names.map do |field_name|
+  def custom_values_display_data(field_ids)
+    field_ids = Array(field_ids)
+    field_ids.map do |field_id|
       value = custom_values.detect do |cv|
-        cv.custom_field_id == field_name.to_s.gsub('cf_', '').to_i
+        cv.custom_field_id == field_id.to_i
       end
 
       get_cast_custom_value_with_meta(value)
