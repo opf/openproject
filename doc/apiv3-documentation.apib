@@ -190,6 +190,18 @@ In this specification the following terms will be used as type specifiers (e.g. 
 * `DateTime` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z"
 * `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
 
+# Colors
+
+Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](http://www.w3.org/TR/css3-color/).
+That is a `#` followed by either three or six hexadecimal digits.
+
+#### Examples
+
+    red:   #ff0000 or #f00
+    green: #00ff00 or #0f0
+    black: #000000 or #000
+    white: #ffffff or #fff
+
 # Group Collections
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
@@ -1659,13 +1671,12 @@ but are also limited to the projects that the current user is allowed to see.
 |:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
 | id               | Type id                                        | Integer  | x > 0       | READ                 |
 | name             | Type name                                      | String   |             | READ                 |
+| color            | The color used to represent this type          | Color    |             | READ                 |
 | position         | Sort index of the type                         | Integer  |             | READ                 |
 | isDefault        |                                                | Boolean  |             | READ                 |
 | isMilestone      | Do tickets of this type represent a milestone? | Boolean  |             | READ                 |
 | createdAt        | Time of creation                               | DateTime |             | READ                 |
 | updatedAt        | Time of the most recent change to the user     | DateTime |             | READ                 |
-
-**TBD**: What about the color? What does in aggregation mean?
 
 ## Types [/api/v3/types]
 
