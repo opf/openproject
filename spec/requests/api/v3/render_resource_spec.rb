@@ -62,6 +62,15 @@ describe 'API v3 Render resource' do
         end
 
         describe 'invalid' do
+          context 'content type' do
+            let(:content_type) { 'application/json' }
+            let(:post_path) { path }
+            let(:params) { "Hello World! Have a look at ##{work_package.id}" }
+
+            it_behaves_like 'invalid request body',
+                            'Expected content type \'text/plain\' but got \'application/json\'.'
+          end
+
           context 'with context' do
             let(:params) { '' }
 

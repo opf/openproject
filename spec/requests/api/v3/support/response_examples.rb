@@ -53,6 +53,13 @@ shared_examples_for 'invalid render context' do |message|
                   message
 end
 
+shared_examples_for 'invalid request body' do |message|
+  it_behaves_like 'error response',
+                  400,
+                  'InvalidRequestBody',
+                  message
+end
+
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,
