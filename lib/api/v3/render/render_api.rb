@@ -109,6 +109,15 @@ module API
               render :textile
             end
           end
+
+          resources :plain do
+            post do
+              check_content_type
+              setup_response
+
+              render :plain
+            end
+          end
         end
       end
     end
