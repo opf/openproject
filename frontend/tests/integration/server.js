@@ -54,10 +54,8 @@ app.use('/assets', express.static(railsRoot + '/app/assets/stylesheets'));
 app.use('/javascripts', express.static(railsRoot + '/public/javascripts'));
 
 app.use('/stylesheets', express.static(appRoot + '/tmp/stylesheets'));
-app.use('/templates', express.static(appRoot + '/public/templates'));
 app.use('/bower_components', express.static(appRoot + '/bower_components'));
-app.use('/assets/angular-busy', express.static(appRoot +
-  '/bower_components/angular-busy'));
+
 app.get('/work_packages*', function(req, res) {
   fs.readFile(__dirname + '/index.html', 'utf8', function(err,
     text) {
