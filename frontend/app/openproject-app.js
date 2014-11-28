@@ -40,6 +40,10 @@ I18n.addTranslations = function(locale, translations) {
 var angular = require('angular');
 require('angular-animate');
 require('angular-modal');
+
+require('angular-i18n/angular-locale_en-us');
+require('angular-i18n/angular-locale_de-de');
+
 require('angular-ui-router');
 require('angular-ui-select2');
 require('angular-ui-select2-sortable');
@@ -54,7 +58,6 @@ require('angular-busy/dist/angular-busy.css');
 require('angular-context-menu');
 
 require('openproject-ui_components');
-
 
 // global
 angular.module('openproject.config', []);
