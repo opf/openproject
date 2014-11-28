@@ -161,6 +161,16 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'having no errors'
             end
 
+            context 'invalid content' do
+              before do
+                allow(User).to receive(:current).and_return current_user
+                post post_path, '{ ,', 'CONTENT_TYPE' => 'application/json; charset=utf-8'
+              end
+
+              it_behaves_like 'parse error',
+                              'unexpected comma at line 1, column 3'
+            end
+
             describe 'lock version' do
               context 'missing lock version' do
                 let(:params) { valid_params.except(:lockVersion) }
