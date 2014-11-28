@@ -7,84 +7,92 @@ describe 'API v3 Render resource' do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+  let(:content_type) { 'text/plain, charset=UTF-8' }
 
-  describe '#post' do
-    let(:path) { '/api/v3/render/textile' }
+  before(:each) do
+    allow(User).to receive(:current).and_return(user)
+    post post_path, params, 'CONTENT_TYPE' => content_type
+  end
 
-    subject(:response) { last_response }
+  shared_examples_for 'valid response' do
+    it { expect(subject.status).to eq(200) }
 
-    before(:each) do
-      allow(User).to receive(:current).and_return(user)
-      post post_path, params, 'CONTENT_TYPE' => 'text/plain, charset=UTF-8'
-    end
+    it { expect(subject.content_type).to eq('text/html') }
 
-    describe 'response' do
-      shared_examples_for 'valid response' do
-        it { expect(subject.status).to eq(200) }
+    it { expect(subject.body).to eq(text) }
+  end
 
-        it { expect(subject.content_type).to eq('text/html') }
+  describe 'textile' do
+    describe '#post' do
+      let(:path) { '/api/v3/render/textile' }
 
-        it { expect(subject.body).to eq(textile) }
-      end
+      subject(:response) { last_response }
 
-      describe 'valid' do
-        context 'w/o context' do
-          let(:post_path) { path }
-          let(:params) do
-            'Hello World! This *is* textile with a ' +
-              '"link":http://community.openproject.org and ümläutß.'
-          end
-          let(:textile) do
-            '<p>Hello World! This <strong>is</strong> textile with a ' +
-              '<a href="http://community.openproject.org" class="external">link</a> ' +
-              'and ümläutß.</p>'
-          end
+      describe 'response' do
+        describe 'valid' do
+          context 'w/o context' do
+            let(:post_path) { path }
+            let(:params) do
+              'Hello World! This *is* textile with a ' +
+                '"link":http://community.openproject.org and ümläutß.'
+            end
+            let(:text) do
+              '<p>Hello World! This <strong>is</strong> textile with a ' +
+                '<a href="http://community.openproject.org" class="external">link</a> ' +
+                'and ümläutß.</p>'
+            end
 
-          it_behaves_like 'valid response'
-        end
-
-        context 'with context' do
-          let(:post_path) { "#{path}?context=/api/v3/work_packages/#{work_package.id}" }
-          let(:params) { "Hello World! Have a look at ##{work_package.id}" }
-          let(:id) { work_package.id }
-          let(:href) { "/work_packages/#{id}" }
-          let(:title) { "#{work_package.subject} (#{work_package.status})" }
-          let(:textile) { "<p>Hello World! Have a look at <a href=\"#{href}\" class=\"issue work_package status-1 priority-1\" title=\"#{title}\">##{id}</a></p>" }
-
-          it_behaves_like 'valid response'
-        end
-      end
-
-      describe 'invalid' do
-        context 'with context' do
-          let(:params) { '' }
-
-          describe 'work package does not exist' do
-            let(:post_path) { "#{path}?context=/api/v3/work_packages/-1" }
-
-            it_behaves_like 'invalid render context', 'Context does not exist!'
+            it_behaves_like 'valid response'
           end
 
-          describe 'work package not visible' do
-            let(:invisible_work_package) { FactoryGirl.create(:work_package) }
-            let(:post_path) { "#{path}?context=/api/v3/work_packages/#{invisible_work_package.id}" }
+          context 'with context' do
+            let(:post_path) { "#{path}?context=/api/v3/work_packages/#{work_package.id}" }
+            let(:params) { "Hello World! Have a look at ##{work_package.id}" }
+            let(:id) { work_package.id }
+            let(:href) { "/work_packages/#{id}" }
+            let(:title) { "#{work_package.subject} (#{work_package.status})" }
+            let(:text) {
+              "<p>Hello World! Have a look at <a href=\"#{href}\" "\
+              "class=\"issue work_package status-1 priority-1\" "\
+              "title=\"#{title}\">##{id}</a></p>"
+            }
 
-            it_behaves_like 'invalid render context', 'Context does not exist!'
-          end
-
-          describe 'context does not exist' do
-            let(:post_path) { "#{path}?context=/api/v3/" }
-
-            it_behaves_like 'invalid render context', 'No context found.'
-          end
-
-          describe 'unsupported context found' do
-            let(:post_path) { "#{path}?context=/api/v3/activities/2" }
-
-            it_behaves_like 'invalid render context', 'Unsupported context found.'
+            it_behaves_like 'valid response'
           end
         end
 
+        describe 'invalid' do
+          context 'with context' do
+            let(:params) { '' }
+
+            describe 'work package does not exist' do
+              let(:post_path) { "#{path}?context=/api/v3/work_packages/-1" }
+
+              it_behaves_like 'invalid render context', 'Context does not exist!'
+            end
+
+            describe 'work package not visible' do
+              let(:invisible_work_package) { FactoryGirl.create(:work_package) }
+              let(:post_path) {
+                "#{path}?context=/api/v3/work_packages/#{invisible_work_package.id}"
+              }
+
+              it_behaves_like 'invalid render context', 'Context does not exist!'
+            end
+
+            describe 'context does not exist' do
+              let(:post_path) { "#{path}?context=/api/v3/" }
+
+              it_behaves_like 'invalid render context', 'No context found.'
+            end
+
+            describe 'unsupported context found' do
+              let(:post_path) { "#{path}?context=/api/v3/activities/2" }
+
+              it_behaves_like 'invalid render context', 'Unsupported context found.'
+            end
+          end
+        end
       end
     end
   end
