@@ -51,7 +51,10 @@ module Api
       def index
         @work_packages = current_work_packages(@project)
 
-        @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(@query)
+        columns = @query.columns.map(&:name) + [:id]
+        columns << @query.group_by if @query.group_by
+
+        @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
 
         setup_context_menu_actions
 
@@ -64,11 +67,12 @@ module Api
 
         ids = params[:ids].map(&:to_i)
         column_names = params[:column_names]
+
         scope = WorkPackage.visible.includes(includes_for_columns(column_names))
 
         work_packages = Array.wrap(scope.find(*ids)).sort_by { |wp| ids.index wp.id }
-
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
+
         @columns_data = fetch_columns_data(column_names, work_packages)
         @columns_meta = {
           total_sums: columns_total_sums(column_names, work_packages),
@@ -87,42 +91,8 @@ module Api
 
       private
 
-      def separate_columns_by_custom_fields(query)
-        columns = query.columns.map(&:name) + [:id]
-        columns << query.group_by if query.group_by
-
-        cf_columns, non_cf_columns = columns.partition { |name| custom_field_id_in(name) }
-
-        cf_columns_id = cf_columns.map { |name| custom_field_id_in(name) }
-
-        [non_cf_columns, cf_columns_id]
-      end
-
       def setup_context_menu_actions
         @can = WorkPackagePolicy.new(User.current)
-      end
-
-      def columns_total_sums(column_names, work_packages)
-        column_names.map do |column_name|
-          column_sum(column_name, work_packages)
-        end
-      end
-
-      def column_sum(column_name, work_packages)
-        fetch_column_data(column_name, work_packages, false).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
-      end
-
-      def columns_group_sums(column_names, work_packages, group_by)
-        # NOTE RS: This is basically the grouped_sums method from sums.rb but we have no query to play with here
-        return unless group_by
-        column_names.map do |column_name|
-          work_packages.map { |wp| wp.send(group_by) }
-            .uniq
-            .inject({}) do |group_sums, current_group|
-              work_packages_in_current_group = work_packages.select{|wp| wp.send(group_by) == current_group}
-              group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)
-            end
-        end
       end
 
       def load_query
@@ -153,17 +123,6 @@ module Api
         results = @query.results include: includes_for_columns(column_names)
 
         results.work_packages.all
-      end
-
-      def includes_for_columns(column_names)
-        column_names = Array(column_names)
-        includes = (WorkPackage.reflections.keys & column_names)
-
-        if column_names.any? { |c| custom_field_id_in(c) }
-          includes << { custom_values: :custom_field }
-        end
-
-        includes
       end
 
       def set_work_packages_meta_data(query, results, work_packages)
@@ -219,62 +178,6 @@ module Api
           Setting.feeds_limit.to_i
         else
           super
-        end
-      end
-
-      def fetch_columns_data(column_names, work_packages)
-        column_names.map do |column_name|
-          fetch_column_data(column_name, work_packages)
-        end
-      end
-
-      def fetch_column_data(column_name, work_packages, display = true)
-        if custom_field_id = custom_field_id_in(column_name)
-          custom_field_data = work_packages.map { |wp|
-            wp.custom_values_display_data(custom_field_id)
-          }
-          if display
-            custom_field_data.flatten
-          else
-            custom_field_data.flatten.map { |d| d.nil? ? nil : d[:value] }
-          end
-        else
-          work_packages.map do |work_package|
-            # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
-            #       Name and subject are the default properties that the front end currently looks for to summarize an object.
-            raise 'API Error: Unknown column name' if !work_package.respond_to?(column_name)
-            value = work_package.send(column_name)
-            value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
-          end
-        end
-      end
-
-      def column_should_be_summed_up?(column_name)
-        # see ::Query::Sums mix in
-        column_is_numeric?(column_name) && Setting.work_package_list_summable_columns.include?(column_name.to_s)
-      end
-
-      def column_is_numeric?(column_name)
-        # TODO RS: We want to leave out ids even though they are numeric
-        [:int, :integer, :float].include? column_type(column_name)
-      end
-
-      def custom_field_id_in(name)
-        groups = name.to_s.scan(/cf_(\d+)/).flatten
-
-        if groups
-          groups[0]
-        else
-          nil
-        end
-      end
-
-      def column_type(column_name)
-        if id = custom_field_id_in(column_name)
-          CustomField.find(id).field_format.to_sym
-        else
-          column = WorkPackage.columns_hash[column_name]
-          column.nil? ? :none : column.type
         end
       end
     end
