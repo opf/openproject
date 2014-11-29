@@ -19,7 +19,6 @@
 #++
 
 class MeetingAgendasController < MeetingContentsController
-
   menu_item :meetings
 
   def close
@@ -37,6 +36,6 @@ class MeetingAgendasController < MeetingContentsController
 
   def find_content
     @content = @meeting.agenda || @meeting.build_agenda
-    @content_type = "meeting_agenda"
+    @content_type = 'meeting_agenda'
   end
 end

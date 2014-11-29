@@ -27,7 +27,7 @@ describe MeetingMinutesController, type: :controller do
   before { allow(User).to receive(:current).and_return(user) }
 
   describe 'preview' do
-    let(:text) { "Meeting minutes content" }
+    let(:text) { 'Meeting minutes content' }
 
     before { allow_any_instance_of(MeetingMinutes).to receive(:editable?).and_return(true) }
 
@@ -37,7 +37,7 @@ describe MeetingMinutesController, type: :controller do
     end
 
     it_behaves_like 'authorizes object access' do
-      let(:preview_params) { { meeting_id: meeting.id, meeting_minutes: { } } }
+      let(:preview_params) { { meeting_id: meeting.id, meeting_minutes: {} } }
     end
   end
 end

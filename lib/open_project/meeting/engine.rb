@@ -31,34 +31,34 @@ module OpenProject::Meeting
              requires_openproject: '>= 4.0.0' do
 
       project_module :meetings do
-        permission :create_meetings, {meetings: [:new, :create, :copy]}, require: :member
-        permission :edit_meetings, {meetings: [:edit, :update]}, require: :member
-        permission :delete_meetings, {meetings: [:destroy]}, require: :member
-        permission :view_meetings, {meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]}
-        permission :create_meeting_agendas, {meeting_agendas: [:update, :preview]}, require: :member
-        permission :close_meeting_agendas, {meeting_agendas: [:close, :open]}, require: :member
-        permission :send_meeting_agendas_notification, {meeting_agendas: [:notify]}, require: :member
-        permission :create_meeting_minutes, {meeting_minutes: [:update, :preview]}, require: :member
-        permission :send_meeting_minutes_notification, {meeting_minutes: [:notify]}, require: :member
+        permission :create_meetings, { meetings: [:new, :create, :copy] }, require: :member
+        permission :edit_meetings, { meetings: [:edit, :update] }, require: :member
+        permission :delete_meetings, { meetings: [:destroy] }, require: :member
+        permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
+        permission :create_meeting_agendas, { meeting_agendas: [:update, :preview] }, require: :member
+        permission :close_meeting_agendas, { meeting_agendas: [:close, :open] }, require: :member
+        permission :send_meeting_agendas_notification, { meeting_agendas: [:notify] }, require: :member
+        permission :create_meeting_minutes, { meeting_minutes: [:update, :preview] }, require: :member
+        permission :send_meeting_minutes_notification, { meeting_minutes: [:notify] }, require: :member
       end
 
       Redmine::Search.map do |search|
         search.register :meetings
       end
 
-      menu :project_menu, :meetings, {controller: '/meetings', action: 'index'},
-                                     caption: :project_module_meetings,
-                                     param: :project_id,
-                                     after: :wiki,
-                                     html: {class: 'icon2 icon-quote' }
-      menu :project_menu, :new_meeting, {controller: '/meetings', action: 'new'},
-                                        param: :project_id,
-                                        caption: :label_meeting_new,
-                                        parent: :meetings,
-                                        html: {class: 'icon2 icon-add' }
+      menu :project_menu, :meetings, { controller: '/meetings', action: 'index' },
+           caption: :project_module_meetings,
+           param: :project_id,
+           after: :wiki,
+           html: { class: 'icon2 icon-quote' }
+      menu :project_menu, :new_meeting, { controller: '/meetings', action: 'new' },
+           param: :project_id,
+           caption: :label_meeting_new,
+           parent: :meetings,
+           html: { class: 'icon2 icon-add' }
 
       ActiveSupport::Inflector.inflections do |inflect|
-        inflect.uncountable "meeting_minutes"
+        inflect.uncountable 'meeting_minutes'
       end
 
       Redmine::Activity.map do |activity|
@@ -72,7 +72,7 @@ module OpenProject::Meeting
       Rails.application.config.assets.precompile += %w(meeting/meeting.css)
     end
 
-    initializer "meeting.register_hooks" do
+    initializer 'meeting.register_hooks' do
       require 'open_project/meeting/hooks'
     end
 

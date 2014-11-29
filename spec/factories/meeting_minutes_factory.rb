@@ -19,7 +19,7 @@
 #++
 
 FactoryGirl.define do
-  factory :meeting_minutes do |m|
+  factory :meeting_minutes do |_m|
     meeting
   end
 end

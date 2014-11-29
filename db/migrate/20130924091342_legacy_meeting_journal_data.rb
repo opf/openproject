@@ -20,7 +20,7 @@
 #++
 #
 
-require Rails.root.join("db","migrate","migration_utils","legacy_journal_migrator").to_s
+require Rails.root.join('db', 'migrate', 'migration_utils', 'legacy_journal_migrator').to_s
 
 class LegacyMeetingJournalData < ActiveRecord::Migration
   def up
@@ -32,6 +32,6 @@ class LegacyMeetingJournalData < ActiveRecord::Migration
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new "MeetingJournal", "meeting_journals"
+    @migrator ||= Migration::LegacyJournalMigrator.new 'MeetingJournal', 'meeting_journals'
   end
 end

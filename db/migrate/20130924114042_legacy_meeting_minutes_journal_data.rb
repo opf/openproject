@@ -20,7 +20,7 @@
 #++
 #
 
-require Rails.root.join("db","migrate","migration_utils","legacy_journal_migrator").to_s
+require Rails.root.join('db', 'migrate', 'migration_utils', 'legacy_journal_migrator').to_s
 
 class LegacyMeetingMinutesJournalData < ActiveRecord::Migration
   class UnsupportedMeetingMinutesJournalCompressionError < ::StandardError
@@ -35,17 +35,17 @@ class LegacyMeetingMinutesJournalData < ActiveRecord::Migration
   end
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new "MeetingMinutesJournal", "meeting_content_journals" do
+    @migrator ||= Migration::LegacyJournalMigrator.new 'MeetingMinutesJournal', 'meeting_content_journals' do
 
-      self.journable_class = "MeetingContent"
+      self.journable_class = 'MeetingContent'
 
-      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-        if to_insert.has_key?("data")
+      def migrate_key_value_pairs!(to_insert, _legacy_journal, _journal_id)
+        if to_insert.has_key?('data')
 
           # Why is that checked but than the compression is not used in any way to read the data
-          if !to_insert.has_key?("compression")
+          if !to_insert.has_key?('compression')
 
-            raise UnsupportedMeetingMinutesJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            raise UnsupportedMeetingMinutesJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
               There is a MeetingMinutes journal that contains data in an
               unsupported compression: #{compression}
             MESSAGE
@@ -53,11 +53,10 @@ class LegacyMeetingMinutesJournalData < ActiveRecord::Migration
           end
 
           # as the old journals used the format [old_value, new_value] we have to fake it here
-          to_insert["text"] = [nil, to_insert.delete("data")]
+          to_insert['text'] = [nil, to_insert.delete('data')]
         end
       end
 
     end
-
   end
 end

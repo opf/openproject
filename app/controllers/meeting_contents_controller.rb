@@ -19,7 +19,6 @@
 #++
 
 class MeetingContentsController < ApplicationController
-
   include PaginationHelper
   include OpenProject::Concerns::Preview
 
@@ -44,7 +43,7 @@ class MeetingContentsController < ApplicationController
                   tab: @content_type.sub(/^meeting_/, '')
       return
     end
-    #go to an old version if a version id is given
+    # go to an old version if a version id is given
     @content = @content.at_version params[:id] unless params[:id].blank?
     render 'meeting_contents/show'
   end
@@ -61,16 +60,16 @@ class MeetingContentsController < ApplicationController
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
-    params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
+    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
     render 'meetings/show'
   end
 
   def history
     # don't load text
-    @content_versions = @content.journals.select("id, user_id, notes, created_at, version")
-                                         .order('version DESC')
-                                         .page(page_param)
-                                         .per_page(per_page_param)
+    @content_versions = @content.journals.select('id, user_id, notes, created_at, version')
+                        .order('version DESC')
+                        .page(page_param)
+                        .per_page(per_page_param)
 
     render 'meeting_contents/history', layout: !request.xhr?
   end
@@ -84,7 +83,7 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      recipients = @content.meeting.participants.collect{|p| p.mail}.reject{|r| r == @content.meeting.author.mail}
+      recipients = @content.meeting.participants.collect(&:mail).reject { |r| r == @content.meeting.author.mail }
       recipients << @content.meeting.author.mail unless @content.meeting.author.preference[:no_self_notified]
       recipients.each do |recipient|
         MeetingMailer.content_for_review(@content, @content_type, recipient).deliver
@@ -109,11 +108,10 @@ class MeetingContentsController < ApplicationController
   end
 
   def parse_preview_data
-    text = { }
+    text = {}
 
     text = { WikiContent.human_attribute_name(:content) => params[@content_type][:text] } if @content.editable?
 
-    return text, [], @content
+    [text, [], @content]
   end
-
 end

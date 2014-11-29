@@ -19,7 +19,6 @@
 #++
 
 class MeetingsController < ApplicationController
-
   around_filter :set_time_zone
   before_filter :find_project, only: [:index, :new, :create]
   before_filter :find_meeting, except: [:index, :new, :create]
@@ -46,14 +45,14 @@ class MeetingsController < ApplicationController
              @page_of_today
 
     @meetings = scope.with_users_by_date
-                     .page(page)
-                     .per_page(per_page_param)
+                .page(page)
+                .per_page(per_page_param)
 
     @meetings_by_start_year_month_date = Meeting.group_by_time(@meetings)
   end
 
   def show
-    params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
+    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
   end
 
   def create
@@ -70,7 +69,7 @@ class MeetingsController < ApplicationController
       text = l(:notice_successful_create)
       if User.current.time_zone.nil?
         link = l(:notice_timezone_missing, zone: Time.zone)
-        text += " #{view_context.link_to(link, {controller: '/my', action: :account},class: "link_to_profile")}"
+        text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
       end
       flash[:notice] = text.html_safe
 
@@ -117,7 +116,7 @@ class MeetingsController < ApplicationController
     zone = User.current.time_zone
     if zone.nil?
       localzone = Time.now.utc_offset
-      localzone-= 3600 if Time.now.dst?
+      localzone -= 3600 if Time.now.dst?
       zone = ::ActiveSupport::TimeZone[localzone]
     end
     Time.zone = zone
@@ -134,7 +133,7 @@ class MeetingsController < ApplicationController
   end
 
   def find_meeting
-    @meeting = Meeting.find(params[:id], include: [:project, :author, {participants: :user}, :agenda, :minutes])
+    @meeting = Meeting.find(params[:id], include: [:project, :author, { participants: :user }, :agenda, :minutes])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -154,6 +153,6 @@ class MeetingsController < ApplicationController
     params[:meeting][:duration] = params[:meeting][:duration].to_hours
     # Force defaults on participants
     params[:meeting][:participants_attributes] ||= {}
-    params[:meeting][:participants_attributes].each {|p| p.reverse_merge! attended: false, invited: false}
+    params[:meeting][:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
   end
 end

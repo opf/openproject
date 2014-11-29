@@ -27,5 +27,5 @@ describe Journal, type: :model do
 
   let(:journal) { FactoryGirl.build(:meeting_content_journal) }
 
-  it_should_behave_like "customized journal class"
+  it_should_behave_like 'customized journal class'
 end
