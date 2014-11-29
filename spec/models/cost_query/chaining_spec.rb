@@ -107,14 +107,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.filters.size).to eq(2)
-      expect(@query.filters.collect {|f| f.class.underscore_name}).to include "project_id"
+      expect(@query.filters.map {|f| f.class.underscore_name}).to include "project_id"
     end
 
     it "should return all group_bys" do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.group_bys.size).to eq(1)
-      expect(@query.group_bys.collect {|g| g.class.underscore_name}).to include "project_id"
+      expect(@query.group_bys.map {|g| g.class.underscore_name}).to include "project_id"
     end
 
     it "should initialize the chain through a block" do
@@ -125,7 +125,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
       TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, value: project.id)}
       @query.build_new_chain
-      expect(@query.filters.collect {|f| f.class.underscore_name}).to include "project_id"
+      expect(@query.filters.map {|f| f.class.underscore_name}).to include "project_id"
       expect(@query.filters.detect {|f| f.class.underscore_name == "project_id"}.values).to eq(Array(project.id))
     end
 

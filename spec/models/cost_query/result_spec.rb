@@ -32,11 +32,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe CostQuery::Result do
     def direct_results(quantity = 0)
-      (1..quantity).collect {|i| CostQuery::Result.new real_costs:i.to_f, count:1 ,units:i.to_f}
+      (1..quantity).map {|i| CostQuery::Result.new real_costs:i.to_f, count:1 ,units:i.to_f}
     end
 
     def wrapped_result(source, quantity=1)
-      CostQuery::Result.new((1..quantity).collect { |i| source})
+      CostQuery::Result.new((1..quantity).map { |i| source})
     end
 
     it "should travel recursively depth-first" do

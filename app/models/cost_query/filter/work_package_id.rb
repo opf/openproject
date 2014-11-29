@@ -23,7 +23,7 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    work_packages = Project.visible.collect { |p| p.work_packages }.flatten.uniq.sort_by { |i| i.id }
+    work_packages = Project.visible.map { |p| p.work_packages }.flatten.uniq.sort_by { |i| i.id }
     work_packages.map { |i| [text_for_work_package(i), i.id] }
   end
 

@@ -36,7 +36,7 @@ class Widget::Table::EntryTable < Widget::Table
   def head
     content_tag :thead do
       content_tag :tr do
-        Fields.collect { |field| concat content_tag(:th) { label_for(field) } }
+        Fields.map { |field| concat content_tag(:th) { label_for(field) } }
         concat content_tag(:th, class: 'right') { cost_type.try(:unit_plural) || l(:units) }
         concat content_tag(:th, class: 'right') { CostEntry.human_attribute_name(:costs) }
         hit = false

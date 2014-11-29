@@ -21,7 +21,7 @@ class Widget::Table::SimpleTable < Widget::Table
   simple_table self
 
   def render
-    @list = @subject.collect {|r| r.important_fields }.flatten.uniq
+    @list = @subject.map {|r| r.important_fields }.flatten.uniq
     @show_units = @list.include? "cost_type_id"
 
     content = content_tag :table, { class: "report", id: "sortable-table" } do
