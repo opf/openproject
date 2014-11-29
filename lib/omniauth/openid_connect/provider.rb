@@ -106,11 +106,11 @@ module OmniAuth
 
       def options
         {
-          :name => name,
-          :scope => [:openid, :email, :profile],
-          :icon => config["icon"],
-          :display_name => config["display_name"],
-          :client_options => client_options.merge( # override with configuration
+          name: name,
+          scope: [:openid, :email, :profile],
+          icon: config["icon"],
+          display_name: config["display_name"],
+          client_options: client_options.merge( # override with configuration
             Hash[
               config.reject do |key, value|
                 ["identifier", "secret", "icon", "display_name"].include? key
@@ -124,12 +124,12 @@ module OmniAuth
 
       def client_options
         {
-          :port => 443,
-          :scheme => "https",
-          :host => host,
-          :identifier => identifier,
-          :secret => secret,
-          :redirect_uri => redirect_uri
+          port: 443,
+          scheme: "https",
+          host: host,
+          identifier: identifier,
+          secret: secret,
+          redirect_uri: redirect_uri
         }
       end
 

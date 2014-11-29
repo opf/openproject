@@ -37,11 +37,11 @@ describe "OpenID Connect" do
   let(:provider) { OmniAuth::OpenIDConnect::Heroku.new }
   let(:user_info) do
     {
-      :sub => "87117114115116",
-      :name => "Hans Wurst",
-      :email => "h.wurst@finn.de",
-      :given_name => "Hans",
-      :family_name => "Wurst"
+      sub: "87117114115116",
+      name: "Hans Wurst",
+      email: "h.wurst@finn.de",
+      given_name: "Hans",
+      family_name: "Wurst"
     }
   end
 
@@ -49,7 +49,7 @@ describe "OpenID Connect" do
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     OpenIDConnect::Client.any_instance.stub(:access_token!) do
-      OpenIDConnect::AccessToken.new :client => self, :access_token => "foo bar baz"
+      OpenIDConnect::AccessToken.new client: self, access_token: "foo bar baz"
     end
 
     # Using the granted AccessToken the client then performs another request to the OpenID Connect

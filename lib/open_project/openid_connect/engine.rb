@@ -8,9 +8,9 @@ module OpenProject::OpenIDConnect
     extend OpenProject::Plugins::AuthPlugin
 
     register 'openproject-openid_connect',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.1.0pre1',
-             :settings => { 'default' => { 'providers' => {} } }
+             author_url: 'http://finn.de',
+             requires_openproject: '>= 3.1.0pre1',
+             settings: { 'default' => { 'providers' => {} } }
 
     assets %w(
       openid_connect/auth_provider-google.png

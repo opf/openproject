@@ -35,9 +35,9 @@ module OmniAuth::OpenIDConnect
 
     def client_options
       super.merge({
-        :authorization_endpoint => "/authorizations/new",
-        :token_endpoint => "/access_tokens",
-        :userinfo_endpoint => "/user_info"
+        authorization_endpoint: "/authorizations/new",
+        token_endpoint: "/access_tokens",
+        userinfo_endpoint: "/user_info"
       })
     end
   end

@@ -35,17 +35,17 @@ module OmniAuth::OpenIDConnect
 
     def options
       super.merge({
-        :client_auth_method => :not_basic,
-        :send_nonce => false, # use state instead of nonce
-        :state => lambda { SecureRandom.hex(42) }
+        client_auth_method: :not_basic,
+        send_nonce: false, # use state instead of nonce
+        state: lambda { SecureRandom.hex(42) }
       })
     end
 
     def client_options
       super.merge({
-        :authorization_endpoint => "/o/oauth2/auth",
-        :token_endpoint => "/o/oauth2/token",
-        :userinfo_endpoint => "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+        authorization_endpoint: "/o/oauth2/auth",
+        token_endpoint: "/o/oauth2/token",
+        userinfo_endpoint: "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
       })
     end
   end
