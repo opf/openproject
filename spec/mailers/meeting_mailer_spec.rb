@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingMailer, :type => :mailer do
+describe MeetingMailer, type: :mailer do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
   let(:project) { FactoryGirl.create(:project) }
   let(:author) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }

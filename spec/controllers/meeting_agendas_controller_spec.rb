@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingAgendasController, :type => :controller do
+describe MeetingAgendasController, type: :controller do
   let(:meeting) { FactoryGirl.create(:meeting) }
   let(:user) { FactoryGirl.create(:admin) }
 

@@ -38,10 +38,10 @@ class MeetingContentsController < ApplicationController
   def show
     if params[:id].present? && @content.version == params[:id].to_i
       # Redirect links to the last version
-      redirect_to :controller => '/meetings',
-                  :action => :show,
-                  :id => @meeting,
-                  :tab => @content_type.sub(/^meeting_/, '')
+      redirect_to controller: '/meetings',
+                  action: :show,
+                  id: @meeting,
+                  tab: @content_type.sub(/^meeting_/, '')
       return
     end
     #go to an old version if a version id is given
@@ -55,7 +55,7 @@ class MeetingContentsController < ApplicationController
     @content.author = User.current
     if @content.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :controller => '/meetings', :action => 'show', :id => @meeting
+      redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
     else
     end
   rescue ActiveRecord::StaleObjectError
@@ -72,7 +72,7 @@ class MeetingContentsController < ApplicationController
                                          .page(page_param)
                                          .per_page(per_page_param)
 
-    render 'meeting_contents/history', :layout => !request.xhr?
+    render 'meeting_contents/history', layout: !request.xhr?
   end
 
   def diff
@@ -91,7 +91,7 @@ class MeetingContentsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_notification)
     end
-    redirect_back_or_default :controller => '/meetings', :action => 'show', :id => @meeting
+    redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
   end
 
   def default_breadcrumb
@@ -101,7 +101,7 @@ class MeetingContentsController < ApplicationController
   private
 
   def find_meeting
-    @meeting = Meeting.find(params[:meeting_id], :include => [:project, :author, :participants, :agenda, :minutes])
+    @meeting = Meeting.find(params[:meeting_id], include: [:project, :author, :participants, :agenda, :minutes])
     @project = @meeting.project
     @author = User.current
   rescue ActiveRecord::RecordNotFound

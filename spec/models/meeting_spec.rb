@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Meeting, :type => :model do
+describe Meeting, type: :model do
   it {is_expected.to belong_to :project}
   it {is_expected.to belong_to :author}
   it {is_expected.to validate_presence_of :title}
@@ -30,16 +30,16 @@ describe Meeting, :type => :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:meeting) { FactoryGirl.create(:meeting, :project => project, :author => user1) }
+  let(:meeting) { FactoryGirl.create(:meeting, project: project, author: user1) }
   let(:agenda) do
-    meeting.create_agenda :text => "Meeting Agenda text"
+    meeting.create_agenda text: "Meeting Agenda text"
     meeting.agenda(true) # avoiding stale object errors
   end
 
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_meetings]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
 
   before do
-    @m = FactoryGirl.build :meeting, :title => "dingens"
+    @m = FactoryGirl.build :meeting, title: "dingens"
   end
 
   describe "to_s" do
@@ -69,12 +69,12 @@ describe Meeting, :type => :model do
   describe "Journalized Objects" do
     before(:each) do
       @project ||= FactoryGirl.create(:project_with_types)
-      @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
+      @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
       allow(User).to receive(:current).and_return(@current)
     end
 
     it 'should work with meeting' do
-      @meeting ||= FactoryGirl.create(:meeting, :title => "Test", :project => @project, :author => @current)
+      @meeting ||= FactoryGirl.create(:meeting, title: "Test", project: @project, author: @current)
 
       initial_journal = @meeting.journals.first
       recreated_journal = @meeting.recreate_initial_journal!
@@ -95,7 +95,7 @@ describe Meeting, :type => :model do
     end
 
     describe "WITH a user not having the view_meetings permission" do
-      let(:role2) { FactoryGirl.create(:role, :permissions => []) }
+      let(:role2) { FactoryGirl.create(:role, permissions: []) }
 
       before do
         # adding both users so that the author is valid
@@ -129,7 +129,7 @@ describe Meeting, :type => :model do
 
       project.save!
 
-      meeting.participants.build(:user => user2)
+      meeting.participants.build(user: user2)
       meeting.save!
     end
 
@@ -160,7 +160,7 @@ describe Meeting, :type => :model do
       project.save!
 
       meeting.start_time = DateTime.new(2013,3,27,15,35)
-      meeting.participants.build(:user => user2)
+      meeting.participants.build(user: user2)
       meeting.save!
     end
 
@@ -175,7 +175,7 @@ describe Meeting, :type => :model do
     end
 
     it "should set the author to the provided author if one is given" do
-      copy = meeting.copy :author => user2
+      copy = meeting.copy author: user2
       expect(copy.author).to eq(user2)
     end
 

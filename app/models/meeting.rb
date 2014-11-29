@@ -23,30 +23,30 @@ class Meeting < ActiveRecord::Base
   self.table_name = 'meetings'
 
   belongs_to :project
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  has_one :agenda, :dependent => :destroy, :class_name => 'MeetingAgenda'
-  has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
-  has_many :contents, :class_name => 'MeetingContent', :readonly => true
-  has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
+  has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
+  has_many :contents, class_name: 'MeetingContent', readonly: true
+  has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
 
   default_scope order("#{Meeting.table_name}.start_time DESC")
-  scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
+  scope :from_tomorrow, conditions: ['start_time >= ?', Date.tomorrow.beginning_of_day]
   scope :with_users_by_date, order("#{Meeting.table_name}.title ASC")
-                             .includes({:participants => :user}, :author)
+                             .includes({participants: :user}, :author)
 
   attr_accessible :title, :location, :start_time, :duration
 
   acts_as_watchable
 
-  acts_as_searchable :columns => ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
-                     :include => [:contents, :project],
-                     :date_column => "#{table_name}.created_at"
+  acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
+                     include: [:contents, :project],
+                     date_column: "#{table_name}.created_at"
 
   acts_as_journalized
   acts_as_event title: Proc.new {|o| "#{l :label_meeting}: #{o.title} \
                                       #{format_date o.start_time} \
                                       #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
-                url: Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o}},
+                url: Proc.new {|o| {controller: '/meetings', action: 'show', id: o}},
                 author: Proc.new {|o| o.user},
                 description: ""
 
@@ -55,7 +55,7 @@ class Meeting < ActiveRecord::Base
   register_on_journal_formatter(:datetime, 'start_time')
   register_on_journal_formatter(:plaintext, 'location')
 
-  accepts_nested_attributes_for :participants, :allow_destroy => true
+  accepts_nested_attributes_for :participants, allow_destroy: true
 
   validates_presence_of :title, :start_time, :duration
 
@@ -95,7 +95,7 @@ class Meeting < ActiveRecord::Base
   def author=(user)
     super
     # Don't add the author as participant if we already have some through nested attributes
-    self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user)
+    self.participants.build(user: user, invited: true) if (self.new_record? && self.participants.empty? && user)
   end
 
    # Returns true if usr or current user is allowed to view the meeting
@@ -107,7 +107,7 @@ class Meeting < ActiveRecord::Base
     changeable_participants = self.participants.select(&:invited).collect{|p| p.user}
     changeable_participants = changeable_participants + self.participants.select(&:attended).collect{|p| p.user}
     changeable_participants = changeable_participants + \
-                              self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{|u| self.visible?(u) }
+                              self.project.users.all(include: { memberships: [:roles, :project] } ).select{|u| self.visible?(u) }
 
     changeable_participants.uniq{|user| user.id}
   end
@@ -151,7 +151,7 @@ class Meeting < ActiveRecord::Base
 
   def close_agenda_and_copy_to_minutes!
     self.agenda.lock!
-    self.create_minutes(:text => agenda.text, :comment => "Minutes created")
+    self.create_minutes(text: agenda.text, comment: "Minutes created")
   end
 
   alias :original_participants_attributes= :participants_attributes=

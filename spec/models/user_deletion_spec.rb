@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy", :type => :model do
+describe User, "#destroy", type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -29,12 +29,12 @@ describe User, "#destroy", :type => :model do
     project
   end
 
-  let(:meeting) { FactoryGirl.create(:meeting, :project => project,
-                                           :author => user2) }
-  let(:participant) { FactoryGirl.create(:meeting_participant, :user => user,
-                                                           :meeting => meeting,
-                                                           :invited => true,
-                                                           :attended => true) }
+  let(:meeting) { FactoryGirl.create(:meeting, project: project,
+                                           author: user2) }
+  let(:participant) { FactoryGirl.create(:meeting_participant, user: user,
+                                                           meeting: meeting,
+                                                           invited: true,
+                                                           attended: true) }
 
   before do
     user
@@ -122,7 +122,7 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user created a meeting" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like "created journalized associated object"
@@ -130,7 +130,7 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user updated a meeting" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like "updated journalized associated object"
@@ -138,8 +138,8 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user created a meeting agenda" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, meeting: meeting,
+                                                               text: "lorem")}
     let(:associated_class) { MeetingAgenda }
 
     it_should_behave_like "created journalized associated object"
@@ -147,8 +147,8 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user updated a meeting agenda" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, meeting: meeting,
+                                                               text: "lorem")}
     let(:associated_class) { MeetingAgenda }
 
     it_should_behave_like "updated journalized associated object"
@@ -156,8 +156,8 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user created a meeting minutes" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
-                                                                :text => "lorem")}
+    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, meeting: meeting,
+                                                                text: "lorem")}
     let(:associated_class) { MeetingMinutes }
 
     it_should_behave_like "created journalized associated object"
@@ -165,8 +165,8 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user updated a meeting minutes" do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, meeting: meeting,
+                                                               text: "lorem")}
     let(:associated_class) { MeetingMinutes }
 
     it_should_behave_like "updated journalized associated object"

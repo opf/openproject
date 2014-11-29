@@ -26,6 +26,6 @@ module MeetingsHelper
   def render_meeting_journal(model, journal, options = {})
     return "" if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => "journal" }
+    content_tag "div", journal_content, { id: "change-#{journal.id}", class: "journal" }
   end
 end

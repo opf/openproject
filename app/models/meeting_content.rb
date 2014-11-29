@@ -21,11 +21,11 @@
 class MeetingContent < ActiveRecord::Base
 
   belongs_to :meeting
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   attr_accessor :comment
 
-  validates_length_of :comment, :maximum => 255, :allow_nil => true
+  validates_length_of :comment, maximum: 255, allow_nil: true
 
   attr_accessible :text, :lock_version, :comment
 
@@ -34,7 +34,7 @@ class MeetingContent < ActiveRecord::Base
   acts_as_journalized
   acts_as_event type: Proc.new {|o| "#{o.class.to_s.underscore.dasherize}"},
                 title: Proc.new {|o| "#{o.class.model_name.human}: #{o.meeting.title}"},
-                url: Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.meeting}}
+                url: Proc.new {|o| {controller: '/meetings', action: 'show', id: o.meeting}}
 
   User.before_destroy do |user|
     MeetingContent.update_all ['author_id = ?', DeletedUser.first], ['author_id = ?', user.id]
@@ -58,7 +58,7 @@ class MeetingContent < ActiveRecord::Base
   def at_version(version)
     journals
     .joins("JOIN meeting_contents ON meeting_contents.id = journals.journable_id AND meeting_contents.type='#{self.class.to_s}'")
-    .where(:version => version)
+    .where(version: version)
     .first.data
   end
 

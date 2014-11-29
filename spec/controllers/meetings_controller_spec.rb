@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingsController, :type => :controller do
+describe MeetingsController, type: :controller do
   before(:each) do
     @p = mock_model(Project)
     allow(@controller).to receive(:authorize)
@@ -42,7 +42,7 @@ describe MeetingsController, :type => :controller do
       end
       describe "html" do
         before(:each) do
-          get "index", :project_id => @p.id
+          get "index", project_id: @p.id
         end
         it {expect(response).to be_success}
         it {expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
@@ -58,7 +58,7 @@ describe MeetingsController, :type => :controller do
       end
       describe "html" do
         before(:each) do
-          get "show", :id => @m.id
+          get "show", id: @m.id
         end
         it {expect(response).to be_success}
       end
@@ -74,7 +74,7 @@ describe MeetingsController, :type => :controller do
       end
       describe "html" do
         before(:each) do
-          get "new", :project_id => @p.id
+          get "new", project_id: @p.id
         end
         it {expect(response).to be_success}
         it {expect(assigns(:meeting)).to eql @m}
@@ -89,7 +89,7 @@ describe MeetingsController, :type => :controller do
       end
       describe "html" do
         before(:each) do
-          get "edit", :id => @m.id
+          get "edit", id: @m.id
         end
         it {expect(response).to be_success}
         it {expect(assigns(:meeting)).to eql @m}
