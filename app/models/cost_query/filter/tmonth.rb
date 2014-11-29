@@ -25,6 +25,6 @@ class CostQuery::Filter::Tmonth < Report::Filter::Base
   end
 
   def self.available_values(*)
-    1.upto(12).map {|i| [ ::I18n.t('date.month_names')[i], i ]}
+    1.upto(12).map { |i| [::I18n.t('date.month_names')[i], i] }
   end
 end

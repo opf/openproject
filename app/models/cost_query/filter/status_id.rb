@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-#we have to require this here because the operators would not be defined otherwise
+# we have to require this here because the operators would not be defined otherwise
 require_dependency 'cost_query/operator'
 class CostQuery::Filter::StatusId < Report::Filter::Base
   available_operators 'c', 'o'

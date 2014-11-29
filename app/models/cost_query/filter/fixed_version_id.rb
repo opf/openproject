@@ -27,7 +27,7 @@ class CostQuery::Filter::FixedVersionId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    versions = Version.find :all, conditions: {project_id: Project.visible.map{|p| p.id}}
+    versions = Version.find :all, conditions: { project_id: Project.visible.map(&:id) }
     versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
 end

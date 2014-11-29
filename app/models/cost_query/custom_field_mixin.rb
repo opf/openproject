@@ -59,7 +59,7 @@ module CostQuery::CustomFieldMixin
   def on_prepare(&block)
     return factory.on_prepare unless factory?
     @on_prepare = block if block
-    @on_prepare ||= proc { }
+    @on_prepare ||= proc {}
     @on_prepare
   end
 
@@ -76,7 +76,7 @@ module CostQuery::CustomFieldMixin
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
-    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, "")
+    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, '')
     -- BEGIN Custom Field Join: "%4$s"
     LEFT OUTER JOIN (
     \tSELECT
@@ -100,5 +100,4 @@ module CostQuery::CustomFieldMixin
     fail "Only subclasses of #{self} should be instanciated." if factory?
     super
   end
-
 end

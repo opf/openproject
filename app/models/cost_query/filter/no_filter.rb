@@ -18,7 +18,7 @@
 #++
 
 class CostQuery::Filter::NoFilter < Report::Filter::NoFilter
-  table_name "entries"
+  table_name 'entries'
   dont_display!
   singleton
 

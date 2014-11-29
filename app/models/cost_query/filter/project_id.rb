@@ -18,14 +18,14 @@
 #++
 
 class CostQuery::Filter::ProjectId < Report::Filter::Base
-  db_field "entries.project_id"
+  db_field 'entries.project_id'
 
   def self.label
     Project.model_name.human
   end
 
   def self.available_operators
-    ["=", "!", "=_child_projects", "!_child_projects"].map { |s| s.to_operator }
+    ['=', '!', '=_child_projects', '!_child_projects'].map(&:to_operator)
   end
 
   ##
@@ -37,10 +37,10 @@ class CostQuery::Filter::ProjectId < Report::Filter::Base
     map = []
     ancestors = []
     Project.visible.sort_by(&:lft).each do |project|
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
+      while ancestors.any? && !project.is_descendant_of?(ancestors.last)
         ancestors.pop
       end
-      map << [project.name, project.id, {level: ancestors.size}]
+      map << [project.name, project.id, { level: ancestors.size }]
       ancestors << project
     end
     map

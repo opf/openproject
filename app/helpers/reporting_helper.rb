@@ -40,7 +40,7 @@ module ReportingHelper
 
   def label_for(field)
     name = field.to_s
-    if name.starts_with?("label")
+    if name.starts_with?('label')
       return I18n.t(field)
     end
     name = name.camelcase
@@ -50,15 +50,15 @@ module ReportingHelper
       CostQuery::GroupBy.const_defined? name
       CostQuery::GroupBy.const_get(name).label
     else
-      #note that using WorkPackage.human_attribute_name relies on the attribute
-      #being an work_package attribute or a general attribute for all models whicht might not
-      #be the case but so far I have only seen the "comments" attribute in reports
+      # note that using WorkPackage.human_attribute_name relies on the attribute
+      # being an work_package attribute or a general attribute for all models whicht might not
+      # be the case but so far I have only seen the "comments" attribute in reports
       WorkPackage.human_attribute_name(field)
     end
   end
 
-  def debug_fields(result, prefix = ", ")
-    prefix << result.fields.inspect << ", " << result.important_fields.inspect << ', ' << result.key.inspect if params[:debug]
+  def debug_fields(result, prefix = ', ')
+    prefix << result.fields.inspect << ', ' << result.important_fields.inspect << ', ' << result.key.inspect if params[:debug]
   end
 
   def month_name(index)
@@ -68,12 +68,12 @@ module ReportingHelper
   # ======================= SHARED CODE END
 
   def show_field(key, value)
-    @show_row ||= Hash.new { |h,k| h[k] = {}}
+    @show_row ||= Hash.new { |h, k| h[k] = {} }
     @show_row[key][value] ||= field_representation_map(key, value)
   end
 
   def raw_field(key, value)
-    @raw_row ||= Hash.new { |h,k| h[k] = {}}
+    @raw_row ||= Hash.new { |h, k| h[k] = {} }
     @raw_row[key][value] ||= field_sort_map(key, value)
   end
 
@@ -104,18 +104,18 @@ module ReportingHelper
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
     when :fixed_version_id                      then h(Version.find(value.to_i).name)
-    when :singleton_value                       then ""
+    when :singleton_value                       then ''
     when :status_id                             then h(Status.find(value.to_i).name)
     else h(value.to_s)
     end
   end
 
   def field_sort_map(key, value)
-    return "" if value.blank?
+    return '' if value.blank?
     case key.to_sym
     when :work_package_id, :tweek, :tmonth, :week  then value.to_i
     when :spent_on                                 then value.to_date.mjd
-    else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ""))
+    else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ''))
     end
   end
 
@@ -130,7 +130,7 @@ module ReportingHelper
   end
 
   def set_filter_options(struct, key, value)
-    struct[:operators][key] = "="
+    struct[:operators][key] = '='
     struct[:values][key]    = value.to_s
   end
 
@@ -138,10 +138,10 @@ module ReportingHelper
     tabs = cost_types.to_a
     tabs.delete 0 # remove money from list
     tabs.unshift 0 # add money as first tab
-    tabs.map {|cost_type_id| [cost_type_id, cost_type_label(cost_type_id)] }
+    tabs.map { |cost_type_id| [cost_type_id, cost_type_label(cost_type_id)] }
   end
 
-  def cost_type_label(cost_type_id, cost_type_inst = nil, plural = true)
+  def cost_type_label(cost_type_id, cost_type_inst = nil, _plural = true)
     case cost_type_id
     when -1 then l(:caption_labor)
     when 0  then l(:label_money)
@@ -151,7 +151,7 @@ module ReportingHelper
 
   def link_to_details(result)
     return '' # unless result.respond_to? :fields # uncomment to display
-    session_filter = {operators: session[:report][:filters][:operators].dup, values: session[:report][:filters][:values].dup }
+    session_filter = { operators: session[:report][:filters][:operators].dup, values: session[:report][:filters][:values].dup }
     filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
       case key
@@ -187,7 +187,7 @@ module ReportingHelper
   # For a given row, determine how to render it's contents according to usability and
   # localization rules
   def show_row(row)
-    row_text = link_to_details(row) << row.render { |k,v| show_field(k,v) }
+    row_text = link_to_details(row) << row.render { |k, v| show_field(k, v) }
     row_text.html_safe
   end
 

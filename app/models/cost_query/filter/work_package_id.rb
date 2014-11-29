@@ -18,7 +18,6 @@
 #++
 
 class CostQuery::Filter::WorkPackageId < Report::Filter::Base
-
   def self.label
     WorkPackage.model_name.human
   end
@@ -45,12 +44,12 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
   def self.text_for_work_package(i)
     i = i.first if i.is_a? Array
     str = "##{i.id} "
-    str << (i.subject.length > 30 ? i.subject.first(26)+'...': i.subject)
+    str << (i.subject.length > 30 ? i.subject.first(26) + '...' : i.subject)
   end
 
   def self.text_for_id(i)
     text_for_work_package WorkPackage.find(i)
   rescue ActiveRecord::RecordNotFound
-    ""
+    ''
   end
 end

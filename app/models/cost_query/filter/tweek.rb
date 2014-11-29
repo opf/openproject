@@ -25,6 +25,6 @@ class CostQuery::Filter::Tweek < Report::Filter::Base
   end
 
   def self.available_values(*)
-    1.upto(53).map {|i| [ i.to_s, i ]}
+    1.upto(53).map { |i| [i.to_s, i] }
   end
 end

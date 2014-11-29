@@ -18,16 +18,14 @@
 #++
 
 class CostReportsController < ApplicationController
-
   rescue_from Exception do |exception|
     session.delete(CostQuery.name.underscore.to_sym)
     raise exception
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
     render_404
   end
-
 
   Widget::Base.dont_cache!
 
@@ -53,7 +51,7 @@ class CostReportsController < ApplicationController
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
-  def check_cache(force_update=false)
+  def check_cache(force_update = false)
     custom_fields_updated_on = WorkPackageCustomField.maximum(:updated_at)
     custom_fields_id_sum = WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
 
@@ -81,7 +79,7 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render action: "index"
+        render action: 'index'
       }
     end unless performed?
   end
@@ -106,11 +104,11 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_filter_parameters
-    {operators: {user_id: "=", spent_on: ">d"},
-    values: {user_id: [User.current.id], spent_on: [30.days.ago.strftime('%Y-%m-%d')]}
+    { operators: { user_id: '=', spent_on: '>d' },
+      values: { user_id: [User.current.id], spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
     }.tap do |hash|
       if @project
-        hash[:operators].merge! project_id: "="
+        hash[:operators].merge! project_id: '='
         hash[:values].merge! project_id: [@project.id]
       end
     end
@@ -119,7 +117,7 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    {columns: [:week], rows: []}.tap do |h|
+    { columns: [:week], rows: [] }.tap do |h|
       if @project
         h[:rows] << :work_package_id
       else
@@ -133,7 +131,7 @@ class CostReportsController < ApplicationController
   def ensure_project_scope!(filters)
     return unless ensure_project_scope?
     if @project
-      filters[:operators].merge! project_id: "="
+      filters[:operators].merge! project_id: '='
       filters[:values].merge! project_id: @project.id.to_s
     else
       filters[:operators].delete :project_id
@@ -157,11 +155,11 @@ class CostReportsController < ApplicationController
   #   sets the @unit_id -> this is used in the index for determining the active unit tab
   def set_unit
     @unit_id = if set_unit?
-      params[:unit].to_i
-    elsif @query.present?
-      cost_type_filter =  @query.filters.detect{ |f| f.is_a?(CostQuery::Filter::CostTypeId) }
+                 params[:unit].to_i
+               elsif @query.present?
+                 cost_type_filter =  @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
 
-      cost_type_filter.values.first.to_i if cost_type_filter
+                 cost_type_filter.values.first.to_i if cost_type_filter
     end
 
     @unit_id = 0 unless @cost_types.include? @unit_id
@@ -179,7 +177,7 @@ class CostReportsController < ApplicationController
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
     unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
-      relevant_cost_types = CostType.find(:all, select: "id", order: "id ASC").select do |t|
+      relevant_cost_types = CostType.find(:all, select: 'id', order: 'id ASC').select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
@@ -215,7 +213,7 @@ class CostReportsController < ApplicationController
     if report.project.present?
       options = {}
     else
-      options = {global: true}
+      options = { global: true }
     end
 
     case action
@@ -242,37 +240,38 @@ class CostReportsController < ApplicationController
   def public_queries
     if @project
       CostQuery.find(:all,
-                     conditions: ["is_public = ? AND (project_id IS NULL OR project_id = ?)",
-                                     true, @project],
-                     order: "name ASC")
+                     conditions: ['is_public = ? AND (project_id IS NULL OR project_id = ?)',
+                                  true, @project],
+                     order: 'name ASC')
     else
       CostQuery.find(:all,
-                     conditions: ["is_public = ? AND project_id IS NULL",
-                                     true],
-                     order: "name ASC")
+                     conditions: ['is_public = ? AND project_id IS NULL',
+                                  true],
+                     order: 'name ASC')
     end
   end
 
   def private_queries
     if @project
       CostQuery.find(:all,
-                     conditions: ["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
-                                     current_user, false, @project],
-                     order: "name ASC")
+                     conditions: ['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
+                                  current_user, false, @project],
+                     order: 'name ASC')
     else
       CostQuery.find(:all,
-                     conditions: ["user_id = ? AND is_public = ? AND project_id IS NULL",
-                                     current_user, false],
-                     order: "name ASC")
+                     conditions: ['user_id = ? AND is_public = ? AND project_id IS NULL',
+                                  current_user, false],
+                     order: 'name ASC')
     end
   end
 
   def display_report_list
     report_type = params[:report_type] || :public
-    render partial: "report_list", locals: { report_type: report_type }, layout: !request.xhr?
+    render partial: 'report_list', locals: { report_type: report_type }, layout: !request.xhr?
   end
 
   private
+
   def find_optional_user
     @current_user = User.current || User.anonymous
   end
