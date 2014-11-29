@@ -173,7 +173,7 @@ de:
 
   project_module_backlogs: "Backlogs"
 
-  rb_label_copy_tasks: "Aufgaben kopieren"
+  rb_label_copy_tasks: "Arbeitspakete kopieren"
   rb_label_copy_tasks_all: "Alle"
   rb_label_copy_tasks_none: "Keine"
   rb_label_copy_tasks_open: "Offene"
