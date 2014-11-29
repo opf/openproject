@@ -38,8 +38,8 @@ class CostReportsController < ApplicationController
   include Report::Controller
   before_filter :set_cost_types # has to be set AFTER the Report::Controller filters run
 
-  verify :method => :delete, :only => %w[delete]
-  verify :method => :post, :only => %w[create update rename]
+  verify method: :delete, only: %w[delete]
+  verify method: :post, only: %w[create update rename]
 
   helper_method :cost_types
   helper_method :cost_type
@@ -81,13 +81,13 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render :action => "index"
+        render action: "index"
       }
     end unless performed?
   end
 
   def drill_down
-    redirect_to :action => :index
+    redirect_to action: :index
   end
 
   ##
@@ -106,12 +106,12 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_filter_parameters
-    {:operators => {:user_id => "=", :spent_on => ">d"},
-    :values => {:user_id => [User.current.id], :spent_on => [30.days.ago.strftime('%Y-%m-%d')]}
+    {operators: {user_id: "=", spent_on: ">d"},
+    values: {user_id: [User.current.id], spent_on: [30.days.ago.strftime('%Y-%m-%d')]}
     }.tap do |hash|
       if @project
-        hash[:operators].merge! :project_id => "="
-        hash[:values].merge! :project_id => [@project.id]
+        hash[:operators].merge! project_id: "="
+        hash[:values].merge! project_id: [@project.id]
       end
     end
   end
@@ -119,7 +119,7 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    {:columns => [:week], :rows => []}.tap do |h|
+    {columns: [:week], rows: []}.tap do |h|
       if @project
         h[:rows] << :work_package_id
       else
@@ -133,8 +133,8 @@ class CostReportsController < ApplicationController
   def ensure_project_scope!(filters)
     return unless ensure_project_scope?
     if @project
-      filters[:operators].merge! :project_id => "="
-      filters[:values].merge! :project_id => @project.id.to_s
+      filters[:operators].merge! project_id: "="
+      filters[:values].merge! project_id: @project.id.to_s
     else
       filters[:operators].delete :project_id
       filters[:values].delete :project_id
@@ -171,7 +171,7 @@ class CostReportsController < ApplicationController
   #   sets the @cost_type -> this is used to select the proper units for display
   def set_cost_type
     if @unit_id != 0 && @query
-      @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
+      @query.filter :cost_type_id, operator: '=', value: @unit_id.to_s, display: false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
   end
@@ -179,7 +179,7 @@ class CostReportsController < ApplicationController
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
     unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
-      relevant_cost_types = CostType.find(:all, :select => "id", :order => "id ASC").select do |t|
+      relevant_cost_types = CostType.find(:all, select: "id", order: "id ASC").select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
@@ -215,7 +215,7 @@ class CostReportsController < ApplicationController
     if report.project.present?
       options = {}
     else
-      options = {:global => true}
+      options = {global: true}
     end
 
     case action
@@ -242,34 +242,34 @@ class CostReportsController < ApplicationController
   def public_queries
     if @project
       CostQuery.find(:all,
-                     :conditions => ["is_public = ? AND (project_id IS NULL OR project_id = ?)",
+                     conditions: ["is_public = ? AND (project_id IS NULL OR project_id = ?)",
                                      true, @project],
-                     :order => "name ASC")
+                     order: "name ASC")
     else
       CostQuery.find(:all,
-                     :conditions => ["is_public = ? AND project_id IS NULL",
+                     conditions: ["is_public = ? AND project_id IS NULL",
                                      true],
-                     :order => "name ASC")
+                     order: "name ASC")
     end
   end
 
   def private_queries
     if @project
       CostQuery.find(:all,
-                     :conditions => ["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
+                     conditions: ["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
                                      current_user, false, @project],
-                     :order => "name ASC")
+                     order: "name ASC")
     else
       CostQuery.find(:all,
-                     :conditions => ["user_id = ? AND is_public = ? AND project_id IS NULL",
+                     conditions: ["user_id = ? AND is_public = ? AND project_id IS NULL",
                                      current_user, false],
-                     :order => "name ASC")
+                     order: "name ASC")
     end
   end
 
   def display_report_list
     report_type = params[:report_type] || :public
-    render :partial => "report_list", :locals => { :report_type => report_type }, :layout => !request.xhr?
+    render partial: "report_list", locals: { report_type: report_type }, layout: !request.xhr?
   end
 
   private

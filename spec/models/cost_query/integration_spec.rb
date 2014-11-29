@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   let!(:project1){ FactoryGirl.create(:project_with_types) }
@@ -39,7 +39,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
   describe "the reporting system" do
     it "should compute group_by and a filter" do
       @query.group_by :project_id
-      @query.filter :status_id, :operator => 'o'
+      @query.filter :status_id, operator: 'o'
       sql_result = @query.result
 
       expect(sql_result.size).to eq(2)
@@ -54,9 +54,9 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
     end
 
     it "should apply two filter and a group_by correctly" do
-      @query.filter :project_id, :operator => '=', :value => [project1.id]
+      @query.filter :project_id, operator: '=', value: [project1.id]
       @query.group_by :user_id
-      @query.filter :overridden_costs, :operator => 'n'
+      @query.filter :overridden_costs, operator: 'n'
 
       sql_result = @query.result
       expect(sql_result.size).to eq(2)
@@ -71,8 +71,8 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
     end
 
     it "should apply two different filters on the same field" do
-      @query.filter :project_id, :operator => '=', :value => [project1.id, project2.id]
-      @query.filter :project_id, :operator => '!', :value => [project2.id]
+      @query.filter :project_id, operator: '=', value: [project1.id, project2.id]
+      @query.filter :project_id, operator: '!', value: [project2.id]
 
       sql_result = @query.result
       expect(sql_result.count).to eq(2)

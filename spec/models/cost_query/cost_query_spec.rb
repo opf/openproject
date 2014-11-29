@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe User, "#destroy", :type => :model do
+describe User, "#destroy", type: :model do
   let(:substitute_user) { DeletedUser.first }
   let(:private_query) { FactoryGirl.create(:private_cost_query) }
   let(:public_query) { FactoryGirl.create(:public_cost_query) }
@@ -49,7 +49,7 @@ describe User, "#destroy", :type => :model do
 
     describe "WHEN the filter has the deleted user as it's value" do
       before do
-        public_query.filter(filter_symbol, :values => [user.id.to_s], :operator => "=")
+        public_query.filter(filter_symbol, values: [user.id.to_s], operator: "=")
         public_query.save!
 
         user.destroy
@@ -60,7 +60,7 @@ describe User, "#destroy", :type => :model do
 
     describe "WHEN the filter has another user as it's value" do
       before do
-        public_query.filter(filter_symbol, :values => [user2.id.to_s], :operator => "=")
+        public_query.filter(filter_symbol, values: [user2.id.to_s], operator: "=")
         public_query.save!
 
         user.destroy
@@ -72,7 +72,7 @@ describe User, "#destroy", :type => :model do
 
     describe "WHEN the filter has the deleted user and another user as it's value" do
       before do
-        public_query.filter(filter_symbol, :values => [user.id.to_s, user2.id.to_s], :operator => "=")
+        public_query.filter(filter_symbol, values: [user.id.to_s, user2.id.to_s], operator: "=")
         public_query.save!
 
         user.destroy

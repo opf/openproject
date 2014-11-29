@@ -151,7 +151,7 @@ module ReportingHelper
 
   def link_to_details(result)
     return '' # unless result.respond_to? :fields # uncomment to display
-    session_filter = {:operators => session[:report][:filters][:operators].dup, :values => session[:report][:filters][:values].dup }
+    session_filter = {operators: session[:report][:filters][:operators].dup, values: session[:report][:filters][:values].dup }
     filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
       case key
@@ -166,14 +166,14 @@ module ReportingHelper
       end
       struct
     end
-    options = { :fields => filters[:operators].keys, :set_filter => 1, :action => :drill_down }
-    link_to '[+]', filters.merge(options), :class => 'drill_down', :title => l(:description_drill_down)
+    options = { fields: filters[:operators].keys, set_filter: 1, action: :drill_down }
+    link_to '[+]', filters.merge(options), class: 'drill_down', title: l(:description_drill_down)
   end
 
   ##
   # Create the appropriate action for an entry with the type of log to use
   def action_for(result, options = {})
-    options.merge :controller => result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', :id => result.fields['id'].to_i
+    options.merge controller: result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', id: result.fields['id'].to_i
   end
 
   ##

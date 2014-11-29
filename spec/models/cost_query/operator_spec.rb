@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   let!(:project1) { FactoryGirl.create(:project, name: "project1", created_on: 5.minutes.ago) }
@@ -115,95 +115,95 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       #somehow this test doesn't work on sundays
       n = query('projects', 'created_on', 'w').size
       day_in_this_week = Time.now.at_beginning_of_week + 1.day
-      Project.mock! :created_on => day_in_this_week
+      Project.mock! created_on: day_in_this_week
       expect(query('projects', 'created_on', 'w').size).to eq(n + 1)
-      Project.mock! :created_on => day_in_this_week + 7.days
-      Project.mock! :created_on => day_in_this_week - 7.days
+      Project.mock! created_on: day_in_this_week + 7.days
+      Project.mock! created_on: day_in_this_week - 7.days
       expect(query('projects', 'created_on', 'w').size).to eq(n + 1)
     end
 
     it "does t (today)" do
       s = query('projects', 'created_on', 't').size
-      Project.mock! :created_on => Date.yesterday
+      Project.mock! created_on: Date.yesterday
       expect(query('projects', 'created_on', 't').size).to eq(s)
-      Project.mock! :created_on => Time.now
+      Project.mock! created_on: Time.now
       expect(query('projects', 'created_on', 't').size).to eq(s + 1)
     end
 
     it "does <t+ (before the day which is n days in the future)" do
       n = query('projects', 'created_on', '<t+', 2).size
-      Project.mock! :created_on => Date.tomorrow + 1
+      Project.mock! created_on: Date.tomorrow + 1
       expect(query('projects', 'created_on', '<t+', 2).size).to eq(n + 1)
-      Project.mock! :created_on => Date.tomorrow + 2
+      Project.mock! created_on: Date.tomorrow + 2
       expect(query('projects', 'created_on', '<t+', 2).size).to eq(n + 1)
     end
 
     it "does t+ (n days in the future)" do
       n = query('projects', 'created_on', 't+', 1).size
-      Project.mock! :created_on => Date.tomorrow
+      Project.mock! created_on: Date.tomorrow
       expect(query('projects', 'created_on', 't+', 1).size).to eq(n + 1)
-      Project.mock! :created_on => Date.tomorrow + 2
+      Project.mock! created_on: Date.tomorrow + 2
       expect(query('projects', 'created_on', 't+', 1).size).to eq(n + 1)
     end
 
     it "does >t+ (after the day which is n days in the furure)" do
       n = query('projects', 'created_on', '>t+', 1).size
-      Project.mock! :created_on => Time.now
+      Project.mock! created_on: Time.now
       expect(query('projects', 'created_on', '>t+', 1).size).to eq(n)
-      Project.mock! :created_on => Date.tomorrow + 1
+      Project.mock! created_on: Date.tomorrow + 1
       expect(query('projects', 'created_on', '>t+', 1).size).to eq(n + 1)
     end
 
     it "does >t- (after the day which is n days ago)" do
       n = query('projects', 'created_on', '>t-', 1).size
-      Project.mock! :created_on => Date.today
+      Project.mock! created_on: Date.today
       expect(query('projects', 'created_on', '>t-', 1).size).to eq(n + 1)
-      Project.mock! :created_on => Date.yesterday - 1
+      Project.mock! created_on: Date.yesterday - 1
       expect(query('projects', 'created_on', '>t-', 1).size).to eq(n + 1)
     end
 
     it "does t- (n days ago)" do
       n = query('projects', 'created_on', 't-', 1).size
-      Project.mock! :created_on => Date.yesterday
+      Project.mock! created_on: Date.yesterday
       expect(query('projects', 'created_on', 't-', 1).size).to eq(n + 1)
-      Project.mock! :created_on => Date.yesterday - 2
+      Project.mock! created_on: Date.yesterday - 2
       expect(query('projects', 'created_on', 't-', 1).size).to eq(n + 1)
     end
 
     it "does <t- (before the day which is n days ago)" do
       n = query('projects', 'created_on', '<t-', 1).size
-      Project.mock! :created_on => Date.today
+      Project.mock! created_on: Date.today
       expect(query('projects', 'created_on', '<t-', 1).size).to eq(n)
-      Project.mock! :created_on => Date.yesterday - 1
+      Project.mock! created_on: Date.yesterday - 1
       expect(query('projects', 'created_on', '<t-', 1).size).to eq(n + 1)
     end
 
     #Our own operators
     it "does =_child_projects" do
       expect(query('projects', 'id', '=_child_projects', project1.id).size).to eq(1)
-      p_c1 = create_project :parent => project1
+      p_c1 = create_project parent: project1
       expect(query('projects', 'id', '=_child_projects', project1.id).size).to eq(2)
-      create_project :parent => p_c1
+      create_project parent: p_c1
       expect(query('projects', 'id', '=_child_projects', project1.id).size).to eq(3)
     end
 
     it "does =_child_projects on multiple projects" do
       expect(query('projects', 'id', '=_child_projects', project1.id, project2.id).size).to eq(2)
-      p1_c1 = create_project :parent => project1
-      p2_c1 = create_project :parent => project2
+      p1_c1 = create_project parent: project1
+      p2_c1 = create_project parent: project2
       expect(query('projects', 'id', '=_child_projects', project1.id, project2.id).size).to eq(4)
-      p1_c1_c1 = create_project :parent => p1_c1
-      create_project :parent => p1_c1_c1
-      create_project :parent => p2_c1
+      p1_c1_c1 = create_project parent: p1_c1
+      create_project parent: p1_c1_c1
+      create_project parent: p2_c1
       expect(query('projects', 'id', '=_child_projects', project1.id, project2.id).size).to eq(7)
     end
 
     it "does !_child_projects" do
       expect(query('projects', 'id', '!_child_projects', project1.id).size).to eq(1)
-      p_c1 = create_project :parent => project1
+      p_c1 = create_project parent: project1
       expect(query('projects', 'id', '!_child_projects', project1.id).size).to eq(1)
-      create_project :parent => project1
-      create_project :parent => p_c1
+      create_project parent: project1
+      create_project parent: p_c1
       expect(query('projects', 'id', '!_child_projects', project1.id).size).to eq(1)
       create_project
       expect(query('projects', 'id', '!_child_projects', project1.id).size).to eq(2)
@@ -211,13 +211,13 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
     it "does !_child_projects on multiple projects" do
       expect(query('projects', 'id', '!_child_projects', project1.id, project2.id).size).to eq(0)
-      p1_c1 = create_project :parent => project1
-      p2_c1 = create_project :parent => project2
+      p1_c1 = create_project parent: project1
+      p2_c1 = create_project parent: project2
       create_project
       expect(query('projects', 'id', '!_child_projects', project1.id, project2.id).size).to eq(1)
-      p1_c1_c1 = create_project :parent => p1_c1
-      create_project :parent => p1_c1_c1
-      create_project :parent => p2_c1
+      p1_c1_c1 = create_project parent: p1_c1
+      create_project parent: p1_c1_c1
+      create_project parent: p2_c1
       create_project
       expect(query('projects', 'id', '!_child_projects', project1.id, project2.id).size).to eq(2)
     end
@@ -243,7 +243,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
     it "does =d" do
       #assuming that there aren't more than one project created at the same time
-      expect(query('projects', 'created_on', '=d', Project.first(:order => "id ASC").created_on).size).to eq(1)
+      expect(query('projects', 'created_on', '=d', Project.first(order: "id ASC").created_on).size).to eq(1)
     end
 
     it "does <d" do

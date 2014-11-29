@@ -19,18 +19,18 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   let!(:project) { FactoryGirl.create(:project_with_types) }
-  let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
+  let!(:user) { FactoryGirl.create(:user, member_in_project: project) }
 
   def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
-    work_package_params = {:project => project}.merge!(work_package_params)
+    work_package_params = {project: project}.merge!(work_package_params)
     work_package = FactoryGirl.create(:work_package, work_package_params)
-    entry_params = {:work_package => work_package,
-                    :project => work_package_params[:project],
-                    :user => user}.merge!(entry_params)
+    entry_params = {work_package: work_package,
+                    project: work_package_params[:project],
+                    user: user}.merge!(entry_params)
     FactoryGirl.create(entry_type, entry_params)
     work_package
   end
@@ -68,43 +68,43 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       describe filter do
         let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
         let!(:object) { send(object_name) }
-        let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
-        let!(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                                 :author => author) }
+        let!(:author) { FactoryGirl.create(:user, member_in_project: project) }
+        let!(:work_package) { FactoryGirl.create(:work_package, project: project,
+                                                 author: author) }
         let!(:cost_type) { FactoryGirl.create(:cost_type) }
-        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => work_package,
-                                               :user => user,
-                                               :project => project,
-                                               :cost_type => cost_type) }
+        let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package,
+                                               user: user,
+                                               project: project,
+                                               cost_type: cost_type) }
         let!(:activity) { FactoryGirl.create(:time_entry_activity) }
-        let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => work_package,
-                                               :user => user,
-                                               :project => project,
-                                               :activity => activity) }
+        let!(:time_entry) { FactoryGirl.create(:time_entry, work_package: work_package,
+                                               user: user,
+                                               project: project,
+                                               activity: activity) }
 
         it "should only return entries from the given #{filter.to_s}" do
-          @query.filter field, :value => object.id
+          @query.filter field, value: object.id
           @query.result.each do |result|
             expect(result[field].to_s).to eq(object.id.to_s)
           end
         end
 
         it "should allow chaining the same filter" do
-          @query.filter field, :value => object.id
-          @query.filter field, :value => object.id
+          @query.filter field, value: object.id
+          @query.filter field, value: object.id
           @query.result.each do |result|
             expect(result[field].to_s).to eq(object.id.to_s)
           end
         end
 
         it "should return no results for excluding filters" do
-          @query.filter field, :value => object.id
-          @query.filter field, :value => object.id + 1
+          @query.filter field, value: object.id
+          @query.filter field, value: object.id + 1
           expect(@query.result.count).to eq(0)
         end
 
         it "should compute the correct number of results" do
-          @query.filter field, :value => object.id
+          @query.filter field, value: object.id
           expect(@query.result.count).to eq(expected_count)
         end
       end
@@ -114,22 +114,22 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
     describe CostQuery::Filter::AuthorId do
       let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
-      let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
-      let!(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                               :author => author) }
+      let!(:author) { FactoryGirl.create(:user, member_in_project: project) }
+      let!(:work_package) { FactoryGirl.create(:work_package, project: project,
+                                               author: author) }
       let!(:cost_type) { FactoryGirl.create(:cost_type) }
-      let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => work_package,
-                                             :user => user,
-                                             :project => project,
-                                             :cost_type => cost_type) }
+      let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package,
+                                             user: user,
+                                             project: project,
+                                             cost_type: cost_type) }
       let!(:activity) { FactoryGirl.create(:time_entry_activity) }
-      let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => work_package,
-                                             :user => user,
-                                             :project => project,
-                                             :activity => activity) }
+      let!(:time_entry) { FactoryGirl.create(:time_entry, work_package: work_package,
+                                             user: user,
+                                             project: project,
+                                             activity: activity) }
 
       it "should only return entries from the given CostQuery::Filter::AuthorId" do
-        @query.filter 'author_id', :value => author.id
+        @query.filter 'author_id', value: author.id
         @query.result.each do |result|
           work_package_id = result["work_package_id"]
           expect(WorkPackage.find(work_package_id).author.id).to eq(author.id)
@@ -137,8 +137,8 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it "should allow chaining the same filter" do
-        @query.filter 'author_id', :value => author.id
-        @query.filter 'author_id', :value => author.id
+        @query.filter 'author_id', value: author.id
+        @query.filter 'author_id', value: author.id
         @query.result.each do |result|
           work_package_id = result["work_package_id"]
           expect(WorkPackage.find(work_package_id).author.id).to eq(author.id)
@@ -146,30 +146,30 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it "should return no results for excluding filters" do
-        @query.filter 'author_id', :value => author.id
-        @query.filter 'author_id', :value => author.id + 1
+        @query.filter 'author_id', value: author.id
+        @query.filter 'author_id', value: author.id + 1
         expect(@query.result.count).to eq(0)
       end
 
       it "should compute the correct number of results" do
-        @query.filter 'author_id', :value => author.id
+        @query.filter 'author_id', value: author.id
         expect(@query.result.count).to eq(2)
       end
     end
 
     it "filters spent_on" do
-      @query.filter :spent_on, :operator=> 'w'
+      @query.filter :spent_on, operator: 'w'
       expect(@query.result.count).to eq(Entry.all.select { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek }.count)
     end
 
     it "filters created_on" do
-      @query.filter :created_on, :operator => 't'
+      @query.filter :created_on, operator: 't'
       # we assume that some of our fixtures set created_on to Time.now
       expect(@query.result.count).to eq(Entry.all.select { |e| e.created_on.to_date == Date.today }.count)
     end
 
     it "filters updated_on" do
-      @query.filter :updated_on, :value => Date.today.years_ago(20), :operator => '>d'
+      @query.filter :updated_on, value: Date.today.years_ago(20), operator: '>d'
       # we assume that our were updated in the last 20 years
       expect(@query.result.count).to eq(Entry.all.select { |e| e.updated_on.to_date > Date.today.years_ago(20) }.count)
     end
@@ -178,10 +178,10 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       old_user = User.current
       # create non-matching entry
       anonymous = FactoryGirl.create(:anonymous)
-      create_work_package_with_time_entry({}, {:user => anonymous})
+      create_work_package_with_time_entry({}, {user: anonymous})
       # create matching entry
       create_work_package_with_time_entry()
-      @query.filter :user_id, :value => user.id, :operator => '='
+      @query.filter :user_id, value: user.id, operator: '='
       expect(@query.result.count).to eq(1)
     end
 
@@ -199,80 +199,80 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it "filters overridden_costs" do
-        @query.filter :overridden_costs, :operator => 'y'
+        @query.filter :overridden_costs, operator: 'y'
         expect(@query.result.count).to eq(Entry.all.select { |e| not e.overridden_costs.nil? }.count)
       end
 
       it "filters status" do
-        matching_status = FactoryGirl.create(:status, :is_closed => true)
-        create_work_packages_and_time_entries(3, :status => matching_status)
-        @query.filter :status_id, :operator => 'c'
+        matching_status = FactoryGirl.create(:status, is_closed: true)
+        create_work_packages_and_time_entries(3, status: matching_status)
+        @query.filter :status_id, operator: 'c'
         expect(@query.result.count).to eq(3)
       end
 
       it "filters types" do
         matching_type = project.types.first
-        create_work_packages_and_time_entries(3, :type => matching_type)
-        @query.filter :type_id, :operator => '=', :value => matching_type.id
+        create_work_packages_and_time_entries(3, type: matching_type)
+        @query.filter :type_id, operator: '=', value: matching_type.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters work_package authors" do
         matching_author = create_matching_object_with_time_entries(:user, :author, 3)
-        @query.filter :author_id, :operator => '=', :value => matching_author.id
+        @query.filter :author_id, operator: '=', value: matching_author.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters priority" do
         matching_priority = create_matching_object_with_time_entries(:priority, :priority, 3)
-        @query.filter :priority_id, :operator => '=', :value => matching_priority.id
+        @query.filter :priority_id, operator: '=', value: matching_priority.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters assigned to" do
         matching_user = create_matching_object_with_time_entries(:user, :assigned_to, 3)
-        @query.filter :assigned_to_id, :operator => '=', :value => matching_user.id
+        @query.filter :assigned_to_id, operator: '=', value: matching_user.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters category" do
         category = create_matching_object_with_time_entries(:category, :category, 3)
-        @query.filter :category_id, :operator => '=', :value => category.id
+        @query.filter :category_id, operator: '=', value: category.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters target version" do
-        matching_version = FactoryGirl.create(:version, :project => project)
-        create_work_packages_and_time_entries(3, :fixed_version => matching_version)
+        matching_version = FactoryGirl.create(:version, project: project)
+        create_work_packages_and_time_entries(3, fixed_version: matching_version)
 
-        @query.filter :fixed_version_id, :operator => '=', :value => matching_version.id
+        @query.filter :fixed_version_id, operator: '=', value: matching_version.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters subject" do
-        matching_work_package = create_work_package_with_time_entry(:subject => 'matching subject')
-        @query.filter :subject, :operator => '=', :value => 'matching subject'
+        matching_work_package = create_work_package_with_time_entry(subject: 'matching subject')
+        @query.filter :subject, operator: '=', value: 'matching subject'
         expect(@query.result.count).to eq(1)
       end
 
       it "filters start" do
         start_date = Date.new(2013, 1, 1)
-        matching_work_package = create_work_package_with_time_entry(:start_date => start_date)
-        @query.filter :start_date, :operator => '=d', :value => start_date
+        matching_work_package = create_work_package_with_time_entry(start_date: start_date)
+        @query.filter :start_date, operator: '=d', value: start_date
         expect(@query.result.count).to eq(1)
         #Entry.all.select { |e| e.work_package.start_date == WorkPackage.all(:order => "id ASC").first.start_date }.count
       end
 
       it "filters due date" do
         due_date = Date.new(2013, 1, 1)
-        matching_work_package = create_work_package_with_time_entry(:due_date => due_date)
-        @query.filter :due_date, :operator => '=d', :value => due_date
+        matching_work_package = create_work_package_with_time_entry(due_date: due_date)
+        @query.filter :due_date, operator: '=d', value: due_date
         expect(@query.result.count).to eq(1)
         #Entry.all.select { |e| e.work_package.due_date == WorkPackage.all(:order => "id ASC").first.due_date }.count
       end
 
       it "raises an error if operator is not supported" do
-        expect { @query.filter :spent_on, :operator => 'c' }.to raise_error(ArgumentError)
+        expect { @query.filter :spent_on, operator: 'c' }.to raise_error(ArgumentError)
       end
     end
 
@@ -318,7 +318,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
     describe CostQuery::Filter::CustomFieldEntries do
       let!(:custom_field) do
         cf = FactoryGirl.create(:work_package_custom_field,
-                                :name => 'My custom field')
+                                name: 'My custom field')
         clear_cache
         cf
       end
@@ -361,9 +361,9 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it "should provide the correct available values" do
-        FactoryGirl.create(:work_package_custom_field, :name => 'Database',
-                                                :field_format => "list",
-                                                :possible_values => ['value'])
+        FactoryGirl.create(:work_package_custom_field, name: 'Database',
+                                                field_format: "list",
+                                                possible_values: ['value'])
         clear_cache
         ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.null_operators.each do |o|
@@ -372,15 +372,15 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it "should update the available values on change" do
-        FactoryGirl.create(:work_package_custom_field, :name => 'Database',
-                                                :field_format => "list",
-                                                :possible_values => ['value'])
-        update_work_package_custom_field("Database", :field_format => "string")
+        FactoryGirl.create(:work_package_custom_field, name: 'Database',
+                                                field_format: "list",
+                                                possible_values: ['value'])
+        update_work_package_custom_field("Database", field_format: "string")
         ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.string_operators.each do |o|
           expect(ao).to include o.name
         end
-        update_work_package_custom_field("Database", :field_format => "int")
+        update_work_package_custom_field("Database", field_format: "int")
         ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
           expect(ao).to include o.name
@@ -401,33 +401,33 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
       def create_searchable_fields_and_values
         searchable_field = FactoryGirl.create(:work_package_custom_field,
-                                              :field_format => "text",
-                                              :name => "Searchable Field")
+                                              field_format: "text",
+                                              name: "Searchable Field")
         2.times do
           work_package = create_work_package_with_entry(:cost_entry)
           FactoryGirl.create(:work_package_custom_value,
-                             :custom_field => searchable_field,
-                             :customized => work_package,
-                             :value => "125")
+                             custom_field: searchable_field,
+                             customized: work_package,
+                             value: "125")
         end
         work_package = create_work_package_with_entry(:cost_entry)
         FactoryGirl.create(:custom_value,
-                           :custom_field => searchable_field,
-                           :value => "non-matching value")
+                           custom_field: searchable_field,
+                           value: "non-matching value")
         clear_cache
       end
 
       it "is usable as filter" do
         create_searchable_fields_and_values
         id = WorkPackageCustomField.find_by_name("Searchable Field").id
-        @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "125"
+        @query.filter "custom_field_#{id}".to_sym, operator: '=', value: "125"
         expect(@query.result.count).to eq(2)
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
         id = WorkPackageCustomField.find_by_name("Searchable Field").id
-        @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "finnlabs"
+        @query.filter "custom_field_#{id}".to_sym, operator: '=', value: "finnlabs"
         expect(@query.result.count).to eq(0)
       end
     end

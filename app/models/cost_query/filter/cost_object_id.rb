@@ -26,6 +26,6 @@ class CostQuery::Filter::CostObjectId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    ([[l(:caption_labor), -1]] + CostObject.find(:all, :order => 'name').map { |t| [t.name, t.id] })
+    ([[l(:caption_labor), -1]] + CostObject.find(:all, order: 'name').map { |t| [t.name, t.id] })
   end
 end

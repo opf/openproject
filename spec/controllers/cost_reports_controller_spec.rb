@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostReportsController, :type => :controller do
+describe CostReportsController, type: :controller do
   include OpenProject::Reporting::PluginSpecHelper
 
   let(:user) { FactoryGirl.build(:user) }
@@ -34,7 +34,7 @@ describe CostReportsController, :type => :controller do
     describe "WHEN providing invalid units
               WHEN having the view_cost_entries permission" do
       before do
-        get :show, :id => 1, :unit => -1
+        get :show, id: 1, unit: -1
       end
 
       it "should respond with a 404 error" do

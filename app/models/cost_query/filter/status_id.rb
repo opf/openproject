@@ -29,6 +29,6 @@ class CostQuery::Filter::StatusId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    Status.find(:all, :order => 'name').map { |i| [i.name, i.id] }
+    Status.find(:all, order: 'name').map { |i| [i.name, i.id] }
   end
 end

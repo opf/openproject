@@ -39,7 +39,7 @@ module OpenProject::Reporting::Patches
       # This is for cost reporting
       def redirect_to(*args, &block)
         if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
-          super(:controller => '/cost_reports', :action => :index)
+          super(controller: '/cost_reports', action: :index)
         else
           super(*args, &block)
         end
@@ -50,11 +50,11 @@ module OpenProject::Reporting::Patches
         if @project.nil? || !@project.module_enabled?(:reporting_module)
           return index_without_reports_view
         end
-        filters = {:operators => {}, :values => {}}
+        filters = {operators: {}, values: {}}
 
         if @work_package
           if @work_package.respond_to?("lft")
-            work_package_ids = WorkPackage.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @work_package.root_id, @work_package.lft, @work_package.rgt]).collect{|i| i.id}
+            work_package_ids = WorkPackage.all(select: :id, conditions: ["root_id = ? AND lft >= ? AND rgt <= ?", @work_package.root_id, @work_package.lft, @work_package.rgt]).collect{|i| i.id}
           else
             work_package_ids = [@work_package.id]
           end
@@ -68,12 +68,12 @@ module OpenProject::Reporting::Patches
 
         respond_to do |format|
           format.html {
-            session[CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+            session[CostQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
 
             if @cost_type
-              redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id
+              redirect_to controller: "/cost_reports", action: "index", project_id: @project, unit: @cost_type.id
             else
-              redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project
+              redirect_to controller: "/cost_reports", action: "index", project_id: @project
             end
             return
           }
@@ -85,8 +85,8 @@ module OpenProject::Reporting::Patches
 
       def find_optional_project_with_own
         find_optional_project_without_own
-        deny_access unless User.current.allowed_to?(:view_cost_entries, @project, :global => true) ||
-                           User.current.allowed_to?(:view_own_cost_entries, @project, :global => true)
+        deny_access unless User.current.allowed_to?(:view_cost_entries, @project, global: true) ||
+                           User.current.allowed_to?(:view_own_cost_entries, @project, global: true)
       end
     end
   end

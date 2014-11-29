@@ -50,7 +50,7 @@ class CostQuery::Filter::PermissionFilter < Report::Filter::Base
       query.from.each_subselect do |sub|
         sub.where permission_for(sub == query.from.first ? 'time' : 'cost')
         sub.select.delete_if { |f| f.end_with? "display_costs" }
-        sub.select :display_costs => switch(display_costs => '1', :else => 0)
+        sub.select display_costs: switch(display_costs => '1', else: 0)
       end
     end
   end

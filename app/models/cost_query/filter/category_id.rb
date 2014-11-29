@@ -27,7 +27,7 @@ class CostQuery::Filter::CategoryId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    categories = Category.find :all, :conditions => {:project_id => Project.visible.map{|p| p.id}}
+    categories = Category.find :all, conditions: {project_id: Project.visible.map{|p| p.id}}
     categories.map { |c| ["#{c.project.name} - #{c.name} ", c.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
 end

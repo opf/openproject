@@ -77,10 +77,10 @@ class CostQuery::SqlStatement < Report::SqlStatement
       query.select COMMON_FIELDS
       query.desc = "Subquery for #{table}"
       query.select({
-        :count => 1, :id => [model, :id], :display_costs => 1,
-        :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
-        :week => iso_year_week(:spent_on, model),
-        :singleton_value => 1 })
+        count: 1, id: [model, :id], display_costs: 1,
+        real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
+        week: iso_year_week(:spent_on, model),
+        singleton_value: 1 })
       #FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name} AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
@@ -92,8 +92,8 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_time_entries(query)
-    query.select :activity_id, :units => :hours, :cost_type_id => -1
-    query.select :cost_type => quoted_label(:caption_labor)
+    query.select :activity_id, units: :hours, cost_type_id: -1
+    query.select cost_type: quoted_label(:caption_labor)
   end
 
   ##
@@ -101,8 +101,8 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_cost_entries(query)
-    query.select :units, :cost_type_id, :activity_id => -1
-    query.select :cost_type => "cost_types.name"
+    query.select :units, :cost_type_id, activity_id: -1
+    query.select cost_type: "cost_types.name"
     query.join CostType
   end
 

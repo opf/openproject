@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   let(:project) { FactoryGirl.create(:project) }
 
   minimal_query
@@ -123,7 +123,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
           CostQuery
         end
       end
-      TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, :value => project.id)}
+      TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, value: project.id)}
       @query.build_new_chain
       expect(@query.filters.collect {|f| f.class.underscore_name}).to include "project_id"
       expect(@query.filters.detect {|f| f.class.underscore_name == "project_id"}.values).to eq(Array(project.id))
@@ -131,9 +131,9 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
     context "store and load" do
       before do
-        @query.filter :project_id, :value => project.id
-        @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
-        @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
+        @query.filter :project_id, value: project.id
+        @query.filter :cost_type_id, value: CostQuery::Filter::CostTypeId.available_values.first
+        @query.filter :category_id, value: CostQuery::Filter::CategoryId.available_values.first
         @query.group_by :activity_id
         @query.group_by :cost_object_id
         @query.group_by :cost_type_id
@@ -202,7 +202,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
     describe :inherited_attribute do
       before do
         @a = Class.new Report::Chainable
-        @a.inherited_attribute :foo, :default => 42
+        @a.inherited_attribute :foo, default: 42
         @b = Class.new @a
         @c = Class.new @a
         @d = Class.new @b
@@ -227,14 +227,14 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       it 'is able to map values' do
-        @a.inherited_attribute :bar, :map => proc { |x| x*2 }
+        @a.inherited_attribute :bar, map: proc { |x| x*2 }
         @a.bar 21
         expect(@a.bar).to eq(42)
       end
 
       describe :list do
         it "merges lists" do
-          @a.inherited_attribute :bar, :list => true
+          @a.inherited_attribute :bar, list: true
           @a.bar 1; @b.bar 2; @d.bar 3, 4
           expect(@a.bar).to eq([1])
           expect(@b.bar.sort).to eq([1, 2])
@@ -243,7 +243,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
         end
 
         it "is able to map lists" do
-          @a.inherited_attribute :bar, :list => true, :map => :to_s
+          @a.inherited_attribute :bar, list: true, map: :to_s
           @a.bar 1; @b.bar 1; @d.bar 1
           expect(@a.bar).to eq(%w[1])
           expect(@b.bar).to eq(%w[1 1])
@@ -252,14 +252,14 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
         end
 
         it "is able to produce uniq lists" do
-          @a.inherited_attribute :bar, :list => true, :uniq => true
+          @a.inherited_attribute :bar, list: true, uniq: true
           @a.bar 1, 1, 2
           @b.bar 2, 3
           expect(@b.bar.sort).to eq([1, 2, 3])
         end
 
         it "keeps old entries" do
-          @a.inherited_attribute :bar, :list => true
+          @a.inherited_attribute :bar, list: true
           @a.bar 1
           @a.bar 2
           expect(@a.bar.sort).to eq([1, 2])

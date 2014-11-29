@@ -44,7 +44,7 @@ module CostQuery::CustomFieldMixin
   end
 
   def generate_subclasses
-    WorkPackageCustomField.all(:conditions => "field_format in ('#{SQL_TYPES.keys.join('\',\'')}')").map do |field|
+    WorkPackageCustomField.all(conditions: "field_format in ('#{SQL_TYPES.keys.join('\',\'')}')").map do |field|
       class_name = "CustomField#{field.id}"
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)

@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   before do
     FactoryGirl.create(:admin)
     project = FactoryGirl.create(:project_with_types)
@@ -32,7 +32,7 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
 
   describe CostQuery::Result do
     def direct_results(quantity = 0)
-      (1..quantity).collect {|i| CostQuery::Result.new :real_costs=>i.to_f, :count=>1 ,:units=>i.to_f}
+      (1..quantity).collect {|i| CostQuery::Result.new real_costs:i.to_f, count:1 ,units:i.to_f}
     end
 
     def wrapped_result(source, quantity=1)
