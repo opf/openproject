@@ -37,13 +37,13 @@ describe OpenProject::Plugins::AuthPlugin do
 
   let(:strategies) { {} }
   let(:providers_a) do
-    lambda { [{name: 'a1'}, {name: 'a2'}] }
+    lambda { [{ name: 'a1' }, { name: 'a2' }] }
   end
   let(:providers_b) do
-    lambda { [{name: 'b1'}] }
+    lambda { [{ name: 'b1' }] }
   end
   let(:providers_c) do
-    lambda { [{name: 'c1'}] }
+    lambda { [{ name: 'c1' }] }
   end
 
   let(:middlewares) { [] }
@@ -56,7 +56,7 @@ describe OpenProject::Plugins::AuthPlugin do
       middlewares << strategy
     }
 
-    app.stub_chain(:config, :middleware, :use) { |mw, &block|
+    app.stub_chain(:config, :middleware, :use) { |_mw, &block|
       omniauth_builder.instance_eval(&block)
     }
 

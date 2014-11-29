@@ -47,20 +47,20 @@ module OpenProject::Plugins
     end
 
     def self.providers_for(strategy)
-      strategies[strategy_key(strategy)].map(&:call).flatten.map { |p| p.to_hash }
+      strategies[strategy_key(strategy)].map(&:call).flatten.map(&:to_hash)
     end
 
     def self.providers
-      strategies.values.flatten.map(&:call).flatten.map { |p| p.to_hash }
+      strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
     end
 
     def self.strategy_key(strategy)
       return strategy if strategy.is_a? Symbol
 
       name = strategy.name.demodulize
-      camelization = OmniAuth.config.camelizations.select do |k, v|
+      camelization = OmniAuth.config.camelizations.select do |_k, v|
         v == name
-      end.take(1).map do |k, v|
+      end.take(1).map do |k, _v|
         k
       end.first
 

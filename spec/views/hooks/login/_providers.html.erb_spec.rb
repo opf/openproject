@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'rendering the login buttons for all providers' do
   let(:providers) do
     [
-      {name: 'mock_auth'},
-      {name: 'test_auth', display_name: 'Test'},
-      {name: 'foob_auth', icon: 'foobar.png'}
+      { name: 'mock_auth' },
+      { name: 'test_auth', display_name: 'Test' },
+      { name: 'foob_auth', icon: 'foobar.png' }
     ]
   end
 
