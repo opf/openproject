@@ -39,12 +39,12 @@ module OmniAuth
       end
 
       def self.load_generic_providers
-        providers = configs.reject do |pro, config|
+        providers = configs.reject do |pro, _config|
           all.any? { |p| p.provider_name == pro }
         end
 
         providers.each do |name, config|
-          host = config["host"] || URI.parse(config["authorization_endpoint"]).host
+          host = config['host'] || URI.parse(config['authorization_endpoint']).host
 
           if host
             create(name, host)
@@ -75,11 +75,11 @@ module OmniAuth
       end
 
       def self.available?
-        !!config["secret"] && !!config["identifier"]
+        !!config['secret'] && !!config['identifier']
       end
 
       def self.provider_name
-        self.name.demodulize.downcase
+        name.demodulize.downcase
       end
 
       def self.config
@@ -88,12 +88,12 @@ module OmniAuth
 
       def self.configs
         from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
-          Hash(Setting.plugin_openproject_openid_connect["providers"])
-        else
-          {}
+                          Hash(Setting.plugin_openproject_openid_connect['providers'])
+                        else
+                          {}
         end
         # Settings override configuration.yml
-        Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
+        Hash(OpenProject::Configuration['openid_connect']).deep_merge(from_settings)
       end
 
       def to_hash
@@ -108,12 +108,12 @@ module OmniAuth
         {
           name: name,
           scope: [:openid, :email, :profile],
-          icon: config["icon"],
-          display_name: config["display_name"],
+          icon: config['icon'],
+          display_name: config['display_name'],
           client_options: client_options.merge( # override with configuration
             Hash[
-              config.reject do |key, value|
-                ["identifier", "secret", "icon", "display_name"].include? key
+              config.reject do |key, _value|
+                ['identifier', 'secret', 'icon', 'display_name'].include? key
               end.map do |key, value|
                 [key.to_sym, value]
               end
@@ -125,7 +125,7 @@ module OmniAuth
       def client_options
         {
           port: 443,
-          scheme: "https",
+          scheme: 'https',
           host: host,
           identifier: identifier,
           secret: secret,
@@ -134,15 +134,15 @@ module OmniAuth
       end
 
       def host
-        raise NotImplemented("Host required")
+        raise NotImplemented('Host required')
       end
 
       def identifier
-        config("identifier")
+        config('identifier')
       end
 
       def secret
-        config("secret")
+        config('secret')
       end
 
       def config(key = nil)

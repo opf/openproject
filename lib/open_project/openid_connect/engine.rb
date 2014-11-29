@@ -43,7 +43,7 @@ module OpenProject::OpenIDConnect
       secure_cookie = Rails.env.production?
 
       # register an #after_login callback which sets a cookie containing the access token
-      OpenProject::OmniAuth::Authorization.after_login do |user, auth_hash, context|
+      OpenProject::OmniAuth::Authorization.after_login do |_user, auth_hash, context|
         # check the configuration
         if store_access_token?
           # fetch the access token if it's present
@@ -65,6 +65,5 @@ module OpenProject::OpenIDConnect
         true
       end
     end
-
   end
 end

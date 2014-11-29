@@ -33,15 +33,15 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-describe "OpenID Connect" do
+describe 'OpenID Connect' do
   let(:provider) { OmniAuth::OpenIDConnect::Heroku.new }
   let(:user_info) do
     {
-      sub: "87117114115116",
-      name: "Hans Wurst",
-      email: "h.wurst@finn.de",
-      given_name: "Hans",
-      family_name: "Wurst"
+      sub: '87117114115116',
+      name: 'Hans Wurst',
+      email: 'h.wurst@finn.de',
+      given_name: 'Hans',
+      family_name: 'Wurst'
     }
   end
 
@@ -49,7 +49,7 @@ describe "OpenID Connect" do
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     OpenIDConnect::Client.any_instance.stub(:access_token!) do
-      OpenIDConnect::AccessToken.new client: self, access_token: "foo bar baz"
+      OpenIDConnect::AccessToken.new client: self, access_token: 'foo bar baz'
     end
 
     # Using the granted AccessToken the client then performs another request to the OpenID Connect
@@ -62,17 +62,17 @@ describe "OpenID Connect" do
     OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
   end
 
-  describe "sign-up and login" do
+  describe 'sign-up and login' do
     before do
       Setting.stub(:plugin_openproject_openid_connect).and_return(
-        {
-          "providers" => {
-            "heroku" => {
-              "identifier" => "does not",
-              "secret" => "matter"
+
+          'providers' => {
+            'heroku' => {
+              'identifier' => 'does not',
+              'secret' => 'matter'
             }
           }
-        }
+
       )
     end
 
@@ -92,11 +92,11 @@ describe "OpenID Connect" do
       expect(response.status).to be 302
       expect(response.location).to match /https:\/\/#{provider.host}.*$/
 
-      params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ""))
+      params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ''))
 
-      expect(params).to include "client_id"
-      expect(params["redirect_uri"]).to match /^.*\/auth\/#{provider.class.provider_name}\/callback$/
-      expect(params["scope"]).to include "openid"
+      expect(params).to include 'client_id'
+      expect(params['redirect_uri']).to match /^.*\/auth\/#{provider.class.provider_name}\/callback$/
+      expect(params['scope']).to include 'openid'
 
       ##
       # it should redirect back from the provider to the login page
@@ -141,30 +141,30 @@ describe "OpenID Connect" do
     end
   end
 
-  context "provider configuration through the settings" do
-    it "should make providers that are not configured unavailable" do
-      get "/login"
+  context 'provider configuration through the settings' do
+    it 'should make providers that are not configured unavailable' do
+      get '/login'
       expect(response.body).not_to match /Google/i
 
-      expect{click_on_signin("google")}.to raise_error(ActionController::RoutingError)
+      expect { click_on_signin('google') }.to raise_error(ActionController::RoutingError)
     end
 
-    it "should make providers that have been configured through settings available without requiring a restart" do
+    it 'should make providers that have been configured through settings available without requiring a restart' do
       Setting.stub(:plugin_openproject_openid_connect).and_return(
-        {
-          "providers" => {
-            "google" => {
-              "identifier" => "does not",
-              "secret" => "matter"
+
+          'providers' => {
+            'google' => {
+              'identifier' => 'does not',
+              'secret' => 'matter'
             }
           }
-        }
+
       )
 
-      get "/login"
+      get '/login'
       expect(response.body).to match /Google/i
 
-      expect{click_on_signin("google")}.not_to raise_error
+      expect { click_on_signin('google') }.not_to raise_error
       expect(response.status).to be 302
     end
   end
