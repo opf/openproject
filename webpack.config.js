@@ -15,6 +15,7 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, plug
 
 module.exports = {
   context: __dirname + '/frontend/app',
+  devtool: 'inline-source-map',
 
   entry: _.merge({
     app: './openproject-app.js'

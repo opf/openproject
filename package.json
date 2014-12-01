@@ -9,9 +9,13 @@
     "express": "^4.9.7",
     "glob": "^4.0.6",
     "gulp": "^3.8.9",
+    "gulp-angular-templatecache": "^1.4.2",
+    "gulp-concat": "^2.4.2",
     "gulp-jshint": "^1.8.5",
+    "gulp-ng-annotate": "^0.3.6",
     "gulp-protractor": "0.0.11",
     "gulp-ruby-sass": "^0.7.1",
+    "gulp-uglify": "^1.0.1",
     "gulp-watch": "^1.1.0",
     "gulp-webpack": "^1.0.0",
     "jshint-stylish": "^1.0.0",
@@ -50,7 +54,7 @@
   "scripts": {
     "test": "npm run karma && npm run protractor",
     "karma": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
-    "protractor": "./node_modules/gulp/bin/gulp.js tests:protractor",
+    "protractor": "./node_modules/gulp/bin/gulp.js tests:protractor:minified",
     "postinstall": "./node_modules/bower/bin/bower install --config.interactive=false"
   }
 }

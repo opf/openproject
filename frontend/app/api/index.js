@@ -26,4 +26,4 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.api').factory('HALAPIResource', require('./hal-api-resource'));
+angular.module('openproject.api').factory('HALAPIResource', ['$q', 'PathHelper', require('./hal-api-resource')]);
