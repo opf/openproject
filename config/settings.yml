@@ -85,6 +85,9 @@ work_packages_export_limit:
 activity_days_default:
   format: int
   default: 30
+activity_events_default:
+  format: int
+  default: 200
 per_page_options:
   default: '10, 20, 50, 100'
 mail_from:
