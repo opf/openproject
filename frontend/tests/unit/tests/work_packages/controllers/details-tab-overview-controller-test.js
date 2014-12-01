@@ -49,7 +49,6 @@ describe('DetailsTabOverviewController', function() {
       },
       workPackage = {
         props: {
-          status: 'open',
           versionName: null,
           percentageDone: 0,
           estimatedTime: 'PT0S',
@@ -62,6 +61,11 @@ describe('DetailsTabOverviewController', function() {
           ]
         },
         embedded: {
+          status: {
+            props: {
+              name: 'open'
+            }
+          },
           activities: [],
           watchers: [],
           attachments: []

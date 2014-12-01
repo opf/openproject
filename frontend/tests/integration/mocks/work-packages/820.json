@@ -88,8 +88,6 @@
   "type": "Feature",
   "description": "<p><a href=\"/work_packages/54\" class=\"issue work_package status-4 priority-2 parent\" title=\"asd (to be scheduled)\">#54</a><br />2</p>",
   "rawDescription": "#54\n2",
-  "status": "rejected",
-  "isClosed": true,
   "priority": "Normal",
   "startDate": "2014-10-23T00:00:00+00:00",
   "dueDate": "2014-12-27T00:00:00+00:00",
@@ -121,6 +119,10 @@
     }
   ],
   "_embedded": {
+    "status": {
+      "name": "rejected",
+      "isClosed": true
+    },
     "author": {
       "_type": "User",
       "_links": {

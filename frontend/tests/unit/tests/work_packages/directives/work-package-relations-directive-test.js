@@ -129,9 +129,14 @@ describe('Work Package Relations Directive', function() {
       props: {
         id: "1",
         subject: "Subject 1",
-        status: "Status 1"
       },
       embedded: {
+        status: {
+          props: {
+            name: 'Status 1',
+            isClosed: false
+          }
+        },
         assignee: {
           props: {
             name: "Assignee 1",
@@ -148,9 +153,14 @@ describe('Work Package Relations Directive', function() {
       props: {
         id: "2",
         subject: "Subject 2",
-        status: "Status 2"
       },
       embedded: {
+        status: {
+          props: {
+            name: 'Status 2',
+            isClosed: false
+          }
+        },
         assignee: {
           props: {
             name: "Assignee 2",
@@ -165,10 +175,14 @@ describe('Work Package Relations Directive', function() {
       props: {
         id: "3",
         subject: "Subject 3",
-        status: "Status 3",
-        isClosed: true
       },
       embedded: {
+        status: {
+          props: {
+            name: 'Status 2',
+            isClosed: true
+          }
+        },
         assignee: {
           props: {
             name: "Assignee 3",
@@ -183,7 +197,14 @@ describe('Work Package Relations Directive', function() {
       props: {
         id: "4",
         subject: "Subject 4",
-        status: "Status 4",
+      },
+      embedded: {
+        status: {
+          props: {
+            name: 'Status 4',
+            isClosed: false
+          }
+        }
       },
       links: {
         self: { href: "/work_packages/1" }
