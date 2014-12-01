@@ -147,7 +147,7 @@ module OpenProject::Costs
       end
 
       send(:define_method, :spent_hours) do
-        self.attributes_helper.time_entries_sum
+        Duration.new(hours_and_minutes(self.attributes_helper.time_entries_sum)).iso8601
       end
 
       send(:define_method, :current_user_allowed_to_view_spent_hours) do

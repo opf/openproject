@@ -75,6 +75,40 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it { should have_json_path('_embedded/summarizedCostEntries') }
       end
+
+      describe 'spentHours' do
+        describe :content do
+          context 'no time entry' do
+            it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentHours') }
+          end
+
+          context 'time entry with single hour' do
+            let(:time_entry) {
+              FactoryGirl.create(:time_entry,
+                                 project: work_package.project,
+                                 work_package: work_package,
+                                 hours: 1.0)
+            }
+
+            before { time_entry }
+
+            it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentHours') }
+          end
+
+          context 'time entry with multiple hours' do
+            let(:time_entry) {
+              FactoryGirl.create(:time_entry,
+                                 project: work_package.project,
+                                 work_package: work_package,
+                                 hours: 42.5)
+            }
+
+            before { time_entry }
+
+            it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentHours') }
+          end
+        end
+      end
     end
   end
 
