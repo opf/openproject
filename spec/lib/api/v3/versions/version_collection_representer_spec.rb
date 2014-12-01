@@ -34,7 +34,7 @@ describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:models)   { versions.map { |version|
     ::API::V3::Versions::VersionModel.new(version)
   } }
-  let(:representer) { described_class.new(models, project: project) }
+  let(:representer) { described_class.new(models, project) }
 
   describe '#initialize' do
     context 'with incorrect parameters' do
