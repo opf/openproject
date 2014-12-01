@@ -98,7 +98,7 @@ describe('activityCommentDirective', function() {
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.activity-comment').length).to.equal(0);
+        expect(element.find('.activity-comment.ng-hide').length).to.equal(1);
       });
     });
 
@@ -136,6 +136,7 @@ describe('activityCommentDirective', function() {
 
         // while sending the comment, one cannot send another comment
         save_button.click();
+        scope.$digest();
         expect(save_button.scope().processingComment).to.equal(true);
         expect(save_button.attr('disabled')).to.equal('disabled');
 

@@ -215,7 +215,7 @@ openprojectApp
     '$http',
     '$rootScope',
     '$window',
-    'flags',
+    'featureFlags',
     function($http, $rootScope, $window, flags) {
       $http.defaults.headers.common.Accept = 'application/json';
 
