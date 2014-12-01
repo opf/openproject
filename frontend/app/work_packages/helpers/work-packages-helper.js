@@ -191,7 +191,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     //Note: The following methods are display helpers and so don't really belong here but are shared between
     // directives so it's probably the best place for them just now.
     getState: function(workPackage) {
-      return (workPackage.props.isClosed) ? 'closed' : '';
+      return (workPackage.embedded.status.props.isClosed) ? 'closed' : '';
     },
 
     getFullIdentifier: function(workPackage) {

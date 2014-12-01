@@ -30,6 +30,7 @@ module.exports = function($scope,
            I18n,
            WorkPackagesOverviewService,
            TEXT_TYPE,
+           STATUS_TYPE,
            VERSION_TYPE,
            CATEGORY_TYPE,
            USER_TYPE,
@@ -56,6 +57,8 @@ module.exports = function($scope,
 
   function getPropertyValue(property, format) {
     switch(format) {
+    case STATUS_TYPE:
+      return $scope.workPackage.embedded.status.props.name;
     case VERSION_TYPE:
       if ($scope.workPackage.props.versionId === undefined) {
           return;
@@ -204,6 +207,8 @@ module.exports = function($scope,
 
   function getPropertyFormat(property) {
     switch(property) {
+    case 'status':
+      return STATUS_TYPE;
     case 'versionName':
       return VERSION_TYPE;
     case 'category':

@@ -389,7 +389,7 @@ h4. things we like
 
           it 'should respond with updated work package status' do
             expect(subject.body).to be_json_eql(target_status.name.to_json)
-              .at_path('status')
+              .at_path('_embedded/status/name')
           end
 
           it_behaves_like 'lock version updated'

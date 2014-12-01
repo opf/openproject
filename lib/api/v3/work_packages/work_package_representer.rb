@@ -105,6 +105,13 @@ module API
           } if current_user_allowed_to(:move_work_packages)
         end
 
+        link :status do
+          {
+            href: api_v3_paths.status(represented.status_id),
+            title: "#{represented.status.name}"
+          }
+        end
+
         link :author do
           {
             href: api_v3_paths.user(represented.author.id),
@@ -232,8 +239,6 @@ module API
                  getter: -> (*) { description },
                  setter: -> (value, *) { self.description = value },
                  render_nil: true
-        property :status, getter: -> (*) { status.try(:name) }, render_nil: true
-        property :is_closed, getter: -> (*) { closed? }
         property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
@@ -269,6 +274,10 @@ module API
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
+        property :status,
+                 embedded: true,
+                 class: ::Status,
+                 decorator: ::API::V3::Statuses::StatusRepresenter
         property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
         property :responsible, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
         property :assigned_to, as: :assignee, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assigned_to.nil? }
