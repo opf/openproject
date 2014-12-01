@@ -35,6 +35,7 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       type: '@inedType',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
+      embedded: '@inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'
     },

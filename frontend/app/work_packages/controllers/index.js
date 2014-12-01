@@ -28,6 +28,7 @@
 
 angular.module('openproject.workPackages.controllers')
   .constant('TEXT_TYPE', 'text')
+  .constant('STATUS_TYPE', 'status')
   .constant('VERSION_TYPE', 'version')
   .constant('CATEGORY_TYPE', 'category')
   .constant('USER_TYPE', 'user')
@@ -38,6 +39,7 @@ angular.module('openproject.workPackages.controllers')
     'I18n',
     'WorkPackagesOverviewService',
     'TEXT_TYPE',
+    'STATUS_TYPE',
     'VERSION_TYPE',
     'CATEGORY_TYPE',
     'USER_TYPE',
