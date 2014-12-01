@@ -34,7 +34,7 @@ describe('workPackageGroupSums Directive', function() {
     beforeEach(angular.mock.module('openproject.workPackages.directives',
                                    'openproject.models',
                                    'openproject.services'));
-    beforeEach(module('openproject.api', 'templates', function($provide) {
+    beforeEach(module('openproject.api', 'openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);

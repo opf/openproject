@@ -32,7 +32,7 @@ describe('userField Directive', function() {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.workPackages.tabs'));
-  beforeEach(module('templates', 'openproject.helpers'));
+  beforeEach(module('openproject.templates', 'openproject.helpers'));
 
   beforeEach(inject(function($rootScope, $compile, PathHelper) {
     var html;

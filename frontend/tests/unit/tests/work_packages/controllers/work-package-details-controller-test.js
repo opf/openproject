@@ -96,7 +96,7 @@ describe('WorkPackageDetailsController', function() {
 
   beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -104,7 +104,7 @@ describe('WorkPackageDetailsController', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var state = { go: function() { return false; } };
     $provide.value('$state', state);
     $provide.constant('$stateParams', stateParams);

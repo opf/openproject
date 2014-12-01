@@ -38,7 +38,7 @@ describe('date time Directives', function() {
   };
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

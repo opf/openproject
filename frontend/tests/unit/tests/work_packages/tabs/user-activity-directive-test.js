@@ -40,7 +40,7 @@ describe('userActivity Directive', function() {
         'openproject.models',
         'openproject.services',
         'openproject.config',
-        'templates'
+        'openproject.templates'
       );
       module(function ($provide) {
         $provide.value('$uiViewScroll', angular.noop);

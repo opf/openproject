@@ -32,7 +32,7 @@ describe('iconWrapper Directive', function() {
     var compile, element, rootScope, scope, html;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates'));
+    beforeEach(module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
       html = '<icon-wrapper icon-name="cool-icon.png" title="Nice icon"></icon-wrapper>';

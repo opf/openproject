@@ -48,7 +48,7 @@ describe('inplaceEditor Directive', function() {
   }
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('templates',
+  beforeEach(module('openproject.templates',
                     'openproject.models',
                     'openproject.api',
                     'openproject.layout',
@@ -214,9 +214,9 @@ describe('inplaceEditor Directive', function() {
         context('general', function() {
           beforeEach(function() {
             updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-              'then': $.noop,
-              'catch': $.noop,
-              'finally': $.noop
+              'then': _.noop,
+              'catch': _.noop,
+              'finally': _.noop
             });
             elementScope.submit();
           });
@@ -281,8 +281,8 @@ describe('inplaceEditor Directive', function() {
                 'then': function(cb) {
                   cb();
                 },
-                'catch': $.noop,
-                'finally': $.noop
+                'catch': _.noop,
+                'finally': _.noop
               });
               elementScope.submit();
             });
@@ -293,11 +293,11 @@ describe('inplaceEditor Directive', function() {
           context('error response', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                'then': $.noop,
+                'then': _.noop,
                 'catch': function(cb) {
                   cb();
                 },
-                'finally': $.noop
+                'finally': _.noop
               });
               elementScope.submit();
             });
@@ -308,8 +308,8 @@ describe('inplaceEditor Directive', function() {
           context('finally', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                'then': $.noop,
-                'catch': $.noop,
+                'then': _.noop,
+                'catch': _.noop,
                 'finally': function(cb) {
                   cb();
                 }
@@ -455,8 +455,3 @@ describe('inplaceEditor Directive', function() {
     });
   });
 });
-
-
-
-
-

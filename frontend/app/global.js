@@ -26,45 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+// 'Global' dependencies
+//
+// dependencies required by classic (Rails) and Angular application.
 
-describe('focus Directive', function() {
-  var doc, compile, element, rootScope, scope;
+// NOTE: currently needed for PhantomJS to support Webpack's style-loader.
+// See: https://github.com/webpack/style-loader/issues/31
+require('polyfill-function-prototype-bind');
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
+require('jquery');
+require('jquery-migrate/jquery-migrate');
+require('jquery-ujs');
+require('jquery-ui/ui/jquery-ui.js');
+require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
+require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
+require('jquery-ui/themes/base/jquery-ui.css');
 
-  beforeEach(inject(function($compile, $rootScope, $document, $timeout) {
-    var html = '<input type="text" name="testInput" focus id="focusTest"></input>';
+require('momentjs');
+require('momentjs/lang/en-gb.js');
+require('momentjs/lang/de.js');
 
-    doc = $document[0];
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
+require('moment-timezone/moment-timezone.js');
+require('moment-timezone/moment-timezone-data.js');
 
-    compile = function() {
-      element = angular.element(html);
-      var body = angular.element(doc.body);
-      body.append(element);
+require('jquery.atwho/dist/js/jquery.atwho.js');
+require('jquery.atwho/dist/css/jquery.atwho.css');
 
-      $compile(element)(scope);
-      scope.$digest();
+require('Caret.js/src/jquery.caret.js');
 
-      $timeout.flush();
-    };
-  }));
-
-  afterEach(function() {
-    var body = angular.element(doc.body);
-
-    body.find('#focusTest').remove();
-  });
-
-  describe('element', function() {
-    it('should focus the element', function() {
-      compile();
-
-      // NOTE: $(element).is(':focus') is broken in PhantomJS
-      expect(doc.activeElement).to.equal(element[0]);
-    });
-  });
-});
+require('select2/select2.js');
+require('select2/select2.css');

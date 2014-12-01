@@ -34,7 +34,7 @@ describe('toggledMultiselect Directive', function() {
     beforeEach(angular.mock.module('openproject.uiComponents',
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);

@@ -40,6 +40,12 @@ I18n.addTranslations = function(locale, translations) {
 var angular = require('angular');
 require('angular-animate');
 require('angular-modal');
+
+// require('angular-i18n/angular-locale_en-us');
+if (I18n.locale === 'de') {
+  require('angular-i18n/angular-locale_de-de');
+}
+
 require('angular-ui-router');
 require('angular-ui-select2');
 require('angular-ui-select2-sortable');
@@ -47,12 +53,13 @@ require('angular-ui-date');
 require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
-require('angular-busy');
+
+require('angular-busy/dist/angular-busy');
+require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 
 require('openproject-ui_components');
-
 
 // global
 angular.module('openproject.config', []);
@@ -154,6 +161,8 @@ angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
+angular.module('openproject.templates', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
@@ -172,7 +181,8 @@ var openprojectApp = angular.module('openproject', [
   'feature-flags',
   'openproject.layout',
   'cgBusy',
-  'openproject.api'
+  'openproject.api',
+  'openproject.templates'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -215,10 +225,7 @@ openprojectApp
 
       flags.set($http.get('/javascripts/feature-flags.json'));
     }
-  ])
-  .value('cgBusyDefaults', {
-    templateUrl: '/assets/angular-busy/angular-busy.html'
-  });
+  ]);
 
 require('./api');
 
@@ -235,3 +242,8 @@ require('./time_entries');
 require('./timelines');
 require('./ui_components');
 require('./work_packages');
+
+var requireTemplate = require.context('../public/templates', true, /\.html$/);
+requireTemplate.keys().forEach(requireTemplate);
+
+require('angular-busy/angular-busy.html');

@@ -98,7 +98,6 @@ OpenProject::Application.configure do
                                   timelines_select_boxes.js
                                   types_checkboxes.js
                                   work_packages.js
-                                  angular-i18n/angular-locale_de-de.js
                               )
 
   # Disable delivery errors, bad email addresses will be ignored
