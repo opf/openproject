@@ -53,6 +53,23 @@ shared_examples_for 'invalid render context' do |message|
                   message
 end
 
+shared_examples_for 'invalid request body' do |message|
+  it_behaves_like 'error response',
+                  400,
+                  'InvalidRequestBody',
+                  message
+end
+
+shared_examples_for 'parse error' do |message|
+  it_behaves_like 'invalid request body',
+                  'The request body was neither empty, nor did it contain a single JSON object.'
+
+  it {
+    expect(last_response.body).to be_json_eql(message.to_json)
+      .at_path('_embedded/details/parseError')
+  }
+end
+
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,

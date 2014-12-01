@@ -37,6 +37,22 @@ module API
         resources :render do
           helpers do
             SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
+            SUPPORTED_MEDIA_TYPE = 'text/plain'
+
+            def check_content_type
+              actual = request.content_type
+
+              unless actual.starts_with? SUPPORTED_MEDIA_TYPE
+                message = "Expected content type '#{SUPPORTED_MEDIA_TYPE}' but got '#{actual}'."
+
+                fail API::Errors::InvalidRequestBody, message
+              end
+            end
+
+            def setup_response
+              status 200
+              content_type 'text/html'
+            end
 
             def request_body
               env['api.request.body']
@@ -71,22 +87,35 @@ module API
               end
             end
 
-            def render(type)
+            def renderer(type)
               case type
               when :textile
-                renderer = ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-                renderer.to_html
-              else
+                ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
+              when :plain
+                ::API::Utilities::Renderer::PlainRenderer.new(request_body)
               end
+            end
+
+            def render(type)
+              renderer(type).to_html
             end
           end
 
           resources :textile do
             post do
-              status 200
-              content_type 'text/html'
+              check_content_type
+              setup_response
 
               render :textile
+            end
+          end
+
+          resources :plain do
+            post do
+              check_content_type
+              setup_response
+
+              render :plain
             end
           end
         end
