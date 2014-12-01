@@ -238,11 +238,16 @@ module API
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
-                 getter: -> (*) { Duration.new(hours: estimated_hours).iso8601 },
+                 getter: -> (*) do
+                   Duration.new(hours_and_minutes(represented.estimated_hours)).iso8601
+                 end,
+                 exec_context: :decorator,
                  render_nil: true,
                  writeable: false
         property :spent_time,
-                 getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+                 getter: -> (*) do
+                   Duration.new(hours_and_minutes(represented.spent_hours)).iso8601
+                 end,
                  writeable: false,
                  exec_context: :decorator,
                  if: -> (_) { current_user_allowed_to(:view_time_entries) }
@@ -314,6 +319,15 @@ module API
 
         def percentage_done
           represented.done_ratio unless Setting.work_package_done_ratio == 'disabled'
+        end
+
+        private
+
+        def hours_and_minutes(hours)
+          hours = hours.to_f
+          minutes = (hours - hours.to_i) * 60
+
+          { hours: hours.to_i, minutes: minutes }
         end
       end
     end
