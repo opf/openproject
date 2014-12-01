@@ -82,14 +82,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('projectName') }
 
       it { is_expected.to have_json_path('startDate') }
-      it { is_expected.to have_json_path('status') }
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
 
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
-
-      it { is_expected.to have_json_path('isClosed') }
 
       describe 'version' do
         it { is_expected.to have_json_path('versionId') }
@@ -224,6 +221,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .at_path('_links/updateImmediately/method')
           }
         end
+      end
+
+      describe 'status' do
+        let(:link) { "/api/v3/statuses/#{work_package.status_id}".to_json }
+        let(:title) { "#{work_package.status.name}".to_json }
+
+        it { is_expected.to be_json_eql(link).at_path('_links/status/href') }
+
+        it { is_expected.to be_json_eql(title).at_path('_links/status/title') }
       end
 
       describe 'version' do
@@ -455,6 +461,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe '_embedded' do
       it { is_expected.to have_json_type(Object).at_path('_embedded') }
+
+      describe 'status' do
+        let(:status) { work_package.status }
+
+        it { is_expected.to have_json_path('_embedded/status') }
+
+        it { is_expected.to be_json_eql('Status'.to_json).at_path('_embedded/status/_type') }
+
+        it { is_expected.to be_json_eql(status.name.to_json).at_path('_embedded/status/name') }
+
+        it {
+          is_expected.to be_json_eql(status.is_closed.to_json).at_path('_embedded/status/isClosed')
+        }
+      end
 
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
