@@ -139,9 +139,10 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
       });
     },
 
-    updateWorkPackage: function(workPackage, data) {
+    updateWorkPackage: function(workPackage, data, notify) {
       var options = { ajax: {
         method: 'PATCH',
+        url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
         headers: {
           Accept: 'application/hal+json'
         },
