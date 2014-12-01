@@ -80,6 +80,17 @@ module Api::Experimental::Concerns::ColumnData
     end
   end
 
+  def valid_columns(columns)
+    column_names, custom_field_column_ids = separate_columns_by_custom_fields(columns)
+
+    # This here should be restricted more to only allow AR methods on Work
+    # Package and associated objects.
+    valid_column_names = Query.available_columns.map { |c| c.name.to_s } & column_names
+
+    # keep order of provided columns
+    columns & (valid_column_names + custom_field_column_ids)
+  end
+
   def separate_columns_by_custom_fields(columns)
     cf_columns, non_cf_columns = columns.partition { |name| custom_field_id_in(name) }
 

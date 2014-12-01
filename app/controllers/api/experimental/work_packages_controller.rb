@@ -62,11 +62,10 @@ module Api
       end
 
       def column_data
+        column_names = valid_columns(params[:column_names] || [])
+        raise 'API Error: No column names' if column_names.empty?
         raise 'API Error: No IDs' unless params[:ids]
-        raise 'API Error: No column names' unless params[:column_names]
-
         ids = params[:ids].map(&:to_i)
-        column_names = params[:column_names]
 
         work_packages = work_packages_of_ids(ids, column_names)
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
@@ -79,9 +78,9 @@ module Api
       end
 
       def column_sums
-        raise 'API Error' unless params[:column_names]
+        column_names = valid_columns(params[:column_names] || [])
+        raise 'API Error' if column_names.empty?
 
-        column_names = params[:column_names]
         work_packages = work_packages_of_query(@query, column_names)
         work_packages = ::API::Experimental::WorkPackageDecorator.decorate(work_packages)
         @column_sums = columns_total_sums(column_names, work_packages)

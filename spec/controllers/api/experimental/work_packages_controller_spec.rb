@@ -235,7 +235,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       end
 
       it 'handles incorrect column names' do
-        expect { get :column_data, format: 'json', ids: [1, 2], column_names: %w(non_existent status) }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json', ids: [1, 2], column_names: %w(non_existent) }.to raise_error(/API Error/)
       end
 
       it 'assigns column data' do
