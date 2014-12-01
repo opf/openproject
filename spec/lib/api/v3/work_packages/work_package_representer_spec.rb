@@ -40,8 +40,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       created_at: DateTime.now,
       updated_at: DateTime.now,
       category:   category,
-      done_ratio: 50,
-      estimated_hours: 6.0
+      done_ratio: 50
     )
   }
   let(:category) { FactoryGirl.build(:category) }
@@ -91,7 +90,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      it { is_expected.to be_json_eql('PT6H'.to_json).at_path('estimatedTime') }
+      let(:work_package) {
+        FactoryGirl.build(:work_package,
+                          id: 42,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now,
+                          estimated_hours: 6.5)
+      }
+
+      it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
     end
 
     describe 'spentTime' do
@@ -132,12 +139,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             FactoryGirl.create(:time_entry,
                                project: wp.project,
                                work_package: wp,
-                               hours: 42.0)
+                               hours: 42.5)
           }
 
           before { time_entry }
 
-          it { is_expected.to be_json_eql('P1DT18H'.to_json).at_path('spentTime') }
+          it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
       end
     end
