@@ -55,6 +55,8 @@ module.exports = {
       'vendor'
     ].concat(pathConfig.pluginDirectories),
 
+    fallback: [ path.join(__dirname, 'bower_components') ],
+
     alias: _.merge({
       'locales':        './../../config/locales',
 
