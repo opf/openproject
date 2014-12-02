@@ -233,7 +233,7 @@ en:
               not_a_valid_parent: "is invalid"
               does_not_exist: "does not exist"
             status_id:
-              status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
+              status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles"
             priority_id:
               only_active_priorities_allowed: "needs to be active"
         user:

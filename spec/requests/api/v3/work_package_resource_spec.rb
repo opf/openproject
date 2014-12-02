@@ -399,8 +399,8 @@ h4. things we like
           include_context 'patch request'
 
           it_behaves_like 'constraint violation',
-                          'Status no valid transition exists from old to new '\
-                          'status for the current user roles.'
+                          'Status ' + I18n.t('activerecord.errors.models.' \
+                          'work_package.attributes.status_id.status_transition_invalid')
         end
 
         context 'wrong resource' do
