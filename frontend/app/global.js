@@ -56,3 +56,4 @@ require('Caret.js/src/jquery.caret.js');
 
 require('select2/select2.js');
 require('select2/select2.css');
+require('select2_customizing.css');
