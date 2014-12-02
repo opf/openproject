@@ -293,6 +293,7 @@ en:
   attributes:
     active: "Active"
     assigned_to: "Assignee"
+    assignee: "Assignee"
     attachments: "Attachments"
     author: "Author"
     base: "General Error:"
@@ -320,6 +321,7 @@ en:
     name: "Name"
     password: "Password"
     project: "Project"
+    responsible: "Responsible"
     role: "Role"
     start_date: "Start date"
     status: "Status"

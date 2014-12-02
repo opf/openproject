@@ -294,6 +294,7 @@ de:
   attributes:
     active: "Aktiv"
     assigned_to: "Zugewiesen an"
+    assignee: "Zugewiesen an"
     attachments: "Anhänge"
     author: "Autor"
     base: "Allgemeiner Fehler:"
@@ -321,6 +322,7 @@ de:
     name: "Name"
     password: "Kennwort"
     project: "Projekt"
+    responsible: "Verantwortlicher"
     role: "Rolle"
     start_date: "Beginn"
     status: "Status"
