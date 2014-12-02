@@ -1666,3 +1666,6 @@ en:
         context_not_found: "No context found."
         unsupported_context: "Unsupported context found."
         context_object_not_found: "Cannot find the resource given with the context."
+      validation:
+        invalid_user_assigned_to_work_package:
+          "The chosen user is not allowed to be '%{property}' for this work package."

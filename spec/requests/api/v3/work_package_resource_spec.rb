@@ -465,7 +465,9 @@ h4. things we like
               let(:user_href) { '/api/v3/users/909090' }
 
               it_behaves_like 'constraint violation',
-                              "#{property.capitalize} is not included in the list"
+                              I18n.t('api_v3.errors.validation.' \
+                                     'invalid_user_assigned_to_work_package',
+                                     property: property.capitalize)
             end
 
             context 'user is not visible' do
@@ -473,7 +475,9 @@ h4. things we like
               let(:user_href) { '/api/v3/users/42' }
 
               it_behaves_like 'constraint violation',
-                              "#{property.capitalize} is not included in the list"
+                              I18n.t('api_v3.errors.validation.' \
+                                     'invalid_user_assigned_to_work_package',
+                                     property: property.capitalize)
             end
 
             context 'wrong resource' do

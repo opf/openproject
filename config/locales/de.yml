@@ -1675,3 +1675,6 @@ de:
         context_not_found: "Es wurde kein Kontext gefunden."
         unsupported_context: "Der Kontext wird nicht unterstützt."
         context_object_not_found: "Die im Kontext angegebene Ressource wurde nicht gefunden."
+      validation:
+        invalid_user_assigned_to_work_package:
+          "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
