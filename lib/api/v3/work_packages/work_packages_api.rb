@@ -98,7 +98,7 @@ module API
                 @representer.represented.reload
                 @representer
               else
-                fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
+                fail ::API::Errors::ErrorBase.create(@representer.represented.errors.dup)
               end
             end
 

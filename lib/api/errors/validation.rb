@@ -30,11 +30,40 @@
 module API
   module Errors
     class Validation < ErrorBase
-      def initialize(obj)
-        messages = obj.respond_to?(:errors) ? obj.errors.full_messages : Array(obj)
+      def self.create(errors)
+        merge_error_properties(errors)
+
+        errors.keys.each_with_object({}) do |key, hash|
+          messages = errors[key].each_with_object([]) do |m, l|
+            l << errors.full_message(key, m) + '.'
+          end
+
+          hash[key] = ::API::Errors::Validation.new(messages)
+        end
+      end
+
+      # Merges property error messages (e.g. for status and status_id)
+      def self.merge_error_properties(errors)
+        properties = errors.keys
+
+        properties.each do |p|
+          match = /(?<property>\w+)_id/.match(p)
+
+          if match
+            key = match[:property].to_sym
+            error = Array(errors[key]) + errors[p]
+
+            errors.set(key, error)
+            errors.delete(p)
+          end
+        end
+      end
+
+      def initialize(messages)
+        messages = Array(messages)
         message = I18n.t('api_v3.errors.multiple_errors')
 
-        message = messages[0] + '.' if messages.length == 1
+        message = messages[0] if messages.length == 1
 
         super 422, message
 
