@@ -827,9 +827,7 @@ var I18nForms = (function ($) {
       select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
       update_interaction_elements(localized_p);
 
-      new_items.find('.destroy_locale').click(function () {
-        destroy_locale($(this));
-      });
+      observe_destroy_locale_links(new_items.find('.destroy_locale'));
     };
 
     destroy_locale = function (element) {
@@ -840,14 +838,16 @@ var I18nForms = (function ($) {
       update_interaction_elements(localized_p);
     };
 
-    observe_add_locale_link = function () {
-      $('.add_locale').click(function () {
+    observe_add_locale_link = function (selector) {
+      $(selector).click(function (event) {
+        event.preventDefault();
         add_locale_fields($(this).closest('p'));
       });
     };
 
-    observe_destroy_locale_links = function () {
-      $('.destroy_locale').click(function () {
+    observe_destroy_locale_links = function (selector) {
+      $(selector).click(function (event) {
+        event.preventDefault();
         destroy_locale($(this));
       });
     };
@@ -924,8 +924,8 @@ var I18nForms = (function ($) {
     };
 
     init = function () {
-      observe_add_locale_link();
-      observe_destroy_locale_links();
+      observe_add_locale_link($('.add_locale'));
+      observe_destroy_locale_links($('.destroy_locale'));
 
       $('form .translation').closest('p').each(function (i, element) {
         element = $(element);
