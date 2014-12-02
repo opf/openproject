@@ -409,8 +409,10 @@ h4. things we like
           include_context 'patch request'
 
           it_behaves_like 'constraint violation',
-                          'For property status a resource of type Status' \
-                          ' is expected but got a resource of type User.'
+                          I18n.t('api_v3.errors.invalid_resource',
+                                 property: 'Status',
+                                 expected: 'Status',
+                                 actual: 'User')
         end
       end
 
@@ -480,8 +482,10 @@ h4. things we like
               include_context 'patch request'
 
               it_behaves_like 'constraint violation',
-                              "For property #{property} a resource of type User" \
-                              ' is expected but got a resource of type Status.'
+                              I18n.t('api_v3.errors.invalid_resource',
+                                     property: "#{property.capitalize}",
+                                     expected: 'User',
+                                     actual: 'Status')
             end
           end
         end
@@ -563,7 +567,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
+          it_behaves_like 'multiple errors', 422
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
 
@@ -603,7 +607,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
+          it_behaves_like 'multiple errors', 422
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 

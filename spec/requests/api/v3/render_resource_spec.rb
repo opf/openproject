@@ -68,7 +68,9 @@ describe 'API v3 Render resource' do
             let(:params) { "Hello World! Have a look at ##{work_package.id}" }
 
             it_behaves_like 'invalid request body',
-                            'Expected content type \'text/plain\' but got \'application/json\'.'
+                            I18n.t('api_v3.errors.invalid_content_type',
+                                   content_type: 'text/plain',
+                                   actual: 'application/json')
           end
 
           context 'with context' do
@@ -77,7 +79,8 @@ describe 'API v3 Render resource' do
             describe 'work package does not exist' do
               let(:post_path) { "#{path}?context=/api/v3/work_packages/-1" }
 
-              it_behaves_like 'invalid render context', 'Context does not exist!'
+              it_behaves_like 'invalid render context',
+                              I18n.t('api_v3.errors.render.context_object_not_found')
             end
 
             describe 'work package not visible' do
@@ -86,13 +89,15 @@ describe 'API v3 Render resource' do
                 "#{path}?context=/api/v3/work_packages/#{invisible_work_package.id}"
               }
 
-              it_behaves_like 'invalid render context', 'Context does not exist!'
+              it_behaves_like 'invalid render context',
+                              I18n.t('api_v3.errors.render.context_object_not_found')
             end
 
             describe 'context does not exist' do
               let(:post_path) { "#{path}?context=/api/v3/" }
 
-              it_behaves_like 'invalid render context', 'No context found.'
+              it_behaves_like 'invalid render context',
+                              I18n.t('api_v3.errors.render.context_not_found')
             end
 
             describe 'unsupported context found' do

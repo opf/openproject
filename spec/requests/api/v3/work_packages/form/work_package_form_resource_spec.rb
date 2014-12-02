@@ -322,8 +322,10 @@ describe 'API v3 Work package form resource', type: :request do
                   include_context 'post request'
 
                   it_behaves_like 'constraint violation',
-                                  'For property status a resource of type Status' \
-                                  ' is expected but got a resource of type User.'
+                                  I18n.t('api_v3.errors.invalid_resource',
+                                         property: 'Status',
+                                         expected: 'Status',
+                                         actual: 'User')
                 end
               end
             end
@@ -385,8 +387,10 @@ describe 'API v3 Work package form resource', type: :request do
                     include_context 'post request'
 
                     it_behaves_like 'constraint violation',
-                                    "For property #{property} a resource of type User" \
-                                    ' is expected but got a resource of type Status.'
+                                    I18n.t('api_v3.errors.invalid_resource',
+                                           property: "#{property.capitalize}",
+                                           expected: 'User',
+                                           actual: 'Status')
                   end
                 end
               end

@@ -1656,3 +1656,20 @@ de:
         _Automatisch durch die Änderungen in %{child} aktualisert_
 
   nothing_to_preview: "Keine Inhalte für Vorschau vorhanden"
+
+  api_v3:
+    errors:
+      code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."
+      code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
+      code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
+      invalid_content_type:
+        "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_resource:
+        "Für die Eigenschaft '%{property}' wird eine Ressource vom Typ '%{expected}' erwartet. Gesandt wurde der Typ '%{actual}'."
+      multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
+      parse_error: "Die Abfrage enthielt kein valides JSON."
+      writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
+      render:
+        context_not_found: "Es wurde kein Kontext gefunden."
+        unsupported_context: "Der Kontext wird nicht unterstützt."
+        context_object_not_found: "Die im Kontext angegebene Ressource wurde nicht gefunden."
