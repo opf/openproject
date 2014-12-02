@@ -35,7 +35,16 @@ module API
 
         errors.keys.each_with_object({}) do |key, hash|
           messages = errors[key].each_with_object([]) do |m, l|
-            l << errors.full_message(key, m) + '.'
+            # Let's assume that standard validation errors never end with a
+            # punctuation mark. Then it should be fair enough to assume that we
+            # don't need to prepend the error key if the error ends with a
+            # punctuation mark. Let's hope that this is true for the languages
+            # we'll support in OpenProject.
+            if m =~ /(\.|\?|\!)\z/
+              l << m
+            else
+              l << errors.full_message(key, m) + '.'
+            end
           end
 
           hash[key] = ::API::Errors::Validation.new(messages)
