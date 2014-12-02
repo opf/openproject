@@ -43,7 +43,9 @@ module API
               actual = request.content_type
 
               unless actual.starts_with? SUPPORTED_MEDIA_TYPE
-                message = "Expected content type '#{SUPPORTED_MEDIA_TYPE}' but got '#{actual}'."
+                message = I18n.t('api_v3.errors.invalid_content_type',
+                                 content_type: SUPPORTED_MEDIA_TYPE,
+                                 actual: actual)
 
                 fail API::Errors::InvalidRequestBody, message
               end
@@ -61,7 +63,9 @@ module API
             def context_object
               try_context_object
             rescue ::ActiveRecord::RecordNotFound
-              fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+              fail API::Errors::InvalidRenderContext.new(
+                I18n.t('api_v3.errors.render.context_object_not_found')
+              )
             end
 
             def try_context_object
@@ -79,9 +83,13 @@ module API
               context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
 
               if context.nil?
-                fail API::Errors::InvalidRenderContext.new('No context found.')
+                fail API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.context_not_found')
+                )
               elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
-                fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
+                fail API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.unsupported_context')
+                )
               else
                 context
               end

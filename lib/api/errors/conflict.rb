@@ -31,7 +31,7 @@ module API
   module Errors
     class Conflict < ErrorBase
       def initialize
-        super 409, 'Couldn\'t update the resource because of conflicting modifications.'
+        super 409, I18n.t('api_v3.errors.code_409')
       end
     end
   end
