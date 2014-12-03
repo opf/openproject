@@ -33,9 +33,26 @@
 //= require_self
 //= require legacy/main
 
-@import reset
+@charset "UTF-8"
+
+$rem-base: 16px
+$foundation-version: '0.0.1'
+$include-css: (forms: true)
+
+// Foundation/Framework imports
+@import vendor/normalize
+
+@import helpers/functions
+@import helpers/mixins
+@import helpers/breakpoints
+@import helpers/images
+@import global
+
 @import bourbon
+
+// OpenProject imports
 @import open_project_global/all
+
 @import fonts/lato
 @import fonts/openproject_icon_font
 
