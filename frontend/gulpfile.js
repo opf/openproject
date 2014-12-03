@@ -112,5 +112,7 @@ gulp.task('default', ['webpack', 'sass', 'express']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
+  gulp.watch('public/templates/**/*.html', ['webpack']);
+
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass']);
 });
