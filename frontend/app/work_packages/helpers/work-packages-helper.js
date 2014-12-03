@@ -26,20 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* jshint camelcase: false */
+
 module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
 
       if(CustomFieldHelper.isCustomFieldKey(option)){
-        content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+        var custom_field_id = CustomFieldHelper.getCustomFieldId(option);
+        content = WorkPackagesHelper.getRawCustomValue(object, custom_field_id);
       } else {
         content = object[option];
       }
 
       switch(typeof(content)) {
         case 'object':
-          if (content === null) return '';
+          if (content === null) { return ''; }
           return content.name || content.subject || '';
         case 'number':
           return content;
@@ -61,7 +64,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getRawCustomValue: function(object, customFieldId) {
-      if (!object.custom_values) return null;
+      if (!object.custom_values) { return null; }
 
       var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customFieldId;
@@ -75,7 +78,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getFormattedCustomValue: function(object, customField) {
-      if (!object.custom_values) return null;
+      if (!object.custom_values) { return null; }
 
       var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customField.id;
@@ -90,7 +93,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       var custom_field_id = column.name.match(/^cf_(\d+)$/);
 
       if (custom_field_id) {
-        custom_field_id = parseInt(custom_field_id[1]);
+        custom_field_id = parseInt(custom_field_id[1], 10);
 
         return WorkPackagesHelper.getCFColumnDataId(object, custom_field_id);
       }
@@ -137,7 +140,9 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
         case 'datetime':
           var dateTime;
           if (value) {
-            dateTime = TimezoneService.formattedDate(value) + " " + TimezoneService.formattedTime(value);
+            dateTime = TimezoneService.formattedDate(value) +
+                       ' ' +
+                       TimezoneService.formattedTime(value);
           }
           return dateTime || '';
         case 'date':
@@ -208,8 +213,9 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       return result;
     },
 
-    //Note: The following methods are display helpers and so don't really belong here but are shared between
-    // directives so it's probably the best place for them just now.
+    //Note: The following methods are display helpers and so don't really
+    //belong here but are shared between directives so it's probably the best
+    //place for them just now.
     getState: function(workPackage) {
       return (workPackage.embedded.status.props.isClosed) ? 'closed' : '';
     },

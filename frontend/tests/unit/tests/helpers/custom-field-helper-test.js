@@ -137,7 +137,8 @@ describe('Custom field helper', function() {
         expect(formatCustomFieldValue( 5 , 'user', { '5': { name: 'blubs' }})).to.equal('blubs');
       });
 
-      it('should return empty string if the user does not exists in list of provided users', function() {
+      it('should return empty string if the user does' +
+         'not exists in list of provided users', function() {
         expect(formatCustomFieldValue( 4 , 'user', { '5': { name: 'blubs' }})).to.equal('');
       });
 
