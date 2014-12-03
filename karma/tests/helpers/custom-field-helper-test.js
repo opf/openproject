@@ -121,8 +121,45 @@ describe('Custom field helper', function() {
       });
     });
 
-    xdescribe('with a user type', function() {
+    describe('with a user type', function() {
+      it('should return the value of value.name', function() {
+        expect(formatCustomFieldValue({ name: 'blubs' }, 'user')).to.equal('blubs');
+      });
+
+      it('should handle undefined and null values', function() {
+        expect(formatCustomFieldValue(undefined, 'user')).to.equal('');
+        expect(formatCustomFieldValue(null, 'user')).to.equal('');
+        expect(formatCustomFieldValue({ name: undefined }, 'user')).to.equal('');
+        expect(formatCustomFieldValue({ name: null }, 'user')).to.equal('');
+      });
+
+      it('should return the name of the user out of a list of provided users', function() {
+        expect(formatCustomFieldValue( 5 , 'user', { '5': { name: 'blubs' }})).to.equal('blubs');
+      });
+
+      it('should return empty string if the user does not exists in list of provided users', function() {
+        expect(formatCustomFieldValue( 4 , 'user', { '5': { name: 'blubs' }})).to.equal('');
+      });
+
+      it('should handle undefined and null values in list of provided users', function() {
+        expect(formatCustomFieldValue( 5 , 'user', { '5': { name: null }})).to.equal('');
+        expect(formatCustomFieldValue( 5 , 'user', { '5': { name: undefined }})).to.equal('');
+        expect(formatCustomFieldValue( 5 , 'user', { '5': undefined })).to.equal('');
+        expect(formatCustomFieldValue( 5 , 'user', { '5': null })).to.equal('');
+      });
     });
 
+    describe('with a version type', function() {
+      it('should return the value of value.name', function() {
+        expect(formatCustomFieldValue({ name: 'blubs' }, 'version')).to.equal('blubs');
+      });
+
+      it('should handle undefined and null values', function() {
+        expect(formatCustomFieldValue(undefined, 'version')).to.equal('');
+        expect(formatCustomFieldValue(null, 'version')).to.equal('');
+        expect(formatCustomFieldValue({ name: undefined }, 'version')).to.equal('');
+        expect(formatCustomFieldValue({ name: null }, 'version')).to.equal('');
+      });
+    });
   });
 });
