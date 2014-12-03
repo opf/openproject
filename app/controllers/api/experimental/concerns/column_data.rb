@@ -81,14 +81,19 @@ module Api::Experimental::Concerns::ColumnData
   end
 
   def valid_columns(columns)
-    column_names, custom_field_column_ids = separate_columns_by_custom_fields(columns)
+    column_names, custom_field_ids = separate_columns_by_custom_fields(columns)
 
-    # This here should be restricted more to only allow AR methods on Work
-    # Package and associated objects.
     valid_column_names = Query.available_columns.map { |c| c.name.to_s } & column_names
 
+    existing_cf_ids = existing_custom_field_ids(custom_field_ids)
+
+    valid_cf_column_names = columns.select do |name|
+      id = custom_field_id_in(name)
+      existing_cf_ids.include?(id)
+    end
+
     # keep order of provided columns
-    columns & (valid_column_names + custom_field_column_ids)
+    columns & (valid_column_names + valid_cf_column_names)
   end
 
   def separate_columns_by_custom_fields(columns)
@@ -97,6 +102,14 @@ module Api::Experimental::Concerns::ColumnData
     cf_columns_id = cf_columns.map { |name| custom_field_id_in(name) }
 
     [non_cf_columns, cf_columns_id]
+  end
+
+  def existing_custom_field_ids(ids)
+    if ids.empty?
+      []
+    else
+      WorkPackageCustomField.where(id: ids).pluck(:id).map(&:to_s)
+    end
   end
 
   def columns_total_sums(column_names, work_packages)
