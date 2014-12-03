@@ -36,7 +36,8 @@ module API
         end
 
         def to_html
-          "<p>#{@text}</p>"
+          formatter = Redmine::WikiFormatting::NullFormatter::Formatter.new(@text)
+          formatter.to_html
         end
 
         def controller; end
