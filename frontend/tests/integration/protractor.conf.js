@@ -46,5 +46,9 @@ exports.config = {
     reporter: 'mocha-jenkins-reporter'
   },
 
-  baseUrl: 'http://localhost:8080'
+  baseUrl: 'http://localhost:8080',
+
+  onPrepare: function() {
+    browser.driver.manage().window().maximize();
+  }
 };
