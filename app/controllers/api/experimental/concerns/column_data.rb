@@ -48,11 +48,23 @@ module Api::Experimental::Concerns::ColumnData
     # link, datetime
     {
       data_type: column_data_type(column),
-      link: link_meta[column.name] || { display: false }
+      link: link_meta(column)
     }
   end
 
-  def link_meta
+  def link_meta(column)
+    link_meta = static_link_meta[column.name]
+
+    if link_meta
+      link_meta
+    elsif column.respond_to?(:custom_field)
+      linked_custom_field_meta(column)
+    else
+      { display: false }
+    end
+  end
+
+  def static_link_meta
     {
       subject: { display: true, model_type: 'work_package' },
       type: { display: false },
@@ -64,6 +76,15 @@ module Api::Experimental::Concerns::ColumnData
       author: { display: true, model_type: 'user' },
       project: { display: true, model_type: 'project' }
     }
+  end
+
+  def linked_custom_field_meta(column)
+    case column.custom_field.field_format
+    when 'user', 'version'
+      { display: true, model_type: column.custom_field.field_format }
+    else
+      { display: false }
+    end
   end
 
   def column_data_type(column)

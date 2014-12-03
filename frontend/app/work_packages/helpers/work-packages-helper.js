@@ -87,23 +87,43 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getColumnDataId: function(object, column) {
-      var id;
+      var custom_field_id = column.name.match(/^cf_(\d+)$/);
 
+      if (custom_field_id) {
+        custom_field_id = parseInt(custom_field_id[1]);
+
+        return WorkPackagesHelper.getCFColumnDataId(object, custom_field_id);
+      }
+      else {
+        return WorkPackagesHelper.getStaticColumnDataId(object, column);
+      }
+    },
+
+    getCFColumnDataId: function(object, custom_field_id) {
+
+      var custom_value = _.find(object.custom_values, function(elem) {
+        return elem && (elem.custom_field_id === custom_field_id);
+      });
+
+      if(custom_value && custom_value.value) {
+        return custom_value.value.id;
+      }
+      else {
+        return null;
+      }
+    },
+
+    getStaticColumnDataId: function(object, column) {
       switch (column.name) {
         case 'parent':
-          id = object.parent_id;
-          break;
+          return object.parent_id;
         case 'project':
-          id = object.project.identifier;
-          break;
+          return object.project.identifier;
         case 'subject':
-          id = object.id;
-          break;
+          return object.id;
         default:
-          id = (object[column.name]) ? object[column.name].id : null;
+          return (object[column.name]) ? object[column.name].id : null;
       }
-
-      return id;
     },
 
     getFormattedColumnData: function(object, column) {
