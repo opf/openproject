@@ -17,14 +17,7 @@ module OpenProject::OpenIDConnect
     )
 
     register_auth_providers do
-      # Loading OpenID providers manually since rails doesn't do it automatically,
-      # possibly due to non trivially module-name-convertible paths.
-      require 'omniauth/openid_connect/provider'
-
-      # load pre-defined providers
-      Dir[File.expand_path('../../../omniauth/openid_connect/*.rb', __FILE__)].each do |file|
-        require file
-      end
+      require 'omniauth/openid_connect/providers'
 
       # Use OpenSSL default certificate store instead of HTTPClient's.
       # It's outdated and it's unclear how it's managed.
@@ -32,9 +25,21 @@ module OpenProject::OpenIDConnect
         config.ssl_config.set_default_paths
       end
 
+      def configuration
+        from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
+          Hash(Setting.plugin_openproject_openid_connect["providers"])
+        else
+          {}
+        end
+        # Settings override configuration.yml
+        Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
+      end
+
+      OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}",
+                                                   custom_options: [:display_name?, :icon?]
+
       strategy :openid_connect do
-        OmniAuth::OpenIDConnect::Provider.load_generic_providers
-        OmniAuth::OpenIDConnect::Provider.available.map { |p| p.new.to_hash }
+        OmniAuth::OpenIDConnect::Providers.load(configuration).map(&:to_h)
       end
     end
 

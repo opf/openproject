@@ -34,7 +34,7 @@ RSpec.configure do |c|
 end
 
 describe "OpenID Connect" do
-  let(:provider) { OmniAuth::OpenIDConnect::Heroku.new }
+  let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
   let(:user_info) do
     {
       :sub => "87117114115116",
@@ -90,12 +90,12 @@ describe "OpenID Connect" do
       click_on_signin
 
       expect(response.status).to be 302
-      expect(response.location).to match /https:\/\/#{provider.host}.*$/
+      expect(response.location).to match /https:\/\/#{host}.*$/
 
       params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ""))
 
       expect(params).to include "client_id"
-      expect(params["redirect_uri"]).to match /^.*\/auth\/#{provider.class.provider_name}\/callback$/
+      expect(params["redirect_uri"]).to match /^.*\/auth\/heroku\/callback$/
       expect(params["scope"]).to include "openid"
 
       ##
@@ -123,7 +123,7 @@ describe "OpenID Connect" do
       click_on_signin
 
       expect(response.status).to be 302
-      expect(response.location).to match /https:\/\/#{provider.host}.*$/
+      expect(response.location).to match /https:\/\/#{host}.*$/
 
       ##
       # it should then login the user upon the redirect back from the provider
