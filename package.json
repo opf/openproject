@@ -1,0 +1,6 @@
+{
+  "name": "openproject-xls_export",
+  "version": "4.1.0",
+  "main": "frontend/app/openproject-xls_export-app.js",
+  "dependencies": {}
+}
