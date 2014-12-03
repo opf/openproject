@@ -34,6 +34,8 @@ module.exports = function($http,
     DEFAULT_PAGINATION_OPTIONS,
     $rootScope,
     $window,
+    $q,
+    AuthorisationService,
     WorkPackagesTableService) {
   var workPackage;
 
@@ -134,17 +136,31 @@ module.exports = function($http,
     },
 
     loadWorkPackageForm: function(workPackage) {
-      var options = { ajax: {
-        method: 'POST',
-        headers: {
-          Accept: 'application/hal+json'
-        },
-        contentType: 'application/json; charset=utf-8'
-      }, force: true};
-      return workPackage.links.update.fetch(options).then(function(form) {
-        workPackage.form = form;
-        return form;
-      });
+
+      if (this.authorizedFor(workPackage, 'update')) {
+        var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          contentType: 'application/json; charset=utf-8'
+        }, force: true};
+
+        return workPackage.links.update.fetch(options).then(function(form) {
+          workPackage.form = form;
+          return form;
+        });
+      }
+
+      return $q.when();
+    },
+
+    authorizedFor: function(workPackage, action) {
+      var modelName = 'work_package' + workPackage.id;
+
+      AuthorisationService.initModelAuth(modelName, workPackage.links);
+
+      return AuthorisationService.can(modelName, action);
     },
 
     updateWorkPackage: function(workPackage, data, notify) {

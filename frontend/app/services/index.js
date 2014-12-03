@@ -90,6 +90,8 @@ angular.module('openproject.services')
     'DEFAULT_PAGINATION_OPTIONS',
     '$rootScope',
     '$window',
+    '$q',
+    'AuthorisationService',
     'WorkPackagesTableService',
     require('./work-package-service')
   ]);
