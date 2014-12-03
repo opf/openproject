@@ -114,8 +114,8 @@ describe 'API v3 Render resource' do
 
       describe 'response' do
         describe 'valid' do
-          let(:params) { 'Hello World! Have a look at #1' }
-          let(:text) { "<p>#{params}</p>" }
+          let(:params) { "Hello World! Have a look at #1\n\nwith two lines." }
+          let(:text) { "<p>Hello World! Have a look at #1</p>\n\n<p>with two lines.</p>" }
 
           it_behaves_like 'valid response'
         end
