@@ -19,6 +19,8 @@ module OpenProject::OpenIDConnect
     register_auth_providers do
       require 'omniauth/openid_connect/providers'
 
+      Providers = OmniAuth::OpenIDConnect::Providers
+
       # Use OpenSSL default certificate store instead of HTTPClient's.
       # It's outdated and it's unclear how it's managed.
       OpenIDConnect.http_config do |config|
@@ -35,11 +37,12 @@ module OpenProject::OpenIDConnect
         Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
       end
 
-      OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}",
-                                                   custom_options: [:display_name?, :icon?]
+      Providers.configure custom_options: [:display_name?, :icon?]
 
       strategy :openid_connect do
-        OmniAuth::OpenIDConnect::Providers.load(configuration).map(&:to_h)
+        # update base redirect URI in case settings changed
+        Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}"
+        Providers.load(configuration).map(&:to_h)
       end
     end
 
