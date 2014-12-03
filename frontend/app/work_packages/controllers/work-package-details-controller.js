@@ -26,12 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    $scope, $state, latestTab, workPackage, I18n,
-    RELATION_TYPES, RELATION_IDENTIFIERS, $q,
-    WorkPackagesHelper, PathHelper, UsersHelper,
-    ConfigurationService, WorkPackageService,
-    CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler
+module.exports = function($scope,
+    $state,
+    latestTab,
+    workPackage,
+    I18n,
+    RELATION_TYPES,
+    RELATION_IDENTIFIERS,
+    $q,
+    WorkPackagesHelper,
+    PathHelper,
+    UsersHelper,
+    ConfigurationService,
+    WorkPackageService,
+    CommonRelationsHandler,
+    ChildrenRelationsHandler,
+    ParentRelationsHandler
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);

@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+module.exports = function($http,
+    PathHelper,
+    WorkPackagesHelper,
+    HALAPIResource,
+    DEFAULT_FILTER_PARAMS,
+    DEFAULT_PAGINATION_OPTIONS,
+    $rootScope,
+    $window,
+    WorkPackagesTableService) {
   var workPackage;
 
   var WorkPackageService = {
