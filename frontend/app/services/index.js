@@ -92,6 +92,5 @@ angular.module('openproject.services')
     '$window',
     '$q',
     'AuthorisationService',
-    'WorkPackagesTableService',
     require('./work-package-service')
   ]);

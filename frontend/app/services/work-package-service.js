@@ -35,8 +35,7 @@ module.exports = function($http,
     $rootScope,
     $window,
     $q,
-    AuthorisationService,
-    WorkPackagesTableService) {
+    AuthorisationService) {
   var workPackage;
 
   var WorkPackageService = {
