@@ -45,13 +45,21 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
     }
   }
 
-  function getAttributeValue($scope) {
+  function getReadAttributeValue($scope) {
+    return getAttributeValue($scope, $scope.entity);
+  }
+
+  function getWriteAttributeValue($scope) {
+    return getAttributeValue($scope, $scope.entity.form.embedded.payload);
+  }
+
+  function getAttributeValue($scope, entity) {
     if ($scope.embedded) {
       var path = $scope.attribute.split('.');
 
-      return $scope.entity.embedded[path[0]].props[path[1]];
+      return entity.embedded[path[0]].props[path[1]];
     } else {
-      return $scope.entity.props[getAttribute($scope)];
+      return entity.props[getAttribute($scope)];
     }
   }
 
@@ -71,11 +79,11 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
-          value: getAttributeValue($scope)
+          value: getWriteAttributeValue($scope)
         };
       },
       setReadValue: function($scope) {
-        $scope.readValue = getAttributeValue($scope);
+        $scope.readValue = getReadAttributeValue($scope);
       }
     },
 
