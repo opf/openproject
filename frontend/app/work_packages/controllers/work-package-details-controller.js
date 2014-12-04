@@ -51,7 +51,7 @@ module.exports = function(
   function refreshWorkPackage() {
     workPackage.links.self
       .fetch({force: true})
-      .then(function() {
+      .then(function(workPackage) {
         WorkPackageService.loadWorkPackageForm(workPackage);
         setWorkPackageScopeProperties(workPackage);
       });
