@@ -96,8 +96,14 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     activate();
 
     function activate() {
-      InplaceEditorDispatcher.dispatchHook($scope, 'activate');
-      setWriteValue();
+      // Editor activation and write value retrieval depend on the work package
+      // form to be available. But the form is only available if the work
+      // package is editable.
+      if ($scope.isEditable) {
+        InplaceEditorDispatcher.dispatchHook($scope, 'activate');
+        setWriteValue();
+      }
+
       setReadValue();
     }
 
