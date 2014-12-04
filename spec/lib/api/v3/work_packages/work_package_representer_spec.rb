@@ -457,6 +457,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:permission) { :manage_subtasks }
         end
       end
+
+      describe 'availableWatchers' do
+        it_behaves_like 'action link' do
+          let(:action) { 'availableWatchers' }
+          let(:permission) { :add_work_package_watchers }
+        end
+      end
     end
 
     describe '_embedded' do
