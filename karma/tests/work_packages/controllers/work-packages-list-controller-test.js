@@ -47,7 +47,7 @@ describe('WorkPackagesListController', function() {
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
-     location: { pathname: "" }
+      location: { pathname: '' }
     };
 
     var defaultWorkPackagesData = {
@@ -204,7 +204,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       }
 
       buildController(testParams, testState, testLocation);
@@ -243,7 +244,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       }
 
       buildController(testParams, testState, testLocation);
