@@ -79,7 +79,30 @@ describe('inplaceEditor Directive', function() {
     };
   }));
 
-  describe('self', function() {
+  describe('Work package is not editable', function() {
+    beforeEach(function() {
+      scope.workPackage = {
+        props: {
+          subject: 'Some subject',
+          lockVersion: '1'
+        },
+        links: {
+        }
+      };
+      compile();
+      element.appendTo(document.body);
+    });
+
+    afterEach(function() {
+      element.remove();
+    });
+
+    it('should not be editable', function() {
+      expect(scope.isEditable).to.be.falsy;
+    });
+  });
+
+  describe('Work package is editable', function() {
     beforeEach(function() {
       scope.workPackage = {
         props: {
@@ -125,7 +148,15 @@ describe('inplaceEditor Directive', function() {
                   fetch: function() { }
                 }
               },
-              form: form
+              form: {
+                embedded: {
+                  payload: {
+                    props: {
+                      rawDescription: '1\n2\n3'
+                    }
+                  }
+                }
+              }
             };
             html =
               '<h2 ' +
@@ -388,6 +419,15 @@ describe('inplaceEditor Directive', function() {
             links: {
               updateImmediately: {
                 fetch: function() {}
+              }
+            },
+            form: {
+              embedded: {
+                payload: {
+                  props: {
+                    rawDescription: '1\n2\n3'
+                  }
+                }
               }
             }
           };
