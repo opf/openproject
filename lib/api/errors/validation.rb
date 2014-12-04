@@ -70,9 +70,12 @@ module API
 
       def initialize(messages)
         messages = Array(messages)
-        message = I18n.t('api_v3.errors.multiple_errors')
 
-        message = messages[0] if messages.length == 1
+        if messages.length == 1
+          message = messages[0]
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
 
         super 422, message
 
