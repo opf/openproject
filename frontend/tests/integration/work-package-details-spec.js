@@ -64,6 +64,9 @@ describe('OpenProject', function() {
           var page = new WorkPackageDetailsPane(820, 'overview');
           page.get();
         });
+        it('should show work packages details pane', function() {
+          expect($('.work-packages--details').isPresent()).to.eventually.be.true;
+        });
         it('should not render an editable subject', function() {
           expect($('h2 .inplace-editor').isPresent()).to.eventually.be.false;
         });
