@@ -31,8 +31,15 @@ module API
     module WorkPackages
       class WatchersAPI < Grape::API
         get '/available_watchers' do
+          authorize(:add_work_package_watchers, context: @work_package.project)
+
           available_watchers = @work_package.possible_watcher_users
-          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers, as: :available_watchers)
+          total = available_watchers.count
+          self_link = api_v3_paths.available_watchers(@work_package.id)
+
+          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,
+                                                          total,
+                                                          self_link)
         end
 
         resources :watchers do

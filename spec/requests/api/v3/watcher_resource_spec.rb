@@ -40,9 +40,9 @@ describe 'API v3 Watcher resource', type: :request do
   let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id) }
   let(:available_watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: view_work_packages_role) }
   let(:watcher) { FactoryGirl.create :user,  member_in_project: project, member_through_role: view_work_packages_role }
+  let(:existing_watcher) { FactoryGirl.create(:watcher, watchable: work_package, user: watcher) }
 
   before do
-    FactoryGirl.create(:watcher, watchable: work_package, user: watcher)
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -53,6 +53,8 @@ describe 'API v3 Watcher resource', type: :request do
     let(:new_watcher) { available_watcher }
 
     before do
+      existing_watcher
+
       post post_path, %{{"user_id": #{new_watcher.id}}},   'CONTENT_TYPE' => 'application/json'
     end
 
@@ -112,7 +114,11 @@ describe 'API v3 Watcher resource', type: :request do
     let(:existing_watcher) { watcher }
     let(:delete_path) { "/api/v3/work_packages/#{work_package.id}/watchers/#{existing_watcher.id}" }
 
-    before { delete delete_path }
+    before do
+      existing_watcher
+
+      delete delete_path
+    end
 
     context 'authorized user' do
       let(:current_user) { FactoryGirl.create :user,  member_in_project: project, member_through_role: delete_watchers_role }
@@ -152,6 +158,46 @@ describe 'API v3 Watcher resource', type: :request do
         end
       end
     end
+  end
 
+  describe '#available_watchers' do
+    subject(:response) { last_response }
+    let(:authorized_user) do
+      FactoryGirl.create :user, member_in_project: project,
+                                member_through_role: add_watchers_role
+    end
+    let(:current_user) { authorized_user }
+    let(:available_watchers_path) { "/api/v3/work_packages/#{work_package.id}/available_watchers" }
+
+    before do
+      available_watcher
+
+      get available_watchers_path
+    end
+
+    it 'responds with 200' do
+      expect(subject.status).to eql(200)
+    end
+
+    it 'has a total of 1' do
+      expect(subject.body).to be_json_eql(1).at_path('total')
+    end
+
+    it 'has a count of 1' do
+      expect(subject.body).to be_json_eql(1).at_path('count')
+    end
+
+    it 'has a user fit for watching embedded' do
+      expect(subject.body).to have_json_size(1).at_path('_embedded/elements')
+      expect(subject.body).to be_json_eql(available_watcher.id).at_path('_embedded/elements/0/id')
+    end
+
+    context 'when the user does not have the necessary permissions' do
+      let(:current_user) { unauthorized_user }
+
+      it 'responds with 403' do
+        expect(subject.status).to eql(403)
+      end
+    end
   end
 end
