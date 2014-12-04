@@ -74,11 +74,7 @@ angular.module('openproject.uiComponents')
       'InplaceEditorDispatcher',
       require('./inplace-editor-directive')
   ])
-  .service('InplaceEditorDispatcher', [
-    '$sce',
-    'AutoCompleteHelper',
-    'TextileService',
-    require('./inplace-editor-dispatcher')])
+  .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])

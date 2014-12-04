@@ -75,6 +75,7 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
 
   Controller.$inject = ['$scope', 'WorkPackageService', 'ApiHelper'];
   function Controller($scope, WorkPackageService, ApiHelper) {
+    $scope.embedded = $scope.embedded == 'false' ? false : !!$scope.embedded;
     $scope.isEditing = false;
     $scope.isEditable = !!$scope.entity.links.updateImmediately;
     $scope.isBusy = false;
@@ -132,24 +133,26 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       result.catch(function(e) {
         $scope.onFail(e);
       });
-      result.finally(function() {
-        $scope.onFinally();
-      });
     }
 
     function onSuccess(entity) {
-      // is it copying the other way around in documentation?
-      // https://docs.angularjs.org/api/ng/function/angular.copy
-      angular.extend($scope.entity, entity);
       $scope.error = null;
-      setReadValue();
-      finishEditing();
-      $scope.$emit('workPackageRefreshRequired');
+      $scope.isBusy = true;
+      $scope.$emit(
+        'workPackageRefreshRequired',
+        function(workPackage) {
+          $scope.entity = workPackage;
+          setReadValue();
+          finishEditing();
+          $scope.onFinally();
+        }
+      );
     }
 
     function onFail(e) {
       $scope.error = ApiHelper.getErrorMessage(e);
       InplaceEditorDispatcher.dispatchHook($scope, 'onFail');
+      $scope.onFinally();
     }
 
     function onFinally() {

@@ -1,6 +1,6 @@
 .inplace-editor
   display: inline
-  div
+  .ined-input-wrapper-inner
     display: inline
   &.busy
     opacity: 0.5
@@ -37,11 +37,13 @@
         @extend .visible-on-focus
 
   .ined-input-wrapper
+    display: inline
     input, textarea
       width: 370px
     textarea
       min-height: 200px
   .ined-read-value
+    display: inline
     &.default
       span
         font-style: italic
@@ -97,11 +99,12 @@
       display: inline-block
       float: right
     .ined-controls
-      bottom: -11px
+      bottom: -6px
     .ined-errors
-      bottom: -31px
+      bottom: -26px
       width: 307px
     .jstElements
+      display: inline
       bottom: -31px
       width: 307px
       button
@@ -114,6 +117,7 @@
           display: inline
           margin-right: 0
       .help
+        display: inline
         float: none
         position: relative
         top: -4px
@@ -130,5 +134,26 @@
     .ined-errors
       bottom: -44px
       left: 119px
-
-
+  &.type-select2
+    display: inline-block
+    width: 344px
+    .ined-errors
+      bottom: -49px
+      left: -26px
+    .ined-controls
+      bottom: -28px
+    .ined-edit
+      height: 75px
+    .ined-read-value
+      position: relative
+      display: block
+      margin: 3px
+      &:hover
+        outline: 1px solid #cacaca
+    .editing-link-wrapper
+      position: absolute
+      right: -13px
+      top: 1px
+      width: 30px
+      .icon-context:before
+        padding: 0 1px 1px 0
