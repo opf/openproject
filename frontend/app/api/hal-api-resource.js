@@ -28,11 +28,27 @@
 
 require('hyperagent');
 
-module.exports = function HALAPIResource($q, PathHelper) {
+module.exports = function HALAPIResource($timeout, $q, PathHelper) {
   'use strict';
 
   var HALAPIResource = {
     configure: function() {
+      Hyperagent.configure('ajax', function(settings) {
+        var deferred = $q.defer(),
+            resolve = settings.success,
+            reject = settings.error;
+
+        settings.success = deferred.resolve;
+        settings.reject = deferred.reject;
+
+        deferred.promise.then(function(response) {
+          $timeout(function() { resolve(response); });
+        }, function(reason) {
+          $timeout(function() { reject(reason); });
+        });
+
+        return jQuery.ajax(settings);
+      });
       Hyperagent.configure('defer', $q.defer);
     },
 
