@@ -1,6 +1,10 @@
 stage:
   before:
-    - "cd frontend && npm install --unsafe-perm --ignore-scripts && bower install --allow-root && cd .."
+    - cd frontend &&
+      npm install -g npm &&
+      npm install --unsafe-perm --ignore-scripts &&
+      bower install --allow-root &&
+      cd ..
     - cp config/configuration.yml.example config/configuration.yml
     - cp config/database.teatro.yml config/database.yml
     - bundle exec rake generate_secret_token 
