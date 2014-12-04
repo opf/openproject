@@ -51,7 +51,7 @@ describe('OpenProject', function() {
   describe('editable', function() {
     context('subject', function() {
       context('work package with updateImmediately link', function() {
-        beforeEach(function() {
+        before(function() {
           var page = new WorkPackageDetailsPane(819, 'overview');
           page.get();
         });
@@ -60,7 +60,7 @@ describe('OpenProject', function() {
         });
       });
       context('work package without updateImmediately link', function() {
-        beforeEach(function() {
+        before(function() {
           var page = new WorkPackageDetailsPane(820, 'overview');
           page.get();
         });
@@ -72,7 +72,7 @@ describe('OpenProject', function() {
         });
       });
       context('work package with a wrong version', function() {
-        beforeEach(function() {
+        before(function() {
           var page = new WorkPackageDetailsPane(821, 'overview');
           page.get();
           $('h2 .inplace-editor .ined-read-value').then(function(e) {
