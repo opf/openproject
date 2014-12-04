@@ -48,7 +48,8 @@ module API
           end
         end
 
-        ::API::Errors::Validation.new(errors.full_messages)
+        messages_by_attribute = ::API::Errors::Validation.create(errors)
+        ::API::Errors::Validation.new(messages_by_attribute.values.map(&:message))
       end
 
       def initialize(code, message)

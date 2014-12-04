@@ -233,7 +233,7 @@ en:
               not_a_valid_parent: "is invalid"
               does_not_exist: "does not exist"
             status_id:
-              status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
+              status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles"
             priority_id:
               only_active_priorities_allowed: "needs to be active"
         user:
@@ -293,6 +293,7 @@ en:
   attributes:
     active: "Active"
     assigned_to: "Assignee"
+    assignee: "Assignee"
     attachments: "Attachments"
     author: "Author"
     base: "General Error:"
@@ -320,6 +321,7 @@ en:
     name: "Name"
     password: "Password"
     project: "Project"
+    responsible: "Responsible"
     role: "Role"
     start_date: "Start date"
     status: "Status"
@@ -1647,3 +1649,23 @@ en:
         _Updated automatically by changing values within child work package %{child}_
 
   nothing_to_preview: "Nothing to preview"
+
+  api_v3:
+    errors:
+      code_401: "You need to be authenticated to access this resource."
+      code_403: "You are not authorized to access this resource."
+      code_404: "Couldn\'t find %{type} with id=%{id}"
+      code_409: "Couldn\'t update the resource because of conflicting modifications."
+      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
+      invalid_resource:
+        "For property '%{property}' a resource of type '%{expected}' is expected but got a resource of type '%{actual}'."
+      multiple_errors: "Multiple fields violated their constraints."
+      parse_error: "The request body was neither empty, nor did it contain a single JSON object."
+      writing_read_only_attributes: "You must not write a read-only attribute."
+      render:
+        context_not_found: "No context found."
+        unsupported_context: "Unsupported context found."
+        context_object_not_found: "Cannot find the resource given with the context."
+      validation:
+        invalid_user_assigned_to_work_package:
+          "The chosen user is not allowed to be '%{property}' for this work package."

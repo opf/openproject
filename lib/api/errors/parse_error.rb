@@ -31,7 +31,7 @@ module API
   module Errors
     class ParseError < InvalidRequestBody
       def initialize(message)
-        super 'The request body was neither empty, nor did it contain a single JSON object.'
+        super I18n.t('api_v3.errors.parse_error')
 
         @details = { parseError: clean_parse_error(message) }
       end

@@ -231,7 +231,7 @@ de:
               not_a_valid_parent: "ist ungültig"
               does_not_exist: "existiert nicht"
             status_id:
-              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nutzer-Rollen"
+              status_transition_invalid: "ist ungültig da kein valider Übergang vom alten zum neuen Status für die aktuellen Rollen des Nutzers existiert"
             priority_id:
               only_active_priorities_allowed: "muss aktiv sein"
         project_association:
@@ -294,6 +294,7 @@ de:
   attributes:
     active: "Aktiv"
     assigned_to: "Zugewiesen an"
+    assignee: "Zugewiesen an"
     attachments: "Anhänge"
     author: "Autor"
     base: "Allgemeiner Fehler:"
@@ -321,6 +322,7 @@ de:
     name: "Name"
     password: "Kennwort"
     project: "Projekt"
+    responsible: "Verantwortlicher"
     role: "Rolle"
     start_date: "Beginn"
     status: "Status"
@@ -1656,3 +1658,23 @@ de:
         _Automatisch durch die Änderungen in %{child} aktualisert_
 
   nothing_to_preview: "Keine Inhalte für Vorschau vorhanden"
+
+  api_v3:
+    errors:
+      code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."
+      code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
+      code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
+      invalid_content_type:
+        "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_resource:
+        "Für die Eigenschaft '%{property}' wird eine Ressource vom Typ '%{expected}' erwartet. Gesandt wurde der Typ '%{actual}'."
+      multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
+      parse_error: "Die Abfrage enthielt kein valides JSON."
+      writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
+      render:
+        context_not_found: "Es wurde kein Kontext gefunden."
+        unsupported_context: "Der Kontext wird nicht unterstützt."
+        context_object_not_found: "Die im Kontext angegebene Ressource wurde nicht gefunden."
+      validation:
+        invalid_user_assigned_to_work_package:
+          "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."

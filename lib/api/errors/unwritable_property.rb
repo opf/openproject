@@ -35,7 +35,13 @@ module API
 
         fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
-        super 422, 'You must not write a read-only attribute.'
+        if attributes.length == 1
+          message = I18n.t('api_v3.errors.writing_read_only_attributes')
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
+
+        super 422, message
 
         if attributes.length > 1
           invalid_attributes.each do |attribute|

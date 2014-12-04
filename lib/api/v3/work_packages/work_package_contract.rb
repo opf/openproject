@@ -109,7 +109,9 @@ module API
           return if id.nil? || !model.changed.include?(id_attribute)
 
           unless user_visible?(id, list)
-            errors.add attribute, I18n.t('activerecord.errors.messages.inclusion', locale: :en)
+            errors.add attribute,
+                       I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                              property: I18n.t("attributes.#{attribute}"))
           end
         end
 
