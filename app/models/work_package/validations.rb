@@ -52,6 +52,8 @@ module WorkPackage::Validations
     validate :validate_status_transition
 
     validate :validate_active_priority
+
+    validate :validate_children
   end
 
   def validate_start_date_before_soonest_start_date
@@ -100,6 +102,14 @@ module WorkPackage::Validations
   def validate_active_priority
     if priority && !priority.active? && changes[:priority_id]
       errors.add :priority_id, :only_active_priorities_allowed
+    end
+  end
+
+  def validate_children
+    children.select { |c| !c.valid? }.each do |child|
+      child.errors.each do |_, value|
+        errors.add(:"##{child.id}", value)
+      end
     end
   end
 
