@@ -204,7 +204,10 @@ openprojectApp
       $httpProvider.interceptors.push(function($q) {
         return {
           'request': function(config) {
-            config.url = window.appBasePath + config.url;
+            if (!config.url.match('(^/templates|\\.html$)')) {
+              config.url = window.appBasePath + config.url;
+            }
+
             return config || $q.when(config);
           }
         };
