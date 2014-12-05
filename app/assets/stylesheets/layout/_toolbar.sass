@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin querySelectDropdownFilterSelect($color)
+@mixin query-select-dropdown-filter-select($color)
   text-decoration: underline
   color: $color
 
-@mixin querySelectionLink($color)
+@mixin query-selection-link($color)
   a
     color: $color
     font-weight: normal
@@ -100,7 +100,7 @@
     float: none
 
   span.filter-selection
-    @include querySelectDropdownFilterSelect($main-menu-font-color)
+    @include query-select-dropdown-filter-select($main-menu-font-color)
 
   .dropdown-scrollable
     overflow-y: auto
@@ -125,16 +125,16 @@
       color: $main-menu-font-color
       padding: 4px 25px
       display: block
-      @include querySelectionLink($drop-down-unselected-font-color)
+      @include query-selection-link($drop-down-unselected-font-color)
       &.selected
         background: $drop-down-selected-bg-color
-        @include querySelectionLink($drop-down-selected-font-color)
+        @include query-selection-link($drop-down-selected-font-color)
         &:hover
-          @include querySelectionLink($drop-down-unselected-font-color)
+          @include query-selection-link($drop-down-unselected-font-color)
           span.filter-selection
-            @include querySelectDropdownFilterSelect($drop-down-unselected-font-color)
+            @include query-select-dropdown-filter-select($drop-down-unselected-font-color)
         span.filter-selection
-          @include querySelectDropdownFilterSelect($drop-down-selected-font-color)
+          @include query-select-dropdown-filter-select($drop-down-selected-font-color)
       &:hover
         background: #f0f0f0
   .search-query-wrapper
