@@ -100,6 +100,18 @@ describe('inplaceEditor Directive', function() {
     it('should not be editable', function() {
       expect(scope.isEditable).to.be.falsy;
     });
+
+    describe('placeholder', function() {
+      it('should not render the default text', function() {
+        var text = element.find('.ined-read-value .read-value-wrapper').text();
+
+        expect(text).be.empty;
+      });
+
+      it('should set default text switch', function() {
+        expect(elementScope.placeholderSet).to.be.false;
+      });
+    });
   });
 
   describe('Work package is editable', function() {
