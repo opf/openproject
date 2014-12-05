@@ -78,7 +78,7 @@ describe ::API::V3::Utilities::PathHelper do
 
     it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/work_packages\/42\/watchers/) }
+    it { is_expected.to match(/^\/api\/v3\/work_packages\/42\/available_watchers/) }
   end
 
   describe '#categories' do

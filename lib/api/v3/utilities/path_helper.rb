@@ -55,7 +55,7 @@ module API
           end
 
           def self.available_watchers(work_package_id)
-            "#{work_package(work_package_id)}/watchers"
+            "#{work_package(work_package_id)}/available_watchers"
           end
 
           def self.categories(project_id)

@@ -137,7 +137,7 @@ module API
           {
             href: api_v3_paths.available_watchers(represented.id),
             title: 'Available Watchers'
-          }
+          } if current_user_allowed_to(:add_work_package_watchers)
         end
 
         link :watchChanges do
