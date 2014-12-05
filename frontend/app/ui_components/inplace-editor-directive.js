@@ -96,8 +96,14 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     activate();
 
     function activate() {
-      InplaceEditorDispatcher.dispatchHook($scope, 'activate');
-      setWriteValue();
+      // Editor activation and write value retrieval depend on the work package
+      // form to be available. But the form is only available if the work
+      // package is editable.
+      if ($scope.isEditable) {
+        InplaceEditorDispatcher.dispatchHook($scope, 'activate');
+        setWriteValue();
+      }
+
       setReadValue();
     }
 
@@ -161,12 +167,16 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
 
     function setReadValue() {
       InplaceEditorDispatcher.dispatchHook($scope, 'setReadValue');
-      if ((!$scope.readValue || $scope.readValue.length === 0) && $scope.placeholder) {
+      if ($scope.isEditable && isReadValueEmpty() && $scope.placeholder) {
         $scope.readValue = $scope.placeholder;
         $scope.placeholderSet = true;
       } else {
         $scope.placeholderSet = false;
       }
+    }
+
+    function isReadValueEmpty() {
+      return (!$scope.readValue || $scope.readValue.length === 0);
     }
 
   }

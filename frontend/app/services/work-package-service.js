@@ -26,7 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+module.exports = function($http,
+    PathHelper,
+    WorkPackagesHelper,
+    HALAPIResource,
+    DEFAULT_FILTER_PARAMS,
+    DEFAULT_PAGINATION_OPTIONS,
+    $rootScope,
+    $window,
+    $q,
+    AuthorisationService) {
   var workPackage;
 
   var WorkPackageService = {
@@ -126,17 +135,31 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
     },
 
     loadWorkPackageForm: function(workPackage) {
-      var options = { ajax: {
-        method: 'POST',
-        headers: {
-          Accept: 'application/hal+json'
-        },
-        contentType: 'application/json; charset=utf-8'
-      }, force: true};
-      return workPackage.links.update.fetch(options).then(function(form) {
-        workPackage.form = form;
-        return form;
-      });
+
+      if (this.authorizedFor(workPackage, 'update')) {
+        var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          contentType: 'application/json; charset=utf-8'
+        }, force: true};
+
+        return workPackage.links.update.fetch(options).then(function(form) {
+          workPackage.form = form;
+          return form;
+        });
+      }
+
+      return $q.when();
+    },
+
+    authorizedFor: function(workPackage, action) {
+      var modelName = 'work_package' + workPackage.id;
+
+      AuthorisationService.initModelAuth(modelName, workPackage.links);
+
+      return AuthorisationService.can(modelName, action);
     },
 
     updateWorkPackage: function(workPackage, data, notify) {
