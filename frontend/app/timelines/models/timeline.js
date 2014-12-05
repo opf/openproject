@@ -260,7 +260,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
     },
     registerTimelineContainer: function(uiRoot) {
       this.uiRoot = uiRoot;
-      this.registerDrawPaper();
     },
     checkPrerequisites: function() {
       if (jQuery === undefined) {

@@ -54,8 +54,8 @@ module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper,
       }
 
       function completeUI() {
-
-        scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
+        var paperElement  = jQuery('#timeline-container-' + scope.timeline.id + ' .tl-chart')[0];
+        scope.timeline.paper = new SvgHelper(paperElement);
 
         // perform some zooming. if there is a zoom level stored with the
         // report, zoom to it. otherwise, zoom out. this also constructs
