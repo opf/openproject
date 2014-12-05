@@ -97,11 +97,6 @@ $button-gray-font-color: #222222
 @mixin breadcrumb-font-bold($color)
   @include default-font-bold($color, $breadcrumb-font-size)
 
-@mixin border-radius($radius)
-  -webkit-border-radius: $radius
-  -moz-border-radius: $radius
-  border-radius: $radius
-
 @mixin button-highlight-background
   border: 1px solid $button-highlight-border-color
   background: $button-highlight-background-color
@@ -128,7 +123,7 @@ $button-gray-font-color: #222222
   &:hover
 
 @mixin button-common
-  @include border-radius($button-border-radius)
+  border-radius: $button-border-radius
   margin: 10px 10px 0 0
   line-height: 23px
   font-size: $global-font-size
