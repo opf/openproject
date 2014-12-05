@@ -16,8 +16,8 @@ $colors-orange  $colors-red-bright $colors-red    $colors-yellow      $colors-pu
 
 ```
 @colors
-- global_font_color - -
-- $header_bg_color - $header_logo_bg_colorgray -
+- $global-font-color - -
+- $header-bg-color - $header-logo-bg-colorgray -
 ```
 
 ## Button Color Variables
@@ -25,7 +25,7 @@ $colors-orange  $colors-red-bright $colors-red    $colors-yellow      $colors-pu
 ```
 @colors
 
-- $button_bg_color             - $button_bg_hover_color             -
-- $button_font_color           - $button_font_hover_color           -
-- $button_highlight_font_color - $button_highlight_font_hover_color -
+- $button-bg-color             - $button-bg-hover-color             -
+- $button-font-color           - $button-font-hover-color           -
+- $button-highlight-font-color - $button-highlight-font-hover-color -
 ```

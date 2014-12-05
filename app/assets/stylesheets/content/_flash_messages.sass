@@ -29,14 +29,14 @@
 #errorExplanation, div.flash, .nodata, .warning
   padding: 4px
   margin: 0 0 10px 0
-  color: $content_flash_msg_font_color
+  color: $content-flash-msg-font-color
 
   %absolute-layout-mode &
     height: $content-flash-height
 
 div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
 div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
-  @include default-font-normal($content_flash_msg_font_color)
+  @include default-font-normal($content-flash-msg-font-color)
   text-decoration: none
   cursor: default
 
@@ -47,7 +47,7 @@ div.flash
     @include animation(0.5s fade-out)
   i.close-handler
     float: right
-    font-size: $content_flash_icon_close_handler_font-size
+    font-size: $content-flash-icon-close-handler-font-size
     padding: 3px 2px
     cursor: pointer
 
@@ -60,10 +60,10 @@ div.flash
     @extend .hidden-for-sighted
 
 div.flash.error, #errorExplanation
-  background-color: $content_flash_error_msg_bg_color
+  background-color: $content-flash-error-msg-bg-color
 
 div.flash.notice
-  background-color: $content_flash_notice_msg_bg_color
+  background-color: $content-flash-notice-msg-bg-color
 
 div.flash.warning, .nodata, .warning
-  background-color: $content_flash_warning_msg_bg_color
+  background-color: $content-flash-warning-msg-bg-color

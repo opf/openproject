@@ -34,9 +34,9 @@ html
 
 body
   @include html_body_spacing
-  color: $global_font_color
-  font: normal normal normal $global_font_size $font_family_normal
-  line-height: $global_line_height
+  color: $global-font-color
+  font: normal normal normal $global-font-size $font-family-normal
+  line-height: $global-line-height
   background: white
 
   &%absolute-layout-mode
@@ -46,16 +46,16 @@ body
 
 #wrapper
   @include default-transition
-  +background-image(linear-gradient(to bottom, $main_menu_bg_color 0%, $main_menu_bg_color 100%))
+  +background-image(linear-gradient(to bottom, $main-menu-bg-color 0%, $main-menu-bg-color 100%))
   background-repeat: no-repeat
-  background-size: $main_menu_width 100%
+  background-size: $main-menu-width 100%
   min-height: 100%
   height: auto
   position: relative
   &.nosidebar, &.nomenus
     background: none
   &.hidden-navigation
-    background-size: $main_menu_folded_width 100%
+    background-size: $main-menu-folded-width 100%
 
 h1
   margin: 0
@@ -75,7 +75,7 @@ h4, .wiki h3
 #main
   z-index: 20
   overflow: auto
-  padding-bottom: $footer_height
+  padding-bottom: $footer-height
 
   %absolute-layout-mode &
     position: absolute
@@ -84,7 +84,7 @@ h4, .wiki h3
     width:    100%
     overflow: hidden
     border:
-      bottom: 5px solid $footer_bg_color
+      bottom: 5px solid $footer-bg-color
 
   &.nomenus
     padding-bottom: 0
@@ -94,7 +94,7 @@ h4, .wiki h3
 
 #content
   @include default-transition
-  margin: 0 0 0 $main_menu_width
+  margin: 0 0 0 $main-menu-width
   padding: 10px 20px
   width: auto
   overflow: hidden
@@ -105,15 +105,15 @@ h4, .wiki h3
   %absolute-layout-mode &
     position:   absolute
     box-sizing: border-box
-    width:      calc(100% - #{$main_menu_width})
+    width:      calc(100% - #{$main-menu-width})
     height:     calc(100% - 40px)
     padding:    10px 0 0 20px
 
   &.hidden-navigation
-    margin-left: $main_menu_folded_width
+    margin-left: $main-menu-folded-width
 
     %absolute-layout-mode &
-      width:    calc(100% - #{$main_menu_folded_width})
+      width:    calc(100% - #{$main-menu-folded-width})
 
   &.nosidebar
     margin-left: 0

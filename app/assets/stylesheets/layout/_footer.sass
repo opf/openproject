@@ -31,20 +31,20 @@
   text-align: right
   width: 100%
   position: relative
-  height: $footer_height
-  margin-top: -$footer_height
+  height: $footer-height
+  margin-top: -$footer-height
   padding: 0
   clear: both
-  background-color: $footer_bg_color
-  @include default-font-normal($footer_font_color)
+  background-color: $footer-bg-color
+  @include default-font-normal($footer-font-color)
 
   %absolute-layout-mode &
     display: none
 
   .footer-content
     margin: 0px 15px 0px 0
-    height: $footer_content_height
-    line-height: $footer_content_line_height
+    height: $footer-content-height
+    line-height: $footer-content-line-height
     a
       text-decoration: underline
-      @include default-font-normal($footer_content_link_color)
+      @include default-font-normal($footer-content-link-color)

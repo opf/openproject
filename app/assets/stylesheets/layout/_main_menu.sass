@@ -29,15 +29,15 @@
 $toggler-width: 40px
 
 @mixin highlight-left-item-border
-  border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
+  border-left: $main-menu-selected-hover-indicator-width solid $main-menu-selected-hover-indicator-color
 
-@mixin toggle-menu-item-background($bg-color: $main_menu_bg_hover_selected_background, $color: $main_menu_selected_font_color)
+@mixin toggle-menu-item-background($bg-color: $main-menu-bg-hover-selected-background, $color: $main-menu-selected-font-color)
   @include default-transition
 
   &:hover
     background: $bg-color
 
-    @if $main_menu_enable_toggle_highlighting != true
+    @if $main-menu-enable-toggle-highlighting != true
       // simultaneously hover all menu item anchor tags
       > a
         color: $color
@@ -55,10 +55,10 @@ $toggler-width: 40px
 
 #main-menu
   bottom: auto
-  width: $main_menu_width
+  width: $main-menu-width
   float: left
   left: 0
-  background-color: $main_menu_bg_color
+  background-color: $main-menu-bg-color
   @include default-transition
 
   %absolute-layout-mode &
@@ -73,11 +73,11 @@ $toggler-width: 40px
     padding: 0
 
     &.menu_root
-      border-right: $main_menu_border_width solid $main_menu_border_color
+      border-right: $main-menu-border-width solid $main-menu-border-color
 
       // main menu items
       > li
-        border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
+        border-bottom: $main-menu-item-border-width solid $main-menu-item-border-color
 
         .main-item-wrapper
           +toggle-menu-item-background
@@ -88,7 +88,7 @@ $toggler-width: 40px
 
           // placeholder for highlighted left-item-border
           a:not(.toggler)
-            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
+            border-left: $main-menu-selected-hover-indicator-width solid $main-menu-bg-color
 
             &.selected
               +highlight-left-item-border
@@ -127,41 +127,41 @@ $toggler-width: 40px
       display: none
       padding-top: 1px
       padding-bottom: 1px
-      background-color: $main_menu_child_menu_bg_color
+      background-color: $main-menu-child-menu-bg-color
       padding: 0
       &.unattached
         border-top: 1px solid #ddd
       li
-        +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
+        +toggle-menu-item-background($main-menu-child-bg-hover-selected-color, $main-menu-child-selected-font-color)
 
         a
           padding-left: 10px
-          font-size: $main_menu_child_font_size
-          line-height: $main_menu_child_item_height
-          height: $main_menu_child_item_height
+          font-size: $main-menu-child-font-size
+          line-height: $main-menu-child-item-height
+          height: $main-menu-child-item-height
           border: none
-          color: $main_menu_child_font_color
+          color: $main-menu-child-font-color
           margin-top: 1px
 
           &:hover
             border: none
             text-decoration: none
-            color: $main_menu_child_selected_font_color
+            color: $main-menu-child-selected-font-color
           &.selected
             border: none !important
-            color: $main_menu_child_selected_font_color
-            font-family: $font_family_normal
+            color: $main-menu-child-selected-font-color
+            font-family: $font-family-normal
             font-weight: bold
 
   a
     text-decoration: none
-    line-height: $main_menu_item_height
+    line-height: $main-menu-item-height
     display: block
     position: relative
-    height: $main_menu_item_height
-    color: $main_menu_font_color
+    height: $main-menu-item-height
+    color: $main-menu-font-color
     font-weight: normal
-    font-size: $main_menu_font_size
+    font-size: $main-menu-font-size
     font-style: normal
     @include main-menu-font
 
@@ -170,22 +170,22 @@ $toggler-width: 40px
     right: 0
     top: 0
     width: $toggler-width
-    height: $main_menu_item_height
+    height: $main-menu-item-height
     text-align: center
   .sub-menu-heading
     float: left
 
   #toggle-project-menu
-    border: $main_menu_item_border_width solid $main_menu_item_border_color
+    border: $main-menu-item-border-width solid $main-menu-item-border-color
     border-left: none
-    height: $main_menu_item_height - $main_menu_item_border_width
-    width: $main_menu_width - $main_menu_item_border_width
-    background-color: $main_menu_bg_color
+    height: $main-menu-item-height - $main-menu-item-border-width
+    width: $main-menu-width - $main-menu-item-border-width
+    background-color: $main-menu-bg-color
     @include default-transition
     &:hover
-      background: $main_menu_bg_hover_selected_background
+      background: $main-menu-bg-hover-selected-background
     &.show
-      width: $main_menu_folded_width - $main_menu_item_border_width
+      width: $main-menu-folded-width - $main-menu-item-border-width
       a.navigation-toggler
         height: 100%
         padding: 0 10px 0 0
@@ -194,11 +194,11 @@ $toggler-width: 40px
     a.navigation-toggler
       @include default-transition
       position: relative
-      height: $main_menu_item_height
+      height: $main-menu-item-height
       text-align: right
       padding: 0 6px 0 0
       &:hover
-        color: $main_menu_navigation_toggler_font_hover_color
+        color: $main-menu-navigation-toggler-font-hover-color
   .toggle-follow
     position: absolute
     width: 140px
@@ -208,7 +208,7 @@ $toggler-width: 40px
 
 .hidden-navigation
   #main-menu
-    width: $main_menu_folded_width
+    width: $main-menu-folded-width
     .ellipsis
       text-overflow: clip
       -o-text-overflow: clip
@@ -222,17 +222,17 @@ $toggler-width: 40px
   margin: 30px 0 0 0
   padding: 0px 17px 0 17px
   width: auto
-  color: $main_menu_sidebar_font_color
+  color: $main-menu-sidebar-font-color
   font-size: 12px
   @include main-menu-font
 
   h3
     display: block
     border: none
-    //border-top: 1px solid $main_menu_sidebar_h3_border_top_color
-    color: $main_menu_sidebar_h3_color
+    //border-top: 1px solid $main-menu-sidebar-h3-border-top-color
+    color: $main-menu-sidebar-h3-color
     font-weight: normal
-    font-size: $main_menu_sidebar_h3_font_size
+    font-size: $main-menu-sidebar-h3-font-size
     margin: 30px 0 8px 0
     padding: 10px 0 0 0
 
@@ -242,7 +242,7 @@ $toggler-width: 40px
     margin-top: 0px
 
   a, a:link
-    color: $main_menu_sidebar_link_color
+    color: $main-menu-sidebar-link-color
     font-size: 12px
     display: inline
     position: static
@@ -253,18 +253,18 @@ $toggler-width: 40px
 
   input.button-small
     margin-top: 14px
-    background: $main_menu_sidebar_button_bg_color
+    background: $main-menu-sidebar-button-bg-color
     border-radius: 25px
     -webkit-border-radius: 25px
     padding: 3px 7px
-    color: $main_menu_sidebar_button_font_color
+    color: $main-menu-sidebar-button-font-color
     border: none
     cursor: pointer
     @include main-menu-font
     @include default-transition
     &:hover
-      background: $main_menu_sidebar_button_hover_bg_color
-      color: $main_menu_sidebar_button_hover_font_color
+      background: $main-menu-sidebar-button-hover-bg-color
+      color: $main-menu-sidebar-button-hover-font-color
 
   ul
     border: none

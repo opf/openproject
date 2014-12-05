@@ -28,12 +28,12 @@
 
 #breadcrumb
   @include default-transition
-  height: $breadcrumb_height
+  height: $breadcrumb-height
   overflow: hidden
-  background: none repeat scroll 0 0 $breadcrumb_bg_color
+  background: none repeat scroll 0 0 $breadcrumb-bg-color
   border: none
-  border-bottom: 1px solid $breadcrumb_border_color
-  margin: 0 0 0 $main_menu_width
+  border-bottom: 1px solid $breadcrumb-border-color
+  margin: 0 0 0 $main-menu-width
   width: auto
   overflow: hidden
   position: relative
@@ -42,15 +42,15 @@
     ul
       margin: 0 0 0 0
   &.hidden-navigation
-    margin-left: $main_menu_folded_width
+    margin-left: $main-menu-folded-width
 
   h1
     margin-bottom: 0px
     margin-left: 13px
-    @include breadcrumb-font($breadcrumb_font_color)
+    @include breadcrumb-font($breadcrumb-font-color)
 
   a
-    @include breadcrumb-font-bold($breadcrumb_font_color)
+    @include breadcrumb-font-bold($breadcrumb-font-color)
     text-decoration: none
     &:hover
       text-decoration: underline
@@ -58,19 +58,19 @@
     list-style-type: none
     white-space: nowrap
     &.cutme
-      max-width: $breadcrumb_height
+      max-width: $breadcrumb-height
 
 ul.breadcrumb
   list-style: none
   list-style-position: outside
   // width: 10000px
-  height: $breadcrumb_height
-  line-height: $breadcrumb_height
+  height: $breadcrumb-height
+  line-height: $breadcrumb-height
 
 #breadcrumb ul.breadcrumb li.first-breadcrumb-element
   margin-left: 0
-  height: $breadcrumb_height
-  line-height: $breadcrumb_height
+  height: $breadcrumb-height
+  line-height: $breadcrumb-height
   a
     text-decoration: none
     display: block
@@ -83,4 +83,4 @@ ul.breadcrumb
   background: url(image-path('breadcrumb-list.png')) no-repeat right center
 
 #breadcrumb a.breadcrumb-project-title
-  font-size: $breadcrumb_highlighted_font_size
+  font-size: $breadcrumb-highlighted-font-size

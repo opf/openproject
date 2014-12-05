@@ -27,19 +27,19 @@
 //++
 
 @mixin input-style
-  width: $content_from_input_width
+  width: $content-from-input-width
   line-height: 30px
-  border: $content_form_input_border
+  border: $content-form-input-border
   padding: 0 0 0 10px
   @include border-radius(2px)
-  font-family: $font_family_normal
+  font-family: $font-family-normal
   font-weight: bold
-  font-size: $global_font_size
+  font-size: $global-font-size
   line-height: 30px
   height: 32px
   margin: 0
   &:hover, &:focus
-    border: $content_form_input_hover_border
+    border: $content-form-input-hover-border
 
   float: none
   display: inline-block
@@ -48,8 +48,8 @@
 @mixin select-style
   @include input-style
   margin: 0
-  min-width: $content_from_input_width + 10
-  max-width: $content_from_input_width + 10
+  min-width: $content-from-input-width + 10
+  max-width: $content-from-input-width + 10
   padding: 7px 10px 7px 10px
   option
     padding-left: 10px
@@ -66,15 +66,15 @@
 
 %form-style
   padding: 30px 20px
-  background-color: $content_form_bg_color
+  background-color: $content-form-bg-color
   display: block
-  border: $content_form_border
+  border: $content-form-border
 
   div.attribute_wrapper
     position: relative
     padding: 0
     margin-bottom: 10px
-    font-size: $global_font_size + 1
+    font-size: $global-font-size + 1
     line-height: 30px
     label
       @include label-style
@@ -95,12 +95,12 @@
     &#work_package_subject, &#work_package_time_entry_comments
       width: 50%
   textarea
-    font-family: $font_family_normal
+    font-family: $font-family-normal
     font-weight: bold
-    font-size: $global_font_size
-    border: $content_form_input_border
+    font-size: $global-font-size
+    border: $content-form-input-border
     &:hover, &:focus
-      border: $content_form_input_hover_border
+      border: $content-form-input-hover-border
 
   table
     border: 0 none
@@ -125,7 +125,7 @@
 
 hr.form_separator
   border: 0
-  border-bottom: 1px solid $content_form_separator_color
+  border-bottom: 1px solid $content-form-separator-color
   margin: 0 0 30px
   background: none
 
@@ -160,8 +160,8 @@ fieldset
       background-color: white
 
 .ui-widget
-  font-family: $font_family_normal
-  font-size: $global_font_size - 1px
+  font-family: $font-family-normal
+  font-size: $global-font-size - 1px
 
 #content
   .tabular
