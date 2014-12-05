@@ -81,15 +81,23 @@ describe 'API v3 Work package form resource', type: :request do
 
       context 'existing work package' do
         shared_examples_for 'valid payload' do
+          subject { response.body }
+
           it { expect(response.status).to eq(200) }
 
-          it { expect(subject.body).to have_json_path('_embedded/payload') }
+          it { is_expected.to have_json_path('_embedded/payload') }
 
-          it { expect(subject.body).to have_json_path('_embedded/payload/lockVersion') }
+          it { is_expected.to have_json_path('_embedded/payload/lockVersion') }
 
-          it { expect(subject.body).to have_json_path('_embedded/payload/subject') }
+          it { is_expected.to have_json_path('_embedded/payload/subject') }
 
-          it { expect(subject.body).to have_json_path('_embedded/payload/rawDescription') }
+          it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
+            let(:format) { 'textile' }
+            let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
+            let(:html) {
+              defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
+            }
+          end
         end
 
         shared_examples_for 'valid payload with initial values' do
@@ -101,11 +109,6 @@ describe 'API v3 Work package form resource', type: :request do
           it {
             expect(subject.body).to be_json_eql(work_package.subject.to_json)
               .at_path('_embedded/payload/subject')
-          }
-
-          it {
-            expect(subject.body).to be_json_eql(work_package.description.to_json)
-              .at_path('_embedded/payload/rawDescription')
           }
         end
 
@@ -231,19 +234,21 @@ describe 'API v3 Work package form resource', type: :request do
             end
 
             describe 'description' do
-              let(:path) { '_embedded/payload/rawDescription' }
+              let(:path) { '_embedded/payload/description/raw' }
               let(:description) { '*Some text* _describing_ *something*...' }
-              let(:params) { valid_params.merge(rawDescription: description) }
+              let(:params) { valid_params.merge(description: { raw: description }) }
 
               include_context 'post request'
 
-              it_behaves_like 'valid payload'
+              it_behaves_like 'valid payload' do
+                let(:raw_value) { description }
+                let(:html_value) {
+                  '<p><strong>Some text</strong> <em>describing</em> ' \
+                  '<strong>something</strong>...</p>'
+                }
+              end
 
               it_behaves_like 'having no errors'
-
-              it 'should respond with updated work package description' do
-                expect(subject.body).to be_json_eql(description.to_json).at_path(path)
-              end
             end
 
             describe 'status' do
