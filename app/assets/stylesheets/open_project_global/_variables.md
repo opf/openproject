@@ -17,7 +17,7 @@ $colors-orange  $colors-red-bright $colors-red    $colors-yellow      $colors-pu
 ```
 @colors
 - $global-font-color - -
-- $header-bg-color - $header-logo-bg-colorgray -
+- $header-bg-color - $header-logo-bg-color -
 ```
 
 ## Button Color Variables
