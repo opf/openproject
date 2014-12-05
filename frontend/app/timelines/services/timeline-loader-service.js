@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, Timeline, User, CustomField) {
+module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, Timeline, User, CustomField, PathHelper) {
 
   /**
    * QueueingLoader
@@ -581,7 +581,6 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
    *
    *  The following list describes the required options
    *
-   *    url_prefix     : timeline.options.url_prefix,
    *    project_prefix : timeline.options.project_prefix,
    *    project_id     : timeline.options.project_id,
    *
@@ -599,12 +598,13 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
    *      }
    */
   var TimelineLoader = function (timeline, options) {
+    this.timelineId   = timeline.id;
     this.options      = options;
     this.data         = {};
     this.loader       = new QueueingLoader(options.ajax_defaults);
     this.dataEnhancer = new DataEnhancer(timeline);
 
-    this.globalPrefix = options.url_prefix + options.api_prefix;
+    this.globalPrefix = PathHelper.staticBase + PathHelper.apiV2;
 
     this.die = function () {
       this.dataEnhancer.die.apply(this.dataEnhancer, arguments);
@@ -659,9 +659,8 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
   };
 
   TimelineLoader.prototype.registerProjectReportings = function () {
-    var projectPrefix = this.options.url_prefix +
-                        this.options.api_prefix +
-                        this.options.project_prefix +
+    var projectPrefix = this.globalPrefix +
+                        PathHelper.projectsPath() +
                         "/" +
                         this.options.project_id;
 
@@ -697,7 +696,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
 
   TimelineLoader.prototype.registerGlobalElements = function () {
     var projectPrefix = this.globalPrefix +
-                        this.options.project_prefix +
+                        PathHelper.projectsPath() +
                         "/" +
                         this.options.project_id;
 
@@ -823,9 +822,8 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
 
   TimelineLoader.prototype.registerPlanningElements = function (ids) {
     this.inChunks(ids, function (projectIdsOfPacket, i) {
-      var projectPrefix = this.options.url_prefix +
-                          this.options.api_prefix +
-                          this.options.project_prefix +
+      var projectPrefix = this.globalPrefix +
+                          PathHelper.projectsPath() +
                           "/" +
                           projectIdsOfPacket.join(',');
 
@@ -835,7 +833,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
       // load current planning elements.
       this.loader.register(
         PlanningElement.identifier + '_' + i,
-        { url : qsb.append({timeline: this.options.timeline_id}).build(projectPrefix + '/planning_elements.json') },
+        { url : qsb.append({timeline: this.timelineId}).build(projectPrefix + '/planning_elements.json') },
         { storeIn: PlanningElement.identifier }
       );
 
@@ -856,7 +854,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
   TimelineLoader.prototype.registerPlanningElementsByID = function (ids) {
 
     this.inChunks(ids, function (planningElementIdsOfPacket, i) {
-      var projectPrefix = this.options.url_prefix +
+      var projectPrefix = PathHelper.staticBase +
                           this.options.api_prefix;
 
       // load current planning elements.

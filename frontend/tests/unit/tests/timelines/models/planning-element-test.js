@@ -30,7 +30,7 @@
 
 describe('Planning Element', function(){
 
-  var PlanningElement, Timeline;
+  var PlanningElement, Timeline, PathHelper;
 
   before(function() {
     this.peEmpty = Factory.build("PlanningElement", {
@@ -54,10 +54,11 @@ describe('Planning Element', function(){
     });
   });
 
-  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
-  beforeEach(inject(function(_PlanningElement_, _Timeline_) {
+  beforeEach(module('openproject.helpers', 'openproject.timelines.models', 'openproject.uiComponents'));
+  beforeEach(inject(function(_PlanningElement_, _Timeline_, _PathHelper_) {
     PlanningElement = _PlanningElement_;
     Timeline        = _Timeline_;
+    PathHelper      = _PathHelper_;
   }));
 
   describe('is', function () {
@@ -342,11 +343,19 @@ describe('Planning Element', function(){
   });
 
   describe('url', function () {
+    beforeEach(function() {
+      PathHelper.staticBase = '/vtu';
+    });
+
+    afterEach(function() {
+      PathHelper.staticBase = '';
+    });
+
     it('should return correct url', function () {
-      var pe = Factory.build("PlanningElement", {
-        timeline: Factory.build("Timeline", {}, {url_prefix: "/vtu"}),
-        id: 9991
-      });
+      var pe = PlanningElement;
+
+      pe.id = 9991
+
       expect(pe.getUrl()).to.equal("/vtu/work_packages/9991");
     });
   });

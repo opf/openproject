@@ -30,6 +30,6 @@ angular.module('openproject.timelines.services')
   .service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color',
     'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType',
     'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status',
-    'Timeline', 'User', 'CustomField',
+    'Timeline', 'User', 'CustomField', 'PathHelper',
     require('./timeline-loader-service')
   ]);

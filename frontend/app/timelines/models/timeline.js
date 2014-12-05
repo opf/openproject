@@ -29,6 +29,24 @@
 
 module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
+  var getInitialValue = function(timelineOptions, property) {
+    var value = timelineOptions[property];
+
+    if (value && value >= 0) {
+      return value;
+    } else {
+      return 0;
+    }
+  };
+
+  var getInitialOutlineExpansion = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'initial_outline_expansion');
+  };
+
+  var getInitialZoomFactor = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'zoom_factor');
+  };
+
   Timeline = {};
 
   // model mix ins
@@ -38,11 +56,13 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
   //startup
   angular.extend(Timeline, {
     instances: [],
-    create: function(options) {
+    create: function(id, options) {
+      if (!id) {
+        throw new Error('No timelines id given');
+      }
       if (!options) {
         throw new Error('No configuration options given');
       }
-      this.options = options;
       this.extendOptions();
 
       this.instances = [];
@@ -50,8 +70,13 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       var timeline = Object.create(Timeline);
 
       // some private fields.
+      timeline.id = id;
+      timeline.options = options;
       timeline.listeners = [];
       timeline.data = {};
+
+      timeline.expansionIndex = parseInt(getInitialOutlineExpansion(options), 10);
+      timeline.zoomIndex = parseInt(getInitialZoomFactor(options), 10);
 
       Timeline.instances.push(timeline);
       return timeline;
@@ -235,7 +260,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
     },
     registerTimelineContainer: function(uiRoot) {
       this.uiRoot = uiRoot;
-      this.registerDrawPaper();
     },
     checkPrerequisites: function() {
       if (jQuery === undefined) {
@@ -699,8 +723,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       return new F();
     };
   }
-
-
 
   return Timeline;
 };

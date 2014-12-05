@@ -186,19 +186,8 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       });
   }
 
-  function getCurrentStateUrl(){
-    var relativeUri = decodeURIComponent($state.href($state.$current)); // ui-router escapes some of this string for whatever reason
-
-    if($scope.query) {
-      var queryString = UrlParamsHelper.encodeQueryJsonParams($scope.query);
-      relativeUri += (($scope.query.isNew()) ? '?' : '&') + 'query_props=' + queryString;
-    }
-
-    return relativeUri;
-  }
-
   $scope.maintainBackUrl = function() {
-    $scope.backUrl = getCurrentStateUrl();
+    $scope.backUrl = $location.url();
   };
 
   // Updates

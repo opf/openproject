@@ -314,10 +314,9 @@ module TimelinesHelper
   end
 
   def push_timeline_options(timeline)
-    gon.timeline_options = timeline.options.reverse_merge(
-      timeline_id: timeline.id,
-      project_id: timeline.project.identifier,
-      url_prefix: OpenProject::Configuration.rails_relative_url_root || ''
-    )
+    project_id = timeline.project.identifier
+
+    gon.timeline_options ||= {}
+    gon.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
   end
 end
