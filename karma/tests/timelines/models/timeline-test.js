@@ -43,14 +43,20 @@ describe('Timeline', function() {
 
   it('should not create a timeline object without configuration options', function() {
     expect(function() {
-      model.create();
+      model.create(42);
     }).to.throw('No configuration options given');
+  });
+
+  it('should not create a timeline object without id', function() {
+    expect(function() {
+      model.create(null, {});
+    }).to.throw('No timelines id given');
   });
 
   it('should create a timeline object', function () {
     expect(model.instances).to.have.length(0);
 
-    var timeline = model.create({
+    var timeline = model.create(42, {
       project_id: 1
     });
 
