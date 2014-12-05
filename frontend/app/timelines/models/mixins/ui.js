@@ -195,7 +195,12 @@ module.exports = function($timeout) {
         index = this.zoomIndex;
       }
       index = Math.max(Math.min(this.ZOOM_SCALES.length - 1, index), 0);
+      var zoomScale = this.ZOOM_SCALES[index];
+      var scale = this.ZOOM_CONFIGURATIONS[zoomScale].scale;
+
       this.zoomIndex = index;
+      this.scale = scale;
+
       this.resetWidth();
       this.triggerResize();
       this.rebuildAll();
@@ -294,7 +299,7 @@ module.exports = function($timeout) {
     },
     registerDrawPaper: function() {
       // store the paper element for later use.
-      this.paperElement = jQuery('.tl-chart')[0];
+      this.paperElement = jQuery('#timeline-container-' + this.id + ' .tl-chart')[0];
     },
     getMeasuredHeight: function() {
       return this.getUiRoot().find('.tl-left-main').height();
