@@ -234,10 +234,16 @@ module API
         property :lock_version
         property :subject, render_nil: true
         property :type, getter: -> (*) { type.try(:name) }, render_nil: true
-        property :description, exec_context: :decorator, render_nil: true, writeable: false
-        property :raw_description,
-                 getter: -> (*) { description },
-                 setter: -> (value, *) { self.description = value },
+        property :description,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   {
+                     format: 'textile',
+                     raw: represented.description,
+                     html: format_text(represented, :description)
+                   }
+                 },
+                 setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
         property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
@@ -290,10 +296,6 @@ module API
 
         def _type
           'WorkPackage'
-        end
-
-        def description
-          format_text(represented, :description)
         end
 
         def activities

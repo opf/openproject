@@ -37,6 +37,7 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
+          include OpenProject::TextFormatting
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -64,9 +65,16 @@ module API
 
           property :lock_version
           property :subject, render_nil: true
-          property :raw_description,
-                   getter: -> (*) { description },
-                   setter: -> (value, *) { self.description = value },
+          property :description,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     {
+                       format: 'textile',
+                       raw: represented.description,
+                       html: format_text(represented, :description)
+                     }
+                   },
+                   setter: -> (value, *) { represented.description = value['raw'] },
                    render_nil: true
           property :parent_id, writeable: true
 
