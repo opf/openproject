@@ -239,11 +239,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'version set' do
           let!(:version) { FactoryGirl.create :version, project: project }
+          let(:expected_url) { "/versions/#{version.id}".to_json }
+
           before do
             work_package.fixed_version = version
           end
 
-          it { is_expected.to have_json_path('_links/version/href') }
+          it {
+            is_expected.to be_json_eql(expected_url).at_path('_links/version/href')
+          }
+
+          it { is_expected.to be_json_eql('text/html'.to_json).at_path('_links/version/type') }
 
           context ' but is not accessible due to permissions' do
             before do
