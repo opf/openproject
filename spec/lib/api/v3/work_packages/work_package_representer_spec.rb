@@ -249,6 +249,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             is_expected.to be_json_eql(expected_url).at_path('_links/version/href')
           }
 
+          it { is_expected.to be_json_eql('text/html'.to_json).at_path('_links/version/type') }
+
           context ' but is not accessible due to permissions' do
             before do
               current_user.stub(:allowed_to?).and_call_original
