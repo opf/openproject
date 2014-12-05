@@ -26,16 +26,77 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-a.button_highlight, .button_highlight
-  @include button-highlight
+a.button_highlight,
+.button_highlight
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
 
-a.button, .button
-  @include button
-  &.active
-    @include button-active
+  transition: none
 
-a.button_active, .button_active
-  @include button-active
+  background: $button-highlight-background-gradient
+  border: 1px solid $button-highlight-border-color
+
+  &:enabled
+    &:hover,
+    &:focus
+      border: 1px solid $button-highlight-background-hover-color
+      background: $button-highlight-background-hover-color
+
+  &:disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
+
+a.button,
+.button
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style(#eee, $button-font-color, $button-style)
+
+  transition: none
+
+  background: linear-gradient(to bottom, #fff 0%, #eee 74%, #eee 100%)
+  border: 1px solid #ccc
+
+  &:enabled
+    &:hover,
+    &:focus
+      border: 1px solid #777
+      background: linear-gradient(to bottom, #fff 0%, #eee 40%, #ddd 100%)
+
+  &:disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
+
+a.button_active,
+.button_active,
+.button.active
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style(#eee, $button-active-font-color, $button-style)
+
+  transition: none
+
+  border: 1px solid #ccc
+  box-shadow: 0px 2px 4px #ccc inset
+
+  &:enabled
+    &:hover,
+    &:focus
+      background: #eee
+
+  &:disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
 
 input.button, input.button_highlight
   margin-top: 0
