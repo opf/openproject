@@ -167,12 +167,16 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
 
     function setReadValue() {
       InplaceEditorDispatcher.dispatchHook($scope, 'setReadValue');
-      if ((!$scope.readValue || $scope.readValue.length === 0) && $scope.placeholder) {
+      if ($scope.isEditable && isReadValueEmpty() && $scope.placeholder) {
         $scope.readValue = $scope.placeholder;
         $scope.placeholderSet = true;
       } else {
         $scope.placeholderSet = false;
       }
+    }
+
+    function isReadValueEmpty() {
+      return (!$scope.readValue || $scope.readValue.length === 0);
     }
 
   }
