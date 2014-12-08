@@ -42,7 +42,7 @@
 /backup
 /.project
 /.loadpath
-/app/assets/javascripts/bundles/*.js*
+/app/assets/javascripts/bundles/*.*
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
@@ -53,7 +53,6 @@
 /db/*.sqlite3
 /db/schema.rb
 /files/*
-/frontend/tests/unit/reports
 /log/*.log*
 /log/mongrel_debug
 /public/dispatch.*
@@ -66,7 +65,6 @@
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
-/vendor/assets/components
 /*.rbc
 /doc/app
 #/Gemfile.lock
@@ -82,4 +80,3 @@
 
 # asset cache
 /.sass-cache/
-/node_modules/

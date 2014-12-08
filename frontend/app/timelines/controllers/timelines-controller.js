@@ -27,12 +27,14 @@
 //++
 
 module.exports = function($scope) {
-  // Setup
-
-  // Get server-side stuff into scope
   $scope.timelineOptions = gon.timeline_options;
 
-  // Count timeline containers
-  $scope.timelineContainerCount = 0;
+  // Setup
+  $scope.init = function(id) {
+    var timelineOptions = $scope.timelineOptions[id];
+    var timeline = Timeline.create(id, timelineOptions);
 
+    // Get server-side stuff into scope
+    $scope.timeline = timeline;
+  };
 };

@@ -161,6 +161,16 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'having no errors'
             end
 
+            context 'invalid content' do
+              before do
+                allow(User).to receive(:current).and_return current_user
+                post post_path, '{ ,', 'CONTENT_TYPE' => 'application/json; charset=utf-8'
+              end
+
+              it_behaves_like 'parse error',
+                              'unexpected comma at line 1, column 3'
+            end
+
             describe 'lock version' do
               context 'missing lock version' do
                 let(:params) { valid_params.except(:lockVersion) }
@@ -291,15 +301,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                   it_behaves_like 'valid payload'
 
-                  it {
-                    expect(subject.body).to be_json_eql(error_id)
-                      .at_path('_embedded/validationErrors/status/errorIdentifier')
-                  }
-
-                  it {
-                    expect(subject.body).to have_json_size(2)
-                      .at_path('_embedded/validationErrors/status/_embedded/errors')
-                  }
+                  it_behaves_like 'having an error', 'status'
 
                   it 'should respond with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
@@ -312,8 +314,10 @@ describe 'API v3 Work package form resource', type: :request do
                   include_context 'post request'
 
                   it_behaves_like 'constraint violation',
-                                  'For property status a resource of type Status' \
-                                  ' is expected but got a resource of type User.'
+                                  I18n.t('api_v3.errors.invalid_resource',
+                                         property: 'Status',
+                                         expected: 'Status',
+                                         actual: 'User')
                 end
               end
             end
@@ -375,8 +379,10 @@ describe 'API v3 Work package form resource', type: :request do
                     include_context 'post request'
 
                     it_behaves_like 'constraint violation',
-                                    "For property #{property} a resource of type User" \
-                                    ' is expected but got a resource of type Status.'
+                                    I18n.t('api_v3.errors.invalid_resource',
+                                           property: "#{property.capitalize}",
+                                           expected: 'User',
+                                           actual: 'Status')
                   end
                 end
               end
@@ -411,11 +417,6 @@ describe 'API v3 Work package form resource', type: :request do
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/subject') }
 
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/status') }
-
-              it {
-                expect(subject.body).to have_json_size(2)
-                  .at_path('_embedded/validationErrors/status/_embedded/errors')
-              }
 
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/assignee') }
 

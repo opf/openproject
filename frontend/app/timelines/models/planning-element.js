@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function() {
+module.exports = function(PathHelper) {
 
   PlanningElement = {
     objectType: 'PlanningElement',
@@ -298,13 +298,7 @@ module.exports = function() {
       };
     },
     getUrl: function() {
-      var options = this.timeline.options;
-      var url = options.url_prefix;
-
-      url += "/work_packages/";
-      url += this.id;
-
-      return url;
+      return PathHelper.staticBase + "/work_packages/" + this.id;
     },
     getColor: function () {
       // if there is a color for this planning element type, use it.

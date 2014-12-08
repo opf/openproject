@@ -1,4 +1,7 @@
-<span ng-if="!isEditable">{{ entity.props[attribute] }}</span>
+<span ng-if="!isEditable" ng-switch="type">
+  <span ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
+  <span ng-switch-default ng-bind="readValue"></span>
+</span>
 <div ng-if="isEditable" class="inplace-editor type-{{type}}" ng-class="{busy: isBusy, preview: isPreview}">
   <div class="ined-read-value" ng-class="{ default: placeholderSet }" ng-hide="isEditing" ng-switch="type">
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>

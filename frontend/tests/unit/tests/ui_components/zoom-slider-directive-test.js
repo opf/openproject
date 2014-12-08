@@ -32,7 +32,7 @@ describe('zoomSlider Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates'));
+    beforeEach(module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;

@@ -67,13 +67,19 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   }
 
   function fetchAvailableWatchers() {
+    if ($scope.workPackage.links.availableWatchers === undefined) {
+      $scope.availableWatchers = [];
+      return;
+    }
+
     $scope.workPackage.links.availableWatchers
       .fetch()
       .then(function(data) {
         // Temporarily filter out watchers already assigned to the work package on the client-side
-        $scope.availableWatchers = getFilteredCollection(data.embedded.availableWatchers, $scope.watchers);
-        // TODO do filtering on the API side and replace the update of the available watchers with the code provided in the following line
-        // $scope.availableWatchers = data.embedded.availableWatchers;
+        $scope.availableWatchers = getFilteredCollection(data.embedded.elements, $scope.watchers);
+        // TODO do filtering on the API side and replace the update of the
+        // available watchers with the code provided in the following line
+        // $scope.availableWatchers = data.embedded.elements;
       });
   }
 

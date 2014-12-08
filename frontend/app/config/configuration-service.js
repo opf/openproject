@@ -76,13 +76,13 @@ module.exports = function() {
       return this.settings.user_preferences.time_zone;
     },
     dateFormatPresent: function() {
-      return this.displaySettingPresent('date_format');
+      return this.displaySettingPresent('date_format') && this.settings.display.date_format != '';
     },
     dateFormat: function() {
       return this.settings.display.date_format;
     },
     timeFormatPresent: function() {
-      return this.displaySettingPresent('time_format');
+      return this.displaySettingPresent('time_format') && this.settings.display.time_format != '';
     },
     timeFormat: function() {
       return this.settings.display.time_format;

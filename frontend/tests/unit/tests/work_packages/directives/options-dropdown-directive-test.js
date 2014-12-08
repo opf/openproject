@@ -37,7 +37,7 @@ describe('optionsDropdown Directive', function() {
                       'openproject.api',
                       'openproject.layout',
                       'openproject.services'));
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -46,7 +46,7 @@ describe('optionsDropdown Directive', function() {
       $provide.constant('ConfigurationService', configurationService);
     }));
 
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       var state = { go: function() { return false; } };
       $provide.value('$state', state);
     }));

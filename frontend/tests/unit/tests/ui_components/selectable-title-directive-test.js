@@ -33,7 +33,7 @@ describe('selectableTitle Directive', function() {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('templates', 'truncate'));
+  beforeEach(module('openproject.templates', 'truncate'));
 
   beforeEach(inject(function($rootScope, $compile) {
     var html;

@@ -54,7 +54,9 @@ module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsMo
             QueryService.saveQuery()
               .then(function(data){
                 scope.$emit('flashMessage', data.status);
-                $state.go('work-packages.list', { query_id: scope.query.id, query: null }, { notify: false });
+                $state.go('work-packages.list',
+                          { query_id: scope.query.id, query_props: null },
+                          { notify: false });
               });
           }
         }
@@ -66,7 +68,9 @@ module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsMo
             .then(function(data){
               settingsModal.deactivate();
               scope.$emit('flashMessage', data.status);
-              $state.go('work-packages.list', { query_id: null, query: null }, { reload: true });
+              $state.go('work-packages.list',
+                        { query_id: null, query_props: null },
+                        { reload: true });
             });
         }
       };

@@ -32,7 +32,7 @@ describe('WorkPackagesController', function() {
   var scope, win, ctrl, testParams, buildController, stateParams = {};
 
   beforeEach(module('openproject.workPackages.controllers', 'openproject.api', 'openproject.layout','openproject.services'));
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);

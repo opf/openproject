@@ -44,10 +44,12 @@ namespace :assets do
 
   desc 'Compile assets with webpack'
   task :webpack do
-    sh '$(npm bin)/webpack --config webpack.config.js'
+    Dir.chdir Rails.root.join('frontend') do
+      sh '$(npm bin)/webpack --config webpack.config.js'
+    end
   end
 
   task :clobber do
-    rm_rf FileList["#{Rails.root}/app/assets/javascripts/*.bundle.js*"]
+    rm_rf FileList["#{Rails.root}/app/assets/javascripts/bundles/*"]
   end
 end

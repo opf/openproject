@@ -35,7 +35,8 @@
              inplace-editor
              ined-type="select"
              ined-entity="workPackage"
-             ined-attribute="status"
+             ined-attribute="status.name"
+             ined-attribute-embedded="true"
           ></div>
         <div ng-if="propertyData.property != 'status'" ng-switch-default ng-switch="propertyData.format">
           <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">

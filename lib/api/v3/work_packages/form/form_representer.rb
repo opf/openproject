@@ -98,28 +98,9 @@ module API
           end
 
           def validation_errors
-            errors = represented.errors
-            properties = errors.keys
-
-            properties.each do |p|
-              match = /(?<property>\w+)_id/.match(p)
-
-              if match
-                key = match[:property].to_sym
-                error = Array(errors[key]) + errors[p]
-
-                errors.set(key, error)
-                errors.delete(p)
-              end
-            end
-
-            errors.keys.each_with_object({}) do |key, hash|
-              messages = errors[key].each_with_object([]) do |m, l|
-                l << errors.full_message(key, m)
-              end
-
-              error = ::API::Errors::Validation.new(messages)
-              hash[key] = ::API::V3::Errors::ErrorRepresenter.new(error)
+            ::API::Errors::Validation.create(represented.errors.dup).inject({}) do |h, (k, v)|
+              h[k] = ::API::V3::Errors::ErrorRepresenter.new(v)
+              h
             end
           end
         end

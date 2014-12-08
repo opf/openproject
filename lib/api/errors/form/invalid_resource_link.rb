@@ -32,10 +32,13 @@ module API
     module Form
       class InvalidResourceLink < StandardError
         def initialize(property, expected_resource, actual_resource = :unknown)
-          expected = expected_resource.to_s.singularize.capitalize
-          actual = actual_resource.to_s.singularize.capitalize
-          message = "For property #{property} a resource of type #{expected}" \
-                    " is expected but got a resource of type #{actual}"
+          property_localized = I18n.t("attributes.#{property}")
+          expected_localized = I18n.t("attributes.#{expected_resource.to_s.singularize}")
+          actual_localized = I18n.t("attributes.#{actual_resource.to_s.singularize}")
+          message = I18n.t('api_v3.errors.invalid_resource',
+                           property: property_localized,
+                           expected: expected_localized,
+                           actual: actual_localized)
 
           super(message)
         end

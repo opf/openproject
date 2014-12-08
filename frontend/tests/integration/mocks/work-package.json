@@ -78,8 +78,6 @@
   "type": "Bug",
   "description": "<p>Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.</p>",
   "rawDescription": "Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.",
-  "status": "New",
-  "isClosed": false,
   "priority": "Normal",
   "startDate": "2014-02-28T00:00:00+00:00",
   "dueDate": "2014-04-28T00:00:00+00:00",
@@ -117,6 +115,10 @@
     }
   ],
   "_embedded": {
+    "status": {
+      "name": "New",
+      "isClosed": false
+    },
     "author": {
       "_type": "User",
       "_links": {

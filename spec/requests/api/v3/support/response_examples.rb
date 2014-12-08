@@ -53,32 +53,49 @@ shared_examples_for 'invalid render context' do |message|
                   message
 end
 
+shared_examples_for 'invalid request body' do |message|
+  it_behaves_like 'error response',
+                  400,
+                  'InvalidRequestBody',
+                  message
+end
+
+shared_examples_for 'parse error' do |message|
+  it_behaves_like 'invalid request body',
+                  I18n.t('api_v3.errors.parse_error')
+
+  it {
+    expect(last_response.body).to be_json_eql(message.to_json)
+      .at_path('_embedded/details/parseError')
+  }
+end
+
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,
                   'MissingPermission',
-                  'You need to be authenticated to access this resource'
+                  I18n.t('api_v3.errors.code_401')
 end
 
 shared_examples_for 'unauthorized access' do
   it_behaves_like 'error response',
                   403,
                   'MissingPermission',
-                  'You are not authorized to access this resource'
+                  I18n.t('api_v3.errors.code_403')
 end
 
 shared_examples_for 'not found' do |id, type|
   it_behaves_like 'error response',
                   404,
                   'NotFound',
-                  "Couldn\'t find #{type} with id=#{id}"
+                  I18n.t('api_v3.errors.code_404', type: type, id: id)
 end
 
 shared_examples_for 'update conflict' do
   it_behaves_like 'error response',
                   409,
                   'UpdateConflict',
-                  'Couldn\'t update the resource because of conflicting modifications'
+                  I18n.t('api_v3.errors.code_409')
 end
 
 shared_examples_for 'constraint violation' do |message|
@@ -98,11 +115,14 @@ shared_examples_for 'read-only violation' do |attribute|
   it_behaves_like 'error response',
                   422,
                   'PropertyIsReadOnly',
-                  'You must not write a read-only attribute'
+                  I18n.t('api_v3.errors.writing_read_only_attributes')
 end
 
 shared_examples_for 'multiple errors' do |code, message|
-  it_behaves_like 'error response', code, 'MultipleErrors', message
+  it_behaves_like 'error response',
+                  code,
+                  'MultipleErrors',
+                  I18n.t('api_v3.errors.multiple_errors')
 end
 
 shared_examples_for 'multiple errors of the same type' do |error_count, id|

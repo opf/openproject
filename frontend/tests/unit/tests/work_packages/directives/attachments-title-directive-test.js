@@ -32,7 +32,7 @@ describe('attachmentsTitle Directive', function() {
     var I18n, compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates'));
+    beforeEach(module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile, _I18n_) {
       var html;

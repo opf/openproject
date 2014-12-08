@@ -78,6 +78,7 @@ angular.module('openproject.workPackages.directives')
     'PERMITTED_MORE_MENU_ACTIONS',
     '$state',
     '$window',
+    '$location',
     'I18n',
     'HookService',
     'WorkPackageService',

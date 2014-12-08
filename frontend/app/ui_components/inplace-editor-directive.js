@@ -35,6 +35,7 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       type: '@inedType',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
+      embedded: '@inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'
     },
@@ -95,8 +96,14 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     activate();
 
     function activate() {
-      InplaceEditorDispatcher.dispatchHook($scope, 'activate');
-      setWriteValue();
+      // Editor activation and write value retrieval depend on the work package
+      // form to be available. But the form is only available if the work
+      // package is editable.
+      if ($scope.isEditable) {
+        InplaceEditorDispatcher.dispatchHook($scope, 'activate');
+        setWriteValue();
+      }
+
       setReadValue();
     }
 
@@ -113,12 +120,12 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       $scope.$broadcast('startEditing');
     }
 
-    function submit(withEmail) {
+    function submit(notify) {
       // angular.copy here to make a new object instead of a reference
       var data = angular.copy($scope.entity.form.embedded.payload.props);
       InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
       $scope.isBusy = true;
-      var result = WorkPackageService.updateWorkPackage($scope.entity, data);
+      var result = WorkPackageService.updateWorkPackage($scope.entity, data, notify);
       result.then(function(workPackage) {
         $scope.onSuccess(workPackage);
       });
@@ -160,12 +167,16 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
 
     function setReadValue() {
       InplaceEditorDispatcher.dispatchHook($scope, 'setReadValue');
-      if ((!$scope.readValue || $scope.readValue.length === 0) && $scope.placeholder) {
+      if ($scope.isEditable && isReadValueEmpty() && $scope.placeholder) {
         $scope.readValue = $scope.placeholder;
         $scope.placeholderSet = true;
       } else {
         $scope.placeholderSet = false;
       }
+    }
+
+    function isReadValueEmpty() {
+      return (!$scope.readValue || $scope.readValue.length === 0);
     }
 
   }

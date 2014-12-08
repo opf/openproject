@@ -86,8 +86,6 @@ namespace :ci do
       Rake::Task['db:migrate'].invoke
       Rake::Task['db:schema:dump'].invoke
 
-      Rake::Task['bower:install'].invoke('-F')
-
       # Create test repositories
       Rake::Task['test:scm:setup:all'].invoke
     end

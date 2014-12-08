@@ -48,37 +48,30 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "vendor/assets/components/jquery/dist/jquery.js",
-      "vendor/assets/components/momentjs/moment.js",
-      "vendor/assets/components/moment-timezone/moment-timezone.js",
-      'vendor/assets/components/select2/select2.js',
-      "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
+      'app/global.js',
+      'app/openproject-app.js',
+      "bower_components/angular-mocks/angular-mocks.js",
 
-      'frontend/app/openproject-app.js',
-      "vendor/assets/components/angular-mocks/angular-mocks.js",
+      "../app/assets/javascripts/lib/jquery.trap.js",
 
-      "app/assets/javascripts/lib/jquery.trap.js",
+      '../app/assets/javascripts/autocompleter.js',
+      '../app/assets/javascripts/members_select_boxes.js',
+      '../app/assets/javascripts/openproject.js',
+      '../app/assets/javascripts/timelines_select_boxes.js',
+      '../app/assets/javascripts/jstoolbar/jstoolbar.js',
 
-      'app/assets/javascripts/autocompleter.js',
-      'app/assets/javascripts/members_select_boxes.js',
-      'app/assets/javascripts/openproject.js',
-      'app/assets/javascripts/timelines_select_boxes.js',
-      'app/assets/javascripts/jstoolbar/jstoolbar.js',
+      '../app/assets/javascripts/date-en-US.js',
 
-      'app/assets/javascripts/date-en-US.js',
+      'tests/unit/tests/timeline_stubs.js',
+      'tests/unit/lib/rosie.js',
+      'tests/unit/tests/test-helper.js',
+      'tests/unit/factories/*factory.js',
 
-      'frontend/tests/unit/tests/timeline_stubs.js',
-      'frontend/tests/unit/lib/rosie.js',
-      'frontend/tests/unit/tests/test-helper.js',
-      'frontend/tests/unit/factories/*factory.js',
+      'bower_components/jquery-mockjax/jquery.mockjax.js',
 
-      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
-
-      'frontend/tests/unit/tests/asset_functions.js',
-      'frontend/tests/unit/tests/**/*test.js',
-      'frontend/tests/unit/tests/legacy-tests.js',
-
-      'public/templates/**/*.html'
+      'tests/unit/tests/asset_functions.js',
+      'tests/unit/tests/**/*test.js',
+      'tests/unit/tests/legacy-tests.js'
     ],
 
 
@@ -91,9 +84,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'app/assets/javascripts/*.js': ['coverage'],
-      'frontend/app/**/*.js': ['webpack'], // coverage disabled
-      'public/templates/**/*.html': ['ng-html2js']
+      '../app/assets/javascripts/*.js': ['coverage'],
+      'app/**/*.js': ['webpack'] // coverage disabled
     },
 
 
@@ -132,7 +124,7 @@ module.exports = function(config) {
 
 
     junitReporter: {
-      outputFile: 'frontend/tests/unit/reports/test-results.xml'
+      outputFile: 'tests/unit/reports/test-results.xml'
     },
 
     coverageReporter: {
@@ -140,11 +132,6 @@ module.exports = function(config) {
         { type: 'html', dir:'coverage/' },
         { type: 'cobertura' }
       ]
-    },
-
-    ngHtml2JsPreprocessor: {
-      stripPrefix:  'public',
-      moduleName:   'templates'
     },
 
     webpack: require('./webpack.config.js'),

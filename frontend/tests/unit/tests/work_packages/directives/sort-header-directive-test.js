@@ -32,7 +32,7 @@ describe('sortHeader Directive', function() {
     var compile, element1, element2, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates', 'openproject.models'));
+    beforeEach(module('openproject.templates', 'openproject.models'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var header1Html;

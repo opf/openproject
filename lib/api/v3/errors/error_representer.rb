@@ -70,6 +70,8 @@ module API
             'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
           when ::API::Errors::InvalidRenderContext
             'urn:openproject-org:api:v3:errors:InvalidRenderContext'
+          when ::API::Errors::InvalidRequestBody
+            'urn:openproject-org:api:v3:errors:InvalidRequestBody'
           end
         end
       end

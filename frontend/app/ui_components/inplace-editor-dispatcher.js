@@ -37,10 +37,36 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
     $scope.isPreview = false;
   }
 
+  function getAttribute($scope) {
+    if ($scope.embedded) {
+      return $scope.attribute.split('.')[0];
+    } else {
+      return $scope.attribute;
+    }
+  }
+
+  function getReadAttributeValue($scope) {
+    return getAttributeValue($scope, $scope.entity);
+  }
+
+  function getWriteAttributeValue($scope) {
+    return getAttributeValue($scope, $scope.entity.form.embedded.payload);
+  }
+
+  function getAttributeValue($scope, entity) {
+    if ($scope.embedded) {
+      var path = $scope.attribute.split('.');
+
+      return entity.embedded[path[0]].props[path[1]];
+    } else {
+      return entity.props[getAttribute($scope)];
+    }
+  }
+
   function setOptions($scope) {
     $scope.options = $scope
       .entity.form.embedded.schema
-      .props[$scope.attribute]._links.allowedValues;
+      .props[getAttribute($scope)]._links.allowedValues;
     if (!$scope.options.length) {
       $scope.isEditable = false;
     }
@@ -49,15 +75,15 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
   var hooks = {
     _fallback: {
       submit: function($scope, data) {
-        data[$scope.attribute] = $scope.dataObject.value;
+        data[getAttribute($scope)] = $scope.dataObject.value;
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
-          value: $scope.entity.props[$scope.attribute]
+          value: getWriteAttributeValue($scope)
         };
       },
       setReadValue: function($scope) {
-        $scope.readValue = $scope.entity.props[$scope.attribute];
+        $scope.readValue = getReadAttributeValue($scope);
       }
     },
 
@@ -97,10 +123,10 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
       },
       onFail: disablePreview,
       setReadValue: function($scope) {
-        if ($scope.attribute == 'rawDescription') {
+        if (getAttribute($scope) == 'rawDescription') {
           $scope.readValue = $sce.trustAsHtml($scope.entity.props.description);
         } else {
-          $scope.readValue = $scope.entity.props[$scope.attribute];
+          $scope.readValue = $scope.entity.props[getAttribute($scope)];
         }
       }
     },
@@ -110,11 +136,11 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
       startEditing: setOptions,
       submit: function($scope, data) {
         data._links = { };
-        data._links[$scope.attribute] = { href: $scope.dataObject.value };
+        data._links[getAttribute($scope)] = { href: $scope.dataObject.value };
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
-          value: $scope.entity.form.embedded.payload.links[$scope.attribute].href
+          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
         };
       }
     }

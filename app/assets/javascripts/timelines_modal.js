@@ -32,10 +32,10 @@
 ModalHelper.prototype.create = function(projectId) {
   var modalHelper = this;
   var url = modalHelper.options.url_prefix +
-                    modalHelper.options.project_prefix +
-                    "/" +
-                    projectId +
-                    '/work_packages/new';
+            modalHelper.options.project_prefix +
+            "/" +
+            projectId +
+            '/work_packages/new';
 
   //create the modal by using the html the url gives us.
   modalHelper.createModal(url);

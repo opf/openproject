@@ -82,14 +82,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('projectName') }
 
       it { is_expected.to have_json_path('startDate') }
-      it { is_expected.to have_json_path('status') }
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
 
       it { is_expected.to have_json_path('createdAt') }
       it { is_expected.to have_json_path('updatedAt') }
-
-      it { is_expected.to have_json_path('isClosed') }
 
       describe 'version' do
         it { is_expected.to have_json_path('versionId') }
@@ -106,7 +103,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      it { is_expected.to be_json_eql('PT6H'.to_json).at_path('estimatedTime') }
+      let(:work_package) {
+        FactoryGirl.build(:work_package,
+                          id: 42,
+                          created_at: DateTime.now,
+                          updated_at: DateTime.now,
+                          estimated_hours: 6.5)
+      }
+
+      it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
     end
 
     describe 'spentTime' do
@@ -163,12 +168,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             FactoryGirl.create(:time_entry,
                                project: wp.project,
                                work_package: wp,
-                               hours: 42.0)
+                               hours: 42.5)
           }
 
           before { time_entry }
 
-          it { is_expected.to be_json_eql('P1DT18H'.to_json).at_path('spentTime') }
+          it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
       end
     end
@@ -218,6 +223,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'status' do
+        let(:link) { "/api/v3/statuses/#{work_package.status_id}".to_json }
+        let(:title) { "#{work_package.status.name}".to_json }
+
+        it { is_expected.to be_json_eql(link).at_path('_links/status/href') }
+
+        it { is_expected.to be_json_eql(title).at_path('_links/status/title') }
+      end
+
       describe 'version' do
         context 'no version set' do
           it { is_expected.to_not have_json_path('versionViewable') }
@@ -225,11 +239,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'version set' do
           let!(:version) { FactoryGirl.create :version, project: project }
+          let(:expected_url) { "/versions/#{version.id}".to_json }
+
           before do
             work_package.fixed_version = version
           end
 
-          it { is_expected.to have_json_path('_links/version/href') }
+          it {
+            is_expected.to be_json_eql(expected_url).at_path('_links/version/href')
+          }
+
+          it { is_expected.to be_json_eql('text/html'.to_json).at_path('_links/version/type') }
 
           context ' but is not accessible due to permissions' do
             before do
@@ -443,10 +463,31 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:permission) { :manage_subtasks }
         end
       end
+
+      describe 'availableWatchers' do
+        it_behaves_like 'action link' do
+          let(:action) { 'availableWatchers' }
+          let(:permission) { :add_work_package_watchers }
+        end
+      end
     end
 
     describe '_embedded' do
       it { is_expected.to have_json_type(Object).at_path('_embedded') }
+
+      describe 'status' do
+        let(:status) { work_package.status }
+
+        it { is_expected.to have_json_path('_embedded/status') }
+
+        it { is_expected.to be_json_eql('Status'.to_json).at_path('_embedded/status/_type') }
+
+        it { is_expected.to be_json_eql(status.name.to_json).at_path('_embedded/status/name') }
+
+        it {
+          is_expected.to be_json_eql(status.is_closed.to_json).at_path('_embedded/status/isClosed')
+        }
+      end
 
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }

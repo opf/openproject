@@ -48,7 +48,7 @@ describe('inplaceEditor Directive', function() {
   }
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('templates',
+  beforeEach(module('openproject.templates',
                     'openproject.models',
                     'openproject.api',
                     'openproject.layout',
@@ -79,7 +79,42 @@ describe('inplaceEditor Directive', function() {
     };
   }));
 
-  describe('self', function() {
+  describe('Work package is not editable', function() {
+    beforeEach(function() {
+      scope.workPackage = {
+        props: {
+          subject: 'Some subject',
+          lockVersion: '1'
+        },
+        links: {
+        }
+      };
+      compile();
+      element.appendTo(document.body);
+    });
+
+    afterEach(function() {
+      element.remove();
+    });
+
+    it('should not be editable', function() {
+      expect(scope.isEditable).to.be.falsy;
+    });
+
+    describe('placeholder', function() {
+      it('should not render the default text', function() {
+        var text = element.find('.ined-read-value .read-value-wrapper').text();
+
+        expect(text).be.empty;
+      });
+
+      it('should set default text switch', function() {
+        expect(elementScope.placeholderSet).to.be.false;
+      });
+    });
+  });
+
+  describe('Work package is editable', function() {
     beforeEach(function() {
       scope.workPackage = {
         props: {
@@ -125,7 +160,15 @@ describe('inplaceEditor Directive', function() {
                   fetch: function() { }
                 }
               },
-              form: form
+              form: {
+                embedded: {
+                  payload: {
+                    props: {
+                      rawDescription: '1\n2\n3'
+                    }
+                  }
+                }
+              }
             };
             html =
               '<h2 ' +
@@ -211,13 +254,34 @@ describe('inplaceEditor Directive', function() {
         });
       });
       describe('submit', function() {
+        var emptyPromiseResponse = {
+          'then': _.noop,
+          'catch': _.noop,
+          'finally': _.noop
+        };
+        context('notify', function() {
+          var updateSpy;
+          beforeEach(function() {
+            updateSpy = sinon.stub(scope.workPackage.links.updateImmediately, 'fetch').returns({
+              then: function() {
+                return emptyPromiseResponse;
+              }
+            });
+          });
+          it('should be false for normal submit', function() {
+            elementScope.submit(false);
+            expect(updateSpy.args[0][0].ajax.url).to.contain('?notify=false');
+          });
+          it('should be true for normal submit', function() {
+            elementScope.submit(true);
+            expect(updateSpy.args[0][0].ajax.url).to.contain('?notify=true');
+          });
+        });
         context('general', function() {
           beforeEach(function() {
-            updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-              'then': $.noop,
-              'catch': $.noop,
-              'finally': $.noop
-            });
+            updateWorkPackageStub = sinon
+              .stub(WorkPackageService, 'updateWorkPackage')
+              .returns(emptyPromiseResponse);
             elementScope.submit();
           });
           it('should set the isBusy variable', function() {
@@ -281,8 +345,8 @@ describe('inplaceEditor Directive', function() {
                 'then': function(cb) {
                   cb();
                 },
-                'catch': $.noop,
-                'finally': $.noop
+                'catch': _.noop,
+                'finally': _.noop
               });
               elementScope.submit();
             });
@@ -293,11 +357,11 @@ describe('inplaceEditor Directive', function() {
           context('error response', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                'then': $.noop,
+                'then': _.noop,
                 'catch': function(cb) {
                   cb();
                 },
-                'finally': $.noop
+                'finally': _.noop
               });
               elementScope.submit();
             });
@@ -308,8 +372,8 @@ describe('inplaceEditor Directive', function() {
           context('finally', function() {
             beforeEach(function() {
               updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                'then': $.noop,
-                'catch': $.noop,
+                'then': _.noop,
+                'catch': _.noop,
                 'finally': function(cb) {
                   cb();
                 }
@@ -367,6 +431,15 @@ describe('inplaceEditor Directive', function() {
             links: {
               updateImmediately: {
                 fetch: function() {}
+              }
+            },
+            form: {
+              embedded: {
+                payload: {
+                  props: {
+                    rawDescription: '1\n2\n3'
+                  }
+                }
               }
             }
           };
@@ -455,8 +528,3 @@ describe('inplaceEditor Directive', function() {
     });
   });
 });
-
-
-
-
-

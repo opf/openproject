@@ -2110,18 +2110,19 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 ## Linked Properties:
 
-| Link           | Description                                                                                                                                          | Type        | Constraints | Supported operations | Condition                        |
-| :------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | -------------------- | -------------------------------- |
-| self           | This work package                                                                                                                                    | WorkPackage | not null    | READ                 |                                  |
-| author         | The person that created the work package                                                                                                             | User        | not null    | READ                 |                                  |
-| assignee       | The person that is intended to work on the work package                                                                                              | User        |             | READ / WRITE         |                                  |
-| category       | The category of the work package                                                                                                                     | Category    |             | READ / WRITE         |                                  |
-| priority       | The priority of the work package                                                                                                                     | Priority    | not null    | READ / WRITE         |                                  |
-| responsible    | The person that is responsible for the overall outcome                                                                                               | User        |             | READ / WRITE         |                                  |
-| status         | The current status of the work package                                                                                                               | Status      | not null    | READ / WRITE         |                                  |
-| timeEntries    | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change. | N/A         |             | READ                 | **Permission** view time entries |
-| type           | The type of the work package                                                                                                                         | Type        | not null    | READ / WRITE         |                                  |
-| version        | The version associated to the work package                                                                                                           | Version     |             | READ / WRITE         |                                  |
+| Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
+| author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
+| assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
+| availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
+| category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
+| priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
+| responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
+| status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
+| timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
+| type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
+| version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 
 ## Properties:
 
@@ -2651,7 +2652,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 204
 
-## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
+## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers]
 
 + Model
     + Body
@@ -2728,13 +2729,24 @@ Gets a list of users that can watch the work package.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
-    + offset = `0` (optional, integer, `100`) ... Offset
-    + limit = `100` (optional, integer, `50`) ... Limit (Max 100)
-    + query (optional, string, `John`) ... Name, login or email of a user
 
 + Response 200 (application/hal+json)
 
     [Available Watchers][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add work package watchers
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
 
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 

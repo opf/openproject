@@ -94,8 +94,6 @@ de:
     label_format_csv: "CSV"
     label_format_pdf: "PDF"
     label_format_pdf_with_descriptions: "PDF mit Beschreibungen"
-    label_format_xls: "XLS"
-    label_format_xls_with_descriptions: "XLS mit Beschreibungen"
     label_greater_or_equal: ">="
     label_group_by: "Gruppierung"
     label_hide_attributes: "Leere Attribute ausblenden"

@@ -68,24 +68,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_empty child.errors[:parent_id]
   end
 
-
-  def test_move_a_child_with_descendants_to_another_project
-    Setting.cross_project_work_package_relations = "0"
-
-    parent1 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-    grandchild = create_issue!(:parent_id => child.id)
-
-    assert child.reload.move_to_project(Project.find(2))
-    child.reload
-    grandchild.reload
-    parent1.reload
-
-    assert_equal [1, parent1.id, 1], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
-    assert_equal [2, child.id, 3], [child.project_id, child.root_id, child.nested_set_span]
-    assert_equal [2, child.id, 1], [grandchild.project_id, grandchild.root_id, grandchild.nested_set_span]
-  end
-
   def test_invalid_move_to_another_project
     parent1 = create_issue!
     child =   create_issue!(:parent_id => parent1.id)
