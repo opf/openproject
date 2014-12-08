@@ -1693,6 +1693,55 @@ but are also limited to the projects that the current user is allowed to see.
 
     [User][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Delete user [DELETE]
+
+Permanently deletes the specified user account.
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 204
+
+    Returned if the account was deleted successfully.
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
+
+    **Required permission:** Administrators only (exception: users might be able to delete their own accounts)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
 # Group Versions
 
 ## Linked Properties:
