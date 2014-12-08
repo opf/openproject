@@ -27,7 +27,11 @@
       },
       "lockVersion": 119,
       "subject": "66666",
-      "rawDescription": "#54\n2",
+      "description": {
+        "format": "textile",
+        "html": "",
+        "raw": "#54\n2"
+      },
       "parentId": 54,
       "projectId": 1,
       "startDate": "2014-10-23T00:00:00+00:00",

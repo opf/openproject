@@ -153,7 +153,11 @@ describe('inplaceEditor Directive', function() {
               props: {
                 subject: 'Some subject',
                 lockVersion: '1',
-                rawDescription: '1\n2\n3'
+                description: {
+                  format: 'textile',
+                  raw: '1\n2\n3',
+                  html: '1\n2\n3'
+                }
               },
               links: {
                 updateImmediately: {
@@ -164,7 +168,11 @@ describe('inplaceEditor Directive', function() {
                 embedded: {
                   payload: {
                     props: {
-                      rawDescription: '1\n2\n3'
+                      description: {
+                        format: 'textile',
+                        raw: '1\n2\n3',
+                        html: '1\n2\n3'
+                      }
                     }
                   }
                 }
@@ -175,7 +183,7 @@ describe('inplaceEditor Directive', function() {
               'inplace-editor ' +
               'ined-type="wiki_textarea" ' +
               'ined-entity="workPackage" ' +
-              'ined-attribute="rawDescription" ' +
+              'ined-attribute="description" ' +
               '></h2>';
             compile();
             elementScope.startEditing();
@@ -437,7 +445,9 @@ describe('inplaceEditor Directive', function() {
               embedded: {
                 payload: {
                   props: {
-                    rawDescription: '1\n2\n3'
+                    description: {
+                      raw: '1\n2\n3'
+                    }
                   }
                 }
               }
