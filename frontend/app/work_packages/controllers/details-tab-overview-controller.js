@@ -60,8 +60,8 @@ module.exports = function($scope,
     case STATUS_TYPE:
       return $scope.workPackage.embedded.status.props.name;
     case VERSION_TYPE:
-      if ($scope.workPackage.props.versionId === undefined) {
-          return;
+      if (!$scope.workPackage.props.versionId) {
+        return;
       }
       var versionLinkPresent = !!$scope.workPackage.links.version;
       var versionTitle = versionLinkPresent ?
