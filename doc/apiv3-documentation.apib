@@ -237,10 +237,17 @@ the amount of elements returned in this response and action links to retrieve th
 
 Filters are specified using the [OpenProject Query Language (OQL)](https://github.com/opf/oql).
 
-TBD: How do the docs of OQL and APIv3 complement eachother?
+The syntax of OQL queries is explained in the [OQL Documentation](http://www.rubydoc.info/github/opf/oql/dev). All properties of the underlying resource can be used
+in the query, e.g. when filtering over a collection of work packages, it is possible to compare the `subject` with any value.
 
-* Cross referencing?
-* Duplication?
+Note that for linked resources you can either compare against the **ID** of the linked resource or against its **link URL**:
+
+    # valid
+    status == "1"
+    status == "/api/v3/statuses/1"
+
+    # NOT valid
+    status == "New"
 
 ## Offset based pagination [/api/v3/examples{?offset,pageSize}]
 
