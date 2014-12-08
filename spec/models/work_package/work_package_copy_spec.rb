@@ -198,6 +198,49 @@ describe WorkPackage, type: :model do
 
         it { is_expected.not_to include(copy.author.mail) }
       end
+
+      describe 'with children' do
+        let(:target_project) { FactoryGirl.create(:project, types: [source_type]) }
+        let(:copy) { child.reload.move_to_project(target_project) }
+        let!(:child) {
+          FactoryGirl.create(:work_package, parent: work_package, project: source_project)
+        }
+        let!(:grandchild) {
+          FactoryGirl.create(:work_package, parent: child, project: source_project)
+        }
+
+        context 'cross project relations deactivated' do
+          before {
+            allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
+          }
+
+          it { expect(copy).to be_falsy }
+
+          it { expect(child.reload.project).to eql(source_project) }
+
+          describe 'grandchild' do
+            before { copy }
+
+            it { expect(grandchild.reload.project).to eql(source_project) }
+          end
+        end
+
+        context 'cross project relations activated' do
+          before {
+            allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+          }
+
+          it { expect(copy).to be_truthy }
+
+          it { expect(copy.project).to eql(target_project) }
+
+          describe 'grandchild' do
+            before { copy }
+
+            it { expect(grandchild.reload.project).to eql(target_project) }
+          end
+        end
+      end
     end
   end
 

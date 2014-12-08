@@ -642,6 +642,28 @@ h4. things we like
 
           it_behaves_like 'update conflict'
         end
+
+        context 'invalid work package children' do
+          let(:params) { valid_params.merge(lockVersion: work_package.reload.lock_version) }
+          let!(:child_1) { FactoryGirl.create(:work_package, id: 98) }
+          let!(:child_2) { FactoryGirl.create(:work_package, id: 99) }
+
+          before do
+            [child_1, child_2].each do |c|
+              c.parent = work_package
+              c.save!(validate: false)
+            end
+          end
+
+          include_context 'patch request'
+
+          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
+
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+
+          it_behaves_like 'multiple errors of the same type with messages',
+                          [98, 99].map { |id| "##{id} cannot be in another project." }
+        end
       end
     end
   end
