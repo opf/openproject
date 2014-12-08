@@ -301,15 +301,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                   it_behaves_like 'valid payload'
 
-                  it {
-                    expect(subject.body).to be_json_eql(error_id)
-                      .at_path('_embedded/validationErrors/status/errorIdentifier')
-                  }
-
-                  it {
-                    expect(subject.body).to have_json_size(2)
-                      .at_path('_embedded/validationErrors/status/_embedded/errors')
-                  }
+                  it_behaves_like 'having an error', 'status'
 
                   it 'should respond with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
@@ -425,11 +417,6 @@ describe 'API v3 Work package form resource', type: :request do
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/subject') }
 
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/status') }
-
-              it {
-                expect(subject.body).to have_json_size(2)
-                  .at_path('_embedded/validationErrors/status/_embedded/errors')
-              }
 
               it { expect(subject.body).to have_json_path('_embedded/validationErrors/assignee') }
 
