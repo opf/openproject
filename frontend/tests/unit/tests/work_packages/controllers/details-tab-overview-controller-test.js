@@ -487,6 +487,18 @@ describe('DetailsTabOverviewController', function() {
             });
           });
         });
+
+        describe('version not set', function() {
+          beforeEach(function() {
+            workPackage.props.versionId = null;
+
+            buildController();
+          });
+
+          it('should have an empty value', function() {
+            expect(fetchEmptyPropertiesWithName('versionName')[0].value).not.to.be.ok;
+          });
+        });
       });
 
       describe('is "user"', function() {
