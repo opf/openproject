@@ -94,7 +94,7 @@ module WorkPackage::Validations
   end
 
   def validate_status_transition
-    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
+    if status_changed? && status_exists? && !(self.type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
@@ -117,6 +117,10 @@ module WorkPackage::Validations
 
   def status_changed?
     status_id_was != 0 && self.status_id_changed?
+  end
+
+  def status_exists?
+    status_id && Status.find_by_id(status_id)
   end
 
   def status_transition_exists?
