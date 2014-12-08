@@ -51,7 +51,13 @@ class Query < ActiveRecord::Base
 
   after_initialize :remember_project_scope
 
-
+  # WARNING: sortable should not contain a column called id (except for the
+  # work_packages.id column). Otherwise naming collisions can happen when AR
+  # optimizes a query into two separate DB queries (e.g. when joining tables).
+  # The first query is employed to fetch all ids which are used as filters in
+  # the second query. The columns mentioned in sortable are used for the first
+  # query.  If such a statement selects from two coluns named <table name>.id
+  # the second one is taken to get the ids of the work packages.
   @@available_columns = [
     QueryColumn.new(:id, :sortable => "#{WorkPackage.table_name}.id", :groupable => false),
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
@@ -61,8 +67,16 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
-    QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], groupable: "#{WorkPackage.table_name}.responsible_id", :join => "LEFT OUTER JOIN users as responsible ON (#{WorkPackage.table_name}.responsible_id = responsible.id)"),
+    QueryColumn.new(:assigned_to, sortable: ["#{User.table_name}.lastname",
+                                             "#{User.table_name}.firstname",
+                                             "#{WorkPackage.table_name}.assigned_to_id"],
+                                  groupable: true),
+    QueryColumn.new(:responsible, sortable: ["#{User.table_name}.lastname",
+                                             "#{User.table_name}.firstname",
+                                             "#{WorkPackage.table_name}.responsible_id"],
+                                  groupable: "#{WorkPackage.table_name}.responsible_id",
+                                  join: 'LEFT OUTER JOIN users as responsible ON ' +
+                                        "(#{WorkPackage.table_name}.responsible_id = responsible.id)"),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{Category.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
