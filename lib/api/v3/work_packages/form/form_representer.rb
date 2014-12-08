@@ -38,7 +38,6 @@ module API
           include Roar::JSON::HAL
           include Roar::Hypermedia
           include API::V3::Utilities::PathHelper
-          include OpenProject::TextFormatting
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
