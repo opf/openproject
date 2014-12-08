@@ -85,7 +85,11 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
   var hooks = {
     _fallback: {
       submit: function($scope, data) {
-        data[getAttribute($scope)] = $scope.dataObject.value;
+        if (isAttributeFormattable(data[getAttribute($scope)])) {
+          data[getAttribute($scope)].raw = $scope.dataObject.value;
+        } else {
+          data[getAttribute($scope)] = $scope.dataObject.value;
+        }
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
