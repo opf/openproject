@@ -161,6 +161,16 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'having no errors'
             end
 
+            context 'invalid content' do
+              before do
+                allow(User).to receive(:current).and_return current_user
+                post post_path, '{ ,', 'CONTENT_TYPE' => 'application/json; charset=utf-8'
+              end
+
+              it_behaves_like 'parse error',
+                              'unexpected comma at line 1, column 3'
+            end
+
             describe 'lock version' do
               context 'missing lock version' do
                 let(:params) { valid_params.except(:lockVersion) }
@@ -261,19 +271,158 @@ describe 'API v3 Work package form resource', type: :request do
                 it 'should respond with updated work package status' do
                   expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
                 end
+
+                it 'should still show the original allowed statuses' do
+                  expect(subject.body).to be_json_eql(status_link.to_json)
+                    .at_path('_embedded/schema/status/_links/allowedValues/1/href')
+                end
               end
 
               context 'invalid status' do
-                include_context 'post request'
+                context 'no transition' do
+                  include_context 'post request'
 
-                it_behaves_like 'valid payload'
+                  it_behaves_like 'valid payload'
 
-                it_behaves_like 'having an error', 'status_id'
+                  it_behaves_like 'having an error', 'status'
 
-                it 'should respond with updated work package status' do
-                  expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  it 'should respond with updated work package status' do
+                    expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  end
+                end
+
+                context 'status does not exist' do
+                  let(:error_id) {
+                    'urn:openproject-org:api:v3:errors:MultipleErrors'.to_json
+                  }
+                  let(:status_link) { '/api/v3/statuses/-1' }
+
+                  include_context 'post request'
+
+                  it_behaves_like 'valid payload'
+
+                  it_behaves_like 'having an error', 'status'
+
+                  it 'should respond with updated work package status' do
+                    expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
+                  end
+                end
+
+                context 'wrong resource' do
+                  let(:status_link) { "/api/v3/users/#{authorized_user.id}" }
+
+                  include_context 'post request'
+
+                  it_behaves_like 'constraint violation',
+                                  I18n.t('api_v3.errors.invalid_resource',
+                                         property: 'Status',
+                                         expected: 'Status',
+                                         actual: 'User')
                 end
               end
+            end
+
+            describe 'assignee and responsible' do
+              shared_examples_for 'handling people' do |property|
+                let(:path) { "_embedded/payload/_links/#{property}/href" }
+                let(:visible_user) {
+                  FactoryGirl.create(:user,
+                                     member_in_project: project)
+                }
+                let(:user_parameter) { { _links: { property => { href: user_link } } } }
+                let(:params) { valid_params.merge(user_parameter) }
+
+                context "valid #{property}" do
+                  shared_examples_for 'valid user assignment' do
+                    include_context 'post request'
+
+                    it_behaves_like 'valid payload'
+
+                    it_behaves_like 'having no errors'
+
+                    it "should respond with updated work package #{property}" do
+                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                    end
+                  end
+
+                  context 'empty user' do
+                    let(:user_link) { nil }
+
+                    it_behaves_like 'valid user assignment'
+                  end
+
+                  context 'existing user' do
+                    let(:user_link) { "/api/v3/users/#{visible_user.id}" }
+
+                    it_behaves_like 'valid user assignment'
+                  end
+                end
+
+                context "invalid #{property}" do
+                  context 'non-existing user' do
+                    let(:user_link) { '/api/v3/users/42' }
+
+                    include_context 'post request'
+
+                    it_behaves_like 'valid payload'
+
+                    it_behaves_like 'having an error', property
+
+                    it "should respond with updated work package #{property}" do
+                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                    end
+                  end
+
+                  context 'wrong resource' do
+                    let(:user_link) { "/api/v3/statuses/#{work_package.status.id}" }
+
+                    include_context 'post request'
+
+                    it_behaves_like 'constraint violation',
+                                    I18n.t('api_v3.errors.invalid_resource',
+                                           property: "#{property.capitalize}",
+                                           expected: 'User',
+                                           actual: 'Status')
+                  end
+                end
+              end
+
+              it_behaves_like 'handling people', 'assignee'
+
+              it_behaves_like 'handling people', 'responsible'
+            end
+
+            describe 'multiple errors' do
+              let(:user_link) { '/api/v3/users/42' }
+              let(:status_link) { '/api/v3/statuses/-1' }
+              let(:links) {
+                {
+                  _links: {
+                    status: { href: status_link },
+                    assignee: { href: user_link },
+                    responsible: { href: user_link }
+                  }
+                }
+              }
+              let(:params) { valid_params.merge(subject: nil).merge(links) }
+
+              include_context 'post request'
+
+              it_behaves_like 'valid payload'
+
+              it {
+                expect(subject.body).to have_json_size(4).at_path('_embedded/validationErrors')
+              }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/subject') }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/status') }
+
+              it { expect(subject.body).to have_json_path('_embedded/validationErrors/assignee') }
+
+              it {
+                expect(subject.body).to have_json_path('_embedded/validationErrors/responsible')
+              }
             end
           end
         end

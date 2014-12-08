@@ -79,10 +79,16 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
       include_context 'edit activity'
     end
 
-    it_behaves_like 'invalid activity request', 'An error occurred' do
+    it_behaves_like 'invalid activity request', 'Version is invalid' do
+      let(:errors) {
+        ActiveModel::Errors.new(journal).tap do |e|
+          e.add(:version)
+        end
+      }
+
       before do
         allow_any_instance_of(Journal).to receive(:save).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['An error occurred'])
+        allow_any_instance_of(Journal).to receive(:errors).and_return(errors)
       end
 
       include_context 'edit activity'

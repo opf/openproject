@@ -36,77 +36,82 @@ var WorkPackageDetailsPane = require('./pages/work-package-details-pane.js');
 
 /*jshint expr: true*/
 
-describe('OpenProject', function () {
-  var page = new WorkPackageDetailsPane(819, 'overview');
+describe('OpenProject', function() {
+  context('details pane is visible', function() {
+    before(function() {
+      var page = new WorkPackageDetailsPane(819, 'overview');
+      page.get();
+    });
 
-  it('should show work packages details pane', function () {
-    page.get();
-    expect(page.pane.isPresent()).to.eventually.be.true;
+    it('should show work packages details pane', function() {
+      expect($('.work-packages--details').isPresent()).to.eventually.be.true;
+    });
   });
 
-  describe('editable', function () {
-    var page;
-
-    context('subject', function () {
-      context('work package with updateImmediately link', function () {
-        beforeEach(function () {
-          page = new WorkPackageDetailsPane(819, 'overview');
+  describe('editable', function() {
+    context('subject', function() {
+      context('work package with updateImmediately link', function() {
+        before(function() {
+          var page = new WorkPackageDetailsPane(819, 'overview');
           page.get();
         });
-        it('should render an editable subject', function () {
+        it('should render an editable subject', function() {
           expect($('h2 .inplace-editor').isPresent()).to.eventually.be.true;
         });
       });
-      context('work package without updateImmediately link', function () {
-        beforeEach(function () {
-          page = new WorkPackageDetailsPane(820, 'overview');
+      context('work package without updateImmediately link', function() {
+        before(function() {
+          var page = new WorkPackageDetailsPane(820, 'overview');
           page.get();
         });
-        it('should not render an editable subject', function () {
+        it('should show work packages details pane', function() {
+          expect($('.work-packages--details').isPresent()).to.eventually.be.true;
+        });
+        it('should not render an editable subject', function() {
           expect($('h2 .inplace-editor').isPresent()).to.eventually.be.false;
         });
       });
-      context('work package with a wrong version', function () {
-        beforeEach(function () {
-          page = new WorkPackageDetailsPane(821, 'overview');
+      context('work package with a wrong version', function() {
+        before(function() {
+          var page = new WorkPackageDetailsPane(821, 'overview');
           page.get();
-          $('h2 .inplace-editor .ined-read-value').then(function (e) {
+          $('h2 .inplace-editor .ined-read-value').then(function(e) {
             e.click();
             $('h2 .ined-edit-save a').click();
           });
         });
-        it('should render an error', function () {
+        it('should render an error', function() {
           expect($('h2 .ined-errors').isDisplayed()).to.eventually.be.true;
         });
       });
     });
     context('description', function() {
-      beforeEach(function () {
-        page = new WorkPackageDetailsPane(819, 'overview');
+      beforeEach(function() {
+        var page = new WorkPackageDetailsPane(819, 'overview');
         page.get();
       });
       describe('read state', function() {
         it('should render the link to another work package', function() {
           expect($('.detail-panel-description .inplace-editor .ined-read-value a.work_package').isDisplayed()).to.eventually.be.true;
         });
-        context('click', function() {
-          it('should render the textarea', function() {
-            $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
-              e.click();
-              expect($('.detail-panel-description .ined-edit textarea').isDisplayed()).to.eventually.be.true;
+        it('should render the textarea', function() {
+          $('.detail-panel-description .inplace-editor .ined-read-value').then(function(e) {
+            e.click();
+            expect($('.detail-panel-description .ined-edit textarea').isDisplayed())
+              .to.eventually.be.true;
             });
-          });
-          it('should not render the textarea if click is on the link', function() {
-            $('.detail-panel-description .inplace-editor .ined-read-value  a.work_package').then(function (e) {
+        });
+        it('should not render the textarea if click is on the link', function() {
+          $('.detail-panel-description .inplace-editor .ined-read-value  a.work_package')
+            .then(function(e) {
               e.click();
               expect($('.detail-panel-description .ined-edit textarea').isPresent()).to.eventually.be.false;
             });
-          });
         });
       });
       describe('preview', function() {
         beforeEach(function() {
-          $('.detail-panel-description .inplace-editor .ined-read-value').then(function (e) {
+          $('.detail-panel-description .inplace-editor .ined-read-value').then(function(e) {
             e.click();
           });
         });
@@ -117,6 +122,36 @@ describe('OpenProject', function () {
           $('.detail-panel-description .btn-preview').then(function(btn) {
             btn.click();
             expect($('.detail-panel-description .preview-wrapper').isDisplayed()).to.eventually.be.true;
+          });
+        });
+      });
+    });
+    context('status', function() {
+      beforeEach(function() {
+        var page = new WorkPackageDetailsPane(819, 'overview');
+        page.get();
+      });
+      describe('read state', function() {
+        it('should render a span with value', function() {
+          expect($('.status-inline-editor .inplace-editor span.read-value-wrapper').getText())
+            .to.eventually.equal('specified');
+        });
+      });
+      describe('edit state', function() {
+        beforeEach(function() {
+          $('.status-inline-editor .inplace-editor .ined-read-value').then(function(e) {
+            e.click();
+          });
+        });
+        context('dropdown', function() {
+          it('should be rendered', function() {
+            expect($('.status-inline-editor select.focus-input').isDisplayed())
+              .to.eventually.be.true;
+          });
+          it('should have the correct value', function() {
+            expect(
+              $('.status-inline-editor select.focus-input option:checked').getAttribute('value')
+            ).to.eventually.equal('1');
           });
         });
       });

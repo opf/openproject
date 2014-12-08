@@ -37,7 +37,7 @@ module API
         class WorkPackageSchemaRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::Utilities::UrlHelper
+          include API::V3::Utilities::PathHelper
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -58,7 +58,15 @@ module API
                    writeable: false
           property :status,
                    exec_context: :decorator,
-                   getter: -> (*) { represented.new_statuses_allowed_to(@current_user) } do
+                   getter: -> (*) {
+                     status_origin = represented
+
+                     if represented.persisted? && represented.status_id_changed?
+                       status_origin = represented.class.find(represented.id)
+                     end
+
+                     status_origin.new_statuses_allowed_to(@current_user)
+                   } do
             include Roar::JSON::HAL
 
             self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
@@ -66,7 +74,7 @@ module API
             property :links_to_allowed_statuses,
                      as: :_links,
                      getter: -> (*) { self } do
-              include API::Utilities::UrlHelper
+              include API::V3::Utilities::PathHelper
 
               self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -74,7 +82,7 @@ module API
 
               def allowed_values
                 represented.map do |status|
-                  { href: "#{root_path}api/v3/statuses/#{status.id}", title: status.name }
+                  { href: api_v3_paths.status(status.id), title: status.name }
                 end
               end
             end
@@ -86,6 +94,50 @@ module API
                        class: ::Status,
                        decorator: ::API::V3::Statuses::StatusRepresenter,
                        getter: -> (*) { self }
+          end
+
+          property :assignee, getter: -> (*) { self } do
+            include Roar::JSON::HAL
+
+            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+            property :links_to_available_assignees,
+                     as: :_links,
+                     getter: -> (*) { self } do
+              include API::V3::Utilities::PathHelper
+
+              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+              property :allowed_values,
+                       getter: -> (*) {
+                         { href: api_v3_paths.available_assignees(represented.project.id) }
+                       },
+                       exec_context: :decorator
+            end
+
+            property :type, getter: -> (*) { 'User' }
+          end
+
+          property :responsible, getter: -> (*) { self } do
+            include Roar::JSON::HAL
+
+            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+            property :links_to_available_responsibles,
+                     as: :_links,
+                     getter: -> (*) { self } do
+              include API::V3::Utilities::PathHelper
+
+              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+              property :allowed_values,
+                       getter: -> (*) {
+                         { href: api_v3_paths.available_responsibles(represented.project.id) }
+                       },
+                       exec_context: :decorator
+            end
+
+            property :type, getter: -> (*) { 'User' }
           end
         end
       end

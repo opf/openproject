@@ -38,11 +38,11 @@ angular.module('openproject.timelines.directives')
   .directive('timelineGroupingLabel', [require(
     './timeline-grouping-label-directive')])
   .directive('timelineTableContainer', ['TimelineLoaderService',
-    'TimelineTableHelper', 'SvgHelper', require(
+    'TimelineTableHelper', 'SvgHelper', 'PathHelper', require(
       './timeline-table-container-directive')
   ])
   .directive('timelineTable', ['TimelineTableHelper', require(
     './timeline-table-directive')])
   .directive('timelineTableRow', require('./timeline-table-row-directive'))
-  .directive('timelineToolbar', ['TimelineTableHelper', require(
+  .directive('timelineToolbar', ['I18n', require(
     './timeline-toolbar-directive')]);

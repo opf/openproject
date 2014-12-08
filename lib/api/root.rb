@@ -41,10 +41,23 @@ module API
       end
     end
 
+    class Parser
+      def call(object, _env)
+        MultiJson.load(object)
+      rescue MultiJson::ParseError => e
+        error = ::API::Errors::ParseError.new(e.message)
+        representer = ::API::V3::Errors::ErrorRepresenter.new(error)
+
+        throw :error, status: 400, message: representer.to_json
+      end
+    end
+
     content_type 'hal+json', 'application/hal+json; charset=utf-8'
     content_type :json,      'application/json; charset=utf-8'
     format 'hal+json'
     formatter 'hal+json', Formatter.new
+
+    parser :json, Parser.new
 
     helpers do
       def current_user

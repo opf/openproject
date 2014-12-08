@@ -57,10 +57,38 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
     end
 
     describe '_links' do
-      it { is_expected.to have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_path('_links') }
 
-      it 'should link status' do
-        expect(subject).to have_json_path('_links/status/href')
+      shared_examples_for 'linked property' do |property_name, href|
+        let(:path) { "_links/#{property_name}/href" }
+
+        it { expect(subject).to have_json_path(path) }
+
+        it { expect(subject).to be_json_eql(href.to_json).at_path(path) }
+      end
+
+      describe 'status' do
+        let(:status) { FactoryGirl.build(:status, id: 42) }
+
+        before { work_package.status = status }
+
+        it_behaves_like 'linked property', 'status', '/api/v3/statuses/42'
+      end
+
+      describe 'assignee and responsible' do
+        let(:user) { FactoryGirl.build(:user, id: 42) }
+
+        describe 'assignee' do
+          before { work_package.assigned_to = user }
+
+          it_behaves_like 'linked property', 'assignee', '/api/v3/users/42'
+        end
+
+        describe 'responsible' do
+          before { work_package.responsible = user }
+
+          it_behaves_like 'linked property', 'responsible', '/api/v3/users/42'
+        end
       end
     end
   end

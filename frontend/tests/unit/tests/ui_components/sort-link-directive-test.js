@@ -32,7 +32,7 @@ describe('sort link Directive', function() {
     var I18n, t, compile, element, scope, sortService;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       sortService = {};
 
       sortService.isDescending = sinon.stub().returns(false);

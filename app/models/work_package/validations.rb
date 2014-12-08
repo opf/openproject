@@ -52,6 +52,8 @@ module WorkPackage::Validations
     validate :validate_status_transition
 
     validate :validate_active_priority
+
+    validate :validate_children
   end
 
   def validate_start_date_before_soonest_start_date
@@ -92,7 +94,7 @@ module WorkPackage::Validations
   end
 
   def validate_status_transition
-    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
+    if status_changed? && status_exists? && !(self.type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
@@ -103,10 +105,22 @@ module WorkPackage::Validations
     end
   end
 
+  def validate_children
+    children.select { |c| !c.valid? }.each do |child|
+      child.errors.each do |_, value|
+        errors.add(:"##{child.id}", value)
+      end
+    end
+  end
+
   private
 
   def status_changed?
     status_id_was != 0 && self.status_id_changed?
+  end
+
+  def status_exists?
+    status_id && Status.find_by_id(status_id)
   end
 
   def status_transition_exists?

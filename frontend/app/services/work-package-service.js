@@ -26,12 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+module.exports = function($http,
+    PathHelper,
+    WorkPackagesHelper,
+    HALAPIResource,
+    DEFAULT_FILTER_PARAMS,
+    DEFAULT_PAGINATION_OPTIONS,
+    $rootScope,
+    $window,
+    $q,
+    AuthorisationService) {
   var workPackage;
 
   var WorkPackageService = {
     getWorkPackage: function(id) {
-      var resource = HALAPIResource.setup("work_packages/" + id);
+      var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
         workPackage = wp;
         return workPackage;
@@ -125,14 +134,43 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
         });
     },
 
-    updateWorkPackage: function(workPackage, data) {
+    loadWorkPackageForm: function(workPackage) {
+
+      if (this.authorizedFor(workPackage, 'update')) {
+        var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          contentType: 'application/json; charset=utf-8'
+        }, force: true};
+
+        return workPackage.links.update.fetch(options).then(function(form) {
+          workPackage.form = form;
+          return form;
+        });
+      }
+
+      return $q.when();
+    },
+
+    authorizedFor: function(workPackage, action) {
+      var modelName = 'work_package' + workPackage.id;
+
+      AuthorisationService.initModelAuth(modelName, workPackage.links);
+
+      return AuthorisationService.can(modelName, action);
+    },
+
+    updateWorkPackage: function(workPackage, data, notify) {
       var options = { ajax: {
-        method: "PATCH",
+        method: 'PATCH',
+        url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
         headers: {
-          Accept: "application/hal+json"
+          Accept: 'application/hal+json'
         },
         data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8"
+        contentType: 'application/json; charset=utf-8'
       }, force: true};
       return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
         return workPackage;
@@ -141,12 +179,12 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {
       var options = { ajax: {
-        method: "POST",
+        method: 'POST',
         data: JSON.stringify({
           to_id: toId,
           relation_type: relationType
         }),
-        contentType: "application/json; charset=utf-8"
+        contentType: 'application/json; charset=utf-8'
       } };
       return workPackage.links.addRelation.fetch(options).then(function(relation){
         return relation;
@@ -154,7 +192,7 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
     },
 
     removeWorkPackageRelation: function(relation) {
-      var options = { ajax: { method: "DELETE" } };
+      var options = { ajax: { method: 'DELETE' } };
       return relation.links.remove.fetch(options).then(function(response){
         return response;
       });

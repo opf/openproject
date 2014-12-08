@@ -36,7 +36,7 @@ describe('workPackageTotalSums Directive', function() {
                                    'openproject.layout',
                                    'openproject.services'));
 
-    beforeEach(module('openproject.api', 'templates', function($provide) {
+    beforeEach(module('openproject.api', 'openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);

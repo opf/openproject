@@ -31,7 +31,14 @@
         <div ng-switch-when="null" class="work-package-attributes--value">
           <empty-element></empty-element>
         </div>
-        <div ng-switch-default ng-switch="propertyData.format">
+        <div class="status-inline-editor" ng-if="propertyData.property == 'status'"
+             inplace-editor
+             ined-type="select"
+             ined-entity="workPackage"
+             ined-attribute="status.name"
+             ined-attribute-embedded="true"
+          ></div>
+        <div ng-if="propertyData.property != 'status'" ng-switch-default ng-switch="propertyData.format">
           <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
             <user-field ng-switch-when="user" user="propertyData.value"></user-field>
             <span ng-switch-when="dynamic" work-package-dynamic-attribute

@@ -25,7 +25,7 @@
                   {{ fullIdentifier }}
                 </a>
               </td>
-              <td title="{{ relatedWorkPackage.props.status }}">{{ relatedWorkPackage.props.status }}</td>
+              <td title="{{ relatedWorkPackage.embedded.status.props.name }}">{{ relatedWorkPackage.embedded.status.props.name }}</td>
               <td>
                 <a ng-if="relatedWorkPackage.embedded.assignee && relatedWorkPackage.embedded.assignee.props.subtype != 'Group'" title="{{ relatedWorkPackage.embedded.assignee.props.name }}" href="{{ userPath(relatedWorkPackage.embedded.assignee.props.id) }}">
                   {{ relatedWorkPackage.embedded.assignee.props.name }}

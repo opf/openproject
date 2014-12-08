@@ -30,10 +30,54 @@
 module API
   module Errors
     class Validation < ErrorBase
-      def initialize(obj)
-        messages = obj.respond_to?(:errors) ? obj.errors.full_messages : Array(obj)
+      def self.create(errors)
+        merge_error_properties(errors)
 
-        super 422, (messages.length == 1) ? messages[0] + '.' : 'Multiple fields violated their constraints.'
+        errors.keys.each_with_object({}) do |key, hash|
+          messages = errors[key].each_with_object([]) do |m, l|
+            # Let's assume that standard validation errors never end with a
+            # punctuation mark. Then it should be fair enough to assume that we
+            # don't need to prepend the error key if the error ends with a
+            # punctuation mark. Let's hope that this is true for the languages
+            # we'll support in OpenProject.
+            if m =~ /(\.|\?|\!)\z/
+              l << m
+            else
+              l << errors.full_message(key, m) + '.'
+            end
+          end
+
+          hash[key] = ::API::Errors::Validation.new(messages)
+        end
+      end
+
+      # Merges property error messages (e.g. for status and status_id)
+      def self.merge_error_properties(errors)
+        properties = errors.keys
+
+        properties.each do |p|
+          match = /(?<property>\w+)_id/.match(p)
+
+          if match
+            key = match[:property].to_sym
+            error = Array(errors[key]) + errors[p]
+
+            errors.set(key, error)
+            errors.delete(p)
+          end
+        end
+      end
+
+      def initialize(messages)
+        messages = Array(messages)
+
+        if messages.length == 1
+          message = messages[0]
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
+
+        super 422, message
 
         messages.each { |m| @errors << Validation.new(m) } if messages.length > 1
       end

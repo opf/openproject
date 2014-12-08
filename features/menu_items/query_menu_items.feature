@@ -60,6 +60,7 @@ Feature: Query menu items
     And I click on "Share ..."
     And I check "Show page in menu"
     And I click "Save"
+    And I click "Work packages" within "#main-menu"
    Then I should see "Bugs" within "#main-menu"
 
   @javascript

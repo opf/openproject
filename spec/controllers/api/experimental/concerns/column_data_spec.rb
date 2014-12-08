@@ -31,6 +31,9 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 describe 'ColumnData', type: :controller do
   include Api::Experimental::Concerns::ColumnData
 
+  let(:field_format) { 'user' }
+  let(:field) { double('field', id: 1, order_statement: '', field_format: field_format) }
+
   describe '#column_data_type' do
     it 'should recognise custom field columns based on field format' do
       field  = double('field', id: 1, order_statement: '', field_format: 'user')
@@ -49,4 +52,43 @@ describe 'ColumnData', type: :controller do
     xit 'should test the full gamut of types'
   end
 
+  describe '#link_meta' do
+    let(:cf_column) { ::QueryCustomFieldColumn.new(field) }
+
+    describe 'for version custom fields' do
+      let(:field_format) { 'version' }
+
+      it 'has display true' do
+        expect(link_meta(cf_column)[:display]).to be_truthy
+      end
+
+      it 'has the model_type set to "version"' do
+        expect(link_meta(cf_column)[:model_type]).to eql(field_format)
+      end
+    end
+
+    describe 'for user custom fields' do
+      let(:field_format) { 'user' }
+
+      it 'has display true' do
+        expect(link_meta(cf_column)[:display]).to be_truthy
+      end
+
+      it 'has the model_type set to "user"' do
+        expect(link_meta(cf_column)[:model_type]).to eql(field_format)
+      end
+    end
+
+    describe 'for int custom fields' do
+      let(:field_format) { 'int' }
+
+      it 'has display false' do
+        expect(link_meta(cf_column)[:display]).to be_falsey
+      end
+
+      it 'lacks a model_type' do
+        expect(link_meta(cf_column)[:model_type]).to be_nil
+      end
+    end
+  end
 end

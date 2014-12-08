@@ -35,7 +35,7 @@ describe('queryMenuItemFactory', function() {
       queryMenuItemFactory, state = {}, stateParams = {};
 
   beforeEach(angular.mock.module('openproject.layout'));
-  beforeEach(module('templates',
+  beforeEach(module('openproject.templates',
                     'openproject.services',
                     'openproject.models',
                     'openproject.api',
@@ -47,7 +47,7 @@ describe('queryMenuItemFactory', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     // Mock check whether we are on a work_packages page
     state = { includes: function() { return true; } };
     $provide.value('$state', state);

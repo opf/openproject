@@ -42,7 +42,7 @@ class Services::CreateWatcher
         @work_package.watchers << @watcher
         success.(created: true)
       else
-        error.(@watcher)
+        failure.(@watcher)
       end
     end
   end

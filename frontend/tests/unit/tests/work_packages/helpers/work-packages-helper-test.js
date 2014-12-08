@@ -32,7 +32,7 @@ describe('Work packages helper', function() {
   var WorkPackagesHelper;
 
   beforeEach(module('openproject.helpers', 'openproject.services'));
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub();

@@ -205,7 +205,7 @@ h4. things we like
     shared_context 'patch request' do
       before(:each) do
         allow(User).to receive(:current).and_return current_user
-        patch patch_path, params.to_json,  'CONTENT_TYPE' => 'application/json'
+        patch patch_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
       end
     end
 
@@ -389,7 +389,7 @@ h4. things we like
 
           it 'should respond with updated work package status' do
             expect(subject.body).to be_json_eql(target_status.name.to_json)
-              .at_path('status')
+              .at_path('_embedded/status/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -399,8 +399,107 @@ h4. things we like
           include_context 'patch request'
 
           it_behaves_like 'constraint violation',
-                          'Status no valid transition exists from old to new '\
-                          'status for the current user roles.'
+                          'Status ' + I18n.t('activerecord.errors.models.' \
+                          'work_package.attributes.status_id.status_transition_invalid')
+        end
+
+        context 'wrong resource' do
+          let(:status_link) { "/api/v3/users/#{current_user.id}" }
+
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation',
+                          I18n.t('api_v3.errors.invalid_resource',
+                                 property: 'Status',
+                                 expected: 'Status',
+                                 actual: 'User')
+        end
+      end
+
+      context 'assignee and responsible' do
+        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:params) { valid_params.merge(user_parameter) }
+        let(:work_package) {
+          FactoryGirl.create(:work_package,
+                             project: project,
+                             assigned_to: current_user,
+                             responsible: current_user)
+        }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        shared_examples_for 'handling people' do |property|
+          let(:user_parameter) { { _links: { property => { href: user_href } } } }
+
+          describe 'nil' do
+            let(:user_href) { nil }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(200) }
+
+            it { expect(response.body).not_to have_json_path("_links/#{property}") }
+
+            it_behaves_like 'lock version updated'
+          end
+
+          describe 'valid' do
+            let(:user_href) { "/api/v3/users/#{user.id}" }
+
+            include_context 'patch request'
+
+            it { expect(response.status).to eq(200) }
+
+            it {
+              expect(response.body).to be_json_eql("#{user.name} - #{user.login}".to_json)
+                .at_path("_links/#{property}/title")
+            }
+
+            it_behaves_like 'lock version updated'
+          end
+
+          describe 'invalid' do
+            include_context 'patch request'
+
+            context 'user doesn\'t exist' do
+              let(:user_href) { '/api/v3/users/909090' }
+
+              it_behaves_like 'constraint violation',
+                              I18n.t('api_v3.errors.validation.' \
+                                     'invalid_user_assigned_to_work_package',
+                                     property: property.capitalize)
+            end
+
+            context 'user is not visible' do
+              let(:invalid_user) { FactoryGirl.create(:user, id: 42) }
+              let(:user_href) { '/api/v3/users/42' }
+
+              it_behaves_like 'constraint violation',
+                              I18n.t('api_v3.errors.validation.' \
+                                     'invalid_user_assigned_to_work_package',
+                                     property: property.capitalize)
+            end
+
+            context 'wrong resource' do
+              let(:user_href) { "/api/v3/statuses/#{work_package.status.id}" }
+
+              include_context 'patch request'
+
+              it_behaves_like 'constraint violation',
+                              I18n.t('api_v3.errors.invalid_resource',
+                                     property: "#{property.capitalize}",
+                                     expected: 'User',
+                                     actual: 'Status')
+            end
+          end
+        end
+
+        context 'assingee' do
+          it_behaves_like 'handling people', 'assignee'
+        end
+
+        context 'responsible' do
+          it_behaves_like 'handling people', 'responsible'
         end
       end
 
@@ -472,7 +571,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'multiple errors', 422, 'You must not write a read-only attribute'
+          it_behaves_like 'multiple errors', 422
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
 
@@ -512,7 +611,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
+          it_behaves_like 'multiple errors', 422
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
@@ -542,6 +641,28 @@ h4. things we like
           include_context 'patch request'
 
           it_behaves_like 'update conflict'
+        end
+
+        context 'invalid work package children' do
+          let(:params) { valid_params.merge(lockVersion: work_package.reload.lock_version) }
+          let!(:child_1) { FactoryGirl.create(:work_package, id: 98) }
+          let!(:child_2) { FactoryGirl.create(:work_package, id: 99) }
+
+          before do
+            [child_1, child_2].each do |c|
+              c.parent = work_package
+              c.save!(validate: false)
+            end
+          end
+
+          include_context 'patch request'
+
+          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
+
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+
+          it_behaves_like 'multiple errors of the same type with messages',
+                          [98, 99].map { |id| "##{id} cannot be in another project." }
         end
       end
     end

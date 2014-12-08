@@ -36,7 +36,7 @@ module API
       class WorkPackageRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include API::Utilities::UrlHelper
+        include API::V3::Utilities::PathHelper
         include OpenProject::TextFormatting
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
@@ -52,14 +52,14 @@ module API
 
         link :self do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}",
+            href: api_v3_paths.work_package(represented.id),
             title: "#{represented.subject}"
           }
         end
 
         link :update do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/form",
+            href: api_v3_paths.work_package_form(represented.id),
             method: :post,
             title: "Update #{represented.subject}"
           } if current_user_allowed_to(:edit_work_packages)
@@ -67,7 +67,7 @@ module API
 
         link :updateImmediately do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}",
+            href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Update #{represented.subject}"
           } if current_user_allowed_to(:edit_work_packages)
@@ -105,45 +105,44 @@ module API
           } if current_user_allowed_to(:move_work_packages)
         end
 
+        link :status do
+          {
+            href: api_v3_paths.status(represented.status_id),
+            title: "#{represented.status.name}"
+          }
+        end
+
         link :author do
           {
-            href: "#{root_path}api/v3/users/#{represented.author.id}",
+            href: api_v3_paths.user(represented.author.id),
             title: "#{represented.author.name} - #{represented.author.login}"
           } unless represented.author.nil?
         end
 
         link :responsible do
           {
-            href: "#{root_path}api/v3/users/#{represented.responsible.id}",
+            href: api_v3_paths.user(represented.responsible.id),
             title: "#{represented.responsible.name} - #{represented.responsible.login}"
           } unless represented.responsible.nil?
         end
 
         link :assignee do
           {
-            href: "#{root_path}api/v3/users/#{represented.assigned_to.id}",
+            href: api_v3_paths.user(represented.assigned_to.id),
             title: "#{represented.assigned_to.name} - #{represented.assigned_to.login}"
           } unless represented.assigned_to.nil?
         end
 
-        link :availableStatuses do
-          {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/available_statuses",
-            title: 'Available Statuses'
-          } if @current_user.allowed_to?({ controller: :work_packages, action: :update },
-                                         represented.project)
-        end
-
         link :availableWatchers do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/available_watchers",
+            href: api_v3_paths.available_watchers(represented.id),
             title: 'Available Watchers'
-          }
+          } if current_user_allowed_to(:add_work_package_watchers)
         end
 
         link :watchChanges do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/watchers",
+            href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
             data: { user_id: @current_user.id },
             title: 'Watch work package'
@@ -154,7 +153,7 @@ module API
 
         link :unwatchChanges do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/watchers/#{@current_user.id}",
+            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{@current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
           } if current_user_allowed_to(:view_work_packages) &&
@@ -163,7 +162,7 @@ module API
 
         link :addWatcher do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/watchers{?user_id}",
+            href: "#{api_v3_paths.work_package_watchers(represented.id)}{?user_id}",
             method: :post,
             title: 'Add watcher',
             templated: true
@@ -172,7 +171,7 @@ module API
 
         link :addRelation do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/relations",
+            href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
             title: 'Add relation'
           } if current_user_allowed_to(:manage_work_package_relations)
@@ -188,7 +187,7 @@ module API
 
         link :changeParent do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}",
+            href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Change parent of #{represented.subject}"
           } if current_user_allowed_to(:manage_subtasks)
@@ -196,7 +195,7 @@ module API
 
         link :addComment do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.id}/activities",
+            href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
             title: 'Add comment'
           } if current_user_allowed_to(:add_work_package_notes)
@@ -204,7 +203,7 @@ module API
 
         link :parent do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.parent.id}",
+            href: api_v3_paths.work_package(represented.parent.id),
             title:  represented.parent.subject
           } unless represented.parent.nil? || !represented.parent.visible?
         end
@@ -240,17 +239,20 @@ module API
                  getter: -> (*) { description },
                  setter: -> (value, *) { self.description = value },
                  render_nil: true
-        property :status, getter: -> (*) { status.try(:name) }, render_nil: true
-        property :is_closed, getter: -> (*) { closed? }
         property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
-                 getter: -> (*) { Duration.new(hours: estimated_hours).iso8601 },
+                 getter: -> (*) do
+                   Duration.new(hours_and_minutes(represented.estimated_hours)).iso8601
+                 end,
+                 exec_context: :decorator,
                  render_nil: true,
                  writeable: false
         property :spent_time,
-                 getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+                 getter: -> (*) do
+                   Duration.new(hours_and_minutes(represented.spent_hours)).iso8601
+                 end,
                  writeable: false,
                  exec_context: :decorator,
                  if: -> (_) { current_user_allowed_to(:view_time_entries) }
@@ -272,6 +274,10 @@ module API
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
+        property :status,
+                 embedded: true,
+                 class: ::Status,
+                 decorator: ::API::V3::Statuses::StatusRepresenter
         property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
         property :responsible, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
         property :assigned_to, as: :assignee, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assigned_to.nil? }
@@ -322,6 +328,15 @@ module API
 
         def percentage_done
           represented.done_ratio unless Setting.work_package_done_ratio == 'disabled'
+        end
+
+        private
+
+        def hours_and_minutes(hours)
+          hours = hours.to_f
+          minutes = (hours - hours.to_i) * 60
+
+          { hours: hours.to_i, minutes: minutes }
         end
       end
     end

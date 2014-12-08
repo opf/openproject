@@ -36,7 +36,7 @@ module API
       class RelationRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -51,20 +51,20 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/relations/#{represented.id}" }
+          { href: api_v3_paths.relation(represented.id) }
         end
 
         link :relatedFrom do
-          { href: "#{root_path}api/v3/work_packages/#{represented.from_id}" }
+          { href: api_v3_paths.work_package(represented.from_id) }
         end
 
         link :relatedTo do
-          { href: "#{root_path}api/v3/work_packages/#{represented.to_id}" }
+          { href: api_v3_paths.work_package(represented.to_id) }
         end
 
         link :remove do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.from.id}/relations/#{represented.id}",
+            href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
             method: :delete,
             title: 'Remove relation'
           } if current_user_allowed_to(:manage_work_package_relations)

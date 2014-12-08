@@ -39,7 +39,7 @@ describe('queryFilters', function() {
                     'openproject.workPackages.directives',
                     'openproject.workPackages.filters'));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     $provide.constant('ConfigurationService', new Object());
   }));
 

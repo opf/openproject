@@ -37,6 +37,24 @@ module API
         resources :render do
           helpers do
             SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
+            SUPPORTED_MEDIA_TYPE = 'text/plain'
+
+            def check_content_type
+              actual = request.content_type
+
+              unless actual.starts_with? SUPPORTED_MEDIA_TYPE
+                message = I18n.t('api_v3.errors.invalid_content_type',
+                                 content_type: SUPPORTED_MEDIA_TYPE,
+                                 actual: actual)
+
+                fail API::Errors::InvalidRequestBody, message
+              end
+            end
+
+            def setup_response
+              status 200
+              content_type 'text/html'
+            end
 
             def request_body
               env['api.request.body']
@@ -45,7 +63,9 @@ module API
             def context_object
               try_context_object
             rescue ::ActiveRecord::RecordNotFound
-              fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+              fail API::Errors::InvalidRenderContext.new(
+                I18n.t('api_v3.errors.render.context_object_not_found')
+              )
             end
 
             def try_context_object
@@ -63,30 +83,47 @@ module API
               context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
 
               if context.nil?
-                fail API::Errors::InvalidRenderContext.new('No context found.')
+                fail API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.context_not_found')
+                )
               elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
-                fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
+                fail API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.unsupported_context')
+                )
               else
                 context
               end
             end
 
-            def render(type)
+            def renderer(type)
               case type
               when :textile
-                renderer = ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-                renderer.to_html
-              else
+                ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
+              when :plain
+                ::API::Utilities::Renderer::PlainRenderer.new(request_body)
               end
+            end
+
+            def render(type)
+              renderer(type).to_html
             end
           end
 
           resources :textile do
             post do
-              status 200
-              content_type 'text/html'
+              check_content_type
+              setup_response
 
               render :textile
+            end
+          end
+
+          resources :plain do
+            post do
+              check_content_type
+              setup_response
+
+              render :plain
             end
           end
         end

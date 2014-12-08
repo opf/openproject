@@ -70,23 +70,23 @@ module API
                    render_nil: true
           property :parent_id, writeable: true
 
-          property :project_id, getter: -> (*) { project.id }
+          property :project_id,
+                   getter: -> (*) { nil },
+                   render_nil: false
           property :start_date,
-                   getter: -> (*) {
-                     start_date.to_datetime.utc.iso8601 unless start_date.nil?
-                   },
-                   render_nil: true
+                   getter: -> (*) { nil },
+                   render_nil: false
           property :due_date,
-                   getter: -> (*) {
-                     due_date.to_datetime.utc.iso8601 unless due_date.nil?
-                   },
-                   render_nil: true
+                   getter: -> (*) { nil },
+                   render_nil: false
           property :version_id,
-                   getter: -> (*) { fixed_version.try(:id) },
+                   getter: -> (*) { nil },
                    setter: -> (value, *) { self.fixed_version_id = value },
-                   render_nil: true
-          property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
-          property :updated_at, getter: -> (*) { updated_at.utc.iso8601 }, render_nil: true
+                   render_nil: false
+          property :created_at,
+                   getter: -> (*) { nil }, render_nil: false
+          property :updated_at,
+                   getter: -> (*) { nil }, render_nil: false
 
           def _type
             'WorkPackage'

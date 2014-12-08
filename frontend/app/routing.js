@@ -65,7 +65,11 @@ angular.module('openproject')
       controller: 'WorkPackageDetailsController',
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
-          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId).then(function(wp) {
+            return WorkPackageService.loadWorkPackageForm(wp).then(function() {
+              return wp;
+            });
+          });
         }
       }
     })

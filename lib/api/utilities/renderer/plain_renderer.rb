@@ -27,16 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
-
 module API
-  module V3
-    module Priorities
-      class PriorityModel < Reform::Form
-        include Coercion
+  module Utilities
+    module Renderer
+      class PlainRenderer
+        def initialize(text)
+          @text = text
+        end
 
-        property :name, type: String
+        def to_html
+          formatter = Redmine::WikiFormatting::NullFormatter::Formatter.new(@text)
+          formatter.to_html
+        end
+
+        def controller; end
       end
     end
   end

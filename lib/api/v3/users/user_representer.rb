@@ -36,7 +36,7 @@ module API
       class UserRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
         include AvatarHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
@@ -52,12 +52,15 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/users/#{represented.id}", title: "#{represented.name} - #{represented.login}" }
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "#{represented.name} - #{represented.login}"
+          }
         end
 
         link :removeWatcher do
           {
-            href: "#{root_path}api/v3/work_packages/#{@work_package.id}/watchers/#{represented.id}",
+            href: api_v3_paths.watcher(represented.id, @work_package.id),
             method: :delete,
             title: 'Remove watcher'
           } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)

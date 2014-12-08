@@ -27,13 +27,9 @@
 //++
 
 function WorkPackageDetailsPane(id, tab) {
-
-    this.pane = $(".work-packages--details");
-
-    this.get = function() {
-        browser.get('/work_packages/' + id + '/' + tab);
-    };
-
+  this.get = function() {
+    browser.get('/work_packages/' + id + '/' + tab);
+  };
 }
 
 module.exports = WorkPackageDetailsPane;

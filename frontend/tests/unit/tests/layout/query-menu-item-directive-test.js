@@ -36,7 +36,7 @@ describe('queryMenuItem Directive', function() {
     beforeEach(module('openproject.services', 'openproject.models'));
 
 
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       $provide.value('$stateParams', stateParams);
 
       var QueryServiceMock = {

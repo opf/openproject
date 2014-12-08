@@ -29,6 +29,21 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/experimental/work_packages/index.api.rabl', type: :view do
+  let(:work_package) do
+    FactoryGirl.build_stubbed(:work_package,
+                              created_at: DateTime.now,
+                              updated_at: DateTime.now)
+  end
+  let(:work_package2) do
+    FactoryGirl.build_stubbed(:work_package,
+                              created_at: DateTime.now,
+                              updated_at: DateTime.now)
+  end
+  let(:work_package3) do
+    FactoryGirl.build_stubbed(:work_package,
+                              created_at: DateTime.now,
+                              updated_at: DateTime.now)
+  end
 
   def self.stub_can(permissions)
     default_permissions = [:edit, :log_time, :move, :copy, :delete, :duplicate]
@@ -55,7 +70,9 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
-    assign(:work_packages, work_packages)
+    packages = ::API::Experimental::WorkPackageDecorator.decorate(Array(work_packages))
+
+    assign(:work_packages, packages)
     assign(:column_names, column_names)
     assign(:custom_field_column_names, custom_field_column_names)
     assign(:can, can)
@@ -77,12 +94,11 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'created/updated at' do
-    let(:wp) {
-      FactoryGirl.build(:work_package,
-                        created_at: DateTime.now,
-                        updated_at: (DateTime.now + 1.day))
-    }
-    let(:work_packages) { [wp] }
+    let(:wp) do
+      work_package.updated_at += 1.day
+      work_package
+    end
+    let(:work_packages) { ([wp]) }
     let(:column_names) { [] }
     let(:custom_field_column_names) { [] }
 
@@ -91,19 +107,9 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with 3 work packages but no columns' do
-    let(:work_packages) {
-      [
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now),
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now),
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now)
-      ]
-    }
+    let(:work_packages) do
+      [work_package, work_package2, work_package3]
+    end
     let(:column_names)       { [] }
     let(:custom_field_column_names) { [] }
 
@@ -114,16 +120,9 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with 2 work packages and columns' do
-    let(:work_packages) {
-      [
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now),
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now)
-      ]
-    }
+    let(:work_packages) do
+      [work_package, work_package2]
+    end
     let(:column_names)       { %w(subject description due_date) }
     let(:custom_field_column_names) { [] }
 
@@ -137,13 +136,7 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   describe 'with project column' do
-    let(:work_packages) {
-      [
-        FactoryGirl.build(:work_package,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now)
-      ]
-    }
+    let(:work_packages) { work_package }
     let(:column_names) { %w(subject project) }
     let(:custom_field_column_names) { [] }
 
@@ -152,7 +145,7 @@ describe 'api/experimental/work_packages/index.api.rabl', type: :view do
   end
 
   context 'with actions, links based on permissions' do
-    let(:work_packages) { [FactoryGirl.create(:work_package)] }
+    let(:work_packages) { work_package }
     let(:column_names) { %w(subject project) }
     let(:custom_field_column_names) { [] }
 
