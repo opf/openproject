@@ -31,7 +31,11 @@ require 'spec_helper'
 describe ::Query::Results, type: :model do
   let(:query) { FactoryGirl.build :query }
   let(:query_results) do
-    ::Query::Results.new query, include: [:assigned_to, :type, :priority, :category, :fixed_version],
+    ::Query::Results.new query, include: [:assigned_to,
+                                          :type,
+                                          :priority,
+                                          :category,
+                                          :fixed_version],
                                 order: 'work_packages.root_id DESC, work_packages.lft ASC'
   end
 
@@ -98,32 +102,82 @@ describe ::Query::Results, type: :model do
                          assigned_to_id: user_1.id)
     }
 
-    before do
-      allow(User).to receive(:current).and_return(user_2)
-      allow(project_2.descendants).to receive(:active).and_return([])
+    context 'when filtering for assigned_to_role' do
+      before do
+        allow(User).to receive(:current).and_return(user_2)
+        allow(project_2.descendants).to receive(:active).and_return([])
 
-      query.add_filter('assigned_to_role', '=', ["#{role_dev.id}"])
+        query.add_filter('assigned_to_role', '=', ["#{role_dev.id}"])
+      end
+
+      context 'when a project is set' do
+        before do
+          allow(query).to receive(:project).and_return(project_2)
+          allow(query).to receive(:project_id).and_return(project_2.id)
+        end
+
+        it 'should display only wp for selected project and selected role' do
+          expect(query_results.work_packages).to match_array([wp_p2])
+        end
+      end
+
+      context 'when no project is set' do
+        before do
+          allow(query).to receive(:project_id).and_return(false)
+          allow(query).to receive(:project).and_return(false)
+        end
+
+        it 'should display all wp from projects where User.current has access' do
+          expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
+        end
+      end
     end
 
-    context 'when a project is set' do
+    # this tests some unfortunate combination of filters where wrong
+    # sql statements where produced.
+    context 'with a custom field being returned and paginating' do
+      let!(:custom_field) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
+
       before do
+        allow(User).to receive(:current).and_return(user_2)
         allow(query).to receive(:project).and_return(project_2)
         allow(query).to receive(:project_id).and_return(project_2.id)
       end
 
-      it 'should display only wp for selected project and selected role' do
-        expect(query_results.work_packages).to match_array([wp_p2])
-      end
-    end
+      context 'when grouping by assignees' do
+        before do
+          query.column_names = [:assigned_to, :"cf_#{custom_field.id}"]
+          query.group_by = 'assigned_to'
+        end
 
-    context 'when no project is set' do
-      before do
-        allow(query).to receive(:project_id).and_return(false)
-        allow(query).to receive(:project).and_return(false)
+        it 'returns all work packages of project 2' do
+          work_packages = query.results(include: [:assigned_to, { custom_values: :custom_field }],
+                                        order: 'work_packages.root_id, work_packages.lft')
+                          .work_packages
+                          .page(1)
+                          .per_page(10)
+                          .all
+
+          expect(work_packages).to match_array([wp_p2, wp2_p2])
+        end
       end
 
-      it 'should display all wp from projects where User.current has access' do
-        expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
+      context 'when grouping by responsibles' do
+        before do
+          query.column_names = [:responsible, :"cf_#{custom_field.id}"]
+          query.group_by = 'responsible'
+        end
+
+        it 'returns all work packages of project 2' do
+          work_packages = query.results(include: [:responsible, { custom_values: :custom_field }],
+                                        order: 'work_packages.root_id, work_packages.lft')
+                          .work_packages
+                          .page(1)
+                          .per_page(10)
+                          .all
+
+          expect(work_packages).to match_array([wp_p2, wp2_p2])
+        end
       end
     end
   end
