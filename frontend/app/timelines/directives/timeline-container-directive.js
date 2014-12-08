@@ -27,7 +27,7 @@
 //++
 
 module.exports = function($window, Timeline) {
-  setTimelinesWidth = function(scope) {
+  var setTimelinesWidth = function(scope) {
     var contentElement = angular.element('#content');
 
     if (contentElement.length > 0) {

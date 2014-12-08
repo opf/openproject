@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  Reporting = {
+  var Reporting = {
     identifier: 'reportings',
 
     all: function(timeline) {

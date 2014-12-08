@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  ProjectAssociation = {
+  var ProjectAssociation = {
     identifier: 'project_associations',
     all: function(timeline) {
       // collect all project associations.

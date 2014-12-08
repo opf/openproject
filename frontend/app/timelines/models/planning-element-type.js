@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  PlanningElementType = {
+  var PlanningElementType = {
     identifier: 'planning_element_types',
     all: function(timeline) {
       // collect all reportings.

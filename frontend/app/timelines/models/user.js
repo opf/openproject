@@ -38,9 +38,9 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  identifier = 'users';
+  var identifier = 'users';
 
-  User = {
+  var User = {
     is: function(t) {
       if (t === undefined) return false;
       return t.identifier === identifier;

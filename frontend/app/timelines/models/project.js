@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  Project = {
+  var Project = {
     objectType: 'Project',
     identifier: 'projects',
 

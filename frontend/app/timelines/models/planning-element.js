@@ -39,7 +39,7 @@
 
 module.exports = function(PathHelper) {
 
-  PlanningElement = {
+  var PlanningElement = {
     objectType: 'PlanningElement',
     identifier: 'planning_elements',
 
