@@ -66,7 +66,6 @@ $ng-modal-image-width:   $ng-modal-image-height
   margin: auto
   max-height: 95%
   position: relative
-  overflow: auto
   width: 95%
   padding: $ng-modal-padding / 2
   margin-top: .6em
@@ -79,6 +78,11 @@ $ng-modal-image-width:   $ng-modal-image-height
   //+media($large-screen)
   width: 40%
   margin-top: 10em
+  .ui-select-container
+    .select2-display-none
+      display: none
+    ul
+      margin-left: 0
 
   .modal-header
     padding: 0
@@ -100,6 +104,12 @@ $ng-modal-image-width:   $ng-modal-image-height
         width: 160px
       @media(max-width: 800px)
         width: 120px
+
+  .columns-modal-content
+    margin-bottom: 15px
+    label
+      display: inline
+      padding-right: 30px
 
 ul.export-options
   margin: 0
