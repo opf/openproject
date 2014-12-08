@@ -46,21 +46,31 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
   }
 
   function getReadAttributeValue($scope) {
-    return getAttributeValue($scope, $scope.entity);
+    return getAttributeValue($scope, $scope.entity, true);
   }
 
   function getWriteAttributeValue($scope) {
-    return getAttributeValue($scope, $scope.entity.form.embedded.payload);
+    return getAttributeValue($scope, $scope.entity.form.embedded.payload, false);
   }
 
-  function getAttributeValue($scope, entity) {
+  function getAttributeValue($scope, entity, isReadValue) {
     if ($scope.embedded) {
       var path = $scope.attribute.split('.');
 
       return entity.embedded[path[0]].props[path[1]];
     } else {
-      return entity.props[getAttribute($scope)];
+      var attribute = entity.props[getAttribute($scope)];
+
+      if (isAttributeFormattable(attribute)) {
+        return isReadValue ? $sce.trustAsHtml(attribute.html) : attribute.raw;
+      } else {
+        return attribute;
+      }
     }
+  }
+
+  function isAttributeFormattable(attribute) {
+    return _.intersection(_.keys(attribute), ['format', 'raw', 'html']).length === 3;
   }
 
   function setOptions($scope) {
@@ -121,14 +131,7 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
           });
         };
       },
-      onFail: disablePreview,
-      setReadValue: function($scope) {
-        if (getAttribute($scope) == 'rawDescription') {
-          $scope.readValue = $sce.trustAsHtml($scope.entity.props.description);
-        } else {
-          $scope.readValue = $scope.entity.props[getAttribute($scope)];
-        }
-      }
+      onFail: disablePreview
     },
 
     select: {
