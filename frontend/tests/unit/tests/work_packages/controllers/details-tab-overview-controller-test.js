@@ -422,57 +422,83 @@ describe('DetailsTabOverviewController', function() {
 
     describe('property format', function() {
       describe('is "version"', function() {
-        beforeEach(function() {
-          sinon.stub(I18n, 't').returnsArg(0);
-
-          workPackage.props.versionName = 'Test version';
-          workPackage.props.versionId = 1;
-          workPackage.links = workPackage.links || {};
-
-          buildController();
-        });
-
-        afterEach(function() {
-          I18n.t.restore();
-        });
-
-        context('versionViewable is false or missing', function() {
+        describe('version available', function() {
           beforeEach(function() {
+            sinon.stub(I18n, 't').returnsArg(0);
+
+            workPackage.props.versionName = 'Test version';
+            workPackage.props.versionId = 1;
+            workPackage.links = workPackage.links || {};
+
             buildController();
           });
 
-          it ('should set the correct viewable property', function() {
-            expect(fetchPresentPropertiesWithName('versionName')[0].value.viewable).to.equal(false);
+          afterEach(function() {
+            I18n.t.restore();
           });
-          it('should set the given title', function() {
-            expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
+
+          describe('version link', function() {
+            context('version link missing', function() {
+              beforeEach(function() {
+                buildController();
+              });
+
+              it('should set the correct viewable property', function() {
+                var viewable = fetchPresentPropertiesWithName('versionName')[0].value.viewable;
+
+                expect(viewable).to.equal(false);
+              });
+              it('should set the given title', function() {
+                var title = fetchPresentPropertiesWithName('versionName')[0].value.title;
+
+                expect(title).to.equal('Test version');
+              });
+            });
+
+            context('version link available', function() {
+              beforeEach(function() {
+                workPackage.links.version = {
+                  href: '/versions/1',
+                  props: {
+                    title: 'Test version'
+                  }
+                };
+
+                buildController();
+              });
+
+              it('should return the version as a link with correct href', function() {
+                var href = fetchPresentPropertiesWithName('versionName')[0].value.href;
+
+                expect(href).to.equal('/versions/1');
+              });
+
+              it('should return the version as a link with correct title', function() {
+                var title = fetchPresentPropertiesWithName('versionName')[0].value.title;
+
+                expect(title).to.equal('Test version');
+              });
+
+              it ('should set the correct viewable property', function() {
+                var viewable = fetchPresentPropertiesWithName('versionName')[0].value.viewable;
+
+                expect(viewable).to.equal(true);
+              });
+            });
           });
         });
 
-        context('versionViewable is true', function() {
+        describe('version not set', function() {
           beforeEach(function() {
-          workPackage.links.version = {
-            href: "/versions/1",
-            props: {
-              title: 'Test version'
-            }
-          };
+            workPackage.props.versionId = null;
+
             buildController();
           });
 
-          it('should return the version as a link with correct href', function() {
-            expect(fetchPresentPropertiesWithName('versionName')[0].value.href).to.equal('/versions/1');
-          });
-
-          it('should return the version as a link with correct title', function() {
-            expect(fetchPresentPropertiesWithName('versionName')[0].value.title).to.equal('Test version');
-          });
-
-          it ('should set the correct viewable property', function() {
-            expect(fetchPresentPropertiesWithName('versionName')[0].value.viewable).to.equal(true);
+          it('should have an empty value', function() {
+            expect(fetchEmptyPropertiesWithName('versionName')[0].value).not.to.be.ok;
           });
         });
-
       });
 
       describe('is "user"', function() {
