@@ -68,8 +68,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
       validates_each :parent_id do |record, attr, value|
         validate_parent_work_package_relation(record, attr, value)
-
-        validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
       end
 
       include OpenProject::Backlogs::List
@@ -111,18 +109,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def parent_work_package_relationship_spanning_projects?(parent, child)
       child.is_task? && parent.in_backlogs_type? && parent.project_id != child.project_id
-    end
-
-    def validate_children(work_package, attr, value)
-      if work_package.in_backlogs_type?
-        work_package.children.each do |child|
-          unless child.valid?
-            child.errors.each do |key, value|
-              work_package.errors.add(:children, value)
-            end
-          end
-        end
-      end
     end
   end
 
