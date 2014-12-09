@@ -57,7 +57,7 @@ However for the future we plan to add authentication modes that are more suitabl
 
 # Links
 
-Links to other resources in the API are represented uniformly by link objects.
+Links to other resources in the API are represented uniformly by so called link objects.
 
 ## Properties
 
@@ -85,6 +85,9 @@ the link `api/v3/example/{id}` is not complete in itself, but the client needs t
 As of now the API does not indicate the valid replacement values.
 
 The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
+Changes to all other properties will be **silently ignored**.
 
 # Errors
 
