@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, InplaceEditorDispatcher) {
+module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
   return {
     restrict: 'A',
     transclude: false,
@@ -61,15 +61,16 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     });
     scope.$on('startEditing', function() {
       $timeout(function() {
-        element.find('.ined-input-wrapper-inner .focus-input').focus().triggerHandler('keyup');
+        var inputElement = element.find('.ined-input-wrapper-inner .focus-input');
+
+        FocusHelper.focus(inputElement);
+        inputElement.triggerHandler('keyup');
         InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
       });
     });
 
     scope.$on('finishEditing', function() {
-      $timeout(function() {
-        element.find('.ined-read-value a').focus();
-      });
+      FocusHelper.focusElement(element.find('.ined-read-value'));
     });
   }
 

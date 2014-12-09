@@ -71,6 +71,7 @@ angular.module('openproject.uiComponents')
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
   .directive('inplaceEditor', [
       '$timeout',
+      'FocusHelper',
       'InplaceEditorDispatcher',
       require('./inplace-editor-directive')
   ])
