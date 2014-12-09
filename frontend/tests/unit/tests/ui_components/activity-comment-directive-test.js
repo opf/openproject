@@ -103,64 +103,63 @@ describe('activityCommentDirective', function() {
     });
 
     describe('with comment link in work package', function() {
+      var commentSection, commentField;
+
       beforeEach(function() {
         compile();
+
+        commentSection  = element.find('.activity-comment');
+        commentField    = commentSection.find('textarea');
       });
 
       it('should display the comments form', function() {
-        expect(element.find('.activity-comment').length).to.equal(1);
+        expect(commentSection.length).to.equal(1);
       });
 
       it('should provide a label next to the comments field', function() {
-        var comment = element.find('.activity-comment textarea');
-        var label   = element.find('label[for=' + comment.attr('id') + ']');
+        var label = commentSection.find('label[for=' + commentField.attr('id') + ']');
 
         expect(label.text().trim()).to.equal('trans_title');
       });
 
       it('should display a placeholder in the comments field', function() {
-        var comment = element.find('.activity-comment textarea');
-
-        expect(comment.attr('placeholder')).to.equal('trans_title');
+        expect(commentField.attr('placeholder')).to.equal('trans_title');
       });
 
-      it('does not allow sending comment with an emtpy message', function() {
-        var comment       = element.find('.activity-comment textarea'),
-            save_button   = element.find('.activity-comment button');
+      it('does not allow sending comment with an empty message', function() {
+        var saveButton = commentSection.find('button');
 
-        comment.val('');
-        comment.change();
-        expect(save_button.prop('disabled')).to.be.true;
+        commentField.val('');
+        commentField.change();
+        expect(saveButton.prop('disabled')).to.be.true;
 
-        comment.val('a useful comment');
-        comment.change();
-        expect(save_button.prop('disabled')).to.be.false;
-
+        commentField.val('a useful comment');
+        commentField.change();
+        expect(saveButton.prop('disabled')).to.be.false;
       });
 
       it('does prevent double posts', function() {
-        var comment       = element.find('.activity-comment textarea'),
-            save_button   = element.find('.activity-comment button');
+        var saveButton = commentSection.find('button');
 
         // comments can be saved when there is text to post
-        comment.val('a useful comment');
-        comment.change();
-        expect(save_button.prop('disabled')).to.be.false;
+        commentField.val('a useful comment');
+        commentField.change();
+        expect(saveButton.prop('disabled')).to.be.false;
 
         // while sending the comment, one cannot send another comment
-        save_button.click();
-        expect(save_button.scope().$parent.processingComment).to.equal(true);
-        expect(save_button.scope().$parent.activity.comment).to.equal('a useful comment');
-        expect(comment.prop('disabled')).to.be.true;
-        expect(save_button.prop('disabled')).to.be.true;
+        saveButton.click();
+        expect(saveButton.scope().$parent.processingComment).to.equal(true);
+        expect(saveButton.scope().$parent.activity.comment).to.equal('a useful comment');
+        expect(commentField.prop('disabled')).to.be.true;
+        expect(saveButton.prop('disabled')).to.be.true;
 
         // after sending, we can send comments again
         commentCreation.resolve();
         scope.$digest();
-        expect(save_button.scope().$parent.processingComment).to.equal(false);
-        expect(save_button.scope().$parent.activity.comment).to.equal('');
-        expect(comment.val()).to.equal('');
-        expect(comment.prop('disabled')).to.be.false;
+        expect(saveButton.scope().$parent.processingComment).to.equal(false);
+        expect(saveButton.scope().$parent.activity.comment).to.equal('');
+        expect(commentField.val()).to.equal('');
+        expect(commentField.prop('disabled')).to.be.false;
       });
     });
   });
