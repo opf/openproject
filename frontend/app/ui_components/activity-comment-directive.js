@@ -41,27 +41,32 @@ module.exports = function($timeout,
       activities: '=',
       autocompletePath: '@'
     },
+    controller: function($scope) {
+      var vm = this;
+
+      vm.title = I18n.t('js.label_add_comment_title');
+      vm.buttonTitle = I18n.t('js.label_add_comment');
+      vm.buttonCancel = I18n.t('js.button_cancel');
+      vm.canAddComment = !!vm.workPackage.links.addComment;
+      vm.activity = { comment: '' };
+
+      vm.createComment = function() {
+        var descending = ConfigurationService.commentsSortedInDescendingOrder();
+        vm.processingComment = true;
+        ActivityService.createComment(vm.workPackage, vm.activities, descending, vm.activity.comment)
+        .then(function(response) {
+          vm.activity.comment = '';
+          $scope.$emit('workPackageRefreshRequired', '');
+          vm.processingComment = false;
+          return response;
+        });
+      };
+    },
+    controllerAs: 'vm',
+    bindToController: true,
     templateUrl: '/templates/components/activity_comment.html',
     link: function(scope, element, attrs, exclusiveEditController) {
       exclusiveEditController.setCreator(scope);
-
-      scope.title = I18n.t('js.label_add_comment_title');
-      scope.buttonTitle = I18n.t('js.label_add_comment');
-      scope.buttonCancel = I18n.t('js.button_cancel');
-      scope.canAddComment = !!scope.workPackage.links.addComment;
-      scope.activity = { comment: '' };
-
-      scope.createComment = function() {
-        var descending = ConfigurationService.commentsSortedInDescendingOrder();
-        scope.processingComment = true;
-        ActivityService.createComment(scope.workPackage, scope.activities, descending, scope.activity.comment)
-          .then(function(response) {
-            scope.activity.comment = '';
-            scope.$emit('workPackageRefreshRequired', '');
-            scope.processingComment = false;
-            return response;
-          });
-      };
 
       $timeout(function() {
         AutoCompleteHelper.enableTextareaAutoCompletion(
