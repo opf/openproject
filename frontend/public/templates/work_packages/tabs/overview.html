@@ -7,6 +7,7 @@
           ined-type="wiki_textarea"
           ined-entity="workPackage"
           ined-attribute="description"
+          ined-attribute-title="{{ I18n.t('js.work_packages.properties.description') }}"
           placeholder="{{ I18n.t('js.label_click_to_enter_description') }}"
           autocomplete-path="{{ autocompletePath }}">
     </span>
@@ -52,9 +53,9 @@
           ined-type="select"
           ined-entity="workPackage"
           ined-attribute="status.name"
+          ined-attribute-title="{{ I18n.t('js.work_packages.properties.status') }}"
           ined-attribute-embedded="true">
         </div>
-
         <div ng-if="propertyData.property != 'status'" ng-switch-default ng-switch="propertyData.format">
           <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
             <div ng-switch-when="user">
