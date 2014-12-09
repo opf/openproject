@@ -55,6 +55,37 @@ However for the future we plan to add authentication modes that are more suitabl
 
 # Group Basic Objects
 
+# Links
+
+Links to other resources in the API are represented uniformly by link objects.
+
+## Properties
+
+| Property  | Description                                                              | Type    | Required | Nullable | Default |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓    |    ✓    |         |
+| title     | Representative label for the resource                                    | String  |          |          |         |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+
+All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
+link object:
+
+    {
+        "href": null
+    }
+
+whereas `{ }` is not a valid link object. The meaning of `"href": null` is that **no** resource is referenced.
+For example a work package without an assignee will still have an assignee link, but its `href` will be `null`.
+
+If a `title` is present, the client can display the title to the user when referring to the resource.
+
+Templated links are links that contain client replacable parts. Replaceable parts are enclosed in braces. For example
+the link `api/v3/example/{id}` is not complete in itself, but the client needs to replace the string `{id}` itself.
+As of now the API does not indicate the valid replacement values.
+
+The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
 # Errors
 
 In case of an error, the API will respond with an apropriate HTTP status code.
