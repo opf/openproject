@@ -39,6 +39,7 @@ I18n.addTranslations = function(locale, translations) {
 
 var angular = require('angular');
 require('angular-animate');
+require('angular-aria');
 require('angular-modal');
 
 // require('angular-i18n/angular-locale_en-us');
@@ -178,6 +179,7 @@ var openprojectApp = angular.module('openproject', [
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',
+  'ngAria',
   'ngSanitize',
   'truncate',
   'feature-flags',
