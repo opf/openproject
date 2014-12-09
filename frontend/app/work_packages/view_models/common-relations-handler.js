@@ -57,9 +57,9 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
 
     addRelation: function(scope) {
       WorkPackageService.addWorkPackageRelation(this.workPackage, scope.relationToAddId, this.relationsId).then(function(relation) {
-          scope.relationToAddId = '';
-          scope.updateFocus(-1);
-          scope.$emit('workPackageRefreshRequired', '');
+        scope.relationToAddId = '';
+        scope.updateFocus(-1);
+        scope.$emit('workPackageRefreshRequired', '');
       }, function(error) {
         ApiHelper.handleError(scope, error);
       });

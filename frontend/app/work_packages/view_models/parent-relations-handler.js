@@ -39,18 +39,18 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
       handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
       handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.addRelation = function(scope) {
-          var params = {
-            lockVersion: scope.workPackage.props.lockVersion,
-            parentId: scope.relationToAddId
-          };
+        var params = {
+          lockVersion: scope.workPackage.props.lockVersion,
+          parentId: scope.relationToAddId
+        };
 
-          WorkPackageService.updateWorkPackage(this.workPackage, params).then(function(workPackage) {
-              scope.relationToAddId = '';
-              scope.updateFocus(-1);
-              scope.$emit('workPackageRefreshRequired', '');
-          }, function(error) {
-              ApiHelper.handleError(scope, error);
-          });
+        WorkPackageService.updateWorkPackage(this.workPackage, params).then(function() {
+            scope.relationToAddId = '';
+            scope.updateFocus(-1);
+            scope.$emit('workPackageRefreshRequired', '');
+        }, function(error) {
+            ApiHelper.handleError(scope, error);
+        });
       };
       handler.removeRelation = function(scope) {
           var index = this.relations.indexOf(scope.relation);
