@@ -38,11 +38,13 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  identifier = 'users';
+  var identifier = 'users';
 
-  User = {
+  var User = {
     is: function(t) {
       if (t === undefined) return false;
+      if (_.isString(t)) return 'User' === t;
+
       return t.identifier === identifier;
     }
   };

@@ -39,7 +39,7 @@
 
 module.exports = function() {
 
-  ProjectType = {
+  var ProjectType = {
     identifier: 'project_types',
     all: function(timeline) {
       // collect all project types

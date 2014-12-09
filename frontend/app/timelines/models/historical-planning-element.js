@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  HistoricalPlanningElement = {
+  var HistoricalPlanningElement = {
     identifier: 'historical_planning_elements'
   };
 

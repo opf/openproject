@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  Color = {
+  var Color = {
     identifier: 'colors',
     all: function(timeline) {
       // collect all colors

@@ -27,7 +27,7 @@
 //++
 
 
-module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
+module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
   var getInitialValue = function(timelineOptions, property) {
     var value = timelineOptions[property];
@@ -452,7 +452,7 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
 
       tree.iterateWithChildren(function(node) {
         var data = node.getData();
-        if (data.is(PlanningElement)) {
+        if (data.is('PlanningElement')) {
           timeline.includeDate(data.start());
           timeline.includeDate(data.end());
         }
@@ -505,7 +505,15 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       return this.reportings[id];
     },
     getProjects: function() {
-      return Project.all(this);
+      // collect all planning elements
+      var r = this.projects;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
     },
     getProject: function(id) {
       if (id === undefined) {

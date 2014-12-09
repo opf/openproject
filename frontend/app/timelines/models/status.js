@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 module.exports = function() {
-  Status = {
+  var Status = {
     identifier: 'statuses',
     all: function(timeline) {
       // collect all reportings.

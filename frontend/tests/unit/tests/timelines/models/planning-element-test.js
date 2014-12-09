@@ -64,7 +64,7 @@ describe('Planning Element', function(){
   describe('is', function () {
     it('should return true for pes', function () {
       expect(PlanningElement.is(this.peWithDates)).to.be.true;
-      expect(this.peWithDates.is(PlanningElement)).to.be.true;
+      expect(this.peWithDates.is('PlanningElement')).to.be.true;
     });
 
     it('should return false for non-pes', function () {
