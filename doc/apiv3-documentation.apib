@@ -70,7 +70,7 @@ Error objects shall give the client additional details about the cause of an err
     * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
-    * It it localized depending on the users preferences
+    * It is localized depending on the users preferences
     * It *must not* include HTML or other kind of markup
     * Error messages form complete sentences including punctuation
 
@@ -729,7 +729,7 @@ and objects describing the corresponding property as values. The values are call
 **Remarks**
 
 The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
