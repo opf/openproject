@@ -50,8 +50,7 @@ module Api
       def index
         @work_packages = current_work_packages
 
-        columns = @query.columns.map(&:name) + [:id]
-        columns << @query.group_by if @query.group_by
+        columns = all_query_columns(@query)
 
         @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
 
@@ -101,7 +100,7 @@ module Api
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
-        results = @query.results include: includes_for_columns(@query.columns.map(&:name)),
+        results = @query.results include: includes_for_columns(all_query_columns(@query)),
                                  order: sort_clause
 
         work_packages = results.work_packages
@@ -112,6 +111,13 @@ module Api
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
+      end
+
+      def all_query_columns(query)
+        columns = query.columns.map(&:name) + [:id]
+        columns << query.group_by.to_sym if query.group_by
+
+        columns
       end
 
       def work_packages_of_ids(ids, column_names)
