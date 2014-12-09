@@ -1676,6 +1676,77 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "You are not allowed to see this status."
             }
 
+# Group Time Entries
+
+## Linked Properties:
+|  Link         | Description                                  | Type          | Constraints | Supported operations |
+|:-------------:|--------------------------                    | ------------- | ----------- | -------------------- |
+| self          | This time entry                              | TimeEntry     | not null    | READ                 |
+| workPackage   | The work package where this entry was logged | WorkPackage   | not null    | READ                 |
+| project       | The project of this time entry               | Project       | not null    | READ                 |
+| user          | The user that spent the time                 | User          | not null    | READ                 |
+| activity      | The kind of activity performed               | ? **TBD** ?   | not null    | READ                 |
+
+## Properties
+| Property         | Description                                                   | Type        | Constraints   | Supported operations |
+| :--------:       | -------------                                                 | ----------- | -----------   | -------------------- |
+| id               | Time entry id                                                 | Integer     | x > 0         | READ                 |
+| comment          | Addtitional notes regarding the time entry                    | Formattable |               | READ                 |
+| spentOn          | The day on which the time was spent                           | Date        |               | READ                 |
+| spentTime        | The amount of time that was spent                             | Duration    |               | READ                 |
+| createdAt        | Time of creation                                              | DateTime    |               | READ                 |
+| updatedAt        | Time of the most recent change to the user                    | DateTime    |               | READ                 |
+
+# Time Entry [/api/v3/time_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self": { "href": "/api/v3/time_entries/1" },
+                    "workPackage": { "href": "/api/v3/work_packages/1" },
+                    "project": { "href": "/api/v3/projects/1" },
+                    "user": { "href": "/api/v3/users/1" },
+                    "activity": { "href": "/api/v3/???/1" }
+                },
+                "_type": "TimeEntry",
+                "id": 1,
+                "comment": {
+                    "format": "plain",
+                    "raw": "I did some work!",
+                    "html": "<p>I did some work!</p>"
+                },
+                "spentOn": "2014-12-06",
+                "spentTime": "PT2H",
+                "createdAt": "2014-12-06T08:51:20Z",
+                "updatedAt": "2014-12-06T08:51:20Z"
+            }
+
+## View Time Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Response 200 (application/hal+json)
+
+    [Time Entry][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** ??? **TBD** ???
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this time entry."
+            }
+
 # Group Types
 
 ## Linked Properties:
