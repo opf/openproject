@@ -130,11 +130,11 @@ describe('activityCommentDirective', function() {
 
         comment.val('');
         comment.change();
-        expect(save_button.attr('disabled')).to.equal('disabled');
+        expect(save_button.prop('disabled')).to.be.true;
 
         comment.val('a useful comment');
         comment.change();
-        expect(save_button.attr('disabled')).to.equal(undefined);
+        expect(save_button.prop('disabled')).to.be.false;
 
       });
 
@@ -145,14 +145,14 @@ describe('activityCommentDirective', function() {
         // comments can be saved when there is text to post
         comment.val('a useful comment');
         comment.change();
-        expect(save_button.attr('disabled')).to.equal(undefined);
+        expect(save_button.prop('disabled')).to.be.false;
 
         // while sending the comment, one cannot send another comment
         save_button.click();
         expect(save_button.scope().$parent.processingComment).to.equal(true);
         expect(save_button.scope().$parent.activity.comment).to.equal('a useful comment');
-        expect(comment.attr('disabled')).to.equal('disabled');
-        expect(save_button.attr('disabled')).to.equal('disabled');
+        expect(comment.prop('disabled')).to.be.true;
+        expect(save_button.prop('disabled')).to.be.true;
 
         // after sending, we can send comments again
         commentCreation.resolve();
@@ -160,7 +160,7 @@ describe('activityCommentDirective', function() {
         expect(save_button.scope().$parent.processingComment).to.equal(false);
         expect(save_button.scope().$parent.activity.comment).to.equal('');
         expect(comment.val()).to.equal('');
-        expect(comment.attr('disabled')).to.be.undefined;
+        expect(comment.prop('disabled')).to.be.false;
       });
     });
   });
