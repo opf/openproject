@@ -98,7 +98,7 @@ describe('activityCommentDirective', function() {
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.activity-comment.ng-hide').length).to.equal(1);
+        expect(element.find('.activity-comment').length).to.equal(0);
       });
     });
 
@@ -109,6 +109,19 @@ describe('activityCommentDirective', function() {
 
       it('should display the comments form', function() {
         expect(element.find('.activity-comment').length).to.equal(1);
+      });
+
+      it('should provide a label next to the comments field', function() {
+        var comment = element.find('.activity-comment textarea');
+        var label   = element.find('label[for=' + comment.attr('id') + ']');
+
+        expect(label.text().trim()).to.equal('trans_title');
+      });
+
+      it('should display a placeholder in the comments field', function() {
+        var comment = element.find('.activity-comment textarea');
+
+        expect(comment.attr('placeholder')).to.equal('trans_title');
       });
 
       it('does not allow sending comment with an emtpy message', function() {
@@ -136,15 +149,18 @@ describe('activityCommentDirective', function() {
 
         // while sending the comment, one cannot send another comment
         save_button.click();
-        scope.$digest();
-        expect(save_button.scope().processingComment).to.equal(true);
+        expect(save_button.scope().$parent.processingComment).to.equal(true);
+        expect(save_button.scope().$parent.activity.comment).to.equal('a useful comment');
+        expect(comment.attr('disabled')).to.equal('disabled');
         expect(save_button.attr('disabled')).to.equal('disabled');
 
         // after sending, we can send comments again
         commentCreation.resolve();
         scope.$digest();
-        expect(save_button.scope().processingComment).to.equal(false);
-
+        expect(save_button.scope().$parent.processingComment).to.equal(false);
+        expect(save_button.scope().$parent.activity.comment).to.equal('');
+        expect(comment.val()).to.equal('');
+        expect(comment.attr('disabled')).to.be.undefined;
       });
     });
   });

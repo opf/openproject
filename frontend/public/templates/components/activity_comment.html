@@ -1,21 +1,21 @@
-<div class="activity-comment" ng-show="canAddComment">
+<div class="activity-comment" ng-if="canAddComment">
   <form name="commentForm">
     <label for="add-comment-text" class="hidden-for-sighted">
-      {{ title }}
+      {{ $parent.title }}
     </label>
     <textarea id="add-comment-text"
               class="add-comment-text"
               name="add_comment_text"
-              ng-model="activity.comment"
+              ng-model="$parent.activity.comment"
               required
-              placeholder="{{ title }}"
-              ng-disabled="processingComment"
-              data-wp_autocomplete_url="{{ autocompletePath }}">
+              placeholder="{{ $parent.title }}"
+              ng-disabled="$parent.processingComment"
+              data-wp_autocomplete_url="{{ $parent.autocompletePath }}">
     </textarea>
     <button class="button"
-            ng-click="createComment()"
-            ng-disabled="commentForm.$invalid || processingComment">
-      <i class="icon-yes icon-left"></i>{{ buttonTitle }}
+            ng-click="$parent.createComment()"
+            ng-disabled="commentForm.$invalid || $parent.processingComment">
+      <i class="icon-yes icon-left"></i>{{ $parent.buttonTitle }}
     </button>
   </form>
 </div>
