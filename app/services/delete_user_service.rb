@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,36 +27,52 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UsersAPI < Grape::API
-        resources :users do
+##
+# Implements the deletion of a user.
+class DeleteUserService < Struct.new :user, :actor
+  ##
+  # Deletes the given user if allowed.
+  #
+  # @return True if the user deletion has been initiated, false otherwise.
+  def call
+    if deletion_allowed?
+      # as destroying users is a lengthy process we handle it in the background
+      # and lock the account now so that no action can be performed with it
+      user.lock!
+      Delayed::Job.enqueue DeleteUserJob.new(user)
 
-          params do
-            requires :id, desc: 'User\'s id'
-          end
-          namespace ':id' do
+      logout! if self_delete?
 
-            before do
-              @user  = User.find(params[:id])
-            end
-
-            get do
-              UserRepresenter.new(@user)
-            end
-
-            delete do
-              if DeleteUserService.new(@user, User.current).call
-                status 202
-              else
-                fail ::API::Errors::Unauthorized
-              end
-            end
-          end
-
-        end
-      end
+      true
+    else
+      false
     end
+  end
+
+  ##
+  # Checks if a given user may be deleted by another one.
+  #
+  # @param user [User] User to be deleted.
+  # @param actor [User] User who wants to delete the given user.
+  def self.deletion_allowed?(user, actor)
+    if actor == user
+      Setting.users_deletable_by_self?
+    else
+      actor.admin && Setting.users_deletable_by_admins?
+    end
+  end
+
+  private
+
+  def deletion_allowed?
+    self.class.deletion_allowed? user, actor
+  end
+
+  def self_delete?
+    user == actor
+  end
+
+  def logout!
+    User.current = nil
   end
 end

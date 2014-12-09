@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,36 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UsersAPI < Grape::API
-        resources :users do
+class DeleteUserJob
+  def initialize(user)
+    @user_id = user.id
+  end
 
-          params do
-            requires :id, desc: 'User\'s id'
-          end
-          namespace ':id' do
+  def perform
+    user.destroy
+  end
 
-            before do
-              @user  = User.find(params[:id])
-            end
+  private
 
-            get do
-              UserRepresenter.new(@user)
-            end
-
-            delete do
-              if DeleteUserService.new(@user, User.current).call
-                status 202
-              else
-                fail ::API::Errors::Unauthorized
-              end
-            end
-          end
-
-        end
-      end
-    end
+  def user
+    @user ||= User.find @user_id
   end
 end
