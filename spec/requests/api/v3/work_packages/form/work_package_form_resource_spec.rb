@@ -337,6 +337,12 @@ describe 'API v3 Work package form resource', type: :request do
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
 
+                shared_examples_for 'having updated work package principal' do
+                  it "should respond with updated work package #{property}" do
+                    expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                  end
+                end
+
                 context "valid #{property}" do
                   shared_examples_for 'valid user assignment' do
                     include_context 'post request'
@@ -345,9 +351,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                     it_behaves_like 'having no errors'
 
-                    it "should respond with updated work package #{property}" do
-                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
-                    end
+                    it_behaves_like 'having updated work package principal'
                   end
 
                   context 'empty user' do
@@ -373,9 +377,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                     it_behaves_like 'having an error', property
 
-                    it "should respond with updated work package #{property}" do
-                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
-                    end
+                    it_behaves_like 'having updated work package principal'
                   end
 
                   context 'wrong resource' do
