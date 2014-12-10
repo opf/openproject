@@ -59,9 +59,11 @@ require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 
-require('openproject-ui_components');
-
 // global
+angular.module('openproject.uiComponents', ['ui.select2'])
+.run(['$rootScope', function($rootScope){
+  $rootScope.I18n = I18n;
+}]);
 angular.module('openproject.config', []);
 angular.module(
   'openproject.services', [
