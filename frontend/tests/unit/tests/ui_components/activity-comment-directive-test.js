@@ -148,16 +148,16 @@ describe('activityCommentDirective', function() {
 
         // while sending the comment, one cannot send another comment
         saveButton.click();
-        expect(saveButton.scope().$parent.processingComment).to.equal(true);
-        expect(saveButton.scope().$parent.activity.comment).to.equal('a useful comment');
+        expect(saveButton.scope().$parent.vm.processingComment).to.equal(true);
+        expect(saveButton.scope().$parent.vm.activity.comment).to.equal('a useful comment');
         expect(commentField.prop('disabled')).to.be.true;
         expect(saveButton.prop('disabled')).to.be.true;
 
         // after sending, we can send comments again
         commentCreation.resolve();
         scope.$digest();
-        expect(saveButton.scope().$parent.processingComment).to.equal(false);
-        expect(saveButton.scope().$parent.activity.comment).to.equal('');
+        expect(saveButton.scope().$parent.vm.processingComment).to.equal(false);
+        expect(saveButton.scope().$parent.vm.activity.comment).to.equal('');
         expect(commentField.val()).to.equal('');
         expect(commentField.prop('disabled')).to.be.false;
       });
