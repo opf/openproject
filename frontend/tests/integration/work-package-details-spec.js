@@ -133,24 +133,28 @@ describe('OpenProject', function() {
       });
       describe('read state', function() {
         it('should render a span with value', function() {
-          expect($('.status-inline-editor .inplace-editor span.read-value-wrapper').getText())
+          /*jshint multistr: true */
+          expect($('[ined-attribute=\'status.name\'] .inplace-editor \
+            span.read-value-wrapper').getText())
             .to.eventually.equal('specified');
         });
       });
       describe('edit state', function() {
         beforeEach(function() {
-          $('.status-inline-editor .inplace-editor .ined-read-value').then(function(e) {
+          $('[ined-attribute=\'status.name\'] .inplace-editor .ined-read-value').then(function(e) {
             e.click();
           });
         });
         context('dropdown', function() {
           it('should be rendered', function() {
-            expect($('.status-inline-editor select.focus-input').isDisplayed())
+            expect($('[ined-attribute=\'status.name\'] select.focus-input').isDisplayed())
               .to.eventually.be.true;
           });
           it('should have the correct value', function() {
+            /*jshint multistr: true */
             expect(
-              $('.status-inline-editor select.focus-input option:checked').getAttribute('value')
+              $('[ined-attribute=\'status.name\'] \
+                select.focus-input option:checked').getAttribute('value')
             ).to.eventually.equal('1');
           });
         });
@@ -168,7 +172,7 @@ describe('OpenProject', function() {
           });
           /*jshint multistr: true */
           it('should render a span with placeholder', function() {
-            expect($('.user-inline-editor[ined-attribute=\'assignee\'] \
+            expect($('[ined-attribute=\'assignee\'] \
               .inplace-editor \
               span.read-value-wrapper span').getText())
               .to.eventually.equal('-');
@@ -177,7 +181,7 @@ describe('OpenProject', function() {
         /*jshint multistr: true */
         context('with set responsible', function() {
           it('should render a link to user\'s profile', function() {
-            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
+            expect($('[ined-attribute=\'responsible\'] \
               .inplace-editor \
               span.read-value-wrapper a').getText())
               .to.eventually.equal('OpenProject Admin');
@@ -188,7 +192,7 @@ describe('OpenProject', function() {
       describe('edit state', function() {
         beforeEach(function() {
           /*jshint multistr: true */
-          $('.user-inline-editor[ined-attribute=\'responsible\'] \
+          $('[ined-attribute=\'responsible\'] \
               .inplace-editor \
               .ined-read-value').then(function(e) {
             e.click();
@@ -197,14 +201,14 @@ describe('OpenProject', function() {
         context('select2', function() {
           it('should be rendered', function() {
             /*jshint multistr: true */
-            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
+            expect($('[ined-attribute=\'responsible\'] \
               .select2-container').isDisplayed())
               .to.eventually.be.true;
           });
           it('should have the correct value', function() {
             /*jshint multistr: true */
             expect(
-              $('.user-inline-editor[ined-attribute=\'responsible\'] \
+              $('[ined-attribute=\'responsible\'] \
                 .select2-container \
                 .select2-choice span').getText()
             ).to.eventually.equal('OpenProject Admin');

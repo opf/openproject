@@ -43,9 +43,10 @@ module.exports = function($scope,
            UserService,
            VersionService,
            HookService,
+           OverviewService,
            $q) {
 
-  // work package properties
+  $scope.inplaceProperties = OverviewService.getInplaceProperties();
 
   $scope.userPath = PathHelper.staticUserPath;
   AuthorisationService.initModelAuth('work_package' + $scope.workPackage.id,
