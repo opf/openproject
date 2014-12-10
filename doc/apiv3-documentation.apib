@@ -1712,9 +1712,12 @@ Permanently deletes the specified user account.
 + Parameters
     + id (required, integer, `1`) ... User id
 
-+ Response 204
++ Response 202
 
     Returned if the account was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
 
 + Response 403 (application/hal+json)
 
