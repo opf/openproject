@@ -27,10 +27,22 @@
 //++
 
 module.exports = function(app) {
+  var fs = require('fs');
   var express = require('express');
   var projectsRouter = express.Router();
   projectsRouter.get('/', function(req, res) {
     res.send({"projects":[]});
+  });
+  projectsRouter.get('/:id/available_:userType', function(req, res) {
+    fs.readFile(
+      __dirname +
+        '/projects/' +
+        req.params.id +
+        '_available_' +
+        req.params.userType +
+      '.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
   });
   app.use('/api/v3/projects', projectsRouter);
 };

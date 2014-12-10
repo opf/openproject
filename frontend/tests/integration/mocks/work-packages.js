@@ -52,19 +52,32 @@ module.exports = function(app) {
       res.send(text);
     });
   });
+  workPackagesRouter.patch('/:id', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/' +
+        req.params.id +
+      '_patch.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
+
 
   app.use('/api/v3/work_packages', workPackagesRouter);
 
-
+  // context=/api/v3/work_packages/:id
   var textileRouter = express.Router();
-  textileRouter.post('/?context=/api/v3/work_packages/:id', function(req, res) {
-    fs.readFile(__dirname + '/work-packages/' + req.params.id + '_textile.html', 'utf8', function(err, text) {
+  textileRouter.post('/', function(req, res) {
+    var workPackageId = req.param('context').split('/').pop();
+    fs.readFile(
+      __dirname +
+        '/work-packages/' +
+        workPackageId +
+      '_textile.html', 'utf8', function(err, text) {
       res.send(text);
     });
   });
 
   app.use('/api/v3/render/textile', textileRouter);
-
 
   app.get('/work_packages/auto_complete.json*', function(req, res) {
     res.send('[]');

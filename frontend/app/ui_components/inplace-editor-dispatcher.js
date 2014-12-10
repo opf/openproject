@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($sce, AutoCompleteHelper, TextileService) {
+module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService) {
 
   function enableAutoCompletion(element) {
     var textarea = element.find('.ined-input-wrapper input, .ined-input-wrapper textarea');
@@ -73,13 +73,31 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
     return _.intersection(_.keys(attribute), ['format', 'raw', 'html']).length === 3;
   }
 
-  function setOptions($scope) {
-    $scope.options = $scope
+  function setEmbeddedOptions($scope) {
+    $scope.options = [];
+    var options = $scope
       .entity.form.embedded.schema
       .props[getAttribute($scope)]._links.allowedValues;
-    if (!$scope.options.length) {
+    if (options.length) {
+      $scope.options = options;
+    } else {
       $scope.isEditable = false;
     }
+  }
+
+  function setLinkedOptions($scope) {
+    $scope.options = [];
+    var href = $scope
+      .entity.form.embedded.schema
+      .props[getAttribute($scope)]._links.allowedValues.href;
+    $scope.isBusy = true;
+    $http.get(href).then(function(r) {
+      $scope.options = _.map(r.data._embedded.elements, function(item) {
+        return angular.extend({}, item._links.self, { name: item.name });
+      });
+      $scope.isBusy = false;
+      $scope.$broadcast('focusSelect2');
+    });
   }
 
   var hooks = {
@@ -139,8 +157,8 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
     },
 
     select: {
-      activate: setOptions,
-      startEditing: setOptions,
+      activate: setEmbeddedOptions,
+      startEditing: setEmbeddedOptions,
       submit: function($scope, data) {
         data._links = { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value };
@@ -150,8 +168,37 @@ module.exports = function($sce, AutoCompleteHelper, TextileService) {
           value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
         };
       }
+    },
+    select2: {
+      link: function(scope, element) {
+      scope.$on('focusSelect2', function() {
+        $timeout(function() {
+          element.find('.focus-input').select2('open');
+        });
+      });
+      },
+      startEditing: setLinkedOptions,
+      submit: function($scope, data) {
+        data._links = { };
+        data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
+      },
+      setReadValue: function($scope) {
+        if ($scope.entity.embedded[$scope.attribute]) {
+          $scope.isUserLink = true;
+          $scope.readValue = $scope.entity.embedded[$scope.attribute];
+        } else {
+          $scope.isUserLink = false;
+          $scope.readValue = '';
+        }
+      },
+      setWriteValue: function($scope) {
+        $scope.dataObject = {
+          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
+        };
+      }
     }
   };
+
 
   this.dispatchHook = function($scope, action, data) {
     var actionFunction = hooks[$scope.type][action] || hooks._fallback[action] || angular.noop;

@@ -156,5 +156,61 @@ describe('OpenProject', function() {
         });
       });
     });
+    context('user field', function() {
+      beforeEach(function() {
+        var page = new WorkPackageDetailsPane(822, 'overview');
+        page.get();
+      });
+      context('read state', function() {
+        context('with null assignee', function() {
+          beforeEach(function() {
+            $('.panel-toggler').click();
+          });
+          /*jshint multistr: true */
+          it('should render a span with placeholder', function() {
+            expect($('.user-inline-editor[ined-attribute=\'assignee\'] \
+              .inplace-editor \
+              span.read-value-wrapper span').getText())
+              .to.eventually.equal('-');
+          });
+        });
+        /*jshint multistr: true */
+        context('with set responsible', function() {
+          it('should render a link to user\'s profile', function() {
+            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
+              .inplace-editor \
+              span.read-value-wrapper a').getText())
+              .to.eventually.equal('OpenProject Admin');
+          });
+        });
+      });
+
+      describe('edit state', function() {
+        beforeEach(function() {
+          /*jshint multistr: true */
+          $('.user-inline-editor[ined-attribute=\'responsible\'] \
+              .inplace-editor \
+              .ined-read-value').then(function(e) {
+            e.click();
+          });
+        });
+        context('select2', function() {
+          it('should be rendered', function() {
+            /*jshint multistr: true */
+            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
+              .select2-container').isDisplayed())
+              .to.eventually.be.true;
+          });
+          it('should have the correct value', function() {
+            /*jshint multistr: true */
+            expect(
+              $('.user-inline-editor[ined-attribute=\'responsible\'] \
+                .select2-container \
+                .select2-choice span').getText()
+            ).to.eventually.equal('OpenProject Admin');
+          });
+        });
+      });
+    });
   });
 });

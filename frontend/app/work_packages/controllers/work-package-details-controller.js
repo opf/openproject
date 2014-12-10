@@ -47,8 +47,8 @@ module.exports = function($scope,
     latestTab.registerState(toState.name);
   });
 
-  $scope.$on('workPackageRefreshRequired', function() {
-    refreshWorkPackage();
+  $scope.$on('workPackageRefreshRequired', function(e, callback) {
+    refreshWorkPackage(callback);
   });
 
   // initialization
@@ -58,12 +58,16 @@ module.exports = function($scope,
   $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
   $scope.maxDescriptionLength = 800;
 
-  function refreshWorkPackage() {
+  function refreshWorkPackage(callback) {
     workPackage.links.self
       .fetch({force: true})
       .then(function(workPackage) {
-        WorkPackageService.loadWorkPackageForm(workPackage);
         setWorkPackageScopeProperties(workPackage);
+        WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
+          if (callback) {
+            callback(workPackage);
+          }
+        });
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers

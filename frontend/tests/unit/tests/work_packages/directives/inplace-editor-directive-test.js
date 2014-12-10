@@ -305,9 +305,6 @@ describe('inplaceEditor Directive', function() {
                 subject: 'Oh well'
               });
             });
-            it('should extend the entity with the response', function() {
-              expect(scope.workPackage.subject).to.eq('Oh well');
-            });
             it('should refresh the details view', function() {
               emitSpy.should.have.been.calledWith('workPackageRefreshRequired');
             });
@@ -377,21 +374,6 @@ describe('inplaceEditor Directive', function() {
               onFailSpy.should.have.been.called;
             });
           });
-          context('finally', function() {
-            beforeEach(function() {
-              updateWorkPackageStub = sinon.stub(WorkPackageService, 'updateWorkPackage').returns({
-                'then': _.noop,
-                'catch': _.noop,
-                'finally': function(cb) {
-                  cb();
-                }
-              });
-              elementScope.submit();
-            });
-            it('should call onFinally callback', function() {
-              onFinallySpy.should.have.been.called;
-            });
-          });
         });
       });
     });
@@ -405,7 +387,8 @@ describe('inplaceEditor Directive', function() {
         expect(element.find('.ined-read-value').length).to.eq(1);
       });
       it('should have the value of the given attribute', function() {
-        expect(element.find('.ined-read-value .read-value-wrapper').text()).to.eq('Some subject');
+        expect(element.find('.ined-read-value .read-value-wrapper span').text())
+          .to.eq('Some subject');
       });
       it('should trigger edit mode on click', function() {
         element.find('.ined-read-value').click();
@@ -458,7 +441,7 @@ describe('inplaceEditor Directive', function() {
         });
 
         it('should render the default text', function() {
-          var text = element.find('.ined-read-value .read-value-wrapper').text();
+          var text = element.find('.ined-read-value .read-value-wrapper span').text();
 
           expect(text).to.eq('The default text');
         });

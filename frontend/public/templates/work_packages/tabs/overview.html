@@ -29,18 +29,45 @@
           ng-switch="propertyData.value"
           class="work-package-attributes--value-container">
         <div ng-switch-when="null" class="work-package-attributes--value">
-          <empty-element></empty-element>
+          <div class="user-inline-editor" ng-if="propertyData.property == 'assignee'"
+            inplace-editor
+            ined-type="select2"
+            ined-entity="workPackage"
+            ined-attribute="assignee"
+            ined-attribute-embedded="false"
+            placeholder="-"
+          ></div>
+          <div class="user-inline-editor" ng-if="propertyData.property == 'responsible'"
+            inplace-editor
+            ined-type="select2"
+            ined-entity="workPackage"
+            ined-attribute="responsible"
+            ined-attribute-embedded="false"
+            placeholder="-"
+          ></div>
+          <empty-element ng-if="!(propertyData.property == 'assignee' || propertyData.property == 'responsible')"></empty-element>
         </div>
         <div class="status-inline-editor" ng-if="propertyData.property == 'status'"
-             inplace-editor
-             ined-type="select"
-             ined-entity="workPackage"
-             ined-attribute="status.name"
-             ined-attribute-embedded="true"
-          ></div>
+          inplace-editor
+          ined-type="select"
+          ined-entity="workPackage"
+          ined-attribute="status.name"
+          ined-attribute-embedded="true">
+        </div>
+
         <div ng-if="propertyData.property != 'status'" ng-switch-default ng-switch="propertyData.format">
           <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-            <user-field ng-switch-when="user" user="propertyData.value"></user-field>
+            <div ng-switch-when="user">
+              <div class="user-inline-editor"
+                inplace-editor
+                ined-type="select2"
+                ined-entity="workPackage"
+                ined-attribute="{{propertyData.property}}"
+                ined-attribute-embedded="false"
+                placeholder="-">
+              </div>
+            </div>
+
             <span ng-switch-when="dynamic" work-package-dynamic-attribute
                                            html-element="propertyData.value"
                                            work-package="workPackage">
