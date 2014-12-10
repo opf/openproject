@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function() {
+module.exports = function(PathHelper) {
 
   Project = {
     objectType: 'Project',
@@ -435,12 +435,8 @@ module.exports = function() {
       return this.getParent();
     },
     getUrl: function() {
-      var options = this.timeline.options;
-      var url = options.url_prefix;
+      var url = PathHelper.staticProjectPath(this.identifier);
 
-      url += options.project_prefix;
-      url += "/";
-      url += this.identifier;
       url += "/timelines";
 
       return url;

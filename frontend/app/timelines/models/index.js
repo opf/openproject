@@ -36,7 +36,7 @@ angular.module('openproject.timelines.models')
   .factory('PlanningElement', ['PathHelper', require('./planning-element')])
   .factory('ProjectAssociation', require('./project-association'))
   .factory('ProjectType', require('./project-type'))
-  .factory('Project', require('./project'))
+  .factory('Project', ['PathHelper', require('./project')])
   .factory('Reporting', require('./reporting'))
   .factory('Status', require('./status'))
   .factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color',
