@@ -56,6 +56,9 @@ module API
           property :subject,
                    getter: -> (*) { { type: 'String' } },
                    writeable: false
+          property :description,
+                   getter: -> (*) { { type: 'Formattable' } },
+                   writeable: false
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {

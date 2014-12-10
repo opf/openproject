@@ -70,8 +70,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe 'work_package' do
       it { is_expected.to have_json_path('id') }
 
-      it { is_expected.to have_json_path('description') }
-      it { is_expected.to have_json_path('rawDescription') }
+      it_behaves_like 'API V3 formattable', 'description' do
+        let(:format) { 'textile' }
+        let(:raw) { work_package.description }
+        let(:html) { '<p>' + work_package.description + '</p>' }
+      end
 
       it { is_expected.to have_json_path('dueDate') }
 

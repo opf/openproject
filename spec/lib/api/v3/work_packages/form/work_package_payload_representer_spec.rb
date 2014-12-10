@@ -45,7 +45,12 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
 
     describe 'work_package' do
       it { is_expected.to have_json_path('subject') }
-      it { is_expected.to have_json_path('rawDescription') }
+
+      it_behaves_like 'API V3 formattable', 'description' do
+        let(:format) { 'textile' }
+        let(:raw) { work_package.description }
+        let(:html) { '<p>' + work_package.description + '</p>' }
+      end
 
       describe 'lock version' do
         it { is_expected.to have_json_path('lockVersion') }

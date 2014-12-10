@@ -151,7 +151,8 @@ h4. things we like
         end
 
         it 'should resolve links' do
-          expect(parsed_response['description']).to have_selector("a[href='/work_packages/#{other_wp.id}']")
+          expect(parsed_response['description']['html'])
+            .to have_selector("a[href='/work_packages/#{other_wp.id}']")
         end
 
         it 'should resolve simple macros' do
@@ -337,32 +338,40 @@ h4. things we like
       end
 
       context 'description' do
-        shared_examples_for 'description updated' do |description|
-          it 'should respond with updated work package description' do
-            expect(subject.body).to be_json_eql(description.to_json).at_path('description')
+        shared_examples_for 'description updated' do
+          it_behaves_like 'API V3 formattable', 'description' do
+            let(:format) { 'textile' }
+
+            subject { response.body }
           end
 
           it_behaves_like 'lock version updated'
         end
 
         context 'w/o value (empty)' do
-          let(:params) { valid_params.merge(rawDescription: nil) }
+          let(:raw) { nil }
+          let(:html) { '' }
+          let(:params) { valid_params.merge(description: { raw: nil }) }
 
           include_context 'patch request'
 
           it { expect(response.status).to eq(200) }
 
-          it_behaves_like 'description updated', ''
+          it_behaves_like 'description updated'
         end
 
         context 'with value' do
-          let(:params) { valid_params.merge(rawDescription: '*Some text* _describing_ *something*...') }
+          let(:raw) { '*Some text* _describing_ *something*...' }
+          let(:html) {
+            '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+          }
+          let(:params) { valid_params.merge(description: { raw: raw }) }
 
           include_context 'patch request'
 
           it { expect(response.status).to eq(200) }
 
-          it_behaves_like 'description updated', '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+          it_behaves_like 'description updated'
         end
       end
 
