@@ -361,123 +361,6 @@ Cursor based pagination is therefore less suited for use cases where you want to
                 }
             }
 
-# Group Journal Entries
-
-## Properties:
-| Property    | Description      | Type                | Constraints | Supported operations |
-| :---------: | -------------    | ----                | ----------- | -------------------- |
-| id          | entry id         | Integer             | x > 0       | READ                 |
-| version     | entry version    | Integer             | x > 0       | READ                 |
-| comment     |                  | Formatable          |             | READ / WRITE         |
-| details     |                  | Array of Formatable |             | READ                 |
-| createdAt   | Time of creation | DateTime            |             | READ                 |
-
-The `_type` of a journal entry can be either `JournalEntry` or `JournalEntry::Comment`. The latter
-is used for journal entries that do not change any properties of the associated work package.
-
-## Journal Entry [/api/v3/journal_entries/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "JournalEntry::Comment",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/journal_entries/1",
-                        "title": "Priority changed from High to Low"
-                    },
-                    "workPackage": {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
-                    },
-                    "user": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
-                    }
-                },
-                "id": 1,
-                "details": [
-                    {
-                        "format": "textile",
-                        "raw": "Lorem ipsum dolor sit amet.",
-                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
-                    }
-                ],
-                "comment": {
-                    "format": "textile",
-                    "raw": "Lorem ipsum dolor sit amet.",
-                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
-                },
-                "createdAt": "2014-05-21T08:51:20Z",
-                "version": 31
-            }
-
-## View Journal Entry [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... entry id
-
-+ Response 200 (application/hal+json)
-
-    [Journal Entry][]
-
-## Update Journal Entry [PATCH]
-
-Updates the comment of a journal entry and, on success, returns the updated entry.
-
-+ Parameters
-    + id (required, integer, `1`) ... entry id
-
-+ Request (application/json)
-
-        {
-          "comment": { "raw": "The updated comment" }
-        }
-
-+ Response 200 (application/hal+json)
-
-    [Journal Entry][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** edit journals
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to edit the comment of this journal entry."
-            }
-
-
-+ Response 422 (application/hal+json)
-
-    Returned if the client tries to modify a read-only property.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
-                "message": "The ID of a journal entry can't be changed."
-            }
-
 # Group Attachments
 
 ## Properties:
@@ -897,6 +780,123 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
                 "message": "The resource you are about to edit was changed in the meantime."
+            }
+
+# Group Journal Entries
+
+## Properties:
+| Property    | Description      | Type                | Constraints | Supported operations |
+| :---------: | -------------    | ----                | ----------- | -------------------- |
+| id          | entry id         | Integer             | x > 0       | READ                 |
+| version     | entry version    | Integer             | x > 0       | READ                 |
+| comment     |                  | Formatable          |             | READ / WRITE         |
+| details     |                  | Array of Formatable |             | READ                 |
+| createdAt   | Time of creation | DateTime            |             | READ                 |
+
+The `_type` of a journal entry can be either `JournalEntry` or `JournalEntry::Comment`. The latter
+is used for journal entries that do not change any properties of the associated work package.
+
+## Journal Entry [/api/v3/journal_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "JournalEntry::Comment",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/journal_entries/1",
+                        "title": "Priority changed from High to Low"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "details": [
+                    {
+                        "format": "textile",
+                        "raw": "Lorem ipsum dolor sit amet.",
+                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                    }
+                ],
+                "comment": {
+                    "format": "textile",
+                    "raw": "Lorem ipsum dolor sit amet.",
+                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                },
+                "createdAt": "2014-05-21T08:51:20Z",
+                "version": 31
+            }
+
+## View Journal Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Response 200 (application/hal+json)
+
+    [Journal Entry][]
+
+## Update Journal Entry [PATCH]
+
+Updates the comment of a journal entry and, on success, returns the updated entry.
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Request (application/json)
+
+        {
+          "comment": { "raw": "The updated comment" }
+        }
+
++ Response 200 (application/hal+json)
+
+    [Journal Entry][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit journals
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the comment of this journal entry."
+            }
+
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to modify a read-only property.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
+                "message": "The ID of a journal entry can't be changed."
             }
 
 # Group Previewing
