@@ -22,7 +22,7 @@
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.7.0",
     "moment-timezone": "~0.2.0",
-    "angular-context-menu": "finnlabs/angular-context-menu#v0.1.9",
+    "angular-context-menu": "finnlabs/angular-context-menu#v0.2.0",
     "angular-busy": "~4.1.1",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1"
