@@ -226,11 +226,28 @@ the amount of elements returned in this response and action links to retrieve th
 |:----------------:| ------------------------------------------------------------------------ | --------------------------- |
 | self             | Link to the current page in the collection                               | always                      |
 | changeSize       | Templated link to change the page size, preserving the relative position | when paginated              |
+| filter           | Templated link to receive only elements matching the provided OQL query  | when filtering available    |
 | jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
 | nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
 | previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
 | nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
 | previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+
+### Filters
+
+Filters are specified using the [OpenProject Query Language (OQL)](https://github.com/opf/oql).
+
+The syntax of OQL queries is explained in the [OQL Documentation](http://www.rubydoc.info/github/opf/oql/dev). All properties of the underlying resource can be used
+in the query, e.g. when filtering over a collection of work packages, it is possible to compare the `subject` with any value.
+
+Note that for linked resources you can either compare against the **ID** of the linked resource or against its **link URL**:
+
+    # valid
+    status == "1"
+    status == "/api/v3/statuses/1"
+
+    # NOT valid
+    status == "New"
 
 ## Offset based pagination [/api/v3/examples{?offset,pageSize}]
 
@@ -2615,14 +2632,18 @@ updated activity.
             }
 
 
-## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees]
+## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" }
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" },
+                    "filter": {
+                        "href": "/api/v3/projects/42/work_packages/available_assignees?filter={oql}",
+                        "templated": true
+                    }
                 },
                 "total": 3,
                 "count": 3,
@@ -2693,6 +2714,12 @@ Gets a list of users that can be assigned to work packages in the given project.
 + Parameters
     + project_id (required, integer, `1`) ... Project id
 
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
+
 + Response 200 (application/hal+json)
 
     [Available Assignees][]
@@ -2711,14 +2738,18 @@ Gets a list of users that can be assigned to work packages in the given project.
                 "message": "You are not allowed to see the assignable users for this project."
             }
 
-## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles]
+## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles{?offset,pageSize,filter}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" }
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" },
+                    "filter": {
+                        "href": "/api/v3/projects/42/work_packages/available_responsibles?filter={oql}",
+                        "templated": true
+                    }
                 },
                 "total": 3,
                 "count": 3,
@@ -2788,6 +2819,12 @@ Gets a list of users that can be assigned as the responsible of a work package i
 
 + Parameters
     + project_id (required, integer, `1`) ... Project id
+
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
 
 + Response 200 (application/hal+json)
 
