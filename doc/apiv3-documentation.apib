@@ -361,29 +361,30 @@ Cursor based pagination is therefore less suited for use cases where you want to
                 }
             }
 
-# Group Activities
+# Group Journal Entries
 
 ## Properties:
 | Property    | Description      | Type                | Constraints | Supported operations |
 | :---------: | -------------    | ----                | ----------- | -------------------- |
-| id          | Activity id      | Integer             | x > 0       | READ                 |
-| version     | Activity version | Integer             | x > 0       | READ                 |
+| id          | entry id         | Integer             | x > 0       | READ                 |
+| version     | entry version    | Integer             | x > 0       | READ                 |
 | comment     |                  | Formatable          |             | READ / WRITE         |
 | details     |                  | Array of Formatable |             | READ                 |
 | createdAt   | Time of creation | DateTime            |             | READ                 |
 
-Activity can be either _type Activity or _type Activity::Comment.
+The `_type` of a journal entry can be either `JournalEntry` or `JournalEntry::Comment`. The latter
+is used for journal entries that do not change any properties of the associated work package.
 
-## Activity [/api/v3/activities/{id}]
+## Journal Entry [/api/v3/journal_entries/{id}]
 
 + Model
     + Body
 
             {
-                "_type": "Activity::Comment",
+                "_type": "JournalEntry::Comment",
                 "_links": {
                     "self": {
-                        "href": "/api/v3/activity/1",
+                        "href": "/api/v3/journal_entries/1",
                         "title": "Priority changed from High to Low"
                     },
                     "workPackage": {
@@ -412,21 +413,21 @@ Activity can be either _type Activity or _type Activity::Comment.
                 "version": 31
             }
 
-## View activity [GET]
+## View Journal Entry [GET]
 
 + Parameters
-    + id (required, integer, `1`) ... Activity id
+    + id (required, integer, `1`) ... entry id
 
 + Response 200 (application/hal+json)
 
-    [Activity][]
+    [Journal Entry][]
 
-## Update activity [PATCH]
+## Update Journal Entry [PATCH]
 
-Updates an activity's comment and, on success, returns the updated activity.
+Updates the comment of a journal entry and, on success, returns the updated entry.
 
 + Parameters
-    + id (required, integer, `1`) ... Activity id
+    + id (required, integer, `1`) ... entry id
 
 + Request (application/json)
 
@@ -436,7 +437,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Response 200 (application/hal+json)
 
-    [Activity][]
+    [Journal Entry][]
 
 + Response 400 (application/hal+json)
 
@@ -474,7 +475,7 @@ Updates an activity's comment and, on success, returns the updated activity.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
-                "message": "The ID of an activity can't be changed."
+                "message": "The ID of a journal entry can't be changed."
             }
 
 # Group Attachments
@@ -1737,7 +1738,7 @@ but are also limited to the projects that the current user is allowed to see.
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** ??? **TBD** ???
+    **Required permission:** view time entries
 
     + Body
 
@@ -2397,7 +2398,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                       "title": "Change parent of Bug in OpenProject"
                     },
                     "addComment": {
-                        "href": "/api/v3/work_packages/1528/activities",
+                        "href": "/api/v3/work_packages/1528/journal_entries",
                         "method": "post",
                         "title": "Add comment"
                     },
@@ -2707,12 +2708,12 @@ Gets a list of users that can watch the work package.
                 "message": "You are not authorized to access this resource."
             }
 
-## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
+## Comment WorkPackage [/api/v3/work_packages/{id}/journal_entries]
 
 ## Comment work package [POST]
 
-Creates an activity for the selected work package and, on success, returns the
-updated activity.
+Creates a journal entry for the selected work package and, on success, returns the
+newly created entry.
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
@@ -2725,7 +2726,7 @@ updated activity.
 
 + Response 201 (application/hal+json)
 
-    [Activity][]
+    [Journal Entry][]
 
 + Response 400 (application/hal+json)
 
