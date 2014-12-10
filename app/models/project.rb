@@ -49,11 +49,11 @@ class Project < ActiveRecord::Base
   has_many :possible_assignee_members,
            class_name: 'Member',
            include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_assignees_condition }
+           conditions: Proc.new { self.class.possible_principles_condition }
   has_many :possible_responsible_members,
            class_name: 'Member',
            include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_responsibles_condition }
+           conditions: Proc.new { self.class.possible_principles_condition }
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, class_name: 'Member',
                                include: :principal,
@@ -930,7 +930,7 @@ class Project < ActiveRecord::Base
 
   protected
 
-  def self.possible_assignees_condition
+  def self.possible_principles_condition
     condition = Setting.work_package_group_assignment? ?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
@@ -938,13 +938,6 @@ class Project < ActiveRecord::Base
     condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
     condition << User::STATUSES[:active]
     condition << true
-
-    sanitize_sql_array condition
-  end
-
-  def self.possible_responsibles_condition
-    condition = ["(#{Principal.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?)",
-                 'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
   end
