@@ -52,13 +52,16 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
-    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term }),
-        sorted = $filter('orderBy')(filtered, 'label');
+    var filterBy = term ? { label: term } : {},
+      filtered = $filter('filter')(getRemainingAvailableColumnsData(), filterBy),
+      sorted = $filter('orderBy')(filtered, 'label');
 
     return result(sorted);
   };
   $scope.getDirectionsData = function(term, result) {
-    return result($filter('filter')($scope.availableDirectionsData, { label: term }));
+    var filterBy = term ? { label: term } : {};
+
+    return result($filter('filter')($scope.availableDirectionsData, filterBy));
   };
 
   // reduction of column options to columns that haven't been selected

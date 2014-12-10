@@ -363,7 +363,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
       if(query.starred) {
         queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
-        $rootScope.$broadcast('$stateChangeSuccess', {
+        $rootScope.$broadcast('openproject.layout.activateMenuItem', {
           itemType: QUERY_MENU_ITEM_TYPE,
           objectId: query.id
         });

@@ -37,11 +37,11 @@
   $flash-margins-padding: 10px + (2 * 4px)
 
   // HACK: workaround to ensure correct height applied to child elements
-  > div[ui-view]
-    height: 100%
-
   .flash + div[ui-view]
     height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
+
+  .flash.ng-hide + div[ui-view]
+    height: 100%
 
 // HACK: workaround to ensure correct height applied to child elements
 #work-packages-index

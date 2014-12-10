@@ -50,7 +50,7 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
                                         (scope.queryId == $stateParams.query_id));
       }
       $timeout(setActiveState);
-      scope.$on('$stateChangeSuccess', setActiveState);
+      scope.$on('openproject.layout.activateMenuItem', setActiveState);
 
       function removeItem() {
         $animate.leave(element.parent(), function () {

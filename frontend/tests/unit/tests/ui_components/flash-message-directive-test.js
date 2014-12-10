@@ -28,71 +28,99 @@
 
 /*jshint expr: true*/
 
-var activateError;
+describe('flashMessage Directive', function() {
+  var compile, element, rootScope, scope;
 
-describe('flash message Directive', function() {
-    var compile, element, rootScope, scope;
+  beforeEach(angular.mock.module('openproject.uiComponents', function($provide) {
+    var configurationService = {};
 
-    beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('openproject.templates'));
+    configurationService.accessibilityModeEnabled = sinon.stub().returns(true);
 
-    beforeEach(inject(function($rootScope, $compile) {
-      var html = '<flash-message></flash-message>';
+    $provide.constant('ConfigurationService', configurationService);
+  }));
 
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
+  beforeEach(module('openproject.templates'));
 
-      compile = function() {
-        element = $compile(html)(scope);
-        scope.$digest();
-      };
+  beforeEach(inject(function($rootScope, $compile) {
+    var html = '<flash-message></flash-message>';
 
-      activateError = sinon.spy();
-    }));
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
 
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
+
+  context('with no message', function() {
     beforeEach(function() {
       compile();
     });
 
-    describe('element', function() {
-      xit('should render nothing initially', function() {
-        expect(element.html()).to.be.null;
+    it('should render no message initially', function() {
+      expect(element.text()).to.be.equal('');
+    });
+
+    it('should be hidden', function() {
+      expect(element.hasClass('ng-hide')).to.be.true;
+    });
+  });
+
+  context('with flash messages', function() {
+    beforeEach(function() {
+      compile();
+    });
+
+    describe('info message', function() {
+      var message = {
+        text: 'für deine Informationen',
+        isError: false
+      };
+
+      beforeEach(function() {
+        rootScope.$emit('flashMessage', message);
+        scope.$apply();
+      });
+
+      it('should render message', function() {
+        expect(element.text().trim()).to.equal('für deine Informationen');
+      });
+
+      it('should be visible', function() {
+        expect(element.hasClass('ng-hide')).to.be.false;
+      });
+
+      it('should style as an info message', function() {
+        expect(element.attr('class').split(' ')).to
+          .include.members(['flash', 'icon-notice', 'notice']);
       });
     });
 
-    describe('flash properties', function() {
-      describe('info message', function() {
-        var message = {text: 'Test', isError: false};
+    describe('error message', function() {
+      var message = {
+        text: '¡Alerta! WARNING! Achtung!',
+        isError: true
+      };
 
-        beforeEach(function() {
-          rootScope.$emit('flashMessage', message);
-        });
-
-        xit('should render message', function() {
-          var directiveScope = element.isolateScope();
-
-          expect(directiveScope.flashClass).to.equal("flash notice icon icon-notice");
-          expect(directiveScope.flashId).to.be.empty;
-          expect(directiveScope.message.text).to.equal(message.text);
-          expect(directiveScope.message.isError).to.equal(message.isError);
-        });
+      beforeEach(function() {
+        rootScope.$emit('flashMessage', message);
+        scope.$apply();
       });
 
-      describe('error message', function() {
-        var message = {text: 'Error', isError: true};
+      it('should render message', function() {
+        expect(element.text().trim()).to.equal('¡Alerta! WARNING! Achtung!');
+      });
 
-        beforeEach(function() {
-          rootScope.$emit('flashMessage', message);
-        });
+      it('should be visible', function() {
+        expect(element.hasClass('ng-hide')).to.be.false;
+      });
 
-        xit('should render message', function() {
-          var directiveScope = element.isolateScope();
-
-          expect(directiveScope.flashClass).to.equal("errorExplanation");
-          expect(directiveScope.flashId).to.be.equal("errorExplanation");
-          expect(directiveScope.message.text).to.equal(message.text);
-          expect(directiveScope.message.isError).to.equal(message.isError);
-        });
+      it('should style as an error message', function() {
+        expect(element.attr('class').split(' ')).to
+          .include.members(['flash', 'icon-errorExplanation', 'errorExplanation']);
       });
     });
+  });
 });
