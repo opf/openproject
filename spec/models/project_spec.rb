@@ -204,4 +204,48 @@ describe Project, type: :model do
       end
     end
   end
+
+  describe 'avialable principles' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group) }
+    let(:role) { FactoryGirl.create(:role) }
+    let!(:user_member) {
+      FactoryGirl.create(:member,
+                         principal: user,
+                         project: project,
+                         roles: [role])
+    }
+    let!(:group_member) {
+      FactoryGirl.create(:member,
+                         principal: group,
+                         project: project,
+                         roles: [role])
+    }
+
+    shared_examples_for 'respecting group assignment settings' do
+      context 'with group assignment' do
+        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+        it { is_expected.to match_array([user, group]) }
+      end
+
+      context 'w/o group assignment' do
+        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+
+        it { is_expected.to match_array([user]) }
+      end
+    end
+
+    describe 'assignees' do
+      subject { project.possible_assignees }
+
+      it_behaves_like 'respecting group assignment settings'
+    end
+
+    describe 'responsibles' do
+      subject { project.possible_responsibles }
+
+      it_behaves_like 'respecting group assignment settings'
+    end
+  end
 end
