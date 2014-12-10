@@ -119,7 +119,7 @@ describe('queryMenuItemFactory', function() {
 
       it('toggles the selected state on state change', function() {
         stateParams.query_id = null;
-        $rootScope.$broadcast('$stateChangeSuccess');
+        $rootScope.$broadcast('openproject.layout.activateMenuItem');
 
         expect(itemLink.hasClass('selected')).to.be.false;
       });

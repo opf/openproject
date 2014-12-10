@@ -73,7 +73,7 @@ describe('queryMenuItem Directive', function() {
         stateParams.query_id = '1';
 
         compile();
-        rootScope.$broadcast('$stateChangeSuccess');
+        rootScope.$broadcast('openproject.layout.activateMenuItem');
       });
 
       it('does not add the css-class "selected" to the element', function() {
@@ -86,7 +86,7 @@ describe('queryMenuItem Directive', function() {
         stateParams.query_id = queryId;
 
         compile();
-        rootScope.$broadcast('$stateChangeSuccess');
+        rootScope.$broadcast('openproject.layout.activateMenuItem');
       });
 
       it('adds the css-class "selected" to the element', function() {
@@ -104,7 +104,7 @@ describe('queryMenuItem Directive', function() {
           stateParams.query_id = null;
 
           compile();
-          rootScope.$broadcast('$stateChangeSuccess');
+          rootScope.$broadcast('openproject.layout.activateMenuItem');
         });
 
         it('adds the css-class "selected" to the element', function() {
@@ -117,7 +117,7 @@ describe('queryMenuItem Directive', function() {
           stateParams.query_id = '25';
 
           compile();
-          rootScope.$broadcast('$stateChangeSuccess');
+          rootScope.$broadcast('openproject.layout.activateMenuItem');
         });
 
         it('does not add the css-class "selected" to the element', function() {
