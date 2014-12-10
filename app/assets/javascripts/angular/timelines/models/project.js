@@ -39,7 +39,7 @@
 
 angular.module('openproject.timelines.models')
 
-.factory('Project', [function() {
+.factory('Project', ['PathHelper', function(PathHelper) {
 
   Project = {
     objectType: 'Project',
@@ -437,12 +437,8 @@ angular.module('openproject.timelines.models')
       return this.getParent();
     },
     getUrl: function() {
-      var options = this.timeline.options;
-      var url = options.url_prefix;
+      var url = PathHelper.staticProjectPath(this.identifier);
 
-      url += options.project_prefix;
-      url += "/";
-      url += this.identifier;
       url += "/timelines";
 
       return url;
