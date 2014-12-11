@@ -83,7 +83,7 @@ module API
           def parse_resource(property, ns, href)
             return nil unless href
 
-            resource = ::API::V3::Utilities::ResourceLinkParser.parse href
+            resource = ::API::Utilities::ResourceLinkParser.parse href
 
             if resource.nil? || resource[:ns] != ns.to_s
               actual_ns = resource ? resource[:ns] : nil
