@@ -236,8 +236,49 @@ describe WorkPackage, type: :model do
 
     subject { work_package.assignable_responsibles }
 
-    it { is_expected.not_to include(group) }
-    it { is_expected.to include(user) }
+    context 'with assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+      it { is_expected.to match_array([user, group]) }
+    end
+
+    context 'w/o assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+
+      it { is_expected.to match_array([user]) }
+    end
+  end
+
+  describe 'responsible' do
+    let(:group) { FactoryGirl.create(:group) }
+
+    before { work_package.project.add_member! group, FactoryGirl.create(:role) }
+
+    shared_context 'assign group as responsible' do
+      before { work_package.responsible = group }
+    end
+
+    subject { work_package.valid? }
+
+    context 'with assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+      include_context 'assign group as responsible'
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'w/o assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+
+      include_context 'assign group as responsible'
+
+      # TODO: Actually, the work package model should validate whether it is
+      # allowed to assign a group or not (check setting
+      # 'work_package_group_assignment?'). But neither assingee nor responsible
+      # are validated (checked against the aforementioned setting).
+      xit { is_expected.to be_falsy }
+    end
   end
 
   describe :assignable_versions do

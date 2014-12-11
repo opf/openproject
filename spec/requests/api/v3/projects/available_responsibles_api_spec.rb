@@ -96,7 +96,7 @@ describe API::V3::Projects::ProjectsAPI do
             project.add_member! group, FactoryGirl.create(:role)
           end
 
-          it_behaves_like 'returns available responsibles', 0, 0
+          it_behaves_like 'returns available responsibles', 1, 1
         end
       end
     end

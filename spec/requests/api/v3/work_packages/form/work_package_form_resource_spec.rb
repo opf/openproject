@@ -328,6 +328,24 @@ describe 'API v3 Work package form resource', type: :request do
             end
 
             describe 'assignee and responsible' do
+              shared_context 'setup group membership' do |group_assignment|
+                let(:group) { FactoryGirl.create(:group) }
+                let(:role) { FactoryGirl.create(:role) }
+                let(:group_member) {
+                  FactoryGirl.create(:member,
+                                     principal: group,
+                                     project: project,
+                                     roles: [role])
+                }
+
+                before do
+                  allow(Setting).to receive(:work_package_group_assignment?)
+                    .and_return(group_assignment)
+
+                  group_member.save!
+                end
+              end
+
               shared_examples_for 'handling people' do |property|
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) {
@@ -337,6 +355,12 @@ describe 'API v3 Work package form resource', type: :request do
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
 
+                shared_examples_for 'having updated work package principal' do
+                  it "should respond with updated work package #{property}" do
+                    expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
+                  end
+                end
+
                 context "valid #{property}" do
                   shared_examples_for 'valid user assignment' do
                     include_context 'post request'
@@ -345,9 +369,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                     it_behaves_like 'having no errors'
 
-                    it "should respond with updated work package #{property}" do
-                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
-                    end
+                    it_behaves_like 'having updated work package principal'
                   end
 
                   context 'empty user' do
@@ -358,6 +380,14 @@ describe 'API v3 Work package form resource', type: :request do
 
                   context 'existing user' do
                     let(:user_link) { "/api/v3/users/#{visible_user.id}" }
+
+                    it_behaves_like 'valid user assignment'
+                  end
+
+                  context 'existing group' do
+                    let(:user_link) { "/api/v3/users/#{group.id}" }
+
+                    include_context 'setup group membership', true
 
                     it_behaves_like 'valid user assignment'
                   end
@@ -373,9 +403,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                     it_behaves_like 'having an error', property
 
-                    it "should respond with updated work package #{property}" do
-                      expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
-                    end
+                    it_behaves_like 'having updated work package principal'
                   end
 
                   context 'wrong resource' do
@@ -388,6 +416,30 @@ describe 'API v3 Work package form resource', type: :request do
                                            property: "#{property.capitalize}",
                                            expected: 'User',
                                            actual: 'Status')
+                  end
+
+                  context 'group assignement disabled' do
+                    let(:user_link) { "/api/v3/users/#{group.id}" }
+                    let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
+                    let(:error_message) {
+                      I18n.t('api_v3.errors.validation.' \
+                             'invalid_user_assigned_to_work_package',
+                             property: "#{property.capitalize}").to_json
+                    }
+
+                    include_context 'setup group membership', false
+                    include_context 'post request'
+
+                    it_behaves_like 'valid payload'
+
+                    it_behaves_like 'having an error', property
+
+                    it_behaves_like 'having updated work package principal'
+
+                    it 'returns correct error message' do
+                      expect(subject.body).to be_json_eql(error_message)
+                        .at_path(error_message_path)
+                    end
                   end
                 end
               end

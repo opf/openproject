@@ -51,7 +51,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :status, class_name: 'Status', foreign_key: 'status_id'
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
-  belongs_to :responsible, class_name: 'User', foreign_key: 'responsible_id'
+  belongs_to :responsible, class_name: 'Principal', foreign_key: 'responsible_id'
   belongs_to :fixed_version, class_name: 'Version', foreign_key: 'fixed_version_id'
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
