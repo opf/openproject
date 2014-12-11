@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <%= form_for cost_type, :url => toggle_delete_cost_type_path(cost_type),
                                 :html => { :id => "restore_cost_type_#{cost_type.id}",
                                            :class => "restore_cost_type" } do |f| %>
-          <a href="#" onclick="submitForm(this);" class="submit_cost_type"><%= icon_wrapper('icon icon-unlocked', I18n.t(:button_unlock)) %></a>
+          <a href="#" onclick="submitForm(event, this);" class="submit_cost_type"><%= icon_wrapper('icon icon-unlocked', I18n.t(:button_unlock)) %></a>
         <% end %>
       </td>
     </tr>

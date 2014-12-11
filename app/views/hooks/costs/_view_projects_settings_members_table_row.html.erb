@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= remote_form_for :rate, :url => { :controller => '/hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}, :method => :posts  do |f| %>
       <label class="hidden-for-sighted", for="rate_text_field_for_<%= member.user.id %>"><%= l(:caption_set_rate) %></label>
       <%= f.text_field :rate, :value => "", :name => :rate, :size => 7, :id => "rate_text_field_for_#{member.user.id}"%>  <%= Setting.plugin_openproject_costs['costs_currency'] %>
-      <a href="#" onclick="submitFormWithConfirmation(this, false);" class="set_current_rate no-decoration-on-hover"><%= icon_wrapper('icon icon-save1', I18n.t(:button_save)) %></a>
+      <a href="#" onclick="submitFormWithConfirmation(event, this, false);" class="set_current_rate no-decoration-on-hover"><%= icon_wrapper('icon icon-save1', I18n.t(:button_save)) %></a>
     <% end %>
   </td>
 <% else %>
