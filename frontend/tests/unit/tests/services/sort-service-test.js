@@ -59,7 +59,7 @@ describe('SortService', function() {
 
   describe('#isDescending', function() {
     it('sort is descending', function() {
-      expect(SortService.isDescending()).to.equal(false);
+      expect(SortService.isDescending()).to.be.false;
     });
 
     describe('set sort direction to descending', function() {
@@ -68,7 +68,7 @@ describe('SortService', function() {
       });
 
       it('sort is descending', function() {
-        expect(SortService.isDescending()).to.equal(true);
+        expect(SortService.isDescending()).to.be.true;
       });
     });
   });

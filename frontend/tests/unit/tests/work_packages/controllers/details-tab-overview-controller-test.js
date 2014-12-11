@@ -446,7 +446,7 @@ describe('DetailsTabOverviewController', function() {
               it('should set the correct viewable property', function() {
                 var viewable = fetchPresentPropertiesWithName('versionName')[0].value.viewable;
 
-                expect(viewable).to.equal(false);
+                expect(viewable).to.be.false;
               });
               it('should set the given title', function() {
                 var title = fetchPresentPropertiesWithName('versionName')[0].value.title;
@@ -482,7 +482,7 @@ describe('DetailsTabOverviewController', function() {
               it ('should set the correct viewable property', function() {
                 var viewable = fetchPresentPropertiesWithName('versionName')[0].value.viewable;
 
-                expect(viewable).to.equal(true);
+                expect(viewable).to.be.true;
               });
             });
           });
