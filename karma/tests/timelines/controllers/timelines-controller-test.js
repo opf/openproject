@@ -31,23 +31,32 @@
 var gon = { timeline_options: { } };
 
 describe('TimelinesController', function() {
+  var ctrl, scope;
+  var timelineOptions = {
+    1: { id: 1 },
+    2: { id: 2 }
+  };
+
 
   beforeEach(module('openproject.timelines.controllers'));
 
-  it('should exist', function() {
+  beforeEach(inject(function($rootScope, $controller) {
+    scope = $rootScope.$new();
 
-    inject(function($rootScope, $controller) {
-      var scope = $rootScope.$new();
+    gon = { timeline_options: timelineOptions };
 
-      ctrl = $controller("TimelinesController", {
-        $scope: scope,
-        Timeline: {}
-      });
+    ctrl = $controller("TimelinesController", {
+      $scope: scope
+    });
+  }));
 
-      //expect(scope.timelineOptions).to.equal({});
-      expect(scope.timelineContainerCount).to.equal(0);
+  describe('initialisation', function() {
+    beforeEach(function() {
+      scope.init(2);
     });
 
+    it('sets correct timeline', function() {
+      expect(scope.timeline.id).to.eql(2);
+    });
   });
-
 });

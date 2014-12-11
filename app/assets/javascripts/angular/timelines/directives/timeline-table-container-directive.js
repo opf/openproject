@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
+.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', 'PathHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper, PathHelper) {
 
 
   return {
@@ -36,7 +36,10 @@ angular.module('openproject.timelines.directives')
     replace: true,
     require: '^timelineContainer',
     templateUrl: '/templates/timelines/timeline_table_container.html',
+    scope: { timeline: '=' },
     link: function(scope, element, attributes, timelineContainerCtrl) {
+      // Hide charts until tables are drawn
+      scope.underConstruction = true;
 
       function showWarning() {
         scope.underConstruction = false;
@@ -60,27 +63,7 @@ angular.module('openproject.timelines.directives')
         // perform some zooming. if there is a zoom level stored with the
         // report, zoom to it. otherwise, zoom out. this also constructs
         // timeline graph.
-        if (scope.timeline.options.zoom_factor &&
-            scope.timeline.options.zoom_factor.length === 1) {
-          scope.timeline.zoom(
-            scope.timeline.pnum(scope.timeline.options.zoom_factor[0])
-          );
-        } else {
-          scope.timeline.zoomOut();
-        }
-
-        // perform initial outline expansion.
-        if (scope.timeline.options.initial_outline_expansion &&
-            scope.timeline.options.initial_outline_expansion.length === 1) {
-
-          scope.timeline.expandTo(
-            scope.timeline.pnum(scope.timeline.options.initial_outline_expansion[0])
-          );
-        }
-
-        // zooming and initial outline expansion have consequences in the
-        // select inputs in the toolbar.
-        if(scope.updateToolbar) scope.updateToolbar();
+        scope.timeline.zoom(scope.timeline.zoomIndex);
 
         scope.underConstruction = false;
         scope.warning = false;
@@ -142,7 +125,7 @@ angular.module('openproject.timelines.directives')
             if (scope.currentOutlineLevel) {
               scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
             } else {
-              scope.rebuildAll();
+              scope.timeline.rebuildAll();
             }
           }, showError);
       }
@@ -153,9 +136,8 @@ angular.module('openproject.timelines.directives')
         scope.timeline.modalHelper.setupTimeline(
           scope.timeline,
           {
-            api_prefix                : scope.timeline.options.api_prefix,
-            url_prefix                : scope.timeline.options.url_prefix,
-            project_prefix            : scope.timeline.options.project_prefix
+            url_prefix                : PathHelper.staticBase,
+            project_prefix            : PathHelper.projectsPath()
           }
         );
 

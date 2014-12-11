@@ -43,6 +43,27 @@ angular.module('openproject.helpers')
         return value === '0' ? I18n.t('js.general_text_No') : I18n.t('js.general_text_Yes');
       }
     },
+    userCustomFieldValue: function(value, users) {
+      if (users && users[value] && users[value].name) {
+        // try to look up users, assume value is an id
+        return users[value].name;
+      }
+
+      return CustomFieldHelper.nestedCustomFieldValue(value);
+    },
+    versionCustomFieldValue: function(value) {
+      // I am pretty sure that we need to have the same behavior here as
+      // we have for the user custom fields.
+      // However, there is no code that would be using it so ...
+      return CustomFieldHelper.nestedCustomFieldValue(value);
+    },
+    nestedCustomFieldValue: function(value) {
+      if (value && value.name) {
+        return value.name;
+      }
+
+      return '';
+    },
     parseNumeric: function(value, parseMethod){
       if(value && ((typeof(value) == "string" && value.length > 0) || typeof(value) == "number") && !isNaN(value)){
         return parseMethod(value);
@@ -54,15 +75,9 @@ angular.module('openproject.helpers')
         case 'bool':
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
-          // not the nicest piece of code, but to be discarded soon
-          if (users) {
-            // try to look up users, assume value is an id
-            if (users[value]) return users[value].name;
-          } else {
-            // assume value is already a user object
-            if (value) return value.name;
-          }
-          break;
+          return CustomFieldHelper.userCustomFieldValue(value, users);
+        case 'version':
+          return CustomFieldHelper.versionCustomFieldValue(value);
         case 'int':
           return CustomFieldHelper.parseNumeric(value, parseInt);
         case 'float':

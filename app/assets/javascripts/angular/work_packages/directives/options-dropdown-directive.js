@@ -69,7 +69,9 @@ angular.module('openproject.workPackages.directives')
             QueryService.saveQuery()
               .then(function(data){
                 scope.$emit('flashMessage', data.status);
-                $state.go('work-packages.list', { query_id: scope.query.id, query: null }, { notify: false });
+                $state.go('work-packages.list',
+                          { query_id: scope.query.id, query_props: null },
+                          { notify: false });
               });
           }
         }
@@ -81,7 +83,9 @@ angular.module('openproject.workPackages.directives')
             .then(function(data){
               settingsModal.deactivate();
               scope.$emit('flashMessage', data.status);
-              $state.go('work-packages.list', { query_id: null, query: null }, { reload: true });
+              $state.go('work-packages.list',
+                        { query_id: null, query_props: null },
+                        { reload: true });
             });
         }
       };

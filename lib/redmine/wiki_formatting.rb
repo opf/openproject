@@ -105,7 +105,7 @@ module Redmine
             rescue => e
               "<div class=\"flash error\">#{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})</div>"
             rescue NotImplementedError
-              "<div class=\"macro-unavailable\">#{::I18n.t(:macro_unavailable, macro_name: macro)}</div>"
+              "<div class=\"flash error macro-unavailable\">#{::I18n.t(:macro_unavailable, macro_name: macro)}</div>"
             end || all
           else
             all

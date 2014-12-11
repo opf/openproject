@@ -62,6 +62,9 @@ before_script:
   - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
 notifications:
   email: false
+  webhooks:
+    urls:
+      - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
 # addons:
 #   code_climate:

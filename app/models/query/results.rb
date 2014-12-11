@@ -77,9 +77,6 @@ class ::Query::Results
   end
 
   def work_packages
-    order_option = [query.group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
-    order_option = nil if order_option.blank?
-
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
                .includes([:status, :project] + (options[:include] || []).uniq)
                .joins((query.group_by_column ? query.group_by_column.join : nil))
@@ -99,5 +96,12 @@ class ::Query::Results
 
   def column_group_sums
     query.group_by_column && query.columns.map { |column| grouped_sums(column) }
+  end
+
+  def order_option
+    order_option = [query.group_by_sort_order, options[:order]].reject(&:blank?).join(', ')
+    order_option = nil if order_option.blank?
+
+    order_option
   end
 end

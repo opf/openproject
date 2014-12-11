@@ -31,6 +31,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= link_to t(:label_type_plural), types_path %> &#187; <%= t(:label_type_new) %></h2>
 
-<%= form_for controller.type, :builder => TabularFormBuilder do |f| %>
+<%= form_for controller.type, builder: TabularFormBuilder, lang: current_language  do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
 <% end %>
