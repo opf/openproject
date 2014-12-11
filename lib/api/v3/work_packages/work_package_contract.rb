@@ -96,11 +96,11 @@ module API
         end
 
         def assignee_visible
-          people_visible :assignee, 'assigned_to_id', model.project.possible_assignees
+          people_visible :assignee, 'assigned_to_id', model.project.possible_assignee_members
         end
 
         def responsible_visible
-          people_visible :responsible, 'responsible_id', model.project.possible_responsibles
+          people_visible :responsible, 'responsible_id', model.project.possible_responsible_members
         end
 
         def people_visible(attribute, id_attribute, list)
@@ -108,17 +108,15 @@ module API
 
           return if id.nil? || !model.changed.include?(id_attribute)
 
-          unless user_visible?(id, list)
+          unless principal_visible?(id, list)
             errors.add attribute,
                        I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                               property: I18n.t("attributes.#{attribute}"))
           end
         end
 
-        def user_visible?(user_id, list)
-          user = User.find_by_id(user_id)
-
-          !user.nil? && list.include?(user)
+        def principal_visible?(id, list)
+          list.exists?(user_id: id)
         end
 
         def not_found_error_message(object_type, id)
