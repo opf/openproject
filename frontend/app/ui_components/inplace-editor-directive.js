@@ -44,6 +44,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     controller: Controller
   };
 
+  /* @ngInject */
   function link(scope, element, attrs) {
     element.on('click', '.ined-read-value', function(e) {
       if (angular.element(e.target).is('a')) {
@@ -75,7 +76,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     });
   }
 
-  Controller.$inject = ['$scope', 'WorkPackageService', 'ApiHelper'];
+  /* @ngInject */
   function Controller($scope, WorkPackageService, ApiHelper) {
     $scope.embedded = $scope.embedded == 'false' ? false : !!$scope.embedded;
     $scope.isEditing = false;

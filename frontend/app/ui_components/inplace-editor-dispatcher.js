@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* @ngInject */
 module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService) {
 
   function enableAutoCompletion(element) {

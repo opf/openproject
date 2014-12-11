@@ -64,7 +64,7 @@ gulp.task('webpack', function() {
 gulp.task('minify', ['webpack'], function() {
   return gulp.src('../app/assets/javascripts/bundles/openproject-*.js')
     .pipe(ngAnnotate())
-    .pipe(uglify({ mangle: false }))
+    .pipe(uglify({ mangle: true }))
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
 });
 
