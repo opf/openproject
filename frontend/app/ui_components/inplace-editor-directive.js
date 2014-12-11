@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, InplaceEditorDispatcher) {
+module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
   return {
     restrict: 'A',
     transclude: false,
@@ -35,6 +35,7 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
       type: '@inedType',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
+      attributeTitle: '@inedAttributeTitle',
       embedded: '@inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'
@@ -61,15 +62,16 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     });
     scope.$on('startEditing', function() {
       $timeout(function() {
-        element.find('.ined-input-wrapper-inner .focus-input').focus().triggerHandler('keyup');
+        var inputElement = element.find('.ined-input-wrapper-inner .focus-input');
+
+        FocusHelper.focus(inputElement);
+        inputElement.triggerHandler('keyup');
         InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
       });
     });
 
     scope.$on('finishEditing', function() {
-      $timeout(function() {
-        element.find('.ined-read-value a').focus();
-      });
+      FocusHelper.focusElement(element.find('.ined-read-value'));
     });
   }
 
@@ -80,7 +82,7 @@ module.exports = function($timeout, InplaceEditorDispatcher) {
     $scope.isEditable = !!$scope.entity.links.updateImmediately;
     $scope.isBusy = false;
     $scope.readValue = '';
-    $scope.editTitle = I18n.t('js.inplace.button_edit');
+    $scope.editTitle = I18n.t('js.inplace.button_edit', { attribute: $scope.attributeTitle });
     $scope.saveTitle = I18n.t('js.inplace.button_save');
     $scope.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send');
     $scope.cancelTitle = I18n.t('js.inplace.button_cancel');
