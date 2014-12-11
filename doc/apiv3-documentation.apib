@@ -361,6 +361,126 @@ Cursor based pagination is therefore less suited for use cases where you want to
                 }
             }
 
+# Group Activities
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:| ------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This activity                               | Activity      | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type       | Constraints | Supported operations |
+| :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
+| id          | Activity id                                 | Integer    | x > 0       | READ                 |
+| name        | Activity name                               | String     | not empty   | READ                 |
+| position    | Sort index of the activity                  | Integer    | x > 0       | READ                 |
+| isDefault   | Indicates whether this is the default value | Boolean    |             | READ                 |
+| isActive    | Indicates whether the activity is available | Boolean    |             | READ                 |
+
+## Activities [/api/v3/activities]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/activities" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "Activity",
+                            "id": 1,
+                            "name": "Engineering",
+                            "position": 1
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/2" }
+                            },
+                            "_type": "Activity",
+                            "id": 2,
+                            "name": "Management",
+                            "position": 2
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/3" }
+                            },
+                            "_type": "Activity",
+                            "id": 3,
+                            "name": "Maintenance",
+                            "position": 3
+                        }
+                    ]
+                }
+            }
+
+## List all Activities [GET]
+
++ Response 200 (application/hal+json)
+
+    [Activities][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view time entries (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the activities."
+            }
+
+## Activity [/api/v3/activities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/activities/1" }
+                },
+                "_type": "Activity",
+                "id": 1,
+                "name": "Engineering",
+                "position": 1
+            }
+
+## view Activity [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Activity id
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view time entries (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this activity."
+            }
+
 # Group Attachments
 
 ## Properties:
@@ -1686,7 +1806,7 @@ but are also limited to the projects that the current user is allowed to see.
 | workPackage   | The work package where this entry was logged | WorkPackage   | not null    | READ                 |
 | project       | The project of this time entry               | Project       | not null    | READ                 |
 | user          | The user that spent the time                 | User          | not null    | READ                 |
-| activity      | The kind of activity performed               | ? **TBD** ?   | not null    | READ                 |
+| activity      | The kind of activity performed               | Activity      | not null    | READ                 |
 
 ## Properties
 | Property         | Description                                                   | Type        | Constraints   | Supported operations |
@@ -1710,7 +1830,7 @@ but are also limited to the projects that the current user is allowed to see.
                     "workPackage": { "href": "/api/v3/work_packages/1" },
                     "project": { "href": "/api/v3/projects/1" },
                     "user": { "href": "/api/v3/users/1" },
-                    "activity": { "href": "/api/v3/???/1" }
+                    "activity": { "href": "/api/v3/activities/1" }
                 },
                 "_type": "TimeEntry",
                 "id": 1,
