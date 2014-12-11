@@ -898,6 +898,62 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "message": "The resource you are about to edit was changed in the meantime."
             }
 
+# Group Groups
+
+## Linked Properties:
+|  Link               | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This group                               | Group         |          | READ                 |
+
+## Properties:
+| Property    | Description                                               | Type     | Constraints | Supported operations |
+| :---------: | -------------                                             | ----     | ----------- | -------------------- |
+| id          | Group id                                                  | Integer  | x > 0       | READ                 |
+| name        | Group name                                                | String   |             | READ                 |
+| createdAt   | Time of creation                                          | DateTime |             | READ                 |
+| updatedAt   | Time of the most recent change to the group               | DateTime |             | READ                 |
+
+
+## Group [/api/v3/groups/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Group",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/groups/1",
+                        "title": "Developers"
+                    }
+                },
+                "id": 1,
+                "name": "Developers",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View group [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Group id
+
++ Response 200 (application/hal+json)
+
+    [Group][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the group does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified group does not exist."
+            }
+
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
