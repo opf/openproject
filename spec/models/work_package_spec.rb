@@ -236,8 +236,17 @@ describe WorkPackage, type: :model do
 
     subject { work_package.assignable_responsibles }
 
-    it { is_expected.not_to include(group) }
-    it { is_expected.to include(user) }
+    context 'with assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+      it { is_expected.to match_array([user, group]) }
+    end
+
+    context 'w/o assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+
+      it { is_expected.to match_array([user]) }
+    end
   end
 
   describe :assignable_versions do
