@@ -904,6 +904,7 @@ This is an example of how a form might look like. Note that this endpoint does n
 |  Link               | Description                              | Type          | Nullable | Supported operations |
 |:-------------------:|----------------------------------------- | ------------- | -------- | -------------------- |
 | self                | This group                               | Group         |          | READ                 |
+| members             | This group                               | Users         |          | READ                 |
 
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
@@ -925,7 +926,8 @@ This is an example of how a form might look like. Note that this endpoint does n
                     "self": {
                         "href": "/api/v3/groups/1",
                         "title": "Developers"
-                    }
+                    },
+                    "members": { "href": "/api/v3/groups/1/members" }
                 },
                 "id": 1,
                 "name": "Developers",
@@ -952,6 +954,62 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified group does not exist."
+            }
+
+## Groups by User [/api/v3/users/{id}/groups]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users/1/groups" }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Group",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/groups/1",
+                                    "title": "Developers"
+                                },
+                                "members": { "href": "/api/v3/groups/1/members" }
+                            },
+                            "id": 1,
+                            "name": "Developers",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List groups of a user [GET]
+
+This endpoint lists the groups where the specified user is a member.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the user whoose groups will be listed
+
++ Response 200 (application/hal+json)
+
+    [Groups by User][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the specified user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
             }
 
 # Group Previewing
@@ -1964,9 +2022,10 @@ This endpoint lists the types that are *available* in a given project.
 # Group Users
 
 ## Linked Properties:
-|  Link               | Description                              | Type          | Nullable | Supported operations |
-|:-------------------:|----------------------------------------- | ------------- | -------- | -------------------- |
-| self                | This user                                | User          |          | READ                 |
+|  Link               | Description                                   | Type          | Nullable | Supported operations |
+|:-------------------:|---------------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This user                                     | User          |          | READ                 |
+| groupMemberships    | Collection of groups this user is a member of | Groups        |          | READ                 |
 
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
@@ -1993,7 +2052,8 @@ This endpoint lists the types that are *available* in a given project.
                     "self": {
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
-                    }
+                    },
+                    "groupMemberships": { "href": "/api/v3/users/1/groups" }
                 },
                 "id": 1,
                 "login": "j.sheppard",
@@ -2067,6 +2127,86 @@ Permanently deletes the specified user account.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified user does not exist."
+            }
+
+## Users by Group [/api/v3/groups/{id}/members]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/groups/11/members" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "John Sheppard - j.sheppard"
+                                },
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                            },
+                            "id": 1,
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "email": "shep@mail.com",
+                            "name": "John Sheppard",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/2",
+                                    "title": "Jim Sheppard - j.sheppard"
+                                },
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                            },
+                            "id": 2,
+                            "login": "j.sheppard2",
+                            "firstName": "Jim",
+                            "lastName": "Sheppard",
+                            "email": "shep@mail.net",
+                            "name": "Jim Sheppard",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List users of a group [GET]
+
+This endpoint lists the users that are member of the given group.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the group whoose members will be listed
+
++ Response 200 (application/hal+json)
+
+    [Users by Group][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the specified group does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified group does not exist."
             }
 
 # Group Versions
