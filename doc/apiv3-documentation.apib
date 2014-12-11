@@ -190,6 +190,18 @@ In this specification the following terms will be used as type specifiers (e.g. 
 * `DateTime` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z"
 * `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
 
+# Colors
+
+Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](http://www.w3.org/TR/css3-color/).
+That is a `#` followed by either three or six hexadecimal digits.
+
+#### Examples
+
+    red:   #ff0000 or #f00
+    green: #00ff00 or #0f0
+    black: #000000 or #000
+    white: #ffffff or #fff
+
 # Group Collections
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
@@ -1100,6 +1112,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | :------:   | -------------                        | ----       | ----------- | -------------------- |
 | self       | This project                         | Project    | not null    | READ                 |
 | categories | Categories available in this project | Categories | not null    | READ                 |
+| types      | Types available in this project      | Types      | not null    | READ                 |
 | versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
 ## Properties:
@@ -1126,6 +1139,7 @@ The request body is the actual string that shall be rendered as HTML string.
                         "title": "Lorem"
                     },
                     "categories": { "href": "/api/v3/projects/1/categories" },
+                    "types": { "href": "/api/v3/projects/1/types" },
                     "versions": { "href": "/api/v3/projects/1/versions" }
                 },
                 "id": 1,
@@ -1662,6 +1676,235 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "You are not allowed to see this status."
             }
 
+# Group Types
+
+## Linked Properties:
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This type                 | Type          | not null    | READ                 |
+
+## Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| id               | Type id                                        | Integer  | x > 0       | READ                 |
+| name             | Type name                                      | String   |             | READ                 |
+| color            | The color used to represent this type          | Color    |             | READ                 |
+| position         | Sort index of the type                         | Integer  |             | READ                 |
+| isDefault        |                                                | Boolean  |             | READ                 |
+| isMilestone      | Do tickets of this type represent a milestone? | Boolean  |             | READ                 |
+| createdAt        | Time of creation                               | DateTime |             | READ                 |
+| updatedAt        | Time of the most recent change to the user     | DateTime |             | READ                 |
+
+## Types [/api/v3/types]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types"
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "color": "#ff0000",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "color": "#888",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List all Types [GET]
+
++ Response 200 (application/hal+json)
+
+    [Types][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package or manage types (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the types."
+            }
+
+## Types by Project [/api/v3/projects/{project_id}/types]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/types" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "color": "#ff0000",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "color": "#888",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List types available in a project [GET]
+
+This endpoint lists the types that are *available* in a given project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose types will be listed
+
++ Response 200 (application/hal+json)
+
+    [Types by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage types (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Type [/api/v3/types/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types/1"
+                    }
+                },
+                "_type": "Type",
+                "id": 1,
+                "name": "Bug",
+                "color": "#ff0000",
+                "position": 1,
+                "isDefault": true,
+                "isMilestone": false,
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View Type [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... type id
+
++ Response 200 (application/hal+json)
+
+    [Type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package or manage types (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this type."
+            }
+
 # Group Users
 
 ## Properties:
@@ -1952,7 +2195,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 ## Linked Properties:
 
 | Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
-| :------------:     | ---------------------------------------------------------                                                                                             | -----------  | -----------  | --------------------  | --------------------------------          |
+| :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
 | assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
@@ -1962,6 +2205,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
 | status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
+| type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 
 ## Properties:
@@ -2039,6 +2283,10 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/statuses/1",
                         "title": "New"
                     },
+                    "type": {
+                        "href": "/api/v3/types/1",
+                        "title": "New"
+                    },
                     "version": {
                         "href": "/api/v3/versions/1"
                     },
@@ -2094,7 +2342,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 },
                 "id": 1528,
                 "subject": "Develop API",
-                "type": "Feature",
                 "description": {
                     "format": "textile",
                     "raw": "Develop super cool OpenProject API.",
