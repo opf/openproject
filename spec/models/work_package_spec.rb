@@ -249,6 +249,26 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe 'responsible' do
+    let(:group) { FactoryGirl.create(:group) }
+
+    before { work_package.project.add_member! group, FactoryGirl.create(:role) }
+
+    shared_context 'assign group as responsible' do
+      before { work_package.responsible = group }
+    end
+
+    subject { work_package.valid? }
+
+    context 'with assignable groups' do
+      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+      include_context 'assign group as responsible'
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
