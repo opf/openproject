@@ -437,6 +437,23 @@ h4. things we like
 
         before { allow(User).to receive(:current).and_return current_user }
 
+        shared_context 'setup group membership' do |group_assignment|
+          let(:group) { FactoryGirl.create(:group) }
+          let(:group_role) { FactoryGirl.create(:role) }
+          let(:group_member) {
+            FactoryGirl.create(:member,
+                               principal: group,
+                               project: project,
+                               roles: [group_role])
+          }
+
+          before do
+            allow(Setting).to receive(:work_package_group_assignment?).and_return(group_assignment)
+
+            group_member
+          end
+        end
+
         shared_examples_for 'handling people' do |property|
           let(:user_parameter) { { _links: { property => { href: user_href } } } }
 
@@ -453,18 +470,39 @@ h4. things we like
           end
 
           describe 'valid' do
-            let(:user_href) { "/api/v3/users/#{user.id}" }
+            shared_examples_for 'valid user assignment' do
+              let(:title) { "#{assigned_user.name} - #{assigned_user.login}".to_json }
 
-            include_context 'patch request'
+              it { expect(response.status).to eq(200) }
 
-            it { expect(response.status).to eq(200) }
+              it {
+                expect(response.body).to be_json_eql(title)
+                  .at_path("_links/#{property}/title")
+              }
 
-            it {
-              expect(response.body).to be_json_eql("#{user.name} - #{user.login}".to_json)
-                .at_path("_links/#{property}/title")
-            }
+              it_behaves_like 'lock version updated'
+            end
 
-            it_behaves_like 'lock version updated'
+            context 'user' do
+              let(:user_href) { "/api/v3/users/#{user.id}" }
+
+              include_context 'patch request'
+
+              it_behaves_like 'valid user assignment' do
+                let(:assigned_user) { user }
+              end
+            end
+
+            context 'group' do
+              let(:user_href) { "/api/v3/users/#{group.id}" }
+
+              include_context 'setup group membership', true
+              include_context 'patch request'
+
+              it_behaves_like 'valid user assignment' do
+                let(:assigned_user) { group }
+              end
+            end
           end
 
           describe 'invalid' do
@@ -499,6 +537,18 @@ h4. things we like
                                      property: "#{property.capitalize}",
                                      expected: 'User',
                                      actual: 'Status')
+            end
+
+            context 'group assignement disabled' do
+              let(:user_href) { "/api/v3/users/#{group.id}" }
+
+              include_context 'setup group membership', false
+              include_context 'patch request'
+
+              it_behaves_like 'constraint violation',
+                              I18n.t('api_v3.errors.validation.' \
+                                     'invalid_user_assigned_to_work_package',
+                                     property: "#{property.capitalize}")
             end
           end
         end
