@@ -2297,7 +2297,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/versions/1"
                     },
                     "availableWatchers": {
-                        "href": "/api/v3/work_packages/1528/available_watchers",
+                        "href": "/api/v3/projects/1/work_packages/available_watchers",
                         "title": "Available Watchers"
                     },
                     "watch": {
@@ -2778,14 +2778,14 @@ The response will be the collection of *all* the watchers for the given work pac
                 "message": "The specified work package does not exist."
             }
 
-## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers]
+## Available Watchers [/api/v3/projects/{id}/work_packages/available_watchers]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/work_packages/14/available_watchers" }
+                    "self": { "href": "/api/v3/projects/14/work_packages/available_watchers" }
                 },
                 "total": 3,
                 "count": 3,
@@ -2849,47 +2849,6 @@ The response will be the collection of *all* the watchers for the given work pac
                 }
             }
 
-## Available watchers [GET]
-
-Gets a list of users that can watch the work package.
-
-+ Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
-
-+ Response 200 (application/hal+json)
-
-    [Available Watchers][]
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** add work package watchers
-
-    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 404 (application/hal+json)
-
-    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
-
-    **Required permission:** view work package
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified work package does not exist."
-            }
-
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 
 ## Comment work package [POST]
@@ -2950,6 +2909,47 @@ updated activity.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
+            }
+
+## Available watchers [GET]
+
+Gets a list of users that are able to be watchers of work packages in the specified project.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Available Watchers][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add work package watchers
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }
 
 ## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
