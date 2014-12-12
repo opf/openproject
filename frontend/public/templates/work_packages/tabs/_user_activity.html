@@ -30,8 +30,8 @@
           <textarea id="edit-comment-text"
                     name="edit_comment_text"
                     class="add-comment-text"
-                    ng-model="activity.props.rawComment"
-                    ng-bind-html="activity.props.rawComment"
+                    ng-model="activity.props.comment.raw"
+                    ng-bind-html="activity.props.comment.html"
                     rows="4"
                     required
                     data-wp_autocomplete_url="{{ autocompletePath }}">
@@ -49,7 +49,7 @@
     <span ng-if="!inEdit"
           class="message"
           ng-show="activity.props._type == 'Activity::Comment'"
-          ng-bind-html="activity.props.comment"/>
+          ng-bind-html="activity.props.comment.html"/>
     <ul class="work-package-details-activities-messages">
       <li ng-repeat="detail in activity.props.htmlDetails track by $index">
         <span class="message" ng-bind-html="detail"/>
