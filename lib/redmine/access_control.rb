@@ -79,15 +79,9 @@ module Redmine
     end
 
     class Mapper
-      def initialize
-        @project_module = nil
-        @project_modules_without_permissions = []
-      end
-
       def permission(name, hash, options = {})
-        @permissions ||= []
         options.merge!(project_module: @project_module)
-        @permissions << Permission.new(name, hash, options)
+        mapped_permissions << Permission.new(name, hash, options)
       end
 
       def project_module(name, _options = {})
@@ -96,16 +90,16 @@ module Redmine
           yield self
           @project_module = nil
         else
-          @project_modules_without_permissions << name
+          project_modules_without_permissions << name
         end
       end
 
       def mapped_permissions
-        @permissions
+        @permissions ||= []
       end
 
       def project_modules_without_permissions
-        @project_modules_without_permissions
+        @project_modules_without_permissions ||= []
       end
     end
 
