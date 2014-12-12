@@ -2646,38 +2646,30 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Add watcher [POST]
+## Add watchers [POST]
+
+Adds one or more watchers to the specified work package.
+
+The request is expected to contain a single JSON object, that contains an array
+of link objects under the `users` key.
+
+The response will be the collection of *all* the watchers for the given work package.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
 
 + Request (application/json)
 
-            {
-                "user_id": 1
-            }
+    {
+        "users": [
+            { "href": "/api/v3/users/1" },
+            { "href": "/api/v3/users/2" }
+        ]
+    }
 
 + Response 200 (application/hal+json)
 
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
+    [Watchers][]
 
 + Response 403 (application/hal+json)
 
@@ -2774,11 +2766,11 @@ For more details and all possible responses see the general specification of [Fo
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
+                                "href": "/api/v3/users/1",
                                 "title": "Mister X"
                             }
                         },
-                        "id": 4581,
+                        "id": 1,
                         "login": "m@x.org",
                         "firstName": "Mister",
                         "lastName": "X",
@@ -2792,11 +2784,11 @@ For more details and all possible responses see the general specification of [Fo
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
+                                "href": "/api/v3/users/2",
                                 "title": "Mister Y"
                             }
                         },
-                        "id": 972,
+                        "id": 2,
                         "login": "m@y.org",
                         "firstName": "Mister",
                         "lastName": "Y",
