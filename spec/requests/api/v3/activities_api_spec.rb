@@ -42,11 +42,11 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   shared_examples_for 'valid activity request' do
     before { allow(User).to receive(:current).and_return(admin) }
 
-    subject { JSON.parse(last_response.body) }
+    subject { last_response.body }
 
-    it { expect(subject['_type']).to eq('Activity::Comment') }
+    it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
 
-    it { expect(subject['rawComment']).to eq(comment) }
+    it { is_expected.to be_json_eql(comment.to_json).at_path('comment/raw') }
   end
 
   shared_examples_for 'invalid activity request' do |message|
