@@ -269,16 +269,7 @@ class UsersController < ApplicationController
     # true if the user deletes him/herself
     self_delete = (@user == User.current)
 
-    # as destroying users is a lengthy process we handle it in the background
-    # and lock the account now so that no action can be performed with it
-    @user.status = User::STATUSES[:locked]
-    @user.save
-
-    @user.delay.destroy
-
-    # log the user out if it's a self-delete
-    # must be called before setting the flash message
-    self.logged_user = nil if self_delete
+    DeleteUserService.new(@user, User.current).call
 
     flash[:notice] = l('account.deleted')
 
@@ -339,11 +330,7 @@ class UsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    if (User.current.admin && @user != User.current && !Setting.users_deletable_by_admins?) ||
-       (User.current == @user && !Setting.users_deletable_by_self?)
-      render_404
-      false
-    end
+    render_404 unless DeleteUserService.deletion_allowed? @user, User.current
   end
 
   def my_or_admin_layout
