@@ -2208,6 +2208,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
+| watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  |                                           |
 
 ## Properties:
 
@@ -2342,6 +2343,9 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/work_packages/1528/time_entries",
                         "type": "text/html",
                         "title": "Time entries"
+                    },
+                    "watchers": {
+                        "href": "/api/v3/work_packages/1528/watchers"
                     }
                 },
                 "id": 1528,
@@ -2490,9 +2494,81 @@ For more details and all possible responses see the general specification of [Fo
 
     [Example Form][]
 
-## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
+## Watchers [/api/v3/work_packages/{work_package_id}/watchers]
 
 + Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/14/watchers" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                  "elements": [
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/4581",
+                                "title": "Mister X"
+                            }
+                        },
+                        "id": 4581,
+                        "login": "m@x.org",
+                        "firstName": "Mister",
+                        "lastName": "X",
+                        "name": "Mister X",
+                        "mail": "m@x.org",
+                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
+                        "createdAt": "2013-10-01T16:25:17Z",
+                        "updatedAt": "2013-10-02T09:33:42Z"
+                    },
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/972",
+                                "title": "Mister Y"
+                            }
+                        },
+                        "id": 972,
+                        "login": "m@y.org",
+                        "firstName": "Mister",
+                        "lastName": "Y",
+                        "name": "Mister Y",
+                        "mail": "m@y.org",
+                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
+                        "createdAt": "2013-01-11T11:47:06Z",
+                        "updatedAt": "2013-11-18T07:13:56Z"
+                    }]
+                }
+            }
+
+## List watchers [GET]
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+
++ Response 200 (application/hal+json)
+
+    [Watchers][]
+
+## Add watcher [POST]
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+
++ Request (application/json)
+
+            {
+                "user_id": 1
+            }
+
++ Response 200 (application/hal+json)
+
     + Body
 
             {
@@ -2512,21 +2588,6 @@ For more details and all possible responses see the general specification of [Fo
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-21T08:51:20Z"
             }
-
-## Add watcher [POST]
-
-+ Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
-
-+ Request (application/json)
-
-            {
-                "user_id": 1
-            }
-
-+ Response 200 (application/hal+json)
-
-    [Add Watcher][]
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
