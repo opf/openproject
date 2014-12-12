@@ -2390,6 +2390,20 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
     [WorkPackage][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
 ## Edit WorkPackage [PATCH]
 
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
@@ -2448,6 +2462,20 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 "message": "You are not allowed to edit the content of the work package."
             }
 
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
 + Response 409 (application/hal+json)
 
     Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
@@ -2493,6 +2521,36 @@ For more details and all possible responses see the general specification of [Fo
 + Response 200 (application/hal+json)
 
     [Example Form][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** edit work package
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the specified work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Watchers [/api/v3/work_packages/{work_package_id}/watchers]
 
@@ -2621,6 +2679,41 @@ For more details and all possible responses see the general specification of [Fo
                 "updatedAt": "2014-05-21T08:51:20Z"
             }
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:**
+
+    * view work package (for self)
+    * add work package watchers (for other users)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to add watchers to this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
@@ -2630,6 +2723,38 @@ For more details and all possible responses see the general specification of [Fo
     + id (required, integer, `1`) ... User id
 
 + Response 204
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** delete work package watchers
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to remove watchers from this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers]
 
@@ -2719,12 +2844,28 @@ Gets a list of users that can watch the work package.
 
     **Required permission:** add work package watchers
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
             }
 
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
@@ -2765,6 +2906,8 @@ updated activity.
 
     **Required permission:** create journals
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
     + Body
 
             {
@@ -2773,6 +2916,19 @@ updated activity.
                 "message": "You are not allowed to create a comment here."
             }
 
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
 
