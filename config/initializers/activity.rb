@@ -27,12 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-I18n.default_locale = 'en'
-# Adds fallback to default locale for untranslated strings
-if Setting.table_exists? # don't want to prevent migrations
-  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-  I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
+Redmine::Activity.map do |activity|
+  activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
+  activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
+  activity.register :news, class_name: 'Activity::NewsActivityProvider',
+                           default: false
+  activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider',
+                                 default: false
+  activity.register :messages, class_name: 'Activity::MessageActivityProvider',
+                               default: false
+  activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider',
+                                   default: false
 end
-
-require 'open_project'
-require 'chili_project'
