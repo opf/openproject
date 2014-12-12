@@ -79,11 +79,17 @@ module API
         end
 
         property :id, render_nil: true
-        property :notes, as: :comment, exec_context: :decorator, render_nil: true
-        property :raw_notes,
-                 as: :rawComment,
-                 getter: -> (*) { notes },
-                 setter: -> (value, *) { self.notes = value },
+        property :comment,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   {
+                     format: 'textile',
+                     raw: represented.notes,
+                     html: format_text(represented.notes, object: represented.journable)
+                   }
+                 },
+                 setter: -> (value, *) { represented.notes = value['raw'] },
+                 render_nil: true
                  render_nil: true
         property :details, exec_context: :decorator, render_nil: true
         property :html_details, exec_context: :decorator, render_nil: true
@@ -96,10 +102,6 @@ module API
           else
             'Activity::Comment'
           end
-        end
-
-        def notes
-          format_text(represented.notes, object: represented.journable)
         end
 
         def details
