@@ -2726,7 +2726,13 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 422 (application/hal+json)
 
-    Returned if the client tries to specify a link to a resource that is not a user.
+    Returned if:
+
+    * the client tries to specify a link to a resource that is not a user
+    * one of the users specified is not allowed to watch that work package
+
+    Note that in case of an error *no users* are added to the list of watchers.
+    In other words, you can either add all users specified or none of them.
 
     + Body
 
