@@ -2208,7 +2208,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
-| watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  |                                           |
+| watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  | **Permission** view work package watchers |
 
 ## Properties:
 
@@ -2555,6 +2555,38 @@ For more details and all possible responses see the general specification of [Fo
 + Response 200 (application/hal+json)
 
     [Watchers][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package watchers
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the watchers of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    *Note that you will effectively not be able to see the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Add watcher [POST]
 
