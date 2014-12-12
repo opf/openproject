@@ -80,7 +80,7 @@ module API
             end
 
             def parse_context
-              context = ::API::V3::Utilities::ResourceLinkParser.parse(params[:context])
+              context = ::API::Utilities::ResourceLinkParser.parse(params[:context])
 
               if context.nil?
                 fail API::Errors::InvalidRenderContext.new(

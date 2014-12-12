@@ -33,7 +33,7 @@ module API
       module LinkToObjectExtractor
         def self.parse_links(links)
           links.keys.each_with_object({}) do |attribute, h|
-            resource = ::API::V3::Utilities::ResourceLinkParser.parse links[attribute]['href']
+            resource = ::API::Utilities::ResourceLinkParser.parse links[attribute]['href']
 
             if resource
               case resource[:ns]

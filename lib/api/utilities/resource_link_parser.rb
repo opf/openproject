@@ -28,24 +28,22 @@
 #++
 
 module API
-  module V3
-    module Utilities
-      module ResourceLinkParser
-        def self.parse(resource_link)
-          API::V3::Root.routes.each do |route|
-            route_options = route.instance_variable_get(:@options)
-            match = route_options[:compiled].match(resource_link)
+  module Utilities
+    module ResourceLinkParser
+      def self.parse(resource_link)
+        ::API::Root.routes.each do |route|
+          route_options = route.instance_variable_get(:@options)
+          match = route_options[:compiled].match(resource_link)
 
-            if match
-              return {
-                ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-                id: match[:id]
-              }
-            end
+          if match
+            return {
+              ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
+              id: match[:id]
+            }
           end
-
-          nil
         end
+
+        nil
       end
     end
   end
