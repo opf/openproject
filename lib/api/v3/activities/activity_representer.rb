@@ -90,9 +90,16 @@ module API
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true
+        property :details,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   details = render_details(represented, no_html: true)
+                   html_details = render_details(represented)
+                   formattables = details.zip(html_details)
+
+                   formattables.map { |d| { format: 'textile', raw: d[0], html: d[1] } }
+                 },
                  render_nil: true
-        property :details, exec_context: :decorator, render_nil: true
-        property :html_details, exec_context: :decorator, render_nil: true
         property :version, render_nil: true
         property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
 
@@ -102,14 +109,6 @@ module API
           else
             'Activity::Comment'
           end
-        end
-
-        def details
-          render_details(represented, no_html: true)
-        end
-
-        def html_details
-          render_details(represented)
         end
 
         private
