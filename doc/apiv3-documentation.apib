@@ -2202,6 +2202,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
 | category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
 | priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
+| project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
 | responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
 | status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
@@ -2279,6 +2280,10 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/priorities/2",
                         "title": "Normal"
                     },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "A Test Project"
+                    },
                     "status": {
                         "href": "/api/v3/statuses/1",
                         "title": "New"
@@ -2351,8 +2356,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 "dueDate": null,
                 "estimatedTime": "PT2H",
                 "percentageDone": 0,
-                "projectId": 1,
-                "projectName": "Seeded Project",
                 "parentId": 1298,
                 "createdAt": "2014-08-29T12:40:53Z",
                 "updatedAt": "2014-08-29T12:44:41Z",
