@@ -3050,12 +3050,28 @@ Gets a list of users that can be assigned to work packages in the given project.
 
     **Required permission:** view work packages
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the assignable users for this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }
 
 ## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles{?offset,pageSize,filter}]
@@ -3156,10 +3172,26 @@ Gets a list of users that can be assigned as the responsible of a work package i
 
     **Required permission:** view work packages
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the users available as responsible for this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }
