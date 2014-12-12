@@ -3,7 +3,7 @@
 //  ----------------------------
 //
 //  Table of Contents:
-//  
+//
 //  1.  CSS Exports
 //  2.  Typography
 //  3.  Breakpoints
@@ -35,32 +35,32 @@
 // Set a component to "false" to prevent the CSS classes from being printed.
 // You can still use the mixins even if the value is false.
 $include-css: (
-  accordion: true,
-  action-sheet: true,
-  block-list: true,
-  button: true,
-  button-group: true,
-  card: true,
-  coloring: true,
-  extras: true,
-  forms: true,
-  grid: true,
-  iconic: true,
-  label: true,
-  badge: true,
-  list: true,
-  menu-bar: true,
-  modal: true,
-  motion: true,
-  notification: true,
-  off-canvas: true,
-  panel: true,
-  popup: true,
-  switch: true,
-  tabs: true,
-  title-bar: true,
-  typography: true,
-  utilities: true,
+  accordion: false,
+  action-sheet: false,
+  block-list: false,
+  button: false,
+  button-group: false,
+  card: false,
+  coloring: false,
+  extras: false,
+  forms: false,
+  grid: false,
+  iconic: false,
+  label: false,
+  badge: false,
+  list: false,
+  menu-bar: false,
+  modal: false,
+  motion: false,
+  notification: false,
+  off-canvas: false,
+  panel: false,
+  popup: false,
+  switch: false,
+  tabs: false,
+  title-bar: false,
+  typography: false,
+  utilities: false,
 );
 
 // 2. Global Styles
