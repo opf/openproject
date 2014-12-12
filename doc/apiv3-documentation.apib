@@ -2660,16 +2660,34 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Request (application/json)
 
-    {
-        "users": [
-            { "href": "/api/v3/users/1" },
-            { "href": "/api/v3/users/2" }
-        ]
-    }
+        {
+            "users": [
+                { "href": "/api/v3/users/1" },
+                { "href": "/api/v3/users/2" }
+            ]
+        }
 
 + Response 200 (application/hal+json)
 
     [Watchers][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    For example:
+
+    * The request did not contain a single JSON object
+    * The JSON object did not contain the key `users`
+    * The value of `users` was not an array of link objects
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
 
 + Response 403 (application/hal+json)
 
@@ -2704,6 +2722,18 @@ The response will be the collection of *all* the watchers for the given work pac
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to specify a link to a resource that is not a user.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Expected resources of type 'User', but got a 'Status'.",
             }
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
