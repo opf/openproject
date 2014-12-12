@@ -213,4 +213,33 @@ describe('OpenProject', function() {
       });
     });
   });
+
+  describe('activities', function() {
+    describe('overview tab', function() {
+      before(function() {
+        var page = new WorkPackageDetailsPane(819, 'overview');
+        page.get();
+      });
+
+      it('should render the last 3 activites', function() {
+        expect(
+          $('ul li:nth-child(1) div.comments-number').getText()
+        ).to.eventually.equal('#59');
+
+        expect(
+          $('ul li:nth-child(2) div.comments-number').getText()
+        ).to.eventually.equal('#58');
+
+        expect(
+          $('ul li:nth-child(3) div.comments-number').getText()
+        ).to.eventually.equal('#57');
+      });
+
+      it('should contain the activities details', function() {
+        expect(
+          $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
+        ).to.eventually.equal('Status changed from tested to rejected');
+      });
+    });
+  });
 });
