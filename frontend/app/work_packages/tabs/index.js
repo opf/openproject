@@ -43,6 +43,7 @@ angular.module('openproject.workPackages.tabs')
     '$uiViewScroll',
     '$timeout',
     '$location',
+    '$sce',
     'I18n',
     'PathHelper',
     'ActivityService',

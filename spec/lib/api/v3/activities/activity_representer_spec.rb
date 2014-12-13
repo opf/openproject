@@ -50,11 +50,27 @@ describe ::API::V3::Activities::ActivityRepresenter do
     describe 'activity' do
       it { is_expected.to have_json_path('id') }
       it { is_expected.to have_json_path('version') }
-      it { is_expected.to have_json_path('comment') }
-      it { is_expected.to have_json_path('rawComment') }
-      it { is_expected.to have_json_path('details') }
-      it { is_expected.to have_json_path('htmlDetails') }
       it { is_expected.to have_json_path('createdAt') }
+
+      it_behaves_like 'API V3 formattable', 'comment' do
+        let(:format) { 'textile' }
+        let(:raw) { journal.notes }
+        let(:html) { "#{journal.notes}" }
+      end
+
+      describe 'details' do
+        it { is_expected.to have_json_path('details') }
+
+        it { is_expected.to have_json_size(journal.details.count).at_path('details') }
+
+        it 'should render all details as formattable' do
+          (0..journal.details.count - 1).each do |x|
+            is_expected.to have_json_path("details/#{x}/format")
+            is_expected.to have_json_path("details/#{x}/raw")
+            is_expected.to have_json_path("details/#{x}/html")
+          end
+        end
+      end
 
       it 'should link to work package' do
         expect(subject).to have_json_path('_links/workPackage/href')
