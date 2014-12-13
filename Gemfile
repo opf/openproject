@@ -178,7 +178,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.9.0'
+gem 'cuba', '~> 3.3.0'
 gem 'roar',   '~> 1.0.0.beta2'
 gem 'reform', '~> 1.1.1', require: false
 
