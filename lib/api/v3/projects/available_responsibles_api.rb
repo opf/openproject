@@ -29,17 +29,23 @@
 module API
   module V3
     module Projects
-      class AvailableResponsiblesAPI < Grape::API
-        resource :available_responsibles do
-          get do
+      class AvailableResponsiblesAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
+
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+          @project = env['project']
+
+          on get, root do
             authorize(:view_project, context: @project)
 
             available_responsibles = @project.possible_responsibles
             total = available_responsibles.count
             self_link = api_v3_paths.available_responsibles(@project.id)
-            ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
-                                                            total,
-                                                            self_link)
+            res.write ::API::V3::Users::UserCollectionRepresenter.new(available_responsibles,
+                                                                      total,
+                                                                      self_link).to_json
           end
         end
       end

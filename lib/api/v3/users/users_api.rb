@@ -29,31 +29,25 @@
 module API
   module V3
     module Users
-      class UsersAPI < Grape::API
-        resources :users do
+      class UsersAPI < ::Cuba
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-          params do
-            requires :id, desc: 'User\'s id'
-          end
-          namespace ':id' do
+          on ':id' do |id|
+            @user = User.find(id)
 
-            before do
-              @user  = User.find(params[:id])
+            on get do
+              res.write UserRepresenter.new(@user).to_json
             end
 
-            get do
-              UserRepresenter.new(@user)
-            end
-
-            delete do
+            on delete do
               if DeleteUserService.new(@user, User.current).call
-                status 202
+                res.status = 202
               else
                 fail ::API::Errors::Unauthorized
               end
             end
           end
-
         end
       end
     end

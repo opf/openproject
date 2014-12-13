@@ -30,101 +30,97 @@
 module API
   module V3
     module Render
-      class RenderAPI < Grape::API
-        format :txt
-        parser :txt, ::API::V3::Formatter::TxtCharset
+      class RenderAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
 
-        resources :render do
-          helpers do
-            SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
-            SUPPORTED_MEDIA_TYPE = 'text/plain'
+        SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
+        SUPPORTED_MEDIA_TYPE = 'text/plain'
 
-            def check_content_type
-              actual = request.content_type
+        def check_content_type
+          actual = req.content_type
 
-              unless actual.starts_with? SUPPORTED_MEDIA_TYPE
-                message = I18n.t('api_v3.errors.invalid_content_type',
-                                 content_type: SUPPORTED_MEDIA_TYPE,
-                                 actual: actual)
+          unless actual.starts_with? SUPPORTED_MEDIA_TYPE
+            message = I18n.t('api_v3.errors.invalid_content_type',
+                             content_type: SUPPORTED_MEDIA_TYPE,
+                             actual: actual)
 
-                fail API::Errors::InvalidRequestBody, message
-              end
-            end
+            fail API::Errors::InvalidRequestBody, message
+          end
+        end
 
-            def setup_response
-              status 200
-              content_type 'text/html'
-            end
+        def setup_response
+          res.status = 200
+          res.headers['Content-Type'] = 'text/html'
+        end
 
-            def request_body
-              env['api.request.body']
-            end
+        def request_body
+          API::V3::Formatter::TxtCharset.call(req.body.read, req)
+        end
 
-            def context_object
-              try_context_object
-            rescue ::ActiveRecord::RecordNotFound
-              fail API::Errors::InvalidRenderContext.new(
-                I18n.t('api_v3.errors.render.context_object_not_found')
-              )
-            end
+        def context_object
+          try_context_object
+        rescue ::ActiveRecord::RecordNotFound
+          fail API::Errors::InvalidRenderContext.new(
+          I18n.t('api_v3.errors.render.context_object_not_found')
+          )
+        end
 
-            def try_context_object
-              if params[:context]
-                context = parse_context
+        def try_context_object
+          if req.params['context']
+            context = parse_context
 
-                case context[:ns]
-                when 'work_packages'
-                  WorkPackage.visible(current_user).find(context[:id])
-                end
-              end
-            end
-
-            def parse_context
-              context = ::API::Utilities::ResourceLinkParser.parse(params[:context])
-
-              if context.nil?
-                fail API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.context_not_found')
-                )
-              elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
-                fail API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.unsupported_context')
-                )
-              else
-                context
-              end
-            end
-
-            def renderer(type)
-              case type
-              when :textile
-                ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-              when :plain
-                ::API::Utilities::Renderer::PlainRenderer.new(request_body)
-              end
-            end
-
-            def render(type)
-              renderer(type).to_html
+            case context[:ns]
+            when 'work_packages'
+              WorkPackage.visible(current_user).find(context[:id])
             end
           end
+        end
 
-          resources :textile do
-            post do
-              check_content_type
-              setup_response
+        def parse_context
+          context = ::API::Utilities::ResourceLinkParser.parse(req.params['context'])
 
-              render :textile
-            end
+          if context.nil?
+            fail API::Errors::InvalidRenderContext.new(
+            I18n.t('api_v3.errors.render.context_not_found')
+            )
+          elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
+            fail API::Errors::InvalidRenderContext.new(
+            I18n.t('api_v3.errors.render.unsupported_context')
+            )
+          else
+            context
+          end
+        end
+
+        def renderer(type)
+          case type
+          when :textile
+            ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
+          when :plain
+            ::API::Utilities::Renderer::PlainRenderer.new(request_body)
+          end
+        end
+
+        def render(type)
+          res.write renderer(type).to_html
+        end
+
+        define do
+          # textile
+          on post, 'textile' do
+            check_content_type
+            setup_response
+
+            render :textile
           end
 
-          resources :plain do
-            post do
-              check_content_type
-              setup_response
+          # plain text
+          on post, 'plain' do
+            check_content_type
+            setup_response
 
-              render :plain
-            end
+            render :plain
           end
         end
       end

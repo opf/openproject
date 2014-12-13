@@ -29,17 +29,23 @@
 module API
   module V3
     module Projects
-      class AvailableAssigneesAPI < Grape::API
-        resource :available_assignees do
-          get do
+      class AvailableAssigneesAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
+
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+          @project = env['project']
+
+          on get do
             authorize(:view_project, context: @project)
 
             available_assignees = @project.possible_assignees
             total = available_assignees.count
             self_link = api_v3_paths.available_assignees(@project.id)
-            ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
-                                                            total,
-                                                            self_link)
+            res.write ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
+                                                                      total,
+                                                                      self_link).to_json
           end
         end
       end

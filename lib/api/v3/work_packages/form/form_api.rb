@@ -30,26 +30,32 @@ module API
   module V3
     module WorkPackages
       module Form
-        class FormAPI < Grape::API
-          helpers do
-            def process_form_request
-              write_work_package_attributes
-              write_request_valid?
+        class FormAPI < ::Cuba
+          include API::Helpers
+          include API::V3::Utilities::PathHelper
+          include API::V3::WorkPackages::Helpers
 
-              error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+          def process_form_request
+            write_work_package_attributes
+            write_request_valid?
 
-              if error.is_a? ::API::Errors::Validation
-                status 200
-                FormRepresenter.new(@representer.represented, current_user: current_user)
-              else
-                fail error
-              end
+            error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+
+            if error.is_a? ::API::Errors::Validation
+              res.status = 200
+              res.write FormRepresenter.new(@representer.represented, current_user: current_user).to_json
+            else
+              fail error
             end
-
           end
 
-          post '/form' do
-            process_form_request
+          define do
+            @work_package = env['work_package']
+            @representer  = env['work_package_representer']
+
+            on post, root do
+              process_form_request
+            end
           end
         end
       end

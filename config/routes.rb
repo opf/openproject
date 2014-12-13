@@ -29,7 +29,7 @@
 
 OpenProject::Application.routes.draw do
   root to: 'welcome#index', as: 'home'
-  mount API::Root => '/'
+  mount API::Root => '/api'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris

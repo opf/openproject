@@ -32,73 +32,43 @@
 # rescuing, mounting of differnet API versions etc.
 
 module API
-  class Root < Grape::API
-    prefix :api
+  class Root < ::Cuba
+    include API::Helpers
+  end
+end
 
-    class Formatter
-      def call(object, _env)
-        object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
-      end
-    end
+API::Root.define do
+  res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-    class Parser
-      def call(object, _env)
-        MultiJson.load(object)
-      rescue MultiJson::ParseError => e
-        error = ::API::Errors::ParseError.new(e.message)
-        representer = ::API::V3::Errors::ErrorRepresenter.new(error)
-
-        throw :error, status: 400, message: representer.to_json
-      end
-    end
-
-    content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    content_type :json,      'application/json; charset=utf-8'
-    format 'hal+json'
-    formatter 'hal+json', Formatter.new
-
-    parser :json, Parser.new
-
-    helpers do
-      def current_user
-        return User.current if Rails.env.test?
-        user_id = env['rack.session']['user_id']
-        User.current = user_id ? User.find(user_id) : User.anonymous
-      end
-
-      def authenticate
-        raise API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
-      end
-
-      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized unless is_authorized && allow
-        is_authorized
-      end
-    end
-
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      api_error = ::API::Errors::NotFound.new(e.message)
-      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
-      error_response(status: api_error.code, message: representer.to_json)
-    end
-
-    rescue_from ActiveRecord::StaleObjectError do
-      api_error = ::API::Errors::Conflict.new
-      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
-      error_response(status: api_error.code, message: representer.to_json)
-    end
-
-    rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
-      representer = ::API::V3::Errors::ErrorRepresenter.new(e)
-      error_response(status: e.code, message: representer.to_json)
-    end
-
+  begin
     # run authentication before each request
-    before do
-      authenticate
-    end
+    authenticate
 
-    mount API::V3::Root
+    on 'v3' do
+      run API::V3::Root
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    api_error = ::API::Errors::NotFound.new(e.message)
+    representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+
+    on default do
+      res.status = api_error.code
+      res.write representer.to_json
+    end
+  rescue ActiveRecord::StaleObjectError
+    api_error = ::API::Errors::Conflict.new
+    representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+
+    on default do
+      res.status = api_error.code
+      res.write representer.to_json
+    end
+  rescue ::API::Errors::ErrorBase => e
+    representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+
+    on default do
+      res.status = e.code
+      res.write representer.to_json
+    end
   end
 end

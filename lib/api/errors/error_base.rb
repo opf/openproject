@@ -29,7 +29,7 @@
 
 module API
   module Errors
-    class ErrorBase < Grape::Exceptions::Base
+    class ErrorBase < StandardError
       attr_reader :code, :message, :details, :errors
 
       def self.create(errors)

@@ -29,57 +29,48 @@
 module API
   module V3
     module Activities
-      class ActivitiesAPI < Grape::API
-        resources :activities do
+      class ActivitiesAPI < ::Cuba
+        include API::Helpers
 
-          params do
-            requires :id, desc: 'Activity id'
+        def save_activity(activity)
+          if activity.save
+            representer = ::API::V3::Activities::ActivityRepresenter.new(activity)
+
+            representer.to_json
+          else
+            fail ::API::Errors::ErrorBase.create(activity.errors.dup)
           end
-          namespace ':id' do
+        end
 
-            before do
-              @activity = Journal.find(params[:id])
-              @representer = ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
-            end
+        def authorize_edit_own(activity)
+          return authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
+          raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
+        end
 
-            get do
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+
+          on ':id' do |id|
+            @activity = Journal.find(id)
+            @representer = ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
+
+            on get do
               authorize(:view_project, context: @activity.journable.project)
-              @representer
+              res.write @representer.to_json
             end
 
-            helpers do
-              def save_activity(activity)
-                if activity.save
-                  representer = ::API::V3::Activities::ActivityRepresenter.new(activity)
-
-                  representer
-                else
-                  fail ::API::Errors::ErrorBase.create(activity.errors.dup)
-                end
-              end
-
-              def authorize_edit_own(activity)
-                return authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
-                raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
-              end
-            end
-
-            params do
-              requires :comment, type: String
-            end
-
-            patch do
+            on req.patch?, param('comment') do |comment|
               authorize_edit_own(@activity)
 
-              @activity.notes = params[:comment]
+              @activity.notes = comment
 
-              save_activity(@activity)
+              res.write save_activity(@activity)
             end
-
           end
-
         end
       end
+
+      ActivitiesAPI.use(Rack::PostBodyContentTypeParser)
     end
   end
 end

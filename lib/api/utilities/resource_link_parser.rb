@@ -31,16 +31,20 @@ module API
   module Utilities
     module ResourceLinkParser
       def self.parse(resource_link)
-        ::API::Root.routes.each do |route|
-          route_options = route.instance_variable_get(:@options)
-          match = route_options[:compiled].match(resource_link)
 
-          if match
-            return {
-              ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-              id: match[:id]
-            }
-          end
+        namespace = resource_link
+        id        = nil
+        namespace.gsub!(/^\/api\/v3\/?/, '')
+        namespace.gsub!(/\-?(\d+)$/) do |found_id|
+          id = found_id
+          ''
+        end
+
+        if !namespace.empty? && id
+          return {
+            ns: /(?<ns>\w+)\//.match(namespace)[:ns],
+            id: id
+          }
         end
 
         nil

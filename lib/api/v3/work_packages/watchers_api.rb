@@ -29,63 +29,56 @@
 module API
   module V3
     module WorkPackages
-      class WatchersAPI < Grape::API
-        get '/available_watchers' do
-          authorize(:add_work_package_watchers, context: @work_package.project)
+      class WatchersAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
 
-          available_watchers = @work_package.possible_watcher_users
-          total = available_watchers.count
-          self_link = api_v3_paths.available_watchers(@work_package.id)
+        define do
+          @work_package = env['work_package']
 
-          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,
-                                                          total,
-                                                          self_link)
-        end
-
-        resources :watchers do
-
-          params do
-            requires :user_id, desc: 'The watcher\'s user id', type: Integer
-          end
-          post do
-            if current_user.id == params[:user_id]
+          on post, param('user_id') do |user_id|
+            if current_user.id == user_id.to_i
               authorize(:view_work_packages, context: @work_package.project)
             else
               authorize(:add_work_package_watchers, context: @work_package.project)
             end
 
-            user = User.find params[:user_id]
+            user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              -> (result) { status(200) unless result[:created] },
+              -> (result) {
+                res.status = if result[:created]
+                               201
+                             else
+                               200
+                end
+              },
               -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
             )
 
-            ::API::V3::Users::UserRepresenter.new(user)
+            res.write ::API::V3::Users::UserRepresenter.new(user).to_json
           end
 
-          namespace ':user_id' do
-            params do
-              requires :user_id, desc: 'The watcher\'s user id', type: Integer
-            end
-
-            delete do
-              if current_user.id == params[:user_id]
+          on ':user_id' do |user_id|
+            on delete do
+              if current_user.id == user_id.to_i
                 authorize(:view_work_packages, context: @work_package.project)
               else
                 authorize(:delete_work_package_watchers, context: @work_package.project)
               end
 
-              user = User.find_by_id params[:user_id]
+              user = User.find_by_id user_id
 
               Services::RemoveWatcher.new(@work_package, user).run
 
-              status 204
+              res.status = 204
             end
           end
 
         end
       end
+
+      WatchersAPI.use(Rack::PostBodyContentTypeParser)
     end
   end
 end
