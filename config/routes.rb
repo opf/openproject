@@ -29,7 +29,6 @@
 
 OpenProject::Application.routes.draw do
   root to: 'welcome#index', as: 'home'
-  mount API::Root => '/api'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
@@ -59,6 +58,10 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :api do
+    scope :v3 do
+      mount API::Root => '/'
+    end
+
     # Handles all routes of the now removed api v1.
     # Always returns a 410.
     # This does not care if the route actually existed to
