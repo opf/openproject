@@ -248,6 +248,8 @@ GEM
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-ssl (1.3.4)
       rack
     rack-test (0.6.2)
@@ -431,6 +433,7 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
+  rack-contrib
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access

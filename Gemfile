@@ -179,6 +179,7 @@ end
 
 # API gems
 gem 'cuba', '~> 3.3.0'
+gem 'rack-contrib', require: 'rack/contrib'
 gem 'roar',   '~> 1.0.0.beta2'
 gem 'reform', '~> 1.1.1', require: false
 
