@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </tr>
     <tr>
       <td class="progress"><strong><%= CostObject.human_attribute_name(:budget_ratio) %>:</strong></td>
-      <td class="progress"><%= extended_progress_bar(@cost_object.budget_ratio, :width => '80px', :legend => "#{@cost_object.budget_ratio}%") %></td>
+      <td class="progress"><%= extended_progress_bar(@cost_object.budget_ratio, :width => '80px', :legend => @cost_object.budget_ratio) %></td>
     </tr>
   </table>
 
