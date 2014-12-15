@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 
 <div class="autoscroll">
-<table class="filecontent annotate syntaxhl">
+<table class="filecontent annotate CodeRay">
   <tbody>
     <% line_num = 1 %>
     <% syntax_highlight(@path, to_utf8_for_repositories(@annotate.content)).each_line do |line| %>
