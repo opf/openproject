@@ -103,7 +103,6 @@ module OpenProject::Costs
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
 
-
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
@@ -141,7 +140,7 @@ module OpenProject::Costs
                if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
 
       property :spent_time,
-               getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+               getter: -> (*) { Duration.new(hours_and_minutes(represented.spent_hours)).iso8601 },
                writeable: false,
                exec_context: :decorator,
                if: -> (_) { user_has_time_entry_permissions? }
@@ -180,7 +179,7 @@ module OpenProject::Costs
 
       send(:define_method, :user_has_time_entry_permissions?) do
         current_user_allowed_to(:view_time_entries) ||
-        (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
+          (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
       end
     end
 

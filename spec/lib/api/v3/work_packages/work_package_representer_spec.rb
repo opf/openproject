@@ -23,7 +23,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries,
                                                        :view_cost_entries,
-                                                       :view_cost_rates]) }
+                                                       :view_cost_rates,
+                                                       :view_work_packages]) }
+  let(:own_time_entries_role) { FactoryGirl.create(:role, permissions: [:view_time_entries,
+                                                                        :view_cost_entries,
+                                                                        :view_cost_rates,
+                                                                        :view_work_packages]) }
   let(:user) { FactoryGirl.create(:user,
                                   member_in_project: project,
                                   member_through_role: role) }
@@ -76,24 +81,75 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { should have_json_path('_embedded/summarizedCostEntries') }
       end
 
-      context 'no view_time_entries permission' do
-        before do
-          allow(user).to receive(:allowed_to?).and_return false
+      describe 'spentHours' do
+        context 'time entry with single hour' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: work_package.project,
+                               work_package: work_package,
+                               hours: 1.0)
+          }
+
+          before { time_entry }
+
+          it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
         end
 
-        it { should_not have_json_path('spentTime') }
+        context 'time entry with multiple hours' do
+          let(:time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: work_package.project,
+                               work_package: work_package,
+                               hours: 42.5)
+          }
 
-      end
+          before { time_entry }
 
-      context 'only view_own_time_entries permission' do
-        before do
-          allow(user).to receive(:allowed_to?).and_return false
-          allow(user).to receive(:allowed_to?).with(:view_own_time_entries,
-                                                    cost_object.project)
-                                              .and_return(true)
+          it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
         end
 
-        it { should have_json_path('spentTime') }
+        context 'no view_time_entries permission' do
+          before do
+            allow(user).to receive(:allowed_to?).and_return false
+          end
+
+          it { should_not have_json_path('spentTime') }
+        end
+
+        context 'only view_own_time_entries permission' do
+          let(:own_time_entries_role) { FactoryGirl.create(:role, permissions: [:view_own_time_entries,
+                                                                                :view_work_packages]) }
+
+          let(:user2) { FactoryGirl.create(:user,
+                                           member_in_project: project,
+                                           member_through_role: own_time_entries_role) }
+
+          let!(:own_time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: work_package.project,
+                               work_package: work_package,
+                               hours: 2,
+                               user: user2)
+          }
+
+          let!(:other_time_entry) {
+            FactoryGirl.create(:time_entry,
+                               project: work_package.project,
+                               work_package: work_package,
+                               hours: 1,
+                               user: user)
+          }
+
+          before do
+            allow(User).to receive(:current).and_return(user2)
+          end
+
+          it { is_expected.to be_json_eql('PT2H'.to_json).at_path('spentTime') }
+        end
+
+        context 'no time entry' do
+          it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
+        end
       end
     end
   end
