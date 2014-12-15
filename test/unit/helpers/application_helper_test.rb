@@ -47,14 +47,16 @@ class ApplicationHelperTest < ActionView::TestCase
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :work_package, :project => @project, :author => @project_member, :type => @project.types.first
+
+    file = create_uploaded_file name: 'logo.gif',
+                                content_type: 'image/gif',
+                                content: 'not actually a gif',
+                                binary: true
     @attachment = FactoryGirl.create :attachment,
         :author => @project_member,
+        :file => file,
         :content_type => 'image/gif',
-        :filename => 'logo.gif',
-        :disk_filename => '060719210727_logo.gif',
-        :digest => 'b91e08d0cf966d5c6ff411bd8c4cc3a2',
         :container => @issue,
-        :filesize => 280,
         :description => 'This is a logo'
 
     User.stub(:current).and_return(@project_member)

@@ -82,6 +82,7 @@ storage config above like this:
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
+* [`attachments_store`](#attachments-store) (default: file)
 
 ### disable password login
 
@@ -107,6 +108,23 @@ If this option is active /login will lead directly to the configured omniauth pr
 
 Note that this does not stop a user from manually navigating to any other
 omniauth provider if additional ones are configured.
+
+### attachments store
+
+*default: file*
+
+Attachments can be stored using fog as well. You will have to add further configuration through `fog`, e.g. for Amazon S3:
+
+```
+attachments_store: fog
+fog:
+  directory: bucket-name
+  credentials:
+    provider: 'AWS'
+    aws_access_key_id: 'AKIAJ23HC4KNPWHPG3UA'
+    aws_secret_access_key: 'PYZO9phvL5IgyjjcI2wJdkiy6UyxPK87wP/yxPxS'
+    region: 'eu-west-1'
+```
 
 ## Email configuration
 

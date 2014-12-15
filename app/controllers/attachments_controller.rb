@@ -40,7 +40,7 @@ class AttachmentsController < ApplicationController
       @content = File.new(@attachment.diskfile, 'rb').read
       render action: 'file'
     else
-      download
+      redirect_to link_to_attachment(@attachment)
     end
   end
 
@@ -68,6 +68,19 @@ class AttachmentsController < ApplicationController
   end
 
   private
+
+  def link_to_attachment(attachment)
+    url = URI.parse attachment.file.download_url
+
+    if url.host # check if URL or file path
+      url.to_s
+    else
+      url_for controller: :attachments,
+              action: 'download',
+              filename: attachment.filename,
+              id: attachment.id
+    end
+  end
 
   def find_project
     @attachment = Attachment.find(params[:id])

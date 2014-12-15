@@ -42,7 +42,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Attachment.storage_path = Rails.root.join('test/fixtures/files').to_s
+
     User.current = nil
   end
 
@@ -86,13 +86,19 @@ class AttachmentsControllerTest < ActionController::TestCase
     Attachment.find(4).update_attribute :filesize, 754.kilobyte
 
     get :show, :id => 4
+    assert_redirected_to 'http://test.host/attachments/4/download/source.rb'
+
+    get :download, :id => 4
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
   end
 
   def test_show_other
     get :show, :id => 6
-    assert_response :success
+
+    assert_redirected_to 'http://test.host/attachments/6/download/archive.zip'
+
+    get :download, :id => 6
     assert_equal 'application/zip', @response.content_type
   end
 
@@ -100,14 +106,6 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :download, :id => 4
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
-  end
-
-  def test_download_should_assign_content_type_if_blank
-    Attachment.find(4).update_attribute(:content_type, '')
-
-    get :download, :id => 4
-    assert_response :success
-    assert_equal 'application/binary', @response.content_type
   end
 
   def test_download_missing_file

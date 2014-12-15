@@ -204,3 +204,5 @@ module OpenProject::RSpecLazinessWarn
     attr_accessor :warned
   end
 end
+
+OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'

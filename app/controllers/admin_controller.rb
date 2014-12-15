@@ -103,9 +103,10 @@ class AdminController < ApplicationController
 
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, File.writable?(Attachment.storage_path)]
+      [:text_file_repository_writable, repository_writable]
     ]
   end
 
