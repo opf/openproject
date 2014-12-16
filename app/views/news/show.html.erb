@@ -50,9 +50,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="edit-news" style="display:none;">
 <%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_save) %>
-  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>
-  <%= preview_link preview_news_path(@news), 'news-form-preview' %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;',
+        class: 'button'%>
+  <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
@@ -92,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
         :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
     <%= wikitoolbar_for 'comment_comments' %>
 </div>
-<p><%= submit_tag l(:button_add) %></p>
+<p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
 <% end %>
 <% end %>
 

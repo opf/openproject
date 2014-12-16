@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>
 </p>
 <p>
-<%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit) %>
+<%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button' %>
 </p>
 <% end %>
 
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </fieldset>
       <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
     </div>
-    <%= submit_tag l(:button_save) %>
+    <%= submit_tag l(:button_save), class: 'button -highlight' %>
   <% end %>
 <% end %>
 

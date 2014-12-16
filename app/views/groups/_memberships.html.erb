@@ -53,8 +53,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><% roles.each do |role| %>
         <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label><br />
         <% end %></p>
-        <p><%= submit_tag l(:button_change) %>
-        <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;" %></p>
+        <p><%= submit_tag l(:button_change), class: 'button -highlight' %>
+        <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;",
+              class: 'button' %></p>
     <% end %>
   </td>
   <td class="buttons">
@@ -86,7 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l(:label_role_plural) %>:
           <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
         <p>
-        <%= submit_tag l(:button_add) %></p>
+        <%= submit_tag l(:button_add), class: 'button -highlight' %></p>
       <% end %>
   </fieldset>
 <% end %>

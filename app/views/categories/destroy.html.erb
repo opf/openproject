@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 </div>
 
-<%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories' %>
+<%= submit_tag l(:button_apply), class: 'button -highlight' %>
+<%= link_to l(:button_cancel), { :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories' },
+      class: 'button' %>
 <% end %>

@@ -38,5 +38,5 @@ See doc/COPYRIGHT.rdoc for more details.
                                              :html => {:id => 'custom_field_form'} do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <%= hidden_field_tag 'type', @custom_field.type %>
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

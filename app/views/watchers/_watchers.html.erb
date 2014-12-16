@@ -46,8 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <p>
     <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
 
-    <%= submit_tag l(:button_add) %>
-    <%= toggle_link l(:button_cancel), 'new-watcher-form' %>
+    <%= submit_tag l(:button_add), class: 'button -highlight' %>
+    <%= toggle_link l(:button_cancel), 'new-watcher-form', class: 'button' %>
   </p>
 <% end %>
 

@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_save) %>
-  <%= preview_link preview_news_path(@news), 'news-form-preview' %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
   <% end %>
 <div id="preview" class="wiki"></div>

@@ -40,6 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= format_text @project_association, :description %>
 
-  <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), project_project_associations_path(@project) %>
+  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project), class: 'button' %>
 <% end %>

@@ -46,6 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
 
-  <%= f.submit l(:button_update), :name => nil %>
-  <%= link_to l(:button_cancel), project_project_associations_path(@project) %>
+  <%= f.submit l(:button_update), :name => nil, class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project),
+        class: 'button'%>
 <% end %>

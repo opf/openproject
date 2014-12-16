@@ -48,5 +48,5 @@ See doc/COPYRIGHT.rdoc for more details.
   Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :setting_work_package_properties) %>
 </fieldset>
 
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

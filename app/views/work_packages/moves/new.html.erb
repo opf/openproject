@@ -116,11 +116,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @copy %>
   <%= hidden_field_tag("copy") %>
-  <%= submit_tag l(:button_copy) %>
-  <%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
+  <%= submit_tag l(:button_copy), class: 'button -highlight' %>
+  <%= submit_tag l(:button_copy_and_follow), :name => 'follow', class: 'button -highlight' %>
 <% else %>
-  <%= submit_tag l(:button_move) %>
-  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
+  <%= submit_tag l(:button_move), class: 'button -highlight' %>
+  <%= submit_tag l(:button_move_and_follow), :name => 'follow', class: 'button -highlight' %>
 <% end %>
 <% end %>
 <% content_for :header_tags do %>

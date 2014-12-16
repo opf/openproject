@@ -45,6 +45,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
 </div>
 
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 
 <% end %>

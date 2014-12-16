@@ -49,5 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 </div>
 
-<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save), :disabled => @repository.nil?) %>
+<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
+      :disabled => @repository.nil?,
+      class: 'button -highlight') %>
 <% end %>

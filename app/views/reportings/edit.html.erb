@@ -76,8 +76,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <br/>
   <p>
-    <%= f.submit l(:button_save), :name => nil %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project) %>
+    <%= f.submit l(:button_save), :name => nil, class: 'button -highlight' %>
+    <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
   </p>
 <% end %>
 
