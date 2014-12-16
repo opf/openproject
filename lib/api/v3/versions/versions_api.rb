@@ -32,14 +32,16 @@ module API
     module Versions
       class VersionsAPI < Grape::API
         resources :versions do
-          before do
-            @versions = @project.shared_versions.all
-          end
 
-          get do
-            VersionCollectionRepresenter.new(@versions,
-                                             @versions.count,
-                                             api_v3_paths.versions(@project.identifier))
+          namespace ':id' do
+
+            before do
+              @version = Version.find(params[:id])
+            end
+
+            get do
+              VersionRepresenter.new(@version)
+            end
           end
         end
       end
