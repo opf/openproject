@@ -26,30 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-a.button.-highlight,
-.button.-highlight
-  @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
-  @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
-
-  transition: none
-
-  background: $button-highlight-background-gradient
-  border: 1px solid $button-highlight-border-color
-
-  &:enabled
-    &:hover,
-    &:focus
-      border: 1px solid $button-highlight-background-hover-color
-      background: $button-highlight-background-hover-color
-
-  &:disabled
-    @include button-disabled
-
-  &:hover
-    text-decoration: none
-
 a.button,
 .button
   @extend %button
@@ -65,7 +41,7 @@ a.button,
   &:enabled
     &:hover,
     &:focus
-      border: 1px solid #777
+      border-color: #777
       background: linear-gradient(to bottom, #fff 0%, #eee 40%, #ddd 100%)
 
   &:disabled
@@ -74,26 +50,28 @@ a.button,
   &:hover
     text-decoration: none
 
-a.button.-active,
-.button.-active,
-.button.active
-  @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
-  @include button-style(#eee, $button-active-font-color, $button-style)
 
-  transition: none
+  &.-highlight
+    @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
 
-  border: 1px solid #ccc
-  box-shadow: 0px 2px 4px #ccc inset
+    background: $button-highlight-background-gradient
+    border-color: $button-highlight-border-color
 
-  &:enabled
-    &:hover,
-    &:focus
-      background: #eee
+    &:enabled
+      &:hover,
+      &:focus
+        border-color: $button-highlight-background-hover-color
+        background: $button-highlight-background-hover-color
 
-  &:disabled
-    @include button-disabled
 
-  &:hover
-    text-decoration: none
+  &.-active,
+  &.active
+    @include button-style(#eee, $button-active-font-color, $button-style)
+
+    border-color: #ccc
+    box-shadow: 0px 2px 4px #ccc inset
+
+    &:enabled
+      &:hover,
+      &:focus
+        background: #eee
