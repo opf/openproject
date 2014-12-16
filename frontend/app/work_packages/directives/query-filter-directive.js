@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout, $animate) {
+module.exports = function(
+  WorkPackageLoadingHelper,
+  QueryService,
+  PaginationService,
+  I18n,
+  OPERATORS_NOT_REQUIRING_VALUES,
+  $timeout,
+  $animate
+) {
 
   var updateResultsJob;
 
@@ -48,6 +56,8 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
             scope.availableFilterValueOptions = options;
           });
       }
+
+      preselectOperator();
 
       scope.$on('openproject.workPackages.updateResults', function() {
         $timeout.cancel(updateResultsJob);
@@ -91,6 +101,18 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
 
       function valueReset(filter, oldFilter) {
         return oldFilter.hasValues() && !filter.hasValues();
+      }
+
+      function preselectOperator() {
+        if (!scope.filter.operator) {
+          var operatorArray = _.find(
+            scope.operatorsAndLabelsByFilterType[scope.filter.type],
+            function(operator) {
+              return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator[0]) === -1;
+            }
+          );
+          scope.filter.operator = operatorArray ? operatorArray[0] : undefined;
+        }
       }
     }
   };

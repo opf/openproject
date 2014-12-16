@@ -53,6 +53,7 @@ angular.module('openproject.workPackages.directives')
     'QueryService',
     'PaginationService',
     'I18n',
+    'OPERATORS_NOT_REQUIRING_VALUES',
     '$timeout',
     '$animate', require('./query-filter-directive')
   ])
