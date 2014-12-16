@@ -40,3 +40,10 @@
 <button class="button -expand">Expanded button</button>
 <a href="#" class="button -expand">Expanded button as link</a>
 ```
+
+## Rounded buttons
+
+```
+<button class="button -round">Expanded button</button>
+<a href="#" class="button -round">Expanded button as link</a>
+```
