@@ -92,9 +92,11 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       .props[getAttribute($scope)]._links.allowedValues.href;
     $scope.isBusy = true;
     $http.get(href).then(function(r) {
-      $scope.options = _.map(r.data._embedded.elements, function(item) {
-        return angular.extend({}, item._links.self, { name: item.name });
+      var arrayWithEmptyOption = [{href: null}];
+      var linkedOptions = _.map(r.data._embedded.elements, function(item) {
+          return angular.extend({}, item._links.self, { name: item.name });
       });
+      $scope.options = arrayWithEmptyOption.concat(linkedOptions);
       $scope.isBusy = false;
       $scope.$broadcast('focusSelect2');
     });
@@ -173,7 +175,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       link: function(scope, element) {
       scope.$on('focusSelect2', function() {
         $timeout(function() {
-          element.find('.focus-input').select2('open');
+          element.find('.select2-choice').trigger('click');
         });
       });
       },

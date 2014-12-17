@@ -63,15 +63,16 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     scope.$on('startEditing', function() {
       $timeout(function() {
         var inputElement = element.find('.ined-input-wrapper-inner .focus-input');
-
-        FocusHelper.focus(inputElement);
-        inputElement.triggerHandler('keyup');
+        if (inputElement.length) {
+          FocusHelper.focus(inputElement);
+          inputElement.triggerHandler('keyup');
+        }
         InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
       });
     });
 
     scope.$on('finishEditing', function() {
-      FocusHelper.focusElement(element.find('.ined-read-value .editing-link-wrapper'));
+      FocusHelper.focusElement(element.find('.editing-link-wrapper'));
     });
   }
 
