@@ -2307,6 +2307,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
+| schema             | The schema of this work package                                                                                                                       | Schema       | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
 | assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
@@ -2337,6 +2338,11 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | createdAt        | Time of creation                                       | DateTime   |                                                                              | READ                 |                                  |
 | updatedAt        | Time of the most recent change to the work package     | DateTime   |                                                                              | READ                 |                                  |
 
+*Note that the properties listed here only cover the built-in properties of the OpenProject Core.
+Using plug-ins and custom fields a work package might contain various additional properties.
+A client can consult the schema information to which the work package links. The schema will contain information about
+all properties of the linking work package, that includes properties added by plug-ins and custom fields.*
+
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
 + Model
@@ -2349,6 +2355,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/work_packages/1528",
                         "title": "Develop API"
                     },
+                    "schema": { "href": "/api/v3/projects/1/work_packages/schemas/1" },
                     "update": {
                         "href": "/api/v3/work_packages/1528",
                         "method": "patch",
@@ -2584,6 +2591,17 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                     }
                 }
             }
+
+## Work Package Schema [/api/v3/work_packages/schemas/{identifier}]
+
+## View Work Package Schema [GET]
+
++ Parameters
+    + identifier (required, string, `12-13`) ... Identifier of the schema
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
 
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
