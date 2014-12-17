@@ -722,14 +722,14 @@ and objects describing the corresponding property as values. The values are call
 
 | Property       | Description                                                    | Default |
 |:--------------:|----------------------------------------------------------------| ------- |
-| type           | The data type of the properties values                         |         |
+| types          | The possible data types of the properties values               |         |
 | required       | If true every request **must** contain this property           | false   |
 | writable       | If false it is not allowed to **change** the properties value  | true    |
 
 **Remarks**
 
 The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
@@ -780,51 +780,65 @@ That is because the main purpose of a form is helping the client to sort out val
                     },
                     "schema": {
                         "lockVersion": {
-                            "type": "Integer",
+                            "types": [ "Integer" ],
                             "required": true,
                             "writable": false
                         },
                         "_type": {
-                            "type": "MetaType",
+                            "types": [ "MetaType" ],
                             "required": true,
                             "writable": false
                         },
                         "subject": {
-                            "type": "String"
+                            "types": [ "String" ]
                         },
-                        "status": {
+                        "assignee": {
                             "_links": {
                                 "allowedValues": [
-                                    { "href": "/api/v3/statuses/1", "title": "New" },
-                                    { "href": "/api/v3/statuses/2", "title": "Closed" }
+                                    { "href": "/api/v3/users/1" },
+                                    { "href": "/api/v3/users/2" }
                                 ]
                             },
 
-                            "type": "Status",
+                            "types": [ "User", "Group" ],
 
                             "_embedded": {
                                 "allowedValues": [
                                     {
-                                        "_links": { "self": { "href": "/api/v3/statuses/1" } },
-                                        "_type": "Status",
+                                        "_type": "User",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/users/1",
+                                                "title": "John Sheppard - j.sheppard"
+                                            },
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                        },
                                         "id": 1,
-                                        "name": "New",
-                                        "position": 1,
-                                        "isDefault": true,
-                                        "isClosed": false,
-                                        "defaultDoneRatio": 0,
+                                        "login": "j.sheppard",
+                                        "firstName": "John",
+                                        "lastName": "Sheppard",
+                                        "email": "shep@mail.com",
+                                        "name": "John Sheppard",
+                                        "avatar": "https://gravatar/avatar",
                                         "createdAt": "2014-05-21T08:51:20Z",
                                         "updatedAt": "2014-05-21T09:12:00Z"
                                     },
                                     {
-                                        "_links": { "self": { "href": "/api/v3/statuses/2" } },
-                                        "_type": "Status",
+                                        "_type": "User",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/users/2",
+                                                "title": "Jim Sheppard - j.sheppard"
+                                            },
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                        },
                                         "id": 2,
-                                        "name": "Closed",
-                                        "position": 2,
-                                        "isDefault": false,
-                                        "isClosed": true,
-                                        "defaultDoneRatio": 100,
+                                        "login": "j.sheppard2",
+                                        "firstName": "Jim",
+                                        "lastName": "Sheppard",
+                                        "email": "shep@mail.net",
+                                        "name": "Jim Sheppard",
+                                        "avatar": "https://gravatar/avatar",
                                         "createdAt": "2014-05-21T08:51:20Z",
                                         "updatedAt": "2014-05-21T09:12:00Z"
                                     }
