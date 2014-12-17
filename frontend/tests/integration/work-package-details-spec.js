@@ -64,7 +64,7 @@ describe('OpenProject', function() {
         });
 
         it('should render an editable subject', function() {
-          expect(subjectEditor.isPresent()).to.eventually.be.true;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.true;
         });
       });
 
@@ -74,7 +74,7 @@ describe('OpenProject', function() {
         });
 
         it('should not render an editable subject', function() {
-          expect(subjectEditor.isPresent()).to.eventually.be.false;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.false;
         });
       });
 

@@ -1,0 +1,14 @@
+<select ui-select2="{allowClear: true}"
+        class="focus-input"
+        name="value"
+        ng-disabled="isBusy"
+        ng-model="dataObject.value">
+  <option value=""></option>
+  <option
+    ng-repeat="item in options"
+    value="{{item.href}}"
+    label="{{item.title}}"
+    title="{{item.title}}"
+    ng-bind="item.name">
+  </option>
+</select>

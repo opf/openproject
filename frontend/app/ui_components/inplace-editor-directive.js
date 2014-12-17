@@ -45,7 +45,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
   };
 
   function link(scope, element, attrs) {
-    element.on('click', '.ined-read-value', function(e) {
+    element.on('click', '.ined-read-value.editable', function(e) {
       if (angular.element(e.target).is('a')) {
         return;
       }
@@ -71,7 +71,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     });
 
     scope.$on('finishEditing', function() {
-      FocusHelper.focusElement(element.find('.ined-read-value'));
+      FocusHelper.focusElement(element.find('.ined-read-value .editing-link-wrapper'));
     });
   }
 
@@ -95,6 +95,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     $scope.onSuccess = onSuccess;
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
+    $scope.getTemplateUrl = getTemplateUrl;
 
     activate();
 
@@ -182,6 +183,10 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
 
     function isReadValueEmpty() {
       return (!$scope.readValue || $scope.readValue.length === 0);
+    }
+
+    function getTemplateUrl() {
+      return '/templates/components/inplace_editor/editable/' + $scope.type + '.html';
     }
 
   }
