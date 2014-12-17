@@ -679,12 +679,18 @@ Subsequent calls to the form should contain a single JSON object as described by
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
 
+## Linked Properties:
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | This form                                        | Form          |          | READ                 |
+| schema              | The schema associated to the underlying resource | Schema        |          | READ                 |
+
 ## Embedded Properties:
 
-Forms contain exactly three embedded properties:
+Apart from the linked properties, forms contain always two other embedded properties:
 
 * `payload`
-* `schema`
 * `validationErrors`
 
 Their purpose is explained below.
@@ -704,41 +710,13 @@ contain a default value for that property. Nevertheless the client will also rec
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
-### Schema
-
-The schema provides more detailed information about the properties of a resource.
-Technically `schema` is a dictionary containing names of properties as keys
-and objects describing the corresponding property as values. The values are called **field schema**.
-
-#### Field schema
-
-**Linked Properties**
-
-| Property       | Description                                                    |
-|:--------------:|----------------------------------------------------------------|
-| allowedValues  | List of resources that are assignable by the current user.     |
-
-**Properties**
-
-| Property       | Description                                                    | Default |
-|:--------------:|----------------------------------------------------------------| ------- |
-| type           | The data type of the properties values                         |         |
-| required       | If true every request **must** contain this property           | false   |
-| writable       | If false it is not allowed to **change** the properties value  | true    |
-
-**Remarks**
-
-The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
-resource lists (requiring one or more separate requests).
-
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change and the properties that are defined as **required**
-by the field schema. However you *may* include all the properties sent in the `payload` section.
+It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
+However you *may* include all the properties sent in the `payload` section.
 
 ### Validation Errors
 
-Like `schema` the validation errors build a dictionary where the key is a property name.
+Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
 Each value is an error object that indicates the error that occured validating the corresponding property.
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 
@@ -753,6 +731,7 @@ That is because the main purpose of a form is helping the client to sort out val
             {
                 "_links": {
                     "self": { "href": "/api/v3/example/form" },
+                    "schema": { "href": "/api/v3/example/schema" },
                     "validate": {
                         "href": "/api/v3/example/form",
                         "method": "POST"
@@ -779,14 +758,17 @@ That is because the main purpose of a form is helping the client to sort out val
                         "subject": "An example title"
                     },
                     "schema": {
+                        "_type": "Schema",
+                        "_links": {
+                            "self": { "href": "/api/v3/example/schema" }
+                        },
+
                         "lockVersion": {
                             "type": "Integer",
-                            "required": true,
                             "writable": false
                         },
                         "_type": {
                             "type": "MetaType",
-                            "required": true,
                             "writable": false
                         },
                         "subject": {
@@ -1474,6 +1456,111 @@ but are also limited to the projects that the current user is allowed to see.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was not empty."
             }
+
+# Group Schema
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This schema                              | Schema        |          | READ                 |
+
+The schema provides more detailed information about the properties of a resource.
+The schema is represented by a dictionary containing names of resource properties as keys
+and objects describing the corresponding property as values.
+These objects are called **field schema** and form the core of the schema representation,
+each of them can contain its own `_links` and `_embedded` section.
+
+# Field schema
+
+**Linked Properties**
+
+| Property       | Description                                                    |
+|:--------------:|----------------------------------------------------------------|
+| allowedValues  | List of resources that are assignable by the current user.     |
+
+**Properties**
+
+| Property       | Description                                                    | Default |
+|:--------------:|----------------------------------------------------------------| ------- |
+| type           | The data type of the properties values                         |         |
+| required       | If true this property might not be null                        | true    |
+| writable       | If false it is not allowed to **change** the properties value  | true    |
+
+**Remarks**
+
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+## Example Schema [/api/v3/example/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/example/schema" }
+                },
+
+                "lockVersion": {
+                    "type": "Integer",
+                    "writable": false
+                },
+                "_type": {
+                    "type": "MetaType",
+                    "writable": false
+                },
+                "subject": {
+                    "type": "String"
+                },
+                "status": {
+                    "_links": {
+                        "allowedValues": [
+                            { "href": "/api/v3/statuses/1", "title": "New" },
+                            { "href": "/api/v3/statuses/2", "title": "Closed" }
+                        ]
+                    },
+
+                    "type": "Status",
+
+                    "_embedded": {
+                        "allowedValues": [
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                "_type": "Status",
+                                "id": 1,
+                                "name": "New",
+                                "position": 1,
+                                "isDefault": true,
+                                "isClosed": false,
+                                "defaultDoneRatio": 0,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            },
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                "_type": "Status",
+                                "id": 2,
+                                "name": "Closed",
+                                "position": 2,
+                                "isDefault": false,
+                                "isClosed": true,
+                                "defaultDoneRatio": 100,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+
+## view the schema [GET]
+
+This is an example of how a schema might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
 
 # Group Statuses
 
