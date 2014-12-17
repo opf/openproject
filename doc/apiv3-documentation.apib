@@ -779,7 +779,9 @@ That is because the main purpose of a form is helping the client to sort out val
                             "writable": false
                         },
                         "subject": {
-                            "type": "String"
+                            "type": "String",
+                            "minLength": 1,
+                            "maxLength": 255
                         },
                         "status": {
                             "_links": {
@@ -1531,7 +1533,9 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
                 },
                 "subject": {
                     "name": "Subject",
-                    "type": "String"
+                    "type": "String",
+                    "minLength": 1,
+                    "maxLength": 255
                 },
                 "status": {
                     "_links": {
