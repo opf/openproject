@@ -684,13 +684,13 @@ Subsequent calls to the form should contain a single JSON object as described by
 | Link                | Description                                      | Type          | Nullable | Supported operations |
 |:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
 | self                | This form                                        | Form          |          | READ                 |
-| schema              | The schema associated to the underlying resource | Schema        |          | READ                 |
 
 ## Embedded Properties:
 
-Apart from the linked properties, forms contain always two other embedded properties:
+Apart from the linked properties, forms contain always three other embedded properties:
 
 * `payload`
+* `schema`
 * `validationErrors`
 
 Their purpose is explained below.
@@ -714,6 +714,14 @@ A call to **validate** and **commit** does not need to include all properties th
 It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
 However you *may* include all the properties sent in the `payload` section.
 
+### Schema
+
+The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
+However, the embedded schema can change with each revalidation of the form.
+For example it might be possible, that changing the type of a work package affects the available properties
+of the work package, as well as possible values for certain properties.
+As this makes the embedded schema very dynamic, it is not included as a static link.
+
 ### Validation Errors
 
 Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
@@ -731,7 +739,6 @@ That is because the main purpose of a form is helping the client to sort out val
             {
                 "_links": {
                     "self": { "href": "/api/v3/example/form" },
-                    "schema": { "href": "/api/v3/example/schema" },
                     "validate": {
                         "href": "/api/v3/example/form",
                         "method": "POST"
