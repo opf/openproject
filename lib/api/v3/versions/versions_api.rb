@@ -37,6 +37,18 @@ module API
 
             before do
               @version = Version.find(params[:id])
+
+              authorized_for_version?(@version)
+            end
+
+            helpers do
+              def authorized_for_version?(version)
+                projects = version.projects
+
+                permissions = [:view_work_packages, :manage_versions]
+
+                authorize_any(permissions, projects, user: current_user)
+              end
             end
 
             get do
