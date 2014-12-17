@@ -1464,7 +1464,7 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The request body was not empty."
             }
 
-# Group Schema
+# Group Schemas
 
 | Link                | Description                              | Type          | Nullable | Supported operations |
 |:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
@@ -1490,16 +1490,21 @@ resource lists (requiring one or more separate requests).
 
 ## Properties:
 
-| Property       | Description                                                             | Type     | Default |
-|:--------------:| ------------------------------------------------------------------------| -------- | ------- |
-| name           | Human readable name of the property as it could be displayed in a UI    | String   |         |
-| type           | The data type of the properties values                                  | MetaType |         |
-| visible        | If true this property can be displayed in a UI                          | Boolean  | true    |
-| required       | If true this property might not be null                                 | Boolean  | true    |
-| writable       | If false it is not allowed to **change** the properties value           | Boolean  | true    |
+| Property          | Description                                                                        | Type     | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
+| type              | The data type of the properties values                                             | MetaType |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
+| required          | If true this property might not be null                                            | Boolean  | true    |
+| visible           | If true this property can be displayed in a UI                                     | Boolean  | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
 
 All of the above properties that do not have a default value *must* be present in the schema.
 For properties that have a default value, the client can assume the default value, if the property is missing.
+
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.1.5/Regexp.html).
 
 ## Example Schema [/api/v3/example/schema]
 
