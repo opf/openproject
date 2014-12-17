@@ -1471,25 +1471,28 @@ each of them can contain its own `_links` and `_embedded` section.
 
 # Field schema
 
-**Linked Properties**
+## Linked Properties:
 
 | Property       | Description                                                    |
-|:--------------:|----------------------------------------------------------------|
+|:--------------:| -------------------------------------------------------------- |
 | allowedValues  | List of resources that are assignable by the current user.     |
-
-**Properties**
-
-| Property       | Description                                                    | Default |
-|:--------------:|----------------------------------------------------------------| ------- |
-| type           | The data type of the properties values                         |         |
-| required       | If true this property might not be null                        | true    |
-| writable       | If false it is not allowed to **change** the properties value  | true    |
-
-**Remarks**
 
 The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
 This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
+
+## Properties:
+
+| Property       | Description                                                             | Type     | Default |
+|:--------------:| ------------------------------------------------------------------------| -------- | ------- |
+| name           | Human readable name of the property as it could be displayed in a UI    | String   |         |
+| type           | The data type of the properties values                                  | MetaType |         |
+| visible        | If true this property can be displayed in a UI                          | Boolean  | true    |
+| required       | If true this property might not be null                                 | Boolean  | true    |
+| writable       | If false it is not allowed to **change** the properties value           | Boolean  | true    |
+
+All of the above properties that do not have a default value *must* be present in the schema.
+For properties that have a default value, the client can assume the default value, if the property is missing.
 
 ## Example Schema [/api/v3/example/schema]
 
@@ -1503,14 +1506,19 @@ resource lists (requiring one or more separate requests).
                 },
 
                 "lockVersion": {
+                    "name": "Resource Version",
                     "type": "Integer",
-                    "writable": false
+                    "writable": false,
+                    "visible": false
                 },
                 "_type": {
+                    "name": "Resource Type",
                     "type": "MetaType",
-                    "writable": false
+                    "writable": false,
+                    "visible": false
                 },
                 "subject": {
+                    "name": "Subject",
                     "type": "String"
                 },
                 "status": {
@@ -1521,6 +1529,7 @@ resource lists (requiring one or more separate requests).
                         ]
                     },
 
+                    "name": "Status",
                     "type": "Status",
 
                     "_embedded": {
