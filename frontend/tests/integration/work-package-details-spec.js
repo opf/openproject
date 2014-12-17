@@ -233,7 +233,7 @@ describe('OpenProject', function() {
           it('should have the correct value', function() {
             expect(
               responsibleEditor
-                .$('.select2-container .select2-choice span')
+                .$('.select2-choice .select2-chosen span')
                 .getText()
             ).to.eventually.equal('OpenProject Admin');
           });

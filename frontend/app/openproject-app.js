@@ -62,8 +62,6 @@ require('angular-busy/dist/angular-busy.css');
 require('ui-select/dist/select');
 require('ui-select/dist/select.css');
 
-
-
 require('angular-context-menu');
 
 // global
