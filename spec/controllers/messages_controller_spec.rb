@@ -43,7 +43,10 @@ describe MessagesController, type: :controller do
     FactoryGirl.create(:board,
                        project: project)
   }
-  let(:filename) { 'test1.test' }
+
+  let(:filename) { 'testfile.txt' }
+  let(:file) { File.open(Rails.root.join('test/fixtures/files', filename)) }
+  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
   before { allow(User).to receive(:current).and_return user }
 
@@ -60,8 +63,8 @@ describe MessagesController, type: :controller do
           post 'create', board_id: board.id,
                          message: { subject: 'Test created message',
                                     content: 'Messsage body' },
-                         attachments: { file: { file: filename,
-                                                description: '' } }
+                         attachments: { '1' => { 'file' => uploaded_file,
+                                                 'description' => '' } }
         end
 
         describe :journal do
@@ -96,8 +99,8 @@ describe MessagesController, type: :controller do
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
     let(:params) {
       { id: message.id,
-        attachments: { '1' => { file: filename,
-                                description: '' } } }
+        attachments: { '1' => { 'file' => uploaded_file,
+                                'description' => '' } } }
     }
 
     describe :add do
