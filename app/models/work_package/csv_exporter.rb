@@ -34,45 +34,13 @@ module WorkPackage::CsvExporter
   include ActionView::Helpers::NumberHelper
 
   def csv(work_packages, query)
-    decimal_separator = l(:general_csv_decimal_separator)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
-      headers = []
-      # csv header fields
-      headers << '#'
-
-      query.columns.each_with_index do |column, _|
-        headers << column.caption
-      end
-
-      headers << CustomField.human_attribute_name(:description)
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+      headers = csv_headers(query)
       csv << encode_csv_columns(headers)
-      # csv lines
 
-      # fetch all the row values
       work_packages.each do |work_package|
-        col_values = query.columns.collect do |column|
-          s = if column.is_a?(QueryCustomFieldColumn)
-                cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
-                show_value(cv)
-              else
-                value = work_package.send(column.name)
-
-                if value.is_a?(Date)
-                  format_date(value)
-                elsif value.is_a?(Time)
-                  format_time(value)
-                else
-                  value
-                end
-              end
-          s.to_s
-        end
-
-        if col_values.size > 0
-          col_values.unshift(work_package.id.to_s)
-          col_values << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
-        end
-        csv << encode_csv_columns(col_values)
+        row = csv_row(work_package, query)
+        csv << encode_csv_columns(row)
       end
     end
 
@@ -83,5 +51,53 @@ module WorkPackage::CsvExporter
     columns.map do |cell|
       Redmine::CodesetUtil.from_utf8(cell.to_s, encoding)
     end
+  end
+
+  private
+
+  # fetch all headers
+  def csv_headers(query)
+    headers = []
+    headers << '#'
+
+    query.columns.each_with_index do |column, _|
+      headers << column.caption
+    end
+
+    headers << CustomField.human_attribute_name(:description)
+
+    headers
+  end
+
+  # fetch all row values
+  def csv_row(work_package, query)
+    row = query.columns.collect do |column|
+      csv_format_value(work_package, column)
+    end
+
+    if row.size > 0
+      row.unshift(work_package.id.to_s)
+      row << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
+    end
+
+    row
+  end
+
+  def csv_format_value(work_package, column)
+    if column.is_a?(QueryCustomFieldColumn)
+      cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
+      show_value(cv)
+    else
+      value = work_package.send(column.name)
+
+      case value
+      when Date
+        format_date(value)
+      when Time
+        format_time(value)
+      else
+        value
+      end
+    end.to_s
   end
 end
