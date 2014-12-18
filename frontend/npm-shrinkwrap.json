@@ -122,7 +122,7 @@
                   "version": "0.3.0"
                 },
                 "node-uuid": {
-                  "version": "1.4.1"
+                  "version": "1.4.2"
                 },
                 "mime": {
                   "version": "1.2.11"
@@ -252,7 +252,7 @@
           }
         },
         "fstream": {
-          "version": "1.0.2",
+          "version": "1.0.3",
           "dependencies": {
             "inherits": {
               "version": "2.0.1"
@@ -260,16 +260,24 @@
           }
         },
         "fstream-ignore": {
-          "version": "1.0.1",
+          "version": "1.0.2",
           "dependencies": {
             "inherits": {
               "version": "2.0.1"
             },
             "minimatch": {
-              "version": "1.0.0",
+              "version": "2.0.1",
               "dependencies": {
-                "sigmund": {
-                  "version": "1.0.0"
+                "brace-expansion": {
+                  "version": "1.1.0",
+                  "dependencies": {
+                    "balanced-match": {
+                      "version": "0.2.0"
+                    },
+                    "concat-map": {
+                      "version": "0.0.1"
+                    }
+                  }
                 }
               }
             }
@@ -300,7 +308,7 @@
           }
         },
         "graceful-fs": {
-          "version": "3.0.4"
+          "version": "3.0.5"
         },
         "handlebars": {
           "version": "2.0.0",
@@ -320,7 +328,7 @@
                   "version": "0.2.10"
                 },
                 "source-map": {
-                  "version": "0.1.40",
+                  "version": "0.1.41",
                   "dependencies": {
                     "amdefine": {
                       "version": "0.1.0"
@@ -412,7 +420,7 @@
               }
             },
             "rx": {
-              "version": "2.3.18"
+              "version": "2.3.22"
             },
             "through": {
               "version": "2.3.6"
@@ -462,13 +470,13 @@
                   "version": "3.0.2",
                   "dependencies": {
                     "argparse": {
-                      "version": "0.1.15",
+                      "version": "0.1.16",
                       "dependencies": {
                         "underscore": {
-                          "version": "1.4.4"
+                          "version": "1.7.0"
                         },
                         "underscore.string": {
-                          "version": "2.3.3"
+                          "version": "2.4.0"
                         }
                       }
                     },
@@ -563,7 +571,7 @@
                   }
                 },
                 "rx": {
-                  "version": "2.3.18"
+                  "version": "2.3.22"
                 },
                 "through": {
                   "version": "2.3.6"
@@ -715,7 +723,7 @@
               "version": "1.0.2"
             },
             "node-uuid": {
-              "version": "1.4.1"
+              "version": "1.4.2"
             },
             "tunnel-agent": {
               "version": "0.4.0"
@@ -903,13 +911,13 @@
                   "version": "3.0.2",
                   "dependencies": {
                     "argparse": {
-                      "version": "0.1.15",
+                      "version": "0.1.16",
                       "dependencies": {
                         "underscore": {
-                          "version": "1.4.4"
+                          "version": "1.7.0"
                         },
                         "underscore.string": {
-                          "version": "2.3.3"
+                          "version": "2.4.0"
                         }
                       }
                     },
@@ -998,7 +1006,7 @@
           }
         },
         "which": {
-          "version": "1.0.7"
+          "version": "1.0.8"
         }
       }
     },
