@@ -32,50 +32,47 @@ module WorkPackage::CsvExporter
   include CustomFieldsHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
+
   def csv(work_packages, project = nil, query)
     decimal_separator = l(:general_csv_decimal_separator)
-	title = query.new_record? ? l(:label_work_package_plural) : query.name
+    title = query.new_record? ? l(:label_work_package_plural) : query.name
     export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       headers = []
-	# csv header fields
-	headers << "#"
-	  query.columns.each_with_index do |column, i|
-		headers << column.caption
-		end
-      
-	headers << CustomField.human_attribute_name(:description)
+      # csv header fields
+      headers << '#'
+
+      query.columns.each_with_index do |column, _|
+        headers << column.caption
+      end
+
+      headers << CustomField.human_attribute_name(:description)
       csv << encode_csv_columns(headers)
       # csv lines
-      
-	  # fetch all the row values
-			
-	  
-	  
-	  work_packages.each do |work_package|
 
-		
-		col_values = query.columns.collect do |column|
-			s = if column.is_a?(QueryCustomFieldColumn)
-					cv = work_package.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
-					show_value(cv)
-				else
-					value = work_package.send(column.name)
-				if value.is_a?(Date)
-					format_date(value)
-				elsif value.is_a?(Time)
-					format_time(value)
-				else
-					value
-				end
-					end
-			s.to_s
-		end
-		
-         
+      # fetch all the row values
+      work_packages.each do |work_package|
+        col_values = query.columns.collect do |column|
+          s = if column.is_a?(QueryCustomFieldColumn)
+                cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
+                show_value(cv)
+              else
+                value = work_package.send(column.name)
+
+                if value.is_a?(Date)
+                  format_date(value)
+                elsif value.is_a?(Time)
+                  format_time(value)
+                else
+                  value
+                end
+              end
+          s.to_s
+        end
+
         if col_values.size > 0
-		col_values.unshift(work_package.id.to_s)
-		col_values << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
-	end
+          col_values.unshift(work_package.id.to_s)
+          col_values << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
+        end
         csv << encode_csv_columns(col_values)
       end
     end
@@ -89,4 +86,3 @@ module WorkPackage::CsvExporter
     end
   end
 end
-
