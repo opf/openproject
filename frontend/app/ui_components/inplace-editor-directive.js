@@ -36,7 +36,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
       entity: '=inedEntity',
       attribute: '@inedAttribute',
       attributeTitle: '@inedAttributeTitle',
-      embedded: '@inedAttributeEmbedded',
+      embedded: '=inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'
     },
@@ -67,18 +67,16 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');
         }
-        InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
       });
     });
-
     scope.$on('finishEditing', function() {
       FocusHelper.focusElement(element.find('.editing-link-wrapper'));
     });
+    InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
   }
 
   Controller.$inject = ['$scope', 'WorkPackageService', 'ApiHelper'];
   function Controller($scope, WorkPackageService, ApiHelper) {
-    $scope.embedded = $scope.embedded == 'false' ? false : !!$scope.embedded;
     $scope.isEditing = false;
     $scope.isEditable = !!$scope.entity.links.updateImmediately;
     $scope.isBusy = false;
@@ -183,7 +181,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     }
 
     function isReadValueEmpty() {
-      return (!$scope.readValue || $scope.readValue.length === 0);
+      return !$scope.readValue;
     }
 
     function getTemplateUrl() {

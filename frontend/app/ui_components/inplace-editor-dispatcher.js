@@ -56,7 +56,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   function getAttributeValue($scope, entity, isReadValue) {
     if ($scope.embedded) {
       var path = $scope.attribute.split('.');
-
       return entity.embedded[path[0]].props[path[1]];
     } else {
       var attribute = entity.props[getAttribute($scope)];
@@ -73,13 +72,27 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     return _.intersection(_.keys(attribute), ['format', 'raw', 'html']).length === 3;
   }
 
+  function setOptions($scope) {
+    var href = $scope
+      .entity.form.embedded.schema
+      .props[getAttribute($scope)]._links.allowedValues.href;
+    if (href) {
+      setLinkedOptions($scope);
+    } else {
+      setEmbeddedOptions($scope)
+    }
+  }
+
   function setEmbeddedOptions($scope) {
     $scope.options = [];
     var options = $scope
       .entity.form.embedded.schema
       .props[getAttribute($scope)]._links.allowedValues;
     if (options.length) {
-      $scope.options = options;
+      $scope.options = _.map(options, function(item) {
+        return angular.extend({}, item, { name: item.title });
+      });
+      $scope.$broadcast('focusSelect2');
     } else {
       $scope.isEditable = false;
     }
@@ -94,7 +107,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     $http.get(href).then(function(r) {
       var arrayWithEmptyOption = [{href: null}];
       var linkedOptions = _.map(r.data._embedded.elements, function(item) {
-          return angular.extend({}, item._links.self, { name: item.name });
+        return angular.extend({}, item._links.self, { name: item.name });
       });
       $scope.options = arrayWithEmptyOption.concat(linkedOptions);
       $scope.isBusy = false;
@@ -129,12 +142,18 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
 
     'wiki_textarea': {
       link: function(scope, element) {
-        enableAutoCompletion(element);
-        var textarea = element.find('.ined-input-wrapper textarea'),
-            lines = textarea.val().split('\n');
-        textarea.attr('rows', lines.length + 1);
+        scope.$on('startEditing', function() {
+          $timeout(function() {
+            enableAutoCompletion(element);
+            var textarea = element.find('.ined-input-wrapper textarea'),
+                lines = textarea.val().split('\n');
+            textarea.attr('rows', lines.length + 1);
+          }, 0, false);
+        });
       },
-      startEditing: disablePreview,
+      startEditing: function($scope) {
+        disablePreview($scope);
+      },
       activate: function($scope) {
         disablePreview($scope);
         $scope.togglePreview = function() {
@@ -158,39 +177,26 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       onFail: disablePreview
     },
 
-    select: {
-      activate: setEmbeddedOptions,
-      startEditing: setEmbeddedOptions,
-      submit: function($scope, data) {
-        data._links = { };
-        data._links[getAttribute($scope)] = { href: $scope.dataObject.value };
-      },
-      setWriteValue: function($scope) {
-        $scope.dataObject = {
-          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
-        };
-      }
-    },
     select2: {
       link: function(scope, element) {
-      scope.$on('focusSelect2', function() {
-        $timeout(function() {
-          element.find('.select2-choice').trigger('click');
+        scope.$on('focusSelect2', function() {
+          $timeout(function() {
+            element.find('.select2-choice').trigger('click');
+          }, 0, false);
         });
-      });
       },
-      startEditing: setLinkedOptions,
+      startEditing: setOptions,
       submit: function($scope, data) {
         data._links = { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
-        if ($scope.entity.embedded[$scope.attribute]) {
-          $scope.isUserLink = true;
-          $scope.readValue = $scope.entity.embedded[$scope.attribute];
-        } else {
+        if ($scope.embedded) {
           $scope.isUserLink = false;
-          $scope.readValue = '';
+          $scope.readValue = getReadAttributeValue($scope);
+        } else {
+          $scope.isUserLink = !!$scope.entity.embedded[$scope.attribute];
+          $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }
       },
       setWriteValue: function($scope) {
@@ -200,7 +206,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       }
     }
   };
-
 
   this.dispatchHook = function($scope, action, data) {
     var actionFunction = hooks[$scope.type][action] || hooks._fallback[action] || angular.noop;

@@ -168,7 +168,7 @@ describe('OpenProject', function() {
           it('should be rendered', function() {
             expect(
               statusEditor
-                .$('select.focus-input')
+                .$('.select2-container').isDisplayed()
                 .isDisplayed()
             ).to.eventually.be.true;
           });
@@ -176,9 +176,9 @@ describe('OpenProject', function() {
           it('should have the correct value', function() {
             expect(
               statusEditor
-                .$('select.focus-input option:checked')
-                .getAttribute('value')
-            ).to.eventually.equal('1');
+                .$('.select2-choice .select2-chosen span')
+                .getText()
+            ).to.eventually.equal('specified');
           });
         });
       });

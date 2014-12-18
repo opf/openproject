@@ -44,7 +44,7 @@ module.exports = function() {
           placeholder: '-'
         },
         status: {
-          type: 'select',
+          type: 'select2',
           attribute: 'status.name',
           embedded: true,
           placeholder: '-'
