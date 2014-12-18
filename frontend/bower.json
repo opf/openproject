@@ -25,14 +25,14 @@
     "angular-context-menu": "finnlabs/angular-context-menu#v0.2.0",
     "angular-busy": "~4.1.1",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "ui-select": "angular-ui/ui-select#~0.9.5"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
     "angular-mocks": "~1.3",
     "chai": "~1.9.0",
-    "jquery-mockjax": "~1.5.3",
-    "ui-select": "angular-ui/ui-select#~0.9.5"
+    "jquery-mockjax": "~1.5.3"
   },
   "resolutions": {
     "select2": "3.3.2",
