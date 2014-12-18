@@ -1135,6 +1135,9 @@
     "polyfill-function-prototype-bind": {
       "version": "0.0.1"
     },
+    "rimraf": {
+      "version": "2.2.8"
+    },
     "shelljs": {
       "version": "0.3.0"
     },
