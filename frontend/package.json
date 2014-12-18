@@ -33,6 +33,7 @@
     "rimraf": "~2.2.5",
     "sinon": "~1.9.1",
     "sinon-chai": "~2.5.0",
+    "sorted-object": "^1.0.0",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
