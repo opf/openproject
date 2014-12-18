@@ -221,7 +221,7 @@ describe WorkPackagesController, :type => :controller do
 
             expect(controller).to receive(:send_data).with(mock_csv,
                                                        :type => 'text/csv; charset=utf-8; header=present',
-                                                       :filename => 'export.csv') do |*args|
+                                                       :filename => "#{query.name}.csv") do |*args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render :text => "success"

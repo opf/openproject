@@ -225,9 +225,10 @@ class WorkPackagesController < ApplicationController
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
+        title = @query.new_record? ? l(:label_work_package_plural) : @query.name
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
-                                            :filename => 'export.csv')
+                                            :filename => "#{title}.csv")
       end
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
