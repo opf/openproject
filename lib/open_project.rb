@@ -27,12 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-I18n.default_locale = 'en'
-# Adds fallback to default locale for untranslated strings
-if Setting.table_exists? # don't want to prevent migrations
-  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-  I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
-end
+require 'redmine/menu_manager'
+require 'redmine/activity'
+require 'redmine/search'
+require 'redmine/custom_field_format'
+require 'redmine/mime_type'
+require 'redmine/core_ext'
+require 'open_project/themes'
+require 'redmine/hook'
+require 'open_project/hooks'
+require 'redmine/plugin'
+require 'redmine/notifiable'
 
-require 'open_project'
-require 'chili_project'
+require 'csv'
+require 'globalize'

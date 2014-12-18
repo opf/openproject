@@ -270,8 +270,8 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     unsupported_browser:
-      title: "Ihr Browser wird nicht unterstützt"
-      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
+      title: "Ihre Browserversion wird nicht unterstützt"
+      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diese Version des Browsers nicht länger. Bitte aktualisieren Sie Ihren Browser."
       learn_more: "Mehr erfahren"
     wiki_formatting:
       strong: "Fett"

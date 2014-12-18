@@ -887,7 +887,9 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  let(:filename) { 'test1.test' }
+  let(:filename) { 'testfile.txt' }
+  let(:file) { File.open(Rails.root.join('test/fixtures/files', filename)) }
+  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
   describe :create do
     let(:type) { FactoryGirl.create :type }
@@ -932,8 +934,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { project_id: project.id,
-          attachments: { file: { file: filename,
-                                 description: '' } } }
+          attachments: { '1' => { 'file' => uploaded_file,
+                                  'description' => '' } } }
       }
 
       before do
@@ -1004,8 +1006,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { id: work_package.id,
-          work_package: { attachments: { '1' =>  { file: filename,
-                                                   description: '' } } } }
+          work_package: { attachments: { '1' => { 'file' => uploaded_file,
+                                                  'description' => '' } } } }
       }
 
       before do

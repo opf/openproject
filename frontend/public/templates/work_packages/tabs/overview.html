@@ -14,11 +14,9 @@
   </div>
 </div>
 
-
 <div class="detail-panel-attributes">
   <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
     <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
-
     <dl>
       <dt ng-repeat-start="propertyData in group.attributes"
           ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
@@ -27,64 +25,41 @@
       </dt>
       <dd ng-repeat-end
           ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
-          ng-switch="propertyData.value"
           class="work-package-attributes--value-container">
-        <div ng-switch-when="null" class="work-package-attributes--value">
-          <div class="user-inline-editor" ng-if="propertyData.property == 'assignee'"
-            inplace-editor
-            ined-type="select2"
+        <div ng-if="inplaceProperties[propertyData.property]"
+          ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+          <div inplace-editor
+            ined-type="{{inplaceProperties[propertyData.property].type}}"
             ined-entity="workPackage"
-            ined-attribute="assignee"
-            ined-attribute-embedded="false"
-            placeholder="-"
-          ></div>
-          <div class="user-inline-editor" ng-if="propertyData.property == 'responsible'"
-            inplace-editor
-            ined-type="select2"
-            ined-entity="workPackage"
-            ined-attribute="responsible"
-            ined-attribute-embedded="false"
-            placeholder="-"
-          ></div>
-          <empty-element ng-if="!(propertyData.property == 'assignee' || propertyData.property == 'responsible')"></empty-element>
+            ined-attribute="{{inplaceProperties[propertyData.property].attribute}}"
+            ined-attribute-embedded="inplaceProperties[propertyData.property].embedded"
+            placeholder="{{inplaceProperties[propertyData.property].placeholder}}">
+          </div>
         </div>
-        <div class="status-inline-editor" ng-if="propertyData.property == 'status'"
-          inplace-editor
-          ined-type="select"
-          ined-entity="workPackage"
-          ined-attribute="status.name"
-          ined-attribute-title="{{ I18n.t('js.work_packages.properties.status') }}"
-          ined-attribute-embedded="true">
-        </div>
-        <div ng-if="propertyData.property != 'status'" ng-switch-default ng-switch="propertyData.format">
-          <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-            <div ng-switch-when="user">
-              <div class="user-inline-editor"
-                inplace-editor
-                ined-type="select2"
-                ined-entity="workPackage"
-                ined-attribute="{{propertyData.property}}"
-                ined-attribute-embedded="false"
-                placeholder="-">
-              </div>
+        <div ng-if="!inplaceProperties[propertyData.property]"
+          ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+          <empty-element ng-if="propertyData.value === null"></empty-element>
+          <div ng-if="propertyData.value !== null" ng-switch="propertyData.format">
+            <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+              <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                             html-element="propertyData.value"
+                                             work-package="workPackage">
+              </span>
+              <span ng-switch-when="version">
+                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
+                  ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+              </span>
+              <span ng-switch-when="time_entry">
+                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
+                  ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+              </span>
+              <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
+              <span ng-switch-default
+                ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
+                ng-attr-title="{{propertyData.value}}"/>
             </div>
-
-            <span ng-switch-when="dynamic" work-package-dynamic-attribute
-                                           html-element="propertyData.value"
-                                           work-package="workPackage">
-            </span>
-            <span ng-switch-when="version">
-              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-            </span>
-            <span ng-switch-when="time_entry">
-              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}" ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-            </span>
-            <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
-            <span ng-switch-default
-              ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
-              ng-attr-title="{{propertyData.value}}"/>
           </div>
         </div>
       </dd>

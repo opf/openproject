@@ -52,7 +52,7 @@ describe 'API v3 Work package form resource', type: :request do
     shared_context 'post request' do
       before(:each) do
         allow(User).to receive(:current).and_return current_user
-        post post_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+        post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
       end
     end
 

@@ -1979,6 +1979,8 @@ Permanently deletes the specified user account.
     Note that the response body is empty as of now. In future versions of the API a body
     *might* be returned, indicating the progress of deletion.
 
+    + Body
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
@@ -2342,7 +2344,6 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/work_packages/1528/time_entries",
                         "type": "text/html",
                         "title": "Time entries"
-
                     }
                 },
                 "id": 1528,
@@ -2375,207 +2376,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "format": "text",
                         "value": ""
                     }
-                ],
-                "_embedded": {
-                    "author": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "OpenProject Admin - admin"
-                            }
-                        },
-                        "id": 1,
-                        "login": "admin",
-                        "firstName": "OpenProject",
-                        "lastName": "Admin",
-                        "name": "OpenProject Admin",
-                        "mail": "admin@example.net",
-                        "avatar": "http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97?secure=false",
-                        "createdAt": "2014-05-23T12:25:03Z",
-                        "updatedAt": "2014-08-29T06:37:03Z",
-                        "status": 1
-                    },
-                    "responsible": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/23",
-                                "title": "Laron Leuschke - Alaina5788"
-                            }
-                        },
-                        "id": 23,
-                        "login": "Alaina5788",
-                        "firstName": "Laron",
-                        "lastName": "Leuschke",
-                        "name": "Laron Leuschke",
-                        "mail": "camilla@marquardtkeeling.net",
-                        "avatar": "http://gravatar.com/avatar/0157adaf28fb535e890179cf070f4be0?secure=false",
-                        "createdAt": "2014-05-23T12:27:41Z",
-                        "updatedAt": "2014-05-23T12:27:41Z",
-                        "status": 1
-                    },
-                    "assignee": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/11",
-                                "title": "Emmie Okuneva - Adele5450"
-                            }
-                        },
-                        "id": 11,
-                        "login": "Adele5450",
-                        "firstName": "Emmie",
-                        "lastName": "Okuneva",
-                        "name": "Emmie Okuneva",
-                        "mail": "ottilie@yundt.net",
-                        "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
-                        "createdAt": "2014-05-23T12:26:09Z",
-                        "updatedAt": "2014-05-23T12:26:09Z",
-                        "status": 1
-                    },
-                    "activities": [
-                        {
-                            "_type": "Activity",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/activities/5970",
-                                    "title": "5970"
-                                },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                },
-                                "update": {
-                                    "href": "/api/v3/activities/5970",
-                                    "method": "patch",
-                                    "title": "5970"
-                                }
-                            },
-                            "id": 5970,
-                            "comment": { "format": "textile", "raw": "", "html": ""},
-                            "details": [
-                                {
-                                    "format": "textile",
-                                    "raw": "Type set to Feature",
-                                    "html": "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>"
-                                },
-                                {
-                                    "format": "textile",
-                                    "raw": "Project set to Seeded Project",
-                                    "html": "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>"
-                                }
-                            ],
-                            "version": 1,
-                            "createdAt": "2014-08-29T12:40:53Z"
-                        }
-                    ],
-                    "watchers": [
-                        {
-                            "_type": "User",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/11",
-                                    "title": "Emmie Okuneva - Adele5450"
-                                },
-                                "removeWatcher": {
-                                    "href": "/api/v3/work_packages/1528/watchers/11",
-                                    "method": "delete",
-                                    "title": "Remove watcher"
-                                }
-                            },
-                            "id": 11,
-                            "login": "Adele5450",
-                            "firstName": "Emmie",
-                            "lastName": "Okuneva",
-                            "name": "Emmie Okuneva",
-                            "mail": "ottilie@yundt.net",
-                            "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
-                            "createdAt": "2014-05-23T12:26:09Z",
-                            "updatedAt": "2014-05-23T12:26:09Z",
-                            "status": 1
-                        }
-                    ],
-                    "attachments": [
-                        {
-                            "_type": "Attachment",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/attachments/91",
-                                    "title": "OpenProject_Requirements.xlsx"
-                                },
-                                "work_package": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "author": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                }
-                            },
-                            "id": 91,
-                            "fileName": "OpenProject_Requirements.xlsx",
-                            "diskFileName": "140829144349_OpenProject_Requirements.xlsx",
-                            "description": "",
-                            "fileSize": 18423,
-                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
-                            "downloads": 0,
-                            "createdAt": "2014-08-29T12:43:49Z"
-                        },
-                        {
-                            "_type": "Attachment",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/attachments/92",
-                                    "title": "OpenProject_Requirements.xlsx"
-                                },
-                                "work_package": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "author": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                }
-                            },
-                            "id": 92,
-                            "fileName": "OpenProject_Requirements.xlsx",
-                            "diskFileName": "140829144441_OpenProject_Requirements.xlsx",
-                            "description": "Planning",
-                            "fileSize": 18423,
-                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
-                            "downloads": 0,
-                            "createdAt": "2014-08-29T12:44:41Z"
-                        }
-                    ],
-                    "relations": [
-                        {
-                            "_type": "Relation::Relates",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/relations/38"
-                                },
-                                "relatedFrom": {
-                                    "href": "/api/v3/work_packages/1528"
-                                },
-                                "relatedTo": {
-                                    "href": "/api/v3/work_packages/1412"
-                                },
-                                "remove": {
-                                    "href": "/api/v3/work_packages/1528/relations/38",
-                                    "method": "delete",
-                                    "title": "Remove relation"
-                                }
-                            }
-                        }
-                    ]
-                }
+                ]
             }
 
 ## View work package [GET]

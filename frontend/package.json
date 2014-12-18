@@ -30,9 +30,9 @@
     "mocha-jenkins-reporter": "^0.1.2",
     "phantomjs": "~1.9.2",
     "protractor": "^1.4.0",
-    "rimraf": "~2.2.5",
     "sinon": "~1.9.1",
     "sinon-chai": "~2.5.0",
+    "sorted-object": "^1.0.0",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {

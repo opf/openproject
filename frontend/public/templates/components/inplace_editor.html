@@ -1,18 +1,11 @@
-<span ng-if="!isEditable && !isUserLink" ng-switch="type">
-  <span ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
-  <span ng-switch-default ng-bind="readValue"></span>
-</span>
-<span ng-if="!isEditable && isUserLink">
-  <user-field ng-if="isUserLink" user="readValue"></user-field>
-</span>
-<div ng-if="isEditable" class="inplace-editor type-{{type}}" ng-class="{busy: isBusy, preview: isPreview}">
-  <div class="ined-read-value" ng-class="{ default: placeholderSet }" ng-hide="isEditing" ng-switch="type">
+<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}">
+  <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing" ng-switch="type">
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
     <span class="read-value-wrapper" ng-switch-default>
       <span ng-if="!isUserLink" ng-bind="readValue"></span>
       <user-field ng-if="isUserLink" user="readValue"></user-field>
     </span>
-    <span class="editing-link-wrapper">
+    <span ng-if="isEditable" class="editing-link-wrapper">
       <accessible-by-keyboard execute="startEditing()">
         <icon-wrapper icon-name="edit" icon-title="{{ editTitle }}">
         </icon-wrapper>
@@ -21,50 +14,9 @@
   </div>
   <div class="ined-edit" ng-if="isEditing">
     <form name="editForm" ng-submit="submit(false)" novalidate>
-      <div class="ined-input-wrapper" ng-switch="type">
-        <div class="ined-input-wrapper-inner">
-          <input ng-switch-when="text"
-                 class="focus-input"
-                 name="value"
-                 type="text"
-                 ng-disabled="isBusy"
-                 ng-model="dataObject.value" />
-          <textarea ng-switch-when="textarea"
-                    class="focus-input"
-                    name="value"
-                    ng-disabled="isBusy"
-                    ng-model="dataObject.value">
-          </textarea>
-          <textarea wiki-toolbar ng-switch-when="wiki_textarea"
-                    class="focus-input"
-                    ng-show="!isPreview || isBusy"
-                    preview-toggle="togglePreview()"
-                    name="value"
-                    ng-disabled="isBusy"
-                    ng-model="dataObject.value"
-                    data-wp_autocomplete_url="{{ autocompletePath }}">
-          </textarea>
-          <select ng-switch-when="select"
-                  class="focus-input"
-                  name="value"
-                  ng-disabled="isBusy"
-                  ng-model="dataObject.value"
-                  ng-options="item.href as item.title for item in options"></select>
-          <select ng-switch-when="select2"
-                  ui-select2="{allowClear: true}"
-                  class="focus-input"
-                  name="value"
-                  ng-disabled="isBusy"
-                  ng-model="dataObject.value">
-            <option value=""></option>
-            <option
-              ng-repeat="item in options"
-              value="{{item.href}}"
-              label="{{item.title}}"
-              title="{{item.title}}"
-              ng-bind="item.name">
-            </option>
-          </select>
+      <div class="ined-input-wrapper">
+        <div class="ined-input-wrapper-inner"
+             ng-include src="getTemplateUrl()">
         </div>
         <div class="preview-wrapper" ng-if="isPreview && !isBusy">
           <span ng-bind-html="previewHtml"></span>

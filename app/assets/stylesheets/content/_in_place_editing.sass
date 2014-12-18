@@ -47,7 +47,7 @@
     &.default
       span
         font-style: italic
-    &:hover
+    &.editable:hover
       outline: 1px solid #cacaca
       cursor: pointer
       .editing-link-wrapper a
@@ -137,18 +137,26 @@
   &.type-select2
     display: inline-block
     width: 344px
+    .select2-display-none
+      display: none
+    .ui-select-choices
+      max-height: 100px
+    input[type='text']
+      width: 100%
     .ined-errors
-      bottom: -49px
-      left: -26px
+      bottom: -41px
+      left: 119px
+      width: 225px
     .ined-controls
-      bottom: -28px
+      bottom: -27px
+      left: 0
     .ined-edit
-      height: 75px
+      height: 175px
     .ined-read-value
       position: relative
       display: block
       margin: 3px
-      &:hover
+      &.editable:hover
         outline: 1px solid #cacaca
     .editing-link-wrapper
       position: absolute

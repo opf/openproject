@@ -27,12 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-I18n.default_locale = 'en'
-# Adds fallback to default locale for untranslated strings
-if Setting.table_exists? # don't want to prevent migrations
-  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-  I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
-end
+require 'redmine/scm/base'
 
-require 'open_project'
-require 'chili_project'
+Redmine::Scm::Base.add 'Subversion'
+Redmine::Scm::Base.add 'Git'
+Redmine::Scm::Base.add 'Filesystem'

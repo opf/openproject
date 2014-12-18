@@ -103,9 +103,8 @@ describe('inplaceEditor Directive', function() {
 
     describe('placeholder', function() {
       it('should not render the default text', function() {
-        var text = element.find('.ined-read-value .read-value-wrapper').text();
-
-        expect(text).be.empty;
+        var text = element.find('.ined-read-value .read-value-wrapper span').text();
+        expect(text).to.eq('Some subject');
       });
 
       it('should set default text switch', function() {
@@ -223,7 +222,7 @@ describe('inplaceEditor Directive', function() {
             compile();
           });
           it('should render the value without editing elements', function() {
-            expect(element.find('.inplace-editor').length).to.eq(0);
+            expect(element.find('.editing-link-wrapper').length).to.eq(0);
           });
         });
       });

@@ -264,13 +264,15 @@ h4. things we like
         end
 
         context 'disabled' do
-          let(:params) { update_params.merge(notify: 'false') }
+          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=false" }
+          let(:params) { update_params }
 
           it { expect(subject).to be_empty }
         end
 
         context 'enabled' do
-          let(:params) { update_params.merge(notify: 'Some text here - you can take true too') }
+          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=Something" }
+          let(:params) { update_params }
 
           it { expect(subject.count).to eq(1) }
         end

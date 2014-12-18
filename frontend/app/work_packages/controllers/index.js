@@ -52,6 +52,7 @@ angular.module('openproject.workPackages.controllers')
     'UserService',
     'VersionService',
     'HookService',
+    'OverviewService',
     '$q',
     require('./details-tab-overview-controller')
   ])
