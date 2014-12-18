@@ -50,6 +50,7 @@ if (I18n.locale === 'de') {
 require('angular-ui-router');
 require('angular-ui-select2');
 require('angular-ui-select2-sortable');
+
 require('angular-ui-date');
 require('angular-sanitize');
 require('angular-truncate');
@@ -58,10 +59,13 @@ require('angular-feature-flags');
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
 
+require('ui-select/dist/select');
+require('ui-select/dist/select.css');
+
 require('angular-context-menu');
 
 // global
-angular.module('openproject.uiComponents', ['ui.select2'])
+angular.module('openproject.uiComponents', ['ui.select2', 'ui.select', 'ngSanitize'])
 .run(['$rootScope', function($rootScope){
   $rootScope.I18n = I18n;
 }]);
