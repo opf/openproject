@@ -33,7 +33,7 @@ module WorkPackage::CsvExporter
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  def csv(work_packages, project = nil, query)
+  def csv(work_packages, query)
     decimal_separator = l(:general_csv_decimal_separator)
     title = query.new_record? ? l(:label_work_package_plural) : query.name
     export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|

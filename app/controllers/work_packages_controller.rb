@@ -223,7 +223,7 @@ class WorkPackagesController < ApplicationController
                        :layout => 'angular' # !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project, @query)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
