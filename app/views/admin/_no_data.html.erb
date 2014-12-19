@@ -32,6 +32,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= simple_format(l(:text_no_configuration_data)) %>
     <p><%= User.human_attribute_name(:language) %>:
     <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s) %>
-    <%= submit_tag l(:text_load_default_configuration) %></p>
+    <%= submit_tag l(:text_load_default_configuration), class: 'button -highlight' %></p>
 <% end %>
 </div>

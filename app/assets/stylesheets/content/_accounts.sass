@@ -26,17 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/mixins
-@import content/forms
-
 #login-form
   margin-left: auto
   margin-right: auto
   padding-top: 20px
   // label width + label padding-right + input width + input padding-left + input border
-  width: 155px + 5px + $content_from_input_width + 10px + 2px
+  width: 155px + 5px + $content-from-input-width + 10px + 2px
 
-  .button_highlight
+  .button.-highlight
     // align with input fields
     // label width + label padding-right
     margin-left: 155px + 5px
@@ -61,7 +58,6 @@
     .login-links
       float: right
       text-align: right
-      font-size: 12px
 
 // use id selectors to be specific enough to override general content and top-menu definitions
 #content .login-auth-providers, #top-menu #nav-login-content .login-auth-providers
@@ -72,7 +68,7 @@
     border: none
     margin-top: 20px
     font-weight: normal
-    font-size: $global_font_size
+    font-size: $global-font-size
     text-decoration: none
     text-align: center
 
@@ -82,7 +78,7 @@
     // line behind title
     // from http://codepen.io/ericrasch/pen/Irlpm
     &:before
-      border-top: 2px solid $content_form_separator_color
+      border-top: 2px solid $content-form-separator-color
       content: ""
       // this centers the line to the full width specified
       margin: 0 auto
@@ -100,7 +96,7 @@
     span
       // to hide the lines from behind the text, you have to set the
       // background color the same as the container
-      background: $content_form_bg_color
+      background: $content-form-bg-color
       padding: 0 15px
 
   .login-auth-provider-list
@@ -117,7 +113,7 @@
     background-size: 40px 40px
     background-repeat: no-repeat
     font-weight: normal
-    color: $global_font_color
+    color: $global-font-color
 
     &:hover
       text-decoration: none
@@ -133,7 +129,7 @@
     &:before
       width: 100%
     span
-      background: $header_drop_down_bg_color
+      background: $header-drop-down-bg-color
   .login-auth-provider-list
     margin-top: -15px
     margin-bottom: 10px

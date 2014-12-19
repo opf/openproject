@@ -33,6 +33,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @project do |f| %>
 <%= render :partial => 'form', :locals => { :f => f, :project => @project, :renderTypes => true } %>
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <%= javascript_tag "Form.Element.focus('project_name');" %>
 <% end %>

@@ -26,7 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import global/all
+@import open_project_global/all
 @import fonts/openproject_icon_font
 
 .jstEditor
@@ -48,15 +48,14 @@
     width: 32px
     height: 32px
     padding: 6px 5px 4px 5px
-    border: $content_form_input_border
+    border: $content-form-input-border
     background: url(image-path('bg_input_file.png')) repeat-x 0 0
-    font-size: 18px
-    @include border-radius(2px)
+    border-radius: 2px
     &:before
       @include icon-common
 
     &:hover
-      border: $content_form_input_hover_border
+      border: $content-form-input-hover-border
       cursor: pointer
 
     span

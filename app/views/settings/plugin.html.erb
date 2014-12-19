@@ -34,6 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="box tabular">
 <%= render :partial => @partial, :locals => {:settings => @settings}%>
 </div>
-<%= submit_tag l(:button_apply) %>
+<%= submit_tag l(:button_apply), class: 'button -highlight' %>
 <% end %>
 </div>

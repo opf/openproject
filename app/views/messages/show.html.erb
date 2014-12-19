@@ -113,8 +113,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="reply" style="display:none;">
 <%= form_for @reply, :as => :reply, :url => reply_to_topic_path(@topic), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
-  <%= submit_tag l(:button_submit) %>
-  <%= preview_link preview_topic_path(@message), 'message-form' %>
+  <%= submit_tag l(:button_submit), class: 'button -highlight' %>
+  <%= preview_link preview_topic_path(@message), 'message-form', class: 'button' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>

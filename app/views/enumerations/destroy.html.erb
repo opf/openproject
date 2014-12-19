@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= select_tag 'reassign_to_id', options_from_collection_for_select(@enumerations, 'id', 'name') %></p>
 </div>
 
-<%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), :controller => '/enumerations', :action => 'index' %>
+<%= submit_tag l(:button_apply), class: 'button -highlight' %>
+<%= link_to l(:button_cancel), { :controller => '/enumerations', :action => 'index' },
+      class: 'button' %>
 <% end %>

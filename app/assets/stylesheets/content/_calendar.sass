@@ -26,17 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-
 table.cal
   border-collapse: collapse
   width: 100%
   margin: 0px 0 6px 0
-  border: $content_calendar_border_width solid $content_calendar_border_color
+  border: $content-calendar-border-width solid $content-calendar-border-color
 
   thead th
     width: 14%
-    background-color: $content_calendar_head_cell_bg_color
+    background-color: $content-calendar-head-cell-bg-color
     padding: 4px
     &.week-number
       width: auto
@@ -44,11 +42,11 @@ table.cal
   tbody tr
     height: 100px
   td
-    border: $content_calendar_cell_border_width solid $content_calendar_cell_border_color
+    border: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
     vertical-align: top
     font-size: 0.9em
     &.week-number
-      background-color: $content_calendar_head_cell_bg_color
+      background-color: $content-calendar-head-cell-bg-color
       padding: 4px
       border: none
       font-size: 1em
@@ -59,10 +57,10 @@ table.cal
       font-weight: bold
       padding-right: 2px
     &.odd p.day-num
-      color: $content_calendar_inactive_day_font_color
-      background-color: $content_calendar_inactive_day_bg_color
+      color: $content-calendar-inactive-day-font-color
+      background-color: $content-calendar-inactive-day-bg-color
     &.today
-      background: $content_calendar_cell_today_bg_color
+      background: $content-calendar-cell-today-bg-color
 .starting a, p.cal.legend .starting
   background: url(image-path('bullet_go.png')) no-repeat -1px -2px
   padding-left: 16px

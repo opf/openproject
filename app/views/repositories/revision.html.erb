@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag 'OK', :name => nil %>
+    <%= submit_tag 'OK', :name => nil, class: 'button -highlight' %>
   <% end %>
 <% end %>
 

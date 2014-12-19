@@ -66,6 +66,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </fieldset>
 
-  <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), project_types_path %>
+  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_types_path, class: 'button' %>
 <% end %>

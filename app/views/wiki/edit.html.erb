@@ -41,8 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <p><label><%= Version.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
 <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
-<p><%= submit_tag l(:button_save) %>
-  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form' %>
+<p><%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form', class: 'button' %>
 </p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>

@@ -37,5 +37,5 @@ See doc/COPYRIGHT.rdoc for more details.
                               :url => custom_field_path(@custom_field),
                               :html => {:method => :put, :id => 'custom_field_form'} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

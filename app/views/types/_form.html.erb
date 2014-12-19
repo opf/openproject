@@ -58,7 +58,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <!--[eoform:type]-->
 </div>
-<%= submit_tag l(controller.type.new_record? ? :button_create : :button_save) %>
+<%= submit_tag l(controller.type.new_record? ? :button_create : :button_save),
+      class: 'button -highlight' %>
 </div>
 
 <div class="splitcontentright">

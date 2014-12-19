@@ -70,7 +70,7 @@ describe('date time Directives', function() {
   };
 
   describe('date directive', function() {
-    var html = '<date date-value="testDateTime"></date>';
+    var html = '<op-date date-value="testDateTime"></op-date>';
 
     describe('without configuration', function() {
       beforeEach(function() {
@@ -103,7 +103,7 @@ describe('date time Directives', function() {
   });
 
   describe('time directive', function() {
-    var html = '<time time-value="testDateTime"></time>';
+    var html = '<op-time time-value="testDateTime"></op-time>';
 
     describe('without configuration', function() {
       beforeEach(function() {
@@ -136,7 +136,7 @@ describe('date time Directives', function() {
   });
 
   describe('date time directive', function() {
-    var html = '<date-time date-time-value="testDateTime"></date-time>';
+    var html = '<op-date-time date-time-value="testDateTime"></op-date-time>';
 
     var formattedDateTime = function() {
       var formattedDateElements = [element.children()[0], element.children()[1]];

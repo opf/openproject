@@ -26,6 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/accessibility
-@import global/variables
-@import global/mixins
+.news
+  margin-bottom: 30px
+
+  &.box > p
+    margin-top: -15px
+
+  .timestamp
+    border-bottom: 1px dotted
+    cursor: help
+
+  .additional-information
+    font-size: 11px
+
+h4.overview
+  margin-bottom: 0px
+  border: 0
+
+.summary
+  font-style: italic
+
+p.author
+  font-style: italic
+  /* to accomodate the .profile-wrap class
+  height: 42px

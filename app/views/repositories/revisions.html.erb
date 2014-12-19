@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= form_tag({:action => 'revision', :id => @project}) do %>
   <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
-  <%= submit_tag 'OK' %>
+  <%= submit_tag 'OK', class: 'button -highlight' %>
   <% end %>
 <% end %>
 

@@ -44,6 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 </div>
 
-<%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), controller: '/wiki', action: 'show', project_id: @project, id: @page %>
+<%= submit_tag l(:button_apply), class: 'button -highlight' %>
+<%= link_to l(:button_cancel),
+      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
+      class: 'button' %>
 <% end %>

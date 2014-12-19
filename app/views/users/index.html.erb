@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <label for='name'><%= User.model_name.human %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
 <%= link_to l(:button_clear), users_path, :class => 'icon icon-undo' %>
 </fieldset>
 <% end %>

@@ -26,19 +26,67 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
+a.button,
+.button
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style(#eee, $button-font-color, $button-style)
 
-a.button_highlight, .button_highlight
-  @include button-highlight
+  transition: none
 
-a.button, .button
-  @include button
+  background: linear-gradient(to bottom, #fff 0%, #eee 74%, #eee 100%)
+  border: 1px solid #ccc
+
+  &:enabled
+    &:hover,
+    &:focus
+      border-color: #777
+      background: linear-gradient(to bottom, #fff 0%, #eee 40%, #ddd 100%)
+
+  &:disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
+
+
+  &.-highlight
+    @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
+
+    background: $button-highlight-background-gradient
+    border-color: $button-highlight-border-color
+
+    &:enabled
+      &:hover,
+      &:focus
+        border-color: $button-highlight-background-hover-color
+        background: $button-highlight-background-hover-color
+
+
+  &.-active,
   &.active
-    @include button-active
+    @include button-style(#eee, $button-active-font-color, $button-style)
 
-a.button_active, .button_active
-  @include button-active
+    border-color: #ccc
+    box-shadow: 0px 2px 4px #ccc inset
 
-input.button, input.button_highlight
-  margin-top: 0
-  padding: 2px 10px
+    &:enabled
+      &:hover,
+      &:focus
+        background: #eee
+
+  &.-tiny
+    @include button-size(tiny)
+
+  &.-small
+    @include button-size(small)
+
+  &.-large
+    @include button-size(large)
+
+  &.-expand
+    @include button-expand
+
+  &.-round
+    border-radius: 2em

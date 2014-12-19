@@ -75,7 +75,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
 
     html_node = HTML::Document.new(@response.body)
-    assert_select(html_node.root, "a.testing", "This is a test")
+    assert_select(html_node.root, "a.testing-menu-item", "This is a test")
   end
 
   def test_render_menu_node
@@ -84,7 +84,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     html_node = HTML::Document.new(@response.body)
     assert_select(html_node.root, "li") do
-      assert_select("a.single-node", "Single node")
+      assert_select("a.single-node-menu-item", "Single node")
     end
   end
 
@@ -100,14 +100,14 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     html_node = HTML::Document.new(@response.body)
     assert_select(html_node.root, "li") do
-      assert_select("a.parent-node", "Parent node")
+      assert_select("a.parent-node-menu-item", "Parent node")
       assert_select("ul") do
-        assert_select("li a.child-one-node", "Child one node")
-        assert_select("li a.child-two-node", "Child two node")
+        assert_select("li a.child-one-node-menu-item", "Child one node")
+        assert_select("li a.child-two-node-menu-item", "Child two node")
         assert_select("li") do
-          assert_select("a.child-three-node", "Child three node")
+          assert_select("a.child-three-node-menu-item", "Child three node")
           assert_select("ul") do
-            assert_select("li a.child-three-inner-node", "Child three inner node")
+            assert_select("li a.child-three-inner-node-menu-item", "Child three inner node")
           end
         end
       end
@@ -135,11 +135,11 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     html_node = HTML::Document.new(@response.body)
     assert_select(html_node.root, "li") do
-      assert_select("a.parent-node", "Parent node")
+      assert_select("a.parent-node-menu-item", "Parent node")
       assert_select("ul") do
-        assert_select("li a.test-child-0", "Test child 0")
-        assert_select("li a.test-child-1", "Test child 1")
-        assert_select("li a.test-child-2", "Test child 2")
+        assert_select("li a.test-child-0-menu-item", "Test child 0")
+        assert_select("li a.test-child-1-menu-item", "Test child 1")
+        assert_select("li a.test-child-2-menu-item", "Test child 2")
       end
     end
   end
@@ -175,20 +175,20 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     html_node = HTML::Document.new(@response.body)
     assert_select(html_node.root, "li") do
-      assert_select("a.parent-node", "Parent node")
+      assert_select("a.parent-node-menu-item", "Parent node")
       assert_select("ul") do
-        assert_select("li a.child-node", "Child node")
+        assert_select("li a.child-node-menu-item", "Child node")
         assert_select("ul") do
-          assert_select("li a.test-dynamic-child-0", "Test dynamic child 0")
-          assert_select("li a.test-dynamic-child-1", "Test dynamic child 1")
-          assert_select("li a.test-dynamic-child-2", "Test dynamic child 2")
-          assert_select("li a.test-dynamic-child-3", "Test dynamic child 3")
-          assert_select("li a.test-dynamic-child-4", "Test dynamic child 4")
-          assert_select("li a.test-dynamic-child-5", "Test dynamic child 5")
+          assert_select("li a.test-dynamic-child-0-menu-item", "Test dynamic child 0")
+          assert_select("li a.test-dynamic-child-1-menu-item", "Test dynamic child 1")
+          assert_select("li a.test-dynamic-child-2-menu-item", "Test dynamic child 2")
+          assert_select("li a.test-dynamic-child-3-menu-item", "Test dynamic child 3")
+          assert_select("li a.test-dynamic-child-4-menu-item", "Test dynamic child 4")
+          assert_select("li a.test-dynamic-child-5-menu-item", "Test dynamic child 5")
         end
-        assert_select("li a.test-child-0", "Test child 0")
-        assert_select("li a.test-child-1", "Test child 1")
-        assert_select("li a.test-child-2", "Test child 2")
+        assert_select("li a.test-child-0-menu-item", "Test child 0")
+        assert_select("li a.test-child-1-menu-item", "Test child 1")
+        assert_select("li a.test-child-2-menu-item", "Test child 2")
       end
     end
   end

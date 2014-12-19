@@ -75,8 +75,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </br>
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
 
-  <%= f.submit l("timelines.add_project_association"), :name => nil %>
-  <%= link_to l(:button_cancel), project_project_associations_path(@project) %>
+  <%= f.submit l("timelines.add_project_association"), :name => nil,
+        class: 'button -highlight'%>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project),
+        class: 'button'%>
 <% end %>
 
 <% content_for :header_tags do %>

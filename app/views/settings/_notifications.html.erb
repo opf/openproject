@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= link_to l(:label_send_test_email), :controller => '/admin', :action => 'test_email' %>
 </div>
 
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>
 <% else %>
 <div class="nodata">

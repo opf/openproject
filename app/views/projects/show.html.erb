@@ -71,9 +71,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button_highlight' %>
+      <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button_highlight') %>
+        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
       <% end %>
     </p>
   </div>
@@ -88,7 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="news content-box">
       <h3><%=l(:label_news_latest)%></h3>
       <%= render :partial => 'news/news', :collection => @news %>
-      <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button_highlight' %></p>
+      <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button -highlight' %></p>
     </div>
   <% end %>
   <%= call_hook(:view_projects_show_right, :project => @project) %>

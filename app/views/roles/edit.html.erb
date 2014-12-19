@@ -33,5 +33,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @role, :html => { :id => 'role_form' }, :as => :role do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

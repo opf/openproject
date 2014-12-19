@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
 <label for='name'><%= Project.model_name.human %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
 <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-undo' %>
 </fieldset>
 <% end %>

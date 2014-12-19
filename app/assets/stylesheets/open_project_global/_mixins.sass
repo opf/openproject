@@ -1,0 +1,157 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
+$button-gray-font-color: #222222
+
+@mixin html-body-spacing
+  margin:             0
+  padding:            0
+  height:             100%
+
+@mixin default-transition
+  @each $vendor in $vendors
+    #{$vendor}transition: all 200ms ease-in-out 0s
+
+@mixin default-headline-h1
+  color:              $headline-h1-font-color
+  font-size:          $headline-h1-font-size
+  font-family:        $font-family-normal
+  font-weight:        normal
+  padding:          0 0 8px 0
+  margin:        0
+
+@mixin default-headline-h2
+  color:              $headline-h2-font-color
+  font-size:          $headline-h2-font-size
+  font-family:        $font-family-normal
+  font-weight:        normal
+  text-transform:    uppercase
+  padding:          0 0 8px 0
+  margin:        0
+
+@mixin default-headline-h3
+  color:              $headline-h3-font-color
+  font-size:          $headline-h3-font-size
+  font-family:        $font-family-normal
+  font-weight:        normal
+  border-bottom:    1px solid #dddddd
+  padding:          0 0 8px 0
+  margin:          0 0 20px 0
+
+@mixin default-headline-h4
+  color:              $headline-h4-font-color
+  font-size:          $headline-h4-font-size
+  font-family:        $font-family-normal
+  font-weight:        normal
+  padding:          0 0 5px 0
+  margin:          0 0 20px 0
+
+@mixin default-font-normal($color, $font-size: 13px)
+  color:              $color
+  font-size:          $font-size
+  font-family:        $font-family-normal
+  font-weight:        normal
+
+@mixin default-font-bold($color, $font-size: 13px)
+  color:              $color
+  font-size:          $font-size
+  font-family:        $font-family-normal
+  font-weight:        bold
+
+@mixin main-menu-font
+  font-style:         normal
+  font-family:        $font-family-normal
+
+@mixin header-fonts($color, $font-size: $header-item-font-size)
+  @include default-font-normal($color, $font-size)
+
+@mixin breadcrumb-font($color)
+  @include default-font-normal($color, $breadcrumb-font-size)
+
+@mixin breadcrumb-font-bold($color)
+  @include default-font-bold($color, $breadcrumb-font-size)
+
+
+
+@mixin content-box
+  margin-top: 20px
+  padding: 25px
+  border: $content-box-border
+  background-color: $content-box-bg-color
+  min-height: 65px
+  zoom: 1
+  overflow-x: auto
+
+  h3, h2
+    border-bottom: 1px solid #EAEAEA
+    color: #444444
+    font-weight: normal
+    margin: 0 0 20px
+    padding: 5px 0 10px
+
+  table
+    padding: 10px
+    margin-top: 15px
+    margin-bottom: 15px
+
+  table
+    &.issues td, &.list, th
+      border: none
+      padding: 0
+      width: auto
+      padding-right: 30px
+      padding-bottom: 5px
+    th
+      border: none
+      background: transparent
+      font-weight: bold
+
+    tr.even
+      background-color: white
+  ul
+    margin-bottom: 20px
+
+// Make sure an element doesn't collapse due to floated elements inside
+@mixin prevent-float-collapse
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+
+@mixin text-shortener
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+
+@mixin allow-vertical-scrolling
+  overflow-x: hidden
+  overflow-y: auto
