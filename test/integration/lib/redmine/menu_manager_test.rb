@@ -40,11 +40,11 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
-                                                                                              :class => 'icon2 icon-yes activity ellipsis' } } }
+                                                                                              :class => 'icon2 icon-yes activity-menu-item ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_overview),
                                                                              :attributes => { :href => '/projects/ecookbook',
-                                                                                              :class => 'icon2 icon-list-view2 overview ellipsis selected' } } }
+                                                                                              :class => 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items
@@ -59,16 +59,16 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
       get 'projects/ecookbook'
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Foo',
-                                                                               :attributes => { :class => 'foo ellipsis' } } }
+                                                                               :attributes => { :class => 'foo-menu-item ellipsis' } } }
 
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Bar',
-                                                                               :attributes => { :class => 'bar ellipsis' } },
+                                                                               :attributes => { :class => 'bar-menu-item ellipsis' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' } } }
 
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK',
-                                                                               :attributes => { :class => 'hello ellipsis' } },
+                                                                               :attributes => { :class => 'hello-menu-item ellipsis' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'Activity' } } }
 
       # Remove the menu items

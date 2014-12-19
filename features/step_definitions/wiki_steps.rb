@@ -65,13 +65,13 @@ end
 Then /^the table of contents wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-toc.selected")
+  page.should have_css(".#{parent_item.item_class}-toc-menu-item.selected")
 end
 
 Then /^the child page wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-new-page.selected")
+  page.should have_css(".#{parent_item.item_class}-new-page-menu-item.selected")
 end
 
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|
