@@ -41,9 +41,10 @@ describe('OpenProject', function() {
   function loadPane(workPackageId) {
     var page = new WorkPackageDetailsPane(workPackageId, 'overview');
     page.get();
+    browser.waitForAngular();
   }
 
-  context('pane itself', function() {
+  describe('pane itself', function() {
     beforeEach(function() {
       loadPane(819);
     });
@@ -245,8 +246,7 @@ describe('OpenProject', function() {
   describe('activities', function() {
     describe('overview tab', function() {
       before(function() {
-        var page = new WorkPackageDetailsPane(819, 'overview');
-        page.get();
+        loadPane(819);
       });
 
       it('should render the last 3 activites', function() {
