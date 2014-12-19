@@ -115,7 +115,9 @@ module Api
 
       def all_query_columns(query)
         columns = query.columns.map(&:name) + [:id]
+
         columns << query.group_by.to_sym if query.group_by
+        columns += query.sort_criteria.map { |x| x.first.to_sym }
 
         columns
       end
