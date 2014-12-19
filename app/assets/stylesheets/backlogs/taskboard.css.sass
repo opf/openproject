@@ -29,18 +29,18 @@
 @import backlogs/taskboard_legacy
 @import global/all
 
-@mixin story_header
+@mixin story-header
   background-color: #FFFFFF
-  font-size: $global_font_size - 5
+  font-size: $global-font-size - 5
   opacity: 0.8
   filter: alpha(opacity = 80)
   overflow: hidden
   padding-bottom: 1px
   padding-right: 3px
 
-@mixin story_footer
+@mixin story-footer
   float: left
-  font-size: $global_font_size - 5
+  font-size: $global-font-size - 5
   width: 85%
   margin-top: 4px
   padding: 2px
@@ -53,7 +53,7 @@
 
 .story
   .story-bar
-    @include story_header
+    @include story-header
     text-align: right
     width: 187px
     clear: both
@@ -64,11 +64,11 @@
 
 .story,
 .label_sprint_impediments
-  font-size: $global_font_size - 3
+  font-size: $global-font-size - 3
 
 .work_package
   .id
-    @include story_header
+    @include story-header
     text-align: right
     width: 82px
     a
@@ -77,7 +77,7 @@
   .editable:hover
     background-color: transparent
   .subject.editable
-    font-size: $global_font_size - 3
+    font-size: $global-font-size - 3
     height: 52px
     line-height: 13px
     margin-top: 0
@@ -88,13 +88,13 @@
 .story
   .story-footer
     .assigned_to_id
-      @include story_footer
+      @include story-footer
       @include ellipsis
     .story-points
       margin-top: 2px
       float: right
 .work_package
   .assigned_to_id.editable
-    @include story_footer
+    @include story-footer
     .t
       @include ellipsis
