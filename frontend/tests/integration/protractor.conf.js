@@ -39,10 +39,10 @@ exports.config = {
 
   specs: ['work-packages-spec.js', 'work-package-details-spec.js'],
 
-  allScriptsTimeout: 40000,
+  allScriptsTimeout: 500000,
 
   mochaOpts: {
-    timeout:  40000,
+    timeout:  500000,
     reporter: 'mocha-jenkins-reporter'
   },
 
