@@ -26,7 +26,7 @@
     "angular-busy": "~4.1.1",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1",
-    "ui-select": "angular-ui/ui-select#~0.9.5"
+    "ui-select": "0xf013/ui-select#add-combobox-acessibility"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
