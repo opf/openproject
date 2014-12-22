@@ -85,9 +85,9 @@ module.exports = function(
     $scope.isBusy = false;
     $scope.readValue = '';
     $scope.editTitle = I18n.t('js.inplace.button_edit', { attribute: $scope.attributeTitle });
-    $scope.saveTitle = I18n.t('js.inplace.button_save');
-    $scope.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send');
-    $scope.cancelTitle = I18n.t('js.inplace.button_cancel');
+    $scope.saveTitle = I18n.t('js.inplace.button_save', { attribute: $scope.attributeTitle });
+    $scope.saveAndSendTitle = I18n.t('js.inplace.button_save_and_send', { attribute: $scope.attributeTitle });
+    $scope.cancelTitle = I18n.t('js.inplace.button_cancel', { attribute: $scope.attributeTitle });
     $scope.error = null;
     $scope.options = [];
 
