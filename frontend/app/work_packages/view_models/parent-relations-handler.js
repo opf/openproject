@@ -47,7 +47,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
         WorkPackageService.updateWorkPackage(this.workPackage, params).then(function() {
             scope.relationToAddId = '';
             scope.updateFocus(-1);
-            scope.$emit('workPackageRefreshRequired', '');
+            scope.$emit('workPackageRefreshRequired');
         }, function(error) {
             ApiHelper.handleError(scope, error);
         });
@@ -64,6 +64,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
+              scope.$emit('workPackageRefreshRequired');
           }, function(error) {
               ApiHelper.handleError(scope, error);
           });

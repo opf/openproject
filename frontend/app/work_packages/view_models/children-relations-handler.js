@@ -53,6 +53,7 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
+              scope.$emit('workPackageRefreshRequired');
           }, function(error) {
               ApiHelper.handleError(scope, error);
           });
