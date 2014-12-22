@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
 $button-gray-font-color: #222222
 
 @mixin html-body-spacing
@@ -35,8 +34,7 @@ $button-gray-font-color: #222222
   height:             100%
 
 @mixin default-transition
-  @each $vendor in $vendors
-    #{$vendor}transition: all 200ms ease-in-out 0s
+  transition: all 200ms ease-in-out 0s
 
 @mixin default-headline-h1
   color:              $headline-h1-font-color

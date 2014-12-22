@@ -28,20 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++*/
 
 .project-search-results {
-  -webkit-box-sizing: content-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing:    content-box; /* Firefox, other Gecko */
   box-sizing:         content-box; /* Opera/IE 8+ */
 
   /* Fixing select2's positioning errors for results*/
   margin-left: -1px;
 
   /* Disabling rounded corners and drop shadow on result list */
-  -webkit-border-radius: 0;
-  -moz-border-radius   : 0;
   border-radius        : 0;
-  -webkit-box-shadow: none;
-  -moz-box-shadow   : none;
-  -o-box-shadow     : none;
   box-shadow        : none;
 }
 
@@ -79,8 +72,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 /* Selected elements should be bold, have inverted colors and rounded corners */
 .select2-results .select2-highlighted {
-  -webkit-border-radius:5px;
-  -moz-border-radius:5px;
   border-radius: 5px;
 
   background-color: #24B3E7;
