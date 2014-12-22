@@ -237,6 +237,8 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
   $rootScope.$on('queryStateChange', function(event, message) {
     $scope.maintainUrlQueryState();
     $scope.maintainBackUrl();
+    $scope.query.dirty = true;
+
   });
 
   $rootScope.$on('workPackagesRefreshRequired', function(event, message) {

@@ -119,7 +119,7 @@ describe('QueryService', function() {
     });
   });
 
-  describe('loadAvailableGroupedQueries', function() {
+  describe('async part', function() {
     var projectIdentifier = 'test_project',
         $httpBackend,
         $rootScope,
@@ -145,27 +145,49 @@ describe('QueryService', function() {
       $httpBackend.when('GET', path).respond(200, groupedQueries);
     }));
 
-    describe('when called for the first time', function() {
-      it('triggers an http request', function() {
-        $httpBackend.expectGET(path);
-
-        loadAvailableGroupedQueries();
+    describe('saveQuery', function() {
+      beforeEach(function() {
+        $httpBackend
+          .when('GET', PathHelper.apiCustomFieldsPath())
+          .respond(200, { data: {} });
+        $httpBackend
+          .when('GET', PathHelper.apiGroupedQueriesPath())
+          .respond(200, { data: {} });
+        var putPath = new RegExp(PathHelper.apiQueriesPath() + '/*');
+        $httpBackend.when('PUT', putPath).respond(200, { data: { } });
       });
-
-      it('stores the grouped queries', function() {
-        loadAvailableGroupedQueries();
-
-        expect(QueryService.getAvailableGroupedQueries()).to.deep.equal(groupedQueries);
+      it('should set the query pristine', function() {
+        query = QueryService.initQuery(1, queryData);
+        query.dirty = true;
+        QueryService.saveQuery();
+        $httpBackend.flush();
+        expect(query.isDirty()).to.be.false;
       });
     });
 
-    describe('when called for the second time', function() {
-      it('does not do another http call', function() {
-        loadAvailableGroupedQueries();
-        QueryService.loadAvailableGroupedQueries(projectIdentifier);
-        $rootScope.$apply();
+    describe('loadAvailableGroupedQueries', function() {
+      describe('when called for the first time', function() {
+        it('triggers an http request', function() {
+          $httpBackend.expectGET(path);
 
-        $httpBackend.verifyNoOutstandingRequest();
+          loadAvailableGroupedQueries();
+        });
+
+        it('stores the grouped queries', function() {
+          loadAvailableGroupedQueries();
+
+          expect(QueryService.getAvailableGroupedQueries()).to.deep.equal(groupedQueries);
+        });
+      });
+
+      describe('when called for the second time', function() {
+        it('does not do another http call', function() {
+          loadAvailableGroupedQueries();
+          QueryService.loadAvailableGroupedQueries(projectIdentifier);
+          $rootScope.$apply();
+
+          $httpBackend.verifyNoOutstandingRequest();
+        });
       });
     });
 
