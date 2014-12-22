@@ -94,7 +94,8 @@ describe('queryFilters', function() {
       var enterEvent = jQuery.Event('keydown', { which: 13 });
 
       var removeFilter = function(filterName) {
-        var removeLinkElement = angular.element(element).find('#tr_' + filterName + ' td:last-of-type a');
+        var removeLinkElement = angular.element(element).find('#filter_' + filterName +
+          ' .work-packages-filters--remove-filter a');
         angular.element(removeLinkElement[0]).trigger(enterEvent);
         $timeout.flush();
       };
@@ -151,7 +152,7 @@ describe('queryFilters', function() {
         });
 
         it('focus is set to second filter', function() {
-          var el = angular.element(element).find('td select#operators-' + filter2.name);
+          var el = angular.element(element).find('select#operators-' + filter2.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
@@ -163,7 +164,7 @@ describe('queryFilters', function() {
         });
 
         it('focus is set to third filter', function() {
-          var el = angular.element(element).find('td select#operators-' + filter3.name);
+          var el = angular.element(element).find('select#operators-' + filter3.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
@@ -175,7 +176,7 @@ describe('queryFilters', function() {
         });
 
         it('focus is set to filter next to last', function() {
-          var el = angular.element(element).find('td select#operators-' + filter2.name);
+          var el = angular.element(element).find('select#operators-' + filter2.name);
 
           expect(doc.activeElement).to.equal(el[0]);
         });
@@ -189,7 +190,8 @@ describe('queryFilters', function() {
         });
 
         it('focus is set to filter next to last', function() {
-          var el = angular.element(element).find('td.add-filter select#add_filter_select');
+          var el = angular.element(element).find('.work-packages-filters--add-filter' +
+            ' select#add_filter_select');
 
           expect(doc.activeElement).to.equal(el[0]);
         });
