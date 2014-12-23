@@ -174,7 +174,7 @@ openprojectApp
       $window.sessionStorage.getItem('openproject:navigation-toggle') !== 'collapsed';
 
     flags.set($http.get('/javascripts/feature-flags.json'));
-    TimezoneService.initialize();
+    TimezoneService.setupLocale();
   }])
   .value('cgBusyDefaults', {
     templateUrl: '/assets/angular-busy/angular-busy.html'

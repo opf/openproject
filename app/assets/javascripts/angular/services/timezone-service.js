@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('TimezoneService', ['ConfigurationService', 'I18n', function(ConfigurationService, I18n) {
   var TimezoneService = {
 
-    initialize: function() {
+    setupLocale: function() {
       moment.lang(I18n.locale);
     },
 
