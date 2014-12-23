@@ -227,6 +227,7 @@ openprojectApp
     '$rootScope',
     '$window',
     'featureFlags',
+    'TimezoneService',
     function($http, $rootScope, $window, flags, TimezoneService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
