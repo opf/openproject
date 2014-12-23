@@ -28,6 +28,11 @@
 
 module.exports = function(ConfigurationService, I18n) {
   var TimezoneService = {
+
+    setupLocale: function() {
+      moment.lang(I18n.locale);
+    },
+
     parseDate: function(date) {
       var d = moment.utc(date);
 
@@ -45,8 +50,6 @@ module.exports = function(ConfigurationService, I18n) {
       if (ConfigurationService.dateFormatPresent()) {
         date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
       } else {
-        moment.lang(I18n.locale);
-
         date = TimezoneService.parseDate(date).format('L');
       }
 
@@ -59,8 +62,6 @@ module.exports = function(ConfigurationService, I18n) {
       if (ConfigurationService.timeFormatPresent()) {
         time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
       } else {
-        moment.lang(I18n.locale);
-
         time = TimezoneService.parseDate(date).format('LT');
       }
 

@@ -227,7 +227,7 @@ openprojectApp
     '$rootScope',
     '$window',
     'featureFlags',
-    function($http, $rootScope, $window, flags) {
+    function($http, $rootScope, $window, flags, TimezoneService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -235,6 +235,7 @@ openprojectApp
         'collapsed';
 
       flags.set($http.get('/javascripts/feature-flags.json'));
+      TimezoneService.setupLocale();
     }
   ]);
 
