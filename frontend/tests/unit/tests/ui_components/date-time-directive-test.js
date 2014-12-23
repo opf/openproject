@@ -61,6 +61,8 @@ describe('date time Directives', function() {
     I18n = _I18n_;
 
     I18n.locale = 'en';
+
+    TimezoneService.setupLocale();
   }));
 
   var shouldBehaveLikeHashTitle = function(title) {
