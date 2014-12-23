@@ -65,6 +65,12 @@ describe('date time Directives', function() {
     TimezoneService.setupLocale();
   }));
 
+  afterEach(function() {
+    I18n.locale = undefined;
+
+    TimezoneService.setupLocale();
+  });
+
   var shouldBehaveLikeHashTitle = function(title) {
     it('has title', function() {
       expect(angular.element(element)[0].title).to.eq(title);
