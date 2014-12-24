@@ -93,7 +93,7 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
 
   function addWatcher(newValue, oldValue) {
     if (newValue) {
-      var id = newValue.id;
+      var id = newValue.props.id;
 
       if (id) {
         $scope.workPackage.link('addWatcher', {user_id: id})
