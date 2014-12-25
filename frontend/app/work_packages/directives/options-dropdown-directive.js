@@ -44,6 +44,9 @@ module.exports = function(I18n, columnsModal, exportModal, saveModal, settingsMo
       });
 
       scope.saveQuery = function(event){
+        if (!scope.query.dirty) {
+          return;
+        }
         if(scope.query.isNew()){
           if( allowQueryAction(event, 'create') ){
             scope.$emit('hideAllDropdowns');
