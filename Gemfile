@@ -190,7 +190,7 @@ gem 'reform', '~> 1.1.1', require: false
 
 platforms :mri, :mingw do
   group :mysql2 do
-    gem "mysql2", "~> 0.3.11"
+    gem "mysql2", "~> 0.3.17"
   end
 
   group :postgres do
