@@ -196,7 +196,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.10.1)
     multi_test (0.0.2)
-    mysql2 (0.3.11)
+    mysql2 (0.3.17)
     net-ldap (0.8.0)
     nokogiri (1.5.11)
     object-daddy (1.1.1)
