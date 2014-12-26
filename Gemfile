@@ -35,6 +35,7 @@ gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize'
 gem 'omniauth'
+
 gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
