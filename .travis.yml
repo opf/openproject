@@ -65,6 +65,13 @@ env:
     - "TEST_SUITE=test     DB=postgres"
     - "TEST_SUITE=spec     DB=postgres"
 
+matrix:
+  exclude:
+    - rvm: 2.1
+      env: "TEST_SUITE=karma"
+    - rvm: 2.1
+      env: "TEST_SUITE=protractor"
+
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
