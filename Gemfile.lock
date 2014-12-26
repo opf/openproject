@@ -257,7 +257,7 @@ GEM
     multi_json (1.10.1)
     multi_test (0.0.2)
     multi_xml (0.5.5)
-    mysql2 (0.3.11)
+    mysql2 (0.3.17)
     net-ldap (0.8.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -480,7 +480,7 @@ DEPENDENCIES
   letter_opener (~> 1.0.0)
   livingstyleguide (~> 1.2.0)
   multi_json
-  mysql2 (~> 0.3.11)
+  mysql2 (~> 0.3.17)
   net-ldap (~> 0.8.0)
   nokogiri (>= 1.5.11)
   non-stupid-digest-assets
