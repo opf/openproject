@@ -462,9 +462,8 @@ class WorkPackage < ActiveRecord::Base
   # Example:
   #   spent_hours => 0.0
   #   spent_hours => 50.2
-  def spent_hours
-    @spent_hours ||= self_and_descendants.joins(:time_entries)
-                                         .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  def spent_hours(usr = User.current)
+    @spent_hours ||= compute_spent_hours(usr)
   end
 
   # Moves/copies an work_package to a new project and type

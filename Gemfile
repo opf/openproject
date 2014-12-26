@@ -28,13 +28,14 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.20"
+gem "rails", "~> 3.2.21"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize'
 gem 'omniauth'
+
 gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
@@ -159,7 +160,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", '~> 0.2.2'
+  gem "net-ldap", '~> 0.8.0'
 end
 
 group :development do
