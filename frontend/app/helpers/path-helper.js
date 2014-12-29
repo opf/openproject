@@ -132,6 +132,9 @@ module.exports = function() {
     workPackageAutoCompletePath: function(projectId, workPackageId) {
       return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
     },
+    workPackageJsonAutoCompletePath: function() {
+      return '/work_packages/auto_complete.json';
+    },
     workPackageNewWithParameterPath: function(projectId, parameters) {
       var path = "/projects/" + projectId + '/work_packages/new?';
 
