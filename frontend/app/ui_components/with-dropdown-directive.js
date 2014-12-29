@@ -82,7 +82,7 @@ module.exports = function ($rootScope, $window, ESC_KEY, FocusHelper) {
         dropdownId: '@',
         focusElementId: '@'
       },
-      link: function (scope, element, attributes) {
+      link1: function (scope, element, attributes) {
         var dropdown = jQuery("#" + attributes.dropdownId),
           trigger;
 

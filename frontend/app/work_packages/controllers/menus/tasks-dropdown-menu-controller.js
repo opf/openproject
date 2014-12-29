@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('./config');
-require('./controllers');
-require('./directives');
-require('./filters');
-require('./helpers');
-require('./models');
-require('./services');
-require('./tabs');
-require('./view_models');
+module.exports = function($scope, PathHelper) {
+  $scope.workPackageNewPath = function(typeId) {
+    return PathHelper.staticWorkPackageNewWithParametersPath($scope.projectIdentifier, { type_id: typeId });
+  };
+}

@@ -79,13 +79,6 @@ module.exports = function($injector, $window, $parse) {
                           menu to the trigger event
          triggerOnEvent   allows for binding the event for opening the menu to "click" */
 
-      // prepare locals, these define properties to be passed on to the context menu scope
-      var localKeys = attrs.locals.split(',').map(function(local) {
-        return local.trim();
-      });
-      angular.forEach(localKeys, function(key) {
-        locals[key] = scope[key];
-      });
 
       function toggle(event) {
         active() ? close() : open(event);
@@ -96,18 +89,25 @@ module.exports = function($injector, $window, $parse) {
       }
 
       function open(event) {
+        // prepare locals, these define properties to be passed on to the context menu scope
+        var localKeys = (attrs.locals || "").split(',').map(function(local) {
+          return local.trim();
+        });
+        angular.forEach(localKeys, function(key) {
+          locals[key] = scope[key];
+        });
+
         ctrl.open();
 
         contextMenu.open(event.target, locals)
           .then(function(element) {
             menuElement = element;
-            angular.element(element).trap();
+            // angular.element(element).trap();
           });
       }
 
       function close() {
         ctrl.close();
-
         contextMenu.close();
       }
 
@@ -154,7 +154,6 @@ module.exports = function($injector, $window, $parse) {
 
       function handleWindowClickEvent(event) {
         if (contextMenu.active() && event.button !== 2) {
-
           scope.$apply(function() {
             close();
           });
