@@ -5,14 +5,19 @@
           ng-click="handler.addRelation(this)"
           ng-disabled="add_relation_form.$invalid">
   </button>
-  <input id="relation_to_id-{{ handler.relationsId }}"
-         name="relation[to_id][{{ handler.relationsId }}]"
-         size="10"
-         type="text"
-         autocomplete="off"
-         ng-model="relationToAddId"
-         required
-         focus="focusElementIndex === -1">
-  <div id="related_issue_candidates-{{ handler.relationsId }}"
-   class="autocomplete related-issue-candidates"></div>
+  <ui-select
+    id="relation_to_id-{{ handler.relationsId }}"
+    name="relation[to_id][{{ handler.relationsId }}]"
+    ng-model="$parent.relationToAddId"
+    required
+    theme="select2">
+    <ui-select-match>{{$select.selected.to_s}}</ui-select-match>
+    <ui-select-choices
+      refresh-delay="100"
+      refresh="autocompleteWorkPackages($select.search)"
+      repeat="item.id as item in options">
+        <div ng-bind="item.to_s"></div>
+    </ui-select-choices>
+  </ui-select>
+
 </form>

@@ -79,43 +79,10 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
     },
 
     applyCustomExtensions: function() {
-      if(this.canAddRelation) {
+      if (this.canAddRelation) {
         var workPackage = this.workPackage;
         var relationsId = this.relationsId;
         var handler = this;
-
-        $timeout(function() { handler.addAutocompleter(MAX_AUTOCOMPLETER_ADDITION_ITERATIONS, workPackage, relationsId); });
-      }
-    },
-
-    addAutocompleter: function(retries, workPackage, relationsId) {
-      var projectId = workPackage.props.projectId;
-      var workPackageId = workPackage.props.id;
-
-      if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
-        // Massive hack alert - Using old prototype autocomplete ///////////
-        var url = PathHelper.staticWorkPackageAutoCompletePath(projectId, workPackageId);
-        new Ajax.Autocompleter('relation_to_id-' + relationsId,
-                               'related_issue_candidates-' + relationsId,
-                               url,
-                               { minChars: 1,
-                                 frequency: 0.5,
-                                 paramName: 'q',
-                                 updateElement: function(value) {
-                                   // Have to use the duplicate assignment here to update the field
-                                   // * to the user
-                                   // * to the angular scope
-                                   // Doing just one will not suffice.
-                                   angular.element('#relation_to_id-' + relationsId).val(value.id)
-                                                                                    .scope().relationToAddId = value.id;
-                                 },
-                                 parameters: 'scope=all'
-                                 });
-          ////////////////////////////////////////////////////////////////////
-      } else if (retries > 0) {
-        var handler = this;
-
-        $timeout(function() { handler.addAutocompleter(--retries, workPackage, relationsId); });
       }
     },
 
