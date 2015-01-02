@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -131,6 +131,9 @@ module.exports = function() {
     },
     workPackageAutoCompletePath: function(projectId, workPackageId) {
       return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
+    },
+    workPackageJsonAutoCompletePath: function() {
+      return '/work_packages/auto_complete.json';
     },
     workPackageNewWithParameterPath: function(projectId, parameters) {
       var path = "/projects/" + projectId + '/work_packages/new?';

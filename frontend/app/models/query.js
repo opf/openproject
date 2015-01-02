@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -116,8 +116,6 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
         this.setRawFilters(queryData.filters);
       }
       if(queryData.sortCriteria) this.setSortation(queryData.sortCriteria);
-      this.dirty = true;
-
       return this;
     },
 
@@ -159,9 +157,9 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
       this.availableWorkPackageFilters = availableFilters;
 
       if (this.project_id){
-        delete this.availableWorkPackageFilters["project_id"];
+        delete this.availableWorkPackageFilters['project_id'];
       } else {
-        delete this.availableWorkPackageFilters["subproject_id"];
+        delete this.availableWorkPackageFilters['subproject_id'];
       }
       // TODO RS: Need to assertain if there are any sub-projects and remove filter if not.
       // The project will have to be fetched prior to this.
@@ -354,7 +352,7 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
     },
 
     isDirty: function() {
-      return this.isNew() || this.dirty;
+      return this.dirty;
     },
 
     hasName: function() {

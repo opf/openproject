@@ -100,8 +100,8 @@
     </li>
     <li class="dropdown-divider"></li>
     <li><a href="" ng-click="saveQuery($event)"
-           inaccessible-by-tab="(!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))"
-           ng-class="{'inactive': (!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
+           inaccessible-by-tab="!query.isDirty() || (!query.isNew() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))"
+           ng-class="{'inactive': !query.isDirty() || (!query.isNew() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
         <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
     </li>
     <li><a href="" ng-click="showSaveAsModal($event)"

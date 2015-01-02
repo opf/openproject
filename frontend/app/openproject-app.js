@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -227,7 +227,8 @@ openprojectApp
     '$rootScope',
     '$window',
     'featureFlags',
-    function($http, $rootScope, $window, flags) {
+    'TimezoneService',
+    function($http, $rootScope, $window, flags, TimezoneService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -235,6 +236,7 @@ openprojectApp
         'collapsed';
 
       flags.set($http.get('/javascripts/feature-flags.json'));
+      TimezoneService.setupLocale();
     }
   ]);
 

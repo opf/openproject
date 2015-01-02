@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -52,12 +52,12 @@ describe('Query', function() {
       query = Factory.build('Query');
     });
 
-    context('query is dirty', function() {
+    context('query is not dirty', function() {
       beforeEach(function() {
         query.id = 1;
         query.dirty = true;
       });
-      it("should contain accept_empty_query_fields as true", function() {
+      it('should contain accept_empty_query_fields as true', function() {
         expect(query.toParams())
           .to.have.property('accept_empty_query_fields')
           .and.equal(true);
@@ -72,7 +72,7 @@ describe('Query', function() {
         query.id = 1;
         query.dirty = false;
       });
-      it("should contain accept_empty_query_fields as true", function() {
+      it('should contain accept_empty_query_fields as false', function() {
         expect(query.toParams())
           .to.have.property('accept_empty_query_fields')
           .and.equal(false);

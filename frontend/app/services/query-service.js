@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -318,7 +318,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
-
+        query.dirty = false;
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },

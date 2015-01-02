@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -237,6 +237,8 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
   $rootScope.$on('queryStateChange', function(event, message) {
     $scope.maintainUrlQueryState();
     $scope.maintainBackUrl();
+    $scope.query.dirty = true;
+
   });
 
   $rootScope.$on('workPackagesRefreshRequired', function(event, message) {
