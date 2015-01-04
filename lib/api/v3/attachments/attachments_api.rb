@@ -29,26 +29,21 @@
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < Grape::API
-        resources :attachments do
+      class AttachmentsAPI < ::Cuba
+        include API::Helpers
 
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          namespace ':id' do
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-            before do
-              @attachment = Attachment.find(params[:id])
-              @representer =  ::API::V3::Attachments::AttachmentRepresenter.new(@attachment)
-            end
+          on ':id' do |id|
+            on get do
+              @attachment = Attachment.find(id)
+              @representer = ::API::V3::Attachments::AttachmentRepresenter.new(@attachment)
 
-            get do
               authorize(:view_project, context: @attachment.container.project)
-              @representer
+              res.write @representer.to_json
             end
-
           end
-
         end
       end
     end

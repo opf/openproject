@@ -33,21 +33,49 @@
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    class Root < ::Cuba
+      define do
+        res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        on 'activities' do
+          run ::API::V3::Activities::ActivitiesAPI
+        end
 
-      get '/' do
-        RootRepresenter.new({})
+        on 'attachments' do
+          run ::API::V3::Attachments::AttachmentsAPI
+        end
+
+        on 'priorities' do
+          run ::API::V3::Priorities::PrioritiesAPI
+        end
+
+        on 'projects' do
+          run ::API::V3::Projects::ProjectsAPI
+        end
+
+        on 'queries' do
+          run ::API::V3::Queries::QueriesAPI
+        end
+
+        on 'render' do
+          run ::API::V3::Render::RenderAPI
+        end
+
+        on 'statuses' do
+          run ::API::V3::Statuses::StatusesAPI
+        end
+
+        on 'users' do
+          run ::API::V3::Users::UsersAPI
+        end
+
+        on 'work_packages' do
+          run ::API::V3::WorkPackages::WorkPackagesAPI
+        end
+
+        on root do
+          res.write RootRepresenter.new({}).to_json
+        end
       end
     end
   end

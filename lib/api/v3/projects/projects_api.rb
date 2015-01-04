@@ -29,26 +29,36 @@
 module API
   module V3
     module Projects
-      class ProjectsAPI < Grape::API
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+      class ProjectsAPI < ::Cuba
+        include API::Helpers
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-            end
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-            get do
+          on ':id' do |id|
+            @project = Project.find(id)
+            env['project'] = @project
+
+            on get, root do
               authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@project)
+              res.write ProjectRepresenter.new(@project).to_json
             end
 
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
+            on 'available_assignees' do
+              run API::V3::Projects::AvailableAssigneesAPI
+            end
+
+            on 'available_responsibles' do
+              run API::V3::Projects::AvailableResponsiblesAPI
+            end
+
+            on 'categories' do
+              run API::V3::Categories::CategoriesAPI
+            end
+
+            on 'versions' do
+              run API::V3::Versions::VersionsAPI
+            end
           end
         end
       end

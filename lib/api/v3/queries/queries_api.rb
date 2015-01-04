@@ -31,30 +31,27 @@ require 'securerandom'
 module API
   module V3
     module Queries
-      class QueriesAPI < Grape::API
-        resources :queries do
+      class QueriesAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
 
-          params do
-            requires :id, desc: 'Query id'
-          end
-          namespace ':id' do
+        def allowed_to_manage_stars?(action)
+          # TODO: find a better way
+          # FIXME: Cuba port
+          # action = env['api.endpoint'].options[:path].first
+          QueryPolicy.new(current_user).allowed?(@query, action)
+        end
 
-            before do
-              @query = Query.find(params[:id])
-              @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)
-            end
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
 
-            helpers do
-              def allowed_to_manage_stars?
-                # TODO: find a better way
-                action = env['api.endpoint'].options[:path].first
-                QueryPolicy.new(current_user).allowed?(@query, action)
-              end
-            end
+          on ':id' do |id|
+            @query = Query.find(id)
+            @representer = ::API::V3::Queries::QueryRepresenter.new(@query)
 
-            patch :star do
+            on req.patch?, 'star' do
               # TODO Replace by QueryPolicy
-              authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?(:star))
               # Query name is not user-visible, but apparently used as CSS class. WTF.
               # Normalizing the query name can result in conflicts and empty names in case all
               # characters are filtered out. A random name doesn't have these problems.
@@ -62,17 +59,18 @@ module API
                 @query.id, name: SecureRandom.uuid, title: @query.name
               )
               query_menu_item.save!
-              @representer
+              res.write @representer.to_json
             end
 
-            patch :unstar do
+            on req.patch?, 'unstar' do
               # TODO Replace by QueryPolicy
-              authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?(:unstar))
               query_menu_item = @query.query_menu_item
-              return @representer if @query.query_menu_item.nil?
-              query_menu_item.destroy
-              @query.reload
-              @representer
+              unless @query.query_menu_item.nil?
+                query_menu_item.destroy
+                @query.reload
+              end
+              res.write @representer.to_json
             end
           end
 

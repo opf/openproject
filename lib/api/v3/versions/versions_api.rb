@@ -30,16 +30,19 @@
 module API
   module V3
     module Versions
-      class VersionsAPI < Grape::API
-        resources :versions do
-          before do
-            @versions = @project.shared_versions.all
-          end
+      class VersionsAPI < ::Cuba
+        include API::V3::Utilities::PathHelper
 
-          get do
-            VersionCollectionRepresenter.new(@versions,
-                                             @versions.count,
-                                             api_v3_paths.versions(@project.identifier))
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+          @project = env['project']
+
+          on get, root do
+            @versions = @project.shared_versions.all
+
+            res.write VersionCollectionRepresenter.new(@versions,
+                                                       @versions.count,
+                                                       api_v3_paths.versions(@project.identifier)).to_json
           end
         end
       end

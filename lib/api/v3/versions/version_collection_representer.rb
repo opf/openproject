@@ -28,6 +28,7 @@
 #++
 
 require 'roar/decorator'
+require 'roar/json'
 require 'roar/json/collection'
 require 'roar/json/hal'
 

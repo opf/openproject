@@ -30,18 +30,21 @@
 module API
   module V3
     module Categories
-      class CategoriesAPI < Grape::API
-        resources :categories do
-          before do
-            @categories = @project.categories
-          end
+      class CategoriesAPI < ::Cuba
+        include API::Helpers
+        include API::V3::Utilities::PathHelper
 
-          get do
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+          @project = env['project']
+
+          on get, root do
+            @categories = @project.categories
             self_link = api_v3_paths.categories(@project.identifier)
 
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
+            res.write CategoryCollectionRepresenter.new(@categories,
+                                                        @categories.count,
+                                                        self_link).to_json
           end
         end
       end

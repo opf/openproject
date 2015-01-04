@@ -30,26 +30,25 @@
 module API
   module V3
     module Statuses
-      class StatusesAPI < Grape::API
-        resources :statuses do
-          before do
+      class StatusesAPI < ::Cuba
+        include API::V3::Utilities::PathHelper
+
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+
+          on root do
             @statuses = Status.all
+            res.write StatusCollectionRepresenter.new(@statuses,
+                                                      @statuses.count,
+                                                      api_v3_paths.statuses).to_json
           end
 
-          get do
-            StatusCollectionRepresenter.new(@statuses,
-                                            @statuses.count,
-                                            api_v3_paths.statuses)
-          end
-
-          namespace ':id' do
-            before do
-              status = Status.find(params[:id])
+          on ':id' do |id|
+            on get do
+              status = Status.find(id)
               @representer = ::API::V3::Statuses::StatusRepresenter.new(status)
-            end
 
-            get do
-              @representer
+              res.write @representer.to_json
             end
           end
         end

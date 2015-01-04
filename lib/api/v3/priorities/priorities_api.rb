@@ -30,16 +30,20 @@
 module API
   module V3
     module Priorities
-      class PrioritiesAPI < Grape::API
-        resources :priorities do
-          before do
-            @priorities = IssuePriority.all
-          end
+      class PrioritiesAPI < ::Cuba
+        include API::V3::Utilities::PathHelper
 
-          get do
-            PriorityCollectionRepresenter.new(@priorities,
-                                              @priorities.count,
-                                              api_v3_paths.priorities)
+        define do
+          res.headers['Content-Type'] = 'application/json; charset=utf-8'
+
+          on get do
+            on root do
+              @priorities = IssuePriority.all
+
+              res.write PriorityCollectionRepresenter.new(@priorities,
+                                                          @priorities.count,
+                                                          api_v3_paths.priorities).to_json
+            end
           end
         end
       end
