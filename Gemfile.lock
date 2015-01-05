@@ -314,7 +314,7 @@ GEM
       nokogiri
       uber (~> 0.0.7)
     request_store (1.1.0)
-    roar (1.0.0.beta2)
+    roar (1.0.0)
       representable (>= 2.0.1, <= 3.0.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
@@ -470,7 +470,7 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   reform (~> 1.1.1)
   request_store
-  roar (~> 1.0.0.beta2)
+  roar (~> 1.0.0)
   rspec (~> 2.99.0)
   rspec-activemodel-mocks
   rspec-example_disabler!

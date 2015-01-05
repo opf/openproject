@@ -179,7 +179,7 @@ end
 
 # API gems
 gem 'grape', '~> 0.9.0'
-gem 'roar',   '~> 1.0.0.beta2'
+gem 'roar',   '~> 1.0.0'
 gem 'reform', '~> 1.1.1', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
