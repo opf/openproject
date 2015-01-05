@@ -318,7 +318,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
-        query.dirty = false;
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },
