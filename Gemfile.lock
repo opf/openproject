@@ -408,7 +408,7 @@ GEM
       railties (~> 3.0)
     structured_warnings (0.1.4)
     svg-graph (1.0.5)
-    syck (1.0.1)
+    syck (1.0.4)
     test-unit (2.5.5)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
@@ -526,7 +526,7 @@ DEPENDENCIES
   sprockets-rails!
   strong_parameters
   svg-graph
-  syck
+  syck (~> 1.0.4)
   test-unit (= 2.5.5)
   thin
   timecop (~> 0.6.1)
