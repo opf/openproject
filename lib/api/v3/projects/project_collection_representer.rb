@@ -27,36 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'roar/json'
+require 'roar/json/collection'
+require 'roar/json/hal'
+
 module API
   module V3
-    module Versions
-      class VersionsAPI < Grape::API
-        resources :versions do
-
-          namespace ':id' do
-
-            before do
-              @version = Version.find(params[:id])
-
-              authorized_for_version?(@version)
-            end
-
-            helpers do
-              def authorized_for_version?(version)
-                projects = version.projects
-
-                permissions = [:view_work_packages, :manage_versions]
-
-                authorize_any(permissions, projects, user: current_user)
-              end
-            end
-
-            get do
-              VersionRepresenter.new(@version)
-            end
-
-            mount API::V3::Versions::VersionsProjectsAPI
-          end
+    module Projects
+      class ProjectCollectionRepresenter < ::API::Decorators::Collection
+        def initialize(models, total, self_link)
+          super(models, total, self_link, ::API::V3::Projects::ProjectRepresenter)
         end
       end
     end

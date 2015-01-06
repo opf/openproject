@@ -110,6 +110,10 @@ module API
             "#{project(project_id)}/versions"
           end
 
+          def self.versions_projects(version_id)
+            "#{root}/versions/#{version_id}/projects"
+          end
+
           def self.watcher(id, work_package_id)
             "#{work_package(work_package_id)}/watchers/#{id}"
           end

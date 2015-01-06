@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,38 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Versions
-      class VersionsAPI < Grape::API
-        resources :versions do
+require 'spec_helper'
 
-          namespace ':id' do
+describe ::API::V3::Projects::ProjectCollectionRepresenter do
+  let(:self_link) { '/api/v3/versions/1/projects' }
+  let(:projects) { FactoryGirl.build_list(:project, 3) }
+  let(:representer) { described_class.new(projects, 42, self_link) }
 
-            before do
-              @version = Version.find(params[:id])
+  context 'generation' do
+    subject(:collection) { representer.to_json }
 
-              authorized_for_version?(@version)
-            end
-
-            helpers do
-              def authorized_for_version?(version)
-                projects = version.projects
-
-                permissions = [:view_work_packages, :manage_versions]
-
-                authorize_any(permissions, projects, user: current_user)
-              end
-            end
-
-            get do
-              VersionRepresenter.new(@version)
-            end
-
-            mount API::V3::Versions::VersionsProjectsAPI
-          end
-        end
-      end
-    end
+    it_behaves_like 'API V3 collection decorated', 42, 3, 'versions/1/projects', 'Project'
   end
 end

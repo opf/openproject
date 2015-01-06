@@ -185,6 +185,14 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/versions/) }
   end
 
+  describe '#versions_projects' do
+    subject { helper.versions_projects 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/versions\/42\/projects/) }
+  end
+
   describe 'work packages paths' do
     shared_examples_for 'api v3 work packages path' do
       it { is_expected.to match(/^\/api\/v3\/work_packages/) }
