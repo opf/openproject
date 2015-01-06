@@ -47,10 +47,10 @@
   h1
     margin-bottom: 0
     margin-left: 13px
-    @include breadcrumb-font($breadcrumb-font-color)
+    @include default-font-normal($breadcrumb-font-color, $breadcrumb-font-size)
 
   a
-    @include breadcrumb-font-bold($breadcrumb-font-color)
+    @include default-font-bold($breadcrumb-font-color, $breadcrumb-font-size)
     text-decoration: none
     &:hover
       text-decoration: underline
