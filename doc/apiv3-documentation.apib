@@ -2041,6 +2041,130 @@ Permanently deletes the specified user account.
                 "message": "The specified user does not exist."
             }
 
+
+## User Account Locking [/api/v3/users/{id}/lock]
+
+**NOT IMPLEMENTED**
+
+## Lock Status [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users/1/lock" },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "_type": "Lock Status",
+                "locked": true,
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for viewing the
+    lock status of a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to view the account lock status of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+
+## Set Lock [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 204
+
+    Returned if the account was locked successfully.
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for locking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Remove Lock [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 204
+
+    Returned if the account was unlocked successfully.
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for unlocking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
 # Group Versions
 
 ## Linked Properties:
