@@ -45,6 +45,9 @@ shared_context 'work package table helpers' do
     click_button('Settings')
     click_link('Sort by ...')
 
+    # Ensure the modal is opened before calling the non waiting 'all' function.
+    find('.ng-modal-window', text: 'Sorting')
+
     # If the modal was accessible, this would be elegant.
     first_sort_criteria = all('.select2-container')[0]
     select2_select_option(first_sort_criteria, column_name)
