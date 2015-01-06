@@ -40,26 +40,38 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%=  User.human_attribute_name(:status) %>:</label>
-<%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+  <div class="vertical medium-horizontal grid-block">
+    <div class="grid-content">
+      <label for='status'><%=  User.human_attribute_name(:status) %>:</label>
+      <%= select_tag 'status', users_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
+    </div>
 
-<% if @groups.present? %>
-  <label for='group_id'><%= Group.model_name.human %>:</label>
-  <%= collection_select :group,
-                        :id,
-                        @groups,
-                        :id,
-                        :name,
-                        { :include_blank => true,
-                          :selected => params[:group_id].to_i },
-                        { :name => "group_id",
-                          :onchange => "this.form.submit(); return false;" } %>
-<% end %>
+    <% if @groups.present? %>
+      <div class="grid-content">
+        <label for='group_id'><%= Group.model_name.human %>:</label>
+        <%= collection_select :group,
+                              :id,
+                              @groups,
+                              :id,
+                              :name,
+                              { :include_blank => true,
+                                :selected => params[:group_id].to_i },
+                              { :name => "group_id",
+                                :onchange => "this.form.submit(); return false;",
+                                class: 'form--select -small' } %>
+      </div>
+    <% end %>
 
-<label for='name'><%= User.model_name.human %>:</label>
-<%= text_field_tag 'name', params[:name], :size => 30 %>
-<%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-<%= link_to l(:button_clear), users_path, :class => 'icon icon-undo' %>
+    <div class="grid-content">
+      <label for='name'><%= User.model_name.human %>:</label>
+      <%= text_field_tag 'name', params[:name], :size => 30, class: 'form--text-field -small' %>
+    </div>
+
+    <div class="grid-content">
+      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+      <%= link_to l(:button_clear), users_path, :class => 'button -small icon icon-undo' %>
+    </div>
+  </div>
 </fieldset>
 <% end %>
 &nbsp;
