@@ -154,6 +154,8 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
+    doorkeeper (2.0.1)
+      railties (>= 3.1)
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -429,6 +431,7 @@ DEPENDENCIES
   database_cleaner (~> 1.2.0)
   date_validator
   delayed_job_active_record (= 0.3.3)
+  doorkeeper (~> 2.0.1)
   factory_girl_rails (~> 4.0)
   faker
   globalize

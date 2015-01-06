@@ -1,0 +1,22 @@
+<h3><%=l('oauth.register_application')%></h3>
+<p><%= l('oauth.help-text.register_intro') %></p>
+
+<%= labelled_tabular_form_for(app,
+          :url  => { :controller => :oauth, :action => 'register' },
+          :method => :post ) do |f| %>
+  <div class="box">
+    <p>
+      <%= f.text_field :name, :label => Doorkeeper::Application.human_attribute_name(:name), :required => true %>
+      <br/>
+      <span class="help-block"><%= l('oauth.help-text.name') %></span>
+    </p>
+    <p>
+      <%= f.text_field :redirect_uri, :label => Doorkeeper::Application.human_attribute_name(:redirect_uri), :required => true %>
+      <br/>
+      <span class="help-block">
+        <%= raw l('oauth.help-text.redirect_uri', native_default: "<strong>#{Doorkeeper.configuration.native_redirect_uri}</strong>") %>
+      </span>
+    </p>
+  </div>
+  <%= submit_tag l(:button_create) %>
+<% end %>

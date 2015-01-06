@@ -1,0 +1,38 @@
+<h2><%=l('oauth.my_application_grants')%></h2>
+
+<%= error_messages_for 'user' %>
+
+<% if grants.nil? || grants.empty? %>
+  <p><%= l('oauth.no_grants_given') %></p>
+<% else %>
+  <table class="list">
+      <thead>
+        <tr>
+          <th><%= l('oauth.application_details') %></th>
+          <th><%= l('oauth.grants.created_date') %>
+          <th><%= l('oauth.grants.scopes') %>
+          <th></th>
+      </thead>
+      <tbody>
+      <% grants.each do |grant| %>
+        <tr>
+          <td class="center">
+            <%= grant.application.name %>
+            <br/>
+            <strong><%= l('oauth.client_id') %></strong>: <%= grant.application.uid %>
+          </td>
+          <td class="center"><%= grant.created_at %></td>
+          <td class="center"><%= grant.scopes %></td>
+          <td class="center buttons">
+            <%= link_to l('oauth.grants.revoke'),
+                   { :controller => :oauth, :action => 'revoke', :id => grant.id },
+                   :method => :delete,
+                   :class   => 'icon icon-delete',
+                   :confirm => l('oauth.grants.revoke_confirmation', app_uid: grant.application.uid,
+                    app_name: grant.application.name) %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+  </table>
+<% end %>

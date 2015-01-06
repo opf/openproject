@@ -105,6 +105,12 @@ class User < Principal
   has_one :api_token, dependent: :destroy, class_name: 'Token', conditions: "action='api'"
   belongs_to :auth_source
 
+  # Authorized OAuth grants
+  has_many :oauth_grants, class_name: 'Doorkeeper::AccessGrant', foreign_key: 'resource_owner_id'
+
+  # User-defined oauth applications
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
+
   # TODO: this is from Principal. the inheritance doesn't work correctly
   # note: it doesn't fail in development mode
   # see: https://github.com/rails/rails/issues/3847
