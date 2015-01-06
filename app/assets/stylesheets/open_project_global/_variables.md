@@ -5,7 +5,7 @@ Color Variables
 
 ```
 @colors
-- $global-font-color - -
+- $body-font-color - -
 - $header-bg-color - $header-logo-bg-color -
 ```
 
