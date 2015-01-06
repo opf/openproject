@@ -313,6 +313,7 @@ de:
     firstname: "Vorname"
     group: "Gruppe"
     groupname: "Gruppenname"
+    id: "ID"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
