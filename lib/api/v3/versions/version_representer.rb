@@ -36,14 +36,58 @@ module API
       class VersionRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
+        attr_reader :current_user
+
+        def initialize(model, options = {})
+          @current_user = options[:current_user]
+
+          super(model)
+        end
+
         property :_type, exec_context: :decorator
 
+        link :self do
+          {
+            href: api_v3_paths.version(represented.id),
+            title: "#{represented.name}"
+          }
+        end
+
+        link :definingProject do
+          {
+            href: api_v3_paths.project(represented.project.id),
+            title: "#{represented.project.name}"
+          } if represented.project.visible?(current_user)
+        end
+
+        link :availableInProjects do
+          {
+            href: api_v3_paths.versions_projects(represented.project.id)
+          }
+        end
+
         property :id, render_nil: true
-        property :name
+        property :name, render_nil: true
+
+        property :description,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   {
+                     format: 'plain',
+                     raw: represented.description,
+                   }
+                 },
+                 render_nil: true
+
+        property :start_date, render_nil: true
+        property :due_date, as: 'endDate', render_nil: true
+        property :status, render_nil: true
+        property :created_on, as: 'createdAt', render_nil: true
+        property :updated_on, as: 'updatedAt', render_nil: true
 
         def _type
           'Version'

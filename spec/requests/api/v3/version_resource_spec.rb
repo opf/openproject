@@ -55,6 +55,17 @@ describe 'API v3 Version resource' do
   describe '#get (:id)' do
     let(:get_path) { "/api/v3/versions/#{version_in_project.id}" }
 
+    shared_examples_for 'successful response' do
+      it 'responds with 200' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'returns the version' do
+        expect(last_response.body).to be_json_eql('Version'.to_json).at_path('_type')
+        expect(last_response.body).to be_json_eql(expected_version.id.to_json).at_path('id')
+      end
+    end
+
     context 'logged in user with permissions' do
       before do
         version_in_project.save!
@@ -63,17 +74,8 @@ describe 'API v3 Version resource' do
         get get_path
       end
 
-      it 'responds with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      it 'returns the work package' do
-        expected = {
-          _type: 'Version',
-          name: version_in_project.name
-        }.to_json
-
-        expect(last_response.body).to be_json_eql(expected)
+      it_should_behave_like 'successful response' do
+        let(:expected_version) { version_in_project }
       end
     end
 
@@ -87,17 +89,8 @@ describe 'API v3 Version resource' do
         get get_path
       end
 
-      it 'responds with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      it 'returns the work package' do
-        expected = {
-          _type: 'Version',
-          name: version_in_other_project.name
-        }.to_json
-
-        expect(last_response.body).to be_json_eql(expected)
+      it_should_behave_like 'successful response' do
+        let(:expected_version) { version_in_other_project }
       end
     end
 

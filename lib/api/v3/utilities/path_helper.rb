@@ -106,12 +106,16 @@ module API
             "#{user(id)}/lock"
           end
 
+          def self.version(version_id)
+            "#{root}/versions/#{version_id}"
+          end
+
           def self.versions(project_id)
             "#{project(project_id)}/versions"
           end
 
           def self.versions_projects(version_id)
-            "#{root}/versions/#{version_id}/projects"
+            "#{version(version_id)}/projects"
           end
 
           def self.watcher(id, work_package_id)
