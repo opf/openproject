@@ -40,6 +40,8 @@ describe 'Select work package row', :type => :feature do
                                             project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
+  include_context 'work package table helpers'
+
   before do
     allow(User).to receive(:current).and_return(user)
 
@@ -51,13 +53,7 @@ describe 'Select work package row', :type => :feature do
   end
 
   after do
-    # This is here to ensure the page is loaded completely before the next spec
-    # is run. As the filters are loaded late in the page, all Ajax requests
-    # have been answered by then.  Without this, requests still running from
-    # the last spec, might expect data that has already been removed as
-    # preparation for the current spec.
-    find("#work-packages-filter-toggle-button").click
-    expect(page).to have_selector('.filter label', text: 'Status')
+    ensure_wp_page_is_loaded
   end
 
   describe 'Work package row selection', js: true do

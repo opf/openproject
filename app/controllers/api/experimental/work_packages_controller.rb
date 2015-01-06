@@ -98,8 +98,7 @@ module Api
       end
 
       def current_work_packages
-        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-        sort_update(@query.sortable_columns)
+        initialize_sort
 
         results = @query.results include: includes_for_columns(all_query_columns(@query)),
                                  order: sort_clause
@@ -114,9 +113,20 @@ module Api
         work_packages
       end
 
+      def initialize_sort
+        # The session contains the previous sort criteria.
+        # For the WP#index, this behaviour is not supported by the frontend, therefore
+        # we remove the session stored sort criteria and only take what is provided.
+        sort_clear
+        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+        sort_update(@query.sortable_columns)
+      end
+
       def all_query_columns(query)
         columns = query.columns.map(&:name) + [:id]
+
         columns << query.group_by.to_sym if query.group_by
+        columns += query.sort_criteria.map { |x| x.first.to_sym }
 
         columns
       end

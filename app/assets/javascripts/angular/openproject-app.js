@@ -166,13 +166,15 @@ openprojectApp
     '$rootScope',
     '$window',
     'flags',
-    function($http, $rootScope, $window, flags) {
+    'TimezoneService',
+    function($http, $rootScope, $window, flags, TimezoneService) {
     $http.defaults.headers.common.Accept = 'application/json';
 
     $rootScope.showNavigation =
       $window.sessionStorage.getItem('openproject:navigation-toggle') !== 'collapsed';
 
     flags.set($http.get('/javascripts/feature-flags.json'));
+    TimezoneService.setupLocale();
   }])
   .value('cgBusyDefaults', {
     templateUrl: '/assets/angular-busy/angular-busy.html'
