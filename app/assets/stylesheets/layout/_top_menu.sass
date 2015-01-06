@@ -88,7 +88,7 @@
       height: $header-height
       line-height: $header-height
       zoom: 1
-      @include default-font-normal($header-item-font-color, $header-item-font-size)
+      @include default-font($header-item-font-color, $header-item-font-size)
       text-decoration: none
       padding: 0 10px 0 10px
     > a:hover
@@ -159,7 +159,7 @@
     border-top: 0
     line-height: 19px
     padding: 15px 10px 15px 15px
-    @include default-font-normal(#555555, 13px)
+    @include default-font(#555555, 13px)
 
     input[type=text]
       height: 28px
@@ -201,7 +201,7 @@
   margin: 0 0 0 -2px
   border: 2px solid $header-drop-down-border-color
   border-top: 0
-  @include default-font-normal($header-drop-down-projects-search-font-color, 13px)
+  @include default-font($header-drop-down-projects-search-font-color, 13px)
   li
     padding: 0 10px
 

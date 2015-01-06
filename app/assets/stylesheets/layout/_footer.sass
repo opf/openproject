@@ -36,7 +36,7 @@
   padding: 0
   clear: both
   background-color: $footer-bg-color
-  @include default-font-normal($footer-font-color)
+  @include default-font($footer-font-color)
 
   %absolute-layout-mode &
     display: none
@@ -47,4 +47,4 @@
     line-height: $footer-content-line-height
     a
       text-decoration: underline
-      @include default-font-normal($footer-content-link-color)
+      @include default-font($footer-content-link-color)

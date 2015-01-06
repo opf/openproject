@@ -29,17 +29,11 @@
 @mixin default-transition
   transition: all 200ms ease-in-out 0s
 
-@mixin default-font-normal($color, $font-size: 13px)
+@mixin default-font($color, $font-size: 13px, $font-weight: normal)
   color:              $color
-  font-size:          $font-size
   font-family:        $font-family-normal
-  font-weight:        normal
-
-@mixin default-font-bold($color, $font-size: 13px)
-  color:              $color
   font-size:          $font-size
-  font-family:        $font-family-normal
-  font-weight:        bold
+  font-weight:        $font-weight
 
 
 
