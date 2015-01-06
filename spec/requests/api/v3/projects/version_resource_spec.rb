@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Version resource' do
+describe "API v3 project's versions resource" do
   include Rack::Test::Methods
 
   let(:current_user) do
@@ -44,68 +44,31 @@ describe 'API v3 Version resource' do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:other_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:version_in_project) { FactoryGirl.build(:version, project: project) }
-  let(:version_in_other_project) do
-    FactoryGirl.build(:version, project: other_project,
-                                sharing: 'system')
-  end
+  let(:versions) { FactoryGirl.create_list(:version, 4, project: project) }
+  let(:other_versions) { FactoryGirl.create_list(:version, 2) }
 
   subject(:response) { last_response }
 
-  describe '#get (:id)' do
-    let(:get_path) { "/api/v3/versions/#{version_in_project.id}" }
+  describe '#get (index)' do
+    let(:get_path) { "/api/v3/projects/#{project.id}/versions" }
 
-    context 'logged in user with permissions' do
+    context 'logged in user' do
       before do
-        version_in_project.save!
         current_user
+
+        versions
+        other_versions
 
         get get_path
       end
 
-      it 'responds with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      it 'returns the work package' do
-        expected = {
-          _type: 'Version',
-          name: version_in_project.name
-        }.to_json
-
-        expect(last_response.body).to be_json_eql(expected)
-      end
-    end
-
-    context 'logged in user with permission on project a version is shared with' do
-      let(:get_path) { "/api/v3/versions/#{version_in_other_project.id}" }
-
-      before do
-        version_in_other_project.save!
-        current_user
-
-        get get_path
-      end
-
-      it 'responds with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      it 'returns the work package' do
-        expected = {
-          _type: 'Version',
-          name: version_in_other_project.name
-        }.to_json
-
-        expect(last_response.body).to be_json_eql(expected)
-      end
+      it_behaves_like 'API V3 collection response', 4, 4, 'Version'
     end
 
     context 'logged in user without permission' do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
-      before(:each) do
-        version_in_project.save!
+      before do
         current_user
 
         get get_path

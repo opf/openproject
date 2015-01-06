@@ -34,6 +34,8 @@ module API
         resources :versions do
           before do
             @versions = @project.shared_versions.all
+
+            authorize_any [:view_work_packages, :manage_versions], @project
           end
 
           get do
