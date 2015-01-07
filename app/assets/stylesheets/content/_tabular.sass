@@ -26,6 +26,93 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/***** Tabular forms *****
+
+.tabular p
+  margin: 0
+  padding: 5px 0 8px 0
+  padding-left: 180px
+  /*width of left column containing the label elements
+  height: auto
+  clear: left
+
+html > body .tabular p
+  overflow: hidden
+
+.tabular
+  label
+    font-weight: bold
+    float: left
+    text-align: right
+    margin-left: -180px
+    /*width of left column
+    width: 175px
+    /*                 width of labels. Should be smaller than left column to create some right
+     * margin
+  td label
+    font-weight: normal
+    float: none
+    text-align: left
+    margin-left: 0
+    /*width of left column
+    width: auto
+    /*                width of labels. Should be smaller than left column to create some right
+     * margin
+
+p.email_notification
+  margin: 18px 10px 6px
+  padding: 87px
+
+.tabular label
+  &.floating
+    font-weight: normal
+    margin-left: 0
+    text-align: left
+    width: 270px
+  &.block
+    font-weight: normal
+    margin-left: 0 !important
+    text-align: left
+    float: none
+    display: block
+    width: auto
+  &.inline
+    float: none
+    margin-left: 5px !important
+    width: auto
+
+label.no-css
+  font-weight: inherit
+  float: none
+  text-align: left
+  margin-left: 0
+  width: auto
+
+input#time_entry_comments
+  width: 90%
+
+#preview fieldset
+  margin-top: 1em
+  background: image-url("draft.png")
+
+.tabular.settings
+  p
+    padding-left: 300px
+  label
+    margin-left: -300px
+    width: 295px
+  textarea
+    width: 99%
+
+fieldset
+  &.settings label
+    display: block
+  &#notified_events .parent
+    padding-left: 20px
+
+.required
+  color: #bb0000
+
 #content
   .box
     fieldset.tabular
