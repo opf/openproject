@@ -33,15 +33,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Categories
-      class CategoryRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        property :_type, exec_context: :decorator
-
+      class CategoryRepresenter < ::API::Decorators::Single
         property :id, render_nil: true
         property :name, render_nil: true
 

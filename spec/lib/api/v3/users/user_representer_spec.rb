@@ -76,7 +76,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when current_user is admin' do
-        let(:current_user) { FactoryGirl.create(:admin) }
+        let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
         it 'should link to lock' do
           expect(subject).to have_json_path('_links/lock/href')

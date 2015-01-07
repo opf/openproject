@@ -76,12 +76,13 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = ::API::V3::WorkPackages::WorkPackageRepresenter
-                .new(work_package, { current_user: current_user }, :activities, :users)
+              @representer = WorkPackageRepresenter.new(work_package,
+                                                        current_user: current_user)
             end
 
             get do
-              authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
+              authorize({ controller: :work_packages_api, action: :get },
+                        context: @work_package.project)
               @representer
             end
 

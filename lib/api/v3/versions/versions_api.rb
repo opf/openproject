@@ -49,10 +49,14 @@ module API
 
                 authorize_any(permissions, projects, user: current_user)
               end
+
+              def context
+                { current_user: current_user }
+              end
             end
 
             get do
-              VersionRepresenter.new(@version)
+              VersionRepresenter.new(@version, context)
             end
 
             mount API::V3::Versions::VersionsProjectsAPI

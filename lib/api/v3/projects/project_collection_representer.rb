@@ -36,9 +36,7 @@ module API
   module V3
     module Projects
       class ProjectCollectionRepresenter < ::API::Decorators::Collection
-        def initialize(models, total, self_link)
-          super(models, total, self_link, ::API::V3::Projects::ProjectRepresenter)
-        end
+        element_decorator ::API::V3::Projects::ProjectRepresenter
       end
     end
   end

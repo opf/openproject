@@ -33,21 +33,8 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      class WorkPackageRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator, writeable: false
+      class WorkPackageRepresenter < ::API::Decorators::Single
+        include OpenProject::TextFormatting
 
         link :self do
           {
@@ -143,20 +130,20 @@ module API
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            data: { user_id: @current_user.id },
+            data: { user_id: current_user.id },
             title: 'Watch work package'
-          } if !@current_user.anonymous? &&
+          } if !current_user.anonymous? &&
                current_user_allowed_to(:view_work_packages) &&
-               !represented.watcher_users.include?(@current_user)
+               !represented.watcher_users.include?(current_user)
         end
 
         link :unwatchChanges do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{@current_user.id}",
+            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
           } if current_user_allowed_to(:view_work_packages) &&
-               represented.watcher_users.include?(@current_user)
+               represented.watcher_users.include?(current_user)
         end
 
         link :addWatcher do
@@ -220,7 +207,7 @@ module API
             href: version_path(represented.fixed_version),
             type: 'text/html',
             title: "#{represented.fixed_version.to_s_for_project(represented.project)}"
-          } if represented.fixed_version && @current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.fixed_version.project, global: false)
+          } if represented.fixed_version && current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.fixed_version.project, global: false)
         end
 
         links :children do
@@ -298,18 +285,18 @@ module API
         end
 
         def activities
-          represented.journals.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
+          represented.journals.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user) }
         end
 
         def watchers
           watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map { |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented, current_user: @current_user) }
+          watchers.map { |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented, current_user: current_user) }
         end
 
         def relations
           relations = represented.relations
           visible_relations = relations.select { |relation| relation.other_work_package(represented).visible? }
-          visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: @current_user) }
+          visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: current_user) }
         end
 
         def custom_properties
@@ -320,7 +307,7 @@ module API
         end
 
         def current_user_allowed_to(permission)
-          @current_user && @current_user.allowed_to?(permission, represented.project)
+          current_user && current_user.allowed_to?(permission, represented.project)
         end
 
         def visible_children
@@ -342,6 +329,10 @@ module API
           minutes = (hours - hours.to_i) * 60
 
           { hours: hours.to_i, minutes: minutes }
+        end
+
+        def current_user
+          context[:current_user]
         end
       end
     end

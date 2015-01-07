@@ -27,17 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/collection'
-require 'roar/json/hal'
-
 module API
   module V3
     module Priorities
       class PriorityCollectionRepresenter < ::API::Decorators::Collection
-        def initialize(models, total, self_link)
-          super(models, total, self_link, ::API::V3::Priorities::PriorityRepresenter)
-        end
+        element_decorator ::API::V3::Priorities::PriorityRepresenter
       end
     end
   end

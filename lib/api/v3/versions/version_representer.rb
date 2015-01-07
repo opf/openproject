@@ -33,23 +33,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Versions
-      class VersionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        attr_reader :current_user
-
-        def initialize(model, options = {})
-          @current_user = options[:current_user]
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
+      class VersionRepresenter < ::API::Decorators::Single
         link :self do
           {
             href: api_v3_paths.version(represented.id),
@@ -91,6 +75,12 @@ module API
 
         def _type
           'Version'
+        end
+
+        private
+
+        def current_user
+          context[:current_user]
         end
       end
     end
