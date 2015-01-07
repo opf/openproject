@@ -114,33 +114,39 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
        options = filter[1] %>
     <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
     <td style="width:200px;">
+      <label>
         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= filter[1][:name] || WorkPackage.human_attribute_name(field) %></label>
+        <%= filter[1][:name] || WorkPackage.human_attribute_name(field) %>
+      </label>
     </td>
     <td style="width:150px;">
         <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
-        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.filter_for(field).try(:operator)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
+        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.filter_for(field).try(:operator)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "form--select -small", :style => "vertical-align: top;" %>
     </td>
     <td>
     <div id="div_values_<%= field %>" style="display:none;">
     <% field_values = query.filter_for(field).try(:values) || []
     case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
-        <select <%= "multiple=true" if field_values and field_values.length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
-        <%= options_for_select options[:values], field_values %>
-        </select>
-        <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
-                             "toggle_multi_select('#{field}');",
-                             :title => l(:label_enable_multi_select),
-                             :class => 'no-decoration-on-hover' %>
+        <span class="inline-label">
+          <select <%= "multiple=true" if field_values and field_values.length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="form--select -small" style="vertical-align: top;">
+          <%= options_for_select options[:values], field_values %>
+          </select>
+          <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
+                               "toggle_multi_select('#{field}');",
+                               :title => l(:label_enable_multi_select),
+                               :class => 'form-label no-decoration-on-hover' %>
+        </span>
     <% when :date, :date_past %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "select-small" %>
-      <label for='<%= "values_#{field}" %>'><%= l(:label_day_plural) %></label>
+      <span class="inline-label">
+        <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "form--text-field -small" %>
+        <label for='<%= "values_#{field}" %>' class="form-label"><%= l(:label_day_plural) %></label>
+      </span>
     <% when :string, :text %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 30, :class => "select-small" %>
+      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 30, :class => "form--text-field -small" %>
       <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_text) %></label>
     <% when :integer %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "select-small" %>
+      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "form--text-field -small" %>
       <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_number) %></label>
     <% end %>
     </div>
@@ -151,11 +157,11 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 </table>
 </td>
 <td class="add-filter">
-<%= label_tag('add_filter_select', l(:label_filter_add)) %>:
+<%= label_tag('add_filter_select', l(:label_filter_add)) %>
 <%= select_tag 'add_filter_select',
   options_for_select(entries_for_filter_select_sorted(query)),
     :onchange => "add_filter();",
-    :class => "select-small",
+    :class => "form--select -small",
     :name => nil %>
 </td>
 </tr>
