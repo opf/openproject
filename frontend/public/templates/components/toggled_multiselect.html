@@ -1,11 +1,11 @@
-<div>
+<span class="inline-label">
   <select filter-value-select
           ng-if="!isMultiselect"
           name="v[{{name}}][]"
           ng-model="$parent.values"
           ng-disabled="disabled"
           id="values-{{name}}"
-          class="select-small"
+          class="form--select -small"
           style="vertical-align: top;"
           require>
     <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])" label="{{ value[0] }}">{{ value[0] }}</option>
@@ -18,13 +18,13 @@
           ng-model="$parent.values"
           ng-disabled="disabled"
           id="values-{{name}}"
-          class="select-small"
+          class="form--select -small"
           style="vertical-align: top;"
           require>
     <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])" label="{{ value[0] }}">{{ value[0] }}</option>
   </select>
 
-  <a href class="no-decoration-on-hover" title="{{I18n.t('js.work_packages.label_enable_multi_select')}}" ng-click="toggleMultiselect()">
+  <a href class="form-label no-decoration-on-hover" title="{{I18n.t('js.work_packages.label_enable_multi_select')}}" ng-click="toggleMultiselect()">
     <icon-wrapper icon-name="plus"
                   icon-title="{{I18n.t('js.work_packages.label_enable_multi_select')}}"/>
   </a>
