@@ -93,9 +93,6 @@
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label for="values_{{name}}" class="hidden-for-sighted">
-              {{ I18n.t('js.work_packages.time_relative.days') }}
-            </label>
             <label for="values_{{name}}" class="form-label">
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
@@ -110,9 +107,6 @@
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label ng-switch-when="date_past" for="values_{{name}}" class="hidden-for-sighted">
-              {{ I18n.t('js.work_packages.time_relative.days') }}
-            </label>
             <label ng-switch-when="date_past" for="values_{{name}}" class="form-label">
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
