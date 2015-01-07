@@ -63,8 +63,8 @@ describe 'Query Saving', type: :feature, js: true do
     before do
       work_packages_page.select_query query
       # ensure the page is loaded before expecting anything
-      find('.filter-fields select option', text: /\AAssignee\Z/,
-                                           visible: false)
+      find('.work-packages-filters--filters select option', text: /\AAssignee\Z/,
+                                                            visible: false)
     end
 
     it 'should select its menu item' do
@@ -80,8 +80,8 @@ describe 'Query Saving', type: :feature, js: true do
         fill_in 'query_name', with: 'newQueryName'
         find_button('Save').click
         # ensure the page is loaded before expecting anything
-        find('.filter-fields select option', text: /\AAssignee\Z/,
-                                             visible: false)
+        find('.work-packages-filters--filters select option', text: /\AAssignee\Z/,
+                                                              visible: false)
       end
 
       it 'should select the new menu item' do
