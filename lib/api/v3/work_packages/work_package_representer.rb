@@ -204,8 +204,7 @@ module API
 
         link :version do
           {
-            href: version_path(represented.fixed_version),
-            type: 'text/html',
+            href: api_v3_paths.version(represented.fixed_version.id),
             title: "#{represented.fixed_version.to_s_for_project(represented.project)}"
           } if represented.fixed_version && current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.fixed_version.project, global: false)
         end
