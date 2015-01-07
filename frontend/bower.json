@@ -26,7 +26,7 @@
     "angular-busy": "~4.1.1",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1",
-    "foundation-apps": "~1.0.0",
+    "foundation-apps": "~1.0.2",
     "ui-select": "angular-ui/ui-select#~0.9.5"
   },
   "devDependencies": {
