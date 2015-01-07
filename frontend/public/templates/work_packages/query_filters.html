@@ -66,7 +66,7 @@
                  type="text"
                  value=""
                  ng-disabled="isLoading"/>
-          <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">
+          <label ng-switch-when="text" for="values_{{name}}" class="hidden-for-sighted">
             {{ I18n.t('js.work_packages.description_enter_text') }}
           </label>
 
@@ -80,7 +80,7 @@
                  type="number"
                  value=""
                  ng-disabled="isLoading"/>
-          <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">
+          <label ng-switch-when="integer" for="values_{{name}}" class="hidden-for-sighted">
             {{ I18n.t('js.work_packages.description_enter_text') }}
           </label>
 
