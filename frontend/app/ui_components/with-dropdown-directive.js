@@ -57,7 +57,7 @@ module.exports = function ($rootScope, $window, ESC_KEY, FocusHelper) {
 
           dropdown.css({
             left: leftPosition,
-            top: trigger.outerHeight(true) - topBottomMargins + vOffset
+            top: trigger.position().top + trigger.outerHeight(true) - topBottomMargins + vOffset
           });
         }
       } else {
