@@ -135,12 +135,12 @@
   .search-query-wrapper
     padding: 15px
   input
+    box-sizing: border-box
     margin: 0 auto
     width: 100%
     min-width: 250px
     height: 30px
     line-height: 30px
-    padding: 0 0
     background: #ffffff
     border: 1px solid #cacaca
     color: #222222
@@ -151,7 +151,8 @@
     text-transform: uppercase
   #magnifier
     position: absolute
-    margin: 8px 0 0 -22px
+    top:   24px
+    right: 22px
     color: #999999
 
   input[type="search"]::-webkit-search-cancel-button
