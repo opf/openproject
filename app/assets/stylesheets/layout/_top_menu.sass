@@ -54,11 +54,12 @@
   #search
     margin: 7px 25px 0 0
     float: left
-  .search_field
+  #search_wrap
     position: relative
+    top: 6px
+  .search_field
     border: $header-search-field-border
     border-radius: 25px
-    top: 6px
     width: 180px
     outline: 0
     padding: 7px 30px 7px 10px
@@ -70,9 +71,9 @@
     color: $header-search-field-font-color
   span#magnifier
     @include icon-common
-    position: relative
-    top: 10px
-    right: 27px
+    position: absolute
+    top:   7px
+    right: 7px
     &:after
       display: inline-block
       content: "\e0a1"
