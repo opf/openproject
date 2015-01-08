@@ -455,6 +455,37 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'handling people', 'responsible'
             end
 
+            describe 'version' do
+              let(:path) { '_embedded/payload/_links/version/href' }
+              let(:target_version) { FactoryGirl.create(:version, project: project) }
+              let(:other_version) { FactoryGirl.create(:version, project: project) }
+              let(:version_link) { "/api/v3/versions/#{target_version.id}" }
+              let(:other_version_link) { "/api/v3/versions/#{other_version.id}" }
+              let(:version_parameter) { { _links: { version: { href: version_link } } } }
+              let(:params) { valid_params.merge(version_parameter) }
+
+              describe 'allowed values' do
+                include_context 'post request'
+
+                it 'should list all versions available for the project' do
+                  expect(subject.body).to be_json_eql(other_version_link.to_json)
+                    .at_path('_embedded/schema/versions/_links/allowedValues/1/href')
+                end
+              end
+
+              context 'valid version' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package version' do
+                  expect(subject.body).to be_json_eql(version_link.to_json).at_path(path)
+                end
+              end
+            end
+
             describe 'multiple errors' do
               let(:user_link) { '/api/v3/users/42' }
               let(:status_link) { '/api/v3/statuses/-1' }

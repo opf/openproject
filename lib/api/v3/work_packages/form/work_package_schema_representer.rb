@@ -142,6 +142,19 @@ module API
 
             property :type, getter: -> (*) { 'User' }
           end
+
+          property :version,
+                   decorator: SchemaAllowedVersionsRepresenter,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     version_origin = represented
+
+                     if represented.persisted? && represented.fixed_version_id_changed?
+                       version_origin = represented.class.find(represented.id)
+                     end
+
+                     { versions: version_origin.assignable_versions, current_user: @current_user }
+                   }
         end
       end
     end

@@ -570,6 +570,28 @@ h4. things we like
         end
       end
 
+      context 'version' do
+        let(:target_version) { FactoryGirl.create(:version, project: project) }
+        let(:version_link) { "/api/v3/versions/#{target_version.id}" }
+        let(:version_parameter) { { _links: { version: { href: version_link } } } }
+        let(:params) { valid_params.merge(version_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the version' do
+            expect(subject.body).to be_json_eql(target_version.name.to_json)
+              .at_path('_embedded/version/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
           context 'start date' do
@@ -620,14 +642,6 @@ h4. things we like
             it { expect(response.status).to eq(422) }
 
             it_behaves_like 'read-only violation', 'projectId'
-          end
-
-          context 'fixed version id' do
-            let(:params) { valid_params.merge(versionId: -1) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'fixedVersionId'
           end
         end
 
