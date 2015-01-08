@@ -1966,6 +1966,14 @@ This endpoint lists the types that are *available* in a given project.
                     "self": {
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
+                    },
+                    "lock": {
+                        "href": "/api/v3/users/1/lock",
+                        "method": "POST"
+                    },
+                    "delete": {
+                        "href": "/api/v3/users/1",
+                        "method": "DELETE"
                     }
                 },
                 "id": 1,
@@ -2063,8 +2071,8 @@ Permanently deletes the specified user account.
                         "title": "John Sheppard - admin"
                     }
                 },
-                "_type": "Lock Status",
-                "locked": true,
+                "_type": "LockStatus",
+                "locked": true
             }
 
 + Response 403 (application/hal+json)
@@ -2154,7 +2162,7 @@ Permanently deletes the specified user account.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to lock the account of this user."
+                "message": "You are not allowed to unlock the account of this user."
             }
 
 + Response 404 (application/hal+json)
