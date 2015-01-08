@@ -52,9 +52,12 @@ module.exports = function ($rootScope, $window, ESC_KEY, FocusHelper) {
             top: trigger.position().top - dropdownHeight + parseInt(trigger.css('margin-top')) - vOffset
           });
         } else {
+          var topBottomMargins = parseInt(trigger.css('margin-top')) +
+                                 parseInt(trigger.css('margin-bottom'));
+
           dropdown.css({
             left: leftPosition,
-            top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
+            top: trigger.outerHeight(true) - topBottomMargins + vOffset
           });
         }
       } else {
