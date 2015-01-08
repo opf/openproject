@@ -49,7 +49,7 @@ gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.3.0"
 
-gem "awesome_nested_set", '~> 2.1.6'
+gem "awesome_nested_set", '~> 3.0.2'
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 
