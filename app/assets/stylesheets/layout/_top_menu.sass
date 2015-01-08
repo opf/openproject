@@ -68,7 +68,19 @@
     color: $header-search-field-font-color
   :-moz-placeholder
     color: $header-search-field-font-color
-
+  span#magnifier
+    @include icon-common
+    position: relative
+    top: 10px
+    right: 27px
+    &:after
+      display: inline-block
+      content: "\e0a1"
+      -webkit-transform: scaleX(-1)
+      -moz-transform: scaleX(-1)
+      -o-transform: scaleX(-1)
+      -ms-transform: scaleX(-1)
+      transform: scaleX(-1)
   ul
     margin: 0
     padding: 0
