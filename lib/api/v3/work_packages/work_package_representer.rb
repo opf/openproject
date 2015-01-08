@@ -206,7 +206,8 @@ module API
           {
             href: api_v3_paths.version(represented.fixed_version.id),
             title: "#{represented.fixed_version.to_s_for_project(represented.project)}"
-          } if represented.fixed_version && current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.fixed_version.project, global: false)
+          } if represented.fixed_version &&
+               version_policy.allowed?(represented.fixed_version, :show)
         end
 
         links :children do
@@ -342,6 +343,10 @@ module API
 
         def current_user
           context[:current_user]
+        end
+
+        def version_policy
+          @version_policy ||= ::VersionPolicy.new(current_user)
         end
       end
     end

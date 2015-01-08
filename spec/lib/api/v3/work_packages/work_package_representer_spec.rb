@@ -270,8 +270,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           context ' but is not accessible due to permissions' do
             before do
-              current_user.stub(:allowed_to?).and_call_original
-              current_user.stub(:allowed_to?).with({ controller: 'versions', action: 'show' }, project, global: false).and_return(false)
+              policy = double('VersionPolicy')
+              allow(policy).to receive(:allowed?).with(version, :show).and_return(false)
+              representer.instance_variable_set(:@version_policy, policy)
             end
 
             it 'has no version linked' do
