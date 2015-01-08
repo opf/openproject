@@ -1941,6 +1941,12 @@ This endpoint lists the types that are *available* in a given project.
 
 # Group Users
 
+## Actions:
+| Link                | Description                                                          | Condition                                 |
+|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------- |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator     |
+
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
 | :---------: | -------------                                             | ----     | ----------- | -------------------- |
@@ -1983,7 +1989,8 @@ This endpoint lists the types that are *available* in a given project.
                 "mail": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "status": "active"
             }
 
 ## View user [GET]
@@ -2054,65 +2061,14 @@ Permanently deletes the specified user account.
 
 **NOT IMPLEMENTED**
 
-## Lock Status [GET]
+## Set Lock [POST]
 
 + Parameters
     + id (required, integer, `1`) ... User id
 
 + Response 200 (application/hal+json)
 
-    + Body
-
-            {
-                "_links": {
-                    "self": { "href": "/api/v3/users/1/lock" },
-                    "user": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
-                    }
-                },
-                "_type": "LockStatus",
-                "locked": true
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions for viewing the
-    lock status of a user.
-
-    **Required permission:** Administrators only
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to view the account lock status of this user."
-            }
-
-+ Response 404 (application/hal+json)
-
-    Returned if the user does not exist.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified user does not exist."
-            }
-
-
-## Set Lock [POST]
-
-+ Parameters
-    + id (required, integer, `1`) ... User id
-
-+ Response 204
-
-    Returned if the account was locked successfully.
-
-    + Body
+    [User][]
 
 + Response 403 (application/hal+json)
 
@@ -2145,11 +2101,9 @@ Permanently deletes the specified user account.
 + Parameters
     + id (required, integer, `1`) ... User id
 
-+ Response 204
++ Response 200 (application/hal+json)
 
-    Returned if the account was unlocked successfully.
-
-    + Body
+    [User][]
 
 + Response 403 (application/hal+json)
 
