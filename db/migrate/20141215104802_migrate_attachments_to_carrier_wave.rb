@@ -63,8 +63,8 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
       if File.readable? file
         FileUtils.move file, new_file
         attachment.file = File.open(new_file)
+        attachment.filename = ''
         attachment.save!
-        attachment.update_column :filename, ''
 
         FileUtils.rm_f new_file
 
