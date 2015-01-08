@@ -173,6 +173,7 @@ embedded errors or simply state that multiple errors occured.
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) The client used an invalid transition in the attempt to change the status of a user account.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
@@ -2070,6 +2071,20 @@ Permanently deletes the specified user account.
 
     [User][]
 
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions for locking a user.
@@ -2104,6 +2119,20 @@ Permanently deletes the specified user account.
 + Response 200 (application/hal+json)
 
     [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
 
 + Response 403 (application/hal+json)
 
