@@ -4,28 +4,27 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
 
     count = Attachment.count
 
-    Rails.logger.info "Migrating #{count} attachments to CarrierWave."
-    Rails.logger.warn 'Depending on your configuration this can take a while.
-                       Especially if files are uploaded to S3.'
+    puts "Migrating #{count} attachments to CarrierWave."
+    puts 'Depending on your configuration this can take a while.
+          Especially if files are uploaded to S3.'.squish
 
     Attachment.all.each_with_index do |attachment, i|
-      Rails.logger.info "Migrating attachment #{i + 1}/#{count} (#{attachment.disk_filename})"
+      puts "Migrating attachment #{i + 1}/#{count} (#{attachment.disk_filename})"
       migrate_attachment attachment
     end
 
-    Rails.logger.info 'Attachment migration complete.'
+    puts 'Attachment migration complete.'
   end
 
   def down
     count = Attachment.count
 
-    Rails.logger.info "Rolling back #{count} attachments from CarrierWave to \
-                       legacy file-based storage.".squish
-    Rails.logger.warn 'Depending on your configuration this can take a while.
-                       Especially if files are downloaded from S3.'.squish
+    puts "Rolling back #{count} attachments from CarrierWave to legacy file-based storage."
+    puts 'Depending on your configuration this can take a while.
+          Especially if files are downloaded from S3.'.squish
 
     Attachment.all.each_with_index do |attachment, i|
-      Rails.logger.info "Migrating attachment #{i + 1}/#{count} (#{attachment.file.path})"
+      puts "Migrating attachment #{i + 1}/#{count} (#{attachment.file.path})"
       rollback_attachment attachment
     end
 
@@ -74,8 +73,8 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
         if path && File.readable?(path)
           true # file has been migrated already
         else
-          Rails.logger.warn "Found corrupt attachment (#{attachment.id}) during migration: \
-                             '#{file}' does not exist".squish
+          puts "Found corrupt attachment (#{attachment.id}) during migration: \
+                '#{file}' does not exist".squish
           false
         end
       end
