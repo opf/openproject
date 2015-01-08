@@ -79,13 +79,13 @@ See doc/COPYRIGHT.rdoc for more details.
                                             :style => 'display:none' }) do |f| %>
               <p><% roles.each do |role| %>
               <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
-                                                             :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+                                                             :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label>
               <% end %></p>
               <%= hidden_field_tag 'member[role_ids][]', '' %>
-              <p><%= submit_tag l(:button_change), :class => 'button -highlight' %>
+              <p><%= submit_tag l(:button_change), :class => 'button -highlight -small' %>
               <%= link_to_function l(:button_cancel),
                     "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
-                    class: 'button' %></p>
+                    class: 'button -small' %></p>
             <% end %>
             <td class="buttons">
                 <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
