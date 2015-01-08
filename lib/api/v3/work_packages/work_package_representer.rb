@@ -275,6 +275,12 @@ module API
         property :category, embedded: true, class: ::Category, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
 
         property :activities, embedded: true, exec_context: :decorator
+
+        property :version,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: ->(*) { represented.fixed_version.present? }
+
         property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
         collection :attachments, embedded: true, class: ::Attachment, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
@@ -296,6 +302,10 @@ module API
           relations = represented.relations
           visible_relations = relations.select { |relation| relation.other_work_package(represented).visible? }
           visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: current_user) }
+        end
+
+        def version
+          Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
         end
 
         def custom_properties
