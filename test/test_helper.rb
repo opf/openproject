@@ -111,8 +111,9 @@ class ActiveSupport::TestCase
     Attachment.all.each do |a|
       if a.file.filename.nil?
         begin # existing file under `test/fixtures/files`
-          a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
-            original_filename: a.attributes['filename']
+          a.file = uploaded_test_file a.disk_filename,
+                                      a.attributes['content_type'],
+                                      original_filename: a.attributes['filename']
         rescue # imaginary file: create it on-the-fly
           a.file = create_uploaded_file name: a.attributes['filename'],
                                         content_type: a.attributes['content_type']

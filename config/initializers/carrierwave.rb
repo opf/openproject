@@ -4,9 +4,9 @@ if OpenProject::Configuration.attachments_storage == :fog
   require 'fog/aws/storage'
 
   CarrierWave.configure do |config|
-   config.fog_credentials = OpenProject::Configuration.fog_credentials
-   config.fog_directory  = OpenProject::Configuration.fog_directory
-   config.fog_public     = false
+    config.fog_credentials = OpenProject::Configuration.fog_credentials
+    config.fog_directory  = OpenProject::Configuration.fog_directory
+    config.fog_public     = false
   end
 
   CarrierWave::Storage::Fog::File.class_eval do

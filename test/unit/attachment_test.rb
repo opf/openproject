@@ -67,10 +67,12 @@ class AttachmentTest < ActiveSupport::TestCase
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
         @issue = WorkPackage.find(1)
-        response = Attachment.attach_files(@issue, {
-                                             '1' => {'file' => create_uploaded_file, 'description' => 'test'},
-                                             '2' => {'file' => create_uploaded_file, 'description' => 'test'}
-                                           })
+        response = Attachment.attach_files(
+          @issue,
+          {
+            '1' => { 'file' => create_uploaded_file, 'description' => 'test 1' },
+            '2' => { 'file' => create_uploaded_file, 'description' => 'test 2' }
+          })
 
         assert response[:unsaved].present?
         assert_equal 2, response[:unsaved].length
