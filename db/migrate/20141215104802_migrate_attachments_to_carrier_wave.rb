@@ -70,10 +70,12 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
 
         File.readable? attachment.file.path
       else
-        if File.readable? attachment.file.path
+        path = attachment.file.path
+        if path && File.readable?(path)
           true # file has been migrated already
         else
-          Rails.logger.warn "Found corrupt attachment during migration: #{attachment.inspect}"
+          Rails.logger.warn "Found corrupt attachment (#{attachment.id}) during migration: \
+                             '#{file}' does not exist".squish
           false
         end
       end
