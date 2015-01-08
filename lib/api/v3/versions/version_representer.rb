@@ -44,7 +44,7 @@ module API
         link :definingProject do
           {
             href: api_v3_paths.project(represented.project.id),
-            title: "#{represented.project.name}"
+            title: represented.project.name
           } if represented.project.visible?(current_user)
         end
 
