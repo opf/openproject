@@ -122,7 +122,7 @@ describe AttachmentsController, type: :controller do
 
     context 'with a local file' do
       let(:uploader) { LocalFileUploader }
-      let(:url) { "http://test.host/attachments/#{attachment.id}/download/#{attachment.filename}"}
+      let(:url) { "http://test.host/attachments/#{attachment.id}/download/#{attachment.filename}" }
 
       expect_it { to redirect_to(url) }
     end
@@ -134,7 +134,7 @@ describe AttachmentsController, type: :controller do
         Regexp.new "#{host}/uploads/attachment/file/#{attachment.id}/#{attachment.filename}"
       end
 
-      it "redirects to AWS" do
+      it 'redirects to AWS' do
         expect(subject.location).to match(url)
       end
     end

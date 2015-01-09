@@ -85,7 +85,7 @@ describe OpenProject::Files do
     context 'with a custom name, content and content type' do
       let(:name)         { 'foo.jpg' }
       let(:content)      { 'not-really-a-jpg' }
-      let(:content_type) { 'image/jpeg'}
+      let(:content_type) { 'image/jpeg' }
 
       let(:file) do
         OpenProject::Files.create_uploaded_file name: name,
