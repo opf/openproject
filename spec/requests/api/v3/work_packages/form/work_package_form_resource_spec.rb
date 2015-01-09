@@ -465,11 +465,17 @@ describe 'API v3 Work package form resource', type: :request do
               let(:params) { valid_params.merge(version_parameter) }
 
               describe 'allowed values' do
+                before do
+                  other_version
+                end
+
                 include_context 'post request'
 
                 it 'should list all versions available for the project' do
+                  expect(subject.body).to be_json_eql(version_link.to_json)
+                    .at_path('_embedded/schema/version/_links/allowedValues/1/href')
                   expect(subject.body).to be_json_eql(other_version_link.to_json)
-                    .at_path('_embedded/schema/versions/_links/allowedValues/1/href')
+                    .at_path('_embedded/schema/version/_links/allowedValues/0/href')
                 end
               end
 
