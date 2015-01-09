@@ -32,9 +32,11 @@ describe ::API::V3::Users::UserRepresenter do
   let(:user)             {
     FactoryGirl.build_stubbed(:user,
                               created_on: Time.now,
-                              updated_on: Time.now)
+                              updated_on: Time.now,
+                              status: 1)
   }
-  let(:representer) { described_class.new(user) }
+  let(:current_user) { FactoryGirl.create(:user) }
+  let(:representer) { described_class.new(user, { current_user: current_user }) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -55,9 +57,37 @@ describe ::API::V3::Users::UserRepresenter do
       it { is_expected.to have_json_path('avatar') }
     end
 
+    describe 'status' do
+      it 'contains the name of the account status' do
+        expect(parse_json(subject, 'status')).to eql 'active'
+      end
+    end
+
     describe '_links' do
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
+      end
+
+      context 'when regular current_user' do
+        it 'should have no lock-related links' do
+          expect(subject).to_not have_json_path('_links/lock/href')
+          expect(subject).to_not have_json_path('_links/unlock/href')
+        end
+      end
+
+      context 'when current_user is admin' do
+        let(:current_user) { FactoryGirl.create(:admin) }
+
+        it 'should link to lock' do
+          expect(subject).to have_json_path('_links/lock/href')
+        end
+
+        context 'when account is locked' do
+          it 'should link to unlock' do
+            user.lock
+            expect(subject).to have_json_path('_links/unlock/href')
+          end
+        end
       end
     end
 

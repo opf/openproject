@@ -1667,6 +1667,7 @@ de:
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
       invalid_content_type:
         "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
       invalid_resource:
         "Für die Eigenschaft '%{property}' wird eine Ressource vom Typ '%{expected}' erwartet. Gesandt wurde der Typ '%{actual}'."
       multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."

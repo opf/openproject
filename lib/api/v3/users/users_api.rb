@@ -52,6 +52,42 @@ module API
                 fail ::API::Errors::Unauthorized
               end
             end
+
+            namespace :lock do
+
+              # Authenticate lock transitions
+              before do
+                if !User.current.admin?
+                  fail ::API::Errors::Unauthorized
+                end
+              end
+
+              desc 'Set lock on user account'
+              post do
+                # Silently ignore lock -> lock transition
+                if @user.active? || @user.locked?
+                  @user.lock! unless @user.locked?
+
+                  status 200
+                  UserRepresenter.new(@user)
+                else
+                  fail ::API::Errors::InvalidUserStatusTransition
+                end
+              end
+
+              desc 'Remove lock on user account'
+              delete do
+                # Silently ignore active -> active transition
+                if @user.locked? || @user.active?
+                  @user.activate! unless @user.active?
+
+                  status 200
+                  UserRepresenter.new(@user)
+                else
+                  fail ::API::Errors::InvalidUserStatusTransition
+                end
+              end
+            end
           end
 
         end
