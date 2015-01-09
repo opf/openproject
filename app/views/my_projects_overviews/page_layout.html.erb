@@ -117,7 +117,8 @@ function addBlock() {
       <%= select_tag 'block',
                      ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
                      :id => "block-select",
-                     :onChange => "addBlock();"
+                     :onChange => "addBlock();",
+                     class: 'form--select -small'
     %>
     <% end %>
   </li>
