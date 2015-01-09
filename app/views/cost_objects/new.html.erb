@@ -32,8 +32,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <div class="box">
     <%= render :partial => 'form', :locals => {:f => f} %>
     </div>
-    <%= submit_tag l(:button_create) %>
-    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+    <%= submit_tag l(:button_create), class: 'button -highlight' %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue',
+          class: 'button -highlight'%>
 
     <%= javascript_tag "Form.Element.focus('cost_object_subject');" %>
 <% end %>

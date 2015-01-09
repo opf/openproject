@@ -35,6 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= label_tag 'to', l(:description_date_range_interval) %>
 <%= text_field_tag 'to', @to, :size => 10 %> <%= calendar_for('to') %>
 </span>
-<%= submit_tag l(:button_apply), :name => nil %>
+<%= submit_tag l(:button_apply), :name => nil, class: 'button -highlight -small' %>
 </p>
 </fieldset>

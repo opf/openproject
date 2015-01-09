@@ -54,7 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </table>
 <div>
   <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
-  <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
+  <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
 </div>
-<div><%= submit_tag l(:button_save) %></div>
+<div><%= submit_tag l(:button_save), class: 'button -highlight' %></div>
 <% end %>
