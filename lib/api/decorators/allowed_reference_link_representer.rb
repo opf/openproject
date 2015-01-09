@@ -32,33 +32,39 @@ require 'roar/json/hal'
 
 module API
   module Decorators
-    class SchemaAllowedValuesRepresenter < Single
-      property :links,
-               as: :_links,
-               exec_context: :decorator
+    class AllowedReferenceLinkRepresenter < Roar::Decorator
+      include Roar::JSON::HAL
+
+      def initialize(link, type)
+        @link = link
+        @type = type
+
+        super(link)
+      end
+
+      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+      property :_links,
+               exec_context: :decorator,
+               getter: -> (*) { link } do
+        include API::V3::Utilities::PathHelper
+
+        self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+        property :allowed_values,
+                 getter: -> (*) {
+                   { href: represented }
+                 },
+                 exec_context: :decorator
+      end
 
       property :type,
                exec_context: :decorator
 
-      collection :allowed_values,
-                 exec_context: :decorator,
-                 embedded: true
-
       private
 
-      class_attribute :value_representer,
-                      :links_factory,
-                      :type
-
-      def links
-        AllowedLinksRepresenter.new(represented, links_factory)
-      end
-
-      def allowed_values
-        represented.map do |object|
-          value_representer.new(object, current_user: context[:current_user])
-        end
-      end
+      attr_reader :link,
+                  :type
     end
   end
 end

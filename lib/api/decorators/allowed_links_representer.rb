@@ -49,8 +49,8 @@ module API
       private
 
       def allowed_values
-        represented.map do |version|
-          link_factory.call(version)
+        represented.map do |object|
+          link_factory.call(object)
         end
       end
 
