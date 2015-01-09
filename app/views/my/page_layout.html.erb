@@ -69,16 +69,22 @@ function removeBlock(block) {
 <% content_for :action_menu_specific do %>
   <li>
     <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
-      <%= label_tag('block-select', l(:label_my_page_block)) %>:
-      <%= select_tag 'block', "<option></option>".html_safe + options_for_select(@block_options), :id => "block-select" %>
-      <%= link_to_remote l(:button_add),
-                 {:url => { :action => "add_block" },
-                  :with => "Form.serialize('block-form')",
-                  :update => "list-top",
-                  :position => :top,
-                  :complete => "afterAddBlock();"
-                 }, :class => 'icon icon-add'
-                   %>
+      <span class="inline-label">
+        <%= label_tag('block-select', l(:label_my_page_block)) %>:
+        <%= select_tag 'block', "<option></option>".html_safe + options_for_select(@block_options),
+              :id => "block-select",
+              class: 'form--select -small' %>
+        <span>
+          <%= link_to_remote l(:button_add),
+                     {:url => { :action => "add_block" },
+                      :with => "Form.serialize('block-form')",
+                      :update => "list-top",
+                      :position => :top,
+                      :complete => "afterAddBlock();"
+                     }, :class => 'icon icon-add'
+                       %>
+        </span>
+      </span>
     <% end %>
   </li>
   <li><%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %></li>
