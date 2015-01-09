@@ -9,12 +9,3 @@ default:
   smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
   smtp_password: <%= ENV['SMTP_PASSWORD'] %>
   attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
-
-development:
-  fog:
-    directory: op-com-staging
-    credentials:
-      provider: 'AWS'
-      aws_access_key_id: 'AKIAJGSBGPU4IIM55H4Q'
-      aws_secret_access_key: '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'
-      region: 'eu-west-1'
