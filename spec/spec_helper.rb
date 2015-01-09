@@ -87,9 +87,6 @@ RSpec.configure do |config|
                                end
 
     DatabaseCleaner.start
-
-    # mount default file uploader in case it was changed in a test
-    Attachment.mount_uploader :file, LocalFileUploader
   end
 
   config.after(:each) do

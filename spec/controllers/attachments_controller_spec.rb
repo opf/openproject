@@ -106,14 +106,25 @@ describe AttachmentsController, type: :controller do
     let(:uploader) { nil }
 
     let(:attachment) do
-      FactoryGirl.create :attachment,
-                         container: work_package,
-                         author: user,
-                         file: file
+      clazz = Class.new Attachment
+      clazz.mount_uploader :file, uploader
+
+      ##
+      # Override to_s for carrierwave to use the correct class name in the store dir.
+      def clazz.to_s
+        'attachment'
+      end
+
+      att = clazz.new container: work_package, author: user, file: file
+      att.id = 42
+      att.file.store!
+      att
     end
 
     before do
       Attachment.mount_uploader :file, uploader
+
+      expect(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
     end
 
     subject {
