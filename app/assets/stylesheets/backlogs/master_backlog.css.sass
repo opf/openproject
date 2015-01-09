@@ -102,7 +102,8 @@
     .item
       display: block
       width: 160px
-      height: 24px
+      height: 2rem
+      font-size: 0.9rem
       text-align: left
       text-decoration: none
       vertical-align: middle
@@ -167,15 +168,23 @@
           background-position: center
         .id, .status
           display: none
+
+        .name
+          line-height: 2rem
+          font-weight: bold
+          overflow: hidden
+          white-space: nowrap
+          margin-left: 0.5em
+
         .start_date, .effective_date
           float: right
           height: 28px
-          line-height: 31px
+          line-height: 2rem
           width: 6.5em
           margin-left: 0.5em
       .stories
         list-style: none
-        min-height: 26px
+        min-height: 2rem
         margin: 0
         padding: 0 0 0px 0
         z-index: 500
@@ -186,7 +195,8 @@
     .stories .story
       cursor: move
       display: block
-      height: 26px
+      height: 2rem
+      font-size: 0.9rem
       margin: 0
       overflow: hidden
       position: relative
@@ -268,14 +278,13 @@
         display: none
   .backlog .sprint.editing
     .name.editor
-      height: 21px
-      line-height: 15px
+      line-height: 1.5rem
       margin: 0
       min-width: 15em
       width: 57%
     .start_date.editor, .effective_date.editor
-      height: 23px
-      line-height: 27px
+      font-size: 0.9rem
+      line-height: 1.5rem
       margin: 0
       padding: 0
       width: 75px
@@ -289,7 +298,8 @@
       display: inline-block
       float: none
       margin: 5px 3px 4px 2px
-      padding: 0
+      padding: 0.125rem 0.25rem
+      font-size: 0.8rem
     .type_id.editor
       width: expression( document.body.clientWidth > 99 ? "100px" : "auto" )
       /* sets max-width for IE
@@ -313,11 +323,4 @@
     z-index: 10000
 
 .backlog
-  .sprint
-    .name
-      font-size: 1rem
-      line-height: 29px
-      font-weight: bold
-      overflow: hidden
-      white-space: nowrap
-      margin-left: 0.5em
+  font-size: 0.9rem
