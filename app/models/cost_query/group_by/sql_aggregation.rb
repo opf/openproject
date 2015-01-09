@@ -23,7 +23,7 @@ class CostQuery::GroupBy
 
     def sql_statement
       super.tap do |sql|
-        sql.sum :units => :units, :real_costs => :real_costs, :display_costs => :display_costs
+        sql.sum units: :units, real_costs: :real_costs, display_costs: :display_costs
       end
     end
   end

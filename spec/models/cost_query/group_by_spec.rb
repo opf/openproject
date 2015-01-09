@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :type => :model, :reporting_query_helper => true do
+describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:type) { FactoryGirl.create(:type) }
   let!(:project1){ FactoryGirl.create(:project_with_types, types: [type]) }
   let!(:work_package1) { FactoryGirl.create(:work_package, project: project1, type: type)}
@@ -228,17 +228,17 @@ describe CostQuery, :type => :model, :reporting_query_helper => true do
       end
 
       def create_work_package_custom_field(name)
-        WorkPackageCustomField.create(:name => name,
-                                      :min_length => 1,
-                                      :regexp => "",
-                                      :is_for_all => true,
-                                      :max_length => 100,
-                                      :possible_values => "",
-                                      :is_required => false,
-                                      :field_format => "string",
-                                      :searchable => true,
-                                      :default_value => "Default string",
-                                      :editable => true)
+        WorkPackageCustomField.create(name: name,
+                                      min_length: 1,
+                                      regexp: "",
+                                      is_for_all: true,
+                                      max_length: 100,
+                                      possible_values: "",
+                                      is_required: false,
+                                      field_format: "string",
+                                      searchable: true,
+                                      default_value: "Default string",
+                                      editable: true)
         check_cache
       end
 

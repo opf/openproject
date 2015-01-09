@@ -39,6 +39,6 @@ class CostQuery::Filter::CostTypeId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    ([[::I18n.t(:caption_labor), -1]] + CostType.find(:all, :order => 'name').map { |t| [t.name, t.id] })
+    ([[::I18n.t(:caption_labor), -1]] + CostType.find(:all, order: 'name').map { |t| [t.name, t.id] })
   end
 end

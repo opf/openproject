@@ -25,9 +25,9 @@ class CostQuery < Report
     CostQuery.update_all ['user_id = ?', DeletedUser.first.id], ['user_id = ?', user.id]
 
     max_query_id = 0
-    while((current_queries = CostQuery.all(:limit => 1000,
-                                           :conditions => ["id > ?", max_query_id],
-                                           :order => "id ASC")).size > 0) do
+    while((current_queries = CostQuery.all(limit: 1000,
+                                           conditions: ["id > ?", max_query_id],
+                                           order: "id ASC")).size > 0) do
 
       current_queries.each do |query|
         serialized = query.serialized

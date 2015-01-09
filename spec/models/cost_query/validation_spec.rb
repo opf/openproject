@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery::Validation, :type => :model do
+describe CostQuery::Validation, type: :model do
   class CostQuery::SomeBase
     include CostQuery::Validation
   end

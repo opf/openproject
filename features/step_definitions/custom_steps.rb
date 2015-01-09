@@ -119,7 +119,7 @@ Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
 end
 
 Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
-  element_name = find_by_id("group_by_#{source}").find("label", :text => "#{group}")[:for]
+  element_name = find_by_id("group_by_#{source}").find("label", text: "#{group}")[:for]
   find_by_id("#{element_name}_remove").click
 end
 

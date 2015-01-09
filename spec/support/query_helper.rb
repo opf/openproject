@@ -29,5 +29,5 @@ module OpenProject::Reporting
 end
 
 RSpec.configure do |c|
-  c.extend OpenProject::Reporting::QueryHelper, :reporting_query_helper => true
+  c.extend OpenProject::Reporting::QueryHelper, reporting_query_helper: true
 end

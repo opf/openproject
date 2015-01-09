@@ -39,7 +39,7 @@ module OpenProject::Reporting::Patches
       # This is for cost reporting
       def redirect_to(*args, &block)
         if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
-          super(:controller => '/cost_reports', :action => :index)
+          super(controller: '/cost_reports', action: :index)
         else
           super(*args, &block)
         end
@@ -50,11 +50,11 @@ module OpenProject::Reporting::Patches
         if @project.nil? || !@project.module_enabled?(:reporting_module)
           return index_without_reports_view
         end
-        filters = {:operators => {}, :values => {}}
+        filters = {operators: {}, values: {}}
 
         if @issue
           if @issue.respond_to?("lft")
-            work_package_ids = WorkPackage.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
+            work_package_ids = WorkPackage.all(select: :id, conditions: ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
           else
             work_package_ids = [@issue.id.to_s]
           end
@@ -68,9 +68,9 @@ module OpenProject::Reporting::Patches
 
         respond_to do |format|
           format.html {
-            session[::CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+            session[::CostQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
 
-            redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => -1
+            redirect_to controller: "/cost_reports", action: "index", project_id: @project, unit: -1
           }
           format.all {
             index_without_report_view
@@ -85,8 +85,8 @@ module OpenProject::Reporting::Patches
         elsif !params[:project_id].blank?
           @project = Project.find(params[:project_id])
         end
-        deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true) ||
-                           User.current.allowed_to?(:view_own_time_entries, @project, :global => true)
+        deny_access unless User.current.allowed_to?(:view_time_entries, @project, global: true) ||
+                           User.current.allowed_to?(:view_own_time_entries, @project, global: true)
       end
     end
   end

@@ -44,7 +44,7 @@ module CostQuery::CustomFieldMixin
   end
 
   def generate_subclasses
-    WorkPackageCustomField.all(:conditions => "field_format in ('#{SQL_TYPES.keys.join('\',\'')}')").map do |field|
+    WorkPackageCustomField.all(conditions: "field_format in ('#{SQL_TYPES.keys.join('\',\'')}')").map do |field|
       class_name = "CustomField#{field.id}"
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)
@@ -59,7 +59,7 @@ module CostQuery::CustomFieldMixin
   def on_prepare(&block)
     return factory.on_prepare unless factory?
     @on_prepare = block if block
-    @on_prepare ||= proc { }
+    @on_prepare ||= proc {}
     @on_prepare
   end
 
@@ -76,7 +76,7 @@ module CostQuery::CustomFieldMixin
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
-    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, "")
+    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, '')
     -- BEGIN Custom Field Join: "%4$s"
     LEFT OUTER JOIN (
     \tSELECT
@@ -100,5 +100,4 @@ module CostQuery::CustomFieldMixin
     fail "Only subclasses of #{self} should be instanciated." if factory?
     super
   end
-
 end
