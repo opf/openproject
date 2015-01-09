@@ -36,7 +36,7 @@ describe ::API::V3::Users::UserRepresenter do
                               status: 1)
   }
   let(:current_user) { FactoryGirl.create(:user) }
-  let(:representer) { described_class.new(user, { current_user: current_user }) }
+  let(:representer) { described_class.new(user, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

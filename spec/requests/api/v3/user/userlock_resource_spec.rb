@@ -65,7 +65,7 @@ describe 'API v3 UserLock resource', type: :request do
       end
 
       context 'user account is incompatible' do
-        let(:user) { FactoryGirl.create(:user, status: User::STATUSES[:registered] )}
+        let(:user) { FactoryGirl.create(:user, status: User::STATUSES[:registered]) }
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end
@@ -76,7 +76,6 @@ describe 'API v3 UserLock resource', type: :request do
       let(:lock_path) { '/api/v3/users/9999/lock' }
       it_behaves_like 'not found', 9999, 'User'
     end
-
 
     context 'non-admin user' do
       it 'should respond with 403' do
