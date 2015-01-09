@@ -47,7 +47,13 @@ module API
         super(model)
       end
 
-      property :_type, exec_context: :decorator
+      property :_type,
+               exec_context: :decorator,
+               render_nil: false
+
+      private
+
+      def _type; end
     end
   end
 end

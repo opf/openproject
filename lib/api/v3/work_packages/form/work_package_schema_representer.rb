@@ -144,7 +144,6 @@ module API
           end
 
           property :version,
-                   decorator: SchemaAllowedVersionsRepresenter,
                    exec_context: :decorator,
                    getter: -> (*) {
                      version_origin = represented
@@ -153,7 +152,8 @@ module API
                        version_origin = represented.class.find(represented.id)
                      end
 
-                     { versions: version_origin.assignable_versions, current_user: @current_user }
+                     SchemaAllowedVersionsRepresenter.new(version_origin.assignable_versions,
+                                                          current_user: @current_user)
                    }
         end
       end

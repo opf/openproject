@@ -31,19 +31,32 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module V3
-    module WorkPackages
-      module Form
-        class SchemaAllowedVersionsRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          self.value_representer = Versions::VersionRepresenter
+  module Decorators
+    class SchemaAllowedValuesRepresenter < Single
+      property :links,
+               as: :_links,
+               exec_context: :decorator
 
-          self.links_factory = -> (version) do
-            extend API::V3::Utilities::PathHelper
+      property :type,
+               exec_context: :decorator
 
-            { href: api_v3_paths.version(version.id), title: version.name }
-          end
+      collection :allowed_values,
+                 exec_context: :decorator,
+                 embedded: true
 
-          self.type = 'Version'
+      private
+
+      class_attribute :value_representer,
+                      :links_factory,
+                      :type
+
+      def links
+        AllowedLinksRepresenter.new(represented, links_factory)
+      end
+
+      def allowed_values
+        represented.map do |version|
+          value_representer.new(version, current_user: context[:current_user])
         end
       end
     end

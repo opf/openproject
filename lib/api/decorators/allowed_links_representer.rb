@@ -31,21 +31,30 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module V3
-    module WorkPackages
-      module Form
-        class SchemaAllowedVersionsRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          self.value_representer = Versions::VersionRepresenter
+  module Decorators
+    class AllowedLinksRepresenter < Roar::Decorator
+      include API::V3::Utilities::PathHelper
+      include Roar::JSON::HAL
 
-          self.links_factory = -> (version) do
-            extend API::V3::Utilities::PathHelper
+      def initialize(represented, link_factory)
+        super(represented)
+        @link_factory = link_factory
+      end
 
-            { href: api_v3_paths.version(version.id), title: version.name }
-          end
+      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          self.type = 'Version'
+      property :allowed_values,
+               exec_context: :decorator
+
+      private
+
+      def allowed_values
+        represented.map do |version|
+          link_factory.call(version)
         end
       end
+
+      attr_reader :link_factory
     end
   end
 end
