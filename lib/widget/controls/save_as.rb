@@ -56,7 +56,7 @@ class Widget::Controls::SaveAs < Widget::Controls
       save = link_to(l(:button_save),
                      '#',
                      id: 'query-icon-save-button',
-                     class: 'button_highlight icon-context icon-save1',
+                     class: 'button -highlight icon-context icon-save1',
                      :"data-target" => url_for(action: 'create', set_filter: '1'))
 
       cancel = link_to(l(:button_cancel),
