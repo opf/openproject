@@ -75,7 +75,7 @@ class AttachmentsController < ApplicationController
     if url.host # check if URL or file path
       url.to_s
     else
-      download_attachment_url filename: attachment.filename
+      download_attachment_url filename: attachment.filename, id: attachment.id
     end
   end
 

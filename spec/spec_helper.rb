@@ -50,6 +50,34 @@ Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }
 
+# The following aliases are defined so that we can write
+# `expect_it { to match /rgx/ }` instead of
+# `it { should match /rgx/ }` to be more consistent with the new expect syntax.
+
+RSpec.configure do |c|
+  c.alias_example_to :expect_it
+end
+
+RSpec::Core::MemoizedHelpers.module_eval do
+  alias to should
+  alias to_not should_not
+end
+
+mock_credentials = {
+  provider: 'AWS',
+  aws_access_key_id: 'someaccesskeyid',
+  aws_secret_access_key: 'someprivateaccesskey',
+  region: 'us-east-1'
+}
+mock_bucket = 'test-bucket'
+
+Fog.mock!
+Fog.credentials = mock_credentials
+CarrierWave::Configuration.configure_fog! directory: mock_bucket, credentials: mock_credentials
+
+connection = Fog::Storage.new provider: mock_credentials[:provider]
+connection.directories.create key: mock_bucket
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -87,6 +115,9 @@ RSpec.configure do |config|
                                end
 
     DatabaseCleaner.start
+
+    # mount default file uploader in case it was changed in a test
+    Attachment.mount_uploader :file, LocalFileUploader
   end
 
   config.after(:each) do
