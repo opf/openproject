@@ -43,8 +43,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <% end %>
     <p><%= f.select :cost_type_id, cost_types_collection_for_select_options, :required => true %></p>
     <p>
+      <span class="inline-label">
         <%= f.text_field :units, :size => 6, :required => true %>
-        <span id="cost_entry_unit_name"><%= (@cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural) if @cost_entry.cost_type %></span>
+        <span id="cost_entry_unit_name" class="form-label">
+          <%= (@cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural) if @cost_entry.cost_type %>
+        </span>
+      </span>
         <%= observe_field( "cost_entry_cost_type_id", :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
         <%= observe_field( "cost_entry_units", :frequency => 1, :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
         <%= observe_field( "cost_entry_spent_on", :frequency => 1, :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
