@@ -6,7 +6,8 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    user = if env['rack.session']
+    user =
+    if env['rack.session']
       User.find(env['rack.session']['user_id'])
     else
       nil
@@ -15,7 +16,8 @@ Doorkeeper.configure do
     user || User.anonymous
   end
 
-  # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
+  # If you want to restrict access to the web interface for adding oauth authorized applications,
+  # you need to declare the block below.
   admin_authenticator do
     User.current.admin?
   end
@@ -34,10 +36,12 @@ Doorkeeper.configure do
   # Issue access tokens with refresh token (disabled by default)
   # use_refresh_token
 
-  # Provide support for an owner to be assigned to each registered application (disabled by default)
+  # Provide support for an owner to be assigned to each registered application
+  # (disabled by default)
   # Optional parameter :confirmation => true (default false) if you want to enforce ownership of
   # a registered application
-  # Note: you must also run the rails g doorkeeper:application_owner generator to provide the necessary support
+  # Note: you must also run the rails g doorkeeper:application_owner generator to provide the
+  # necessary support
   enable_application_owner :confirmation => true
 
   # Define access token scopes for your provider
@@ -59,9 +63,11 @@ Doorkeeper.configure do
   # access_token_methods :from_bearer_authorization, :from_access_token_param, :from_bearer_param
 
   # Change the native redirect uri for client apps
-  # When clients register with the following redirect uri, they won't be redirected to any server and the authorization code will be displayed within the provider
-  # The value can be any string. Use nil to disable this feature. When disabled, clients must provide a valid URL
-  # (Similar behaviour: https://developers.google.com/accounts/docs/OAuth2InstalledApp#choosingredirecturi)
+  # When clients register with the following redirect uri, they won't be redirected to any server
+  # and the authorization code will be displayed within the provider
+  # The value can be any string. Use nil to disable this feature. When disabled,
+  # clients must provide a valid URL (Similar behaviour:
+  # https://developers.google.com/accounts/docs/OAuth2InstalledApp#choosingredirecturi)
   #
   # native_redirect_uri 'urn:ietf:wg:oauth:2.0:oob'
 

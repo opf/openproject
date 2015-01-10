@@ -28,20 +28,17 @@
 #++
 
 class OauthController < ApplicationController
-
   before_filter :require_login
-  before_filter :app_template , only: [:index, :register]
+  before_filter :app_template, only: [:index, :register]
 
   # Set 'my' page for account page
   layout 'my', only: :index
   menu_item :oauth_applications, only: :index
-  before_filter :set_user , only: [:index]
-
+  before_filter :set_user, only: [:index]
 
   ##
   # List my OAuth grants and registered applications
   def index
-
     @grants = User.current.oauth_grants
 
     if User.current.admin?
@@ -90,5 +87,4 @@ class OauthController < ApplicationController
   def oauth_application_params
     params.require(:doorkeeper_application).permit(:name, :redirect_uri)
   end
-
 end
