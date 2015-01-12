@@ -24,8 +24,20 @@ See doc/COPYRIGHT.md for more details.
 <div class="box tabular">
   <p><%= f.text_field :title, :required => true, :size => 60, :class => "autofocus" %></p>
   <p><%= f.text_field :location, :size => 60 %></p>
-  <p><%= f.text_field :start_date, :required => true, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= accessible_time_select "meeting", "start_time", :ignore_date => true, :minute_step => 5 %> <%= Time.zone %></p>
-  <p><%= f.text_field :duration, :required => true, :size => 5 %><em>(<%=l :text_in_hours %>)</em>
+  <p>
+    <%= f.text_field :start_date, :required => true, :size => 10 %>
+    <%= calendar_for('meeting_start_date') %>
+    <span class="inline-label">
+      <%= accessible_time_select "meeting", "start_time", :ignore_date => true, :minute_step => 5 %>
+      <span class="form-label"><%= Time.zone %></span>
+    </span>
+  </p>
+  <p>
+    <span class="inline-label">
+      <%= f.text_field :duration, :required => true, :size => 5 %>
+      <span class="form-label"><%=l :text_in_hours %></span>
+    </span>
+  </p>
   <div><label><%=Meeting.human_attribute_name(:participants) %></label>
     <table class="list">
       <thead><tr>
