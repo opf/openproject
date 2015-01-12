@@ -22,18 +22,18 @@
 require_dependency 'widget/filters/base'
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
-    write(content_tag(:td, :width => 100) do
+    write(content_tag(:td, width: 100) do
       hide_select_box = (filter_class.available_operators.count == 1 || filter_class.heavy?)
-      options = {:class => "select-small filters-select filter_operator",
-                 :style => "vertical-align: top", # FIXME: put into CSS
-                 :id => "operators[#{filter_class.underscore_name}]",
-                 :name => "operators[#{filter_class.underscore_name}]",
+      options = {class: "select-small filters-select filter_operator",
+                 style: "vertical-align: top", # FIXME: put into CSS
+                 id: "operators[#{filter_class.underscore_name}]",
+                 name: "operators[#{filter_class.underscore_name}]",
                  :"data-filter-name" => filter_class.underscore_name }
-      options.merge! :style => "display: none" if hide_select_box
+      options.merge! style: "display: none" if hide_select_box
 
       select_box = content_tag :select, options do
         filter_class.available_operators.collect do |o|
-          opts = {:value => h(o.to_s), :"data-arity" => o.arity}
+          opts = {value: h(o.to_s), :"data-arity" => o.arity}
           opts.reverse_merge! :"data-forced" => o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
           content_tag(:option, opts) { h(I18n.t(o.label)) }
@@ -41,8 +41,8 @@ class Widget::Filters::Operators < Widget::Filters::Base
       end
       label1 = content_tag :label,
                            h(filter_class.label) + " " + l(:label_operator),
-                           :for => "operators[#{filter_class.underscore_name}]",
-                           :class => 'hidden-for-sighted'
+                           for: "operators[#{filter_class.underscore_name}]",
+                           class: 'hidden-for-sighted'
       label = content_tag :label do
         if filter_class.available_operators.any?
           filter_class.available_operators.first.label

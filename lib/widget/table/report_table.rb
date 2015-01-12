@@ -97,19 +97,19 @@ class Widget::Table::ReportTable < Widget::Table
     walker.headers do |list, first, first_in_col, last_in_col|
       write '<tr>' if first_in_col
       if first
-        write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row)) do
+        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
           ""
         end)
       end
       list.each do |column|
-        opts = { :colspan => column.final_number(:column) }
-        opts.merge!(:class => "inner") if column.final?(:column)
+        opts = { colspan: column.final_number(:column) }
+        opts.merge!(class: "inner") if column.final?(:column)
         write(content_tag(:th, opts) do
           show_row column
         end)
       end
       if first
-        write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row)) do
+        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
           ""
         end)
       end
@@ -125,15 +125,15 @@ class Widget::Table::ReportTable < Widget::Table
       if first_in_col
         write '<tr>'
         if first
-          write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row), :class => 'top') do
+          write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: 'top') do
             " "
           end)
         end
       end
 
       list.each do |column|
-        opts = { :colspan => column.final_number(:column) }
-        opts.merge!(:class => "inner") if first
+        opts = { colspan: column.final_number(:column) }
+        opts.merge!(class: "inner") if first
         write(content_tag(:th, opts) do
           show_result(column) #{debug_fields(column)}
         end)
@@ -141,9 +141,9 @@ class Widget::Table::ReportTable < Widget::Table
       if last_in_col
         if first
           write(content_tag(:th,
-          :rowspan => @subject.depth_of(:column),
-          :colspan => @subject.depth_of(:row),
-          :class => 'top result') do
+          rowspan: @subject.depth_of(:column),
+          colspan: @subject.depth_of(:row),
+          class: 'top result') do
             show_result @subject
           end)
         end

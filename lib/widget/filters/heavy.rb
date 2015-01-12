@@ -33,14 +33,14 @@ class Widget::Filters::Heavy < Widget::Filters::Base
       #       this might be a bug - further research would be fine
       values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
       opts = Array(values).empty? ? [] : values.map{ |i| filter_class.label_for_value(i.to_i) }
-      div = content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values hidden" do
-        select_options = {  :"data-remote-url" => url_for(:action => "available_values"),
-                            :name => "values[#{filter_class.underscore_name}][]",
+      div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: "filter_values hidden" do
+        select_options = {  :"data-remote-url" => url_for(action: "available_values"),
+                            name: "values[#{filter_class.underscore_name}][]",
                             :"data-loading" => "",
-                            :id => "#{filter_class.underscore_name}_arg_1_val",
-                            :class => "select-small filters-select filter-value",
+                            id: "#{filter_class.underscore_name}_arg_1_val",
+                            class: "select-small filters-select filter-value",
                             :"data-filter-name" => filter_class.underscore_name,
-                            :multiple => "multiple" }
+                            multiple: "multiple" }
                             # multiple will be disabled/enabled later by JavaScript anyhow.
                             # We need to specify multiple here because of an IE6-bug.
         if filter_class.has_dependent?
@@ -55,7 +55,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
           select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
         end
         box = content_tag :select, select_options do
-          render_widget Widget::Filters::Option, filter, :to => "", :content => opts
+          render_widget Widget::Filters::Option, filter, to: "", content: opts
         end
         box
       end

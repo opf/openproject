@@ -53,8 +53,8 @@ class Report < ActiveRecord::Base
 
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
-    self.serialized = { :filters => (filters.collect(&:serialize).reject(&:nil?).sort {|a,b| a.first <=> b.first}),
-                        :group_bys => group_bys.collect(&:serialize).reject(&:nil?).reverse }
+    self.serialized = { filters: (filters.collect(&:serialize).reject(&:nil?).sort {|a,b| a.first <=> b.first}),
+                        group_bys: group_bys.collect(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize
@@ -76,7 +76,7 @@ class Report < ActiveRecord::Base
       params[:values].merge! filter_name => f.values
     end
     group_bys.each do |g|
-      params[:groups] ||= { :rows => [], :columns => [] }
+      params[:groups] ||= { rows: [], columns: [] }
       params[:groups][g.row? ? :rows : :columns] << g.class.underscore_name
     end
     params
@@ -134,15 +134,15 @@ class Report < ActiveRecord::Base
   end
 
   def group_by(name, options = {})
-    add_chain self.class::GroupBy, name, options.reverse_merge(:type => :column)
+    add_chain self.class::GroupBy, name, options.reverse_merge(type: :column)
   end
 
   def column(name, options = {})
-    group_by name, options.merge(:type => :column)
+    group_by name, options.merge(type: :column)
   end
 
   def row(name, options = {})
-    group_by name, options.merge(:type => :row)
+    group_by name, options.merge(type: :row)
   end
 
   def table

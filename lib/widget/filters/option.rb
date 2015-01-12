@@ -34,14 +34,14 @@ class Widget::Filters::Option < Widget::Filters::Base
       name = name.empty? ? l(:label_none) : name
       name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
       unless options[:optgroup]
-        opts = { :value => id }
+        opts = { value: id }
         if (Array(filter.values).map{ |val| val.to_s }.include? id.to_s) || (first && Array(filter.values).empty?)
           opts[:selected] = "selected"
         end
         first = false
         content_tag(:option, opts) { name_prefix + name }
       else
-        tag :optgroup, :label => l(:label_sector)
+        tag :optgroup, label: l(:label_sector)
       end
     end.join.html_safe)
   end

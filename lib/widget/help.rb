@@ -26,15 +26,15 @@ class Widget::Help < Widget::Base
 
   def render
     id = "tip:#{@subject}"
-    options = {:icon => {}, :tooltip => {}}
+    options = {icon: {}, tooltip: {}}
     options.merge!(yield) if block_given?
     sai = options[:show_at_id] ? ", show_at_id: '#{options[:show_at_id]}'" : ""
 
-    icon = tag :img, :src => image_path('reporting_engine/icon_info_red.gif'), :id => "target:#{@subject}", :alt => ''
+    icon = tag :img, src: image_path('reporting_engine/icon_info_red.gif'), id: "target:#{@subject}", alt: ''
     tip = content_tag_string :span, l(@subject), tip_config(options[:tooltip]), false
     script = content_tag :script,
       "new Tooltip('target:#{@subject}', 'tip:#{@subject}', {className: 'tooltip'#{sai}});",
-      {:type => 'text/javascript'}, false
+      {type: 'text/javascript'}, false
     target = content_tag :a, icon + tip, icon_config(options[:icon])
     write(target + script)
   end
@@ -47,7 +47,7 @@ class Widget::Help < Widget::Base
         "help"
       end
     end
-    options.mega_merge! :href => '#', :class => add_class
+    options.mega_merge! href: '#', class: add_class
   end
 
   def tip_config(options)
@@ -58,7 +58,7 @@ class Widget::Help < Widget::Base
         "tooltip"
       end
     end
-    options.mega_merge! :id => "tip:#{@subject}", :class => add_class
+    options.mega_merge! id: "tip:#{@subject}", class: add_class
   end
 end
 

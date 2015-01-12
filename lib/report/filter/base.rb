@@ -23,9 +23,9 @@ class Report::Filter
     engine::Operator.load
 
     inherited_attribute   :available_operators,
-                            :list => true, :map => :to_operator,
-                            :uniq => true
-    inherited_attribute   :default_operator, :map => :to_operator
+                            list: true, map: :to_operator,
+                            uniq: true
+    inherited_attribute   :default_operator, map: :to_operator
 
     accepts_property :values, :value, :operator
 
@@ -161,7 +161,7 @@ class Report::Filter
     # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
     # for the given value
     def self.label_for_value(value)
-      available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
+      available_values(reverse_search: true).find{ |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?

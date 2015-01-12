@@ -23,7 +23,7 @@ module Report::QueryUtils
 
   alias singleton_class metaclass unless respond_to? :singleton_class
 
-  delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
+  delegate :quoted_false, :quoted_true, to: "engine.reporting_connection"
   attr_writer :engine
 
   module PropagationHook

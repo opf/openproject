@@ -26,14 +26,14 @@ class Widget::Filters::TextBox < Widget::Filters::Base
 
       label = content_tag :label,
                           h(l(filter_class.underscore_name)) + " " + l(:label_filter_value),
-                          :for => "#{filter_class.underscore_name}_arg_1_val",
-                          :class => 'hidden-for-sighted'
+                          for: "#{filter_class.underscore_name}_arg_1_val",
+                          class: 'hidden-for-sighted'
 
-      content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
+      content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: "filter_values" do
         label + text_field_tag("values[#{filter_class.underscore_name}]", "",
-            :size => "6",
-            :class => "select-small",
-            :id => "#{filter_class.underscore_name}_arg_1_val",
+            size: "6",
+            class: "select-small",
+            id: "#{filter_class.underscore_name}_arg_1_val",
             :'data-filter-name' => filter_class.underscore_name)
       end
     end)

@@ -21,7 +21,7 @@ class Report::GroupBy
   class Base < Report::Chainable
     include Report::QueryUtils
 
-    inherited_attributes :group_fields, :list => true, :merge => false
+    inherited_attributes :group_fields, list: true, merge: false
 
     def correct_position?
       type == :row or !child.is_a?(engine::GroupBy::Base) or child.type == :column
