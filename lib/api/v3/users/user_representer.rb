@@ -63,7 +63,7 @@ module API
             href: api_v3_paths.user_lock(represented.id),
             title: "Set lock on #{represented.login}",
             method: :post
-          } if current_user_is_admin && represented.status == User::STATUSES[:active]
+          } if current_user_is_admin && represented.lockable?
         end
 
         link :unlock do
@@ -71,7 +71,7 @@ module API
             href: api_v3_paths.user_lock(represented.id),
             title: "Remove lock on #{represented.login}",
             method: :delete
-          } if current_user_is_admin && represented.status == User::STATUSES[:locked]
+          } if current_user_is_admin && represented.activatable?
         end
 
         link :removeWatcher do

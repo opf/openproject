@@ -35,7 +35,7 @@ describe ::API::V3::Users::UserRepresenter do
                               updated_on: Time.now,
                               status: 1)
   }
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryGirl.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
   context 'generation' do

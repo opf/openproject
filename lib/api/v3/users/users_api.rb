@@ -30,6 +30,20 @@ module API
   module V3
     module Users
       class UsersAPI < Grape::API
+        helpers do
+          def user_transition(allowed)
+            if allowed
+              yield
+
+              # Show updated user
+              status 200
+              UserRepresenter.new(@user, current_user: current_user)
+            else
+              fail ::API::Errors::InvalidUserStatusTransition
+            end
+          end
+        end
+
         resources :users do
 
           params do
@@ -42,7 +56,7 @@ module API
             end
 
             get do
-              UserRepresenter.new(@user)
+              UserRepresenter.new(@user, current_user: current_user)
             end
 
             delete do
@@ -64,32 +78,19 @@ module API
 
               desc 'Set lock on user account'
               post do
-                # Silently ignore lock -> lock transition
-                if @user.active? || @user.locked?
+                user_transition(@user.active? || @user.locked?) do
                   @user.lock! unless @user.locked?
-
-                  status 200
-                  UserRepresenter.new(@user)
-                else
-                  fail ::API::Errors::InvalidUserStatusTransition
                 end
               end
 
               desc 'Remove lock on user account'
               delete do
-                # Silently ignore active -> active transition
-                if @user.locked? || @user.active?
+                user_transition(@user.locked? || @user.active?) do
                   @user.activate! unless @user.active?
-
-                  status 200
-                  UserRepresenter.new(@user)
-                else
-                  fail ::API::Errors::InvalidUserStatusTransition
                 end
               end
             end
           end
-
         end
       end
     end

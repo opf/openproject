@@ -32,18 +32,16 @@ require 'rack/test'
 describe 'API v3 UserLock resource', type: :request do
   include Rack::Test::Methods
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryGirl.create(:user, status: User::STATUSES[:active]) }
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { "/api/v3/users/#{user.id}/lock" }
+  subject(:response) { last_response }
 
   describe '#post' do
-    subject(:response) { last_response }
-
     before do
       allow(User).to receive(:current).and_return current_user
-      allow(User).to receive(:lock!)
       post lock_path
       # lock manually
       user.lock
@@ -51,10 +49,9 @@ describe 'API v3 UserLock resource', type: :request do
 
     # Locking is only available for admins
     context 'when logged in as admin' do
-      let(:current_user) { FactoryGirl.create(:admin) }
+      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
       context 'user account can be locked' do
-
         it 'should respond with 200' do
           expect(subject.status).to eq(200)
         end
@@ -65,7 +62,8 @@ describe 'API v3 UserLock resource', type: :request do
       end
 
       context 'user account is incompatible' do
-        let(:user) { FactoryGirl.create(:user, status: User::STATUSES[:registered]) }
+        let(:user) { FactoryGirl.create(:user,
+          status: User::STATUSES[:registered]) }
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end
@@ -75,6 +73,44 @@ describe 'API v3 UserLock resource', type: :request do
     context 'requesting nonexistent user' do
       let(:lock_path) { '/api/v3/users/9999/lock' }
       it_behaves_like 'not found', 9999, 'User'
+    end
+
+    context 'non-admin user' do
+      it 'should respond with 403' do
+        expect(subject.status).to eq(403)
+      end
+    end
+  end
+
+  describe '#delete' do
+    before do
+      allow(User).to receive(:current).and_return current_user
+      delete lock_path
+      # unlock manually
+      user.activate
+    end
+
+    # Unlocking is only available for admins
+    context 'when logged in as admin' do
+      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+
+      context 'user account can be unlocked' do
+        it 'should respond with 200' do
+          expect(subject.status).to eq(200)
+        end
+
+        it 'should respond with an updated lock status in the user model' do
+          expect(parse_json(subject.body, 'status')).to eq 'active'
+        end
+      end
+
+      context 'user account is incompatible' do
+        let(:user) { FactoryGirl.create(:user,
+          status: User::STATUSES[:registered]) }
+        it 'should fail for invalid transitions' do
+          expect(subject.status).to eq(400)
+        end
+      end
     end
 
     context 'non-admin user' do
