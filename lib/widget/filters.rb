@@ -19,27 +19,30 @@
 
 class Widget::Filters < Widget::Base
   def render
-    table = content_tag :table, width: '100%' do
-      content_tag :tr do
-        content_tag :td do
-          content_tag :table, id: 'filter_table', cellspacing: '0' do
-            render_filters
-          end
-        end
+    add_filter = content_tag :li, id: 'add_filter_block', class: 'work-packages-filters--add-filter' do
+      add_filter_label = label_tag 'add_filter_select', l(:label_filter_add),
+                                   class: 'work-packages-filters--add-filter-label'
+
+      add_filter_value = content_tag :div, class: 'work-packages-filters--add-filter-value' do
+        value = select_tag 'add_filter_select',
+                           options_for_select([['', '']] + selectables),
+                           class: 'form--select -small',
+                           name: nil
+        value += maybe_with_help icon: { class: 'filter-icon' },
+                                 tooltip: { class: 'filter-tip' },
+                                 instant_write: false # help associated with this kind of Widget
+
+        value
       end
+
+      (add_filter_label + add_filter_value).html_safe
     end
-    select = content_tag :div, id: 'add_filter_block' do
-      label = label_tag 'add_filter_select', l(:label_filter_add), class: 'hidden-for-sighted'
-      add_filter = select_tag 'add_filter_select',
-                              options_for_select([["-- #{l(:label_filter_add)} --", '']] + selectables),
-                              class: 'form--select -small',
-                              name: nil
-      add_filter += maybe_with_help icon: { class: 'filter-icon' },
-                                    tooltip: { class: 'filter-tip' },
-                                    instant_write: false # help associated with this kind of Widget
-      (label + add_filter).html_safe
+
+    list = content_tag :ul, id: 'filter_table', class: 'work-packages-filters--filters' do
+      render_filters + add_filter
     end
-    write content_tag(:div, table + select)
+
+    write content_tag(:div, list)
   end
 
   def selectables
@@ -52,8 +55,8 @@ class Widget::Filters < Widget::Base
   def render_filters
     active_filters = @subject.filters.select(&:display?)
     engine::Filter.all.select(&:selectable?).map do |filter|
-      opts = { id: "tr_#{filter.underscore_name}",
-               class: "#{filter.underscore_name} filter",
+      opts = { id: "filter_#{filter.underscore_name}",
+               class: "#{filter.underscore_name} work-packages-filters--filter",
                :"data-filter-name" => filter.underscore_name }
       active_instance = active_filters.detect { |f| f.class == filter }
       if active_instance
@@ -61,7 +64,7 @@ class Widget::Filters < Widget::Base
       else
         opts[:style] = 'display:none'
       end
-      content_tag :tr, opts do
+      content_tag :li, opts do
         render_filter filter, active_instance
       end
     end.join.html_safe
