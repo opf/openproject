@@ -126,6 +126,27 @@ fog:
     region: 'eu-west-1'
 ```
 
+#### backend migration
+
+You can migrate attachments between the available backends. One example would be that you change the configuration from
+the file storage to the fog storage. If you want to put all the present file-based attachments into the cloud,
+you will have to use the following rake task:
+
+```
+rake attachments:copy_to[fog]
+```
+
+It works the other way around too:
+
+```
+rake attachments:copy_to[file]
+```
+
+Note that you have to configure the respective storage (i.e. fog) beforehand as described in the previous section.
+In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
+to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
+for the migration.
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
