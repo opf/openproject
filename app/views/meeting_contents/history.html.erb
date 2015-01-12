@@ -53,7 +53,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 </tbody>
 </table>
-<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+<%= submit_tag l(:label_view_diff), class: 'button -small -highlight' if show_diff %>
 <%= pagination_links_full @content_versions %>
 <% end %>
 

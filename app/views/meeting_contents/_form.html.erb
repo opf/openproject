@@ -26,10 +26,12 @@ See doc/COPYRIGHT.md for more details.
                    :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
 <%= f.hidden_field :lock_version %>
 <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %>
+<p><%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% path = send("preview_#{content_type}_path", content.meeting) %>
-<%= preview_link path, "#{content_type}_form", { class: 'preview' } %>
-<%= link_to l(:button_cancel), "#", :onclick => "$$('.show-#{content_type}').invoke('show'); $$('.edit-#{content_type}').invoke('hide'); return false;" %></p>
+<%= preview_link path, "#{content_type}_form", { class: 'button preview' } %>
+<%= link_to l(:button_cancel), "#",
+      :onclick => "$$('.show-#{content_type}').invoke('show'); $$('.edit-#{content_type}').invoke('hide'); return false;",
+      class: 'button' %></p>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>
 
