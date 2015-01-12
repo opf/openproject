@@ -38,9 +38,9 @@ module ReportingEngine
         # 5.6.0 - 5.6.12
         # 5.7.0 - 5.7.1
         # see https://www.openproject.org/issues/967 for details.
-        required_patch_levels = { "5.6" => 13, "5.7" => 2 }
+        required_patch_levels = { '5.6' => 13, '5.7' => 2 }
 
-        mysql_version = connection.show_variable("VERSION")
+        mysql_version = connection.show_variable('VERSION')
         release_version, patch_level = mysql_version.match(/(\d*\.\d*)\.(\d*)/).captures
         required_patch_level = required_patch_levels[release_version]
 
@@ -55,8 +55,8 @@ module ReportingEngine
       require 'reporting_engine/patches'
       require 'reporting_engine/patches/big_decimal_patch'
       require 'reporting_engine/patches/to_date_patch'
-      #We have to require this here because Ruby will otherwise find Date
-      #as Object::Date and Rails wont autoload Widget::Filters::Date
+      # We have to require this here because Ruby will otherwise find Date
+      # as Object::Date and Rails wont autoload Widget::Filters::Date
       require_dependency 'widget/filters/date'
     end
   end

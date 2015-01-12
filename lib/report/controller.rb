@@ -71,9 +71,9 @@ module Report::Controller
     @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
-      render text: url_for(action: "show", id: @query.id)
+      render text: url_for(action: 'show', id: @query.id)
     else # Redirect to the new record
-      redirect_to action: "show", id: @query.id
+      redirect_to action: 'show', id: @query.id
     end
   end
 
@@ -84,7 +84,7 @@ module Report::Controller
     if @query
       store_query(@query)
       table
-      render action: "index" unless performed?
+      render action: 'index' unless performed?
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -99,14 +99,14 @@ module Report::Controller
     else
       raise ActiveRecord::RecordNotFound
     end
-    redirect_to action: "index", default: 1
+    redirect_to action: 'index', default: 1
   end
 
   ##
   # Update a record with new query parameters and save it. Redirects to the
   # specified record or renders the updated table on XHR
   def update
-    if params[:set_filter].to_i == 1 #save
+    if params[:set_filter].to_i == 1 # save
       old_query = @query
       prepare_query
       old_query.migrate(@query)
@@ -116,7 +116,7 @@ module Report::Controller
     if request.xhr?
       table
     else
-      redirect_to action: "show", id: @query.id
+      redirect_to action: 'show', id: @query.id
     end
   end
 
@@ -129,7 +129,7 @@ module Report::Controller
     @query.save!
     store_query(@query)
     unless request.xhr?
-      redirect_to action: "show", id: @query.id
+      redirect_to action: 'show', id: @query.id
     else
       render text: @query.name
     end
@@ -139,18 +139,18 @@ module Report::Controller
   # Determine the available values for the specified filter and return them as
   # json, if that was requested. This will be executed INSTEAD of the actual action
   def possibly_only_narrow_values
-    if params[:narrow_values] == "1"
+    if params[:narrow_values] == '1'
       sources = params[:sources]
       dependent = params[:dependent]
 
       query = report_engine.new
       sources.each do |dependency|
         query.filter(dependency.to_sym,
-          operator: params[:operators][dependency],
-          values: params[:values][dependency])
+                     operator: params[:operators][dependency],
+                     values: params[:values][dependency])
       end
       query.column(dependent)
-      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[query.group_bys.first.field] }
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect { |r| r.fields[query.group_bys.first.field] }
       # replace null-values with corresponding placeholder
       values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
       # try to find corresponding labels to the given values
@@ -178,12 +178,12 @@ module Report::Controller
     @report_engine = params[:engine].constantize
     @title = "label_#{@report_engine.name.underscore}"
   rescue NameError
-    raise ActiveRecord::RecordNotFound, "No engine found - override #determine_engine"
+    raise ActiveRecord::RecordNotFound, 'No engine found - override #determine_engine'
   end
 
   ##
   # Determines if the request contains filters to set
-  def set_filter? #FIXME: rename to set_query?
+  def set_filter? # FIXME: rename to set_query?
     params[:set_filter].to_i == 1
   end
 
@@ -213,7 +213,7 @@ module Report::Controller
   # Extract active filters from the http params
   def http_filter_parameters
     params[:fields] ||= []
-    (params[:fields].reject { |f| f.empty? } || []).inject({operators: {}, values: {}}) do |hash, field|
+    (params[:fields].reject(&:empty?) || []).inject(operators: {}, values: {}) do |hash, field|
       hash[:operators][field.to_sym] = params[:operators][field]
       hash[:values][field.to_sym] = params[:values][field]
       hash
@@ -224,10 +224,10 @@ module Report::Controller
   # Extract active group bys from the http params
   def http_group_parameters
     if params[:groups]
-      rows = params[:groups]["rows"]
-      columns = params[:groups]["columns"]
+      rows = params[:groups]['rows']
+      columns = params[:groups]['columns']
     end
-    {rows: (rows || []), columns: (columns || [])}
+    { rows: (rows || []), columns: (columns || []) }
   end
 
   ##
@@ -239,7 +239,7 @@ module Report::Controller
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    {columns: [:sector_id], rows: [:country_id]}
+    { columns: [:sector_id], rows: [:country_id] }
   end
 
   ##
@@ -269,7 +269,7 @@ module Report::Controller
       groups  = group_params
     end
     cookie = session[report_engine.name.underscore.to_sym] || {}
-    session[report_engine.name.underscore.to_sym] = cookie.merge({filters: filters, groups: groups})
+    session[report_engine.name.underscore.to_sym] = cookie.merge(filters: filters, groups: groups)
   end
 
   ##
@@ -278,27 +278,27 @@ module Report::Controller
     query = report_engine.new
     query.tap do |q|
       filters[:operators].each do |filter, operator|
-        unless filters[:values][filter]==["<<inactive>>"]
-          values = Array(filters[:values][filter]).map{ |v| v=='<<null>>' ? nil : v }
+        unless filters[:values][filter] == ['<<inactive>>']
+          values = Array(filters[:values][filter]).map { |v| v == '<<null>>' ? nil : v }
           q.filter(filter.to_sym,
                    operator: operator,
-                   values: values )
+                   values: values)
         end
       end
     end
-    groups[:rows].try(:reverse_each) {|r| query.row(r) }
-    groups[:columns].try(:reverse_each) {|c| query.column(c) }
+    groups[:rows].try(:reverse_each) { |r| query.row(r) }
+    groups[:columns].try(:reverse_each) { |c| query.column(c) }
     query
   end
 
   ##
   # Store query in the session
-  def store_query(query)
+  def store_query(_query)
     cookie = {}
     cookie[:groups] = @query.group_bys.inject({}) do |h, group|
       ((h[:"#{group.type}s"] ||= []) << group.underscore_name.to_sym) && h
     end
-    cookie[:filters] = @query.filters.inject({operators: {}, values: {}}) do |h, filter|
+    cookie[:filters] = @query.filters.inject(operators: {}, values: {}) do |h, filter|
       h[:operators][filter.underscore_name.to_sym] = filter.operator.to_s
       h[:values][filter.underscore_name.to_sym] = filter.values
       h
@@ -315,13 +315,13 @@ module Report::Controller
 
   ##
   # Override in subclass if you like
-  def is_public_sql(val=true)
+  def is_public_sql(val = true)
     "(is_public = #{val ? report_engine.reporting_connection.quoted_true : report_engine.reporting_connection.quoted_false})"
   end
 
   ##
   # Abstract: Implementation required in application
-  def allowed_to?(action, subject, user = current_user)
+  def allowed_to?(_action, _subject, _user = current_user)
     raise NotImplementedError, "The #{self.class} should have implemented #allowed_to?(action, subject, user)"
   end
 
@@ -336,7 +336,7 @@ module Report::Controller
       filter = f_cls.new.tap do |f|
         f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? and params[:values]
       end
-      render_widget Widget::Filters::Option, filter, to: canvas = ""
+      render_widget Widget::Filters::Option, filter, to: canvas = ''
       render text: canvas, layout: !request.xhr?
     end
   end
@@ -346,13 +346,12 @@ module Report::Controller
   # Raises RecordNotFound if an invalid :id was passed.
   #
   # @param query An optional query added to the disjunction qualifiying reports to be returned.
-  def find_optional_report(query="1=0")
+  def find_optional_report(query = '1=0')
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        conditions: ["#{is_public_sql} OR (#{user_key} = ?) OR (#{query})", current_user.id])
+                                  conditions: ["#{is_public_sql} OR (#{user_key} = ?) OR (#{query})", current_user.id])
       @query.deserialize if @query
     end
   rescue ActiveRecord::RecordNotFound
   end
 end
-

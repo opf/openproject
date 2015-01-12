@@ -21,8 +21,8 @@
 # Accepts option :content, which expects an enumerable of [name, id, *args]
 # as it would appear in a filters available values. If given, it renders the
 # option-tags from the content array instead of the filters available values.
-#make sure to require Widget::Filters::Base first because otherwise
-#ruby might find Base within Widget and Rails will not load it
+# make sure to require Widget::Filters::Base first because otherwise
+# ruby might find Base within Widget and Rails will not load it
 require_dependency 'widget/filters/base'
 class Widget::Filters::Option < Widget::Filters::Base
   def render
@@ -35,8 +35,8 @@ class Widget::Filters::Option < Widget::Filters::Base
       name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
       unless options[:optgroup]
         opts = { value: id }
-        if (Array(filter.values).map{ |val| val.to_s }.include? id.to_s) || (first && Array(filter.values).empty?)
-          opts[:selected] = "selected"
+        if (Array(filter.values).map(&:to_s).include? id.to_s) || (first && Array(filter.values).empty?)
+          opts[:selected] = 'selected'
         end
         first = false
         content_tag(:option, opts) { name_prefix + name }

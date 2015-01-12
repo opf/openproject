@@ -17,7 +17,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-
 class Widget::Controls::Clear < Widget::Controls
   def render
     write link_to(l(:button_clear),

@@ -21,21 +21,21 @@ class Widget::Controls::QueryName < Widget::Controls
   dont_cache! # The name might change, but the query stays the same...
 
   def render
-    options = { id: "query_saved_name", "data-translations" => translations }
+    options = { id: 'query_saved_name', 'data-translations' => translations }
     if @subject.new_record?
       name = l(:label_new_report)
-      icon = ""
+      icon = ''
     else
       name = @subject.name
       if @options[:can_rename]
-        icon = content_tag :a, href: "#", class: 'icon-rename icon',
-        id: "query-name-edit-button", title: "#{l(:button_rename)}" do
+        icon = content_tag :a, href: '#', class: 'icon-rename icon',
+                               id: 'query-name-edit-button', title: "#{l(:button_rename)}" do
           l(:button_rename)
         end
-        options["data-update-url"] = url_for(action: "rename", id: @subject.id)
+        options['data-update-url'] = url_for(action: 'rename', id: @subject.id)
       end
-      options["data-is_public"] = @subject.public?
-      options["data-is_new"] = @subject.new_record?
+      options['data-is_public'] = @subject.public?
+      options['data-is_new'] = @subject.new_record?
     end
     write(content_tag(:span, h(name), options) + icon.to_s)
   end

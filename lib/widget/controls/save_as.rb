@@ -21,10 +21,10 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render
     if @subject.new_record?
       link_name = l(:button_save)
-      icon = "icon-save1"
+      icon = 'icon-save1'
     else
       link_name = l(:button_save_as)
-      icon = "icon-save1"
+      icon = 'icon-save1'
     end
     button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
     write(button + render_popup)
@@ -43,7 +43,7 @@ class Widget::Controls::SaveAs < Widget::Controls
     if @options[:can_save_as_public]
       box = content_tag :p do
         label_tag(:query_is_public, Query.human_attribute_name(:is_public)) +
-          check_box_tag(:query_is_public)
+        check_box_tag(:query_is_public)
       end
       name + box
     else
@@ -68,7 +68,7 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup
-    content_tag :div, id: 'save_as_form', class: "button_form", style: "display:none" do
+    content_tag :div, id: 'save_as_form', class: 'button_form', style: 'display:none' do
       render_popup_form + render_popup_buttons
     end
   end

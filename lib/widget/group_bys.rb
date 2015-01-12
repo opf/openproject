@@ -18,11 +18,8 @@
 #++
 
 class Widget::GroupBys < Widget::Base
-
   def render_options(group_by_ary)
-    group_by_ary.sort_by do |group_by|
-      group_by.label
-    end.collect do |group_by|
+    group_by_ary.sort_by(&:label).collect do |group_by|
       next unless group_by.selectable?
       content_tag :option, value: group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(group_by.label))}" do
         h(group_by.label)
@@ -30,10 +27,10 @@ class Widget::GroupBys < Widget::Base
     end.join.html_safe
   end
 
-  def render_group_caption(type)
+  def render_group_caption(_type)
     content_tag :span do
       out = content_tag :span, class: 'arrow in_row arrow_group_by_caption' do
-        '' #cannot use tag here as it would generate <span ... /> which leads to wrong interpretation in most browsers
+        '' # cannot use tag here as it would generate <span ... /> which leads to wrong interpretation in most browsers
       end
       out.html_safe
     end
@@ -48,19 +45,18 @@ class Widget::GroupBys < Widget::Base
                 id: "group_by_#{type}",
                 class: 'drag_target drag_container',
                 :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
-
       out = content_tag :legend, l(:"label_#{type}"), class: 'in_row group_by_caption'
 
       out += render_group_caption type
 
-      out += label_tag  "add_group_by_#{type}",
-                        l(:"label_group_by_add"),
-                        class: 'hidden-for-sighted'
+      out += label_tag "add_group_by_#{type}",
+                       l(:"label_group_by_add"),
+                       class: 'hidden-for-sighted'
 
       out += content_tag :select, id: "add_group_by_#{type}", class: 'select-small' do
         content = content_tag :option, "-- #{l(:label_group_by_add)} --", value: ''
 
-        content += engine::GroupBy.all_grouped.sort_by do |label, group_by_ary|
+        content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
           l(label)
         end.collect do |label, group_by_ary|
           content_tag :optgroup, label: h(l(label)) do
@@ -84,10 +80,10 @@ class Widget::GroupBys < Widget::Base
     write(content_tag(:div, id: 'group_by_area') do
       out =  render_group 'columns', @subject.group_bys(:column), true
       out += render_group 'rows', @subject.group_bys(:row)
-      out += image_tag "reporting_engine/remove.gif",
-                       id: "hidden_remove_img",
-                       style: "display:none",
-                       class: "reporting_hidden_group_remove_image"
+      out += image_tag 'reporting_engine/remove.gif',
+                       id: 'hidden_remove_img',
+                       style: 'display:none',
+                       class: 'reporting_hidden_group_remove_image'
       out.html_safe
     end)
   end

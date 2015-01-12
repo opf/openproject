@@ -63,12 +63,12 @@ class Report::Table
   def satisfies?(type, expected, given)
     given  = fields_from(given, type) if given.respond_to? :to_hash
     zipped = expected.zip given
-    zipped.all? { |a,b| a == b or b.nil? }
+    zipped.all? { |a, b| a == b or b.nil? }
   end
 
   def fields_for(type)
     @fields_for ||= begin
-      child, fields = query.chain, Hash.new { |h,k| h[k] = [] }
+      child, fields = query.chain, Hash.new { |h, k| h[k] = [] }
       until child.filter?
         fields[child.type].push(*child.group_fields)
         child = child.child
@@ -93,13 +93,13 @@ class Report::Table
     stack.size.times { yield nil }
   end
 
-  def [](x,y)
+  def [](x, y)
     get_row(row_index[y]).first(x).last
   end
 
   def get_index(type)
     @indexes ||= begin
-      indexes = Hash.new { |h,k| h[k] = Set.new }
+      indexes = Hash.new { |h, k| h[k] = Set.new }
       query.each_direct_result { |result| [:row, :column].each { |t| indexes[t] << fields_from(result, t) } }
       indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| compare x, y } }
       indexes

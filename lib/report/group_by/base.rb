@@ -36,7 +36,7 @@ class Report::GroupBy
     end
 
     def cache_key
-      self.class.cache_key + type.to_s[0,1]
+      self.class.cache_key + type.to_s[0, 1]
     end
 
     ##

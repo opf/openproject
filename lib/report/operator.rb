@@ -25,10 +25,8 @@ class Report::Operator
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
   def self.define_operators # :nodoc:
-
     # Defaults
     defaults do
-
       def_delegators :'singleton_class', :forced?, :force!, :forced
 
       def sql_operator
@@ -50,14 +48,14 @@ class Report::Operator
     end
 
     # Operators from Redmine
-    new ">t-", label: :label_less_than_ago do
+    new '>t-', label: :label_less_than_ago do
       include DateRange
       def modify(query, field, value)
         super query, field, -value.to_i, 0
       end
     end
 
-    new "w", arity: 0, label: :label_this_week do
+    new 'w', arity: 0, label: :label_this_week do
       def modify(query, field, offset = nil)
         offset  ||= 0
         first_day = begin
@@ -72,33 +70,33 @@ class Report::Operator
       end
     end
 
-    new "t+", label: :label_in do
+    new 't+', label: :label_in do
       include DateRange
       def modify(query, field, *values)
         super query, field, values.first.to_i, values.first.to_i
       end
     end
 
-    new "<=", label: :label_less_or_equal
+    new '<=', label: :label_less_or_equal
 
-    new "!", label: :label_not_equals do
+    new '!', label: :label_not_equals do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
         where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
-        where_clause += ")"
+        where_clause += ')'
         query.where where_clause
         query
       end
     end
 
-    new "t-", label: :label_ago do
+    new 't-', label: :label_ago do
       include DateRange
       def modify(query, field, *values)
         super query, field, -values.first.to_i, -values.first.to_i
       end
     end
 
-    new "!~", arity: 1, label: :label_not_contains do
+    new '!~', arity: 1, label: :label_not_contains do
       def modify(query, field, *values)
         value = values.first || ''
         query.where "LOWER(#{field}) NOT LIKE '%#{quote_string(value.to_s.downcase)}%'"
@@ -106,13 +104,13 @@ class Report::Operator
       end
     end
 
-    new "=", label: :label_equals do
+    new '=', label: :label_equals do
       def modify(query, field, *values)
         case
         when values.size == 1 && values.first.nil?
           query.where "#{field} IS NULL"
         when values.compact.empty?
-          query.where "1=0"
+          query.where '1=0'
         else
           query.where "#{field} IN #{collection(*values)}"
         end
@@ -120,7 +118,7 @@ class Report::Operator
       end
     end
 
-    new "~", arity: 1, label: :label_contains do
+    new '~', arity: 1, label: :label_contains do
       def modify(query, field, *values)
         value = values.first || ''
         query.where "LOWER(#{field}) LIKE '%#{quote_string(value.to_s.downcase)}%'"
@@ -128,70 +126,70 @@ class Report::Operator
       end
     end
 
-    new "<t+", label: :label_in_less_than do
+    new '<t+', label: :label_in_less_than do
       include DateRange
       def modify(query, field, value)
         super query, field, 0, value.to_i
       end
     end
 
-    new "t", label: :label_today do
+    new 't', label: :label_today do
       include DateRange
       def modify(query, field)
         super query, field, 0, 0
       end
     end
 
-    new ">=", label: :label_greater_or_equal
+    new '>=', label: :label_greater_or_equal
 
-    new "!*", arity: 0, where_clause: "%s IS NULL", label: :label_none
+    new '!*', arity: 0, where_clause: '%s IS NULL', label: :label_none
 
-    new "<t-", label: :label_more_than_ago do
+    new '<t-', label: :label_more_than_ago do
       include DateRange
       def modify(query, field, value)
         super query, field, nil, -value.to_i
       end
     end
 
-    new ">t+", label: :label_in_more_than do
+    new '>t+', label: :label_in_more_than do
       include DateRange
       def modify(query, field, value)
         super query, field, value.to_i, nil
       end
     end
 
-    new "*", arity: 0, where_clause: "%s IS NOT NULL", label: :label_all
+    new '*', arity: 0, where_clause: '%s IS NOT NULL', label: :label_all
 
     # Our own operators
-    new "<", label: :label_less
-    new ">", label: :label_greater
+    new '<', label: :label_less
+    new '>', label: :label_greater
 
-    new "=n", label: :label_equals do
+    new '=n', label: :label_equals do
       def modify(query, field, value)
         query.where "#{field} = #{clean_currency(value)}"
         query
       end
     end
 
-    new "0", label: :label_none, where_clause: "%s = 0"
-    new "y", label: :label_yes, arity: 0, where_clause: "%s IS NOT NULL"
-    new "n", label: :label_no, arity: 0, where_clause: "%s IS NULL"
+    new '0', label: :label_none, where_clause: '%s = 0'
+    new 'y', label: :label_yes, arity: 0, where_clause: '%s IS NOT NULL'
+    new 'n', label: :label_no, arity: 0, where_clause: '%s IS NULL'
 
-    new "<d", label: :label_less_or_equal, validate: :dates do
+    new '<d', label: :label_less_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        "<=".to_operator.modify query, field, quoted_date(value)
+        '<='.to_operator.modify query, field, quoted_date(value)
       end
     end
 
-    new ">d", label: :label_greater_or_equal, validate: :dates do
+    new '>d', label: :label_greater_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        ">=".to_operator.modify query, field, quoted_date(value)
+        '>='.to_operator.modify query, field, quoted_date(value)
       end
     end
 
-    new "<>d", label: :label_between, validate: :dates do
+    new '<>d', label: :label_between, validate: :dates do
       def modify(query, field, from, to)
         return query if from.to_s.empty? || to.to_s.empty?
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
@@ -199,14 +197,14 @@ class Report::Operator
       end
     end
 
-    new "=d", label: :label_date_on, validate: :dates do
+    new '=d', label: :label_date_on, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        "=".to_operator.modify query, field, quoted_date(value)
+        '='.to_operator.modify query, field, quoted_date(value)
       end
     end
 
-    new ">=d", label: :label_days_ago, validate: :integers do
+    new '>=d', label: :label_days_ago, validate: :integers do
       force! :integers
 
       def modify(query, field, value)
@@ -216,26 +214,25 @@ class Report::Operator
       end
     end
 
-    new "?=", label: :label_null_or_equal do
+    new '?=', label: :label_null_or_equal do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
         where_clause += " OR #{field} IN #{collection(*values)}" unless values.compact.empty?
-        where_clause += ")"
+        where_clause += ')'
         query.where where_clause
         query
       end
     end
 
-    new "?!", label: :label_not_null_and_not_equal do
+    new '?!', label: :label_not_null_and_not_equal do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NOT NULL"
         where_clause += " AND #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
-        where_clause += ")"
+        where_clause += ')'
         query.where where_clause
         query
       end
     end
-
   end
   #############################################################################################
 
@@ -263,7 +260,7 @@ class Report::Operator
     all[name.to_s] ||= super
   end
 
-  #TODO: this should be inheritable by subclasses
+  # TODO: this should be inheritable by subclasses
   def self.all
     @@all_operators ||= {}
   end
@@ -287,28 +284,28 @@ class Report::Operator
   end
 
   def self.default_operator
-    find "="
+    find '='
   end
 
   def self.integer_operators
-    ["<", ">", "<=", ">="].map { |s| s.to_operator}
+    ['<', '>', '<=', '>='].map(&:to_operator)
   end
 
   def self.null_operators
-    ["*", "!*"].map { |s| s.to_operator}
+    ['*', '!*'].map(&:to_operator)
   end
 
   def self.string_operators
-    ["!~", "~"].map { |s| s.to_operator}
+    ['!~', '~'].map(&:to_operator)
   end
 
   def self.time_operators
-    #["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-    ["t", "w", "<>d", ">d", "<d", "=d", ">=d"].map { |s| s.to_operator}
+    # ["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
+    ['t', 'w', '<>d', '>d', '<d', '=d', '>=d'].map(&:to_operator)
   end
 
   def self.default_operators
-    ["=", "!"].map { |s| s.to_operator}
+    ['=', '!'].map(&:to_operator)
   end
 
   attr_reader :name
@@ -344,7 +341,7 @@ class Report::Operator
   end
 
   def <=>(other)
-    self.name <=> other.name
+    name <=> other.name
   end
 
   ## Creates an alias for a given operator.
@@ -374,5 +371,4 @@ class Report::Operator
 
   # Done with class method definition, let's initialize the operators
   load
-
 end

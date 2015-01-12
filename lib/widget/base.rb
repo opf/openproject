@@ -45,8 +45,8 @@ class Widget::Base < Widget
   # Write a string to the canvas. The string is marked as html_safe.
   # This will write twice, if @cache_output is set.
   def write(str)
-    str ||= ""
-    @output ||= "".html_safe
+    str ||= ''
+    @output ||= ''.html_safe
     @output = @output + '' if @output.frozen? # Rails 2 freezes tag strings
     @output.write str.html_safe
     @cache_output.write(str.html_safe) if @cache_output
@@ -86,7 +86,7 @@ class Widget::Base < Widget
   def cache_key
     @cache_key ||= Digest::SHA1::hexdigest begin
       if subject.respond_to? :cache_key
-        "#{I18n.locale.to_s}/#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+        "#{I18n.locale}/#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
       else
         subject.inspect
       end
@@ -105,7 +105,7 @@ class Widget::Base < Widget
 
   ##
   # Render this widget or serve it from cache
-  def render_with_cache(options = {}, &block)
+  def render_with_cache(_options = {}, &block)
     if cached?
       write Rails.cache.fetch(cache_key)
     else
@@ -118,7 +118,7 @@ class Widget::Base < Widget
   # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
   # a @cache_output String is created, that will mirror what is being written to the canvas.
   def set_canvas(canvas)
-    @cache_output = "".html_safe
+    @cache_output = ''.html_safe
     @output = canvas
   end
 
@@ -137,7 +137,7 @@ class Widget::Base < Widget
   def maybe_with_help(options = {})
     options[:instant_write] = true if options[:instant_write].nil?
     options[:fallback_html] ||= ''
-    output = "".html_safe
+    output = ''.html_safe
     if text = options[:help_text] || help_text
       output += render_widget Widget::Help, text do
         options

@@ -43,8 +43,8 @@ class Report < ActiveRecord::Base
 
     def self.base?
       superclass == engine::Chainable or self == engine::Chainable or
-      superclass == Chainable or self == Chainable or
-      self == engine::Filter::Base or self == engine::GroupBy::Base
+        superclass == Chainable or self == Chainable or
+        self == engine::Filter::Base or self == engine::GroupBy::Base
     end
 
     def self.base
@@ -62,7 +62,7 @@ class Report < ActiveRecord::Base
 
     def self.register(label)
       available << klass
-      set_inherited_attribute "label", label
+      set_inherited_attribute 'label', label
     end
 
     def self.table_joins
@@ -106,7 +106,7 @@ class Report < ActiveRecord::Base
     inherited_attribute :properties, list: true
 
     def self.label
-      "Translation needed"
+      'Translation needed'
     end
 
     class << self
@@ -211,7 +211,7 @@ class Report < ActiveRecord::Base
     # See #chain_collect
     def subchain_collect(name, *args, &block)
       subchain = child.subchain_collect(name, *args, &block) unless bottom?
-      [* send(name, *args, &block) ].push(*subchain).compact.uniq
+      [* send(name, *args, &block)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state
@@ -326,7 +326,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.mapping_for(field)
-      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new { |h, k| h[k] = [] }) do |hash, cbl|
         hash[cbl.field] << cbl.mapping
       end
       @field_map[field]
@@ -342,6 +342,5 @@ class Report < ActiveRecord::Base
       @help_text = sym if sym
       @help_text
     end
-
   end
 end

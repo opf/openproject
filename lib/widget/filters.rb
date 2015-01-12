@@ -18,26 +18,25 @@
 #++
 
 class Widget::Filters < Widget::Base
-
   def render
-    table = content_tag :table, width: "100%" do
+    table = content_tag :table, width: '100%' do
       content_tag :tr do
         content_tag :td do
-          content_tag :table, id: "filter_table", cellspacing: '0' do
+          content_tag :table, id: 'filter_table', cellspacing: '0' do
             render_filters
           end
         end
       end
     end
-    select = content_tag :div, id: "add_filter_block" do
-      label = label_tag 'add_filter_select',l(:label_filter_add), class: 'hidden-for-sighted'
+    select = content_tag :div, id: 'add_filter_block' do
+      label = label_tag 'add_filter_select', l(:label_filter_add), class: 'hidden-for-sighted'
       add_filter = select_tag 'add_filter_select',
-          options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
-            class: "select-small",
-            name: nil
+                              options_for_select([["-- #{l(:label_filter_add)} --", '']] + selectables),
+                              class: 'select-small',
+                              name: nil
       add_filter += maybe_with_help icon: { class: 'filter-icon' },
-                                   tooltip: { class: 'filter-tip' },
-                                   instant_write: false # help associated with this kind of Widget
+                                    tooltip: { class: 'filter-tip' },
+                                    instant_write: false # help associated with this kind of Widget
       (label + add_filter).html_safe
     end
     write content_tag(:div, table + select)
@@ -45,28 +44,22 @@ class Widget::Filters < Widget::Base
 
   def selectables
     filters = engine::Filter.all
-    filters.sort_by do |filter|
-      filter.label
-    end.select do |filter|
-      filter.selectable?
-    end.collect do |filter|
-      [ filter.label, filter.underscore_name ]
+    filters.sort_by(&:label).select(&:selectable?).collect do |filter|
+      [filter.label, filter.underscore_name]
     end
   end
 
   def render_filters
-    active_filters = @subject.filters.select { |f| f.display? }
-    engine::Filter.all.select do |filter|
-      filter.selectable?
-    end.collect do |filter|
-      opts = {id: "tr_#{filter.underscore_name}",
-              class: "#{filter.underscore_name} filter",
-              :"data-filter-name" => filter.underscore_name }
+    active_filters = @subject.filters.select(&:display?)
+    engine::Filter.all.select(&:selectable?).collect do |filter|
+      opts = { id: "tr_#{filter.underscore_name}",
+               class: "#{filter.underscore_name} filter",
+               :"data-filter-name" => filter.underscore_name }
       active_instance = active_filters.detect { |f| f.class == filter }
       if active_instance
         opts[:"data-selected"] = true
       else
-        opts[:style] = "display:none"
+        opts[:style] = 'display:none'
       end
       content_tag :tr, opts do
         render_filter filter, active_instance
@@ -85,7 +78,7 @@ class Widget::Filters < Widget::Base
       render_widget TextBox, f, to: html
     elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget Date, f, to: html
-    elsif engine::Operator.integer_operators.all? {|o| f_cls.available_operators.include? o }
+    elsif engine::Operator.integer_operators.all? { |o| f_cls.available_operators.include? o }
       if f_cls.available_values.empty?
         render_widget TextBox, f, to: html
       else
@@ -102,9 +95,9 @@ class Widget::Filters < Widget::Base
     render_widget RemoveButton, f, to: html
   end
 
-  ##Renders help for a filter (chainable)
+  # #Renders help for a filter (chainable)
   def render_filter_help(filter, options = {})
-    html = content_tag :td, width: "25px" do
+    html = content_tag :td, width: '25px' do
       if filter.help_text # help associated with the chainable this Widget represents
         render_widget Widget::Controls::Help, filter.help_text
       end
