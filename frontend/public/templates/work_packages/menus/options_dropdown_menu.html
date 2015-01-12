@@ -2,7 +2,9 @@
   <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
   properly. Thus, don't remove the hrefs or the empty URLs! -->
   <ul class="dropdown-menu">
-    <li><a href="" ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a></li>
+    <li>
+      <a focus="" href="" ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a>
+    </li>
     <li><a href="" ng-click="showSortingModal()"><i class="icon-action-menu icon-sort-by2"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
     <li><a href="" ng-click="showGroupingModal()"><i class="icon-action-menu icon-group-by2"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
     <li>

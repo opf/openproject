@@ -31,6 +31,9 @@ module.exports = function($injector, $window, $parse) {
   function getCssPositionProperties(dropdown, trigger) {
     var hOffset = 0,
       vOffset = 0;
+    if (dropdown.hasClass('dropdown-anchor-top')) {
+      vOffset = - dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'));
+    }
 
     // Styling logic taken from jQuery-dropdown plugin: https://github.com/plapier/jquery-dropdown
     // (dual MIT/GPL-Licensed)
@@ -102,7 +105,7 @@ module.exports = function($injector, $window, $parse) {
         contextMenu.open(event.target, locals)
           .then(function(element) {
             menuElement = element;
-            // angular.element(element).trap();
+            angular.element(element).trap();
           });
       }
 

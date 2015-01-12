@@ -113,4 +113,13 @@ angular.module('openproject.workPackages')
     '$window',
     'PERMITTED_CONTEXT_MENU_ACTIONS',
     require('./work-package-context-menu-controller')
+  ])
+  .factory('DetailsMoreDropdownMenu', [
+    'ngContextMenu',
+    function(ngContextMenu) {
+      return ngContextMenu({
+        templateUrl: '/templates/work_packages/menus/details_more_dropdown_menu.html',
+        container: '.work-packages--details-toolbar'
+      });
+    }
   ]);
