@@ -295,7 +295,7 @@ class Report < ActiveRecord::Base
     def self.singleton
       class << self
         def new(chain = nil, options = {})
-          return chain if chain and chain.collect(&:class).include? self
+          return chain if chain and chain.map(&:class).include? self
           super
         end
       end

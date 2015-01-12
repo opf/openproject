@@ -27,7 +27,7 @@ require_dependency 'widget/filters/base'
 class Widget::Filters::Option < Widget::Filters::Base
   def render
     first = true
-    write((@options[:content] || filter_class.available_values).collect do |name, id, *args|
+    write((@options[:content] || filter_class.available_values).map do |name, id, *args|
       options = args.first || {} # optional configuration for values
       level = options[:level] # nesting_level is optional for values
       name = l(name) if name.is_a? Symbol

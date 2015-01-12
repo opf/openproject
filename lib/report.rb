@@ -53,8 +53,8 @@ class Report < ActiveRecord::Base
 
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
-    self.serialized = { filters: (filters.collect(&:serialize).reject(&:nil?).sort { |a, b| a.first <=> b.first }),
-                        group_bys: group_bys.collect(&:serialize).reject(&:nil?).reverse }
+    self.serialized = { filters: (filters.map(&:serialize).reject(&:nil?).sort { |a, b| a.first <=> b.first }),
+                        group_bys: group_bys.map(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize

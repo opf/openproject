@@ -232,7 +232,7 @@ class Report::SqlStatement
   # Return the names which have been bound through select statements
   # @return [Array<String>] All fields for select part
   def selects
-    @select.collect { |s| s.split(' as ').last }
+    @select.map { |s| s.split(' as ').last }
   end
 
   ##

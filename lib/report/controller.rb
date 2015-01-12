@@ -150,7 +150,7 @@ module Report::Controller
                      values: params[:values][dependency])
       end
       query.column(dependent)
-      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect { |r| r.fields[query.group_bys.first.field] }
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.map { |r| r.fields[query.group_bys.first.field] }
       # replace null-values with corresponding placeholder
       values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
       # try to find corresponding labels to the given values

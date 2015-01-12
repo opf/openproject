@@ -44,14 +44,14 @@ class Widget::Filters < Widget::Base
 
   def selectables
     filters = engine::Filter.all
-    filters.sort_by(&:label).select(&:selectable?).collect do |filter|
+    filters.sort_by(&:label).select(&:selectable?).map do |filter|
       [filter.label, filter.underscore_name]
     end
   end
 
   def render_filters
     active_filters = @subject.filters.select(&:display?)
-    engine::Filter.all.select(&:selectable?).collect do |filter|
+    engine::Filter.all.select(&:selectable?).map do |filter|
       opts = { id: "tr_#{filter.underscore_name}",
                class: "#{filter.underscore_name} filter",
                :"data-filter-name" => filter.underscore_name }

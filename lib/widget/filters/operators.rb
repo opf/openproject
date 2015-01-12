@@ -32,7 +32,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
       options.merge! style: 'display: none' if hide_select_box
 
       select_box = content_tag :select, options do
-        filter_class.available_operators.collect do |o|
+        filter_class.available_operators.map do |o|
           opts = { value: h(o.to_s), :"data-arity" => o.arity }
           opts.reverse_merge! :"data-forced" => o.forced if o.forced?
           opts[:selected] = 'selected' if filter.operator.to_s == o.to_s

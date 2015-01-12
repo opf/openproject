@@ -19,7 +19,7 @@
 
 class Widget::GroupBys < Widget::Base
   def render_options(group_by_ary)
-    group_by_ary.sort_by(&:label).collect do |group_by|
+    group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
       content_tag :option, value: group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(group_by.label))}" do
         h(group_by.label)
@@ -58,7 +58,7 @@ class Widget::GroupBys < Widget::Base
 
         content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
           l(label)
-        end.collect do |label, group_by_ary|
+        end.map do |label, group_by_ary|
           content_tag :optgroup, label: h(l(label)) do
             render_options group_by_ary
           end
