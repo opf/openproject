@@ -34,12 +34,12 @@ class Report::Result
       @value = value
     end
 
-    def recursive_each_with_level(level = 0, depth_first = true, &block)
+    def recursive_each_with_level(level = 0, _depth_first = true, &block)
       block.call(level, self)
     end
 
     def recursive_each
-      recursive_each_with_level { |level, result| yield result }
+      recursive_each_with_level { |_level, result| yield result }
     end
 
     def to_hash
@@ -55,7 +55,7 @@ class Report::Result
     #
     # @return A value for grouping or nil if the given field should
     #         not be considered for grouping.
-    def map_group_by_value(key, value)
+    def map_group_by_value(_key, value)
       value
     end
 
@@ -64,7 +64,7 @@ class Report::Result
     # just before the result is returned.
     #
     # @param data This result's grouped data.
-    def group_by_data_ready(data)
+    def group_by_data_ready(_data)
       # good to know!
     end
 
@@ -141,7 +141,7 @@ class Report::Result
     end
 
     def render(keys = important_fields)
-      fields.map { |k,v| yield(k,v) if keys.include? k }.join
+      fields.map { |k, v| yield(k, v) if keys.include? k }.join
     end
 
     def set_key(index = [])
@@ -157,11 +157,11 @@ class Report::Result
     end
 
     def count
-      self["count"].to_i
+      self['count'].to_i
     end
 
     def units
-      self["units"].to_d
+      self['units'].to_d
     end
 
     ##
@@ -175,7 +175,7 @@ class Report::Result
       yield self
     end
 
-    def each_direct_result(cached = false)
+    def each_direct_result(_cached = false)
       return enum_for(__method__) unless block_given?
       yield self
     end
@@ -195,7 +195,7 @@ class Report::Result
 
     def sort!(force = false)
       return false if @sorted and not force
-      values.sort! { |a,b| compare a.key, b.key }
+      values.sort! { |a, b| compare a.key, b.key }
       values.each { |e| e.sort! force }
       @sorted = true
     end
@@ -225,18 +225,18 @@ class Report::Result
       if depth_first
         super
         each { |c| c.recursive_each_with_level(level + 1, depth_first, &block) }
-      else #width-first
+      else # width-first
         to_evaluate = [self]
         lvl = level
-        while !to_evaluate.empty? do
+        while !to_evaluate.empty?
           # evaluate all stored results and find the results we need to evaluate soon
           to_evaluate_soon = []
           to_evaluate.each do |r|
-            block.call(lvl,r)
+            block.call(lvl, r)
             to_evaluate_soon.concat r.values if r.size > 0
           end
           # take new results to evaluate
-          lvl = lvl +1
+          lvl = lvl + 1
           to_evaluate = to_evaluate_soon
         end
       end

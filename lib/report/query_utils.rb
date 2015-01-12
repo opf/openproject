@@ -18,12 +18,12 @@
 #++
 
 module Report::QueryUtils
-  Infinity = 1.0/0
+  Infinity = 1.0 / 0
   include Engine
 
   alias singleton_class metaclass unless respond_to? :singleton_class
 
-  delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
+  delegate :quoted_false, :quoted_true, to: 'engine.reporting_connection'
   attr_writer :engine
 
   module PropagationHook
@@ -69,7 +69,7 @@ module Report::QueryUtils
   # @param [#flatten] *values Ruby collection
   # @return [String] SQL collection
   def collection(*values)
-    return "" if values.empty?
+    return '' if values.empty?
 
     v = if values.is_a?(Array)
           values.flatten.each_with_object([]) do |str, l|
@@ -79,7 +79,7 @@ module Report::QueryUtils
           split_with_safe_return(str)
         end
 
-    "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
+    "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(', ')})"
   end
 
   def split_with_safe_return(str)
@@ -183,8 +183,10 @@ module Report::QueryUtils
     options = options.with_indifferent_access
     else_part = options.delete :else
     "-- #{desc}\n\t" \
-    "CASE #{options.map { |k,v| "\n\t\tWHEN #{field_name_for k}\n\t\t" \
-    "THEN #{field_name_for v}" }.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
+    "CASE #{options.map { |k, v|
+      "\n\t\tWHEN #{field_name_for k}\n\t\t" \
+    "THEN #{field_name_for v}"
+    }.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
   def iso_year_week(field, default_table = nil)
@@ -206,9 +208,9 @@ module Report::QueryUtils
   def convert_unless_nil(value, weight_of_nil = :infinit)
     if value.nil?
       if weight_of_nil == :infinit
-        1.0/0 # Infinity, which is greater than any string or number
+        1.0 / 0 # Infinity, which is greater than any string or number
       elsif weight_of_nil == :negative_infinit
-        -1.0/0 # negative Infinity, which is smaller than any string or number
+        -1.0 / 0 # negative Infinity, which is smaller than any string or number
       else
         weight_of_nil
       end
@@ -223,8 +225,8 @@ module Report::QueryUtils
 
   def map_field(key, value)
     case key.to_s
-    when "singleton_value", /_id$/ then convert_unless_nil(value) {|v| v.to_i }
-    else convert_unless_nil(value) {|v| v.to_s }
+    when 'singleton_value', /_id$/ then convert_unless_nil(value) { |v| v.to_i }
+    else convert_unless_nil(value) { |v| v.to_s }
     end
   end
 
@@ -258,7 +260,7 @@ module Report::QueryUtils
   end
 
   module SQL
-    def typed(type, value, escape = true)
+    def typed(_type, value, escape = true)
       escape ? "'#{quote_string value}'" : value
     end
   end
@@ -325,7 +327,7 @@ module Report::QueryUtils
   include Postres if postgresql?
 
   def self.cache
-    @cache ||= Hash.new { |h,k| h[k] = {} }
+    @cache ||= Hash.new { |h, k| h[k] = {} }
   end
 
   def self.included(klass)

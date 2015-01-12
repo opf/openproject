@@ -22,15 +22,15 @@ class Report::Filter
     include Report::QueryUtils
     engine::Operator.load
 
-    inherited_attribute   :available_operators,
-                            :list => true, :map => :to_operator,
-                            :uniq => true
-    inherited_attribute   :default_operator, :map => :to_operator
+    inherited_attribute :available_operators,
+                        list: true, map: :to_operator,
+                        uniq: true
+    inherited_attribute :default_operator, map: :to_operator
 
     accepts_property :values, :value, :operator
 
     mattr_accessor :skip_inherited_operators
-    self.skip_inherited_operators = [:time_operators, "y", "n"]
+    self.skip_inherited_operators = [:time_operators, 'y', 'n']
 
     attr_accessor :values
 
@@ -69,9 +69,8 @@ class Report::Filter
       alias :dependents :dependent
     end
 
-
     # need this for sort
-    def <=> other
+    def <=>(other)
       self.class.underscore_name <=> other.class.underscore_name
     end
 
@@ -100,12 +99,12 @@ class Report::Filter
     # all_dependents computes the depentends of this filter and recursively
     # all_dependents of this class' dependents.
     def self.all_dependents
-      self.cached(:compute_all_dependents)
+      cached(:compute_all_dependents)
     end
 
     def self.compute_all_dependents(starting_from = nil)
       starting_from ||= dependents
-      starting_from.inject([]) do |list,dependent|
+      starting_from.inject([]) do |list, dependent|
         list + Array(dependent) + dependent.all_dependents
       end
     end
@@ -138,7 +137,7 @@ class Report::Filter
 
     def self.new(*args, &block) # :nodoc:
       # this class is abstract. instances are only allowed from child classes
-      raise "#{self.name} is an abstract class" if base?
+      raise "#{name} is an abstract class" if base?
       super
     end
 
@@ -153,7 +152,7 @@ class Report::Filter
     ##
     # Returns an array of [:label_of_value, value]-kind arrays, containing
     # valid id-label combinations of possible filter values
-    def self.available_values(params = {})
+    def self.available_values(_params = {})
       []
     end
 
@@ -161,7 +160,7 @@ class Report::Filter
     # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
     # for the given value
     def self.label_for_value(value)
-      available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
+      available_values(reverse_search: true).find { |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?
@@ -221,8 +220,8 @@ class Report::Filter
       super.tap do |query|
         arity   = operator.arity
         values  = [*self.values].compact
-        #if there is just the nil it might be actually intendet to be there
-        values.unshift nil if Array(self.values).size==1 && Array(self.values).first.nil?
+        # if there is just the nil it might be actually intendet to be there
+        values.unshift nil if Array(self.values).size == 1 && Array(self.values).first.nil?
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
         operator.modify(query, field, *values) unless field.empty?
       end

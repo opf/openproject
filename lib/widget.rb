@@ -43,11 +43,9 @@ class Widget < ActionView::Base
   end
 
   def method_missing(name, *args, &block)
-    begin
-      controller.send(name, *args, &block)
-    rescue NoMethodError
-      raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{self.object_id}>"
-    end
+    controller.send(name, *args, &block)
+  rescue NoMethodError
+    raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end
 
   module RenderWidgetInstanceMethods
