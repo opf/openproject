@@ -122,8 +122,6 @@ describe AttachmentsController, type: :controller do
     end
 
     before do
-      Attachment.mount_uploader :file, uploader
-
       expect(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
     end
 
