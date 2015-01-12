@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :attachment do
-    container factory: :work_package
-    author factory: :user
+require 'spec_helper'
 
-    ignore do
-      filename nil
-    end
+describe 'attachments', type: :feature do
+  let(:project) { FactoryGirl.create :valid_project }
+  let(:current_user) { FactoryGirl.create :admin }
+  let!(:priority) { FactoryGirl.create :priority_normal }
 
-    content_type 'application/binary'
-    sequence(:file) do |n|
-      OpenProject::Files.create_uploaded_file name: filename || "file-#{n}.test",
-                                              content_type: content_type,
-                                              binary: true
-    end
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
 
-    factory :wiki_attachment do
-      container factory: :wiki_page_with_content
-    end
+  describe 'upload', js: true do
+    let(:file) { FactoryGirl.create :file, name: 'textfile.txt' }
 
-    factory :attached_picture do
-      content_type 'image/jpeg'
+    it 'uploading a short text file and viewing it inline' do
+      visit new_project_work_package_path(project)
+
+      select project.types.first.name, from: "work_package_type_id"
+      fill_in 'Subject', with: 'attachment test'
+      attach_file 'attachments[1][file]', file.path
+
+      click_button 'Create'
+
+      file_name = File.basename file.path
+
+      expect(page).to have_text('Successful creation.')
+      expect(page).to have_text(file_name)
+
+      click_link file_name
+
+      expect(page).to have_text('some silly content')
     end
   end
 end

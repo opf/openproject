@@ -47,6 +47,36 @@ module OpenProject
         true? self['disable_password_choice']
       end
 
+      ##
+      # Carrierwave storage type. Possible values are, among others, :file and :fog.
+      # The latter requires further configuration.
+      def attachments_storage
+        (self['attachments_storage'] || 'file').to_sym
+      end
+
+      def attachments_storage_path
+        Rails.root.join(self['attachments_storage_path'] || 'files')
+      end
+
+      def fog_credentials
+        Hash[(Hash(self['fog'])['credentials'] || {}).map { |key, value| [key.to_sym, value] }]
+      end
+
+      def fog_directory
+        Hash(self['fog'])['directory']
+      end
+
+      def file_uploader
+        available_file_uploaders[OpenProject::Configuration.attachments_storage.to_sym]
+      end
+
+      def available_file_uploaders
+        {
+          fog: ::FogFileUploader,
+          file: ::LocalFileUploader
+        }
+      end
+
       private
 
       def true?(value)

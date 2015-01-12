@@ -26,28 +26,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :attachment do
-    container factory: :work_package
-    author factory: :user
+mock_credentials = {
+  provider: 'AWS',
+  aws_access_key_id: 'someaccesskeyid',
+  aws_secret_access_key: 'someprivateaccesskey',
+  region: 'us-east-1'
+}
+mock_bucket = 'test-bucket'
 
-    ignore do
-      filename nil
-    end
+Fog.mock!
+Fog.credentials = mock_credentials
+CarrierWave::Configuration.configure_fog! directory: mock_bucket, credentials: mock_credentials
 
-    content_type 'application/binary'
-    sequence(:file) do |n|
-      OpenProject::Files.create_uploaded_file name: filename || "file-#{n}.test",
-                                              content_type: content_type,
-                                              binary: true
-    end
-
-    factory :wiki_attachment do
-      container factory: :wiki_page_with_content
-    end
-
-    factory :attached_picture do
-      content_type 'image/jpeg'
-    end
-  end
-end
+connection = Fog::Storage.new provider: mock_credentials[:provider]
+connection.directories.create key: mock_bucket
