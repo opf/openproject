@@ -32,7 +32,7 @@ class Widget::Filters < Widget::Base
       label = label_tag 'add_filter_select', l(:label_filter_add), class: 'hidden-for-sighted'
       add_filter = select_tag 'add_filter_select',
                               options_for_select([["-- #{l(:label_filter_add)} --", '']] + selectables),
-                              class: 'select-small',
+                              class: 'form--select -small',
                               name: nil
       add_filter += maybe_with_help icon: { class: 'filter-icon' },
                                     tooltip: { class: 'filter-tip' },

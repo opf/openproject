@@ -29,7 +29,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                             name: "values[#{filter_class.underscore_name}][]",
                             :"data-loading" => @options[:lazy] ? 'ajax' : '',
                             id: "#{filter_class.underscore_name}_arg_1_val",
-                            class: 'select-small filters-select filter-value',
+                            class: 'form--select -small filters-select filter-value',
                             :"data-filter-name" => filter_class.underscore_name,
                             multiple: 'multiple' }
         # multiple will be disabled/enabled later by JavaScript anyhow.

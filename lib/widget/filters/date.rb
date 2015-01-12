@@ -35,7 +35,7 @@ class Widget::Filters::Date < Widget::Filters::Base
       arg1 = content_tag :span, id: "#{id_prefix}arg_1", class: 'filter_values' do
         text1 = text_field_tag name, @filter.values.first.to_s,
                                size: 10,
-                               class: 'select-small',
+                               class: 'form--text-field -small',
                                id: "#{id_prefix}arg_1_val",
                                :'data-type' => 'date'
         cal1 = calendar_for("#{id_prefix}arg_1_val")
@@ -48,7 +48,7 @@ class Widget::Filters::Date < Widget::Filters::Base
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: 'between_tags' do
         text2 = text_field_tag "#{name}", @filter.values.second.to_s,
                                size: 10,
-                               class: 'select-small',
+                               class: 'form--text-field -small',
                                id: "#{id_prefix}arg_2_val",
                                :'data-type' => 'date'
         cal2 = calendar_for "#{id_prefix}arg_2_val"

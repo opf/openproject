@@ -53,7 +53,7 @@ class Widget::GroupBys < Widget::Base
                        l(:"label_group_by_add"),
                        class: 'hidden-for-sighted'
 
-      out += content_tag :select, id: "add_group_by_#{type}", class: 'select-small' do
+      out += content_tag :select, id: "add_group_by_#{type}", class: 'form--select -small' do
         content = content_tag :option, "-- #{l(:label_group_by_add)} --", value: ''
 
         content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
