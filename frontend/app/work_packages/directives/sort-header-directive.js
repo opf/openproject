@@ -38,8 +38,7 @@ module.exports = function(I18n){
       sortable: '=',
       locale: '='
     },
-    require: 'hasDropdownMenu',
-    link: function(scope, element, attributes, dropdownMenuCtrl) {
+    link: function(scope, element, attributes) {
       scope.$watch('query.sortation.sortElements', function(sortElements){
         var latestSortElement = sortElements[0];
 
@@ -66,12 +65,8 @@ module.exports = function(I18n){
       // active-column class setting
 
       function setActiveColumnClass() {
-        element.toggleClass('active-column', !!scope.currentSortDirection || scope.dropDownMenuOpened);
+        element.toggleClass('active-column', !!scope.currentSortDirection);
       }
-      scope.$watch(dropdownMenuCtrl.opened, function(opened) {
-        scope.dropDownMenuOpened = opened;
-        setActiveColumnClass();
-      });
       scope.$watch('currentSortDirection', setActiveColumnClass);
 
     }

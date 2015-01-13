@@ -64,6 +64,7 @@ angular.module('openproject.uiComponents')
     '$injector',
     '$window',
     '$parse',
+    'FocusHelper',
     require('./has-dropdown-menu-directive')
   ])
   .service('I18n', [require('./i18n')])
@@ -85,9 +86,7 @@ angular.module('openproject.uiComponents')
     up: 38,
     down: 40
   })
-  .directive('selectableTitle', ['$sce', 'LABEL_MAX_CHARS', 'KEY_CODES',
-    require('./selectable-title-directive')
-  ])
+  .directive('selectableTitle', [require('./selectable-title-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [

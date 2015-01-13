@@ -122,4 +122,19 @@ angular.module('openproject.workPackages')
         container: '.work-packages--details-toolbar'
       });
     }
+  ])
+  .factory('QuerySelectDropdownMenu', [
+    'ngContextMenu',
+    function(ngContextMenu) {
+      return ngContextMenu({
+        templateUrl: '/templates/work_packages/menus/query_select_dropdown_menu.html',
+        container: '.title-container',
+        controller: 'QuerySelectDropdownMenuController'
+      });
+    }
+  ])
+  .controller('QuerySelectDropdownMenuController', [
+    '$scope',
+    '$sce', 'LABEL_MAX_CHARS', 'KEY_CODES',
+    require('./query-select-dropdown-menu-controller')
   ]);

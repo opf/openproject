@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($injector, $window, $parse) {
+module.exports = function($injector, $window, $parse, FocusHelper) {
 
   function getCssPositionProperties(dropdown, trigger) {
     var hOffset = 0,
@@ -111,6 +111,12 @@ module.exports = function($injector, $window, $parse) {
 
       function close() {
         ctrl.close();
+        if (element.is('th')) {
+          element.focus();
+        } else {
+          FocusHelper.focusElement(element);
+        }
+
         contextMenu.close();
       }
 
