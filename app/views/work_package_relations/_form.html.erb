@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= Relation.human_attribute_name(:delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
   </span>
   <%= submit_tag l(:button_add), class: 'button -highlight' %>
-  <%= toggle_link l(:button_cancel), 'new-relation-form', class: 'button' %>
+  <%= toggle_link l(:button_cancel), 'new-relation-form', {}, class: 'button' %>
 </p>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>
