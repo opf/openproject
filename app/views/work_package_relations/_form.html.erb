@@ -29,16 +29,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'relation' %>
 
-<p>
-  <%= f.select :relation_type, collection_for_relation_type_select, {}, :onchange => "setPredecessorFieldsVisibility();" %>
-  <%= WorkPackage.model_name.human %> #<%= f.text_field :to_id, :size => 10 %>
-  <div id="related_issue_candidates" class="autocomplete"></div>
-  <%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(:id => controller.work_package, :project_id => @project, :escape => false) }')" %>
-  <span id="predecessor_fields" style="display:none;">
-    <%= Relation.human_attribute_name(:delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
-  </span>
-  <%= submit_tag l(:button_add), class: 'button -highlight' %>
-  <%= toggle_link l(:button_cancel), 'new-relation-form', {}, class: 'button' %>
-</p>
+<div class="grid-block">
+  <div class="grid-content small-6">
+    <span class="inline-label">
+      <%= f.select :relation_type, collection_for_relation_type_select, {},
+            :onchange => "setPredecessorFieldsVisibility();",
+            class: 'form--select' %>
+      <span class="form-label"><%= WorkPackage.model_name.human %> #</span>
+      <%= f.text_field :to_id, :size => 10, class: 'form--text-field'%>
+    </span>
+    <span id="predecessor_fields" class="inline-label" style="display:none;">
+      <span class="form-label"><%= Relation.human_attribute_name(:delay) %>:</span>
+      <%= f.text_field :delay, :size => 3, class: 'form--text-field' %>
+      <span class="form-label"><%= l(:label_day_plural) %></span>
+    </span>
+    <%= submit_tag l(:button_add), class: 'button -highlight' %>
+    <%= toggle_link l(:button_cancel), 'new-relation-form', {}, class: 'button' %>
+  </div>
+</div>
 
+<div id="related_issue_candidates" class="autocomplete"></div>
+<%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(:id => controller.work_package, :project_id => @project, :escape => false) }')" %>
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>
