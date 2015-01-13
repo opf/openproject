@@ -1,7 +1,7 @@
-<div class="dropdown action-menu dropdown-relative dropdown-anchor-right" id="tasksDropdown">
+<div class="dropdown action-menu dropdown-relative dropdown-anchor-right" id="tasksDropdown" role="menu">
   <ul class="dropdown-menu">
     <li ng-repeat="type in availableTypes">
-      <a focus="{{ !$index }}" ng-href="{{ workPackageNewPath(type.id) }}">
+      <a role="menuitem" focus="{{ !$index }}" ng-href="{{ workPackageNewPath(type.id) }}">
         {{type.name}}
       </a>
     </li>

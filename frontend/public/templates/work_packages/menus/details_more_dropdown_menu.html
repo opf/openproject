@@ -1,10 +1,10 @@
-<div class="dropdown dropdown-relative dropdown-anchor-right dropdown-anchor-top" id="moreDropdown">
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdown-anchor-top" id="moreDropdown" role="menu">
   <ul class="dropdown-menu" ng-if="actionsAvailable">
     <li ng-repeat="(action, properties) in permittedActions"
         class="{{action}}">
       <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
       properly. Thus, don't remove the hrefs or the empty URLs! -->
-      <a href="" focus="{{ !$index }}"
+      <a role="menuitem" href="" focus="{{ !$index }}"
          ng-click="triggerMoreMenuAction(action, properties.link)"
          ng-class="['icon-context'].concat(properties.css)"
          ng-bind="I18n.t('js.button_' + action)">

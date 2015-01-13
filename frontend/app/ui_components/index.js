@@ -105,11 +105,6 @@ angular.module('openproject.uiComponents')
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
-  .directive('withDropdown', ['$rootScope',
-    '$window',
-    'ESC_KEY',
-    'FocusHelper', require('./with-dropdown-directive')
-  ])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'));
