@@ -35,8 +35,9 @@ namespace :attachments do
       exit 1
     end
 
+    storage_name = args[:to].to_sym
     current_uploader = OpenProject::Configuration.file_uploader
-    target_uploader = OpenProject::Configuration.available_file_uploaders[args[:to].to_sym]
+    target_uploader = OpenProject::Configuration.available_file_uploaders[storage_name]
 
     if target_uploader.nil?
       puts "unknown storage: #{args[:to]}"
@@ -48,25 +49,56 @@ namespace :attachments do
       exit 1
     end
 
-    TargetAttachment = Class.new Attachment
-    TargetAttachment.mount_uploader :file, target_uploader
+    if target_uploader == :fog && (
+         OpenProject::Configuration.fog_credentials.empty? ||
+         OpenProject::Configuration.fog_directory.nil?)
+      puts 'the fog storage is not configured'
+      exit 1
+    end
 
-    def TargetAttachment.to_s
-      'attachment'
+    target_attachment = Class.new(Attachment) do
+      def self.store_all!(attachments)
+        attachments.each_with_index do |attachment, index|
+          print "Copying attachment #{attachment.id} [#{index + 1}/#{attachments.size}] \
+                 (#{attachment.file.path}) ... ".squish
+          STDOUT.flush
+
+          if store! attachment
+            puts ' ok'
+          else
+            puts ' failed (missing file)'
+          end
+        end
+      end
+
+      ##
+      # Given an attachment using the source uploader creates a TargetAttachment
+      # which uses the destination uploader to store the original attachment's
+      # file in the target location.
+      def self.store!(attachment)
+        return nil unless attachment.attributes['file'].present? &&
+                          File.exists?(attachment.file.path)
+
+        self.new.tap do |target|
+          target.id = attachment.id
+          target.file = attachment.file.local_file
+          target.file.store!
+        end
+      end
+
+      ##
+      # Pretends to be a plain old Attachment in order not to break store paths.
+      def self.to_s
+        'attachment'
+      end
     end
 
     attachments = Attachment.all
-    attachments.each_with_index do |attachment, index|
-      print "Copying attachment #{attachment.id} [#{index + 1}/#{attachments.size}] \
-             (#{attachment.file.path}) to #{args[:to]} storage ... ".squish
-      STDOUT.flush
 
-      target = TargetAttachment.new
-      target.id = attachment.id
-      target.file = attachment.file.local_file
-      target.file.store!
+    puts "Copying #{attachments.size} attachments to #{storage_name}."
+    puts
 
-      puts ' ok'
-    end
+    target_attachment.mount_uploader :file, target_uploader
+    target_attachment.store_all! attachments
   end
 end
