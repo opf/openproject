@@ -163,4 +163,3 @@ module.exports = function($scope, I18n, columnsModal, exportModal, saveModal, se
     return $window.confirm(I18n.t('js.text_query_destroy_confirmation'));
   }
 };
-
