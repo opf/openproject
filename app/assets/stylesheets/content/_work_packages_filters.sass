@@ -55,24 +55,30 @@ $work-packages-filters--inset-background-color: darken($work-packages-filters--b
   border:           1px solid #ccc
   border-radius:    $global-radius
 
+%work-packages-filters--filter-part
+  .inline-label,
+  .form--text-field,
+  .form--select
+    margin-bottom: 0
+
 .work-packages-filters--filter-name
   @include grid-content(3)
+  @extend %work-packages-filters--filter-part
 
 .work-packages-filters--filter-operator
   @include grid-content(3)
+  @extend %work-packages-filters--filter-part
 
 .work-packages-filters--filter-value
   @include grid-content(5)
-
-  .inline-label,
-  .form--text-field
-    margin-bottom: 0
+  @extend %work-packages-filters--filter-part
 
 .work-packages-filters--remove-filter
   @include grid-content(shrink)
 
 .work-packages-filters--add-filter
   @include grid-block(6)
+  @extend %work-packages-filters--filter-part
   align-items:      baseline
   padding:          0.25rem 0
 
