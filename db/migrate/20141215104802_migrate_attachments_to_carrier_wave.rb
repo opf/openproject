@@ -8,6 +8,8 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
     puts 'Depending on your configuration this can take a while.
           Especially if files are uploaded to S3.'.squish
 
+    ActiveRecord::Base.reset_column_information # make sure new column is visible
+
     Attachment.all.each_with_index do |attachment, i|
       puts "Migrating attachment #{i + 1}/#{count} (#{attachment.disk_filename})"
       migrate_attachment attachment
