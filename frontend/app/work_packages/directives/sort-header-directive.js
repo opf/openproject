@@ -38,7 +38,7 @@ module.exports = function(I18n){
       sortable: '=',
       locale: '='
     },
-    link: function(scope, element, attributes) {
+    link: function(scope, element) {
       scope.$watch('query.sortation.sortElements', function(sortElements){
         var latestSortElement = sortElements[0];
 

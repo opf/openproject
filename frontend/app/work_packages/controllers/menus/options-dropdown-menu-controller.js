@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state, $timeout){
-  // angular.element($window).bind('click', function() {
-  // $scope.$emit('hideAllDropdowns');
-  // });
+module.exports = function(
+  $scope, I18n, columnsModal,
+  exportModal, saveModal, settingsModal,
+  shareModal, sortingModal, groupingModal,
+  QueryService, AuthorisationService,
+  $window, $state, $timeout) {
 
-  $scope.$watch('query.displaySums', function(newValue, oldValue) {
+  $scope.$watch('query.displaySums', function(newValue) {
     $timeout(function() {
       $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
                                           : I18n.t('js.toolbar.settings.display_sums');
@@ -53,7 +55,7 @@ module.exports = function($scope, I18n, columnsModal, exportModal, saveModal, se
           .then(function(data){
             $scope.$emit('flashMessage', data.status);
             $state.go('work-packages.list',
-                      { query_id: $scope.query.id, query_props: null },
+                      { 'query_id': $scope.query.id, 'query_props': null },
                       { notify: false });
           });
       }
@@ -67,7 +69,7 @@ module.exports = function($scope, I18n, columnsModal, exportModal, saveModal, se
           settingsModal.deactivate();
           $scope.$emit('flashMessage', data.status);
           $state.go('work-packages.list',
-                    { query_id: null, query_props: null },
+                    { 'query_id': null, 'query_props': null },
                     { reload: true });
         });
     }
@@ -130,13 +132,11 @@ module.exports = function($scope, I18n, columnsModal, exportModal, saveModal, se
   }
 
   function showModal() {
-    // $scope.$emit('hideAllDropdowns');
     this.activate();
   }
 
   function showExistingQueryModal(event) {
     if( preventNewQueryAction(event) ){
-      // $scope.$emit('hideAllDropdowns');
       this.activate();
     }
   }

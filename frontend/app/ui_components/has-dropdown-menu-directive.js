@@ -32,7 +32,7 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
     var hOffset = 0,
       vOffset = 0;
     if (dropdown.hasClass('dropdown-anchor-top')) {
-      vOffset = - dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'));
+      vOffset = - dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'), 10);
     }
 
     // Styling logic taken from jQuery-dropdown plugin: https://github.com/plapier/jquery-dropdown
@@ -42,9 +42,13 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
     if (dropdown.hasClass('dropdown-relative')) {
       return {
         left: dropdown.hasClass('dropdown-anchor-right') ?
-          trigger.position().left - (dropdown.outerWidth(true) - trigger.outerWidth(true)) - parseInt(trigger.css('margin-right')) + hOffset :
-          trigger.position().left + parseInt(trigger.css('margin-left')) + hOffset,
-        top: trigger.position().top + trigger.outerHeight(true) - parseInt(trigger.css('margin-top')) + vOffset
+          trigger.position().left -
+          (dropdown.outerWidth(true) - trigger.outerWidth(true)) -
+          parseInt(trigger.css('margin-right'), 10) + hOffset :
+          trigger.position().left + parseInt(trigger.css('margin-left'), 10) + hOffset,
+        top: trigger.position().top +
+          trigger.outerHeight(true) -
+          parseInt(trigger.css('margin-top'), 10) + vOffset
       };
     } else {
       return {
@@ -93,7 +97,7 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
 
       function open(event) {
         // prepare locals, these define properties to be passed on to the context menu scope
-        var localKeys = (attrs.locals || "").split(',').map(function(local) {
+        var localKeys = (attrs.locals || '').split(',').map(function(local) {
           return local.trim();
         });
         angular.forEach(localKeys, function(key) {

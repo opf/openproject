@@ -4,14 +4,14 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   scope.$watch('selectedId', selectTitle);
 
   function refreshFilteredGroups() {
-    if(scope.groups){
+    if (scope.groups) {
       initFilteredModels();
     }
   }
 
   function selectTitle() {
     angular.forEach(scope.filteredGroups, function(group) {
-      if(group.models.length) {
+      if (group.models.length) {
         angular.forEach(group.models, function(model){
           model.highlighted = model.id == scope.selectedId;
         });
@@ -34,27 +34,29 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   }
 
   function labelHtml(label, filterBy) {
+    var html;
     filterBy = filterBy.toLowerCase();
     label = truncate(label, LABEL_MAX_CHARS);
-    if(label.toLowerCase().indexOf(filterBy) >= 0) {
-      var labelHtml = label.substr(0, label.toLowerCase().indexOf(filterBy))
-        + "<span class='filter-selection'>" + label.substr(label.toLowerCase().indexOf(filterBy), filterBy.length) + "</span>"
-        + label.substr(label.toLowerCase().indexOf(filterBy) + filterBy.length);
+    if (label.toLowerCase().indexOf(filterBy) >= 0) {
+      html = label.substr(0, label.toLowerCase().indexOf(filterBy)) +
+        '<span class=\'filter-selection\'>' +
+        label.substr(label.toLowerCase().indexOf(filterBy), filterBy.length) +
+        '</span>' + label.substr(label.toLowerCase().indexOf(filterBy) + filterBy.length);
     } else {
-      var labelHtml = label;
+      html = label;
     }
-    return $sce.trustAsHtml(labelHtml);
+    return $sce.trustAsHtml(html);
   }
 
   function truncate(text, chars) {
     if (text.length > chars) {
-      return text.substr(0, chars) + "...";
+      return text.substr(0, chars) + '...';
     }
     return text;
   }
 
   function modelIndex(models) {
-    return models.map(function(model){
+    return models.map(function(model) {
       return model.id;
     }).indexOf(scope.selectedId);
   }
@@ -64,9 +66,9 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   }
 
   function nextNonEmptyGroup(groups, currentGroupIndex) {
-    currentGroupIndex = (currentGroupIndex == undefined) ? -1 : currentGroupIndex;
-    while(currentGroupIndex < groups.length - 1) {
-      if(groups[currentGroupIndex + 1].models.length) {
+    currentGroupIndex = (currentGroupIndex === undefined) ? -1 : currentGroupIndex;
+    while (currentGroupIndex < groups.length - 1) {
+      if (groups[currentGroupIndex + 1].models.length) {
         return groups[currentGroupIndex + 1];
       }
       currentGroupIndex = currentGroupIndex + 1;
@@ -75,7 +77,7 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   }
 
   function previousNonEmptyGroup(groups, currentGroupIndex) {
-    while(currentGroupIndex > 0) {
+    while (currentGroupIndex > 0) {
       if(groups[currentGroupIndex - 1].models.length) {
         return groups[currentGroupIndex - 1];
       }
@@ -84,14 +86,14 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
     return null;
   }
 
-  function getModelPosition(groups, selectedId) {
-    for(var group_index = 0; group_index < groups.length; group_index++) {
-      var models = groups[group_index].models;
-      var model_index = modelIndex(models);
-      if(model_index >= 0) {
+  function getModelPosition(groups) {
+    for (var groupIdx = 0; groupIdx < groups.length; groupIdx++) {
+      var models = groups[groupIdx].models;
+      var modelIdx = modelIndex(models);
+      if(modelIdx >= 0) {
         return {
-          group: group_index,
-          model: model_index
+          group: groupIdx,
+          model: modelIdx
         };
       }
     }
@@ -99,17 +101,20 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   }
 
   function selectNext() {
-    var groups = scope.filteredGroups;
+    var groups = scope.filteredGroups,
+      nextGroup;
     if(!scope.selectedId) {
-      var nextGroup = nextNonEmptyGroup(groups);
+      nextGroup = nextNonEmptyGroup(groups);
       scope.selectedId = nextGroup ? nextGroup.models[0].id : 0;
     } else {
       var position = getModelPosition(groups, scope.selectedId);
-      if (!position) return;
+      if (!position) {
+        return;
+      }
       var models = groups[position.group].models;
 
       if(position.model == models.length - 1){ // It is the last in the group
-        var nextGroup = nextNonEmptyGroup(groups, position.group);
+        nextGroup = nextNonEmptyGroup(groups, position.group);
         if(nextGroup) {
           scope.selectedId = nextGroup.models[0].id;
         }
@@ -121,12 +126,14 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
 
   function selectPrevious() {
     var groups = scope.filteredGroups;
-    if(scope.selectedId) {
+    if (scope.selectedId) {
       var position = getModelPosition(groups, scope.selectedId);
-      if (!position) return;
+      if (!position) {
+        return;
+      }
       var models = groups[position.group].models;
 
-      if(position.model == 0){ // It is the last in the group
+      if (position.model === 0) { // It is the last in the group
         var previousGroup = previousNonEmptyGroup(groups, position.group);
         if(previousGroup) {
           scope.selectedId = previousGroup.models[previousGroup.models.length - 1].id;
@@ -176,17 +183,17 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
 
     scope.selectedId = 0;
     angular.forEach(scope.filteredGroups, function(group) {
-      if(filterBy.length) {
+      if (filterBy.length) {
         group.filterBy = filterBy;
         group.models = group.models.filter(function(model){
           return model.label.toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
         });
 
-        if(group.models.length) {
+        if (group.models.length) {
           angular.forEach(group.models, function(model){
             model['labelHtml'] = labelHtml(model.label, filterBy);
           });
-          if(!scope.selectedId) {
+          if (!scope.selectedId) {
             group.models[0].highlighted = true;
             scope.selectedId = group.models[0].id;
           }
@@ -194,4 +201,4 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
       }
     });
   };
-}
+};
