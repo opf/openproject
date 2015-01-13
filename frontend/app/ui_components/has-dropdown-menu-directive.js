@@ -106,6 +106,13 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
           .then(function(element) {
             menuElement = element;
             angular.element(element).trap();
+            menuElement.on('click', function(e) {
+              // allow inputs to be clickable
+              // without closing the dropdown
+              if (angular.element(e.target).is(':input')) {
+                e.stopPropagation();
+              }
+            });
           });
       }
 
