@@ -62,8 +62,9 @@ describe 'API v3 UserLock resource', type: :request do
       end
 
       context 'user account is incompatible' do
-        let(:user) { FactoryGirl.create(:user,
-          status: User::STATUSES[:registered]) }
+        let(:user) {
+          FactoryGirl.create(:user, status: User::STATUSES[:registered])
+        }
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end
@@ -105,8 +106,9 @@ describe 'API v3 UserLock resource', type: :request do
       end
 
       context 'user account is incompatible' do
-        let(:user) { FactoryGirl.create(:user,
-          status: User::STATUSES[:registered]) }
+        let(:user) {
+          FactoryGirl.create(:user, status: User::STATUSES[:registered])
+        }
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end
