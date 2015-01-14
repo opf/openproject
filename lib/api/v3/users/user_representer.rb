@@ -79,7 +79,7 @@ module API
             href: api_v3_paths.user(represented.id),
             title: "Delete #{represented.login}",
             method: :delete
-          } if DeleteUserService.new.deletion_allowed? represented, current_user
+          } if current_user_can_delete_user(represented)
         end
 
         link :removeWatcher do
@@ -114,6 +114,10 @@ module API
 
         def current_user_allowed_to(permission, work_package)
           @current_user && @current_user.allowed_to?(permission, work_package.project)
+        end
+
+        def current_user_can_delete_user(other_user)
+          @current_user && DeleteUserService.new.deletion_allowed?(other_user, @current_user)
         end
       end
     end
