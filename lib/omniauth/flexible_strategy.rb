@@ -40,7 +40,7 @@ module OmniAuth
 
   module FlexibleStrategy
     def on_auth_path?
-      !not_on_auth_path? && (match_provider! || false) && super
+      possible_auth_path? && (match_provider! || false) && super
     end
 
     ##
@@ -73,11 +73,10 @@ module OmniAuth
     end
 
     ##
-    # This method returning false does not mean that the current request should be handled by
-    # this strategy. The method can, however, indicate that a request should NOT be handled by it.
-    # In which case it returns true.
-    def not_on_auth_path?
-      (current_path =~ /#{path_prefix}/) != 0
+    # Returns true if the current path could be an authentication request,
+    # false otherwise (e.g. for resources).
+    def possible_auth_path?
+      current_path =~ /\A#{path_prefix}/
     end
 
     def providers
