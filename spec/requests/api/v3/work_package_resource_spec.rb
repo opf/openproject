@@ -676,7 +676,9 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          it_behaves_like 'multiple errors of the same type with messages', ['Subject can\'t be blank.', 'Parent does not exist.']
+          it_behaves_like 'multiple errors of the same type with messages' do
+            let(:message) { ['Subject can\'t be blank.', 'Parent does not exist.'] }
+          end
         end
 
         context 'missing lock version' do
@@ -706,8 +708,8 @@ h4. things we like
 
         context 'invalid work package children' do
           let(:params) { valid_params.merge(lockVersion: work_package.reload.lock_version) }
-          let!(:child_1) { FactoryGirl.create(:work_package, id: 98) }
-          let!(:child_2) { FactoryGirl.create(:work_package, id: 99) }
+          let!(:child_1) { FactoryGirl.create(:work_package) }
+          let!(:child_2) { FactoryGirl.create(:work_package) }
 
           before do
             [child_1, child_2].each do |c|
@@ -722,8 +724,11 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          it_behaves_like 'multiple errors of the same type with messages',
-                          [98, 99].map { |id| "##{id} cannot be in another project." }
+          it_behaves_like 'multiple errors of the same type with messages' do
+            let(:message) {
+              [child_1.id, child_2.id].map { |id| "##{id} cannot be in another project." }
+            }
+          end
         end
       end
     end

@@ -156,9 +156,14 @@ shared_examples_for 'multiple errors of the same type with details' do |expected
   end
 end
 
-shared_examples_for 'multiple errors of the same type with messages' do |expected_messages|
+shared_examples_for 'multiple errors of the same type with messages' do
   let(:errors) { JSON.parse(last_response.body)['_embedded']['errors'] }
-  let(:messages) { errors.each_with_object([]) { |error, l| l << error['message'] }.compact }
+  let(:actual_messages) { errors.each_with_object([]) { |error, l| l << error['message'] }.compact }
 
-  it { expect(messages).to match_array(Array(expected_messages)) }
+  before do
+    raise "Need to have 'message' defined to state\
+           which message is expected".squish unless defined?(message)
+  end
+
+  it { expect(actual_messages).to match_array(Array(message)) }
 end
