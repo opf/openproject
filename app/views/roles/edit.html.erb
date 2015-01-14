@@ -26,5 +26,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= hidden_field_tag :id, @role.id %>
 <%= render :partial => 'form', :locals => { :f => f , :role => @role, :member_permissions => (@role.is_a?(GlobalRole) ? nil : @permissions),
 :global_permissions => (@role.is_a?(GlobalRole) ? @permissions : nil)} %>
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>
