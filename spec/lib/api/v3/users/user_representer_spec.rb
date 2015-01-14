@@ -73,6 +73,10 @@ describe ::API::V3::Users::UserRepresenter do
           expect(subject).to_not have_json_path('_links/lock/href')
           expect(subject).to_not have_json_path('_links/unlock/href')
         end
+
+        it 'should not link to delete' do
+          expect(subject).to_not have_json_path('_links/delete/href')
+        end
       end
 
       context 'when current_user is admin' do
