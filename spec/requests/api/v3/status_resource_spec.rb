@@ -81,7 +81,10 @@ describe 'API v3 Status resource' do
       context 'invalid status id' do
         let(:path) { '/api/v3/statuses/bogus' }
 
-        it_behaves_like 'not found', 'bogus', 'Status'
+        it_behaves_like 'not found' do
+          let(:id) { 'bogus' }
+          let(:type) { 'Status' }
+        end
       end
     end
   end

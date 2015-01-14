@@ -55,6 +55,40 @@ However for the future we plan to add authentication modes that are more suitabl
 
 # Group Basic Objects
 
+# Links
+
+Links to other resources in the API are represented uniformly by so called link objects.
+
+## Properties
+
+| Property  | Description                                                              | Type    | Required | Nullable | Default |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓    |    ✓    |         |
+| title     | Representative label for the resource                                    | String  |          |          |         |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+
+All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
+link object:
+
+    {
+        "href": null
+    }
+
+whereas `{ }` is not a valid link object. The meaning of `"href": null` is that **no** resource is referenced.
+For example a work package without an assignee will still have an assignee link, but its `href` will be `null`.
+
+If a `title` is present, the client can display the title to the user when referring to the resource.
+
+Templated links are links that contain client replacable parts. Replaceable parts are enclosed in braces. For example
+the link `api/v3/example/{id}` is not complete in itself, but the client needs to replace the string `{id}` itself.
+As of now the API does not indicate the valid replacement values.
+
+The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
+Changes to all other properties will be **silently ignored**.
+
 # Errors
 
 In case of an error, the API will respond with an apropriate HTTP status code.
@@ -70,7 +104,7 @@ Error objects shall give the client additional details about the cause of an err
     * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
-    * It it localized depending on the users preferences
+    * It is localized depending on the users preferences
     * It *must not* include HTML or other kind of markup
     * Error messages form complete sentences including punctuation
 
@@ -139,6 +173,7 @@ embedded errors or simply state that multiple errors occured.
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) The client used an invalid transition in the attempt to change the status of a user account.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
@@ -729,7 +764,7 @@ and objects describing the corresponding property as values. The values are call
 **Remarks**
 
 The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
@@ -1147,8 +1182,8 @@ The request body is the actual string that shall be rendered as HTML string.
                 "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
                 "homepage": "http://openproject.com",
-                "createdOn": "2014-05-21T08:51:20Z",
-                "updatedOn": "2014-05-21T08:51:20Z"
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
             }
 
 ## View project [GET]
@@ -1194,8 +1229,8 @@ The request body is the actual string that shall be rendered as HTML string.
                             "name": "Project example",
                             "description": "Lorem ipsum dolor sit amet",
                             "homepage": "http://openproject.com",
-                            "createdOn": "2014-05-21T08:51:20Z",
-                            "updatedOn": "2014-05-21T08:51:20Z"
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
                         }
                     ]
                 }
@@ -1907,6 +1942,12 @@ This endpoint lists the types that are *available* in a given project.
 
 # Group Users
 
+## Actions:
+| Link                | Description                                                          | Condition                                 |
+|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------- |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator     |
+
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
 | :---------: | -------------                                             | ----     | ----------- | -------------------- |
@@ -1932,6 +1973,16 @@ This endpoint lists the types that are *available* in a given project.
                     "self": {
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
+                    },
+                    "lock": {
+                        "href": "/api/v3/users/1/lock",
+                        "title": "Set lock on j.sheppard"
+                        "method": "POST"
+                    },
+                    "delete": {
+                        "href": "/api/v3/users/1",
+                        "title": "Delete j.sheppard"
+                        "method": "DELETE"
                     }
                 },
                 "id": 1,
@@ -1941,7 +1992,8 @@ This endpoint lists the types that are *available* in a given project.
                 "mail": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "status": "active"
             }
 
 ## View user [GET]
@@ -1993,6 +2045,109 @@ Permanently deletes the specified user account.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to delete the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+
+## User Account Locking [/api/v3/users/{id}/lock]
+
+**NOT IMPLEMENTED**
+
+## Set Lock [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for locking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Remove Lock [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for unlocking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unlock the account of this user."
             }
 
 + Response 404 (application/hal+json)

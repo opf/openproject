@@ -58,7 +58,10 @@ describe 'API v3 User resource', type: :request do
       context 'requesting nonexistent user' do
         let(:get_path) { '/api/v3/users/9999' }
 
-        it_behaves_like 'not found', 9999, 'User'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'User' }
+        end
       end
     end
 
@@ -95,7 +98,10 @@ describe 'API v3 User resource', type: :request do
       context 'with a non-existent user' do
         let(:path) { '/api/v3/users/1337' }
 
-        it_behaves_like 'not found', 1337, 'User'
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'User' }
+        end
       end
 
       context 'with non-admin user' do

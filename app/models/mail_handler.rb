@@ -233,10 +233,15 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        file = OpenProject::Files.create_uploaded_file(
+          name: attachment.filename,
+          content_type: attachment.mime_type,
+          content: attachment.decoded,
+          binary: true)
+
         obj.attachments << Attachment.create(
           container: obj,
-          file: attachment.decoded,
-          filename: attachment.filename,
+          file: file,
           author: user,
           content_type: attachment.mime_type)
       end

@@ -99,4 +99,53 @@ describe AttachmentsController, type: :controller do
       it_behaves_like :redirected
     end
   end
+
+  describe :show do
+    let(:file) { OpenProject::Files.create_uploaded_file name: 'foobar.txt' }
+    let(:work_package) { FactoryGirl.create :work_package, project: project }
+    let(:uploader) { nil }
+
+    let(:attachment) do
+      clazz = Class.new Attachment
+      clazz.mount_uploader :file, uploader
+
+      ##
+      # Override to_s for carrierwave to use the correct class name in the store dir.
+      def clazz.to_s
+        'attachment'
+      end
+
+      att = clazz.new container: work_package, author: user, file: file
+      att.id = 42
+      att.file.store!
+      att
+    end
+
+    before do
+      expect(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
+    end
+
+    subject {
+      get :show, id: attachment.id
+    }
+
+    context 'with a local file' do
+      let(:uploader) { LocalFileUploader }
+      let(:url) { "http://test.host/attachments/#{attachment.id}/download/#{attachment.filename}" }
+
+      expect_it { to redirect_to(url) }
+    end
+
+    context 'with a remote file' do
+      let(:uploader) { FogFileUploader }
+      let(:url) do
+        host = 'https://test-bucket.s3.amazonaws.com'
+        Regexp.new "#{host}/uploads/attachment/file/#{attachment.id}/#{attachment.filename}"
+      end
+
+      it 'redirects to AWS' do
+        expect(subject.location).to match(url)
+      end
+    end
+  end
 end

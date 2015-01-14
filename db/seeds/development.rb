@@ -213,8 +213,8 @@ user_count.times do |count|
 
       attachment = Attachment.new(container: issue,
                                   author: user,
-                                  filename: Faker::Lorem.words(8).join(' '),
-                                  disk_filename: Faker::Lorem.words(8).join('_'))
+                                  file: OpenProject::Files.create_uploaded_file(
+                                    name: Faker::Lorem.words(8).join(' ')))
       attachment.save!
 
       issue.attachments << attachment

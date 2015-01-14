@@ -102,6 +102,10 @@ module API
             "#{users}/#{id}"
           end
 
+          def self.user_lock(id)
+            "#{user(id)}/lock"
+          end
+
           def self.versions(project_id)
             "#{project(project_id)}/versions"
           end

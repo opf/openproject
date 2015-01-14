@@ -58,6 +58,22 @@ module API
           }
         end
 
+        link :lock do
+          {
+            href: api_v3_paths.user_lock(represented.id),
+            title: "Set lock on #{represented.login}",
+            method: :post
+          } if current_user_is_admin && represented.lockable?
+        end
+
+        link :unlock do
+          {
+            href: api_v3_paths.user_lock(represented.id),
+            title: "Remove lock on #{represented.login}",
+            method: :delete
+          } if current_user_is_admin && represented.activatable?
+        end
+
         link :removeWatcher do
           {
             href: api_v3_paths.watcher(represented.id, @work_package.id),
@@ -78,10 +94,14 @@ module API
                           exec_context: :decorator
         property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
-        property :status, getter: -> (*) { status }, render_nil: true
+        property :status, getter: -> (*) { status_name }, render_nil: true
 
         def _type
           'User'
+        end
+
+        def current_user_is_admin
+          @current_user && @current_user.admin?
         end
 
         def current_user_allowed_to(permission, work_package)
