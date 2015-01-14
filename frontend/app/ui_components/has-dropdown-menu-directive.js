@@ -122,6 +122,8 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
 
       function close() {
         ctrl.close();
+        // for some reason focusing on a TH causes some weird issues
+        // like the first th of the tr being selected
         if (element.is('th')) {
           element.focus();
         } else {
