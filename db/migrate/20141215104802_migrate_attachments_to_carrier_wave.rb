@@ -1,6 +1,6 @@
 class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
   def up
-    add_column :attachments, :file, :string
+    add_column_if_missing :attachments, :file, :string
 
     count = Attachment.count
 
@@ -32,6 +32,12 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
     end
 
     remove_column :attachments, :file
+  end
+
+  ##
+  # Adds a column to the a table unless the column already exists.
+  def add_column_if_missing(table, column, type)
+    add_column table, column, type unless column_exists?(table, column, type)
   end
 
   ##
