@@ -43,14 +43,14 @@ describe MeetingContentsController do
   end
 
   shared_examples_for 'delivered by mail' do
-    before { put "notify", meeting_id: meeting.id }
+    before { put 'notify', meeting_id: meeting.id }
 
     it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
   end
 
-  describe "PUT" do
-    describe "notify" do
-      context "when author no_self_notified property is true" do
+  describe 'PUT' do
+    describe 'notify' do
+      context 'when author no_self_notified property is true' do
         before do
           author.pref[:no_self_notified] = true
           author.save!
@@ -61,7 +61,7 @@ describe MeetingContentsController do
         end
       end
 
-      context "when author no_self_notified property is false" do
+      context 'when author no_self_notified property is false' do
         before do
           author.pref[:no_self_notified] = false
           author.save!

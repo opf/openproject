@@ -19,12 +19,11 @@
 #++
 
 class MeetingParticipant < ActiveRecord::Base
-
   belongs_to :meeting
   belongs_to :user
 
-  scope :invited, :conditions => {:invited => true}
-  scope :attended, :conditions => {:attended => true}
+  scope :invited, conditions: { invited: true }
+  scope :attended, conditions: { attended: true }
 
   attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
 
@@ -33,21 +32,21 @@ class MeetingParticipant < ActiveRecord::Base
   end
 
   def name
-    user.present? ? user.name : self.name
+    user.present? ? user.name : name
   end
 
   def mail
-    user.present? ? user.mail : self.mail
+    user.present? ? user.mail : mail
   end
 
   def <=>(participant)
-    self.to_s.downcase <=> participant.to_s.downcase
+    to_s.downcase <=> participant.to_s.downcase
   end
 
   alias :to_s :name
 
   def copy_attributes
-    #create a clean attribute set allowing to attach participants to different meetings
-    self.attributes.reject { |k,v| ['id','meeting_id','attended','created_at', 'updated_at'].include?(k)}
+    # create a clean attribute set allowing to attach participants to different meetings
+    attributes.reject { |k, _v| ['id', 'meeting_id', 'attended', 'created_at', 'updated_at'].include?(k) }
   end
 end

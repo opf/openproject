@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy", :type => :model do
+describe User, '#destroy', type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -29,30 +29,34 @@ describe User, "#destroy", :type => :model do
     project
   end
 
-  let(:meeting) { FactoryGirl.create(:meeting, :project => project,
-                                           :author => user2) }
-  let(:participant) { FactoryGirl.create(:meeting_participant, :user => user,
-                                                           :meeting => meeting,
-                                                           :invited => true,
-                                                           :attended => true) }
+  let(:meeting) {
+    FactoryGirl.create(:meeting, project: project,
+                                 author: user2)
+  }
+  let(:participant) {
+    FactoryGirl.create(:meeting_participant, user: user,
+                                             meeting: meeting,
+                                             invited: true,
+                                             attended: true)
+  }
 
   before do
     user
     user2
   end
 
-  shared_examples_for "updated journalized associated object" do
+  shared_examples_for 'updated journalized associated object' do
     before do
       allow(User).to receive(:current).and_return(user2)
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user2)
+        associated_instance.send(association.to_s + '=', user2)
       end
       associated_instance.save!
 
       allow(User).to receive(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user)
+        associated_instance.send(association.to_s + '=', user)
       end
       associated_instance.save!
 
@@ -61,37 +65,37 @@ describe User, "#destroy", :type => :model do
     end
 
     it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it "should replace the user on all associations" do
+    it 'should replace the user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
     it { expect(associated_instance.journals.first.user).to eq(user2) }
-    it "should update first journal changes" do
+    it 'should update first journal changes' do
       associations.each do |association|
-        expect(associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last).to eq(user2.id)
+        expect(associated_instance.journals.first.changed_data[(association.to_s + '_id').to_sym].last).to eq(user2.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
-    it "should update second journal changes" do
+    it 'should update second journal changes' do
       associations.each do |association|
-        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
       end
     end
   end
 
-  shared_examples_for "created journalized associated object" do
+  shared_examples_for 'created journalized associated object' do
     before do
       allow(User).to receive(:current).and_return(user) # in order to have the content journal created by the user
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user)
+        associated_instance.send(association.to_s + '=', user)
       end
       associated_instance.save!
 
       allow(User).to receive(:current).and_return(user2)
       associated_instance.reload
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user2)
+        associated_instance.send(association.to_s + '=', user2)
       end
       associated_instance.save!
 
@@ -100,79 +104,87 @@ describe User, "#destroy", :type => :model do
     end
 
     it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it "should keep the current user on all associations" do
+    it 'should keep the current user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(user2)
       end
     end
     it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
-    it "should update the first journal" do
+    it 'should update the first journal' do
       associations.each do |association|
-        expect(associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last).to eq(substitute_user.id)
+        expect(associated_instance.journals.first.changed_data[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(user2) }
-    it "should update the last journal" do
+    it 'should update the last journal' do
       associations.each do |association|
-        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].first).to eq(substitute_user.id)
-        expect(associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last).to eq(user2.id)
+        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].first).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].last).to eq(user2.id)
       end
     end
   end
 
-  describe "WHEN the user created a meeting" do
+  describe 'WHEN the user created a meeting' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
-    it_should_behave_like "created journalized associated object"
+    it_should_behave_like 'created journalized associated object'
   end
 
-  describe "WHEN the user updated a meeting" do
+  describe 'WHEN the user updated a meeting' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
-    it_should_behave_like "updated journalized associated object"
+    it_should_behave_like 'updated journalized associated object'
   end
 
-  describe "WHEN the user created a meeting agenda" do
+  describe 'WHEN the user created a meeting agenda' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) {
+      FactoryGirl.build(:meeting_agenda, meeting: meeting,
+                                         text: 'lorem')
+    }
     let(:associated_class) { MeetingAgenda }
 
-    it_should_behave_like "created journalized associated object"
+    it_should_behave_like 'created journalized associated object'
   end
 
-  describe "WHEN the user updated a meeting agenda" do
+  describe 'WHEN the user updated a meeting agenda' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) {
+      FactoryGirl.build(:meeting_agenda, meeting: meeting,
+                                         text: 'lorem')
+    }
     let(:associated_class) { MeetingAgenda }
 
-    it_should_behave_like "updated journalized associated object"
+    it_should_behave_like 'updated journalized associated object'
   end
 
-  describe "WHEN the user created a meeting minutes" do
+  describe 'WHEN the user created a meeting minutes' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
-                                                                :text => "lorem")}
+    let(:associated_instance) {
+      FactoryGirl.build(:meeting_minutes, meeting: meeting,
+                                          text: 'lorem')
+    }
     let(:associated_class) { MeetingMinutes }
 
-    it_should_behave_like "created journalized associated object"
+    it_should_behave_like 'created journalized associated object'
   end
 
-  describe "WHEN the user updated a meeting minutes" do
+  describe 'WHEN the user updated a meeting minutes' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
-                                                               :text => "lorem")}
+    let(:associated_instance) {
+      FactoryGirl.build(:meeting_minutes, meeting: meeting,
+                                          text: 'lorem')
+    }
     let(:associated_class) { MeetingMinutes }
 
-    it_should_behave_like "updated journalized associated object"
+    it_should_behave_like 'updated journalized associated object'
   end
 
-  describe "WHEN the user participated in a meeting" do
+  describe 'WHEN the user participated in a meeting' do
     before do
       participant
       # user2 added to participants by beeing the author

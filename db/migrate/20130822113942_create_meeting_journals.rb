@@ -20,21 +20,21 @@
 class CreateMeetingJournals < ActiveRecord::Migration
   def change
     create_table :meeting_journals do |t|
-      t.integer  :journal_id, :null => false
-      t.string   :title
-      t.integer  :author_id
-      t.integer  :project_id
-      t.string   :location
+      t.integer :journal_id, null: false
+      t.string :title
+      t.integer :author_id
+      t.integer :project_id
+      t.string :location
       t.datetime :start_time
-      t.float    :duration
+      t.float :duration
     end
 
     create_table :meeting_content_journals do |t|
-      t.integer  :journal_id, :null => false
-      t.integer  :meeting_id
-      t.integer  :author_id
-      t.text     :text
-      t.boolean  :locked
+      t.integer :journal_id, null: false
+      t.integer :meeting_id
+      t.integer :author_id
+      t.text :text
+      t.boolean :locked
     end
   end
 end

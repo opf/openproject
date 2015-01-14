@@ -21,12 +21,12 @@
 OpenProject::Application.routes.draw do
 
   scope 'projects/:project_id' do
-    resources :meetings, :only => [:new, :create, :index]
+    resources :meetings, only: [:new, :create, :index]
   end
 
-  resources :meetings, :except => [:new, :create, :index] do
+  resources :meetings, except: [:new, :create, :index] do
 
-    resource :agenda, :controller => 'meeting_agendas', :only => [:update] do
+    resource :agenda, controller: 'meeting_agendas', only: [:update] do
       member do
         get :history
         get :diff
@@ -36,11 +36,11 @@ OpenProject::Application.routes.draw do
         post :preview
       end
 
-      resources :versions, :only => [:show],
-                           :controller => 'meeting_agendas'
+      resources :versions, only: [:show],
+                           controller: 'meeting_agendas'
     end
 
-    resource :minutes, :controller => 'meeting_minutes', :only => [:update] do
+    resource :minutes, controller: 'meeting_minutes', only: [:update] do
       member do
         get :history
         get :diff
@@ -48,15 +48,15 @@ OpenProject::Application.routes.draw do
         post :preview
       end
 
-      resources :versions, :only => [:show],
-                           :controller => 'meeting_minutes'
+      resources :versions, only: [:show],
+                           controller: 'meeting_minutes'
     end
 
     member do
       get :copy
-      match '/:tab' => 'meetings#show', :constraints => { :tab => /(agenda|minutes)/ },
-                                        :via => :get,
-                                        :as => 'tab'
+      match '/:tab' => 'meetings#show', :constraints => { tab: /(agenda|minutes)/ },
+            :via => :get,
+            :as => 'tab'
     end
   end
 end

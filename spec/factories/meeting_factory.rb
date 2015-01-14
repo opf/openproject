@@ -20,7 +20,7 @@
 
 FactoryGirl.define do
   factory :meeting do |m|
-    author :factory => :user
+    author factory: :user
     project
     m.sequence(:title) { |n| "Meeting #{n}" }
   end

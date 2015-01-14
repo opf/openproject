@@ -36,7 +36,7 @@ module MessageAccessibilityHelper
     ids_with_label = select_ids.zip([:label_meeting_hour, :label_meeting_minute])
 
     ids_with_label.each do |iwl|
-      labels += content_tag(:label, l(iwl[1]), :for => iwl[0], :class => 'hidden-for-sighted')
+      labels += content_tag(:label, l(iwl[1]), for: iwl[0], class: 'hidden-for-sighted')
     end
 
     (labels + select).html_safe

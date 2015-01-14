@@ -19,14 +19,14 @@
 #++
 
 module PluginSpecHelper
-  shared_examples_for "customized journal class" do
+  shared_examples_for 'customized journal class' do
     describe :save do
-      let(:text) { "Lorem ipsum" }
-      let(:changed_data) { { :text => [nil, text] } }
+      let(:text) { 'Lorem ipsum' }
+      let(:changed_data) { { text: [nil, text] } }
 
-      describe "WITHOUT compression" do
+      describe 'WITHOUT compression' do
         before do
-          #we have to save here because changed_data will update (and save) attributes and miss an ID
+          # we have to save here because changed_data will update (and save) attributes and miss an ID
           journal.save!
           journal.changed_data = changed_data
 

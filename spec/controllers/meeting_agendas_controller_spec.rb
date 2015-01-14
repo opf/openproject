@@ -20,14 +20,14 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingAgendasController, :type => :controller do
+describe MeetingAgendasController, type: :controller do
   let(:meeting) { FactoryGirl.create(:meeting) }
   let(:user) { FactoryGirl.create(:admin) }
 
   before { allow(User).to receive(:current).and_return(user) }
 
   describe 'preview' do
-    let(:text) { "Meeting agenda content" }
+    let(:text) { 'Meeting agenda content' }
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [text] }
@@ -35,7 +35,7 @@ describe MeetingAgendasController, :type => :controller do
     end
 
     it_behaves_like 'authorizes object access' do
-      let(:preview_params) { { meeting_id: meeting.id, meeting_agenda: { } } }
+      let(:preview_params) { { meeting_id: meeting.id, meeting_agenda: {} } }
     end
   end
 end

@@ -20,16 +20,15 @@
 #++
 
 class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'meetings',
-                            activities: [ :meeting, :meeting_content ],
+                            activities: [:meeting, :meeting_content],
                             permission: :view_meetings
 
   def extend_event_query(query, activity)
     case activity
     when :meeting_content
       query.join(meetings_table).on(activity_journals_table(activity)[:meeting_id].eq(meetings_table[:id]))
-      join_cond = journal_table[:journable_type].eq("MeetingContent")
+      join_cond = journal_table[:journable_type].eq('MeetingContent')
       query.join(meeting_contents_table).on(journal_table[:journable_id].eq(meeting_contents_table[:id]).and(join_cond))
     end
   end

@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingMailer, :type => :mailer do
+describe MeetingMailer, type: :mailer do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
   let(:project) { FactoryGirl.create(:project) }
   let(:author) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
@@ -39,8 +39,8 @@ describe MeetingMailer, :type => :mailer do
     meeting.save!
   end
 
-  describe "content_for_review" do
-    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author.mail}
+  describe 'content_for_review' do
+    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author.mail }
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
       class A
@@ -50,18 +50,18 @@ describe MeetingMailer, :type => :mailer do
       A.new
     end
 
-    it "renders the headers" do
+    it 'renders the headers' do
       expect(mail.subject).to include(meeting.project.name)
       expect(mail.subject).to include(meeting.title)
       expect(mail.to).to match_array([author.mail])
       expect(mail.from).to eq([Setting.mail_from])
     end
 
-    it "renders the text body" do
+    it 'renders the text body' do
       check_meeting_mail_content mail.text_part.body
     end
 
-    it "renders the html body" do
+    it 'renders the html body' do
       check_meeting_mail_content mail.html_part.body
     end
   end

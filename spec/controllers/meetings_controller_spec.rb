@@ -20,15 +20,15 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingsController, :type => :controller do
+describe MeetingsController, type: :controller do
   before(:each) do
     @p = mock_model(Project)
     allow(@controller).to receive(:authorize)
     allow(@controller).to receive(:check_if_login_required)
   end
 
-  describe "GET" do
-    describe "index" do
+  describe 'GET' do
+    describe 'index' do
       before(:each) do
         allow(Project).to receive(:find).and_return(@p)
         @ms = [mock_model(Meeting), mock_model(Meeting), mock_model(Meeting)]
@@ -40,31 +40,31 @@ describe MeetingsController, :type => :controller do
         @grouped = double('grouped')
         expect(Meeting).to receive(:group_by_time).with(@ms).and_return(@grouped)
       end
-      describe "html" do
+      describe 'html' do
         before(:each) do
-          get "index", :project_id => @p.id
+          get 'index', project_id: @p.id
         end
-        it {expect(response).to be_success}
-        it {expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
+        it { expect(response).to be_success }
+        it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
       end
     end
 
-    describe "show" do
+    describe 'show' do
       before(:each) do
         @m = mock_model(Meeting)
         allow(Meeting).to receive(:find).and_return(@m)
         allow(@m).to receive(:project).and_return(@p)
         allow(allow(@m).to receive(:agenda)).to receive(:present?).and_return(false)
       end
-      describe "html" do
+      describe 'html' do
         before(:each) do
-          get "show", :id => @m.id
+          get 'show', id: @m.id
         end
-        it {expect(response).to be_success}
+        it { expect(response).to be_success }
       end
     end
 
-    describe "new" do
+    describe 'new' do
       before(:each) do
         allow(Project).to receive(:find).and_return(@p)
         @m = mock_model(Meeting)
@@ -72,27 +72,27 @@ describe MeetingsController, :type => :controller do
         allow(@m).to receive(:author=)
         allow(Meeting).to receive(:new).and_return(@m)
       end
-      describe "html" do
+      describe 'html' do
         before(:each) do
-          get "new", :project_id => @p.id
+          get 'new', project_id: @p.id
         end
-        it {expect(response).to be_success}
-        it {expect(assigns(:meeting)).to eql @m}
+        it { expect(response).to be_success }
+        it { expect(assigns(:meeting)).to eql @m }
       end
     end
 
-    describe "edit" do
+    describe 'edit' do
       before(:each) do
         @m = mock_model(Meeting)
         allow(Meeting).to receive(:find).and_return(@m)
         allow(@m).to receive(:project).and_return(@p)
       end
-      describe "html" do
+      describe 'html' do
         before(:each) do
-          get "edit", :id => @m.id
+          get 'edit', id: @m.id
         end
-        it {expect(response).to be_success}
-        it {expect(assigns(:meeting)).to eql @m}
+        it { expect(response).to be_success }
+        it { expect(assigns(:meeting)).to eql @m }
       end
     end
   end
