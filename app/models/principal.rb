@@ -103,6 +103,22 @@ class Principal < ActiveRecord::Base
     'active'
   end
 
+  ##
+  # Allows the API and other sources to determine locking actions
+  # on represented collections of children of Principals.
+  # Must be overriden by User
+  def lockable?
+    false
+  end
+
+  ##
+  # Allows the API and other sources to determine unlocking actions
+  # on represented collections of children of Principals.
+  # Must be overriden by User
+  def activatable?
+    false
+  end
+
   def <=>(principal)
     if self.class.name == principal.class.name
       to_s.downcase <=> principal.to_s.downcase

@@ -328,6 +328,15 @@ class User < Principal
     status == STATUSES[:locked]
   end
 
+  ##
+  # Allows the API and other sources to determine locking actions
+  # on represented collections of children of Principals.
+  # This only covers the transition from:
+  # lockable?: active -> locked.
+  # activatable?: locked -> active.
+  alias_method :lockable?, :active?
+  alias_method :activatable?, :locked?
+
   def activate
     self.status = STATUSES[:active]
   end
