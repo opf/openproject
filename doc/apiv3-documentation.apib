@@ -2661,27 +2661,6 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
-+ Model
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
-
 ## Add watcher [POST]
 
 + Parameters
@@ -2695,7 +2674,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Add Watcher][]
+    [User][]
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
@@ -2716,65 +2695,67 @@ For more details and all possible responses see the general specification of [Fo
                 "_links": {
                     "self": { "href": "/api/v3/work_packages/14/available_watchers" }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
-                            }
-                        },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
-                            }
-                        },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
-                    }]
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/1",
+								"title": "John Sheppard - j.sheppard"
+							},
+							"lock": {
+								"href": "/api/v3/users/1/lock",
+								"title": "Set lock on j.sheppard"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/1",
+								"title": "Delete j.sheppard"
+								"method": "DELETE"
+							}
+						},
+						"id": 1,
+						"login": "j.sheppard",
+						"firstName": "John",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.com",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					},
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/2",
+								"title": "Jim Sheppard - j.sheppard2"
+							},
+							"lock": {
+								"href": "/api/v3/users/2/lock",
+								"title": "Set lock on j.sheppard2"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/2",
+								"title": "Delete j.sheppard2"
+								"method": "DELETE"
+							}
+						},
+						"id": 2,
+						"login": "j.sheppard2",
+						"firstName": "Jim",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.net",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					}]
                 }
             }
 
@@ -2863,65 +2844,67 @@ updated activity.
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
-                            }
-                        },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
-                            }
-                        },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
-                    }]
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/1",
+								"title": "John Sheppard - j.sheppard"
+							},
+							"lock": {
+								"href": "/api/v3/users/1/lock",
+								"title": "Set lock on j.sheppard"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/1",
+								"title": "Delete j.sheppard"
+								"method": "DELETE"
+							}
+						},
+						"id": 1,
+						"login": "j.sheppard",
+						"firstName": "John",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.com",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					},
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/2",
+								"title": "Jim Sheppard - j.sheppard2"
+							},
+							"lock": {
+								"href": "/api/v3/users/2/lock",
+								"title": "Set lock on j.sheppard2"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/2",
+								"title": "Delete j.sheppard2"
+								"method": "DELETE"
+							}
+						},
+						"id": 2,
+						"login": "j.sheppard2",
+						"firstName": "Jim",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.net",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					}]
                 }
             }
 
@@ -2969,65 +2952,67 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
-                            }
-                        },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
-                            }
-                        },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
-                    }]
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/1",
+								"title": "John Sheppard - j.sheppard"
+							},
+							"lock": {
+								"href": "/api/v3/users/1/lock",
+								"title": "Set lock on j.sheppard"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/1",
+								"title": "Delete j.sheppard"
+								"method": "DELETE"
+							}
+						},
+						"id": 1,
+						"login": "j.sheppard",
+						"firstName": "John",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.com",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					},
+					{
+						"_type": "User",
+						"_links": {
+							"self": {
+								"href": "/api/v3/users/2",
+								"title": "Jim Sheppard - j.sheppard2"
+							},
+							"lock": {
+								"href": "/api/v3/users/2/lock",
+								"title": "Set lock on j.sheppard2"
+								"method": "POST"
+							},
+							"delete": {
+								"href": "/api/v3/users/2",
+								"title": "Delete j.sheppard2"
+								"method": "DELETE"
+							}
+						},
+						"id": 2,
+						"login": "j.sheppard2",
+						"firstName": "Jim",
+						"lastName": "Sheppard",
+						"mail": "shep@mail.net",
+						"avatar": "https://gravatar/avatar",
+						"status": "active",
+						"createdAt": "2014-05-21T08:51:20Z",
+						"updatedAt": "2014-05-21T08:51:20Z"
+					}]
                 }
             }
 
