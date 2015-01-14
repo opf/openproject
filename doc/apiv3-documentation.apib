@@ -1943,10 +1943,16 @@ This endpoint lists the types that are *available* in a given project.
 # Group Users
 
 ## Actions:
-| Link                | Description                                                          | Condition                                 |
-|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------- |
-| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator |
-| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator     |
+| Link                | Description                                                          | Condition                                  |
+|:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
+| delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This user                                   | User          | not null              | READ                 |
 
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
@@ -1958,9 +1964,15 @@ This endpoint lists the types that are *available* in a given project.
 | name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
 | mail        | User's email                                              | String   |             | READ                 |
 | avatar      | URL to user's avatar                                      | String   |             | READ                 |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |
 | createdAt   | Time of creation                                          | DateTime |             | READ                 |
 | updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |
 
+The `status` of a user can be one of:
+
+* `active` - the user can act normally
+* `registered` - the user just registered to the instance, activation by an administrator is required
+* `locked` - the user was locked and can't login
 
 ## User [/api/v3/users/{id}]
 
@@ -1991,9 +2003,9 @@ This endpoint lists the types that are *available* in a given project.
                 "lastName": "Sheppard",
                 "mail": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
+				"status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z",
-                "status": "active"
+                "updatedAt": "2014-05-21T08:51:20Z"
             }
 
 ## View user [GET]
