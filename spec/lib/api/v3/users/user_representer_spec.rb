@@ -88,8 +88,8 @@ describe ::API::V3::Users::UserRepresenter do
             expect(subject).to have_json_path('_links/unlock/href')
           end
         end
-		
-		it 'should link to delete' do
+
+        it 'should link to delete' do
           expect(subject).to have_json_path('_links/delete/href')
         end
       end
