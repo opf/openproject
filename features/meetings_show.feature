@@ -72,7 +72,7 @@ Feature: Show meetings
 
        When I go to the show page for the meeting called "Bobs Meeting"
 
-       Then I should see "AGENDA" within ".meeting_agenda"
+       Then I should see "Agenda" within ".meeting_agenda"
         And I should not see "No data to display" within "#meeting_agenda_text"
         And I should see "Text formatting" within ".meeting_agenda"
 
@@ -86,7 +86,7 @@ Feature: Show meetings
 
        When I go to the show page of the meeting called "Bobs Meeting"
 
-       Then I should see "MINUTES" within ".meeting_minutes"
+       Then I should see "Minutes" within ".meeting_minutes"
         And I should not see "No data to display" within "#meeting_minutes_text"
         And I should see "Text formatting" within ".meeting_minutes"
 
