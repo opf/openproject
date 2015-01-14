@@ -73,6 +73,14 @@ module API
             method: :delete
           } if current_user_is_admin && represented.activatable?
         end
+		
+		link :delete do
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "Delete #{represented.login}",
+            method: :delete
+          } if DeleteUserService.new.deletion_allowed? represented, current_user
+        end
 
         link :removeWatcher do
           {
