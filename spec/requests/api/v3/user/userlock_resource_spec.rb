@@ -73,7 +73,10 @@ describe 'API v3 UserLock resource', type: :request do
 
     context 'requesting nonexistent user' do
       let(:lock_path) { '/api/v3/users/9999/lock' }
-      it_behaves_like 'not found', 9999, 'User'
+      it_behaves_like 'not found' do
+        let(:id) { 9999 }
+        let(:type) { 'User' }
+      end
     end
 
     context 'non-admin user' do

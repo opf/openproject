@@ -61,7 +61,10 @@ describe 'API v3 Project resource' do
       context 'requesting nonexistent project' do
         let(:get_path) { '/api/v3/projects/9999' }
 
-        it_behaves_like 'not found', 9999, 'Project'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Project' }
+        end
       end
 
       context 'requesting project without sufficient permissions' do

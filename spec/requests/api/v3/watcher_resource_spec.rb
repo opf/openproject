@@ -86,7 +86,10 @@ describe 'API v3 Watcher resource', type: :request do
       context 'when work package doesn\'t exist' do
         let(:post_path) { '/api/v3/work_packages/9999/watchers' }
 
-        it_behaves_like 'not found', 9999, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 
@@ -138,7 +141,10 @@ describe 'API v3 Watcher resource', type: :request do
       context 'when work package doesn\'t exist' do
         let(:delete_path) { "/api/v3/work_packages/9999/watchers/#{watcher.id}" }
 
-        it_behaves_like 'not found', 9999, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 

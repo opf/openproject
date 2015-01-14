@@ -167,7 +167,10 @@ h4. things we like
       context 'requesting nonexistent work package' do
         let(:get_path) { '/api/v3/work_packages/909090' }
 
-        it_behaves_like 'not found', 909090, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 909090 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 
@@ -212,13 +215,16 @@ h4. things we like
 
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
-        let(:work_package) { FactoryGirl.create(:work_package, id: 42) }
+        let(:work_package) { FactoryGirl.create(:work_package) }
         let(:current_user) { FactoryGirl.create :user }
         let(:params) { valid_params }
 
         include_context 'patch request'
 
-        it_behaves_like 'not found', 42, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { work_package.id }
+          let(:type) { 'WorkPackage' }
+        end
       end
 
       context 'no permission to edit the work package' do
@@ -520,8 +526,8 @@ h4. things we like
             end
 
             context 'user is not visible' do
-              let(:invalid_user) { FactoryGirl.create(:user, id: 42) }
-              let(:user_href) { '/api/v3/users/42' }
+              let(:invalid_user) { FactoryGirl.create(:user) }
+              let(:user_href) { "/api/v3/users/#{invalid_user.id}" }
 
               it_behaves_like 'constraint violation',
                               I18n.t('api_v3.errors.validation.' \

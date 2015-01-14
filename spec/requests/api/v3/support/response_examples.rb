@@ -28,7 +28,11 @@
 
 require 'spec_helper'
 
-shared_examples_for 'error response' do |code, id, message|
+shared_examples_for 'error response' do |code, id, provided_message = nil|
+  let(:expected_message) {
+    provided_message || message
+  }
+
   it { expect(last_response.status).to eq(code) }
 
   describe 'response body' do
@@ -37,7 +41,7 @@ shared_examples_for 'error response' do |code, id, message|
     it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
 
     describe 'message' do
-      it { expect(subject['message']).to include(message) }
+      it { expect(subject['message']).to include(expected_message) }
 
       it 'includes punctuation' do
         expect(subject['message']).to match(/(\.|\?|\!)\z/)
@@ -84,11 +88,26 @@ shared_examples_for 'unauthorized access' do
                   I18n.t('api_v3.errors.code_403')
 end
 
-shared_examples_for 'not found' do |id, type|
+shared_examples_for 'not found' do
+  before do
+    unless defined?(id) && defined?(type)
+      message = <<MESSAGE
+  Required to have specified:
+    * id
+    * type
+  You can use 'let' for that.
+MESSAGE
+
+      raise message
+    end
+  end
+
   it_behaves_like 'error response',
                   404,
-                  'NotFound',
-                  I18n.t('api_v3.errors.code_404', type: type, id: id)
+                  'NotFound' do
+
+    let(:message) { I18n.t('api_v3.errors.code_404', type: type, id: id) }
+  end
 end
 
 shared_examples_for 'update conflict' do

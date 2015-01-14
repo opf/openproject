@@ -62,7 +62,10 @@ describe 'API v3 Attachment resource', type: :request do
       context 'requesting nonexistent attachment' do
         let(:get_path) { '/api/v3/attachments/9999' }
 
-        it_behaves_like 'not found', 9999, 'Attachment'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Attachment' }
+        end
       end
 
       context 'requesting attachments without sufficient permissions' do
