@@ -26,59 +26,53 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=l(:label_roadmap)%></h2>
-
 <% if @versions.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<div id="roadmap">
-<% @versions.each do |version| %>
-    <h3 class="version icon-context icon-version">
-      <%= link_to_version version, :name => h(version.name) %>
-    </h3>
-    <%= render :partial => 'versions/overview', :locals => {:version => version} %>
-    <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-
-    <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <strong class="related-issues-heading"><%= l(:label_related_work_packages) %></strong>
-    <%= form_tag({}) do -%>
-    <table class="list related-issues">
-    <%- issues.each do |issue| -%>
-      <tr class="hascontextmenu">
-        <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
-        <td><%= link_to_work_package(issue, :project => (@project != issue.project)) %></td>
-      </tr>
-    <%- end -%>
-    </table>
+  <div id="roadmap">
+    <% @versions.each do |version| %>
+      <h3 class="version icon-context icon-version">
+        <%= link_to_version version, :name => h(version.name) %>
+      </h3>
+      <%= render :partial => 'versions/overview', :locals => {:version => version} %>
+      <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
+      <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
+        <strong class="related-issues-heading"><%= l(:label_related_work_packages) %></strong>
+        <%= form_tag({}) do -%>
+          <table class="list related-issues">
+            <%- issues.each do |issue| -%>
+              <tr class="hascontextmenu">
+                <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
+                <td><%= link_to_work_package(issue, :project => (@project != issue.project)) %></td>
+              </tr>
+            <%- end -%>
+          </table>
+        <% end %>
+      <% end %>
+      <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
     <% end %>
-    <% end %>
-    <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
+  </div>
 <% end %>
-</div>
-<% end %>
-
 <% content_for :sidebar do %>
-<%= form_tag({}, :method => :get) do %>
-<h3><%= l(:description_filter) %></h3>
-<% @types.each do |type| %>
-  <label><%= check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), :id => nil %>
-  <%=h type.name %></label><br />
+  <%= form_tag({}, :method => :get) do %>
+    <h3><%= l(:description_filter) %></h3>
+    <% @types.each do |type| %>
+      <label><%= check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), :id => nil %>
+        <%=h type.name %></label><br />
+    <% end %>
+    <br />
+    <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
+    <% if @project.descendants.active.any? %>
+      <%= hidden_field_tag 'with_subprojects', 0 %>
+      <br />
+      <label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+    <% end %>
+    <p><%= submit_tag l(:button_apply), :class => 'button -tiny -round -highlight', :name => nil %></p>
+  <% end %>
+  <h3><%= l(:label_version_plural) %></h3>
+  <% @versions.each do |version| %>
+    <%= link_to format_version_name(version), "##{version.name}" %><br />
+  <% end %>
 <% end %>
-<br />
-<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
-<% if @project.descendants.active.any? %>
-  <%= hidden_field_tag 'with_subprojects', 0 %>
-  <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
-<% end %>
-<p><%= submit_tag l(:button_apply), :class => 'button -tiny -round -highlight', :name => nil %></p>
-<% end %>
-
-<h3><%= l(:label_version_plural) %></h3>
-<% @versions.each do |version| %>
-<%= link_to format_version_name(version), "##{version.name}" %><br />
-<% end %>
-
-<% end %>
-
 <% html_title(l(:label_roadmap)) %>

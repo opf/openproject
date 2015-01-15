@@ -34,25 +34,23 @@ See doc/COPYRIGHT.rdoc for more details.
                             {:controller => '/messages', :action => 'new', :board_id => @board},
                             :class => 'icon icon-add',
                             :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-    <%= watcher_link(@board, User.current) %>
+  <%= watcher_link(@board, User.current) %>
 <% end %>
-
 <div id="add-message" style="display:none;">
-<% if authorize_for('messages', 'new') %>
-<h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
-<%= form_for Message.new,
+  <% if authorize_for('messages', 'new') %>
+    <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+    <%= form_for Message.new,
              :url => board_topics_path(@board),
              :html => { :multipart => true,
                         :id => 'message-form'} do |f| %>
-  <%= render :partial => 'messages/form', :locals => {:f => f} %>
-  <p><%= submit_tag l(:button_create), class: 'button -highlight' %>
-  <%= preview_link preview_board_topics_path(@board), 'message-form-preview', class: 'button' %>
-  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")', class: 'button' %></p>
-<% end %>
-<div id="preview" class="wiki"></div>
-<% end %>
+      <%= render :partial => 'messages/form', :locals => {:f => f} %>
+      <p><%= submit_tag l(:button_create), class: 'button -highlight' %>
+        <%= preview_link preview_board_topics_path(@board), 'message-form-preview', class: 'button' %>
+        <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")', class: 'button' %></p>
+    <% end %>
+    <div id="preview" class="wiki"></div>
+  <% end %>
 </div>
-
 <h2><%=h @board.name %></h2>
 <p class="subtitle"><%=h @board.description %></p>
 <%= render :partial => 'layouts/action_menu_specific' %>
@@ -61,13 +59,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <div ng-controller="MessagesController">
   <% if @topics.any? %>
     <table class="list messages">
-      <thead><tr>
-        <th><%= Message.human_attribute_name(:subject) %></th>
-        <th><%= Message.human_attribute_name(:author) %></th>
-        <th><sort-link sort-attr="created_on" sort-func="loadMessages()"><%= Message.human_attribute_name(:created_on) %></sort-link></th>
-        <th><sort-link sort-attr="replies" sort-func="loadMessages()"><%= l(:label_reply_plural) %></sort-link></th>
-        <th><sort-link sort-attr="updated_on" sort-func="loadMessages()"><%= l(:label_message_last) %></sort-link></th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th><%= Message.human_attribute_name(:subject) %></th>
+          <th><%= Message.human_attribute_name(:author) %></th>
+          <th><sort-link sort-attr="created_on" sort-func="loadMessages()"><%= Message.human_attribute_name(:created_on) %></sort-link></th>
+          <th><sort-link sort-attr="replies" sort-func="loadMessages()"><%= l(:label_reply_plural) %></sort-link></th>
+          <th><sort-link sort-attr="updated_on" sort-func="loadMessages()"><%= l(:label_message_last) %></sort-link></th>
+        </tr>
+      </thead>
       <tbody>
         <tr ng-repeat="message in messages">
           <td class="subject">
@@ -98,9 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
-
 <% html_title h(@board.name) %>
-
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
 <% end %>

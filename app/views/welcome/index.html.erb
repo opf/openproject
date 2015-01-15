@@ -49,23 +49,22 @@ See doc/COPYRIGHT.rdoc for more details.
       <i class="icon-context icon-projects"></i>
       <h3><%=l(:label_project_latest)%></h3>
       <ul>
-      <% for project in @projects %>
-        <% @project = project %>
-        <li>
-        <%= link_to_project project %> (<%= format_time(project.created_on) %>)
+        <% for project in @projects %>
+          <% @project = project %>
+          <li>
+            <%= link_to_project project %> (<%= format_time(project.created_on) %>)
         <%= format_text project.short_description, :project => project %>
-        </li>
-      <% end %>
-      <% @project = nil %>
+          </li>
+        <% end %>
+        <% @project = nil %>
       </ul>
     </div>
   <% end %>
   <%= call_hook(:view_welcome_index_right, :projects => @projects) %>
 </div>
-
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+  <%= auto_discovery_link_tag(:atom, {:controller => '/news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+  <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 <% end %>

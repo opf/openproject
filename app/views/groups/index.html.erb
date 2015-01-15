@@ -30,29 +30,27 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= link_to l(:label_group_new), new_group_path, :class => 'icon icon-add' %>
 <% end %>
-
 <% html_title l(:label_administration), l("label_group_plural") %>
-
 <h2><%= l(:label_group_plural) %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <% if @groups.any? %>
-<table class="list groups">
-  <thead><tr>
-  <th><%= Group.model_name.human %></th>
-  <th><%=l(:label_user_plural)%></th>
-  <th></th>
-  </tr></thead>
-  <tbody>
-<% @groups.each do |group| %>
-  <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%= link_to h(group), :action => 'edit', :id => group %></td>
-    <td align="center"><%= group.users.size %></td>
-    <td class="buttons"><%= link_to l(:button_delete), group, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %></td>
-  </tr>
-<% end %>
-</table>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+  <table class="list groups">
+    <thead>
+      <tr>
+        <th><%= Group.model_name.human %></th>
+        <th><%=l(:label_user_plural)%></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr class="<%= cycle 'odd', 'even' %>">
+          <td><%= link_to h(group), :action => 'edit', :id => group %></td>
+          <td align="center"><%= group.users.size %></td>
+          <td class="buttons"><%= link_to l(:button_delete), group, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% end %>

@@ -26,13 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>
-
 <div class="tabs">
   <ul>
-  <% tabs.each do |tab| %>
-    <li><%=
+    <% tabs.each do |tab| %>
+      <li><%=
     position_span = you_are_here_info(tab[:name] == selected_tab)
     caption = case tab[:label]
     when Proc
@@ -44,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                        id: "tab-#{tab[:name]}",
                                        class: (tab[:name] != selected_tab ? nil : 'selected'),
                                        onclick: "showTab('#{tab[:name]}', this.href); this.blur(); return false;") %></li>
-  <% end %>
+    <% end %>
   </ul>
   <div class="tabs-buttons" style="display:none;">
     <button class="tab-left" onclick="moveTabLeft(this);"></button>

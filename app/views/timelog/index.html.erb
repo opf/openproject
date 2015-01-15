@@ -45,13 +45,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag(polymorphic_path([@issue || @project, :time_entries]), :method => :get, :id => 'query_form') do %>
   <%= render :partial => 'date_range' %>
 <% end %>
-
 <%= render 'time_entry_tabs' %>
-
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
+  <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
 </div>
-
 <div ng-controller="TimeEntriesController">
   <% unless @entries.empty? %>
     <%= render :partial => 'list', :locals => { :entries => @entries }%>
@@ -65,9 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
 </div>
-
 <% html_title l(:label_spent_time), l(:label_details) %>
-
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
+  <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
 <% end %>

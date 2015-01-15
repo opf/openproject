@@ -44,20 +44,16 @@ See doc/COPYRIGHT.rdoc for more details.
       <p>
         <em><%= l(:label_no_data) %></em>
       </p>
-
     <% else %>
-
       <table>
-
         <% counts.each do |count| %>
-
           <tr>
             <td width="130px" align="right" >
-                <%= link_to h(count[:group]),
+              <%= link_to h(count[:group]),
                             project_version_property_path(version, "#{criteria}_id", count[:group].id) %>
             </td>
             <td width="240px">
-                <%= progress_bar((count[:closed].to_f / count[:total])*100,
+              <%= progress_bar((count[:closed].to_f / count[:total])*100,
                       :legend => "#{count[:closed]}/#{count[:total]}",
                       :width => "#{(count[:total].to_f / max * 200).floor}px;") %>
             </td>

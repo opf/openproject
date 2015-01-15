@@ -26,26 +26,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <p>
-<% if project && project.persisted? %>
-  <% if User.current.impaired? %>
-    <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
-  <% else %>
-    <% options = { :'data-ajaxURL' => url_for({:controller => "/members",
+  <% if project && project.persisted? %>
+    <% if User.current.impaired? %>
+      <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
+    <% else %>
+      <% options = { :'data-ajaxURL' => url_for({:controller => "/members",
                                                :action     => "paginate_users" }),
                    :'data-projectId' => project.id
                  } %>
-
-    <%= javascript_include_tag "autocompleter.js" %>
-    <%= javascript_include_tag "project/responsible_attribute.js" %>
-    <%= form.select(:responsible_id, options_for_select([]),
+      <%= javascript_include_tag "autocompleter.js" %>
+      <%= javascript_include_tag "project/responsible_attribute.js" %>
+      <%= form.select(:responsible_id, options_for_select([]),
         {},
         project.responsible.nil? ? options : options.merge({ :'data-selected' =>
                                                              [[project.responsible.name, project.
                                                              responsible.id]].to_json
                                                             }))
      %>
+    <% end %>
   <% end %>
-<% end %>
 </p>

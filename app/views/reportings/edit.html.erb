@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <label for="reporting_reported_project_status_id">
         <%= Reporting.human_attribute_name(:reported_project_status_id) %>:
       </label>
-        <%= f.select :reported_project_status_id,
+      <%= f.select :reported_project_status_id,
                    @reporting.possible_reported_project_statuses.map { |s|
                       [s.name, s.id]
                     }.unshift(["-",""]) %>

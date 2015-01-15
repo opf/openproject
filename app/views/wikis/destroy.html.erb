@@ -26,14 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=l(:label_confirmation)%></h2>
-
 <div class="box"><center>
-<p><strong><%= h(@project.name) %></strong><br /><%=l(:text_wiki_destroy_confirmation)%></p>
-
-<%= form_tag({:controller => '/wikis', :action => 'destroy', :id => @project}) do %>
-<%= hidden_field_tag "confirm", 1 %>
-<%= submit_tag l(:button_delete), class: 'button -highlight' %>
-<% end %>
-</center></div>
+    <p><strong><%= h(@project.name) %></strong><br />
+      <%=l(:text_wiki_destroy_confirmation)%></p>
+    <%= form_tag({:controller => '/wikis', :action => 'destroy', :id => @project}) do %>
+      <%= hidden_field_tag "confirm", 1 %>
+      <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+    <% end %>
+  </center></div>

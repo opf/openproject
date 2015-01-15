@@ -41,9 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 :class => 'button -highlight' %>
   </p>
 <% end %>
-
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom,
+  <%= auto_discovery_link_tag(:atom,
                             work_packages_assigned_to_me_path({:format => 'atom', :key => User.current.rss_key}),
                             {title: l(:label_assigned_to_me_work_packages)}) %>
 <% end %>

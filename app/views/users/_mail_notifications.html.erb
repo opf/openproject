@@ -26,16 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <p>
-<%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
-<%= select_tag 'user[mail_notification]', options_for_select(user_mail_notification_options(@user), @user.mail_notification),
+  <%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
+  <%= select_tag 'user[mail_notification]', options_for_select(user_mail_notification_options(@user), @user.mail_notification),
                                       :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
 </p>
 <%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
-<p><% @user.projects.each do |project| %>
-    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
-<% end %></p>
-<p><em><%= l(:text_user_mail_option) %></em></p>
+  <p><% @user.projects.each do |project| %>
+      <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
+    <% end %></p>
+  <p><em><%= l(:text_user_mail_option) %></em></p>
 <% end %>
 <p><label><%= l(:label_user_mail_no_self_notified) %><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></label></p>

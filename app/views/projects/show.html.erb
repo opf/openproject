@@ -57,26 +57,25 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     <% end %>
   </ul>
-
   <% if User.current.allowed_to?(:view_work_packages, @project) %>
-  <div class="issues content-box">
-    <h3><%=l(:label_work_package_tracking)%></h3>
-    <ul>
-      <% for type in @types %>
-        <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
+    <div class="issues content-box">
+      <h3><%=l(:label_work_package_tracking)%></h3>
+      <ul>
+        <% for type in @types %>
+          <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
                         project_property_path(@project, "type_id", type.id) %>:
             <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
                                                              :total => @total_issues_by_type[type].to_i) %>
-        </li>
-      <% end %>
-    </ul>
-    <p>
-      <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
-      <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
-      <% end %>
-    </p>
-  </div>
+          </li>
+        <% end %>
+      </ul>
+      <p>
+        <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
+        <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+          <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
+        <% end %>
+      </p>
+    </div>
   <% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
@@ -108,9 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
-
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
-
 <% html_title(l(:label_overview)) -%>

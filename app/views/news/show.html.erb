@@ -45,56 +45,52 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'layouts/action_menu_specific' %>
   <h2 title="<%= h @news.title %>"><%= avatar(@news.author) %><%=h @news.title %></h2>
 </div>
-
 <% if authorize_for('news', 'edit') %>
-<div id="edit-news" style="display:none;">
-<%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_save), class: 'button -highlight' %>
-  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;',
+  <div id="edit-news" style="display:none;">
+    <%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
+      <%= render :partial => 'form', :locals => { :f => f } %>
+      <%= submit_tag l(:button_save), class: 'button -highlight' %>
+      <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;',
         class: 'button'%>
-  <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
+      <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
+    <% end %>
+    <div id="preview" class="wiki"></div>
+  </div>
 <% end %>
-<div id="preview" class="wiki"></div>
-</div>
-<% end %>
-
-<p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
-<span class="author"><%= authoring @news.created_on, @news.author %></span></p>
+<p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br />
+  <% end %>
+  <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki" ng-non-bindable>
-<%= format_text(@news.description, :object => @news) %>
+  <%= format_text(@news.description, :object => @news) %>
 </div>
 <br />
-
 <div id="comments" style="margin-bottom:16px;">
-<h3 class="icon-context icon-quote"><%= l(:label_comment_plural) %></h3>
-<% @comments.each do |comment| %>
-  <% next if comment.new_record? %>
-  <div class="contextual">
-    <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
+  <h3 class="icon-context icon-quote"><%= l(:label_comment_plural) %></h3>
+  <% @comments.each do |comment| %>
+    <% next if comment.new_record? %>
+      <div class="contextual">
+        <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
                               {:controller => '/news/comments', :action => 'destroy', :id => comment},
                               :confirm => l(:text_are_you_sure),
                               :method  => :delete,
                               :class => 'no-decoration-on-hover',
                               :title   => l(:button_delete),
                               :alt     => l(:button_delete) %>
+      </div>
+      <h4 class="comment"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
+      <%= format_text(comment.comments, :object => comment) %>
+    <% end %>
   </div>
-  <h4 class="comment"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
-  <%= format_text(comment.comments, :object => comment) %>
-<% end %>
-</div>
-
-<% if authorize_for 'news/comments', 'create' %>
-<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
-<%= form_for([@news, Comment.new], :html => { :id => "add_comment_form", :style => "display:none;" }) do %>
-<div class="box">
-    <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-    <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit',
+  <% if authorize_for 'news/comments', 'create' %>
+    <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
+    <%= form_for([@news, Comment.new], :html => { :id => "add_comment_form", :style => "display:none;" }) do %>
+      <div class="box">
+        <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
+        <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit',
         :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
-    <%= wikitoolbar_for 'comment_comments' %>
-</div>
-<p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
-<% end %>
-<% end %>
-
-<% html_title h(@news.title) -%>
+        <%= wikitoolbar_for 'comment_comments' %>
+      </div>
+      <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+    <% end %>
+  <% end %>
+  <% html_title h(@news.title) -%>

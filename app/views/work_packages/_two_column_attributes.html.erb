@@ -27,20 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% left_attributes, right_attributes = attributes.in_groups(2, false) %>
-
 <div class="splitcontentleft">
-   <% left_attributes.each do |attribute| %>
-
+  <% left_attributes.each do |attribute| %>
     <div class="attribute_wrapper">
       <%= attribute.field %>
     </div>
-
   <% end %>
 </div>
-
 <div class="splitcontentright">
-   <% right_attributes.each do |attribute| %>
-
+  <% right_attributes.each do |attribute| %>
     <div class="attribute_wrapper">
       <%= attribute.field %>
     </div>

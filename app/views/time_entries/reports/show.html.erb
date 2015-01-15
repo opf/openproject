@@ -52,15 +52,13 @@ See doc/COPYRIGHT.rdoc for more details.
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week'],
                                                                             [l(:label_day_plural).titleize, 'day']], @columns) %>
-
-  <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
+    <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
                                                           :style => 'width: 200px',
                                                           :id => nil,
                                                           :disabled => (@criterias.length >= 3), :id => "criterias") %>
-     <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-yes' %>
-     <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'icon icon-undo' %></p>
+    <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-yes' %>
+    <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'icon icon-undo' %></p>
 <% end %>
-
 <% unless @criterias.empty? %>
   <div class="total-hours">
     <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>

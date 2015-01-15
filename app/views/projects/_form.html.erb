@@ -45,15 +45,13 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
   </div>
 <% end %>
-
 <% if (project.new_record? || project.module_enabled?('work_package_tracking')) %>
   <% if renderTypes %>
-      <div class="form-space">
-        <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
-      </div>
+    <div class="form-space">
+      <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
+    </div>
   <% end %>
 <% end %>
-
 <% unless @issue_custom_fields.empty? %>
   <%= render :partial => "projects/form/custom_fields", :locals => { :project => project,
                                                        :issue_custom_fields => @issue_custom_fields } %>

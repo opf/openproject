@@ -26,29 +26,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=h @page.pretty_title %></h2>
-
 <%= form_for @content, :as => :content, :url => {:action => 'update', :id => @page}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
-<%= f.hidden_field :lock_version %>
-<%= error_messages_for 'content' %>
-
-<p>
-  <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+  <%= f.hidden_field :lock_version %>
+  <%= error_messages_for 'content' %>
+  <p>
+    <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
                   :value => format_text(@content, :text, :attachments => @content.page.attachments, :edit => true),
                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                   :'ng-non-bindable' => '' %>
-</p>
-<p><label><%= Version.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
-<p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
-<p><%= submit_tag l(:button_save), class: 'button -highlight' %>
-  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form', class: 'button' %>
-</p>
-<%= wikitoolbar_for 'content_text' %>
+  </p>
+  <p><label><%= Version.human_attribute_name(:comments) %></label><br />
+    <%= f.text_field :comments, :size => 120 %></p>
+  <p><label><%=l(:label_attachment_plural)%></label><br />
+    <%= render :partial => 'attachments/form' %></p>
+  <p><%= submit_tag l(:button_save), class: 'button -highlight' %>
+    <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form', class: 'button' %>
+  </p>
+  <%= wikitoolbar_for 'content_text' %>
 <% end %>
-
 <div id="preview" class="wiki"></div>
-
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>
 <% end %>

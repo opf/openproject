@@ -26,10 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%= Category.model_name.human %></h2>
-
 <%= labelled_tabular_form_for @category, :as => :category do |f| %>
-<%= render :partial => 'categories/form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= render :partial => 'categories/form', :locals => { :f => f } %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

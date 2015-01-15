@@ -31,25 +31,21 @@ See doc/COPYRIGHT.rdoc for more details.
                    :url => { :controller => '/repositories', :action => 'edit', :id => @project },
                    :builder => TabularFormBuilder,
                    :lang => current_language do |f| %>
-
-<%= error_messages_for 'repository' %>
-
-<div class="box tabular">
-<p><%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %></p>
-<%= repository_field_tags(f, @repository) if @repository %>
-</div>
-
-<div class="contextual">
-<% if @repository && !@repository.new_record? %>
-<%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :project_id => @project}, :class => 'icon icon-user1') %>
-<%= link_to(l(:button_delete), project_repository_path(@project),
+  <%= error_messages_for 'repository' %>
+  <div class="box tabular">
+    <p><%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %></p>
+    <%= repository_field_tags(f, @repository) if @repository %>
+  </div>
+  <div class="contextual">
+    <% if @repository && !@repository.new_record? %>
+      <%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :project_id => @project}, :class => 'icon icon-user1') %>
+      <%= link_to(l(:button_delete), project_repository_path(@project),
             :confirm => l(:text_are_you_sure),
             :method => :delete,
             :class => 'icon icon-delete') %>
-<% end %>
-</div>
-
-<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
+    <% end %>
+  </div>
+  <%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
       :disabled => @repository.nil?,
       class: 'button -highlight') %>
 <% end %>

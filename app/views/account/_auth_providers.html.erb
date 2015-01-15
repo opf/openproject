@@ -15,8 +15,8 @@ pclass = no_pwd ? 'no-pwd' : ''
   <div class="login-auth-providers <%= pclass %>">
     <% unless no_pwd %>
       <h3 class="login-auth-providers-title"><span>
-        <%= I18n.t('account.login_with_auth_provider')%>
-      </span></h3>
+          <%= I18n.t('account.login_with_auth_provider')%>
+        </span></h3>
     <% end %>
     <div class="login-auth-provider-list">
       <%= auth_provider_html %>

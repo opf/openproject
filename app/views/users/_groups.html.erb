@@ -26,13 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= form_for(:user, :url => { :action => 'update' }, :html => {:method => :put}) do %>
-<div class="box">
-<% Group.all.sort.each do |group| %>
-<label><%= check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %> <%=h group %></label>
-<% end %>
-<%= hidden_field_tag 'user[group_ids][]', '' %>
-</div>
-<%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <div class="box">
+    <% Group.all.sort.each do |group| %>
+      <label><%= check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %> <%=h group %></label>
+    <% end %>
+    <%= hidden_field_tag 'user[group_ids][]', '' %>
+  </div>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

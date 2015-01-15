@@ -26,23 +26,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <fieldset id="date-range" class="collapsible">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_date_range) %></a></legend>
-<div>
-<p>
-<%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
-<%= select_tag 'period', options_for_period_select(params[:period]),
+  <div>
+    <p>
+      <%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
+      <%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
+      <%= select_tag 'period', options_for_period_select(params[:period]),
                          :onfocus => '$("period_type_1").checked = true;',
                          :disabled => @free_period %>
-</p>
-<p>
-<%= label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
-<%= radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
-<span onclick="$('period_type_2').checked = true;">
-
-<%=
+    </p>
+    <p>
+      <%= label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
+      <%= radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
+      <span onclick="$('period_type_2').checked = true;">
+        <%=
 raw l(:label_date_from_to,
   :start => raw(
     label_tag("from", l(:description_date_from), :class => "hidden-for-sighted") +
@@ -56,9 +54,9 @@ raw l(:label_date_from_to,
   )
 )
 %>
-</span>
-</p>
-</div>
+      </span>
+    </p>
+  </div>
 </fieldset>
 <p class="buttons">
   <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-yes' %>

@@ -49,9 +49,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, :encode => 'javascript') %></li>
     <% end %>
     <% @user.visible_custom_field_values.each do |custom_value| %>
-    <% if !custom_value.value.blank? %>
-      <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-    <% end %>
+      <% if !custom_value.value.blank? %>
+        <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+      <% end %>
     <% end %>
     <% unless @user.last_login_on.nil? %>
       <li><%= User.human_attribute_name(:last_login_on) %>: <%= format_date(@user.last_login_on) %></li>

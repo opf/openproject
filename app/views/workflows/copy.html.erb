@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe +
                         "<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>".html_safe +
                         options_from_collection_for_select(@roles, 'id', 'name', @source_role && @source_role.id)) %>
-    </span>
+      </span>
     </p>
     <p>
       <label for="target_type_ids"><%= l(:label_copy_target) %></label>
@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <span>
         <label for='target_role_ids' style="float:none; margin-left:0;"><%= Role.model_name.human %></label>
         <br />
-      <%= select_tag 'target_role_ids',
+        <%= select_tag 'target_role_ids',
                       "<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe +
                       options_from_collection_for_select(@roles, 'id', 'name', @target_roles && @target_roles.map(&:id)), :multiple => true %>
       </span>

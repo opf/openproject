@@ -30,41 +30,36 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= link_to l(:label_role_new), {:action => 'new'}, :class => 'icon icon-add' %>
 <% end %>
-
 <% html_title l(:label_administration), l("label_role_plural") %>
-
 <h2><%=l(:label_role_plural)%></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <table class="list">
-  <thead><tr>
-    <th><%= Role.model_name.human %></th>
-    <th><%=l(:button_sort)%></th>
-  <th></th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th><%= Role.model_name.human %></th>
+      <th><%=l(:button_sort)%></th>
+      <th></th>
+    </tr>
+  </thead>
   <tbody>
-<% for role in @roles %>
-  <tr class="<%= cycle("odd", "even") %>">
-  <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), :action => 'edit', :id => role)) %></td>
-  <td align="center" style="width:15%;">
-  <% unless role.builtin? %>
-    <%= reorder_links('role', {:action => 'update', :id => role}, :method => :put) %>
-  <% end %>
-  </td>
-  <td class="buttons">
-    <%= link_to(l(:button_delete), role_path(role),
+    <% for role in @roles %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), :action => 'edit', :id => role)) %></td>
+        <td align="center" style="width:15%;">
+          <% unless role.builtin? %>
+            <%= reorder_links('role', {:action => 'update', :id => role}, :method => :put) %>
+          <% end %>
+        </td>
+        <td class="buttons">
+          <%= link_to(l(:button_delete), role_path(role),
                                    :method => :delete,
                                    :confirm => l(:text_are_you_sure),
                                    :class => 'icon icon-delete') unless role.builtin? %>
-  </td>
-  </tr>
-<% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
 <%= pagination_links_full @roles %>
-
 <p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
-
 <% html_title(l(:label_role_plural)) -%>

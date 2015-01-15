@@ -26,39 +26,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
-
 <div class="box">
-<!--[form:message]-->
-<p><label for="message_subject"><%= Message.human_attribute_name(:subject) %></label><br />
-<%= f.text_field :subject, :size => 120, :id => "message_subject" %>
-
-<% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-    <%= f.label :sticky do %>
-      <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
+  <!--[form:message]-->
+  <p><label for="message_subject"><%= Message.human_attribute_name(:subject) %></label><br />
+    <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
+    <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
+      <%= f.label :sticky do %>
+        <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
+      <% end %>
+      <%= f.label :locked do %>
+        <%= f.check_box :locked %><%= l(:label_board_locked) %>
+      <% end %>
     <% end %>
-    <%= f.label :locked do %>
-      <%= f.check_box :locked %><%= l(:label_board_locked) %>
-    <% end %>
-<% end %>
-</p>
-
-<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
-  <p><label><%= Board.name.humanize %></label><br />
-  <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
-<% end %>
-
-<p>
-  <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-  <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+  </p>
+  <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+    <p><label><%= Board.name.humanize %></label><br />
+      <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
+  <% end %>
+  <p>
+    <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
+    <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                   :'ng-non-bindable' => '' %>
-</p>
-<%= wikitoolbar_for 'message_content' %>
-<!--[eoform:message]-->
-
-<p><%= l(:label_attachment_plural) %><br />
-<%= render :partial => 'attachments/form' %></p>
+  </p>
+  <%= wikitoolbar_for 'message_content' %>
+  <!--[eoform:message]-->
+  <p><%= l(:label_attachment_plural) %><br />
+    <%= render :partial => 'attachments/form' %></p>
 </div>

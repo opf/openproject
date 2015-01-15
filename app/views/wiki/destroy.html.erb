@@ -26,26 +26,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=h @page.pretty_title %></h2>
-
 <%= form_tag({}, :method => :delete) do %>
-<div class="box">
-<p><strong><%= l(:text_wiki_page_destroy_question, :descendants => @descendants_count) %></strong></p>
-<p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_wiki_page_nullify_children) %></label><br />
-<label><%= radio_button_tag 'todo', 'destroy', false %> <%= l(:text_wiki_page_destroy_children) %></label>
-<% if @reassignable_to.any? %>
-<br />
-<label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_wiki_page_reassign_children) %></label>:
-<%= label_tag "reassign_to_id", l(:description_wiki_subpages_reassign), :class => "hidden-for-sighted" %>
-<%= select_tag 'reassign_to_id', wiki_page_options_for_select(@reassignable_to),
+  <div class="box">
+    <p><strong><%= l(:text_wiki_page_destroy_question, :descendants => @descendants_count) %></strong></p>
+    <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_wiki_page_nullify_children) %></label><br />
+      <label><%= radio_button_tag 'todo', 'destroy', false %> <%= l(:text_wiki_page_destroy_children) %></label>
+      <% if @reassignable_to.any? %>
+        <br />
+        <label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_wiki_page_reassign_children) %></label>:
+        <%= label_tag "reassign_to_id", l(:description_wiki_subpages_reassign), :class => "hidden-for-sighted" %>
+        <%= select_tag 'reassign_to_id', wiki_page_options_for_select(@reassignable_to),
                                  :onclick => "$('todo_reassign').checked = true;" %>
-<% end %>
-</p>
-</div>
-
-<%= submit_tag l(:button_apply), class: 'button -highlight' %>
-<%= link_to l(:button_cancel),
+      <% end %>
+    </p>
+  </div>
+  <%= submit_tag l(:button_apply), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel),
       { controller: '/wiki', action: 'show', project_id: @project, id: @page },
       class: 'button' %>
 <% end %>

@@ -26,12 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= error_messages_for 'category' %>
-
 <div class="box">
-<p><%= f.text_field :name, :size => 30, :required => true %></p>
-<p>
-  <%= f.select :assigned_to_id, @project.possible_assignees.sort.collect{|u| [u.name, u.id]}, :include_blank => true %>
-</p>
+  <p><%= f.text_field :name, :size => 30, :required => true %></p>
+  <p>
+    <%= f.select :assigned_to_id, @project.possible_assignees.sort.collect{|u| [u.name, u.id]}, :include_blank => true %>
+  </p>
 </div>

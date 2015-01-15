@@ -26,21 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= form_tag({:action => 'edit', :tab => 'projects'}) do %>
-
-<div class="box tabular settings">
-<p><%= setting_check_box :default_projects_public %></p>
-
-<p><%= setting_multiselect(:default_projects_modules,
+  <div class="box tabular settings">
+    <p><%= setting_check_box :default_projects_public %></p>
+    <p><%= setting_multiselect(:default_projects_modules,
         Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, :prefix => "project_module_"), m.to_s]}) %></p>
-
-<p><%= setting_check_box :sequential_project_identifiers %></p>
-
-<p><%= setting_select :new_project_user_role_id,
+    <p><%= setting_check_box :sequential_project_identifiers %></p>
+    <p><%= setting_select :new_project_user_role_id,
                       Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
                       :blank => "--- #{l(:actionview_instancetag_blank_option)} ---" %></p>
-</div>
-
-<%= submit_tag l(:button_save), class: 'button -highlight' %>
+  </div>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

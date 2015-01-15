@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% else -%>
     <%= l(:label_previous) %>
   <% end -%>
-|
+  |
   <% unless @changeset.next.nil? -%>
     <%= link_to_revision(@changeset.next, @project, :text => l(:label_next)) %>
   <% else -%>
@@ -47,40 +47,32 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= submit_tag 'OK', :name => nil, class: 'button -highlight' %>
   <% end %>
 <% end %>
-
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
-<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br /><% end %>
-<span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
-
+<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
+  <% end %>
+  <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
 <%= format_text @changeset.comments %>
-
 <% if @changeset.work_packages.visible.any? %>
-<h3><%= l(:label_related_work_packages) %></h3>
-<ul>
-<% @changeset.work_packages.visible.each do |work_package| %>
-  <li><%= link_to_work_package work_package %></li>
+  <h3><%= l(:label_related_work_packages) %></h3>
+  <ul>
+    <% @changeset.work_packages.visible.each do |work_package| %>
+      <li><%= link_to_work_package work_package %></li>
+    <% end %>
+  </ul>
 <% end %>
-</ul>
-<% end %>
-
 <% if User.current.allowed_to?(:browse_repository, @project) %>
-<h3><%= l(:label_attachment_plural) %></h3>
-<ul id="changes-legend">
-<li class="change change-A"><%= l(:label_added) %></li>
-<li class="change change-M"><%= l(:label_modified) %></li>
-<li class="change change-C"><%= l(:label_copied) %></li>
-<li class="change change-R"><%= l(:label_renamed) %></li>
-<li class="change change-D"><%= l(:label_deleted) %></li>
-</ul>
-
-<p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
-
-<div class="changeset-changes">
-<%= render_changeset_changes %>
-</div>
+  <h3><%= l(:label_attachment_plural) %></h3>
+  <ul id="changes-legend">
+    <li class="change change-A"><%= l(:label_added) %></li>
+    <li class="change change-M"><%= l(:label_modified) %></li>
+    <li class="change change-C"><%= l(:label_copied) %></li>
+    <li class="change change-R"><%= l(:label_renamed) %></li>
+    <li class="change change-D"><%= l(:label_deleted) %></li>
+  </ul>
+  <p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
+  <div class="changeset-changes">
+    <%= render_changeset_changes %>
+  </div>
 <% end %>
-
 <% html_title("#{l(:label_revision)} #{format_revision(@changeset)}") -%>

@@ -26,115 +26,112 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= error_messages_for 'custom_field' %>
-
 <script type="text/javascript">
-//<![CDATA[
-function toggle_custom_field_format() {
-  var format = $("custom_field_field_format");
-  var p_length = $("custom_field_min_length");
-  var p_regexp = $("custom_field_regexp");
-  var p_values = $("custom_field_possible_values_attributes");
-  var p_searchable = $("custom_field_searchable");
-  var p_default_value = $("custom_field_default_value_attributes");
-  var span_default_text_multi = $("default_value_text_multi");
-  var span_default_text_single = $("default_value_text_single");
-  var span_default_bool = $("default_value_bool");
-  var hide_and_disable = function(element) {
-    element.hide().
-            select('input, textbox').each(function (element) {
-                                      if(!element.match('.destroy_flag')) {
-                                        element.writeAttribute('disabled', 'disabled');
-                                      }
-                                    });
+  //<![CDATA[
+  function toggle_custom_field_format() {
+    var format = $("custom_field_field_format");
+    var p_length = $("custom_field_min_length");
+    var p_regexp = $("custom_field_regexp");
+    var p_values = $("custom_field_possible_values_attributes");
+    var p_searchable = $("custom_field_searchable");
+    var p_default_value = $("custom_field_default_value_attributes");
+    var span_default_text_multi = $("default_value_text_multi");
+    var span_default_text_single = $("default_value_text_single");
+    var span_default_bool = $("default_value_bool");
+    var hide_and_disable = function(element) {
+      element.hide().
+              select('input, textbox').each(function (element) {
+                                        if(!element.match('.destroy_flag')) {
+                                          element.writeAttribute('disabled', 'disabled');
+                                        }
+                                      });
+    }
+    var show_and_enable = function(element) {
+      element.show().
+              select('input, textbox').each(function (element) {
+                                        if(!element.match('.destroy_flag')) {
+                                          element.removeAttribute('disabled');
+                                        }
+                                      });
+    }
+
+    hide_and_disable(span_default_bool);
+    hide_and_disable(span_default_text_single);
+    show_and_enable(span_default_text_multi);
+    Element.show(p_default_value);
+
+    switch (format.value) {
+      case "list":
+        Element.hide(p_length.parentNode);
+        Element.hide(p_regexp.parentNode);
+        if (p_searchable) Element.show(p_searchable.parentNode);
+        show_and_enable(p_values);
+        break;
+      case "bool":
+        show_and_enable(span_default_bool);
+        hide_and_disable(span_default_text_multi);
+        Element.hide(p_length.parentNode);
+        Element.hide(p_regexp.parentNode);
+        if (p_searchable) Element.hide(p_searchable.parentNode);
+        hide_and_disable(p_values);
+        break;
+      case "date":
+        hide_and_disable(span_default_text_multi);
+        show_and_enable(span_default_text_single);
+        Element.hide(p_length.parentNode);
+        Element.hide(p_regexp.parentNode);
+        if (p_searchable) Element.hide(p_searchable.parentNode);
+        hide_and_disable(p_values);
+        break;
+      case "float":
+      case "int":
+        hide_and_disable(span_default_text_multi);
+        show_and_enable(span_default_text_single);
+        Element.show(p_length.parentNode);
+        Element.show(p_regexp.parentNode);
+        if (p_searchable) Element.hide(p_searchable.parentNode);
+        hide_and_disable(p_values);
+        break;
+      case "user":
+      case "version":
+        Element.hide(p_length.parentNode);
+        Element.hide(p_regexp.parentNode);
+        if (p_searchable) Element.hide(p_searchable.parentNode);
+        hide_and_disable(p_values);
+        Element.hide(p_default_value);
+        break;
+      default:
+        Element.show(p_length.parentNode);
+        Element.show(p_regexp.parentNode);
+        if (p_searchable) Element.show(p_searchable.parentNode);
+        hide_and_disable(p_values);
+        break;
+    }
   }
-  var show_and_enable = function(element) {
-    element.show().
-            select('input, textbox').each(function (element) {
-                                      if(!element.match('.destroy_flag')) {
-                                        element.removeAttribute('disabled');
-                                      }
-                                    });
-  }
 
-  hide_and_disable(span_default_bool);
-  hide_and_disable(span_default_text_single);
-  show_and_enable(span_default_text_multi);
-  Element.show(p_default_value);
+  function initLocaleChangeListener() {
+  jQuery(".locale_selector").each(function (index) {
+      var localeSelector = jQuery(this);
 
-  switch (format.value) {
-    case "list":
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.show(p_searchable.parentNode);
-      show_and_enable(p_values);
-      break;
-    case "bool":
-      show_and_enable(span_default_bool);
-      hide_and_disable(span_default_text_multi);
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      hide_and_disable(p_values);
-      break;
-    case "date":
-      hide_and_disable(span_default_text_multi);
-      show_and_enable(span_default_text_single);
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      hide_and_disable(p_values);
-      break;
-    case "float":
-    case "int":
-      hide_and_disable(span_default_text_multi);
-      show_and_enable(span_default_text_single);
-      Element.show(p_length.parentNode);
-      Element.show(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      hide_and_disable(p_values);
-      break;
-    case "user":
-    case "version":
-      Element.hide(p_length.parentNode);
-      Element.hide(p_regexp.parentNode);
-      if (p_searchable) Element.hide(p_searchable.parentNode);
-      hide_and_disable(p_values);
-      Element.hide(p_default_value);
-      break;
-    default:
-      Element.show(p_length.parentNode);
-      Element.show(p_regexp.parentNode);
-      if (p_searchable) Element.show(p_searchable.parentNode);
-      hide_and_disable(p_values);
-      break;
-  }
-}
+      localeSelector.change(function () {
+        localeSelector.children("option:selected").each(function () {
+          //alert(jQuery(this).attr('value'));
+          var span = jQuery(jQuery(this).parents("span.translation")[0])
 
-function initLocaleChangeListener() {
-jQuery(".locale_selector").each(function (index) {
-    var localeSelector = jQuery(this);
+          if (typeof span.attr('lang') !== 'undefined') {
+            span.removeAttr('lang');
+          }
 
-    localeSelector.change(function () {
-      localeSelector.children("option:selected").each(function () {
-        //alert(jQuery(this).attr('value'));
-        var span = jQuery(jQuery(this).parents("span.translation")[0])
-
-        if (typeof span.attr('lang') !== 'undefined') {
-          span.removeAttr('lang');
-        }
-
-        span.attr('lang', jQuery(this).attr('value'));
+          span.attr('lang', jQuery(this).attr('value'));
+        });
       });
-    });
 
-    localeSelector.change();
-});
-}
-//]]>
+      localeSelector.change();
+  });
+  }
+  //]]>
 </script>
-
 <div class="box">
   <p id="custom_field_name_attributes">
     <%= f.text_field :name,
@@ -194,44 +191,39 @@ jQuery(".locale_selector").each(function (index) {
       <% end %>
     </span>
   </p>
-<%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
+  <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
-
 <div class="box">
   <% case @custom_field.class.name
      when "WorkPackageCustomField" %>
-      <fieldset>
-        <legend><%=l(:label_type_plural)%></legend>
-        <% for type in @types %>
-          <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
-          <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
-        <% end %>
+    <fieldset>
+      <legend><%=l(:label_type_plural)%></legend>
+      <% for type in @types %>
+        <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
+        <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
+      <% end %>
       <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
     &nbsp;
+
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :is_for_all %></p>
     <p><%= f.check_box :is_filter %></p>
     <p><%= f.check_box :searchable %></p>
-
-  <% when "UserCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <p><%= f.check_box :editable %></p>
-
-  <% when "ProjectCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <p><%= f.check_box :searchable %></p>
-
-  <% when "TimeEntryCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-
-  <% else %>
-    <p><%= f.check_box :is_required %></p>
-
-  <% end %>
-<%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
-</div>
-<%= javascript_tag "toggle_custom_field_format();" %>
-<%= javascript_tag "initLocaleChangeListener();" %>
+    <% when "UserCustomField" %>
+      <p><%= f.check_box :is_required %></p>
+      <p><%= f.check_box :visible %></p>
+      <p><%= f.check_box :editable %></p>
+      <% when "ProjectCustomField" %>
+        <p><%= f.check_box :is_required %></p>
+        <p><%= f.check_box :visible %></p>
+        <p><%= f.check_box :searchable %></p>
+        <% when "TimeEntryCustomField" %>
+          <p><%= f.check_box :is_required %></p>
+        <% else %>
+          <p><%= f.check_box :is_required %></p>
+        <% end %>
+        <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
+      </div>
+      <%= javascript_tag "toggle_custom_field_format();" %>
+      <%= javascript_tag "initLocaleChangeListener();" %>
