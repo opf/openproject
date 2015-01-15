@@ -43,14 +43,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-  <div class="vertical medium-horizontal grid-block">
-    <div class="grid-content">
-      <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
-      <%= select_tag 'status', project_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
-    </div>
-    <div class="grid-content">
-      <label for='name'><%= Project.model_name.human %>:</label>
-      <%= text_field_tag 'name', params[:name], :size => 30, class: 'form--select -small' %>
+  <div class="vertical grid-block">
+    <div class="grid-block">
+      <div class="grid-content">
+        <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
+        <%= select_tag 'status', project_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
+      </div>
+      <div class="grid-content">
+        <label for='name'><%= Project.model_name.human %>:</label>
+        <%= text_field_tag 'name', params[:name], :size => 30, class: 'form--select -small' %>
+      </div>
     </div>
     <div class="grid-content">
       <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
