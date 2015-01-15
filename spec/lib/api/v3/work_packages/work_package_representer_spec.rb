@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
   let(:member) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
 
@@ -236,31 +238,51 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'version' do
+        let(:embedded_path) { '_embedded/version' }
+        let(:href_path) { '_links/version/href' }
+
         context 'no version set' do
-          it { is_expected.to_not have_json_path('versionViewable') }
+          it 'has no version linked' do
+            is_expected.to_not have_json_path(href_path)
+          end
+
+          it 'has no version embedded' do
+            is_expected.to_not have_json_path(embedded_path)
+          end
         end
 
         context 'version set' do
           let!(:version) { FactoryGirl.create :version, project: project }
-          let(:expected_url) { "/versions/#{version.id}".to_json }
+          let(:expected_url) { api_v3_paths.version(version.id).to_json }
 
           before do
             work_package.fixed_version = version
           end
 
-          it {
-            is_expected.to be_json_eql(expected_url).at_path('_links/version/href')
-          }
+          it 'has a link to the version' do
+            is_expected.to be_json_eql(expected_url).at_path(href_path)
+          end
 
-          it { is_expected.to be_json_eql('text/html'.to_json).at_path('_links/version/type') }
+          it 'has the version embedded' do
+            is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
+            is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+          end
 
           context ' but is not accessible due to permissions' do
             before do
-              current_user.stub(:allowed_to?).and_call_original
-              current_user.stub(:allowed_to?).with({ controller: 'versions', action: 'show' }, project, global: false).and_return(false)
+              policy = double('VersionPolicy')
+              allow(policy).to receive(:allowed?).with(version, :show).and_return(false)
+              representer.instance_variable_set(:@version_policy, policy)
             end
 
-            it { is_expected.to_not have_json_path('_links/version/href') }
+            it 'has no version linked' do
+              is_expected.to_not have_json_path(href_path)
+            end
+
+            it 'has the version embedded as the user has the view work package permission' do
+              is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
+              is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+            end
           end
         end
       end

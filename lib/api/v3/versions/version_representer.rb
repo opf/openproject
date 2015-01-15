@@ -33,20 +33,54 @@ require 'roar/json/hal'
 module API
   module V3
     module Versions
-      class VersionRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+      class VersionRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.version(represented.id),
+            title: "#{represented.name}"
+          }
+        end
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        link :definingProject do
+          {
+            href: api_v3_paths.project(represented.project.id),
+            title: represented.project.name
+          } if represented.project.visible?(current_user)
+        end
 
-        property :_type, exec_context: :decorator
+        link :availableInProjects do
+          {
+            href: api_v3_paths.versions_projects(represented.project.id)
+          }
+        end
 
         property :id, render_nil: true
-        property :name
+        property :name, render_nil: true
+
+        property :description,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   {
+                     format: 'plain',
+                     raw: represented.description,
+                   }
+                 },
+                 render_nil: true
+
+        property :start_date, render_nil: true
+        property :due_date, as: 'endDate', render_nil: true
+        property :status, render_nil: true
+        property :created_on, as: 'createdAt', render_nil: true
+        property :updated_on, as: 'updatedAt', render_nil: true
 
         def _type
           'Version'
+        end
+
+        private
+
+        def current_user
+          context[:current_user]
         end
       end
     end

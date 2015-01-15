@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,42 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+    module Versions
+      class VersionsProjectsAPI < Grape::API
+        resources :projects do
+          before do
+            @projects = @version.projects.visible(current_user).all
 
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
+            # Authorization for accessing the version is done in the versions
+            # endpoint into which this endpoint is embedded.
+          end
 
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
-
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
+          get do
+            Projects::ProjectCollectionRepresenter.new(@projects,
+                                                       @projects.count,
+                                                       api_v3_paths.versions_projects(@version.id))
+          end
         end
       end
     end

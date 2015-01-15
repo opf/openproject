@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,44 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require 'spec_helper'
 
-module API
-  module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+describe ::API::V3::Projects::ProjectCollectionRepresenter do
+  let(:self_link) { '/api/v3/versions/1/projects' }
+  let(:projects) { FactoryGirl.build_list(:project, 3) }
+  let(:representer) { described_class.new(projects, 42, self_link) }
 
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
+  context 'generation' do
+    subject(:collection) { representer.to_json }
 
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
-
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
-        end
-      end
-    end
+    it_behaves_like 'API V3 collection decorated', 42, 3, 'versions/1/projects', 'Project'
   end
 end

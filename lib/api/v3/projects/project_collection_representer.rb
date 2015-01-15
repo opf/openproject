@@ -28,42 +28,15 @@
 #++
 
 require 'roar/decorator'
+require 'roar/json'
+require 'roar/json/collection'
 require 'roar/json/hal'
 
 module API
   module V3
     module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
-
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
-
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
-
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
-        end
+      class ProjectCollectionRepresenter < ::API::Decorators::Collection
+        element_decorator ::API::V3::Projects::ProjectRepresenter
       end
     end
   end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Version resource' do
+describe "API v3 version's projects resource" do
   include Rack::Test::Methods
 
   let(:current_user) do
@@ -42,63 +42,50 @@ describe 'API v3 Version resource' do
     user
   end
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:role_without_permissions) { FactoryGirl.create(:role, permissions: []) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:other_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:version_in_project) { FactoryGirl.build(:version, project: project) }
-  let(:version_in_other_project) do
-    FactoryGirl.build(:version, project: other_project,
-                                sharing: 'system')
-  end
+  let(:project2) { FactoryGirl.create(:project, is_public: false) }
+  let(:project3) { FactoryGirl.create(:project, is_public: false) }
+  let(:project4) { FactoryGirl.create(:project, is_public: false) }
+  let(:version) { FactoryGirl.create(:version, project: project, sharing: 'system') }
 
   subject(:response) { last_response }
 
-  describe '#get (:id)' do
-    let(:get_path) { "/api/v3/versions/#{version_in_project.id}" }
-
-    shared_examples_for 'successful response' do
-      it 'responds with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      it 'returns the version' do
-        expect(last_response.body).to be_json_eql('Version'.to_json).at_path('_type')
-        expect(last_response.body).to be_json_eql(expected_version.id.to_json).at_path('id')
-      end
-    end
+  describe '#get (index)' do
+    let(:get_path) { "/api/v3/versions/#{version.id}/projects" }
 
     context 'logged in user with permissions' do
       before do
-        version_in_project.save!
         current_user
+
+        # this is to be included
+        FactoryGirl.create(:member, user: current_user,
+                                    project: project2,
+                                    roles: [role])
+        # this is to be included as the user is a member of the project, the
+        # lack of permissions is irrelevant.
+        FactoryGirl.create(:member, user: current_user,
+                                    project: project3,
+                                    roles: [role_without_permissions])
+        # project4 should NOT be included
+        project4
 
         get get_path
       end
 
-      it_should_behave_like 'successful response' do
-        let(:expected_version) { version_in_project }
+      it_behaves_like 'API V3 collection response', 3, 3, 'Project'
+
+      it 'includes only the projects which the user can see' do
+        id_in_response = JSON.parse(response.body)['_embedded']['elements'].map { |p| p['id'] }
+
+        expect(id_in_response).to match_array [project.id, project2.id, project3.id]
       end
     end
 
-    context 'logged in user with permission on project a version is shared with' do
-      let(:get_path) { "/api/v3/versions/#{version_in_other_project.id}" }
+    context 'logged in user without permissions' do
+      let(:role) { role_without_permissions }
 
       before do
-        version_in_other_project.save!
-        current_user
-
-        get get_path
-      end
-
-      it_should_behave_like 'successful response' do
-        let(:expected_version) { version_in_other_project }
-      end
-    end
-
-    context 'logged in user without permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: []) }
-
-      before(:each) do
-        version_in_project.save!
         current_user
 
         get get_path

@@ -75,6 +75,23 @@ module API
         raise API::Errors::Unauthorized unless is_authorized && allow
         is_authorized
       end
+
+      # checks whether the user has
+      # any of the provided permission in any of the provided
+      # projects
+      def authorize_any(permissions, projects, user: current_user)
+        projects = Array(projects)
+
+        authorized = permissions.any? do |permission|
+          allowed_condition = Project.allowed_to_condition(user, permission)
+          allowed_projects = Project.where(allowed_condition)
+
+          !(allowed_projects & projects).empty?
+        end
+
+        raise API::Errors::Unauthorized unless authorized
+        authorized
+      end
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|

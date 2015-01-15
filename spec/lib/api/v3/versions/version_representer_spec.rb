@@ -29,22 +29,69 @@
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter do
-  let(:version) { FactoryGirl.build(:version) }
-  let(:representer) { described_class.new(version) }
+  let(:version) { FactoryGirl.build_stubbed(:version) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:context) { { current_user: user } }
+  let(:representer) { described_class.new(version, context) }
+
+  include API::V3::Utilities::PathHelper
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
     it { should include_json('Version'.to_json).at_path('_type') }
 
-    xit { should have_json_type(Object).at_path('_links') }
-    xit 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+    context 'links' do
+
+      it { should have_json_type(Object).at_path('_links') }
+
+      it 'to self' do
+        path = api_v3_paths.version(version.id)
+
+        expect(subject).to be_json_eql(path.to_json).at_path('_links/self/href')
+      end
+
+      context 'to the defining project' do
+        let(:path) { api_v3_paths.project(version.project.id) }
+
+        it 'exists if the user has the permission to see the project' do
+          allow(version.project).to receive(:visible?).with(user).and_return(true)
+
+          subject = representer.to_json
+
+          expect(subject).to be_json_eql(path.to_json).at_path('_links/definingProject/href')
+        end
+
+        it 'does not exist if the user lacks the permission to see the project' do
+          allow(version.project).to receive(:visible?).with(user).and_return(false)
+
+          subject = representer.to_json
+
+          expect(subject).to_not have_json_path('_links/definingProject/href')
+        end
+      end
+
+      it 'to available projects' do
+        path = api_v3_paths.versions_projects(version.project.id)
+
+        expect(subject).to be_json_eql(path.to_json).at_path('_links/availableInProjects/href')
+      end
     end
 
     describe 'version' do
-      it { should have_json_path('id') }
-      it { should have_json_path('name') }
+      it { is_expected.to be_json_eql(version.id.to_json).at_path('id') }
+      it { is_expected.to be_json_eql(version.name.to_json).at_path('name') }
+
+      it_behaves_like 'API V3 formattable', 'description' do
+        let(:format) { 'plain' }
+        let(:raw) { version.description }
+      end
+
+      it { is_expected.to be_json_eql(version.start_date.to_json).at_path('startDate') }
+      it { is_expected.to be_json_eql(version.due_date.to_json).at_path('endDate') }
+      it { is_expected.to be_json_eql(version.status.to_json).at_path('status') }
+      it { is_expected.to be_json_eql(version.created_on.to_json).at_path('createdAt') }
+      it { is_expected.to be_json_eql(version.updated_on.to_json).at_path('updatedAt') }
     end
   end
 end

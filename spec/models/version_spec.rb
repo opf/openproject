@@ -81,4 +81,115 @@ describe Version, type: :model do
       expect(Version.systemwide.all).to be_empty
     end
   end
+
+  context '#projects' do
+    let(:grand_parent_project) do
+      FactoryGirl.build(:project, name: 'grand_parent_project')
+    end
+    let(:parent_project) do
+      FactoryGirl.build(:project, parent: grand_parent_project, name: 'parent_project')
+    end
+    let(:sibling_parent_project) do
+      FactoryGirl.build(:project, parent: grand_parent_project, name: 'sibling_parent_project')
+    end
+    let(:child_project) do
+      FactoryGirl.build(:project, parent: parent_project, name: 'child_project')
+    end
+    let(:sibling_project) do
+      FactoryGirl.build(:project, parent: parent_project, name: 'sibling_project')
+    end
+    let(:unrelated_project) do
+      FactoryGirl.build(:project, name: 'unrelated_project')
+    end
+
+    let(:unshared_version) do
+      FactoryGirl.build(:version, project: parent_project, sharing: 'none')
+    end
+    let(:hierarchy_shared_version) do
+      FactoryGirl.build(:version, project: parent_project, sharing: 'hierarchy')
+    end
+    let(:descendants_shared_version) do
+      FactoryGirl.build(:version, project: parent_project, sharing: 'descendants')
+    end
+    let(:system_shared_version) do
+      FactoryGirl.build(:version, project: parent_project, sharing: 'system')
+    end
+    let(:tree_shared_version) do
+      FactoryGirl.build(:version, project: parent_project, sharing: 'tree')
+    end
+
+    def save_all_projects
+      grand_parent_project.save!
+      parent_project.save!
+      sibling_parent_project.save!
+      child_project.save!
+      sibling_project.save!
+      unrelated_project.save!
+    end
+
+    before do
+      save_all_projects
+    end
+
+    it 'returns a scope' do
+      unshared_version.save
+
+      expect(unshared_version.projects).to be_a(ActiveRecord::Relation)
+    end
+
+    it 'is empty for a new version' do
+      expect(Version.new.projects).to be_empty
+    end
+
+    it 'returns project the version is defined in for unshared' do
+      unshared_version.save
+
+      expect(unshared_version.projects).to match_array([parent_project])
+    end
+
+    it 'returns all projects the version is shared with (hierarchy)' do
+      hierarchy_shared_version.save!
+
+      expect(hierarchy_shared_version.projects).to match_array([grand_parent_project,
+                                                                parent_project,
+                                                                child_project,
+                                                                sibling_project])
+    end
+
+    it 'returns all projects the version is shared with (descendants)' do
+      descendants_shared_version.save!
+
+      expect(descendants_shared_version.projects).to match_array([parent_project,
+                                                                  child_project,
+                                                                  sibling_project])
+    end
+
+    it 'returns all projects the version is shared with (tree)' do
+      tree_shared_version.save!
+
+      expect(tree_shared_version.projects).to match_array([grand_parent_project,
+                                                           parent_project,
+                                                           sibling_parent_project,
+                                                           child_project,
+                                                           sibling_project])
+    end
+
+    it 'returns all projects the version is shared with (system)' do
+      system_shared_version.save!
+
+      expect(system_shared_version.projects).to match_array([grand_parent_project,
+                                                             parent_project,
+                                                             sibling_parent_project,
+                                                             child_project,
+                                                             sibling_project,
+                                                             unrelated_project])
+    end
+
+    it 'returns only the projects for the version although there is a system shared version' do
+      unshared_version.save
+      system_shared_version.save!
+
+      expect(unshared_version.projects).to match_array([parent_project])
+    end
+  end
 end

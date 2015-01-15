@@ -31,6 +31,8 @@ class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
   extend DeprecatedAlias
 
+  include Version::ProjectSharing
+
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify

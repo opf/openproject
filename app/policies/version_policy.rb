@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,44 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+class VersionPolicy < BasePolicy
+  private
 
-module API
-  module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+  def cache
+    @cache ||= Hash.new do |hash, version|
+      # copy checks for the move_work_packages permission. This makes
+      # sense only because the work_packages/moves controller handles
+      # copying multiple work packages.
+      hash[version] = {
+        show: show_allowed?(version)
+      }
+    end
+  end
 
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
+  def show_allowed?(version)
+    @show_cache ||= Hash.new do |hash, queried_version|
+      permissions = [:view_work_packages, :manage_versions]
 
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
+      hash[queried_version] = permissions.any? do |permission|
+        allowed_condition = Project.allowed_to_condition(user, permission)
 
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
-        end
+        queried_version.projects.where(allowed_condition).exists?
       end
     end
+
+    @show_cache[version]
   end
 end

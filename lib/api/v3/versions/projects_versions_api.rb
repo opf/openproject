@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,42 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+    module Versions
+      class ProjectsVersionsAPI < Grape::API
+        resources :versions do
+          before do
+            @versions = @project.shared_versions.all
 
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
+            authorize_any [:view_work_packages, :manage_versions], @project
+          end
 
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
-
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
+          get do
+            VersionCollectionRepresenter.new(@versions,
+                                             @versions.count,
+                                             api_v3_paths.versions(@project.identifier),
+                                             context: { current_user: current_user })
+          end
         end
       end
     end
