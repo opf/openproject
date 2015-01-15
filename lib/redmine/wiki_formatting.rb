@@ -103,9 +103,13 @@ module Redmine
             begin
               macros_runner.call(macro, args)
             rescue => e
-              "<div class=\"flash error\">#{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})</div>"
+              "<span class=\"flash error permanent\">\
+              #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
+              </span>".squish
             rescue NotImplementedError
-              "<div class=\"flash error macro-unavailable\">#{::I18n.t(:macro_unavailable, macro_name: macro)}</div>"
+              "<span class=\"flash error macro-unavailable permanent\">\
+              #{::I18n.t(:macro_unavailable, macro_name: macro)}\
+              </span>".squish
             end || all
           else
             all

@@ -39,10 +39,11 @@ module API
         def initialize(text, object = nil)
           @text = text
           @object = object
+          @project = object.project if object.respond_to?(:project)
         end
 
         def to_html
-          format_text(@text, object: @object)
+          format_text(@text, object: @object, project: @project)
         end
 
         def controller; end

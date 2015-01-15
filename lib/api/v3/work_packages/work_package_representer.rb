@@ -37,7 +37,6 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
         include API::V3::Utilities::PathHelper
-        include OpenProject::TextFormatting
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -240,7 +239,7 @@ module API
                    {
                      format: 'textile',
                      raw: represented.description,
-                     html: format_text(represented, :description)
+                     html: description_renderer.to_html
                    }
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
@@ -333,6 +332,10 @@ module API
         end
 
         private
+
+        def description_renderer
+          ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
+        end
 
         def hours_and_minutes(hours)
           hours = hours.to_f

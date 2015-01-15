@@ -40,4 +40,28 @@ FactoryGirl.define do
       new "#{Rails.root}/spec/fixtures/files/#{name}"
     end
   end
+
+  factory :uploaded_file, class: Rack::Multipart::UploadedFile do
+    skip_create
+
+    name         'test.txt'
+    content      'test content'
+    content_type 'text/plain'
+    binary        false
+
+    initialize_with do
+      OpenProject::Files.create_uploaded_file(
+        name:         name,
+        content:      content,
+        content_type: content_type,
+        binary:       binary)
+    end
+
+    factory :uploaded_jpg do
+      name         'test.jpg'
+      content      "\xFF\xD8\xFF\xE0\u0000\u0010JFIF\u0000\u0001\u0001\u0001\u0000H"
+      content_type 'image/jpeg'
+      binary       true
+    end
+  end
 end

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#errorExplanation, div.flash, .nodata, .warning
+#errorExplanation, .flash, .nodata, .warning
   padding: 4px
   margin: 0 0 10px 0
   color: $content-flash-msg-font-color
@@ -34,13 +34,13 @@
   %absolute-layout-mode &
     height: $content-flash-height
 
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
+.flash.error a:link, .flash.warning a:link, .flash.notice a:link, #errorExplanation a:link,
+.flash.error a:hover, .flash.warning a:hover, .flash.notice a:hover, #errorExplanation a:hover
   @include default-font($content-flash-msg-font-color)
   text-decoration: none
   cursor: default
 
-div.flash
+.flash
   display: none
 
   &.ng-leave
@@ -59,11 +59,14 @@ div.flash
   h2, p
     @extend .hidden-for-sighted
 
-div.flash.error, #errorExplanation
+.flash.error, #errorExplanation
   background-color: $content-flash-error-msg-bg-color
 
-div.flash.notice
+.flash.notice
   background-color: $content-flash-notice-msg-bg-color
 
-div.flash.warning, .nodata, .warning
+.flash.warning, .nodata, .warning
   background-color: $content-flash-warning-msg-bg-color
+
+.flash.permanent
+  display: block
