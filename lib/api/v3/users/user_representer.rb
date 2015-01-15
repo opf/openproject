@@ -117,7 +117,7 @@ module API
         end
 
         def current_user_can_delete_user(other_user)
-          @current_user && DeleteUserService.new.deletion_allowed?(other_user, @current_user)
+          @current_user && DeleteUserService.deletion_allowed?(other_user, @current_user)
         end
       end
     end
