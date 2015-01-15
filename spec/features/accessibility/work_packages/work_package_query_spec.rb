@@ -289,7 +289,7 @@ describe 'Work package index accessibility', type: :feature do
     describe 'column header drop down menu', js: true do
       it_behaves_like 'context menu' do
         let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
-        let(:target_link) { '#column-context-menu .menu li:first-of-type a' }
+        let(:target_link) { '#column-context-menu .dropdown-menu li:first-of-type a' }
         let(:keys) { :enter }
       end
     end

@@ -391,7 +391,6 @@ describe('inplaceEditor Directive', function() {
       });
       it('should trigger edit mode on click', function() {
         element.find('.ined-read-value').click();
-        scope.$digest();
         expect(elementScope.isEditing).to.eq(true);
       });
 

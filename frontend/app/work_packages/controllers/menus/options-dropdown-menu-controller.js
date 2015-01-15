@@ -32,7 +32,6 @@ module.exports = function(
   shareModal, sortingModal, groupingModal,
   QueryService, AuthorisationService,
   $window, $state, $timeout) {
-
   $scope.$watch('query.displaySums', function(newValue) {
     $timeout(function() {
       $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
@@ -41,12 +40,9 @@ module.exports = function(
   });
 
   $scope.saveQuery = function(event){
-    if (!$scope.query.dirty) {
-      return;
-    }
     if($scope.query.isNew()){
       if( allowQueryAction(event, 'create') ){
-        // $scope.$emit('hideAllDropdowns');
+        $scope.$emit('hideAllDropdowns');
         saveModal.activate();
       }
     } else {
@@ -113,7 +109,7 @@ module.exports = function(
   };
 
   $scope.toggleDisplaySums = function(){
-    // $scope.$emit('hideAllDropdowns');
+    $scope.$emit('hideAllDropdowns');
     $scope.query.displaySums = !$scope.query.displaySums;
 
     // This eventually calls the resize event handler defined in the
@@ -132,11 +128,13 @@ module.exports = function(
   }
 
   function showModal() {
+    $scope.$emit('hideAllDropdowns');
     this.activate();
   }
 
   function showExistingQueryModal(event) {
     if( preventNewQueryAction(event) ){
+      $scope.$emit('hideAllDropdowns');
       this.activate();
     }
   }
