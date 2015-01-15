@@ -73,10 +73,6 @@ describe ::API::V3::Users::UserRepresenter do
           expect(subject).to_not have_json_path('_links/lock/href')
           expect(subject).to_not have_json_path('_links/unlock/href')
         end
-
-        it 'should not link to delete' do
-          expect(subject).to_not have_json_path('_links/delete/href')
-        end
       end
 
       context 'when current_user is admin' do
@@ -92,9 +88,29 @@ describe ::API::V3::Users::UserRepresenter do
             expect(subject).to have_json_path('_links/unlock/href')
           end
         end
+      end
+
+      context 'when deletion is allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(true)
+        end
 
         it 'should link to delete' do
           expect(subject).to have_json_path('_links/delete/href')
+        end
+      end
+
+      context 'when deletion is not allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(false)
+        end
+
+        it 'should not link to delete' do
+          expect(subject).to_not have_json_path('_links/delete/href')
         end
       end
     end
