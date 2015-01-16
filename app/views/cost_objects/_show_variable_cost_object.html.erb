@@ -19,8 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <h3><%= l(:caption_materials) %></h3>
-<div style="float: left; width: 100%">
-<div class="splitcontentleft">
+<div class="grid-block">
+<div class="grid-content">
   <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
   <table class="material_budget_items list">
     <thead><tr>
@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </tbody>
   </table>
 </div>
-<div class="splitcontentright">
+<div class="grid-content">
   <h4><%= l(:caption_material_costs) %></h4>
   <table class="material_budget_items list">
     <thead><tr>
@@ -85,9 +85,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </div>
 </div>
 
-<h3 style="clear:left;"><%= l(:caption_labor) %></h3>
+<h3><%= l(:caption_labor) %></h3>
 
-<div class="splitcontentleft">
+<div class="grid-block">
+<div class="grid-content">
   <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
   <table class="labor_budget_items list">
     <thead><tr>
@@ -119,7 +120,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </table>
 </div>
 
-<div class="splitcontentright">
+<div class="grid-content">
   <h4><%= l(:caption_labor_costs) %></h4>
   <table class="labor_budget_items list">
     <thead><tr>
@@ -158,5 +159,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </tbody>
   </table>
 </div>
-
-<div style="clear: both"></div>
+</div>
