@@ -5,9 +5,9 @@ This plugin adds functions to support project meetings to
 [OpenProject](https://www.openproject.org). Meetings
 can be scheduled selecting invitees from the same project to take
 part in the meeting. An agenda can be created and sent to the invitees.
-After the meeting, attendants can be selected and minutes can be
+After the meeting, attendees can be selected and minutes can be
 created based on the agenda. Finally, the minutes can be sent to
-all attendants and invitees.
+all attendees and invitees.
 
 A more detailed feature tour can be found [here](https://www.openproject.org/projects/openproject/wiki/Meetings).
 
