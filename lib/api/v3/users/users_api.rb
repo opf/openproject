@@ -60,7 +60,7 @@ module API
             end
 
             delete do
-              if DeleteUserService.new(@user, User.current).call
+              if DeleteUserService.new(@user, current_user).call
                 status 202
               else
                 fail ::API::Errors::Unauthorized
@@ -71,7 +71,7 @@ module API
 
               # Authenticate lock transitions
               before do
-                if !User.current.admin?
+                unless current_user.admin?
                   fail ::API::Errors::Unauthorized
                 end
               end
