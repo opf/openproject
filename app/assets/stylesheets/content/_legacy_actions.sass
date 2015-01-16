@@ -94,3 +94,14 @@ ul.legacy-actions-more
 
 .message-reply-menu
   @include contextual(-39px)
+
+.legacy-actions--inline-label
+  @extend .inline-label
+  height: 1.5em
+
+  .form-label
+    color: $content-icon-link-color
+  input, select
+    font-size: 1em
+  select
+    padding: 0 1.5rem 0.0 0.5rem

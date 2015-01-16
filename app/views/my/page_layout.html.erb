@@ -67,8 +67,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <li>
     <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
-      <span class="inline-label">
-        <%= label_tag('block-select', l(:label_my_page_block)) %>:
+      <span class="legacy-actions--inline-label">
+        <%= label_tag('block-select', "#{l(:label_my_page_block)}:", class: 'form-label -transparent') %>
         <%= select_tag 'block', "<option></option>".html_safe + options_for_select(@block_options),
               :id => "block-select",
               class: 'form--select -small' %>
