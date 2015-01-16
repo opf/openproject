@@ -32,13 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :action_menu_specific do %>
-  <!--[if gt IE 8]><!-->
   <li>
-  <%= link_to l(:label_statistics), stats_project_repository_path(@project),
-                                    :class => 'icon icon-stats' %> |
+    <%= link_to l(:label_statistics), stats_project_repository_path(@project),
+                                      :class => 'icon icon-stats' %> |
   </li>
-  <!--<![endif]-->
-
   <%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
   <li>
   <%= form_tag({:action => controller.action_name, :project_id => @project, :path => to_path_param(@path), :rev => nil}, {:method => :get, :id => 'revision_selector'}) do -%>
