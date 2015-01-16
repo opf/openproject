@@ -9,7 +9,7 @@
     </li>
     <li ng-repeat="(action, link) in permittedActions"
         class="{{action}}">
-      <a role="menuitem" focus="$index == 0 && !isDetailsViewLinkPresent()" href="" ng-click="deleteWorkPackages()">
+      <a role="menuitem" focus="$index == 0 && !isDetailsViewLinkPresent()" href="" ng-click="triggerContextMenuAction(action, link)">
         <i ng-class="['icon-action-menu', 'icon-' + action]"></i>
         <span ng-bind="I18n.t('js.button_' + action)"/>
       </a>
