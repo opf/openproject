@@ -61,6 +61,7 @@ angular.module('openproject.uiComponents')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
     './focus-helper')])
   .directive('hasDropdownMenu', [
+    '$rootScope',
     '$injector',
     '$window',
     '$parse',

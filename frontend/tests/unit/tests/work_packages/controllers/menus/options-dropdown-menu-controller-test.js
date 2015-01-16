@@ -52,7 +52,7 @@ describe('optionsDropdown Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var optionsDropdownHtml;
-      optionsDropdownHtml = '<div id="toolbar"><button has-dropdown-menu="" target="OptionsDropdownMenu" locals="query"></button></div>';
+      optionsDropdownHtml = '<div id="toolbar"><button has-dropdown-menu="" target="SettingsDropdownMenu" locals="query"></button></div>';
 
       element = angular.element(optionsDropdownHtml);
       rootScope = $rootScope;

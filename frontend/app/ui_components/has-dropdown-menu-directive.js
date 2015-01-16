@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($injector, $window, $parse, FocusHelper) {
+module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
 
   function getCssPositionProperties(dropdown, trigger) {
     var hOffset = 0,
@@ -59,6 +59,31 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
     }
   }
 
+  function getPositionPropertiesOfEvent(event) {
+    var position = { };
+
+    if (event.pageX && event.pageY) {
+      position.top = Math.max(event.pageY, 0);
+      position.left = Math.max(event.pageX, 0);
+    } else {
+      var bounding = angular.element(event.target)[0].getBoundingClientRect();
+
+      position.top = Math.max(bounding.bottom, 0);
+      position.left = Math.max(bounding.left, 0);
+    }
+
+    return position;
+  }
+
+  function getCssPositionPropertiesOfEvent(event) {
+    var position = getPositionPropertiesOfEvent(event);
+
+    position.top += 'px';
+    position.left += 'px';
+
+    return position;
+  }
+
   return {
     restrict: 'A',
     controller: [function() {
@@ -77,10 +102,12 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
     link: function(scope, element, attrs, ctrl) {
       var contextMenu = $injector.get(attrs.target),
         locals = {},
+        pointerPosition,
+        pointerCssPosition,
         win = angular.element($window),
         menuElement,
         positionRelativeTo = attrs.positionRelativeTo,
-        triggerOnEvent = attrs.triggerOnEvent || 'click';
+        triggerOnEvent = (attrs.triggerOnEvent || 'click') + '.dropdown.openproject';
 
       /* contextMenu      is a mandatory attribute and used to bind a specific context
                           menu to the trigger event
@@ -96,6 +123,10 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
       }
 
       function open(event) {
+        var ignoreFocusOpener = true;
+        pointerPosition = getPositionPropertiesOfEvent(event);
+        pointerCssPosition = getCssPositionPropertiesOfEvent(event);
+        $rootScope.$broadcast('openproject.dropdown.closeDropdowns', ignoreFocusOpener);
         // prepare locals, these define properties to be passed on to the context menu scope
         var localKeys = (attrs.locals || '').split(',').map(function(local) {
           return local.trim();
@@ -106,10 +137,11 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
 
         ctrl.open();
 
-        contextMenu.open(event.target, locals)
+        contextMenu.open(element, locals)
           .then(function(element) {
             menuElement = element;
-            angular.element(element).trap();
+            menuElement.trap();
+            positionDropdown();
             menuElement.on('click', function(e) {
               // allow inputs to be clickable
               // without closing the dropdown
@@ -120,72 +152,119 @@ module.exports = function($injector, $window, $parse, FocusHelper) {
           });
       }
 
-      function close() {
+      function close(ignoreFocusOpener) {
         ctrl.close();
         // for some reason focusing on a TH causes some weird issues
         // like the first th of the tr being selected
-        if (element.is('th')) {
-          element.focus();
-        } else {
+        if (!ignoreFocusOpener) {
           FocusHelper.focusElement(element);
         }
-
         contextMenu.close();
       }
 
       function positionDropdown() {
         var positionRelativeToElement = positionRelativeTo ?
           element.find(positionRelativeTo) : element;
+        if (attrs.triggerOnEvent == 'contextmenu') {
+          menuElement.css(pointerCssPosition);
+          adjustPosition(menuElement, pointerPosition);
+        } else {
+          menuElement.css(getCssPositionProperties(menuElement, positionRelativeToElement));
+        }
+      }
 
-        menuElement.css(getCssPositionProperties(menuElement, positionRelativeToElement));
+      function adjustPosition($element, pointerPosition) {
+        var viewport = {
+          top : win.scrollTop(),
+          left : win.scrollLeft()
+        };
+
+        viewport.right = viewport.left + win.width();
+        viewport.bottom = viewport.top + win.height();
+        var bounds = $element.offset();
+        bounds.right = bounds.left + $element.outerWidth();
+        bounds.bottom = bounds.top + $element.outerHeight();
+        if (viewport.right < bounds.right) {
+          $element.css("left", pointerPosition.left - $element.outerWidth());
+        }
+        if (viewport.bottom < bounds.bottom) {
+          $element.css("top", pointerPosition.top - $element.outerHeight());
+        }
       }
 
       element.bind(triggerOnEvent, function(event) {
         event.preventDefault();
         event.stopPropagation();
-
         scope.$apply(function() {
           toggle(event);
         });
 
         // set css position parameters after the digest has been completed
         if (contextMenu.active()) positionDropdown();
-
-        scope.$root.$broadcast('openproject.markDropdownsAsClosed', element);
       });
 
-      scope.$on('openproject.markDropdownsAsClosed', function(event, target) {
-        if (element !== target && ctrl.opened()) {
-          scope.$apply(ctrl.close);
+      scope.$on('openproject.dropdown.closeDropdowns', function(event, ignoreFocusOpener) {
+        if (!ctrl.opened()) {
+          return;
         }
+        close(ignoreFocusOpener);
       });
 
-      win.on('resize', function(event) {
+      scope.$on('openproject.dropdown.reposition', function() {
         if (contextMenu.active() && menuElement && ctrl.opened()) {
           positionDropdown();
         }
       });
 
-      win.bind('keyup', function(event) {
-        if (contextMenu.active() && event.keyCode === 27) {
-          scope.$apply(function() {
-            close();
-          });
+      var elementKeyUpString = 'keyup.contextmenu.dropdown.openproject';
+      element
+        .off(elementKeyUpString)
+        .on(elementKeyUpString, function(event) {
+        // Alt + Shift + F10
+        if (event.keyCode === 121 && event.shiftKey && event.altKey) {
+          if (!contextMenu.active()) {
+            open(event);
+          }
+        }
+      });
+
+
+      // We need the off/on stuff in order to not have a new listener
+      // for every linking. It's not only not efficient, if causes bugs
+      // because of closures
+      // we also add an event namespace to avoid off'ing unrelated listeners
+      // We can leave it like this
+      // or move to the compile function of the directive
+      // or move to a service and make sure it's called only once
+
+      var repositioningEventString = 'resize.dropdown.openproject, mousewheel.dropdown.openproject';
+      win
+        .off(repositioningEventString)
+        .on(repositioningEventString, function(event) {
+          $rootScope.$broadcast('openproject.dropdown.reposition');
+        });
+
+      var keyUpEventString = 'keyup.dropdown.openproject';
+      win
+        .off(keyUpEventString).on(keyUpEventString, function(event) {
+        if (event.keyCode === 27) {
+          $rootScope.$broadcast('openproject.dropdown.closeDropdowns');
         }
       });
 
       function handleWindowClickEvent(event) {
-        if (contextMenu.active() && event.button !== 2) {
-          scope.$apply(function() {
-            close();
-          });
-        }
+        $rootScope.$broadcast('openproject.dropdown.closeDropdowns');
       }
 
       // Firefox treats a right-click as a click and a contextmenu event while other browsers
       // just treat it as a contextmenu event
-      win.bind('click', handleWindowClickEvent);
-      win.bind(triggerOnEvent, handleWindowClickEvent);
+      var clickEventString = 'click.dropdown.openproject';
+      win
+        .off(clickEventString)
+        .on(clickEventString, handleWindowClickEvent);
+      win
+        .off(triggerOnEvent)
+        .on(triggerOnEvent, handleWindowClickEvent);
     }
   };
 };

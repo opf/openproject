@@ -49,17 +49,17 @@ angular.module('openproject.workPackages')
     'columnsModal',
     require('./column-context-menu-controller')
   ])
-  .factory('OptionsDropdownMenu', [
+  .factory('SettingsDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
       return ngContextMenu({
-        controller: 'OptionsDropdownMenuController',
-        templateUrl: '/templates/work_packages/menus/options_dropdown_menu.html',
+        controller: 'SettingsDropdownMenuController',
+        templateUrl: '/templates/work_packages/menus/settings_dropdown_menu.html',
         container: '#toolbar'
       });
     }
   ])
-  .controller('OptionsDropdownMenuController', [
+  .controller('SettingsDropdownMenuController', [
     '$scope',
     'I18n',
     'columnsModal',
@@ -73,7 +73,7 @@ angular.module('openproject.workPackages')
     'AuthorisationService',
     '$window',
     '$state',
-    '$timeout', require('./options-dropdown-menu-controller')
+    '$timeout', require('./settings-dropdown-menu-controller')
   ])
   .factory('TasksDropdownMenu', [
     'ngContextMenu',
