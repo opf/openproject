@@ -28,7 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% roles = Role.find_all_givable %>
 <% projects = Project.active.find(:all, :order => 'lft') %>
-<div class="splitcontentleft">
+
+<div class="grid-block">
+  <div class="grid-content">
   <% if @user.memberships.any? %>
     <table class="list memberships">
       <thead>
@@ -80,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <p class="nodata"><%= l(:label_no_data) %></p>
     <% end %>
   </div>
-  <div class="splitcontentright">
+  <div class="grid-content">
     <% if projects.any? %>
       <fieldset><legend><%=l(:label_project_new)%></legend>
         <%= form_for(:membership, :url => {:controller => 'users',
@@ -91,10 +93,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
           <div>
             <%= l(:label_role_plural) %>:
-  <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
+            <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
           </div>
           <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
         <% end %>
       </fieldset>
     <% end %>
   </div>
+</div>

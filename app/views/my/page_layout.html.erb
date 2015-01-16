@@ -92,23 +92,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<div id="list-top" class="block-receiver">
-  <% @blocks['top'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-    <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['top'] %>
+<div class="grid-block">
+  <div id="list-top" class="grid-content block-receiver">
+    <% @blocks['top'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['top'] %>
+  </div>
 </div>
-<div id="list-left" class="splitcontentleft block-receiver">
-  <% @blocks['left'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-    <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['left'] %>
-</div>
-<div id="list-right" class="splitcontentright block-receiver">
-  <% @blocks['right'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-    <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['right'] %>
+<div class="grid-block">
+  <div id="list-left" class="grid-content block-receiver">
+    <% @blocks['left'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['left'] %>
+  </div>
+  <div id="list-right" class="grid-content block-receiver">
+    <% @blocks['right'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['right'] %>
+  </div>
 </div>
 <%= sortable_element 'list-top',
       :tag => 'div',

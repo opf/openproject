@@ -38,55 +38,57 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="box tabular">
     <fieldset class="attributes">
       <legend><%= l(:label_change_properties) %></legend>
-      <div class="splitcontentleft">
-        <p><label for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
-          <%= select_tag "new_project_id",
-               project_tree_options_for_select(@allowed_projects, :selected => @target_project),
-               :onchange => remote_function(:url => { :action => 'new' },
-                                            :method => :get,
-                                            :update => 'content',
-                                            :with => "Form.serialize('move_form')") %></p>
-        <p><label for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
-          <%= select_tag("new_type_id",
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(@types, "id", "name")) %>
-        </p>
-        <p>
-          <label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
-          <%= select_tag('status_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(@available_statuses, :id, :name)) %>
-        </p>
-        <p>
-          <label for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
-          <%= select_tag('priority_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
-        </p>
-        <p>
-          <label for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
-          <%= select_tag('assigned_to_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
-        </p>
-        <p>
-          <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
-          <%= select_tag('responsible_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
-        </p>
-      </div>
-      <div class="splitcontentright">
-        <p>
-          <label for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
-          <%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %>
-        </p>
-        <p>
-          <label for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
-          <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
-        </p>
+      <div class="grid-block">
+        <div class="grid-content">
+          <p><label for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
+            <%= select_tag "new_project_id",
+                 project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+                 :onchange => remote_function(:url => { :action => 'new' },
+                                              :method => :get,
+                                              :update => 'content',
+                                              :with => "Form.serialize('move_form')") %></p>
+          <p><label for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
+            <%= select_tag("new_type_id",
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@types, "id", "name")) %>
+          </p>
+          <p>
+            <label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+            <%= select_tag('status_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@available_statuses, :id, :name)) %>
+          </p>
+          <p>
+            <label for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
+            <%= select_tag('priority_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+          </p>
+          <p>
+            <label for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
+            <%= select_tag('assigned_to_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   content_tag('option', l(:label_nobody), :value => 'none') +
+                   options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
+          </p>
+          <p>
+            <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
+            <%= select_tag('responsible_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   content_tag('option', l(:label_nobody), :value => 'none') +
+                   options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
+          </p>
+        </div>
+        <div class="grid-content">
+          <p>
+            <label for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
+            <%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %>
+          </p>
+          <p>
+            <label for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
+            <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
+          </p>
+        </div>
       </div>
     </fieldset>
     <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>

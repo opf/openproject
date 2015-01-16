@@ -37,60 +37,62 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'layouts/action_menu_specific' %>
 <% breadcrumb_paths(l(:label_overview)) %>
 
-<div class="splitcontentleft">
-  <div class="wiki" ng-non-bindable>
-    <%= format_text @project.description %>
-  </div>
-  <ul>
-    <% if @project.homepage.present? %>
-      <li><%= Project.human_attribute_name(:homepage) %>: <%=raw auto_link(@project.homepage) %></li>
-    <% end %>
-    <% if @subprojects.any? %>
-      <li>
-        <%= l(:label_subproject_plural) %>:
-        <%=raw @subprojects.map { |project| link_to(project.name, project) }.to_sentence %>
-      </li>
-    <% end %>
-    <% @project.visible_custom_field_values.each do |custom_value| %>
-      <% if custom_value.value.present? %>
-        <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
+<div class="grid-block">
+  <div class="grid-content">
+    <div class="wiki" ng-non-bindable>
+      <%= format_text @project.description %>
+    </div>
+    <ul>
+      <% if @project.homepage.present? %>
+        <li><%= Project.human_attribute_name(:homepage) %>: <%=raw auto_link(@project.homepage) %></li>
       <% end %>
+      <% if @subprojects.any? %>
+        <li>
+          <%= l(:label_subproject_plural) %>:
+          <%=raw @subprojects.map { |project| link_to(project.name, project) }.to_sentence %>
+        </li>
+      <% end %>
+      <% @project.visible_custom_field_values.each do |custom_value| %>
+        <% if custom_value.value.present? %>
+          <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
+        <% end %>
+      <% end %>
+    </ul>
+    <% if User.current.allowed_to?(:view_work_packages, @project) %>
+      <div class="issues content-box">
+        <h3><%=l(:label_work_package_tracking)%></h3>
+        <ul>
+          <% for type in @types %>
+            <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
+                          project_property_path(@project, "type_id", type.id) %>:
+              <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
+                                                               :total => @total_issues_by_type[type].to_i) %>
+            </li>
+          <% end %>
+        </ul>
+        <p>
+          <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
+          <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+            <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
+          <% end %>
+        </p>
+      </div>
     <% end %>
-  </ul>
-  <% if User.current.allowed_to?(:view_work_packages, @project) %>
-    <div class="issues content-box">
-      <h3><%=l(:label_work_package_tracking)%></h3>
-      <ul>
-        <% for type in @types %>
-          <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
-                        project_property_path(@project, "type_id", type.id) %>:
-            <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
-                                                             :total => @total_issues_by_type[type].to_i) %>
-          </li>
-        <% end %>
-      </ul>
-      <p>
-        <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, :class => 'button -highlight' %>
-        <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-          <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button -highlight') %>
-        <% end %>
-      </p>
-    </div>
-  <% end %>
-  <%= call_hook(:view_projects_show_left, :project => @project) %>
-</div>
+    <%= call_hook(:view_projects_show_left, :project => @project) %>
+  </div>
 
-<div class="splitcontentright">
-  <%= render :partial => 'members_box' %>
+  <div class="grid-content">
+    <%= render :partial => 'members_box' %>
 
-  <% if @news.any? && authorize_for('news', 'index') %>
-    <div class="news content-box">
-      <h3><%=l(:label_news_latest)%></h3>
-      <%= render :partial => 'news/news', :collection => @news %>
-      <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button -highlight' %></p>
-    </div>
-  <% end %>
-  <%= call_hook(:view_projects_show_right, :project => @project) %>
+    <% if @news.any? && authorize_for('news', 'index') %>
+      <div class="news content-box">
+        <h3><%=l(:label_news_latest)%></h3>
+        <%= render :partial => 'news/news', :collection => @news %>
+        <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button -highlight' %></p>
+      </div>
+    <% end %>
+    <%= call_hook(:view_projects_show_right, :project => @project) %>
+  </div>
 </div>
 
 <% content_for :sidebar do %>

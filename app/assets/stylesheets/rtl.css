@@ -76,8 +76,7 @@ tr.time-entry td.subject, tr.time-entry td.comments { text-align: right; }
 #sidebar { float: left; }
 #main.nosidebar #content { border-width: 1px; border-style: solid; border-color: #D7D7D7 #BBBBBB #BBBBBB #D7D7D7;}
 .tabular.settings label { margin-left: auto; }
-.splitcontentleft { float: right; }
-.splitcontentright { float: left; }
+
 p.progress-info { clear: right; }
 table.list td.buttons a { padding-right: 20px; }
 .filecontent { direction: ltr; }

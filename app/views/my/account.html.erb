@@ -41,8 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
                           :builder => TabularFormBuilder,
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
-  <div>
-    <div class="splitcontentleft">
+  <div class="grid-block">
+    <div class="grid-content">
       <h3><%=l(:label_information_plural)%></h3>
       <div class="box tabular">
         <p><%= f.text_field :firstname, :required => true %></p>
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 
-    <div class="splitcontentright">
+    <div class="grid-content">
       <h3><%= User.human_attribute_name(:mail_notification) %></h3>
       <div class="box">
         <%= render :partial => 'users/mail_notifications' %>

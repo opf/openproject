@@ -26,51 +26,54 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<div class="splitcontentleft">
-  <% if @group.users.any? %>
-    <table class="list users">
-      <thead>
-        <tr>
-          <th><%= User.model_name.human %></th>
-          <th style="width:15%"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @group.users.sort.each do |user| %>
-          <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
-            <td class="user"><%= link_to_user user %></td>
-            <td class="buttons">
-              <%= link_to l(:button_delete), member_of_group_path(@group, user),
-                                         :method => :delete,
-                                         :remote => :true,
-                                         :class => 'icon icon-delete' %>
-            </td>
+
+<div class="grid-block">
+  <div class="grid-content">
+    <% if @group.users.any? %>
+      <table class="list users">
+        <thead>
+          <tr>
+            <th><%= User.model_name.human %></th>
+            <th style="width:15%"></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% end %>
-</div>
-<div class="splitcontentright">
-  <% users = User.active.not_in_group(@group).all(:limit => 100) %>
-  <% if users.any? %>
-    <%= form_tag(members_of_group_path(@group), :method => :post, :remote => true) do |f| %>
-      <fieldset><legend><%=l(:label_user_new)%></legend>
-        <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-        <%= observe_field(:user_search,
-                      :frequency => 0.5,
-                      :update => :users,
-                      :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
-                      :with => 'q',
-                      :method => :get)
-                  %>
-        <div id="users">
-          <%= principals_check_box_tags 'user_ids[]', users %>
-        </div>
-        <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
-      </fieldset>
+        </thead>
+        <tbody>
+          <% @group.users.sort.each do |user| %>
+            <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
+              <td class="user"><%= link_to_user user %></td>
+              <td class="buttons">
+                <%= link_to l(:button_delete), member_of_group_path(@group, user),
+                                           :method => :delete,
+                                           :remote => :true,
+                                           :class => 'icon icon-delete' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
     <% end %>
-  <% end %>
+  </div>
+  <div class="grid-content">
+    <% users = User.active.not_in_group(@group).all(:limit => 100) %>
+    <% if users.any? %>
+      <%= form_tag(members_of_group_path(@group), :method => :post, :remote => true) do |f| %>
+        <fieldset><legend><%=l(:label_user_new)%></legend>
+          <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
+          <%= observe_field(:user_search,
+                        :frequency => 0.5,
+                        :update => :users,
+                        :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
+                        :with => 'q',
+                        :method => :get)
+                    %>
+          <div id="users">
+            <%= principals_check_box_tags 'user_ids[]', users %>
+          </div>
+          <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+        </fieldset>
+      <% end %>
+    <% end %>
+  </div>
 </div>
