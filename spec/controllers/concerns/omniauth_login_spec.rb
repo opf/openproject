@@ -36,8 +36,8 @@ describe AccountController, :type => :controller do
 
   before do
     # instance specific authorization doesn't need to be tested here
-    allow(Subscribem::Authorization).to receive(:authorize_user).and_return(true)
-    allow(Subscribem::Authorization).to receive(:update_admin_flag).and_return(true)
+    allow(OpenProject::Multitenancy::Authorization).to receive(:authorize_user).and_return(true)
+    allow(OpenProject::Multitenancy::Authorization).to receive(:update_admin_flag).and_return(true)
   end
 
   context 'GET #omniauth_login' do

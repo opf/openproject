@@ -1,7 +1,7 @@
-require 'subscribem/delayed_job/hooks'
+require 'multitenancy/delayed_job/hooks'
 
 class DeliverWorkPackageUpdatedJob
-  include Subscribem::Delayed::Job::Hooks
+  include Multitenancy::Delayed::Job::Hooks
 
   def initialize(user_id, journal_id, current_user_id)
     super

@@ -1,7 +1,7 @@
-require 'subscribem/delayed_job/hooks'
+require 'multitenancy/delayed_job/hooks'
 
 class DeleteUserJob
-  include Subscribem::Delayed::Job::Hooks
+  include Multitenancy::Delayed::Job::Hooks
 
   def initialize(user_id)
     super

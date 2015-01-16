@@ -27,11 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'subscribem/constraints/subdomain_required'
-
 OpenProject::Application.routes.draw do
-  constraints(Subscribem::Constraints::SubdomainRequired) do
-
   root :to => 'welcome#index', :as => 'home'
   mount API::Root => '/'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
@@ -576,8 +572,4 @@ OpenProject::Application.routes.draw do
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   root :to => 'account#login'
-
-  end
-
-  mount Subscribem::Engine => "/"
 end
