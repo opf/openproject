@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   available_roles - user.global_roles(true)
 end%>
 
-<div class="splitcontentright" id="available_principal_roles">
+<div class="grid-content" id="available_principal_roles">
 <fieldset><legend><%= Role.model_name.human(:count => 2) %></legend>
 <span id="additional_principal_roles">
 <%= form_for(:principal_roles, :url => principal_roles_path, :method => :post, :remote => :true) do %>
