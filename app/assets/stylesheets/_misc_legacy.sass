@@ -1,0 +1,916 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+/*
+  IMPORTANT!
+
+  This is a "junk-drawer" containing CSS rule sets that could not be easily
+  placed elsewhere. Pleade DO NOT add to this file. Instead MOVE, refactor or
+  REMOVE with ruthlessness.
+
+#watchers
+  ul
+    margin: 0
+    padding: 0
+
+  a.delete
+    opacity: 0.4
+    &:hover
+      opacity: 1
+
+.highlight
+  background-color: #FCFD8D
+  &.token-1
+    background-color: #faa
+  &.token-2
+    background-color: #afa
+  &.token-3
+    background-color: #aaf
+
+div.square
+  border: 1px solid #999
+  float: left
+  margin: .3em .4em 0 .4em
+  overflow: hidden
+  width: .6em
+  height: .6em
+
+.contextual
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: 8px
+  padding-left: 10px
+  input, select
+    font-size: 0.9em
+
+.message .contextual
+  margin-top: 0
+
+form
+  display: inline
+
+fieldset
+  border: 1px solid #e4e4e4
+  margin: 0
+
+hr
+  width: 100%
+  height: 1px
+  background: #ccc
+  border: 0
+
+blockquote
+  font-style: italic
+  border-left: 3px solid #e0e0e0
+  padding-left: 0.6em
+  margin-left: 2.4em
+  blockquote
+    margin-left: 0
+
+li p
+  margin-top: 0
+
+p
+  &.breadcrumb
+    font-size: 0.9em
+    margin: 4px 0 4px 0
+  &.subtitle
+    font-size: 0.9em
+    margin: -6px 0 12px 0
+    font-style: italic
+  &.footnote
+    font-size: 0.9em
+    margin-top: 0
+    margin-bottom: 0
+
+div.issue div.subject
+  div div
+    padding-left: 16px
+  p
+    margin: 0
+    margin-bottom: 0.1em
+    font-size: 90%
+    color: #999
+  > div > p
+    margin-top: 0.5em
+
+.buttons
+  margin-bottom: 1.4em
+  margin-top: 1em
+
+div
+  &#work_package-changesets
+    float: right
+    width: 45%
+    margin: 1em 0 1em 1em
+    background: #fff
+    padding-left: 1em
+    h3
+      margin-top: 0
+    div.changeset
+      padding: 4px
+      border-bottom: 1px solid #ddd
+    p
+      margin-top: 0
+      margin-bottom: 1em
+  &#activity dl
+    margin-left: 2em
+
+#search-results
+  margin-left: 2em
+
+div#activity dd, #search-results dd
+  margin-bottom: 1em
+  padding-left: 18px
+  font-size: 0.9em
+
+div#activity
+  dt
+    &.me .time
+      border-bottom: 1px solid #999
+    .time
+      color: #777
+      font-size: 80%
+  dd .description
+    font-style: italic
+
+#search-results dd .description
+  font-style: italic
+
+div#activity span.project:after, #search-results span.project:after
+  content: " -"
+
+div#activity dd span.description
+  display: block
+  color: #808080
+
+#search-results dd
+  span.description
+    display: block
+    color: #808080
+  margin-bottom: 1em
+  padding-left: 20px
+  margin-left: 0
+
+div#search-results-counts
+  float: right
+  ul
+    margin-top: 0.5em
+  li
+    list-style-type: none
+    float: left
+    margin-left: 1em
+
+.search-pagination
+  text-align: center
+  a
+    padding: 0 5px
+
+#project-search-container .select2-container
+  display: block
+
+div
+  &#roadmap
+    .related-issues
+      border: 0
+      margin-bottom: 1em
+      td.checkbox
+        display: none
+    .wiki
+      h1
+        &:first-child
+          display: none
+        font-size: 120%
+      h2
+        font-size: 110%
+  &#version-summary
+    float: right
+    width: 380px
+    margin-left: 16px
+    margin-bottom: 16px
+    background-color: #fff
+    fieldset
+      margin-bottom: 1em
+    .total-hours
+      text-align: right
+
+.top-page
+  width: 100%
+  border-bottom: 1px solid #bbbbbb
+  margin: 0 0 10px
+  h2
+    padding-right: 0 !important
+    border: none
+    margin: 0
+    text-align: left
+    display: block
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
+  ul
+    margin: 0
+    text-align: right
+    white-space: nowrap
+
+form .attributes
+  margin-bottom: 8px
+  overflow: auto
+  p
+    padding-top: 1px
+    padding-bottom: 2px
+  select
+    min-width: 50%
+
+ul.projects
+  margin: 0
+  padding-left: 1em
+  &.root
+    margin: 0
+    padding: 0
+  ul
+    border: none
+    &.projects
+      border-left: 3px solid #e0e0e0
+  li
+    &.root
+      list-style-type: none
+      margin-bottom: 1em
+    &.child
+      list-style-type: none
+      margin-top: 1em
+  div.root a.project
+    font-weight: bold
+    margin: 0 0 10px 0
+
+#type_project_ids
+  ul
+    margin: 0
+    padding-left: 1em
+  li
+    list-style-type: none
+
+ul.properties
+  padding: 0
+  font-size: 0.9em
+  color: #333
+  li
+    list-style-type: none
+    span
+      font-style: italic
+
+.total-hours
+  font-size: 110%
+  font-weight: bold
+  span.hours-int
+    font-size: 120%
+
+.autoscroll
+  overflow-x: auto
+  padding: 1px
+  margin-bottom: 1.2em
+
+#workflow_copy_form select
+  width: 200px
+
+textarea#custom_field_possible_values
+  width: 99%
+
+
+input.attachment_choose_file
+  float: left
+  margin-right: 10px
+
+div.attachment_field
+  height: 30px
+
+#attachments
+  font-size: 1em
+
+#attachments_fields input[type=text]
+  margin-left: 8px
+
+div.attachments
+  margin-top: 12px
+  p
+    margin: 4px 0 2px 0
+  img
+    vertical-align: middle
+  span.author
+    font-size: 0.9em
+    color: #888
+
+p.other-formats
+  font-size: 0.9em
+  color: #666
+
+.other-formats span + span:before
+  content: "| "
+
+/* Project members tab
+
+div
+  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset
+    padding: 1em
+  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset, &#tab-content-members fieldset p
+    margin-bottom: 1em
+  &#tab-content-info fieldset legend, &#tab-content-members fieldset legend, &#tab-content-memberships fieldset legend, &#tab-content-users fieldset legend
+    font-weight: bold
+  &#tab-content-members
+    .user.status_registered, label.status_registered
+      opacity: 0.8
+
+input#user_search
+  width: 100%
+
+* html div#tab-content-members fieldset div
+  height: 450px
+
+div#tab-content-members fieldset div
+  &.select-boxes label
+    display: inline-block
+    width: 350px
+    /* max-width of select2boxes
+  &.select-boxes .select2-container
+    float: left
+    font-weight: normal
+
+.quick_info
+  padding-bottom: 0.5em
+  &.attributes .label
+    font-weight: bold
+
+#activity dt
+  clear: left
+
+.journal-link
+  float: right
+
+h2 img
+  vertical-align: middle
+
+h1.title
+  margin: 12px 24px 9px
+
+.extras-actions
+  padding: 5px 10px
+  position: relative
+  a
+    border: 0
+    color: #000
+    padding-left: 18px
+    margin-right: 10px
+    cursor: pointer
+    font-family: inherit
+
+form#issue-list
+  position: relative
+
+#multiple-action-buttons
+  float: left
+  margin: 10px 0
+  li
+    float: left
+    margin-right: 10px
+
+div.issue hr
+  margin-top: 10px
+  margin-bottom: 10px
+  clear: both
+
+#content div.issue h3, div.issue h3
+  border: 0
+  margin-top: -6px
+  margin-bottom: 0
+
+#content div.issue table
+  td
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0
+  th
+    background: none
+    border: 0 none
+    padding: 0 3px
+    padding-left: 0
+    font-weight: bold
+
+.attachments h4
+  margin-bottom: 6px
+  background: image-url("files-showhide.png") no-repeat right bottom
+  cursor: pointer
+  &.closed
+    background-position: right 5px
+
+table.files
+  display: table
+
+#content table.files
+  td
+    border: 0
+    background: none
+  th
+    border: 0
+    background: none
+    font-weight: bold
+    padding: 1px
+  border: 0
+  background: none
+  td
+    color: #555
+    padding: 1px
+  .opt-desc
+    width: 60%
+  td a
+    position: relative
+
+.question-line
+  display: block
+
+#content blockquote
+  padding-left: 22px
+
+.wiki
+  ol, ul
+    padding-left: 22px
+
+blockquote
+  font-style: italic
+  background: image-url("blockquote-bg.png") no-repeat 5px 3px
+
+.file-thumbs
+  margin: 20px 0 0
+  overflow: hidden
+  float: left
+  a
+    display: block
+    float: left
+    margin-right: 10px
+    text-align: center
+    img
+      display: block
+      margin: 0 auto 5px
+      border: 1px solid #226D81
+      &.pdf
+        border: 0
+
+#project-links
+  right: 30px
+  color: #ccc
+  font-weight: bold
+
+.nosidebar
+  blockquote
+    margin: 1em 0
+  p
+    margin-bottom: 1em
+
+li
+  &.root
+    margin-bottom: 24px
+
+.nosidebar ul.projects
+  margin: 24px 0 0
+  ul
+    margin: 0
+
+ul.projects .description
+
+.nosidebar ul.projects li
+  list-style: none outside none
+  background: none
+
+ul.projects
+  a
+    font-weight: bold
+  li div.root
+    margin-bottom: 12px
+
+.profile-wrap
+  float: right
+  position: relative
+  width: 42px
+  height: 42px
+  top: 7px
+  right: 14px
+
+.profile-box
+  position: absolute
+  right: 0
+  top: 45px
+  width: 205px
+  display: none
+  z-index: 10
+
+.issue .profile-box ul
+  background: image-url("profile-arrow-up.png") no-repeat 175px top
+  position: relative
+  z-index: 11
+  top: -8px
+  padding-top: 8px
+  margin-bottom: -8px
+
+.profile-box
+  ul li
+    border-top: 1px solid #fff
+    border-bottom: 1px solid #ddd
+    padding: 5px 10px
+    &:first-child
+      border-top: 0
+    &:last-child
+      border-bottom: 0
+
+/* file table hovers
+
+a.has-thumb
+  img
+    position: absolute
+    display: none
+    border: 1px solid #a6c6cf
+    padding: 4px
+    background: #fff
+    border-radius: 3px
+  &.active
+    left: -10px
+    background: image-url("thumb-arrow-right.png") no-repeat left center
+    padding-left: 10px
+    margin-right: -10px
+
+td.issue div.issue-wrap-outer
+  position: relative
+
+.menu li
+  position: relative
+  &:first-child
+    border-top: 0
+  &:last-child
+    border-bottom: 0
+
+.inline
+  display: inline
+
+form#issue-list
+  display: block
+
+.js-tooltip
+  width: 100%
+
+.js-tooltip-inner
+  width: 100%
+  max-height: none
+
+.js-tooltip .issue-tooltip-description
+  max-height: 200px
+  overflow: hidden
+
+/* roadmap breathing
+
+#roadmap h3
+  margin: 21px 0 12px
+
+div#roadmap fieldset.related-issues
+  margin: 12px 0
+  padding: 6px 12px
+  border-radius: 5px
+
+#roadmap fieldset legend
+  font-style: italic
+
+tr.context-menu-selection td.priority
+  background: none !important
+
+ul.projects div.root a.project
+  font-family: inherit
+
+/* tables don't all need border you know
+
+#relations table
+  td, th
+    border: 0 none
+
+div.issue div#relations
+  margin-top: 25px
+
+
+fieldset#columns
+  table
+    width: auto
+  td
+    border: 0
+    vertical-align: middle
+
+/* all kinds of wonderful tweaks
+
+.question pre
+  color: #111
+
+div.issue hr
+  width: auto
+
+.question .wiki
+  margin: 0
+
+.wiki
+  ol, ul
+    margin-bottom: 6px
+
+#content
+  h3
+    margin: 12px 0 6px
+  h2 + h3
+    margin-top: 12px
+
+/* add filter select box on non-issue pages
+
+fieldset#filters div.add-filter
+  text-align: left
+  margin: 0 0 6px 0
+
+.nosidebar
+  #add_filter_select
+    margin-bottom: 6px
+  .box fieldset
+    line-height: 1.5
+    margin: 0 0 12px 180px
+    legend
+      margin-bottom: 6px
+  fieldset ul li
+    background: none
+
+.extras-actions
+  border-top: none
+
+.nosidebar
+  fieldset ul
+    margin-left: 0
+  ol.ui-sortable li
+    list-style: none outside none
+
+tr.time-entry
+  white-space: normal
+
+/* comments
+
+.wiki ol li
+  list-style: decimal inside
+
+/* scm
+
+#content table .changeset td.id a:hover
+  text-decoration: underline
+
+/* issue updates
+
+#update
+  fieldset .box
+    padding: 0
+    border: 0 none
+  .tabular
+    label
+      width: 140px
+      margin-left: -147px
+    p
+      padding-left: 140px
+
+#content table.files .opt-desc
+  width: 45%
+
+/* member settings [pc]
+
+select#member_role_id
+  width: 75px
+
+/* fix for thumbnail jankiness
+
+a.has-thumb
+  &.active
+    left: auto
+    margin-left: -10px
+    margin-right: 0
+    *left: -10px
+    /* IE6 & 7 hacks
+    *margin-left: 0
+  img
+    z-index: 1001
+
+#more-menu.drop-down ul li a.projects
+  border-top: 1px solid #555
+
+.reorder-icons img
+  padding-right: 3px
+  padding-left: 3px
+
+
+
+/* Cut of text with '...' - working on all major browsers and IE6+
+ * not working for Firefox < 7
+
+.ellipsis
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+
+label.label-with-input
+  display: block
+  white-space: nowrap
+  zoom: 1
+  margin-left: 0
+  float: none
+
+fieldset#attachments
+  input, span.add_another_file
+    zoom: 1
+    margin-left: 10px
+    margin-right: 10px
+
+#query_form_content
+  padding-top: 10px
+
+#lower-title-bar
+  div.contextual
+    margin-top: -8px
+  margin-top: 30px
+  margin-left: 10px
+
+#watchers .contextual
+  margin-top: 0
+
+div.work_package_part
+  margin-top: 15px
+  strong
+    text-decoration: underline
+
+div
+  &.issues.box > p, &.mypage-box p
+    margin-top: 15px
+
+  &.overview
+    padding: 6px
+    margin-bottom: 10px
+    line-height: 1.5em
+
+td.table-buttons
+  vertical-align: middle
+
+select#available_columns
+  margin-right: 0
+
+.pages-hierarchy
+  padding-left: 10px
+  list-style-type: disc
+  list-style-position: inside
+
+#menu-sidebar.hidden
+  display: none
+
+div#watchers
+  margin-top: 25px
+  > form > p
+    margin-top: 5px
+
+a > img.imgtag-icon
+  float: left
+  margin-right: 3px
+
+th.checkbox img
+  margin-left: 3px
+  margin-top: 3px
+
+p.buttons
+  margin-left: 10px
+
+div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li
+  padding-right: 10px
+
+strong.related-issues-heading
+  display: block
+  margin-top: 10px
+
+div.indent
+  padding-left: 10px
+
+/* Menu item configuration
+
+.menu-item-form
+  p
+    padding-left: 0
+  label
+    display: inline-block
+    margin-bottom: 10px
+    margin-left: 0
+    width: auto
+    font-weight: bold
+  select#parent_wiki_menu_item
+    margin-left: 7px
+    margin-top: -1px
+  #item-name
+    float: left
+    padding-left: 3px
+    margin-right: 4px
+    line-height: 21px
+  label#with-select
+    margin-left: 0
+  select#parent_wiki_menu_item_wiki_page
+    margin-bottom: 10px
+  p input
+  fieldset#wiki_menu_item_setting
+    margin-top: 10px
+  p
+    &.item-name
+      padding-top: 10px
+    &.main_item
+      padding-bottom: 0
+    &.wiki_menu_item_optional_links
+      margin-left: 10px
+      padding-top: 0
+
+#content
+  #history
+    background: image-url("dotted-separator.gif") repeat-x scroll 0 bottom transparent
+  .wiki-content
+    p, li
+      width: 700px
+
+.required
+  color: #008BD0
+
+/*Gannt chart fix IE 6
+
+.task
+  line-height: 1em
+
+/*Cost-Plugin specific styles
+
+.icon-pieces
+  background-image: image-url("webalys/units.png") !important
+
+.icon-pieces-time
+  background-image: image-url("webalys/time.png") !important
+
+body
+  &.theme-Bsp .buttons .apply, &.theme-Dtag .buttons .apply
+    background-color: #24b3e7
+
+input::-webkit-input-placeholder, :-moz-placeholder
+  color: #000000
+
+#ui-dialog-closer
+  background-image: image-url("modal_close.png")
+  cursor: pointer
+  height: 33px
+  position: absolute
+  right: -15px
+  top: -15px
+  width: 33px
+  z-index: 5000
+
+.ui-datepicker .ui-priority-secondary
+  opacity: 1
+  filter: Alpha(Opacity = 100)
+  font-weight: bold
+
+h4.comment
+  margin-bottom: 8px
+  margin-top: 18px
+  img
+    margin-right: 3px
+
+.action-report table.list
+  display: block
+  overflow: auto
+
+.atwho-view
+  z-index: 25
+  .cur
+    background: #FFFFBB
+    color: #4B4B4B
+    strong
+      color: black
