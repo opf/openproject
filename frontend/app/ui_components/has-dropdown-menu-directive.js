@@ -106,7 +106,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         pointerCssPosition,
         win = angular.element($window),
         menuElement,
-        afterFocusOn = attrs.afterFocusOn
+        afterFocusOn = attrs.afterFocusOn,
         positionRelativeTo = attrs.positionRelativeTo,
         triggerOnEvent = (attrs.triggerOnEvent || 'click') + '.dropdown.openproject';
 
@@ -186,10 +186,10 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         bounds.right = bounds.left + $element.outerWidth();
         bounds.bottom = bounds.top + $element.outerHeight();
         if (viewport.right < bounds.right) {
-          $element.css("left", pointerPosition.left - $element.outerWidth());
+          $element.css('left', pointerPosition.left - $element.outerWidth());
         }
         if (viewport.bottom < bounds.bottom) {
-          $element.css("top", pointerPosition.top - $element.outerHeight());
+          $element.css('top', pointerPosition.top - $element.outerHeight());
         }
       }
 
@@ -241,7 +241,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
       var repositioningEventString = 'resize.dropdown.openproject, mousewheel.dropdown.openproject';
       win
         .off(repositioningEventString)
-        .on(repositioningEventString, function(event) {
+        .on(repositioningEventString, function() {
           $rootScope.$broadcast('openproject.dropdown.reposition');
         });
 
@@ -253,7 +253,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         }
       });
 
-      function handleWindowClickEvent(event) {
+      function handleWindowClickEvent() {
         $rootScope.$broadcast('openproject.dropdown.closeDropdowns');
       }
 

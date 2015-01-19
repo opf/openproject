@@ -58,7 +58,8 @@ describe('workPackageContextMenu', function() {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
-    var template = $templateCache.get('/templates/work_packages/menus/work_package_context_menu.html');
+    var template = $templateCache
+      .get('/templates/work_packages/menus/work_package_context_menu.html');
     $templateCache.put('work_package_context_menu.html', [200, template, {}]);
 
     contextMenu = ngContextMenu({

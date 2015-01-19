@@ -45,7 +45,6 @@ angular.module('openproject.uiComponents')
   .directive('date', ['TimezoneService', require('./date/date-directive')])
   .directive('time', ['TimezoneService', require('./date/time-directive')])
   .directive('dateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
-  .directive('dropdown', require('./dropdown-directive'))
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
