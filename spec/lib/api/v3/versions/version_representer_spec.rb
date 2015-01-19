@@ -72,7 +72,7 @@ describe ::API::V3::Versions::VersionRepresenter do
       end
 
       it 'to available projects' do
-        path = api_v3_paths.versions_projects(version.project.id)
+        path = api_v3_paths.versions_projects(version.id)
 
         expect(subject).to be_json_eql(path.to_json).at_path('_links/availableInProjects/href')
       end
