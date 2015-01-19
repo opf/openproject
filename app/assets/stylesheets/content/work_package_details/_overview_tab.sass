@@ -26,21 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.detail-panel-attributes-group
+.work-package-attributes-group
+  @include grid-block($orientation: vertical)
 
-.detail-panel-description,
-.detail-panel-attributes
-  h3
-    font-size: 1rem
-    font-weight: bold
-    text-transform: uppercase
-    margin:  0 0 15px 0
-    padding: 0 0 6px 0
-    border-bottom: 2px solid #eee
+.work-package-attributes-group--header
+  @include grid-block
+  margin:  0 0 1rem 0
+  padding: 0 0 0.4rem 0
+  border-bottom: 2px solid #eee
+  align-items: flex-end
 
-.detail-panel-attributes
-  width: 100%
+.work-package-attributes-group--header-container
+  @include grid-content
+  padding: 0 1rem 0 0
 
+.work-package-attributes-group--header-toggle
+  @include grid-content(shrink)
+  padding: 0 0 0 1rem
+  color: #777
+
+// HACK. TODO: Remove H3 element rules in various places.
+.work-package-attributes-group--header-text,
+#content h3.work-package-attributes-group--header-text
+  font-size: 1rem
+  font-weight: bold
+  text-transform: uppercase
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0
 
 .work-package-attributes--label-value
   @include grid-block($wrap: true)
@@ -84,9 +98,6 @@
 
 
 .panel-toggler
-  width: 100%
-  color: #777777
-
   span
     background: #ffffff
     padding: 0
