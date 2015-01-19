@@ -7,7 +7,7 @@
   <div class="detail-panel-attributes-group">
     <h3>Details</h3>
 
-    <dl>
+    <dl class="work-package-attributes--label-value">
       <dt class="work-package-attributes--label">Status</dt>
       <dd class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -text">
@@ -38,7 +38,7 @@
   <div class="detail-panel-attributes-group">
     <h3>People</h3>
 
-    <dl>
+    <dl class="work-package-attributes--label-value">
       <dt class="work-package-attributes--label">Assignee</dt>
       <dd class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -user">
@@ -75,7 +75,7 @@
   <div class="detail-panel-attributes-group">
     <h3>Other</h3>
 
-    <dl>
+    <dl class="work-package-attributes--label-value">
       <dt class="work-package-attributes--label">Custom Float</dt>
       <dd class="work-package-attributes--value-container">
         <div class="work-package-attributes--value -float">
@@ -93,6 +93,14 @@
         <div class="work-package-attributes--value -text">
           <span title="Praesent id est eu velit molestie tincidunt. Quisque non dolor diam. Mauris vitae nunc felis. Integer vehicula molestie vehicula. Aliquam in magna eu lorem interdum tincidunt. Fusce egestas, enim vel luctus vulputate, augue tellus aliquam sem, tincidunt lacinia ante mauris at nisi. Vestibulum a magna et magna viverra efficitur. Vestibulum rhoncus ac ligula eget tristique. Vestibulum enim urna, varius eu turpis eget, pretium placerat neque. Vivamus et facilisis eros. Sed gravida lectus ac velit rutrum euismod. Etiam at ex condimentum, vestibulum elit non, aliquam ex.">
           Praesent id est eu velit molestie tincidunt. Quisque non dolor diam. Mauris vitae nunc felis. Integer vehicula molestie vehicula. Aliquam in magna eu lorem interdum tincidunt. Fusce egestas, enim vel luctus vulputate, augue tellus aliquam sem, tincidunt lacinia ante mauris at nisi. Vestibulum a magna et magna viverra efficitur. Vestibulum rhoncus ac ligula eget tristique. Vestibulum enim urna, varius eu turpis eget, pretium placerat neque. Vivamus et facilisis eros. Sed gravida lectus ac velit rutrum euismod. Etiam at ex condimentum, vestibulum elit non, aliquam ex.
+          </span>
+        </div>
+      </dd>
+      <dt class="work-package-attributes--label">Custom Description with Long Label</dt>
+      <dd class="work-package-attributes--value-container">
+        <div class="work-package-attributes--value -text">
+          <span title="Praesent id est eu velit molestie tincidunt. Quisque non dolor diam. Mauris vitae nunc felis. Integer vehicula molestie vehicula.">
+          Praesent id est eu velit molestie tincidunt. Quisque non dolor diam. Mauris vitae nunc felis. Integer vehicula molestie vehicula.
           </span>
         </div>
       </dd>

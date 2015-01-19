@@ -43,9 +43,6 @@
   margin: 3px 0 0 0
   width: 100%
 
-  dd, dt
-    margin: 0 0 10px 0
-
 .detail-panel-attributes-toggler
   float: left
   margin: 10px 0 0 0
@@ -53,23 +50,21 @@
   text-align: center
   border-bottom: 1px solid #ddd
 
-@mixin work-package-attribute-margin
-  margin: 0 0 12px 0
+.work-package-attributes--label-value
+  @include grid-block($wrap: true)
 
 .work-package-attributes--label
-  @include work-package-attribute-margin
+  @include grid-content(4)
+  margin-bottom: 0.4rem
+  padding: 0 1rem 0 0
   font-weight: bold
-  padding: 0 4px 0 0
-  float: left
-  clear: left
-  width: 33%
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
 
 .work-package-attributes--value-container
-  @include work-package-attribute-margin
-  padding: 0 4px 0 0
+  @include grid-content(8)
+  margin-bottom: 0.4rem
 
 .work-package-attributes--value
   &.-user
