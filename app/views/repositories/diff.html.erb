@@ -27,15 +27,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+
+<% content_for :action_menu_specific do %>
+  <li>
+    <!-- Choose view type -->
+    <%= form_tag({:path => to_path_param(@path)}, :method => 'get') do %>
+      <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
+      <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
+      <span class='legacy-actions--inline-label'>
+        <label class='form-label -transparent'><%= l(:label_view_diff) %></label>
+        <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
+      </span>
+    <% end %>
+  </li>
+<% end %>
+
 <h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%=h @path %></h2>
 
-<!-- Choose view type -->
-<%= form_tag({:path => to_path_param(@path)}, :method => 'get') do %>
-  <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
-  <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
-  <p><label><%= l(:label_view_diff) %></label>
-    <%= select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type), :onchange => "if (this.value != '') {this.form.submit()}" %></p>
-<% end %>
+<%= render :partial => 'layouts/action_menu_specific' %>
+
+<span class="clear"></span>
+
 <% cache(@cache_key) do -%>
   <%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
 <% end -%>

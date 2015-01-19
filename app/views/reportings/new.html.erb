@@ -48,12 +48,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>
 
-    <p>
-      <label for="reporting_reporting_to_project_id">
+    <span class='inline-label'>
+      <label for="reporting_reporting_to_project_id" class="form-label -transparent">
         <%= Reporting.human_attribute_name(:reporting_to_project_id) %>
       </label>
-      <%# f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
-
 
       <% if User.current.impaired? %>
         <%= f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
@@ -68,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
       %>
       <% end %>
 
-    </p>
+    </span>
   </fieldset>
 
   <br/>
