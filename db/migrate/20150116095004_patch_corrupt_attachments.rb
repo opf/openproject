@@ -23,9 +23,9 @@ class PatchCorruptAttachments < ActiveRecord::Migration
   end
 
   def down
-    puts "Can't revert this migration as it would mean breaking valid attachments. \
-          Even if we wanted to do that we can't know which ones were broken before \
-          to only break those again.".squish
+    puts "Won't revert this migration as it would mean breaking valid attachments. \
+          We could break the attachments with missing files again by deleting their
+          file column to restore the state before the migration. But that doesn't help.".squish
   end
 
   def patch_attachment(attachment)
