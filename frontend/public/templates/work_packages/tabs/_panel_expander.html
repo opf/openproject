@@ -1,6 +1,6 @@
 <div class="panel-toggler"
      ng-click="collapsed = !collapsed">
-  <accessible-by-keyboard>
+  <accessible-by-keyboard link-class="button -small -transparent {{ !collapsed ? '-active' : '' }}">
     <span ng-if="!collapsed">
       <span ng-bind="collapseText"/>
     </span>

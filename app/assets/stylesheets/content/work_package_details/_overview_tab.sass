@@ -43,7 +43,9 @@
 .work-package-attributes-group--header-toggle
   @include grid-content(shrink)
   padding: 0 0 0 1rem
-  color: #777
+
+  .button
+    margin: 0.25rem 0
 
 // HACK. TODO: Remove H3 element rules in various places.
 .work-package-attributes-group--header-text,
@@ -95,17 +97,3 @@
     li
       margin: 0 0 20px 0
       padding: 0
-
-
-.panel-toggler
-  span
-    background: #ffffff
-    padding: 0
-    font-size: 0.75rem
-  i
-    background: #ffffff
-    padding: 0 10px 0 0
-  a
-    color: inherit
-    &:hover
-      text-decoration: inherit

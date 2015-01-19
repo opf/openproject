@@ -9,7 +9,7 @@
       <h3 class="work-package-attributes-group--header-text">Details</h3>
     </div>
     <div class="work-package-attributes-group--header-toggle">
-      Show all
+      <a href="#" class="button -small -transparent">Show all</a>
     </div>
   </div>
 
