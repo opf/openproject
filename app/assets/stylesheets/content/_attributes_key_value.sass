@@ -26,42 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.work-package-attributes-group
-  @include grid-block($orientation: vertical)
-
-.work-package-attributes-group--header
-  @include grid-block
-  margin:  0 0 1rem 0
-  padding: 0 0 0.4rem 0
-  border-bottom: 2px solid #eee
-  align-items: flex-end
-
-.work-package-attributes-group--header-container
-  @include grid-content
-  padding: 0 1rem 0 0
-
-.work-package-attributes-group--header-toggle
-  @include grid-content(shrink)
-  padding: 0 0 0 1rem
-
-  .button
-    margin: 0 0 1px 0
-
-// HACK. TODO: Remove H3 element rules in various places.
-.work-package-attributes-group--header-text,
-#content h3.work-package-attributes-group--header-text
-  font-size: 1rem
-  font-weight: bold
-  text-transform: uppercase
-  // properties to reset h3
-  margin: 0
-  padding: 0
-  border: 0
-
-.work-package-attributes--label-value
+.attributes-key-value
   @include grid-block($wrap: true)
 
-.work-package-attributes--label
+.attributes-key-value--key
   @include grid-content(4)
   margin-bottom: 0.4rem
   padding: 0 1rem 0 0
@@ -72,10 +40,10 @@
   overflow: hidden
   white-space: nowrap
 
-.work-package-attributes--value-container
+.attributes-key-value--value-container
   @include grid-content(8)
   margin-bottom: 0.4rem
 
-.work-package-attributes--value
+.attributes-key-value--value
   &.-user
     overflow: hidden

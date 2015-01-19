@@ -1,14 +1,14 @@
-<div class="work-package-attributes-group">
+<div class="attributes-group">
 
-  <div class="work-package-attributes-group--header">
-    <div class="work-package-attributes-group--header-container">
-      <h3 class="work-package-attributes-group--header-text">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
         {{ I18n.t('js.label_description') }}
       </h3>
     </div>
   </div>
 
-  <div class="work-package-single-attribute wiki">
+  <div class="single-attribute wiki">
     <span inplace-editor
           ined-type="wiki_textarea"
           ined-entity="workPackage"
@@ -20,14 +20,14 @@
   </div>
 </div>
 
-<div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="work-package-attributes-group">
+<div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="attributes-group">
 
-  <div class="work-package-attributes-group--header">
-    <div class="work-package-attributes-group--header-container">
-      <h3 class="work-package-attributes-group--header-text"
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
         ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
     </div>
-    <div class="work-package-attributes-group--header-toggle">
+    <div class="attributes-group--header-toggle">
       <panel-expander ng-if="anyEmptyWorkPackageValue() && $first"
         collapsed="toggleStates.hideAllAttributes"
         expand-text="{{ I18n.t('js.label_show_attributes') }}"
@@ -36,17 +36,17 @@
     </div>
   </div>
 
-  <dl class="work-package-attributes--label-value">
+  <dl class="attributes-key-value">
     <dt ng-repeat-start="propertyData in group.attributes"
         ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
         ng-bind="propertyData.label"
-        class="work-package-attributes--label">
+        class="attributes-key-value--key">
     </dt>
     <dd ng-repeat-end
         ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
-        class="work-package-attributes--value-container">
+        class="attributes-key-value--value-container">
       <div ng-if="inplaceProperties[propertyData.property]"
-        ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+        ng-class="['attributes-key-value--value', '-' + propertyData.format]">
         <div inplace-editor
           ined-type="{{inplaceProperties[propertyData.property].type}}"
           ined-entity="workPackage"
@@ -56,10 +56,10 @@
         </div>
       </div>
       <div ng-if="!inplaceProperties[propertyData.property]"
-        ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+        ng-class="['attributes-key-value--value', '-' + propertyData.format]">
         <empty-element ng-if="propertyData.value === null"></empty-element>
         <div ng-if="propertyData.value !== null" ng-switch="propertyData.format">
-          <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
+          <div ng-class="['attributes-key-value--value', '-' + propertyData.format]">
             <span ng-switch-when="dynamic" work-package-dynamic-attribute
                                            html-element="propertyData.value"
                                            work-package="workPackage">
