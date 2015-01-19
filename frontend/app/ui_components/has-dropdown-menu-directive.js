@@ -106,6 +106,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
         pointerCssPosition,
         win = angular.element($window),
         menuElement,
+        afterFocusOn = attrs.afterFocusOn
         positionRelativeTo = attrs.positionRelativeTo,
         triggerOnEvent = (attrs.triggerOnEvent || 'click') + '.dropdown.openproject';
 
@@ -154,12 +155,12 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
 
       function close(ignoreFocusOpener) {
         ctrl.close();
-        // for some reason focusing on a TH causes some weird issues
-        // like the first th of the tr being selected
-        if (!ignoreFocusOpener) {
-          FocusHelper.focusElement(element);
-        }
-        contextMenu.close();
+        var disableFocus = false;
+        contextMenu.close(disableFocus).then(function() {
+          if (!ignoreFocusOpener) {
+            FocusHelper.focusElement(afterFocusOn ? element.find(afterFocusOn) : element);
+          }
+        });
       }
 
       function positionDropdown() {

@@ -107,6 +107,7 @@
             trigger-on-event="contextmenu"
             target="WorkPackageContextMenu"
             locals="rows,row"
+            after-focus-on=".id a"
             single-click="selectWorkPackage(row, $event)"
             ng-dblclick="showWorkPackageDetails(row)"
             ng-class="[
