@@ -1,5 +1,7 @@
 # Work Package Attributes
 
+## Attributes (Label and Value)
+
 ```
 <div class="work-package-attributes-group">
   <div class="work-package-attributes-group--header">
@@ -134,4 +136,29 @@
     </dd>
   </dl>
 </div>
+```
+
+## Single Attribute
+
+```
+<div class="work-package-attributes-group">
+  <div class="work-package-attributes-group--header">
+    <div class="work-package-attributes-group--header-container">
+      <h3 class="work-package-attributes-group--header-text">Description</h3>
+    </div>
+  </div>
+
+  <div class="work-package-single-attribute wiki-text">
+    <h2>Capítulo uno</h2>
+    <p>En un lugar <em>de la Mancha</em>, de cuyo nombre no quiero acordarme,
+    no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero,
+    adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca que
+    carnero, salpicón las más noches, duelos y quebrantos los sábados, lantejas
+    los viernes, algún palomino de añadidura los domingos, consumían las tres
+    partes de su hacienda. El resto della concluían sayo de velarte, calzas de
+    velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de
+    entresemana se honraba con su vellorí de lo <strong>más fino</strong>.</p>
+  </div>
+</div>
+
 ```
