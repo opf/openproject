@@ -528,6 +528,20 @@ OpenProject::Application.routes.draw do
     post '/my/change_password', action: 'change_password'
     match '/my/first_login', action: 'first_login', via: [:get, :put]
     get '/my/page', action: 'page'
+
+    # A user's own oauth applications
+    get '/my/oauth' => 'oauth#index'
+  end
+
+  # OAuth authorization routes
+  use_doorkeeper do
+    # Do not add global application controller
+    skip_controllers :applications, :authorized_applications
+  end
+  namespace :oauth do
+    # Use our own application controller
+    post '/applications', action: 'register'
+    delete '/applications/:id', action: 'delete_application'
   end
 
   get 'authentication' => 'authentication#index'

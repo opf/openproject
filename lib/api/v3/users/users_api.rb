@@ -55,6 +55,7 @@ module API
               @user  = User.find(params[:id])
             end
 
+            # route_setting :oauth, scope: ['read-only']
             get do
               UserRepresenter.new(@user, current_user: current_user)
             end

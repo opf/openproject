@@ -75,6 +75,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             param: :user_id,
             if: Proc.new { Setting.users_deletable_by_self? },
             html: { class: 'icon2 icon-delete' }
+  menu.push :oauth_applications,
+            { :controller => '/oauth', :action => 'index'},
+            caption: I18n.t('oauth.my_oauth'),
+            html: { class: 'icon2 icon-key' }
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|

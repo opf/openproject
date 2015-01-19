@@ -1,0 +1,49 @@
+<h2><%=l('oauth.my_registered_applications')%></h2>
+
+<%= error_messages_for 'user' %>
+
+<% if applications.nil? || applications.empty? %>
+  <p><%= l('oauth.no_applications_text') %></p>
+<% else %>
+  <table class="list">
+      <thead>
+        <tr>
+          <th><%= Doorkeeper::Application.human_attribute_name(:name) %></th>
+          <% if show_owners %>
+          <th><%= l('oauth.application_owner') %></th>
+          <% end %>
+          <th><%= Doorkeeper::Application.human_attribute_name(:redirect_uri) %></th>
+          <th><%= l('oauth.application_details')%></th>
+          <th></th>
+      </thead>
+      <tbody>
+      <% applications.each do |app| %>
+        <tr>
+          <td class="center"><%= app.name %></td>
+          <% if show_owners %>
+          <td class="center">
+            <% if app.owner.nil? %>
+            -
+            <% else %>
+            <%= link_to h(app.owner.login), edit_user_path(app.owner) %>
+            <% end %>
+          </td>
+          <% end %>
+          <td class="center"><%= app.redirect_uri %></td>
+          <td class="center">
+            <strong><%= Doorkeeper::Application.human_attribute_name(:uid) %></strong>: <%= app.uid %>
+            <br/>
+            <strong><%= Doorkeeper::Application.human_attribute_name(:secret) %></strong>: <%= app.secret %>
+          </td>
+          <td class="buttons">
+            <%= link_to l(:button_delete),
+                   { :controller => :oauth, :action => 'destroy_application', :id => app.id },
+                   :method => :delete,
+                   :class   => 'icon icon-delete',
+                   :confirm => l('oauth.application_destroy_confirmation', :appname => app.name) %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+  </table>
+<% end %>

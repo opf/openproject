@@ -60,19 +60,30 @@ module API
     parser :json, Parser.new
 
     helpers do
+
       def current_user
         return User.current if Rails.env.test?
-        user_id = env['rack.session']['user_id']
+
+        if @oauth_adapter.authenticated?
+          user_id = @oauth_adapter.resource_owner_id
+        else
+          user_id = env['rack.session']['user_id']
+        end
+
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        # Check for valid oauth token for the given scope(s)
+        return if @oauth_adapter.authenticated?
+
+        # Fallback to Session-based authentication
+        raise ::API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
       end
 
       def authorize(permission, context: nil, global: false, user: current_user, allow: true)
         is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized unless is_authorized && allow
+        raise ::API::Errors::Unauthorized unless is_authorized && allow
         is_authorized
       end
 
@@ -113,6 +124,7 @@ module API
 
     # run authentication before each request
     before do
+      @oauth_adapter = OauthAdapter.new(env)
       authenticate
     end
 

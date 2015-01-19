@@ -1141,6 +1141,27 @@ en:
           mb: "MB"
           tb: "TB"
 
+  oauth:
+    app: "API Application"
+    application_owner: "Owner"
+    application_details: "API Details"
+    application_destroy_confirmation: "Really delete OAuth application '%{appname}'?"
+    client_id: "Client ID"
+    grants:
+      created_date: "Approved on"
+      scopes: "Permissions"
+      revoke: "Revoke access"
+    help-text:
+      name: "The name of your application. This will be displayed to other users upon authorization."
+      redirect_uri: "The URL authorized users are redirected to. If you're registering a desktop application, use this URL: %{native_default}"
+      register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+    my_application_grants: "Granted applications"
+    my_oauth: "OAuth Grants and Apps"
+    my_registered_applications: "Registered OAuth applications"
+    no_applications_text: "You have not registered any applications."
+    no_grants_given: "No applications have been granted access to your user account."
+    register_application: "Register OAuth application"
+
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"

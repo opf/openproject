@@ -1151,7 +1151,26 @@ de:
     precision:
       format:
         delimiter: ""
-
+  oauth:
+    app: "API-Anwendung"
+    application_owner: "Besitzer"
+    application_details: "API Details"
+    application_destroy_confirmation: "Möchten Sie die API-Anwendung '%{appname}' wirklich löschen?"
+    client_id: "Client-ID"
+    grants:
+      created_date: "Erlaubt am"
+      scopes: "Berechtigungen"
+      revoke: "Zugriff widerrufen"
+    help-text:
+      name: "Der Name Ihrer API-Anwendung. Diese wird Ihnen und anderen Nutzern im Autorisierungsdialog angezeigt."
+      redirect_uri: "Die URL, an die Nutzer nach Autorisierung weitergeleitet werden. Wenn Sie eine Desktop-Anwendung registrieren, verwenden Sie diese spezielle URL: %{native_default}"
+      register_intro: "Wenn Sie eine eigene API-Anwendung mit OAuth für OpenProject entwickeln, können Sie die Anwendung über dieses Formular registrieren und damit anderen Nutzern zur Verfügung stellen."
+    my_application_grants: "API-Anwendungen mit Zugriffsberechtigung"
+    my_oauth: "OAuth Zugriffe und eigene API-Anwendungen"
+    my_registered_applications: "Ihre eigenen registrierten API-Anwendungen"
+    no_applications_text: "Sie haben keine API-Anwendung mit OpenProject registriert."
+    no_grants_given: "Sie haben bisher keiner API-Anwendung Zugriff auf Ihr Konto gewährt."
+    register_application: "OAuth API-Anwendung registrieren"
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
