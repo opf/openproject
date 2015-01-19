@@ -1,17 +1,13 @@
 <div class="panel-toggler"
      ng-click="collapsed = !collapsed">
-  <fieldset>
-    <legend align="center">
-      <accessible-by-keyboard>
-        <span ng-if="!collapsed">
-          <i class="icon-arrow-right5-3"></i>
-          <span ng-bind="collapseText"/>
-        </span>
-        <span ng-if="collapsed">
-          <i class="icon-arrow-right5-2"></i>
-          <span ng-bind="expandText"/>
-        </span>
-      </accessible-by-keyboard>
-    </legend>
-  </fieldset>
+  <accessible-by-keyboard>
+    <span ng-if="!collapsed">
+      <i class="icon-arrow-right5-3"></i>
+      <span ng-bind="collapseText"/>
+    </span>
+    <span ng-if="collapsed">
+      <i class="icon-arrow-right5-2"></i>
+      <span ng-bind="expandText"/>
+    </span>
+  </accessible-by-keyboard>
 </div>
