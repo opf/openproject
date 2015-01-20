@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -312,6 +312,7 @@ en:
     firstname: "First name"
     group: "Group"
     groupname: "Group name"
+    id: "ID"
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
@@ -1659,6 +1660,7 @@ en:
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_resource:
         "For property '%{property}' a resource of type '%{expected}' is expected but got a resource of type '%{actual}'."
+      invalid_user_status_transition: "The current user account status does not allow this operation."
       multiple_errors: "Multiple fields violated their constraints."
       parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."

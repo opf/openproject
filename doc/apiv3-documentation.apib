@@ -55,6 +55,40 @@ However for the future we plan to add authentication modes that are more suitabl
 
 # Group Basic Objects
 
+# Links
+
+Links to other resources in the API are represented uniformly by so called link objects.
+
+## Properties
+
+| Property  | Description                                                              | Type    | Required | Nullable | Default |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |         |
+| title     | Representative label for the resource                                    | String  |          |          |         |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+
+All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
+link object:
+
+    {
+        "href": null
+    }
+
+whereas `{ }` is not a valid link object. The meaning of `"href": null` is that **no** resource is referenced.
+For example a work package without an assignee will still have an assignee link, but its `href` will be `null`.
+
+If a `title` is present, the client can display the title to the user when referring to the resource.
+
+Templated links are links that contain client replacable parts. Replaceable parts are enclosed in braces. For example
+the link `api/v3/example/{id}` is not complete in itself, but the client needs to replace the string `{id}` itself.
+As of now the API does not indicate the valid replacement values.
+
+The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
+Changes to all other properties will be **silently ignored**.
+
 # Errors
 
 In case of an error, the API will respond with an apropriate HTTP status code.
@@ -70,7 +104,7 @@ Error objects shall give the client additional details about the cause of an err
     * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
-    * It it localized depending on the users preferences
+    * It is localized depending on the users preferences
     * It *must not* include HTML or other kind of markup
     * Error messages form complete sentences including punctuation
 
@@ -139,6 +173,7 @@ embedded errors or simply state that multiple errors occured.
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) The client used an invalid transition in the attempt to change the status of a user account.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
@@ -811,7 +846,15 @@ That is because the main purpose of a form is helping the client to sort out val
                                                 "href": "/api/v3/users/1",
                                                 "title": "John Sheppard - j.sheppard"
                                             },
-                                            "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                            "lock": {
+                                                "href": "/api/v3/users/1/lock",
+                                                "method": "POST"
+                                            },
+                                            "delete": {
+                                                "href": "/api/v3/users/1",
+                                                "method": "DELETE"
+                                            }
                                         },
                                         "id": 1,
                                         "login": "j.sheppard",
@@ -830,7 +873,15 @@ That is because the main purpose of a form is helping the client to sort out val
                                                 "href": "/api/v3/users/2",
                                                 "title": "Jim Sheppard - j.sheppard"
                                             },
-                                            "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                            "lock": {
+                                                "href": "/api/v3/users/1/lock",
+                                                "method": "POST"
+                                            },
+                                            "delete": {
+                                                "href": "/api/v3/users/1",
+                                                "method": "DELETE"
+                                            }
                                         },
                                         "id": 2,
                                         "login": "j.sheppard2",
@@ -1275,8 +1326,8 @@ The request body is the actual string that shall be rendered as HTML string.
                 "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
                 "homepage": "http://openproject.com",
-                "createdOn": "2014-05-21T08:51:20Z",
-                "updatedOn": "2014-05-21T08:51:20Z"
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
             }
 
 ## View project [GET]
@@ -1322,8 +1373,8 @@ The request body is the actual string that shall be rendered as HTML string.
                             "name": "Project example",
                             "description": "Lorem ipsum dolor sit amet",
                             "homepage": "http://openproject.com",
-                            "createdOn": "2014-05-21T08:51:20Z",
-                            "updatedOn": "2014-05-21T08:51:20Z"
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
                         }
                     ]
                 }
@@ -2035,6 +2086,13 @@ This endpoint lists the types that are *available* in a given project.
 
 # Group Users
 
+## Actions:
+| Link                | Description                                                          | Condition                                  |
+|:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
+| delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
+
 ## Linked Properties:
 |  Link               | Description                                   | Type          | Nullable | Supported operations |
 |:-------------------:|---------------------------------------------- | ------------- | -------- | -------------------- |
@@ -2051,9 +2109,15 @@ This endpoint lists the types that are *available* in a given project.
 | name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
 | email       | User's email                                              | String   |             | READ                 |
 | avatar      | URL to user's avatar                                      | String   |             | READ                 |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |
 | createdAt   | Time of creation                                          | DateTime |             | READ                 |
 | updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |
 
+The `status` of a user can be one of:
+
+* `active` - the user can log in with the account
+* `registered` - the user just registered to the instance, he can't log in yet, but will be able to, once the registration is completed
+* `locked` - the user is locked and can't log in
 
 ## User [/api/v3/users/{id}]
 
@@ -2067,7 +2131,17 @@ This endpoint lists the types that are *available* in a given project.
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
                     },
-                    "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                    "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                    "lock": {
+                        "href": "/api/v3/users/1/lock",
+                        "title": "Set lock on j.sheppard",
+                        "method": "POST"
+                    },
+                    "delete": {
+                        "href": "/api/v3/users/1",
+                        "title": "Delete j.sheppard",
+                        "method": "DELETE"
+                    }
                 },
                 "id": 1,
                 "login": "j.sheppard",
@@ -2076,6 +2150,7 @@ This endpoint lists the types that are *available* in a given project.
                 "email": "shep@mail.com",
                 "name": "John Sheppard",
                 "avatar": "https://gravatar/avatar",
+                "status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-21T08:51:20Z"
             }
@@ -2165,7 +2240,15 @@ Permanently deletes the specified user account.
                                     "href": "/api/v3/users/1",
                                     "title": "John Sheppard - j.sheppard"
                                 },
-                                "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                "lock": {
+                                    "href": "/api/v3/users/1/lock",
+                                    "method": "POST"
+                                },
+                                "delete": {
+                                    "href": "/api/v3/users/1",
+                                    "method": "DELETE"
+                                }
                             },
                             "id": 1,
                             "login": "j.sheppard",
@@ -2184,7 +2267,15 @@ Permanently deletes the specified user account.
                                     "href": "/api/v3/users/2",
                                     "title": "Jim Sheppard - j.sheppard"
                                 },
-                                "groupMemberships": { "href": "/api/v3/users/1/groups" }
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                "lock": {
+                                    "href": "/api/v3/users/1/lock",
+                                    "method": "POST"
+                                },
+                                "delete": {
+                                    "href": "/api/v3/users/1",
+                                    "method": "DELETE"
+                                }
                             },
                             "id": 2,
                             "login": "j.sheppard2",
@@ -2221,6 +2312,108 @@ This endpoint lists the users that are member of the given group.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified group does not exist."
+            }
+
+## User Account Locking [/api/v3/users/{id}/lock]
+
+**NOT IMPLEMENTED**
+
+## Set Lock [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for locking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Remove Lock [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for unlocking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unlock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
             }
 
 # Group Versions
@@ -2511,7 +2704,8 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "title": "New"
                     },
                     "version": {
-                        "href": "/api/v3/versions/1"
+                        "href": "/api/v3/versions/1",
+                        "title": "Version 1"
                     },
                     "availableWatchers": {
                         "href": "/api/v3/work_packages/1528/available_watchers",
@@ -2710,27 +2904,6 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
-+ Model
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
-
 ## Add watcher [POST]
 
 + Parameters
@@ -2744,7 +2917,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Add Watcher][]
+    [User][]
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
@@ -2765,8 +2938,8 @@ For more details and all possible responses see the general specification of [Fo
                 "_links": {
                     "self": { "href": "/api/v3/work_packages/14/available_watchers" }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -2774,55 +2947,59 @@ For more details and all possible responses see the general specification of [Fo
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
@@ -2912,8 +3089,8 @@ updated activity.
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -2921,55 +3098,59 @@ updated activity.
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
@@ -3018,8 +3199,8 @@ Gets a list of users and groups that can be assigned to work packages in the giv
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -3027,55 +3208,59 @@ Gets a list of users and groups that can be assigned to work packages in the giv
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2",
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2",
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }

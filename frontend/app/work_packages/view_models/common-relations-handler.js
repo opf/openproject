@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
       WorkPackageService.addWorkPackageRelation(this.workPackage, scope.relationToAddId, this.relationsId).then(function(relation) {
         scope.relationToAddId = '';
         scope.updateFocus(-1);
-        scope.$emit('workPackageRefreshRequired', '');
+        scope.$emit('workPackageRefreshRequired');
       }, function(error) {
         ApiHelper.handleError(scope, error);
       });
@@ -72,49 +72,17 @@ module.exports = function($timeout, WorkPackageService, ApiHelper, PathHelper, M
       WorkPackageService.removeWorkPackageRelation(scope.relation).then(function(response){
           handler.relations.splice(index, 1);
           scope.updateFocus(index);
+          scope.$emit('workPackageRefreshRequired');
         }, function(error) {
           ApiHelper.handleError(scope, error);
         });
     },
 
     applyCustomExtensions: function() {
-      if(this.canAddRelation) {
+      if (this.canAddRelation) {
         var workPackage = this.workPackage;
         var relationsId = this.relationsId;
         var handler = this;
-
-        $timeout(function() { handler.addAutocompleter(MAX_AUTOCOMPLETER_ADDITION_ITERATIONS, workPackage, relationsId); });
-      }
-    },
-
-    addAutocompleter: function(retries, workPackage, relationsId) {
-      var projectId = workPackage.props.projectId;
-      var workPackageId = workPackage.props.id;
-
-      if (angular.element('#relation_to_id-' + relationsId).size() === 1) {
-        // Massive hack alert - Using old prototype autocomplete ///////////
-        var url = PathHelper.staticWorkPackageAutoCompletePath(projectId, workPackageId);
-        new Ajax.Autocompleter('relation_to_id-' + relationsId,
-                               'related_issue_candidates-' + relationsId,
-                               url,
-                               { minChars: 1,
-                                 frequency: 0.5,
-                                 paramName: 'q',
-                                 updateElement: function(value) {
-                                   // Have to use the duplicate assignment here to update the field
-                                   // * to the user
-                                   // * to the angular scope
-                                   // Doing just one will not suffice.
-                                   angular.element('#relation_to_id-' + relationsId).val(value.id)
-                                                                                    .scope().relationToAddId = value.id;
-                                 },
-                                 parameters: 'scope=all'
-                                 });
-          ////////////////////////////////////////////////////////////////////
-      } else if (retries > 0) {
-        var handler = this;
-
-        $timeout(function() { handler.addAutocompleter(--retries, workPackage, relationsId); });
       }
     },
 

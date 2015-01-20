@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -327,6 +327,15 @@ class User < Principal
   def locked?
     status == STATUSES[:locked]
   end
+
+  ##
+  # Allows the API and other sources to determine locking actions
+  # on represented collections of children of Principals.
+  # This only covers the transition from:
+  # lockable?: active -> locked.
+  # activatable?: locked -> active.
+  alias_method :lockable?, :active?
+  alias_method :activatable?, :locked?
 
   def activate
     self.status = STATUSES[:active]

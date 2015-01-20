@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,6 +95,33 @@ class ActiveSupport::TestCase
 
     # initializes the mocking features
     RSpec::Mocks.setup
+
+    OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
+
+    initialize_attachments
+  end
+
+  ##
+  # Attachments generated through fixtures do not files associated with them even
+  # when one provides them within the fixture yml. Dunno why.
+  #
+  # This method fixes that. Tries to lookup existing files. Generates temporary files
+  # where none exist.
+  def initialize_attachments
+    Attachment.all.each do |a|
+      if a.file.filename.nil?
+        begin # existing file under `test/fixtures/files`
+          a.file = uploaded_test_file a.disk_filename,
+                                      a.attributes['content_type'],
+                                      original_filename: a.attributes['filename']
+        rescue # imaginary file: create it on-the-fly
+          a.file = create_uploaded_file name: a.attributes['filename'],
+                                        content_type: a.attributes['content_type']
+        end
+
+        a.save!
+      end
+    end
   end
 
   def teardown
@@ -114,25 +141,6 @@ class ActiveSupport::TestCase
     assert_template "account/login"
     post "/login", :username => login, :password => password
     assert_equal login, User.find(session[:user_id]).login
-  end
-
-  def uploaded_test_file(name, mime)
-    # Shortcut for ActionController::TestUploadedFile.new(ActionController::TestCase.fixture_path + path, type):
-    fixture_file_upload("/files/#{name}", mime, true)
-  end
-
-  # Mock out a file
-  def self.mock_file
-    file = 'a_file.png'
-    file.stub(:size).and_return(32)
-    file.stub(:original_filename).and_return('a_file.png')
-    file.stub(:content_type).and_return('image/png')
-    file.stub(:read).and_return(false)
-    file
-  end
-
-  def mock_file
-    self.class.mock_file
   end
 
   def save_and_open_page
@@ -156,11 +164,16 @@ class ActiveSupport::TestCase
     FileUtils.rm(page_path)
   end
 
-  # Use a temporary directory for attachment related tests
-  def set_tmp_attachments_directory
-    attachments_path = Rails.root.join('tmp/test/attachments')
-    FileUtils.mkdir_p(attachments_path)
-    Attachment.storage_path = attachments_path.to_s
+  ##
+  # Creates a UploadedFile for a file in the fixtures under `test/fixtures/files`.
+  # Optionally allows to override the original filename.
+  #
+  # Shortcut for Rack::Test::UploadedFile.new(
+  #   ActionController::TestCase.fixture_path + path, mime)
+  def uploaded_test_file(name, mime, original_filename: nil)
+    file = fixture_file_upload("/files/#{name}", mime, true)
+    file.define_singleton_method(:original_filename) { original_filename } if original_filename
+    file
   end
 
   def with_settings(options, &block)
@@ -584,6 +597,7 @@ class ActiveSupport::TestCase
     end
   end
 
+  include OpenProject::Files
 end
 
 # Simple module to "namespace" all of the API tests

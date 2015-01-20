@@ -14,11 +14,9 @@
   </div>
 </div>
 
-
 <div class="detail-panel-attributes">
   <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
     <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
-
     <dl>
       <dt ng-repeat-start="propertyData in group.attributes"
           ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
@@ -34,7 +32,7 @@
             ined-type="{{inplaceProperties[propertyData.property].type}}"
             ined-entity="workPackage"
             ined-attribute="{{inplaceProperties[propertyData.property].attribute}}"
-            ined-attribute-embedded="{{inplaceProperties[propertyData.property].embedded}}"
+            ined-attribute-embedded="inplaceProperties[propertyData.property].embedded"
             placeholder="{{inplaceProperties[propertyData.property].placeholder}}">
           </div>
         </div>

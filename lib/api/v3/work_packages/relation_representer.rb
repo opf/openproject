@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,23 +33,7 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      class RelationRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @work_package = options[:work_package]
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
+      class RelationRepresenter < ::API::Decorators::Single
         link :self do
           { href: api_v3_paths.relation(represented.id) }
         end
@@ -79,11 +63,19 @@ module API
         private
 
         def current_user_allowed_to(permission)
-          @current_user && @current_user.allowed_to?(permission, represented.from.project)
+          current_user && current_user.allowed_to?(permission, represented.from.project)
         end
 
         def relation_type
-          represented.relation_type_for(@work_package).camelize
+          represented.relation_type_for(work_package).camelize
+        end
+
+        def work_package
+          context[:work_package]
+        end
+
+        def current_user
+          context[:current_user]
         end
       end
     end

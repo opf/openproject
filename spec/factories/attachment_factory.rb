@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,24 @@ FactoryGirl.define do
   factory :attachment do
     container factory: :work_package
     author factory: :user
-    sequence(:filename) { |n| "test#{n}.test" }
-    sequence(:disk_filename) { |n| "test#{n}.test" }
+
+    ignore do
+      filename nil
+    end
+
+    content_type 'application/binary'
+    sequence(:file) do |n|
+      OpenProject::Files.create_uploaded_file name: filename || "file-#{n}.test",
+                                              content_type: content_type,
+                                              binary: true
+    end
 
     factory :wiki_attachment do
       container factory: :wiki_page_with_content
+    end
+
+    factory :attached_picture do
+      content_type 'image/jpeg'
     end
   end
 end

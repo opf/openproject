@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,8 @@
 /*jshint expr: true*/
 
 describe('queryFilters', function() {
-  var doc, $httpBackend, $timeout, compile, scope, element;
+  var doc, $httpBackend, $timeout, compile, scope, element,
+  OPERATORS_AND_LABELS_BY_FILTER_TYPE, OPERATORS_NOT_REQUIRING_VALUES;
   var html = "<query-filters></query-filters>";
 
   beforeEach(module('ui.router',
@@ -37,26 +38,37 @@ describe('queryFilters', function() {
                     'openproject.models',
                     'openproject.layout',
                     'openproject.workPackages.directives',
+                    'openproject.workPackages.config',
                     'openproject.workPackages.filters'));
 
   beforeEach(module('openproject.templates', function($provide) {
     $provide.constant('ConfigurationService', new Object());
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_, PathHelper) {
+  beforeEach(inject(function(
+    $rootScope,
+    $compile,
+    $document,
+    _$httpBackend_,
+    _$timeout_,
+    PathHelper,
+    _OPERATORS_AND_LABELS_BY_FILTER_TYPE_,
+    _OPERATORS_NOT_REQUIRING_VALUES_
+  ) {
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
+    OPERATORS_AND_LABELS_BY_FILTER_TYPE = _OPERATORS_AND_LABELS_BY_FILTER_TYPE_;
+    OPERATORS_NOT_REQUIRING_VALUES = _OPERATORS_NOT_REQUIRING_VALUES_;
 
     doc = $document[0];
     scope = $rootScope.$new();
 
+
     compile = function() {
       element = $compile(html)(scope);
       scope.$digest();
-
       var body = angular.element(doc.body);
       body.append(element);
-
       $timeout.flush();
     };
 
@@ -67,7 +79,6 @@ describe('queryFilters', function() {
 
   afterEach(function() {
     var body = angular.element(doc.body);
-
     body.find('#filters').remove();
   });
 
@@ -84,18 +95,54 @@ describe('queryFilters', function() {
 
       var removeFilter = function(filterName) {
         var removeLinkElement = angular.element(element).find('#tr_' + filterName + ' td:last-of-type a');
-
         angular.element(removeLinkElement[0]).trigger(enterEvent);
-
         $timeout.flush();
       };
 
       beforeEach(function() {
         scope.query = Factory.build('Query', { filters: [] });
-
         scope.query.setFilters([filter1, filter2, filter3]);
-
+        scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
         compile();
+      });
+
+      describe('operator dropdown preselected value', function() {
+        context('OPERATORS_NOT_REQUIRING_VALUES', function() {
+          context('does intersect with filter\'s operators', function() {
+            beforeEach(function() {
+              OPERATORS_AND_LABELS_BY_FILTER_TYPE['some_type'] = [
+                ['!*', 'label_none'], ['*', 'label_all']
+              ];
+              scope.query.filters.push({
+                isSingleInputField: function() { return true; },
+                name: 'some_value',
+                type: 'some_type',
+                values: []
+              });
+              scope.$apply();
+            });
+            it('should be undefined', function() {
+              expect(scope.operator).to.be.undefined;
+            });
+          });
+
+          context('doesn\'t intersect with filter\'s operators', function() {
+            beforeEach(function() {
+              scope.query.filters.push({
+                isSingleInputField: function() { return true; },
+                name: 'some_value',
+                type: 'integer',
+                values: []
+              });
+              scope.$apply();
+            });
+            it('should take the first one', function() {
+              var operatorValue = element.find('#operators-some_value').val();
+              expect(operatorValue).to.eq('=');
+              expect(operatorValue).to.eq(OPERATORS_AND_LABELS_BY_FILTER_TYPE['integer'][0][0]);
+            });
+          });
+        });
       });
 
       describe('Remove first filter', function() {

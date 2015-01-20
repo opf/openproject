@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,8 @@
 describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope, Query, I18n, AuthorisationService, stateParams = {};
 
-    beforeEach(angular.mock.module('openproject.workPackages.directives'));
     beforeEach(module('openproject.models',
-                      'openproject.workPackages.controllers',
+                      'openproject.workPackages',
                       'openproject.api',
                       'openproject.layout',
                       'openproject.services'));
@@ -53,17 +52,19 @@ describe('optionsDropdown Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var optionsDropdownHtml;
-      optionsDropdownHtml = '<div options-dropdown><a href ng-click="showSaveAsModal($event)" ng-class="{\'inactive\': query.isNew()}"></a></div>';
+      optionsDropdownHtml = '<div id="toolbar"><button has-dropdown-menu="" target="SettingsDropdownMenu" locals="query"></button></div>';
 
       element = angular.element(optionsDropdownHtml);
       rootScope = $rootScope;
       scope = $rootScope.$new();
-
       compile = function() {
+        angular.element(document).find('body').append(element);
         $compile(element)(scope);
+        element.find('button').click();
         scope.$digest();
       };
     }));
+
 
     beforeEach(inject(function(_AuthorisationService_, _Query_, _I18n_){
       AuthorisationService = _AuthorisationService_;
@@ -78,6 +79,7 @@ describe('optionsDropdown Directive', function() {
 
     afterEach(function() {
       I18n.t.restore();
+      element.remove();
     });
 
     describe('element', function() {
@@ -96,13 +98,12 @@ describe('optionsDropdown Directive', function() {
         });
 
         it('should have an inactive save as option', function() {
-          var saveAsLink = element.find('a').first();
+          var saveAsLink = element.find('a[ng-click="showSaveAsModal($event)"]').first();
           expect(saveAsLink.hasClass('inactive')).to.be.ok;
         });
 
         context('share option', function() {
           beforeEach(function() {
-            var optionsDropdownHtml = '<div options-dropdown><a class="publicize-or-star-link" href ng-click="showShareModal($event)" ng-class="{\'inactive\': (cannot(\'query\', \'publicize\') && cannot(\'query\', \'star\'))}"></a></div>';
             var query = new Query({
               id: 1
             });
@@ -110,19 +111,18 @@ describe('optionsDropdown Directive', function() {
             AuthorisationService.initModelAuth('query', {
               create: '/queries'
             });
-            element = angular.element(optionsDropdownHtml);
             compile();
           });
 
           it('should check with AuthorisationService when called', function() {
-            var shareLink = element.find('.publicize-or-star-link').first();
+            var shareLink = element.find('a[ng-click="showShareModal($event)"]').first();
             sinon.spy(AuthorisationService, "can");
             shareLink.click();
             expect(AuthorisationService.can).to.have.been.called;
           });
         });
         it('should not open save as modal', function() {
-          var saveAsLink = element.find('a').first();
+          var saveAsLink = element.find('a[ng-click="showSaveAsModal($event)"]').first();
           saveAsLink.click();
 
           expect(jQuery('.ng-modal-window').length).to.equal(0);
@@ -149,7 +149,7 @@ describe('optionsDropdown Directive', function() {
         });
 
         it('should open save as modal', function() {
-          var saveAsLink = element.find('a').first();
+          var saveAsLink = element.find('a[ng-click="showSaveAsModal($event)"]').first();
           saveAsLink.click();
 
           expect(jQuery('.ng-modal-window').length).to.equal(1);

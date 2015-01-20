@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,32 @@
 //++
 
 // TODO move to UI components
-module.exports = function() {
+module.exports = function($http, PathHelper) {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
     link: function(scope, element, attributes) {
       scope.relationToAddId = null;
+      scope.autocompleteWorkPackages = function(term) {
+        if (!term) {
+          return;
+        }
+        var params = {
+          q: term,
+          scope: 'all',
+          escape: false,
+          id: scope.handler.workPackage.props.id,
+          'project_id': scope.handler.workPackage.props.projectId
+        };
+        return $http({
+          method: 'GET',
+          url: URI(PathHelper.workPackageJsonAutoCompletePath())
+            .search(params)
+            .toString()
+        }).then(function(response) {
+          scope.options = response.data;
+        });
+      }
     }
   };
 };

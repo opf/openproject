@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 OpenProject::Application.routes.draw do
   root to: 'welcome#index', as: 'home'
-  mount API::Root => '/'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
@@ -156,6 +155,13 @@ OpenProject::Application.routes.draw do
       resources :users, only: [:index]
     end
   end
+
+  # Because of https://github.com/intridea/grape/pull/853/files this has to be
+  # placed behind handling the deprecated v1 because otherwise, a 405 is
+  # returned for all routes for which the v3 has also resources. Grape does
+  # remove the prefix (v3) before checking whether the method is supported. I
+  # don't understand why that should make sense.
+  mount API::Root => '/'
 
   match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'

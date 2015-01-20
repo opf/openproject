@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,9 +41,10 @@ describe('OpenProject', function() {
   function loadPane(workPackageId) {
     var page = new WorkPackageDetailsPane(workPackageId, 'overview');
     page.get();
+    browser.waitForAngular();
   }
 
-  context('pane itself', function() {
+  describe('pane itself', function() {
     beforeEach(function() {
       loadPane(819);
     });
@@ -64,7 +65,7 @@ describe('OpenProject', function() {
         });
 
         it('should render an editable subject', function() {
-          expect(subjectEditor.isPresent()).to.eventually.be.true;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.true;
         });
       });
 
@@ -74,7 +75,7 @@ describe('OpenProject', function() {
         });
 
         it('should not render an editable subject', function() {
-          expect(subjectEditor.isPresent()).to.eventually.be.false;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.false;
         });
       });
 
@@ -168,7 +169,7 @@ describe('OpenProject', function() {
           it('should be rendered', function() {
             expect(
               statusEditor
-                .$('select.focus-input')
+                .$('.select2-container').isDisplayed()
                 .isDisplayed()
             ).to.eventually.be.true;
           });
@@ -176,9 +177,9 @@ describe('OpenProject', function() {
           it('should have the correct value', function() {
             expect(
               statusEditor
-                .$('select.focus-input option:checked')
-                .getAttribute('value')
-            ).to.eventually.equal('1');
+                .$('.select2-choice .select2-chosen span')
+                .getText()
+            ).to.eventually.equal('specified');
           });
         });
       });
@@ -233,7 +234,7 @@ describe('OpenProject', function() {
           it('should have the correct value', function() {
             expect(
               responsibleEditor
-                .$('.select2-container .select2-choice span')
+                .$('.select2-choice .select2-chosen span')
                 .getText()
             ).to.eventually.equal('OpenProject Admin');
           });
@@ -245,8 +246,7 @@ describe('OpenProject', function() {
   describe('activities', function() {
     describe('overview tab', function() {
       before(function() {
-        var page = new WorkPackageDetailsPane(819, 'overview');
-        page.get();
+        loadPane(819);
       });
 
       it('should render the last 3 activites', function() {

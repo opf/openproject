@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,20 @@ module API
   module V3
     module Users
       class UsersAPI < Grape::API
+        helpers do
+          def user_transition(allowed)
+            if allowed
+              yield
+
+              # Show updated user
+              status 200
+              UserRepresenter.new(@user, current_user: current_user)
+            else
+              fail ::API::Errors::InvalidUserStatusTransition
+            end
+          end
+        end
+
         resources :users do
 
           params do
@@ -42,18 +56,41 @@ module API
             end
 
             get do
-              UserRepresenter.new(@user)
+              UserRepresenter.new(@user, current_user: current_user)
             end
 
             delete do
-              if DeleteUserService.new(@user, User.current).call
+              if DeleteUserService.new(@user, current_user).call
                 status 202
               else
                 fail ::API::Errors::Unauthorized
               end
             end
-          end
 
+            namespace :lock do
+
+              # Authenticate lock transitions
+              before do
+                unless current_user.admin?
+                  fail ::API::Errors::Unauthorized
+                end
+              end
+
+              desc 'Set lock on user account'
+              post do
+                user_transition(@user.active? || @user.locked?) do
+                  @user.lock! unless @user.locked?
+                end
+              end
+
+              desc 'Remove lock on user account'
+              delete do
+                user_transition(@user.locked? || @user.active?) do
+                  @user.activate! unless @user.active?
+                end
+              end
+            end
+          end
         end
       end
     end

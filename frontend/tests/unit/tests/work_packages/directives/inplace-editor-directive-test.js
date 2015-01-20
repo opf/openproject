@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -103,9 +103,8 @@ describe('inplaceEditor Directive', function() {
 
     describe('placeholder', function() {
       it('should not render the default text', function() {
-        var text = element.find('.ined-read-value .read-value-wrapper').text();
-
-        expect(text).be.empty;
+        var text = element.find('.ined-read-value .read-value-wrapper span').text();
+        expect(text).to.eq('Some subject');
       });
 
       it('should set default text switch', function() {
@@ -223,7 +222,7 @@ describe('inplaceEditor Directive', function() {
             compile();
           });
           it('should render the value without editing elements', function() {
-            expect(element.find('.inplace-editor').length).to.eq(0);
+            expect(element.find('.editing-link-wrapper').length).to.eq(0);
           });
         });
       });
@@ -392,7 +391,6 @@ describe('inplaceEditor Directive', function() {
       });
       it('should trigger edit mode on click', function() {
         element.find('.ined-read-value').click();
-        scope.$digest();
         expect(elementScope.isEditing).to.eq(true);
       });
 

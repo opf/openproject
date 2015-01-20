@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,8 +102,20 @@ module API
             "#{users}/#{id}"
           end
 
+          def self.user_lock(id)
+            "#{user(id)}/lock"
+          end
+
+          def self.version(version_id)
+            "#{root}/versions/#{version_id}"
+          end
+
           def self.versions(project_id)
             "#{project(project_id)}/versions"
+          end
+
+          def self.versions_projects(version_id)
+            "#{version(version_id)}/projects"
           end
 
           def self.watcher(id, work_package_id)

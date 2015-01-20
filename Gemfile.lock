@@ -110,6 +110,11 @@ GEM
       xpath (~> 2.0)
     capybara-screenshot (0.3.6)
       capybara (>= 1.0, < 3)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -151,12 +156,13 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    disposable (0.0.8)
+    disposable (0.0.9)
       representable (~> 2.0)
       uber
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    excon (0.42.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (4.2.0)
@@ -167,6 +173,30 @@ GEM
     faker (1.2.0)
       i18n (~> 0.5)
     ffi (1.9.3)
+    fog (1.23.0)
+      fog-brightbox
+      fog-core (~> 1.23)
+      fog-json
+      fog-softlayer
+      ipaddress (~> 0.5)
+      nokogiri (~> 1.5, >= 1.5.11)
+    fog-brightbox (0.7.1)
+      fog-core (~> 1.22)
+      fog-json
+      inflecto (~> 0.0.2)
+    fog-core (1.25.0)
+      builder
+      excon (~> 0.38)
+      formatador (~> 0.2)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+    fog-json (1.0.0)
+      multi_json (~> 1.0)
+    fog-softlayer (0.3.25)
+      fog-core
+      fog-json
+    formatador (0.2.5)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     globalize (3.0.0)
@@ -176,7 +206,7 @@ GEM
     gon (4.0.0)
       actionpack (>= 2.3.0)
       json
-    grape (0.9.0)
+    grape (0.10.1)
       activesupport
       builder
       hashie (>= 2.1.0)
@@ -192,8 +222,10 @@ GEM
     hooks (0.3.3)
     htmldiff (0.0.1)
     i18n (0.6.11)
-    ice_nine (0.11.0)
+    ice_nine (0.11.1)
+    inflecto (0.0.2)
     interception (0.3)
+    ipaddress (0.8.0)
     iso8601 (0.8.2)
     journey (1.0.4)
     json (1.8.1)
@@ -218,7 +250,7 @@ GEM
     metaclass (0.0.1)
     method_source (0.8.2)
     mime-types (1.25.1)
-    mini_portile (0.6.0)
+    mini_portile (0.6.2)
     minisyntax (0.2.3)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
@@ -227,8 +259,11 @@ GEM
     multi_xml (0.5.5)
     mysql2 (0.3.11)
     net-ldap (0.8.0)
-    nokogiri (1.6.3.1)
-      mini_portile (= 0.6.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.1)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
     object-daddy (1.1.1)
     oj (2.1.6)
@@ -304,17 +339,17 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
-    reform (1.1.1)
+    reform (1.2.4)
       activemodel
       disposable (~> 0.0.5)
-      representable (~> 2.0.3)
-      uber (~> 0.0.8)
-    representable (2.0.4)
+      representable (~> 2.1.0)
+      uber (~> 0.0.11)
+    representable (2.1.3)
       multi_json
       nokogiri
       uber (~> 0.0.7)
     request_store (1.1.0)
-    roar (1.0.0.beta2)
+    roar (1.0.0)
       representable (>= 2.0.1, <= 3.0.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
@@ -387,7 +422,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.42)
-    uber (0.0.10)
+    uber (0.0.12)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -395,7 +430,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    virtus (1.0.3)
+    virtus (1.0.4)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
@@ -418,6 +453,7 @@ DEPENDENCIES
   bourbon (~> 4.0)
   capybara (~> 2.3.0)
   capybara-screenshot
+  carrierwave (~> 0.10.0)
   cocaine
   codeclimate-test-reporter
   coderay (~> 1.0.5)
@@ -431,9 +467,10 @@ DEPENDENCIES
   delayed_job_active_record (= 0.3.3)
   factory_girl_rails (~> 4.0)
   faker
+  fog (~> 1.23.0)
   globalize
   gon (~> 4.0)
-  grape (~> 0.9.0)
+  grape (~> 0.10.1)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
   i18n (>= 0.6.8)
@@ -468,9 +505,9 @@ DEPENDENCIES
   rails_autolink
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
-  reform (~> 1.1.1)
+  reform (~> 1.2.4)
   request_store
-  roar (~> 1.0.0.beta2)
+  roar (~> 1.0.0)
   rspec (~> 2.99.0)
   rspec-activemodel-mocks
   rspec-example_disabler!

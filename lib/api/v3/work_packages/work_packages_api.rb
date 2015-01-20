@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,12 +76,13 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = ::API::V3::WorkPackages::WorkPackageRepresenter
-                .new(work_package, { current_user: current_user }, :activities, :users)
+              @representer = WorkPackageRepresenter.new(work_package,
+                                                        current_user: current_user)
             end
 
             get do
-              authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
+              authorize({ controller: :work_packages_api, action: :get },
+                        context: @work_package.project)
               @representer
             end
 
