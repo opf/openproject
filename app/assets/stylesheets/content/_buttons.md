@@ -25,6 +25,14 @@
 <input type="submit" class="button -active" value="Do not submit" disabled />
 ```
 
+## Transparent buttons
+
+```
+<input type="submit" class="button -transparent" value="Submit me"/>
+<a href="#" class="button -transparent">Click me</a>
+<input type="submit" class="button -transparent" value="Do not submit" disabled />
+```
+
 ## Button sizes
 
 ```

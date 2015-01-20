@@ -26,20 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.detail-panel-latest-activity
-  float: left
-  margin: 10px 0 0 0
-  line-height: 18px
-  width: 100%
-  h3
-    margin: 0 0 10px 0
-    padding: 0
-    font-size: 0.875rem
-    font-weight: bold
-  ul
-    margin: 0
-    padding: 0
-    list-style-type: none
-    li
-      margin: 0 0 20px 0
-      padding: 0
+.attributes-group
+  @include grid-block($orientation: vertical)
+
+.attributes-group--header
+  @include grid-block
+  margin:  0 0 1rem 0
+  border-bottom: 2px solid #eee
+  align-items: flex-end
+
+.attributes-group--header-container
+  @include grid-content
+  padding: 0 1rem 0.4rem 0
+
+.attributes-group--header-toggle
+  @include grid-content(shrink)
+  padding: 0 0 0 1rem
+
+  .button
+    margin: 0 0 1px 0
+
+// HACK. TODO: Remove H3 element rules in various places.
+.attributes-group--header-text,
+#content h3.attributes-group--header-text
+  font-size: 1rem
+  font-weight: bold
+  text-transform: uppercase
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0

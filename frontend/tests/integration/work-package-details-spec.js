@@ -97,7 +97,7 @@ describe('OpenProject', function() {
     });
 
     describe('description', function() {
-      var descriptionEditor = $('.detail-panel-description .inplace-editor');
+      var descriptionEditor = $('.single-attribute .inplace-editor');
 
       beforeEach(function() {
         loadPane(819);

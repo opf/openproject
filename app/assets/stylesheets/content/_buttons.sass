@@ -76,6 +76,23 @@ a.button,
       &:focus
         background: #eee
 
+
+  &.-transparent
+    @include button-style($background: $button-font-color, $style: hollow)
+    border-color: transparent
+
+    &:enabled
+      &:hover,
+      &:focus
+        border-color: #ddd
+
+    &.-active
+      background: #eee
+
+      &:enabled
+        &:hover, &:focus
+          border-color: #777
+
   &.-tiny
     @include button-size(tiny)
 
