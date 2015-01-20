@@ -185,6 +185,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:ResourceTypeMismatch` (**HTTP 422**) - A link to a resource of a specific type was expected, but the link to another type of resource was provided
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
@@ -2664,8 +2665,10 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Response 422 (application/hal+json)
 
     Returned if:
-    * the client tries to modify a read-only property
-    * a constraint for a property was violated
+
+    * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+    * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
 
     + Body
 
@@ -2917,14 +2920,14 @@ The response will be the collection of *all* the watchers for the given work pac
 
     Returned if:
 
-    * the client tries to specify a link to a resource that is not a user
-    * the user specified is not allowed to watch that work package
+    * the client tries to specify a link to a resource that is not a user (`ResourceTypeMismatch`)
+    * the user specified is not allowed to watch that work package (`PropertyConstraintViolation`)
 
     + Body
 
             {
                 "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:ResourceTypeMismatch",
                 "message": "Expected resource of type 'User', but got a 'Status'.",
             }
 
