@@ -720,5 +720,29 @@ describe('DetailsTabOverviewController', function() {
         expect(groupOtherAttributes.every(isSorted)).to.be.true;
       });
     });
+
+    describe('anyEmptyWorkPackageValue', function() {
+      describe('with a group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: null } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is true', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.eq(true);
+        });
+      });
+
+      describe('with no group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: 'd' } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is false', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.eq(false);
+        });
+      });
+    });
   });
 });
