@@ -729,7 +729,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('is true', function() {
-          expect(scope.anyEmptyWorkPackageValue()).to.eq(true);
+          expect(scope.anyEmptyWorkPackageValue()).to.be.true;
         });
       });
 
@@ -740,7 +740,7 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('is false', function() {
-          expect(scope.anyEmptyWorkPackageValue()).to.eq(false);
+          expect(scope.anyEmptyWorkPackageValue()).to.be.false;
         });
       });
     });
@@ -750,7 +750,7 @@ describe('DetailsTabOverviewController', function() {
         var group = { attributes: [ { value: 'a' }, { value: null } ] };
 
         it('is false', function() {
-          expect(scope.isGroupEmpty(group)).to.eq(false);
+          expect(scope.isGroupEmpty(group)).to.be.false;
         });
       });
 
@@ -758,7 +758,7 @@ describe('DetailsTabOverviewController', function() {
         var group = { attributes: [ { value: null }, { value: null } ] };
 
         it('is true', function() {
-          expect(scope.isGroupEmpty(group)).to.eq(true);
+          expect(scope.isGroupEmpty(group)).to.be.true;
         });
       });
     });
