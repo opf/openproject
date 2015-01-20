@@ -9,5 +9,5 @@ The documentation for APIv3 is written in the [API Blueprint Format](http://apib
 You can use [aglio](https://github.com/danielgtaylor/aglio) to generate HTML documentation, e.g. using the following command:
 
 ```bash
-aglio -i apiary.apib -o api.html
+aglio -i apiv3-documentation.apib -o api.html
 ```

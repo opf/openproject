@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,6 +122,9 @@ gem 'i18n', '>=0.6.8'
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
+gem 'carrierwave', '~> 0.10.0'
+gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
+
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
@@ -173,14 +176,14 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
+  gem 'pry-byebug', :platforms => [:mri]
   gem 'pry-doc'
 end
 
 # API gems
-gem 'grape', '~> 0.9.0'
-gem 'roar',   '~> 1.0.0.beta2'
-gem 'reform', '~> 1.1.1', require: false
+gem 'grape', '~> 0.10.1'
+gem 'roar',   '~> 1.0.0'
+gem 'reform', '~> 1.2.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

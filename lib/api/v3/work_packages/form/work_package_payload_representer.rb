@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,10 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include OpenProject::TextFormatting
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          def initialize(represented, options={})
+          def initialize(represented, options = {})
             if options[:enforce_lock_version_validation]
               # enforces availibility validation of lock_version
               represented.lock_version = nil
@@ -71,7 +70,7 @@ module API
                      {
                        format: 'textile',
                        raw: represented.description,
-                       html: format_text(represented, :description)
+                       html: description_renderer.to_html
                      }
                    },
                    setter: -> (value, *) { represented.description = value['raw'] },
@@ -104,6 +103,10 @@ module API
 
           def work_package_attribute_links_representer(represented)
             ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
+          end
+
+          def description_renderer
+            ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
           end
         end
       end

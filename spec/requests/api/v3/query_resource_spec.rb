@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,7 +122,10 @@ describe 'API v3 Query resource', type: :request do
           let(:star_path) { '/api/v3/queries/999/star' }
           before(:each) { patch star_path }
 
-          it_behaves_like 'not found', 999, 'Query'
+          it_behaves_like 'not found' do
+            let(:id) { 999 }
+            let(:type) { 'Query' }
+          end
         end
       end
 
@@ -278,7 +281,10 @@ describe 'API v3 Query resource', type: :request do
           let(:unstar_path) { '/api/v3/queries/999/unstar' }
           before(:each) { patch unstar_path }
 
-          it_behaves_like 'not found', 999, 'Query'
+          it_behaves_like 'not found' do
+           let(:id) { 999 }
+           let(:type) { 'Query' }
+          end
         end
       end
 

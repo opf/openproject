@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ module API
 
     helpers do
       def current_user
-        return User.current if Rails.env.test?
+        return User.current if running_in_test_env?
         user_id = env['rack.session']['user_id']
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
@@ -74,6 +74,27 @@ module API
         is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
         raise API::Errors::Unauthorized unless is_authorized && allow
         is_authorized
+      end
+
+      def running_in_test_env?
+        Rails.env.test? && ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] != 'true'
+      end
+
+      # checks whether the user has
+      # any of the provided permission in any of the provided
+      # projects
+      def authorize_any(permissions, projects, user: current_user)
+        projects = Array(projects)
+
+        authorized = permissions.any? do |permission|
+          allowed_condition = Project.allowed_to_condition(user, permission)
+          allowed_projects = Project.where(allowed_condition)
+
+          !(allowed_projects & projects).empty?
+        end
+
+        raise API::Errors::Unauthorized unless authorized
+        authorized
       end
     end
 
@@ -96,6 +117,12 @@ module API
 
     # run authentication before each request
     before do
+      # Call current_user as it sets User.current.
+      # Not doing this might cause devs to use User.current without that value
+      # being set to the actually current user. That might result in standard
+      # users becoming admins and otherwise based on who called the ruby
+      # process last.
+      current_user
       authenticate
     end
 

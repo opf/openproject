@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,6 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
         include API::V3::Utilities::PathHelper
-        include OpenProject::TextFormatting
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -85,7 +84,7 @@ module API
                    {
                      format: 'textile',
                      raw: represented.notes,
-                     html: format_text(represented.notes, object: represented.journable)
+                     html: notes_renderer.to_html
                    }
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
@@ -112,6 +111,11 @@ module API
         end
 
         private
+
+        def notes_renderer
+          ::API::Utilities::Renderer::TextileRenderer.new(represented.notes,
+                                                          represented.journable)
+        end
 
         def current_user_allowed_to_edit?
           (current_user_allowed_to(:edit_own_work_package_notes, represented.journable) && represented.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.journable)

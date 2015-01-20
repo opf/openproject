@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,23 +33,8 @@ require 'roar/json/hal'
 module API
   module V3
     module Users
-      class UserRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
+      class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @work_package = options[:work_package]
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
 
         link :self do
           {
@@ -58,12 +43,36 @@ module API
           }
         end
 
+        link :lock do
+          {
+            href: api_v3_paths.user_lock(represented.id),
+            title: "Set lock on #{represented.login}",
+            method: :post
+          } if current_user_is_admin && represented.lockable?
+        end
+
+        link :unlock do
+          {
+            href: api_v3_paths.user_lock(represented.id),
+            title: "Remove lock on #{represented.login}",
+            method: :delete
+          } if current_user_is_admin && represented.activatable?
+        end
+
+        link :delete do
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "Delete #{represented.login}",
+            method: :delete
+          } if current_user_can_delete_represented?
+        end
+
         link :removeWatcher do
           {
-            href: api_v3_paths.watcher(represented.id, @work_package.id),
+            href: api_v3_paths.watcher(represented.id, work_package.id),
             method: :delete,
             title: 'Remove watcher'
-          } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)
+          } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
         end
 
         property :id, render_nil: true
@@ -78,14 +87,32 @@ module API
                           exec_context: :decorator
         property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
-        property :status, getter: -> (*) { status }, render_nil: true
+        property :status, getter: -> (*) { status_name }, render_nil: true
 
         def _type
           'User'
         end
 
+        def current_user_is_admin
+          current_user && current_user.admin?
+        end
+
         def current_user_allowed_to(permission, work_package)
-          @current_user && @current_user.allowed_to?(permission, work_package.project)
+          current_user && current_user.allowed_to?(permission, work_package.project)
+        end
+
+        private
+
+        def current_user
+          context[:current_user]
+        end
+
+        def work_package
+          context[:work_package]
+        end
+
+        def current_user_can_delete_represented?
+          current_user && DeleteUserService.deletion_allowed?(represented, current_user)
         end
       end
     end

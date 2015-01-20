@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,18 @@ describe('workPackageDetailsToolbar', function() {
   var html = "<work-package-details-toolbar work-package='workPackage'></work-package-details-toolbar>";
   stateParams = {};
 
+
   beforeEach(module('ui.router',
+                    'openproject.workPackages.controllers',
+                    'openproject.uiComponents',
+                    'openproject.workPackages',
                     'openproject.api',
                     'openproject.models',
                     'openproject.layout',
                     'openproject.services',
                     'openproject.uiComponents',
-                    'openproject.workPackages.directives',
-                    'openproject.workPackages.models',
-                    'openproject.workPackages.services'));
+                    'openproject.templates'
+                    ));
 
   beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
@@ -53,27 +56,31 @@ describe('workPackageDetailsToolbar', function() {
   beforeEach(inject(function($rootScope, $compile, _I18n_, _HookService_) {
     I18n = _I18n_;
     HookService = _HookService_;
+    var stub = sinon.stub(I18n, 't');
+
+    stub.withArgs('js.button_log_time').returns('Log time');
+    stub.withArgs('js.button_duplicate').returns('Duplicate');
+    stub.withArgs('js.button_move').returns('Move');
+    stub.withArgs('js.button_delete').returns('Delete');
+
+    stub.withArgs('js.button_plugin_action_1').returns('plugin_action_1');
+    stub.withArgs('js.button_plugin_action_2').returns('plugin_action_2');
 
     scope = $rootScope.$new();
 
     compile = function() {
-      element = $compile(html)(scope);
+      angular.element(document).find('body').html('');
+      angular.element(document).find('body').append(element);
+      element = $compile(element)(scope);
       scope.$digest();
+      element.find('button:eq(1)').click();
     };
 
-    var stub = sinon.stub(I18n, 't');
-
-    stub.withArgs('js.button_log_time').returns('trans_log_time');
-    stub.withArgs('js.button_duplicate').returns('trans_duplicate');
-    stub.withArgs('js.button_move').returns('trans_move');
-    stub.withArgs('js.button_delete').returns('trans_delete');
-
-    stub.withArgs('js.button_plugin_action_1').returns('trans_plugin_action_1');
-    stub.withArgs('js.button_plugin_action_2').returns('trans_plugin_action_2');
   }));
 
   afterEach(function() {
     I18n.t.restore();
+    element.remove();
   });
 
   var pluginActions = {
@@ -99,13 +106,13 @@ describe('workPackageDetailsToolbar', function() {
     var actions = [pluginActions.plugin_action_1, pluginActions.plugin_action_2];
 
     callStub.withArgs('workPackageDetailsMoreMenu').returns(actions);
-
+    element = angular.element(html);
     compile();
   });
 
 
   var getLink = function(listRoot, action) {
-    return angular.element(listRoot.find('li a.' + action));
+    return listRoot.find('.' + action);
   };
 
   var shouldBehaveLikeListOfWorkPackageActionLinks = function(listRootSelector, actions) {
@@ -116,6 +123,7 @@ describe('workPackageDetailsToolbar', function() {
     });
 
     describe('links', function() {
+
       it('contains links for all core actions', function() {
         angular.forEach(actions, function(css, action) {
           var link = getLink(listRoot, css);
@@ -128,7 +136,7 @@ describe('workPackageDetailsToolbar', function() {
         angular.forEach(actions, function(css, action) {
           var link = getLink(listRoot, css);
 
-          expect(link.text()).to.eq(I18n.t('js.button_' + action));
+          expect(link.text()).to.match(new RegExp(I18n.t('js.button_' + action)));
         });
       });
     });
@@ -150,7 +158,7 @@ describe('workPackageDetailsToolbar', function() {
           angular.forEach(pluginCss, function(value) {
             expect(link.hasClass(value)).to.be.true;
           });
-          expect(link.text()).to.eq(I18n.t('js.button_' + action));
+          expect(link.text()).to.match(new RegExp(I18n.t('js.button_' + action)));
         });
       });
     });

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,10 @@ describe 'API v3 Work package form resource', type: :request do
         let(:current_user) { unauthorized_user }
       end
 
-      it_behaves_like 'not found', 42, 'WorkPackage'
+      it_behaves_like 'not found' do
+        let(:id) { work_package.id }
+        let(:type) { 'WorkPackage' }
+      end
     end
 
     context 'user with needed permissions' do
@@ -76,7 +79,10 @@ describe 'API v3 Work package form resource', type: :request do
 
         include_context 'post request'
 
-        it_behaves_like 'not found', 'eeek', 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 'eeek' }
+          let(:type) { 'WorkPackage' }
+        end
       end
 
       context 'existing work package' do

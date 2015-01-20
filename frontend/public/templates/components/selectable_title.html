@@ -1,36 +1,12 @@
 <div class="title-container">
   <div class="text">
     <h2 title="{{ selectedTitle }}">
-      <span with-dropdown dropdown-id="querySelectDropdown" focus-element-id="title-filter">
+      <span has-dropdown-menu target="QuerySelectDropdownMenu"
+        locals="selectedTitle,groups,transitionMethod">
         <accessible-by-keyboard>
           {{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i>
         </accessible-by-keyboard>
       </span>
     </h2>
   </div>
-
-  <div class="dropdown dropdown-relative" id="querySelectDropdown">
-    <div class="search-query-wrapper">
-      <input type="search"
-             ng-model="filterBy"
-             ng-change="filterModels(filterBy)"
-             ng-keydown="handleSelection($event)"
-             id="title-filter"><i id="magnifier" class="icon-search"></i>
-      </input>
-    </div>
-
-    <div class="dropdown-scrollable">
-      <div class="query-menu-container" ng-if="group.models" ng-repeat="group in filteredGroups">
-        <ul class="query-menu">
-          <div class="title-group-header">{{ group.name }}</div>
-          <li ng-repeat="model in group.models"
-              ng-class="{'selected': model.highlighted }"
-              ui-sref="work-packages.list({ query_id: model.id, query_props: undefined })">
-            <a href title="{{ model.label }}" ng-bind-html="model.labelHtml"></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
 </div>

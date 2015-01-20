@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -193,12 +193,13 @@ describe WorkPackagesController, type: :controller do
           before do
             mock_csv = double('csv export')
 
-            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, project)
-              .and_return(mock_csv)
+            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
+                                                          .and_return(mock_csv)
 
             expect(controller).to receive(:send_data).with(mock_csv,
                                                            type: 'text/csv; charset=utf-8; header=present',
-                                                           filename: 'export.csv') do |*_args|
+                                                           filename: "#{query.name}.csv") do |_|
+
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render text: 'success'
@@ -887,7 +888,9 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  let(:filename) { 'test1.test' }
+  let(:filename) { 'testfile.txt' }
+  let(:file) { File.open(Rails.root.join('test/fixtures/files', filename)) }
+  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
   describe :create do
     let(:type) { FactoryGirl.create :type }
@@ -932,8 +935,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { project_id: project.id,
-          attachments: { file: { file: filename,
-                                 description: '' } } }
+          attachments: { '1' => { 'file' => uploaded_file,
+                                  'description' => '' } } }
       }
 
       before do
@@ -1004,8 +1007,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { id: work_package.id,
-          work_package: { attachments: { '1' =>  { file: filename,
-                                                   description: '' } } } }
+          work_package: { attachments: { '1' => { 'file' => uploaded_file,
+                                                  'description' => '' } } } }
       }
 
       before do

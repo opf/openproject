@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -289,7 +289,7 @@ describe 'Work package index accessibility', type: :feature do
     describe 'column header drop down menu', js: true do
       it_behaves_like 'context menu' do
         let(:source_link) { 'table.workpackages-table th:nth-of-type(2) a' }
-        let(:target_link) { '#column-context-menu .menu li:first-of-type a' }
+        let(:target_link) { '#column-context-menu .dropdown-menu li:first-of-type a' }
         let(:keys) { :enter }
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,10 @@ describe 'API v3 Watcher resource', type: :request do
       context 'when work package doesn\'t exist' do
         let(:post_path) { '/api/v3/work_packages/9999/watchers' }
 
-        it_behaves_like 'not found', 9999, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 
@@ -138,7 +141,10 @@ describe 'API v3 Watcher resource', type: :request do
       context 'when work package doesn\'t exist' do
         let(:delete_path) { "/api/v3/work_packages/9999/watchers/#{watcher.id}" }
 
-        it_behaves_like 'not found', 9999, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 

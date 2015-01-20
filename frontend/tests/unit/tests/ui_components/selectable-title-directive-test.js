@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,16 @@
 
 describe('selectableTitle Directive', function() {
   var MODEL_SELECTOR = 'div.dropdown-scrollable a';
-  var compile, element, rootScope, scope;
+  var compile, element, rootScope, scope, $timeout;
+  beforeEach(module(
+    'openproject.workPackages',
+    'openproject.workPackages.controllers',
+    'openproject.templates',
+    'truncate'));
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates', 'truncate'));
-
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, _$timeout_) {
     var html;
+    $timeout = _$timeout_;
     html = '<selectable-title selected-title="selectedTitle" reload-method="reloadMethod" groups="groups"></selectable-title>';
 
     element = angular.element(html);
@@ -45,15 +48,21 @@ describe('selectableTitle Directive', function() {
     scope.doNotShow = true;
 
     compile = function() {
+      angular.element(document).find('body').append(element);
       $compile(element)(scope);
       scope.$digest();
     };
   }));
 
+  afterEach(function() {
+    element.remove();
+  });
+
   describe('element', function() {
     beforeEach(function() {
       scope.selectedTitle = 'Title1';
       scope.reloadMethod = function(){ return false; };
+      scope.transitionMethod = function(){ return false; };
       scope.groups = [{
         name: 'pinkies',
         models: [
@@ -71,6 +80,9 @@ describe('selectableTitle Directive', function() {
       }];
 
       compile();
+
+      element.find('span:first').click();
+      scope.$digest();
     });
 
     it('should compile to a div', function() {
@@ -135,15 +147,13 @@ describe('selectableTitle Directive', function() {
       var title = element.find('span').first();
       expect(title.text().replace(/(\n|\s)/gm,"")).to.equal('Title1');
 
-      element.find('h2 span').first().click();
       var listElements = element.find('li');
 
       expect(jQuery(listElements[0]).hasClass('selected')).to.be.false;
 
       var e = jQuery.Event('keydown');
       e.which = 40;
-      element.find('#title-filter').first().trigger(e);
-
+      element.find('input').first().trigger(e);
       expect(jQuery(listElements[0]).hasClass('selected')).to.be.true;
     });
 
@@ -151,7 +161,6 @@ describe('selectableTitle Directive', function() {
       var title = element.find('span').first();
       expect(title.text().replace(/(\n|\s)/gm,"")).to.equal('Title1');
 
-      element.find('h2 span').first().click();
       var listElements = element.find('li');
 
       expect(jQuery(listElements[1]).hasClass('selected')).to.be.false;
@@ -172,7 +181,6 @@ describe('selectableTitle Directive', function() {
       var title = element.find('span').first();
       expect(title.text()).to.equal('Title1');
 
-      element.find('h2 span').first().click();
       var listElements = element.find('li');
       var e = jQuery.Event('keydown');
       e.which = 40;

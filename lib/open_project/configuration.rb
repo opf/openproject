@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
+      'attachments_storage'     => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
@@ -298,7 +299,7 @@ module OpenProject
             define_method setting do
               self[setting]
             end
-          end
+          end unless respond_to? setting
         end
       end
     end

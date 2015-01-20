@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,10 @@ describe 'API v3 Activity resource', type: :request do
       context 'requesting nonexistent activity' do
         let(:get_path) { '/api/v3/activities/9999' }
 
-        it_behaves_like 'not found', 9999, 'Journal'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Journal' }
+        end
       end
 
       context 'requesting activity without sufficient permissions' do
