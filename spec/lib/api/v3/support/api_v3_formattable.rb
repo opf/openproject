@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,5 +35,9 @@ shared_examples_for 'API V3 formattable' do |property|
 
   it { is_expected.to be_json_eql(raw.to_json).at_path(property + '/raw') }
 
-  it { is_expected.to be_json_eql(html.to_json).at_path(property + '/html') }
+  it do
+    if defined?(html)
+      is_expected.to be_json_eql(html.to_json).at_path(property + '/html')
+    end
+  end
 end

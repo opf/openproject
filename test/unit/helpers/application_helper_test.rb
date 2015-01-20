@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,14 +47,16 @@ class ApplicationHelperTest < ActionView::TestCase
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :work_package, :project => @project, :author => @project_member, :type => @project.types.first
+
+    file = create_uploaded_file name: 'logo.gif',
+                                content_type: 'image/gif',
+                                content: 'not actually a gif',
+                                binary: true
     @attachment = FactoryGirl.create :attachment,
         :author => @project_member,
+        :file => file,
         :content_type => 'image/gif',
-        :filename => 'logo.gif',
-        :disk_filename => '060719210727_logo.gif',
-        :digest => 'b91e08d0cf966d5c6ff411bd8c4cc3a2',
         :container => @issue,
-        :filesize => 280,
         :description => 'This is a logo'
 
     User.stub(:current).and_return(@project_member)
@@ -326,7 +328,7 @@ EXPECTED
 RAW
 
     expected = <<-EXPECTED
-<pre><code class="ruby syntaxhl"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
+<pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
 </code></pre>
 EXPECTED
 

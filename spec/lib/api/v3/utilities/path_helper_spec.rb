@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -177,12 +177,28 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/users\/1/) }
   end
 
+  describe '#version' do
+    subject { helper.version 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/versions\/42/) }
+  end
+
   describe '#versions' do
     subject { helper.versions 42 }
 
     it_behaves_like 'api v3 path'
 
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/versions/) }
+  end
+
+  describe '#versions_projects' do
+    subject { helper.versions_projects 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/versions\/42\/projects/) }
   end
 
   describe 'work packages paths' do

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 module.exports = function($uiViewScroll,
     $timeout,
     $location,
+    $sce,
     I18n,
     PathHelper,
     ActivityService,
@@ -75,6 +76,13 @@ module.exports = function($uiViewScroll,
         scope.userAvatar = user.props.avatar;
         scope.userActive = UsersHelper.isActive(user);
       });
+
+      scope.comment = $sce.trustAsHtml(scope.activity.props.comment.html);
+      scope.details = [];
+
+      angular.forEach(scope.activity.props.details, function(detail) {
+        this.push($sce.trustAsHtml(detail.html));
+      }, scope.details);
 
       $timeout(function() {
         if($location.hash() == scope.activityNo.toString()) {

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,184 +32,241 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
+
 var WorkPackageDetailsPane = require('./pages/work-package-details-pane.js');
 
 /*jshint expr: true*/
 
 describe('OpenProject', function() {
-  context('details pane is visible', function() {
-    before(function() {
-      var page = new WorkPackageDetailsPane(819, 'overview');
-      page.get();
+  function loadPane(workPackageId) {
+    var page = new WorkPackageDetailsPane(workPackageId, 'overview');
+    page.get();
+    browser.waitForAngular();
+  }
+
+  describe('pane itself', function() {
+    beforeEach(function() {
+      loadPane(819);
     });
 
-    it('should show work packages details pane', function() {
+    it('should be visible', function() {
       expect($('.work-packages--details').isPresent()).to.eventually.be.true;
     });
   });
 
+
   describe('editable', function() {
-    context('subject', function() {
+    describe('subject', function() {
+      var subjectEditor = $('h2 .inplace-editor');
+
       context('work package with updateImmediately link', function() {
-        before(function() {
-          var page = new WorkPackageDetailsPane(819, 'overview');
-          page.get();
+        beforeEach(function() {
+          loadPane(819);
         });
+
         it('should render an editable subject', function() {
-          expect($('h2 .inplace-editor').isPresent()).to.eventually.be.true;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.true;
         });
       });
+
       context('work package without updateImmediately link', function() {
-        before(function() {
-          var page = new WorkPackageDetailsPane(820, 'overview');
-          page.get();
+        beforeEach(function() {
+          loadPane(820);
         });
-        it('should show work packages details pane', function() {
-          expect($('.work-packages--details').isPresent()).to.eventually.be.true;
-        });
+
         it('should not render an editable subject', function() {
-          expect($('h2 .inplace-editor').isPresent()).to.eventually.be.false;
+          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.false;
         });
       });
+
       context('work package with a wrong version', function() {
-        before(function() {
-          var page = new WorkPackageDetailsPane(821, 'overview');
-          page.get();
-          $('h2 .inplace-editor .ined-read-value').then(function(e) {
-            e.click();
-            $('h2 .ined-edit-save a').click();
-          });
+        beforeEach(function() {
+          loadPane(821);
+          subjectEditor.$('.ined-read-value').click();
+          subjectEditor.$('.ined-edit-save a').click();
         });
+
         it('should render an error', function() {
-          expect($('h2 .ined-errors').isDisplayed()).to.eventually.be.true;
+          expect(
+            subjectEditor
+              .$('.ined-errors')
+              .isDisplayed()
+          ).to.eventually.be.true;
         });
       });
     });
-    context('description', function() {
+
+    describe('description', function() {
+      var descriptionEditor = $('.detail-panel-description .inplace-editor');
+
       beforeEach(function() {
-        var page = new WorkPackageDetailsPane(819, 'overview');
-        page.get();
+        loadPane(819);
       });
+
       describe('read state', function() {
         it('should render the link to another work package', function() {
-          expect($('.detail-panel-description .inplace-editor .ined-read-value a.work_package').isDisplayed()).to.eventually.be.true;
+          expect(
+            descriptionEditor
+              .$('.ined-read-value a.work_package')
+              .isDisplayed()
+          ).to.eventually.be.true;
         });
+
         it('should render the textarea', function() {
-          $('.detail-panel-description .inplace-editor .ined-read-value').then(function(e) {
-            e.click();
-            expect($('.detail-panel-description .ined-edit textarea').isDisplayed())
-              .to.eventually.be.true;
-            });
+          descriptionEditor.$('.ined-read-value').click();
+          expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
+
         it('should not render the textarea if click is on the link', function() {
-          $('.detail-panel-description .inplace-editor .ined-read-value  a.work_package')
-            .then(function(e) {
-              e.click();
-              expect($('.detail-panel-description .ined-edit textarea').isPresent()).to.eventually.be.false;
-            });
+          descriptionEditor.$('a.work_package').click();
+          expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });
       describe('preview', function() {
+        var previewButton = descriptionEditor.$('.btn-preview');
+
         beforeEach(function() {
-          $('.detail-panel-description .inplace-editor .ined-read-value').then(function(e) {
-            e.click();
-          });
+          descriptionEditor.$('.ined-read-value').click();
         });
+
         it('should render the button', function() {
-          expect($('.detail-panel-description .btn-preview').isDisplayed()).to.eventually.be.true;
+          expect(previewButton.isDisplayed()).to.eventually.be.true;
         });
+
         it('should render the preview block on click', function() {
-          $('.detail-panel-description .btn-preview').then(function(btn) {
-            btn.click();
-            expect($('.detail-panel-description .preview-wrapper').isDisplayed()).to.eventually.be.true;
-          });
+          previewButton.click();
+          expect(
+            descriptionEditor
+              .$('.preview-wrapper')
+              .isDisplayed()
+          ).to.eventually.be.true;
         });
       });
     });
-    context('status', function() {
+    describe('status', function() {
+      var statusEditor = $('[ined-attribute=\'status.name\'] .inplace-editor');
+
       beforeEach(function() {
-        var page = new WorkPackageDetailsPane(819, 'overview');
-        page.get();
+        loadPane(819);
       });
+
       describe('read state', function() {
         it('should render a span with value', function() {
-          expect($('.status-inline-editor .inplace-editor span.read-value-wrapper').getText())
-            .to.eventually.equal('specified');
+          expect(
+            statusEditor
+              .$('.read-value-wrapper')
+              .getText()
+          ).to.eventually.equal('specified');
         });
       });
+
       describe('edit state', function() {
         beforeEach(function() {
-          $('.status-inline-editor .inplace-editor .ined-read-value').then(function(e) {
-            e.click();
-          });
+          statusEditor.$('.ined-read-value').click();
         });
+
         context('dropdown', function() {
           it('should be rendered', function() {
-            expect($('.status-inline-editor select.focus-input').isDisplayed())
-              .to.eventually.be.true;
+            expect(
+              statusEditor
+                .$('.select2-container').isDisplayed()
+                .isDisplayed()
+            ).to.eventually.be.true;
           });
+
           it('should have the correct value', function() {
             expect(
-              $('.status-inline-editor select.focus-input option:checked').getAttribute('value')
-            ).to.eventually.equal('1');
+              statusEditor
+                .$('.select2-choice .select2-chosen span')
+                .getText()
+            ).to.eventually.equal('specified');
           });
         });
       });
     });
     context('user field', function() {
+      var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-editor'),
+          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-editor')
+          ;
+
       beforeEach(function() {
-        var page = new WorkPackageDetailsPane(822, 'overview');
-        page.get();
+        loadPane(822);
       });
+
       context('read state', function() {
         context('with null assignee', function() {
           beforeEach(function() {
             $('.panel-toggler').click();
           });
-          /*jshint multistr: true */
+
           it('should render a span with placeholder', function() {
-            expect($('.user-inline-editor[ined-attribute=\'assignee\'] \
-              .inplace-editor \
-              span.read-value-wrapper span').getText())
-              .to.eventually.equal('-');
+            expect(
+              assigneeEditor
+                .$('span.read-value-wrapper span')
+                .getText()
+            ).to.eventually.equal('-');
           });
         });
-        /*jshint multistr: true */
         context('with set responsible', function() {
           it('should render a link to user\'s profile', function() {
-            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
-              .inplace-editor \
-              span.read-value-wrapper a').getText())
-              .to.eventually.equal('OpenProject Admin');
+            expect(
+              responsibleEditor
+              .$('span.read-value-wrapper a')
+              .getText()
+            ).to.eventually.equal('OpenProject Admin');
           });
         });
       });
 
       describe('edit state', function() {
         beforeEach(function() {
-          /*jshint multistr: true */
-          $('.user-inline-editor[ined-attribute=\'responsible\'] \
-              .inplace-editor \
-              .ined-read-value').then(function(e) {
-            e.click();
-          });
+          responsibleEditor.$('.ined-read-value').click();
         });
+
         context('select2', function() {
           it('should be rendered', function() {
-            /*jshint multistr: true */
-            expect($('.user-inline-editor[ined-attribute=\'responsible\'] \
-              .select2-container').isDisplayed())
-              .to.eventually.be.true;
-          });
-          it('should have the correct value', function() {
-            /*jshint multistr: true */
             expect(
-              $('.user-inline-editor[ined-attribute=\'responsible\'] \
-                .select2-container \
-                .select2-choice span').getText()
+              responsibleEditor
+                .$('.select2-container').isDisplayed()
+            ).to.eventually.be.true;
+          });
+
+          it('should have the correct value', function() {
+            expect(
+              responsibleEditor
+                .$('.select2-choice .select2-chosen span')
+                .getText()
             ).to.eventually.equal('OpenProject Admin');
           });
         });
+      });
+    });
+  });
+
+  describe('activities', function() {
+    describe('overview tab', function() {
+      before(function() {
+        loadPane(819);
+      });
+
+      it('should render the last 3 activites', function() {
+        expect(
+          $('ul li:nth-child(1) div.comments-number').getText()
+        ).to.eventually.equal('#59');
+
+        expect(
+          $('ul li:nth-child(2) div.comments-number').getText()
+        ).to.eventually.equal('#58');
+
+        expect(
+          $('ul li:nth-child(3) div.comments-number').getText()
+        ).to.eventually.equal('#57');
+      });
+
+      it('should contain the activities details', function() {
+        expect(
+          $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
+        ).to.eventually.equal('Status changed from tested to rejected');
       });
     });
   });

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,12 @@ module OpenProject
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
       only_path = options.delete(:only_path) == false ? false : true
 
-      text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, object: obj, attribute: attr, edit: edit) { |macro, args| exec_macro(macro, obj, args, view: self, edit: edit) }
+      text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text,
+                                             object: obj,
+                                             attribute: attr,
+                                             edit: edit) do |macro, macro_args|
+        exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
+      end
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []

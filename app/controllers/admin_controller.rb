@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,9 +103,10 @@ class AdminController < ApplicationController
 
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, File.writable?(Attachment.storage_path)]
+      [:text_file_repository_writable, repository_writable]
     ]
   end
 

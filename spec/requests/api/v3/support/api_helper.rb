@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ shared_examples_for 'valid activity request' do
   it { expect(response.response_code).to eq(status_code) }
 
   describe 'response body' do
-    subject { JSON.parse(response.body) }
+    subject { response.body }
 
-    it { expect(subject['_type']).to eq('Activity::Comment') }
+    it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
 
-    it { expect(subject['rawComment']).to eq(comment) }
+    it { is_expected.to be_json_eql(comment.to_json).at_path('comment/raw') }
   end
 end
 

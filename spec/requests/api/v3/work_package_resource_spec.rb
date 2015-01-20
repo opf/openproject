@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -167,7 +167,10 @@ h4. things we like
       context 'requesting nonexistent work package' do
         let(:get_path) { '/api/v3/work_packages/909090' }
 
-        it_behaves_like 'not found', 909090, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { 909090 }
+          let(:type) { 'WorkPackage' }
+        end
       end
     end
 
@@ -212,13 +215,16 @@ h4. things we like
 
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
-        let(:work_package) { FactoryGirl.create(:work_package, id: 42) }
+        let(:work_package) { FactoryGirl.create(:work_package) }
         let(:current_user) { FactoryGirl.create :user }
         let(:params) { valid_params }
 
         include_context 'patch request'
 
-        it_behaves_like 'not found', 42, 'WorkPackage'
+        it_behaves_like 'not found' do
+          let(:id) { work_package.id }
+          let(:type) { 'WorkPackage' }
+        end
       end
 
       context 'no permission to edit the work package' do
@@ -264,13 +270,15 @@ h4. things we like
         end
 
         context 'disabled' do
-          let(:params) { update_params.merge(notify: 'false') }
+          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=false" }
+          let(:params) { update_params }
 
           it { expect(subject).to be_empty }
         end
 
         context 'enabled' do
-          let(:params) { update_params.merge(notify: 'Some text here - you can take true too') }
+          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=Something" }
+          let(:params) { update_params }
 
           it { expect(subject.count).to eq(1) }
         end
@@ -518,8 +526,8 @@ h4. things we like
             end
 
             context 'user is not visible' do
-              let(:invalid_user) { FactoryGirl.create(:user, id: 42) }
-              let(:user_href) { '/api/v3/users/42' }
+              let(:invalid_user) { FactoryGirl.create(:user) }
+              let(:user_href) { "/api/v3/users/#{invalid_user.id}" }
 
               it_behaves_like 'constraint violation',
                               I18n.t('api_v3.errors.validation.' \
@@ -674,7 +682,9 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          it_behaves_like 'multiple errors of the same type with messages', ['Subject can\'t be blank.', 'Parent does not exist.']
+          it_behaves_like 'multiple errors of the same type with messages' do
+            let(:message) { ['Subject can\'t be blank.', 'Parent does not exist.'] }
+          end
         end
 
         context 'missing lock version' do
@@ -704,8 +714,8 @@ h4. things we like
 
         context 'invalid work package children' do
           let(:params) { valid_params.merge(lockVersion: work_package.reload.lock_version) }
-          let!(:child_1) { FactoryGirl.create(:work_package, id: 98) }
-          let!(:child_2) { FactoryGirl.create(:work_package, id: 99) }
+          let!(:child_1) { FactoryGirl.create(:work_package) }
+          let!(:child_2) { FactoryGirl.create(:work_package) }
 
           before do
             [child_1, child_2].each do |c|
@@ -720,8 +730,11 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
-          it_behaves_like 'multiple errors of the same type with messages',
-                          [98, 99].map { |id| "##{id} cannot be in another project." }
+          it_behaves_like 'multiple errors of the same type with messages' do
+            let(:message) {
+              [child_1.id, child_2.id].map { |id| "##{id} cannot be in another project." }
+            }
+          end
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -272,8 +272,8 @@ en:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     unsupported_browser:
-      title: "Your browser is not supported"
-      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
+      title: "Your browser version is not supported"
+      message: "The browser version you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
     wiki_formatting:
       strong: "Strong"

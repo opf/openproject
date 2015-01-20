@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,20 @@
 require 'spec_helper'
 
 describe Attachment, type: :model do
-  let(:author) { FactoryGirl.create(:user) }
+  let(:author)           { FactoryGirl.create :user }
   let(:long_description) { 'a' * 300 }
-  let(:work_package) { FactoryGirl.create(:work_package, description: '') }
-  let(:attachment) {
-    FactoryGirl.build(:attachment,
-                      author: author,
-                      container: work_package,
-                      filename: 'foo.jpg')
-  }
+  let(:work_package)     { FactoryGirl.create :work_package, description: '' }
+  let(:file)             { FactoryGirl.create :uploaded_jpg, name: 'test.jpg' }
+
+  let(:attachment) do
+    FactoryGirl.build(
+      :attachment,
+      author:       author,
+      container:    work_package,
+      content_type: nil, # so that it is detected
+      file:         file)
+  end
+
   describe 'create' do
     context :save do
       before do
@@ -52,15 +57,29 @@ describe Attachment, type: :model do
         expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', count: 255)
       end
     end
+
+    it('should create a jpg file called test') do
+      expect(File.exists?(attachment.diskfile.path)).to eq true
+    end
+
+    it('have the content type "image/jpeg"') do
+      expect(attachment.content_type).to eq 'image/jpeg'
+    end
+
+    context 'with wrong content-type' do
+      let(:file) { FactoryGirl.create :uploaded_jpg, content_type: 'text/html' }
+
+      it 'should detect the correct content-type' do
+        expect(attachment.content_type).to eq 'image/jpeg'
+      end
+    end
   end
 
   describe 'update' do
-    let!(:attachment) {
-      FactoryGirl.create(:attachment,
-                         author: author,
-                         container: work_package,
-                         filename: 'foo.jpg')
-    }
+    before do
+      attachment.save!
+    end
+
     context :update do
       before do
         attachment.description = long_description
@@ -74,6 +93,26 @@ describe Attachment, type: :model do
       it 'should raise an error regarding description length' do
         expect(attachment.errors.full_messages[0]).to include I18n.t('activerecord.errors.messages.too_long', count: 255)
       end
+    end
+  end
+
+  ##
+  # The tests assumes the default, file-based storage is configured and tests against that.
+  # I.e. it does not test fog attachments being deleted from the cloud storage (such as S3).
+  describe 'destroy' do
+    before do
+      attachment.save!
+
+      expect(File.exists?(attachment.file.path)).to eq true
+
+      attachment.destroy
+      attachment.run_callbacks(:commit)
+      # triggering after_commit callbacks manually as they are not triggered during rspec runs
+      # though in dev/production mode destroy does trigger these callbacks
+    end
+
+    it "deletes the attachment's file" do
+      expect(File.exists?(attachment.file.path)).to eq false
     end
   end
 end

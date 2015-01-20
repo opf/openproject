@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,10 +39,10 @@ exports.config = {
 
   specs: ['work-packages-spec.js', 'work-package-details-spec.js'],
 
-  allScriptsTimeout: 40000,
+  allScriptsTimeout: 500000,
 
   mochaOpts: {
-    timeout:  40000,
+    timeout:  500000,
     reporter: 'mocha-jenkins-reporter'
   },
 

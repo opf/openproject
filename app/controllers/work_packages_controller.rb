@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -221,11 +221,12 @@ class WorkPackagesController < ApplicationController
                        layout: 'angular' # !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
+        title = @query.new_record? ? l(:label_work_package_plural) : @query.name
 
         send_data(serialized_work_packages, type: "text/csv; #{charset}; header=present",
-                                            filename: 'export.csv')
+                                            filename: "#{title}.csv")
       end
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,

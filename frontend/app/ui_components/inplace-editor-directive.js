@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
       entity: '=inedEntity',
       attribute: '@inedAttribute',
       attributeTitle: '@inedAttributeTitle',
-      embedded: '@inedAttributeEmbedded',
+      embedded: '=inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'
     },
@@ -45,7 +45,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
   };
 
   function link(scope, element, attrs) {
-    element.on('click', '.ined-read-value', function(e) {
+    element.on('click', '.ined-read-value.editable', function(e) {
       if (angular.element(e.target).is('a')) {
         return;
       }
@@ -63,21 +63,20 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     scope.$on('startEditing', function() {
       $timeout(function() {
         var inputElement = element.find('.ined-input-wrapper-inner .focus-input');
-
-        FocusHelper.focus(inputElement);
-        inputElement.triggerHandler('keyup');
-        InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
+        if (inputElement.length) {
+          FocusHelper.focus(inputElement);
+          inputElement.triggerHandler('keyup');
+        }
       });
     });
-
     scope.$on('finishEditing', function() {
-      FocusHelper.focusElement(element.find('.ined-read-value'));
+      FocusHelper.focusElement(element.find('.editing-link-wrapper'));
     });
+    InplaceEditorDispatcher.dispatchHook(scope, 'link', element);
   }
 
   Controller.$inject = ['$scope', 'WorkPackageService', 'ApiHelper'];
   function Controller($scope, WorkPackageService, ApiHelper) {
-    $scope.embedded = $scope.embedded == 'false' ? false : !!$scope.embedded;
     $scope.isEditing = false;
     $scope.isEditable = !!$scope.entity.links.updateImmediately;
     $scope.isBusy = false;
@@ -95,6 +94,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     $scope.onSuccess = onSuccess;
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
+    $scope.getTemplateUrl = getTemplateUrl;
 
     activate();
 
@@ -181,7 +181,11 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     }
 
     function isReadValueEmpty() {
-      return (!$scope.readValue || $scope.readValue.length === 0);
+      return !$scope.readValue;
+    }
+
+    function getTemplateUrl() {
+      return '/templates/components/inplace_editor/editable/' + $scope.type + '.html';
     }
 
   }

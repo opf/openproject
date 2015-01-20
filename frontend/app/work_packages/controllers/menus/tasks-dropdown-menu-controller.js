@@ -26,41 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('dropdown Directive', function() {
-  var compile, element, rootScope, scope;
-
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
-
-  beforeEach(inject(function($rootScope, $compile) {
-    var html;
-    html = '<div dropdown></div>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    scope.doNotShow = true;
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
-
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-
-    });
-
-    it('should preserve its div', function() {
-      expect(element.prop('tagName')).to.equal('DIV');
-    });
-
-    it('should be in a collapsed state', function() {
-      expect(element.is(":visible")).to.be.false;
-    });
-  });
-});
+module.exports = function($scope, PathHelper) {
+  $scope.workPackageNewPath = function(typeId) {
+    return PathHelper.staticWorkPackageNewWithParametersPath(
+      $scope.projectIdentifier,
+      { 'type_id': typeId }
+    );
+  };
+};

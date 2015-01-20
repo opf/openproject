@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,11 @@ describe ::API::V3::Users::UserRepresenter do
   let(:user)             {
     FactoryGirl.build_stubbed(:user,
                               created_on: Time.now,
-                              updated_on: Time.now)
+                              updated_on: Time.now,
+                              status: 1)
   }
-  let(:representer) { described_class.new(user) }
+  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:representer) { described_class.new(user, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -55,9 +57,61 @@ describe ::API::V3::Users::UserRepresenter do
       it { is_expected.to have_json_path('avatar') }
     end
 
+    describe 'status' do
+      it 'contains the name of the account status' do
+        expect(parse_json(subject, 'status')).to eql 'active'
+      end
+    end
+
     describe '_links' do
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
+      end
+
+      context 'when regular current_user' do
+        it 'should have no lock-related links' do
+          expect(subject).to_not have_json_path('_links/lock/href')
+          expect(subject).to_not have_json_path('_links/unlock/href')
+        end
+      end
+
+      context 'when current_user is admin' do
+        let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+
+        it 'should link to lock' do
+          expect(subject).to have_json_path('_links/lock/href')
+        end
+
+        context 'when account is locked' do
+          it 'should link to unlock' do
+            user.lock
+            expect(subject).to have_json_path('_links/unlock/href')
+          end
+        end
+      end
+
+      context 'when deletion is allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(true)
+        end
+
+        it 'should link to delete' do
+          expect(subject).to have_json_path('_links/delete/href')
+        end
+      end
+
+      context 'when deletion is not allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(false)
+        end
+
+        it 'should not link to delete' do
+          expect(subject).to_not have_json_path('_links/delete/href')
+        end
       end
     end
 

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+module.exports = function() {
 
-describe('withDropdown Directive', function() {
-  var compile, element, rootScope, scope;
+  var OverviewService = {
+    getInplaceProperties: function() {
+      return {
+        assignee: {
+          type: 'select2',
+          attribute: 'assignee',
+          embedded: false,
+          placeholder: '-'
+        },
+        responsible: {
+          type: 'select2',
+          attribute: 'responsible',
+          embedded: false,
+          placeholder: '-'
+        },
+        status: {
+          type: 'select2',
+          attribute: 'status.name',
+          embedded: true,
+          placeholder: '-'
+        }
+      };
+    }
+  };
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('openproject.templates'));
-
-  beforeEach(inject(function($rootScope, $compile) {
-    var html;
-    html = '<div with-dropdown dropdown-id="2"></div>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    scope.doNotShow = true;
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
-
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-    });
-
-    it('should preserve its div', function() {
-      expect(element.prop('tagName')).to.equal('DIV');
-    });
-
-    it('should be in a collapsed state', function() {
-      expect(element.is(":visible")).to.be.false;
-    });
-  });
-});
+  return OverviewService;
+};

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,7 @@ angular.module('openproject.workPackages.tabs')
     '$uiViewScroll',
     '$timeout',
     '$location',
+    '$sce',
     'I18n',
     'PathHelper',
     'ActivityService',

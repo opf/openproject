@@ -2076,10 +2076,11 @@
         "comment": "",
         "rawComment": "",
         "details": [
-          "Subject changed from sadaa22222 to 23"
-        ],
-        "htmlDetails": [
-          "<strong>Subject</strong> changed from <i title=\"sadaa22222\">sadaa22222</i> to <i title=\"23\">23</i>"
+          {
+            "format": "textile",
+            "raw": "Subject changed from sadaa22222 to 23",
+            "html": "<strong>Subject</strong> changed from <i title=\"sadaa22222\">sadaa22222</i> to <i title=\"23\">23</i>"
+          }
         ],
         "version": 58,
         "createdAt": "2014-11-21T08:47:21Z"
@@ -2109,10 +2110,11 @@
         "comment": "",
         "rawComment": "",
         "details": [
-          "Subject changed from 23 to 66666"
-        ],
-        "htmlDetails": [
-          "<strong>Subject</strong> changed from <i title=\"23\">23</i> to <i title=\"66666\">66666</i>"
+          {
+            "format": "textile",
+            "raw": "Subject changed from 23 to 66666",
+            "html": "<strong>Subject</strong> changed from <i title=\"23\">23</i> to <i title=\"66666\">66666</i>"
+          }
         ],
         "version": 59,
         "createdAt": "2014-11-21T08:48:27Z"
@@ -2142,10 +2144,11 @@
         "comment": "",
         "rawComment": "",
         "details": [
-          "Status changed from tested to rejected"
-        ],
-        "htmlDetails": [
-          "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"rejected\">rejected</i>"
+          {
+            "format": "textile",
+            "raw": "Status changed from tested to rejected",
+            "html": "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"rejected\">rejected</i>"
+          }
         ],
         "version": 60,
         "createdAt": "2014-11-21T08:48:57Z"

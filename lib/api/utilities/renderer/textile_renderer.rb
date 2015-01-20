@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,10 +39,11 @@ module API
         def initialize(text, object = nil)
           @text = text
           @object = object
+          @project = object.project if object.respond_to?(:project)
         end
 
         def to_html
-          format_text(@text, object: @object)
+          format_text(@text, object: @object, project: @project)
         end
 
         def controller; end

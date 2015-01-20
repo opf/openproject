@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,7 @@ angular.module('openproject.services')
   .service('AuthorisationService', require('./authorisation-service'))
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
+  .service('OverviewService', require('./overview-service'))
   .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(

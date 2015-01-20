@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 @import global/all
 
-#errorExplanation, div.flash, .nodata, .warning
+#errorExplanation, .flash, .nodata, .warning
   padding: 4px
   margin: 0 0 10px 0
   color: $content_flash_msg_font_color
@@ -36,13 +36,13 @@
   %absolute-layout-mode &
     height: $content-flash-height
 
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
+.flash.error a:link, .flash.warning a:link, .flash.notice a:link, #errorExplanation a:link,
+.flash.error a:hover, .flash.warning a:hover, .flash.notice a:hover, #errorExplanation a:hover
   @include default-font-normal($content_flash_msg_font_color)
   text-decoration: none
   cursor: default
 
-div.flash
+.flash
   display: none
 
   &.ng-leave
@@ -61,11 +61,14 @@ div.flash
   h2, p
     @extend .hidden-for-sighted
 
-div.flash.error, #errorExplanation
+.flash.error, #errorExplanation
   background-color: $content_flash_error_msg_bg_color
 
-div.flash.notice
+.flash.notice
   background-color: $content_flash_notice_msg_bg_color
 
-div.flash.warning, .nodata, .warning
+.flash.warning, .nodata, .warning
   background-color: $content_flash_warning_msg_bg_color
+
+.flash.permanent
+  display: block

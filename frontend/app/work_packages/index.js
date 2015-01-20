@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,52 +35,3 @@ require('./models');
 require('./services');
 require('./tabs');
 require('./view_models');
-
-angular.module('openproject.workPackages')
-  .factory('ColumnContextMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-
-      return ngContextMenu({
-        controller: 'ColumnContextMenuController',
-        controllerAs: 'contextMenu',
-        templateUrl: '/templates/work_packages/column_context_menu.html',
-        container: '.work-packages--list-table-area'
-      });
-    }
-  ])
-  .controller('ColumnContextMenuController', [
-    '$scope',
-    'ColumnContextMenu',
-    'I18n',
-    'QueryService',
-    'WorkPackagesTableHelper',
-    'WorkPackagesTableService',
-    'columnsModal',
-    require('./column-context-menu')
-  ])
-  .constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time',
-    'duplicate', 'move', 'copy', 'delete'
-  ])
-  .factory('WorkPackageContextMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-
-      return ngContextMenu({
-        controller: 'WorkPackageContextMenuController',
-        controllerAs: 'contextMenu',
-        templateUrl: '/templates/work_packages/work_package_context_menu.html'
-      });
-    }
-  ])
-  .controller('WorkPackageContextMenuController', [
-    '$scope',
-    'WorkPackagesTableHelper',
-    'WorkPackageContextMenuHelper',
-    'WorkPackageService',
-    'WorkPackagesTableService',
-    'I18n',
-    '$window',
-    'PERMITTED_CONTEXT_MENU_ACTIONS',
-    require('./work-package-context-menu')
-  ]);

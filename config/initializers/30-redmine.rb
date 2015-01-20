@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,5 +34,5 @@ if Setting.table_exists? # don't want to prevent migrations
   I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
 end
 
-require 'redmine'
+require 'open_project'
 require 'chili_project'

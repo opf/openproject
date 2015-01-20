@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -51,13 +51,13 @@ describe('userActivity Directive', function() {
       var html;
       html = '<div exclusive-edit class="exclusive-edit"><user-activity work-package="workPackage" activity="activity" activity-no="activityNo" input-element-id="inputElementId"></user-activity></div>';
 
-      element = angular.element(html);
       rootScope = $rootScope;
       scope = $rootScope.$new();
 
       compile = function() {
+        element = angular.element(html);
         $compile(element)(scope);
-        scope.$apply();
+        scope.$digest();
       };
     }));
 
@@ -88,7 +88,26 @@ describe('userActivity Directive', function() {
                   };
                 }
               }
-            }
+            },
+            props: {
+              comment: {
+                format: 'textile',
+                raw: 'This is my *comment* with _some_ markup.',
+                html: '<p>This is my <strong>comment</strong> with <em>some</em> markup.</p>'
+              },
+              details: [
+                {
+                  format: 'textile',
+                  raw: 'Status changed',
+                  html: '<strong>Status</strong> changed'
+                },
+                {
+                  format: 'textile',
+                  raw: 'Type changed',
+                  html: '<strong>Type</strong> changed'
+                },
+              ]
+            },
           };
           compile();
         });
@@ -99,7 +118,6 @@ describe('userActivity Directive', function() {
           });
 
           it("should have the title set to user's name", function() {
-            console.log(element);
             expect(element.find('.avatar').attr('title')).to.equal('John Doe');
           });
 
@@ -128,7 +146,25 @@ describe('userActivity Directive', function() {
           });
 
         });
-      });
 
+        describe('comment', function() {
+          it('should render activity comment', function() {
+            var comment = element.find('span.comment > span.message').html();
+
+            expect(comment).to.eq(scope.activity.props.comment.html);
+          });
+        });
+
+        describe('details', function() {
+          it('should render activity details', function() {
+            var list = element.find('ul.work-package-details-activities-messages');
+            var detail1 = list.find(':nth-child(1) .message').html();
+            var detail2 = list.find(':nth-child(2) .message').html();
+
+            expect(detail1).to.eq(scope.activity.props.details[0].html);
+            expect(detail2).to.eq(scope.activity.props.details[1].html);
+          });
+        });
+      });
     });
 });

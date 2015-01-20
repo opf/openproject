@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License status 3.
@@ -35,9 +35,7 @@ module API
   module V3
     module Statuses
       class StatusCollectionRepresenter < ::API::Decorators::Collection
-        def initialize(models, total, self_link)
-          super(models, total, self_link, ::API::V3::Statuses::StatusRepresenter)
-        end
+        element_decorator ::API::V3::Statuses::StatusRepresenter
       end
     end
   end

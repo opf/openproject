@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,6 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('langAttribute', require('./lang-attribute-directive'))
-  .directive('optionsDropdown', ['I18n',
-    'columnsModal',
-    'exportModal',
-    'saveModal',
-    'settingsModal',
-    'shareModal',
-    'sortingModal',
-    'groupingModal',
-    'QueryService',
-    'AuthorisationService',
-    '$window',
-    '$state',
-    '$timeout', require('./options-dropdown-directive')
-  ])
   .directive('queryColumns', [
     'WorkPackagesTableHelper',
     'WorkPackagesTableService',
@@ -53,6 +39,7 @@ angular.module('openproject.workPackages.directives')
     'QueryService',
     'PaginationService',
     'I18n',
+    'OPERATORS_NOT_REQUIRING_VALUES',
     '$timeout',
     '$animate', require('./query-filter-directive')
   ])
