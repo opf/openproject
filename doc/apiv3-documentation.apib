@@ -2839,12 +2839,11 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Add watchers [POST]
+## Add watcher [POST]
 
-Adds one or more watchers to the specified work package.
+Adds a watcher to the specified work package.
 
-The request is expected to contain a single JSON object, that contains an array
-of link objects under the `users` key.
+The request is expected to contain a single JSON object, that contains a link object under the `user` key.
 
 The response will be the collection of *all* the watchers for the given work package.
 
@@ -2854,10 +2853,7 @@ The response will be the collection of *all* the watchers for the given work pac
 + Request (application/json)
 
         {
-            "users": [
-                { "href": "/api/v3/users/1" },
-                { "href": "/api/v3/users/2" }
-            ]
+            "user": { "href": "/api/v3/users/1" }
         }
 
 + Response 200 (application/hal+json)
@@ -2871,8 +2867,8 @@ The response will be the collection of *all* the watchers for the given work pac
     For example:
 
     * The request did not contain a single JSON object
-    * The JSON object did not contain the key `users`
-    * The value of `users` was not an array of link objects
+    * The JSON object did not contain the key `user`
+    * The value of `users` was not a link object
 
     + Body
 
@@ -2922,17 +2918,14 @@ The response will be the collection of *all* the watchers for the given work pac
     Returned if:
 
     * the client tries to specify a link to a resource that is not a user
-    * one of the users specified is not allowed to watch that work package
-
-    Note that in case of an error *no users* are added to the list of watchers.
-    In other words, you can either add all users specified or none of them.
+    * the user specified is not allowed to watch that work package
 
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Expected resources of type 'User', but got a 'Status'.",
+                "message": "Expected resource of type 'User', but got a 'Status'.",
             }
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
