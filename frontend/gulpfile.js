@@ -33,6 +33,8 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
+var ngAnnotate = require('gulp-ng-annotate');
+var uglify = require('gulp-uglify');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -56,6 +58,13 @@ gulp.task('lint', function() {
 gulp.task('webpack', function() {
   return gulp.src('app/openproject-app.js')
     .pipe(gulpWebpack(config))
+    .pipe(gulp.dest('../app/assets/javascripts/bundles'));
+});
+
+gulp.task('minify', ['webpack'], function() {
+  return gulp.src('../app/assets/javascripts/bundles/openproject-*.js')
+    .pipe(ngAnnotate())
+    .pipe(uglify({ mangle: true }))
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
 });
 
@@ -93,7 +102,7 @@ gulp.task('express', function(done) {
 gulp.task('webdriver:update', webdriverUpdate);
 gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
-gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
+function protractorFunc(done) {
   gulp.src('tests/integration/**/*_spec.js')
     .pipe(protractor({
       configFile: 'tests/integration/protractor.conf.js',
@@ -106,13 +115,16 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
       server.close();
       done();
     });
-});
+}
+
+gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], protractorFunc);
+gulp.task('tests:protractor:minified', ['webdriver:update', 'min', 'express'], protractorFunc);
 
 gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('min', ['sass', 'minify']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('public/templates/**/*.html', ['webpack']);
-
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass']);
 });
