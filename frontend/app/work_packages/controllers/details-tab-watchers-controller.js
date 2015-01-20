@@ -83,14 +83,6 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
       });
   }
 
-  $scope.getAvailableWatchers = function(term, result) {
-    var watchers = $scope.availableWatchers.map(function(watcher) {
-      return { id: watcher.props.id, name: watcher.props.name };
-    });
-
-    result($filter('filter')(watchers, {name: term}));
-  };
-
   function addWatcher(newValue, oldValue) {
     if (newValue) {
       var id = newValue.props.id;
