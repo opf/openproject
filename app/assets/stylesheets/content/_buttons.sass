@@ -86,6 +86,13 @@ a.button,
       &:focus
         border-color: #ddd
 
+    &.-active
+      background: #eee
+
+      &:enabled
+        &:hover, &:focus
+          border-color: #777
+
   &.-tiny
     @include button-size(tiny)
 
