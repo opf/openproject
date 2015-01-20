@@ -744,5 +744,23 @@ describe('DetailsTabOverviewController', function() {
         });
       });
     });
+
+    describe('isGroupEmpty', function() {
+      describe('for a group having at least one non empty attribute', function() {
+        var group = { attributes: [ { value: 'a' }, { value: null } ] };
+
+        it('is false', function() {
+          expect(scope.isGroupEmpty(group)).to.eq(false);
+        });
+      });
+
+      describe('for a group having only empty attributes', function() {
+        var group = { attributes: [ { value: null }, { value: null } ] };
+
+        it('is true', function() {
+          expect(scope.isGroupEmpty(group)).to.eq(true);
+        });
+      });
+    });
   });
 });

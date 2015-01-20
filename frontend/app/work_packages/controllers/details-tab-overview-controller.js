@@ -279,9 +279,9 @@ module.exports = function($scope,
   };
 
   $scope.isGroupEmpty = function(group) {
-    return group.attributes.filter(function(element) {
-      return !$scope.isPropertyEmpty(element.value);
-    }).length === 0;
+    return _.every(group.attributes, function(element) {
+      return $scope.isPropertyEmpty(element.value);
+    });
   };
 
   $scope.anyEmptyWorkPackageValue = function() {
