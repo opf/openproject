@@ -274,8 +274,4 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
     }
   };
-
-  $scope.workPackageNewPath = function(typeId) {
-    return PathHelper.staticWorkPackageNewWithParametersPath($scope.projectIdentifier, { type_id: typeId });
-  };
 };

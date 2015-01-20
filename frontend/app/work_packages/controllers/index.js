@@ -238,3 +238,4 @@ angular.module('openproject.workPackages.controllers')
     'I18n',
     require('./dialogs/sorting')
   ]);
+require('./menus');

@@ -58,7 +58,8 @@ describe('workPackageContextMenu', function() {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
-    var template = $templateCache.get('/templates/work_packages/work_package_context_menu.html');
+    var template = $templateCache
+      .get('/templates/work_packages/menus/work_package_context_menu.html');
     $templateCache.put('work_package_context_menu.html', [200, template, {}]);
 
     contextMenu = ngContextMenu({
@@ -98,7 +99,7 @@ describe('workPackageContextMenu', function() {
 
       $rootScope.$digest();
 
-      directListElements = container.find('.menu > li:not(.folder)');
+      directListElements = container.find('.dropdown-menu > li:not(.folder)');
     });
 
     it('lists link tags for any permitted action', function(){
@@ -137,10 +138,10 @@ describe('workPackageContextMenu', function() {
         $rootScope.row = {object: workPackage};
         $rootScope.$digest();
 
-        directListElements = container.find('.menu > li:not(.folder)');
+        directListElements = container.find('.dropdown-menu > li:not(.folder)');
       });
 
-      it('displays a link triggering deleteWorkPackages within the scope', function() {
+      xit('displays a link triggering deleteWorkPackages within the scope', function() {
         expect(directListElements.find('a:has(i.icon-delete)').attr('ng-click')).to.equal('deleteWorkPackages()');
       });
     });
