@@ -720,5 +720,47 @@ describe('DetailsTabOverviewController', function() {
         expect(groupOtherAttributes.every(isSorted)).to.be.true;
       });
     });
+
+    describe('anyEmptyWorkPackageValue', function() {
+      describe('with a group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: null } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is true', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.true;
+        });
+      });
+
+      describe('with no group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: 'd' } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is false', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.false;
+        });
+      });
+    });
+
+    describe('isGroupEmpty', function() {
+      describe('for a group having at least one non empty attribute', function() {
+        var group = { attributes: [ { value: 'a' }, { value: null } ] };
+
+        it('is false', function() {
+          expect(scope.isGroupEmpty(group)).to.be.false;
+        });
+      });
+
+      describe('for a group having only empty attributes', function() {
+        var group = { attributes: [ { value: null }, { value: null } ] };
+
+        it('is true', function() {
+          expect(scope.isGroupEmpty(group)).to.be.true;
+        });
+      });
+    });
   });
 });
