@@ -61,12 +61,13 @@ Links to other resources in the API are represented uniformly by so called link 
 
 ## Properties
 
-| Property  | Description                                                              | Type    | Required | Nullable | Default |
-|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
-| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |         |
-| title     | Representative label for the resource                                    | String  |          |          |         |
-| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
-| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+| Property  | Description                                                              | Type    | Required | Nullable | Default     |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ----------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |             |
+| title     | Representative label for the resource                                    | String  |          |          |             |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false       |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET         |
+| payload   | The exact payload to send in the request to achieve the desired result   | String  |          |          | unspecified |
 
 All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
 link object:
@@ -85,6 +86,10 @@ the link `api/v3/example/{id}` is not complete in itself, but the client needs t
 As of now the API does not indicate the valid replacement values.
 
 The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+If a `payload` is specified, it needs to be sent as the body of the request to achieve the desired result (e.g. perform the
+action represented by the link). If no `payload` is specified, there is either no payload to send or there are multiple valid
+payloads.
 
 Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
 Changes to all other properties will be **silently ignored**.
@@ -2471,7 +2476,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                     "watch": {
                         "href": "/api/v3/work_packages/1528/watchers",
                         "method": "post",
-                        "data": {
+                        "payload": {
                             "users": { "href": "/api/v3/users/1" }
                         },
                         "title": "Watch work package"
