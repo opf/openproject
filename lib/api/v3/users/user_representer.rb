@@ -112,7 +112,7 @@ module API
         end
 
         def current_user_can_delete_represented?
-          @current_user && DeleteUserService.deletion_allowed?(represented, @current_user)
+          current_user && DeleteUserService.deletion_allowed?(represented, current_user)
         end
       end
     end
