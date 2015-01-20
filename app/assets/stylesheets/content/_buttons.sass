@@ -81,6 +81,11 @@ a.button,
     @include button-style($background: $button-font-color, $style: hollow)
     border-color: transparent
 
+    &:enabled
+      &:hover,
+      &:focus
+        border-color: #ddd
+
   &.-tiny
     @include button-size(tiny)
 
