@@ -224,9 +224,9 @@ module.exports = function($scope,
   function getCustomPropertyValue(property) {
     switch(property.format) {
       case VERSION_TYPE:
-        return setCustomPropertyVersionValue(property);
+        return getCustomPropertyVersionValue(property);
       case USER_TYPE:
-        return UserService.getUser(property.value);
+        return getCustomPropertyUserValue(property);
       default:
         return CustomFieldHelper.formatCustomFieldValue(property.value, property.format);
     }
@@ -247,7 +247,7 @@ module.exports = function($scope,
     return propertyData;
   }
 
-  function setCustomPropertyVersionValue(property) {
+  function getCustomPropertyVersionValue(property) {
     var versionHref = PathHelper.staticBase + PathHelper.versionPath(property.value);
     var versionTitle = I18n.t('js.error_could_not_resolve_version_name');
     var projectId = $scope.workPackage.props.projectId;
@@ -266,6 +266,22 @@ module.exports = function($scope,
       return { href: versionHref, title: versionTitle, viewable: true };
     }, function(reason) {
       return { href: versionHref, title: versionTitle, viewable: true };
+    });
+
+    return promise;
+  }
+
+  function getCustomPropertyUserValue(property) {
+    var userHref = PathHelper.staticBase + PathHelper.userPath(property.value);
+    var userTitle = I18n.t('js.error_could_not_resolve_user_name');
+    var user = UserService.getUser(property.value);
+
+    var promise = $q.when(user).then(function(value) {
+      userTitle = value.props.name;
+
+      return { href: userHref, title: userTitle, viewable: true };
+    }, function() {
+      return { href: userHref, title: userTitle, viewable: true };
     });
 
     return promise;
