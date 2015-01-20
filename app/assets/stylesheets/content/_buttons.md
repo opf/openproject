@@ -25,14 +25,6 @@
 <input type="submit" class="button -active" value="Do not submit" disabled />
 ```
 
-## Hollow buttons
-
-```
-<input type="submit" class="button -hollow" value="Submit me"/>
-<a href="#" class="button -hollow">Click me</a>
-<input type="submit" class="button -hollow" value="Do not submit" disabled />
-```
-
 ## Transparent buttons
 
 ```
