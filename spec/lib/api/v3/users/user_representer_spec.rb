@@ -89,6 +89,30 @@ describe ::API::V3::Users::UserRepresenter do
           end
         end
       end
+
+      context 'when deletion is allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(true)
+        end
+
+        it 'should link to delete' do
+          expect(subject).to have_json_path('_links/delete/href')
+        end
+      end
+
+      context 'when deletion is not allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(false)
+        end
+
+        it 'should not link to delete' do
+          expect(subject).to_not have_json_path('_links/delete/href')
+        end
+      end
     end
 
     describe 'avatar' do
