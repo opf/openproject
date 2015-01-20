@@ -2,7 +2,12 @@
   <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing" ng-switch="type">
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
     <span class="read-value-wrapper" ng-switch-default>
-      <span ng-if="!isUserLink" ng-bind="readValue"></span>
+      <span ng-if="!isUserLink">
+        <span ng-if="attribute == 'version'">
+          {{readValue}}
+        </span>
+        <span ng-if="attribute != 'version.name'" ng-bind="readValue"></span>
+      </span>
       <user-field ng-if="isUserLink" user="readValue"></user-field>
     </span>
     <span ng-if="isEditable" class="editing-link-wrapper">

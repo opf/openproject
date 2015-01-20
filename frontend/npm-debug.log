@@ -1,0 +1,34 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'protractor' ]
+2 info using npm@2.1.6
+3 info using node@v0.10.33
+4 verbose node symlink /usr/local/bin/node
+5 verbose run-script [ 'preprotractor', 'protractor', 'postprotractor' ]
+6 info preprotractor openproject-frontend@0.1.0
+7 info protractor openproject-frontend@0.1.0
+8 verbose unsafe-perm in lifecycle true
+9 info openproject-frontend@0.1.0 Failed to exec protractor script
+10 verbose stack Error: openproject-frontend@0.1.0 protractor: `./node_modules/gulp/bin/gulp.js tests:protractor`
+10 verbose stack Exit status 8
+10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
+10 verbose stack     at ChildProcess.emit (events.js:98:17)
+10 verbose stack     at maybeClose (child_process.js:756:16)
+10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:823:5)
+11 verbose pkgid openproject-frontend@0.1.0
+12 verbose cwd /Users/mmaxacov/Work/openproject/frontend
+13 error Darwin 14.0.0
+14 error argv "node" "/usr/local/bin/npm" "run" "protractor"
+15 error node v0.10.33
+16 error npm  v2.1.6
+17 error code ELIFECYCLE
+18 error openproject-frontend@0.1.0 protractor: `./node_modules/gulp/bin/gulp.js tests:protractor`
+18 error Exit status 8
+19 error Failed at the openproject-frontend@0.1.0 protractor script.
+19 error This is most likely a problem with the openproject-frontend package,
+19 error not with npm itself.
+19 error Tell the author that this fails on your system:
+19 error     ./node_modules/gulp/bin/gulp.js tests:protractor
+19 error You can get their info via:
+19 error     npm owner ls openproject-frontend
+19 error There is likely additional logging output above.
+20 verbose exit [ 1, true ]
