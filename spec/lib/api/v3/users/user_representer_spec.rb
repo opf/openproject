@@ -76,7 +76,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when current_user is admin' do
-        let(:current_user) { FactoryGirl.create(:admin) }
+        let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
         it 'should link to lock' do
           expect(subject).to have_json_path('_links/lock/href')
@@ -87,6 +87,30 @@ describe ::API::V3::Users::UserRepresenter do
             user.lock
             expect(subject).to have_json_path('_links/unlock/href')
           end
+        end
+      end
+
+      context 'when deletion is allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(true)
+        end
+
+        it 'should link to delete' do
+          expect(subject).to have_json_path('_links/delete/href')
+        end
+      end
+
+      context 'when deletion is not allowed' do
+        before do
+          allow(DeleteUserService).to receive(:deletion_allowed?)
+                                      .with(user, current_user)
+                                      .and_return(false)
+        end
+
+        it 'should not link to delete' do
+          expect(subject).to_not have_json_path('_links/delete/href')
         end
       end
     end

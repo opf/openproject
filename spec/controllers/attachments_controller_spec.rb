@@ -105,6 +105,10 @@ describe AttachmentsController, type: :controller do
     let(:work_package) { FactoryGirl.create :work_package, project: project }
     let(:uploader) { nil }
 
+    ##
+    # Stubs an attachment instance of the respective uploader.
+    # It's an anonymous subclass of Attachment and can therefore
+    # not be saved.
     let(:attachment) do
       clazz = Class.new Attachment
       clazz.mount_uploader :file, uploader
@@ -118,6 +122,7 @@ describe AttachmentsController, type: :controller do
       att = clazz.new container: work_package, author: user, file: file
       att.id = 42
       att.file.store!
+      att.send :write_attribute, :file, file.original_filename
       att
     end
 

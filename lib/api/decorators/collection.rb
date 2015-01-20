@@ -37,12 +37,22 @@ module API
       include Roar::Hypermedia
       include API::Utilities::UrlHelper
 
-      def initialize(models, total, self_link, decorator)
+      def initialize(models, total, self_link, context: {})
         @total = total
         @self_link = self_link
-        @decorator = decorator
+        @context = context
 
         super(models)
+      end
+
+      class_attribute :element_decorator_class
+
+      def self.element_decorator(klass)
+        self.element_decorator_class = klass
+      end
+
+      def element_decorator
+        self.class.element_decorator_class
       end
 
       as_strategy = API::Utilities::CamelCasingStrategy.new
@@ -56,9 +66,17 @@ module API
       property :count, getter: -> (*) { empty? ? 0 : count }
 
       collection :elements,
-                 getter: -> (*) { represented.map { |model| @decorator.new(model) } },
+                 getter: -> (*) {
+                   represented.map { |model|
+                     element_decorator.new(model, context)
+                   }
+                 },
                  exec_context: :decorator,
                  embedded: true
+
+      private
+
+      attr_reader :context
     end
   end
 end

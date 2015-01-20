@@ -27,17 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/collection'
-require 'roar/json/hal'
-
 module API
   module V3
     module Categories
       class CategoryCollectionRepresenter < ::API::Decorators::Collection
-        def initialize(models, total, self_link)
-          super(models, total, self_link, ::API::V3::Categories::CategoryRepresenter)
-        end
+        element_decorator ::API::V3::Categories::CategoryRepresenter
       end
     end
   end

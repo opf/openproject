@@ -33,23 +33,8 @@ require 'roar/json/hal'
 module API
   module V3
     module Users
-      class UserRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
+      class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @work_package = options[:work_package]
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
 
         link :self do
           {
@@ -74,12 +59,20 @@ module API
           } if current_user_is_admin && represented.activatable?
         end
 
+        link :delete do
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "Delete #{represented.login}",
+            method: :delete
+          } if current_user_can_delete_represented?
+        end
+
         link :removeWatcher do
           {
-            href: api_v3_paths.watcher(represented.id, @work_package.id),
+            href: api_v3_paths.watcher(represented.id, work_package.id),
             method: :delete,
             title: 'Remove watcher'
-          } if @work_package && current_user_allowed_to(:delete_work_package_watchers, @work_package)
+          } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
         end
 
         property :id, render_nil: true
@@ -101,11 +94,25 @@ module API
         end
 
         def current_user_is_admin
-          @current_user && @current_user.admin?
+          current_user && current_user.admin?
         end
 
         def current_user_allowed_to(permission, work_package)
-          @current_user && @current_user.allowed_to?(permission, work_package.project)
+          current_user && current_user.allowed_to?(permission, work_package.project)
+        end
+
+        private
+
+        def current_user
+          context[:current_user]
+        end
+
+        def work_package
+          context[:work_package]
+        end
+
+        def current_user_can_delete_represented?
+          @current_user && DeleteUserService.deletion_allowed?(represented, @current_user)
         end
       end
     end

@@ -42,7 +42,9 @@ module.exports = function() {
               scope.oldTabIndex = currentTabIndex;
             }
             element.attr("tabindex", -1);
+            element.attr('aria-disabled', true);
           } else {
+            element.attr('aria-disabled', false);
             if (scope.oldTabIndex) {
               element.attr("tabindex", scope.oldTabIndex);
             } else {

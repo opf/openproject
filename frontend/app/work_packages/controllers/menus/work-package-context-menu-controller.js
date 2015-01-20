@@ -30,8 +30,6 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
 
   $scope.I18n = I18n;
 
-  $scope.hideResourceActions = true;
-
   $scope.$watch('row', function() {
     if (!$scope.row.checked) {
       WorkPackagesTableService.setCheckedStateForAllRows($scope.rows, false);
@@ -41,8 +39,8 @@ module.exports = function($scope, WorkPackagesTableHelper, WorkPackageContextMen
     $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
   });
 
-  $scope.isDetailsViewLinkVisible = function() {
-    return angular.element('#work-package-context-menu li.open').is(':visible');
+  $scope.isDetailsViewLinkPresent = function() {
+    return !!angular.element('#work-package-context-menu li.open').length;
   };
 
   $scope.triggerContextMenuAction = function(action, link) {

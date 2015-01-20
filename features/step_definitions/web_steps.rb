@@ -363,7 +363,7 @@ When /^(?:|I )click the toolbar button named "(.*?)"$/ do |action_name|
 end
 
 When /^(?:|I )choose "(.*?)" from the toolbar "(.*?)" dropdown$/ do |action_name, dropdown_id|
-  find("button[dropdown-id=#{dropdown_id}Dropdown]").click
+  find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
   find("##{dropdown_id}Dropdown").click_link action_name
 end
 

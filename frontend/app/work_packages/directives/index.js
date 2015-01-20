@@ -28,20 +28,6 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('langAttribute', require('./lang-attribute-directive'))
-  .directive('optionsDropdown', ['I18n',
-    'columnsModal',
-    'exportModal',
-    'saveModal',
-    'settingsModal',
-    'shareModal',
-    'sortingModal',
-    'groupingModal',
-    'QueryService',
-    'AuthorisationService',
-    '$window',
-    '$state',
-    '$timeout', require('./options-dropdown-directive')
-  ])
   .directive('queryColumns', [
     'WorkPackagesTableHelper',
     'WorkPackagesTableService',

@@ -63,7 +63,7 @@ Links to other resources in the API are represented uniformly by so called link 
 
 | Property  | Description                                                              | Type    | Required | Nullable | Default |
 |:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
-| href      | URL to the referenced resource (might be relative)                       | String  |    ✓    |    ✓    |         |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |         |
 | title     | Representative label for the resource                                    | String  |          |          |         |
 | templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
 | method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
@@ -1943,10 +1943,16 @@ This endpoint lists the types that are *available* in a given project.
 # Group Users
 
 ## Actions:
-| Link                | Description                                                          | Condition                                 |
-|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------- |
-| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator |
-| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator     |
+| Link                | Description                                                          | Condition                                  |
+|:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
+| delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This user                                   | User          | not null              | READ                 |
 
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
@@ -1958,9 +1964,15 @@ This endpoint lists the types that are *available* in a given project.
 | name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
 | mail        | User's email                                              | String   |             | READ                 |
 | avatar      | URL to user's avatar                                      | String   |             | READ                 |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |
 | createdAt   | Time of creation                                          | DateTime |             | READ                 |
 | updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |
 
+The `status` of a user can be one of:
+
+* `active` - the user can log in with the account
+* `registered` - the user just registered to the instance, he can't log in yet, but will be able to, once the registration is completed
+* `locked` - the user is locked and can't log in
 
 ## User [/api/v3/users/{id}]
 
@@ -1991,9 +2003,9 @@ This endpoint lists the types that are *available* in a given project.
                 "lastName": "Sheppard",
                 "mail": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
+                "status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z",
-                "status": "active"
+                "updatedAt": "2014-05-21T08:51:20Z"
             }
 
 ## View user [GET]
@@ -2450,7 +2462,8 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "title": "New"
                     },
                     "version": {
-                        "href": "/api/v3/versions/1"
+                        "href": "/api/v3/versions/1",
+                        "title": "Version 1"
                     },
                     "availableWatchers": {
                         "href": "/api/v3/work_packages/1528/available_watchers",
@@ -2649,27 +2662,6 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
-+ Model
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
-
 ## Add watcher [POST]
 
 + Parameters
@@ -2683,7 +2675,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Add Watcher][]
+    [User][]
 
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
@@ -2704,8 +2696,8 @@ For more details and all possible responses see the general specification of [Fo
                 "_links": {
                     "self": { "href": "/api/v3/work_packages/14/available_watchers" }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -2713,55 +2705,57 @@ For more details and all possible responses see the general specification of [Fo
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
@@ -2851,8 +2845,8 @@ updated activity.
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -2860,55 +2854,57 @@ updated activity.
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
@@ -2957,8 +2953,8 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "templated": true
                     }
                 },
-                "total": 3,
-                "count": 3,
+                "total": 2,
+                "count": 2,
                 "_type": "Collection",
                 "_embedded": {
                   "elements": [
@@ -2966,55 +2962,57 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
-                            },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }

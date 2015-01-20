@@ -59,7 +59,7 @@ describe('columnContextMenu', function() {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
-    var template = $templateCache.get('/templates/work_packages/column_context_menu.html');
+    var template = $templateCache.get('/templates/work_packages/menus/column_context_menu.html');
     $templateCache.put('column_context_menu.html', [200, template, {}]);
 
     contextMenu = ngContextMenu({

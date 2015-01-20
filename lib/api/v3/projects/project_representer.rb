@@ -33,15 +33,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Projects
-      class ProjectRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        property :_type, exec_context: :decorator
-
+      class ProjectRepresenter < ::API::Decorators::Single
         link :self do
           {
             href: api_v3_paths.project(represented.id),

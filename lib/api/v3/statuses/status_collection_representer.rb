@@ -35,9 +35,7 @@ module API
   module V3
     module Statuses
       class StatusCollectionRepresenter < ::API::Decorators::Collection
-        def initialize(models, total, self_link)
-          super(models, total, self_link, ::API::V3::Statuses::StatusRepresenter)
-        end
+        element_decorator ::API::V3::Statuses::StatusRepresenter
       end
     end
   end

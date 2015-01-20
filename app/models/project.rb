@@ -117,7 +117,7 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda { |mod| { conditions: ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*_args| where(status: STATUS_ACTIVE) }
   scope :public, lambda { |*_args| where(is_public: true) }
-  scope :visible, lambda { { conditions: Project.visible_by(User.current) } }
+  scope :visible, ->(user = User.current) { { conditions: Project.visible_by(user) } }
 
   # timelines stuff
 

@@ -27,21 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Statuses
-      class StatusRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        property :_type, exec_context: :decorator
-
+      class StatusRepresenter < ::API::Decorators::Single
         link :self do
           {
             href: api_v3_paths.status(represented.id),
