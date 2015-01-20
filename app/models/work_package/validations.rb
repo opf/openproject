@@ -63,8 +63,8 @@ module WorkPackage::Validations
   end
 
   def validate_fixed_version_is_assignable
-    if fixed_version
-      errors.add :fixed_version_id, :inclusion unless assignable_versions.include?(fixed_version)
+    if fixed_version_id && !assignable_versions.map(&:id).include?(fixed_version_id)
+      errors.add :fixed_version_id, :inclusion
     end
   end
 

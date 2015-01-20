@@ -32,28 +32,29 @@ require 'roar/json/hal'
 
 module API
   module Decorators
-    class Single < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
+    class AllowedLinksRepresenter < Roar::Decorator
       include API::V3::Utilities::PathHelper
+      include Roar::JSON::HAL
 
-      attr_reader :context
-      class_attribute :as_strategy
-      self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-      def initialize(model, context = {})
-        @context = context
-
-        super(model)
+      def initialize(represented, link_factory)
+        super(represented)
+        @link_factory = link_factory
       end
 
-      property :_type,
-               exec_context: :decorator,
-               render_nil: false
+      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+      property :allowed_values,
+               exec_context: :decorator
 
       private
 
-      def _type; end
+      def allowed_values
+        represented.map do |object|
+          link_factory.call(object)
+        end
+      end
+
+      attr_reader :link_factory
     end
   end
 end

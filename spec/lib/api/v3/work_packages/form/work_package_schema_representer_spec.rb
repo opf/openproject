@@ -146,6 +146,44 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         end
       end
 
+      describe 'versions' do
+        shared_examples_for 'contains versions' do
+          it_behaves_like 'linked property', 'version', 'Version'
+
+          it 'contains valid links to versions' do
+            version_links = versions.map do |version|
+              { href: "/api/v3/versions/#{version.id}", title: version.name }
+            end
+
+            is_expected.to be_json_eql(version_links.to_json)
+              .at_path('version/_links/allowedValues')
+          end
+
+          it 'embeds versions' do
+            versions.each_with_index do |version, i|
+              is_expected.to be_json_eql(version.id.to_json)
+                .at_path("version/_embedded/allowedValues/#{i}/id")
+            end
+          end
+        end
+
+        context 'w/o allowed versions' do
+          before { allow(work_package).to receive(:assignable_versions).and_return([]) }
+
+          it_behaves_like 'contains versions' do
+            let(:versions) { [] }
+          end
+        end
+
+        context 'with allowed versions' do
+          let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
+
+          before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
+
+          it_behaves_like 'contains versions'
+        end
+      end
+
       describe 'responsible and assignee' do
         let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 

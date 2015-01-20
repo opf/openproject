@@ -78,6 +78,19 @@ module API
                      represented.responsible_id = user_id
                    }
 
+          property :version,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     id = represented.fixed_version_id
+
+                     { href: (api_v3_paths.version(id) if id) }
+                   },
+                   setter: -> (value, *) {
+                     resource = parse_resource(:version, :versions, value['href'])
+
+                     represented.fixed_version_id = resource[:id] if resource
+                   }
+
           private
 
           def parse_resource(property, ns, href)
