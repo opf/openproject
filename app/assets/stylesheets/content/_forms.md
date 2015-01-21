@@ -42,7 +42,7 @@ _with no class (uses default Foundation form styling)_
 _with class applied_
 
 ```
-<select>
+<select class="form--select">
   <option>one</option>
   <option>two</option>
   <option>three</option>
@@ -52,7 +52,7 @@ _with class applied_
 ## Default Select with Option Groups
 
 ```
-<select>
+<select class="form--select">
   <optgroup label="group one">
     <option>one dot one</option>
   </optgroup>
