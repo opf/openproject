@@ -394,6 +394,7 @@ de:
       btn_preview_disable: "Vorschau deaktivieren"
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
+    error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"
 
     units:
       hour:

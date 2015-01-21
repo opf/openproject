@@ -397,6 +397,7 @@ en:
       btn_preview_disable: "Disable preview"
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
+    error_could_not_resolve_user_name: "Couldn't resolve user name"
 
     units:
       hour:
