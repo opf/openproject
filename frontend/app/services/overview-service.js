@@ -49,7 +49,7 @@ module.exports = function() {
           embedded: true,
           placeholder: '-'
         },
-        status: {
+        versionName: {
           type: 'select2',
           attribute: 'version.name',
           embedded: true,

@@ -56,7 +56,8 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   function getAttributeValue($scope, entity, isReadValue) {
     if ($scope.embedded) {
       var path = $scope.attribute.split('.');
-      return entity.embedded[path[0]].props[path[1]];
+      console.log('TODO: remove versionName stuff from controllers');
+      return entity.embedded[path[0]] ? entity.embedded[path[0]].props[path[1]] : null;
     } else {
       var attribute = entity.props[getAttribute($scope)];
 
