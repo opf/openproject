@@ -420,6 +420,23 @@ describe('DetailsTabOverviewController', function() {
       });
     });
 
+    describe('property format', function() {
+      describe('is "user"', function() {
+        beforeEach(function() {
+          workPackage.embedded['assignee'] = { id: 1, name: 'Waya Namamo' };
+          buildController();
+        });
+
+        it('should return object with correct id', function() {
+          expect(fetchPresentPropertiesWithName('assignee')[0].value.id).to.equal(1);
+        });
+
+        it('should return object with correct name', function() {
+          expect(fetchPresentPropertiesWithName('assignee')[0].value.name).to.equal('Waya Namamo');
+        });
+      });
+    });
+
     describe('custom field properties', function() {
       var customPropertyName = 'color';
 
