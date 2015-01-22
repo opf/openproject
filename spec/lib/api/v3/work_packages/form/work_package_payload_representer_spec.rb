@@ -120,4 +120,52 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
       end
     end
   end
+
+  describe 'parsing' do
+    let(:links) { {} }
+    let(:json) do
+      {
+        _links: links
+      }.to_json
+    end
+
+    subject(:parsed) { representer.from_json(json) }
+
+    describe 'version' do
+      let(:id) { 5 }
+      let(:links) {
+        {
+          version: href
+        }
+      }
+
+      before do
+        work_package.fixed_version_id = 1
+      end
+
+      describe 'with a version href' do
+        let(:href) { { href: "/api/v3/versions/#{id}" } }
+
+        it 'sets fixed_version_id to the specified id' do
+          expect(subject.fixed_version_id).to eql(id)
+        end
+      end
+
+      describe 'with a null href' do
+        let(:href) { { href: nil } }
+
+        it 'sets fixed_version_id to nil' do
+          expect(subject.fixed_version_id).to eql(nil)
+        end
+      end
+
+      describe 'with an invalid link' do
+        let(:href) { {} }
+
+        it 'leaves fixed_version_id unchanged' do
+          expect(subject.fixed_version_id).to eql(1)
+        end
+      end
+    end
+  end
 end

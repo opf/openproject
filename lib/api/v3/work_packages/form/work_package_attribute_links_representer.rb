@@ -86,12 +86,20 @@ module API
                      { href: (api_v3_paths.version(id) if id) }
                    },
                    setter: -> (value, *) {
-                     resource = parse_resource(:version, :versions, value['href'])
-
-                     represented.fixed_version_id = resource[:id] if resource
+                     parse_link(property: :version,
+                                namespace: :versions,
+                                value: value,
+                                setter_method: :fixed_version_id=)
                    }
 
           private
+
+          def parse_link(property: nil, namespace: nil, value: {}, setter_method: nil)
+            return unless value.has_key?('href')
+            resource = parse_resource_with_nil(property, namespace, value['href'])
+
+            represented.send(setter_method, resource)
+          end
 
           def parse_resource(property, ns, href)
             return nil unless href
@@ -107,10 +115,14 @@ module API
             resource
           end
 
-          def parse_user_resource(property, href)
-            resource = parse_resource(property, :users, href)
+          def parse_resource_with_nil(property, ns, href)
+            resource = parse_resource(property, ns, href)
 
             resource ? resource[:id] : nil
+          end
+
+          def parse_user_resource(property, href)
+            parse_resource_with_nil(property, :users, href)
           end
         end
       end
