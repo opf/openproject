@@ -224,9 +224,9 @@ module.exports = function($scope,
   function getCustomPropertyValue(property) {
     switch(property.format) {
       case VERSION_TYPE:
-        return setCustomPropertyVersionValue(property);
+        return getCustomPropertyVersionValue(property);
       case USER_TYPE:
-        return UserService.getUser(property.value);
+        return getCustomPropertyUserValue(property);
       default:
         return CustomFieldHelper.formatCustomFieldValue(property.value, property.format);
     }
@@ -247,7 +247,7 @@ module.exports = function($scope,
     return propertyData;
   }
 
-  function setCustomPropertyVersionValue(property) {
+  function getCustomPropertyVersionValue(property) {
     var versionHref = PathHelper.staticBase + PathHelper.versionPath(property.value);
     var versionTitle = I18n.t('js.error_could_not_resolve_version_name');
     var projectId = $scope.workPackage.props.projectId;
@@ -271,6 +271,22 @@ module.exports = function($scope,
     return promise;
   }
 
+  function getCustomPropertyUserValue(property) {
+    var userHref = PathHelper.staticBase + PathHelper.userPath(property.value);
+    var userTitle = I18n.t('js.error_could_not_resolve_user_name');
+    var user = UserService.getUser(property.value);
+
+    var promise = $q.when(user).then(function(value) {
+      userTitle = value.props.name;
+
+      return { href: userHref, title: userTitle, viewable: true };
+    }, function() {
+      return { href: userHref, title: userTitle, viewable: true };
+    });
+
+    return promise;
+  }
+
   // toggles
 
   $scope.toggleStates = {
@@ -279,15 +295,21 @@ module.exports = function($scope,
   };
 
   $scope.isGroupEmpty = function(group) {
-    return group.attributes.filter(function(element) {
-      return !$scope.isPropertyEmpty(element.value);
-    }).length == 0;
+    return _.every(group.attributes, function(element) {
+      return $scope.isPropertyEmpty(element.value);
+    });
   };
 
   $scope.anyEmptyWorkPackageValue = function() {
-    return $scope.groupedAttributes.filter(function(element) {
-      return $scope.isGroupEmpty(element);
-    }).length > 0;
+    return _.any($scope.groupedAttributes, function(element) {
+      return $scope.anyEmptyPropertyInGroup(element);
+    });
+  };
+
+  $scope.anyEmptyPropertyInGroup = function(group) {
+    return _.any(group.attributes, function(element) {
+      return $scope.isPropertyEmpty(element.value);
+    });
   };
 
   $scope.isPropertyEmpty = function(property) {

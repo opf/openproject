@@ -41,7 +41,8 @@ module API
           'description',
           'status_id',
           'assigned_to_id',
-          'responsible_id'
+          'responsible_id',
+          'fixed_version_id'
         ].freeze
 
         def initialize(object, user)

@@ -553,17 +553,83 @@ describe('DetailsTabOverviewController', function() {
 
       describe('user custom property', function() {
         var userId = '1';
+        var userName = 'A test user name';
+        var userCFName = 'User CF';
+        var userStubReturn;
 
-        beforeEach(function() {
+        var getUserStub;
+
+        before(function() {
           workPackage.props.customProperties[0].value = userId;
+          workPackage.props.customProperties[0].name = userCFName;
           workPackage.props.customProperties[0].format = 'user';
 
-          sinon.spy(UserService, 'getUser');
-          buildController();
         });
 
-        it('fetches the user using the user service', function() {
-          expect(UserService.getUser.calledWith(userId)).to.be.true;
+        describe('with an existing user', function() {
+          var customUser;
+
+          before(function() {
+            userStubReturn = { props: { id: userId, name: userName } };
+
+            getUserStub = sinon.stub(UserService, 'getUser');
+            getUserStub.withArgs(userId);
+            getUserStub.returns(userStubReturn);
+
+            buildController();
+
+            customUser = fetchPresentPropertiesWithName(userCFName)[0].value;
+          });
+
+          after(function() {
+            getUserStub.restore();
+          });
+
+          it('it sets the user name for title', function() {
+            expect(customUser.title).to.equal(userName);
+          });
+
+          it('it sets the link to the user for href', function() {
+            expect(customUser.href).to.equal('/users/' + userId);
+          });
+
+          it('it is viewable', function() {
+            expect(customUser.viewable).to.be.true;
+          });
+        });
+
+        describe('with a not existing user', function() {
+          var customUser;
+
+          before(function() {
+            var reject = $q.reject('For test reasons!');
+
+            userStubReturn = reject;
+
+            getUserStub = sinon.stub(UserService, 'getUser');
+            getUserStub.withArgs(userId);
+            getUserStub.returns(userStubReturn);
+
+            buildController();
+
+            customUser = fetchPresentPropertiesWithName(userCFName)[0].value;
+          });
+
+          after(function() {
+            getUserStub.restore();
+          });
+
+          it('it sets an error message as title', function() {
+            expect(customUser.title).to.equal(I18n.t('js.error_could_not_resolve_version_name'));
+          });
+
+          it('it sets the link to the user for href', function() {
+            expect(customUser.href).to.equal('/users/' + userId);
+          });
+
+          it('it is viewable', function() {
+            expect(customUser.viewable).to.be.true;
+          });
         });
       });
 
@@ -718,6 +784,48 @@ describe('DetailsTabOverviewController', function() {
         };
         var groupOtherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', scope.groupedAttributes);
         expect(groupOtherAttributes.every(isSorted)).to.be.true;
+      });
+    });
+
+    describe('anyEmptyWorkPackageValue', function() {
+      describe('with a group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: null } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is true', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.true;
+        });
+      });
+
+      describe('with no group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: 'd' } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is false', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.false;
+        });
+      });
+    });
+
+    describe('isGroupEmpty', function() {
+      describe('for a group having at least one non empty attribute', function() {
+        var group = { attributes: [ { value: 'a' }, { value: null } ] };
+
+        it('is false', function() {
+          expect(scope.isGroupEmpty(group)).to.be.false;
+        });
+      });
+
+      describe('for a group having only empty attributes', function() {
+        var group = { attributes: [ { value: null }, { value: null } ] };
+
+        it('is true', function() {
+          expect(scope.isGroupEmpty(group)).to.be.true;
+        });
       });
     });
   });

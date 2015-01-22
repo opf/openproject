@@ -34,19 +34,7 @@ module API
   module V3
     module WorkPackages
       module Form
-        class WorkPackageSchemaRepresenter < Roar::Decorator
-          include Roar::JSON::HAL
-          include Roar::Hypermedia
-          include API::V3::Utilities::PathHelper
-
-          self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-          def initialize(model, options = {})
-            @current_user = options[:current_user]
-
-            super(model)
-          end
-
+        class WorkPackageSchemaRepresenter < ::API::Decorators::Single
           property :_type,
                    getter: -> (*) { { type: 'MetaType', required: true, writable: false } },
                    writeable: false
@@ -68,79 +56,47 @@ module API
                        status_origin = represented.class.find(represented.id)
                      end
 
-                     status_origin.new_statuses_allowed_to(@current_user)
-                   } do
-            include Roar::JSON::HAL
+                     new_statuses = status_origin.new_statuses_allowed_to(current_user)
 
-            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+                     SchemaAllowedStatusesRepresenter.new(new_statuses,
+                                                          current_user: current_user)
+                   }
 
-            property :links_to_allowed_statuses,
-                     as: :_links,
-                     getter: -> (*) { self } do
-              include API::V3::Utilities::PathHelper
+          property :assignee,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     link = api_v3_paths.available_assignees(represented.project.id)
 
-              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(link, 'User')
+                   }
 
-              property :allowed_values, exec_context: :decorator
+          property :responsible,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     link = api_v3_paths.available_responsibles(represented.project.id)
 
-              def allowed_values
-                represented.map do |status|
-                  { href: api_v3_paths.status(status.id), title: status.name }
-                end
-              end
-            end
+                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(link, 'User')
+                   }
 
-            property :type, getter: -> (*) { 'Status' }
+          property :version,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     version_origin = represented
 
-            collection :allowed_values,
-                       embedded: true,
-                       class: ::Status,
-                       decorator: ::API::V3::Statuses::StatusRepresenter,
-                       getter: -> (*) { self }
+                     if represented.persisted? && represented.fixed_version_id_changed?
+                       version_origin = represented.class.find(represented.id)
+                     end
+
+                     SchemaAllowedVersionsRepresenter.new(version_origin.assignable_versions,
+                                                          current_user: current_user)
+                   }
+
+          def current_user
+            context[:current_user]
           end
 
-          property :assignee, getter: -> (*) { self } do
-            include Roar::JSON::HAL
-
-            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-            property :links_to_available_assignees,
-                     as: :_links,
-                     getter: -> (*) { self } do
-              include API::V3::Utilities::PathHelper
-
-              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-              property :allowed_values,
-                       getter: -> (*) {
-                         { href: api_v3_paths.available_assignees(represented.project.id) }
-                       },
-                       exec_context: :decorator
-            end
-
-            property :type, getter: -> (*) { 'User' }
-          end
-
-          property :responsible, getter: -> (*) { self } do
-            include Roar::JSON::HAL
-
-            self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-            property :links_to_available_responsibles,
-                     as: :_links,
-                     getter: -> (*) { self } do
-              include API::V3::Utilities::PathHelper
-
-              self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-              property :allowed_values,
-                       getter: -> (*) {
-                         { href: api_v3_paths.available_responsibles(represented.project.id) }
-                       },
-                       exec_context: :decorator
-            end
-
-            property :type, getter: -> (*) { 'User' }
+          def _type
+            'MetaType'
           end
         end
       end

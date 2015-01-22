@@ -98,9 +98,9 @@ describe WorkPackage, type: :model do
   end
 
   describe 'validations of versions' do
+    let(:wp) { FactoryGirl.build(:work_package) }
 
     it 'validate, that versions of the project can be assigned to workpackages' do
-      wp = FactoryGirl.build(:work_package)
       assignable_version   = FactoryGirl.create(:version, project: wp.project)
 
       wp.fixed_version = assignable_version
@@ -111,7 +111,6 @@ describe WorkPackage, type: :model do
       other_project = FactoryGirl.create(:project)
       non_assignable_version = FactoryGirl.create(:version, project: other_project)
 
-      wp = FactoryGirl.build(:work_package)
       wp.fixed_version = non_assignable_version
 
       expect(wp).not_to be_valid
@@ -119,7 +118,6 @@ describe WorkPackage, type: :model do
     end
 
     it 'validate, that closed or locked versions cannot be assigned' do
-      wp = FactoryGirl.build(:work_package)
       non_assignable_version   = FactoryGirl.create(:version, project: wp.project)
 
       %w{locked closed}.each do |status|
@@ -129,6 +127,11 @@ describe WorkPackage, type: :model do
         expect(wp).not_to be_valid
         expect(wp.errors_on(:fixed_version_id).size).to eq(1)
       end
+    end
+
+    it 'validates, that inexistent ids are erroneous' do
+      wp.fixed_version_id = 0
+      expect(wp).to_not be_valid
     end
 
     describe 'validations of enabled types' do

@@ -95,6 +95,14 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
           it_behaves_like 'linked property', 'responsible', '/api/v3/users/42'
         end
       end
+
+      describe 'version' do
+        let(:version) { FactoryGirl.build(:version, id: 42) }
+
+        before { work_package.fixed_version = version }
+
+        it_behaves_like 'linked property', 'version', '/api/v3/versions/42'
+      end
     end
   end
 end

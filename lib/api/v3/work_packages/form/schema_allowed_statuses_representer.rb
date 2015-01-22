@@ -31,29 +31,21 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module Decorators
-    class Single < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
-      include API::V3::Utilities::PathHelper
+  module V3
+    module WorkPackages
+      module Form
+        class SchemaAllowedStatusesRepresenter < Decorators::SchemaAllowedValuesRepresenter
+          self.value_representer = Statuses::StatusRepresenter
 
-      attr_reader :context
-      class_attribute :as_strategy
-      self.as_strategy = API::Utilities::CamelCasingStrategy.new
+          self.links_factory = -> (status) do
+            extend API::V3::Utilities::PathHelper
 
-      def initialize(model, context = {})
-        @context = context
+            { href: api_v3_paths.status(status.id), title: status.name }
+          end
 
-        super(model)
+          self.type = 'Status'
+        end
       end
-
-      property :_type,
-               exec_context: :decorator,
-               render_nil: false
-
-      private
-
-      def _type; end
     end
   end
 end
