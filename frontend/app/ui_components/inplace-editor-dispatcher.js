@@ -56,7 +56,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   function getAttributeValue($scope, entity, isReadValue) {
     if ($scope.embedded) {
       var path = $scope.attribute.split('.');
-      console.log('TODO: remove versionName stuff from controllers');
       return entity.embedded[path[0]] ? entity.embedded[path[0]].props[path[1]] : null;
     } else {
       var attribute = entity.props[getAttribute($scope)];
@@ -74,6 +73,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   }
 
   function setOptions($scope) {
+    if ($scope.attribute == 'version.name') {
+      $scope.hasEmptyOption = true;
+    }
     var href = $scope
       .entity.form.embedded.schema
       .props[getAttribute($scope)]._links.allowedValues.href;
@@ -86,13 +88,20 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
 
   function setEmbeddedOptions($scope) {
     $scope.options = [];
-    var options = $scope
+    var allowedValues = $scope
       .entity.form.embedded.schema
       .props[getAttribute($scope)]._links.allowedValues;
-    if (options.length) {
-      $scope.options = _.map(options, function(item) {
+    if (allowedValues.length) {
+      var options = _.map(allowedValues, function(item) {
         return angular.extend({}, item, { name: item.title });
       });
+
+      if ($scope.hasEmptyOption) {
+        var arrayWithEmptyOption = [{ href: null }];
+        $scope.options = arrayWithEmptyOption.concat(options);
+      } else {
+        $scope.options = options;
+      }
       $scope.$broadcast('focusSelect2');
     } else {
       $scope.isEditable = false;
@@ -106,11 +115,11 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       .props[getAttribute($scope)]._links.allowedValues.href;
     $scope.isBusy = true;
     $http.get(href).then(function(r) {
-      var arrayWithEmptyOption = [{href: null}];
-      var linkedOptions = _.map(r.data._embedded.elements, function(item) {
+      var arrayWithEmptyOption = [{ href: null }];
+      var options = _.map(r.data._embedded.elements, function(item) {
         return angular.extend({}, item._links.self, { name: item.name });
       });
-      $scope.options = arrayWithEmptyOption.concat(linkedOptions);
+      $scope.options = arrayWithEmptyOption.concat(options);
       $scope.isBusy = false;
       $scope.$broadcast('focusSelect2');
     });

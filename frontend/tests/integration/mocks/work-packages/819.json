@@ -85,6 +85,10 @@
       "href": "/work_packages/819/time_entries",
       "type": "text/html",
       "title": "Time entries"
+    },
+    "version": {
+      "href": "/api/v3/versions/1",
+      "title": "alpha"
     }
   },
   "id": 819,
@@ -102,8 +106,8 @@
   "estimatedTime": "PT0S",
   "spentTime": "PT0S",
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
+  "versionId": 1,
+  "versionName": "alpha",
   "projectId": 1,
   "projectName": "Seeded Project",
   "parentId": 54,
@@ -2154,6 +2158,33 @@
         "createdAt": "2014-11-21T08:48:57Z"
       }
     ],
+    "version": {
+      "_type": "Version",
+      "_links": {
+        "self": {
+          "href": "/api/v3/versions/1",
+          "title": "alpha"
+        },
+        "definingProject": {
+          "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+        },
+        "availableInProjects": {
+          "href": "/api/v3/versions/1/projects"
+        }
+      },
+      "id": 1,
+      "name": "alpha",
+      "description": {
+        "format": "plain",
+        "raw": ""
+      },
+      "startDate": "2014-10-23",
+      "endDate": null,
+      "status": "open",
+      "createdAt": "01/21/2015/ 09:30 AM",
+      "updatedAt": "01/21/2015/ 09:30 AM"
+    },
     "watchers": [],
     "attachments": [],
     "relations": []

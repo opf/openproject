@@ -56,6 +56,51 @@ describe('OpenProject', function() {
 
 
   describe('editable', function() {
+
+    function behaveLikeEmbeddedDropdown(name, correctValue) {
+      context('behaviour', function() {
+        var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');
+
+        beforeEach(function() {
+          loadPane(819);
+        });
+
+        describe('read state', function() {
+          it('should render a span with value', function() {
+            expect(
+              editor
+                .$('.read-value-wrapper')
+                .getText()
+            ).to.eventually.equal(correctValue);
+          });
+        });
+
+        describe('edit state', function() {
+          beforeEach(function() {
+            editor.$('.ined-read-value').click();
+          });
+
+          context('dropdown', function() {
+            it('should be rendered', function() {
+              expect(
+                editor
+                  .$('.select2-container').isDisplayed()
+                  .isDisplayed()
+              ).to.eventually.be.true;
+            });
+
+            it('should have the correct value', function() {
+              expect(
+                editor
+                  .$('.select2-choice .select2-chosen span')
+                  .getText()
+              ).to.eventually.equal(correctValue);
+            });
+          });
+        });
+      });
+    }
+
     describe('subject', function() {
       var subjectEditor = $('h2 .inplace-editor');
 
@@ -144,43 +189,45 @@ describe('OpenProject', function() {
       });
     });
     describe('status', function() {
-      var statusEditor = $('[ined-attribute=\'status.name\'] .inplace-editor');
+      behaveLikeEmbeddedDropdown('status.name', 'specified');
+    });
+    describe('version', function() {
+      var name = 'version.name';
+      var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');
 
-      beforeEach(function() {
-        loadPane(819);
-      });
+      behaveLikeEmbeddedDropdown(name, 'alpha');
 
-      describe('read state', function() {
-        it('should render a span with value', function() {
-          expect(
-            statusEditor
-              .$('.read-value-wrapper')
-              .getText()
-          ).to.eventually.equal('specified');
-        });
-      });
-
-      describe('edit state', function() {
+      context('when work package version link is present', function() {
         beforeEach(function() {
-          statusEditor.$('.ined-read-value').click();
+          loadPane(819);
         });
 
-        context('dropdown', function() {
-          it('should be rendered', function() {
+        it('should render a link to the version', function() {
             expect(
-              statusEditor
-                .$('.select2-container').isDisplayed()
-                .isDisplayed()
-            ).to.eventually.be.true;
-          });
+              editor
+              .$('span.read-value-wrapper a')
+              .getText()
+            ).to.eventually.equal('alpha');
 
-          it('should have the correct value', function() {
             expect(
-              statusEditor
-                .$('.select2-choice .select2-chosen span')
-                .getText()
-            ).to.eventually.equal('specified');
-          });
+              editor
+              .$('span.read-value-wrapper a')
+              .getAttribute('href')
+            ).to.eventually.match(/\/api\/v3\/versions\/1/);
+        });
+      });
+
+      context('when work package link is missing', function() {
+        beforeEach(function() {
+          loadPane(822);
+        });
+
+        it('should not render an anchor', function() {
+          expect(
+            editor
+            .$('span.read-value-wrapper a')
+            .isPresent()
+          ).to.eventually.be.false;
         });
       });
     });

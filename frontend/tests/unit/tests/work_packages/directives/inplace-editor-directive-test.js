@@ -103,7 +103,7 @@ describe('inplaceEditor Directive', function() {
 
     describe('placeholder', function() {
       it('should not render the default text', function() {
-        var text = element.find('.ined-read-value .read-value-wrapper span').text();
+        var text = element.find('.ined-read-value .read-value-wrapper span:first').text().trim();
         expect(text).to.eq('Some subject');
       });
 
@@ -386,7 +386,9 @@ describe('inplaceEditor Directive', function() {
         expect(element.find('.ined-read-value').length).to.eq(1);
       });
       it('should have the value of the given attribute', function() {
-        expect(element.find('.ined-read-value .read-value-wrapper span').text())
+        expect(element
+          .find('.ined-read-value .read-value-wrapper span:first')
+          .text().trim())
           .to.eq('Some subject');
       });
       it('should trigger edit mode on click', function() {
@@ -439,7 +441,9 @@ describe('inplaceEditor Directive', function() {
         });
 
         it('should render the default text', function() {
-          var text = element.find('.ined-read-value .read-value-wrapper span').text();
+          var text = element
+            .find('.ined-read-value .read-value-wrapper span:first')
+            .text().trim();
 
           expect(text).to.eq('The default text');
         });

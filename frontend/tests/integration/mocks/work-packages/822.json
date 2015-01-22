@@ -107,8 +107,8 @@
   "estimatedTime": "PT0S",
   "spentTime": "PT12H",
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
+  "versionId": 1,
+  "versionName": "alpha",
   "projectId": 1,
   "projectName": "Seeded Project",
   "parentId": 54,
@@ -2641,6 +2641,33 @@
         "createdAt": "2014-12-04T09:48:50Z"
       }
     ],
+    "version": {
+      "_type": "Version",
+      "_links": {
+        "self": {
+          "href": "/api/v3/versions/1",
+          "title": "alpha"
+        },
+        "definingProject": {
+          "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+        },
+        "availableInProjects": {
+          "href": "/api/v3/versions/1/projects"
+        }
+      },
+      "id": 1,
+      "name": "alpha",
+      "description": {
+        "format": "plain",
+        "raw": ""
+      },
+      "startDate": "2014-10-23",
+      "endDate": null,
+      "status": "open",
+      "createdAt": "01/21/2015/ 09:30 AM",
+      "updatedAt": "01/21/2015/ 09:30 AM"
+    },
     "watchers": [],
     "attachments": [],
     "relations": []
