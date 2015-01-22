@@ -558,6 +558,23 @@ describe('DetailsTabOverviewController', function() {
       var propertyName = 'myPluginProperty';
       var directiveName = 'my-plugin-property-directive';
 
+      var userId = '1';
+      var userName = 'A test user name';
+      var userStubReturn;
+
+      var getUserStub;
+      before(function() {
+        userStubReturn = { props: { id: userId, name: userName } };
+
+        getUserStub = sinon.stub(UserService, 'getUser');
+        getUserStub.withArgs(userId);
+        getUserStub.returns(userStubReturn);
+      });
+
+      after(function() {
+        getUserStub.restore();
+      });
+
       before(function() {
         var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
 
@@ -593,6 +610,22 @@ describe('DetailsTabOverviewController', function() {
 
     describe('Properties are sorted', function() {
       var propertyNames = ['a', 'b', 'c'];
+      var userId = '1';
+      var userName = 'A test user name';
+      var userStubReturn;
+
+      var getUserStub;
+      before(function() {
+        userStubReturn = { props: { id: userId, name: userName } };
+
+        getUserStub = sinon.stub(UserService, 'getUser');
+        getUserStub.withArgs(userId);
+        getUserStub.returns(userStubReturn);
+      });
+
+      after(function() {
+        getUserStub.restore();
+      });
 
       beforeEach(function() {
         var stub = sinon.stub(I18n, 't');
@@ -617,48 +650,6 @@ describe('DetailsTabOverviewController', function() {
         };
         var groupOtherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', scope.groupedAttributes);
         expect(groupOtherAttributes.every(isSorted)).to.be.true;
-      });
-    });
-
-    describe('anyEmptyWorkPackageValue', function() {
-      describe('with a group having empty attributes', function() {
-        before(function() {
-          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: null } ] },
-                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
-        });
-
-        it('is true', function() {
-          expect(scope.anyEmptyWorkPackageValue()).to.be.true;
-        });
-      });
-
-      describe('with no group having empty attributes', function() {
-        before(function() {
-          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: 'd' } ] },
-                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
-        });
-
-        it('is false', function() {
-          expect(scope.anyEmptyWorkPackageValue()).to.be.false;
-        });
-      });
-    });
-
-    describe('isGroupEmpty', function() {
-      describe('for a group having at least one non empty attribute', function() {
-        var group = { attributes: [ { value: 'a' }, { value: null } ] };
-
-        it('is false', function() {
-          expect(scope.isGroupEmpty(group)).to.be.false;
-        });
-      });
-
-      describe('for a group having only empty attributes', function() {
-        var group = { attributes: [ { value: null }, { value: null } ] };
-
-        it('is true', function() {
-          expect(scope.isGroupEmpty(group)).to.be.true;
-        });
       });
     });
   });

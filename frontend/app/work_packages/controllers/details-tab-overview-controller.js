@@ -231,6 +231,22 @@ module.exports = function($scope,
     return propertyData;
   }
 
+  function getCustomPropertyUserValue(property) {
+    var userHref = PathHelper.staticBase + PathHelper.userPath(property.value);
+    var userTitle = I18n.t('js.error_could_not_resolve_user_name');
+    var user = UserService.getUser(property.value);
+
+    var promise = $q.when(user).then(function(value) {
+      userTitle = value.props.name;
+
+      return { href: userHref, title: userTitle, viewable: true };
+    }, function() {
+      return { href: userHref, title: userTitle, viewable: true };
+    });
+
+    return promise;
+  }
+
   // toggles
 
   $scope.toggleStates = {
