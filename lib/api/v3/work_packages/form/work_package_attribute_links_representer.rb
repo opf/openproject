@@ -41,62 +41,56 @@ module API
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          property :status,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     { href: api_v3_paths.status(represented.status_id) }
-                   },
-                   setter: -> (value, *) {
-                     resource = parse_resource(:status, :statuses, value['href'])
+          def self.linked_property(property_name: nil,
+                                   namespace: nil,
+                                   method: nil,
+                                   path: nil)
 
-                     represented.status_id = resource[:id] if resource
-                   }
+            property property_name,
+                     exec_context: :decorator,
+                     getter: -> (*) {
+                       get_path(get_method: method,
+                                path: path)
+                     },
+                     setter: -> (value, *) {
+                       parse_link(property: property_name,
+                                  namespace: namespace,
+                                  value: value,
+                                  setter_method: :"#{method}=")
+                     }
+          end
 
-          property :assignee,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     id = represented.assigned_to_id
+          linked_property(property_name: :status,
+                          namespace: :statuses,
+                          method: :status_id,
+                          path: :status)
 
-                     { href: (api_v3_paths.user(id) if id) }
-                   },
-                   setter: -> (value, *) {
-                     user_id = parse_user_resource(:assignee, value['href'])
+          linked_property(property_name: :assignee,
+                          namespace: :users,
+                          method: :assigned_to_id,
+                          path: :user)
 
-                     represented.assigned_to_id = user_id
-                   }
+          linked_property(property_name: :responsible,
+                          namespace: :users,
+                          method: :responsible_id,
+                          path: :user)
 
-          property :responsible,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     id = represented.responsible_id
-
-                     { href: (api_v3_paths.user(id) if id) }
-                   },
-                   setter: -> (value, *) {
-                     user_id = parse_user_resource(:responsible, value['href'])
-
-                     represented.responsible_id = user_id
-                   }
-
-          property :version,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     id = represented.fixed_version_id
-
-                     { href: (api_v3_paths.version(id) if id) }
-                   },
-                   setter: -> (value, *) {
-                     parse_link(property: :version,
-                                namespace: :versions,
-                                value: value,
-                                setter_method: :fixed_version_id=)
-                   }
+          linked_property(property_name: :version,
+                          namespace: :versions,
+                          method: :fixed_version_id,
+                          path: :version)
 
           private
 
+          def get_path(get_method: nil, path: nil)
+            id = represented.send(get_method)
+
+            { href: (api_v3_paths.send(path, id) if id) }
+          end
+
           def parse_link(property: nil, namespace: nil, value: {}, setter_method: nil)
             return unless value.has_key?('href')
-            resource = parse_resource_with_nil(property, namespace, value['href'])
+            resource = parse_resource(property, namespace, value['href'])
 
             represented.send(setter_method, resource)
           end
@@ -112,18 +106,9 @@ module API
               fail ::API::Errors::Form::InvalidResourceLink.new(property, ns, actual_ns)
             end
 
-            resource
-          end
-
-          def parse_resource_with_nil(property, ns, href)
-            resource = parse_resource(property, ns, href)
-
             resource ? resource[:id] : nil
           end
 
-          def parse_user_resource(property, href)
-            parse_resource_with_nil(property, :users, href)
-          end
         end
       end
     end
