@@ -191,6 +191,8 @@ module OpenProject
           cache_config = [:dalli_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
+        elsif cache_store == :file_store
+          cache_config = [:file_store, Rails.root.join('tmp/cache/store')]
         else
           cache_config = [cache_store]
         end
