@@ -64,44 +64,107 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
     describe '_links' do
       it { is_expected.to have_json_path('_links') }
 
-      shared_examples_for 'linked property' do |property_name, href|
-        let(:path) { "_links/#{property_name}/href" }
+      let(:path) { "_links/#{property}/href" }
 
-        it { expect(subject).to have_json_path(path) }
+      shared_examples_for 'linked property' do
+        before do
+          unless defined?(link) && defined?(property)
+            raise "Requires to have 'property' and 'link' defined"
+          end
+        end
 
-        it { expect(subject).to be_json_eql(href.to_json).at_path(path) }
+        it { expect(subject).to be_json_eql(link.to_json).at_path(path) }
       end
 
       describe 'status' do
-        let(:status) { FactoryGirl.build(:status, id: 42) }
+        let(:status) { FactoryGirl.build_stubbed(:status) }
 
         before { work_package.status = status }
 
-        it_behaves_like 'linked property', 'status', '/api/v3/statuses/42'
+        it_behaves_like 'linked property' do
+          let(:property) { 'status' }
+          let(:link) { "/api/v3/statuses/#{status.id}" }
+        end
       end
 
       describe 'assignee and responsible' do
-        let(:user) { FactoryGirl.build(:user, id: 42) }
+        let(:user) { FactoryGirl.build_stubbed(:user) }
+        let(:link) { "/api/v3/users/#{user.id}" }
 
         describe 'assignee' do
           before { work_package.assigned_to = user }
 
-          it_behaves_like 'linked property', 'assignee', '/api/v3/users/42'
+          it_behaves_like 'linked property' do
+            let(:property) { 'assignee' }
+          end
         end
 
         describe 'responsible' do
           before { work_package.responsible = user }
 
-          it_behaves_like 'linked property', 'responsible', '/api/v3/users/42'
+          it_behaves_like 'linked property' do
+            let(:property) { 'responsible' }
+          end
         end
       end
 
       describe 'version' do
-        let(:version) { FactoryGirl.build(:version, id: 42) }
+        let(:version) { FactoryGirl.build_stubbed(:version) }
 
         before { work_package.fixed_version = version }
 
-        it_behaves_like 'linked property', 'version', '/api/v3/versions/42'
+        it_behaves_like 'linked property' do
+          let(:property) { 'version' }
+          let(:link) { "/api/v3/versions/#{version.id}" }
+        end
+      end
+    end
+  end
+
+  describe 'parsing' do
+    let(:links) { {} }
+    let(:json) do
+      {
+        _links: links
+      }.to_json
+    end
+
+    subject(:parsed) { representer.from_json(json) }
+
+    describe 'version' do
+      let(:id) { 5 }
+      let(:links) {
+        {
+          version: href
+        }
+      }
+
+      before do
+        work_package.fixed_version_id = 1
+      end
+
+      describe 'with a version href' do
+        let(:href) { { href: "/api/v3/versions/#{id}" } }
+
+        it 'sets fixed_version_id to the specified id' do
+          expect(subject.fixed_version_id).to eql(id)
+        end
+      end
+
+      describe 'with a null href' do
+        let(:href) { { href: nil } }
+
+        it 'sets fixed_version_id to nil' do
+          expect(subject.fixed_version_id).to eql(nil)
+        end
+      end
+
+      describe 'with an invalid link' do
+        let(:href) { {} }
+
+        it 'leaves fixed_version_id unchanged' do
+          expect(subject.fixed_version_id).to eql(1)
+        end
       end
     end
   end
