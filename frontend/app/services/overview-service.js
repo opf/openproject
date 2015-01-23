@@ -48,6 +48,13 @@ module.exports = function() {
           attribute: 'status.name',
           embedded: true,
           placeholder: '-'
+        },
+        versionName: {
+          type: 'select2',
+          attribute: 'version.name',
+          embedded: true,
+          placeholder: '-',
+          attributeTitle: I18n.t('js.work_packages.properties.version')
         }
       };
     }

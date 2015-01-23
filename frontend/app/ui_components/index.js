@@ -73,6 +73,7 @@ angular.module('openproject.uiComponents')
   .directive('inplaceEditor', [
       '$timeout',
       'FocusHelper',
+      'PathHelper',
       'InplaceEditorDispatcher',
       require('./inplace-editor-directive')
   ])
