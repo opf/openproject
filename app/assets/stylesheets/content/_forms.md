@@ -49,6 +49,12 @@ _with class applied_
   <option>two</option>
   <option>three</option>
 </select>
+
+<select class="form--select" multiple>
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
 ```
 
 ## Default Select with Option Groups
