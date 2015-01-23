@@ -205,6 +205,15 @@ de:
       add_blocked_by: "Blockiert durch hinzufügen"
       add_precedes: "Vorgänger von hinzufügen"
       add_follows: "Folgt hinzufügen"
+    relation_button_inputs:
+      parent: "Parent"
+      relates: "Related to"
+      duplicates: "Duplicates"
+      duplicated: "Duplicated by"
+      blocks: "Blocks"
+      blocked: "Blocked by"
+      precedes: "Precedes"
+      follows: "Follows"
 
     select2:
       input_too_short:

@@ -9,6 +9,7 @@
     id="relation_to_id-{{ handler.relationsId }}"
     name="relation[to_id][{{ handler.relationsId }}]"
     ng-model="$parent.relationToAddId"
+    title="{{ I18n.t('js.relation_button_inputs.' + handler.relationsId) }}"
     required
     theme="select2">
     <ui-select-match>{{$select.selected.to_s}}</ui-select-match>
