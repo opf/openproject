@@ -53,7 +53,8 @@ module.exports = function() {
           type: 'select2',
           attribute: 'version.name',
           embedded: true,
-          placeholder: '-'
+          placeholder: '-',
+          attributeTitle: I18n.t('js.work_packages.properties.version')
         }
       };
     }
