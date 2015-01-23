@@ -213,7 +213,7 @@ describe('OpenProject', function() {
               editor
               .$('span.read-value-wrapper a')
               .getAttribute('href')
-            ).to.eventually.match(/\/api\/v3\/versions\/1/);
+            ).to.eventually.match(/\/versions\/1/);
         });
       });
 

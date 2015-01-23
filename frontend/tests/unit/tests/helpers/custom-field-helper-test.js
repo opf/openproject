@@ -149,5 +149,18 @@ describe('Custom field helper', function() {
         expect(formatCustomFieldValue( 5 , 'user', { '5': null })).to.equal('');
       });
     });
+
+    describe('with a version type', function() {
+      it('should return the value of value.name', function() {
+        expect(formatCustomFieldValue({ name: 'blubs' }, 'version')).to.equal('blubs');
+      });
+
+      it('should handle undefined and null values', function() {
+        expect(formatCustomFieldValue(undefined, 'version')).to.equal('');
+        expect(formatCustomFieldValue(null, 'version')).to.equal('');
+        expect(formatCustomFieldValue({ name: undefined }, 'version')).to.equal('');
+        expect(formatCustomFieldValue({ name: null }, 'version')).to.equal('');
+      });
+    });
   });
 });

@@ -48,6 +48,12 @@ module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
 
       return CustomFieldHelper.nestedCustomFieldValue(value);
     },
+    versionCustomFieldValue: function(value) {
+      // I am pretty sure that we need to have the same behavior here as
+      // we have for the user custom fields.
+      // However, there is no code that would be using it so ...
+      return CustomFieldHelper.nestedCustomFieldValue(value);
+    },
     nestedCustomFieldValue: function(value) {
       if (value && value.name) {
         return value.name;
@@ -67,6 +73,8 @@ module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
           return CustomFieldHelper.userCustomFieldValue(value, users);
+        case 'version':
+          return CustomFieldHelper.versionCustomFieldValue(value);
         case 'int':
           return CustomFieldHelper.parseNumeric(value, parseInt);
         case 'float':

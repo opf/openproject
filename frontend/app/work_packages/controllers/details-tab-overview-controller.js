@@ -60,6 +60,18 @@ module.exports = function($scope,
     switch(format) {
     case STATUS_TYPE:
       return $scope.workPackage.embedded.status.props.name;
+    // case VERSION_TYPE:
+    //   if (!$scope.workPackage.props.versionId) {
+    //     return;
+    //   }
+    //   var versionLinkPresent = !!$scope.workPackage.links.version;
+    //   var versionTitle = versionLinkPresent ?
+    //                         $scope.workPackage.links.version.props.title :
+    //                         $scope.workPackage.props.versionName,
+    //       versionHref  = versionLinkPresent ?
+    //                         $scope.workPackage.links.version.href :
+    //                         null;
+    //   return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
     case USER_TYPE:
       return $scope.workPackage.embedded[property];
     case CATEGORY_TYPE:
@@ -211,6 +223,8 @@ module.exports = function($scope,
     switch(property.format) {
       case USER_TYPE:
         return getCustomPropertyUserValue(property);
+      case VERSION_TYPE:
+        return getCustomPropertyVersionValue(property);
       default:
         return CustomFieldHelper.formatCustomFieldValue(property.value, property.format);
     }
@@ -230,6 +244,31 @@ module.exports = function($scope,
 
     return propertyData;
   }
+
+  function getCustomPropertyVersionValue(property) {
+    var versionHref = PathHelper.staticBase + PathHelper.versionPath(property.value);
+    var versionTitle = I18n.t('js.error_could_not_resolve_version_name');
+    var projectId = $scope.workPackage.props.projectId;
+    var versions = VersionService.getVersions(projectId);
+
+    var promise = $q.when(versions).then(function(value) {
+
+      var version = _.find(value, function(version) {
+        return version.id.toString() == property.value;
+      });
+
+      if (version) {
+        versionTitle = version.name;
+      }
+
+      return { href: versionHref, title: versionTitle, viewable: true };
+    }, function(reason) {
+      return { href: versionHref, title: versionTitle, viewable: true };
+    });
+
+    return promise;
+  }
+
 
   function getCustomPropertyUserValue(property) {
     var userHref = PathHelper.staticBase + PathHelper.userPath(property.value);

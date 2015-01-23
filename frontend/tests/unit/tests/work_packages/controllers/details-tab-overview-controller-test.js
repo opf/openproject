@@ -552,28 +552,98 @@ describe('DetailsTabOverviewController', function() {
           });
         });
       });
+
+      describe('version custom property', function() {
+        var versionId = '1';
+        var versionName = 'A test version name';
+        var customVersionName = 'My custom version';
+        var errorMessage = 'my error message';
+        var tStub;
+
+        before(function() {
+          workPackage.props.customProperties[0].name = customVersionName;
+          workPackage.props.customProperties[0].value = versionId;
+          workPackage.props.customProperties[0].format = 'version';
+
+          tStub = sinon.stub(I18n, 't');
+          tStub.withArgs('js.error_could_not_resolve_version_name').returns(errorMessage);
+        });
+
+        after(function() {
+          tStub.restore();
+        });
+
+        var itBehavesLikeHavingAVersion = function(href, title, viewable) {
+          var customVersion;
+
+          before(function() {
+            customVersion = fetchPresentPropertiesWithName(customVersionName)[0];
+          });
+
+          it('sets the custom version link title correctly', function() {
+            expect(customVersion.value.title).to.equal(title);
+          });
+
+          it('sets the custom version link href correctly', function() {
+            expect(customVersion.value.href).to.equal(href);
+          });
+
+          it('is viewable', function() {
+            expect(customVersion.value.viewable).to.equal(viewable);
+          });
+        };
+
+        describe('version available', function() {
+          var getVersionsStub;
+
+          before(function() {
+            getVersionsStub = sinon.stub(VersionService, 'getVersions');
+
+            getVersionsStub.returns([{ id: versionId, name: versionName }]);
+
+            buildController();
+          });
+
+          after(function() {
+            getVersionsStub.restore();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', versionName, true);
+        });
+
+        describe('version not available', function() {
+          before(function() {
+            buildController();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', errorMessage, true);
+        });
+
+        describe('list of versions not available', function() {
+          var getVersionsStub;
+
+          before(function() {
+            var reject = $q.reject('For test reasons!');
+
+            getVersionsStub = sinon.stub(VersionService, 'getVersions');
+
+            getVersionsStub.returns(reject);
+
+            buildController();
+          });
+
+          after(function() {
+            getVersionsStub.restore();
+          });
+
+          itBehavesLikeHavingAVersion('/versions/1', errorMessage, true);
+        });
+      });
     });
 
     describe('Plug-in properties', function() {
       var propertyName = 'myPluginProperty';
       var directiveName = 'my-plugin-property-directive';
-
-      var userId = '1';
-      var userName = 'A test user name';
-      var userStubReturn;
-
-      var getUserStub;
-      before(function() {
-        userStubReturn = { props: { id: userId, name: userName } };
-
-        getUserStub = sinon.stub(UserService, 'getUser');
-        getUserStub.withArgs(userId);
-        getUserStub.returns(userStubReturn);
-      });
-
-      after(function() {
-        getUserStub.restore();
-      });
 
       before(function() {
         var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
@@ -610,22 +680,6 @@ describe('DetailsTabOverviewController', function() {
 
     describe('Properties are sorted', function() {
       var propertyNames = ['a', 'b', 'c'];
-      var userId = '1';
-      var userName = 'A test user name';
-      var userStubReturn;
-
-      var getUserStub;
-      before(function() {
-        userStubReturn = { props: { id: userId, name: userName } };
-
-        getUserStub = sinon.stub(UserService, 'getUser');
-        getUserStub.withArgs(userId);
-        getUserStub.returns(userStubReturn);
-      });
-
-      after(function() {
-        getUserStub.restore();
-      });
 
       beforeEach(function() {
         var stub = sinon.stub(I18n, 't');
@@ -650,6 +704,48 @@ describe('DetailsTabOverviewController', function() {
         };
         var groupOtherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', scope.groupedAttributes);
         expect(groupOtherAttributes.every(isSorted)).to.be.true;
+      });
+    });
+
+    describe('anyEmptyWorkPackageValue', function() {
+      describe('with a group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: null } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is true', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.true;
+        });
+      });
+
+      describe('with no group having empty attributes', function() {
+        before(function() {
+          scope.groupedAttributes = [ { attributes: [ { value: 'a' }, { value: 'd' } ] },
+                                      { attributes: [ { value: 'b' }, { value: 'c' } ] } ];
+        });
+
+        it('is false', function() {
+          expect(scope.anyEmptyWorkPackageValue()).to.be.false;
+        });
+      });
+    });
+
+    describe('isGroupEmpty', function() {
+      describe('for a group having at least one non empty attribute', function() {
+        var group = { attributes: [ { value: 'a' }, { value: null } ] };
+
+        it('is false', function() {
+          expect(scope.isGroupEmpty(group)).to.be.false;
+        });
+      });
+
+      describe('for a group having only empty attributes', function() {
+        var group = { attributes: [ { value: null }, { value: null } ] };
+
+        it('is true', function() {
+          expect(scope.isGroupEmpty(group)).to.be.true;
+        });
       });
     });
   });
