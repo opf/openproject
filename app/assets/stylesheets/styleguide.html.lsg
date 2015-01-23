@@ -6,3 +6,57 @@ title: "Living Style Guide for OpenProject"
 style:
   base-font: Lato
   base-font-size: 16px
+  background-color: white
+
+styleguide-sass: |
+  .livingstyleguide--header
+    @include grid-content
+
+  .livingstyleguide--footer
+    @include grid-content
+
+  .livingstyleguide--intro
+    @include grid-content
+
+  .styleguide-banner
+    height:  280px
+    padding: 200px 0 0
+    background: url('/assets/styleguide/logo_openproject.png')
+    background-position: top center
+    background-repeat: no-repeat
+
+  .styleguide-banner--text
+    text-align: center
+
+  .styleguide-nav--menu-items
+    @extend %menu-bar
+    @include menu-bar-layout
+    @include menu-bar-style(#eee)
+
+header: |
+  <header class="livingstyleguide--header">
+    <div class="styleguide-banner">
+      <h1 class="styleguide-banner--text">Living Style Guide</h1>
+    </div>
+  </header>
+
+  <nav class="styleguide-nav">
+    <ul class="styleguide-nav--menu-items">
+      <li><a href="#color-variables">Colors</a></li>
+      <li><a href="#fonts">Fonts</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#flash-messages">Flash Messages</a></li>
+      <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#boxes">Boxes</a></li>
+      <li><a href="#pagination">Pagination</a></li>
+    </ul>
+  </nav>
+
+  <section class="livingstyleguide--intro">
+    <p>&nbsp;</p>
+  </section>
+
+footer: |
+  <footer class="livingstyleguide--footer">
+    Copyright © 2015 OpenProject - All rights reserved.
+  </footer>
