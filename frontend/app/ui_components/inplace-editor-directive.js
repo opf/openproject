@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
+module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispatcher) {
   return {
     restrict: 'A',
     transclude: false,
@@ -95,6 +95,7 @@ module.exports = function($timeout, FocusHelper, InplaceEditorDispatcher) {
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
     $scope.getTemplateUrl = getTemplateUrl;
+    $scope.pathHelper = PathHelper;
 
     activate();
 

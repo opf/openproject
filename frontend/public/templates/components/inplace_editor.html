@@ -5,10 +5,12 @@
       <span ng-if="!isUserLink">
         <span ng-if="attribute == 'version.name'">
           <span ng-if="entity.links.version">
-            <a href="{{entity.links.version.href}}">{{entity.links.version.props.title}}</a>
+            <a href="{{pathHelper.versionPath(entity.embedded.version.props.id)}}">
+              {{entity.links.version.props.title}}
+            </a>
           </span>
           <span ng-if="!entity.links.version">
-            {{entity.props.versionName || readValue}}
+            {{readValue}}
           </span>
         </span>
         <span ng-if="attribute != 'version.name'" ng-bind="readValue"></span>
