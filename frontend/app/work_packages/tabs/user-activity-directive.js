@@ -99,7 +99,7 @@ module.exports = function($uiViewScroll,
       };
 
       scope.quoteComment = function() {
-        exclusiveEditController.setQuoted(quotedText(scope.activity.props.rawComment));
+        exclusiveEditController.setQuoted(quotedText(scope.activity.props.comment.raw));
         var elem = angular.element('#' + scope.inputElementId);
         $uiViewScroll(elem);
         elem.focus();
