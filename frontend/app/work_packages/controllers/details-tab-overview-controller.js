@@ -60,18 +60,6 @@ module.exports = function($scope,
     switch(format) {
     case STATUS_TYPE:
       return $scope.workPackage.embedded.status.props.name;
-    // case VERSION_TYPE:
-    //   if (!$scope.workPackage.props.versionId) {
-    //     return;
-    //   }
-    //   var versionLinkPresent = !!$scope.workPackage.links.version;
-    //   var versionTitle = versionLinkPresent ?
-    //                         $scope.workPackage.links.version.props.title :
-    //                         $scope.workPackage.props.versionName,
-    //       versionHref  = versionLinkPresent ?
-    //                         $scope.workPackage.links.version.href :
-    //                         null;
-    //   return {href: versionHref, title: versionTitle, viewable: versionLinkPresent};
     case USER_TYPE:
       return $scope.workPackage.embedded[property];
     case CATEGORY_TYPE:
