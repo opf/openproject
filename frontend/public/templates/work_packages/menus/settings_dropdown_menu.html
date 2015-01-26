@@ -17,33 +17,33 @@
     </li>
     <li class="dropdown-divider"></li>
     <li><a role="menuitem" href="" ng-click="saveQuery($event)"
-           inaccessible-by-tab="(!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))"
-           ng-class="{'inactive': (!query.isDirty() && cannot('query', 'update')) || (query.isNew() && cannot('query', 'create'))}">
+           inaccessible-by-tab="saveQueryInvalid()"
+           ng-class="{'inactive': saveQueryInvalid()}">
         <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="showSaveAsModal($event)"
-           inaccessible-by-tab="query.isNew() || cannot('query', 'create')"
-           ng-class="{'inactive': query.isNew() || cannot('query', 'create')}">
+           inaccessible-by-tab="showSaveModalInvalid()"
+           ng-class="{'inactive': showSaveModalInvalid()}">
       <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="deleteQuery($event)"
-           inaccessible-by-tab="cannot('query', 'delete')"
-           ng-class="{'inactive': cannot('query', 'delete')}">
+           inaccessible-by-tab="deleteQueryInvalid()"
+           ng-class="{'inactive': deleteQueryInvalid()}">
       <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="showExportModal($event)"
-           inaccessible-by-tab="cannot('work_package', 'export')"
-           ng-class="{'inactive': cannot('work_package', 'export')}">
+           inaccessible-by-tab="showExportModalInvalid()"
+           ng-class="{'inactive': showExportModalInvalid()}">
       <i class="icon-action-menu icon-export"></i>{{ I18n.t('js.toolbar.settings.export') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="showShareModal($event)"
-           inaccessible-by-tab="cannot('query', 'publicize') && cannot('query', 'star')"
-           ng-class="{'inactive': (cannot('query', 'publicize') && cannot('query', 'star'))}">
+           inaccessible-by-tab="showShareModalInvalid()"
+           ng-class="{'inactive': showShareModalInvalid()}">
       <i class="icon-action-menu icon-publish"></i>{{ I18n.t('js.toolbar.settings.share') }}</a>
     </li>
     <li><a role="menuitem" href="" ng-click="showSettingsModal($event)"
-           inaccessible-by-tab="cannot('query', 'update')"
-           ng-class="{'inactive': cannot('query', 'update')}">
+           inaccessible-by-tab="showSettingsModalInvalid()"
+           ng-class="{'inactive': showSettingsModalInvalid()}">
       <i class="icon-action-menu icon-settings"></i>{{ I18n.t('js.toolbar.settings.page_settings') }}</a>
     </li>
   </ul>
