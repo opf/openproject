@@ -80,7 +80,7 @@ gem 'daemons'
 # (see https://www.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', '~> 1.0.4', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21, :ruby_22], :require => false
+gem 'syck', :require => false
 
 gem 'gon', '~> 4.0'
 
