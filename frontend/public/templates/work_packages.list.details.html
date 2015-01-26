@@ -48,7 +48,7 @@
                     css-class="star">
       </icon-wrapper>
     </accessible-by-keyboard>
-    <a href="#">#{{ workPackage.props.id }}</a>
+    <a href="{{ showStaticPagePath }}">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
       <a ng-if="authorActive" ng-href="{{ authorPath }}" ng-bind="author.props.name"/>
       <span ng-if="!authorActive">{{ author.props.name }} </span>
