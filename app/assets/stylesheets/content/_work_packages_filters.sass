@@ -55,10 +55,16 @@ $work-packages-filters--inset-background-color: darken($work-packages-filters--b
   border:           1px solid #ccc
   border-radius:    $global-radius
 
+.work-packages-filters--text-field
+  @extend .form--text-field, .form--text-field.-small
+  margin-bottom: 0
+
+.work-packages-filters--select
+  @extend .form--select, .form--select.-small, .form--select.-narrow
+  margin-bottom: 0
+
 %work-packages-filters--filter-part
-  .inline-label,
-  .form--text-field,
-  .form--select
+  .inline-label
     margin-bottom: 0
 
 .work-packages-filters--filter-name

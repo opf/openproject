@@ -20,7 +20,7 @@
       <div class="work-packages-filters--filter-operator">
         <select require
                 focus="$index == focusElementIndex"
-                class="form--select -small"
+                class="work-packages-filters--select"
                 id="operators-{{filter.name}}"
                 name="op[{{filter.name}}]"
                 ng-model="filter.operator"
@@ -42,7 +42,7 @@
                  ng-model="filter.textValue"
                  ng-minlength="3"
                  ng-required="true"
-                 class="form--text-field -small"
+                 class="work-packages-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  size="30"
@@ -59,7 +59,7 @@
                  ng-model="filter.textValue"
                  ng-minlength="3"
                  ng-required="true"
-                 class="form--text-field -small"
+                 class="work-packages-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  size="30"
@@ -73,7 +73,7 @@
           <input ng-switch-when="integer"
                  ng-model="filter.textValue"
                  ng-required="true"
-                 class="form--text-field -small"
+                 class="work-packages-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  min="0"
@@ -87,7 +87,7 @@
           <span class="inline-label" ng-switch-when="date">
             <input ng-model="filter.textValue"
                    ng-required="true"
-                   class="form--text-field -small"
+                   class="work-packages-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
@@ -101,7 +101,7 @@
           <span class="inline-label" ng-switch-when="date_past">
             <input ng-model="filter.textValue"
                    ng-required="true"
-                   class="form--text-field -small"
+                   class="work-packages-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
@@ -139,7 +139,7 @@
         {{ I18n.t('js.work_packages.label_filter_add') }}:
       </label>
       <div class="work-packages-filters--add-filter-value">
-        <select class="form--select -small"
+        <select class="work-packages-filters--select"
           id="add_filter_select"
           focus="focusElementIndex == -1"
           ng-model="filterToBeAdded"
