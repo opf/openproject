@@ -30,8 +30,10 @@
 
 describe('QueryService', function() {
 
-  var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
-    $httpBackend;
+  var QueryService, PathHelper, query, queryData,
+      $rootScope,
+      $httpBackend,
+      stateParams = {};
 
   beforeEach(module('openproject.layout',
                     'openproject.models',
