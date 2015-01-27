@@ -92,14 +92,21 @@ These are generic (and condensed) installation instructions for the **current de
 
         foreman start -f Procfile.dev
 
+   The application will be available at `http://127.0.0.1:8080`. To customize
+   bind address and port copy the `.env.sample` provided in the root of this
+   project as `.env` and [configure values][foreman-env] as required.
+
    By default a worker process will also be started. In development asynchronous
    execution of long-running background tasks (sending emails, copying projects,
    etc.) may be of limited use. To disable the worker process:
 
         echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
+   For more information refer to Foreman documentation section on [default options][foreman-defaults].
 
 [Node.js]:http://nodejs.org/
 [Bundler]:http://bundler.io/
 [npm]:https://www.npmjs.org/
 [Bower]:http://bower.io/
+[foreman-defaults]:http://ddollar.github.io/foreman/#DEFAULT-OPTIONS
+[foreman-env]:http://ddollar.github.io/foreman/#ENVIRONMENT
