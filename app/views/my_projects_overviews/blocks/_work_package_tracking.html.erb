@@ -36,12 +36,12 @@ See doc/COPYRIGHT.md for more details.
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button_highlight' %>
+      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button -highlight' %>
       <% if User.current.allowed_to?(:view_calendar, project, :global => true) %>
-        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => project}, :class => 'button_highlight') %>
+        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => project}, :class => 'button -highlight') %>
       <% end %>
       <% if User.current.allowed_to?(:view_gantt, project, :global => true) %>
-        <%= link_to(l(:label_gantt), {:controller => '/gantts', :action => 'show', :project_id => project}, :class => 'button_highlight') %>
+        <%= link_to(l(:label_gantt), {:controller => '/gantts', :action => 'show', :project_id => project}, :class => 'button -highlight') %>
       <% end %>
     </p>
   </div>
