@@ -29,7 +29,7 @@ in-depth [installation guides](https://openproject.org/download/).
 If you're a developer wanting to set-up a local environment for contributing to OpenProject or
 developing plugins, you should refer instead to our [Quick Start for Developers](doc/QUICK_START.md).
 
-A [reference of configuration options](doc/CONFIGURATION.md) is also provided.
+Our [developer documentation](doc/README.md) also includes a [reference of configuration options](doc/CONFIGURATION.md).
 
 ## Contact
 
