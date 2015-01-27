@@ -67,7 +67,7 @@ OpenProject::Application.routes.draw do
                          [410,
                           { 'Content-Type' => 'text/plain' },
                           ["OpenProject API v1 has been removed.\n" \
-                           'See https://www.openproject.org/news/65']]
+                           'See https://community.openproject.org/news/65']]
                        }
 
     namespace :v2 do

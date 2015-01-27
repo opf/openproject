@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::<%= plugin_name.camelcase %>::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "https://www.openproject.org/projects/<%= plugin_name.gsub('_','-') %>"  # TODO check this URL
+  s.homepage    = "https://community.openproject.org/projects/<%= plugin_name.gsub('_','-') %>"  # TODO check this URL
   s.summary     = 'OpenProject <%= plugin_name.gsub('_', ' ').titleize %>'
   s.description = FIXME
   s.license     = FIXME # e.g. "MIT" or "GPLv3"

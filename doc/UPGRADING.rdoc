@@ -1,6 +1,6 @@
 = Upgrade
 
-The detailed upgrade instructions are located on the {official website}[https://www.openproject.org/projects/support/wiki/Upgrade]
+The detailed upgrade instructions are located on the {official website}[https://www.openproject.org/download/upgrade-guides/]
 
 
 ----------

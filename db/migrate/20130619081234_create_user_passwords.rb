@@ -56,7 +56,7 @@ class CreateUserPasswords < ActiveRecord::Migration
     begin
       # because of the circular dependencies between User, Principal and Project
       # we have to require principal first
-      # see https://www.openproject.org/issues/1294
+      # see https://community.openproject.org/work_packages/1294
       require 'principal'
       UserPassword.record_timestamps = false
       # Create a UserPassword with the old password for each user
