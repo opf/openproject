@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++-->
 
-# Install
+# Quick Start for Developers
 
 
 Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/projects/openproject/wiki/Download_and_Installation).
