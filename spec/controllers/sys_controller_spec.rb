@@ -42,6 +42,7 @@ module OpenProjectRepositoryAuthenticationSpecs
                                 password: valid_user_password,
                                 password_confirmation: valid_user_password)
     }
+    let(:auth_bypass) { false }
 
     before(:each) do
       FactoryGirl.create(:non_member, permissions: [:browse_repository])
@@ -53,6 +54,7 @@ module OpenProjectRepositoryAuthenticationSpecs
                                             project: random_project)
       allow(Setting).to receive(:sys_api_key).and_return('12345678')
       allow(Setting).to receive(:sys_api_enabled?).and_return(true)
+      allow(Setting).to receive(:repository_authentication_bypass?).and_return(auth_bypass)
       allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
     end
 
@@ -126,13 +128,37 @@ module OpenProjectRepositoryAuthenticationSpecs
       it 'should respond 401 auth required' do
         expect(response.code).to eq('401')
       end
+
+      context 'with authentication bypass' do
+        let(:auth_bypass) { true }
+        it 'should respond 200 okay dokay for POST' do
+          expect(response.code).to eq('200')
+        end
+      end
+    end
+
+    describe :repo_auth, 'for missing username' do
+      before(:each) do
+        @key = Setting.sys_api_key
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('invalid_user', 'an invalid password')
+        post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
+      end
+
+      context 'with authentication bypass' do
+        let(:auth_bypass) { true }
+        it 'should respond with 401' do
+          expect(response.code).to eq('401')
+          expect(response.body).to eq('Authorization required')
+        end
+      end
     end
 
     describe :repo_auth, 'for valid login and user is not member for project' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic
+          .encode_credentials(valid_user.login, valid_user_password)
         post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
       end
 
@@ -160,7 +186,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for invalid credentials' do
+    describe :repo_auth, 'for missing credentials' do
       before(:each) do
         @key = Setting.sys_api_key
         post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
@@ -169,6 +195,14 @@ module OpenProjectRepositoryAuthenticationSpecs
       it 'should respond 401 auth required' do
         expect(response.code).to eq('401')
         expect(response.body).to eq('Authorization required')
+      end
+
+      context 'with authentication bypass' do
+        let(:auth_bypass) { true }
+        it 'should still respond with 401' do
+          expect(response.code).to eq('401')
+          expect(response.body).to eq('Authorization required')
+        end
       end
     end
 

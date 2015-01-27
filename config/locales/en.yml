@@ -1285,6 +1285,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_bypass: "Bypass Basic Auth authentication"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
@@ -1313,6 +1314,9 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    repositories:
+      authentication_bypass_desc: "Use this setting if you authenticate users for repository access using your web server."
+      authentication_bypass_warning: "If you enable this, make sure to restrict access to the internal /sys API to local access."
 
   show_hide_project_menu: "Hide/Show project menu"
 
