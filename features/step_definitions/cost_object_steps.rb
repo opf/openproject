@@ -90,11 +90,11 @@ Then (/^the planned (labor|material) costs in row (\d+) should be (.+)$/) do | t
 end
 
 Then (/^the stored planned (labor|material) costs in row (\d+) should be (.+)$/) do | type, row_nr, amount|
-  steps %Q{ Then I should see #{amount} within ".grid-content .#{type}_budget_items.list tr:nth-child(#{row_nr}) td.currency" }
+  steps %Q{ Then I should see #{amount} within ".grid-content:first-child .#{type}_budget_items.list tr:nth-child(#{row_nr}) td.currency" }
 end
 
 Then (/^the stored total planned (labor|material) costs should be (.+)$/) do | type, amount|
-  steps %Q{ Then I should see #{amount} within ".grid-content .#{type}_budget_items.list tr:last-child td.currency" }
+  steps %Q{ Then I should see #{amount} within ".grid-content:first-child .#{type}_budget_items.list tr:last-child td.currency" }
 end
 
 Then (/^I should be able to update the budget "(.+)"$/) do | budget |
