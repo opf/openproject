@@ -118,6 +118,32 @@ module.exports = function(
     angular.element($window).trigger('resize');
   };
 
+  $scope.showSettingsModalInvalid = function() {
+    return AuthorisationService.cannot('query', 'update');
+  };
+
+  $scope.showShareModalInvalid = function() {
+    return (AuthorisationService.cannot('query', 'publicize') &&
+            AuthorisationService.cannot('query', 'star'));
+  };
+
+  $scope.showExportModalInvalid = function() {
+    return AuthorisationService.cannot('work_package', 'export');
+  };
+
+  $scope.deleteQueryInvalid = function() {
+    return AuthorisationService.cannot('query', 'delete');
+  };
+
+  $scope.showSaveModalInvalid = function() {
+    return $scope.query.isNew() || AuthorisationService.cannot('query', 'create');
+  };
+
+  $scope.saveQueryInvalid = function() {
+    return (!$scope.query.isDirty() && AuthorisationService.cannot('query', 'update')) ||
+             ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
+  };
+
   function preventNewQueryAction(event){
     if (event && $scope.query.isNew()) {
       event.preventDefault();
