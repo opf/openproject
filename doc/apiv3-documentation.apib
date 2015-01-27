@@ -1535,7 +1535,6 @@ resource lists (requiring one or more separate requests).
 | maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
 | regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
 | required          | If true this property is not nullable                                              | Boolean  | true    |
-| visible           | If true this property can be displayed in a UI                                     | Boolean  | true    |
 | writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
 
 All of the above properties that do not have a default value *must* be present in the schema.
@@ -1557,14 +1556,12 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
                 "lockVersion": {
                     "name": "Resource Version",
                     "type": "Integer",
-                    "writable": false,
-                    "visible": false
+                    "writable": false
                 },
                 "_type": {
                     "name": "Resource Type",
                     "type": "MetaType",
-                    "writable": false,
-                    "visible": false
+                    "writable": false
                 },
                 "subject": {
                     "name": "Subject",
