@@ -32,7 +32,7 @@ class StatusTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    status = Status.new :name => "Assigned"
+    status = Status.new name: "Assigned"
     assert !status.save
     # status name uniqueness
     assert_equal 1, status.errors.count
@@ -47,8 +47,8 @@ class StatusTest < ActiveSupport::TestCase
     assert_difference 'Status.count', -1 do
       assert status.destroy
     end
-    assert_nil Workflow.first(:conditions => {:old_status_id => status.id})
-    assert_nil Workflow.first(:conditions => {:new_status_id => status.id})
+    assert_nil Workflow.first(conditions: {old_status_id: status.id})
+    assert_nil Workflow.first(conditions: {new_status_id: status.id})
   end
 
   def test_destroy_status_in_use
@@ -95,7 +95,7 @@ class StatusTest < ActiveSupport::TestCase
       should "change nothing" do
         Status.update_work_package_done_ratios
 
-        assert_equal 0, WorkPackage.count(:conditions => {:done_ratio => 50})
+        assert_equal 0, WorkPackage.count(conditions: {done_ratio: 50})
       end
     end
 

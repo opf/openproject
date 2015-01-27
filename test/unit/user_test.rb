@@ -41,9 +41,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'object_daddy creation' do
-    User.generate_with_protected!(:firstname => 'Testing connection')
-    User.generate_with_protected!(:firstname => 'Testing connection')
-    assert_equal 2, User.count(:all, :conditions => {:firstname => 'Testing connection'})
+    User.generate_with_protected!(firstname: 'Testing connection')
+    User.generate_with_protected!(firstname: 'Testing connection')
+    assert_equal 2, User.count(:all, conditions: {firstname: 'Testing connection'})
   end
 
   def test_truth
@@ -57,7 +57,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_create
-    user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    user = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
 
     user.login = "jsmith"
     user.password, user.password_confirmation = "adminADMIN!", "adminADMIN!"
@@ -80,7 +80,7 @@ class UserTest < ActiveSupport::TestCase
       @user1 = User.generate_with_protected!
       assert_equal 'only_my_events', @user1.mail_notification
 
-      with_settings :default_notification_option => 'all' do
+      with_settings default_notification_option: 'all' do
         @user2 = User.generate_with_protected!
         assert_equal 'all', @user2.mail_notification
       end
@@ -89,12 +89,12 @@ class UserTest < ActiveSupport::TestCase
 
   context "User.login" do
     should "be case-insensitive." do
-      u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+      u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
       u.login = 'newuser'
       u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
       assert u.save
 
-      u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
+      u = User.new(firstname: "Similar", lastname: "User", mail: "similaruser@somenet.foo")
       u.login = 'NewUser'
       u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
       assert !u.save
@@ -103,12 +103,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_mail_uniqueness_should_not_be_case_sensitive
-    u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+    u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
     u.login = 'newuser1'
     u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert u.save
 
-    u = User.new(:firstname => "new", :lastname => "user", :mail => "newUser@Somenet.foo")
+    u = User.new(firstname: "new", lastname: "user", mail: "newUser@Somenet.foo")
     u.login = 'newuser2'
     u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert !u.save
@@ -150,7 +150,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "select the exact matching user first" do
-      case_sensitive_user = User.generate_with_protected!(:login => 'changed', :password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+      case_sensitive_user = User.generate_with_protected!(login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -279,7 +279,7 @@ class UserTest < ActiveSupport::TestCase
 
   context "User#api_key" do
     should "generate a new one if the user doesn't have one" do
-      user = User.generate_with_protected!(:api_token => nil)
+      user = User.generate_with_protected!(api_token: nil)
       assert_nil user.api_token
 
       key = user.api_key
@@ -290,7 +290,7 @@ class UserTest < ActiveSupport::TestCase
 
     should "return the existing api token value" do
       user = User.generate_with_protected!
-      token = Token.generate!(:action => 'api')
+      token = Token.generate!(action: 'api')
       user.api_token = token
       assert user.save
 
@@ -304,8 +304,8 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return nil if the key is found for an inactive user" do
-      user = User.generate_with_protected!(:status => User::STATUSES[:locked])
-      token = Token.generate!(:action => 'api')
+      user = User.generate_with_protected!(status: User::STATUSES[:locked])
+      token = Token.generate!(action: 'api')
       user.api_token = token
       user.save
 
@@ -313,8 +313,8 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return the user if the key is found for an active user" do
-      user = User.generate_with_protected!(:status => User::STATUSES[:active])
-      token = Token.generate!(:action => 'api')
+      user = User.generate_with_protected!(status: User::STATUSES[:active])
+      token = Token.generate!(action: 'api')
       user.api_token = token
       user.save
 
@@ -465,11 +465,11 @@ class UserTest < ActiveSupport::TestCase
       should "authorize if user has at least one role that has this permission" do
         @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
-        assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, :global => true)
-        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, :global => true)
-        assert @dlopper2.allowed_to?(:add_work_packages, nil, :global => true)
-        assert ! @anonymous.allowed_to?(:add_work_packages, nil, :global => true)
-        assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
+        assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, global: true)
+        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, global: true)
+        assert @dlopper2.allowed_to?(:add_work_packages, nil, global: true)
+        assert ! @anonymous.allowed_to?(:add_work_packages, nil, global: true)
+        assert @anonymous.allowed_to?(:view_work_packages, nil, global: true)
       end
     end
   end
@@ -480,7 +480,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate_with_protected!
         @assignee = User.generate_with_protected!
-        @issue = FactoryGirl.create(:work_package, project: @project, :assigned_to => @assignee, :author => @author)
+        @issue = FactoryGirl.create(:work_package, project: @project, assigned_to: @assignee, author: @author)
       end
 
       should "be true for a user with :all" do
@@ -494,9 +494,9 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
-        @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
+        @user = User.generate_with_protected!(mail_notification: 'only_my_events')
         (Member.new.tap do |m|
-          m.force_attributes = { :user => @user, :project => @project, :role_ids => [1] }
+          m.force_attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!
         assert ! @user.notify_about?(@issue)
       end
@@ -542,9 +542,9 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "be false for a user with :selected and is not the author or assignee" do
-        @user = User.generate_with_protected!(:mail_notification => 'selected')
+        @user = User.generate_with_protected!(mail_notification: 'selected')
         (Member.new.tap do |m|
-          m.force_attributes = { :user => @user, :project => @project, :role_ids => [1] }
+          m.force_attributes = { user: @user, project: @project, role_ids: [1] }
         end).save!
         assert ! @user.notify_about?(@issue)
       end

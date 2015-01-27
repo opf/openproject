@@ -36,7 +36,7 @@ class GroupTest < ActiveSupport::TestCase
     @member = FactoryGirl.build :member
     @work_package = FactoryGirl.create :work_package
     @roles = FactoryGirl.create_list :role, 2
-    @member.force_attributes = { :principal => @group, :role_ids => @roles.map(&:id) }
+    @member.force_attributes = { principal: @group, role_ids: @roles.map(&:id) }
     @member.save!
     @project = @member.project
     @user = FactoryGirl.create :user
@@ -45,7 +45,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_create
-    g = Group.new(:lastname => 'New group')
+    g = Group.new(lastname: 'New group')
     assert g.save
   end
 
@@ -65,7 +65,7 @@ class GroupTest < ActiveSupport::TestCase
     member = FactoryGirl.build :member
     roles = FactoryGirl.create_list :role, 2
     role_ids = roles.map { |r| r.id }
-    member.force_attributes = { :principal => group, :role_ids => role_ids }
+    member.force_attributes = { principal: group, role_ids: role_ids }
     member.save!
     user = FactoryGirl.create :user
     group.users << user

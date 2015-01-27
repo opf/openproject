@@ -42,7 +42,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', :allow_override => 'fixed_version')
+    issue = submit_email('ticket_on_given_project.eml', allow_override: 'fixed_version')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -72,7 +72,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_work_package_with_default_type
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', :issue => {:type => 'Support request'})
+    issue = submit_email('ticket_on_given_project.eml', issue: {type: 'Support request'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -90,7 +90,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_attributes_override
-    issue = submit_email('ticket_with_attributes.eml', :allow_override => 'type,category,priority')
+    issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -104,7 +104,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_group_assignment
-    with_settings :work_package_group_assignment => '1' do
+    with_settings work_package_group_assignment: '1' do
       work_package = submit_email('ticket_on_given_project.eml') do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
@@ -116,7 +116,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_partial_attributes_override
-    issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['type'])
+    issue = submit_email('ticket_with_attributes.eml', issue: {priority: 'High'}, allow_override: ['type'])
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -130,7 +130,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_spaces_between_attribute_and_separator
-    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'type,category,priority')
+    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -145,7 +145,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
 
   def test_add_work_package_with_attachment_to_specific_project
-    issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
+    issue = submit_email('ticket_with_attachment.eml', issue: {project: 'onlinestore'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -161,7 +161,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_custom_fields
-    issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'onlinestore'})
+    issue = submit_email('ticket_with_custom_fields.eml', issue: {project: 'onlinestore'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -171,8 +171,8 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
-    user = User.generate!(:firstname => 'Foo', :lastname => 'Bar')
-    User.add_to_project(user, Project.find(2), Role.generate!(:name => 'Superhero'))
+    user = User.generate!(firstname: 'Foo', lastname: 'Bar')
+    User.add_to_project(user, Project.find(2), Role.generate!(name: 'Superhero'))
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -181,7 +181,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_cc
-    issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
+    issue = submit_email('ticket_with_cc.eml', issue: {project: 'ecookbook'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -191,14 +191,14 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_work_package_by_unknown_user
     assert_no_difference 'User.count' do
-      assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'})
+      assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: {project: 'ecookbook'})
     end
   end
 
   def test_add_work_package_by_anonymous_user
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
+      issue = submit_email('ticket_by_unknown_user.eml', issue: {project: 'ecookbook'}, unknown_user: 'accept')
       assert issue.is_a?(WorkPackage)
       assert issue.author.anonymous?
     end
@@ -207,7 +207,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_by_anonymous_user_with_no_from_address
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_empty_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
+      issue = submit_email('ticket_by_empty_user.eml', issue: {project: 'ecookbook'}, unknown_user: 'accept')
       assert issue.is_a?(WorkPackage)
       assert issue.author.anonymous?
     end
@@ -217,7 +217,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert_no_difference 'WorkPackage.count' do
-        assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :unknown_user => 'accept')
+        assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, unknown_user: 'accept')
       end
     end
   end
@@ -225,7 +225,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_by_anonymous_user_on_private_project_without_permission_check
     assert_no_difference 'User.count' do
       assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :no_permission_check => '1', :unknown_user => 'accept')
+        issue = submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, no_permission_check: '1', unknown_user: 'accept')
         assert issue.is_a?(WorkPackage)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
@@ -241,7 +241,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_invalid_attributes
-    issue = submit_email('ticket_with_invalid_attributes.eml', :allow_override => 'type,category,priority')
+    issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -255,7 +255,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_work_package_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
-    issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'type,category,priority')
+    issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -269,9 +269,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_japanese_keywords
-    type = Type.create!(:name => '開発')
+    type = Type.create!(name: '開発')
     Project.find(1).types << type
-    issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'type')
+    issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: {project: 'ecookbook'}, allow_override: 'type')
     assert_kind_of WorkPackage, issue
     assert_equal type, issue.type
   end
@@ -279,7 +279,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_from_apple_mail
     issue = submit_email(
               'apple_mail_with_attachment.eml',
-              :issue => {:project => 'ecookbook'}
+              issue: {project: 'ecookbook'}
             )
     assert_kind_of WorkPackage, issue
     assert_equal 1, issue.attachments.size
@@ -295,7 +295,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',
-              :issue => {:project => 'ecookbook'}
+              issue: {project: 'ecookbook'}
             )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
@@ -313,7 +313,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_emails_from_emission_address
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      assert !submit_email('ticket_from_emission_address.eml', :issue => { :project => 'ecookbook'}, :unknown_user => 'create')
+      assert !submit_email('ticket_from_emission_address.eml', issue: { project: 'ecookbook'}, unknown_user: 'create')
     end
   end
 
@@ -395,7 +395,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_note_should_not_set_defaults
-    journal = submit_email('ticket_reply.eml', :issue => {:type => 'Support request', :priority => 'High'})
+    journal = submit_email('ticket_reply.eml', issue: {type: 'Support request', priority: 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -422,7 +422,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_strip_tags_of_html_only_emails
-    issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
+    issue = submit_email('ticket_html_only.eml', issue: {project: 'ecookbook'})
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -540,7 +540,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_new_user_from_attributes_should_respect_minimum_password_length
-    with_settings :password_min_length => 15 do
+    with_settings password_min_length: 15 do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?
       assert user.password.length >= 15
@@ -558,12 +558,12 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_difference 'User.count' do
       issue = submit_email(
                 'fullname_of_sender_as_utf8_encoded.eml',
-                :issue => {:project => 'ecookbook'},
-                :unknown_user => 'create'
+                issue: {project: 'ecookbook'},
+                unknown_user: 'create'
               )
     end
 
-    user = User.first(:order => 'id DESC')
+    user = User.first(order: 'id DESC')
     assert_equal "foo@example.org", user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"

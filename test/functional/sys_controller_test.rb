@@ -49,17 +49,17 @@ class SysControllerTest < ActionController::TestCase
     get :projects
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    with_options :tag => 'projects' do |test|
-      test.assert_tag :children => { :count  => Project.active.has_module(:repository).count }
+    with_options tag: 'projects' do |test|
+      test.assert_tag children: { count:  Project.active.has_module(:repository).count }
     end
   end
 
   def test_create_project_repository
     assert_nil Project.find(4).repository
 
-    post :create_project_repository, :id => 4,
-                                     :vendor => 'Subversion',
-                                     :repository => { :url => 'file:///create/project/repository/subproject2'}
+    post :create_project_repository, id: 4,
+                                     vendor: 'Subversion',
+                                     repository: { url: 'file:///create/project/repository/subproject2'}
     assert_response :created
 
     r = Project.find(4).repository
@@ -75,32 +75,32 @@ class SysControllerTest < ActionController::TestCase
 
   def test_fetch_changesets_one_project
     Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
-    get :fetch_changesets, :id => 'ecookbook'
+    get :fetch_changesets, id: 'ecookbook'
     assert_response :success
   end
 
   def test_fetch_changesets_unknown_project
-    get :fetch_changesets, :id => 'unknown'
+    get :fetch_changesets, id: 'unknown'
     assert_response 404
   end
 
   def test_disabled_ws_should_respond_with_403_error
-    with_settings :sys_api_enabled => '0' do
+    with_settings sys_api_enabled: '0' do
       get :projects
       assert_response 403
     end
   end
 
   def test_api_key
-    with_settings :sys_api_key => 'my_secret_key' do
-      get :projects, :key => 'my_secret_key'
+    with_settings sys_api_key: 'my_secret_key' do
+      get :projects, key: 'my_secret_key'
       assert_response :success
     end
   end
 
   def test_wrong_key_should_respond_with_403_error
-    with_settings :sys_api_enabled => 'my_secret_key' do
-      get :projects, :key => 'wrong_key'
+    with_settings sys_api_enabled: 'my_secret_key' do
+      get :projects, key: 'wrong_key'
       assert_response 403
     end
   end

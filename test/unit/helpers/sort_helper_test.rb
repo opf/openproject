@@ -92,6 +92,6 @@ class SortHelperTest < HelperTestCase
 
   def controller_name; 'foo'; end
   def action_name; 'bar'; end
-  def params; {:sort => @sort_param}; end
+  def params; {sort: @sort_param}; end
   def session; @session ||= {}; end
 end

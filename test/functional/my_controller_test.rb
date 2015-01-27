@@ -63,17 +63,17 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+    assert_no_tag :input, attributes: { name: 'user[custom_field_values][4]'}
   end
 
   def test_update_account
     put :account,
-      :user => {
-        :firstname => "Joe",
-        :login => "root", # should not be allowed
-        :admin => 1,
-        :group_ids => ['10'],
-        :custom_field_values => {"4" => "0100562500"}
+      user: {
+        firstname: "Joe",
+        login: "root", # should not be allowed
+        admin: 1,
+        group_ids: ['10'],
+        custom_field_values: {"4" => "0100562500"}
       }
 
     assert_redirected_to '/my/account'
@@ -94,19 +94,19 @@ class MyControllerTest < ActionController::TestCase
   end
 
   def test_add_block
-    xhr :post, :add_block, :block => 'issuesreportedbyme'
+    xhr :post, :add_block, block: 'issuesreportedbyme'
     assert_response :success
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
   def test_remove_block
-    xhr :post, :remove_block, :block => 'issuesassignedtome'
+    xhr :post, :remove_block, block: 'issuesassignedtome'
     assert_response :success
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
   def test_order_blocks
-    xhr :post, :order_blocks, :group => 'left', 'list-left' => ['documents', 'calendar', 'latestnews']
+    xhr :post, :order_blocks, group: 'left', 'list-left' => ['documents', 'calendar', 'latestnews']
     assert_response :success
     assert_equal ['documents', 'calendar', 'latestnews'], User.find(2).pref[:my_page_layout]['left']
   end

@@ -35,7 +35,7 @@ class TypeTest < ActiveSupport::TestCase
     source = Type.find(1)
     assert_equal 89, source.workflows.size
 
-    target = Type.new(:name => 'Target')
+    target = Type.new(name: 'Target')
     assert target.save
     target.workflows.copy(source)
     target.reload
@@ -45,8 +45,8 @@ class TypeTest < ActiveSupport::TestCase
   def test_statuses
     type = Type.find(1)
     Workflow.delete_all
-    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 2, :new_status_id => 3)
-    Workflow.create!(:role_id => 2, :type_id => 1, :old_status_id => 3, :new_status_id => 5)
+    Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
+    Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
 
     assert_kind_of Array, type.statuses.all
     assert_kind_of Status, type.statuses.first

@@ -41,7 +41,7 @@ require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::CodesetUtilTest < HelperTestCase
   def test_to_utf8_by_setting_from_latin1
-    with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+    with_settings repositories_encodings: 'UTF-8,ISO-8859-1' do
       s1 = "Texte encod\xc3\xa9"
       s2 = "Texte encod\xe9"
       s3 = s2.dup
@@ -56,7 +56,7 @@ class Redmine::CodesetUtilTest < HelperTestCase
   end
 
   def test_to_utf8_by_setting_from_euc_jp
-    with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
+    with_settings repositories_encodings: 'UTF-8,EUC-JP' do
       s1 = "\xe3\x83\xac\xe3\x83\x83\xe3\x83\x89\xe3\x83\x9e\xe3\x82\xa4\xe3\x83\xb3"
       s2 = "\xa5\xec\xa5\xc3\xa5\xc9\xa5\xde\xa5\xa4\xa5\xf3"
       s3 = s2.dup
@@ -71,7 +71,7 @@ class Redmine::CodesetUtilTest < HelperTestCase
   end
 
   def test_to_utf8_by_setting_should_be_converted_all_latin1
-    with_settings :repositories_encodings => 'ISO-8859-1' do
+    with_settings repositories_encodings: 'ISO-8859-1' do
       s1 = "\xc3\x82\xc2\x80"
       s2 = "\xC2\x80"
       s3 = s2.dup
@@ -108,7 +108,7 @@ class Redmine::CodesetUtilTest < HelperTestCase
   end
 
   def test_to_utf8_by_setting_invalid_utf8_sequences_should_be_stripped
-    with_settings :repositories_encodings => '' do
+    with_settings repositories_encodings: '' do
       s1 = "Texte encod\xe9 en ISO-8859-1."
       s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
@@ -121,7 +121,7 @@ class Redmine::CodesetUtilTest < HelperTestCase
   end
 
   def test_to_utf8_by_setting_invalid_utf8_sequences_should_be_stripped_ja_jis
-    with_settings :repositories_encodings => 'ISO-2022-JP' do
+    with_settings repositories_encodings: 'ISO-2022-JP' do
       s1 = "test\xb5\xfetest\xb5\xfe"
       s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = Redmine::CodesetUtil.to_utf8_by_setting(s1)

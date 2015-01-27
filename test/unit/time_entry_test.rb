@@ -51,7 +51,7 @@ class TimeEntryTest < ActiveSupport::TestCase
                   }
 
     assertions.each do |k, v|
-      t = TimeEntry.new(:hours => k)
+      t = TimeEntry.new(hours: k)
       assert_equal v, t.hours, "Converting #{k} failed:"
     end
   end
@@ -99,11 +99,11 @@ class TimeEntryTest < ActiveSupport::TestCase
   context "#earliest_date_for_project" do
     setup do
       User.current = nil
-      @public_project = Project.generate!(:is_public => true)
+      @public_project = Project.generate!(is_public: true)
       @issue =FactoryGirl.create(:work_package, project: @public_project)
-      TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :work_package => @issue,
-                          :project => @public_project)
+      TimeEntry.generate!(spent_on: '2010-01-01',
+                          work_package: @issue,
+                          project: @public_project)
     end
 
     context "without a project" do
@@ -123,11 +123,11 @@ class TimeEntryTest < ActiveSupport::TestCase
   context "#latest_date_for_project" do
     setup do
       User.current = nil
-      @public_project = Project.generate!(:is_public => true)
+      @public_project = Project.generate!(is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
-      TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :work_package => @issue,
-                          :project => @public_project)
+      TimeEntry.generate!(spent_on: '2010-01-01',
+                          work_package: @issue,
+                          project: @public_project)
     end
 
     context "without a project" do

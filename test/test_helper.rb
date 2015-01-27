@@ -139,7 +139,7 @@ class ActiveSupport::TestCase
     assert_equal nil, session[:user_id]
     assert_response :success
     assert_template "account/login"
-    post "/login", :username => login, :password => password
+    post "/login", username: login, password: password
     assert_equal login, User.find(session[:user_id]).login
   end
 
@@ -185,13 +185,13 @@ class ActiveSupport::TestCase
   end
 
   def change_user_password(login, new_password)
-    user = User.first(:conditions => {:login => login})
+    user = User.first(conditions: {login: login})
     user.password, user.password_confirmation = new_password, new_password
     user.save!
   end
 
   def self.ldap_configured?
-    @test_ldap = Net::LDAP.new(:host => '127.0.0.1', :port => 389)
+    @test_ldap = Net::LDAP.new(host: '127.0.0.1', port: 389)
     return @test_ldap.bind
   rescue Exception => e
     # LDAP is not listening
@@ -216,7 +216,7 @@ class ActiveSupport::TestCase
   end
 
   def assert_error_tag(options={})
-    assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
+    assert_tag({attributes: { id: 'errorExplanation' }}.merge(options))
   end
 
   # Shoulda macros
@@ -275,7 +275,7 @@ class ActiveSupport::TestCase
         journal.stub(:journable).and_return(WorkPackage.last)
         journal.stub(:details).and_return({prop_key => [@old_value.id, @new_value.id]})
 
-        assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, :no_html => true)
+        assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, no_html: true)
       end
 
       should "use the old value's name" do
@@ -284,7 +284,7 @@ class ActiveSupport::TestCase
         journal.stub(:journable).and_return(WorkPackage.last)
         journal.stub(:details).and_return({prop_key => [@old_value.id, @new_value.id]})
 
-        assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, :no_html => true)
+        assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, no_html: true)
       end
     end
   end
@@ -382,7 +382,7 @@ class ActiveSupport::TestCase
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!', :admin => true) # Admin so they can access the project
+          @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
 
           send(http_method, url, parameters, credentials(@user.login, 'adminADMIN!'))
         end
@@ -446,8 +446,8 @@ class ActiveSupport::TestCase
     context "should allow http basic auth with a key for #{http_method} #{url}" do
       context "with a valid HTTP authentication using the API token" do
         setup do
-          @user = User.generate_with_protected!(:admin => true)
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @user = User.generate_with_protected!(admin: true)
+          @token = Token.generate!(user: @user, action: 'api')
 
           send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
@@ -463,7 +463,7 @@ class ActiveSupport::TestCase
       context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
+          @token = Token.generate!(user: @user, action: 'feeds')
 
           send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
@@ -492,8 +492,8 @@ class ActiveSupport::TestCase
     context "should allow key based auth using key=X for #{http_method} #{url}" do
       context "with a valid api token" do
         setup do
-          @user = User.generate_with_protected!(:admin => true)
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @user = User.generate_with_protected!(admin: true)
+          @token = Token.generate!(user: @user, action: 'api')
           # Simple url parse to add on ?key= or &key=
           request_url = if url.match(/\?/)
                           url + "&key=#{@token.value}"
@@ -514,7 +514,7 @@ class ActiveSupport::TestCase
       context "with an invalid api token" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'feeds')
+          @token = Token.generate!(user: @user, action: 'feeds')
           # Simple url parse to add on ?key= or &key=
           request_url = if url.match(/\?/)
                           url + "&key=#{@token.value}"
@@ -534,8 +534,8 @@ class ActiveSupport::TestCase
 
     context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
       setup do
-        @user = User.generate_with_protected!(:admin => true)
-        @token = Token.generate!(:user => @user, :action => 'api')
+        @user = User.generate_with_protected!(admin: true)
+        @token = Token.generate!(user: @user, action: 'api')
         send(http_method, url, parameters, {'X-OpenProject-API-Key' => @token.value.to_s})
       end
 

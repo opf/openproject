@@ -33,16 +33,16 @@ class JournalObserverTest < ActiveSupport::TestCase
     super
     @type = FactoryGirl.create :type_with_workflow
     @project = FactoryGirl.create :project,
-                                  :types => [@type]
+                                  types: [@type]
     @workflow = @type.workflows.first
     @user = FactoryGirl.create :user,
-                               :mail_notification => 'all',
-                               :member_in_project => @project
+                               mail_notification: 'all',
+                               member_in_project: @project
     @issue = FactoryGirl.create :work_package,
-                                :project => @project,
-                                :author => @user,
-                                :type => @type,
-                                :status => @workflow.old_status
+                                project: @project,
+                                author: @user,
+                                type: @type,
+                                status: @workflow.old_status
 
     @user.members.first.roles << @workflow.role
     @user.reload

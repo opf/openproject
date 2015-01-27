@@ -38,7 +38,7 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_create
-    page = WikiPage.new(:wiki => @wiki)
+    page = WikiPage.new(wiki: @wiki)
     assert !page.save
     assert_equal 1, page.errors.count
 

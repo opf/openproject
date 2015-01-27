@@ -50,7 +50,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_activity_without_subprojects
-    events = find_events(User.anonymous, :project => @project)
+    events = find_events(User.anonymous, project: @project)
     assert_not_nil events
 
     assert events.include?(WorkPackage.find(1))
@@ -60,7 +60,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_activity_with_subprojects
-    events = find_events(User.anonymous, :project => @project, :with_subprojects => 1)
+    events = find_events(User.anonymous, project: @project, with_subprojects: 1)
     assert_not_nil events
 
     assert events.include?(WorkPackage.find(1))
@@ -89,7 +89,7 @@ class ActivityTest < ActiveSupport::TestCase
 
   def test_user_activity
     user = User.find(2)
-    events = Redmine::Activity::Fetcher.new(User.anonymous, :author => user).events(nil, nil, :limit => 10)
+    events = Redmine::Activity::Fetcher.new(User.anonymous, author: user).events(nil, nil, limit: 10)
 
     assert(events.size > 0)
     assert(events.size <= 10)

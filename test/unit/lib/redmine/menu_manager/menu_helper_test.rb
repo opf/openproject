@@ -119,13 +119,13 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     {:controller => 'issues', :action => 'index'},
+                                                     {controller: 'issues', action: 'index'},
                                                      {
-                                                       :children => Proc.new {|p|
+                                                       children: Proc.new {|p|
                                                          children = []
                                                          3.times do |time|
                                                            children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
-                                                                                                             {:controller => 'issues', :action => 'index'},
+                                                                                                             {controller: 'issues', action: 'index'},
                                                                                                              {})
                                                          end
                                                          children
@@ -148,24 +148,24 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     {:controller => 'issues', :action => 'index'},
+                                                     {controller: 'issues', action: 'index'},
                                                      {
-                                                       :children => Proc.new {|p|
+                                                       children: Proc.new {|p|
                                                          children = []
                                                          3.times do |time|
-                                                           children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
+                                                           children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", {controller: 'issues', action: 'index'}, {})
                                                          end
                                                          children
                                                        }
                                                      })
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
-                                                     {:controller => 'issues', :action => 'index'},
+                                                     {controller: 'issues', action: 'index'},
                                                      {
-                                                       :children => Proc.new {|p|
+                                                       children: Proc.new {|p|
                                                          children = []
                                                          6.times do |time|
-                                                            children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
+                                                            children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", {controller: 'issues', action: 'index'}, {})
                                                          end
                                                          children
                                                        }
@@ -195,9 +195,9 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
   def test_render_menu_node_with_children_without_an_array
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     {:controller => 'issues', :action => 'index'},
+                                                     {controller: 'issues', action: 'index'},
                                                      {
-                                                       :children => Proc.new {|p| Redmine::MenuManager::MenuItem.new("test_child", {:controller => 'issues', :action => 'index'}, {})},
+                                                       children: Proc.new {|p| Redmine::MenuManager::MenuItem.new("test_child", {controller: 'issues', action: 'index'}, {})},
                                                      })
 
     assert_raises Redmine::MenuManager::MenuError, ":children must be an array of MenuItems" do
@@ -207,9 +207,9 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
   def test_render_menu_node_with_incorrect_children
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     {:controller => 'issues', :action => 'index'},
+                                                     {controller: 'issues', action: 'index'},
                                                      {
-                                                       :children => Proc.new {|p| ["a string"] }
+                                                       children: Proc.new {|p| ["a string"] }
                                                      })
 
     assert_raises Redmine::MenuManager::MenuError, ":children must be an array of MenuItems" do
@@ -249,9 +249,9 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   def test_menu_items_for_should_skip_unallowed_items_on_a_project
     menu_name = :test_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, {:controller => 'issues', :action => 'index' }, { })
-      menu.push(:a_menu_2, {:controller => 'issues', :action => 'index' }, { })
-      menu.push(:unallowed, {:controller => 'issues', :action => 'unallowed' }, { })
+      menu.push(:a_menu, {controller: 'issues', action: 'index' }, { })
+      menu.push(:a_menu_2, {controller: 'issues', action: 'index' }, { })
+      menu.push(:unallowed, {controller: 'issues', action: 'unallowed' }, { })
     end
 
     User.current = User.find(1)
@@ -263,10 +263,10 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   def test_menu_items_for_should_skip_items_that_fail_the_conditions
     menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, { :controller => 'issues', :action => 'index' }, { })
+      menu.push(:a_menu, { controller: 'issues', action: 'index' }, { })
       menu.push(:unallowed,
-                { :controller => 'issues', :action => 'index' },
-                { :if => Proc.new { false }})
+                { controller: 'issues', action: 'index' },
+                { if: Proc.new { false }})
     end
 
     User.current = User.find(1)

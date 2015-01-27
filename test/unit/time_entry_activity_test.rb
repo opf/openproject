@@ -49,7 +49,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
 
   def test_create_with_custom_field
     field = TimeEntryActivityCustomField.find_by_name('Billable')
-    e = TimeEntryActivity.new(:name => 'Custom Data')
+    e = TimeEntryActivity.new(name: 'Custom Data')
     e.custom_field_values = {field.id => "1"}
     assert e.save
 
@@ -61,7 +61,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
-    e = TimeEntryActivity.new(:name => 'Custom Data')
+    e = TimeEntryActivity.new(name: 'Custom Data')
     assert !e.save
     assert_include e.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
   end
@@ -70,7 +70,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     field = TimeEntryActivityCustomField.find_by_name('Billable')
     field.update_attribute(:is_required, true)
 
-    e = TimeEntryActivity.new(:name => 'Custom Data')
+    e = TimeEntryActivity.new(name: 'Custom Data')
     e.custom_field_values = {field.id => "1"}
     assert e.save
   end

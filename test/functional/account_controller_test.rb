@@ -44,7 +44,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_with_wrong_password
-    post :login, :username => 'admin', :password => 'bad'
+    post :login, username: 'admin', password: 'bad'
     assert_response :success
     assert_template 'login'
     assert_select "div.flash.error.icon.icon-error", /Invalid user or password/
@@ -58,7 +58,7 @@ class AccountControllerTest < ActionController::TestCase
   def test_login_should_reset_session
     @controller.should_receive(:reset_session).once
 
-    post :login, :username => 'jsmith', :password => 'jsmith'
+    post :login, username: 'jsmith', password: 'jsmith'
     assert_response 302
   end
 

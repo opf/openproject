@@ -28,9 +28,9 @@
 #++
 
 class Issue < WorkPackage
-  generator_for :subject, :method => :next_subject
-  generator_for :author, :method => :next_author
-  generator_for :priority, :method => :fetch_priority
+  generator_for :subject, method: :next_subject
+  generator_for :author, method: :next_author
+  generator_for :priority, method: :fetch_priority
 
   def self.next_subject
     @last_subject ||= 'Subject 0'

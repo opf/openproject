@@ -32,14 +32,14 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   def setup
     super
     @project = FactoryGirl.create :valid_project
-    role   = FactoryGirl.create :role, :permissions => [:view_work_packages, :edit_work_packages]
+    role   = FactoryGirl.create :role, permissions: [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
     @users.each {|user| @project.add_member!(user, role) }
     @issue = FactoryGirl.create :work_package,
-        :project => @project,
-        :author => @users.first,
-        :type => @project.types.first
-    @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user')
+        project: @project,
+        author: @users.first,
+        type: @project.types.first
+    @field = WorkPackageCustomField.create!(name: 'Tester', field_format: 'user')
   end
 
   def test_possible_values_with_no_arguments

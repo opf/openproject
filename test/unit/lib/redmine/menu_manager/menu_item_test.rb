@@ -40,8 +40,8 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
 
   Redmine::MenuManager.map :test_menu do |menu|
     menu.push(:parent, '/test', { })
-    menu.push(:child_menu, '/test', { :parent => :parent})
-    menu.push(:child2_menu, '/test', { :parent => :parent})
+    menu.push(:child_menu, '/test', { parent: :parent})
+    menu.push(:child2_menu, '/test', { parent: :parent})
   end
 
   context "MenuItem#caption" do
@@ -79,13 +79,13 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          {
-                                           :if => ['not_a_proc']
+                                           if: ['not_a_proc']
                                          })
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_if, '/test',
                                               {
-                                                :if => Proc.new{}
+                                                if: Proc.new{}
                                               })
   end
 
@@ -93,13 +93,13 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          {
-                                           :html => ['not_a_hash']
+                                           html: ['not_a_hash']
                                          })
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_html, '/test',
                                               {
-                                                :html => { :onclick => 'doSomething'}
+                                                html: { onclick: 'doSomething'}
                                               })
   end
 
@@ -107,19 +107,19 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          {
-                                           :children => ['not_a_proc']
+                                           children: ['not_a_proc']
                                          })
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_children, '/test',
                                               {
-                                                :children => Proc.new{}
+                                                children: Proc.new{}
                                               })
   end
 
   def test_new_should_not_allow_setting_the_parent_item_to_the_current_item
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test', { :parent => :test_error })
+      Redmine::MenuManager::MenuItem.new(:test_error, '/test', { parent: :test_error })
     end
   end
 

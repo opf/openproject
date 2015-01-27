@@ -44,7 +44,7 @@ class MessagesControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :board_id => 1, :id => 1
+    get :show, board_id: 1, id: 1
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:board)
@@ -57,7 +57,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_difference 'Message.count', 110 do
       110.times do
         m = Message.new
-        m.force_attributes = {:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1}
+        m.force_attributes = {subject: 'Reply', content: 'Reply body', author_id: 2, board_id: 1}
         message.children << m
       end
     end
@@ -66,27 +66,27 @@ class MessagesControllerTest < ActionController::TestCase
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
-    assert !replies.include?(message.children.first(:order => 'id'))
-    assert replies.include?(message.children.last(:order => 'id'))
+    assert !replies.include?(message.children.first(order: 'id'))
+    assert replies.include?(message.children.last(order: 'id'))
   end
 
   def test_show_with_reply_permission
     @request.session[:user_id] = 2
-    get :show, :board_id => 1, :id => 1
+    get :show, board_id: 1, id: 1
     assert_response :success
     assert_template 'show'
-    assert_tag :div, :attributes => { :id => 'reply' },
-                     :descendant => { :tag => 'textarea', :attributes => { :id => 'message_content' } }
+    assert_tag :div, attributes: { id: 'reply' },
+                     descendant: { tag: 'textarea', attributes: { id: 'message_content' } }
   end
 
   def test_show_message_not_found
-    get :show, :board_id => 1, :id => 99999
+    get :show, board_id: 1, id: 99999
     assert_response 404
   end
 
   def test_get_new
     @request.session[:user_id] = 2
-    get :new, :board_id => 1
+    get :new, board_id: 1
     assert_response :success
     assert_template 'new'
   end
@@ -96,9 +96,9 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = ['message_posted']
 
-    post :create, :board_id => 1,
-                  :message => { :subject => 'Test created message',
-                                :content => 'Message body'}
+    post :create, board_id: 1,
+                  message: { subject: 'Test created message',
+                                content: 'Message body'}
     message = Message.find_by_subject('Test created message')
     assert_not_nil message
     assert_redirected_to topic_path(message)
@@ -123,16 +123,16 @@ class MessagesControllerTest < ActionController::TestCase
 
   def test_get_edit
     @request.session[:user_id] = 2
-    get :edit, :id => 1
+    get :edit, id: 1
     assert_response :success
     assert_template 'edit'
   end
 
   def test_put_update
     @request.session[:user_id] = 2
-    put :update, :id => 1,
-                 :message => { :subject => 'New subject',
-                               :content => 'New body' }
+    put :update, id: 1,
+                 message: { subject: 'New subject',
+                               content: 'New body' }
     message = Message.find(1)
     assert_redirected_to topic_path(message)
     assert_equal 'New subject', message.subject
@@ -141,22 +141,22 @@ class MessagesControllerTest < ActionController::TestCase
 
   def test_reply
     @request.session[:user_id] = 2
-    post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
-    reply = Message.find(:first, :order => 'id DESC')
-    assert_redirected_to topic_path(1, :r => reply)
+    post :reply, board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' }
+    reply = Message.find(:first, order: 'id DESC')
+    assert_redirected_to topic_path(1, r: reply)
     assert Message.find_by_subject('Test reply')
   end
 
   def test_destroy_topic
     @request.session[:user_id] = 2
-    delete :destroy, :id => 1
+    delete :destroy, id: 1
     assert_redirected_to project_board_path("ecookbook", 1)
     assert_nil Message.find_by_id(1)
   end
 
   def test_quote
     @request.session[:user_id] = 2
-    xhr :get, :quote, :board_id => 1, :id => 3
+    xhr :get, :quote, board_id: 1, id: 3
     assert_response :success
     assert_select_rjs :show, 'reply'
   end

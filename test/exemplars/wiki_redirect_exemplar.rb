@@ -28,9 +28,9 @@
 #++
 
 class WikiRedirect < ActiveRecord::Base
-  generator_for :title, :method => :next_title
-  generator_for :redirects_to, :method => :next_redirects_to
-  generator_for :wiki, :method => :generate_wiki
+  generator_for :title, method: :next_title
+  generator_for :redirects_to, method: :next_redirects_to
+  generator_for :wiki, method: :generate_wiki
 
   def self.next_title
     @last_title ||= 'AWikiPage'

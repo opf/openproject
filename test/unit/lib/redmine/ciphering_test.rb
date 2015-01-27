@@ -32,7 +32,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_encrypted
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.generate!(password: 'foo')
       assert_equal 'foo', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -40,7 +40,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_clear_with_blank_key
     OpenProject::Configuration.with 'database_cipher_key' => '' do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.generate!(password: 'foo')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -48,7 +48,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_password_should_be_clear_with_nil_key
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      r = Repository::Subversion.generate!(:password => 'foo')
+      r = Repository::Subversion.generate!(password: 'foo')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -56,11 +56,11 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
 
   def test_unciphered_password_should_be_readable
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      r = Repository::Subversion.generate!(:password => 'clear')
+      r = Repository::Subversion.generate!(password: 'clear')
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.first(order: 'id DESC')
       assert_equal 'clear', r.password
     end
   end
@@ -68,13 +68,13 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
   def test_encrypt_all
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      Repository::Subversion.generate!(:password => 'foo')
-      Repository::Subversion.generate!(:password => 'bar')
+      Repository::Subversion.generate!(password: 'foo')
+      Repository::Subversion.generate!(password: 'bar')
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
       assert Repository.encrypt_all(:password)
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.first(order: 'id DESC')
       assert_equal 'bar', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -83,11 +83,11 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
   def test_decrypt_all
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      Repository::Subversion.generate!(:password => 'foo')
-      Repository::Subversion.generate!(:password => 'bar')
+      Repository::Subversion.generate!(password: 'foo')
+      Repository::Subversion.generate!(password: 'bar')
 
       assert Repository.decrypt_all(:password)
-      r = Repository.first(:order => 'id DESC')
+      r = Repository.first(order: 'id DESC')
       assert_equal 'bar', r.password
       assert_equal 'bar', r.read_attribute(:password)
     end

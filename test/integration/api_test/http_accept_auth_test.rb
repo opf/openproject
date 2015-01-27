@@ -47,7 +47,7 @@ class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
   context "get /planning_elements" do
     setup do
       project = Project.find('onlinestore')
-      EnabledModule.create(:project => project, :name => 'work_package_tracking')
+      EnabledModule.create(project: project, name: 'work_package_tracking')
     end
 
     context "in :xml format" do

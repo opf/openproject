@@ -30,7 +30,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldTest < ActiveSupport::TestCase
   def test_create
-    field = UserCustomField.new(:name => 'Money money money', :field_format => 'float')
+    field = UserCustomField.new(name: 'Money money money', field_format: 'float')
     assert field.save
   end
 

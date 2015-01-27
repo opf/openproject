@@ -28,8 +28,8 @@
 #++
 
 class Enumeration < ActiveRecord::Base
-  generator_for :name, :method => :next_name
-  generator_for :type => 'TimeEntryActivity'
+  generator_for :name, method: :next_name
+  generator_for type: 'TimeEntryActivity'
 
   def self.next_name
     @last_name ||= 'Enumeration0'

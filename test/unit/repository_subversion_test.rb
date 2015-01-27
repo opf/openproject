@@ -34,8 +34,8 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   def setup
     super
     @project = Project.find(3)
-    @repository = Repository::Subversion.create(:project => @project,
-             :url => self.class.subversion_repository_url)
+    @repository = Repository::Subversion.create(project: @project,
+             url: self.class.subversion_repository_url)
     assert @repository
   end
 
@@ -90,8 +90,8 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     def test_directory_listing_with_square_brackets_in_base
       @project = Project.find(3)
       @repository = Repository::Subversion.create(
-                          :project => @project,
-                          :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
+                          project: @project,
+                          url: "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
       @repository.fetch_changesets
       @repository.reload
@@ -121,8 +121,8 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_identifier_nine_digit
-      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
-                        :revision => '123456789', :comments => 'test')
+      c = Changeset.new(repository: @repository, committed_on: Time.now,
+                        revision: '123456789', comments: 'test')
       assert_equal c.identifier, c.revision
     end
 
@@ -134,29 +134,29 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_format_identifier_nine_digit
-      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
-                        :revision => '123456789', :comments => 'test')
+      c = Changeset.new(repository: @repository, committed_on: Time.now,
+                        revision: '123456789', comments: 'test')
       assert_equal c.format_identifier, c.revision
     end
 
     def test_activities
-      c = Changeset.create(:repository => @repository, :committed_on => Time.now,
-                           :revision => '1', :comments => 'test')
+      c = Changeset.create(repository: @repository, committed_on: Time.now,
+                           revision: '1', comments: 'test')
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('1:')
       assert event.event_path =~ /\?rev=1$/
     end
 
     def test_activities_nine_digit
-      c = Changeset.create(:repository => @repository, :committed_on => Time.now,
-                        :revision => '123456789', :comments => 'test')
+      c = Changeset.create(repository: @repository, committed_on: Time.now,
+                        revision: '123456789', comments: 'test')
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('123456789:')
       assert event.event_path =~ /\?rev=123456789$/
     end
 
     def test_log_encoding_ignore_setting
-      with_settings :commit_logs_encoding => 'windows-1252' do
+      with_settings commit_logs_encoding: 'windows-1252' do
         s1 = "\xC2\x80"
         s2 = "\xc3\x82\xc2\x80"
         if s1.respond_to?(:force_encoding)
@@ -164,10 +164,10 @@ class RepositorySubversionTest < ActiveSupport::TestCase
           s2.force_encoding('UTF-8')
           assert_equal s1.encode('UTF-8'), s2
         end
-        c = Changeset.new(:repository => @repository,
-                          :comments   => s2,
-                          :revision   => '123',
-                          :committed_on => Time.now)
+        c = Changeset.new(repository: @repository,
+                          comments:   s2,
+                          revision:   '123',
+                          committed_on: Time.now)
         assert c.save
         assert_equal s2, c.comments
       end

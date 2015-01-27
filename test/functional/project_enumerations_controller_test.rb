@@ -42,7 +42,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name("Billable")
 
-    put :update, :project_id => 1, :enumerations => {
+    put :update, project_id: 1, enumerations: {
       "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design, De-activate
       "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"}, # Development, Change custom value
       "14"=>{"parent_id"=>"14", "custom_field_values"=>{"7"=>"1"}, "active"=>"1"}, # Inactive Activity, Activate with custom value
@@ -92,22 +92,22 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2 # manager
 
     project_activity = TimeEntryActivity.new({
-                                               :name => 'Project Specific',
-                                               :parent => TimeEntryActivity.find(:first),
-                                               :project => Project.find(1),
-                                               :active => true
+                                               name: 'Project Specific',
+                                               parent: TimeEntryActivity.find(:first),
+                                               project: Project.find(1),
+                                               active: true
                                              })
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new({
-                                                   :name => 'Project Specific Two',
-                                                   :parent => TimeEntryActivity.find(:last),
-                                                   :project => Project.find(1),
-                                                   :active => true
+                                                   name: 'Project Specific Two',
+                                                   parent: TimeEntryActivity.find(:last),
+                                                   project: Project.find(1),
+                                                   active: true
                                                  })
     assert project_activity_two.save
 
 
-    put :update, :project_id => 1, :enumerations => {
+    put :update, project_id: 1, enumerations: {
       project_activity.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # De-activate
       project_activity_two.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"} # De-activate
     }
@@ -134,7 +134,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
 
     @request.session[:user_id] = 2 # manager
-    put :update, :project_id => 1, :enumerations => {
+    put :update, project_id: 1, enumerations: {
       "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"} # Design, De-activate
     }
     assert_response :redirect
@@ -152,23 +152,23 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # second one is a duplicate
     # parent = TimeEntryActivity.find(9)
     parent = TimeEntryActivity.new
-    parent.force_attributes = { :name => parent.name, :project_id => 1, :position => parent.position, :active => true }
-    parent.save(:validate => false)
+    parent.force_attributes = { name: parent.name, project_id: 1, position: parent.position, active: true }
+    parent.save(validate: false)
 
     project = Project.find(1)
-    project.time_entries.create!(:hours => 1.0,
-                                 :user => User.find(1),
-                                 :work_package_id => 3,
-                                 :activity_id => 10,
-                                 :spent_on => '2009-01-01')
+    project.time_entries.create!(hours: 1.0,
+                                 user: User.find(1),
+                                 work_package_id: 3,
+                                 activity_id: 10,
+                                 spent_on: '2009-01-01')
 
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
 
     @request.session[:user_id] = 2 # manager
 
-    put :update, :project_id => 1,
-                 :enumerations => { "9" => { "parent_id" => parent.id,
+    put :update, project_id: 1,
+                 enumerations: { "9" => { "parent_id" => parent.id,
                                              "custom_field_values" => { "7" => "1" },
                                              "active" => "0" } }
     assert_response :redirect
@@ -182,21 +182,21 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   def test_destroy
     @request.session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new({
-                                               :name => 'Project Specific',
-                                               :parent => TimeEntryActivity.find(:first),
-                                               :project => Project.find(1),
-                                               :active => true
+                                               name: 'Project Specific',
+                                               parent: TimeEntryActivity.find(:first),
+                                               project: Project.find(1),
+                                               active: true
                                              })
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new({
-                                                   :name => 'Project Specific Two',
-                                                   :parent => TimeEntryActivity.find(:last),
-                                                   :project => Project.find(1),
-                                                   :active => true
+                                                   name: 'Project Specific Two',
+                                                   parent: TimeEntryActivity.find(:last),
+                                                   project: Project.find(1),
+                                                   active: true
                                                  })
     assert project_activity_two.save
 
-    delete :destroy, :project_id => 1
+    delete :destroy, project_id: 1
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
@@ -207,16 +207,16 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   def test_destroy_should_reassign_time_entries_back_to_the_system_activity
     @request.session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new({
-                                               :name => 'Project Specific Design',
-                                               :parent => TimeEntryActivity.find(9),
-                                               :project => Project.find(1),
-                                               :active => true
+                                               name: 'Project Specific Design',
+                                               parent: TimeEntryActivity.find(9),
+                                               project: Project.find(1),
+                                               active: true
                                              })
     assert project_activity.save
     assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ["project_id = ? AND activity_id = ?", 1, 9])
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size
 
-    delete :destroy, :project_id => 1
+    delete :destroy, project_id: 1
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 

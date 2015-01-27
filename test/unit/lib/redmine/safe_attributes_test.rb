@@ -42,7 +42,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     attr_accessor :firstname, :lastname, :login
     include Redmine::SafeAttributes
     safe_attributes :firstname, :lastname
-    safe_attributes :login, :if => lambda {|person, user| user.admin?}
+    safe_attributes :login, if: lambda {|person, user| user.admin?}
   end
 
   class Book < Base
@@ -109,7 +109,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_with_indifferent_access
     p = Person.new
-    p.safe_attributes = {'firstname' => 'Jack', :lastname => 'Miller'}
+    p.safe_attributes = {'firstname' => 'Jack', lastname: 'Miller'}
     assert_equal 'Jack', p.firstname
     assert_equal 'Miller', p.lastname
   end

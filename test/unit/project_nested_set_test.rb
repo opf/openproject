@@ -35,22 +35,22 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       FactoryGirl.create(:type_standard)
       Project.delete_all
 
-      @a = Project.create!(:name => 'Project A', :identifier => 'projecta')
-      @a1 = Project.create!(:name => 'Project A1', :identifier => 'projecta1')
+      @a = Project.create!(name: 'Project A', identifier: 'projecta')
+      @a1 = Project.create!(name: 'Project A1', identifier: 'projecta1')
       @a1.set_parent!(@a)
-      @a2 = Project.create!(:name => 'Project A2', :identifier => 'projecta2')
+      @a2 = Project.create!(name: 'Project A2', identifier: 'projecta2')
       @a2.set_parent!(@a)
 
-      @b = Project.create!(:name => 'Project B', :identifier => 'projectb')
-      @b1 = Project.create!(:name => 'Project B1', :identifier => 'projectb1')
+      @b = Project.create!(name: 'Project B', identifier: 'projectb')
+      @b1 = Project.create!(name: 'Project B1', identifier: 'projectb1')
       @b1.set_parent!(@b)
-      @b11 = Project.create!(:name => 'Project B11', :identifier => 'projectb11')
+      @b11 = Project.create!(name: 'Project B11', identifier: 'projectb11')
       @b11.set_parent!(@b1)
-      @b2 = Project.create!(:name => 'Project B2', :identifier => 'projectb2')
+      @b2 = Project.create!(name: 'Project B2', identifier: 'projectb2')
       @b2.set_parent!(@b)
 
-      @c = Project.create!(:name => 'Project C', :identifier => 'projectc')
-      @c1 = Project.create!(:name => 'Project C1', :identifier => 'projectc1')
+      @c = Project.create!(name: 'Project C', identifier: 'projectc')
+      @c1 = Project.create!(name: 'Project C1', identifier: 'projectc1')
       @c1.set_parent!(@c)
 
       [@a, @a1, @a2, @b, @b1, @b11, @b2, @c, @c1].each(&:reload)

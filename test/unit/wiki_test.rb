@@ -32,7 +32,7 @@ class WikiTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    wiki = Wiki.new(:project => Project.find(2))
+    wiki = Wiki.new(project: Project.find(2))
     assert !wiki.save
     assert_equal 1, wiki.errors.count
 
@@ -59,7 +59,7 @@ class WikiTest < ActiveSupport::TestCase
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика_менеджмента')
 
-    page = WikiPage.generate!(:wiki => wiki, :title => '2009\\02\\09')
+    page = WikiPage.generate!(wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
   end
 
@@ -78,8 +78,8 @@ class WikiTest < ActiveSupport::TestCase
     end
 
     should "return a WikiPage if defined" do
-      page = @wiki.pages.new(:title => 'Sidebar')
-      page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
+      page = @wiki.pages.new(title: 'Sidebar')
+      page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
       page.save!
 
       assert_kind_of WikiPage, @wiki.sidebar

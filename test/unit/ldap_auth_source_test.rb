@@ -32,13 +32,13 @@ class LdapAuthSourceTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    a = LdapAuthSource.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName')
+    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName')
     assert a.save
   end
 
   def test_should_strip_ldap_attributes
-    a = LdapAuthSource.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName',
-                           :attr_firstname => 'givenName ')
+    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName',
+                           attr_firstname: 'givenName ')
     assert a.save
     assert_equal 'givenName', a.reload.attr_firstname
   end

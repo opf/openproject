@@ -38,27 +38,27 @@ class LayoutTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     # UsersController uses the admin layout by default
-    assert_select "#main-menu", :count => 0
+    assert_select "#main-menu", count: 0
   end
 
   def test_top_menu_navigation_not_visible_when_login_required
-    with_settings :login_required => '1' do
+    with_settings login_required: '1' do
       get '/'
       assert_select "#account-nav-left", 0
     end
   end
 
   def test_top_menu_navigation_visible_when_login_not_required
-    with_settings :login_required => '0' do
+    with_settings login_required: '0' do
       get '/'
       assert_select "#account-nav-left"
     end
   end
 
   test "page titles should be properly escaped" do
-    project = Project.generate(:name => "C&A", :is_public => true)
+    project = Project.generate(name: "C&A", is_public: true)
 
-    with_settings :app_title => '<3' do
+    with_settings app_title: '<3' do
       get "/projects/#{project.to_param}"
 
       html_node = HTML::Document.new(@response.body)

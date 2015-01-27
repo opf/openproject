@@ -77,12 +77,12 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
 
     @project = Project.find(1)
     # child pages of the current wiki page
-    assert_equal expected, format_text("{{child_pages}}", :object => WikiPage.find(2).content)
+    assert_equal expected, format_text("{{child_pages}}", object: WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, format_text("{{child_pages(Another_page)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(Another_page)}}", object: WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page)}}", object: WikiPage.find(1).content)
   end
 
   def test_macro_child_pages_with_option
@@ -95,11 +95,11 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
 
     @project = Project.find(1)
     # child pages of the current wiki page
-    assert_equal expected, format_text("{{child_pages(parent=1)}}", :object => WikiPage.find(2).content)
+    assert_equal expected, format_text("{{child_pages(parent=1)}}", object: WikiPage.find(2).content)
     # child pages of another page
-    assert_equal expected, format_text("{{child_pages(Another_page, parent=1)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(Another_page, parent=1)}}", object: WikiPage.find(1).content)
 
     @project = Project.find(2)
-    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
+    assert_equal expected, format_text("{{child_pages(ecookbook:Another_page, parent=1)}}", object: WikiPage.find(1).content)
   end
 end

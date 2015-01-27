@@ -41,23 +41,23 @@ class ApplicationHelperTest < ActionView::TestCase
     @anonymous = FactoryGirl.create :anonymous
     @non_member = FactoryGirl.create :user
     @project_member = FactoryGirl.create :user,
-      :member_in_project => @project,
-      :member_through_role => FactoryGirl.create(:role,
-          :permissions => [:view_work_packages, :edit_work_packages,
+      member_in_project: @project,
+      member_through_role: FactoryGirl.create(:role,
+          permissions: [:view_work_packages, :edit_work_packages,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
-    @issue = FactoryGirl.create :work_package, :project => @project, :author => @project_member, :type => @project.types.first
+    @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
     file = create_uploaded_file name: 'logo.gif',
                                 content_type: 'image/gif',
                                 content: 'not actually a gif',
                                 binary: true
     @attachment = FactoryGirl.create :attachment,
-        :author => @project_member,
-        :file => file,
-        :content_type => 'image/gif',
-        :container => @issue,
-        :description => 'This is a logo'
+        author: @project_member,
+        file: file,
+        content_type: 'image/gif',
+        container: @issue,
+        description: 'This is a logo'
 
     User.stub(:current).and_return(@project_member)
   end
@@ -140,7 +140,7 @@ RAW
       # link image
       '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :attachments => [@attachment]) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]) }
   end
 
   def test_textile_external_links
@@ -169,7 +169,7 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :only_path => false) }
+    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
   end
 
   def test_textile_relative_to_full_links_in_the_mailer
@@ -187,29 +187,29 @@ RAW
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :only_path => false) }
+    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
   end
 
   def test_cross_project_redmine_links
     version = FactoryGirl.create :version,
-                 :name => '1.0',
-                 :project => @project
+                 name: '1.0',
+                 project: @project
     Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
     repository = FactoryGirl.create :repository,
-                 :project => @project
+                 project: @project
     changeset = FactoryGirl.create :changeset,
-                 :repository => repository,
-                 :comments => 'This commit fixes #1, #2 and references #1 & #3'
+                 repository: repository,
+                 comments: 'This commit fixes #1, #2 and references #1 & #3'
     identifier = @project.identifier
 
-    source_link = link_to("#{identifier}:source:/some/file", { :controller => 'repositories',
-                                                               :action => 'entry',
-                                                               :project_id => identifier,
-                                                               :path => 'some/file'} ,
-                                                             :class => 'source')
+    source_link = link_to("#{identifier}:source:/some/file", { controller: 'repositories',
+                                                               action: 'entry',
+                                                               project_id: identifier,
+                                                               path: 'some/file'} ,
+                                                             class: 'source')
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
-      {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset.revision},
-      :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+      {controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset.revision},
+      class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
 
 
     # format_text "sees" the text is parses from the_other_project (and not @project)
@@ -229,40 +229,40 @@ RAW
       "#{identifier}:source:/some/file"       => source_link,
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :project => the_other_project), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, project: the_other_project), "#{text} failed" }
   end
 
   def test_redmine_links_git_commit
     User.stub(:current).and_return(@admin)
     changeset_link = link_to('abcd',
                                {
-                                 :controller => 'repositories',
-                                 :action     => 'revision',
-                                 :project_id => @project.identifier,
-                                 :rev        => 'abcd',
+                                 controller: 'repositories',
+                                 action:     'revision',
+                                 project_id: @project.identifier,
+                                 rev:        'abcd',
                                 },
-                              :class => 'changeset', :title => 'test commit')
+                              class: 'changeset', title: 'test commit')
     to_test = {
       'commit:abcd' => changeset_link,
      }
-    r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
+    r = Repository::Git.create!(project: @project, url: '/tmp/test/git')
     assert r
-    c = Changeset.new(:repository => r,
-                      :committed_on => Time.now,
-                      :revision => 'abcd',
-                      :scmid => 'abcd',
-                      :comments => 'test commit')
+    c = Changeset.new(repository: r,
+                      committed_on: Time.now,
+                      revision: 'abcd',
+                      scmid: 'abcd',
+                      comments: 'test commit')
     assert( c.save )
     @project.reload
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   def test_attachment_links
-    attachment_link = link_to('logo.gif', {:controller => 'attachments', :action => 'download', :id => @attachment}, :class => 'attachment')
+    attachment_link = link_to('logo.gif', {controller: 'attachments', action: 'download', id: @attachment}, class: 'attachment')
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, :attachments => [@attachment]), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]), "#{text} failed" }
   end
 
   def test_html_tags
@@ -338,8 +338,8 @@ EXPECTED
   def test_wiki_links_in_tables
     @project.wiki.start_page = "Page"
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Other page"
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Last page"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Other page"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Last page"
 
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a href=\"/projects/#{@project.identifier}/wiki/Page\" class=\"wiki-page new\">Link title</a></td>" +
@@ -390,8 +390,8 @@ EXPECTED
   def test_table_of_content
     @project.wiki.start_page = "Wiki"
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Wiki"
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "another Wiki"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Wiki"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "another Wiki"
 
     raw = <<-RAW
 {{toc}}
@@ -452,9 +452,9 @@ RAW
   def test_table_of_content_should_contain_included_page_headings
     @project.wiki.start_page = "Wiki"
     @project.save!
-    page  = FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Wiki"
-    child = FactoryGirl.create :wiki_page, :wiki => @project.wiki, :title => "Child_1", :parent => page
-    child.content = FactoryGirl.create :wiki_content, :page => child, :text => "h1. Child page 1\n\nThis is a child page"
+    page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Wiki"
+    child = FactoryGirl.create :wiki_page, wiki: @project.wiki, title: "Child_1", parent: page
+    child.content = FactoryGirl.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
     child.save!
 
     raw = <<-RAW
@@ -521,12 +521,12 @@ RAW
     assert_equal %(<a href="/projects/#{p_id}">#{p_name}</a>),
                  link_to_project(@project)
     assert_equal %(<a href="/projects/#{p_id}/settings">#{p_name}</a>),
-                 link_to_project(@project, :action => 'settings')
+                 link_to_project(@project, action: 'settings')
     assert_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
-                 link_to_project(@project, :action => 'settings', :tab => 'members')
+                 link_to_project(@project, action: 'settings', tab: 'members')
     assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
-                 link_to_project(@project, {:only_path => false, :jump => 'blah'})
+                 link_to_project(@project, {only_path: false, jump: 'blah'})
     assert_equal %(<a href="/projects/#{p_id}/settings" class="project">#{p_name}</a>),
-                 link_to_project(@project, {:action => 'settings'}, :class => "project")
+                 link_to_project(@project, {action: 'settings'}, class: "project")
   end
 end

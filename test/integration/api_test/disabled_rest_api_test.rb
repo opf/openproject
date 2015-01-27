@@ -50,7 +50,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
       context "with a valid api token" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           get "/api/v2/projects.xml?key=#{@token.value}"
         end
 
@@ -63,9 +63,9 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
 
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.xml', nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
@@ -78,9 +78,9 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
       context "with a valid HTTP authentication using the API token" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          get '/api/v2/projects.xml', nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
@@ -95,7 +95,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
       context "with a valid api token" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           get "/api/v2/projects.json?key=#{@token.value}"
         end
 
@@ -108,9 +108,9 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
 
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.json', nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
@@ -123,9 +123,9 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
       context "with a valid HTTP authentication using the API token" do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'DoesNotMatter')
-          get '/api/v2/projects.json', nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
