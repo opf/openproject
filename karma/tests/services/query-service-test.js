@@ -94,20 +94,20 @@ describe('QueryService', function() {
     var spy;
     beforeEach(function() {
       spy = sinon.spy($rootScope, '$broadcast');
-        queryData = { name: '_', 'project_id': 1 };
-        QueryService.initQuery(1, queryData);
-        var path = PathHelper.apiProjectQueryPath(1, 1);
-        $httpBackend.when('DELETE', new RegExp(path + '*')).respond(200, []);
-        $httpBackend.when(
-          'GET',
-          PathHelper.apiProjectCustomFieldsPath(1)
-        ).respond(200, []);
-        $httpBackend.when(
-          'GET',
-          PathHelper.apiProjectGroupedQueriesPath(1)
-        ).respond(200, []);
-        QueryService.deleteQuery();
-        $httpBackend.flush();
+      queryData = { name: '_', 'project_id': 1 };
+      QueryService.initQuery(1, queryData);
+      var path = PathHelper.apiProjectQueryPath(1, 1);
+      $httpBackend.when('DELETE', new RegExp(path + '*')).respond(200, []);
+      $httpBackend.when(
+        'GET',
+        PathHelper.apiProjectCustomFieldsPath(1)
+      ).respond(200, []);
+      $httpBackend.when(
+        'GET',
+        PathHelper.apiProjectGroupedQueriesPath(1)
+      ).respond(200, []);
+      QueryService.deleteQuery();
+      $httpBackend.flush();
     });
 
   afterEach(function() {
