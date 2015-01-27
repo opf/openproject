@@ -20,22 +20,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= render :partial => 'shared/global_roles_header' %>
 
-<div id="assigned_principal_roles" class="splitcontentleft">
-<table id="table_principal_roles" class="list principal_roles">
-  <thead>
-    <tr>
-        <th><%= Role.model_name.human %></th>
-        <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
-        <th style="width:15%"></th>
-        </tr>
-  </thead>
-  <tbody id="table_principal_roles_body">
-  <% @user.principal_roles.each do |principal_role| %>
-    <%= render :partial => 'principal_roles/show_table_row', :locals => {:principal_role => principal_role} %>
-  <%end%>
-  </tbody>
-</table>
-<p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
-</div>
+<div class="grid-block">
+  <div id="assigned_principal_roles" class="grid-content">
+  <table id="table_principal_roles" class="list principal_roles">
+    <thead>
+      <tr>
+          <th><%= Role.model_name.human %></th>
+          <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
+          <th style="width:15%"></th>
+          </tr>
+    </thead>
+    <tbody id="table_principal_roles_body">
+    <% @user.principal_roles.each do |principal_role| %>
+      <%= render :partial => 'principal_roles/show_table_row', :locals => {:principal_role => principal_role} %>
+    <%end%>
+    </tbody>
+  </table>
+  <p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
+  </div>
 
-<%= render :partial => 'users/available_global_roles', :locals => {:user => @user, :global_roles => @global_roles}%>
+  <%= render :partial => 'users/available_global_roles', :locals => {:user => @user, :global_roles => @global_roles}%>
+</div>
