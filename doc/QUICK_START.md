@@ -92,7 +92,7 @@ These are generic (and condensed) installation instructions for the **current de
 
         foreman start -f Procfile.dev
 
-   The application will be available at `http://127.0.0.1:8080`. To customize
+   The application will be available at `http://127.0.0.1:5000`. To customize
    bind address and port copy the `.env.sample` provided in the root of this
    project as `.env` and [configure values][foreman-env] as required.
 
