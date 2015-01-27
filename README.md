@@ -23,7 +23,13 @@ More information and screenshots can be found on [openproject.org](https://www.o
 
 ## Installation
 
-There is an [installation guide](https://openproject.org/download/) and a [reference of configuration options](doc/CONFIGURATION.md).
+If you want to run an instance of OpenProject in production (or for evaluation), refer to our
+in-depth [installation guides](https://openproject.org/download/).
+
+If you're a developer wanting to set-up a local environment for contributing to OpenProject or
+developing plugins, you should refer instead to our [Quick Start for Developers](doc/QUICK_START.md).
+
+A [reference of configuration options](doc/CONFIGURATION.md) is also provided.
 
 ## Contact
 
@@ -70,4 +76,3 @@ OpenProject Icon Font by the OpenProject Foundation (OPF) is licensed under Crea
 and Free for both personal and commercial use. You can copy, adapt, remix, distribute or transmit it.
 
 Under this condition: provide a mention of the "OpenProject Foundation" and a link back to OpenProject www.openproject.org.
-
