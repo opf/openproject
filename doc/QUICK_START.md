@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Quick Start for Developers
 
 
-Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/projects/openproject/wiki/Download_and_Installation).
+Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/download/).
 
 You can find information on configuring OpenProject in [`config/CONFIGURATION.md`](CONFIGURATION.md).
 
