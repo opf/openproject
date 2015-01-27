@@ -37,4 +37,5 @@ See doc/COPYRIGHT.md for more details.
 
   <!--[eoform:export_card_configuration]-->
 </div>
-<%= submit_tag l(@config.new_record? ? :button_create : :button_save) %>
+<%= submit_tag l(@config.new_record? ? :button_create : :button_save),
+      class: 'button -highlight' %>
