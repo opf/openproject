@@ -33,6 +33,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     templateUrl: '/templates/components/inplace_editor.html',
     scope: {
       type: '@inedType',
+      displayStrategy: '@?inedDisplayStrategy',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
       attributeTitle: '@inedAttributeTitle',
@@ -95,6 +96,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
     $scope.getTemplateUrl = getTemplateUrl;
+    $scope.getDisplayTemplateUrl = getDisplayTemplateUrl;
     $scope.pathHelper = PathHelper;
 
     activate();
@@ -187,6 +189,10 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
 
     function getTemplateUrl() {
       return '/templates/components/inplace_editor/editable/' + $scope.type + '.html';
+    }
+
+    function getDisplayTemplateUrl() {
+      return '/templates/components/inplace_editor/display/' + ($scope.displayStrategy || 'default') + '.html';
     }
 
   }

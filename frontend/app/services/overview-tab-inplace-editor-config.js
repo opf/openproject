@@ -28,20 +28,22 @@
 
 module.exports = function() {
 
-  var OverviewService = {
+  var OverviewTabInplaceEditorConfig = {
     getInplaceProperties: function() {
       return {
         assignee: {
           type: 'select2',
           attribute: 'assignee',
           embedded: false,
-          placeholder: '-'
+          placeholder: '-',
+          displayStrategy: 'user',
         },
         responsible: {
           type: 'select2',
           attribute: 'responsible',
           embedded: false,
-          placeholder: '-'
+          placeholder: '-',
+          displayStrategy: 'user'
         },
         status: {
           type: 'select2',
@@ -54,11 +56,12 @@ module.exports = function() {
           attribute: 'version.name',
           embedded: true,
           placeholder: '-',
+          displayStrategy: 'version',
           attributeTitle: I18n.t('js.work_packages.properties.version')
         }
       };
     }
   };
 
-  return OverviewService;
+  return OverviewTabInplaceEditorConfig;
 };
